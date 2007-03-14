@@ -24,9 +24,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Dal/Common.php';
-require_once MAX_PATH . '/lib/max/Dal/Admin/Campaigns.php';
-require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
+require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
  * A class for testing DAL Campaigns methods
@@ -35,7 +33,7 @@ require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
  * @subpackage TestSuite
  *
  */
-class MAX_Dal_Admin_CampaignsTest extends UnitTestCase
+class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
 {
     var $dalCampaigns;
     
@@ -54,7 +52,7 @@ class MAX_Dal_Admin_CampaignsTest extends UnitTestCase
     
     function tearDown()
     {
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp();
     }
     
     /**

@@ -33,16 +33,28 @@ require_once MAX_PATH . '/tests/testClasses/SharedFixture.php';
  * @package    MaxDal
  * @subpackage TestSuite
  */
-class DataObjectsUnitTestCase extends SharedFixtureRunner 
+class DalUnitTestCase extends SharedFixtureTestCase 
 {
+    /**
+     * Should we compare DataObjects with or without "updated" fields? Default true means
+     * it should be compared without "updated"
+     *
+     * @var boolean
+     */
     var $stripUpdated = true;
     
     /**
-     * The constructor method.
+     * Set up the shared fixture once, before running any test in the test case.
      */
-    function DataObjectsUnitTestCase()
+    function setUpFixture() {}
+    
+    /**
+     * Tear down the shared fixture once, after all the tests have been run.
+     */
+    function tearDownFixture()
     {
-        $this->UnitTestCase();
+        // restore environment after all tests
+        // TestEnv::restoreEnv();
     }
     
     /**

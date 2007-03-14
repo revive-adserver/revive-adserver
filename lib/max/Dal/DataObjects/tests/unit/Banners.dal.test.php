@@ -24,8 +24,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Dal/DataObjects/Banners.php';
-require_once 'DataObjectsUnitTestCase.php';
+require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
  * A class for testing non standard DataObjects_Banners methods
@@ -35,7 +34,7 @@ require_once 'DataObjectsUnitTestCase.php';
  *
  * @TODO No tests written yet...
  */
-class DataObjects_BannersTest extends DataObjectsUnitTestCase
+class DataObjects_BannersTest extends DalUnitTestCase
 {
     /**
      * The constructor method.
@@ -43,6 +42,11 @@ class DataObjects_BannersTest extends DataObjectsUnitTestCase
     function DataObjects_BannersTest()
     {
         $this->UnitTestCase();
+    }
+    
+    function tearDown()
+    {
+        DataGenerator::cleanUp();
     }
 
     function testDuplicate()
@@ -83,7 +87,5 @@ class DataObjects_BannersTest extends DataObjectsUnitTestCase
         // is the only difference is their description
         $doBanners1->description = $doBanners2->description = null;
         $this->assertEqualDataObjects($this->stripKeys($doBanners1), $this->stripKeys($doBanners2));
-
-        TestEnv::restoreEnv();
     }
 }

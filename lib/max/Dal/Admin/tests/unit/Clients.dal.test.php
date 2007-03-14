@@ -24,9 +24,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Dal/Common.php';
-require_once MAX_PATH . '/lib/max/Dal/Admin/Clients.php';
-require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
+require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
  * A class for testing DAL Clients methods
@@ -35,7 +33,7 @@ require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
  * @subpackage TestSuite
  *
  */
-class MAX_Dal_Admin_ClientsTest extends UnitTestCase
+class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
 {
     var $dalClients;
     
@@ -50,6 +48,11 @@ class MAX_Dal_Admin_ClientsTest extends UnitTestCase
     function setUp()
     {
         $this->dalClients = MAX_DB::factoryDAL('clients');
+    }
+    
+    function tearDown()
+    {
+        DataGenerator::cleanUp();
     }
     
     /**

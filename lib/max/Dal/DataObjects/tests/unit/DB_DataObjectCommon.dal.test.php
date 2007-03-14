@@ -23,8 +23,7 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
-require_once MAX_PATH . '/lib/max/Dal/DataObjects/Banners.php';
-require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
+require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
  * A class for testing DB_DataObjectsCommon
@@ -34,7 +33,7 @@ require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
  *
  * @TODO No tests written yet...
  */
-class DB_DataObjectCommonTest extends UnitTestCase
+class DB_DataObjectCommonTest extends DalUnitTestCase
 {
     /**
      * The constructor method.
@@ -46,7 +45,10 @@ class DB_DataObjectCommonTest extends UnitTestCase
     
     function tearDown()
     {
-        TestEnv::restoreEnv();
+        // assuming that all test data was created by DataGenerator
+        // If it is necessary to recreate entire database we still could do it on the end
+        // of each test by calling TestEnv::restoreEnv();
+        DataGenerator::cleanUp();
     }
     
     function testFactoryDAL()
@@ -104,75 +106,9 @@ class DB_DataObjectCommonTest extends UnitTestCase
         $this->assertEqual($aCheck, $aCheck2);
     }
     
-    /**
-     * Tests deleting linked objects
-     *
-     */
-    function testDelete()
-    {
-        // Insert advertiser
-        $doClients = MAX_DB::factoryDO('clients');
-        $doClients->clientname = 'test advertiser';
-        $doClients->agencyid = 0;
-        $clientId = DataGenerator::generateOne($doClients);
-        
-        // Insert advertiser_preferences
-        $doPreferenceAdvertiser = MAX_DB::factoryDO('preference_advertiser');
-        $doPreferenceAdvertiser->advertiser_id = $clientId;
-        $doPreferenceAdvertiser->preference = 'foo';
-        $doPreferenceAdvertiser->value = 'bar';
-        $preferenceAdvertiserId = DataGenerator::generateOne($doPreferenceAdvertiser);
-        
-        // Insert campaigns
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
-        $doCampaigns->clientid = $clientId;
-        $aCampaignId = DataGenerator::generate($doCampaigns, 2);
-        
-        // Insert linked banners
-        $doBanners = MAX_DB::factoryDO('banners');
-        $doBanners->campaignid = $campaignId;
-        $aBannerId = DataGenerator::generate($doBanners, 2);
-        
-        // Insert linked trackers
-        $doTrackers = MAX_DB::factoryDO('trackers');
-        $doTrackers->clientid = $clientId;
-        $aTrackerId = DataGenerator::generate($doTrackers, 2);
-        
-        // Call delete on the inserted client.
-        $doClients = MAX_DB::staticGetDO('clients', $clientId);
-        $doClients->delete();
-        
-        // Check advertiser is deleted
-        $doClients = MAX_DB::staticGetDO('clients', $clientId);
-        $this->assertFalse($doClients, 'Client should not exist');
-        
-        // Check all campaigns are deleted
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
-        $doCampaigns->clientid = $clientId;
-        $doCampaigns->find();
-        $this->assertEqual($doCampaigns->getRowCount(), 0, 'No campaigns should be found');
-        
-        // Check all banners are deleted
-        $doBanners = MAX_DB::factoryDO('banners');
-        $doBanners->whereAdd('campaignid in (' . implode(',', $aCampaignId) . ')');
-        $doBanners->find();
-        $this->assertEqual($doCampaigns->getRowCount(), 0, 'No banners should be found');
-
-        // Check all trackers are deleted
-        $doTrackers = MAX_DB::factoryDO('trackers');
-        $doTrackers->client = $clientId;
-        $doTrackers->find();
-        $this->assertEqual($doTrackers->getRowCount(), 0, 'No trackers should be found');
-        
-        // Check all preferences are deleted
-        $doPreferenceAdvertiser = MAX_DB::factoryDO('preference_advertiser');
-        $doPreferenceAdvertiser->advertiserid = $clientId;
-        $doPreferenceAdvertiser->find();
-        $this->assertEqual($doPreferenceAdvertiser->getRowCount(), 0, 'No advertiser preferences should be found');
-    }
-    
     function testBelongToUser()
     {
+        //TestEnv::restoreEnv();
         // Test that user belong to itself
         $agencyid = DataGenerator::generateOne('agency');
         $doAgency = MAX_DB::staticGetDO('agency', $agencyid);
@@ -320,6 +256,75 @@ class DB_DataObjectCommonTest extends UnitTestCase
     
     function testGetUniqueNameForDuplication()
     {
+        $doAgency = MAX_DB::factoryDO('agency');
+        $doAgency->name = $name = 'test name';
+        $agencyId = DataGenerator::generateOne($doAgency);
         
+        // Test first duplication
+        $doAgency = MAX_DB::staticGetDO('agency', $agencyId);
+        $uniqueName = $doAgency->getUniqueNameForDuplication('name');
+        $this->assertEqual($uniqueName, $name.' (2)');
+        
+        // Add that unique name to database
+        $doAgency = MAX_DB::factoryDO('agency');
+        $doAgency->name = $uniqueName;
+        DataGenerator::generateOne($doAgency);
+        
+        // Test second duplication
+        $doAgency = MAX_DB::staticGetDO('agency', $agencyId);
+        $uniqueName = $doAgency->getUniqueNameForDuplication('name');
+        $this->assertEqual($uniqueName, $name.' (3)');
+    }
+    
+    function testDeleteById()
+    {
+        // Create few records
+        $aAgencyId = DataGenerator::generate('agency', 3);
+        $agencyId = array_pop($aAgencyId);
+        
+        // Delete one
+        $doAgency = MAX_DB::factoryDO('agency');
+        $ret = $doAgency->deleteById($agencyId);
+        $this->assertEqual($ret, 1); // one deleted
+        
+        // Test its deleted
+        $doAgency = MAX_DB::factoryDO('agency');
+        $aTestAgencyId = $doAgency->getAll('agencyid');
+        $this->assertEqual(array_values($aTestAgencyId), array_values($aAgencyId));
+        
+        // Try to delete non-existing one
+        $doAgency = MAX_DB::factoryDO('agency');
+        $ret = $doAgency->deleteById(null);
+        $this->assertEqual($ret, 0);
+    }
+    
+    /**
+     * Test delete() and deleteOnCascade()
+     *
+     */
+    function testDelete()
+    {
+        // Create few records
+        $aAgencyId = DataGenerator::generate('agency', 3);
+        $agencyId = array_pop($aAgencyId);
+        
+        $aClientId1 = DataGenerator::generate('clients', 2);
+        $doClients = MAX_DB::factoryDO('clients');
+        $doClients->agencyid = $agencyId;
+        $aClientId2 = DataGenerator::generate($doClients, 2);
+        
+        $doAgency = MAX_DB::staticGetDO('agency', $agencyId);
+        // Test that onDeleteCascade is set
+        $this->assertTrue($doAgency->onDeleteCascade);
+        // Delete one agency
+        $doAgency->delete();
+        // Test that agency was deleted
+        $doAgency = MAX_DB::factoryDO('agency');
+        $aAgencyIdTest = $doAgency->getAll('agencyid');
+        $this->assertEqual(array_values($aAgencyId), $aAgencyIdTest);
+        // Test that associated clients were deleted as well
+        $doClients = MAX_DB::factoryDO('clients');
+        $aClientId1Test = $doClients->getAll('clientid');
+        $this->assertEqual($aClientId1, $aClientId1Test); // only two should left
     }
 }

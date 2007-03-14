@@ -397,7 +397,7 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         $primaryKey = $keys[0];
         $this->$primaryKey = $primaryId;
-        $this->delete($useWhere, $cascadeDelete);
+        return $this->delete($useWhere, $cascadeDelete);
     }
     
     /**

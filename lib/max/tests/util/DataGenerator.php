@@ -92,6 +92,7 @@ class DataGenerator
         		$do->$key = DataGenerator::addAncestor($table, $primaryKey);
         	}
         }
+        DataGenerator::trackData($do->getTableWithoutPrefix());
         
         $ids = array();
         for ($i = 0; $i < $numberOfCopies; $i++) {
@@ -104,10 +105,51 @@ class DataGenerator
     }
     
     /**
+     * Remove the data from all tables where DataGenerator generated any records
+     *
+     * @access public
+     * @static 
+     */
+    function cleanUp()
+    {
+        $tables = DataGenerator::trackData();
+        foreach ($tables as $table) {
+            $do = MAX_DB::factoryDO($table);
+            $do->whereAdd('1=1');
+            $do->delete($useWhere = true);
+        }
+    }
+    
+    /**
+     * Track tables where some data were generated so we could easily clean it up later
+     *
+     * @param string $table  If equal null it reset the static $tables
+     * @return array
+     * @access package private
+     * @static 
+     */
+    function trackData($table = null)
+    {
+        static $tables;
+        if (!isset($tables)) {
+            $tables = array();
+        }
+        if ($table === null) {
+            $ret = $tables;
+            $tables = array();
+            return $ret;
+        } else {
+            $tables[$table] = $table;
+        }
+        return $tables;
+    }
+    
+    /**
      * Method adds related records recursively
      *
      * @param string $table  Table name
      * @return int  New ID
+     * @access package private
      */
     function addAncestor($table, $primaryKey = null)
     {
@@ -124,6 +166,7 @@ class DataGenerator
     		$table = $doAncestor->getTableWithoutPrefix($table);
     		$doAncestor->$key = DataGenerator::addAncestor($table);
     	}
+    	DataGenerator::trackData($doAncestor->getTableWithoutPrefix());
         return $doAncestor->insert();
     }
     
@@ -138,7 +181,7 @@ class DataGenerator
      *
      * @param DataObject $do
      * @return DataObject
-     * @access public
+     * @access package private
      * @static 
      */
     function setDefaultValues(&$do, $counter = 0)
@@ -165,6 +208,8 @@ class DataGenerator
      * 
      * @param string $fieldType
      * @return mixed
+     * @access package private
+     * @static 
      */
     function setDefaultValue($table, $fieldName, $counter)
     {
@@ -177,6 +222,14 @@ class DataGenerator
         return 1; // @TODO: Add a default value by type
     }
     
+    /**
+     * This method sets data which is used by DataGenerator to populate records
+     * 
+     *
+     * @param string $table
+     * @param array $data
+     * @access public
+     */
     function setData($table = null, $data = array())
     {
         if ($table === null) {
