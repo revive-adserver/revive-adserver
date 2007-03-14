@@ -25,6 +25,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
+require_once MAX_PATH . '/tests/testClasses/SharedFixture.php';
 
 /**
  * A common DataObjects unit class for testing DataObjects
@@ -32,7 +33,7 @@ require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
  * @package    MaxDal
  * @subpackage TestSuite
  */
-class DataObjectsUnitTestCase extends UnitTestCase 
+class DataObjectsUnitTestCase extends SharedFixtureRunner 
 {
     var $stripUpdated = true;
     
