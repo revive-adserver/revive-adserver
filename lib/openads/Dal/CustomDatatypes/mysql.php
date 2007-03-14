@@ -122,7 +122,7 @@ function datatype_openads_bigint_callback(&$db, $method, $aParameters)
             if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
-            if ($aParameters['field']['unsigned']) {
+            if (isset($aParameters['field']['unsigned']) && $aParameters['field']['unsigned']) {
                 $value .= ' UNSIGNED';
             }
             if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] === '')) {
@@ -256,7 +256,7 @@ function datatype_openads_decimal_callback(&$db, $method, $aParameters)
                     $value .= '(' . $aParameters['field']['length'] . ')';
                 }
             }
-            if ($aParameters['field']['unsigned']) {
+            if (isset($aParameters['field']['unsigned']) && $aParameters['field']['unsigned']) {
                 $value .= ' UNSIGNED';
             }
             if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] === '')) {
@@ -452,7 +452,7 @@ function datatype_openads_double_callback(&$db, $method, $aParameters)
             if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
-            if ($aParameters['field']['unsigned']) {
+            if (isset($aParameters['field']['unsigned']) && $aParameters['field']['unsigned']) {
                 $value .= ' UNSIGNED';
             }
             if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] === '')) {
@@ -581,7 +581,7 @@ function datatype_openads_float_callback(&$db, $method, $aParameters)
             if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
-            if ($aParameters['field']['unsigned']) {
+            if (isset($aParameters['field']['unsigned']) && $aParameters['field']['unsigned']) {
                 $value .= ' UNSIGNED';
             }
             if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] === '')) {
@@ -651,7 +651,7 @@ function datatype_openads_int_callback(&$db, $method, $aParameters)
             if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
-            if ($aParameters['field']['unsigned']) {
+            if (isset($aParameters['field']['unsigned']) && $aParameters['field']['unsigned']) {
                 $value .= ' UNSIGNED';
             }
             if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] === '')) {
@@ -721,7 +721,7 @@ function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
             if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
-            if ($aParameters['field']['unsigned']) {
+            if (isset($aParameters['field']['unsigned']) && $aParameters['field']['unsigned']) {
                 $value .= ' UNSIGNED';
             }
             if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] === '')) {
@@ -849,7 +849,7 @@ function datatype_openads_smallint_callback(&$db, $method, $aParameters)
             if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
-            if ($aParameters['field']['unsigned']) {
+            if (isset($aParameters['field']['unsigned']) && $aParameters['field']['unsigned']) {
                 $value .= ' UNSIGNED';
             }
             if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] === '')) {
@@ -1042,7 +1042,7 @@ function datatype_openads_tinyint_callback(&$db, $method, $aParameters)
             if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
-            if ($aParameters['field']['unsigned']) {
+            if (isset($aParameters['field']['unsigned']) && $aParameters['field']['unsigned']) {
                 $value .= ' UNSIGNED';
             }
             if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] === '')) {
