@@ -284,7 +284,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
         }
         
         echo "&nbsp;";
-        if (phpAds_isUser(phpAds_Client) && !phpAds_isAllowed(phpAds_ModifyBanner)) {
+        if (phpAds_isUser(phpAds_Client) && !MAX_Permission::isAllowed(phpAds_ModifyBanner)) {
             echo $name;
         } else {
             echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bkey."'>".$name."</a>";
@@ -305,7 +305,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
 		
         // Button 2
         echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-        if (phpAds_isUser(phpAds_Client) && !phpAds_isAllowed(phpAds_ActivateBanner)) {
+        if (phpAds_isUser(phpAds_Client) && !MAX_Permission::isAllowed(phpAds_ActivateBanner)) {
             echo "&nbsp;";        
         } else {
             if ($banners[$bkey]["active"] == "t") {

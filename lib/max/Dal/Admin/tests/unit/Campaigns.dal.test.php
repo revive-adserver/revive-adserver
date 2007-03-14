@@ -172,4 +172,19 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $actual = $rsCampaigns->getRowCount();
         $this->assertEqual($actual, $expected);
     }
+    
+    function testGetDaysLeft()
+    {
+        //TODO: Write this test
+    }
+    
+    function testGetAdClicksLeft()
+    {
+        //TODO: Write this test
+    }
+    
+    function testGetAdViewsLeft()
+    {
+        //TODO: Write this test
+    }
 }
