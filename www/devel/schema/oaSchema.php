@@ -510,6 +510,45 @@ class Openads_Schema_Manager
         }
         return $this->_validator;
     }
+
+    function checkPermissions()
+    {
+        $aFiles = array(
+            $this->schema_trans,
+            $this->links_trans,
+            MAX_SCHEMA_LOG
+        );
+
+        $aDirs = array(
+            MAX_PATH.'/var'
+        );
+
+        $aErrors = array();
+        foreach ($aFiles as $file) {
+            $dir = dirname($file);
+            if (!file_exists($file)) {
+                if (!isset($aDirs[$dir])) {
+                    $aDirs[] = $dir;
+                }
+            } elseif (!is_writable($file)) {
+                $aErrors[] = sprintf("The file '%s' is not writable", $file);
+            }
+        }
+
+        foreach ($aDirs as $dir) {
+            if (!file_exists($dir)) {
+                $aErrors[] = sprintf("The directory '%s' does not exists", $dir);
+            } elseif (!is_writable($dir)) {
+                $aErrors[] = sprintf("The directory '%s' is not writable", $dir);
+            }
+        }
+
+        if (count($aErrors)) {
+            return $aErrors;
+        }
+
+        return true;
+    }
 }
 
 ?>

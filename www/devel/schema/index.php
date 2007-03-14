@@ -17,6 +17,10 @@ require_once 'oaSchema.php';
 
 $oaSchema = & new Openads_Schema_Manager();
 
+if (($aErrs = $oaSchema->checkPermissions()) !== true) {
+    die(join("<br />\n", $aErrs));
+}
+
 if (array_key_exists('btn_copy_final', $_POST))
 {
     $oaSchema->createTransitional();

@@ -4,6 +4,7 @@ error_reporting(E_USER_ERROR | E_USER_WARNING
    | E_USER_NOTICE);
 
 define('MAX_PEAR', MAX_PATH.'/lib/pear/');
+define('MAX_SCHEMA_LOG', MAX_PATH.'/var/schema.log');
 
 ini_set('include_path', MAX_PEAR.PATH_SEPARATOR
                         .MAX_PEAR.'/Log/'.PATH_SEPARATOR
@@ -27,7 +28,7 @@ $conf = array('append'=>false);
 //    $logger = &Log::singleton('file',
 //                              MAX_PATH . '/var/upgrade.log',
 //                              'upgrade_mdb2');
-$logger = & new Log_file(MAX_PATH . '/var/schema.log','schema_mdb2', $conf);
+$logger = & new Log_file(MAX_SCHEMA_LOG,'schema_mdb2', $conf);
 $logger->debug('========================INITIALISED=============================================');
 
 // assign the callback function that will actually handle the error
@@ -70,7 +71,7 @@ function handle_error ($error_obj)
         $mdb->has_transaction_error =& $error_obj;
     }
 
-    $err = file_get_contents(MAX_PATH . '/var/schema.log');
+    $err = file_get_contents(MAX_SCHEMA_LOG);
     //print_r($err);
     //die();
 }
