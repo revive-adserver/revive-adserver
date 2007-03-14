@@ -248,6 +248,9 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                     reset($oPlacement->aAds);
                     while (list($advertKey, $oAd) = each($oPlacement->aAds)) {
                         // Set the ad/zone association information for the advertisement
+                        if (!isset($this->aAdZoneAssociations[$oPlacement->id][$oPlacement->aAds[$advertKey]->id])) {
+                            continue;
+                        }
                         $oPlacement->aAds[$advertKey]->zones =
                             $this->aAdZoneAssociations[$oPlacement->id][$oPlacement->aAds[$advertKey]->id];
                         // If the advertisement is linked to at least one zone
