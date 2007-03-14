@@ -132,10 +132,13 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         // Test 5
         $oTask = new ForecastZoneImpressions();
         $oDate = new Date();
-        $oTask->oDateNow = $oDate;
-        $oTask->mtceStatsLastRun->oUpdatedToDate    = $oDate;
+        $oTask->oDateNow = new Date();$oDate;
+        $oTask->oDateNow->copy($oDate);
+        $oTask->mtceStatsLastRun->oUpdatedToDate = new Date();
+        $oTask->mtceStatsLastRun->oUpdatedToDate->copy($oDate);
         $oDate->addSeconds(1);
-        $oTask->mtcePriorityLastRun->oUpdatedToDate = $oDate;
+        $oTask->mtcePriorityLastRun->oUpdatedToDate = new Date();
+        $oTask->mtcePriorityLastRun->oUpdatedToDate->copy($oDate);
         $oTask->mtcePriorityLastRun->operationInt = $conf['maintenance']['operationInterval'];
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, false);
@@ -144,10 +147,13 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         // Test 6
         $oTask = new ForecastZoneImpressions();
         $oDate = new Date();
-        $oTask->oDateNow = $oDate;
-        $oTask->mtceStatsLastRun->oUpdatedToDate    = $oDate;
+        $oTask->oDateNow = new Date();$oDate;
+        $oTask->oDateNow->copy($oDate);
+        $oTask->mtceStatsLastRun->oUpdatedToDate = new Date();
+        $oTask->mtceStatsLastRun->oUpdatedToDate->copy($oDate);
         $oDate->subtractSeconds(SECONDS_PER_WEEK);
-        $oTask->mtcePriorityLastRun->oUpdatedToDate = $oDate;
+        $oTask->mtcePriorityLastRun->oUpdatedToDate = new Date();
+        $oTask->mtcePriorityLastRun->oUpdatedToDate->copy($oDate);
         $oTask->mtcePriorityLastRun->operationInt = $conf['maintenance']['operationInterval'];
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, true);
@@ -155,10 +161,13 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
 
         $oTask = new ForecastZoneImpressions();
         $oDate = new Date();
-        $oTask->oDateNow = $oDate;
-        $oTask->mtceStatsLastRun->oUpdatedToDate    = $oDate;
+        $oTask->oDateNow = new Date();$oDate;
+        $oTask->oDateNow->copy($oDate);
+        $oTask->mtceStatsLastRun->oUpdatedToDate = new Date();
+        $oTask->mtceStatsLastRun->oUpdatedToDate->copy($oDate);
         $oDate->subtractSeconds(SECONDS_PER_WEEK + 1);
-        $oTask->mtcePriorityLastRun->oUpdatedToDate = $oDate;
+        $oTask->mtcePriorityLastRun->oUpdatedToDate = new Date();
+        $oTask->mtcePriorityLastRun->oUpdatedToDate->copy($oDate);
         $oTask->mtcePriorityLastRun->operationInt = $conf['maintenance']['operationInterval'];
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, true);
