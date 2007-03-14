@@ -119,7 +119,7 @@ function datatype_openads_bigint_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (is_numeric($aParameters['field']['length'])) {
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             if ($aParameters['field']['unsigned']) {
@@ -189,7 +189,7 @@ function datatype_openads_char_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (is_numeric($aParameters['field']['length'])) {
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             $value .= $declaration_options;
@@ -247,7 +247,7 @@ function datatype_openads_decimal_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (is_numeric($aParameters['field']['length'])) {
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             } else {
                 // Is the length a comma separate list of numeric items?
@@ -328,7 +328,7 @@ function datatype_openads_date_callback(&$db, $method, $aParameters)
             }
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (is_numeric($aParameters['field']['length'])) {
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             $value .= $declaration_options;
@@ -391,7 +391,7 @@ function datatype_openads_datetime_callback(&$db, $method, $aParameters)
             }
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (is_numeric($aParameters['field']['length'])) {
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             $value .= $declaration_options;
@@ -449,7 +449,7 @@ function datatype_openads_double_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (is_numeric($aParameters['field']['length'])) {
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             if ($aParameters['field']['unsigned']) {
@@ -519,7 +519,7 @@ function datatype_openads_enum_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if ($aParameters['field']['length']) {
+            if (isset($aParameters['field']['length']) && $aParameters['field']['length']) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             $value .= $declaration_options;
@@ -578,7 +578,7 @@ function datatype_openads_float_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (is_numeric($aParameters['field']['length'])) {
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             if ($aParameters['field']['unsigned']) {
@@ -648,7 +648,7 @@ function datatype_openads_int_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (is_numeric($aParameters['field']['length'])) {
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             if ($aParameters['field']['unsigned']) {
@@ -718,7 +718,7 @@ function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (is_numeric($aParameters['field']['length'])) {
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             if ($aParameters['field']['unsigned']) {
@@ -788,7 +788,7 @@ function datatype_openads_mediumtext_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (is_numeric($aParameters['field']['length'])) {
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             $value .= $declaration_options;
@@ -846,7 +846,7 @@ function datatype_openads_smallint_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (is_numeric($aParameters['field']['length'])) {
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             if ($aParameters['field']['unsigned']) {
@@ -916,7 +916,7 @@ function datatype_openads_text_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (is_numeric($aParameters['field']['length'])) {
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             // Strip out any "DEFAULT NULL" value from the options
@@ -981,7 +981,7 @@ function datatype_openads_timestamp_callback(&$db, $method, $aParameters)
             }
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (is_numeric($aParameters['field']['length'])) {
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             $value .= $declaration_options;
@@ -1039,7 +1039,7 @@ function datatype_openads_tinyint_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (is_numeric($aParameters['field']['length'])) {
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             if ($aParameters['field']['unsigned']) {
@@ -1109,7 +1109,7 @@ function datatype_openads_varchar_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (is_numeric($aParameters['field']['length'])) {
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             $value .= $declaration_options;
