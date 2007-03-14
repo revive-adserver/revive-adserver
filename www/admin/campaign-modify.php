@@ -91,7 +91,7 @@ if (!empty($campaignid)) {
         // necessary. (Later, it would be better to have
         // links to this file pass in the clientid as well,
         // to facilitate the process below.
-        if (isset($node_array)) {
+        if (isset($node_array['clients'])) {
             foreach ($node_array['clients'] as $key => $val) {
                 if (isset($node_array['clients'][$key]['campaigns'])) {
                     unset($node_array['clients'][$key]['campaigns'][$campaignid]);

@@ -404,7 +404,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     // Get the campagin data from the data_intermediate_ad table, and store in $row
     if (($row['impressions'] >= 0) || ($row['clicks'] >= 0) || ($row['conversions'] >= 0)) {
         $dalData_intermediate_ad = MAX_DB::factoryDAL('data_intermediate_ad');
-        $record = $dalData_intermediate_ad->getDeliveredByCampaign($campaignId);
+        $record = $dalData_intermediate_ad->getDeliveredByCampaign($campaignid);
         $data = $record->toArray();
         
         $row['impressionsRemaining'] = ($row['impressions']) ? ($row['impressions'] - $data['impressions_delivered']) : '';
@@ -887,16 +887,16 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname');
     max_formSetRequirements('clicks', '<?php echo addslashes($strClicksBooked); ?>', false, 'formattedNumber');
     max_formSetRequirements('conversions', '<?php echo addslashes($strConversionsBooked); ?>', false, 'formattedNumber');
     max_formSetRequirements('weight', '<?php echo addslashes($strCampaignWeight); ?>', false, 'number');
-    max_formSetRequirements('target_value', '<?php echo addslashes($strTargetLimitAdImpressions.' x '.$strTargetPerDay); ?>', false, 'number+');
+    max_formSetRequirements('target_value', '<?php echo addslashes($strTargetPerDay); ?>', false, 'number+');
     max_formSetUnique('campaignname', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
 
     var previous_target = '';
     var previous_weight = '';
     var previous_priority = '';
 
-    var impressions_delivered = <?php echo ($data['impressions_delivered']) ? $data['impressions_delivered'] : 0; ?>;
-    var clicks_delivered = <?php echo ($data['clicks_delivered']) ? $data['clicks_delivered'] : 0; ?>;
-    var conversions_delivered = <?php echo ($data['conversions_delivered']) ? $data['conversions_delivered'] : 0; ?>;
+    var impressions_delivered = <?php echo (isset($data['impressions_delivered'])) ? $data['impressions_delivered'] : 0; ?>;
+    var clicks_delivered = <?php echo (isset($data['clicks_delivered'])) ? $data['clicks_delivered'] : 0; ?>;
+    var conversions_delivered = <?php echo (isset($data['conversions_delivered'])) ? $data['conversions_delivered'] : 0; ?>;
 
     function phpAds_priorityCheck(f)
     {
@@ -1251,6 +1251,8 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname');
 </script>
 
 <?php
+
+_echoDeliveryCappingJs();
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

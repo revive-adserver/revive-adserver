@@ -630,7 +630,8 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <select name='newclientid' style='width: 110;'>";
         $aOtherAdvertisers = _multiSort($aOtherAdvertisers,'name','advertiser_id');    
-        foreach ($aOtherAdvertisers as $otherAdvertiserId => $aOtherAdvertiser) {
+        foreach ($aOtherAdvertisers as $aOtherAdvertiser) {
+            $otherAdvertiserId = $aOtherAdvertiser['advertiser_id'];
             $otherAdvertiserName = MAX_buildName($otherAdvertiserId, $aOtherAdvertiser['name']);
             if ($otherAdvertiserId != $advertiserId) {
                 $extra .= "
