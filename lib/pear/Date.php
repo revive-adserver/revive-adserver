@@ -448,9 +448,9 @@ class Date
      * convertTZ().
      *
      * @access public
-     * @param object Date_TimeZone $tz the Date_TimeZone object to use, if called 
+     * @param object Date_TimeZone $tz the Date_TimeZone object to use, if called
      * with a paramater that is not a Date_TimeZone object, will fall through to
-     * setTZbyID(). 
+     * setTZbyID().
      */
     function setTZ($tz)
     {
@@ -725,12 +725,16 @@ class Date
      * in sorting functions.
      *
      * @access public
-     * @param object Date $d1 the first date
-     * @param object Date $d2 the second date
+     * @param object Date $xd1 the first date
+     * @param object Date $xd2 the second date
      * @return int 0 if the dates are equal, -1 if d1 is before d2, 1 if d1 is after d2
      */
-    function compare($d1, $d2)
+    function compare($xd1, $xd2)
     {
+        $d1 = new Date();
+        $d1->copy($xd1);
+        $d2 = new Date();
+        $d2->copy($xd2);
         $d1->convertTZ(new Date_TimeZone('UTC'));
         $d2->convertTZ(new Date_TimeZone('UTC'));
         $days1 = Date_Calc::dateToDays($d1->day, $d1->month, $d1->year);
