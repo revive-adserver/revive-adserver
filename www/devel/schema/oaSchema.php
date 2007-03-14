@@ -478,28 +478,27 @@ class Openads_Schema_Manager
     function field_link_relations($table_name, $field_name_old, $field_name_new)
     {
         $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
+        reset($links);
         foreach ($links AS $table => $keys)
         {
             foreach ($keys AS $field => $target)
             {
-                if (($field==$field_name_old))
-                {
-                    if ($field_name_new)
-                    {
-                        $links[$table][$field_name_new] = $links[$table][$field_name_old];
-                    }
-                    unset($links[$table][$field_name_old]);
-                }
                 if (($target['table']==$table_name) && ($target['field']==$field_name_old))
                 {
                     if ($field_name_new)
                     {
-                        $links[$table][$field_name_old]['field'] == $field_name_new;
+                        $target['field'] = $field_name_new;
+                        $links[$table][$field] = $target;
                     }
-                    else
+                }
+                if (($table==$table_name) && ($field==$field_name_old))
+                {
+                    if ($field_name_new)
                     {
-                        unset($links[$table][$field_name_old]);
+                        unset($links[$table][$field]);
+                        $field = $field_name_new;
                     }
+                    $links[$table][$field] = $target;
                 }
             }
         }
