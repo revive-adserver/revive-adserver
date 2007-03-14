@@ -84,9 +84,12 @@ class Openads_Dal
                 $aOptions['default_table_type'] = $conf['table']['type'];
             }
             // Set any custom MDB2 datatypes & nativetype mappings
+            $customTypesInfoFile = MAX_PATH . '/lib/openads/Dal/CustomDatatypes/' .
+                               $conf['database']['type'] . '_info.php';
             $customTypesFile = MAX_PATH . '/lib/openads/Dal/CustomDatatypes/' .
                                $conf['database']['type'] . '.php';
-            if (is_readable($customTypesFile)) {
+            if (is_readable($customTypesInfoFile) && is_readable($customTypesFile)) {
+                include $customTypesInfoFile;
                 require_once $customTypesFile;
                 if (!empty($aDatatypes)) {
                     reset($aDatatypes);
