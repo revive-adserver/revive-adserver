@@ -151,6 +151,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaign = MAX_DB::factoryDO('campaigns');
         $doCampaign->campaignname = 'foo';
         DataGenerator::generateOne($doCampaign, true);
+        $agencyId = DataGenerator::getReferenceId('agency');
         
         // Search for the campaign
         $expected = 0;
@@ -166,7 +167,6 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $this->assertEqual($actual, $expected);
         
         // Restrict the search to agency (defaults to 1)
-        $agencyId = 1;
         $rsCampaigns = $this->dalCampaigns->getCampaignAndClientByKeyword('foo', $agencyId);
         $rsCampaigns->find();
         $actual = $rsCampaigns->getRowCount();

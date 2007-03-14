@@ -73,6 +73,9 @@ class DataGenerator
      */
     function generate($do, $numberOfCopies = 1, $generateReferences = false)
     {
+        // cleanup ancestor ids
+        DataGenerator::getReferenceId();
+        
         if (is_string($do)) {
             $do = MAX_DB::factoryDO($do);
             if (PEAR::isError($do)) {
@@ -118,6 +121,30 @@ class DataGenerator
             $do->whereAdd('1=1');
             $do->delete($useWhere = true);
         }
+        // cleanup ancestor ids
+        DataGenerator::getReferenceId();
+    }
+    
+    /**
+     * This method allows to store and retreive any ids which were created
+     * for ancestors records (all records created atuomatically if $generateReferences is true)
+     *
+     * @param string $table
+     * @param int $id
+     * @return int | false  Id or false if doesn't exist
+     * @access public
+     * @static 
+     */
+    function getReferenceId($table = null, $id = null)
+    {
+        static $ids;
+        if (!isset($ids) || $table === null) {
+            $ids = array();
+        }
+        if ($id !== null) {
+            $ids[$table] = $id;
+        }
+        return isset($ids[$table]) ? $ids[$table] : false;
     }
     
     /**
@@ -162,12 +189,15 @@ class DataGenerator
         
         $links = $doAncestor->links();
     	foreach ($links as $key => $match) {
-    		list($table,$link) = explode(':', $match);
-    		$table = $doAncestor->getTableWithoutPrefix($table);
-    		$doAncestor->$key = DataGenerator::addAncestor($table);
+    		list($ancestorTable,$link) = explode(':', $match);
+    		// remove prefix from it
+    		$ancestorTable = $doAncestor->getTableWithoutPrefix($ancestorTable);
+    		$doAncestor->$key = DataGenerator::addAncestor($ancestorTable);
     	}
-    	DataGenerator::trackData($doAncestor->getTableWithoutPrefix());
-        return $doAncestor->insert();
+    	DataGenerator::trackData($table);
+    	$id = $doAncestor->insert();
+    	DataGenerator::getReferenceId($table, $id); // store the id
+        return $id;
     }
     
     /**

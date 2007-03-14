@@ -87,12 +87,15 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $doZones->zonename = 'foo';
         $doZones->description = 'bar';
         $aZoneId[] = DataGenerator::generateOne($doZones, true);
+        $affiliateId1 = DataGenerator::getReferenceId('affiliates');
+        $agencyId1 = DataGenerator::getReferenceId('agency');
         
         // Add another zone
         $doZones = MAX_DB::factoryDO('zones');
         $doZones->zonename = 'baz';
         $doZones->description = 'quux';
         $aZoneId[] = DataGenerator::generateOne($doZones, true);
+        $agencyId2 = DataGenerator::getReferenceId('agency');
         
         // Search for the zone by string
         $expected = 1;
@@ -107,35 +110,33 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $this->assertEqual($actual, $expected);
         
         // Restrict the search to agency ID
-        $agencyId = 0;
         $expected = 0;
-        $rsZones = $this->dalZones->getZoneByKeyword('foo', $agencyId);
+        $rsZones = $this->dalZones->getZoneByKeyword('foo', $agencyId = 0);
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
         
         $expected = 1;
-        $agencyId = 1;
-        $rsZones = $this->dalZones->getZoneByKeyword('foo', $agencyId);
+        $rsZones = $this->dalZones->getZoneByKeyword('foo', $agencyId1);
         $rsZones->find();
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
         
         // Restrict the search to affiliate ID
-        $affiliateId = 0;
+//        $affiliateId = 0;
         $expected = 0;
-        $rsZones = $this->dalZones->getZoneByKeyword('foo', $agencyId, $affiliateId);
+        $rsZones = $this->dalZones->getZoneByKeyword('foo', $agencyId, $affiliateId = 0);
         $rsZones->find();
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
         
-        $affiliateId = 1;
+//        $affiliateId = 1;
         $expected = 1;
-        $rsZones = $this->dalZones->getZoneByKeyword('foo', $agencyId, $affiliateId);
+        $rsZones = $this->dalZones->getZoneByKeyword('foo', $agencyId1, $affiliateId1);
         $rsZones->find();
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
         
-        $rsZones = $this->dalZones->getZoneByKeyword('bar', null, $affiliateId);
+        $rsZones = $this->dalZones->getZoneByKeyword('bar', null, $affiliateId1);
         $rsZones->find();
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
