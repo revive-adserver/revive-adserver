@@ -788,6 +788,7 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
 
     global $phpAds_TextDirection;
 
+    $extra = '';
     $publisherId = $aEntities['affiliateid'];
     $zoneId = $aEntities['zoneid'];
     $entityString = _getEntityString($aEntities);
@@ -1392,6 +1393,8 @@ function MAX_displayPlacementAdSelectionViewForm($publisherId, $zoneId, $view, $
 {
     global $phpAds_TextDirection;
 
+    $disabled = null;
+    $disabledHidden = null;
     if (!empty($aOtherZones[$zoneId]['type'])) {
         if ($aOtherZones[$zoneId]['type'] == MAX_ZoneEmail) {
             $view = 'ad';

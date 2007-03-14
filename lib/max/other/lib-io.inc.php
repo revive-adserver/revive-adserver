@@ -62,9 +62,12 @@ function phpAds_registerGlobalUnslashed()
             if (ini_get('magic_quotes_gpc')) {
                 $value = MAX_commonUnslashArray($value);
             }
-            $GLOBALS[$key] = $value;
-            unset($value);
         }
+        else {
+            $value = null;
+        }
+        $GLOBALS[$key] = $value;
+        unset($value);
     }
 }
 

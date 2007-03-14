@@ -208,7 +208,7 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
             // The process run information was found, return.
             return $aResult;
         }
-        if (!is_null($aAlternateInfo['tableName']) && !is_null($aAlternateInfo['type'])) {
+        if (!empty($aAlternateInfo['tableName']) && !empty($aAlternateInfo['type'])) {
             // No result was found above, and an alternate raw table was specified,
             // so search the raw table to see if a valid result can be generated
             // on the basis of the earliest raw data value

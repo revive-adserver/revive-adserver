@@ -225,7 +225,7 @@ class MAX_Dal_Common
             }
         }
         // Add where conditions
-        if (count($aParams['wheres']) > 0) {
+        if (!empty($aParams['wheres'])) {
             list($constraint, $operator) = $aParams['wheres'][0];
             $this->queryBuilder->setWhere($constraint, $operator);
             if (count($aParams['wheres']) > 1) {
@@ -236,18 +236,18 @@ class MAX_Dal_Common
             }
         }
         // Add joins
-        if (!is_null($aParams['joins'])) {
+        if (!empty($aParams['joins'])) {
             foreach ($aParams['joins'] as $join) {
                 list($table, $joinCond) = $join;
                 $this->queryBuilder->addJoin($table, $joinCond);
             }
         }
         // Add the grouping
-        if (!is_null($aParams['group'])) {
+        if (!empty($aParams['group'])) {
             $this->queryBuilder->setGroup($aParams['group']);
         }
         // Add order by conditions
-        if (count($aParams['orderBys']) > 0) {
+        if (!empty($aParams['orderBys'])) {
             list($field, $direction) = $aParams['orderBys'][0];
             if (!is_bool($direction)) {
                 $direction = ($direction == 'DESC') ? true : false;
@@ -264,7 +264,7 @@ class MAX_Dal_Common
             }
         }
         // Add having conditions
-        if (count($aParams['havings']) > 0) {
+        if (!empty($aParams['havings'])) {
             list($constraint, $operator) = $aParams['havings'][0];
             $this->queryBuilder->setHaving($constraint);
             if (count($aParams['havings']) > 1) {
@@ -275,7 +275,8 @@ class MAX_Dal_Common
             }
         }
         // Run the query and return the result(s)
-        return $this->queryBuilder->getAll();
+        $result = $this->queryBuilder->getAll();
+        return $result;
     }
 
     /**

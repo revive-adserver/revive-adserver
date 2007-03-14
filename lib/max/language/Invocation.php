@@ -45,7 +45,9 @@ class Language_Invocation
     function load()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $pref = $GLOBALS['_MAX']['PREF'];
+        $pref = isset($GLOBALS['_MAX']['PREF']['language'])
+            ? $GLOBALS['_MAX']['PREF']
+            : array('language' => 'english');
         // Always load the English language, in case of incomplete translations
         include_once MAX_PATH . '/lib/max/language/english/invocation.lang.php';
         // Load the language from preferences, if possible, otherwise load

@@ -63,6 +63,7 @@ function phpAds_buildName($id, $name)
 
 function phpAds_getClientName($clientid)
 {
+    global $strUntitled;
     if ($clientid != '' && $clientid != 0) {
         $client_details = phpAds_getClientDetails($clientid);
         return (phpAds_BuildName ($clientid, $client_details['clientname']));

@@ -70,6 +70,9 @@ class Openads_Dal
         if (!(count($aConnections)) || !(in_array($dsnMd5, $aConnections))) {
             // Prepare options for a new database connection
             $aOptions = array();
+            $aOptions['datatype_map'] = '';
+            $aOptions['datatype_map_callback'] = '';
+            $aOptions['nativetype_map_callback'] = '';
             // Set the index name format
             $aOptions['idxname_format'] = '%s';
             // Use 4 decimal places in DECIMAL nativetypes

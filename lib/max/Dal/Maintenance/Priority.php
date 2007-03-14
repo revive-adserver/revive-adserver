@@ -308,7 +308,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
     function getPlacementStats($id, $todayOnly = false, $today = '')
     {
         $aTemp = $this->getPlacementData($id);
-        if (is_array($aTemp[0]) && (count($aTemp[0]) > 0)) {
+        if ((!empty($aTemp[0]) && is_array($aTemp[0]))) {
             $aPlacements = $aTemp[0];
         }
         if ($todayOnly) {

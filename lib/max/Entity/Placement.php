@@ -205,7 +205,7 @@ class MAX_Entity_Placement extends MAX_Entity
     {
         // Convert "old" input value names to "new", if required
         foreach ($this->aNewOldTypes as $newName => $oldName) {
-            if (is_null($aParams[$newName])) {
+            if (empty($aParams[$newName])) {
                 $aParams[$newName] = $aParams[$oldName];
             }
         }

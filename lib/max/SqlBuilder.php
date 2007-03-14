@@ -816,8 +816,6 @@ class SqlBuilder
             $aTableLimitations[]='t.trackerid=mt.trackerid';
         if (!empty($aTables[$conf['table']['prefix'].$conf['table']['banners']]) && (!empty($aTables[$conf['table']['prefix'].$conf['table']['data_summary_ad_hourly']])))
             $aTableLimitations[]='d.bannerid=s.ad_id';
-        if (!empty($aTables[$conf['table']['prefix'].$conf['table']['banners']]) && (!empty($aTables[$conf['table']['prefix'].$conf['table']['data_summary_ad_arrival_hourly']])))
-            $aTableLimitations[]='d.bannerid=s.ad_id';
         if (!empty($aTables[$conf['table']['prefix'].$conf['table']['banners']]) && (!empty($aTables[$conf['table']['prefix'].$conf['table']['data_intermediate_ad_connection']])))
             $aTableLimitations[]='d.bannerid=s.ad_id';
         if (!empty($aTables[$conf['table']['prefix'].$conf['table']['banners']]) && (!empty($aTables[$conf['table']['prefix'].$conf['table']['ad_category_assoc']])))
@@ -827,8 +825,6 @@ class SqlBuilder
         if (!empty($aTables[$conf['table']['prefix'].$conf['table']['banners']]) && (!empty($aTables[$conf['table']['prefix'].$conf['table']['acls']])))
             $aTableLimitations[]='d.bannerid=l.bannerid';
         if (!empty($aTables[$conf['table']['prefix'].$conf['table']['zones']]) && (!empty($aTables[$conf['table']['prefix'].$conf['table']['data_summary_ad_hourly']])))
-            $aTableLimitations[]='z.zoneid=s.zone_id';
-        if (!empty($aTables[$conf['table']['prefix'].$conf['table']['zones']]) && (!empty($aTables[$conf['table']['prefix'].$conf['table']['data_summary_ad_arrival_hourly']])))
             $aTableLimitations[]='z.zoneid=s.zone_id';
         if (!empty($aTables[$conf['table']['prefix'].$conf['table']['zones']]) && (!empty($aTables[$conf['table']['prefix'].$conf['table']['data_intermediate_ad_connection']])))
             $aTableLimitations[]='z.zoneid=s.zone_id';

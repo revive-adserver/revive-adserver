@@ -36,6 +36,7 @@ define('PLUGINS_INVOCATIONS_TAGS_ADLAYER_DEFAULT_LAYERSTYLE', 'geocities');
 
 require_once MAX_PATH . '/plugins/invocationTags/InvocationTags.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
 /**
  *

@@ -41,7 +41,7 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 
 // Register input variables
-phpAds_registerGlobal(
+phpAds_registerGlobalUnslashed(
     'zonename',
     'description',
     'delivery',
@@ -294,6 +294,12 @@ if (!empty($zoneid)) {
     $zone['height']         = '60';
     $zone['delivery']        = phpAds_ZoneBanner;
     $zone['cost']           = '0.0000';
+    $zone['cost_type']      = null;
+    $zone['technology_cost'] = null;
+    $zone['technology_cost_type'] = null;
+    $zone['cost_variable_id'] = null;
+    $zone['comments'] = null;
+    $cost_variable_id = null;
 }
 
 $tabindex = 1;

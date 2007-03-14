@@ -41,7 +41,7 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once 'Date.php';
 
 // Register input variables
-phpAds_registerGlobal (
+phpAds_registerGlobalUnslashed(
      'activateDay'
     ,'activateMonth'
     ,'activateSet'
@@ -487,6 +487,17 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row["priority"]    = 0;
     $row["anonymous"]    = ($pref['gui_campaign_anonymous'] == 't') ? 't' : '';
     $row['revenue']     = '0.0000';
+    $row['revenue_type']     = null;
+    $row['target']     = null;
+    $row['impressionsRemaining']     = null;
+    $row['clicksRemaining']     = null;
+    $row['conversionsRemaining']     = null;
+    $row['companion']     = null;
+    $row['block']     = null;
+    $row['capping']     = null;
+    $row['session_capping']     = null;
+    $row['comments']     = null;
+    $target_type = null;
 }
 
 /*-------------------------------------------------------*/
