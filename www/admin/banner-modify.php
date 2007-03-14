@@ -54,21 +54,7 @@ MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
 /*-------------------------------------------------------*/
 
 if (!empty($bannerid)) {
-    if (phpAds_isUser(phpAds_Agency)) {
-
-        // TODO: Refactor.
-        $doBanners = MAX_DB::factoryDO('banners');
-        $doBanners->addReferenceFilter('agency', phpAds_getUserID());
-        $doBanners->addReferenceFilter('campaigns', $campaignid);
-        $doBanners->addReferenceFilter('clients', $clientid);
-        $doBanners->addReferenceFilter('banners', $bannerid);
-        $doBanners->find();
-        
-        if (!$doBanners->getRowCount()) {
-            phpAds_PageHeader("2");
-            phpAds_Die ($strAccessDenied, $strNotAdmin);
-        }
-    }
+    MAX_Permission::checkAccessToObject('banners', $bannerid);
 
     if (!empty($moveto) && isset($moveto_x)) {
         if (phpAds_isUser(phpAds_Agency)) {
