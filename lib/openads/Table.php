@@ -304,11 +304,10 @@ class Openads_Table
      */
     function dropTempTable($table)
     {
-        $oDbh = &Openads_Dal::singleton();
         $query = 'DROP TEMPORARY TABLE ' . $table;
         MAX::debug('Dropping temporary table ' . $table, PEAR_LOG_DEBUG);
         PEAR::pushErrorHandling(null);
-        $result = $oDbh->query($query);
+        $result = $this->oDbh->query($query);
         PEAR::popErrorHandling();
         if (PEAR::isError($result)) {
             MAX::debug('Unable to drop temporary table ' . $table, PEAR_LOG_ERROR);
