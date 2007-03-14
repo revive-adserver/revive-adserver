@@ -120,22 +120,26 @@ class DB_DataObjectCommon extends DB_DataObject
     	    if (empty($filter)) $filter = array();
     	    $filter = array($filter);
     	}
+        	
         $primaryKey = null;
     	if ($indexWithPrimaryKey) {
 			$primaryKey = $this->getFirstPrimaryKey();
     	}
-    	if ($filter) {
-    	    // select only what is required
-    	    $this->selectAdd();
-    	    foreach ($filter as $field) {
-    	        $this->selectAdd($field);
-    	    }
-    	    // if we are indexing with pk add it here
-    	    if ($indexWithPrimaryKey && !in_array($primaryKey, $filter)) {
-    	        $this->selectAdd($primaryKey);
-    	    }
+        if (!$this->N) {
+            // search only if find() wasn't executed yet
+        	if ($filter) {
+        	    // select only what is required
+        	    $this->selectAdd();
+        	    foreach ($filter as $field) {
+        	        $this->selectAdd($field);
+        	    }
+        	    // if we are indexing with pk add it here
+        	    if ($indexWithPrimaryKey && !in_array($primaryKey, $filter)) {
+        	        $this->selectAdd($primaryKey);
+        	    }
+        	}
+            $this->find();
     	}
-        $this->find();
     	
     	$rows = array();
     	$fields = $this->table();
@@ -289,7 +293,7 @@ class DB_DataObjectCommon extends DB_DataObject
      *
      * @param string $field  the database column to test
      * @param mixed $value  the value to compare
-     * @access public
+     * @access private
      */
     function whereAddLower($field, $value)
     {
@@ -331,8 +335,11 @@ class DB_DataObjectCommon extends DB_DataObject
                     DB_DATAOBJECT_ERROR_INVALIDARGS);
             return array();
         }
+        $this->selectAdd();
+        $this->selectAdd("DISTINCT $columnName AS $columnName");
         $this->whereAdd($columnName . " <> ''");
-        $aValues = $this->getAll(array($columnName));
+        $this->find();
+        $aValues = $this->getAll($columnName);
         ArrayUtils::unsetIfKeyNumeric($aValues, $exceptValue);
         return $aValues;
     }
@@ -584,6 +591,7 @@ class DB_DataObjectCommon extends DB_DataObject
      * definitions
      *
      * @return boolean  True on success, else false
+     * @access package private
      */
     function databaseStructure()
     {
@@ -653,7 +661,7 @@ class DB_DataObjectCommon extends DB_DataObject
         
         return $ret;
         /*
-        // FIXME: following doesn't work because MAX doesn't use standard DB_mysql extension...
+        // FIXME: following code doesn't work because MAX doesn't use standard DB_mysql extension...
         if (empty($_DB_DATAOBJECT['CONFIG'])) {
             $this->_loadConfig();
         }

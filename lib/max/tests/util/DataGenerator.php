@@ -34,6 +34,13 @@ $Id$
 class DataGenerator
 {
     /**
+     * Use this data to populate any new records
+     *
+     * @var array
+     */
+    var $data;
+    
+    /**
      * Generate one record with default values and add insert it into database.
      * Returns id of created record
      *
@@ -73,6 +80,7 @@ class DataGenerator
             }
         }
         
+        $doOriginal = clone($do);
         DataGenerator::setDefaultValues($do);
 
         if ($generateReferences) {
@@ -87,8 +95,9 @@ class DataGenerator
         
         $ids = array();
         for ($i = 0; $i < $numberOfCopies; $i++) {
-            $doInsert = clone($do);
-            $id = $doInsert->insert();
+            $id = $do->insert();
+            $do = clone($doOriginal);
+            DataGenerator::setDefaultValues($do, $i+1);
             $ids[] = $id;
         }
         return $ids;
@@ -132,7 +141,7 @@ class DataGenerator
      * @access public
      * @static 
      */
-    function setDefaultValues(&$do)
+    function setDefaultValues(&$do, $counter = 0)
     {
         foreach ($do->defaultValues as $k => $v) {
             if (!isset($do->$k)) {
@@ -142,23 +151,39 @@ class DataGenerator
         $fields = $do->table();
         $keys = $do->keys();
         foreach ($fields as $fieldName => $fieldType) {
-            if (!array_key_exists($fieldName, $keys) && !isset($do->$fieldName)) {
-                $do->$fieldName = DataGenerator::setDefaultValue($fieldType);
+            if (!array_key_exists($fieldName, $keys) && (!isset($do->$fieldName))) {
+                $do->$fieldName = DataGenerator::setDefaultValue($do->getTableWithoutPrefix(),
+                    $fieldName, $counter);
             }
         }
     }
     
     /**
-     * Return default data by type
+     * Return default data
      *
      * @todo Implement
      * 
      * @param string $fieldType
      * @return mixed
      */
-    function setDefaultValue($fieldType)
+    function setDefaultValue($table, $fieldName, $counter)
     {
+        if (isset($this)) {
+            if (isset($this->data[$table]) && isset($this->data[$table][$fieldName])) {
+                $index = $counter % count($this->data[$table][$fieldName]);
+                return $this->data[$table][$fieldName][$index];
+            }
+        }
         return 1; // @TODO: Add a default value by type
+    }
+    
+    function setData($table = null, $data = array())
+    {
+        if ($table === null) {
+            // reset all
+            $this->data = array();
+        }
+        $this->data[$table] = $data;
     }
 }
 
