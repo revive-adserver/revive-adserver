@@ -43,16 +43,8 @@ require_once MAX_PATH . '/lib/max/DB.php';
 phpAds_registerGlobal ('returnurl');
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
-
-if (phpAds_isUser(phpAds_Agency)) {
-    $doBanners = MAX_DB::factoryDO('banners');
-    $doBanners->bannerid = $bannerid;
-    if (!$doBanners->belongToUser('agency', phpAds_getUserID())) {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-}
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccessToObject('banners', $bannerid);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
