@@ -53,7 +53,7 @@ class MAX_PermissionTest extends UnitTestCase
     
     function tearDown()
     {
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp();
     }
     
     function testIsUsernameAllowed()
@@ -112,7 +112,7 @@ class MAX_PermissionTest extends UnitTestCase
         
         $doAgency = MAX_DB::factoryDO('agency');
         $doAgency->username = 'quux';
-        $agencyId = DataGenerator::generateOne($doAgency);
+        $agencyId = DataGenerator::generate($doAgency, 2); // Duplicate username
         
         $expected = array('admin', 'bar', 'baz', 'quux');
         sort($expected);
