@@ -31,6 +31,7 @@ $Id$
 require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
+require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 require_once MAX_PATH . '/lib/openads/Table/Core.php';
 require_once MAX_PATH . '/lib/openads/Table/Priority.php';
 require_once MAX_PATH . '/lib/openads/Table/Statistics.php';
@@ -216,6 +217,8 @@ class TestEnv
         $GLOBALS['_MAX']['CONNECTIONS'] = array();
         // Destroy any DataObject connection
         DB_DataObjectCommon::disconnect();
+        // Destroy any DAL connection
+        DBC::disconnect();
         // Destroy any Delivery Engine database connections
         unset($GLOBALS['_MAX']['ADMIN_DB_LINK']);
         unset($GLOBALS['_MAX']['RAW_DB_LINK']);

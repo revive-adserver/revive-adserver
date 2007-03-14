@@ -71,6 +71,22 @@ class DBC {
     }
     
     /**
+	* Disconnect from database if there is any current connection in the pool
+	* This method is required for tests
+	* 
+	* @return void
+	* @access public
+	*/
+    function disconnect()
+    {
+        if (isset($GLOBALS['DatabaseConnectionObj'])) {
+            $dbh = &DBC::getCurrentConnection();
+            $dbh->disconnect();
+            unset($GLOBALS['DatabaseConnectionObj']);
+        }
+    }
+    
+    /**
     * Factory function to create a MySQLRecord object
     * @see http://wact.sourceforge.net/index.php/NewRecord
     * @param DataSpace or subclass (optional) 

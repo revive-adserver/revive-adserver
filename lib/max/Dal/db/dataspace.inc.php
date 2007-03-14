@@ -309,6 +309,11 @@ class DataSpace {
      */
     function getAll($filter = array(), $indexWithPrimaryKey = null, $flattenIfOneOnly = true)
     {
+        if (!is_array($filter)) {
+    	    if (empty($filter)) $filter = array();
+    	    $filter = array($filter);
+    	}
+    	
         $this->find();
     	
     	$rows = array();

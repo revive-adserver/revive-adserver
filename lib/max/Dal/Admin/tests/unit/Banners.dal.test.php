@@ -55,12 +55,6 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
         DataGenerator::cleanUp();
     }
     
-    function tearDownFixture()
-    {
-        // restore environment after all tests
-        //TestEnv::restoreEnv();
-    }
-    
     function testGetAllBanners()
     {
         // Insert banners
