@@ -32,6 +32,7 @@ class Openads_Schema_Manager
     var $file_schema_core;
     var $path_schema_final;
     var $path_schema_trans;
+    var $path_changes_final;
     var $file_changes_core;
 
     var $path_links_final;
@@ -39,6 +40,9 @@ class Openads_Schema_Manager
 
     var $schema_final;
     var $schema_trans;
+
+    var $changes_final;
+    var $changes_trans;
 
     var $file_links_core;
     var $links_final;
@@ -56,7 +60,9 @@ class Openads_Schema_Manager
         $this->file_schema_core = 'tables_core.xml';
         $this->path_schema_final = MAX_PATH.'/etc/';
         $this->path_schema_trans = MAX_PATH.'/var/';
-        $this->file_changes_core = $this->path_schema_trans.'changes_core.xml';
+
+        $this->file_changes_core = 'changes_core.xml';
+        $this->path_changes_final = MAX_PATH.'/etc/changes/';
 
         $this->file_links_core = 'db_schema.links.ini';
         $this->path_links_final = MAX_PATH.'/lib/max/Dal/DataObjects/';
@@ -67,6 +73,9 @@ class Openads_Schema_Manager
 
         $this->links_final = $this->path_links_final.$this->file_links_core;
         $this->links_trans = $this->path_links_trans.$this->file_links_core;
+
+        $this->changes_final = $this->path_changes_final.$this->file_changes_core;
+        $this->changes_trans = $this->path_schema_trans.$this->file_changes_core;
 
         $this->dump_options = array (
                                         'output_mode'   =>    'file',
@@ -87,19 +96,22 @@ class Openads_Schema_Manager
         $this->__construct();
     }
 
-    function createChangeset()
+    function createChangeset($output='')
     {
         if (file_exists($this->schema_trans) && file_exists($this->schema_final))
         {
             $prev_definition = $this->schema->parseDatabaseDefinitionFile($this->schema_final);
             $curr_definition = $this->schema->parseDatabaseDefinitionFile($this->schema_trans);
             $changes         = $this->schema->compareDefinitions($curr_definition, $prev_definition);
-
-            $this->dump_options['output']     = $this->file_changes_core;
+            $this->dump_options['output'] = ($output ? $output : $this->changes_trans);
             $this->dump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
             $changes['version']               = $curr_definition['version'];
             $changes['name']                  = $curr_definition['name'];
             return $this->schema->dumpChangeset($changes, $this->dump_options, true);
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -123,6 +135,34 @@ class Openads_Schema_Manager
         if (file_exists($this->links_final))
         {
             copy($this->links_final, $this->links_trans);
+        }
+    }
+
+    function commitFinal()
+    {
+        if ( (file_exists($this->schema_trans)) &&
+             (file_exists($this->links_trans))
+           )
+        {
+            $this->setWorkingFiles();
+
+            $this->parseWorkingDefinitionFile();
+
+            $this->dump_options['custom_tags']['status']='final';
+
+            $this->changes_final = $this->path_changes_final.'schema_'.$this->version.'.xml';
+            $this->createChangeset($this->changes_final);
+
+            $this->writeWorkingDefinitionFile($this->schema_final);
+
+            unlink($this->changes_trans);
+            unlink($this->schema_trans);
+
+            if (file_exists($this->links_trans))
+            {
+                copy($this->links_trans, $this->links_final);
+                unlink($this->links_trans);
+            }
         }
     }
 
@@ -153,9 +193,11 @@ class Openads_Schema_Manager
         $this->version = $this->db_definition['version'];
     }
 
-    function writeWorkingDefinitionFile()
+    function writeWorkingDefinitionFile($output='')
     {
         $this->dump_options['custom_tags']['version'] = $this->version;
+        $this->dump_options['output']       = ($output ? $output : $this->schema_trans);
+        $this->dump_options['xsl_file']     = "xsl/mdb2_schema.xsl";
         $this->schema->dumpDatabase($this->db_definition, $this->dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
     }
 
@@ -173,9 +215,9 @@ class Openads_Schema_Manager
 
     function deleteChangeset()
     {
-        if (file_exists($this->file_changes_core))
+        if (file_exists($this->changes_trans))
         {
-            unlink($this->file_changes_core);
+            unlink($this->changes_trans);
         }
     }
 
@@ -561,8 +603,10 @@ class Openads_Schema_Manager
     function checkPermissions()
     {
         $aFiles = array(
+            $this->schema_final,
             $this->schema_trans,
             $this->links_trans,
+            $this->changes_final,
             MAX_SCHEMA_LOG
         );
 

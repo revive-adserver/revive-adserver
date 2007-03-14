@@ -153,7 +153,7 @@
     <th class="tableheader">fields</th>
     <th class="tableheader">timing</th>
     </tr>
-    <xsl:for-each select="descendant::index/add">
+    <xsl:for-each select="descendant::index/add/*">
         <xsl:call-template name="showindexAdd">
             <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
         </xsl:call-template>
@@ -229,10 +229,14 @@
 
     <tr>
 
-    <td class="tablebody"><xsl:call-template name="showname"/></td>
+    <td class="tablebody">
+        <!--xsl:call-template name="showname"/-->
+        <xsl:value-of select="name(.)"/>
+    </td>
 
     <td class="tablebody"><xsl:call-template name="showwas">
-        <xsl:with-param name="fieldname"><xsl:value-of select="$fieldprefix"/>-was</xsl:with-param></xsl:call-template></td>
+        <xsl:with-param name="fieldname"><xsl:value-of select="$fieldprefix"/>-was</xsl:with-param></xsl:call-template>
+    </td>
 
     <td class="tablebody"><xsl:call-template name="showprimary"/></td>
     <td class="tablebody"><xsl:call-template name="showunique"/></td>

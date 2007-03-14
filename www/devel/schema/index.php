@@ -31,14 +31,20 @@ else if (array_key_exists('btn_delete_trans', $_POST))
 }
 else if (array_key_exists('btn_compare_schemas', $_POST))
 {
-    $oaSchema->createChangeset();
-    header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
-    readfile($oaSchema->file_changes_core);
-    exit();
+    if ($oaSchema->createChangeset())
+    {
+        header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
+        readfile($oaSchema->changes_trans);
+        exit();
+    }
 }
 else if (array_key_exists('btn_changeset_delete', $_POST))
 {
     $oaSchema->deleteChangeset();
+}
+else if (array_key_exists('btn_commit_final', $_POST))
+{
+    $oaSchema->commitFinal();
 }
 
 $oaSchema->setWorkingFiles();
