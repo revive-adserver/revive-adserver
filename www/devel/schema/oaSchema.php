@@ -285,6 +285,47 @@ class Openads_Schema_Manager
         $this->writeWorkingDefinitionFile();
     }
 
+    function indexSave($table_name, $index_name, $index_def)
+    {
+        $this->parseWorkingDefinitionFile();
+        $idx_old = $this->db_definition['tables'][$table_name]['indexes'][$index_name];
+        foreach ($index_def['fields'] as $field => $def)
+        {
+            $idx_sort[$def['order']] = $field;
+        }
+        ksort($idx_sort);
+        reset($idx_sort);
+        foreach ($idx_sort as $k => $field)
+        {
+            $sorting = ($index_def['fields'][$field]['sorting']?'ascending':'descending');
+            $idx_new['fields'][$field] = array('sorting'=>$sorting);
+        }
+        reset($idx_new['fields']);
+        if (isset($index_def['unique']))
+        {
+            $idx_new['unique'] = $index_def['unique'];
+        }
+        if (isset($index_def['primary']))
+        {
+            $idx_new['primary'] = $index_def['primary'];
+        }
+        if ($index_def['was']!=$index_def['name'])
+        {
+            $idx_name = $index_def['name'];
+        }
+        else
+        {
+            $idx_name = $index_def['was'];
+        }
+        unset($this->db_definition['tables'][$table_name]['indexes'][$index_name]);
+        $valid = $this->validate_index($table_name, $idx_new, $idx_name);
+        if ($valid)
+        {
+            $this->db_definition['tables'][$table_name]['indexes'][$idx_name] = $idx_new;
+            $this->writeWorkingDefinitionFile();
+        }
+    }
+
     function tableNew($new_table_name)
     {
         $this->parseWorkingDefinitionFile();
@@ -394,6 +435,13 @@ class Openads_Schema_Manager
     {
         $this->init_schema_validator();
         $result = $this->_validator->validateField($this->db_definition['tables'][$table_name]['fields'], $field_definition, $field_name);
+        return (Pear::iserror($result)? false: true);
+    }
+
+    function validate_index($table_name, $idx_definition, $idx_name)
+    {
+        $this->init_schema_validator();
+        $result = $this->_validator->validateIndex($this->db_definition['tables'][$table_name]['indexes'], $idx_definition, $idx_name);
         return (Pear::iserror($result)? false: true);
     }
 

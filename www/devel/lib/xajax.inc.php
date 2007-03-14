@@ -72,6 +72,64 @@ function exitFieldProperty($form, $elementId, $elementNo)
 	return $objResponse;
 }
 
+function editIndexProperty($form)
+{
+	$objResponse = new xajaxResponse();
+	$id = $form['index_no'];
+	$fid = 'idx['.$id.']';
+	$objResponse->addAssign("{$fid}[was]","style.display", 'none');
+    $objResponse->addAssign("{$fid}[name]","style.display", 'inline');
+    $objResponse->addAssign("{$fid}[was][unique]","style.display", 'none');
+    $objResponse->addAssign("{$fid}[unique]","style.display", 'inline');
+    $objResponse->addAssign("{$fid}[was][primary]","style.display", 'none');
+    $objResponse->addAssign("{$fid}[primary]","style.display", 'inline');
+    $n = $form['idx'][$id]['fields'];
+    foreach($form['idx'][$id]['fields'] AS $k=>$v)
+    {
+        $fidx = "idx[{$id}][fields][{$k}]";
+        $objResponse->addAssign("span_{$fidx}","style.display", 'none');
+        $objResponse->addAssign("edit_{$fidx}","style.display", 'inline');
+        if ($n > 1)
+        {
+            $objResponse->addAssign("{$fidx}[order]","style.display", 'inline');
+        }
+        $objResponse->addAssign("{$fidx}[sorting]","style.display", 'inline');
+    }
+    $objResponse->addAssign('btn_idx_save_'.$id,"style.display", 'inline');
+    $objResponse->addAssign('btn_idx_exit_'.$id,"style.display", 'inline');
+    $objResponse->addAssign('btn_idx_edit_'.$id,"style.display", 'none');
+	return $objResponse;
+}
+
+function exitIndexProperty($form)
+{
+	$objResponse = new xajaxResponse();
+	$id = $form['index_no'];
+	$fid = 'idx['.$id.']';
+	$objResponse->addAssign("{$fid}[was]","style.display", 'inline');
+    $objResponse->addAssign("{$fid}[name]","style.display", 'none');
+    $objResponse->addAssign("{$fid}[was][unique]","style.display", 'inline');
+    $objResponse->addAssign("{$fid}[unique]","style.display", 'none');
+    $objResponse->addAssign("{$fid}[was][primary]","style.display", 'inline');
+    $objResponse->addAssign("{$fid}[primary]","style.display", 'none');
+    $n = $form['idx'][$id]['fields'];
+    foreach($form['idx'][$id]['fields'] AS $k=>$v)
+    {
+        $fidx = "idx[{$id}][fields][{$k}]";
+        $objResponse->addAssign("span_{$fidx}","style.display", 'inline');
+        $objResponse->addAssign("edit_{$fidx}","style.display", 'none');
+        if ($n > 1)
+        {
+            $objResponse->addAssign("{$fidx}[order]","style.display", 'none');
+        }
+        $objResponse->addAssign("{$fidx}[sorting]","style.display", 'none');
+    }
+    $objResponse->addAssign('btn_idx_save_'.$id,"style.display", 'none');
+    $objResponse->addAssign('btn_idx_exit_'.$id,"style.display", 'none');
+    $objResponse->addAssign('btn_idx_edit_'.$id,"style.display", 'inline');
+	return $objResponse;
+}
+
 require_once MAX_DEV.'/lib/xajax/xajax.inc.php';
 
 $xajax = new xajax();
@@ -82,10 +140,10 @@ $xajax->registerFunction('expandTable');
 $xajax->registerFunction('collapseTable');
 $xajax->registerFunction("editFieldProperty");
 $xajax->registerFunction("exitFieldProperty");
-$xajax->registerFunction("saveFieldProperty");
 $xajax->registerFunction("editTableProperty");
 $xajax->registerFunction("exitTableProperty");
-$xajax->registerFunction("saveTableProperty");
+$xajax->registerFunction("editIndexProperty");
+$xajax->registerFunction("exitIndexProperty");
 //$xajax->registerFunction("selectDataDictionary");
 // Process any requests.  Because our requestURI is the same as our html page,
 // this must be called before any headers or HTML output have been sent

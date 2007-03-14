@@ -81,6 +81,14 @@ else if (array_key_exists('btn_index_add', $_POST))
     $primary = $_POST['idx_primary'];
     $oaSchema->indexAdd($table, $index_name, $index_fields, $primary, $unique);
 }
+else if (array_key_exists('btn_index_save', $_POST))
+{
+    $table = $_POST['table_edit'];
+    $index_name = $_POST['index_name'];
+    $index_no = $_POST['index_no'];
+    $index_def = $_POST['idx'][$index_no];
+    $oaSchema->indexSave($table, $index_name, $index_def);
+}
 else if (array_key_exists('btn_link_del', $_POST))
 {
     $table = $_POST['table_edit'];

@@ -19,28 +19,68 @@
                     <tr>
                     <form name="<?php echo $form_name; ?>" id="<?php echo $form_name; ?>" action="index.php" method="POST">
                     <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
+                    <input type="hidden" name="index_no" value="<?php echo $i; ?>"/>
                     <input type="hidden" name="index_name" value="<?php echo $name; ?>" />
-                        <td class="tablebody"><button name="btn_index_del" type="submit">delete</button></td>
-                        <td class="tablebody"><?php echo $name; ?></td>
-                        <td class="tablebody"><?php echo ($idx_def['primary']?$idx_def['primary']:'&nbsp;'); ?></td>
-                        <td class="tablebody"><?php echo ($idx_def['unique']?$idx_def['unique']:'&nbsp;'); ?></td>
+                        <td class="tablebody" style="width:15%;">
+
+                            <button name="btn_index_del"  type="submit">delete</button>
+
+                            <button id="btn_idx_edit_<?php echo $i; ?>" name="btn_idx_edit" type="submit" style="display:inline" onclick="xajax_editIndexProperty(xajax.getFormValues('<?php echo $form_name; ?>')); return false">edit</button>
+
+                            <button id="btn_idx_exit_<?php echo $i; ?>" name="btn_idx_exit" type="submit" style="display:none" onclick="xajax_exitIndexProperty(xajax.getFormValues('<?php echo $form_name; ?>')); return false">exit</button>
+
+                            <button id="btn_idx_save_<?php echo $i; ?>" name="btn_index_save" type="submit" style="display:none">save</button>
+                        </td>
+
+                        <td class="tablebody">
+                            <span id="idx[<?php echo $i; ?>][was]" name="idx[<?php echo $i; ?>][was]" style="display:inline;"><?php echo $name; ?></span>
+                            <input type="hidden" id="idx[<?php echo $i; ?>][was]" name="idx[<?php echo $i; ?>][was]" value="<?php echo $name; ?>"/>
+                            <input type="text" id="idx[<?php echo $i; ?>][name]" name="idx[<?php echo $i; ?>][name]" value="<?php echo $name; ?>" style="display:none;" />
+                        </td>
+
+                        <td class="tablebody">
+                            <span id="idx[<?php echo $i; ?>][was][primary]" name="idx[<?php echo $i; ?>][was][primary]" style="display:inline;"><?php echo ($idx_def['primary']?$idx_def['primary']:'&nbsp;'); ?></span>
+                            <input type="checkbox" id="idx[<?php echo $i; ?>][primary]" name="idx[<?php echo $i; ?>][primary]" value="true" <?php echo ($idx_def['primary']? 'checked': ''); ?> style="display:none;" />
+                        </td>
+
+                        <td class="tablebody">
+                            <span id="idx[<?php echo $i; ?>][was][unique]" name="idx[<?php echo $i; ?>][was][unique]" style="display:inline;"><?php echo ($idx_def['unique']?$idx_def['unique']:'&nbsp;'); ?></span>
+                            <input type="checkbox" id="idx[<?php echo $i; ?>][unique]" name="idx[<?php echo $i; ?>][unique]" value="true" <?php echo ($idx_def['unique']? 'checked': ''); ?> style="display:none;" />
+                        </td>
+
                         <td class="tablebody" style="padding:5px;">
 
-            			 <ul id="idx_fields" class="idx_list">
-                        <?php
-                        $x = 0;
-                        foreach ($idx_def['fields'] AS $field => $fld_def )
-                        {
-                            $x++;
-                            echo '<li>';
-                            echo $field.'&nbsp;'.($fld_def['sorting']?'('.$fld_def['sorting'].')':'&nbsp;');
-                            echo '<input type="hidden" name="idx_field[][no]" value="'.$x.'" />';
-                            echo '<input type="hidden" name="idx_field[][name]" value="'.$field.'" />';
-                            echo '<input type="hidden" name="idx_field[][sort]" value="'.$fld_def['sorting'].'" />';
-                            echo '</li>';
-                        }
-                        ?>
-            			 </ul>
+                			<table class="tablemain">
+                            <?php
+                            $x = 0;
+                            foreach ($idx_def['fields'] AS $field => $fld_def )
+                            {
+                                $x++;
+                                $id = 'idx['.$i.'][fields]['.$field.']';
+                            ?>
+                                <tr>
+                                    <td class="tablebody">
+                                        <span id="edit_<?php echo $id; ?>" style="display:none">
+
+                                            <input type="text" id="<?php echo $id; ?>[order]" name="<?php echo $id; ?>[order]" value="<?php echo $x; ?>" style="display:none;" size="1" />
+
+                                            <?php echo $field.' '.$fld_def['sorting'] ; ?>
+
+                                            <input type="text" id="<?php echo $id; ?>[name]" name="[<?php echo $id; ?>][name]" value="<?php echo $field; ?>" style="display:none;"/>
+
+                                            <input type="checkbox" id="<?php echo $id; ?>[sorting]" name="<?php echo $id; ?>[sorting]" value="ascending" <?php echo $fld_def['sorting']; ?>" style="display:none;" <?php echo ($fld_def['sorting']=='ascending'? 'checked': ''); ?>/>
+
+                                        </span>
+                                        <span id="span_<?php echo $id; ?>" style="display:inline">
+                                            <?php echo $field.' ('.$fld_def['sorting'].')' ; ?>
+                                        </span>
+                                    </td>
+                                </tr>
+
+                            <?php
+                            }
+                            ?>
+                            </table>
                         </td>
                     </tr>
                     </form>
