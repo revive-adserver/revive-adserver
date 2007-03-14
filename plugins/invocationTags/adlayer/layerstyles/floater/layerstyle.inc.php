@@ -94,17 +94,27 @@ function MAX_findObj(n, d) {
   if(!x && document.getElementById) x=document.getElementById(n); return x;
 }
 
-
+function MAX_getClientSize() {
+	if (window.innerHeight >= 0) {
+		return [window.innerWidth, window.innerHeight];
+	} else if (document.documentElement && document.documentElement.clientWidth > 0) {
+		return [document.documentElement.clientWidth,document.documentElement.clientHeight]
+	} else if (document.body.clientHeight > 0) {
+		return [document.body.clientWidth,document.body.clientHeight]
+	} else {
+		return [0, 0]
+	}
+}
 
 function MAX_floater_setclip_<?php echo $uniqid; ?>(o, top, right, bottom, left) 
 {
 	if (o.style)
 	{
-		o.style.clip = "rect(" + top + " " + right + " " + bottom + " " + left + ")";
+		o.style.clip = "rect(" + top + "px " + right + "px " + bottom + "px " + left + "px)";
 	}
 	else 
 	{
-		o.clip.top = top; o.clip.right = right; o.clip.bottom = bottom; o.clip.left = left;
+		o.clip.top = top+'px'; o.clip.right = right+'px'; o.clip.bottom = bottom+'px'; o.clip.left = left+'px';
 	}
 }
 
@@ -116,7 +126,7 @@ function MAX_floater_setpos_<?php echo $uniqid; ?>(c, left, width)
 	}
 	else
 	{
-		c.left = left; c.width = width;
+		c.left = left+'px'; c.width = width+'px';
 	}
 }
 
@@ -132,10 +142,9 @@ function MAX_floater_grow_<?php echo $uniqid; ?>()
 	else
 		c = o;
 
-	if (window.innerWidth)
-		ww = window.innerWidth - 16;
-	else
-		ww = document.body.clientWidth;
+	ww = MAX_getClientSize()[0]
+	
+	if(!document.all&&!window.opera) ww-=16
 
 	var w = <?php echo $output['width']; ?>;
 	var h = <?php echo $output['height']; ?>;

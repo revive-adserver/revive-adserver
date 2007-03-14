@@ -69,7 +69,7 @@ $words = array(
 --     below and store it in a file called 'mmm.js', the code below should
 --     call the script:
 --
--- <script language='JavaScript' type='text/javascript' src='mmm.js'></script>
+-- <script type='text/javascript' src='mmm.js'></script>
 -->",
 
     'Publisher JS Ad Tag Script(s) Comment' => "

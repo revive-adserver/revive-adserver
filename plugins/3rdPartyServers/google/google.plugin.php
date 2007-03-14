@@ -68,11 +68,11 @@ class Plugins_3rdPartyServers_google_google extends Plugins_3rdPartyServers
         if (preg_match('/<script.*?src=".*?googlesyndication\.com/is', $buffer))
         {
             $buffer = "<span>".
-                      "<script language='JavaScript' type='text/javascript'><!--\n".
+                      "<script type='text/javascript'><!--// <![CDATA[\n".
                       "/* {$conf['var']['openads']}={url_prefix} {$conf['var']['adId']}={bannerid} {$conf['var']['zoneId']}={zoneid} {$conf['var']['channel']}={source} */\n".
-                      "//--></script>".
+                      "// ]]> --></script>".
                       $buffer.
-                      "<script language='JavaScript' type='text/javascript' src='{url_prefix}/".$conf['file']['google']."'></script>".
+                      "<script type='text/javascript' src='{url_prefix}/".$conf['file']['google']."'></script>".
                       "</span>";
         }
 

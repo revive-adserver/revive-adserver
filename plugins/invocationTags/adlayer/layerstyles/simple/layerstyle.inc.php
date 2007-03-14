@@ -86,6 +86,18 @@ function MAX_findObj(n, d) {
   if(!x && document.getElementById) x=document.getElementById(n); return x;
 }
 
+function MAX_getClientSize() {
+	if (window.innerHeight >= 0) {
+		return [window.innerWidth, window.innerHeight];
+	} else if (document.documentElement && document.documentElement.clientWidth > 0) {
+		return [document.documentElement.clientWidth,document.documentElement.clientHeight]
+	} else if (document.body.clientHeight > 0) {
+		return [document.body.clientWidth,document.body.clientHeight]
+	} else {
+		return [0, 0]
+	}
+}
+
 function MAX_adlayers_place_<?php echo $uniqid; ?>()
 {
 	var c = MAX_findObj('MAX_<?php echo $uniqid; ?>');
@@ -93,68 +105,50 @@ function MAX_adlayers_place_<?php echo $uniqid; ?>()
 	if (!c)
 		return false;
 	
-	if (c.style)
-		c = c.style;
+	_s='style'
 	
-	if (window.innerHeight)
-		ih = window.innerHeight;
+	var clientSize = MAX_getClientSize()
+	ih = clientSize[1]
+	iw = clientSize[0]
+	
+	if(document.all && !window.opera)
+	{
+		sl = document.body.scrollLeft || document.documentElement.scrollLeft;
+		st = document.body.scrollTop || document.documentElement.scrollTop;
+		of = 0;		
+	}
 	else
-		ih = document.body.clientHeight;
-	
-	if (window.innerWidth)
-		iw = window.innerWidth;
-	else
-		iw = document.body.clientWidth;
-	
-	
-	if (document.all) { 
+	{
+		sl = window.pageXOffset;
+		st = window.pageYOffset;
 		
+		if (window.opera)
+			of = 0;
+		else
+			of = 16;
+	}
+	
 <?php
-	echo "\t\tc.pixelLeft = ";
+	echo "\t\t c[_s].left = parseInt(sl+";
 	
-	if ($align == 'left')
-		echo abs($shifth).' + document.body.scrollLeft';
-	elseif ($align == 'center')
-		echo '(iw - '.$layer_width.') / 2 + document.body.scrollLeft + '.$shifth;
-	else
-		echo 'iw + document.body.scrollLeft - '.($layer_width+abs($shifth));
-	
-	echo ";\n\t\tc.pixelTop = ";
-	
-	if ($valign == 'middle')
-		echo '(ih - '.$layer_height.') / 2 + document.body.scrollTop + '.$shiftv;
-	elseif ($valign == 'bottom')
-		echo 'ih + document.body.scrollTop - '.($layer_height+abs($shiftv));
-	else
-		echo abs($shiftv).' + document.body.scrollTop';
-	
-	echo ";\n";
-?>	
-	} else {
-<?php
-	echo "\t\tc.left = ";
-	
-	if ($align == 'left')
-		echo abs($shifth).' + window.pageXOffset';
-	elseif ($align == 'center')
-		echo '(iw - '.$layer_width.') / 2 + window.pageXOffset + '.$shifth;
-	else
-		echo 'iw + window.pageXOffset - '.($layer_width+abs($shifth)).' - 16';
-	
-	echo ";\n\t\tc.top = ";
-	
-	if ($valign == 'middle')
-		echo '(ih - '.$layer_height.') / 2 + window.pageYOffset + '.$shiftv;
-	elseif ($valign == 'bottom')
-		echo 'ih + window.pageYOffset -'.($layer_height+abs($shiftv)).' - 16';
-	else
-		echo abs($shiftv).' + window.pageYOffset';
-	
-	echo ";\n";
-?>	
+	switch($align){
+	    case 'left': 		echo abs($shifth); break;
+	    case 'center':		echo '(iw - '.$layer_width.') / 2 '+$shifth; break;
+	    default: 			echo 'iw - '.($layer_width+abs($shifth)); break;
 	}
 
-	c.visibility = MAX_adlayers_visible_<?php echo $uniqid; ?>;
+	echo ") + (window.opera?'':'px');" .
+		"\n\t\t c[_s].top = parseInt(st+";
+	
+	switch($valign){
+	    case 'middle': 		echo '(ih - '.$layer_height.') / 2'.$shiftv; break;
+	    case 'bottom':		echo 'ih - '.($layer_height+abs($shiftv)); break;
+	    default: 			echo abs($shiftv); break;
+	}
+	echo ") + (window.opera?'':'px');\n";
+?>	
+
+	c[_s].visibility = MAX_adlayers_visible_<?php echo $uniqid; ?>;
 }
 
 

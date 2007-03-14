@@ -158,7 +158,7 @@ class Plugins_InvocationTags_popup_popup extends Plugins_InvocationTags
                 $mi->parameters['delay'] = "delay=exit";
             }
         }
-        $buffer .= "<script language='JavaScript' type='text/javascript' src='".MAX_commonConstructDeliveryUrl($conf['file']['popup']);
+        $buffer .= "<script type='text/javascript' src='".MAX_commonConstructDeliveryUrl($conf['file']['popup']);
         $buffer .= "?n=".$mi->uniqueid;
         if (sizeof($mi->parameters) > 0) {
             $buffer .= "&".implode ("&", $mi->parameters);

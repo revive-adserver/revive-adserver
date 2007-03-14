@@ -97,8 +97,8 @@ if (isset($refresh) && is_numeric($refresh) && $refresh > 0) {
 }
 
 if (isset($resize) && $resize == 1) {
-	echo "<script language='JavaScript'>\n";
-	echo "<!--\n";
+	echo "<script type='text/javascript'>\n";
+	echo "<!--// <![CDATA[ \n";
 	echo "\tfunction MAX_adjustframe(frame) {\n";
 	echo "\t\tif (document.all) {\n";
     echo "\t\t\tparent.document.all[frame.name].width = ".$banner['width'].";\n";
@@ -109,7 +109,7 @@ if (isset($resize) && $resize == 1) {
     echo "\t\t\tparent.document.getElementById(frame.name).height = ".$banner['height'].";\n";
   	echo "\t\t}\n";
 	echo "\t}\n";
-	echo "// -->\n";
+	echo "// ]]> -->\n";
 	echo "</script>\n";
 }
 

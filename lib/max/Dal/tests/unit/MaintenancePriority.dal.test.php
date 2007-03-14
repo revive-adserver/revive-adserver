@@ -216,6 +216,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertTrue(array_key_exists('views', $campaign));
         $this->assertTrue(array_key_exists('clicks', $campaign));
         $this->assertTrue(array_key_exists('conversions', $campaign));
+        $this->assertTrue(array_key_exists('activate', $campaign));
         $this->assertTrue(array_key_exists('expire', $campaign));
         $this->assertTrue(array_key_exists('target_impression', $campaign));
         $this->assertTrue(array_key_exists('target_click', $campaign));

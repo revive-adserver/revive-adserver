@@ -217,10 +217,10 @@ class Plugins_InvocationTags_clickonly_clickonly extends Plugins_InvocationTags
     {
         $option = '';
 
-        $option .= "<script language='JavaScript'>\n";
-        $option .= "<!--\n";
+        $option .= "<script type='text/javascript'>\n";
+        $option .= "<!--// <![CDATA[ \n";
         $option .= "\tmax_formSetRequirements('bannerid', '".addslashes($GLOBALS['strInvocationBannerID'])."', true)\n";
-        $option .= "-->\n";
+        $option .= "// ]]> -->\n";
         $option .= "</script>\n";
 
         return $option;

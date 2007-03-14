@@ -311,7 +311,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
         foreach ($aPlacements as $oPlacement) {
             // Get date object to represent placement expiration date
             if (
-                  ($oPlacement->impressionTargetDaily > 0)
+                   ($oPlacement->impressionTargetDaily > 0)
                    ||
                    ($oPlacement->clickTargetDaily > 0)
                    ||

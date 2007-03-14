@@ -125,27 +125,31 @@ function MAX_storePos_<?php echo $uniqid; ?>(e) {
 
 function MAX_setVisibility_<?php echo $uniqid; ?>(transparancy)
 {
-	if (MAX_ie4 && document.all.MAX_<?php echo $uniqid; ?>.filters)
+	if (transparancy >= <?php echo $transparancy; ?>)
 	{
-		if (transparancy >= <?php echo $transparancy; ?>)
+		if (MAX_ie4 && !window.opera)
 		{
-			document.all.MAX_<?php echo $uniqid; ?>.filters.item("DXImageTransform.Microsoft.Alpha").opacity = transparancy;
+			document.all['MAX_<?php echo $uniqid; ?>'].style.filter = "DXImageTransform.Microsoft.Alpha(opacity="+transparancy+")";
+		} 
+		else if( document.getElementById ) 
+		{
+		    document.getElementById( 'MAX_<?php echo $uniqid; ?>' ).style.opacity=transparancy/100;
 		}
-		else
-			transparancy = <?php echo $transparancy; ?>;
+		else transparancy = <?php echo $transparancy; ?>;
+		
 	}
 	
 	if (transparancy > 0)
 	{	
 		if (MAX_ie4)        	{ document.all.MAX_<?php echo $uniqid; ?>.style.visibility = 'visible'; }
 		else if (MAX_ns4)   	{ document.layers['MAX_<?php echo $uniqid; ?>'].visibility = 'show'; }
-		else if (MAX_ns6) 	{ var elm = document.getElementById('MAX_<?php echo $uniqid; ?>'); elm.style.visibility='visible'; }
+		else if (MAX_ns6) 	{ document.getElementById('MAX_<?php echo $uniqid; ?>').style.visibility='visible'; }
 	}
 	else
 	{
 		if (MAX_ie4)        	{ document.all.MAX_<?php echo $uniqid; ?>.style.visibility = 'hidden'; }
 		else if (MAX_ns4)   	{ document.layers['MAX_<?php echo $uniqid; ?>'].visibility = 'hide'; }
-		else if (MAX_ns6) 	{ var elm = document.getElementById('MAX_<?php echo $uniqid; ?>'); elm.style.visibility='hidden'; };
+		else if (MAX_ns6) 	{ document.getElementById('MAX_<?php echo $uniqid; ?>').style.visibility='hidden'; };
 	}
 
 	MAX_<?php echo $uniqid; ?>_transparancy = transparancy;
@@ -166,8 +170,8 @@ function MAX_setPos_<?php echo $uniqid; ?>(x, y)
   	else if (MAX_ns6)
 	{
   		var elm = document.getElementById('MAX_<?php echo $uniqid; ?>');
-  		elm.style.left = x;
-  		elm.style.top = y;
+  		elm.style.left = x+'px';
+  		elm.style.top = y+'px';
   	}
 }
 
