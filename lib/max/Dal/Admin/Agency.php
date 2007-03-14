@@ -8,6 +8,11 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
 class MAX_Dal_Admin_Agency extends MAX_Dal_Common
 {
     var $table = 'agency';
+    
+    var $orderListName = array(
+        'name' => 'name',
+        'id'   => 'agencyid',
+    );
 
 
     /**

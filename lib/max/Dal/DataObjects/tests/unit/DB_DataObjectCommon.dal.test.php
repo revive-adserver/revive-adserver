@@ -213,4 +213,113 @@ class DB_DataObjectCommonTest extends UnitTestCase
         $this->assertFalse($doBanners->belongToUser('agency', 222));    
     }
     
+    function testAddReferenceFilter()
+    {
+        // Create test data
+        $agencyId1 = DataGenerator::generateOne('agency');
+        $agencyId2 = DataGenerator::generateOne('agency');
+        
+        $doClients = MAX_DB::factoryDO('clients');
+        $doClients->agencyid = $agencyId1;
+        $clientId1 = DataGenerator::generateOne($doClients);
+        
+        $doClients = MAX_DB::factoryDO('clients');
+        $doClients->agencyid = $agencyId2;
+        $clientId2 = DataGenerator::generateOne($doClients);
+        
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->clientid = $clientId1;
+        $campaignId = DataGenerator::generate($doCampaigns, 2);
+        
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->clientid = $clientId2;
+        $campaignId = DataGenerator::generate($doCampaigns, 3);
+        
+        // Test all
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $this->assertEqual($doCampaigns->find(), 5);
+        
+        // Test filter by $agencyId1
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->addReferenceFilter('agency', $agencyId1);
+        $this->assertEqual($doCampaigns->find(), 2);
+        
+        // Test filter by agency and client (should be the same as agency alone)
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->addReferenceFilter('agency', $agencyId1);
+        $doCampaigns->addReferenceFilter('clients', $clientId1);
+        $this->assertEqual($doCampaigns->find(), 2);
+        
+        // Test by clientId2
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->addReferenceFilter('clients', $clientId2);
+        $this->assertEqual($doCampaigns->find(), 3);
+        
+        // Test that filtering by agencyId1 and clientId2 should give 0
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->addReferenceFilter('agency', $agencyId1);
+        $doCampaigns->addReferenceFilter('clients', $clientId2);
+        $this->assertEqual($doCampaigns->find(), 0);
+    }
+    
+    function testAddListOrderBy()
+    {
+        // very quick test
+        $data = array(
+            'name' => array('name 1', 'name 2')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('agency', $data);
+        $dg->generate('agency', 2);
+        
+        // Test that its found data and sorted in ASCendently
+        $doAgency = MAX_DB::factoryDO('agency');
+        $doAgency->addListOrderBy('name', 'down');
+        $aAgency = $doAgency->getAll('name');
+        rsort($data['name']);
+        $this->assertEqual($aAgency, $data['name']);
+        
+        // Test that its found data and sorted in DESCendently
+        $doAgency = MAX_DB::factoryDO('agency');
+        $doAgency->addListOrderBy('name', 'up');
+        $aAgency = $doAgency->getAll('name');
+        sort($data['name']);
+        $this->assertEqual($aAgency, $data['name']);
+    }
+    
+    function testGetTableWithoutPrefix()
+    {
+        $table = 'agency';
+        $doAgency = MAX_DB::factoryDO($table);
+        $this->assertEqual($doAgency->getTableWithoutPrefix(), $table);
+        
+        $prefix = 'abc';
+        $doAgency->_prefix = $prefix;
+        $doAgency->__table = $prefix.$table;
+        $this->assertEqual($doAgency->getTableWithoutPrefix(), $table);
+    }
+    
+    function testGetUniqueValuesFromColumn()
+    {
+        $data = array(
+            'name' => array(1, 1, 2, 2, 3) // 3 unique
+        );
+        $dg = new DataGenerator();
+        $dg->setData('agency', $data);
+        $dg->generate('agency', 5);
+        
+        // Test that it takes 3 unique variables
+        $doAgency = MAX_DB::factoryDO('agency');
+        $aUnique = $doAgency->getUniqueValuesFromColumn('name');
+        $this->assertEqual($aUnique, array(1,2,3));
+        
+        $doAgency = MAX_DB::factoryDO('agency');
+        $aUnique = $doAgency->getUniqueValuesFromColumn('name', $exceptValue = 2);
+        $this->assertEqual(array_values($aUnique), array(1,3));
+    }
+    
+    function testGetUniqueNameForDuplication()
+    {
+        
+    }
 }
