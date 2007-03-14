@@ -50,6 +50,13 @@ class MAX_Entity_Placement extends MAX_Entity
     var $id;
 
     /**
+     * The placement's activation date, in YYYY-MM-DD format
+     *
+     * @var string
+     */
+    var $activate;
+
+    /**
      * The placement's expiration date, in YYYY-MM-DD format
      *
      * @var string
@@ -191,6 +198,8 @@ class MAX_Entity_Placement extends MAX_Entity
      * @param array $aParams An associative array of values to be assigned to
      *                       the object. Valid array keys are:
      *      'campaignid' or 'placement_id'                   -> The placement ID. Required!
+     *      'activate'                                       -> The activation date of the placement in
+     *                                                          'YYYY-MM-DD' string format
      *      'expire'                                         -> The expiration date of the placement in
      *                                                          'YYYY-MM-DD' string format
      *      'views' or 'impression_target_total'             -> The placement lifetime impression target
@@ -226,6 +235,7 @@ class MAX_Entity_Placement extends MAX_Entity
         // Store the required supplied values
         $this->id                         = (int)$aParams['placement_id'];
         // Store the optional required values
+        $this->activate                   = isset($aParams['activate']) ? $aParams['activate'] : '0000-00-00';
         $this->expire                     = isset($aParams['expire']) ? $aParams['expire'] : '0000-00-00';
         $this->impressionTargetTotal      = isset($aParams['impression_target_total']) ? (int)$aParams['impression_target_total'] : 0;
         $this->clickTargetTotal           = isset($aParams['click_target_total']) ? (int)$aParams['click_target_total'] : 0;

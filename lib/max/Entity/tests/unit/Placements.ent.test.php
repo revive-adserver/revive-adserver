@@ -112,6 +112,7 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
         // Test 2
         $aParams = array(
             'campaignid'        => 1,
+            'activate'          => '2005-01-01',
             'expire'            => '2005-01-31',
             'views'             => 1000000,
             'clicks'            => 100000,
@@ -123,6 +124,7 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
         );
         $oMaxEntityPlacement = new MAX_Entity_Placement($aParams);
         $this->assertEqual($oMaxEntityPlacement->id, 1);
+        $this->assertEqual($oMaxEntityPlacement->activate, '2005-01-01');
         $this->assertEqual($oMaxEntityPlacement->expire, '2005-01-31');
         $this->assertEqual($oMaxEntityPlacement->impressionTargetTotal, 1000000);
         $this->assertEqual($oMaxEntityPlacement->clickTargetTotal, 100000);
@@ -135,6 +137,7 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
         // Test 3
         $aParams = array(
             'campaignid'              => 1,
+            'activate'                => '2005-01-01',
             'expire'                  => '2005-01-31',
             'impression_target_total' => 1000000,
             'click_target_total'      => 100000,
@@ -146,6 +149,7 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
         );
         $oMaxEntityPlacement = new MAX_Entity_Placement($aParams);
         $this->assertEqual($oMaxEntityPlacement->id, 1);
+        $this->assertEqual($oMaxEntityPlacement->activate, '2005-01-01');
         $this->assertEqual($oMaxEntityPlacement->expire, '2005-01-31');
         $this->assertEqual($oMaxEntityPlacement->impressionTargetTotal, 1000000);
         $this->assertEqual($oMaxEntityPlacement->clickTargetTotal, 100000);
