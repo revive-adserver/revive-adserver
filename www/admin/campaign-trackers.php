@@ -102,9 +102,9 @@ if (!empty($campaignid)) {
                 
                 $fieldsSize = count($fields);
                 $doCampaigns_trackers = MAX_DB::factoryDO('campaigns_trackers');
-                for ($i = 0; $i < $fieldsSize; $i++) {
-                    $field = $fields[$i];
-                    $doCampaigns_trackers->$field = $values[$i];
+                for ($k = 0; $k < $fieldsSize; $k++) {
+                    $field = $fields[$k];
+                    $doCampaigns_trackers->$field = $values[$k];
                 }
                 $doCampaigns_trackers->insert();
                 
@@ -210,10 +210,10 @@ echo "\t\t\t\t</tr>\n";
 $i = 0;
 $checkedall = true;
 
-if ( isset($campaignid) && ($campaignid > 0) ) {
+if (!empty($campaignid)) {
     $doCampaign_trackers = MAX_DB::factoryDO('campaigns_trackers');
     $doCampaign_trackers->campaignid = $campaignid;
-    $campaign_tracker_row = $doCampaign_trackers->getAll();
+    $campaign_tracker_row = $doCampaign_trackers->getAll(array(), $indexBy = 'trackerid');
     
 }
 
