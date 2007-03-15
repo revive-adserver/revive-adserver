@@ -202,6 +202,22 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
     
     function testGetAdViewsLeft()
     {
-        //TODO: Write this test
+        // Insert a campaign
+        $numViews = 100;
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->views = $numViews;
+        $campaignId = DataGenerator::generateOne($doCampaigns);
+        
+        $this->assertEqual($this->dalCampaigns->getAdViewsLeft($campaignId), $numViews);
+        
+        // Set the views to unlimited
+        $numViews = -1;
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->views = $numViews;
+        $campaignId = DataGenerator::generateOne($doCampaigns);
+        
+        global $strUnlimited;
+        $expected = $strUnlimited;
+        $this->assertEqual($this->dalCampaigns->getAdViewsLeft($campaignId), $expected);
     }
 }
