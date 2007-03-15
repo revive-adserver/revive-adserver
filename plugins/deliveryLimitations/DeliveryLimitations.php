@@ -124,6 +124,7 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
      */
     function display()
     {
+        global $tabindex;
         if ($this->executionorder > 0) {
             echo "<tr><td colspan='4'><img src='images/break-el.gif' width='100%' height='1'></td></tr>";
         }
@@ -185,6 +186,7 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
      */
     function displayComparison()
     {
+        global $tabindex;
         echo "<select name='acl[{$this->executionorder}][comparison]' tabindex='".($tabindex++)."'>";
         foreach($this->aOperations as $sOperator => $sDescription) {
             echo "<option value='$sOperator' " . (($this->comparison == $sOperator) ? 'selected' : '') . ">$sDescription</option>";
@@ -199,7 +201,8 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
      */
     function displayData()
     {
-    	echo "<input type='text' size='40' name='acl[{$this->executionorder}][data]' value='".htmlentities(isset($this->data) ? $this->data : "", ENT_QUOTES)."' tabindex='".($tabindex++)."'>";
+    	global $tabindex;
+        echo "<input type='text' size='40' name='acl[{$this->executionorder}][data]' value='".htmlentities(isset($this->data) ? $this->data : "", ENT_QUOTES)."' tabindex='".($tabindex++)."'>";
     }
 
     /**

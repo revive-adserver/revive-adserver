@@ -68,7 +68,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
 
         $invocationTypes = &MAX_Plugin::getPlugins('invocationTags');
         foreach($invocationTypes as $pluginKey => $invocationType) {
-            if ($invocationType->publisherPlugin == true) {
+            if (!empty($invocationType->publisherPlugin)) {
                 $available[$pluginKey] = $invocationType->publisherPlugin;
                 $names[$pluginKey] = $invocationType->getName();
             }

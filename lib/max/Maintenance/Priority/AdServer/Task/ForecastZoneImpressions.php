@@ -378,7 +378,9 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                             break;
                         }
                         // Sum actual impressions for trend interval
-                        $actualImpressions += $aImpressionsResults[$oZone->id][$offetStartOperationId]['actual_impressions'];
+                        if (!empty($aImpressionsResults[$oZone->id][$offetStartOperationId]['actual_impressions'])) {
+                            $actualImpressions += $aImpressionsResults[$oZone->id][$offetStartOperationId]['actual_impressions'];
+                        }
                         // Sum forecast - if no forecast data set impressions to be ignored
                         if ($aImpressionsResults[$oZone->id][$offetStartOperationId]['forecast_impressions'] < 1) {
                             $forecastImpressions = false;

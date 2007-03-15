@@ -383,7 +383,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
      */
     function _getPriorityAdjustment($oAdvert, $zoneImpressions, $zoneId)
     {
-        if (!is_null($oAdvert->deliveryLimitationChanged) && $oAdvert->deliveryLimitationChanged == true) {
+        if (!empty($oAdvert->deliveryLimitationChanged) && $oAdvert->deliveryLimitationChanged == true) {
             // This ad has had it delivery limitations changed, so ignore history
             $message  = sprintf('    Ad ID %5d in zone ID %5d ', $oAdvert->id, $zoneId);
             $message .= 'has had its delivery limitations changed - Using priority factor of 1';

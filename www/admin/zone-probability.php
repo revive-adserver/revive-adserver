@@ -113,7 +113,9 @@ function phpAds_showZoneBanners ($zoneId)
             echo "<td height='25' align='".$phpAds_TextAlignRight."'>&nbsp;</td>";
             echo "</tr>";
             echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+            $i = -1;
             foreach($aZoneLinkedAds['xAds'] as $adId => $aLinkedAd) {
+                $i++;
                 $name = phpAds_getBannerName ($adId, 60, false);
                 echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
                 echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
@@ -192,7 +194,9 @@ function phpAds_showZoneBanners ($zoneId)
             echo "<td height='25' align='".$phpAds_TextAlignRight."'>&nbsp;</td>";
             echo "</tr>";
             echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+            $i = -1;
             foreach($aZoneLinkedAds['ads'] as $adId => $aLinkedAd) {
+                $i++;
                 $name = phpAds_getBannerName ($adId, 60, false);
                 echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
                 echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";

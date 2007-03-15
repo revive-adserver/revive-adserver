@@ -135,9 +135,9 @@ class MAX_Entity_Ad extends MAX_Entity
         }
         // Store the required supplied values
         $this->id     = $aParams['ad_id'];
-        $this->active = $aParams['active'];
-        $this->type   = $aParams['type'];
-        $this->weight = $aParams['weight'];
+        $this->active = isset($aParams['active']) ? $aParams['active'] : null;
+        $this->type   = isset($aParams['type']) ? $aParams['type'] : null;
+        $this->weight = isset($aParams['weight']) ? $aParams['weight'] : null;
         // Set the object's data access layer objects
         $this->oMaxDalMaintenancePriority = &$this->_getMAX_Dal_Maintenance_Priority();
     }

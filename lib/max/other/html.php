@@ -933,7 +933,7 @@ function MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities
 
     phpAds_PageShortcut($GLOBALS['strAffiliateHistory'], 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$publisherId, 'images/icon-statistics.gif');
 
-    phpAds_PageHeader($tabValue, $extra);
+    phpAds_PageHeader($tabValue, $extra = '');
     echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>$publisherName</b><br /><br /><br />";
     phpAds_ShowSections($tabSections);
 }
@@ -1019,7 +1019,7 @@ function MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublish
 <input type='hidden' name='channelid' value='$channelId'>
 <input type='hidden' name='returnurl' value='$pageName'>
 <br /><br />
-<b>{$GLOBALS['strModifychannel']}</b><br />
+<b>{$GLOBALS['strChannel']}</b><br />
 <img src='images/break.gif' height='1' width='160' vspace='4'><br />
 <img src='images/icon-duplicate-channel.gif' align='absmiddle'>&nbsp;<a href='channel-modify.php?duplicate=true&$entityString&returnurl=$pageName'>{$GLOBALS['strDuplicate']}</a><br />";
 
@@ -1156,7 +1156,8 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
     }
 
     $aOtherEntities = _multiSort($aOtherEntities, 'name', 'advertiser_id');
-    foreach ($aOtherEntities as $otherEntityId => $aOtherEntity) {
+    foreach ($aOtherEntities as $aOtherEntity) {
+        $otherEntityId = $aOtherEntity['advertiser_id'];
         $selected = $otherEntityId == $entityId ? ' selected' : '';
 
         if ($entity == 'placement') {
@@ -1305,7 +1306,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
                 // Remove from array any ads not linked to the zone.
                 // These might exist if campaign has been linked to zone
                 // and indivual ads have then been unlinked
-                $pParams = array(zone_id => $zoneId);
+                $pParams = array('zone_id' => $zoneId);
                 $aAdZones = Admin_DA::getAdZones($pParams, true);
                 $aAdZoneLinks = array();
                 foreach($aAdZones as $aAdZone) {
@@ -1355,7 +1356,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
     <tr height='25'$bgcolor>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='$adIcon' align='absmiddle'>&nbsp;$adLink</td>
         <td>$adId</td>
-        <td align='$phpAds_TextAlignRight'>
+        <td align=".$GLOBALS['phpAds_TextAlignRight'].">
             <a href='banner-htmlpreview.php?bannerid=$adId' target='_new' onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$adId', '', 'status=no,scrollbars=no,resizable=no,width=$adWidth,height=$adHeight');\"><img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;{$GLOBALS['strShowBanner']}</a>&nbsp;&nbsp;
         </td>
     </tr>";

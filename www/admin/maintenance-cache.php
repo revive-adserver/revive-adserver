@@ -115,14 +115,17 @@ function phpAds_showCache ()
 
 echo "<br />".$strDeliveryCacheExplaination;
 
-switch ($conf['delivery']['cache'])
-{
-	case 'shm': 		echo $strDeliveryCacheSharedMem; break;
-	case 'sysvshm': 	echo $strDeliveryCacheSharedMem; break;
-	case 'file': 		echo $strDeliveryCacheFiles; break;
-	default:    		echo $strDeliveryCacheDatabase; break;
+if (!empty($conf['delivery']['cache'])) {
+    switch ($conf['delivery']['cache'])
+    {
+    	case 'shm': 		echo $strDeliveryCacheSharedMem; break;
+    	case 'sysvshm': 	echo $strDeliveryCacheSharedMem; break;
+    	case 'file': 		echo $strDeliveryCacheFiles; break;
+    	default:    		echo $strDeliveryCacheDatabase; break;
+    }
+} else {
+    echo $strDeliveryCacheDatabase;
 }
-
 echo "<br /><br />";
 
 phpAds_ShowBreak();

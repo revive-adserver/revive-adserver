@@ -49,7 +49,6 @@ $GLOBALS['strUserlog'] = array (
 	phpAds_actionBatchStatistics			=> "Statistics compiled",
 	phpAds_actionDeactivationMailed			=> "Deactivation notification for campaign {id} send by e-mail",
 	phpAds_actionDeactiveCampaign			=> "Campaign {id} deactivated",
-	phpAds_actionInventoryCalculation		=> "Built an inventory delivery plan",
 	phpAds_actionPriorityCalculation		=> "Priority recalculated",
 	phpAds_actionPublisherReportMailed 		=> "Report for publisher {id} send by e-mail",
 	phpAds_actionWarningMailed				=> "Deactivation warning for campaign {id} send by e-mail"

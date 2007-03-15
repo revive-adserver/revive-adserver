@@ -689,13 +689,12 @@ function MAX_addLinkedAdsToZone($zoneId, $placementId)
     foreach ($aAds as $adId => $aAd) {
         if (!isset($aLinkedAds[$adId])) {
             $ret = Admin_DA::addAdZone(array('zone_id' => $zoneId, 'ad_id' => $adId));
+            if (PEAR::isError($ret)) {
+                return false;
+            }
         }
     }
-    if (PEAR::isError($ret)) {
-        return false;
-    } else {
-        return true;
-    }
+    return true;
 }
 
 // Get ad limitation parameters

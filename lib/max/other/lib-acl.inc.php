@@ -79,7 +79,7 @@ function MAX_AclAdjust($acl, $action)
             'comparison' => $defaultComparison,
             'data' => '',
             'executionorder' => $count,
-            'logical' => $acl[$count - 1]['logical'],
+            'logical' => isset($acl[$count - 1]) ? $acl[$count - 1]['logical']:'',
             'type' => $_REQUEST['type']
         );
     }

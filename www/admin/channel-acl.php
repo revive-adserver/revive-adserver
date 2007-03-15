@@ -55,7 +55,7 @@ if (phpAds_isUser(phpAds_Admin)) {
 }
 
 if (!empty($affiliateid)) {
-    $aEntities = array('affiliateid' => $affiliateid, 'channelid' => $channelid);
+    $aEntities = array('agencyid' => $agencyId, 'affiliateid' => $affiliateid, 'channelid' => $channelid);
     $aOtherChannels = Admin_DA::getChannels(array('publisher_id' => $affiliateid));
     $aOtherAgencies = array();
     $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));
@@ -81,6 +81,7 @@ if ($channelid && !MAX_checkChannel($agencyId, $channelid)) {
 /*-------------------------------------------------------*/
 
 if (!empty($action)) {
+    if (empty($acl)) $acl = array();
     $acl = MAX_AclAdjust($acl, $action);
 } elseif (!empty($submit)) {
     $acl = (isset($acl)) ? $acl : array();

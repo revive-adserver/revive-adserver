@@ -54,7 +54,7 @@ if (phpAds_isUser(phpAds_Admin)) {
 }
 
 if (!empty($affiliateid)) {
-    $aEntities = array('affiliateid' => $affiliateid, 'channelid' => $channelid);
+    $aEntities = array('agencyid' => $agencyid, 'affiliateid' => $affiliateid, 'channelid' => $channelid);
     $aOtherChannels = Admin_DA::getChannels(array('publisher_id' => $affiliateid));
     $aOtherAgencies = array();
     $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));

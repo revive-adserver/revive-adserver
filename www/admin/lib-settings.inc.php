@@ -206,7 +206,9 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0)
                         $value = '';
                         if (isset($item['name'])) {
                             // Split into config sections
-                            list($configLevel, $configItem) = explode('_', $item['name']);
+                            $confixExploded = explode('_', $item['name']);
+                            $configLevel = isset($confixExploded[0]) ? $confixExploded[0] : null;
+                            $configItem = isset($confixExploded[1]) ? $confixExploded[1] : null;
                             if (isset($GLOBALS[$item['name'].'_defVal'])) {
                                 // Load value from globals if set
                                 $value = $GLOBALS[$item['name'].'_defVal'];
@@ -513,7 +515,7 @@ function phpAds_ShowSettings_Select($item, $value, $showSubmitButton=0)
         echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."'>".$item['text']."</td>\n";
         echo "<td width='100%'>\n";
         echo "<select name='".$item['name']."'";
-        if($item['reload'] == 'yes') {
+        if(isset($item['reload']) && $item['reload'] == 'yes') {
             echo " onChange=\"this.form.field_changed.value=name;this.form.submit();phpAds_refreshEnabled();\"";
         } else {
             echo " onChange=\"phpAds_refreshEnabled();\"";
@@ -653,7 +655,10 @@ function showSettingsLocked($item)
     $conf = $GLOBALS['_MAX']['CONF'];
     if ($conf['max']['installed'] && isset($item['name'])) {
         // Split into config sections
-        list($configLevel, $configItem) = explode('_', $item['name']);
+        $confixExploded = explode('_', $item['name']);
+        $configLevel = isset($confixExploded[0]) ? $confixExploded[0] : null;
+        $configItem = isset($confixExploded[1]) ? $confixExploded[1] : null;
+        //list($configLevel, $configItem) = explode('_', $item['name']);
         if (isset($conf[$configLevel][$configItem]) && (!MAX_Admin_Config::isConfigWritable())) {
             return true;
         }
