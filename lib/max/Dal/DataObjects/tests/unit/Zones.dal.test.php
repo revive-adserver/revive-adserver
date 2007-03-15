@@ -45,7 +45,7 @@ class DataObjects_ZonesTest extends DalUnitTestCase
     
     function tearDown()
     {
-        DataGenerator::cleanUp();
+        DataGenerator::cleanUp(array('zones'));
     }
 
     function testDuplicate()
