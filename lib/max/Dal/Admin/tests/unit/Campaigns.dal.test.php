@@ -25,6 +25,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
+require_once MAX_PATH . '/lib/max/Dal/Admin/Campaigns.php';
 
 /**
  * A class for testing DAL Campaigns methods
@@ -180,7 +181,23 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
     
     function testGetAdClicksLeft()
     {
-        //TODO: Write this test
+        // Insert a campaign
+        $numClicks = 100;
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->clicks = $numClicks;
+        $campaignId = DataGenerator::generateOne($doCampaigns);
+        
+        $this->assertEqual($this->dalCampaigns->getAdClicksLeft($campaignId), $numClicks);
+        
+        // Set the clicks to unlimited
+        $numClicks = -1;
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->clicks = $numClicks;
+        $campaignId = DataGenerator::generateOne($doCampaigns);
+        
+        global $strUnlimited;
+        $expected = $strUnlimited;
+        $this->assertEqual($this->dalCampaigns->getAdClicksLeft($campaignId), $expected);
     }
     
     function testGetAdViewsLeft()
