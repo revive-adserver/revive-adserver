@@ -12,14 +12,36 @@
     </script>
 
     </head>
-    <body>
+    <body onload="xajax_loadChangeset();">
     <!-- -->
+
+    <div>
+            <table class="tablemain">
+                <tr>
+                    <td class="tableheader" style="text-align:left;">
+                        <form name="frm_select" method="POST" action="archive.php">
+                            <xsl:text>archive :: </xsl:text>
+                            <select id="select_changesets" name="select_changesets" onchange="frm_select.submit()">
+                                <option value=""></option>
+                            </select>
+                        </form>
+                    </td>
+                    <td class="tableheader" style="text-align:right;">
+                        <form name="frm_admin" method="POST" action="index.php">
+                            <button name="btn_changeset_cancel" type="submit">go back to the schema page</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+    </div>
+    <form name="frm_admin" method="POST" action="index.php">
+    </form>
 
     <xsl:choose>
         <xsl:when test="//instructionset">
-            <!--xsl:call-template name="showform">
-                <xsl:with-param name="filename" select="//instructionset/name"/>
-            </xsl:call-template-->
+            <xsl:call-template name="showchangesetcomments">
+                <xsl:with-param name="comments" select="//instructionset/comments"/>
+            </xsl:call-template>
             <xsl:if test="//instructionset/constructive/changeset">
                 <xsl:for-each select="//instructionset/constructive/changeset">
                     <xsl:call-template name="showchangeset">
@@ -36,22 +58,11 @@
             </xsl:if>
         </xsl:when>
         <xsl:when test="//changeset">
-            <!--xsl:call-template name="showform">
-                <xsl:with-param name="filename" select="//changeset/name"/>
-            </xsl:call-template-->
             <xsl:for-each select="//changeset">
                 <xsl:call-template name="showchangeset"/>
             </xsl:for-each>
         </xsl:when>
     </xsl:choose>
-    <form name="frm_admin" method="POST" action="index.php">
-        <table class="tablemain">
-        <tr>
-            <!--td class="tableheader" style="text-align:center;"><button name="btn_changeset_delete" type="submit">delete</button></td-->
-            <td class="tableheader" style="text-align:center;"><button name="btn_changeset_cancel" type="submit">go back to the schema page</button></td>
-        </tr>
-        </table>
-    </form>
 
     <!--div>
         <table class="tablemainnotes">
@@ -74,14 +85,16 @@
     <xsl:param name="showconstructive">yes</xsl:param>
     <xsl:param name="showdestructive">yes</xsl:param>
 
-    <!--span class="titlemini">
+    <span class="titlemini">
         <xsl:value-of select="comments"/>
     </span>
-    <br/><br/-->
+    <br/><br/>
 
     <xsl:if test="$showconstructive='yes'">
         <span class="titlemini">
-            <xsl:value-of select="name"/>version:<xsl:value-of select="version"/>
+            <xsl:value-of select="name"/>
+            <xsl:text> :: version :: </xsl:text>
+            <xsl:value-of select="version"/>
             <xsl:text> :: constructive changes</xsl:text>
         </span>
         <TABLE class="tablemain">
@@ -98,7 +111,9 @@
     </xsl:if>
     <xsl:if test="$showdestructive='yes'">
         <span class="titlemini">
-            <xsl:value-of select="name"/>version:<xsl:value-of select="version"/>
+            <xsl:value-of select="name"/>
+            <xsl:text> :: version :: </xsl:text>
+            <xsl:value-of select="version"/>
             <xsl:text> :: destructive changes</xsl:text>
         </span>
         <TABLE class="tablemain">
@@ -345,7 +360,7 @@
 <xsl:template name="showtiming">
     <xsl:param name="fieldname">unkown</xsl:param>
     <xsl:param name="value"><xsl:value-of select="timing"/></xsl:param>
-    <form id="frm_{$fieldname}" method="POST" action="">
+    <!--form id="frm_{$fieldname}" method="POST" action="">
     <button id="btn_{$fieldname}" type="button" onclick="xajax_editFieldProperty(xajax.getFormValues('frm_{$fieldname}'));">change</button>
     <xsl:text> </xsl:text>
     <span class="textmini" id="span_{$fieldname}" style="display:inline"><xsl:value-of select="unsigned"/></span>
@@ -368,57 +383,59 @@
             </xsl:otherwise>
         </xsl:choose>
     </select>
-    </form>
+    </form-->
 </xsl:template>
 
 <xsl:template name="showwas">
     <xsl:param name="fieldname">unkown</xsl:param>
     <xsl:variable name="value"><xsl:value-of select="was"/></xsl:variable>
-    <form id="frm_{$fieldname}" method="POST" action="">
+    <!--form id="frm_{$fieldname}" method="POST" action="">
     <button id="btn_{$fieldname}" type="button" onclick="xajax_editFieldProperty(xajax.getFormValues('frm_{$fieldname}'));">edit</button>
     <xsl:text> </xsl:text>
     <span class="textmini" id="span_{$fieldname}" style="display:inline"><xsl:value-of select="was"/></span>
     <input type="text" name="{$fieldname}" id="{$fieldname}" value="{$value}" style="display:none"/>
-    </form>
+    </form-->
 </xsl:template>
 
 <xsl:template name="showafteraddfield">
     <xsl:param name="fieldname">unkown</xsl:param>
     <xsl:param name="value">unkown</xsl:param>
-    <form id="frm_{$fieldname}" method="POST" action="">
+    <!--form id="frm_{$fieldname}" method="POST" action="">
     <button id="btn_{$fieldname}" type="button" onclick="xajax_editFieldProperty(xajax.getFormValues('frm_{$fieldname}'));">edit</button>
     <xsl:text> </xsl:text>
     <span class="textmini" id="span_{$fieldname}" style="display:inline"><xsl:value-of select="$value"/></span>
     <input type="text" name="{$fieldname}" id="{$fieldname}" value="{$value}" style="display:none"/>
-    </form>
+    </form-->
 </xsl:template>
 
 <xsl:template name="showbeforeremovefield">
     <xsl:param name="fieldname">unkown</xsl:param>
     <xsl:param name="value">unkown</xsl:param>
-    <form id="frm_{$fieldname}" method="POST" action="">
+    <!--form id="frm_{$fieldname}" method="POST" action="">
     <button id="btn_{$fieldname}" type="button" onclick="xajax_editFieldProperty(xajax.getFormValues('frm_{$fieldname}'));">edit</button>
     <xsl:text> </xsl:text>
     <span class="textmini" id="span_{$fieldname}" style="display:inline"><xsl:value-of select="$value"/></span>
     <input type="text" name="{$fieldname}" id="{$fieldname}" value="{$value}" style="display:none"/>
-    </form>
+    </form-->
 </xsl:template>
 
-<xsl:template name="showform">
-
-    <xsl:param name="filename" select="unkown"/>
-
-    <div id="save" style="display:block;">
-        <form id="frmFilename" method="POST" action="index.php">
-            <table>
-            <tr>
-            <td><button name="savechangeset" value="{$filename}">Save Changeset</button></td>
-            <!--td><button name="createinstructionset" value="{$filename}">Create Instruction Set</button></td-->
-            <td><button name="createpackage" value="{$filename}">Create Upgrade Package</button></td>
-            <td><span class="titlemini"><button name="viewraw" value="{$filename}" width="130px">View Raw Data</button></span></td>
-            </tr>
-            </table>
+<xsl:template name="showchangesetcomments">
+    <xsl:param name="comments"> </xsl:param>
+    <!--div id="comments_edit" style="display:none;">
+        <span class="titlemini">
+            <xsl:text>changeset comments</xsl:text>
+        </span>
+        <form name="frm_comments" method="POST" action="index.php">
+            <textarea name="comments" cols="100" rows="5" >
+                <xsl:value-of select="$comments"/>
+            </textarea>
+            <button name="btn_changeset_comments" type="submit">save</button>
         </form>
+    </div-->
+    <div id="comments_show" style="display:inline;">
+        <span class="titlemini">
+            <xsl:value-of select="$comments"/>
+        </span>
     </div>
 </xsl:template>
 

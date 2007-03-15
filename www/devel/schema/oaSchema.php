@@ -156,7 +156,7 @@ class Openads_Schema_Manager
      * @param string $output : path and filename for output
      * @return boolean
      */
-    function createChangeset($output='')
+    function createChangeset($output='', $comments='')
     {
         if (file_exists($this->schema_trans) && file_exists($this->schema_final))
         {
@@ -167,6 +167,68 @@ class Openads_Schema_Manager
             $this->dump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
             $changes['version']               = $curr_definition['version'];
             $changes['name']                  = $curr_definition['name'];
+            $changes['comments']              = $comments;
+            $result = $this->schema->dumpChangeset($changes, $this->dump_options, true);
+            if (!Pear::iserror($result))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * temporary method to help understand the differences
+     * between the changes array after compare and
+     * the changes array after parsing
+     *
+     * the differences should be resolved sometime and this method removed :)
+     *
+     * @param string $output
+     * @return unknown
+     */
+    function testChangeset($output='')
+    {
+        if (file_exists($this->schema_trans) && file_exists($this->schema_final))
+        {
+            $prev_definition = $this->schema->parseDatabaseDefinitionFile($this->schema_final);
+            $curr_definition = $this->schema->parseDatabaseDefinitionFile($this->schema_trans);
+            $changes         = $this->schema->compareDefinitions($curr_definition, $prev_definition);
+            $this->dump_options['output'] = ($output ? $output : $this->changes_trans);
+            $this->dump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
+            $changes['version']               = $curr_definition['version'];
+            $changes['name']                  = $curr_definition['name'];
+            $changes['comments']              = '';
+            $result = $this->schema->dumpChangeset($changes, $this->dump_options, true);
+            $changesX        = $this->schema->parseChangesetDefinitionFile($this->changes_trans);
+            echo '<div>';
+            var_dump($changes);
+            echo '</div>';
+            echo '<div>';
+            var_dump($changesX);
+            echo '</div>';
+            if (!Pear::iserror($result))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * use mdb2_schema to compare 2 definition files
+     * write the changeset array in xmlformat
+     *
+     * @param string $output : path and filename for output
+     * @return boolean
+     */
+    function saveChangeset($input_file, $comments='')
+    {
+        if (file_exists($input_file))
+        {
+            $changes = $this->schema->parseChangesetDefinitionFile($input_file);
+            $this->dump_options['output'] = ($output ? $output : $this->changes_trans);
+            $this->dump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
+            $changes['comments']              = $comments;
             $result = $this->schema->dumpChangeset($changes, $this->dump_options, true);
             if (!Pear::iserror($result))
             {
@@ -209,7 +271,7 @@ class Openads_Schema_Manager
      *
      * @return boolean
      */
-    function commitFinal()
+    function commitFinal($comments='')
     {
         if ( (file_exists($this->schema_trans)) &&
              (empty($this->links_trans) || file_exists($this->links_trans))
@@ -222,7 +284,7 @@ class Openads_Schema_Manager
             $this->dump_options['custom_tags']['status']='final';
 
             $this->changes_final = $this->path_changes_final.'schema_'.$this->version.'.xml';
-            $valid = $this->createChangeset($this->changes_final);
+            $valid = $this->createChangeset($this->changes_final, $comments);
             if ($valid)
             {
                 $valid = $this->writeWorkingDefinitionFile($this->schema_final);

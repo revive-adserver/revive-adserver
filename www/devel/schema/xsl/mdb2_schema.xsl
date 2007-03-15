@@ -31,16 +31,35 @@
         </xsl:choose>
     </div>
     <!--span class="titlemini"><xsl:value-of select="//database/comments"/></span-->
-
+    <form name="frm_admin" method="POST" action="index.php">
+        <TABLE class="tablemain">
+        <tr>
+            <td class="tableheader">
+                <xsl:variable name="status" select="//database/status"></xsl:variable>
+                <xsl:call-template name="showadminmenu"/>
+                <xsl:if test="$status='final'">
+                    <xsl:call-template name="showadminmenufinal"/>
+                </xsl:if>
+                <xsl:if test="$status='transitional'">
+                    <xsl:call-template name="showadminmenutrans"/>
+                </xsl:if>
+            </td>
+        </tr>
+        <tr>
+            <td class="tableheader">
+                <xsl:variable name="status" select="//database/status"></xsl:variable>
+                <xsl:choose>
+                    <xsl:when test="$status='transitional'">
+                        <xsl:call-template name="showchangesetcomments"/>
+                    </xsl:when>
+                </xsl:choose>
+            </td>
+        </tr>
+        </TABLE>
+    </form>
     <TABLE class="tablemain">
     <tr>
-        <td class="tableheader"><xsl:call-template name="showadminmenu"/></td>
-    </tr>
-    </TABLE>
-
-    <TABLE class="tablemain">
-    <tr>
-        <td class="tableheader">
+        <td class="tableheader" style="text-align:left;">
             <xsl:variable name="status" select="//database/status"></xsl:variable>
             <xsl:choose>
                 <xsl:when test="$status='final'">
@@ -204,6 +223,14 @@
     </form>
 </xsl:template>
 
+<xsl:template name="showchangesetcomments">
+    <span class="titlemini">
+        <xsl:text>commit changeset comments  </xsl:text>
+        <br />
+        <textarea name="comments" cols="100" rows="2" ></textarea>
+    </span>
+</xsl:template>
+
 <xsl:template name="showtableadd">
     <form id="frm_schema_add" method="POST" action="index.php">
         <button name="btn_table_new" type="submit">new table</button>
@@ -212,13 +239,18 @@
 </xsl:template>
 
 <xsl:template name="showadminmenu">
-    <form name="frm_admin" method="POST" action="index.php">
-        Currently working on: <select id="xml_file" name="xml_file"></select><br /><br />
+        Currently working on: <select id="xml_file" name="xml_file" onchange="frm_admin.submit()"></select><br /><br />
+        <input name="btn_changeset_archive" type="submit" value="view changeset archive"/>
+</xsl:template>
+
+<xsl:template name="showadminmenufinal">
         <input name="btn_copy_final" type="submit" value="copy final schema to transitional" />
+</xsl:template>
+
+<xsl:template name="showadminmenutrans">
         <input name="btn_delete_trans" type="submit" value="delete transitional schema"/>
         <input name="btn_compare_schemas" type="submit" value="inspect the changeset"/>
         <input name="btn_commit_final" type="submit" value="commit transitional schema as final"/>
-    </form>
 </xsl:template>
 
 </xsl:stylesheet>

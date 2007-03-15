@@ -45,7 +45,12 @@ if (($aErrs = $oaSchema->checkPermissions()) !== true) {
 
 require_once MAX_DEV.'/lib/xajax.inc.php';
 
-if (array_key_exists('btn_copy_final', $_POST))
+if (array_key_exists('btn_changeset_archive', $_POST))
+{
+    header('Location: archive.php');
+    exit;
+}
+else if (array_key_exists('btn_copy_final', $_POST))
 {
     $oaSchema->createTransitional();
 }
@@ -55,7 +60,8 @@ else if (array_key_exists('btn_delete_trans', $_POST))
 }
 else if (array_key_exists('btn_compare_schemas', $_POST))
 {
-    if ($oaSchema->createChangeset())
+    setcookie('changesetFile', '');
+    if ($oaSchema->createChangeset($oaSchema->changes_trans, $_POST['comments']))
     {
         header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
         readfile($oaSchema->changes_trans);
@@ -68,7 +74,7 @@ else if (array_key_exists('btn_changeset_delete', $_POST))
 }
 else if (array_key_exists('btn_commit_final', $_POST))
 {
-    $oaSchema->commitFinal();
+    $oaSchema->commitFinal($_POST['comments']);
 }
 
 $oaSchema->setWorkingFiles();

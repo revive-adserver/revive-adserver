@@ -12,17 +12,44 @@ function loadXmlDropdown($current_file)
 {
     $objResponse = new xajaxResponse();
 
-    require_once 'oaSchema.php';
+//    require_once 'oaSchema.php';
 
     $options = '';
     foreach ($GLOBALS['oaSchema']->xml_files as $xml_file) {
         $options .= '<option value="'.htmlspecialchars($xml_file).'"'.($xml_file == $current_file ? ' selected' : '').'>'.htmlspecialchars($xml_file).'</option>';
     }
     $objResponse->addAppend('xml_file', 'innerHTML', $options);
-    $objResponse->addEvent('xml_file', 'onchange', 'xmlFileChange()');
+//    $objResponse->addEvent('xml_file', 'onchange', 'xmlFileChange()');
     $objResponse->addScriptCall('xmlFileAddToForms');
 
     return $objResponse;
+}
+
+function loadChangeset()
+{
+    $objResponse = new xajaxResponse();
+    $changefile = $_COOKIE['changesetFile'];
+    $opts = '';
+    $dh = opendir(MAX_PATH.'/etc/changes');
+    if ($dh) {
+        $opts = '<option value="" selected="selected"></option>';
+        while (false !== ($file = readdir($dh))) {
+            if (strpos($file, '.xml')>0)
+            {
+                if ($file!=$changefile)
+                {
+                    $opts.= '<option value="'.$file.'">'.$file.'</option>';
+                }
+                else
+                {
+                    $opts.= '<option value="'.$file.'" selected="selected">'.$file.'</option>';
+                }
+            }
+        }
+        closedir($dh);
+        $objResponse->addAssign('select_changesets',"innerHTML", $opts);
+    }
+	return $objResponse;
 }
 
 function expandTable($table)
@@ -153,6 +180,7 @@ $xajax = new xajax();
 //$xajax->debugOn(); // Uncomment this line to turn debugging on
 $xajax->debugOff(); // Uncomment this line to turn debugging on
 $xajax->registerFunction("testAjax");
+$xajax->registerFunction('loadChangeset');
 $xajax->registerFunction('loadXmlDropdown');
 $xajax->registerFunction('expandTable');
 $xajax->registerFunction('collapseTable');
@@ -162,7 +190,6 @@ $xajax->registerFunction("editTableProperty");
 $xajax->registerFunction("exitTableProperty");
 $xajax->registerFunction("editIndexProperty");
 $xajax->registerFunction("exitIndexProperty");
-//$xajax->registerFunction("selectDataDictionary");
 // Process any requests.  Because our requestURI is the same as our html page,
 // this must be called before any headers or HTML output have been sent
 $xajax->processRequests();
@@ -188,9 +215,8 @@ if (!file_exists($jsfile) || $overwrite)
 	}
 
 	$js = "var xml_file = '".addcslashes($current_file, '\'\\')."';\n".
-	   "function xmlFileChange() { document.getElementById('xml_file').form.submit(); }\n".
-	   "function xmlFileAddToForms() { var f = document.getElementsByTagName('FORM'); for(var i=0;i<f.length;i++) { if (f[i].id.match(/^frm_(table|schema)_/)) { var c = document.createElement('INPUT'); c.setAttribute('type', 'hidden'); c.setAttribute('name', 'xml_file'); c.setAttribute('value', xml_file); f[i].appendChild(c); }}}\n".
-	   str_replace('devel/schema/index.php', 'devel/schema/index.php?xml_file='.urlencode($current_file), $js);
+	      "function xmlFileAddToForms() { var f = document.getElementsByTagName('FORM'); for(var i=0;i<f.length;i++) { if (f[i].id.match(/^frm_(table|schema)_/)) { var c = document.createElement('INPUT'); c.setAttribute('type', 'hidden'); c.setAttribute('name', 'xml_file'); c.setAttribute('value', xml_file); f[i].appendChild(c); }}}\n".
+	      str_replace('devel/schema/index.php', 'devel/schema/index.php?xml_file='.urlencode($current_file), $js);
 
     $fp = fopen($jsfile, 'w');
     if ($fp === false) {
