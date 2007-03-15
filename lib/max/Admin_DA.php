@@ -519,7 +519,7 @@ class Admin_DA
         }
 
 
-        if (is_numeric($aParams['startRecord']) && is_numeric($aParams['perPage'])) {
+        if (isset($aParams['startRecord']) && is_numeric($aParams['startRecord']) && is_numeric($aParams['perPage'])) {
             $limit = ' LIMIT ' . $aParams['startRecord'] . ', ' . $aParams['perPage'];
         } else {
             $limit = ' LIMIT 0, ' . $aParams['perPage'];        

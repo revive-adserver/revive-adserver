@@ -148,79 +148,17 @@ if(phpAds_isUser(phpAds_Affiliate)) {
 
     phpAds_PageHeader("1.1");
     echo '<br><br>';
-
-    /* Disabled until we get working tabs for conversions
-    if(!empty($period_preset)) {
-        phpAds_PageHeader("1.1");
-    } else {
-        phpAds_PageHeader("1.2");
-    }
-
-    // Temporarily disabled - Forgot to add the welcome screen to
-    // the new statsController, so this was disabled for consistency
-    // Also this should be publisher welcome, not client
-    if (false && $pref['client_welcome'])
-    {
-        echo "<br /><br />";
-        // Show welcome message
-        if (!empty($phpAds_client_welcome_msg))
-            echo $phpAds_client_welcome_msg;
-        else
-            include('templates/welcome-publisher.html');
-        echo "<br /><br />";
-    }
-
-    /* Disabled until we get working tabs for conversions
-    $sections = array();
-    $sections[] = '1.1';
-    if (phpAds_isAllowed(MAX_AffiliateViewZoneStats)) {
-        $sections[] = '1.2';
-    }
-    $sections[] = '1.3';
-    phpAds_ShowSections($sections);
-    */
 } elseif(phpAds_isUser(phpAds_Client)) {
     // Navigation for advertiser
     $clientid = phpAds_getUserID();
 
     phpAds_PageHeader("1.1");
     echo '<br><br>';
-
-    /* Disabled until we get working tabs for conversions
-    if(!empty($period_preset)) {
-        phpAds_PageHeader("1.2");
-    } else {
-        phpAds_PageHeader("1.1");
-    }
-
-    // Temporarily disabled - Forgot to add the welcome screen to
-    // the new statsController, so this was disabled for consistency
-    if ($pref['client_welcome']) {
-        echo "<br /><br />";
-        // Show welcome message
-        if (!empty($phpAds_client_welcome_msg)) {
-            echo $phpAds_client_welcome_msg;
-        } else {
-            include('templates/welcome-advertiser.html');
-        }
-        echo "<br /><br />";
-    }
-    phpAds_ShowSections(array("1.1", "1.2"));
-    */
 } else {
     // Navigation for admin and agency
 
     phpAds_PageHeader("2.1");
     echo '<br><br>';
-
-    /* Disabled until we get working tabs for conversions
-    if(!empty($period_preset)) {
-        phpAds_PageHeader('2.1');
-    } else {
-        phpAds_PageHeader('2.2');
-    }
-    phpAds_ShowSections(array('2.1', '2.4', '2.2'));
-    */
 }
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
@@ -284,6 +222,7 @@ if (!phpAds_isUser(phpAds_Admin)) {
 $aParams['clientid']    = $clientId;
 $aParams['campaignid']  = $campaignId;
 $aParams['bannerid']    = $bannerId;
+$aZonesIds = array();
 if(empty($zoneId) && !empty($affiliateId)) {
     $aZonesIds = Admin_DA::fromCache('getZonesIdsByAffiliateId', $affiliateId);
 }
@@ -608,10 +547,6 @@ if (!empty($aConversions)) {
         <br /><br />
         </form>
         ";
-
-
-
-
 
     if($editStatuses) {
         echo "<input type='submit' name='submit' value='$strSaveChanges' tabindex='".($tabindex++)."'>"."\n";

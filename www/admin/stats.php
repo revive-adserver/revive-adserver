@@ -119,6 +119,12 @@ $_REQUEST['campaignid']  = $campaignid;
 $_REQUEST['clientid']    = $clientid;
 
 // Display stats
+
+if($entity == 'conversions') {
+    include_once MAX_PATH . '/www/admin/stats-conversions.php';
+    exit;
+}
+
 $stats = &StatsControllerFactory::newStatsController($entity . "-" . $breakdown);
 
 //create Excel stats report

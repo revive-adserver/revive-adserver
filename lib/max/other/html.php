@@ -196,6 +196,7 @@ function _getEntityString($entityIds)
 
 function MAX_displayDateSelectionForm($period, $period_start, $period_end, $pageName, &$tabindex, $hiddenValues = null)
 {
+    global $tabindex;
     require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';
    
     $oDaySpan = &FieldFactory::newField('day-span');
@@ -208,7 +209,7 @@ function MAX_displayDateSelectionForm($period, $period_start, $period_end, $page
     $oDaySpan->display();
     $tabindex = $oDaySpan->_tabIndex;
     echo "
-    <input type='button' value='Go' onclick='return periodFormSubmit()' style='margin-left: 1em' tabindex='".$this->tabindex++."' />";
+    <input type='button' value='Go' onclick='return periodFormSubmit()' style='margin-left: 1em' tabindex='".$tabindex++."' />";
     _displayHiddenValues($hiddenValues);
     echo "
     </form>";
