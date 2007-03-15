@@ -120,10 +120,18 @@ class DB_DataObjectCommon extends DB_DataObject
     	    if (empty($filter)) $filter = array();
     	    $filter = array($filter);
     	}
-        	
+        
+    	$fields = $this->table();
+    	$keys = $this->keys();
         $primaryKey = null;
     	if ($indexWithPrimaryKey) {
-			$primaryKey = $this->getFirstPrimaryKey();
+    	    if ($indexWithPrimaryKey === true) {
+    	        // index by first primary key
+			    $primaryKey = $this->getFirstPrimaryKey();
+    	    } else {
+    	        // use as a primary key to index
+    	        $primaryKey = $indexWithPrimaryKey;
+    	    }
     	}
         if (!$this->N) {
             // search only if find() wasn't executed yet
@@ -142,21 +150,24 @@ class DB_DataObjectCommon extends DB_DataObject
     	}
     	
     	$rows = array();
-    	$fields = $this->table();
     	while ($this->fetch()) {
     		$row = array();
-    		foreach ($fields as $k => $v) {
-    			if (!isset($this->$k)) {
+    		foreach ($fields as $field => $fieldType) {
+    			if (!isset($this->$field)) {
     				continue;
     			}
-    			if (empty($filter) || in_array($k, $filter)) {
-    			    $row[$k] = $this->$k;
+    			if (empty($filter) || in_array($field, $filter)) {
+    			    $row[$field] = $this->$field;
     			}
     		}
     		if ($flattenIfOneOnly && count($row) == 1) {
     		    $row = array_pop($row);
     		}
     		if (!empty($primaryKey) && isset($this->$primaryKey)) {
+    		    // add primaty key to row if filter is empty or if it exists in filter
+    		    if ((empty($filter) || in_array($primaryKey, $filter)) && !array_key_exists($primaryKey, $row)) {
+    		        $row[$primaryKey] = $this->$primaryKey;
+    		    }
     			$rows[$this->$primaryKey] = $row;
     		} else {
     			$rows[] = $row;

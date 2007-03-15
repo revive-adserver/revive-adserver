@@ -43,6 +43,11 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->UnitTestCase();
     }
     
+    function setUpFixture()
+    {
+        //TestEnv::restoreEnv();
+    }
+    
     function tearDown()
     {
         // assuming that all test data was created by DataGenerator
@@ -66,11 +71,14 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertEqual($aCheck, array());
         
         // Insert campaigns with default data
-        $aCampaignId = DataGenerator::generate($doCampaigns, 2);
         // and few additional required for testing filters
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
         $doCampaigns->campaignname = $campaignName = 'test name';
-        $doCampaigns->clientid = $clientId = 123;
-        $aCampaignId = DataGenerator::generate($doCampaigns, 2);
+        $aCampaignId = DataGenerator::generate($doCampaigns, 2, $generateParents = true);
+        $clientId = DataGenerator::getReferenceId('clients');
+        
+        $aCampaignId2 = DataGenerator::generate('campaigns', 2, $generateParents = true);
+        $clientId2 = DataGenerator::getReferenceId('clients');
         
         // test getting all records
         $doCampaigns = MAX_DB::factoryDO('campaigns');
@@ -83,7 +91,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         // test filtering and test that rows are not indexed by primary key
         $doCampaigns = clone($doCampaignsFilter);
         $aCheck = $doCampaigns->getAll();
-        $this->assertEqual(count($aCheck), 2);
+        $this->assertEqual(count($aCheck), count($aCampaignId));
         $this->assertEqual(array_keys($aCheck), array(0, 1));
         
         // test indexing with primary keys
@@ -104,6 +112,12 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doCampaigns = clone($doCampaignsFilter);
         $aCheck2 = $doCampaigns->getAll('campaignname', $indexWithPrimaryKey = false, $flatten = true);
         $this->assertEqual($aCheck, $aCheck2);
+        
+        // test we could index by any field - not only by primary key
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $aCheck = $doCampaigns->getAll('campaignname', $indexBy = 'clientid', $flatten = true);
+        $this->assertEqual(count($aCheck), 2);
+        $this->assertEqual(array_keys($aCheck), array($clientId, $clientId2));
     }
     
     function testBelongToUser()
