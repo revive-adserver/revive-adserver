@@ -131,8 +131,8 @@ if (!empty($trackerid))
             $variables[$f]['description'] = $_POST['description'.$f];
             $variables[$f]['datatype'] = $_POST['datatype'.$f];
             $variables[$f]['purpose'] = $_POST['purpose'.$f];
-            $variables[$f]['reject_if_empty'] = isset($_POST['reject_if_empty'.$f]) ? $_POST['reject_if_empty'.$f] : null;
-            $variables[$f]['is_unique'] = isset($_POST['is_unique'.$f]) ? $_POST['is_unique'.$f] : null;
+            $variables[$f]['reject_if_empty'] = isset($_POST['reject_if_empty'.$f]) ? $_POST['reject_if_empty'.$f] : '';
+            $variables[$f]['is_unique'] = isset($_POST['is_unique'.$f]) ? $_POST['is_unique'.$f] : '';
             // Set window delays
             $uniqueWindowSeconds = 0;
             if (!empty($_POST['uniquewindow'.$f]))
@@ -178,7 +178,7 @@ if (!empty($trackerid))
                 'datatype' => 'string',
                 'purpose' => '',
                 'reject_if_empty' => '',
-                'is_unique' => '',
+                'is_unique' => null,
                 'unique_window' => 0,
                 'variablecode' => '',
             );
@@ -198,12 +198,12 @@ if (!empty($trackerid))
         {
             // Set purpose to NULL when generic was chosen
             if (!empty($v['purpose'])) {
-                $v['purpose'] = "'".$v['purpose']."'";
+                $v['purpose'] = $v['purpose'];
             } else {
                 $v['purpose'] = "NULL";
             }
 
-            if ($v['is_unique'] !== null) {
+            if ($v['is_unique']) {
                 if($isUniqueAlreadyExists) {
                     $variables[$k]['is_unique'] = $v['is_unique'] = 0;
                 } else {
