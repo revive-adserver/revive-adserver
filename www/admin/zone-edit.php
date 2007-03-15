@@ -247,7 +247,6 @@ if (isset($submit))
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-    // Initialise some parameters
     $pageName = basename($_SERVER['PHP_SELF']);
     $tabIndex = 1;
     $agencyId = phpAds_getAgencyID();

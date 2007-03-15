@@ -401,6 +401,10 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row['clicksRemaining'] = '';
     $row['conversionsRemaining'] = '';
 
+    $row['impressionsRemaining'] = '';
+    $row['clicksRemaining']      = '';
+    $row['conversionsRemaining'] = '';
+    
     // Get the campagin data from the data_intermediate_ad table, and store in $row
     if (($row['impressions'] >= 0) || ($row['clicks'] >= 0) || ($row['conversions'] >= 0)) {
         $dalData_intermediate_ad = MAX_DB::factoryDAL('data_intermediate_ad');
@@ -488,6 +492,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row["clicks"]         = '';
     $row["conversions"] = '';
     $row["active"]         = '';
+    $row["expire"]         = '';
     $row["priority"]    = 0;
     $row["anonymous"]    = ($pref['gui_campaign_anonymous'] == 't') ? 't' : '';
     $row['revenue']     = '0.0000';
@@ -873,10 +878,10 @@ echo "</form>"."\n";
 /* Form requirements                                     */
 /*-------------------------------------------------------*/
 
-// Get unique affiliate
+// Get unique campaignname
 $doCampaigns = MAX_DB::factoryDO('campaigns');
 $doCampaigns->clientid = $clientid;
-$unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname');
+$unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['campaignname']);
 ?>
 <script language='javascript' type='text/javascript' src='js/datecheck.js'></script>
 <script language='javascript' type='text/javascript' src='js/numberFormat.php'></script>

@@ -359,6 +359,7 @@ $GLOBALS['strImpressionsBooked']         = "Impressions Booked";
 $GLOBALS['strClicksBooked']             = "Clicks Booked";
 $GLOBALS['strConversionsBooked']         = "Conversions Booked";
 $GLOBALS['strCampaignWeight']            = "None - Set the campaign weight to";
+$GLOBALS['strTargetLimitAdImpressions'] = "Target Limit Ad Impressions";
 $GLOBALS['strOptimise']                    = "Optimise delivery of this campaign.";
 $GLOBALS['strAnonymous']                = "Hide the advertiser and publisher of this campaign.";
 $GLOBALS['strHighPriority']                = "Show banners in this campaign with high priority.<br />If you use this option ".MAX_PRODUCT_NAME." will try to distribute the number of Impressions evenly over the course of the day.";
