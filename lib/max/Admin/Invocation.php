@@ -335,7 +335,7 @@ class MAX_Admin_Invocation {
                 $buffer .= "<tr><td height='25'>";
                 if ($codetype == "clickonly" && !$this->zone_invocation) {
                     if ($bannerid == 0) {
-                        $this->ads = $zAds;
+                        $this->ads = array();
                     } else {
                         $this->ads = array($bannerid => $aAd);
                     }
@@ -350,7 +350,7 @@ class MAX_Admin_Invocation {
                 }
 
                 // Supress the textarea if required by this plugin
-                if (!$invocationTag->suppressTextarea) {
+                if (empty($invocationTag->suppressTextarea)) {
                     $buffer .= "<img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strBannercode']."</b></td>";
 
                     // Show clipboard button only on IE

@@ -132,6 +132,7 @@ class Plugins_InvocationTagsOptions
      */
     function bannerid()
     {
+        global $codetype;
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
@@ -424,6 +425,7 @@ class Plugins_InvocationTagsOptions
      */
     function delay()
     {
+        global $tabindex;
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
@@ -573,6 +575,7 @@ class Plugins_InvocationTagsOptions
      */
     function hostlanguage()
     {
+        global $tabindex;
         $maxInvocation = &$this->maxInvocation;
 
         $option = '';
@@ -616,7 +619,7 @@ class Plugins_InvocationTagsOptions
 
         $outputAdServers = &MAX_Plugin::getPlugins('3rdPartyServers');
         foreach ($outputAdServers as $pluginKey => $outputAdServer) {
-            if ($outputAdServer->hasOutputMacros) {
+            if (!empty($outputAdServer->hasOutputMacros)) {
                 $availableOutputAdServers[$pluginKey] = $outputAdServer;
                 $availableOutputAdServerNames[$pluginKey] = $outputAdServer->getName();
             }

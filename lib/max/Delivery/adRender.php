@@ -169,7 +169,8 @@ function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $wit
         $code = str_replace('{clickurlparams}', $maxparams, $code);  // This step needs to be done separately because {clickurlparams} does contain {random}...
     }
     $search = array('{timestamp}','{random}','{target}','{url_prefix}','{bannerid}','{zoneid}','{source}', '{pageurl}');
-    $replace = array($time, $random, $target, $urlPrefix, $aBanner['bannerid'], $zoneId, $source, urlencode($GLOBALS['loc']));
+    $locReplace = isset($GLOBALS['loc']) ? $GLOBALS['loc'] : '';
+    $replace = array($time, $random, $target, $urlPrefix, $aBanner['bannerid'], $zoneId, $source, urlencode($locReplace));
 
     // Arrival URLs
     if (preg_match('#^\?(m3_data=[a-z0-9]+)#i', $logClick, $arrivalClick)) {
@@ -610,7 +611,8 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
     $url .= $amp . "campaignid=" . $aBanner['placement_id'];
     $url .= $amp . "zoneid=" . $zoneId;
     if (!empty($source)) $url .= $amp . "source=" . $source;
-    $url .= $amp . "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER,$conf['delivery']['chDelimiter'],$GLOBALS['_MAX']['CHANNELS']);
+    $channels = isset($GLOBALS['_MAX']['CHANNELS']) ? $GLOBALS['_MAX']['CHANNELS'] : '';
+    $url .= $amp . "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER,$conf['delivery']['chDelimiter'],$channels);
     if (!empty($aBanner['block_ad'])) $url .= $amp . $conf['var']['blockAd'] . "=" . $aBanner['block_ad'];
     if (!empty($aBanner['cap_ad'])) $url .= $amp . $conf['var']['capAd'] . "=" . $aBanner['cap_ad'];
     if (!empty($aBanner['session_cap_ad'])) $url .= $amp . $conf['var']['sessionCapAd'] . "=" . $aBanner['session_cap_ad'];
@@ -689,6 +691,7 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
     }
 
     $maxparams = '';
+    $channelIds = '';
     if (!empty($aBanner['url']) || $overrideDest) {
         // There is a link
         $del = $conf['delivery']['ctDelimiter'];
@@ -702,7 +705,7 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
         // If the passed in a ct0= value that is not a valid URL (simple checking), then ignore it
         $ct0 = (empty($ct0) || strtolower(substr($ct0, 0, 4)) != 'http') ? '' : $ct0;
         $aBanner['contenttype'] == "swf" ? $maxdest = '' : $maxdest = "{$del}maxdest={$ct0}{$dest}";
-        $channelIds .= ($GLOBALS['_MAX']['CHANNELS'] ? $del. "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER,$conf['delivery']['chDelimiter'],$GLOBALS['_MAX']['CHANNELS']) :'');
+        $channelIds .= (!empty($GLOBALS['_MAX']['CHANNELS']) ? $del. "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER,$conf['delivery']['chDelimiter'],$GLOBALS['_MAX']['CHANNELS']) :'');
         $maxparams = "{$delnum}{$bannerId}{$del}zoneid={$zoneId}{$channelIds}{$source}{$log}{$random}{$maxdest}";
 // hmmm... 2__bannerid=1__zoneid=1__cb={random}__maxdest=__channel_ids=__1__1__
     }

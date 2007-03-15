@@ -251,6 +251,9 @@ if ($bannerid != '') {
     $row['height']          = '';
     $row['htmltemplate'] = '';
     $row['description']  = '';
+    $row['comments'] = '';
+    $row['contenttype'] = '';
+    $row["adserver"] = '';
 
     $hardcoded_links = array();
     $hardcoded_targets = array();

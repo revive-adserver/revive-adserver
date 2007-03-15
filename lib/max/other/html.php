@@ -684,6 +684,7 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
             case 'banner-advanced.php' : $tabValue = '4.1.3.4.6'; break;
         }
     }
+    $bannerName = '';
     foreach ($aOtherBanners as $otherBannerId => $aOtherBanner) {
 
         // mask banner name if anonymous campaign
@@ -703,7 +704,7 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         phpAds_PageContext($otherBannerName, $page, $current);
     }
 
-    if (phpAds_isAllowed(phpAds_ModifyInfo)) {
+    if (MAX_Permission::checkIsAllowed(phpAds_ModifyInfo)) {
         phpAds_PageShortcut($GLOBALS['strClientProperties'], "advertiser-edit.php?clientid=$advertiserId", 'images/icon-advertiser.gif');
     }
     if (!phpAds_isUser(phpAds_Client)) {
@@ -769,12 +770,16 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
     $advertiserName = phpAds_getClientName($advertiserId);
 
     // Build ad preview
-    require_once (MAX_PATH . '/lib/max/Delivery/adRender.php');
-    $aBanner = Admin_DA::getAd($bannerId);
-    $aBanner['storagetype'] = $aBanner['type'];
-    $aBanner['bannerid'] = $aBanner['ad_id'];
-    $bannerCode = MAX_adRender($aBanner, 0, '', '', '', true, false, false);
-
+    if ($bannerId) {
+        require_once (MAX_PATH . '/lib/max/Delivery/adRender.php');
+        $aBanner = Admin_DA::getAd($bannerId);
+        $aBanner['storagetype'] = $aBanner['type'];
+        $aBanner['bannerid'] = $aBanner['ad_id'];
+        $bannerCode = MAX_adRender($aBanner, 0, '', '', '', true, false, false);
+    } else {
+        $extra = '';
+        $bannerCode = '';
+    }
     phpAds_PageHeader($tabValue, $extra);
     echo "
 <img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;$advertiserName&nbsp;<img src='images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;
