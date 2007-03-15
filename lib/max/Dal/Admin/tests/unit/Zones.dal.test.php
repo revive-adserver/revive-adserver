@@ -150,5 +150,34 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $this->assertEqual($actual, $expected);
     }
     
+    function testGetZoneForInvocationForm()
+    {
+        // Insert a publisher
+        $doAffiliates = MAX_DB::factoryDO('affiliates');
+        $doAffiliates->website = 'http://example.com';
+        $affiliateId = DataGenerator::generateOne($doAffiliates);
+        
+        // Insert a zone
+        $doZone = MAX_DB::factoryDO('zones');
+        $doZone->affiliateid = $affiliateId;
+        $doZone->height = 5;
+        $doZone->width = 10;
+        $doZone->delivery = 1;
+        $zoneId = DataGenerator::generateOne($doZone);
+        
+        $aExpected = array(
+            'affiliateid' => $affiliateId,
+            'height' => 5,
+            'width' => 10,
+            'delivery' => 1,
+            'website' => 'http://example.com'
+        );
+        $aActual = $this->dalZones->getZoneForInvocationForm($zoneId);
+        
+        ksort($aExpected);
+        ksort($aActual);
+        
+        $this->assertEqual($aActual, $aExpected);
+    }
 }
 ?>
