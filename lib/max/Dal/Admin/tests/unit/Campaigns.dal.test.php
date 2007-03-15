@@ -174,9 +174,47 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $this->assertEqual($actual, $expected);
     }
     
+    /**
+     * Enter description here...
+     *
+     * @todo Finish this test
+     */
     function testGetDaysLeft()
     {
-        //TODO: Write this test
+        $GLOBALS['strExpiration'] = 'Expiration';
+        $GLOBALS['strNoExpiration'] = 'No expiration date set';
+        $GLOBALS['date_format'] = '%d.%m.%Y';
+        $GLOBALS['strDaysLeft'] = 'Days left';
+        
+        // Insert an unlimited campaign with no expiration date
+        $bannerId = DataGenerator::generateOne('banners', true);
+        $campaignId = DataGenerator::getReferenceId('campaigns');
+        
+        $expected = array($GLOBALS['strExpiration'].": ".$GLOBALS['strNoExpiration'],'', '');
+        $actual = $this->dalCampaigns->getDaysLeft($campaignId);
+        $this->assertEqual($actual, $expected);
+        
+        // Insert an unlimited campaign with an expiration date of today + 10 days
+        /*$daysLeft = 10;
+        $now = time();
+        $expirationDate = mktime(0, 0, 0, date("m", $now), date("d", $now) + $daysLeft, date("Y", $now));
+        $aData = array(
+            'views' => -1,
+            'clicks' => -1,
+            'expire' => $expirationDate
+        );
+        $dg = new DataGenerator();
+        $dg->setData('campaigns', $aData);
+        $dg->generate('banners', 1, true);
+        $campaignId = DataGenerator::getReferenceId('campaigns');
+
+        $expected = array(
+            $GLOBALS['strExpiration'] . ': ' . date('d.m.Y', $expirationDate) . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")",
+            date('d.m.Y', $expirationDate), 
+            $daysLeft
+        );
+        $actual = $this->dalCampaigns->getDaysLeft($campaignId);
+        $this->assertEqual($actual, $expected);*/
     }
     
     function testGetAdClicksLeft()
