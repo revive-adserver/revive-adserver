@@ -43,7 +43,8 @@ phpAds_checkAccess(phpAds_Admin);
 /*-------------------------------------------------------*/
 
 $doUserLog = MAX_DB::factoryDO('userlog');
-$doUserLog->delete();
+$doUserLog->whereAdd('1=1');
+$doUserLog->delete(DB_DATAOBJECT_WHEREADD_ONLY);
 
 header ("Location: userlog-index.php");
 
