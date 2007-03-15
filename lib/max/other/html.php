@@ -942,8 +942,8 @@ function MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublish
 {
     global $phpAds_TextDirection;
 
-    $agencyId = $aEntities['agencyid'];
-    $publisherId = $aEntities['affiliateid'];
+    $agencyId = isset($aEntities['agencyid']) ? $aEntities['agencyid'] : null;
+    $publisherId = isset($aEntities['affiliateid']) ? $aEntities['affiliateid'] : null;
     $channelId = $aEntities['channelid'];
 
     $entityString = _getEntityString($aEntities);
@@ -1023,6 +1023,7 @@ function MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublish
 <img src='images/break.gif' height='1' width='160' vspace='4'><br />
 <img src='images/icon-duplicate-channel.gif' align='absmiddle'>&nbsp;<a href='channel-modify.php?duplicate=true&$entityString&returnurl=$pageName'>{$GLOBALS['strDuplicate']}</a><br />";
 
+    $deleteReturlUrl = '';
     if ($channelType == 'publisher') {
         $deleteReturlUrl = 'affiliate-channels.php';
         

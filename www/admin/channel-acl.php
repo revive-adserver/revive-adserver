@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
 
 // Register input variables
 
-phpAds_registerGlobal ('acl', 'action', 'submit');
+phpAds_registerGlobalUnslashed('acl', 'action', 'submit', 'channelid', 'agencyid');
 
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */

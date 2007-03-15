@@ -908,6 +908,7 @@ $GLOBALS['strEditChannelLimitations']     = "Edit channel limitations";
 $GLOBALS['strChannelProperties']          = "Channel properties";
 $GLOBALS['strChannelLimitations']         = "Delivery options";
 $GLOBALS['strConfirmDeleteChannel']       = "Do you really want to delete this channel?";
+$GLOBALS['strModifychannel']              = "Edit channel";
 
 // Tracker Variables
 $GLOBALS['strVariableName']             = "Variable Name";

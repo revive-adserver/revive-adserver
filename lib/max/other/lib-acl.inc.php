@@ -268,6 +268,9 @@ function MAX_AclGetCompiled($acls) {
 }
 
 function MAX_AclGetPlugins($acls) {
+    if (empty($acls)) {
+        return null;
+    }
     $acl_plugins = array();
     foreach ($acls as $order => $acl) {
         list($package, $name) = explode(':', $acl['type']);

@@ -36,7 +36,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 
 // Register input variables
-phpAds_registerGlobal ('name', 'description', 'comments', 'submit');
+phpAds_registerGlobalUnslashed('name', 'description', 'comments', 'submit', 'agencyid', 'channelid');
 
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
