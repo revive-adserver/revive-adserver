@@ -395,7 +395,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                             // Divide number required impressions between active operation intervals
                             $oAd->requiredImpressions = round($requiredAdImpressions / $activeAdOpInts);
                             // Delivery Hack
-                            if ($conf['maintenance']['deliveryHack']) {
+                            if (!empty($conf['maintenance']['deliveryHack'])) {
                                 $oServiceLocator = &ServiceLocator::instance();
                                 $oDateNow = &$oServiceLocator->get('now');
                                 $hour = $oDateNow->getHour();
