@@ -1,5 +1,26 @@
 <?php
-
+/*
++---------------------------------------------------------------------------+
+| Max Media Manager v0.3                                                    |
+| =================                                                         |
+|                                                                           |
+| Copyright (c) 2003-2006 m3 Media Services Limited                         |
+| For contact details, see: http://www.m3.net/                              |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
 /**
  * Openads Schema Management Utility
  *
@@ -57,6 +78,10 @@ class Openads_Schema_Manager
 
     var $version;
 
+    /**
+     * php5 class constructor
+     *
+     */
     function __construct()
     {
         $this->file_schema_core = 'tables_core.xml';
@@ -94,11 +119,23 @@ class Openads_Schema_Manager
         $this->dd_definition = $this->schema->parseDictionaryDefinitionFile($this->dd_file);
     }
 
+    /**
+     * php4 class constructor
+     *
+     * @return Openads_Schema_Manager
+     */
     function Openads_Schema_Manager()
     {
         $this->__construct();
     }
 
+    /**
+     * use mdb2_schema to compare 2 definition files
+     * write the changeset array in xmlformat
+     *
+     * @param string $output : path and filename for output
+     * @return boolean
+     */
     function createChangeset($output='')
     {
         if (file_exists($this->schema_trans) && file_exists($this->schema_final))
@@ -110,37 +147,48 @@ class Openads_Schema_Manager
             $this->dump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
             $changes['version']               = $curr_definition['version'];
             $changes['name']                  = $curr_definition['name'];
-            return $this->schema->dumpChangeset($changes, $this->dump_options, true);
+            $result = $this->schema->dumpChangeset($changes, $this->dump_options, true);
+            if (!Pear::iserror($result))
+            {
+                return true;
+            }
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
+    /**
+     * create a copy of the final schema for editing
+     * create a copy of the final links file for editing
+     *
+     * @return boolean
+     */
     function createTransitional()
     {
-        if (file_exists($this->schema_trans))
+        if ($this->deleteSchemaTrans() &&  $this->deleteLinksTrans())
         {
-            unlink($this->schema_trans);
+            if (file_exists($this->schema_final))
+            {
+                $this->working_file_schema = $this->schema_final;
+                $this->parseWorkingDefinitionFile();
+                $this->version++;
+                $this->writeWorkingDefinitionFile();
+            }
+            if (file_exists($this->links_final))
+            {
+                copy($this->links_final, $this->links_trans);
+            }
+            return (file_exists($this->schema_trans) && file_exists($this->links_trans));
         }
-        if (file_exists($this->links_trans))
-        {
-            unlink($this->links_trans);
-        }
-        if (file_exists($this->schema_final))
-        {
-            $this->working_file_schema = $this->schema_final;
-            $this->parseWorkingDefinitionFile();
-            $this->version++;
-            $this->writeWorkingDefinitionFile();
-        }
-        if (file_exists($this->links_final))
-        {
-            copy($this->links_final, $this->links_trans);
-        }
+        return false;
     }
 
+    /**
+     * stamp the transitional files as final
+     * copy transitional files to final destinations
+     * remove transitional files
+     *
+     * @return boolean
+     */
     function commitFinal()
     {
         if ( (file_exists($this->schema_trans)) &&
@@ -154,21 +202,30 @@ class Openads_Schema_Manager
             $this->dump_options['custom_tags']['status']='final';
 
             $this->changes_final = $this->path_changes_final.'schema_'.$this->version.'.xml';
-            $this->createChangeset($this->changes_final);
-
-            $this->writeWorkingDefinitionFile($this->schema_final);
-
-            unlink($this->changes_trans);
-            unlink($this->schema_trans);
-
-            if (file_exists($this->links_trans))
+            $valid = $this->createChangeset($this->changes_final);
+            if ($valid)
             {
-                copy($this->links_trans, $this->links_final);
-                unlink($this->links_trans);
+                $valid = $this->writeWorkingDefinitionFile($this->schema_final);
             }
+            if ($valid)
+            {
+                if (file_exists($this->links_trans))
+                {
+                    copy($this->links_trans, $this->links_final);
+                }
+                $this->deleteTransitional();
+            }
+            return $valid;
         }
+        return false;
     }
 
+    /**
+     * assign a schema file and a links file to this instance
+     * transitional if they exist, final if they don't
+     *
+     * @return boolean
+     */
     function setWorkingFiles()
     {
         if (file_exists($this->schema_trans))
@@ -188,42 +245,115 @@ class Openads_Schema_Manager
         {
             $this->working_file_links = $working_links_final;
         }
+        return (file_exists($this->working_file_links) && file_exists($this->working_file_schema));
     }
 
+    /**
+     * read the working schema file and parse the xml to an array
+     * assign the array to the current working definition property
+     *
+     * @return boolean
+     */
     function parseWorkingDefinitionFile()
     {
-        $this->db_definition = $this->schema->parseDatabaseDefinitionFile($this->working_file_schema);
-        $this->version = $this->db_definition['version'];
+        if (file_exists($this->working_file_schema))
+        {
+            $result = $this->schema->parseDatabaseDefinitionFile($this->working_file_schema);
+            if (!Pear::iserror($result))
+            {
+                $this->db_definition = $result;
+                $this->version = $this->db_definition['version'];
+                return true;
+            }
+        }
+        $this->db_definition = array();
+        return false;
     }
 
+    /**
+     * write the current definition array to file in xml format
+     *
+     * @param strin $output : path and filename for output
+     * @return boolean
+     */
     function writeWorkingDefinitionFile($output='')
     {
         $this->dump_options['custom_tags']['version'] = $this->version;
         $this->dump_options['output']       = ($output ? $output : $this->schema_trans);
         $this->dump_options['xsl_file']     = "xsl/mdb2_schema.xsl";
-        $this->schema->dumpDatabase($this->db_definition, $this->dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
+        $result = $this->schema->dumpDatabase($this->db_definition, $this->dump_options, MDB2_SCHEMA_DUMP_STRUCTURE, false);
+        if (!Pear::iserror($result))
+        {
+            return true;
+        }
+        return false;
     }
 
+    /**
+     * erase all transitional files
+     *
+     * @return boolean
+     */
     function deleteTransitional()
     {
-        if (file_exists($this->schema_trans))
-        {
-            unlink($this->schema_trans);
-        }
+        return $this->deleteLinksTrans() &&
+               $this->deleteChangesTrans() &&
+               $this->deleteSchemaTrans();
+    }
+
+    /**
+     * erase the transitional links file
+     *
+     * @return boolean
+     */
+    function deleteLinksTrans()
+    {
         if (file_exists($this->links_trans))
         {
             unlink($this->links_trans);
         }
+        return ! file_exists($this->links_trans);
     }
 
-    function deleteChangeset()
+    /**
+     * erase the transitional changeset file
+     *
+     * @return boolean
+     */
+    function deleteChangesTrans()
     {
         if (file_exists($this->changes_trans))
         {
             unlink($this->changes_trans);
         }
+        return ! file_exists($this->changes_trans);
     }
 
+     /**
+     * erase the transitional schema file
+     *
+     * @return boolean
+     */
+    function deleteSchemaTrans()
+    {
+        if (file_exists($this->schema_trans))
+        {
+            unlink($this->schema_trans);
+        }
+        return ! file_exists($this->schema_trans);
+    }
+
+    /**
+     * validate and store a table field
+     * cascade changes down to indexes and links
+     *
+     * @param string $table_name
+     * @param string $field_name_old
+     * @param string $field_name_new
+     * @param string $field_type_old
+     * @param string $field_type_new
+     * @return boolean
+     */
     function fieldSave($table_name, $field_name_old, $field_name_new, $field_type_old, $field_type_new)
     {
         $this->parseWorkingDefinitionFile();
@@ -248,7 +378,7 @@ class Openads_Schema_Manager
             $valid = $this->validate_field($table_name, $fld_definition, $field_name_new);
             if ($valid)
             {
-                $this->field_index_relations($table_name, $tbl_definition, $field_name_old, $field_name_new);
+                $this->updateFieldIndexRelations($table_name, $tbl_definition, $field_name_old, $field_name_new);
             }
         }
         else if ($field_type_new && ($field_type_new != $field_type_old))
@@ -265,11 +395,20 @@ class Openads_Schema_Manager
             {
                 $this->db_definition['tables'][$table_name] = $tbl_definition;
                 ksort($this->db_definition['tables'],SORT_STRING);
-                $this->writeWorkingDefinitionFile();
+                return $this->writeWorkingDefinitionFile();
             }
         }
+        return false;
     }
 
+    /**
+     * validate and store a new table field
+     *
+     * @param string $table_name
+     * @param string $field_name
+     * @param string $dd_field_name
+     * @return boolean
+     */
     function fieldAdd($table_name, $field_name, $dd_field_name)
     {
         $this->parseWorkingDefinitionFile();
@@ -279,43 +418,69 @@ class Openads_Schema_Manager
         {
             $tbl_definition = $this->db_definition['tables'][$table_name];
             $tbl_definition['fields'][$field_name] = $fld_definition;
-            //$this->field_index_relations($table_name, $tbl_definition, '', $field_name);
             unset($this->db_definition['tables'][$table_name]);
             $valid = $this->validate_table($tbl_definition, $table_name);
             if ($valid)
             {
                 $this->db_definition['tables'][$table_name] = $tbl_definition;
                 ksort($this->db_definition['tables'],SORT_STRING);
-                $this->writeWorkingDefinitionFile();
+                return $this->writeWorkingDefinitionFile();
             }
         }
+        return false;
     }
 
+    /**
+     * remove a field from a table
+     * cascade the change across indexes and links
+     *
+     * @param string $table_name
+     * @param string $field_name
+     * @return boolean
+     */
     function fieldDelete($table_name, $field_name)
     {
         $this->parseWorkingDefinitionFile();
         $tbl_definition = $this->db_definition['tables'][$table_name];
         unset($tbl_definition['fields'][$field_name]);
 
-        $this->field_index_relations($table_name, $tbl_definition, $field_name, '');
+        $this->updateFieldIndexRelations($table_name, $tbl_definition, $field_name, '');
         unset($this->db_definition['tables'][$table_name]);
         $valid = $this->validate_table($tbl_definition, $table_name);
         if ($valid)
         {
             $this->db_definition['tables'][$table_name] = $tbl_definition;
             ksort($this->db_definition['tables'],SORT_STRING);
-            $this->writeWorkingDefinitionFile();
+            return $this->writeWorkingDefinitionFile();
         }
+        return false;
     }
 
 
+    /**
+     * remove an index from a table
+     *
+     * @param string $table_name
+     * @param string $index_name
+     * @return boolean
+     */
     function indexDelete($table_name, $index_name)
     {
         $this->parseWorkingDefinitionFile();
         unset($this->db_definition['tables'][$table_name]['indexes'][$index_name]);
-        $this->writeWorkingDefinitionFile();
+        return $this->writeWorkingDefinitionFile();
     }
 
+    /**
+     * add an index to a table
+     *
+     * @param string $table_name
+     * @param string $index_name
+     * @param array  $index_fields
+     * @param boolean $primary
+     * @param boolean $unique
+     * @return boolean
+     */
     function indexAdd($table_name, $index_name, $index_fields, $primary='', $unique='')
     {
         $this->parseWorkingDefinitionFile();
@@ -327,9 +492,17 @@ class Openads_Schema_Manager
         {
             $this->db_definition['tables'][$table_name]['indexes'][$index_name]['fields'][$fld_name] = array('sorting'=>'ascending');
         }
-        $this->writeWorkingDefinitionFile();
+        return $this->writeWorkingDefinitionFile();
     }
 
+    /**
+     * validate and store a changed index
+     *
+     * @param string $table_name
+     * @param string $index_name
+     * @param array $index_def
+     * @return boolean
+     */
     function indexSave($table_name, $index_name, $index_def)
     {
         $this->parseWorkingDefinitionFile();
@@ -367,10 +540,17 @@ class Openads_Schema_Manager
         if ($valid)
         {
             $this->db_definition['tables'][$table_name]['indexes'][$idx_name] = $idx_new;
-            $this->writeWorkingDefinitionFile();
+            return $this->writeWorkingDefinitionFile();
         }
+        return false;
     }
 
+    /**
+     * validate and store a new table definition
+     *
+     * @param string $new_table_name
+     * @return boolean
+     */
     function tableNew($new_table_name)
     {
         $this->parseWorkingDefinitionFile();
@@ -381,19 +561,34 @@ class Openads_Schema_Manager
         {
             $this->db_definition['tables'][$new_table_name] = $tbl_definition;
             ksort($this->db_definition['tables'],SORT_STRING);
-            $this->writeWorkingDefinitionFile();
+            return $this->writeWorkingDefinitionFile();
         }
-        return $valid;
+        return false;
     }
 
+    /**
+     * remove a table from the schema
+     * cascade the change across links
+     *
+     * @param string $table_name
+     * @return boolean
+     */
     function tableDelete($table_name)
     {
         $this->parseWorkingDefinitionFile();
-        $this->table_link_relations($table_name);
+        $this->deleteTableLinkRelations($table_name);
         unset($this->db_definition['tables'][$table_name]);
-        $this->writeWorkingDefinitionFile();
+        return $this->writeWorkingDefinitionFile();
     }
 
+    /**
+     * validate and store a changed table
+     * cascade the change across links
+     *
+     * @param string $table_name
+     * @param string $table_name_new
+     * @return boolean
+     */
     function tableSave($table_name, $table_name_new)
     {
         $this->parseWorkingDefinitionFile();
@@ -411,29 +606,52 @@ class Openads_Schema_Manager
             $this->db_definition['tables'][$table_name_new] = $tbl_definition;
             unset($this->db_definition['tables'][$table_name]);
             ksort($this->db_definition['tables'],SORT_STRING);
-            $this->writeWorkingDefinitionFile();
-            $this->table_link_relations_update($table_name, $table_name_new);
-
-            return true;
+            if ($this->writeWorkingDefinitionFile())
+            {
+                if ($this->updateTableLinkRelations($table_name, $table_name_new))
+                {
+                    return true;
+                }
+            }
         }
-
         return false;
     }
 
+    /**
+     * remove a link from the schema
+     *
+     * @param string $table_name
+     * @param string $link_name
+     * @return mixed     true on success or PEAR_ERROR
+     */
     function linkDelete($table_name, $link_name)
     {
         $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
         unset($links[$table_name][$link_name]);
-        Openads_Links::writeLinksDotIni($this->links_trans, $links);
+        return Openads_Links::writeLinksDotIni($this->links_trans, $links);
     }
 
+    /**
+     * add a link to the schema
+     *
+     * @param string $table_name
+     * @param string $link_add
+     * @param string $link_add_target
+     * @return mixed     true on success or PEAR_ERROR
+     */
     function linkAdd($table_name, $link_add, $link_add_target)
     {
         $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
         $links[$table_name][$link_add] = $link_add_target;
-        Openads_Links::writeLinksDotIni($this->links_trans, $links);
+        return Openads_Links::writeLinksDotIni($this->links_trans, $links);
     }
 
+    /**
+     * read the links file and return an array of references
+     *
+     * @param string $table_name
+     * @return array
+     */
     function readForeignKeys($table_name)
     {
         $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
@@ -443,6 +661,11 @@ class Openads_Schema_Manager
         return $links;
     }
 
+    /**
+     * build an array of links cross-references
+     *
+     * @return array
+     */
     function getLinkTargets()
     {
         $links_targets = array();
@@ -458,6 +681,12 @@ class Openads_Schema_Manager
         return $links_targets;
     }
 
+    /**
+     * create and return an instance of MDB2_Schema with an MDB2 db connection
+     *
+     * @param array $options
+     * @return MDB2_Schema
+     */
     function connect($options)
     {
         $dsn['phptype']     = $GLOBALS['_MAX']['CONF']['database']['type'];
@@ -465,10 +694,16 @@ class Openads_Schema_Manager
         $dsn['username']    = '';
         $dsn['password']    = '';
         $dsn['database']    = '';
-
         return MDB2_Schema::factory(Openads_Dal::singleton($dsn), $options);
     }
 
+    /**
+     * verify that table properties are valid and legal
+     *
+     * @param array $tbl_definition
+     * @param string $tbl_name
+     * @return boolean
+     */
     function validate_table($tbl_definition, $tbl_name)
     {
         $this->init_schema_validator();
@@ -476,6 +711,14 @@ class Openads_Schema_Manager
         return (Pear::iserror($result)? false: true);
     }
 
+    /**
+     * verify that field properties are valid and legal
+     *
+     * @param string $table_name
+     * @param array $field_definition
+     * @param string $field_name
+     * @return boolean
+     */
     function validate_field($table_name, $field_definition, $field_name)
     {
         $this->init_schema_validator();
@@ -483,6 +726,14 @@ class Openads_Schema_Manager
         return (Pear::iserror($result)? false: true);
     }
 
+    /**
+     * verify that index properties are valid and legal
+     *
+     * @param string $table_name
+     * @param array $idx_definition
+     * @param string $idx_name
+     * @return boolean
+     */
     function validate_index($table_name, $idx_definition, $idx_name)
     {
         $this->init_schema_validator();
@@ -490,7 +741,17 @@ class Openads_Schema_Manager
         return (Pear::iserror($result)? false: true);
     }
 
-    function field_index_relations($table_name, &$table_definition, $field_name_old, $field_name_new)
+    /**
+     * check all indexes for a given field
+     * alter indexes to reflect changes to the field
+     *
+     * @param string $table_name
+     * @param array $table_definition
+     * @param string $field_name_old
+     * @param string $field_name_new
+     * @return mixed     true on success or PEAR_ERROR
+     */
+    function updateFieldIndexRelations($table_name, &$table_definition, $field_name_old, $field_name_new)
     {
         if (!empty($table_definition['indexes']) && is_array($table_definition['indexes']))
         {
@@ -516,11 +777,19 @@ class Openads_Schema_Manager
                 }
             }
         }
-        $this->field_link_relations($table_name, $field_name_old, $field_name_new);
-        return true;
+        return $this->updateFieldLinkRelations($table_name, $field_name_old, $field_name_new);
     }
 
-    function field_link_relations($table_name, $field_name_old, $field_name_new)
+    /**
+     * check all links for a given field
+     * alter links to reflect changes to the field
+     *
+     * @param string $table_name
+     * @param string $field_name_old
+     * @param string $field_name_new
+     * @return mixed     true on success or PEAR_ERROR
+     */
+    function updateFieldLinkRelations($table_name, $field_name_old, $field_name_new)
     {
         $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
         reset($links);
@@ -547,10 +816,17 @@ class Openads_Schema_Manager
                 }
             }
         }
-        Openads_Links::writeLinksDotIni($this->links_trans, $links);
+        return Openads_Links::writeLinksDotIni($this->links_trans, $links);
     }
 
-    function table_link_relations($table_name)
+    /**
+     * check all links for a given table
+     * alter links to reflect removal of the table
+     *
+     * @param string $table_name
+     * @return mixed     true on success or PEAR_ERROR
+     */
+    function deleteTableLinkRelations($table_name)
     {
         $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
         foreach ($links AS $table => $keys)
@@ -567,16 +843,26 @@ class Openads_Schema_Manager
                 }
             }
         }
-        Openads_Links::writeLinksDotIni($this->links_trans, $links);
+        return Openads_Links::writeLinksDotIni($this->links_trans, $links);
     }
 
-    function table_link_relations_update($table_name, $table_name_new)
+    /**
+     * check all links for a given table
+     * alter links to reflect changes to the tablename
+     *
+     * @param string $table_name
+     * @param string $table_name_new
+     * @return mixed     true on success or PEAR_ERROR
+     */
+    function updateTableLinkRelations($table_name, $table_name_new)
     {
         $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
-        if (isset($links[$table_name])) {
+        if (isset($links[$table_name]))
+        {
             $links[$table_name_new] = $links[$table_name];
             unset($links[$table_name]);
         }
+
         foreach ($links AS $table => $keys)
         {
             foreach ($keys AS $field => $target)
@@ -587,9 +873,14 @@ class Openads_Schema_Manager
                 }
             }
         }
-        Openads_Links::writeLinksDotIni($this->links_trans, $links);
+        return Openads_Links::writeLinksDotIni($this->links_trans, $links);
     }
 
+    /**
+     * return an instance of an mdb2_schema validation class
+     *
+     * @return MDB2_Schema_Validate
+     */
     function init_schema_validator()
     {
         if (!isset($this->_validator))
@@ -600,9 +891,19 @@ class Openads_Schema_Manager
 
             $this->_validator =& new MDB2_Schema_Validate($fail_on_invalid_names, $valid_types, $force_defaults);
         }
-        return $this->_validator;
+        if (!Pear::iserror($result))
+        {
+            return $this->_validator;
+        }
+        return false;
     }
 
+    /**
+     * check access to an array of requried files/folders
+     *
+     *
+     * @return array of error messages
+     */
     function checkPermissions()
     {
         $aFiles = array(
