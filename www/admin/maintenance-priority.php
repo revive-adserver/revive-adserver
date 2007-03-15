@@ -53,7 +53,7 @@ phpAds_MaintenanceSelection("priority");
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-function phpAds_showBanners ()
+function phpAds_showBanners()
 {
 	$conf = $GLOBALS['_MAX']['CONF'];
 	global $strUntitled, $strName, $strID, $strWeight;
@@ -68,7 +68,7 @@ function phpAds_showBanners ()
 	$doAdZoneAssoc->zoneid = 0;
 	$doAdZoneAssoc->OrderBy('priority DESC');
     $doAdZoneAssoc->find();
-    
+
     $rows = array();
 	$prioritysum = 0;
 
@@ -95,7 +95,7 @@ function phpAds_showBanners ()
 
 		// Banners
 		foreach (array_keys($rows) as $key) {
-			$name = phpAds_getBannerName ($rows[$key]['bannerid'], 60, false);
+			$name = phpAds_getBannerName($rows[$key]['bannerid'], 60, false);
 
 			if ($i > 0) echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 
@@ -130,16 +130,11 @@ function phpAds_showBanners ()
 	}
 }
 
-
-
-
-
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
 echo "<br />";
-
 
 /*
 // Extra campaign info
@@ -222,7 +217,6 @@ echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align
 echo "<br /><br />";
 phpAds_ShowBreak();
 
-
 // Show banners
 //echo "<br /><br />";
 //phpAds_showBanners();
@@ -230,7 +224,6 @@ phpAds_ShowBreak();
 echo "<br /><br />";
 echo 'This page needs to be re-written to show an agency-based list of ad/zone priority data...';
 echo "<br /><br />";
-
 
 /*
 echo "<br /><br />";

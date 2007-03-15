@@ -38,7 +38,6 @@ require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 
 // Security check
 MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
-//phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

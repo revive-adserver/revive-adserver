@@ -40,8 +40,6 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 // Security check
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
-
-
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
