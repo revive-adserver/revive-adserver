@@ -211,7 +211,8 @@ require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
                     foreach($aZones as $zoneId => $aZone) {
                         $zoneName = $aZone['name'];
                         $zoneDescription = $aZone['description'];
-                        $zoneIcon = MAX_getEntityIcon('zone', $aZone['active'] == 't', $aZone['type']);
+                        $zoneIsActive = (isset($aZone['active']) && $aZone['active'] == 't') ? true : false;
+                        $zoneIcon = MAX_getEntityIcon('zone', $zoneIsActive, $aZone['type']);
                         $checked = isset($aLinkedZones[$zoneId]) ? ' checked' : '';
                         $bgcolor = ($checked == ' checked') ? " bgcolor='#d8d8ff'" : $bgcolorSave;
                         

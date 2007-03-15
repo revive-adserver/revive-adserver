@@ -62,36 +62,34 @@ if (!empty($action)) {
 
     _initCappingVariables();
 
-	// If the capping/blocking values have been changed - update the values
-	if (($aBannerPrev['block_ad'] <> $block) || ($aBannerPrev['cap_ad'] <> $cap) || ($aBannerPrev['session_cap_ad'] <> $session_capping)) {
-	    $values = array();
-	    $acls_updated = false;
-	    $now = date('Y-m-d H:i:s');
+    $values = array();
+    $acls_updated = false;
+    $now = date('Y-m-d H:i:s');
 
-	    if ($aBannerPrev['block_ad'] <> $block) {
-	        $values['block'] = $block;
-	        $acls_updated = ($block == 0) ? true : $acls_updated;
-	    }
-	    if ($aBannerPrev['cap_ad'] <> $cap) {
-	        $values['capping'] = $cap;
-	        $acls_updated = ($cap == 0) ? true : $acls_updated;
-	    }
-	    if ($aBannerPrev['session_cap_ad'] <> $session_capping) {
-	        $values['session_capping'] = $session_capping;
-	        $acls_updated = ($session_capping == 0) ? true : $acls_updated;
-	    }
-	    if ($acls_updated) {
-	        $values[acls_updated] = $now;
-	    }
+    if ($aBannerPrev['block_ad'] <> $block) {
+        $values['block'] = $block;
+        $acls_updated = ($block == 0) ? true : $acls_updated;
+    }
+    if ($aBannerPrev['cap_ad'] <> $cap) {
+        $values['capping'] = $cap;
+        $acls_updated = ($cap == 0) ? true : $acls_updated;
+    }
+    if ($aBannerPrev['session_cap_ad'] <> $session_capping) {
+        $values['session_capping'] = $session_capping;
+        $acls_updated = ($session_capping == 0) ? true : $acls_updated;
+    }
+    if ($acls_updated) {
+        $values['acls_updated'] = $now;
+    }
 
-	    if (!empty($values)) {
-	        $values['updated'] = $now;
-            $doBanners = MAX_DB::factoryDO('banners');
-            $doBanners->get($bannerid);
-            $doBanners->setFrom($values);
-            $doBanners->update();
-	    }
-	}
+    if (!empty($values)) {
+        $values['updated'] = $now;
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->get($bannerid);
+        $doBanners->setFrom($values);
+        $doBanners->update();
+    }
+    
     header("Location: banner-zone.php?clientid={$clientid}&campaignid={$campaignid}&bannerid={$bannerid}");
     exit;
 }
