@@ -53,7 +53,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         // assuming that all test data was created by DataGenerator
         // If it is necessary to recreate entire database we still could do it on the end
         // of each test by calling TestEnv::restoreEnv();
-        DataGenerator::cleanUp();
+        DataGenerator::cleanUp(array('banners'));
     }
     
     function testFactoryDAL()
