@@ -624,11 +624,20 @@ class MDB2_Schema_Writer
                     {
                         if ($aTable['indexes']['add'])
                         {
-                            $constructive['tables']['change'][$table]['indexes']['add'] = $changes['tables']['change'][$table]['indexes']['add'];
+                            $constructive['tables']['change'][$table]['indexes']['add'] = $aTable['indexes']['add'];
                         }
                         if ($aTable['indexes']['remove'])
                         {
-                            $destructive['tables']['change'][$table]['indexes']['remove'] = $changes['tables']['change'][$table]['indexes']['remove'];
+                            $destructive['tables']['change'][$table]['indexes']['remove'] = $aTable['indexes']['remove'];
+                        }
+                        if ($aTable['indexes']['change'])
+                        {
+                            //$constructive['tables']['change'][$table]['indexes']['change'] = $aTable['indexes']['change'];
+                            $constructive['tables']['change'][$table]['indexes']['add'] = $aTable['indexes']['change'];
+                            foreach ($aTable['indexes']['change'] AS $k=>$v)
+                            {
+                                $destructive['tables']['change'][$table]['indexes']['remove'][$k] = 'true';
+                            }
                         }
                     }
                 }
@@ -808,40 +817,35 @@ class MDB2_Schema_Writer
                         {
                             $aIndex = $aTable['indexes']['add'];
                             $this->writeXMLline("index");
-                            foreach ($aIndex AS $name=>$array)
+                            $this->writeXMLline("add", '', 'IN');
+                            foreach ($aIndex AS $name=>$def)
                             {
-                                $this->writeXMLline("add", '', 'IN');
-                                foreach ($aIndex AS $name=>$def)
+                                $this->writeXMLline($name, '', 'IN');
+                                if ($aIndex[$name]['was'])
                                 {
-                                    $this->writeXMLline('name', $name, 'IN', true);
-                                    if ($aIndex[$name]['unique'])
-                                    {
-                                        $this->writeXMLline("unique", 'true', '', true);
-                                    }
-                                    if ($aIndex[$name]['primary'])
-                                    {
-                                        $this->writeXMLline("primary", 'true', '', true);
-                                    }
-                                    if ($aIndex[$name]['was'])
-                                    {
-                                        $this->writeXMLline("was", $aIndex[$name]['was'], '', true);
-                                    }
-                                    if ($aIndex[$name])
-                                    {
-                                        foreach ($aIndex[$name]['fields'] AS $field=>$val)
-                                        {
-                                            $this->writeXMLline('indexfield');
-                                            $this->writeXMLline('name', $field, 'IN', true);
-                                            if ($val['sorting'])
-                                            {
-                                                $this->writeXMLline("sorting", $val['sorting'], '', true);
-                                            }
-                                            $this->writeXMLline('/indexfield', '', 'OUT');
-                                        }
-                                    }
+                                    $this->writeXMLline("was", $aIndex[$name]['was'], 'IN', true);
                                 }
-                                $this->writeXMLline("/add", '', 'OUT');
+                                if ($aIndex[$name]['unique'])
+                                {
+                                    $this->writeXMLline("unique", 'true', '', true);
+                                }
+                                if ($aIndex[$name]['primary'])
+                                {
+                                    $this->writeXMLline("primary", 'true', '', true);
+                                }
+                                foreach ($def['fields'] AS $field=>$val)
+                                {
+                                    $this->writeXMLline('indexfield');
+                                    $this->writeXMLline('name', $field, 'IN', true);
+                                    if ($val['sorting'])
+                                    {
+                                        $this->writeXMLline("sorting", $val['sorting'], '', true);
+                                    }
+                                    $this->writeXMLline('/indexfield', '', 'OUT');
+                                }
+                                $this->writeXMLline('/'.$name, '', 'OUT');
                             }
+                            $this->writeXMLline("/add", '', 'OUT');
                             $this->writeXMLline("/index", '', 'OUT');
                         }
                         if ($aTable['indexes']['remove'])
@@ -869,6 +873,14 @@ class MDB2_Schema_Writer
     // }}}
     // {{{ writeXMLline()
 
+    /**
+     * write a line of XML
+     *
+     * @param string $tag : tag name
+     * @param string $data : tag contents
+     * @param string $dent : indent (IN, OUT, default = '')
+     * @param boolean $close : close this tag (default false)
+     */
     function writeXMLline($tag, $data='', $dent='', $close=false)
     {
         if (($dent=='IN') || ($dent=='INANDOUT'))
