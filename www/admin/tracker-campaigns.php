@@ -77,7 +77,7 @@ foreach($invocationPlugins as $pluginKey => $plugin) {
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
 
-if (isset($trackerid) && $trackerid != '') {
+if (!empty($trackerid)) {
     if (isset($action) && $action == 'set') {
         $doCampaign_trackers = MAX_DB::factoryDO('campaigns_trackers');
         $doCampaign_trackers->trackerid = $trackerid;
@@ -89,7 +89,7 @@ if (isset($trackerid) && $trackerid != '') {
                 $viewwindow = $viewwindowday[$i] * (24*60*60) + $viewwindowhour[$i] * (60*60) + $viewwindowminute[$i] * (60) + $viewwindowsecond[$i];
 
                 $fields = array("campaignid", "trackerid", "status", "viewwindow", "clickwindow");
-                $values = array($campaignids[$i], $trackerid, "'".$statusids[$i]."'", $viewwindow, $clickwindow);
+                $values = array($campaignids[$i], $trackerid, $statusids[$i], $viewwindow, $clickwindow);
                  
                 foreach ($plugins as $plugin) {
                     $dbField = strtolower($plugin->trackerEvent) . "window";
@@ -99,9 +99,9 @@ if (isset($trackerid) && $trackerid != '') {
                 }
                 
                 $doCampaign_trackers = MAX_DB::factoryDO('campaigns_trackers');
-                for ($i = 0; $i < count($fields); $i++) {
-                    $field = $fields[0];
-                    $doCampaign_trackers->$field = $values[$i];
+                for ($k = 0; $k < count($fields); $k++) {
+                    $field = $fields[$k];
+                    $doCampaign_trackers->$field = $values[$k];
                 }
                 $doCampaign_trackers->insert();
             }
@@ -272,7 +272,7 @@ $defaults = array(
 if (!empty($trackerid)) {
     $doCampaign_trackers = MAX_DB::factoryDO('campaigns_trackers');
     $doCampaign_trackers->trackerid = $trackerid;
-    $campaign_tracker_row = $doCampaign_trackers->getAll();
+    $campaign_tracker_row = $doCampaign_trackers->getAll(array(), $indexBy = 'campaignid');
     $defaults = $tracker;
 }
 
@@ -289,7 +289,7 @@ if ($doCampaigns->getRowCount() == 0) {
     echo "\t\t\t\t<input type='hidden' name='trackerid' value='".$GLOBALS['trackerid']."'>\n";
     echo "\t\t\t\t<input type='hidden' name='clientid' value='".$GLOBALS['clientid']."'>\n";
     echo "\t\t\t\t<input type='hidden' name='action' value='set'>\n";
-    $campaigns = $doCampaigns->getAll();
+    $campaigns = $doCampaigns->getAll(array(), $indexByPrimaryKey = true);
 
     foreach ($campaigns as $campaign) {
         
