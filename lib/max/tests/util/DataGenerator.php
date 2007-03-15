@@ -112,9 +112,10 @@ class DataGenerator
      * @access public
      * @static 
      */
-    function cleanUp()
+    function cleanUp($addTablesToCleanUp = array())
     {
         $tables = DataGenerator::trackData();
+        $tables = array_merge($tables, $addTablesToCleanUp);
         foreach ($tables as $table) {
             $do = MAX_DB::factoryDO($table);
             $do->whereAdd('1=1');
