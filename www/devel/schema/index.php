@@ -33,14 +33,17 @@
 require_once '../../../init.php';
 define('MAX_DEV', MAX_PATH.'/www/devel');
 
-require_once MAX_DEV.'/lib/xajax.inc.php';
 require_once 'oaSchema.php';
 
-$oaSchema = & new Openads_Schema_Manager();
+$current_file = !empty($_REQUEST['xml_file']) ? $_REQUEST['xml_file'] : 'core';
+
+$oaSchema = & new Openads_Schema_Manager($current_file);
 
 if (($aErrs = $oaSchema->checkPermissions()) !== true) {
     die(join("<br />\n", $aErrs));
 }
+
+require_once MAX_DEV.'/lib/xajax.inc.php';
 
 if (array_key_exists('btn_copy_final', $_POST))
 {

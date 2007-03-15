@@ -58,15 +58,19 @@ class Openads_Links
     {
         $links =& new Config();
         $root =& $links->parseConfig($file_links, 'inifile');
-        $links = $root->toArray();
-        $links = $links['root'];
-        foreach ($links as $table => $link_array) {
-            foreach ($link_array as $fk => $fv) {
-                $tmp = explode(':', $fv);
-                $links[$table][$fk] = array(
-                    'table' => $tmp[0],
-                    'field' => $tmp[1]
-                );
+        if (PEAR::isError($root)) {
+            $links = array();
+        } else {
+            $links = $root->toArray();
+            $links = $links['root'];
+            foreach ($links as $table => $link_array) {
+                foreach ($link_array as $fk => $fv) {
+                    $tmp = explode(':', $fv);
+                    $links[$table][$fk] = array(
+                        'table' => $tmp[0],
+                        'field' => $tmp[1]
+                    );
+                }
             }
         }
 

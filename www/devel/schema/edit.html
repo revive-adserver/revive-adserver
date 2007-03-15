@@ -35,11 +35,13 @@
         ?>
     </div>
         <form name="frm_table" action="index.php" method="POST">
-            <table class="tablemain">
+        <input type="hidden" name="xml_file" value="<?php echo $current_file; ?>"/>
+        <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
+        <table class="tablemain">
                 <tr>
                     <td class="tableheader" style="text-align:center;width:20%;">
                         <button name="btn_table_delete" type="submit">delete this table</button>
-                        <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
+
                     </td>
                     <td class="tableheader" style="text-align:center;font-size:20px;">
 
@@ -61,7 +63,7 @@
                 <td style="vertical-align:top">
                     <?php include 'tpl/table_edit_fields.html'; ?>
                     <?php include 'tpl/table_edit_index.html'; ?>
-                    <?php include 'tpl/table_edit_foreignkeys.html'; ?>
+                    <?php if ($oaSchema->links_trans) { include 'tpl/table_edit_foreignkeys.html'; } ?>
                     <?php //include 'tpl/table_edit_menu.html'; ?>
                 </td>
                 <!--td style="vertical-align:top"-->

@@ -14,7 +14,7 @@
     </script>
 
 </head>
-<body>
+<body onload="xajax_loadXmlDropdown(xml_file)">
   <div class="bodydiv">
     <div class="heading">
         <xsl:text></xsl:text><xsl:value-of select="//database/name"/>
@@ -71,7 +71,7 @@
 <xsl:template name="showtableheader">
     <xsl:param name="tablename">unkown</xsl:param>
     <xsl:variable name="status" select="//database/status"></xsl:variable>
-    <form id="frm_table" method="POST" action="index.php">
+    <form id="frm_table_{$tablename}" method="POST" action="index.php">
         <TABLE class="tablemain">
             <tr>
                 <td class="tableheader" style="text-align:left;width:10px;">
@@ -198,14 +198,14 @@
 
 <xsl:template name="showtableedit">
     <xsl:param name="tablename">unkown</xsl:param>
-    <form id="frm_schema" method="POST" action="index.php">
+    <form id="frm_schema_{$tablename}" method="POST" action="index.php">
         <button name="btn_table_edit" type="submit" value="{$tablename}">edit this table</button>
         <!--button name="btn_table_edit" type="button" onclick="xajax_testAjax(xajax.getFormValues('frm_schema'));">edit this table</button-->
     </form>
 </xsl:template>
 
 <xsl:template name="showtableadd">
-    <form name="frm_schema" method="POST" action="index.php">
+    <form id="frm_schema_add" method="POST" action="index.php">
         <button name="btn_table_new" type="submit">new table</button>
         <xsl:text>   </xsl:text><input type="text" name="new_table_name"/>
     </form>
@@ -213,6 +213,7 @@
 
 <xsl:template name="showadminmenu">
     <form name="frm_admin" method="POST" action="index.php">
+        Currently working on: <select id="xml_file" name="xml_file"></select><br /><br />
         <input name="btn_copy_final" type="submit" value="copy final schema to transitional" />
         <input name="btn_delete_trans" type="submit" value="delete transitional schema"/>
         <input name="btn_compare_schemas" type="submit" value="inspect the changeset"/>
