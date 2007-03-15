@@ -66,20 +66,20 @@ if (!empty($trackerid))
     $dalAffiliates = MAX_DB::factoryDAL('affiliates');
     $rsAffiliates = $dalAffiliates->getPublishersByTracker($trackerid);
     $rsAffiliates->find();
-    
+
     $publishers = array();
     while ($rsAffiliates->fetch() && $row = $rsAffiliates->toArray()) {
         $publishers[$row['affiliateid']] = strip_tags(phpAds_BuildAffiliateName($row['affiliateid'], $row['name']));
     }
 
-    if (!isset($variablemethod)) {        
+    if (!isset($variablemethod)) {
         // get variable method
         $doTrackers = MAX_DB::factoryDO('trackers');
         if ($doTrackers->get($trackerid)) {
             $variablemethod = $doTrackers->variablemethod;
         }
     }
-    
+
     if (!isset($variables))
     {
         // get variables from db
@@ -95,17 +95,17 @@ if (!empty($trackerid))
 
             $vars['publisher_visible'] = array();
             $vars['publisher_hidden']  = array();
-            
+
             $variables[$vars['variableid']] = $vars;
         }
-        
+
         // get publisher visibility from db
         $doVariables = MAX_DB::factoryDO('variables');
         $doVariables->trackerid = $trackerid;
         $doVariable_publisher = MAX_DB::factoryDO('variable_publisher');
         $doVariables->joinAdd($doVariable_publisher);
         $doVariables->find();
-        
+
         while ($doVariables->fetch() && $pubs = $doVariables->toArray())
         {
             if ($pubs['visible'] && $variables[$pubs['variable_id']]['hidden'] == 't') {
@@ -114,9 +114,12 @@ if (!empty($trackerid))
                 $variables[$pubs['variable_id']]['publisher_hidden'][] = $pubs['publisher_id'];
             }
         }
-        
-        // Remove keys
-        $variables = array_values($variables);
+
+        // Remove keys]
+        if (isset($variables))
+        {
+            $variables = array_values($variables);
+        }
     }
     else
     {
@@ -142,10 +145,10 @@ if (!empty($trackerid))
             }
             $variables[$f]['unique_window'] = $uniqueWindowSeconds;
             $variables[$f]['variablecode'] = $_POST['variablecode'.$f];
-            
+
             $variables[$f]['publisher_visible'] = array();
             $variables[$f]['publisher_hidden']  = array();
-            
+
             switch ($_POST['visibility'.$f]) {
                 case 'all':
                     $variables[$f]['hidden'] = 't';
@@ -199,7 +202,7 @@ if (!empty($trackerid))
             } else {
                 $v['purpose'] = "NULL";
             }
-            
+
             if ($v['is_unique'] !== null) {
                 if($isUniqueAlreadyExists) {
                     $variables[$k]['is_unique'] = $v['is_unique'] = 0;
@@ -220,7 +223,7 @@ if (!empty($trackerid))
                     $v['variablecode'] = "var {$v['name']} = escape(\\'%%".strtoupper($v['name'])."_VALUE%%\\')"; break;
             }
 
-            // Always delete variable_publisher entries 
+            // Always delete variable_publisher entries
             if (!empty($v['variableid'])) {
                 $doVariable_publisher = MAX_DB::factoryDO('variable_publisher');
                 $doVariable_publisher->variable_id = $v['variableid'];
@@ -241,7 +244,7 @@ if (!empty($trackerid))
                 $doVariables->trackerid = $trackerid;
                 $v['variableid'] = $doVariables->insert();
             }
-            
+
             // Update variable_publisher entries
             $variable_publisher = array();
             if (is_array($v['publisher_visible'])) {
@@ -356,7 +359,7 @@ if (isset($trackerid) && $trackerid != '')
                 echo "<tr><td height='25' colspan='3'><b>".$strTrackingSettings."</b></td></tr>"."\n";
                 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
                 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
-                
+
                 echo "<tr>"."\n";
                 echo "\t"."<td width='30'>&nbsp;</td>"."\n";
                 echo "\t"."<td width='200'>".$strTrackerType."</td>"."\n";
@@ -685,7 +688,7 @@ phpAds_SessionDataStore();
     {
         var s = findObj('variablemethod');
         var display = s.selectedIndex == s.options.length - 1 ? '' : 'none'
-        
+
         var trs = document.getElementsByTagName('TR');
         for (var i = 0; i < trs.length; i++) {
             if (trs[i].className == 'jscode') {
@@ -693,7 +696,7 @@ phpAds_SessionDataStore();
             }
         }
     }
-    
+
     m3_updateVariableMethod();
 
     function m3_updateVisibility()
@@ -713,16 +716,16 @@ phpAds_SessionDataStore();
             }
         }
     }
-    
+
     m3_updateVisibility();
 
     function m3_hideShowMove(o, s)
     {
         var id = o.id.replace(/^[^0-9]+/, '');
         var p = document.getElementById((s ? 'p_show' : 'p_hide') + id);
-        
+
         var sel = o.selectedIndex;
-        
+
         if (sel >= 0) {
             p.appendChild(o.options[sel]);
             o.selectedIndex = -1;
@@ -736,11 +739,11 @@ phpAds_SessionDataStore();
     {
         var o = document.getElementById((s ? 'p_hide' : 'p_show') + id);
         var p = document.getElementById((s ? 'p_show' : 'p_hide') + id);
-        
+
         for (var i = o.options.length - 1; i >= 0; i--) {
             p.appendChild(o.options[i]);
         }
-        
+
         o.selectedIndex = -1;
         p.selectedIndex = -1;
         o.blur();
@@ -761,7 +764,7 @@ phpAds_SessionDataStore();
                 }
             }
         }
-        
+
         return true;
     }
 
