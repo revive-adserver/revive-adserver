@@ -83,9 +83,6 @@ class DataGenerator
             }
         }
         
-        $doOriginal = clone($do);
-        DataGenerator::setDefaultValues($do);
-
         if ($generateReferences) {
             $links = $do->links();
         	foreach ($links as $key => $match) {
@@ -95,6 +92,8 @@ class DataGenerator
         		$do->$key = DataGenerator::addAncestor($table, $primaryKey);
         	}
         }
+        $doOriginal = clone($do);
+        DataGenerator::setDefaultValues($do);
         DataGenerator::trackData($do->getTableWithoutPrefix());
         
         $ids = array();
