@@ -60,6 +60,7 @@ class DataObjects_ZonesTest extends DalUnitTestCase
         $zoneId = DataGenerator::generateOne($doZones);
         
         // Duplicate it
+        $doZones = MAX_DB::staticGetDO('zones', $zoneId);
         $newZoneId = $doZones->duplicate();
         $this->assertNotEmpty($newZoneId);
         
