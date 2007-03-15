@@ -62,7 +62,7 @@ if (empty($GLOBALS['_MDB2_Schema_Reserved'])) {
  */
 class MDB2_Changeset_Parser extends XML_Parser
 {
-    var $instructionset = array('name'=>'','version'=>'', 'constructive'=>array(),'destructive'=>array());
+    var $instructionset = array('name'=>'','version'=>'', 'comments'=>'', 'constructive'=>array(),'destructive'=>array());
 
     var $constructive_changeset_definition = array('name'=>'','version'=>'', 'tables' => array());
     var $destructive_changeset_definition = array('name'=>'','version'=>'', 'tables' => array());
@@ -319,6 +319,13 @@ class MDB2_Changeset_Parser extends XML_Parser
                     $this->instructionset['version'].= $data;
                 } else {
                     $this->instructionset['version'] = $data;
+                }
+            	break;
+            case 'instructionset-comments':
+                if (isset($this->instructionset['comments'])) {
+                    $this->instructionset['comments'].= $data;
+                } else {
+                    $this->instructionset['comments'] = $data;
                 }
             	break;
             case 'instructionset-constructive':

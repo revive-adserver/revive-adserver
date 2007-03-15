@@ -566,6 +566,7 @@ class MDB2_Schema_Writer
         $this->writeXMLline("changeset", '', 'IN');
         $this->writeXMLline("name", $changes['name'], 'IN', true);
         $this->writeXMLline("version", $changes['version'], '', true);
+        $this->writeXMLline("version", $changes['comments'], '', true);
         $this->addChangesToBuffer($changes);
         $this->writeXMLline("/changeset", '', 'OUT');
 
@@ -693,6 +694,8 @@ class MDB2_Schema_Writer
         $this->writeXMLline("instructionset", '', 'IN');
         $this->writeXMLline("name", $changes['name'], 'IN', true);
         $this->writeXMLline("version", $changes['version'], '', true);
+        $this->writeXMLline("comments", $changes['comments'], '', true);
+
         $this->writeXMLline("constructive");
         $this->writeXMLline("changeset", '', 'IN');
         $this->writeXMLline("name", $changeset['constructive']['name'], 'IN', true);
