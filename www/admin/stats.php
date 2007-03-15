@@ -41,7 +41,7 @@ require_once MAX_PATH . '/lib/max/Delivery/common.php';
 MAX_commonSetNoCacheHeaders();
 
 //make data loading depending only on period_start & period_end
-$tempPeriodPreset = $_REQUEST['period_preset'];
+$tempPeriodPreset = MAX_getValue('period_preset');
 $_REQUEST['period_preset'] = 'specific';
 $period_preset = 'specific';
 $session['prefs']['GLOBALS']['period_preset'] = 'specific';
@@ -80,28 +80,28 @@ if(isset($graphFilter) && is_array($graphFilter)) {
     header("Location: $redirectUrl");
     die;
 } else {
-    $graphFilter = $graphFields;
+    $graphFilter = isset($graphFields) ? $graphFields : null;
 }
 
 // handle filters
-if(is_numeric($advertiser_id)) {
-    $clientid = $advertiser_id;
+if(!empty($advertiser_id)) {
+    $clientid = (int) $advertiser_id;
 }
 
-if(is_numeric($placement_id)) {
-    $campaignid = $placement_id;
+if(!empty($placement_id)) {
+    $campaignid = (int) $placement_id;
 }
 
-if(is_numeric($ad_id)) {
-    $bannerid = $ad_id;
+if(!empty($ad_id)) {
+    $bannerid = (int) $ad_id;
 }
 
-if(is_numeric($publisher_id)) {
-    $affiliateid = $publisher_id;
+if(!empty($publisher_id)) {
+    $affiliateid = (int) $publisher_id;
 }
 
-if(is_numeric($zone_id)) {
-      $zoneid = $zone_id;
+if(!empty($zone_id)) {
+      $zoneid = (int) $zone_id;
 }
 
 if(!isset($entity)) {

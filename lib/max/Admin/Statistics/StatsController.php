@@ -842,7 +842,7 @@ class StatsController
      */
     function showBreadcrumbs()
     {
-        if (is_array($this->pageBreadcrumbs)) {
+        if (!empty($this->pageBreadcrumbs) && is_array($this->pageBreadcrumbs)) {
             foreach ($this->pageBreadcrumbs as $k => $bc) {
                 if ($k == count($this->pageBreadcrumbs) - 1) {
                     $bc['name'] = '<b>'.$bc['name'].'</b>';
@@ -1353,8 +1353,9 @@ class StatsController
     {
         foreach($this->columns as $k => $v) {
             $fieldName = explode('sum_', $k);
-            $fieldName = 'gui_column_' . $fieldName[1] . '_array';
-            if(is_array($GLOBALS['_MAX']['PREF'][$fieldName]) && $GLOBALS['_MAX']['PREF'][$fieldName][$GLOBALS['session']['usertype']]['show'] != 1) {
+            $sum = isset($fieldName[1]) ? $fieldName[1] : '';
+            $fieldName = 'gui_column_' . $sum . '_array';
+            if(isset($GLOBALS['_MAX']['PREF'][$fieldName]) && is_array($GLOBALS['_MAX']['PREF'][$fieldName]) && $GLOBALS['_MAX']['PREF'][$fieldName][$GLOBALS['session']['usertype']]['show'] != 1) {
                 unset($this->columns[$k]);
             }
         }
@@ -1398,7 +1399,7 @@ class StatsController
         }
 
         //merge params with optional array
-        if(is_array($merge_array)) {
+        if(is_array($mergeArray)) {
             $this->pageParams = array_merge($this->pageParams, $mergeArray);
 
         }

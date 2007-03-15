@@ -852,7 +852,9 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         // information found previously
         if (!empty($aFinalResult)) {
             foreach ($aFinalResult as $aResult) {
-                unset($aNotInLastOIPastDeliveryResult[$aResult['ad_id']][$aResult['zone_id']]);
+                if (isset($aResult['ad_id'])) {
+                    unset($aNotInLastOIPastDeliveryResult[$aResult['ad_id']][$aResult['zone_id']]);
+                }
             }
             foreach ($aNotInLastOIPastDeliveryResult as $adKey => $aZones) {
                 if (empty($aZones)) {
@@ -1099,7 +1101,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
             // they were active for) to the values, for those ad/zone combinations that require it
             foreach ($aResult as $aRow) {
                 // Does this value need to be used to calculate the average?
-                if ($aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']]['average'] &&
+                if (!empty($aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']]['average']) &&
                     (!$aPastDeliveryResult[$aRow['ad_id']][$aRow['zone_id']]['pastPriorityFound'])) {
                     // Add the variable values to the array, multiplied by the number of seconds the
                     // values were active for over the "hour" (not exact, in the event that the
@@ -1128,7 +1130,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 foreach ($aPastPriorityResult as $a => $aAd) {
                     if (is_array($aAd) && (count($aAd) > 0)) {
                         foreach ($aAd as $z => $aZone) {
-                            if ($aPastPriorityResult[$a][$z]['average'] && (!$aPastPriorityResult[$a][$z]['pastPriorityFound'])) {
+                            if (!empty($aPastPriorityResult[$a][$z]['average']) && (!$aPastPriorityResult[$a][$z]['pastPriorityFound'])) {
                                 $aPastPriorityResult[$a][$z]['required_impressions'] /= SECONDS_PER_HOUR;
                                 $aPastPriorityResult[$a][$z]['requested_impressions'] /= SECONDS_PER_HOUR;
                                 $aPastPriorityResult[$a][$z]['priority_factor'] /= SECONDS_PER_HOUR;

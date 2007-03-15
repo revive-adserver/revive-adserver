@@ -200,7 +200,12 @@ class StatsByEntityController extends StatsController
 
         // Use $row keys instead of $this->column to preserve non visible data
         foreach (array_keys($row) as $s) {
-            $entity[$row[$key]][$s] += $row[$s];
+            if (isset($row[$s])) {
+                if (!isset($entity[$row[$key]][$s])) {
+                    $entity[$row[$key]][$s] = 0;
+                }
+                $entity[$row[$key]][$s] += $row[$s];
+            }
         }
     }
 
