@@ -412,6 +412,15 @@ class MAX_Admin_Upgrade
         $queries = array();
         $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}data_summary_ad_hourly CHANGE total_num_items total_num_items INTEGER NULL";
         $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}data_intermediate_ad CHANGE total_num_items total_num_items INTEGER NOT NULL DEFAULT 0";
+		
+        // add community stats columns        
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}preference ADD ad_clicks_sum INT DEFAULT '0' NOT NULL";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}preference ADD ad_views_sum INT DEFAULT '0' NOT NULL";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}preference ADD ad_clicks_per_second FLOAT DEFAULT '0' NOT NULL";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}preference ADD ad_views_per_second FLOAT DEFAULT '0' NOT NULL";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}preference ADD ad_cs_data_last_sent DATE NULL";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}preference ADD ad_cs_data_last_received DATE NULL";
+                
         $this->_runQueries($queries);
     }
 

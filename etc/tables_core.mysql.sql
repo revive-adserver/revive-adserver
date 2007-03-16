@@ -955,6 +955,12 @@ CREATE TABLE IF NOT EXISTS preference (
   gui_column_ecps TEXT,
   gui_column_epps TEXT,
   instance_id VARCHAR(64),
+  ad_clicks_sum int(11) DEFAULT '0' NOT NULL,
+  ad_views_sum int(11) DEFAULT '0' NOT NULL,
+  ad_clicks_per_second float DEFAULT '0' NOT NULL,
+  ad_views_per_second float DEFAULT '0' NOT NULL,
+  ad_cs_data_last_sent DATE NULL,   
+  ad_cs_data_last_received DATE NULL,   
   PRIMARY KEY (agencyid)
 );
 
