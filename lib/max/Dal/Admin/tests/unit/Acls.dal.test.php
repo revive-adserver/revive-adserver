@@ -56,34 +56,34 @@ class MAX_Dal_Admin_AclsTest extends DalUnitTestCase
         DataGenerator::cleanUp();
     }
     
-    function testGetAclsByDataValueType()
-    {
-        $type = 'Site:Channel';
-        $bannerId = 1;
-        
-        // Test it returns empty set if no data exists
-        $rsChannel = $this->dalAcls->getAclsByDataValueType($bannerId, $type);
-    	$rsChannel->reset();
-    	$this->assertEqual($rsChannel->getRowCount(), 0);
-    	
-    	// Generate acls, two of them with the same $bannerId
-    	$data = array(
-    	   'bannerid' => array($bannerId,$bannerId,3)
-    	);
-    	$dg = new DataGenerator();
-    	$dg->setData('acls', $data);
-    	
-    	// Add test data
-    	$doAcls = MAX_DB::factoryDO('acls');
-    	$doAcls->type = $type;
-    	$doAcls->data = implode(',', $data['bannerid']) . ',5,76';
-    	$dg->generate($doAcls, 3);
-    	
-    	// Test that $bannerId is in two sets
-        $rsChannel = $this->dalAcls->getAclsByDataValueType($bannerId, $type);
-    	$rsChannel->reset();
-    	$this->assertEqual($rsChannel->getRowCount(), 2);
-    }
+//    function testGetAclsByDataValueType()
+//    {
+//        $type = 'Site:Channel';
+//        $bannerId = 1;
+//        
+//        // Test it returns empty set if no data exists
+//        $rsChannel = $this->dalAcls->getAclsByDataValueType($bannerId, $type);
+//    	$rsChannel->reset();
+//    	$this->assertEqual($rsChannel->getRowCount(), 0);
+//    	
+//    	// Generate acls, two of them with the same $bannerId
+//    	$data = array(
+//    	   'bannerid' => array($bannerId,$bannerId,3)
+//    	);
+//    	$dg = new DataGenerator();
+//    	$dg->setData('acls', $data);
+//    	
+//    	// Add test data
+//    	$doAcls = MAX_DB::factoryDO('acls');
+//    	$doAcls->type = $type;
+//    	$doAcls->data = implode(',', $data['bannerid']) . ',5,76';
+//    	$dg->generate($doAcls, 3);
+//    	
+//    	// Test that $bannerId is in two sets
+//        $rsChannel = $this->dalAcls->getAclsByDataValueType($bannerId, $type);
+//    	$rsChannel->reset();
+//    	$this->assertEqual($rsChannel->getRowCount(), 2);
+//    }
     
 }
 ?>

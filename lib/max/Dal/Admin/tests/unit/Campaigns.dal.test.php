@@ -326,4 +326,26 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $expected = $strUnlimited;
         $this->assertEqual($this->dalCampaigns->getAdViewsLeft($campaignId), $expected);
     }
+    
+    function testGetAllCampaignsUnderAgency()
+    {
+        // Test it doesn't return any data if no records are added
+        $this->assertEqual(count($this->dalCampaigns->getAllCampaignsUnderAgency(123,'name','up')), 0);
+        
+        // Add test data (add a little bit more than required)
+        $numCampaigns1 = 3;
+        $aCampaigns1 = DataGenerator::generate('campaigns', $numCampaigns1, $parents = true);
+        $agencyId1 = DataGenerator::getReferenceId('agency');
+        
+        $numCampaigns2 = 2;
+        $aCampaigns2 = DataGenerator::generate('campaigns', $numCampaigns2, $parents = true);
+        $agencyId2 = DataGenerator::getReferenceId('agency');
+        
+        // Take test data
+        $aCampaigns = $this->dalCampaigns->getAllCampaignsUnderAgency($agencyId2,'name','up');
+        $this->assertEqual(count($aCampaigns), $numCampaigns2);
+        $this->assertEqual(array_keys($aCampaigns), $aCampaigns2);
+    }
+    
+    
 }

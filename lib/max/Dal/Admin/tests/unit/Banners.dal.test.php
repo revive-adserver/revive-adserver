@@ -198,6 +198,7 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
         $doBanners->alt = 'bar';
         $doBanners->campaignid = $campaignId;
         $bannerId = DataGenerator::generateOne($doBanners, true);
+        $agencyId = DataGenerator::getReferenceId('agency');
         
         // Search for banner by description
         $expected = 1;
