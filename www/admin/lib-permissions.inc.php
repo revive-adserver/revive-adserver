@@ -225,28 +225,28 @@ function phpAds_Login()
         $password  = MAX_commonGetPostValueUnslashed('password');
         $md5digest = MAX_commonGetPostValueUnslashed('phpAds_md5');
         
-        $md5digest = Session::getMd5FromPassword($md5digest, $password);
+        $md5digest = MAX_Permission_Session::getMd5FromPassword($md5digest, $password);
         
-        Session::restartIfUsernameOrPasswordEmpty($md5digest, $username);
+        MAX_Permission_Session::restartIfUsernameOrPasswordEmpty($md5digest, $username);
         
-        Session::restartIfCookiesDisabled();
+        MAX_Permission_Session::restartIfCookiesDisabled();
         
         if (phpAds_isAdmin($username, $md5digest)) {
-            return User::getAAdminData($username);
-        } elseif ($doUser = User::findAndGetDoUser($username, $md5digest)) {
+            return MAX_Permission_User::getAAdminData($username);
+        } elseif ($doUser = MAX_Permission_User::findAndGetDoUser($username, $md5digest)) {
             return $doUser->getAUserData();
         } else {
             // Password is not correct or user is not known
             // Set the session ID now, some server do not support setting a cookie during a redirect
-            Session::restartToLoginScreen($strPasswordWrong);
+            MAX_Permission_Session::restartToLoginScreen($strPasswordWrong);
         }
     } else {
         if (!$conf['max']['installed']) {
             // We are trying to install, grant access...
-            return User::getAAdminData('admin');
+            return MAX_Permission_User::getAAdminData('admin');
         }
         // Set the session ID now, some servers do not support setting a cookie during a redirect.
-        Session::restartToLoginScreen();
+        MAX_Permission_Session::restartToLoginScreen();
     }
 }
 

@@ -40,7 +40,7 @@ define ("phpAds_Agency", 8);
 /**
  * The namespace for user-related functions.
  */
-class User
+class MAX_Permission_User
 {
     /**
      * Returns an array of base user data for a specified username and user type.
@@ -67,7 +67,7 @@ class User
      */
     function getAAdminData($username)
     {
-        return User::getABaseUserData(phpAds_Admin, $username);
+        return MAX_Permission_User::getABaseUserData(phpAds_Admin, $username);
     }
     
     
@@ -81,7 +81,7 @@ class User
      */
     function getAUserData($doUser)
     {
-        $aUserData = User::getABaseUserData(
+        $aUserData = MAX_Permission_User::getABaseUserData(
             $doUser->getUserType(), $doUser->getSUsername());
         $aUserData['agencyid'] = $doUser->agencyid;
         $aUserData['userid'] = $doUser->getUserId();
@@ -98,7 +98,7 @@ class User
      */
     function getAAffiliateData($doAffiliate)
     {
-        $aAffiliateData = User::getAUserData($doAffiliate);
+        $aAffiliateData = MAX_Permission_User::getAUserData($doAffiliate);
         $aAffiliateData["needs_to_agree"] = $doAffiliate->getNeedsToAgree();
         $aAffiliateData['help_file'] = '$doAffiliate->e_help_file'; // $doAffiliate->e_help_file;
         return $aAffiliateData;
@@ -140,7 +140,7 @@ class User
      */
     function getDoAgency($username, $md5digest)
     {
-        return User::getDoUser('agency', $username, $md5digest);
+        return MAX_Permission_User::getDoUser('agency', $username, $md5digest);
     }
     
     
@@ -154,7 +154,7 @@ class User
      */
     function getDoClients($username, $md5digest)
     {
-        return User::getDoUser('clients', $username, $md5digest);
+        return MAX_Permission_User::getDoUser('clients', $username, $md5digest);
     }
 
 
@@ -198,13 +198,13 @@ class User
      */
     function findAndGetDoUser($username, $md5digest)
     {
-        if ($doUser = User::getDoAgency($username, $md5digest)) {
+        if ($doUser = MAX_Permission_User::getDoAgency($username, $md5digest)) {
             return $doUser;
         }
-        elseif ($doUser = User::getDoClients($username, $md5digest)) {
+        elseif ($doUser = MAX_Permission_User::getDoClients($username, $md5digest)) {
             return $doUser;
         }
-        elseif ($doUser = User::getDoAffiliates($username, $md5digest)) {
+        elseif ($doUser = MAX_Permission_User::getDoAffiliates($username, $md5digest)) {
             return $doUser;
         }
         return false;

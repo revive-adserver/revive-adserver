@@ -110,6 +110,6 @@ class DataObjects_AbstractUser extends DB_DataObjectCommon
      */
     function getAUserData()
     {
-        return User::getAUserData($this);
+        return MAX_Permission_User::getAUserData($this);
     }
 }

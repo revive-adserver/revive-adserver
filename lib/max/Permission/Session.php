@@ -28,7 +28,7 @@
 $Id$
 */
 
-class Session
+class MAX_Permission_Session
 {
     /**
      * If the $md5digest is empty, converts $sPassword to md5
@@ -71,7 +71,7 @@ class Session
     {
         global $strEnterBoth;
         if ($md5digest == '' || $md5digest == md5('') || $username  == '') {
-            Session::restartToLoginScreen($strEnterBoth);
+            MAX_Permission_Session::restartToLoginScreen($strEnterBoth);
         }
     }
     
@@ -84,7 +84,7 @@ class Session
     {
         global $strEnableCookies;
         if ($_COOKIE['sessionID'] != $_POST['phpAds_cookiecheck']) {
-            Session::restartToLoginScreen($strEnableCookies);
+            MAX_Permission_Session::restartToLoginScreen($strEnableCookies);
         }
     }
 }
