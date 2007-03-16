@@ -52,17 +52,24 @@ define('MAX_CHG', MAX_PATH.'/etc/changes/');
 
 if (array_key_exists('select_changesets', $_POST))
 {
-    $file = MAX_CHG.$_POST['select_changesets'];
-    setcookie('changesetFile', basename($file));
+    $file = $_POST['select_changesets'];
+    if (empty($file))
+    {
+        $file = getLastChangeset();
+    }
+    setcookie('changesetFile', $file);
+    $file = MAX_CHG.$file;
 }
 else if (array_key_exists('xajax', $_POST))
 {
    $file = $_COOKIE['changesetFile'];
 }
 else {
-    $file = MAX_CHG.getLastChangeset();
-    setcookie('changesetFile', basename($file));
+    $file = getLastChangeset();
+    setcookie('changesetFile', $file);
+    $file = MAX_CHG.$file;
 }
+
 require_once MAX_DEV.'/lib/xajax.inc.php';
 
 if ($file && file_exists($file))
