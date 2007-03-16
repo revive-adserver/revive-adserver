@@ -29,6 +29,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Util/ArrayUtils.php';
+require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 
 class MAX_Permission
 {
@@ -40,7 +41,6 @@ class MAX_Permission
 	function checkAccess($allowed)
 	{
 		if (!MAX_Permission::hasAccess($allowed)) {
-			global $session;
 		    global $strNotAdmin, $strAccessDenied;
 	        phpAds_PageHeader(0);
 	        phpAds_Die($strAccessDenied, $strNotAdmin);
@@ -117,13 +117,23 @@ class MAX_Permission
 	 *
 	 * @param string $objectTable  Table name
 	 * @param int $id  Id (or empty if new is created)
+	 * @param int $userType  Used for testing or when we want to check access for user who is not
+	 *                       currently logged in
 	 * @return boolean  True if has access
 	 */
-	function hasAccessToObject($objectTable, $id)
+	function hasAccessToObject($objectTable, $id, $userType = null, $userId = null)
 	{
-		if (phpAds_isUser(phpAds_Admin)) {
-			return true;
+		if ($userType === null) {
+		    $userType = phpAds_getUserType();
 		}
+		if ($userId === null) {
+		    $userId = phpAds_getUserID();
+		}
+	    // check if admin
+	    if ($userType === phpAds_Admin) {
+	        return true;
+	    }
+		// user always has access to new object
 		if (empty($id)) {
 		    // when a new object is created
 		    return true;
@@ -137,11 +147,10 @@ class MAX_Permission
 			return false;
 		}
 		$do->$key = $id;
-		$userTable = MAX_Permission::getUserTypeTable();
+		$userTable = MAX_Permission::getUserTypeTable($userType);
 		if (!$userTable) {
 			return false;
 		}
-		$userId = phpAds_getUserID();
 		if ($objectTable == $userTable) {
 		    // user has access to itself
 		    return ($id == $userId);
@@ -152,20 +161,20 @@ class MAX_Permission
 	/**
 	 * Return user table for logged user
 	 *
+	 * @param $userType  User type, if null it's checked by phpAds_getUserType()
 	 * @return string
 	 */
-	function getUserTypeTable()
+	function getUserTypeTable($userType = null)
 	{
-		if (phpAds_isUser(phpAds_Client)) {
-			return 'clients';
+		if ($userType === null) {
+		    $userType = phpAds_getUserType();
 		}
-		if (phpAds_isUser(phpAds_Affiliate)) {
-			return 'affiliates';
-		}
-		if (phpAds_isUser(phpAds_Agency)) {
-			return 'agency';
-		}
-		return null;
+		$userTables = array(
+		    phpAds_Client => 'clients',
+		    phpAds_Affiliate => 'affiliates',
+		    phpAds_Agency => 'agency',
+		);
+        return isset($userTables[$userType]) ? $userTables[$userType] : null;
 	}
 	
 	/**

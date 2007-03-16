@@ -120,5 +120,37 @@ class MAX_PermissionTest extends UnitTestCase
         sort($actual);
         $this->assertEqual($actual, $expected);
     }
+    
+    function testHasAccessToObject()
+    {
+        $userTables = array(
+		    phpAds_Client    => 'clients',
+		    phpAds_Affiliate => 'affiliates',
+		    phpAds_Agency    => 'agency',
+		);
+        // Test if all users have access to new objects
+        foreach ($userTables as $userType => $userTable) {
+            $this->assertTrue(MAX_Permission::hasAccessToObject('banners', null, $userType));
+        }
+        $this->assertTrue(MAX_Permission::hasAccessToObject('banners', 'booId', phpAds_Admin));
+        // Create some record
+        $bannerId = DataGenerator::generateOne('banners', $generateParents = true);
+        $clientId = DataGenerator::getReferenceId('clients');
+        $affiliateId = DataGenerator::getReferenceId('affiliates');
+        $agencyId = DataGenerator::getReferenceId('agency');
+        // Test that admin always has access
+        $this->assertTrue(MAX_Permission::hasAccessToObject('banners', 'booId', phpAds_Admin));
+        
+        // Test users have access
+        $this->assertTrue(MAX_Permission::hasAccessToObject('banners', $bannerId, phpAds_Client, $clientId));
+        $this->assertTrue(MAX_Permission::hasAccessToObject('banners', $bannerId, phpAds_Agency, $agencyId));
+        
+        // Create users who don't have access
+        $clientId2 = DataGenerator::generateOne('clients');
+        $agencyId2 = DataGenerator::generateOne('agency');
+        $this->assertFalse(MAX_Permission::hasAccessToObject('banners', $bannerId, phpAds_Affiliate, $fakeId = 123));
+        $this->assertFalse(MAX_Permission::hasAccessToObject('banners', $bannerId, phpAds_Client, $clientId2));
+        $this->assertFalse(MAX_Permission::hasAccessToObject('banners', $bannerId, phpAds_Agency, $agencyId2));
+    }
 }
 ?>
