@@ -4,7 +4,7 @@
  */
 require_once 'DB_DataObjectCommon.php';
 
-class DataObjects_Trackers extends DB_DataObjectCommon 
+class DataObjects_Trackers extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
     var $refreshUpdatedFieldIfExists = true;
@@ -34,32 +34,35 @@ class DataObjects_Trackers extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-    
+
     function duplicate()
     {
+        // Store the current (pre-duplication) tracker ID for use later
+        $oldTrackerId = $this->trackerid;
+
         // Get unique name
         $this->trackername = $this->getUniqueNameForDuplication('trackername');
-        
+
         $this->trackerid = null;
         $newTrackerid = $this->insert();
         if (!$newTrackerid) {
             return $newTrackerid;
         }
-        
+
         // Copy any linked campaigns
         $doCampaign_trackers = $this->factory('campaigns_trackers');
-        $doCampaign_trackers->trackerid = $this->trackerid;
+        $doCampaign_trackers->trackerid = $oldTrackerId;
         $doCampaign_trackers->find();
         while ($doCampaign_trackers->fetch()) {
             $doCampaign_trackersClone = clone($doCampaign_trackers);
-            $doCampaign_trackersClone->campaign_tracker_id = null;
-            $doCampaign_trackersClone->tracker_id = $newTrackerid;
+            $doCampaign_trackersClone->campaign_trackerid = null;
+            $doCampaign_trackersClone->trackerid = $newTrackerid;
             $doCampaign_trackersClone->insert();
         }
-        
+
         // Copy any variables
         $doVariables = $this->factory('variables');
-        $doVariables->trackerid = $this->trackerid;
+        $doVariables->trackerid = $oldTrackerId;
         $doVariables->find();
         while ($doVariables->fetch()) {
             $doVariablesClone = clone($doVariables);
@@ -67,7 +70,7 @@ class DataObjects_Trackers extends DB_DataObjectCommon
             $doVariablesClone->trackerid = $newTrackerid;
             $doVariablesClone->insert();
         }
-        
+
         return $newTrackerid;
     }
 }
