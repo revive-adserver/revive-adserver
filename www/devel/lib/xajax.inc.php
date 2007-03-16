@@ -221,6 +221,28 @@ function exitIndexProperty($form)
 	return $objResponse;
 }
 
+function addIndexField($field)
+{
+	$objResponse = new xajaxResponse();
+//	$objResponse->addAlert($field);
+//	$html = '<li id="idx_fld_list['.$field.']">'.$field.' => descending? <input type="checkbox" name="idx_fld_add['.$field.'][sorting]" value="1" ></li>';
+
+	$objResponse->addCreateInput('frm_index', 'hidden', "idx_fld_add[{$field}]", "idx_fld_add_{$field}");
+    $objResponse->addAssign('idx_fld_add_'.$field, 'value', '');
+
+//	$html = "<li id=\"idx_fld_item[{$field}]\">{$field} => descending?</li>";
+//	$objResponse->addAppend('idx_fields', 'innerHTML', $html);
+
+	$objResponse->addCreate("idx_fields", 'li', "idx_fld_item[{$field}]");
+	$objResponse->addAssign("idx_fld_item[{$field}]", 'value', $field);
+	$objResponse->addAssign("idx_fld_item[{$field}]", 'innerHTML', "{$field} => descending?");
+
+	$objResponse->addCreateInput("idx_fld_item[{$field}]", 'checkbox', "idx_fld_desc[{$field}]", "idx_fld_desc[{$field}]");
+	$objResponse->addAssign("idx_fld_desc[{$field}]", 'value', "1");
+
+	return $objResponse;
+}
+
 require_once MAX_DEV.'/lib/xajax/xajax.inc.php';
 
 $xajax = new xajax();
@@ -237,6 +259,7 @@ $xajax->registerFunction("editTableProperty");
 $xajax->registerFunction("exitTableProperty");
 $xajax->registerFunction("editIndexProperty");
 $xajax->registerFunction("exitIndexProperty");
+$xajax->registerFunction("addIndexField");
 // Process any requests.  Because our requestURI is the same as our html page,
 // this must be called before any headers or HTML output have been sent
 $xajax->processRequests();

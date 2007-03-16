@@ -25,8 +25,8 @@
                         <td class="tablebody" style="width:15%;">
 
                             <button name="btn_index_del"  type="submit">delete</button>
-
-                            <button id="btn_idx_edit_<?php echo $i; ?>" name="btn_idx_edit" type="submit" style="display:inline" onclick="xajax_editIndexProperty(xajax.getFormValues('<?php echo $form_name; ?>')); return false">edit</button>
+                            <!-- THIS BUTTON SWITCHES ON THE COMPLICATED EDIT INDEX STUFF :O  -->
+                            <!--button id="btn_idx_edit_<?php //echo $i; ?>" name="btn_idx_edit" type="submit" style="display:inline" onclick="xajax_editIndexProperty(xajax.getFormValues('<?php //echo $form_name; ?>')); return false">edit</button-->
 
                             <button id="btn_idx_exit_<?php echo $i; ?>" name="btn_idx_exit" type="submit" style="display:none" onclick="xajax_exitIndexProperty(xajax.getFormValues('<?php echo $form_name; ?>')); return false">exit</button>
 
@@ -90,7 +90,7 @@
                    ?>
                     <tr>
                         <td class="tableheader" colspan="8">
-                            <form name="frm_index" action="index.php" method="POST">
+                            <form id="frm_index" name="frm_index" action="index.php" method="POST">
                                 <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
                                 <span class="titlemini">
                                     <button name="btn_index_add" type="submit">new index</button>
@@ -99,14 +99,30 @@
                                     <input type="text" name="index_add" id="index_add" value="" style="display:inline"/>
                                     primary<input type="checkbox" value="1" name="idx_primary"/>
                                     unique<input type="checkbox" value="1" name="idx_unique"/>
-                                    <select name="sel_idxfld_add[]" multiple >
-                                    <?php
-                                    foreach ($tbl_definition['fields'] AS $field => $field_def )
-                                    {
-                                        echo "<option value=\"{$field}\">{$field}</option>";
-                                    }
-                                    ?>
-                                    </select>
+                                    <table class="tablemain">
+                                        <tr class="tableheader">
+                                            <td>double click to select</td>
+                                            <td>fields to add in order</td>
+                                        </tr>
+                                        <tr class="tableheader">
+                                            <td class="tablebody" style="border:1px solid;width:50%;">
+                                                <ul name="fld_list" name="fld_list" style="cursor:pointer;list-style-type: none;" >
+                                                <?php
+                                                $i = 0;
+                                                foreach ($tbl_definition['fields'] AS $field => $field_def )
+                                                {
+                                                    $i++;
+                                                    echo "<li id=\"fld_{$i}\" value=\"{$field}\" ondblclick=\"xajax_addIndexField('{$field}'); return false\">{$field}</li>";
+                                                }
+                                                ?>
+                                                </ul>
+                                            </td>
+                                            <td class="tablebody" style="border:1px solid;vertical-align:top;width:50%;">
+                                                <ul id="idx_fields" name="idx_fields" style="list-style-type: none;">
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </span>
                             </form>
                         </td>

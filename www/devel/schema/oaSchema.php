@@ -594,16 +594,20 @@ class Openads_Schema_Manager
      * @param boolean $unique
      * @return boolean
      */
-    function indexAdd($table_name, $index_name, $index_fields, $primary='', $unique='')
+    function indexAdd($table_name, $index_name, $index_fields, $primary='', $unique='', $idx_fld_sort)
     {
         $this->parseWorkingDefinitionFile();
         $this->db_definition['tables'][$table_name]['indexes'][$index_name] = array();
         $this->db_definition['tables'][$table_name]['indexes'][$index_name]['fields'] = array();
         $this->db_definition['tables'][$table_name]['indexes'][$index_name]['primary'] = $primary;
         $this->db_definition['tables'][$table_name]['indexes'][$index_name]['unique'] = $unique;
-        foreach ($index_fields AS $k=>$fld_name)
+        foreach ($index_fields AS $fld_name=>$null)
         {
             $this->db_definition['tables'][$table_name]['indexes'][$index_name]['fields'][$fld_name] = array('sorting'=>'ascending');
+        }
+        foreach ($idx_fld_sort AS $fld_name=>$sorting)
+        {
+            $this->db_definition['tables'][$table_name]['indexes'][$index_name]['fields'][$fld_name]['sorting'] = 'descending';
         }
         return $this->writeWorkingDefinitionFile();
     }
