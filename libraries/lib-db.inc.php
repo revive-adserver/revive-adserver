@@ -17,6 +17,11 @@
 // MySQL DB Resource
 $phpAds_db_link = '';
 
+// Distributed stats DB Resources
+$phpAds_lb_links = array('main' => '', 'lb' => '', 'current' => 'main');
+
+
+
 
 // Add database name to table names if compatibility mode is used
 if ($phpAds_config['compatibility_mode'])
@@ -92,7 +97,7 @@ function phpAds_dbConnect()
 /* Close the connection to the database			         */
 /*********************************************************/
 
-function phpAds_dbClose()
+function phpAds_dbClose($force = false)
 {
 	// Never close the database connection, because
 	// it may interfere with other scripts which
@@ -228,6 +233,77 @@ function phpAds_dbErrorNo ()
 	global $phpAds_db_link;
 	
 	return @mysql_errno($phpAds_db_link);
+}
+
+
+
+/*********************************************************/
+/* Switch to the distributed local database if needed    */
+/*********************************************************/
+
+function phpAds_dbDistributedMode()
+{
+	global $phpAds_config, $phpAds_db_link, $phpAds_lb_links;
+	
+	// Switch only when necessary
+	if ($phpAds_config['lb_enabled'] && $phpAds_lb_links['current'] == 'main')
+	{
+		// Backup configuration
+		$phpAds_config['lb_backup'] = array();
+		
+		// Backup db resource
+		$phpAds_lb_links['current'] = 'lb';
+		$phpAds_lb_links['main'] = $phpAds_db_link;
+		$phpAds_db_link = $phpAds_lb_links['lb'];
+	
+		// Overwrite database parameters
+		foreach ($phpAds_config as $k => $v)
+		{
+			if (strpos($k, 'lb_db') === 0)
+			{
+				// Backup original settings
+				$phpAds_config['lb_backup'][substr($k, 3)] = $phpAds_config[substr($k, 3)];
+				
+				$phpAds_config[substr($k, 3)] = $v;
+			}
+		}
+		
+		// Make sure that verbose stats are enabled
+		$phpAds_config['lb_backup']['compact_stats'] = $phpAds_config['compact_stats'];
+		$phpAds_config['compact_stats'] = false;
+	}
+	
+	// Make sure we use the correct database
+	if ($phpAds_db_link)
+		@mysql_select_db ($phpAds_config['dbname'], $phpAds_db_link);
+}
+
+/*********************************************************/
+/* Switch back to the main database if needed            */
+/*********************************************************/
+
+function phpAds_dbNormalMode()
+{
+	global $phpAds_config, $phpAds_db_link, $phpAds_lb_links;
+	
+	// Switch only when necessary
+	if ($phpAds_config['lb_enabled'] && $phpAds_lb_links['current'] == 'lb')
+	{
+		// Backup db resource
+		$phpAds_lb_links['current'] = 'main';
+		$phpAds_lb_links['lb'] = $phpAds_db_link;
+		$phpAds_db_link = $phpAds_lb_links['main'];
+		
+		// Overwrite database parameters
+		foreach ($phpAds_config['lb_backup'] as $k => $v)
+		{
+			$phpAds_config[$k] = $v;
+		}
+	}
+	
+	// Make sure we use the correct database
+	if ($phpAds_db_link)
+		@mysql_select_db ($phpAds_config['dbname'], $phpAds_db_link);
 }
 
 ?>

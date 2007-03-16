@@ -18,8 +18,8 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.313;
-$phpAds_version_readable = "2.0.11";
+$phpAds_version = 200.314;
+$phpAds_version_readable = "2.0.12-alpha";
 $phpAds_version_development = false;  
 
 $phpAds_productname = "Openads";
@@ -90,6 +90,13 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'log_iponly' =>					array ('type' => 'boolean', 'sql' => false),
 	'pack_cookies' =>				array ('type' => 'boolean', 'sql' => false),
 	'auto_maintenance' =>			array ('type' => 'boolean', 'sql' => false),
+	'lb_enable' => 					array ('type' => 'boolean', 'sql' => false),
+	'lb_dblocal' => 				array ('type' => 'boolean', 'sql' => false),
+	'lb_dbhost' => 					array ('type' => 'string', 	'sql' => false),
+	'lb_dbport' => 					array ('type' => 'integer', 'sql' => false),
+	'lb_dbuser' => 					array ('type' => 'string', 	'sql' => false),
+	'lb_dbpassword' => 				array ('type' => 'string', 	'sql' => false),
+	'lb_dbname' => 					array ('type' => 'string', 	'sql' => false),
 	
 	'my_header' =>					array ('type' => 'string', 'sql' => true),
 	'my_footer' =>					array ('type' => 'string', 'sql' => true),

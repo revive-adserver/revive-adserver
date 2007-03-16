@@ -33,6 +33,7 @@ define ("phpAds_actionActiveCampaign", 21);
 define ("phpAds_actionAutoClean", 30);
 define ("phpAds_actionGeotargeting", 40);
 define ("phpAds_actionOpenadsSync", 50);
+define ("phpAds_actionDistributedStats", 60);
 
 
 $GLOBAL['phpAds_Usertype'] = 0;
