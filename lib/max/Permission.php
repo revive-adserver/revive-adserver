@@ -126,9 +126,6 @@ class MAX_Permission
 		if ($userType === null) {
 		    $userType = phpAds_getUserType();
 		}
-		if ($userId === null) {
-		    $userId = phpAds_getUserID();
-		}
 	    // check if admin
 	    if ($userType === phpAds_Admin) {
 	        return true;
@@ -150,6 +147,9 @@ class MAX_Permission
 		$userTable = MAX_Permission::getUserTypeTable($userType);
 		if (!$userTable) {
 			return false;
+		}
+		if ($userId === null) {
+		    $userId = phpAds_getUserID();
 		}
 		if ($objectTable == $userTable) {
 		    // user has access to itself
