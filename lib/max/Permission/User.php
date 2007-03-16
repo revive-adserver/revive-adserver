@@ -100,7 +100,7 @@ class MAX_Permission_User
     {
         $aAffiliateData = MAX_Permission_User::getAUserData($doAffiliate);
         $aAffiliateData["needs_to_agree"] = $doAffiliate->getNeedsToAgree();
-        $aAffiliateData['help_file'] = '$doAffiliate->e_help_file'; // $doAffiliate->e_help_file;
+        $aAffiliateData['help_file'] = $doAffiliate->e_help_file;
         return $aAffiliateData;
     }
 

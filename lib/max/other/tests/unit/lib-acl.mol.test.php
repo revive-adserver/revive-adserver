@@ -79,7 +79,6 @@ class LibAclTest extends DalUnitTestCase
 //        $this->assertTrue(set_magic_quotes_runtime(0));
         // array('comparison', 'data', 'executionorder', 'logical', 'type');
         
-        // Commented out so CC won't complain. Still working on it.
         $doChannel = MAX_DB::factoryDO('channel');
         $channelId = DataGenerator::generateOne($doChannel, false);
         
