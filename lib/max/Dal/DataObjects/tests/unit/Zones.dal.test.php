@@ -74,5 +74,47 @@ class DataObjects_ZonesTest extends DalUnitTestCase
         $doZones->zonename = $doNewZone->zonename = null;
         $this->assertEqualDataObjects($this->stripKeys($doZones), $this->stripKeys($doNewZone));
     }
+    
+    function testDelete()
+    {
+        $doZones = MAX_DB::factoryDO('zones');
+        $doZones->append = '';
+        $doZones->chain = '';
+        DataGenerator::generate($doZones, $numZones1 = 2); // add few reduntant zones
+        
+        // Add our testing zone
+        $zoneId = DataGenerator::generateOne('zones');
+        
+        // add appending zones
+        $doZones = MAX_DB::factoryDO('zones');
+        $doZones->appendtype = phpAds_ZoneAppendZone;
+        $doZones->append = 'zone:'.$zoneId;
+        $doZones->chain = '';
+        $aZoneIdAppends = DataGenerator::generate($doZones, $numZonesAppened = 3);
+        
+        // add chained zones
+        $doZones = MAX_DB::factoryDO('zones');
+        $doZones->append = '';
+        $doZones->chain = 'zone:'.$zoneId;
+        $aZoneIdChained = DataGenerator::generate($doZones, $numZonesChained = 3);
+        
+        $doZones = MAX_DB::staticGetDO('zones', $zoneId);
+        $ret = $doZones->delete(); // delete
+        $this->assertTrue($ret);
+        
+        $numAllZones = $numZones1 + $numZonesAppened + $numZonesChained;
+        
+        // check appended zones were cleaned up
+        $doZones = MAX_DB::factoryDO('zones');
+        $doZones->append = '';
+        //$doZones->whereAdd("append = ''");
+        // $countWhat = true
+        $this->assertEqual($doZones->count(), $numAllZones);
+        
+        // check chained zones were cleaned up
+        $doZones = MAX_DB::factoryDO('zones');
+        $doZones->chain = '';
+        $this->assertEqual($doZones->count(), $numAllZones);
+    }
 }
 ?>

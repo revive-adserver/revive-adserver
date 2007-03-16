@@ -63,27 +63,25 @@ class DataObjects_Zones extends DB_DataObjectCommon
     function delete($useWhere = false, $cascadeDelete = true)
     {
     	// Handle all "appended" zones
-    	$doZone = DB_DataObject::factory('zones');
-    	$doZone->init();
-    	$doZone->appendtype = phpAds_ZoneAppendZone;
-    	$doZone->whereAdd("append LIKE '%zone:".$this->zoneid."%'");
-    	$doZone->find();
+    	$doZones = $this->factory('zones');
+    	$doZones->appendtype = phpAds_ZoneAppendZone;
+    	$doZones->whereAdd("append LIKE '%zone:".$this->zoneid."%'");
+    	$doZones->find();
     	
-    	while($doZone->fetch()) {
-			$doZoneUpdate = clone($doZone);
+    	while($doZones->fetch()) {
+			$doZoneUpdate = clone($doZones);
 			$doZoneUpdate->appendtype = phpAds_ZoneAppendRaw;
 			$doZoneUpdate->append = '';
 			$doZoneUpdate->update();
     	}
     	
     	// Handle all "chained" zones
-    	$doZone = DB_DataObject::factory('zones');
-    	$doZone->init();
-    	$doZone->chain = 'zone:'.$this->zoneid;
-    	$doZone->find();
+    	$doZones = $this->factory('zones');
+    	$doZones->chain = 'zone:'.$this->zoneid;
+    	$doZones->find();
     	
-    	while($doZone->fetch()) {
-			$doZoneUpdate = clone($doZone);
+    	while($doZones->fetch()) {
+			$doZoneUpdate = clone($doZones);
 			$doZoneUpdate->chain = '';
 			$doZoneUpdate->update();
     	}
