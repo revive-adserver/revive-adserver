@@ -175,18 +175,19 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
     }
     
     /**
-     * Enter description here...
      *
-     * @todo Finish this test
+     * @todo The method this tests is very large so this test could be expanded
+     *       or, better, getDaysLeft() could be refactored.
      */
     function testGetDaysLeft()
     {
         $GLOBALS['strExpiration'] = 'Expiration';
+        $GLOBALS['strEstimated'] = 'Estimated Expiration';
         $GLOBALS['strNoExpiration'] = 'No expiration date set';
         $GLOBALS['date_format'] = '%d.%m.%Y';
         $GLOBALS['strDaysLeft'] = 'Days left';
         
-        // Insert an unlimited campaign with no expiration date
+        // Test an unlimited campaign with no expiration date
         $bannerId = DataGenerator::generateOne('banners', true);
         $campaignId = DataGenerator::getReferenceId('campaigns');
         
@@ -194,19 +195,20 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $actual = $this->dalCampaigns->getDaysLeft($campaignId);
         $this->assertEqual($actual, $expected);
         
-        // Insert an unlimited campaign with an expiration date of today + 10 days
-        /*$daysLeft = 10;
+        // Test an unlimited campaign with an expiration date of today + 10 days
+        $daysLeft = 10;
         $now = time();
         $expirationDate = mktime(0, 0, 0, date("m", $now), date("d", $now) + $daysLeft, date("Y", $now));
-        $aData = array(
-            'views' => -1,
-            'clicks' => -1,
-            'expire' => $expirationDate
-        );
-        $dg = new DataGenerator();
-        $dg->setData('campaigns', $aData);
-        $dg->generate('banners', 1, true);
-        $campaignId = DataGenerator::getReferenceId('campaigns');
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->views = -1;
+        $doCampaigns->clicks = -1;
+        $doCampaigns->expire = date('Y-m-d', $expirationDate);
+        $campaignId = DataGenerator::generateOne($doCampaigns, true);
+        
+        // Link a banner to this campaign
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->campaignid = $campaignId;
+        $bannerId = DataGenerator::generateOne($doBanners);
 
         $expected = array(
             $GLOBALS['strExpiration'] . ': ' . date('d.m.Y', $expirationDate) . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")",
@@ -214,7 +216,73 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
             $daysLeft
         );
         $actual = $this->dalCampaigns->getDaysLeft($campaignId);
-        $this->assertEqual($actual, $expected);*/
+        $this->assertEqual($actual, $expected);
+        
+        // Test a view limited campaign
+        $views = 1000;
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->views = $views;
+        $doCampaigns->clicks = -1;
+        $campaignId = DataGenerator::generateOne($doCampaigns, true);
+        
+        // Link a banner to this campaign
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->campaignid = $campaignId;
+        $bannerId = DataGenerator::generateOne($doBanners);
+        
+        // Insert some dsah data
+        $impressions = 50;
+        $clicks = 5;
+        $doDSAH = MAX_DB::factoryDO('data_summary_ad_hourly');
+        $doDSAH->day = date('Y-m-d', $now);
+        $doDSAH->hour = 10;
+        $doDSAH->ad_id = $bannerId;
+        $doDSAH->impressions = $impressions;
+        $doDSAH->clicks = $clicks;
+        $dsahId = DataGenerator::generateOne($doDSAH);
+        
+        $daysLeft = round($views / ($impressions / 1));
+        $expirationDate = mktime(0, 0, 0, date("m", $now), date("d", $now) + $daysLeft, date("Y", $now));
+        $expected = array(
+            $GLOBALS['strEstimated'] . ': ' . date('d.m.Y', $expirationDate) . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")",
+            date('d.m.Y', $expirationDate), 
+            $daysLeft
+        );
+        $actual = $this->dalCampaigns->getDaysLeft($campaignId);
+        $this->assertEqual($actual, $expected);
+        
+        // Test a click limited campaign
+        $campaignClicks = 500;
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->views = -1;
+        $doCampaigns->clicks = $campaignClicks;
+        $campaignId = DataGenerator::generateOne($doCampaigns, true);
+        
+        // Link a banner to this campaign
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->campaignid = $campaignId;
+        $bannerId = DataGenerator::generateOne($doBanners);
+        
+        // Insert some dsah data
+        $impressions = 50;
+        $clicks = 5;
+        $doDSAH = MAX_DB::factoryDO('data_summary_ad_hourly');
+        $doDSAH->day = date('Y-m-d', $now);
+        $doDSAH->hour = 10;
+        $doDSAH->ad_id = $bannerId;
+        $doDSAH->impressions = $impressions;
+        $doDSAH->clicks = $clicks;
+        $dsahId = DataGenerator::generateOne($doDSAH);
+        
+        $daysLeft = round($campaignClicks / ($clicks / 1));
+        $expirationDate = mktime(0, 0, 0, date("m", $now), date("d", $now) + $daysLeft, date("Y", $now));
+        $expected = array(
+            $GLOBALS['strEstimated'] . ': ' . date('d.m.Y', $expirationDate) . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")",
+            date('d.m.Y', $expirationDate), 
+            $daysLeft
+        );
+        $actual = $this->dalCampaigns->getDaysLeft($campaignId);
+        $this->assertEqual($actual, $expected);
     }
     
     function testGetAdClicksLeft()

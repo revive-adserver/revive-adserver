@@ -193,10 +193,9 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             		    clicks > 0
             	";
     
-            	$res_clicks = phpAds_dbQuery($click_query) or phpAds_sqlDie();
-    
-            	if (phpAds_dbNumRows($res_clicks) == 1) {
-    				$row_clicks = phpAds_dbFetchArray($res_clicks);
+                $rsClicks = DBC::FindRecord($click_query);
+            	if ($rsClicks == 1) {
+    				$row_clicks = $rsClicks->toArray();
     				
     				if (!isset($row_clicks["days_since_start"]) ||
     				    $row_clicks["days_since_start"] == '' ||
