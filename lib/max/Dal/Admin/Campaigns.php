@@ -144,7 +144,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                	";
     			
                	$rsCampaigns = DBC::FindRecord($query);
-    			if ($rsCampaigns == 1) {
+    			if ($rsCampaigns) {
     				$row_views = $rsCampaigns->toArray();
     				
     				if (!isset($row_views["days_since_start"]) ||
@@ -194,7 +194,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             	";
     
                 $rsClicks = DBC::FindRecord($click_query);
-            	if ($rsClicks == 1) {
+            	if ($rsClicks) {
     				$row_clicks = $rsClicks->toArray();
     				
     				if (!isset($row_clicks["days_since_start"]) ||
