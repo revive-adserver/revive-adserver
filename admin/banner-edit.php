@@ -982,8 +982,14 @@ if (!isset($bannerid) || $bannerid == '')
 	echo "<input type='hidden' name='campaignid' value='".$campaignid."'>";
 	echo "<input type='hidden' name='bannerid' value='".$bannerid."'>";
 	
+	$sDocLink = phpAds_getDocPageUrl( 'inventory.banners', 0, array( 'storagetype' => $storagetype ) );
+	
 	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-	echo "<tr><td height='25' colspan='3'><b>".$strChooseBanner."</b></td></tr>";
+	echo "<tr><td height='25' colspan='3'><b>".$strChooseBanner."</b>" .
+			'<a href="' . $sDocLink . '" class="inlineHelp" ' .
+        		"onclick=\"openWindow('$sDocLink','','status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\"".
+        		'>&nbsp;<span>' . $sDocLink . '</span></a>' .
+			"</td></tr>";
 	echo "<tr><td height='25'>";
 	echo "<select name='storagetype' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";
 	

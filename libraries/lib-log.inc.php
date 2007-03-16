@@ -40,8 +40,8 @@ function phpAds_logExpire ($clientid, $type = 0, $number = 1, $force_run = false
 	
 	if ($campaign = phpAds_dbFetchArray ($campaignresult))
 	{
-		$views_before	= $campaign['views'];
-		$clicks_before	= $campaign['clicks'];
+		$views_before	= $views_after	=$campaign['views'];
+		$clicks_before	= $clicks_after	= $campaign['clicks'];
 
 		// Decrement views
 		if ($type == phpAds_Views && $views_before > 0)
@@ -49,7 +49,7 @@ function phpAds_logExpire ($clientid, $type = 0, $number = 1, $force_run = false
 			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET views = IF(views - ".$number." < 0, 0, views - ".$number.")
 				WHERE clientid = '".$clientid."'");
 			
-			$views_after = $views_before - $number;
+			$views_after -= $number;
 			
 			// Mail warning - preset is reached
 			if ($views_before > $phpAds_config['warn_limit'] &&
@@ -79,17 +79,18 @@ function phpAds_logExpire ($clientid, $type = 0, $number = 1, $force_run = false
 		// Decrement clicks
 		if ($type == phpAds_Clicks && $clicks_before > 0)
 		{
-			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET clicks = IF(clicks - ".$number." < 0, 0, clicks - ".$number.")
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET
+				clicks = IF(clicks - ".$number." < 0, 0, clicks - ".$number.")
 				WHERE clientid = '".$clientid."'");
 
-			$clicks_after = $clicks_before - $number;
+			$clicks_after -= $number;
 		}
 		
 		
 		// Check activation status
 		$active = "t";
 		
-		if ((clicks_before > 0 && $clicks_after <= 0) ||
+		if (($clicks_before > 0 && $clicks_after <= 0) ||
 			($views_before > 0 && $views_after <= 0) ||
 			(time() < $campaign["activate_st"]) || 
 			(time() > $campaign["expire_st"] && $campaign["expire_st"] != 0))
@@ -111,22 +112,24 @@ function phpAds_logExpire ($clientid, $type = 0, $number = 1, $force_run = false
 			// Deactivate campaign
 			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET active='".$active."' WHERE clientid='".$clientid."'");
 			
-			// Send deactivation warning
+			// Send deactivation warning 
 			if ($active == 'f')
 			{
-				// Rebuild priorities
-				if (!defined('LIBPRIORITY_INCLUDED'))  
-					require (phpAds_path.'/libraries/lib-priority.inc.php');
-				
-				phpAds_PriorityCalculate ();
-				
-				
-				// Recalculate cache
-				if (!defined('LIBVIEWCACHE_INCLUDED'))  
-					include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
-				
-				phpAds_cacheDelete();
-				
+				if (!$phpAds_config['lb_enabled'])
+				{
+					// Rebuild priorities
+					if (!defined('LIBPRIORITY_INCLUDED'))  
+						require (phpAds_path.'/libraries/lib-priority.inc.php');
+					
+					phpAds_PriorityCalculate ();
+					
+					
+					// Recalculate cache
+					if (!defined('LIBVIEWCACHE_INCLUDED'))  
+						include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+					
+					phpAds_cacheDelete();
+				}
 				
 				// Include warning library
 				if (!defined('LIBWARNING_INCLUDED'))

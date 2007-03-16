@@ -196,7 +196,7 @@ function phpAds_generateLayerCode ($parameters)
 	if (isset($noborder))
 		$parameters[] = 'noborder='.$noborder;
 	
-	$buffer = "<script language='JavaScript' type='text/javascript' src='".$phpAds_config['url_prefix']."/adlayer.php";
+	$buffer .= "<script type='text/javascript' src='".$phpAds_config['url_prefix']."/adlayer.php";
 	if (sizeof($parameters) > 0)
 		$buffer .= "?".implode ("&amp;", $parameters);
 	$buffer .= "'></script>";
@@ -235,9 +235,10 @@ function phpAds_settings_cp_map($name)
 	if (!$done)
 	{
 		$done = true;
+
+echo '<script type="text/javascript">', "\n";
+echo '<!-- // <![CDATA[ ', "\n";
 ?>
-<script language="JavaScript">
-<!--
 
 function dec2hex(d) {
 	var hex_chars = "0123456789ABCDEF";
@@ -308,20 +309,24 @@ function c_update(cp, value)
 	}
 }
 
-// -->
-</script>
 <?php
-	}
+echo '// ]]> -->';	    
+echo "\n", '</script>';
+}
+echo '<script type="text/javascript">', "\n";
+echo '<!-- // <![CDATA[', "\n";
+		
 ?>
-<script language="JavaScript">
-<!--
+
 addColorPicker('<?php echo $name.'_cp'; ?>', '<?php echo $name; ?>');
 
 // Fix color when reload is hit
 c_update('<?php echo $name; ?>', document.getElementById('<?php echo $name; ?>').value);
-//-->
-</script>
+
 <?php
+echo '// ]]> -->';	    
+echo "\n", '</script>';
+
 }
 
 ?>

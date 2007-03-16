@@ -191,7 +191,7 @@ function phpAds_generateLayerCode ($parameters)
 		$parameters[] = 'rmargin='.$rmargin;
 	}
 	
-	$buffer = "<script language='JavaScript' type='text/javascript' src='".$phpAds_config['url_prefix']."/adlayer.php";
+	$buffer .= "<script type='text/javascript' src='".$phpAds_config['url_prefix']."/adlayer.php";
 	if (sizeof($parameters) > 0)
 		$buffer .= "?".implode ("&amp;", $parameters);
 	$buffer .= "'></script>";

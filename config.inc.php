@@ -230,7 +230,7 @@ $phpAds_config['type_html_php'] = false;
 /*********************************************************/
 
 // Enable distrbuted load balancing
-$phpAds_config['lb_enable'] = false;
+$phpAds_config['lb_enabled'] = false;
 
 // Database local connection using sockets
 $phpAds_config['lb_dblocal'] = false;

@@ -699,6 +699,14 @@ function phpAds_PriorityCalculate()
 {
 	global $debug, $debuglog;
 	
+	// Include required files
+	if (!defined('LIBLOCKS_INCLUDED'))
+		require (phpAds_path.'/libraries/lib-locks.inc.php');
+
+	// Acquire lock
+	if (!($plock = phpAds_maintenanceGetLock(phpAds_lockPriority)))
+		return '';
+	
 	// Prepare information
 	$banners   = phpAds_PriorityPrepareBanners();
 	$campaigns = phpAds_PriorityPrepareCampaigns();
@@ -1209,6 +1217,9 @@ function phpAds_PriorityCalculate()
 
 	// Store priority information
 	phpAds_PriorityStore($banners, $campaigns);
+	
+	// Release lock
+	phpAds_maintenanceReleaseLock($plock);
 	
 	return ($debuglog);
 }

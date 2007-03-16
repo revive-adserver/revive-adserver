@@ -23,6 +23,7 @@ if (!defined('phpAds_path')) die();
 require	(phpAds_path."/libraries/lib-priority.inc.php"); 
 
 
+
 $report = phpAds_PriorityCalculate();
 
 if ($report != '' && $phpAds_config['userlog_priority'])

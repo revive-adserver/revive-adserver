@@ -90,7 +90,8 @@ function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 
 			if ($target == '') $target = '_blank';  // default
 			
 			// Show default banner
-			$outputbuffer = '<a href=\''.$phpAds_config['default_banner_target'].'\' target=\''.$target.'\'><img src=\''.$phpAds_config['default_banner_url'].'\' border=\'0\' alt=\'\'></a>';
+			$outputbuffer = '<a href=\''.$phpAds_config['default_banner_target'].'\' target=\''.$target.'\'>';
+			$outputbuffer .= '<img src=\''.$phpAds_config['default_banner_url'].'\' border=\'0\' alt=\'\' /></a>';
 			
 			// Return banner
 			return( array('html' => $outputbuffer, 
@@ -186,20 +187,20 @@ function phpAds_prepareOutput($row, $target, $source, $withtext)
 	   (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') && !strstr($_SERVER['HTTP_USER_AGENT'], 'Opera')))
 	{
 		if (!defined("phpAds_invocationType") || (phpAds_invocationType != 'adjs' && phpAds_invocationType != 'adlayer'))
-			$outputbuffer .= "<script language='JavaScript' type='text/javascript' src='{url_prefix}/adx.js'></script>";
+			$outputbuffer .= "<script type='text/javascript' src='{url_prefix}/adx.js'></script>";
 		
-		$outputbuffer .= "<script language='JavaScript' type='text/javascript'>\n";
-		$outputbuffer .= "<!--\n";
+		$outputbuffer .= "<script type='text/javascript'>\n";
+		$outputbuffer .= "<!-- // <![CDATA[\n";
 		$outputbuffer .= "var phpads_activex = \"";
 		$outputbuffer .= str_replace('</', '<"+"/', addcslashes($row['htmlcache'], "\0..\37\"\\"));
 		$outputbuffer .= "\";\n";
  		$outputbuffer .= "phpads_deliverActiveX(phpads_activex);\n";
- 		$outputbuffer .= "//-->\n";
+ 		$outputbuffer .= "// ]]> -->\n";
  		$outputbuffer .= "</script>";
 	}
 	else
 	{
-		$outputbuffer .= $row['htmlcache'];
+		$outputbuffer .= preg_replace( '#(<img.*?)(?<!/)>#', '$1 />', $row['htmlcache'] );
 	}
 		
 		
@@ -226,7 +227,7 @@ function phpAds_prepareOutput($row, $target, $source, $withtext)
 	$outputbuffer = str_replace ('{zoneid}', $row['zoneid'], $outputbuffer);
 	$outputbuffer = str_replace ('{target}', $target, $outputbuffer);
 	$outputbuffer = str_replace ('{source}', $source, $outputbuffer);
-		
+	
 	// Check if SSL is used
 	if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
 	{
@@ -362,13 +363,13 @@ function phpAds_prepareOutput($row, $target, $source, $withtext)
 	if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match("#Mozilla/(1|2|3|4)#", $_SERVER['HTTP_USER_AGENT']) && !preg_match("#compatible#", $_SERVER['HTTP_USER_AGENT']))
 	{
 		$outputbuffer .= '<layer id="beacon_'.$row['bannerid'].'" width="0" height="0" border="0" visibility="hide">';
-		$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&amp;clientid='.$row['clientid'].'&amp;zoneid='.$row['zoneid'].'&amp;source='.$source.'&amp;block='.$row['block'].'&amp;capping='.$row['capping'].'&amp;cb='.md5(uniqid('', 1)).'\' width=\'0\' height=\'0\' alt=\'\'>';
+		$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&amp;clientid='.$row['clientid'].'&amp;zoneid='.$row['zoneid'].'&amp;source='.$source.'&amp;block='.$row['block'].'&amp;capping='.$row['capping'].'&amp;cb='.md5(uniqid('', 1)).'\' width=\'0\' height=\'0\' alt=\'\' />';
 		$outputbuffer .= '</layer>';
 	}
 	else
 	{
 		$outputbuffer .= '<div id="beacon_'.$row['bannerid'].'" style="position: absolute; left: 0px; top: 0px; visibility: hidden;">';
-		$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&amp;clientid='.$row['clientid'].'&amp;zoneid='.$row['zoneid'].'&amp;source='.$source.'&amp;block='.$row['block'].'&amp;capping='.$row['capping'].'&amp;cb='.md5(uniqid('', 1)).'\' width=\'0\' height=\'0\' alt=\'\' style=\'width: 0px; height: 0px;\'>';
+		$outputbuffer .= '<img src=\''.$phpAds_config['url_prefix'].'/adlog.php?bannerid='.$row['bannerid'].'&amp;clientid='.$row['clientid'].'&amp;zoneid='.$row['zoneid'].'&amp;source='.$source.'&amp;block='.$row['block'].'&amp;capping='.$row['capping'].'&amp;cb='.md5(uniqid('', 1)).'\' width=\'0\' height=\'0\' alt=\'\' style=\'width: 0px; height: 0px;\' />';
 		$outputbuffer .= '</div>';
 	}
 		

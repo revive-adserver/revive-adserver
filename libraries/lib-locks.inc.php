@@ -18,17 +18,26 @@
 define ('LIBLOCKS_INCLUDED', true);
 
 
+// Lock types
+define('phpAds_lockMaintenance',	1);
+define('phpAds_lockPriority',		2);
+define('phpAds_lockDistributed',	3);
 
-function phpAds_maintenanceGetLock()
+// Lock times
+define('phpAds_lockTimeDeliveryCache', 120);
+
+
+function phpAds_maintenanceGetLock($type = phpAds_lockMaintenance, $wait = 0)
 {
 	$lock = array(
 		'type' => 'db',
-		'id' => addslashes('pan.'.$GLOBALS['phpAds_config']['instance_id'])
+		'id' => addslashes("pan{$type}.".$GLOBALS['phpAds_config']['instance_id'])
 	);
 	
-	if (phpAds_dbResult(phpAds_dbQuery("SELECT GET_LOCK('{$lock['id']}', 0)"), 0, 0))
-		return $lock;
+	$wait = (int)$wait;
 	
+	if (phpAds_dbResult(phpAds_dbQuery("SELECT GET_LOCK('{$lock['id']}', {$wait})"), 0, 0))
+		return $lock;
 	return false;
 }
 

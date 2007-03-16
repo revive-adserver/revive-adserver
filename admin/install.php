@@ -427,17 +427,8 @@ if (phpAds_isUser(phpAds_Admin))
 	
 	
 	
-	// Prepare helpsystem
-	if ($phase > 2)
-		phpAds_PrepareHelp();
-	
 	// Create GUI
 	phpAds_PageHeader("1");
-	
-	// Prepare helpbutton
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'><tr><td height='20' align='right'>";
-	if ($phase > 2) echo "<b><a href='javascript:toggleHelp();'><img src='images/help-book.gif' width='15' height='15' border='0' align='absmiddle'>&nbsp;".$strHelp."</a></b>";
-	echo "</td></tr></table>";
 	
 	phpAds_ShowBreak();
 	

@@ -64,14 +64,14 @@ phpAds_registerGlobal ('what', 'clientid', 'clientID', 'context',
 if (isset($clientID) && !isset($clientid))	$clientid = $clientID;
 if (isset($withText) && !isset($withtext))  $withtext = $withText;
 
-if (!isset($what)) 		$what = '';
-if (!isset($clientid)) 	$clientid = 0;
-if (!isset($target)) 	$target = '_blank';
-if (!isset($source)) 	$source = '';
-if (!isset($withtext)) 	$withtext = '';
-if (!isset($context)) 	$context = '';
-if (!isset($rewrite))	$rewrite = 1;
-if (!isset($n))			$n = 'default';
+if (!isset($what))                 $what = '';
+if (!isset($clientid))             $clientid = 0;
+if (!isset($target))               $target = '_blank';
+if (!isset($source))               $source = '';
+if (!isset($withtext))             $withtext = '';
+if (!isset($context))              $context = '';
+if (!isset($rewrite))              $rewrite = 1;
+if (!isset($n))                    $n = 'default';
 
 // Save referrer as current URL for the URL limitation
 if (isset($_SERVER['HTTP_REFERER']))
@@ -130,7 +130,10 @@ if (strlen($n))
 }
 
 // Build HTML
-echo "<html>\n";
+echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . 
+      "\n" .
+      '<html xmlns="http://www.w3.org/1999/xhtml">';
+echo "\n";
 echo "<head>\n";
 echo "<title>".($banner['alt'] ? $banner['alt'] : 'Advertisement')."</title>\n";
 
@@ -140,8 +143,9 @@ if (isset($refresh) && !preg_match('/[^\d]/', $refresh))
 
 if (isset($resize) && $resize == 1)
 {
-	echo "<script language='JavaScript'>\n";
-	echo "<!--\n";
+    echo '<script type="text/javascript">', "\n";
+    echo '<!--// <![CDATA[';
+	echo "\n";
 	echo "\tfunction phpads_adjustframe(frame) {\n";
 	echo "\t\tif (document.all) {\n";
     echo "\t\t\tparent.document.all[frame.name].width = ".$banner['width'].";\n";
@@ -152,16 +156,16 @@ if (isset($resize) && $resize == 1)
     echo "\t\t\tparent.document.getElementById(frame.name).height = ".$banner['height'].";\n";
   	echo "\t\t}\n";
 	echo "\t}\n";
-	echo "// -->\n";
+    echo '// ]]> -->', "\n";	    
 	echo "</script>\n";
 }
-
+echo '<style type="text/css"><!--', "\n", 'body{margin:0;background-color:transparent;}', "\n", '--></style>', "\n";
 echo "</head>\n";
 
 if (isset($resize) && $resize == 1)
-	echo "<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0' style='background-color:transparent' onload=\"phpads_adjustframe(window);\">\n";
+	echo "<body onload=\"phpads_adjustframe(window);\">\n";
 else
-	echo "<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0' style='background-color:transparent'>\n";
+	echo "<body>\n";
 
 echo $banner['html'];
 echo "\n</body>\n";

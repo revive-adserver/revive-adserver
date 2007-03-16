@@ -32,7 +32,7 @@ function phpAds_performMaintenance($priority_only = false)
 	if (!defined('LIBLOCKS_INCLUDED'))
 		require (phpAds_path.'/libraries/lib-locks.inc.php');
 
-	// Aquire lock to ensure that maintenance runs only once
+	// Aquire maintenance lock to ensure that maintenance runs only once
 	if ($lock = phpAds_maintenanceGetLock())
 	{
 		// Set time limit and ignore user abort
@@ -56,7 +56,7 @@ function phpAds_performMaintenance($priority_only = false)
 			@include (phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php');
 		
 		if (!$priority_only)
-		{
+		{			
 			// Update the timestamp
 			$res = phpAds_dbQuery ("
 				UPDATE
@@ -77,17 +77,27 @@ function phpAds_performMaintenance($priority_only = false)
 			}
 		}		
 		
+		// Release maintenance lock
+		phpAds_maintenanceReleaseLock($lock);
+		
 		include (phpAds_path."/maintenance/maintenance-priority.php");
 		
-		
-		// Rebuild cache
-		if (!defined('LIBVIEWCACHE_INCLUDED')) 
-			include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
-		
-		phpAds_cacheDelete();
-		
-		// Release lock
-		phpAds_maintenanceReleaseLock($lock);
+		// Acquire priority lock, waiting for the task completion
+		if ($dclock = phpAds_maintenanceGetLock(phpAds_lockPriority, phpAds_lockTimeDeliveryCache))
+		{
+			// Rebuild cache
+			if (!defined('LIBVIEWCACHE_INCLUDED')) 
+				include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+			
+			phpAds_cacheDelete();
+			
+			// Sleep for 1 second to avoid load balanced webservers to
+			// connect to the main db at the same time
+			sleep(1);
+			
+			// Release lock
+			phpAds_maintenanceReleaseLock($dclock);
+		}
 		
 		return true;
 	}

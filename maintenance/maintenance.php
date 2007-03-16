@@ -21,18 +21,23 @@ else
     define ('phpAds_path', '..');
 
 
-// Register input variables
-phpAds_registerGlobal ('priority_only');
-
-
 
 // Include required files
 require (phpAds_path."/config.inc.php");
+require (phpAds_path."/libraries/lib-io.inc.php");
 require (phpAds_path."/libraries/lib-db.inc.php");
 require (phpAds_path."/libraries/lib-dbconfig.inc.php");
 require (phpAds_path."/libraries/lib-cache.inc.php");
-require (phpAds_path."/libraries/lib-userlog.inc.php");
+
+if (!defined('LIBUSERLOG_INCLUDED'))
+	require (phpAds_path."/libraries/lib-userlog.inc.php");
+
+require (phpAds_path."/libraries/lib-log.inc.php");
 require (phpAds_path."/maintenance/lib-maintenance.inc.php");
+
+
+// Register input variables
+phpAds_registerGlobal ('priority_only');
 
 
 
@@ -56,6 +61,10 @@ if (!$priority_only)
 	
 	if (date('i') == 59 && date('s') >= 45)
 		sleep(60 - date('s'));
+	
+	// Run distributed stats maintenance
+	if ($phpAds_config['lb_enabled'])
+		include (phpAds_path."/maintenance/maintenance-distributed.php");
 }
 
 // Finally run maintenance

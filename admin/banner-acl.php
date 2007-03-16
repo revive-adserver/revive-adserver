@@ -606,9 +606,14 @@ echo "<input type='image' name='dummy' src='images/spacer.gif' border='0' width=
 
 if ($phpAds_config['acl'])
 {
-	echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-	echo "<tr><td height='25' colspan='4' bgcolor='#FFFFFF'><b>".$strDeliveryLimitations."</b></td></tr>";
-	echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+    $sDocLink = phpAds_getDocPageUrl( 'inventory.delivery_limitations', 7, array( 'type' => $type ) );
+    echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+    echo "<tr><td height='25' colspan='4' bgcolor='#FFFFFF'><b>".$strDeliveryLimitations."</b>" .
+         '<a href="' . $sDocLink . '" class="inlineHelp" ' .
+        	"onclick=\"openWindow('$sDocLink','','status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\"".
+        	'>&nbsp;<span>' . $sDocLink . '</span></a>' .
+         "</td></tr>";
+    echo "<tr><td height='1' colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	
 	// Display all ACLs
 	if (isset($acl) && count($acl))

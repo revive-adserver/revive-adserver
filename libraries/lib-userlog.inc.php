@@ -12,6 +12,8 @@
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
 
+// Set define to prevent duplicate include
+define ('LIBUSERLOG_INCLUDED', true);
 
 // Define usertypes
 define ("phpAds_userDeliveryEngine", 1);

@@ -99,7 +99,7 @@ function phpAds_storePos_<?php echo $uniqid; ?>(e) {
 	if (phpAds_ie4)
 	{
 		phpAds_<?php echo $uniqid; ?>_posX_new = window.event.x;
-		phpAds_<?php echo $uniqid; ?>_posY_new = window.event.y + document.body.scrollTop;
+		phpAds_<?php echo $uniqid; ?>_posY_new = window.event.y + ( document.body.scrollTop || document.documentElement.scrollTop );
 	}
 	else if (phpAds_ns4)
 	{
@@ -116,27 +116,31 @@ function phpAds_storePos_<?php echo $uniqid; ?>(e) {
 
 function phpAds_setVisibility_<?php echo $uniqid; ?>(transparancy)
 {
-	if (phpAds_ie4 && document.all.phpads_<?php echo $uniqid; ?>.filters)
-	{
 		if (transparancy >= <?php echo $transparancy; ?>)
 		{
-			document.all.phpads_<?php echo $uniqid; ?>.filters.item("DXImageTransform.Microsoft.Alpha").opacity = transparancy;
+			if (phpAds_ie4 && !window.opera)
+			{
+				document.all['phpads_<?php echo $uniqid; ?>'].style.filter = "DXImageTransform.Microsoft.Alpha(opacity="+transparancy+")";
+			} 
+			else if( document.getElementById ) 
+			{
+			    document.getElementById( 'phpads_<?php echo $uniqid; ?>' ).style.opacity=transparancy/100;
+			}
+			else transparancy = <?php echo $transparancy; ?>;
+			
 		}
-		else
-			transparancy = <?php echo $transparancy; ?>;
-	}
 	
 	if (transparancy > 0)
 	{	
 		if (phpAds_ie4)        	{ document.all.phpads_<?php echo $uniqid; ?>.style.visibility = 'visible'; }
 		else if (phpAds_ns4)   	{ document.layers['phpads_<?php echo $uniqid; ?>'].visibility = 'show'; }
-		else if (phpAds_ns6) 	{ var elm = document.getElementById('phpads_<?php echo $uniqid; ?>'); elm.style.visibility='visible'; }
+		else if (phpAds_ns6) 	{ document.getElementById('phpads_<?php echo $uniqid; ?>').style.visibility='visible'; }
 	}
 	else
 	{
 		if (phpAds_ie4)        	{ document.all.phpads_<?php echo $uniqid; ?>.style.visibility = 'hidden'; }
 		else if (phpAds_ns4)   	{ document.layers['phpads_<?php echo $uniqid; ?>'].visibility = 'hide'; }
-		else if (phpAds_ns6) 	{ var elm = document.getElementById('phpads_<?php echo $uniqid; ?>'); elm.style.visibility='hidden'; };
+		else if (phpAds_ns6) 	{ document.getElementById('phpads_<?php echo $uniqid; ?>').style.visibility='hidden'; };
 	}
 
 	phpAds_<?php echo $uniqid; ?>_transparancy = transparancy;
@@ -157,8 +161,8 @@ function phpAds_setPos_<?php echo $uniqid; ?>(x, y)
   	else if (phpAds_ns6)
 	{
   		var elm = document.getElementById('phpads_<?php echo $uniqid; ?>');
-  		elm.style.left = x;
-  		elm.style.top = y;
+  		elm.style.left = x+'px';
+  		elm.style.top = y+'px';
   	}
 }
 

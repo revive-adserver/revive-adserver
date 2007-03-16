@@ -17,32 +17,37 @@ function phpAds_getBannerTemplate($type)
 {
 	if ($type == 'swf')
 	{
-		$buffer  = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
-		$buffer .= "codebase='http://fpdownload.adobe.com/pub/shockwave/cabs/flash/";
-		$buffer .= "swflash.cab#version={pluginversion:4,0,0,0}' width='{width}' height='{height}'>";
-		$buffer .= "<param name='movie' value='{imageurl}{swf_con}{swf_param}'>";
-		$buffer .= "<param name='quality' value='high'>";
-		$buffer .= "<param name='allowScriptAccess' value='always'>";
-		$buffer .= "[transparent]<param name='wmode' value='transparent'>";
-		$buffer .= "[/transparent]<embed src='{imageurl}{swf_con}{swf_param}' quality=high ";
-		$buffer .= "[transparent]wmode='transparent' [/transparent]";
-		$buffer .= "width='{width}' height='{height}' type='application/x-shockwave-flash' ";
-		$buffer .= "pluginspace='http://www.adobe.com/go/getflashplayer' ";
-		$buffer .= "allowScriptAccess='always'></embed>";
-		$buffer .= "</object>";
+		$buffer  = "<!--[if !IE]> -->";
+		$buffer .= "<object type='application/x-shockwave-flash' ";
+	  	$buffer .= "data='{imageurl}{swf_con}{swf_param}' width='{width}' height='{height}'> ";
+		$buffer .= "<!-- <![endif]--> ";
+	
+		$buffer .= "<!--[if IE]> ";
+		$buffer .= "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' ";
+	  	$buffer .= "codebase='http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version={pluginversion:4,0,0,0}' ";
+	  	$buffer .= "width='{width}' height='{height}'> ";
+	  	$buffer .= "<param name='movie' value='{imageurl}{swf_con}{swf_param}' /> ";
+		$buffer .= "<!--><!----> ";
+	  	$buffer .= "<param name='quality' value='high' /> ";
+	  	$buffer .= "<param name='allowScriptAccess' value='always' /> ";
+	  	$buffer .= "[transparent]<param name='wmode' value='transparent' />[/transparent] ";
+	  	$buffer .= "<p>This is <strong>alternative</strong> content.</p> ";
+		$buffer .= "</object> ";
+		$buffer .= "<!-- <![endif]--> ";
+	
 	}
 	elseif ($type == 'dcr')
 	{
 		$buffer  = "<object classid='clsid:166B1BCA-3F9C-11CF-8075-444553540000' ";
 		$buffer .= "codebase='http://fpdownload.adobe.com/pub/shockwave/cabs/director/";
 		$buffer .= "swdir85r321.cab#version={pluginversion:8,5,0,321}' width='{width}' height='{height}'>";
-		$buffer .= "<param name='src' value='{imageurl}'>";
-		$buffer .= "<param name='swStretchStyle' value='fill'>";
-		$buffer .= "<param name='quality' value='high'>";
-		$buffer .= "<param name='swRemote' value=\"swSaveEnabled='false' swVolume='false' swRestart='false' swPausePlay='false' swFastForward='false' swContextMenu='false'\">";
-		$buffer .= "<param name='bgColor' value='#FFFFFF'>";
-		$buffer .= "<param name='progress' value='false'>";
- 		$buffer .= "<param name='logo' value='false'>";
+		$buffer .= "<param name='src' value='{imageurl}' />";
+		$buffer .= "<param name='swStretchStyle' value='fill' />";
+		$buffer .= "<param name='quality' value='high' />";
+		$buffer .= "<param name='swRemote' value=\"swSaveEnabled='false' swVolume='false' swRestart='false' swPausePlay='false' swFastForward='false' swContextMenu='false'\" />";
+		$buffer .= "<param name='bgColor' value='#FFFFFF' />";
+		$buffer .= "<param name='progress' value='false' />";
+ 		$buffer .= "<param name='logo' value='false' />";
  		$buffer .= "<embed src='{imageurl}' quality=high ";
 		$buffer .= "width='{width}' height='{height}' type='application/x-director' ";
 		$buffer .= "bgColor='#FFFFFF' progress='false' logo=false' swRemote=\"swSaveEnabled='false' swVolume='false' swRestart='true' swPausePlay='true' swFastForward='true' swContextMenu='true'\" swStretchStyle=fill ";
@@ -53,9 +58,9 @@ function phpAds_getBannerTemplate($type)
 	{
 		$buffer  = "<object classid='clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA' ";
 		$buffer .= "width='{width}' height='{height}'>";
-		$buffer .= "<param name='src' value='{imageurl}'>";
-		$buffer .= "<param name='controls' value='ImageWindow'>";
-		$buffer .= "<param name='autostart' value='true'>";
+		$buffer .= "<param name='src' value='{imageurl}' />";
+		$buffer .= "<param name='controls' value='ImageWindow' />";
+		$buffer .= "<param name='autostart' value='true' />";
 		$buffer .= "<embed src='{imageurl}' controls='ImageWindow' autostart='true' ";
 		$buffer .= "width='{width}' height='{height}' type='audio/x-pn-realaudio-plugin'></embed>";
 		$buffer .= "</object>";
@@ -65,9 +70,9 @@ function phpAds_getBannerTemplate($type)
 		$buffer  = "<object classid='clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B' ";
 		$buffer .= "codebase='http://www.apple.com/qtactivex/qtplugin.cab' ";
 		$buffer .= "width='{width}' height='{height}'>";
-		$buffer .= "<param name='src' value='{imageurl}'>";
-		$buffer .= "<param name='controller' value='false'>";
-		$buffer .= "<param name='autoplay' value='true'>";
+		$buffer .= "<param name='src' value='{imageurl}' />";
+		$buffer .= "<param name='controller' value='false' />";
+		$buffer .= "<param name='autoplay' value='true' />";
 		$buffer .= "<embed src='{imageurl}' controller='false' autoplay='true' ";
 		$buffer .= "width='{width}' height='{height}' pluginspace='http://www.apple.com/quicktime/download/'></embed>";
 		$buffer .= "</object>";
@@ -75,23 +80,23 @@ function phpAds_getBannerTemplate($type)
 	elseif ($type == 'txt')
 	{
 		$buffer  = "[targeturl]<a href='{targeturl}' target='{target}'";
-		$buffer .= "[status] onMouseOver=\"self.status='{status}'; return true;\" onMouseOut=\"self.status='';return true;\"[/status]>";
+		$buffer .= "[status] onmouseover=\"self.status='{status}'; return true;\" onmouseout=\"self.status='';return true;\"[/status]>";
 		$buffer .= "[/targeturl]{bannertext}[targeturl]</a>[/targeturl]";
 	}
 	else
 	{
 		$buffer  = "[targeturl]<a href='{targeturl}' target='{target}'";
-		$buffer .= "[status] onMouseOver=\"self.status='{status}'; return true;\" onMouseOut=\"self.status='';return true;\"[/status]>";
+		$buffer .= "[status] onmouseover=\"self.status='{status}'; return true;\" onmouseout=\"self.status='';return true;\"[/status]>";
 		$buffer .= "[/targeturl]<img src='{imageurl}' width='{width}' height='{height}' alt='{alt}' title='{alt}' border='0'";
-		$buffer .= "[nourl][status] onMouseOver=\"self.status='{status}'; return true;\" onMouseOut=\"self.status='';return true;\"";
-		$buffer .= "[/status][/nourl]>[targeturl]</a>[/targeturl]";
+		$buffer .= "[nourl][status] onmouseover=\"self.status='{status}'; return true;\" onmouseout=\"self.status='';return true;\"";
+		$buffer .= "[/status][/nourl] />[targeturl]</a>[/targeturl]";
 	}
 	
 	// Text below banner
 	if ($type != 'txt')
 	{
 		$buffer .= "[bannertext]<br>[targeturl]<a href='{targeturl}' target='{target}'";
-		$buffer .= "[status] onMouseOver=\"self.status='{status}'; return true;\" onMouseOut=\"self.status='';return true;\"[/status]>";
+		$buffer .= "[status] onmouseover=\"self.status='{status}'; return true;\" onmouseout=\"self.status='';return true;\"[/status]>";
 		$buffer .= "[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]";
 	}
 	
@@ -141,13 +146,13 @@ function phpAds_getBannerCache($banner)
 					// Add hidden field to forms
 					$buffer = eregi_replace ("(<form([^>]*)action=['|\"]{0,1})([^'|\"|[:space:]]+)(['|\"]{0,1}([^>]*)>)", 
 							  			     "\\1{url_prefix}/adclick.php\\4".
-										     "<input type='hidden' name='dest' value='\\3'>".
-										     "<input type='hidden' name='bannerid' value='{bannerid}'>".
-										     "<input type='hidden' name='source' value='{source}'>".
-										     "<input type='hidden' name='zoneid' value='{zoneid}'>", $buffer);
+										     "<input type='hidden' name='dest' value='\\3' />".
+										     "<input type='hidden' name='bannerid' value='{bannerid}' />".
+										     "<input type='hidden' name='source' value='{source}' />".
+										     "<input type='hidden' name='zoneid' value='{zoneid}' />", $buffer);
 					
 					// Add target to all URLs
-					$buffer = eregi_replace ("<form ", "<form target='{target}' ", $buffer);
+					$buffer = str_replace ("<form ", "<form target='{target}' ", $buffer);
 				}
 				
 				// Process link and areas
@@ -279,8 +284,7 @@ function phpAds_getBannerCache($banner)
 					
 					
 					// Add target to all URLs
-					$buffer = eregi_replace ("<a ", "<a target='{target}' ", $buffer);
-					$buffer = eregi_replace ("<area ", "<area target='{target}' ", $buffer);
+					$buffer = preg_replace( '/<(a(?:rea)?) /', '<$1 target=\'{target} \' ', $buffer );
 				}
 				
 				if (!$formpresent && !$linkpresent && !$areapresent && $banner['url'] != '')
@@ -290,7 +294,7 @@ function phpAds_getBannerCache($banner)
 					// Do not do this if the HTML code contains an iframe, object or script tag,
 					// Because we can then safely assume the link is handled by the HTML code itself
 					
-					if (!eregi('<script', $buffer) && !eregi('<object', $buffer) && !eregi('<iframe', $buffer))
+					if( !preg_match( '/<(?:script|object|iframe)/i', $buffer ) )
 						$buffer = "<a href='{url_prefix}/adclick.php?bannerid={bannerid}&amp;zoneid={zoneid}&amp;source={source}&amp;ismap=' target='{target}'>".$buffer."</a>";
 				}
 
@@ -299,12 +303,14 @@ function phpAds_getBannerCache($banner)
 				{
 					// Add workaround to count clicks
 					$buffer = "<span>".
-							  "<script language='JavaScript' type='text/javascript'><!--\n".
+							  "<script type='text/javascript'>\n" .
+							  "<!--// <![CDATA[\n".
 							  "/* openads={url_prefix} bannerid={bannerid} zoneid={zoneid} source={source} */\n".
 							  "if (typeof phpAds_adg == 'undefined') {\n".
 							  "\tdocument.write('<scr'+'ipt language=\"JavaScript\" type=\"text/javascript\" src=\"{url_prefix}/adg.js\"></scr'+'ipt>');\n".
 							  "}\n".
-							  "//--></script>".
+							  "// ]]> -->\n" .
+							  "</script>".
 							  $buffer.
 							  "</span>";
 				}
@@ -733,14 +739,14 @@ function phpAds_getNetworkInfo($networkinfo)
 		$result['comments'] = $matches[1]." <a href='".$result['signup']."' target='_blank'>".$strMoreInformation."</a><br><br>";
 	
 	if (ereg("\[ability:dynamic\]true\[\/ability\]", $networkinfo))
-		$result['comments'] .= "<img src='images/icon-filetype-swf.gif' align='absmiddle'>&nbsp;".$strRichMedia.": <b>".$strYes."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		$result['comments'] .= "<img src='images/icon-filetype-swf.gif' align='absmiddle' />&nbsp;".$strRichMedia.": <b>".$strYes."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	else
-		$result['comments'] .= "<img src='images/icon-filetype-swf.gif' align='absmiddle'>&nbsp;".$strRichMedia.": <b>".$strNo."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		$result['comments'] .= "<img src='images/icon-filetype-swf.gif' align='absmiddle' />&nbsp;".$strRichMedia.": <b>".$strNo."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	
 	if (ereg("\[ability:track-clicks\]true\[\/ability\]", $networkinfo))
-		$result['comments'] .= "<img src='images/icon-mouse.gif' align='absmiddle'>&nbsp;".$strTrackAdClicks.": <b>".$strYes."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		$result['comments'] .= "<img src='images/icon-mouse.gif' align='absmiddle' />&nbsp;".$strTrackAdClicks.": <b>".$strYes."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	else
-		$result['comments'] .= "<img src='images/icon-mouse.gif' align='absmiddle'>&nbsp;".$strTrackAdClicks.": <b>".$strNo."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		$result['comments'] .= "<img src='images/icon-mouse.gif' align='absmiddle' />&nbsp;".$strTrackAdClicks.": <b>".$strNo."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	
 	
 	// Get width / height

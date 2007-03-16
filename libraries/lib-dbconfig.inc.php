@@ -18,9 +18,9 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.314;
-$phpAds_version_readable = "2.0.12-alpha";
-$phpAds_version_development = false;  
+$phpAds_version = 200.321;
+$phpAds_version_readable = "2.0.12-rc7";
+$phpAds_version_development = false;
 
 $phpAds_productname = "Openads";
 $phpAds_producturl = "www.openads.org";
@@ -90,14 +90,14 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'log_iponly' =>					array ('type' => 'boolean', 'sql' => false),
 	'pack_cookies' =>				array ('type' => 'boolean', 'sql' => false),
 	'auto_maintenance' =>			array ('type' => 'boolean', 'sql' => false),
-	'lb_enable' => 					array ('type' => 'boolean', 'sql' => false),
+	'lb_enabled' => 				array ('type' => 'boolean', 'sql' => false),
 	'lb_dblocal' => 				array ('type' => 'boolean', 'sql' => false),
 	'lb_dbhost' => 					array ('type' => 'string', 	'sql' => false),
 	'lb_dbport' => 					array ('type' => 'integer', 'sql' => false),
 	'lb_dbuser' => 					array ('type' => 'string', 	'sql' => false),
 	'lb_dbpassword' => 				array ('type' => 'string', 	'sql' => false),
 	'lb_dbname' => 					array ('type' => 'string', 	'sql' => false),
-	
+
 	'my_header' =>					array ('type' => 'string', 'sql' => true),
 	'my_footer' =>					array ('type' => 'string', 'sql' => true),
 	'language' =>					array ('type' => 'string', 'sql' => true),
@@ -172,7 +172,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 function phpAds_LoadDbConfig()
 {
 	global $phpAds_config, $phpAds_settings_information;
-	
+
 	if ((!empty($GLOBALS['phpAds_db_link']) || phpAds_dbConnect()) && isset($phpAds_config['tbl_config']))
 	{
 		if ($res = phpAds_dbQuery("SELECT * FROM ".$phpAds_config['tbl_config']." WHERE configid = 0"))
@@ -183,7 +183,7 @@ function phpAds_LoadDbConfig()
 				{
 					if (!$v['sql'] || !isset($row[$k]))
 						continue;
-					
+
 					switch($v['type'])
 					{
 						case 'boolean': $row[$k] = $row[$k] == 't'; break;
@@ -191,17 +191,17 @@ function phpAds_LoadDbConfig()
 						case 'array': $row[$k] = unserialize($row[$k]); break;
 						case 'float': $row[$k] = (float)$row[$k]; break;
 					}
-					
+
 					$phpAds_config[$k] = $row[$k];
 				}
-				
+
 				reset($phpAds_settings_information);
-				
+
 				return true;
 			}
 		}
 	}
-	
+
 	return false;
 }
 

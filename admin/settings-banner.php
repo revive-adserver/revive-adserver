@@ -126,7 +126,6 @@ if (isset($save_settings) && $save_settings != '')
 /* HTML framework                                        */
 /*********************************************************/
 
-phpAds_PrepareHelp();
 phpAds_PageHeader("5.1");
 phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2"));
 phpAds_SettingsSelection("banner");

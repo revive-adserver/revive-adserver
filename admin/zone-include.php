@@ -1295,7 +1295,13 @@ echo "<input type='hidden' name='zoneid' value='".$zoneid."'>";
 echo "<input type='hidden' name='affiliateid' value='".$affiliateid."'>";
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25' colspan='3'><b>".$strSelectZoneType."</b></td></tr>";
+
+$sDocLink = phpAds_getDocPageUrl( 'display_using_zones.zones', 3, array( 'zonetype' => $zonetype ) );
+
+echo "<tr><td height='25' colspan='3'><b>".$strSelectZoneType."</b>" .
+     '<a href="' . $sDocLink . '" class="inlineHelp">&nbsp;<span>' . $sDocLink . '</span></a>' .	
+     "</td></tr>";
+     
 echo "<tr><td height='25'>";
 
 echo "<select name='zonetype' onChange='this.form.submit();' accesskey='".$keyList."' tabindex='".($tabindex++)."'>";

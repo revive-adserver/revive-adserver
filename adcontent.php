@@ -81,22 +81,25 @@ if (!is_array($details)) die();
 $row = array_merge($row, $details);
 $output = phpAds_prepareOutput($row, '_blank', $source, false);
 
-		
-echo "<html>\n";
+echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . 
+     "\n" .
+      '<html xmlns="http://www.w3.org/1999/xhtml">';
+echo "\n";
 echo "<head>\n";
 echo "\t<title>".($row['alt'] ? $row['alt'] : 'Advertisement')."</title>\n";
 		
 if (isset($timeout) && $timeout > 0)
 {
-	echo "<script language='JavaScript'>\n";
-	echo "<!--\n";
+	echo '<script type="text/javascript">', "\n";
+	echo '<!--// <![CDATA[';
+	echo "\n";
 	echo "\twindow.setTimeout(\"window.close()\", ".($timeout * 1000).");\n";
-	echo "// -->\n";
+	echo '// ]]> -->', "\n";	    
 	echo "</script>\n";			
 }
-		
+echo '<style type="text/css"><!--', "\n", 'body{margin:0;}', "\n", '--></style>', "\n";
 echo "</head>\n";
-echo "<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>\n";
+echo "<body>\n";
 
 echo $output['html'];
 echo "\n</body>\n";

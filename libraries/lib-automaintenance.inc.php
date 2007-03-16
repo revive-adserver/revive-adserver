@@ -47,9 +47,11 @@ function phpAds_performAutoMaintenance()
 	
 	if (time() >= $last_run + 3600)
 	{
-		if ($lock = phpAds_maintenanceGetLock())
+		if ($amlock = phpAds_maintenanceGetLock())
 		{
-			require (phpAds_path."/libraries/lib-userlog.inc.php");
+			if (!defined('LIBUSERLOG_INCLUDED'))
+				require (phpAds_path."/libraries/lib-userlog.inc.php");
+			
 			require (phpAds_path."/maintenance/lib-maintenance.inc.php");
 
 			// Got the advisory lock, we can proceed running maintenance
@@ -58,8 +60,8 @@ function phpAds_performAutoMaintenance()
 			// Finally run maintenance
 			phpAds_performMaintenance();
 			
-			// Release lock
-			phpAds_maintenanceReleaseLock($lock);
+			// Release lock, although it was already released by maintenance
+			phpAds_maintenanceReleaseLock($amlock);
 		}
 	}
 }

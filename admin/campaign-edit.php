@@ -665,7 +665,12 @@ echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></t
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 
-echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strPriority."</td><td><table>";
+echo "<tr><td width='30'>&nbsp;</td><td width='200' valign='top'>".$strPriority;
+$sDocLink = phpAds_getDocPageUrl( 'inventory.campaigns' );
+echo '<a href="' . $sDocLink . '" class="inlineHelp" ' .
+        "onclick=\"openWindow('$sDocLink','','status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\"".
+        '>&nbsp;<span>' . $sDocLink . '</span></a>' .
+		"</td><td><table>";
 
 echo "<tr><td valign='top'>";
 echo "<input type='radio' name='priority' value='-'".($autotarget ? ' checked' : '')." tabindex='".($tabindex++)."'>";

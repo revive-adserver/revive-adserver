@@ -3,16 +3,18 @@ phpAdsNew - ChangeLog
 
 SVN
 			+ Misc changes
-			  - 2007-01-26:  Fixed #17 - Remove deprecated fakecron script, automaintenance should be used instead  (Matteo)
-			  - 2007-01-26:  Fixed #55 - Add delivery limitation by page URL  (Matteo)
+			  - 2007-01-26:  Fixed #17  - Remove deprecated fakecron script, automaintenance should be used instead  (Matteo)
+			  - 2007-01-26:  Fixed #55  - Add delivery limitation by page URL  (Matteo)
 			  - 2007-02-02:  Fixed #110 - Add Japanese translations  (Matteo)
+			  - 2007-02-27:  Fixed #168 - Implement context sensitive help links  (Marek)
+			  - 2007-03-02:  Fixed #62  - Change delivery scripts to be XHTML compliant  (Marek)
 
 			+ Misc bugfixes
-			  - 2007-01-26:  Fixed #61 - IE warnings appear when SWF banners are served through SSL  (Matteo)
-			  - 2007-01-29:  Fixed #53 - Logging to compact stats may fail under heavy load, losing a few impressions  (Matteo)
-			  - 2007-01-29:  Fixed #58 - Multiple XML-RPC invocation codes failing  (Matteo)
-			  - 2007-01-31:  Fixed #78 - Bug in phpAds_dbConnect that can cause page rendering to hang  (Matteo)
-			  - 2007-01-31:  Fixed #63 - Resource files may trigger an Undefined index notice  (Matteo)
+			  - 2007-01-26:  Fixed #61  - IE warnings appear when SWF banners are served through SSL  (Matteo)
+			  - 2007-01-29:  Fixed #53  - Logging to compact stats may fail under heavy load, losing a few impressions  (Matteo)
+			  - 2007-01-29:  Fixed #58  - Multiple XML-RPC invocation codes failing  (Matteo)
+			  - 2007-01-31:  Fixed #78  - Bug in phpAds_dbConnect that can cause page rendering to hang  (Matteo)
+			  - 2007-01-31:  Fixed #63  - Resource files may trigger an Undefined index notice  (Matteo)
 			  - 2007-02-10:  Fixed #132 - Update ISO 3666-1 codes  (Matteo)
 
 

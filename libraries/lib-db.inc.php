@@ -97,7 +97,7 @@ function phpAds_dbConnect()
 /* Close the connection to the database			         */
 /*********************************************************/
 
-function phpAds_dbClose($force = false)
+function phpAds_dbClose()
 {
 	// Never close the database connection, because
 	// it may interfere with other scripts which

@@ -62,8 +62,14 @@ a:hover {
 	font-weight: bold;
 	text-decoration: none;
 }
-
 .tab-n:hover {
+	text-decoration: none;
+}
+
+.tab-n:hover span{
+	text-decoration: underline;
+}
+*html a.tab-n:hover{
 	text-decoration: underline;
 }
 
@@ -97,7 +103,15 @@ img#helpIcon {
 	margin-left: -20px;
 }
 
+a.inlineHelp{
+	background: url( ../help-book.gif ) no-repeat center center;
+	padding: 10px;
+	margin-left: 10px;
+}
 
+a.inlineHelp span{
+	display: none;
+}
 
 /* Form elements */
 

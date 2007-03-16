@@ -24,7 +24,8 @@ if (!defined('phpAds_LastMidnight'))
 
 
 // Include required files
-require	(phpAds_path."/libraries/lib-warnings.inc.php"); 
+if (!defined('LIBWARNING_INCLUDED'))
+	require (phpAds_path."/libraries/lib-warnings.inc.php"); 
 
 
 /*********************************************************/

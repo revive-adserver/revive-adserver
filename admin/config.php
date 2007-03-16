@@ -232,6 +232,460 @@ $phpAds_nav = array (
 	)
 );
 
+$GLOBALS['docs_url'] = 'http://docs.openads.org/openads-2.0-guide';
+
+$GLOBALS['aHelpPages'] = array( 'elements' => array() );
+
+$GLOBALS['aHelpPages']['elements']['inventory'] = array(
+    'link' => 'inventory-overview.html',
+    'name' => 'Inventory overview',
+    'anchors' => array(),
+    'elements' => array(),
+);
+
+define( 'OPENADS_HELP_PAGES_ROTATE_CONSTRAINT_ANCHOR',        1 );
+
+$GLOBALS['aHelpPages']['elements']['inventory']['elements']['banners'] = array(
+    'link' => 'banners.html',
+    'name' => 'Banners',
+    'anchors' => array(
+        'Local banner',
+        'External banner',
+        'Html banner',
+        'Text ads',
+        'Keywords and description',
+        'Banner weight',        
+        'Duplicating an existing banner',        
+        'Moving a banner',        
+        'Deactivating or activating a banner',        
+        'Deleting a banner',        
+    ),
+    'rotate' => array(
+        'constraint_type' => OPENADS_HELP_PAGES_ROTATE_CONSTRAINT_ANCHOR,
+        '_storagetype' => array(
+            'url'  => 1,
+            'sql'  => 0,
+            'html' => 2,
+            'txt'  => 3,
+            '__default' => 0
+        ),
+    ),
+);
+
+$GLOBALS['aHelpPages']['elements']['inventory']['elements']['flash_banners'] = array(
+    'link' => 'advanced-flash-banners.html',
+    'name' => 'Advanced Flash banners',
+    'anchors' => array(
+        'Converting hard-coded URLs',
+        'The MFAA ClickTAG',
+    ),
+);
+
+$GLOBALS['aHelpPages']['elements']['inventory']['elements']['campaigns'] = array(
+    'link' => 'campaigns.html',
+    'name' => 'Campaigns',
+    'anchors' => array(
+        'Priorities',
+        'High priority campaigns',
+        'Low priority campaigns',
+        'Moving a campaign to another advertiser',
+        'Deleting a campaign',
+    ),
+);
+
+$GLOBALS['aHelpPages']['elements']['inventory']['elements']['advertisers'] = array(
+    'link' => 'advertisers.html',
+    'name' => 'Advertisers',
+    'anchors' => array(),
+);
+
+$GLOBALS['aHelpPages']['elements']['inventory']['elements']['delivery_limitations'] = array(
+    'link' => 'delivery-limitations.html',
+    'name' => 'Delivery limitations',
+    'anchors' => array(
+        'Managing delivery limitations',
+        'Creating a new limitation',
+        'Changing an existing limitation',
+        'Moving a limitation',
+        'Deleting a limitation',
+        'Applying a set of limitations to another banner',
+        'Limiting delivery by weekday',
+        'Limiting delivery by time',
+        'Limiting delivery by date',
+        'Limiting delivery by client IP',
+        'Limiting delivery by domain',
+        'Limiting delivery by language',
+        'Limiting delivery by browser',
+        'Limiting delivery by operating system',
+        'Limiting delivery by the source parameter',
+        'Limiting delivery by referring page',
+        'Comparison expressions',
+        'Logical operators',
+    ),
+
+    'rotate' => array(
+        'constraint_type' => OPENADS_HELP_PAGES_ROTATE_CONSTRAINT_ANCHOR,
+        '_type' => array(
+            'weekday'    => 6,
+            'time'       => 7,
+            'date'       => 8,
+            'clientip'   => 9,
+            'domain'     => 10,
+            'language'   => 11,
+            'browser'    => 12,
+            'os'         => 13,
+            'useragent'  => 14,
+            'url'        => 15,
+            'referer'    => 17,
+            'source'     => 16,
+        )
+    ),
+);
+
+$GLOBALS['aHelpPages']['elements']['display_using_zones'] = array(
+    'elements' => array(),
+    'name' => 'Displaying banners using zones',
+    'link' => 'displaying-banners-using-zones.html',
+    'anchors' => array(),
+);
+
+$GLOBALS['aHelpPages']['elements']['display_using_zones']['elements']['zones'] = array(
+    'link' => 'zones.html',
+    'name' => 'Zones',
+    'anchors' => array(
+        'Creating chains',
+        'Stop delivery and don\'t show a banner',
+        'Display the selected zone instead',
+        'Select a banner using the keywords below',
+        'Appending other invocation codes',
+        'Configuring the layout of Text ads',
+        'Linking banners to a zone',
+        'Campaign selection',
+        'Banner selection',
+        'Keyword',
+        'Probability',
+    ),
+    'rotate' => array(
+        '_zonetype' => array(
+            3 => 7,
+            0 => 8,
+            2 => 9,
+        ),
+    ),
+);
+
+$GLOBALS['aHelpPages']['elements']['display_using_zones']['elements']['publishers'] = array(
+    'link' => 'publishers.html',
+    'name' => 'Publishers',
+    'anchors' => array(),
+);
+
+$GLOBALS['aHelpPages']['elements']['display_using_direct_selection'] = array(
+    'elements' => array(),
+    'name' => 'Displaying banners using direct selection ',
+    'link' => 'displaying-banners-using-zones.html',
+    'anchors' => array(),
+);
+
+$GLOBALS['aHelpPages']['elements']['display_using_direct_selection']['elements']['statements'] = array(
+    'link' => 'statements.html',
+    'name' => 'Statements',
+    'anchors' => array(
+        'Banner id',
+        'Campaign id',
+        'Width',
+        'Height',
+        'Dimensions',
+        'Textads',
+        'Keywords',
+    ),
+);
+
+$GLOBALS['aHelpPages']['elements']['display_using_direct_selection']['elements']['selection_strings'] = array(
+    'link' => 'selection-strings.html',
+    'name' => 'Selection strings',
+    'anchors' => array(
+        'Selection Paths',
+        'Advanced selection strings',
+        'Logical operators',
+        'Multiple expressions',
+        'The global keyword (deprecated)',
+        'key1',
+        'key1|global',
+        'Examples',
+    ),
+);
+
+$GLOBALS['aHelpPages']['elements']['configuration'] = array(
+    'link' => 'introduction.html',
+    'name' => 'Configuration',
+    'anchors' => array(),
+    'elements' => array(),
+);
+
+$GLOBALS['aHelpPages']['elements']['configuration']['elements']['db_settings'] = array(
+    'link' => 'database-settings.html',
+    'name' => 'Database settings',
+    'anchors' => array(
+        'Connect to local server using sockets',
+        'Database port number',
+        'Database username',
+        'Database password',
+        'Database name',
+        'Use persistent connections',
+        'Use delayed inserts',
+        'Use database compatibility mode',
+    ),
+);
+
+$GLOBALS['aHelpPages']['elements']['configuration']['elements']['invocation_and_delivery'] = array(
+    'link' => 'invocation-and-delivery.html',
+    'name' => 'Invocation and delivery',
+    'anchors' => array(
+        'Delivery settings',
+        'Delivery cache type',
+        'Evaluate delivery limitations during delivery',
+        'Allow logical operators when using direct selection',
+        'Allow multiple keywords when using direct selection',
+        'Allow ....',
+        'Use P3P Policies',
+        'P3P Compact Policy',
+        'P3P Policy Location',
+        'Pack cookies to avoid cookie overpopulations',
+    ),
+);
+
+$GLOBALS['aHelpPages']['elements']['configuration']['elements']['statistics'] = array(
+    'link' => 'statistics.html',
+    'name' => 'Statistics',
+    'anchors' => array(
+        'Statistics format',
+        'Log an AdView everytime a banner is delivered',
+        'Log an AdClick everytime a visitor clicks on a banner',
+        'Log the source parameter specified during invocation',
+        'Log the country of the visitor in the statistics',
+        'Log the hostname or IP address of the visitor',
+        'Only log the IP address of the visitor even if the hostname is known',
+        'Use a small beacon image to log AdViews...',
+        'Don\'t store statistics for visitors using one of the following....',
+        'Don\'t log AdViews if the visitor....',
+        'Send a warning to the administrator...',
+        'Send a warning to the advertiser...',
+        'Send a warning when the number of impressions...',
+        'Add the following headers to each e-mail message sent by Openads',
+        'Enable qmail patch',
+        'Prune statistics',
+        'Prune userlog',
+    ),
+);
+
+$GLOBALS['aHelpPages']['elements']['configuration']['elements']['banners'] = array(
+    'link' => 'banner-settings.html',
+    'name' => 'Banner Settings',
+    'anchors' => array(
+        'Default image URL and Default destination URL',
+        'Allow local banners (SQL), Allow local banners (Webserver), Allow external banners and Allow HTML banners, Allow Text ads',
+        'Storing method',
+        'Public URL',
+        'Local directory',
+        'Moving banner files from the database to a local directory',
+        'FTP Host, Host directory, Login and Password',
+        'Automatically alter HTML banners in order to force click tracking',
+        'Allow PHP expressions to be executed from within a HTML banner',
+        'Administrator',
+        'Admin\'s username',
+        'Password',
+        'Admin\'s full name',
+        'Admin\'s email address',
+        'Company Name',
+        'Language',
+        'Check for updates',
+        'Prompt for newly released development versions',
+        'Admin\'s delete actions need confirmation for safety',
+        'Log all outgoing email messages',
+        'Log hourly priority calculations',
+        'Log automatic cleaning of database',
+    ),    
+);
+
+$GLOBALS['aHelpPages']['elements']['configuration']['elements']['interface_defaults'] = array(
+    'link' => 'interface-defaults.html',
+    'name' => 'Interface defaults',
+    'anchors' => array(
+        'Show extra campaign info on Campaign overview page',
+        'Show extra banner info on Banner overview page',
+        'Show preview of all banner on Banner overview page',
+        'Show actual banner instead of plain HTML code for HTML banner preview',
+        'Show banner preview at the top of pages which deals banners',
+        'Hide inactive items from all overview pages',
+        'Show matching banner on the Linked banner pages',
+        'Show parent campaign on the Linked banner pages',
+        'Hide non-linked campaigns or banners on the Linked banner pages...',
+        'Begin of Week',
+        'Percentage Decimals',
+        'Default banner weight',
+        'Default campaign weight',
+   ),
+);
+
+$GLOBALS['aHelpPages']['elements']['invocation_generation'] = array(
+    'link' => 'invocation-overview.html',
+    'name' => 'Invocation Overview',
+    'anchors' => array(
+        'The invocation code generator',
+        'Publishers and zones',
+        'Direct selection',
+        'Banner selection',
+        'Different types of invocation codes',
+    ),
+    'elements' => array(),
+);
+
+$GLOBALS['aHelpPages']['elements']['invocation_generation']['elements']['banner_button_rectangle'] = array(
+    'link' => 'banner-button-or-rectangle.html',
+    'name' => 'Banner, button or rectangle',
+    'anchors' => array(
+        'Remote invocation',
+        'Target frame',
+        'Source',
+        'Remote invocation for JavaScript',
+        'Target frame',
+        'Source',
+        'Show text below banner',
+        'Don\'t show the banner again on the same page',
+        'Remote invocation for Frames',
+        'Target frame',
+        'Source',
+        'Refresh after',
+        'Frame size',
+        'Resize iframe to banner dimensions',
+        'Make iframe transparent',
+        'Include Netscape 4 compatible ilayer',
+    ),
+);
+
+$GLOBALS['aHelpPages']['elements']['invocation_generation']['elements']['interstitial_floating_dhtml'] = array(
+    'link' => 'interstitial-or-floating-dhtml.html',
+    'name' => 'Interstitial or floating DHTML',
+    'anchors' => array(
+        'Target frame',
+        'Source',
+        'Style',
+        'Simple',
+        'Horizontal alignment',
+        'Vertical alignment',
+        'Show close button',
+        'Automatically close after',
+        'Banner padding',
+        'Horizontal shift',
+        'Vertical shift',
+        'Background color',
+        'Border color',
+        'Geocities',
+        'Alignment',
+        'Close text',
+        'Automatically collapse after',
+        'Banner padding',
+        'Floater',
+        'Direction',
+        'Looping',
+        'Speed',
+        'Pause',
+        'Vertical shift',
+        'Limited',
+        'Left margin',
+        'Right margin',
+        'Transparent background',
+        'Background color',
+        'Cursor',
+        'Smooth movement',
+        'Speed',
+        'Hide the banner when the cursor is not moving',
+        'Delay before banner is hidden',
+        'Transparency of hidden banner',
+        'Horizontal shift & vertical shift',
+    ),
+);
+
+$GLOBALS['aHelpPages']['elements']['invocation_generation']['elements']['popup'] = array(
+    'link' => 'popup.html',
+    'name' => 'Popup',
+    'anchors' => array(
+        'Target frame',
+        'Source',
+        'Pop-up type',
+        'Initial position',
+        'Automatically close',
+    ),
+);
+
+$GLOBALS['aHelpPages']['elements']['invocation_generation']['elements']['local_mode'] = array(
+    'link' => 'local-mode.html',
+    'name' => 'Local mode',
+    'anchors' => array(
+        'Target frame',
+        'Source',
+        'Show text below banner',
+        'Don\'t show the banner again on the same page',
+        'Store the banner inside a variable so it can be used in a template',
+        'The Context parameter',
+    ),
+);
+
+$GLOBALS['navi2help'] = array(    
+    "admin"    => array (
+        "4"                     => array( 'inventory' ),
+          "4.1"                 => array( 'inventory' ),
+            "4.1.1"             => array( 'inventory.advertisers' ),
+            "4.1.2"             => array( 'inventory.advertisers' ),
+            "4.1.3"             => array( 'inventory.campaigns' ),
+              "4.1.3.1"         => array( 'inventory.campaigns' ),
+              "4.1.3.2"         => array( 'inventory.campaigns' ),
+              "4.1.3.3"         => array( 'display_using_zones.zones' ),
+              "4.1.3.4"         => array( 'inventory.banners' ),
+                "4.1.3.4.1"     => array( 'inventory.banners' ),
+                "4.1.3.4.2"     => array( 'inventory.banners' ),
+                "4.1.3.4.3"     => array( 'inventory.delivery_limitations' ),
+                "4.1.3.4.4"     => array( 'display_using_zones.zones' ),
+                "4.1.3.4.5"     => array( 'inventory.flash_banners' ),
+                "4.1.3.4.6"     => array(),
+          "4.2"                 => array( 'display_using_zones.publishers' ),
+            "4.2.1"             => array( 'display_using_zones.publishers' ),
+            "4.2.2"             => array( 'display_using_zones.publishers' ),
+            "4.2.3"             => array(), // array( "affiliate-zones.php?affiliateid=$affiliateid" => $strZoneOverview ),
+              "4.2.3.1"         => array( 'display_using_zones.zones' ), 
+                "4.2.3.2"       => array( 'display_using_zones.zones' ),
+              "4.2.3.3"         => array( 'display_using_zones.zones', 9 ),
+              "4.2.3.4"         => array( 'display_using_zones.zones', 11 ),
+              "4.2.3.5"         => array( 'invocation' ),
+                "4.2.3.6"       => array(), // array( "zone-advanced.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strAdvanced ),
+          "4.3"                 => array( 'display_using_zones' ),
+        "5"                     => array( 'configuration.db_settings' ),
+          "5.1"                 => array( 'configuration.db_settings' ),
+          "5.3"                 => array(), // array("maintenance-index.php" => $strMaintenance),
+          "5.2"                 => array(), // array("userlog-index.php" => $strUserLog),
+              "5.2.1"           => array(), // array("userlog-details.php?userlogid=$userlogid" => $strUserLogDetails),
+          "5.4"                 => array(), // array("maintenance-updates.php" => $strProductUpdates)
+    ),
+
+    "client" => array (
+              "1.2.2.2"         => array( 'inventory.banners' ),
+              "1.2.2.3"         => array( 'inventory.flash_banners' ),
+    ),
+
+    "affiliate" => array (
+        "2"                     => array( 'display_using_zones.publishers' ),
+          "2.1"                 => array( 'display_using_zones.publishers' ),
+            "2.1.1"             => array( 'display_using_zones.zones' ),
+              "2.1.2"           => array( 'display_using_zones.zones' ),
+            "2.1.3"             => array( 'display_using_zones.zones', 9 ),
+            "2.1.4"             => array( 'display_using_zones.zones', 11 ),
+            "2.1.5"             => array( 'invocation' ),
+              "2.1.6"           => array(), // array("zone-advanced.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strChains),
+          "2.2"                 => array( 'display_using_zones.publishers' )
+    )
+);
+
 if (phpAds_isUser(phpAds_Client) && phpAds_isAllowed(phpAds_ModifyInfo))
 	$phpAds_nav["client"]["2"] =  array("client-edit.php" => $strPreferences);
 

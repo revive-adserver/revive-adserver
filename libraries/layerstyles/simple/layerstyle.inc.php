@@ -90,6 +90,18 @@ function phpAds_findObj(n, d) {
   if(!x && document.getElementById) x=document.getElementById(n); return x;
 }
 
+function phpAds_getClientSize() {
+	if (window.innerHeight >= 0) {
+		return [window.innerWidth, window.innerHeight];
+	} else if (document.documentElement && document.documentElement.clientWidth > 0) {
+		return [document.documentElement.clientWidth,document.documentElement.clientHeight]
+	} else if (document.body.clientHeight > 0) {
+		return [document.body.clientWidth,document.body.clientHeight]
+	} else {
+		return [0, 0]
+	}
+}
+
 function phpAds_adlayers_place_<?php echo $uniqid; ?>()
 {
 	var c = phpAds_findObj('phpads_<?php echo $uniqid; ?>');
@@ -97,13 +109,20 @@ function phpAds_adlayers_place_<?php echo $uniqid; ?>()
 	if (!c)
 		return false;
 	
-	if (c.style)
-		c = c.style;
+	_s='style'
+
+	var clientSize = phpAds_getClientSize()
+	ih = clientSize[1]
+	iw = clientSize[0]
 	
-	if (window.innerHeight)
+	if(document.all && !window.opera)
 	{
-		ih = window.innerHeight;
-		iw = window.innerWidth;
+		sl = document.body.scrollLeft || document.documentElement.scrollLeft;
+		st = document.body.scrollTop || document.documentElement.scrollTop;
+		of = 0;		
+	}
+	else
+	{
 		sl = window.pageXOffset;
 		st = window.pageYOffset;
 		
@@ -112,23 +131,7 @@ function phpAds_adlayers_place_<?php echo $uniqid; ?>()
 		else
 			of = 16;
 	}
-	else if (document.documentElement && document.documentElement.clientHeight)
-	{
-		ih = document.documentElement.clientHeight;
-		iw = document.documentElement.clientWidth;
-		sl = document.documentElement.scrollLeft;
-		st = document.documentElement.scrollTop;
-		of = 0;		
-	}
-	else if (document.body)
-	{
-		ih = document.body.clientHeight;
-		iw = document.body.clientWidth;
-		sl = document.body.scrollLeft;
-		st = document.body.scrollTop;
-		of = 0;
-	}
-
+	 
 <?php
 	echo "\t\tll = ";
 	
@@ -151,21 +154,21 @@ function phpAds_adlayers_place_<?php echo $uniqid; ?>()
 	echo ";\n";
 ?>
 
-	if (c.pixelLeft)
-		c.pixelLeft = ll;
+	if (c[_s].pixelLeft)
+		c[_s].pixelLeft = ll;
 	else if (window.opera)
-		c.left = ll;
+		c[_s].left = ll;
 	else
-		c.left = ll + 'px';
+		c[_s].left = ll + 'px';
 		
-	if (c.pixelTop)
-		c.pixelTop = lt;
+	if (c[_s].pixelTop)
+		c[_s].pixelTop = lt;
 	else if (window.opera)
-		c.top = lt;
+		c[_s].top = lt;
 	else
-		c.top = lt + 'px';
+		c[_s].top = lt + 'px';
 
-	c.visibility = phpAds_adlayers_visible_<?php echo $uniqid; ?>;
+	c[_s].visibility = phpAds_adlayers_visible_<?php echo $uniqid; ?>;
 }
 
 
@@ -176,8 +179,7 @@ function phpAds_simplepop_<?php echo $uniqid; ?>(what)
 	if (!c)
 		return false;
 
-	if (c.style)
-		c = c.style;
+	_s='style'
 
 	switch(what)
 	{

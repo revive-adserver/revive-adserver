@@ -18,8 +18,6 @@
 $phpAds_Message     = '';
 $phpAds_NavID	    = '';
 $phpAds_GUIDone     = false;
-$phpAds_showHelp    = false;
-$phpAds_helpDefault = '';
 $phpAds_context		= array();
 $phpAds_shortcuts	= array();
 
@@ -74,7 +72,7 @@ function phpAds_PageHeader($ID, $extra="")
 	
 	global $phpAds_Message, $phpAds_GUIDone, $phpAds_NavID;
 	global $phpAds_context, $phpAds_shortcuts;
-	global $phpAds_nav, $pages, $phpAds_showHelp;
+	global $phpAds_nav, $pages;
 	
 	global $phpAds_CharSet;
 	global $strLogout, $strNavigation, $strShortcuts;
@@ -316,14 +314,13 @@ function phpAds_PageHeader($ID, $extra="")
 	echo "\t\t<link rel='stylesheet' href='images/".$phpAds_TextDirection."/interface.css'>\n";
 	echo "\t\t<script language='JavaScript' src='js-gui.js'></script>\n";
 	if (isset($phpAds_config['language'])) echo "\t\t<script language='JavaScript' src='js-form.php?language=".$phpAds_config['language']."'></script>\n";
-	if ($phpAds_showHelp) echo "\t\t<script language='JavaScript' src='js-help.js'></script>\n";
 	
 	// Show Moz site bar
 	echo $mozbar;
 	echo "\t</head>\n\n\n";
 	
 	echo "<body bgcolor='#FFFFFF' background='images/".$phpAds_TextDirection."/background.gif' text='#000000' leftmargin='0' ";
-	echo "topmargin='0' marginwidth='0' marginheight='0' onLoad='initPage();'".($phpAds_showHelp ? " onResize='resizeHelp();' onScroll='resizeHelp();'" : '').">";
+	echo "topmargin='0' marginwidth='0' marginheight='0' onLoad='initPage();'>";
 	
 	// Header
 	if (isset($phpAds_config['my_header']) && $phpAds_config['my_header'] != '')
@@ -409,18 +406,17 @@ function phpAds_PageHeader($ID, $extra="")
 	{
 		if (phpAds_isUser(phpAds_Admin))
 		{
-			echo "<a class='tab-n' href='http://docs.openads.org/openads-2.0-guide/index.html' target='_blank'";
-			echo "onClick=\"openWindow('http://docs.openads.org/openads-2.0-guide/index.html','',";
-			echo "'status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\">$strHelp</a> ";
-			echo "<a href='http://docs.openads.org/openads-2.0-guide/index.html' target='_blank'";
-			echo "onClick=\"openWindow('http://docs.openads.org/openads-2.0-guide/index.html','',";
+			$sDocLink = phpAds_getDocLinkFromPhpAdsNavId( $phpAds_NavID );
+			echo "<a class='tab-n' href='$sDocLink' target='_blank'";
+			echo "onclick=\"openWindow('$sDocLink','',";
 			echo "'status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\">";
+			echo '<span>' . $strHelp . '</span>&nbsp;';
 			echo "<img src='images/help.gif' width='16' height='16' align='absmiddle' border='0'></a>";
 			echo "&nbsp;&nbsp;&nbsp;";
 		}
 		
-		echo "<a class='tab-n' href='logout.php'>$strLogout</a> ";
-		echo "<a href='logout.php'><img src='images/logout.gif' width='16' height='16' align='absmiddle' border='0'></a>";
+		echo "<a class='tab-n' href='logout.php'><span>$strLogout</span>&nbsp;";
+		echo "<img src='images/logout.gif' width='16' height='16' align='absmiddle' border='0'></a>";
 	}
 	
 	echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -466,7 +462,7 @@ function phpAds_PageHeader($ID, $extra="")
 function phpAds_PageFooter()
 {
 	global $phpAds_config;
-	global $Session, $phpAds_showHelp, $phpAds_helpDefault, $strMaintenanceNotActive;
+	global $Session, $strMaintenanceNotActive;
 	global $phpAds_TextDirection, $phpAds_TextAlignLeft, $phpAds_TextAlignRight;
 	
 	echo "</td><td width='40'>&nbsp;</td></tr>";
@@ -487,14 +483,6 @@ function phpAds_PageFooter()
 	echo "</table>";
 	echo "</td></tr>";
 	echo "</table>";
-	
-	if ($phpAds_showHelp) 
-	{
-		echo "<div id='helpLayer' name='helpLayer' style='position:absolute; left:".($phpAds_TextDirection != 'ltr' ? '0' : '181')."; top:-10; width:10px; height:10px; z-index:1; overflow: hidden; visibility: hidden;'>";
-		echo "<img id='helpIcon' src='images/help-book.gif' align='absmiddle'>";
-		echo "<span id='helpContents' name='helpContents'>".$phpAds_helpDefault."</span></div>";
-		echo "<br><br><br><br><br><br>";
-	}
 	
 	echo "\n\n";
 	
@@ -752,17 +740,95 @@ function phpAds_DelConfirm($msg)
 }
 
 
-
-/*********************************************************/
-/* Load the function need for the help system            */
-/*********************************************************/
-
-function phpAds_PrepareHelp($default='')
+/**
+ * This function prepares link to a selected page in the doc
+ * 
+ * Based on settings in $GLOBALS['aHelpPages'] this function can generate a full
+ * URL to a Manual Pages.
+ * 
+ * There are 3 params - 2nd should be clear but 3rd one lets you decide if
+ * display should be based on some variable - just pass it and if config has been
+ * made, applicable link will be displayed
+ * 
+ * @return mixed (string/PEAR_Error) string is a URL poiting to docs
+ * 
+ * @param string $sDocumentationPath - dot separated list of elements to point to (strucutre mirros documentation structure on docs.openads.org)
+ * @param mixed $anchor - anchor can be int/string key for a given anchor that a given element can point to
+ * @param string $sVarDependent - lets you decide if url should be generated depending on some external var
+ * 
+ * @author Marek Bedkowski <marek@bedkowski.pl>
+ */
+function phpAds_getDocPageUrl( $sDocumentationPath, $anchor = -1, $aVarRotate = null )
 {
-	global $phpAds_showHelp, $phpAds_helpDefault;
-	
-	$phpAds_helpDefault = $default;
-	$phpAds_showHelp = true;
+    $aPath = preg_split( '/(?<!\\\\)\./', $sDocumentationPath );
+    $aSelectedElement = $GLOBALS['aHelpPages'];
+    $sLink = '';
+    while( !is_null( $sPathElem = array_shift( $aPath ) ) ) {
+        if( !empty( $aSelectedElement['elements'][ $sPathElem ] ) ) {
+            $aSelectedElement = $aSelectedElement['elements'][ $sPathElem ];
+        }
+    }
+    
+    $sLink = $aSelectedElement['link'];
+    
+    if( !is_null( $aVarRotate ) ) {
+	   while( list( $sVarName, $sVarValue ) = each( $aVarRotate ) ) { 
+            if( !empty( $aSelectedElement['rotate']['_' . $sVarName] ) && isset( $aSelectedElement['rotate']['_' . $sVarName][$sVarValue] ) ) {
+                $anchor = $aSelectedElement['rotate']['_' . $sVarName][$sVarValue];
+            }
+        }
+    }
+    
+    if( $anchor != -1 && !empty( $aSelectedElement['anchors'][$anchor] ) ) {
+       $sLink .= '#';
+       if( is_numeric( $anchor ) ) {
+           $sLink .= 'docs_' . $anchor;
+       }
+       else {
+           $sLink .= $anchor;
+       }
+    }
+    
+    $sDocsRoot = preg_replace( '#/$#', '', $GLOBALS['docs_url'] );
+    
+    $sLink = $sDocsRoot . '/' .  $sLink;
+    
+    return $sLink;
 }
 
+/**
+ * This method gets link to main Help button based on navID
+ * 
+ *  
+ * @param string $sNavId - id of navigation element in form {num}[.{num}[.{num}]]
+ * @return string - link to doc
+ * 
+ * This function uses {@see phpAds_getDocPageUrl} internally to properly format a link
+ * based on settings in global navi2doc array
+ * 
+ * @author Marek Bedkowski <marek@bedkowski.pl>
+ */
+function phpAds_getDocLinkFromPhpAdsNavId( $sNavId )
+{
+	// Prepare navi2help mapping
+	if (phpAds_isUser(phpAds_Admin))
+		$navi2help	= $GLOBALS['navi2help']['admin'];
+	elseif (phpAds_isUser(phpAds_Client))
+		$navi2help  = $GLOBALS['navi2help']['client'];
+	elseif (phpAds_isUser(phpAds_Affiliate))
+		$navi2help  = $GLOBALS['navi2help']['affiliate'];
+	else
+		$navi2help  = array();
+		
+    if( !empty( $navi2help[ $sNavId ] ) ) {
+        $aElem = $navi2help[ $sNavId ];
+        $sLink = phpAds_getDocPageUrl( $aElem[0], empty( $aElem[1] ) ? -1 : $aElem[1] );
+    }
+    else {
+	    $sDocsRoot = preg_replace( '#/$#', '', $GLOBALS['docs_url'] );
+        $sLink = $sDocsRoot . '/index.html';
+    }
+    
+    return $sLink;
+}
 ?>

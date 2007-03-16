@@ -101,7 +101,6 @@ if (isset($save_settings) && $save_settings != '')
 /* HTML framework                                        */
 /*********************************************************/
 
-phpAds_PrepareHelp();
 if (isset($message))
 	phpAds_ShowMessage($message);
 phpAds_PageHeader("5.1");
