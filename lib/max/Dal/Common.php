@@ -132,6 +132,10 @@ class MAX_Dal_Common
     function autoLoadClass($modelName)
     {
         $path = MAX_PATH . '/lib/max/Dal/Admin/'.$modelName.'.php';
+        if (!file_exists($path)) {
+            PEAR::raiseError("autoload:File doesn't exist {$path}");
+            return false;
+        }
         include_once $path;
         
         $class = MAX_Dal_Common::getClassName($modelName);

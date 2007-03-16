@@ -123,7 +123,7 @@ class MAX_DB
     
     /**
      * Factory DataObject by it's table name
-     * Comment: return DB_DataObject or PEAR_Error on error
+     * Comment: return DB_DataObject or false on error
      * 
      * @param  string  $table  tablename (use blank to create a new instance of the same class.)
      * @return DB_DataObjectCommon
@@ -137,8 +137,9 @@ class MAX_DB
         $do = DB_DataObject::factory($table);
         if (is_a($do, 'DB_DataObjectCommon')) {
             $do->init();
+            return $do;
         }
-        return $do;
+        return false;
     }
     
     /**

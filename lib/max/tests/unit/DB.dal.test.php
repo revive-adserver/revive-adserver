@@ -29,6 +29,8 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/DB.php';
 require_once 'DB.php';
 
+require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
+
 /**
  * A class for testing the MAX_DB class.
  *
@@ -45,6 +47,11 @@ class Dal_TestOfDB extends UnitTestCase
     function Dal_TestOfDB()
     {
         $this->UnitTestCase();
+    }
+    
+    function tearDown()
+    {
+        DataGenerator::cleanUp();
     }
 
     /**
@@ -143,7 +150,59 @@ class Dal_TestOfDB extends UnitTestCase
         $this->assertReference($firstConnection, $secondConnection);
         TestEnv::restoreConfig();
     }
+    
+    /**
+     * Test that method returns correct object when DataObject exists and false otherwise
+     * @todo Add PEAR_Error expectations to simpletest in order to catch them
+     *
+     */
+    function testFactoryDO()
+    {
+        // Test when object exists
+        $doBanners = MAX_DB::factoryDO('banners');
+        $this->assertIsA($doBanners, 'DataObjects_Banners');
+        
+        // Test when object doesn't exist
+        PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
+        $doBanners = MAX_DB::factoryDO('foo'.rand());
+        PEAR::staticPopErrorHandling();
+        
+        $this->assertFalse($doBanners);
+    }
+    
+    function testStaticGetDO()
+    {
+        // create test record
+        $bannerId = DataGenerator::generateOne('banners');
+        
+        // Test that we retreived that record from database
+        $doBanners = MAX_DB::staticGetDO('banners', $bannerId);
+        $this->assertIsA($doBanners, 'DataObjects_Banners');
+        $this->assertEqual($doBanners->bannerid, $bannerId);
+        
+        // Test that false is returned if record doesn't exist
+        $doBanners = MAX_DB::staticGetDO('banners', $id = 123);
+        $this->assertFalse($doBanners);
+    }
 
+    /**
+     * Test that method returns correct object when DataObject exists and false otherwise
+     * @todo Add PEAR_Error expectations to simpletest in order to catch them
+     *
+     */
+    function testFactoryDAL()
+    {
+        // Test when object exists
+        $dalBanners = MAX_DB::factoryDAL('banners');
+        $this->assertIsA($dalBanners, 'MAX_Dal_Admin_Banners');
+        
+        // Test when object doesn't exist
+        PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
+        $dalBanners = MAX_DB::factoryDAL('foo'.rand());
+        PEAR::staticPopErrorHandling();
+        
+        $this->assertFalse($dalBanners);
+    }    
 }
 
 ?>
