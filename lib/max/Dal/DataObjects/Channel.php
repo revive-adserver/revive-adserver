@@ -40,7 +40,7 @@ class DataObjects_Channel extends DB_DataObjectCommon
     	$rsChannel->reset();
     	while ($rsChannel->next()) {
     		$channelIds = explode(',', $rsChannel->get('data'));
-    		$channelIds = array_diff($channelIds, array($channelid));
+    		$channelIds = array_diff($channelIds, array($this->channelid));
     		
     		$doAcl = DB_DataObject::factory('acls');
     		$doAcl->init();
