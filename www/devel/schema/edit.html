@@ -35,13 +35,15 @@
         ?>
     </div>
         <form name="frm_table" action="index.php" method="POST">
-        <input type="hidden" name="xml_file" value="<?php echo $current_file; ?>"/>
+        <!--input type="hidden" name="xml_file" value="<?php echo $current_file; ?>"/-->
         <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
         <table class="tablemain">
                 <tr>
                     <td class="tableheader" style="text-align:center;width:20%;">
-                        <button name="btn_table_delete" type="submit">delete this table</button>
-
+                        <form name="frm_table" action="index.php" method="POST">
+                            <button name="btn_table_delete" type="submit">delete this table</button>
+                            <input type="hidden" name="table_edit" value="<?php echo $table; ?>"/>
+                        </form>
                     </td>
                     <td class="tableheader" style="text-align:center;font-size:20px;">
 
@@ -55,9 +57,12 @@
 
                     </td>
                     <td class="tableheader" style="text-align:center;width:20%;">
-                        Currently working on: <select id="xml_file" name="xml_file" onchange="frm_table.submit()"></select>
-                        <br />
-                        <button name="btn_table_cancel" type="submit">go back to the schema page</button>
+                        <form name="frm_xml" action="index.php" method="POST">
+                            Currently working on:
+                            <select id="xml_file" name="xml_file" onchange="frm_xml.submit()"></select>
+                            <br />
+                            <button name="btn_table_cancel" type="submit">go back to the schema page</button>
+                        </form>
                     </td>
                 </tr>
             </table>

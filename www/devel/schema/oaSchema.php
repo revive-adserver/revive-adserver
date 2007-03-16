@@ -888,21 +888,28 @@ class Openads_Schema_Manager
             {
                 if (is_array($index['fields']) && array_key_exists($field_name_old, $index['fields']))
                 {
-                    foreach ($index['fields'] AS $k => $v)
+                    foreach ($index['fields'] AS $field => $target)
                     {
-                        if ($field_name_old == $k)
+                        if ($field_name_old == $field)
                         {
                             if ($field_name_new)
                             {
-                                $fields_ordered[$field_name_new] = $v;
+                                $fields_ordered[$field_name_new] = $target;
                             }
                         }
                         else
                         {
-                            $fields_ordered[$k] = $v;
+                            $fields_ordered[$field] = $target;
                         }
                     }
-                    $table_definition['indexes'][$idx_name]['fields'] = $fields_ordered;
+                    if (is_array($fields_ordered))
+                    {
+                        $table_definition['indexes'][$idx_name]['fields'] = $fields_ordered;
+                    }
+                    else
+                    {
+                        unset($table_definition['indexes'][$idx_name]);
+                    }
                 }
             }
         }
@@ -931,20 +938,29 @@ class Openads_Schema_Manager
                     {
                         if (($target['table']==$table_name) && ($target['field']==$field_name_old))
                         {
+                            unset($links[$table][$field]);
                             if ($field_name_new)
                             {
                                 $target['field'] = $field_name_new;
                                 $links[$table][$field] = $target;
                             }
+                            if (!is_array($links[$table]))
+                            {
+                                unset($links[$table]);
+                            }
                         }
                         if (($table==$table_name) && ($field==$field_name_old))
                         {
+                            unset($links[$table][$field]);
                             if ($field_name_new)
                             {
-                                unset($links[$table][$field]);
                                 $field = $field_name_new;
+                                $links[$table][$field] = $target;
                             }
-                            $links[$table][$field] = $target;
+                            if (!is_array($links[$table]))
+                            {
+                                unset($links[$table]);
+                            }
                         }
                     }
                 }

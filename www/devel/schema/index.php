@@ -37,7 +37,7 @@ require_once 'oaSchema.php';
 
 //$current_file = !empty($_REQUEST['xml_file']) ? $_REQUEST['xml_file'] : 'core';
 
-if (array_key_exists('xml_file', $_POST))
+if ( array_key_exists('xml_file', $_POST) && (!empty($_POST['xml_file'])) )
 {
     setcookie('schemaFile', $_POST['xml_file']);
     $schemaFile = $_POST['xml_file'];
