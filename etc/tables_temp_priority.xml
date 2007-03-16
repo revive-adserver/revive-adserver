@@ -5,6 +5,9 @@
  <name>tables_temp_priority</name>
  <create>true</create>
  <overwrite>false</overwrite>
+ <version>1</version>
+ <status>final</status>
+
 
  <table>
 

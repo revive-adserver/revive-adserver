@@ -5,9 +5,8 @@
  <name>openads</name>
  <create>true</create>
  <overwrite>false</overwrite>
-
- <status>final</status>
  <version>1</version>
+ <status>final</status>
 
  <table>
 
