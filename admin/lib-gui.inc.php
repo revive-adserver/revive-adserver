@@ -86,6 +86,7 @@ function phpAds_PageHeader($ID, $extra="")
 	
 	$mozbar = '';
 	
+	$sCommunityStats = '';
 	// Travel navigation
 	if ($ID != phpAds_Login && $ID != phpAds_Error)
 	{
@@ -271,9 +272,62 @@ function phpAds_PageHeader($ID, $extra="")
 			$searchbar .= "<td><a href=\"javascript:search_window(document.search.keyword.value,'".$phpAds_config['url_prefix']."/admin/admin-search.php');\"><img src='images/".$phpAds_TextDirection."/go.gif' border='0'></a></td>";
 			$searchbar .= "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
 			$searchbar .= "</tr>";
+			
+			if ($phpAds_config['ad_clicks_sum'] || $phpAds_config['ad_views_sum'])
+			{ 
+				
+				$iSecondsFromLastUpdate = 0;
+				if(!empty($phpAds_config['ad_cs_data_last_sent']) && '0000-00-00' != $phpAds_config['ad_cs_data_last_sent']){
+				    $iSecondsFromLastUpdate = time() - strtotime($phpAds_config['ad_cs_data_last_sent']);
+				}
+				$fClicksSum = $phpAds_config['ad_clicks_sum']+($iSecondsFromLastUpdate*$phpAds_config['ad_clicks_per_second']);
+				$fViewsSum = $phpAds_config['ad_views_sum']+($iSecondsFromLastUpdate*$phpAds_config['ad_views_per_second']);
+				
+				// make 2 weeks numbers montly numbers
+				$fClicksSum *= 2;
+				$fViewsSum *= 2;
+
+				$sCommunityStats = "\t<div style='margin-right: 30px;'>" .
+						"The Openads Community is serving " .
+						"<div id='ad_views_sum' style='display: inline;font-weight:bold;white-space:nowrap;'>" .
+						"".number_format($fViewsSum, 0, ' ', ',')."</div>&nbsp; " .
+						" ads each month." .
+					"</div>\n";
+				
+				$sCommunityStats .= "<script type='text/javascript'><!--// <![CDATA[\n" .
+						"var openads_communityStats={" . 
+						"clicks_sum:".$fClicksSum.",".
+						"views_sum:".$fViewsSum.",".
+						"clicks_per_second:".(float)$phpAds_config['ad_clicks_per_second'].",".
+						"views_per_second:".(float)$phpAds_config['ad_views_per_second'].",".
+						"refreshInterval:1, // in seconds
+						refresh:function(c_sum,v_sum,t){
+							this.clicks_sum += this.clicks_per_second*this.refreshInterval
+							this.views_sum += this.views_per_second*this.refreshInterval
+							
+							c_sum = String(Math.round(this.clicks_sum)).reverse().replace(/(\d{3})/g, '$1,').reverse().replace( /^,/,'')
+							v_sum = String(Math.round(this.views_sum)).reverse().replace(/(\d{3})/g, '$1,').reverse().replace( /^,/,'')
+							document.getElementById('ad_views_sum').innerHTML=v_sum
+							// document.getElementById('ad_clicks_sum').innerHTML=c_sum
+							t=this
+							setTimeout(function(){t.refresh();},this.refreshInterval*1000)        			
+						}}
+						String.prototype.reverse = function(){return this.split('').reverse().join('')}
+						openads_communityStats.refresh();
+						// ]]> -->\n</script>";
+			
+				$sidebar .= "<br><br>";
+				$sidebar .= "<table width='160' cellpadding='0' cellspacing='0' border='0'>";
+				$sidebar .= "<tr><td colspan='2' class='nav'><b>Community</b></td></tr>";
+				$sidebar .= "<tr><td colspan='2'><img src='images/break.gif' height='1' width='160' vspace='4'></td></tr>";
+				$sidebar .= "<tr><td colspan='2' width='140'>";
+				$sidebar .= $sCommunityStats;
+				$sidebar .= '</td></tr>';
+				$sidebar .= '</table><br>'; 
+			}
 			$searchbar .= "</form>";
 			$searchbar .= "</table>";
-		}
+    	}
 		else
 			$searchbar = "&nbsp;";
 	}

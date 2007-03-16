@@ -85,11 +85,39 @@ function phpAds_checkForUpdates($already_seen = 0, $send_sw_data = true)
 		));
 	}
 	
+	$iLastUpdate = 0;
+	if (!empty($phpAds_config['ad_cs_data_last_sent']) && $phpAds_config['ad_cs_data_last_sent'] != '0000-00-00')
+	{
+	    $iLastUpdate = strtotime($phpAds_config['ad_cs_data_last_sent']); 
+	}
+	
+	// make sure there's only one report on clicks/views a day
+	if ($send_sw_data && $iLastUpdate+86400 < time()) 
+	{	    
+
+		// get ratios for clicks and views 
+		// move start and end timestamp one hour back in the past so it's possible to fetch 
+		// clicks/views generated when update was running
+		$aData = phpAds_getAdSummaries($iLastUpdate-3600, time()-3600);
+
+		// send only if there are values 
+		if ($aData['ad_views_sum'] || $aData['ad_clicks_sum'])
+		{
+			$params[] = phpAds_xmlrpcEncode(array(
+				'ad_views_per_second'	=> $aData['ad_views_per_second'],
+				'ad_clicks_per_second'	=> $aData['ad_clicks_per_second'],
+				'ad_views_sum'			=> $aData['ad_views_sum'],
+				'ad_clicks_sum'			=> $aData['ad_clicks_sum'],
+			));
+		}
+	
+	}
+	
 	// Create XML-RPC request message
 	$msg = new xmlrpcmsg("Openads.Sync", $params);
 
 	// Send XML-RPC request message
-	if($response = $client->send($msg, 10))
+	if ($response = $client->send($msg, 10))
 	{
 		// XML-RPC server found, now checking for errors
 		if (!$response->faultCode())
@@ -107,14 +135,43 @@ function phpAds_checkForUpdates($already_seen = 0, $send_sw_data = true)
 			$cache = false;
 		}
 
-		// Save to cache
-		phpAds_dbQuery("
+		$sUpdate = "
 			UPDATE
 				".$phpAds_config['tbl_config']."
 			SET
 				updates_cache = '".addslashes(serialize($cache))."',
 				updates_timestamp = ".time()."
-		");
+		";
+		
+		if ($send_sw_data && $iLastUpdate+86400 < time())
+		{
+			$sUpdate .= ",
+			ad_cs_data_last_sent = '".date('Y-m-d', time())."'
+			";
+		}
+		
+		// var $response is not needed from this point so we can reuse it
+		// get community-stats
+		$response = $client->send(new xmlrpcmsg('Openads.CommunityStats'),10);
+		
+		// if response contains no error store community-stats values locally
+		if (!$response->faultCode())
+		{
+			$aCommunityStats = phpAds_xmlrpcDecode($response->value());
+			if ($aCommunityStats['day'] != $phpAds_config['ad_cs_data_last_received'] && ($aCommunityStats['ad_clicks_sum'] || $aCommunityStats['ad_views_sum']))
+			{
+				$sUpdate .= ",
+					ad_clicks_sum = ".(int)$aCommunityStats['ad_clicks_sum'].",
+		 			ad_views_sum = ".(int)$aCommunityStats['ad_views_sum'].",
+		 			ad_clicks_per_second = ".(float)$aCommunityStats['ad_clicks_per_second'].",
+		 			ad_views_per_second = ".(float)$aCommunityStats['ad_views_per_second'].",
+		 			ad_cs_data_last_received = '".$aCommunityStats['day']."'
+				";
+			}
+		}
+		
+		// Save config info
+		phpAds_dbQuery($sUpdate);
 		
 		return $ret;
 	}
@@ -122,4 +179,118 @@ function phpAds_checkForUpdates($already_seen = 0, $send_sw_data = true)
 	return array(-1, 'No response from the server');
 }
 
+function phpAds_getAdSummaries($iStartDate, $iEndDate)
+{
+	global $phpAds_config;
+
+	
+	if($iStartDate > $iEndDate)
+	{
+	    return array();
+	}
+	
+	if ($phpAds_config['compact_stats']) 
+	{
+		if($iStartDate <= 0)
+		{
+		    $iStartDate = phpAds_dbResult(phpAds_dbQuery("SELECT UNIX_TIMESTAMP(MIN(day)) FROM ".$phpAds_config['tbl_adstats']), 0, 0);
+		    if(empty($iStartDate)){
+		        return array();
+		    }
+		}
+		
+	    $sMysqlStartDay = date('Y-m-d', $iStartDate );
+	    $sMysqlEndDay = date('Y-m-d', $iEndDate );
+	    
+	    $sMysqlStartHour = (int)date('H', $iStartDate );
+	    $sMysqlEndHour = (int)date('H', $iEndDate );
+	    
+		$res = phpAds_dbQuery("
+			SELECT
+				SUM(v.clicks) AS ad_clicks_sum,
+				SUM(v.views) AS ad_views_sum
+			FROM
+				".$phpAds_config['tbl_adstats']." AS v
+			WHERE
+				('".$sMysqlStartDay."' < '".$sMysqlEndDay."' 
+					AND (
+						(v.day = '".$sMysqlStartDay."' AND v.hour >= ".$sMysqlStartHour.")
+						OR
+						(v.day = '".$sMysqlEndDay."' AND v.hour < ".$sMysqlEndHour.")
+						OR
+						(v.day > '".$sMysqlStartDay."' AND v.day < '".$sMysqlEndDay."')
+					)
+				)
+				OR
+				('".$sMysqlStartDay."' >= '".$sMysqlEndDay."'
+					AND (
+						v.day = '".$sMysqlStartDay."' AND v.hour >= ".$sMysqlStartHour." AND v.hour < ".$sMysqlEndHour."
+					)
+				)
+		");
+
+		// extract values
+		list($clicks,$views) = phpAds_dbFetchRow($res);
+
+	}
+	else 
+	{
+		if($iStartDate <= 0)
+		{
+			$iStartDateV = phpAds_dbResult(phpAds_dbQuery("SELECT UNIX_TIMESTAMP(MIN(t_stamp)) FROM ".$phpAds_config['tbl_adviews']), 0, 0);
+			$iStartDateC = phpAds_dbResult(phpAds_dbQuery("SELECT UNIX_TIMESTAMP(MIN(t_stamp)) FROM ".$phpAds_config['tbl_adclicks']), 0, 0);
+
+			if (empty($iStartDateV)) $iStartDateV = time();
+			if (empty($iStartDateC)) $iStartDateC = time();
+
+			$iStartDate = min($iStartDateV, $iStartDateC);
+
+			if(empty($iStartDate)){
+				return array();
+			}
+		}
+		
+	    $sMysqlStartDate = date('Y-m-d H:i:s', $iStartDate );
+	    $sMysqlEndDate = date('Y-m-d H:i:s', $iEndDate );
+
+		$res = phpAds_dbQuery("
+			SELECT
+				COUNT(*) as ad_views_sum
+			FROM
+				".$phpAds_config['tbl_adviews']." AS v
+			WHERE
+				v.t_stamp >= '".$sMysqlStartDate."' AND
+				v.t_stamp < '".$sMysqlEndDate."'
+		");
+
+		// run query - get views
+		$views = phpAds_dbResult($res, 0, 0);
+
+
+		$res = phpAds_dbQuery("
+			SELECT
+				COUNT(*) as ad_clicks_sum
+			FROM
+				".$phpAds_config['tbl_adclicks']." AS c
+			WHERE
+				c.t_stamp >= '".$sMysqlStartDate."' AND
+				c.t_stamp < '".$sMysqlEndDate."'
+		");
+
+		// run query - get clicks
+		$clicks = phpAds_dbResult($res, 0, 0);
+	    
+	}
+
+	$iTimeDiff = $iEndDate-$iStartDate;
+
+	$aReturn = array();
+	$aReturn['ad_clicks_per_second']	= round($clicks/$iTimeDiff, 4);
+	$aReturn['ad_views_per_second']		= round($views/$iTimeDiff, 4);
+	$aReturn['ad_clicks_sum']			= $clicks;
+	$aReturn['ad_views_sum']			= $views;
+	
+	return $aReturn;
+
+}
 ?>
