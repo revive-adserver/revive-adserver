@@ -139,7 +139,7 @@ if ($trackerid != "") {
 	$extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
 	
 	$doClients = MAX_DB::factoryDO('clients');
-	$doClients->clientid = $clientid;
+	$doClients->whereAdd('clientid <> '.$clientid);
 	if (phpAds_isUser(phpAds_Agency)) {
 	    $doClients->addReferenceFilter('agency', phpAds_getAgencyID());
 	}
