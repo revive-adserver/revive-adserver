@@ -69,6 +69,38 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
         $this->assertEqual(count($aBanners), $numBanners);
     }
     
+    function testGetAllBannersUnderAgency()
+    {
+        $doClients = MAX_DB::factoryDO('clients');
+        $doClients->agencyid = 0;
+        $aClientId[] = DataGenerator::generateOne($doClients);
+        
+        $doClients = MAX_DB::factoryDO('clients');
+        $doClients->agencyid = 1;
+        $aClientId[] = DataGenerator::generateOne($doClients);
+        
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->clientid = $aClientId[0];
+        $aCampaignId[] = DataGenerator::generateOne($doCampaigns);
+        
+        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns->clientid = $aClientId[1];
+        $aCampaignId[] = DataGenerator::generateOne($doCampaigns);
+        
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->campaignid = $aCampaignId[0];
+        $aBannerId[] = DataGenerator::generateOne($doBanners);
+        
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->campaignid = $aCampaignId[1];
+        $aBannerId[] = DataGenerator::generateOne($doBanners);
+        
+        $aBanners = $this->dalBanners->getAllBannersUnderAgency(1, 'name', 'up');
+        
+        $this->assertEqual(count($aBanners), 1);
+        
+    }
+    
     function testCountActiveBanners()
     {
         // Insert an active campaign
@@ -187,6 +219,38 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
         $rsBanners->find();
         $actual = $rsBanners->getRowCount();
         $this->assertEqual($actual, $expected);
+    }
+    
+    function testMoveBannerToCampaign()
+    {
+        // Insert a banner
+        $bannerId = DataGenerator::generateOne('banners');
+        
+        // Move it
+        $newCampaignId = 99;
+        $this->assertTrue($this->dalBanners->moveBannerToCampaign($bannerId, $newCampaignId));
+        
+        // Check its campaign ID
+        $doBanners = MAX_DB::staticGetDO('banners', $bannerId);
+        $this->assertEqual($doBanners->campaignid, $newCampaignId);
+    }
+    
+    function testGetBannersCampaignsClients()
+    {
+        // Insert 2 banners
+        $aBannerId = DataGenerator::generate('banners', 2, true);
+        
+        // Check the correct number of rows returned
+        $expectedRows = 2;
+        $rsBanners = $this->dalBanners->getBannersCampaignsClients();
+        $rsBanners->find();
+        $actualRows = $rsBanners->getRowCount();
+        $this->assertEqual($actualRows, $expectedRows);
+        
+        // Check each row has the correct number of fields
+        $rsBanners->fetch();
+        $aBanner = $rsBanners->export();
+        $this->assertEqual(count($aBanner), 6);
     }
 }
 
