@@ -8,78 +8,79 @@ require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 class MAX_Dal_Admin_Clients extends MAX_Dal_Common
 {
     var $table = 'clients';
-    
+
     var $orderListName = array(
         'name' => 'clientname',
         'id'   => 'clientid'
     );
-    
+
 	/**
-     * 
-     * 
+     * A method to retrieve all advertisers where the advertiser name
+     * contains a given string. Also returns any advertiser where the
+     * advertiser ID equals the given keyword, should the keyword be
+     * numeric.
+     *
      * @param $keyword  string  Keyword to look for
-     * @param $agencyId int  Agency Id
-     * 
+     * @param $agencyId integer Limit results to advertisers owned by a given Agency ID
      * @return RecordSet
-     * @access public
      */
     function getClientByKeyword($keyword, $agencyId = null)
     {
-        $whereClient = is_numeric($keyword) ? " OR c.clientid=$keyword" : '';
-        $prefix = $this->getTablePrefix();
-        
+        $conf = $GLOBALS['_MAX']['CONF'];
+        $whereClient = is_numeric($keyword) ? " OR c.clientid = $keyword" : '';
         $query = "
             SELECT
                 c.clientid AS clientid,
                 c.clientname AS clientname
-            FROM 
-                {$prefix}clients AS c
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['clients']} AS c
             WHERE
                 (
-                c.clientname LIKE '%$keyword%'
-                $whereClient
-                )
-        ";
-        
-        if($agencyId !== null) {
+                    c.clientname LIKE '%$keyword%' $whereClient
+                )";
+        if ($agencyId !== null) {
             $query .= " AND c.agencyid=".DBC::makeLiteral($agencyId);
         }
-        
         return DBC::NewRecordSet($query);
     }
-    
+
     /**
-     * Retrieve all information about one advertiser from the database.
+     * A method to retrieve all information about one advertiser from the database.
      *
-     * @param int $advertiser_id
-     * @return array An associative array with a key for each database field.
+     * @param int $advertiserId The advertiser ID.
+     * @return mixed An associative array with a key for each database field,
+     *               or null if no result found.
      *
      * @todo Consider deprecating this method in favour of an object approach.
      */
-    function getAdvertiserDetails($advertiser_id)
+    function getAdvertiserDetails($advertiserId)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-
-        $query = "SELECT *".
-            " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-            " WHERE clientid=?";
-        $query_params = array($advertiser_id);
-        $advertiser_details = $this->dbh->getRow($query, $query_params, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($advertiser_details)) {
-            MAX::raiseError($advertiser_details);
+        $query = "
+            SELECT
+                *
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['clients']}
+            WHERE
+                clientid = ?";
+        $aQueryParams = array($advertiserId);
+        $aAdvertiserDetails = $this->dbh->getRow($query, $aQueryParams, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($aAdvertiserDetails)) {
+            MAX::raiseError($aAdvertiserDetails);
             return array();
         }
-
-        return $advertiser_details;
+        return $aAdvertiserDetails;
     }
 
     /**
-     * Gets a list of all advertisers.
-     * 
-     * @param string $listorder
-     * @param string $orderdirection
+     * A method to retrieve a list of all advertiser names. Can be limited to
+     * just return the advertisers that are "owned" by an agency.
+     *
+     * @param string  $listorder      The column name to sort the agency names by. One of "name" or "id".
+     * @param string  $orderdirection The sort oder for the sort column. One of "up" or "down".
+     * @param integer $agencyId       Optional. The agency ID to limit results to.
      * @return array
-     *  
+     *
      * @todo Consider removing order options (or making them optional)
      */
     function getAllAdvertisers($listorder, $orderdirection, $agencyId = null)
@@ -90,7 +91,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
         }
         $doClients->addListOrderBy($listorder, $orderdirection);
         return $doClients->getAll(array('clientname'), $indexWitkPk = true, $flatten = false);
-}
+    }
 
     /**
      * @param int $agency_id
@@ -106,6 +107,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
     {
         return $this->getAllAdvertisers($listorder, $orderdirection, $agency_id);
     }
+
 }
 
 ?>
