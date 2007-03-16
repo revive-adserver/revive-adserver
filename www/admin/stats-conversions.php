@@ -266,11 +266,11 @@ $aParams['perPage'] = MAX_getStoredValue('setPerPage', 15);
 
 $pager = & Pager::factory($aParams);
 $per_page = $pager->_perPage;
-$this->history = $pager->getPageData();
-$this->pagerLinks = $pager->getLinks();
+$pager->history = $pager->getPageData();
+$pager->pagerLinks = $pager->getLinks();
 
-$this->pagerLinks = $this->pagerLinks['all'];
-$this->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="this.form.submit()"$2', $pager->getPerPageSelectBox(15, 120, 15));
+$pager->pagerLinks = $pager->pagerLinks['all'];
+$pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="this.form.submit()"$2', $pager->getPerPageSelectBox(15, 120, 15));
 
 // Build the conversions array
 if (!empty($aConversions)) {
@@ -531,13 +531,13 @@ if (!empty($aConversions)) {
 
     echo "<tr>
 
-            <td colspan='4' align='$phpAds_TextAlignLeft' nowrap> $strItemsPerPage $this->pagerSelect ";
+            <td colspan='4' align='$phpAds_TextAlignLeft' nowrap> $strItemsPerPage $pager->pagerSelect ";
 
     echo "
 
             </td>
 
-            <td colspan='2' align='$phpAds_TextAlignRight' nowrap> $this->pagerLinks &nbsp;&nbsp;</td>
+            <td colspan='2' align='$phpAds_TextAlignRight' nowrap> $pager->pagerLinks &nbsp;&nbsp;</td>
 
         </tr>
 
