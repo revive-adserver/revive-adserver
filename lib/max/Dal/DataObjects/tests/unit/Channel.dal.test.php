@@ -59,10 +59,10 @@ class DataObjects_ChannelTest extends DalUnitTestCase
         $doAcls->executionorder = 2;
         $doAcls->insert();
         
+        $doChannel->channelid = $channelId;
         $doChannel->delete();
         
         $doAcls = MAX_DB::factoryDO('acls');
-        $doAcls->find();
         $this->assertEqual(1, $doAcls->count());
     }
 }
