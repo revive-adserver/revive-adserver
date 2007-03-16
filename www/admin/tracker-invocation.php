@@ -70,28 +70,6 @@ if (isset($submit)) {
         $doTrackers->trackerid = $trackerid;
         $doTrackers->update();
     }
-    
-	if (isset($move) && $move == 't') {
-		// We are moving a client to a tracker
-		// Update banners
-		
-		// FIXME - let's try to find is this code is ever executed
-		phpAds_Die ('Error', 'Error: This is a message to ensure that this code is never executed'.
-		  ', it should be catched by tests');
-		
-		$query = "
-            UPDATE
-                {$conf['table']['prefix']}{$conf['table']['banners']}
-            SET
-                trackerid = $trackerid,
-		        updated = '".date('Y-m-d H:i:s')."'
-            WHERE
-                trackerid = $clientid";
-		$res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
-		// Force priority recalculation
-		$new_tracker = false;
-	}
 	Header("Location: tracker-campaigns.php?clientid=".$clientid."&trackerid=".$trackerid);
 	exit;
 }
