@@ -89,5 +89,39 @@ class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
         $this->assertEqual($actualRows, $expectedRows);
     }
     
+    function testGetPublishersByTracker()
+    {
+        $campaignId = 1;
+        
+        // Add a couple of campaign_trackers
+        $doCampaignsTrackers = MAX_DB::factoryDO('campaigns_trackers');
+        $doCampaignsTrackers->campaignid = $campaignId;
+        $doCampaignsTrackers->trackerid = 1;
+        $aCampaignTrackerId = DataGenerator::generate($doCampaignsTrackers, 2);
+        
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->campaignid = $campaignId;
+        $bannerId = DataGenerator::generateOne($doBanners);
+        
+        // Add a couple of affiliates
+        $aAffiliateId = DataGenerator::generate('affiliates', 2);
+        
+        $doZones = MAX_DB::factoryDO('zones');
+        $doZones->affiliateid = $aAffiliateId[0];
+        $zoneId = DataGenerator::generateOne($doZones);
+        
+        $doAddZoneAssoc = MAX_DB::factoryDO('ad_zone_assoc');
+        $doAddZoneAssoc->zone_id = $zoneId;
+        $doAddZoneAssoc->ad_id = $BannerId;
+        $adZoneAssocId = DataGenerator::generateOne($doAddZoneAssoc);
+
+        // Test the correct number of rows is returned.
+        $expectedRows = 1;
+        $rsAffiliates = $this->dalAffiliates->getPublishersByTracker($aCampaignTrackerId[0]);
+        $rsAffiliates->find();
+        $actualRows = $rsAffiliates->getRowCount();
+        $this->assertEqual($actualRows, $expectedRows);
+    }
+    
 }
 ?>
