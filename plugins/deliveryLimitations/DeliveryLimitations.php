@@ -56,6 +56,7 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
     var $res;
     var $columnName = '';
     var $nameEnglish = '';
+    var $defaultComparison = '==';
 
     /**
      * An array list of operations available for this type of plugin.

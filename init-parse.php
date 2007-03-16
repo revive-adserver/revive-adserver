@@ -68,7 +68,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true)
     }
     // Is this a web, or a cli call?
     if (is_null($configFile) && !isset($_SERVER['SERVER_NAME'])) {
-        if (is_null($GLOBALS['argv'][1])) {
+        if (!isset($GLOBALS['argv'][1])) {
             exit(MAX_PRODUCT_NAME . " was called via the command line, but had no host as a parameter.\n");
         }
         $host = trim($GLOBALS['argv'][1]);       

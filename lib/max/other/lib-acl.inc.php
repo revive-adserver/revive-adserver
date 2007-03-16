@@ -73,7 +73,7 @@ function MAX_AclAdjust($acl, $action)
         // Initialise this plugin to see if there is a default comparison
         list($package, $name) = explode(':', $_REQUEST['type']);
         $deliveryLimitationPlugin = MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
-        $defaultComparison = (isset($deliveryLimitationPlugin->defaultComparison)) ? $deliveryLimitationPlugin->defaultComparison : '==';
+        $defaultComparison = $deliveryLimitationPlugin->defaultComparison;
 
         $acl[$count] = array(
             'comparison' => $defaultComparison,
@@ -124,126 +124,86 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     if ($page === false) {
         $page = basename($_SERVER['PHP_SELF']);
     }
-    switch($page) {
-        case 'banner-acl.php':
-            $table_name = $conf['table']['prefix'].$conf['table']['acls'];
-            $ref_name = 'bannerid';
-            $ref_value = $aEntities['bannerid'];
-            $ref_table = $conf['table']['prefix'].$conf['table']['banners'];
-        break;
-        case 'channel-acl.php':
-            $table_name = $conf['table']['prefix'].$conf['table']['acls_channel'];
-            $ref_name = 'channelid';
-            $ref_value = $aEntities['channelid'];
-            $ref_table = $conf['table']['prefix'].$conf['table']['channel'];
-        break;
-        default:
-            return false;
+    
+    if ('banner-acl.php' == $page) {
+        $table = 'banners';
+        $aclsTable = 'acls';
+        $fieldId = 'bannerid';
     }
-    // Get the old compiledlimitation string from the relevant table for comparison...
-    $res = phpAds_dbQuery("
-        SELECT
-            compiledlimitation
-        FROM
-            {$ref_table}
-        WHERE
-            {$ref_name} = {$ref_value}
-    ");
-    $row = phpAds_dbFetchArray($res);
-    $prev_compiledlimitation = $row['compiledlimitation'];
-    $compiledlimitation = MAX_AclGetCompiled($acls, $page);
-
-    if ($prev_compiledlimitation == stripslashes($compiledlimitation)) {
-        // The acl was unchanged so no need to do anything
+    elseif ('channel-acls.php' == $page) {
+        $table = 'channel-id.php';
+        $aclsTable = 'acls_channel';
+        $fieldId = 'channelid';
+    }
+    else {
+        return false;
+    }
+    
+    $sLimitation = MAX_AclGetCompiled($acls, $page);
+    
+    $aclsObjectId = $aEntities[$fieldId];
+    $doObject = MAX_DB::staticGetDO($table, $aclsObjectId);
+    
+    if ($sLimitation == $doObject->compiledlimitation) {
         return true;
     }
+    
     // There was a change to the ACL so update the necessary tables
-
-    // Clear any existing Limitations:
-    phpAds_dbQuery("
-        DELETE FROM
-            {$table_name}
-        WHERE
-            {$ref_name}={$ref_value}
-    ");
-    $now = date('Y-m-d H:i:s');
+    
+    $doAclsObject = MAX_DB::factoryDO($aclsTable);
+    $doAclsObject->$fieldId = $aclsObjectId;
+    $doAclsObject->delete();
 
     if (!empty($acls)) {
-        foreach ($acls as $order => $acl) {
-            list($package, $name) = explode(':', $acl['type']);
+        foreach ($acls as $acl) {
             $deliveryLimitationPlugin = MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
             $deliveryLimitationPlugin->init($acl);
-            $data = $deliveryLimitationPlugin->getData();
-            phpAds_dbQuery("
-                INSERT INTO
-                    {$table_name}
-                (
-                    {$ref_name},
-                    logical,
-                    type,
-                    data,
-                    comparison,
-                    executionorder
-                ) VALUES (
-                    '{$ref_value}',
-                    '{$acl['logical']}',
-                    '{$acl['type']}',
-                    '{$data}',
-                    '{$acl['comparison']}',
-                    '{$acl['executionorder']}'
-                )
-            ");
+            $doAclsObject = MAX_DB::factoryDO($aclsTable);
+            $doAclsObject->$fieldId = $aclsObjectId;
+            $doAclsObject->logical = $acl['logical'];
+            $doAclsObject->type = $acl['type'];
+            $doAclsObject->data = $deliveryLimitationPlugin->getData();
+            $doAclsObject->comparison = $acl['comparison'];
+            $doAclsObject->executionorder = $acl['executionorder'];
+            $doAclsObject->insert();
         }
-        phpAds_dbQuery("
-            UPDATE
-                {$ref_table}
-            SET
-                acl_plugins = '" . MAX_AclGetPlugins($acls, $page) . "',
-                acls_updated = '{$now}',
-                compiledlimitation = '{$compiledlimitation}'
-            WHERE
-                {$ref_name} = {$ref_value}
-        ");
-    } else {
-        phpAds_dbQuery("
-            UPDATE
-                {$ref_table}
-            SET
-                acl_plugins = '',
-                acls_updated = '{$now}',
-                compiledlimitation = 'true'
-            WHERE
-                {$ref_name} = {$ref_value}
-            ");
     }
-    // When a channel limitation changes - All banners with this channel must be re-learnt
-    if ($page == 'channel-acl.php') {
-        $affected_ads = array();
-        $success = false;
+    
+    $doObject = MAX_DB::factoryDO($table);
+    $doObject->$fieldId = $aclsObjectId;
+    $doObject->acl_plugins = MAX_AclGetPlugins($acls, $page);
+    $doObject->acls_updated = date('Y-m-d H:i:s');
+    $doObject->compiledlimitation = $sLimitation;
+    $doObject->update();
 
-        $res = phpAds_dbQuery("
-            SELECT
-                DISTINCT(bannerid)
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['acls']}
-            WHERE
-                type = 'Site:Channel'
-              AND (data = '{$ref_value}' OR data LIKE '%,{$ref_value}' OR data LIKE '%,{$ref_value},%' OR data LIKE '{$ref_value},%')
-        ");
-        while ($row = phpAds_dbFetchArray($res)) {
-            $affected_ads[] = $row['bannerid'];
-        }
-        if (!empty($affected_ads)) {
-            phpAds_dbQuery("
-                UPDATE
-                    {$conf['table']['prefix']}{$conf['table']['banners']}
-                SET
-                    acls_updated = '{$now}'
-                WHERE
-                    bannerid IN (" . implode(',', $affected_ads) . ")
-            ");
-        }
-    }
+    // When a channel limitation changes - All banners with this channel must be re-learnt
+//    if ($page == 'channel-acl.php') {
+//        $affected_ads = array();
+//        $success = false;
+//
+//        $res = phpAds_dbQuery("
+//            SELECT
+//                DISTINCT(bannerid)
+//            FROM
+//                {$conf['table']['prefix']}{$conf['table']['acls']}
+//            WHERE
+//                type = 'Site:Channel'
+//              AND (data = '{$ref_value}' OR data LIKE '%,{$ref_value}' OR data LIKE '%,{$ref_value},%' OR data LIKE '{$ref_value},%')
+//        ");
+//        while ($row = phpAds_dbFetchArray($res)) {
+//            $affected_ads[] = $row['bannerid'];
+//        }
+//        if (!empty($affected_ads)) {
+//            phpAds_dbQuery("
+//                UPDATE
+//                    {$conf['table']['prefix']}{$conf['table']['banners']}
+//                SET
+//                    acls_updated = '{$now}'
+//                WHERE
+//                    bannerid IN (" . implode(',', $affected_ads) . ")
+//            ");
+//        }
+//    }
     return true;
 }
 
@@ -269,7 +229,7 @@ function MAX_AclGetCompiled($acls) {
 
 function MAX_AclGetPlugins($acls) {
     if (empty($acls)) {
-        return null;
+        return '';
     }
     $acl_plugins = array();
     foreach ($acls as $order => $acl) {

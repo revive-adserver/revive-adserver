@@ -95,7 +95,7 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'plg'   => array('Plugins',                             DB_WITH_TABLES), // Required for Site:Channel plugin test, because the DAL is being used and it currently can not be mocked.
         'admin' => array('Administrative Interface',            NO_DB),
         'sdh'   => array('Simple Data Handling',                NO_DB),
-        'mol'   => array('Max Other Libraries',                 NO_DB)
+        'mol'   => array('Max Other Libraries',                 DB_WITH_TABLES)
     );
 
 /*
