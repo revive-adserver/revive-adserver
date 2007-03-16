@@ -21,10 +21,6 @@ else
     define ('phpAds_path', '..');
 
 
-// Register input variables
-phpAds_registerGlobal ('priority_only');
-
-
 
 // Include required files
 require (phpAds_path."/config.inc.php");
@@ -43,34 +39,27 @@ phpAds_LoadDbConfig();
 // Set maintenance usertype
 phpAds_userlogSetUser (phpAds_userMaintenance);
 
-// Check if we only need to recalculate priorities
-$priority_only = !empty($priority_only);
 
-if (!$priority_only)
-{
-	// Sometimes cron jobs could start before the exact minute they were set,
-	// especially if many are scheduled at the same time (e.g. midnight)
-	//
-	// Wait a few seconds if needed, to ensure all goes well, otherwise
-	// maintenance won't work as it should
-	
-	if (date('i') == 59 && date('s') >= 45)
-		sleep(60 - date('s'));
-}
+// Sometimes cron jobs could start before the exact minute they were set,
+// especially if many are scheduled at the same time (e.g. midnight)
+//
+// Wait a few seconds if needed, to ensure all goes well, otherwise
+// maintenance won't work as it should
+
+if (date('i') == 59 && date('s') >= 45)
+	sleep(60 - date('s'));
+
 
 // Finally run maintenance
-if (phpAds_performMaintenance($priority_only))
+if (phpAds_performMaintenance())
 {
-	if (!$priority_only)
-	{
-		// Update the timestamp
-		$res = phpAds_dbQuery ("
-			UPDATE
-				".$phpAds_config['tbl_config']."
-			SET
-				maintenance_cron_timestamp = '".time()."'
-		");
-	}
+	// Update the timestamp
+	$res = phpAds_dbQuery ("
+		UPDATE
+			".$phpAds_config['tbl_config']."
+		SET
+			maintenance_cron_timestamp = '".time()."'
+	");
 }
 
 ?>

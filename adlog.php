@@ -55,7 +55,10 @@ if (isset($bannerid) && isset($clientid) && isset($zoneid))
 	   	$_COOKIE['phpAds_blockView'][$bannerid] <= time())))
 	{
 		if ($phpAds_config['log_beacon'] && $phpAds_config['log_adviews'])
+		{
+			phpAds_dbConnect();
 			phpAds_logImpression ($bannerid, $clientid, $zoneid, $source);
+		}
 		
 		// Send block cookies
 		if ($phpAds_config['block_adviews'] > 0)
@@ -86,7 +89,7 @@ echo chr(0x47).chr(0x49).chr(0x46).chr(0x38).chr(0x39).chr(0x61).chr(0x01).chr(0
      chr(0x01).chr(0x00).chr(0x01).chr(0x00).chr(0x00).chr(0x02).chr(0x02).chr(0x44).
      chr(0x01).chr(0x00).chr(0x3B);
 
-if ($phpAds_config['auto_maintenance'] && !$phpAds_config['lb_enabled'])
+if ($phpAds_config['auto_maintenance'])
 {
 	// Perform auto maintenance!
 	require (phpAds_path.'/libraries/lib-automaintenance.inc.php');

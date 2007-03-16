@@ -81,7 +81,8 @@ if (!isset($bannerid))
 	else
 		$bannerid = 'DEFAULT';
 }
-		
+
+
 // Open a connection to the database
 if (phpAds_dbConnect())
 {

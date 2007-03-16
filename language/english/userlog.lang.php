@@ -31,9 +31,7 @@ $GLOBALS['strUserlog'] = array (
 	phpAds_actionDeactiveCampaign			=> "Campaign {id} deactivated",
 	phpAds_actionActiveCampaign				=> "Campaign {id} activated",
 	phpAds_actionAutoClean					=> "Auto clean of database",
-	phpAds_actionGeotargeting				=> "Geotargeting configuration update",
-	phpAds_actionOpenadsSync				=> "Openads Sync",
-	phpAds_actionDistributedStats			=> "Distributed stats"
+	phpAds_actionGeotargeting				=> "Geotargeting configuration update"
 );
 
 ?>

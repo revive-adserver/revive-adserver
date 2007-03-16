@@ -24,13 +24,9 @@ define ("phpAds_Views", 2);
 /* Check the expiration of a client				         */
 /*********************************************************/
 
-function phpAds_logExpire ($clientid, $type = 0, $number = 1, $force_run = false)
+function phpAds_logExpire ($clientid, $type=0)
 {
 	global $phpAds_config;
-	
-	// Do not run when distributed stats are used
-	if ($phpAds_config['lb_enabled'] && !$force_run)
-		return;
 	
 	// Get campaign information
 	$campaignresult = phpAds_dbQuery(
@@ -40,20 +36,14 @@ function phpAds_logExpire ($clientid, $type = 0, $number = 1, $force_run = false
 	
 	if ($campaign = phpAds_dbFetchArray ($campaignresult))
 	{
-		$views_before	= $campaign['views'];
-		$clicks_before	= $campaign['clicks'];
-
 		// Decrement views
-		if ($type == phpAds_Views && $views_before > 0)
+		if ($type == phpAds_Views && $campaign['views'] > 0)
 		{
-			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET views = IF(views - ".$number." < 0, 0, views - ".$number.")
-				WHERE clientid = '".$clientid."'");
-			
-			$views_after = $views_before - $number;
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET views = views - 1 WHERE clientid = '".$clientid."'");
+			$campaign['views']--;
 			
 			// Mail warning - preset is reached
-			if ($views_before > $phpAds_config['warn_limit'] &&
-				$views_after <= $phpAds_config['warn_limit'] &&
+			if ($campaign['views'] == $phpAds_config['warn_limit'] &&
 			   ($phpAds_config['warn_admin'] || $phpAds_config['warn_client']))
 			{
 				// Include warning library
@@ -66,31 +56,25 @@ function phpAds_logExpire ($clientid, $type = 0, $number = 1, $force_run = false
 				if (!defined('LIBUSERLOG_INCLUDED'))
 					require (phpAds_path.'/libraries/lib-userlog.inc.php');
 				
-				if ($phpAds_config['lb_enabled'])
-					phpAds_userlogSetUser (phpAds_userMaintenance);
-				else
-					phpAds_userlogSetUser (phpAds_userDeliveryEngine);
-				
+				phpAds_userlogSetUser (phpAds_userDeliveryEngine);
 				phpAds_warningMail ($campaign);
 			}
 		}
 		
 		
 		// Decrement clicks
-		if ($type == phpAds_Clicks && $clicks_before > 0)
+		if ($type == phpAds_Clicks && $campaign['clicks'] > 0)
 		{
-			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET clicks = IF(clicks - ".$number." < 0, 0, clicks - ".$number.")
-				WHERE clientid = '".$clientid."'");
-
-			$clicks_after = $clicks_before - $number;
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET clicks = clicks - 1 WHERE clientid='".$clientid."'");
+			$campaign['clicks']--;
 		}
 		
 		
 		// Check activation status
 		$active = "t";
 		
-		if ((clicks_before > 0 && $clicks_after <= 0) ||
-			($views_before > 0 && $views_after <= 0) ||
+		if (($campaign["clicks"] == 0) ||
+			($campaign["views"] == 0) ||
 			(time() < $campaign["activate_st"]) || 
 			(time() > $campaign["expire_st"] && $campaign["expire_st"] != 0))
 			$active = "f";
@@ -101,11 +85,7 @@ function phpAds_logExpire ($clientid, $type = 0, $number = 1, $force_run = false
 				require (phpAds_path.'/libraries/lib-userlog.inc.php');
 			
 			// Log deactivation
-			if ($phpAds_config['lb_enabled'])
-				phpAds_userlogSetUser (phpAds_userMaintenance);
-			else
-				phpAds_userlogSetUser (phpAds_userDeliveryEngine);
-			
+			phpAds_userlogSetUser (phpAds_userDeliveryEngine);
 			phpAds_userlogAdd (phpAds_actionDeactiveCampaign, $campaign['clientid']);
 			
 			// Deactivate campaign
@@ -187,9 +167,6 @@ function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
 	{
 		$log_source = $phpAds_config['log_source'] ? $source : '';
 		
-		// Switch databases if needed
-		phpAds_dbDistributedMode();
-
 		if ($phpAds_config['compact_stats'])
 	    {
 			// LOW PRIORITY UPDATEs are disabled until further notice - Matteo
@@ -231,9 +208,6 @@ function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
 				country = '".$log_country."' ");
 		}
 		
-		// Switch databases if needed
-		phpAds_dbNormalMode();
-		
 		phpAds_logExpire ($clientid, phpAds_Views);
 	}
 }
@@ -252,9 +226,6 @@ function phpAds_logClick($bannerid, $clientid, $zoneid, $source)
 	if ($host = phpads_logCheckHost())
 	{
 		$log_source = $phpAds_config['log_source'] ? $source : '';
-		
-		// Switch databases if needed
-		phpAds_dbDistributedMode();
 		
    		if ($phpAds_config['compact_stats'])
 	    {
@@ -295,9 +266,6 @@ function phpAds_logClick($bannerid, $clientid, $zoneid, $source)
 				$phpAds_config['tbl_adclicks']." SET bannerid = '".$bannerid."', zoneid = '".$zoneid."',
 				host = '".$log_host."', source = '".$log_source."', country = '".$log_country."' ");
 		}
-		
-		// Switch databases if needed
-		phpAds_dbNormalMode();
 		
 		phpAds_logExpire ($clientid, phpAds_Clicks);
 	}
