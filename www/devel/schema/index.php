@@ -26,7 +26,7 @@
  *
  * @author Monique Szpak <monique.szpak@openads.org>
  *
- * $Id $
+ * $Id$
  *
  */
 
@@ -35,7 +35,6 @@ define('MAX_DEV', MAX_PATH.'/www/devel');
 
 require_once 'oaSchema.php';
 
-//$current_file = !empty($_REQUEST['xml_file']) ? $_REQUEST['xml_file'] : 'core';
 
 if ( array_key_exists('xml_file', $_POST) && (!empty($_POST['xml_file'])) )
 {

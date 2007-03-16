@@ -26,7 +26,7 @@
  *
  * @author Monique Szpak <monique.szpak@openads.org>
  *
- * $Id $
+ * $Id$
  *
  */
 
