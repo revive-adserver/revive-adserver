@@ -58,10 +58,8 @@ class DataObjects_BannersTest extends DalUnitTestCase
         $doBanners->storagetype = 'sql';
         
         $id1 = DataGenerator::generateOne($doBanners);
-        $this->assertNotEmpty($id1);
 
         $doBanners = MAX_DB::staticGetDO('banners', $id1);
-        $this->assertIsA($doBanners, 'DataObjects_Banners');
 
         Mock::generatePartial(
             'DataObjects_Banners',
@@ -84,7 +82,7 @@ class DataObjects_BannersTest extends DalUnitTestCase
         // assert they are equal (but without comparing primary key)
         $this->assertNotEqualDataObjects($this->stripKeys($doBanners1), $this->stripKeys($doBanners2));
         
-        // is the only difference is their description
+        // Test that the only difference is their description
         $doBanners1->description = $doBanners2->description = null;
         $this->assertEqualDataObjects($this->stripKeys($doBanners1), $this->stripKeys($doBanners2));
     }
