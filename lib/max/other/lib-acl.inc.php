@@ -130,8 +130,8 @@ function MAX_AclSave($acls, $aEntities, $page = false)
         $aclsTable = 'acls';
         $fieldId = 'bannerid';
     }
-    elseif ('channel-acls.php' == $page) {
-        $table = 'channel-id.php';
+    else if ('channel-acl.php' == $page) {
+        $table = 'channel';
         $aclsTable = 'acls_channel';
         $fieldId = 'channelid';
     }
@@ -140,6 +140,8 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     }
     
     $sLimitation = MAX_AclGetCompiled($acls, $page);
+    // TODO: it should be done inside plugins instead, there is no need to slash the data
+    $sLimitation = (!get_magic_quotes_runtime()) ? stripslashes($sLimitation) : $sLimitation;
     
     $aclsObjectId = $aEntities[$fieldId];
     $doObject = MAX_DB::staticGetDO($table, $aclsObjectId);
@@ -156,6 +158,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
 
     if (!empty($acls)) {
         foreach ($acls as $acl) {
+            list($package, $name) = explode(':', $acl['type']);
             $deliveryLimitationPlugin = MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
             $deliveryLimitationPlugin->init($acl);
             $doAclsObject = MAX_DB::factoryDO($aclsTable);
@@ -172,38 +175,38 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     $doObject = MAX_DB::factoryDO($table);
     $doObject->$fieldId = $aclsObjectId;
     $doObject->acl_plugins = MAX_AclGetPlugins($acls, $page);
-    $doObject->acls_updated = date('Y-m-d H:i:s');
+    $doObject->acls_updated = $now = date('Y-m-d H:i:s');
     $doObject->compiledlimitation = $sLimitation;
     $doObject->update();
 
     // When a channel limitation changes - All banners with this channel must be re-learnt
-//    if ($page == 'channel-acl.php') {
-//        $affected_ads = array();
-//        $success = false;
-//
-//        $res = phpAds_dbQuery("
-//            SELECT
-//                DISTINCT(bannerid)
-//            FROM
-//                {$conf['table']['prefix']}{$conf['table']['acls']}
-//            WHERE
-//                type = 'Site:Channel'
-//              AND (data = '{$ref_value}' OR data LIKE '%,{$ref_value}' OR data LIKE '%,{$ref_value},%' OR data LIKE '{$ref_value},%')
-//        ");
-//        while ($row = phpAds_dbFetchArray($res)) {
-//            $affected_ads[] = $row['bannerid'];
-//        }
-//        if (!empty($affected_ads)) {
-//            phpAds_dbQuery("
-//                UPDATE
-//                    {$conf['table']['prefix']}{$conf['table']['banners']}
-//                SET
-//                    acls_updated = '{$now}'
-//                WHERE
-//                    bannerid IN (" . implode(',', $affected_ads) . ")
-//            ");
-//        }
-//    }
+    if ($page == 'channel-acl.php') {
+        $affected_ads = array();
+        $success = false;
+
+        $res = phpAds_dbQuery("
+            SELECT
+                DISTINCT(bannerid)
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['acls']}
+            WHERE
+                type = 'Site:Channel'
+              AND (data = '{$aclsObjectId}' OR data LIKE '%,{$aclsObjectId}' OR data LIKE '%,{$aclsObjectId},%' OR data LIKE '{$aclsObjectId},%')
+        ");
+        while ($row = phpAds_dbFetchArray($res)) {
+            $affected_ads[] = $row['bannerid'];
+        }
+        if (!empty($affected_ads)) {
+            phpAds_dbQuery("
+                UPDATE
+                    {$conf['table']['prefix']}{$conf['table']['banners']}
+                SET
+                    acls_updated = '{$now}'
+                WHERE
+                    bannerid IN (" . implode(',', $affected_ads) . ")
+            ");
+        }
+    }
     return true;
 }
 

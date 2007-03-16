@@ -384,6 +384,15 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         
         // Test updates is equal or greater than our checkpoint time
         $this->assertTrue($time <= strtotime($doBanners->updated));
+        
+        // Test slashes
+        $string = "some slashes ' ' \' \\";
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->comments = $string;
+        $bannerId = $doBanners->insert();
+        
+        $doBannersCheck = MAX_DB::staticGetDO('banners', $bannerId);
+        $this->assertEqual($string, $doBannersCheck->comments);
     }
     
     function testGetFirstPrimaryKey()

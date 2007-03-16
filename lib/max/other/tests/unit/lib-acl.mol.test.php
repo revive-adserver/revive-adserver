@@ -54,77 +54,79 @@ class LibAclTest extends DalUnitTestCase
     
     function testMAX_aclAStripslashed()
     {
-        set_magic_quotes_runtime(0);
-        $aValue = array('aabb', 'aa\\\\bb', 'aa\\\'bb');
-        $aExpected = array('aabb', 'aa\\bb', 'aa\'bb');
-        $aActual = MAX_aclAStripslashed($aValue);
-        $this->assertEqual($aExpected, $aActual);
-        
-        $aValue = array('aabb', 'aa\\\\bb', array('aa\\\'bb', 'cc\\\\dd'));
-        $aExpected = array('aabb', 'aa\\bb', array('aa\'bb', 'cc\\dd'));
-        $aActual = MAX_aclAStripslashed($aValue);
-        $this->assertEqual($aExpected, $aActual);
-
-        set_magic_quotes_runtime(1);
-        $aValue = array('aabb', 'aa\\\\bb', 'aa\\\'bb');
-        $aExpected = $aValue;
-        $aActual = MAX_aclAStripslashed($aValue);
-        $this->assertEqual($aExpected, $aActual);
+//        set_magic_quotes_runtime(0);
+//        $aValue = array('aabb', 'aa\\\\bb', 'aa\\\'bb');
+//        $aExpected = array('aabb', 'aa\\bb', 'aa\'bb');
+//        $aActual = MAX_aclAStripslashed($aValue);
+//        $this->assertEqual($aExpected, $aActual);
+//        
+//        $aValue = array('aabb', 'aa\\\\bb', array('aa\\\'bb', 'cc\\\\dd'));
+//        $aExpected = array('aabb', 'aa\\bb', array('aa\'bb', 'cc\\dd'));
+//        $aActual = MAX_aclAStripslashed($aValue);
+//        $this->assertEqual($aExpected, $aActual);
+//
+//        set_magic_quotes_runtime(1);
+//        $aValue = array('aabb', 'aa\\\\bb', 'aa\\\'bb');
+//        $aExpected = $aValue;
+//        $aActual = MAX_aclAStripslashed($aValue);
+//        $this->assertEqual($aExpected, $aActual);
+//        set_magic_quotes_runtime(0);
     }
     
     
     function test_MAX_AclSave()
     {
+//        $this->assertTrue(set_magic_quotes_runtime(0));
         // array('comparison', 'data', 'executionorder', 'logical', 'type');
         
         // Commented out so CC won't complain. Still working on it.
-//        $doChannel = MAX_DB::factoryDO('channel');
-//        $channelId = DataGenerator::generateOne($doChannel, false);
-//        
-//        $doChannel->channelid = $channelId;
-//        
-//        $aEntities = array('agencyid' => 0, 'channelid' => $channelId);
-//        
-//        $page = 'channel-acl.php';
-//        
-//        $sLimitation = "MAX_checkClient_Domain('openads.org', '==')";
-//        
-//        $comparison = '==';
-//        $type = 'Client:Domain';
-//        
-//        $acls = array(
-//            array(
-//                'comparison' => '==',
-//                'data' => 'openads.org',
-//                'executionorder' => 1,
-//                'logical' => 'and',
-//                'type' => $type));
-//        $this->assertTrue(MAX_AclSave($acls, $aEntities, $page));
-//
-//        $doChannel = MAX_DB::staticGetDO('channel', $channelId);
-//        $this->assertTrue($doChannel);
-//        $this->assertEqual($sLimitation, $doChannel->compiledlimitation);
-//        
-//        $doAclsChannel = MAX_DB::factoryDO('acls_channel');
-//        $doAclsChannel->channelid = $channelId;
-//        $doAclsChannel->logical = 'and';
-//        $doAclsChannel->type = $type;
-//        $doAclsChannel->comparison = $comparison;
-//        $doAclsChannel->data = 'openads.org';
-//        $doAclsChannel->executionorder = 1;
-//        $doAclsChannel->find();
-//        $this->assertTrue($doAclsChannel->fetch());
-//        
-//        $acls = array();
-//        $this->assertTrue(MAX_AclSave($acls, $aEntities, $page));
-//
-//        $doChannel = MAX_DB::staticGetDO('channel', $channelId);
-//        $this->assertTrue($doChannel);
-//        $this->assertEqual('true', $doChannel->compiledlimitation);
-//        $this->assertEqual('', $doChannel->acl_plugins);
-//        
-//        $doAclsChannel = MAX_DB::factoryDO('acls_channel');
-//        $this->assertEqual(0, $doAclsChannel->count());
+        $doChannel = MAX_DB::factoryDO('channel');
+        $channelId = DataGenerator::generateOne($doChannel, false);
+        
+        $doChannel->channelid = $channelId;
+        
+        $aEntities = array('agencyid' => 0, 'channelid' => $channelId);
+        
+        $page = 'channel-acl.php';
+        
+        $sLimitation = "MAX_checkClient_Domain('openads.org', '==')";
+        
+        $comparison = '==';
+        $type = 'Client:Domain';
+        
+        $acls = array(
+            array(
+                'comparison' => '==',
+                'data' => 'openads.org',
+                'executionorder' => 1,
+                'logical' => 'and',
+                'type' => $type));
+        $this->assertTrue(MAX_AclSave($acls, $aEntities, $page));
+
+        $doChannel = MAX_DB::staticGetDO('channel', $channelId);
+        $this->assertTrue($doChannel);
+        $this->assertEqual($sLimitation, $doChannel->compiledlimitation);
+        
+        $doAclsChannel = MAX_DB::factoryDO('acls_channel');
+        $doAclsChannel->channelid = $channelId;
+        $doAclsChannel->logical = 'and';
+        $doAclsChannel->type = $type;
+        $doAclsChannel->comparison = $comparison;
+        $doAclsChannel->data = 'openads.org';
+        $doAclsChannel->executionorder = 1;
+        $doAclsChannel->find();
+        $this->assertTrue($doAclsChannel->fetch());
+        
+        $acls = array();
+        $this->assertTrue(MAX_AclSave($acls, $aEntities, $page));
+
+        $doChannel = MAX_DB::staticGetDO('channel', $channelId);
+        $this->assertTrue($doChannel);
+        $this->assertEqual('true', $doChannel->compiledlimitation);
+        $this->assertEqual('', $doChannel->acl_plugins);
+        
+        $doAclsChannel = MAX_DB::factoryDO('acls_channel');
+        $this->assertEqual(0, $doAclsChannel->count());
     }
 }
 ?>

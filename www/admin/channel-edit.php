@@ -124,7 +124,9 @@ MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublishers, $aOt
 /*-------------------------------------------------------*/
 
 $doChannel = MAX_DB::factoryDO('channel');
-$doChannel->get($channelid);
+if (!empty($channelid)) {
+    $doChannel->get($channelid);
+}
 $channel = $doChannel->toArray();
 
 echo "<form name='zoneform' method='post' action='channel-edit.php'>";
