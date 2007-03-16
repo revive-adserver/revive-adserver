@@ -85,4 +85,20 @@ class DataObjects_BannersTest extends DalUnitTestCase
         $doBanners1->description = $doBanners2->description = null;
         $this->assertEqualDataObjects($this->stripKeys($doBanners1), $this->stripKeys($doBanners2));
     }
+    
+    
+    function testInsert()
+    {
+        $doBanners = MAX_DB::factoryDO('banners');
+        $bannerId = $doBanners->insert();
+        $doAdZoneAssoc = MAX_DB::factoryDO('ad_zone_assoc');
+        $doAdZoneAssoc->ad_id = $bannerId;
+        $doAdZoneAssoc->zone_id = 0;
+        $this->assertTrue($doAdZoneAssoc->find());
+        $this->assertTrue($doAdZoneAssoc->fetch());
+        
+        $doAdZoneAssoc->delete();
+        $doBanners->delete();
+    }
 }
+?>
