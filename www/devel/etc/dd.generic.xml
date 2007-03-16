@@ -11,6 +11,14 @@
 		<default></default>
 	</field>
 	<field>
+		<name>openads_generic_id_inc</name>
+		<type>integer</type>
+		<length>11</length>
+		<notnull>1</notnull>
+		<default></default>
+		<autoincrement>1</autoincrement>
+	</field>
+	<field>
 		<name>openads_generic_integer</name>
 		<type>integer</type>
 		<length>11</length>
