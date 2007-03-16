@@ -433,79 +433,78 @@ if (!empty($aConversions)) {
         if ($conversionExpanded) {
             $aConVariables = Admin_DA::fromCache('getConnectionVariables', $conversionId);
 
-        echo "
-        <tr height='1'>
-            <td$bgcolor><img src='images/spacer.gif' width='1' height='1'></td>
-            <td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>
-        </tr>";
-
-        switch ($conversion['connection_action']) {
-            case MAX_CONNECTION_AD_CLICK:   $action = 'Click'; break;
-            case MAX_CONNECTION_AD_ARRIVAL: $action = 'Arrival'; break;
-            case MAX_CONNECTION_MANUAL:     $action = 'Manual'; break;
-            default:                        $action = 'View'; break;
-        }
-
-        $connectionType = $GLOBALS[$GLOBALS['_MAX']['CONN_TYPES'][$conversion['connection_type']]];
-
-        $eventDateStamp = strtotime($conversion['date_time']);
-
-        $secondsLeft = $eventDateStamp - strtotime($conversion['connection_date_time']);
-
-        $days = intval($secondsLeft / 86400);  // 86400 seconds in a day
-        $partDay = $secondsLeft - ($days * 86400);
-        $hours = intval($partDay / 3600);  // 3600 seconds in an hour
-        $partHour = $partDay - ($hours * 3600);
-        $minutes = intval($partHour / 60);  // 60 seconds in a minute
-        $seconds = $partHour - ($minutes * 60);
-
-        $windowDelay = $days."d ".$hours."h ".$minutes."m ".$seconds."s";
-
-        echo "
-        <tr height='25'$bgcolor>
-            <td></td>
-            <td colspan='5'>
-                <table width='100%' border='0' cellspacing='' cellpadding='4'>
-                    <tr valign='top'>
-                        <td width='40%'>
-                            <table border='0' cellspacing='0' cellpadding='0'>
-                                <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>IP Address:</th><td style='padding-left: 8px'>{$conversion['tracker_ip_address']}</td></tr>
-                                <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strCountry']}:</th><td style='padding-left: 8px'>{$conversion['tracker_country']}</td></tr>
-                                <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strStatsAction']}:</th><td style='padding-left: 8px'>{$action}</td></tr>
-                                <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strConnectionType']}:</th><td style='padding-left: 8px'>{$connectionType}</td></tr>
-                                <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strWindowDelay']}:</th><td style='padding-left: 8px'>{$windowDelay}</td></tr>";
-        if (!is_null($conversion['comments'])) {
             echo "
-                                <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strComments']}:</th><td style='padding-left: 8px'>{$conversion['comments']}</td></tr>";
-        }
-        echo "
-                            </table>
-                        </td>
-                        <td width='60%'>
-                            <table border='0' cellspacing='0' cellpadding='0'>
-                                <tr><th scope='col' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strStatsVariables']}:</th><td></td></tr>";
-        foreach($aConVariables as $conVariable) {
-            // Do not show hidden variables to publishers
-            if (phpAds_isUser(phpAds_Affiliate) && $conVariable['hidden'] == 't') {
-                continue;
+            <tr height='1'>
+                <td$bgcolor><img src='images/spacer.gif' width='1' height='1'></td>
+                <td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>
+            </tr>";
+
+            switch ($conversion['connection_action']) {
+                case MAX_CONNECTION_AD_CLICK:   $action = 'Click'; break;
+                case MAX_CONNECTION_AD_ARRIVAL: $action = 'Arrival'; break;
+                case MAX_CONNECTION_MANUAL:     $action = 'Manual'; break;
+                default:                        $action = 'View'; break;
             }
 
-            echo "<tr><th scope='row' style='text-align: $phpAds_TextAlignLeft; color: darkgrey'>".
-                htmlspecialchars(empty($conVariable['description']) ? $conVariable['name'] : $conVariable['description']).
-                "</th><td style='padding-left: 8px'>".htmlspecialchars($conVariable['value'])."</td></tr>";
-        }
-        echo "
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            ";
+            $connectionType = $GLOBALS[$GLOBALS['_MAX']['CONN_TYPES'][$conversion['connection_type']]];
+
+            $eventDateStamp = strtotime($conversion['date_time']);
+
+            $secondsLeft = $eventDateStamp - strtotime($conversion['connection_date_time']);
+
+            $days = intval($secondsLeft / 86400);  // 86400 seconds in a day
+            $partDay = $secondsLeft - ($days * 86400);
+            $hours = intval($partDay / 3600);  // 3600 seconds in an hour
+            $partHour = $partDay - ($hours * 3600);
+            $minutes = intval($partHour / 60);  // 60 seconds in a minute
+            $seconds = $partHour - ($minutes * 60);
+
+            $windowDelay = $days."d ".$hours."h ".$minutes."m ".$seconds."s";
+
             echo "
-            </td>
-        </tr>";
+            <tr height='25'$bgcolor>
+                <td></td>
+                <td colspan='5'>
+                    <table width='100%' border='0' cellspacing='' cellpadding='4'>
+                        <tr valign='top'>
+                            <td width='40%'>
+                                <table border='0' cellspacing='0' cellpadding='0'>
+                                    <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>IP Address:</th><td style='padding-left: 8px'>{$conversion['tracker_ip_address']}</td></tr>
+                                    <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strCountry']}:</th><td style='padding-left: 8px'>{$conversion['tracker_country']}</td></tr>
+                                    <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strStatsAction']}:</th><td style='padding-left: 8px'>{$action}</td></tr>
+                                    <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strConnectionType']}:</th><td style='padding-left: 8px'>{$connectionType}</td></tr>
+                                    <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strWindowDelay']}:</th><td style='padding-left: 8px'>{$windowDelay}</td></tr>";
+            if (!is_null($conversion['comments'])) {
+                echo "
+                                    <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strComments']}:</th><td style='padding-left: 8px'>{$conversion['comments']}</td></tr>";
             }
             echo "
-            <tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+                                </table>
+                            </td>
+                            <td width='60%'>
+                                <table border='0' cellspacing='0' cellpadding='0'>
+                                    <tr><th scope='col' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strStatsVariables']}:</th><td></td></tr>";
+            foreach($aConVariables as $conVariable) {
+                // Do not show hidden variables to publishers
+                if (phpAds_isUser(phpAds_Affiliate) && $conVariable['hidden'] == 't') {
+                    continue;
+                }
+                echo "<tr><th scope='row' style='text-align: $phpAds_TextAlignLeft; color: darkgrey'>".
+                        htmlspecialchars(empty($conVariable['description']) ? $conVariable['name'] : $conVariable['description']).
+                        "</th><td style='padding-left: 8px'>".htmlspecialchars($conVariable['value'])."</td></tr>";
+            }
+            echo "
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                ";
+                echo "
+                </td>
+            </tr>";
+        }
+        echo "
+        <tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
     }
 
     echo "
