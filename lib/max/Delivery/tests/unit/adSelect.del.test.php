@@ -102,7 +102,7 @@ class test_DeliveryAdSelect extends UnitTestCase
 		$this->sendMessage('test_adSelect');
 
 		require_once MAX_PATH . '/lib/max/Delivery/common.php';
-        require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adSelectZone.php';
+        require MAX_PATH . '/lib/max/Delivery/tests/data/test_adSelectZone.php';
 
 //        require_once MAX_PATH . '/lib/max/Dal/Delivery/mysql.php';
 //        MAX_Dal_Delivery_connect();
