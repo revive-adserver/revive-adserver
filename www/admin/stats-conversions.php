@@ -70,7 +70,7 @@ if (!empty($day)) {
 
 if (is_numeric($hour) && $hour < 10 && strlen($hour) != 2) {
     $hour = '0' . $hour;
-} 
+}
 
 $expand         = MAX_getValue('expand', '');
 $collapse       = MAX_getValue('collapse');
@@ -222,8 +222,8 @@ if (!phpAds_isUser(phpAds_Admin)) {
 $aParams['clientid']    = $clientId;
 $aParams['campaignid']  = $campaignId;
 $aParams['bannerid']    = $bannerId;
-$aZonesIds = array();
-if(empty($zoneId) && !empty($affiliateId)) {
+$aZonesIds = null; // Admin_DA class expects null if no zones to be used
+if (empty($zoneId) && !empty($affiliateId)) {
     $aZonesIds = Admin_DA::fromCache('getZonesIdsByAffiliateId', $affiliateId);
 }
 if(!empty($zoneId)) {
@@ -251,7 +251,7 @@ $aParams['perPage'] = MAX_getStoredValue('setPerPage', 15);
 $pageID = MAX_getStoredValue('pageID', 1);
 
 if (!isset($pageID) || $pageID == 1) {
-    $aParams['startRecord'] = 0;            
+    $aParams['startRecord'] = 0;
 } else {
     $aParams['startRecord'] = (MAX_getStoredValue('pageID', 1) * $aParams['perPage']) - $aParams['perPage'];
 }
@@ -445,7 +445,7 @@ if (!empty($aConversions)) {
             case MAX_CONNECTION_MANUAL:     $action = 'Manual'; break;
             default:                        $action = 'View'; break;
         }
-        
+
         $connectionType = $GLOBALS[$GLOBALS['_MAX']['CONN_TYPES'][$conversion['connection_type']]];
 
         $eventDateStamp = strtotime($conversion['date_time']);
@@ -489,7 +489,7 @@ if (!empty($aConversions)) {
             if (phpAds_isUser(phpAds_Affiliate) && $conVariable['hidden'] == 't') {
                 continue;
             }
-            
+
             echo "<tr><th scope='row' style='text-align: $phpAds_TextAlignLeft; color: darkgrey'>".
                 htmlspecialchars(empty($conVariable['description']) ? $conVariable['name'] : $conVariable['description']).
                 "</th><td style='padding-left: 8px'>".htmlspecialchars($conVariable['value'])."</td></tr>";
@@ -527,7 +527,7 @@ if (!empty($aConversions)) {
     foreach ($getValues as $record) {
         $filed = explode('=', $record);
         echo "<input type='hidden' name='". $filed[0]."' value='". $filed[1]."'>";
-    } 
+    }
 
 
     echo "<tr>
