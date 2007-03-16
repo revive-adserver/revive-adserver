@@ -35,9 +35,32 @@ define('MAX_DEV', MAX_PATH.'/www/devel');
 
 require_once 'oaSchema.php';
 
-$current_file = !empty($_REQUEST['xml_file']) ? $_REQUEST['xml_file'] : 'core';
+//$current_file = !empty($_REQUEST['xml_file']) ? $_REQUEST['xml_file'] : 'core';
 
-$oaSchema = & new Openads_Schema_Manager($current_file);
+if (array_key_exists('xml_file', $_POST))
+{
+    setcookie('schemaFile', $_POST['xml_file']);
+    $schemaFile = $_POST['xml_file'];
+    if ($_POST['table_edit'])
+    {
+        $_POST['table_edit'] = '';
+    }
+}
+else if (array_key_exists('xajax', $_POST))
+{
+   $schemaFile = $_COOKIE['schemaFile'];
+}
+else
+{
+    $schemaFile = $_COOKIE['schemaFile'];
+    if (!$schemaFile)
+    {
+        setcookie('schemaFile', 'tables_core.xml');
+        $schemaFile = 'tables_core.xml';
+    }
+}
+
+$oaSchema = & new Openads_Schema_Manager($schemaFile);
 
 if (($aErrs = $oaSchema->checkPermissions()) !== true) {
     die(join("<br />\n", $aErrs));

@@ -14,7 +14,8 @@
     </script>
 
 </head>
-<body onload="xajax_loadXmlDropdown(xml_file)">
+<!--body onload="xajax_loadXmlDropdown(xml_file)"-->
+<body onload="xajax_loadSchema()">
   <div class="bodydiv">
     <div class="heading">
         <xsl:text></xsl:text><xsl:value-of select="//database/name"/>

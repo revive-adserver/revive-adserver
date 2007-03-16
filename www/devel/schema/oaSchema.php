@@ -68,8 +68,10 @@ class Openads_Schema_Manager
     var $changes_trans;
 
     var $file_links_core;
-    var $links_final;
-    var $links_trans;
+    var $links_final = false;
+    var $links_trans = false;
+
+    var $use_links;
 
     var $working_file_schema;
     var $working_file_links;
@@ -78,12 +80,14 @@ class Openads_Schema_Manager
 
     var $version;
 
+    var $file_perms;
+
     /**
      * php5 class constructor
      *
      * @param string The XML schema file we are working on
      */
-    function __construct($schema_file = 'core')
+    function __construct($file_schema = 'tables_core.xml')
     {
         $this->path_schema_final = MAX_PATH.'/etc/';
         $this->path_schema_trans = MAX_PATH.'/var/';
@@ -93,37 +97,47 @@ class Openads_Schema_Manager
         $this->path_links_final = MAX_PATH.'/lib/max/Dal/DataObjects/';
         $this->path_links_trans = MAX_PATH.'/var/';
 
-        $this->xml_files = array();
-        foreach (glob($this->path_schema_final.'tables_*.xml') as $xml_file) {
-            $xml_file = basename($xml_file);
-            if (preg_match('/^tables_([^.]+)\.xml$/', $xml_file, $matches)) {
-                $this->xml_files[] = $matches[1];
-            }
+        $file_changes   = 'changes_'.$file_schema;
+        $file_links     = 'db_schema.links.ini';
+
+        $this->schema_final = $this->path_schema_final.$file_schema;
+        $this->schema_trans = $this->path_schema_trans.$file_schema;
+
+        $this->use_links = ($file_schema=='tables_core.xml');
+        if ($this->use_links)
+        {
+            $this->links_final = $this->path_links_final.$file_links;
+            $this->links_trans = $this->path_links_trans.$file_links;
         }
 
-        if (in_array($schema_file, $this->xml_files)) {
-            $this->file_schema_core  = 'tables_'.$schema_file.'.xml';
-            $this->file_changes_core = 'changes_'.$schema_file.'.xml';
-        } else {
-            die ("Unknown xml file");
+        $this->changes_final = $this->path_changes_final.$file_changes;
+        $this->changes_trans = $this->path_changes_trans.$file_changes;
+
+        if ($this->use_links)
+        {
+            $this->file_perms = array(
+                                        $this->path_schema_trans,
+                                        $this->path_changes_final,
+                                        $this->path_changes_trans,
+                                        $this->path_links_trans,
+                                        $this->links_final,
+                                        $this->schema_final,
+                                        MAX_SCHEMA_LOG,
+                                        MAX_PATH.'/www/devel/schema/schema.js'
+                                    );
+        }
+        else
+        {
+            $this->file_perms = array(
+                                        $this->path_schema_trans,
+                                        $this->path_changes_final,
+                                        $this->path_changes_trans,
+                                        $this->schema_final,
+                                        MAX_SCHEMA_LOG,
+                                        MAX_PATH.'/www/devel/schema/schema.js'
+                                    );
         }
 
-        if ($schema_file == 'core') {
-            $this->file_links_core = 'db_schema.links.ini';
-        } else {
-            $this->file_links_core = '';
-        }
-
-        $this->schema_final = $this->path_schema_final.$this->file_schema_core;
-        $this->schema_trans = $this->path_schema_trans.$this->file_schema_core;
-
-        if (!empty($this->file_links_core)) {
-            $this->links_final = $this->path_links_final.$this->file_links_core;
-            $this->links_trans = $this->path_links_trans.$this->file_links_core;
-        }
-
-        $this->changes_final = $this->path_changes_final.$this->file_changes_core;
-        $this->changes_trans = $this->path_changes_trans.$this->file_changes_core;
 
         $this->dump_options = array (
                                         'output_mode'   =>    'file',
@@ -144,7 +158,7 @@ class Openads_Schema_Manager
      *
      * @param string The XML schema file we are working on
      */
-    function Openads_Schema_Manager($schema_file = 'core')
+    function Openads_Schema_Manager($schema_file = 'tables_core.xml')
     {
         $this->__construct($schema_file);
     }
@@ -167,7 +181,7 @@ class Openads_Schema_Manager
             $this->dump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
             $changes['version']               = $curr_definition['version'];
             $changes['name']                  = $curr_definition['name'];
-            $changes['comments']              = $comments;
+            $changes['comments']              = htmlspecialchars($comments);
             $result = $this->schema->dumpChangeset($changes, $this->dump_options, true);
             if (!Pear::iserror($result))
             {
@@ -246,22 +260,29 @@ class Openads_Schema_Manager
      */
     function createTransitional()
     {
-        if ($this->deleteSchemaTrans() &&  $this->deleteLinksTrans())
+        $result = ($this->deleteSchemaTrans() &&  $this->deleteLinksTrans());
+        if ($result)
         {
-            if (file_exists($this->schema_final))
+            $result = (file_exists($this->schema_final));
+            if ($result)
             {
                 $this->working_file_schema = $this->schema_final;
                 $this->parseWorkingDefinitionFile();
                 $this->version++;
                 $this->writeWorkingDefinitionFile();
+                $result = file_exists($this->schema_trans);
             }
-            if (!empty($this->links_final) && file_exists($this->links_final))
+            if ($result && $this->use_links)
             {
-                copy($this->links_final, $this->links_trans);
+                $result = (!empty($this->links_final) && file_exists($this->links_final));
+                if ($result)
+                {
+                    copy($this->links_final, $this->links_trans);
+                    $result = file_exists($this->links_trans);
+                }
             }
-            return (file_exists($this->schema_trans) && file_exists($this->links_trans));
         }
-        return false;
+        return $result;
     }
 
     /**
@@ -273,9 +294,9 @@ class Openads_Schema_Manager
      */
     function commitFinal($comments='')
     {
-        if ( (file_exists($this->schema_trans)) &&
-             (empty($this->links_trans) || file_exists($this->links_trans))
-           )
+        $result = ($this->use_links ? file_exists($this->links_trans) : true);
+        $result = $result && (file_exists($this->schema_trans));
+        if ($result)
         {
             $this->setWorkingFiles();
 
@@ -284,22 +305,25 @@ class Openads_Schema_Manager
             $this->dump_options['custom_tags']['status']='final';
 
             $this->changes_final = $this->path_changes_final.'schema_'.$this->version.'.xml';
-            $valid = $this->createChangeset($this->changes_final, $comments);
-            if ($valid)
+            $result = $this->createChangeset($this->changes_final, $comments);
+            if ($result)
             {
-                $valid = $this->writeWorkingDefinitionFile($this->schema_final);
+                $result = $this->writeWorkingDefinitionFile($this->schema_final);
             }
-            if ($valid)
+            if ($result && $this->use_links)
             {
-                if (!empty($this->links_trans) && file_exists($this->links_trans))
+                $result = (!empty($this->links_trans) && file_exists($this->links_trans));
+                if ($result)
                 {
                     copy($this->links_trans, $this->links_final);
                 }
-                $this->deleteTransitional();
             }
-            return $valid;
         }
-        return false;
+        if ($result)
+        {
+            $this->deleteTransitional();
+        }
+        return $result;
     }
 
     /**
@@ -319,15 +343,18 @@ class Openads_Schema_Manager
             $this->working_file_schema = $this->schema_final;
         }
 
-        if (!empty($this->links_trans) && file_exists($this->links_trans))
+        if ($this->use_links)
         {
-            $this->working_file_links = $this->links_trans;
+            if (!empty($this->links_trans) && file_exists($this->links_trans))
+            {
+                $this->working_file_links = $this->links_trans;
+            }
+            else if (!empty($this->links_final) && file_exists($this->links_final))
+            {
+                $this->working_file_links = $this->links_final;
+            }
         }
-        else if (!empty($this->links_final) && file_exists($this->links_final))
-        {
-            $this->working_file_links = $this->links_final;
-        }
-        return (file_exists($this->working_file_links) && file_exists($this->working_file_schema));
+        return file_exists($this->working_file_schema);
     }
 
     /**
@@ -390,11 +417,15 @@ class Openads_Schema_Manager
      */
     function deleteLinksTrans()
     {
-        if (!empty($this->links_final) && file_exists($this->links_trans))
+        if ($this->use_links)
         {
-            unlink($this->links_trans);
+            if (!empty($this->links_final) && file_exists($this->links_trans))
+            {
+                unlink($this->links_trans);
+            }
+            return ! file_exists($this->links_trans);
         }
-        return ! file_exists($this->links_trans);
+        return true;
     }
 
     /**
@@ -708,7 +739,8 @@ class Openads_Schema_Manager
      */
     function linkDelete($table_name, $link_name)
     {
-        if (!empty($this->links_trans)) {
+        if ($this->use_links && (!empty($this->links_trans)))
+        {
             $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
             unset($links[$table_name][$link_name]);
             return Openads_Links::writeLinksDotIni($this->links_trans, $links);
@@ -727,7 +759,8 @@ class Openads_Schema_Manager
      */
     function linkAdd($table_name, $link_add, $link_add_target)
     {
-        if (!empty($this->links_trans)) {
+        if ($this->use_links && (!empty($this->links_trans)))
+        {
             $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
             $links[$table_name][$link_add] = $link_add_target;
             return Openads_Links::writeLinksDotIni($this->links_trans, $links);
@@ -743,7 +776,7 @@ class Openads_Schema_Manager
      */
     function readForeignKeys($table_name)
     {
-        if (!empty($this->links_trans)) {
+        if ($this->use_links && (!empty($this->links_trans))) {
             $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
             if (!isset($links[$table_name])) {
                 $links[$table_name] = array();
@@ -762,11 +795,14 @@ class Openads_Schema_Manager
     function getLinkTargets()
     {
         $links_targets = array();
-        foreach ($this->db_definition['tables'] as $tk => $tv) {
-            if (isset($tv['indexes'])) {
-                foreach ($tv['indexes'] as $v) {
-                    if (isset($v['primary']) && $v['primary'] && count($v['fields']) == 1) {
-                        $links_targets["$tk:".key($v['fields'])] = "$tk (".key($v['fields']).")";
+        if ($this->use_links)
+        {
+            foreach ($this->db_definition['tables'] as $tk => $tv) {
+                if (isset($tv['indexes'])) {
+                    foreach ($tv['indexes'] as $v) {
+                        if (isset($v['primary']) && $v['primary'] && count($v['fields']) == 1) {
+                            $links_targets["$tk:".key($v['fields'])] = "$tk (".key($v['fields']).")";
+                        }
                     }
                 }
             }
@@ -884,33 +920,36 @@ class Openads_Schema_Manager
      */
     function updateFieldLinkRelations($table_name, $field_name_old, $field_name_new)
     {
-        if (!empty($this->links_trans)) {
-            $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
-            reset($links);
-            foreach ($links AS $table => $keys)
-            {
-                foreach ($keys AS $field => $target)
+        if ($this->use_links)
+        {
+            if (!empty($this->links_trans)) {
+                $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
+                reset($links);
+                foreach ($links AS $table => $keys)
                 {
-                    if (($target['table']==$table_name) && ($target['field']==$field_name_old))
+                    foreach ($keys AS $field => $target)
                     {
-                        if ($field_name_new)
+                        if (($target['table']==$table_name) && ($target['field']==$field_name_old))
                         {
-                            $target['field'] = $field_name_new;
+                            if ($field_name_new)
+                            {
+                                $target['field'] = $field_name_new;
+                                $links[$table][$field] = $target;
+                            }
+                        }
+                        if (($table==$table_name) && ($field==$field_name_old))
+                        {
+                            if ($field_name_new)
+                            {
+                                unset($links[$table][$field]);
+                                $field = $field_name_new;
+                            }
                             $links[$table][$field] = $target;
                         }
                     }
-                    if (($table==$table_name) && ($field==$field_name_old))
-                    {
-                        if ($field_name_new)
-                        {
-                            unset($links[$table][$field]);
-                            $field = $field_name_new;
-                        }
-                        $links[$table][$field] = $target;
-                    }
                 }
+                return Openads_Links::writeLinksDotIni($this->links_trans, $links);
             }
-            return Openads_Links::writeLinksDotIni($this->links_trans, $links);
         }
         return true;
     }
@@ -924,23 +963,26 @@ class Openads_Schema_Manager
      */
     function deleteTableLinkRelations($table_name)
     {
-        if (!empty($this->links_trans)) {
-            $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
-            foreach ($links AS $table => $keys)
-            {
-                if (($table==$table_name))
+        if ($this->use_links)
+        {
+            if (!empty($this->links_trans)) {
+                $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
+                foreach ($links AS $table => $keys)
                 {
-                    unset($links[$table]);
-                }
-                foreach ($keys AS $field => $target)
-                {
-                    if (($target['table']==$table_name))
+                    if (($table==$table_name))
                     {
-                        unset($links[$table][$field]);
+                        unset($links[$table]);
+                    }
+                    foreach ($keys AS $field => $target)
+                    {
+                        if (($target['table']==$table_name))
+                        {
+                            unset($links[$table][$field]);
+                        }
                     }
                 }
+                return Openads_Links::writeLinksDotIni($this->links_trans, $links);
             }
-            return Openads_Links::writeLinksDotIni($this->links_trans, $links);
         }
         return true;
     }
@@ -955,29 +997,32 @@ class Openads_Schema_Manager
      */
     function updateTableLinkRelations($table_name, $table_name_new)
     {
-        if (!empty($this->links_trans)) {
-            $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
-            if (isset($links[$table_name]))
-            {
-                $links[$table_name_new] = $links[$table_name];
-                unset($links[$table_name]);
-            }
+        if ($this->use_links)
+        {
+            if (!empty($this->links_trans)) {
+                $links = Openads_Links::readLinksDotIni($this->links_trans, $table_name);
+                if (isset($links[$table_name]))
+                {
+                    $links[$table_name_new] = $links[$table_name];
+                    unset($links[$table_name]);
+                }
 
-            foreach ($links AS $table => $keys)
-            {
-                foreach ($keys AS $field => $target)
-
+                foreach ($links AS $table => $keys)
                 {
                     foreach ($keys AS $field => $target)
+
                     {
-                        if (($target['table']==$table_name))
+                        foreach ($keys AS $field => $target)
                         {
-                            $links[$table][$field]['table'] = $table_name_new;
+                            if (($target['table']==$table_name))
+                            {
+                                $links[$table][$field]['table'] = $table_name_new;
+                            }
                         }
                     }
                 }
+                return Openads_Links::writeLinksDotIni($this->links_trans, $links);
             }
-            return Openads_Links::writeLinksDotIni($this->links_trans, $links);
         }
         return true;
     }
@@ -1012,46 +1057,26 @@ class Openads_Schema_Manager
      */
     function checkPermissions()
     {
-        $aFiles = array(
-            $this->schema_final,
-            $this->schema_trans,
-            $this->links_final,
-            $this->links_trans,
-            $this->links_final,
-            $this->changes_final,
-            $this->changes_trans,
-            MAX_SCHEMA_LOG,
-            MAX_PATH.'/www/devel/schema/schema.js'
-        );
-
-        $aDirs = array(
-            MAX_PATH.'/var'
-        );
-
         $aErrors = array();
-        foreach ($aFiles as $file) {
-            if (empty($file)) {
+
+        foreach ($this->file_perms as $file)
+        {
+            if (empty($file))
+            {
                 continue;
             }
-            $dir = dirname($file);
-            if (!file_exists($file)) {
-                if (!isset($aDirs[$dir])) {
-                    $aDirs[] = $dir;
-                }
-            } elseif (!is_writable($file)) {
+            if (!file_exists($file))
+            {
+                $aErrors[] = sprintf("The file '%s' does not exists", $file);
+            }
+            elseif (!is_writable($file))
+            {
                 $aErrors[] = sprintf("The file '%s' is not writable", $file);
             }
         }
 
-        foreach ($aDirs as $dir) {
-            if (!file_exists($dir)) {
-                $aErrors[] = sprintf("The directory '%s' does not exists", $dir);
-            } elseif (!is_writable($dir)) {
-                $aErrors[] = sprintf("The directory '%s' is not writable", $dir);
-            }
-        }
-
-        if (count($aErrors)) {
+        if (count($aErrors))
+        {
             return $aErrors;
         }
 

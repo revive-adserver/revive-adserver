@@ -11,7 +11,7 @@
     </script>
 
 </head>
-<body>
+<body onload="xajax_loadSchema()">
     <?php //echo getcwd();
         $dd_options = '';
         foreach ($dd_definition['options'] AS $k => $option )
@@ -54,7 +54,11 @@
                             <input type="submit" id="btn_tbl_exit_name" name="btn_table_exit" onclick="xajax_exitTableProperty(xajax.getFormValues('frm_table'),'name'); return false" style="display:none" value="exit"/>
 
                     </td>
-                    <td class="tableheader" style="text-align:center;width:20%;"><button name="btn_table_cancel" type="submit">go back to the schema page</button></td>
+                    <td class="tableheader" style="text-align:center;width:20%;">
+                        Currently working on: <select id="xml_file" name="xml_file" onchange="frm_table.submit()"></select>
+                        <br />
+                        <button name="btn_table_cancel" type="submit">go back to the schema page</button>
+                    </td>
                 </tr>
             </table>
             </form>
@@ -63,7 +67,7 @@
                 <td style="vertical-align:top">
                     <?php include 'tpl/table_edit_fields.html'; ?>
                     <?php include 'tpl/table_edit_index.html'; ?>
-                    <?php if ($oaSchema->links_trans) { include 'tpl/table_edit_foreignkeys.html'; } ?>
+                    <?php if ($oaSchema->use_links) { include 'tpl/table_edit_foreignkeys.html'; } ?>
                     <?php //include 'tpl/table_edit_menu.html'; ?>
                 </td>
                 <!--td style="vertical-align:top"-->
