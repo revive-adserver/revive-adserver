@@ -27,18 +27,18 @@ $Id$
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
- * A class for testing non standard DataObjects_Banners methods
+ * A class for testing non standard DataObjects_Agency methods
  *
  * @package    MaxDal
  * @subpackage TestSuite
  *
  */
-class DataObjects_BannersTest extends DalUnitTestCase
+class DataObjects_AgencyTest extends DalUnitTestCase
 {
     /**
      * The constructor method.
      */
-    function DataObjects_BannersTest()
+    function DataObjects_AgencyTest()
     {
         $this->UnitTestCase();
     }
@@ -47,42 +47,53 @@ class DataObjects_BannersTest extends DalUnitTestCase
     {
         DataGenerator::cleanUp();
     }
-
-    function testDuplicate()
+    
+    function testInsert()
     {
-        $filename = 'test.gif';
+        // Insert default preferences
+        $doPreference = MAX_DB::factoryDO('preference');
+        $doPreference->agencyid = 0;
+        DataGenerator::generateOne($doPreference);
         
-        $doBanners = MAX_DB::factoryDO('banners');
-        $doBanners->filename = $filename;
-        $doBanners->storagetype = 'sql';
+        // Insert an agency
+        $doAgency = MAX_DB::factoryDO('agency');
+        $agencyId = $doAgency->insert();
+                
+        // and check preferences were inserted.
+        $doPreference = MAX_DB::staticGetDO('preference', $agencyId);
         
-        $id1 = DataGenerator::generateOne($doBanners);
-
-        $doBanners = MAX_DB::staticGetDO('banners', $id1);
-
-        Mock::generatePartial(
-            'DataObjects_Banners',
-            $mockBanners = 'DataObjects_Banners'.rand(),
-            array('_imageDuplicate')
-        );
-        $doMockBanners = new $mockBanners($this);
-        $doMockBanners->setFrom($doBanners);
-        $doMockBanners->setReturnValue('_imageDuplicate', $filename);
-        // make sure image was duplicated as well
-        $doMockBanners->expectOnce('_imageDuplicate');
-        $id2 = $doMockBanners->duplicate(); // duplicate
-        $doMockBanners->tally();
-        
-        $this->assertNotEmpty($id2);
-        $this->assertNotEqual($id1, $id2);
-
-        $doBanners1 = MAX_DB::staticGetDO('banners', $id1);
-        $doBanners2 = MAX_DB::staticGetDO('banners', $id2);
-        // assert they are equal (but without comparing primary key)
-        $this->assertNotEqualDataObjects($this->stripKeys($doBanners1), $this->stripKeys($doBanners2));
-        
-        // Test that the only difference is their description
-        $doBanners1->description = $doBanners2->description = null;
-        $this->assertEqualDataObjects($this->stripKeys($doBanners1), $this->stripKeys($doBanners2));
+        $this->assertTrue($doPreference->getRowCount(), 1);
     }
+    
+    function testUpdate()
+    {
+        // Insert default prefs
+        $doPreference = MAX_DB::factoryDO('preference');
+        $doPreference->agencyid = 0;
+        DataGenerator::generateOne($doPreference);
+        
+        // Insert an agency
+        $doAgency = MAX_DB::factoryDO('agency');
+        $agencyId = $doAgency->insert();
+        
+        // Update the agency
+        $doAgency = MAX_DB::staticGetDO('agency', $agencyId);
+        $doAgency->language = 'foo';
+        $doAgency->name = 'bar';
+        $doAgency->contact = 'baz';
+        $doAgency->email = 'quux';
+        $doAgency->update();
+        
+        // Test the prefs were updated too
+        $doPreference = MAX_DB::staticGetDO('preference', $agencyId);
+        
+        $this->assertEqual($doPreference->language, 'foo');
+        $this->assertEqual($doPreference->name, 'bar');
+        $this->assertEqual($doPreference->admin_fullname, 'baz');
+        $this->assertEqual($doPreference->admin_email, 'quux');
+        
+           
+    }
+    
 }
+?>
