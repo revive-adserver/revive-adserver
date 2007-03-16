@@ -522,9 +522,9 @@ class Admin_DA
         if (isset($aParams['startRecord']) && is_numeric($aParams['startRecord']) && is_numeric($aParams['perPage'])) {
             $limit = ' LIMIT ' . $aParams['startRecord'] . ', ' . $aParams['perPage'];
         } else {
-            $limit = ' LIMIT 0, ' . $aParams['perPage'];        
+            $limit = ' LIMIT 0, ' . $aParams['perPage'];
         }
-      
+
         $query =
         "SELECT
             ac.data_intermediate_ad_connection_id as connection_id,
@@ -559,7 +559,6 @@ class Admin_DA
             AND ac.inside_window = 1
             ". $where ."
         ORDER BY
-
             ac.tracker_date_time
         $limit";
 
@@ -1500,12 +1499,12 @@ class Admin_DA
     {
         return Admin_DA::_deleteEntity('image', $id);
     }
-    
+
     function getPublisher($publisherId)
     {
         return Admin_DA::_getEntity('publisher', $publisherId);
     }
-    
+
     function getPublishers($aParams, $allFields = false)
     {
         return Admin_DA::_getEntities('publisher', $aParams, $allFields);
