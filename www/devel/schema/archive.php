@@ -66,8 +66,11 @@ else if (array_key_exists('xajax', $_POST))
 }
 else {
     $file = getLastChangeset();
-    setcookie('changesetFile', $file);
-    $file = MAX_CHG.$file;
+    if ($file)
+    {
+        setcookie('changesetFile', $file);
+        $file = MAX_CHG.$file;
+    }
 }
 
 require_once MAX_DEV.'/lib/xajax.inc.php';
@@ -80,6 +83,9 @@ if ($file && file_exists($file))
 }
 else
 {
-    echo 'Error reading file: '.MAX_CHG.$file;
+//    echo 'Error reading file: '.MAX_CHG.$file;
+    header('Location: index.php');
+    exit;
+
 }
 ?>
