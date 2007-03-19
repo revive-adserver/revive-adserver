@@ -309,13 +309,6 @@ CREATE TABLE phpads_config (
    autotarget_factor float DEFAULT '-1' NOT NULL,
    maintenance_timestamp int(11) DEFAULT '0' NOT NULL,
    maintenance_cron_timestamp int(11) DEFAULT '0' NOT NULL,
-   ad_clicks_sum int(11) DEFAULT '0' NOT NULL,
-   ad_views_sum int(11) DEFAULT '0' NOT NULL,
-   ad_clicks_per_second float DEFAULT '0' NOT NULL,
-   ad_views_per_second float DEFAULT '0' NOT NULL,  
-   ad_cs_data_last_sent DATE,   
-   ad_cs_data_last_received DATE,   
    PRIMARY KEY (configid)
 );
-
 

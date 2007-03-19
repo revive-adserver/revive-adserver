@@ -18,8 +18,8 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.324;
-$phpAds_version_readable = "2.0.12-rc8";
+$phpAds_version = 200.321;
+$phpAds_version_readable = "2.0.12-rc7";
 $phpAds_version_development = false;
 
 $phpAds_productname = "Openads";
@@ -160,13 +160,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'config_version' =>				array ('type' => 'string', 'sql' => true),
 	'instance_id' =>				array ('type' => 'string',  'sql' => true),
 	'maintenance_timestamp' =>		array ('type' => 'integer', 'sql' => true),
-	'maintenance_cron_timestamp' =>	array ('type' => 'integer', 'sql' => true),
-	'ad_clicks_sum' =>				array ('type' => 'integer', 'sql' => true),
-	'ad_views_sum' =>				array ('type' => 'integer', 'sql' => true),
-	'ad_clicks_per_second' =>		array ('type' => 'double', 'sql' => true),
-	'ad_views_per_second' =>		array ('type' => 'double', 'sql' => true),
-	'ad_cs_data_last_sent' =>		array ('type' => 'string', 'sql' => true),
-	'ad_cs_data_last_received' =>	array ('type' => 'string', 'sql' => true),
+	'maintenance_cron_timestamp' =>	array ('type' => 'integer', 'sql' => true)
 );
 
 
