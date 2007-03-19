@@ -154,169 +154,35 @@ class MAX_OpenadsSync
             ));
         }
         
-        $iLastUpdate = 0;
-        if (!empty($this->pref['ad_cs_data_last_sent']) && $this->pref['ad_cs_data_last_sent'] != '0000-00-00') {
-            $iLastUpdate = strtotime($this->pref['ad_cs_data_last_sent']); 
-        }
-        
-        // make sure there's only one report on clicks/impressions a day
-        if ($send_sw_data && $iLastUpdate+86400 < time()){
-		
-            // get ratios for clicks and views 
-            // move start and end timestamp one hour back in the past so it's possible to fetch 
-            // clicks/views generated when update was running
-            $aData = $this->_getSummaries($iLastUpdate-3600, time()-3600);
-			
-            // send community-size data only if there has been some data served from this installation
-            if ($aData['ad_views_sum'] || $aData['ad_clicks_sum']){
-                $params[] = XML_RPC_Encode(array(
-                    'ad_views_per_second'  => $aData['ad_views_per_second'],
-                    'ad_clicks_per_second' => $aData['ad_clicks_per_second'],
-                    'ad_views_sum'         => $aData['ad_views_sum'],
-                    'ad_clicks_sum'        => $aData['ad_clicks_sum'],
-                ));
-            }
-        }
-
         // Create XML-RPC request message
         $msg = new XML_RPC_Message("Openads.Sync", $params);
     
         // Send XML-RPC request message
-        if ($response = $client->send($msg, 10)) {
+        if($response = $client->send($msg, 10)) {
             // XML-RPC server found, now checking for errors
             if (!$response->faultCode()) {
                 $ret = array(0, XML_RPC_Decode($response->value()));
-				
-                // Prepare cache
-                $cache = $ret[1];
+                
+                // Save to cache only when additional data was sent
+                if ($send_sw_data) {
+                    $this->dbh->query("
+                        UPDATE
+                            {$this->conf['table']['prefix']}{$this->conf['table']['preference']}
+                        SET
+                            updates_cache = '".addslashes(serialize($ret[1]))."',
+                            updates_timestamp = ".time()."
+                        WHERE
+                            agencyid = 0;
+                    ");
+                }
             } else {
                 $ret = array($response->faultCode(), $response->faultString());
-				
-                // Prepare cache
-                $cache = false;
             }
             
-            // prepare update query
-            $sUpdate = "
-                UPDATE
-                    ".$this->conf['table']['prefix'].$this->conf['table']['preference']."
-                SET
-                    updates_cache = '".addslashes(serialize($cache))."',
-                    updates_timestamp = ".time()."
-            ";
-		
-			if ($send_sw_data && $iLastUpdate+86400 < time()) {
-				$sUpdate .= ",
-				ad_cs_data_last_sent = '".date('Y-m-d', time())."'
-				";
-			}
-
-            // var $response is not needed from this point so we can reuse it
-            // get community-stats
-            $response = $client->send(new XML_RPC_Message('Openads.CommunityStats'),10);
-
-            // if response contains no error store community-stats values locally
-            if (!$response->faultCode()){
-                $aCommunityStats = XML_RPC_Decode($response->value());
-                
-                if($aCommunityStats['day'] != $this->pref['ad_cs_data_last_received'] && ($aCommunityStats['ad_clicks_sum'] || $aCommunityStats['ad_views_sum'])) {
-			
-                    $sUpdate .= ",
-                        ad_clicks_sum = ".(int)$aCommunityStats['ad_clicks_sum'].",
-                        ad_views_sum = ".(int)$aCommunityStats['ad_views_sum'].",
-                        ad_clicks_per_second = ".(float)$aCommunityStats['ad_clicks_per_second'].",
-                        ad_views_per_second = ".(float)$aCommunityStats['ad_views_per_second'].",
-                        ad_cs_data_last_received = '".$aCommunityStats['day']."'
-                    ";
-                    
-                }
-            }
-            
-            $sUpdate .=" 
-                WHERE
-                    agencyid = 0
-            ";
-            
-            $this->dbh->query($sUpdate);
-
             return $ret;
         }
         
         return array(-1, 'No response from the server');
-    }
-    
-    /**
-     * Private method for getting summaries/ratios about ads
-     * 
-     * This method generates ratios about ad views/clicks and summarizes these
-     * It generates ratios based on the interval period that's counted by subtracting 
-     * start and enddate so the outcome is given in "per seconds" basis
-     * 
-     * @param int $iStartDate
-     * @param int $iEndDate
-     * 
-     * @access private
-     * 
-     * @return array counted values in form of array('ad_clicks_per_second' => 'double', 'ad_views_per_second' => 'double', 'ad_clicks_sum' => 'integer', 'ad_views_sum' => 'integer');
-     */
-    function _getSummaries($iStartDate, $iEndDate){
-
-        if($iStartDate <= 0){
-            $res = $this->dbh->query("SELECT MIN(day) as start_date FROM ".$this->conf['table']['prefix'].$this->conf['table']['data_summary_ad_hourly']);
-            $this->dbh->fetchRow($res);
-            if ($res['start_date']){
-                $iStartDate = $res['start_date']; 
-            }
-            else {
-                return array();
-            }
-        }
-        
-        $sMysqlStartDay = date('Y-m-d', $iStartDate );
-        $sMysqlEndDay = date('Y-m-d', $iEndDate );
-
-        $sMysqlStartHour = date('H', $iStartDate );
-        $sMysqlEndHour = date('H', $iEndDate );
-
-        $aReturn = array();
-
-        $res = $this->dbh->query("
-            SELECT
-                SUM(dsah.impressions) AS ad_views_sum,
-                SUM(dsah.clicks) AS ad_clicks_sum
-            FROM
-                ".$this->conf['table']['prefix'].$this->conf['table']['data_summary_ad_hourly']." dsah
-            WHERE
-                ('".$sMysqlStartDay."'<'".$sMysqlEndDay."' " .
-                    "AND (" .
-                        "(dsah.day = '".$sMysqlStartDay."' AND dsah.hour >= ".$sMysqlStartHour.") " .
-                        "OR " .
-                        "(dsah.day =  '".$sMysqlEndDay."' AND dsah.hour <= ".$sMysqlEndHour.")  " .
-                        "OR " .
-                        "(dsah.day > '".$sMysqlStartDay."' AND dsah.day < '".$sMysqlEndDay."')" .
-                    ")" .
-                ") " .
-                "OR " .
-                "('".$sMysqlStartDay."'>='".$sMysqlEndDay."' " .
-                    "AND (" .
-                        "dsah.day='".$sMysqlStartDay."' AND dsah.hour >= ".$sMysqlStartHour." AND dsah.hour <= ".$sMysqlEndHour."" .
-                    ")" .
-                ")
-        ");
-
-        if(!PEAR::isError($res)){
-
-            $this->dbh->fetchInto($res, $row);
-            $iTimeDiff = $iEndDate-$iStartDate;
-
-            $aReturn['ad_clicks_per_second'] = round($row['ad_clicks_sum']/$iTimeDiff, 4);
-            $aReturn['ad_views_per_second']	 = round($row['ad_views_sum']/$iTimeDiff, 4);
-            $aReturn['ad_clicks_sum']        = $row['ad_clicks_sum'];
-            $aReturn['ad_views_sum']         = $row['ad_views_sum'];
-
-        }
-
-        return $aReturn;
     }
 }
 

@@ -80,7 +80,6 @@ function phpAds_writeHeader($displaySearch = true, $fromSearchWindow = false, $c
     $headerForegroundColor = phpAds_getHeaderForegroundColor();
     $keyLineColor = phpAds_getKeyLineColor();
 
-    $sCommunityStats = '';
     if ($displaySearch) {
         $searchUrl = phpAds_isUser(phpAds_Affiliate) ? 'affiliate-search.php' : 'admin-search.php';
         if ($fromSearchWindow) {
@@ -110,47 +109,6 @@ function phpAds_writeHeader($displaySearch = true, $fromSearchWindow = false, $c
         $searchbar .= "\t\t</tr>\n";
         $searchbar .= "\t\t</form>\n";
         $searchbar .= "\t\t</table>\n";
-        
-        if ($pref['ad_clicks_sum'] || $pref['ad_views_sum']) {
-            
-            $iSecondsFromLastUpdate = 0;
-            if(!empty($pref['ad_last_update']) && '0000-00-00' != $pref['ad_last_update']){
-                $iSecondsFromLastUpdate = time() - strtotime($pref['ad_last_update']);
-            }
-
-            $fClicksSum = $pref['ad_clicks_sum']+($iSecondsFromLastUpdate*$pref['ad_clicks_per_second']);
-            $fViewsSum = $pref['ad_views_sum']+($iSecondsFromLastUpdate*$pref['ad_views_per_second']);
-            
-            $sCommunityStats = "\t<div id='communityStats' " .
-        		"style='color: #fff;width: 205px; text-align: center;'>" .
-        		"<div>Ads served globally</div>" .
-        		"clicks: <div id='ad_clicks_sum' style='display: inline;'>".number_format($fClicksSum, 0, ' ', ',').'</div>' .
-        		'&nbsp;&nbsp;' .
-        		"views: <div id='ad_views_sum' style='display: inline;'>".number_format($fViewsSum, 0, ' ', ',')."</div>" .
-        	"</div>\n";
-        
-            $sCommunityStats .= "<script type='text/javascript'><!--// <![CDATA[\n" .
-                "var openads_communityStats={" . 
-                "clicks_sum:".$fClicksSum.",".
-                "views_sum:".$fViewsSum.",".
-                "clicks_per_second:".(float)$pref['ad_clicks_per_second'].",".
-                "views_per_second:".(float)$pref['ad_views_per_second'].",".
-                "refreshInterval:1, // in seconds
-                refresh:function(c_sum,v_sum,t){
-                    this.clicks_sum += this.clicks_per_second*this.refreshInterval
-                    this.views_sum += this.views_per_second*this.refreshInterval
-        			
-                    c_sum = String(Math.round(this.clicks_sum)).reverse().replace(/(\d{3})/g, '$1,').reverse().replace( /^,/,'')
-                    v_sum = String(Math.round(this.views_sum)).reverse().replace(/(\d{3})/g, '$1,').reverse().replace( /^,/,'')
-                    document.getElementById('ad_views_sum').innerHTML=v_sum
-                    document.getElementById('ad_clicks_sum').innerHTML=c_sum
-                    t=this
-                    setTimeout(function(){t.refresh();},this.refreshInterval*1000)        			
-                }}
-                String.prototype.reverse = function(){return this.split('').reverse().join('')}
-                openads_communityStats.refresh();
-                // ]]> -->\n</script>";
-        }
     } else {
         $searchbar = "\t\t&nbsp;\n";
     }
@@ -170,7 +128,6 @@ function phpAds_writeHeader($displaySearch = true, $fromSearchWindow = false, $c
     echo "</td>\n";
     echo "\t<td bgcolor='#$headerBackgroundColor' valign='top' align='$phpAds_TextAlignRight'>\n";
     echo $searchbar;
-    echo $sCommunityStats;
     echo "\t</td>\n";
     echo "</tr>\n";
     echo "</table>\n";
