@@ -123,7 +123,7 @@ class Openads_Schema_Manager
                                         $this->links_final,
                                         $this->schema_final,
                                         MAX_SCHEMA_LOG,
-                                        MAX_PATH.'/www/devel/schema/schema.js'
+                                        MAX_PATH.'/www/devel/schema/'
                                     );
         }
         else
@@ -134,7 +134,7 @@ class Openads_Schema_Manager
                                         $this->path_changes_trans,
                                         $this->schema_final,
                                         MAX_SCHEMA_LOG,
-                                        MAX_PATH.'/www/devel/schema/schema.js'
+                                        MAX_PATH.'/www/devel/schema/'
                                     );
         }
 
