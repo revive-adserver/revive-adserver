@@ -9,6 +9,7 @@ CREATE TEMPORARY TABLE IF NOT EXISTS tmp_ad_zone_impression (
   zone_id INTEGER UNSIGNED NOT NULL,
   required_impressions INTEGER UNSIGNED NOT NULL,
   requested_impressions INTEGER UNSIGNED NOT NULL,
+  to_be_delivered SMALLINT UNSIGNED NOT NULL,
   INDEX tmp_ad_zone_impression_ad_id(ad_id),
   INDEX tmp_ad_zone_impression_zone_id(zone_id)
 );

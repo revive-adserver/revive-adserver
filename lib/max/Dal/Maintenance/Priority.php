@@ -352,7 +352,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                                 "$table.zone_id",
                                 "$table.ad_id",
                                 "$table.required_impressions",
-                                "$table.requested_impressions"
+                                "$table.requested_impressions",
+                                "$table.to_be_delivered"
                              );
         $query['orderBys'] = array(
                                 array("$table.zone_id", 'ASC'),
@@ -677,6 +678,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                                 zone_id AS zone_id,
                                 required_impressions AS required_impressions,
                                 requested_impressions AS requested_impressions,
+                                to_be_delivered AS to_be_delivered,
                                 priority_factor AS priority_factor,
                                 past_zone_traffic_fraction AS past_zone_traffic_fraction,
                                 created AS created,
@@ -760,6 +762,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                             'zone_id'                       => $z,
                             'required_impressions'          => $aPastPriorityResult[$a][$z]['required_impressions'],
                             'requested_impressions'         => $aPastPriorityResult[$a][$z]['requested_impressions'],
+                            'to_be_delivered'               => $aPastPriorityResult[$a][$z]['to_be_delivered'],
                             'priority_factor'               => $aPastPriorityResult[$a][$z]['priority_factor'],
                             'past_zone_traffic_fraction'    => $aPastPriorityResult[$a][$z]['past_zone_traffic_fraction'],
                             'impressions'                   => $aPastDeliveryResult[$a][$z]['impressions']
@@ -777,6 +780,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 dsaza.zone_id AS zone_id,
                 dsaza.required_impressions AS required_impressions,
                 dsaza.requested_impressions AS requested_impressions,
+                dsaza.to_be_delivered AS to_be_delivered,
                 dsaza.priority_factor AS priority_factor,
                 dsaza.past_zone_traffic_fraction AS past_zone_traffic_fraction,
                 dsaza.created AS created,
@@ -820,6 +824,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                             'zone_id'                       => $z,
                             'required_impressions'          => $aNonDeliveringPastPriorityResult[$a][$z]['required_impressions'],
                             'requested_impressions'         => $aNonDeliveringPastPriorityResult[$a][$z]['requested_impressions'],
+                            'to_be_delivered'                => $aNonDeliveringPastPriorityResult[$a][$z]['to_be_delivered'],
                             'priority_factor'               => $aNonDeliveringPastPriorityResult[$a][$z]['priority_factor'],
                             'past_zone_traffic_fraction'    => $aNonDeliveringPastPriorityResult[$a][$z]['past_zone_traffic_fraction']
                         );
@@ -893,6 +898,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                                 zone_id AS zone_id,
                                 required_impressions AS required_impressions,
                                 requested_impressions AS requested_impressions,
+                                to_be_delivered AS to_be_delivered,
                                 priority_factor AS priority_factor,
                                 past_zone_traffic_fraction AS past_zone_traffic_fraction,
                                 created AS created,
@@ -1009,6 +1015,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                                 'zone_id'                       => $z,
                                 'required_impressions'          => $aNotInLastOIPastPriorityResult[$a][$z]['required_impressions'],
                                 'requested_impressions'         => $aNotInLastOIPastPriorityResult[$a][$z]['requested_impressions'],
+                                'to_be_delivered'               => $aNotInLastOIPastPriorityResult[$a][$z]['to_be_delivered'],
                                 'priority_factor'               => $aNotInLastOIPastPriorityResult[$a][$z]['priority_factor'],
                                 'past_zone_traffic_fraction'    => $aNotInLastOIPastPriorityResult[$a][$z]['past_zone_traffic_fraction']
                             );
@@ -1064,6 +1071,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                         'zone_id'                       => $aRow['zone_id'],
                         'required_impressions'          => $aRow['required_impressions'],
                         'requested_impressions'         => $aRow['requested_impressions'],
+                        'to_be_delivered'               => $aRow['to_be_delivered'],
                         'priority_factor'               => $aRow['priority_factor'],
                         'past_zone_traffic_fraction'    => $aRow['past_zone_traffic_fraction']
                     );
@@ -1088,6 +1096,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                      (!$aPastDeliveryResult[$aRow['ad_id']][$aRow['zone_id']]['pastPriorityFound'])) {
                     $aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']]['required_impressions'] = 0;
                     $aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']]['requested_impressions'] = 0;
+                    $aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']]['to_be_delivered'] = 0;
                     $aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']]['priority_factor'] = 0;
                     $aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']]['average'] = true;
                     unset($aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']]['pastPriorityFound']);
@@ -1218,7 +1227,9 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                             UPDATE
                                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
                             SET
-                                priority = {$aAdZonePriority['priority']}
+                                priority = {$aAdZonePriority['priority']},
+                                priority_factor = " . (is_null($aAdZonePriority['priority_factor']) ? 'NULL' : $aAdZonePriority['priority_factor']) . ",
+                                to_be_delivered = " . ($aAdZonePriority['to_be_delivered'] ? 1 : 0) . "
                             WHERE
                                 ad_id = {$aAdZonePriority['ad_id']}
                                 AND zone_id = {$aAdZonePriority['zone_id']}
@@ -1270,6 +1281,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                                 {$aAdZonePriority['zone_id']},
                                 {$aAdZonePriority['required_impressions']},
                                 {$aAdZonePriority['requested_impressions']},
+                                " . ($aAdZonePriority['to_be_delivered'] ? 1 : 0) . ",
                                 {$aAdZonePriority['priority']},
                                 " . (is_null($aAdZonePriority['priority_factor']) ? 'NULL' : $aAdZonePriority['priority_factor']) . ",
                                 " . ($aAdZonePriority['priority_factor_limited'] ? 1 : 0) . ",
@@ -1299,6 +1311,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                                     zone_id,
                                     required_impressions,
                                     requested_impressions,
+                                    to_be_delivered,
                                     priority,
                                     priority_factor,
                                     priority_factor_limited,
@@ -1888,11 +1901,16 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
      */
     function saveAllocatedImpressions($aData)
     {
+        // Make sure that the table is empty
+        $query = "TRUNCATE TABLE tmp_ad_zone_impression";
+        $this->dbh->query($query);
+
         if (is_array($aData) && (count($aData) > 0)) {
             $aValues = array();
             foreach ($aData as $aItem) {
                 $aValues[] = "({$aItem['ad_id']}, {$aItem['zone_id']},
-                               {$aItem['required_impressions']}, {$aItem['requested_impressions']})";
+                               {$aItem['required_impressions']}, {$aItem['requested_impressions']},
+                               ".($aItem['to_be_delivered'] ? 1 : 0).")";
             }
             $query = "
                 INSERT INTO
@@ -1901,7 +1919,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                         ad_id,
                         zone_id,
                         required_impressions,
-                        requested_impressions
+                        requested_impressions,
+                        to_be_delivered
                     )
                 VALUES ";
             $query .= implode(', ', $aValues);

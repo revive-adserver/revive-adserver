@@ -779,7 +779,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
             $oDate,
             $oPlacementExpiryDate
         );
-        $this->assertEqual($result, 10);
+        $this->assertEqual($result, 9);
 
         // Test 6
         $oAd = new PartialMockMAX_Entity_Ad($this);

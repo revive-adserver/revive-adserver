@@ -256,6 +256,9 @@ function MAX_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.priority AS campaign_priority,
             c.weight AS campaign_weight,
             c.companion AS campaign_companion,
+            az.priority AS priority,
+            az.priority_factor AS priority_factor,
+            az.to_be_delivered AS to_be_delivered,
             c.block AS block_campaign,
             c.capping AS cap_campaign,
             c.session_capping AS session_cap_campaign
@@ -300,7 +303,7 @@ function MAX_Dal_Delivery_getZoneLinkedAds($zoneid) {
             $totals['lAds'] += $aAd['priority'];
         } else {
             // Ad is in a paid placement
-            $aRows['ads'][$aAd['ad_id']] = $aAd;
+            $aRows['ads'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
             $aRows['count_active']++;
         }
         // Also store Companion ads in additional array
@@ -318,21 +321,19 @@ function MAX_Dal_Delivery_getZoneLinkedAds($zoneid) {
 
         }
     }
-    // If there are paid ads, sort by priority, and set the total to 1,
-    // to ensure blank ads are selected (when required)
+    // If there are paid ads, prepare array of priority totals
+    // to allow delivery to do the scaling work later
     if (is_array($aRows['ads'])) {
-        uasort($aRows['ads'], '_mysqlSortArrayPriority');
-        $totals['ads'] = 1;
+        $totals['ads'] = _mysqlGetTotalPrioritiesByCP($aRows['ads']);
     }
     // If there are low priority ads, sort by priority
     if (is_array($aRows['lAds'])) {
         uasort($aRows['lAds'], '_mysqlSortArrayPriority');
     }
-    // If there are paid companion ads, sort by priority, and set the
-    // total to 1, to ensure blank ads are selected (when required)
+    // If there are paid companion ads, prepare array of priority totals
+    // to allow delivery to do the scaling work later
     if (is_array($aRows['cAds'])) {
-        uasort($aRows['cAds'], '_mysqlSortArrayPriority');
-        $totals['cAds'] = 1;
+        $totals['cAds'] = _mysqlGetTotalPrioritiesByCP($aRows['ads']);
     }
     // If there are low priority companion ads, sort by priority
     if (is_array($aRows['clAds'])) {
@@ -401,6 +402,8 @@ function MAX_Dal_Delivery_getLinkedAds($search) {
         'az.priority AS priority',
         'm.campaignid AS campaign_id',
         'm.weight AS campaign_weight',
+        'az.priority AS priority',
+        'az.priority_factor AS priority_factor',
         'm.block AS block_campaign',
         'm.capping AS cap_campaign',
         'm.session_capping AS session_cap_campaign'
@@ -470,7 +473,7 @@ function MAX_Dal_Delivery_getLinkedAds($search) {
 function MAX_Dal_Delivery_getAd($ad_id) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    $query = "
+    $rAd = MAX_Dal_Delivery_query("
         SELECT
         d.bannerid AS ad_id,
         d.campaignid AS placement_id,
@@ -515,8 +518,7 @@ function MAX_Dal_Delivery_getAd($ad_id) {
         d.bannerid={$ad_id}
         AND
         d.campaignid = c.campaignid
-    ";
-    $rAd = MAX_Dal_Delivery_query($query);
+    ");
     if (!is_resource($rAd)) {
         if (defined('CACHE_LITE_FUNCTION_ERROR')) {
             return CACHE_LITE_FUNCTION_ERROR;
@@ -918,6 +920,54 @@ function _mysqlSortArrayPriority($a, $b)
 {
     $compare = ($a['priority'] > $b['priority']) ? -1 : 1;
     return $compare;
+}
+
+
+/**
+ * A private method to calculate total expected priority values
+ * for each campaign priority. The values are used later during
+ * delivery to scale priorities to 1
+ *
+ * @param  array    $aAdsByCP   Ads array grouped by CP
+ *
+ * @return array    Array of total priorities by campaign priority
+ */
+
+function _mysqlGetTotalPrioritiesByCP($aAdsByCP)
+{
+    $totals = array();
+
+    $blank_priority = 1;
+    $total_priority_cp = array();
+
+    foreach ($aAdsByCP as $campaign_priority => $aAds) {
+        $total_priority_cp[$campaign_priority] = 0;
+        foreach ($aAds as $key => $aAd) {
+            $blank_priority -= (double)$aAd['priority'];
+            if ($aAd['to_be_delivered']) {
+                $priority = $aAd['priority'] * $aAd['priority_factor'];
+            } else {
+                $priority = 0.00001;
+            }
+            $total_priority_cp[$campaign_priority] += $priority;
+            $aAdsByCP[$campaign_priority][$key]['priority'] = $priority;
+        }
+    }
+
+    // Sort by ascending CP
+    ksort($total_priority_cp);
+
+    // Store blank priority, ensuring that small rounding errors are
+    // not taken into account
+    $total_priority = $blank_priority <= 1e-15 ? 0 : $blank_priority;
+
+    // Calculate totals for each campaign priority
+    foreach($total_priority_cp as $campaign_priority => $priority) {
+        $total_priority += $priority;
+        $totals[$campaign_priority] = $priority / $total_priority;
+    }
+
+    return $totals;
 }
 
 ?>

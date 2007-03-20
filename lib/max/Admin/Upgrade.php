@@ -413,6 +413,13 @@ class MAX_Admin_Upgrade
         $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}data_summary_ad_hourly CHANGE total_num_items total_num_items INTEGER NULL";
         $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}data_intermediate_ad CHANGE total_num_items total_num_items INTEGER NOT NULL DEFAULT 0";
         $this->_runQueries($queries);
+        
+        // Add required columns to the ad_zone_assoc and data_summary_ad_zone_assoc tables for new delivery ad-selection algorithm
+        $queries = array();
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}ad_zone_assoc ADD COLUMN priority_factor DOUBLE NOT NULL DEFAULT 0 AFTER priority";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}ad_zone_assoc ADD COLUMN to_be_delivered SMALLINT NOT NULL DEFAULT 1 AFTER priority_factor";
+        $queries[] = "ALTER TABLE {$this->conf['table']['prefix']}data_summary_ad_zone_assoc ADD COLUMN to_be_delivered SMALLINT NOT NULL DEFAULT 1 AFTER requested_impressions";
+        $this->_runQueries($queries);
     }
 
     /**

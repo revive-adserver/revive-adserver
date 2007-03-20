@@ -562,44 +562,52 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $this->assertEqual($row['number'], 4);
         $query = "
             SELECT
-                priority
+                priority,
+                priority_factor
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 1
                 AND zone_id = 1";
         $row = $dbh->getRow($query);
-        $this->assertEqual(strncmp($row['priority'], 9 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.9);
+        $this->assertEqual($row['priority_factor'], 10);
         $query = "
             SELECT
-                priority
+                priority,
+                priority_factor
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 2
                 AND zone_id = 3";
         $row = $dbh->getRow($query);
-        $this->assertEqual(strncmp($row['priority'], 7 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.7);
+        $this->assertEqual($row['priority_factor'], 10);
         $query = "
             SELECT
-                priority
+                priority,
+                priority_factor
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 3
                 AND zone_id = 3";
         $row = $dbh->getRow($query);
-        $this->assertEqual(strncmp($row['priority'], 2 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.2);
+        $this->assertEqual($row['priority_factor'], 10);
         $query = "
             SELECT
-                priority
+                priority,
+                priority_factor
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 3
                 AND zone_id = 4";
         $row = $dbh->getRow($query);
-        $this->assertEqual(strncmp($row['priority'], 3 / 3.7, 40), 0);
+        $this->assertEqual($row['priority'], 0.3);
+        $this->assertEqual($row['priority_factor'], 10);
         $query = "
             SELECT
                 count(*) AS number
@@ -716,7 +724,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 12);
         $this->assertEqual($row['requested_impressions'], 9);
-        $this->assertEqual(strncmp($row['priority'], 9 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.9);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 10); // Increased from 1 to 10, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -738,7 +746,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 12);
         $this->assertEqual($row['requested_impressions'], 7);
-        $this->assertEqual(strncmp($row['priority'], 7 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.7);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 10); // Increased from 1 to 10, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -760,7 +768,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 3);
         $this->assertEqual($row['requested_impressions'], 2);
-        $this->assertEqual(strncmp($row['priority'], 2 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.2);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 10); // Increased from 1 to 10, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -782,7 +790,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 3);
         $this->assertEqual($row['requested_impressions'], 3);
-        $this->assertEqual(strncmp($row['priority'], 3 / 3.7, 40), 0);
+        $this->assertEqual($row['priority'], 0.3);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 10); // Increased from 1 to 10, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -1148,44 +1156,52 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $this->assertEqual($row['number'], 4);
         $query = "
             SELECT
-                priority
+                priority,
+                priority_factor
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 1
                 AND zone_id = 1";
         $row = $dbh->getRow($query);
-        $this->assertEqual(strncmp($row['priority'], 50 / 50.5, 40), 0);
+        $this->assertEqual($row['priority'], 0.5);
+        $this->assertEqual($row['priority_factor'], 100);
         $query = "
             SELECT
-                priority
+                priority,
+                priority_factor
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 2
                 AND zone_id = 3";
         $row = $dbh->getRow($query);
-        $this->assertEqual(strncmp($row['priority'], 70 / 90.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.7);
+        $this->assertEqual($row['priority_factor'], 100);
         $query = "
             SELECT
-                priority
+                priority,
+                priority_factor
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 3
                 AND zone_id = 3";
         $row = $dbh->getRow($query);
-        $this->assertEqual(strncmp($row['priority'], 20 / 90.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.2);
+        $this->assertEqual($row['priority_factor'], 100);
         $query = "
             SELECT
-                priority
+                priority,
+                priority_factor
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 3
                 AND zone_id = 4";
         $row = $dbh->getRow($query);
-        $this->assertEqual(strncmp($row['priority'], 30 / 30.7, 40), 0);
+        $this->assertEqual($row['priority'], 0.3);
+        $this->assertEqual($row['priority_factor'], 100);
         $query = "
             SELECT
                 count(*) AS number
@@ -1302,7 +1318,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 12);
         $this->assertEqual($row['requested_impressions'], 9);
-        $this->assertEqual(strncmp($row['priority'], 9 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.9);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 10); // Increased from 1 to 10, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -1324,7 +1340,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 12);
         $this->assertEqual($row['requested_impressions'], 7);
-        $this->assertEqual(strncmp($row['priority'], 7 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.7);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 10); // Increased from 1 to 10, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -1346,7 +1362,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 3);
         $this->assertEqual($row['requested_impressions'], 2);
-        $this->assertEqual(strncmp($row['priority'], 2 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.2);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 10); // Increased from 1 to 10, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -1368,7 +1384,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 3);
         $this->assertEqual($row['requested_impressions'], 3);
-        $this->assertEqual(strncmp($row['priority'], 3 / 3.7, 40), 0);
+        $this->assertEqual($row['priority'], 0.3);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 10); // Increased from 1 to 10, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -1390,7 +1406,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 5);
         $this->assertEqual($row['requested_impressions'], 5);
-        $this->assertEqual(strncmp($row['priority'], 50 / 50.5, 40), 0);
+        $this->assertEqual($row['priority'], 0.5);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 100); // Increased from 10 to 100, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -1412,7 +1428,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 12);
         $this->assertEqual($row['requested_impressions'], 7);
-        $this->assertEqual(strncmp($row['priority'], 70 / 90.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.7);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 100); // Increased from 10 to 100, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -1434,7 +1450,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 3);
         $this->assertEqual($row['requested_impressions'], 2);
-        $this->assertEqual(strncmp($row['priority'], 20 / 90.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.2);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 100); // Increased from 10 to 100, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -1456,7 +1472,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 3);
         $this->assertEqual($row['requested_impressions'], 3);
-        $this->assertEqual(strncmp($row['priority'], 30 / 30.7, 40), 0);
+        $this->assertEqual($row['priority'], 0.3);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 100); // Increased from 10 to 100, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -2070,44 +2086,52 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $this->assertEqual($row['number'], 4);
         $query = "
             SELECT
-                priority
+                priority,
+                priority_factor
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 1
                 AND zone_id = 1";
         $row = $dbh->getRow($query);
-        $this->assertEqual(strncmp($row['priority'], 9 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.9);
+        $this->assertEqual($row['priority_factor'], 10);
         $query = "
             SELECT
-                priority
+                priority,
+                priority_factor
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 2
                 AND zone_id = 3";
         $row = $dbh->getRow($query);
-        $this->assertEqual(strncmp($row['priority'], 7 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.7);
+        $this->assertEqual($row['priority_factor'], 10);
         $query = "
             SELECT
-                priority
+                priority,
+                priority_factor
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 3
                 AND zone_id = 3";
         $row = $dbh->getRow($query);
-        $this->assertEqual(strncmp($row['priority'], 2 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.2);
+        $this->assertEqual($row['priority_factor'], 10);
         $query = "
             SELECT
-                priority
+                priority,
+                priority_factor
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 3
                 AND zone_id = 4";
         $row = $dbh->getRow($query);
-        $this->assertEqual(strncmp($row['priority'], 3 / 3.7, 40), 0);
+        $this->assertEqual($row['priority'], 0.3);
+        $this->assertEqual($row['priority_factor'], 10);
         $query = "
             SELECT
                 count(*) AS number
@@ -2224,7 +2248,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 12);
         $this->assertEqual($row['requested_impressions'], 9);
-        $this->assertEqual(strncmp($row['priority'], 9 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.9);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 10); // Increased from 1 to 10, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -2246,7 +2270,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 12);
         $this->assertEqual($row['requested_impressions'], 7);
-        $this->assertEqual(strncmp($row['priority'], 7 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.7);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 10); // Increased from 1 to 10, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -2268,7 +2292,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 3);
         $this->assertEqual($row['requested_impressions'], 2);
-        $this->assertEqual(strncmp($row['priority'], 2 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.2);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 10); // Increased from 1 to 10, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -2290,7 +2314,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 3);
         $this->assertEqual($row['requested_impressions'], 3);
-        $this->assertEqual(strncmp($row['priority'], 3 / 3.7, 40), 0);
+        $this->assertEqual($row['priority'], 0.3);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 10); // Increased from 1 to 10, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
 
@@ -2544,44 +2568,52 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $this->assertEqual($row['number'], 4);
         $query = "
             SELECT
-                priority
+                priority,
+                priority_factor
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 1
                 AND zone_id = 1";
         $row = $dbh->getRow($query);
-        $this->assertEqual(strncmp($row['priority'], 50 / 50.5, 40), 0);
+        $this->assertEqual($row['priority'], 0.5);
+        $this->assertEqual($row['priority_factor'], 100);
         $query = "
             SELECT
-                priority
+                priority,
+                priority_factor
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 2
                 AND zone_id = 3";
         $row = $dbh->getRow($query);
-        $this->assertEqual(strncmp($row['priority'], 70 / 90.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.7);
+        $this->assertEqual($row['priority_factor'], 100);
         $query = "
             SELECT
-                priority
+                priority,
+                priority_factor
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 3
                 AND zone_id = 3";
         $row = $dbh->getRow($query);
-        $this->assertEqual(strncmp($row['priority'], 20 / 90.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.2);
+        $this->assertEqual($row['priority_factor'], 100);
         $query = "
             SELECT
-                priority
+                priority,
+                priority_factor
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 3
                 AND zone_id = 4";
         $row = $dbh->getRow($query);
-        $this->assertEqual(strncmp($row['priority'], 30 / 30.7, 40), 0);
+        $this->assertEqual($row['priority'], 0.3);
+        $this->assertEqual($row['priority_factor'], 100);
         $query = "
             SELECT
                 count(*) AS number
@@ -2698,7 +2730,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 12);
         $this->assertEqual($row['requested_impressions'], 9);
-        $this->assertEqual(strncmp($row['priority'], 9 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.9);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 10); // Increased from 1 to 10, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -2720,7 +2752,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 12);
         $this->assertEqual($row['requested_impressions'], 7);
-        $this->assertEqual(strncmp($row['priority'], 7 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.7);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 10); // Increased from 1 to 10, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -2742,7 +2774,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 3);
         $this->assertEqual($row['requested_impressions'], 2);
-        $this->assertEqual(strncmp($row['priority'], 2 / 9.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.2);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 10); // Increased from 1 to 10, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -2764,7 +2796,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 3);
         $this->assertEqual($row['requested_impressions'], 3);
-        $this->assertEqual(strncmp($row['priority'], 3 / 3.7, 40), 0);
+        $this->assertEqual($row['priority'], 0.3);       // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 10); // Increased from 1 to 10, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -2786,7 +2818,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 5);
         $this->assertEqual($row['requested_impressions'], 5);
-        $this->assertEqual(strncmp($row['priority'], 50 / 50.5, 40), 0);
+        $this->assertEqual($row['priority'], 0.5);        // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 100); // Increased from 10 to 100, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -2808,7 +2840,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 12);
         $this->assertEqual($row['requested_impressions'], 7);
-        $this->assertEqual(strncmp($row['priority'], 70 / 90.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.7);        // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 100); // Increased from 10 to 100, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -2830,7 +2862,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 3);
         $this->assertEqual($row['requested_impressions'], 2);
-        $this->assertEqual(strncmp($row['priority'], 20 / 90.1, 40), 0);
+        $this->assertEqual($row['priority'], 0.2);        // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 100); // Increased from 10 to 100, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
         $query = "
@@ -2852,7 +2884,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $row = $dbh->getRow($query);
         $this->assertEqual($row['required_impressions'], 3);
         $this->assertEqual($row['requested_impressions'], 3);
-        $this->assertEqual(strncmp($row['priority'], 30 / 30.7, 40), 0);
+        $this->assertEqual($row['priority'], 0.3);        // Constant, only priority_factor increases
         $this->assertEqual($row['priority_factor'], 100); // Increased from 10 to 100, as no impressions
         $this->assertEqual($row['past_zone_traffic_fraction'], 0);
 
