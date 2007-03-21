@@ -177,7 +177,6 @@ class Admin_DaTest extends UnitTestCase
     function testAddPlacementZone()
     {
         // starting the transaction or subtransaction
-        // for details look at lib/pear/DB/mysql_SGL.php
         TestEnv::startTransaction();
 
         $ret = Admin_DA::addPlacementZone(array('zone_id' => 1, 'placement_id' => 2));
