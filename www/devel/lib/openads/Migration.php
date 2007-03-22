@@ -58,6 +58,16 @@ class Migration
         }
     }
 
+    function beforeAlterField($table, $field)
+    {
+
+    }
+
+    function afterAlterField($table, $field)
+    {
+
+    }
+
     function beforeAddIndex($table, $index)
     {
 
