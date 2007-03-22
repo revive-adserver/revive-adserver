@@ -272,16 +272,6 @@ class Openads_Schema_Manager
 
             $this->parseWorkingDefinitionFile();
 
-            $db_definition = $this->db_definition;
-            $db_definition['name'] = $this->dbo_name;
-            $result = $this->_createDatabase($this->dbo_name);
-
-            if (PEAR::isError($result))
-            {
-                $result = false;
-                return $result->raiseError(MDB2_SCHEMA_ERROR, null, null,
-                'error creating the openads_dbo database');
-            }
             if ($result)
             {
                 $this->dump_options['custom_tags']['status']='final';
@@ -292,6 +282,8 @@ class Openads_Schema_Manager
                 {
                     //when the common connection method is in place this will work properly
                     //$this->_generateDataObjects($this->changes_final);
+
+                    //returns the migration class filename
                     $result = $this->writeMigrationClass($this->changes_final);
                     if ($result)
                     {
@@ -1259,8 +1251,8 @@ class Openads_Schema_Manager
         {
             $aTables = array_merge($aTables, array_keys($changes['destructive']['tables']['remove']));
         }
-        // compile a list of changes tables
-        // generate dataobjects only for the changes tables
+        // compile a list of changed tables
+        // generate dataobjects only for the changed tables
         $include = '';
         foreach ($aTables AS $k => $table)
         {
@@ -1278,9 +1270,20 @@ class Openads_Schema_Manager
             mkdir($path_dbo);
             if (!dir($path_dbo))
             {
-                die("Error: could not create the databojects directory {$path_dbo} \n");
+                die("Error: could not create the data_objects directory {$path_dbo} \n");
             }
         }
+        //create the temporary database
+        $db_definition = $this->db_definition;
+        $db_definition['name'] = $this->dbo_name;
+        $result = $this->_createDatabase($this->dbo_name);
+        if (PEAR::isError($result))
+        {
+            $result = false;
+            return $result->raiseError(MDB2_SCHEMA_ERROR, null, null,
+            'error creating the openads_dbo database');
+        }
+
         //save the global installed database name
         $conf['database']['name'] = $GLOBALS['_MAX']['CONF']['database']['name'];
         //change the global installed database name to the name of the dataobjects temp db name
