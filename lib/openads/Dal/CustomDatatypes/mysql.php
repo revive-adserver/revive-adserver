@@ -90,7 +90,7 @@ function datatype_openads_bigint_callback(&$db, $method, $aParameters)
             if (isset($aParameters['field']['autoincrement']) && $aParameters['field']['autoincrement']) {
                 // Strip any DEFAULT values and add AUTO_INCREMENT
                 $declaration_options = preg_replace('/DEFAULT \w+/', '', $declaration_options);
-                $declaration_options = ' AUTO_INCREMENT' . $declaration_options;
+                $declaration_options = ' AUTO_INCREMENT KEY' . $declaration_options;
             }
             $value .= $declaration_options;
             return $value;
@@ -224,7 +224,7 @@ function datatype_openads_decimal_callback(&$db, $method, $aParameters)
             if (isset($aParameters['field']['autoincrement']) && $aParameters['field']['autoincrement']) {
                 // Strip any DEFAULT values and add AUTO_INCREMENT
                 $declaration_options = preg_replace('/DEFAULT \w+/', '', $declaration_options);
-                $declaration_options = ' AUTO_INCREMENT' . $declaration_options;
+                $declaration_options = ' AUTO_INCREMENT KEY' . $declaration_options;
             }
             $value .= $declaration_options;
             return $value;
@@ -420,7 +420,7 @@ function datatype_openads_double_callback(&$db, $method, $aParameters)
             if (isset($aParameters['field']['autoincrement']) && $aParameters['field']['autoincrement']) {
                 // Strip any DEFAULT values and add AUTO_INCREMENT
                 $declaration_options = preg_replace('/DEFAULT \w+/', '', $declaration_options);
-                $declaration_options = ' AUTO_INCREMENT' . $declaration_options;
+                $declaration_options = ' AUTO_INCREMENT KEY' . $declaration_options;
             }
             $value .= $declaration_options;
             return $value;
@@ -549,7 +549,7 @@ function datatype_openads_float_callback(&$db, $method, $aParameters)
             if (isset($aParameters['field']['autoincrement']) && $aParameters['field']['autoincrement']) {
                 // Strip any DEFAULT values and add AUTO_INCREMENT
                 $declaration_options = preg_replace('/DEFAULT \w+/', '', $declaration_options);
-                $declaration_options = ' AUTO_INCREMENT' . $declaration_options;
+                $declaration_options = ' AUTO_INCREMENT KEY' . $declaration_options;
             }
             $value .= $declaration_options;
             return $value;
@@ -619,7 +619,7 @@ function datatype_openads_int_callback(&$db, $method, $aParameters)
             if (isset($aParameters['field']['autoincrement']) && $aParameters['field']['autoincrement']) {
                 // Strip any DEFAULT values and add AUTO_INCREMENT
                 $declaration_options = preg_replace('/DEFAULT \w+/', '', $declaration_options);
-                $declaration_options = ' AUTO_INCREMENT' . $declaration_options;
+                $declaration_options = ' AUTO_INCREMENT KEY' . $declaration_options;
             }
             $value .= $declaration_options;
             return $value;
@@ -689,7 +689,7 @@ function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
             if (isset($aParameters['field']['autoincrement']) && $aParameters['field']['autoincrement']) {
                 // Strip any DEFAULT values and add AUTO_INCREMENT
                 $declaration_options = preg_replace('/DEFAULT \w+/', '', $declaration_options);
-                $declaration_options = ' AUTO_INCREMENT' . $declaration_options;
+                $declaration_options = ' AUTO_INCREMENT KEY' . $declaration_options;
             }
             $value .= $declaration_options;
             return $value;
@@ -817,7 +817,7 @@ function datatype_openads_smallint_callback(&$db, $method, $aParameters)
             if (isset($aParameters['field']['autoincrement']) && $aParameters['field']['autoincrement']) {
                 // Strip any DEFAULT values and add AUTO_INCREMENT
                 $declaration_options = preg_replace('/DEFAULT \w+/', '', $declaration_options);
-                $declaration_options = ' AUTO_INCREMENT' . $declaration_options;
+                $declaration_options = ' AUTO_INCREMENT KEY' . $declaration_options;
             }
             $value .= $declaration_options;
             return $value;
@@ -1010,7 +1010,7 @@ function datatype_openads_tinyint_callback(&$db, $method, $aParameters)
             if (isset($aParameters['field']['autoincrement']) && $aParameters['field']['autoincrement']) {
                 // Strip any DEFAULT values and add AUTO_INCREMENT
                 $declaration_options = preg_replace('/DEFAULT \w+/', '', $declaration_options);
-                $declaration_options = ' AUTO_INCREMENT' . $declaration_options;
+                $declaration_options = ' AUTO_INCREMENT KEY' . $declaration_options;
             }
             $value .= $declaration_options;
             return $value;
