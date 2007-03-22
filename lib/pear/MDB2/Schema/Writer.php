@@ -330,6 +330,9 @@ class MDB2_Schema_Writer
 
                     if (!empty($table['indexes']) && is_array($table['indexes'])) {
                         foreach ($table['indexes'] as $index_name => $index) {
+                            if ($index_name === 'primary') {
+                                $index_name = $table_name . "_pkey";
+                            }
                             $buffer.= "$eol   <index>$eol    <name>$index_name</name>$eol";
                             if (!empty($index['unique'])) {
                                 $buffer.= "    <unique>".$this->_dumpBoolean($index['unique'])."</unique>$eol";
