@@ -620,13 +620,15 @@ echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 if (isset($row['active']) && $row['active'] == 'f') 
 {
-	$expire_ts = mktime(0, 0, 0, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]);
+	$activate_ts = empty($row['activate']) ? mktime(0, 0, 0, $row["activate_month"], $row["activate_dayofmonth"], $row["activate_year"]) : 0;
+	$expire_ts = empty($row['expire']) ? mktime(0, 0, 0, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]) : 0;
 	$inactivebecause = array();
 	
 	if ($row['clicks'] == 0) $inactivebecause[] =  $strNoMoreClicks;
 	if ($row['views'] == 0) $inactivebecause[] =  $strNoMoreViews;
-	if (time() < mktime(0, 0, 0, $row["activate_month"], $row["activate_dayofmonth"], $row["activate_year"])) $inactivebecause[] =  $strBeforeActivate;
-	if (time() > $expire_ts && $expire_ts > 0) $inactivebecause[] =  $strAfterExpire;
+	if ($activate_ts > 0 && $activate_ts > time()) $inactivebecause[] =  $strBeforeActivate;
+	
+	if ($expire_ts > 0 && time() > $expire_ts) $inactivebecause[] =  $strAfterExpire;
 	if ($row['target'] == 0  && $row['weight'] == 0) $inactivebecause[] =  $strWeightIsNull;
 	
 	echo "<tr><td width='30' valign='top'>&nbsp;</td><td colspan='2'>";
@@ -636,14 +638,14 @@ if (isset($row['active']) && $row['active'] == 'f')
 }
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strViewsPurchased."</td><td>";
-echo "<input class='flat' type='text' name='views' size='25' value='".($row["views"] > 0 ? $row["views"] : '-')."' onBlur='phpAds_formUpdate(this);' onKeyUp=\"phpAds_formUnlimitedCheck('unlimitedviews', 'views');\" tabindex='".($tabindex++)."'>&nbsp;";
+echo "<input class='flat' type='text' name='views' size='25' value='".($row["views"] >= 0 ? $row["views"] : '-')."' onBlur='phpAds_formUpdate(this);' onKeyUp=\"phpAds_formUnlimitedCheck('unlimitedviews', 'views');\" tabindex='".($tabindex++)."'>&nbsp;";
 echo "<input type='checkbox' name='unlimitedviews'".($row["views"] == -1 ? " CHECKED" : '')." onClick=\"phpAds_formUnlimitedClick('unlimitedviews', 'views');\" tabindex='".($tabindex++)."'>&nbsp;";
 echo $strUnlimited;
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strClicksPurchased."</td><td>";
-echo "<input class='flat' type='text' name='clicks' size='25' value='".($row["clicks"] > 0 ? $row["clicks"] : '-')."' onBlur='phpAds_formUpdate(this);' onKeyUp=\"phpAds_formUnlimitedCheck('unlimitedclicks', 'clicks');\" tabindex='".($tabindex++)."'>&nbsp;";
+echo "<input class='flat' type='text' name='clicks' size='25' value='".($row["clicks"] >= 0 ? $row["clicks"] : '-')."' onBlur='phpAds_formUpdate(this);' onKeyUp=\"phpAds_formUnlimitedCheck('unlimitedclicks', 'clicks');\" tabindex='".($tabindex++)."'>&nbsp;";
 echo "<input type='checkbox' name='unlimitedclicks'".($row["clicks"] == -1 ? " CHECKED" : '')." onClick=\"phpAds_formUnlimitedClick('unlimitedclicks', 'clicks');\" tabindex='".($tabindex++)."'>&nbsp;";
 echo $strUnlimited;
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
