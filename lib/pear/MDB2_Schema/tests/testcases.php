@@ -11,6 +11,7 @@ function catchErrorHandlerPEAR($error_obj)
 $testcases = array(
     'MDB2_Schema_testcase',
     'MDB2_Validate_testcase',
+    'MDB2_Changes_testcase',
 );
 
 ?>

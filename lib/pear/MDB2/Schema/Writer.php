@@ -523,6 +523,10 @@ class MDB2_Schema_Writer
 
     // }}}
 
+    /**
+     * all following functions written for openads
+     */
+
     // {{{ dumpChanges()
     /**
      * dump a set of changes to file
@@ -595,7 +599,7 @@ class MDB2_Schema_Writer
             $destructive['name'] = $changes['name'];
             $destructive['version'] = $changes['version'];
 
-            if ($changes['tables']['add'])
+            if (isset($changes['tables']['add']))
             {
                 $constructive['tables']['add'] = array();
                 foreach ($changes['tables']['add'] AS $table=>$bool)
@@ -603,35 +607,35 @@ class MDB2_Schema_Writer
                     $constructive['tables']['add'][$table] = $bool;
                 }
             }
-            if ($changes['tables']['change'])
+            if (isset($changes['tables']['change']))
             {
                 $constructive['tables']['change'] = array();
                 foreach ($changes['tables']['change'] AS $table=>$aTable)
                 {
                     $constructive['tables']['change'][$table] = array();
-                    if ($aTable['add'])
+                    if (isset($aTable['add']))
                     {
                         $constructive['tables']['change'][$table]['add'] = $changes['tables']['change'][$table]['add'];
                     }
-                    if ($aTable['remove'])
+                    if (isset($aTable['remove']))
                     {
                         $destructive['tables']['change'][$table]['remove'] = $changes['tables']['change'][$table]['remove'];
                     }
-                    if ($aTable['change'])
+                    if (isset($aTable['change']))
                     {
                         $constructive['tables']['change'][$table]['change'] = $changes['tables']['change'][$table]['change'];
                     }
-                    if ($aTable['indexes'])
+                    if (isset($aTable['indexes']))
                     {
-                        if ($aTable['indexes']['add'])
+                        if (isset($aTable['indexes']['add']))
                         {
                             $constructive['tables']['change'][$table]['indexes']['add'] = $aTable['indexes']['add'];
                         }
-                        if ($aTable['indexes']['remove'])
+                        if (isset($aTable['indexes']['remove']))
                         {
                             $destructive['tables']['change'][$table]['indexes']['remove'] = $aTable['indexes']['remove'];
                         }
-                        if ($aTable['indexes']['change'])
+                        if (isset($aTable['indexes']['change']))
                         {
                             if (!isset($constructive['tables']['change'][$table]['indexes']['add']))
                             {
@@ -649,7 +653,7 @@ class MDB2_Schema_Writer
                     }
                 }
             }
-            if ($changes['remove'])
+            if (isset($changes['remove']))
             {
                 $destructive['remove'] = array();
                 foreach ($changes['remove'] AS $table=>$bool)
@@ -743,7 +747,7 @@ class MDB2_Schema_Writer
     {
         if (is_array($changes) and (count($changes)))
         {
-            if ($changes['remove'])
+            if (isset($changes['remove']))
             {
                 $this->writeXMLline("remove");
                 foreach ($changes['remove'] AS $table=>$bool)
@@ -752,7 +756,7 @@ class MDB2_Schema_Writer
                 }
                 $this->writeXMLline("/remove", '', 'OUT');
             }
-            if ($changes['tables']['add'])
+            if (isset($changes['tables']['add']))
             {
                 $this->writeXMLline("add");
                 foreach ($changes['tables']['add'] AS $table=>$bool)
@@ -761,14 +765,14 @@ class MDB2_Schema_Writer
                 }
                 $this->writeXMLline("/add", '', 'OUT');
             }
-            if ($changes['tables']['change'])
+            if (isset($changes['tables']['change']))
             {
                 $this->writeXMLline("change");
                 foreach ($changes['tables']['change'] AS $table=>$aTable)
                 {
                     $this->writeXMLline("table", '', 'IN');
                     $this->writeXMLline("name", $table, 'INANDOUT', true);
-                    if ($aTable['add'])
+                    if (isset($aTable['add']))
                     {
                         $this->writeXMLline("add", '', 'IN');
                         $aFields = $aTable['add'];
@@ -787,7 +791,7 @@ class MDB2_Schema_Writer
                         }
                         $this->writeXMLline("/add", '', 'OUT');
                     }
-                    if ($aTable['remove'])
+                    if (isset($aTable['remove']))
                     {
                         $this->writeXMLline("remove");
                         $aFields = $aTable['remove'];
@@ -799,7 +803,7 @@ class MDB2_Schema_Writer
                         }
                         $this->writeXMLline("/remove", '', 'OUT');
                     }
-                    if ($aTable['change'])
+                    if (isset($aTable['change']))
                     {
                         $this->writeXMLline("change");
                         $dent = 'IN';
@@ -820,9 +824,9 @@ class MDB2_Schema_Writer
                         }
                         $this->writeXMLline("/change", '', 'OUT');
                     }
-                    if ($aTable['indexes'])
+                    if (isset($aTable['indexes']))
                     {
-                        if ($aTable['indexes']['add'])
+                        if (isset($aTable['indexes']['add']))
                         {
                             $aIndex = $aTable['indexes']['add'];
                             $this->writeXMLline("index");
@@ -830,15 +834,15 @@ class MDB2_Schema_Writer
                             {
                                 $this->writeXMLline("add", '', 'IN');
                                 $this->writeXMLline('name',$name, 'IN', true);
-                                if ($aIndex[$name]['was'])
+                                if (isset($aIndex[$name]['was']))
                                 {
                                     $this->writeXMLline("was", $aIndex[$name]['was'], '', true);
                                 }
-                                if ($aIndex[$name]['unique'])
+                                if (isset($aIndex[$name]['unique']))
                                 {
                                     $this->writeXMLline("unique", 'true', '', true);
                                 }
-                                if ($aIndex[$name]['primary'])
+                                if (isset($aIndex[$name]['primary']))
                                 {
                                     $this->writeXMLline("primary", 'true', '', true);
                                 }
@@ -846,7 +850,7 @@ class MDB2_Schema_Writer
                                 {
                                     $this->writeXMLline('indexfield');
                                     $this->writeXMLline('name', $field, 'IN', true);
-                                    if ($val['sorting'])
+                                    if (isset($val['sorting']))
                                     {
                                         $this->writeXMLline("sorting", $val['sorting'], '', true);
                                     }
@@ -856,7 +860,7 @@ class MDB2_Schema_Writer
                             }
                             $this->writeXMLline("/index", '', 'OUT');
                         }
-                        if ($aTable['indexes']['remove'])
+                        if (isset($aTable['indexes']['remove']))
                         {
                             $aIndex = $aTable['indexes']['remove'];
                             $this->writeXMLline("index");
@@ -898,6 +902,10 @@ class MDB2_Schema_Writer
         else if ($dent=='OUT')
         {
             $this->spaces-= 2;
+        }
+        if ($this->spaces<0)
+        {
+            $this->spaces=0;
         }
         $this->buffer.= str_repeat(' ', $this->spaces);
         $this->buffer.= '<'.$tag.'>';

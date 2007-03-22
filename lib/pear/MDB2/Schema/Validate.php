@@ -197,6 +197,7 @@ class MDB2_Schema_Validate
 
         /* Autoincrement */
         $autoinc = $primary = false;
+        $autoinc_field = '';
         foreach ($table['fields'] as $field_name => $field) {
             if (!empty($field['autoincrement'])) {
                 $autoinc_field = $field_name;
