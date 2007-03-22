@@ -33,7 +33,6 @@
 require_once '../../../init.php';
 define('MAX_DEV', MAX_PATH.'/www/devel');
 
-//require_once 'error.php';
 require_once 'oaSchema.php';
 
 if ( array_key_exists('xml_file', $_POST) && (!empty($_POST['xml_file'])) )

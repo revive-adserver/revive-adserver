@@ -59,6 +59,8 @@ class Openads_Schema_Manager
     var $path_links_final;
     var $path_links_trans;
 
+    var $path_dbo;
+
     var $file_schema_core;
     var $schema_final;
     var $schema_trans;
@@ -99,6 +101,8 @@ class Openads_Schema_Manager
         //$this->path_links_final = MAX_PATH.'/lib/max/Dal/DataObjects/';
         $this->path_links_final = MAX_PATH.'/etc/';
         $this->path_links_trans = MAX_PATH.'/var/';
+
+        $this->path_dbo = $this->path_changes_final.'DataObjects_';
 
         $file_changes   = 'changes_'.$file_schema;
         $file_links     = 'db_schema.links.ini';
@@ -278,10 +282,6 @@ class Openads_Schema_Manager
                 return $result->raiseError(MDB2_SCHEMA_ERROR, null, null,
                 'error creating the openads_dbo database');
             }
-            else
-            {
-                $this->_generateDataObjects();
-            }
             if ($result)
             {
                 $this->dump_options['custom_tags']['status']='final';
@@ -290,6 +290,8 @@ class Openads_Schema_Manager
                 $result = $this->createChangeset($this->changes_final, $comments);
                 if ($result)
                 {
+                    //when the common connection method is in place this will work properly
+                    //$this->_generateDataObjects($this->changes_final);
                     $result = $this->writeMigrationClass($this->changes_final);
                     if ($result)
                     {
@@ -1236,10 +1238,40 @@ class Openads_Schema_Manager
         return false;
     }
 
-    function _generateDataObjects()
+    /**
+     * rebuild the db_DataObject classes
+     *
+     */
+    function _generateDataObjects($changes_file)
     {
-        //  init DB_DataObject
-        $path_dbo =  $this->path_changes_final.'DataObjects_'.$this->version;
+        $changes = $this->schema->parseChangesetDefinitionFile($changes_file);
+
+        $aTables = array();
+        if (isset($changes['constructive']['tables']['change']))
+        {
+            $aTables = array_merge($aTables, array_keys($changes['constructive']['tables']['change']));
+        }
+        if (isset($changes['constructive']['tables']['add']))
+        {
+            $aTables = array_merge($aTables, array_keys($changes['constructive']['tables']['add']));
+        }
+        if (isset($changes['constructive']['tables']['remove']))
+        {
+            $aTables = array_merge($aTables, array_keys($changes['destructive']['tables']['remove']));
+        }
+        // compile a list of changes tables
+        // generate dataobjects only for the changes tables
+        $include = '';
+        foreach ($aTables AS $k => $table)
+        {
+            if (!empty($include))
+            {
+                $include.= '|';
+            }
+            $include.= $table;
+        }
+
+        $path_dbo =  $this->path_dbo.$this->version;
 
         if (!dir($path_dbo))
         {
@@ -1249,11 +1281,15 @@ class Openads_Schema_Manager
                 die("Error: could not create the databojects directory {$path_dbo} \n");
             }
         }
+        //save the global installed database name
         $conf['database']['name'] = $GLOBALS['_MAX']['CONF']['database']['name'];
+        //change the global installed database name to the name of the dataobjects temp db name
         $GLOBALS['_MAX']['CONF']['database']['name'] = $this->dbo_name;
+
+        //set up dataobject options
         $options = &PEAR::getStaticProperty('DB_DataObject', 'options');
         $options = array(
-            'database'              => Openads_Dal::getDsn(MAX_DSN_STRING), //MAX_DB::getDsn(MAX_DSN_STRING),
+            'database'              => Openads_Dal::getDsn(MAX_DSN_STRING),
             'schema_location'       => $path_dbo,
             'class_location'        => $path_dbo,
             'require_prefix'        => $path_dbo . '/',
@@ -1264,13 +1300,15 @@ class Openads_Schema_Manager
             'production'            => 0,
             'ignore_sequence_keys'  => 'ALL',
             'generator_strip_schema'=> 1,
+            'generator_include_regex' => "/({$include})/",
             'generator_exclude_regex' => '/(data_raw_.*|data_summary_channel_.*|data_summary_zone_.*)/'
         );
 
         require_once 'DB/DataObject/Generator.php';
         // remove original dbdo keys file as it is unable to update an existing file
         $schemaFile = $path_dbo . '/db_schema.ini';
-        if (is_file($schemaFile)) {
+        if (is_file($schemaFile))
+        {
             unlink($schemaFile);
         }
 
@@ -1283,15 +1321,28 @@ class Openads_Schema_Manager
         $GLOBALS['_MAX']['CONF']['database']['name'] = $conf['database']['name'];
     }
 
-    function _databaseExists($database_name)
+    /**
+     * create a new database with the given name
+     * check first and drop if necessary
+     *
+     * @param string $database_name
+     * @return boolean
+     */
+    function _createDatabase($database_name)
     {
-        $result = $this->schema->db->manager->listDatabases();
-        if (PEAR::isError($result)) {
-            return false;
+        if ($this->_dropDatabase($database_name))
+        {
+            return $this->schema->createDatabase($database_name);
         }
-        return in_array(strtolower($database_name), array_map('strtolower', $result));
+        return false;
     }
 
+    /**
+     * check if given database exists and drop if it does
+     *
+     * @param string $database_name
+     * @return boolean
+     */
     function _dropDatabase($database_name)
     {
         if ($this->_databaseExists($database_name))
@@ -1301,13 +1352,19 @@ class Openads_Schema_Manager
         return (!$this->_databaseExists($database_name));
     }
 
-    function _createDatabase($database_name)
+    /**
+     * check if a given database name is in use
+     *
+     * @param string $database_name
+     * @return boolean
+     */
+    function _databaseExists($database_name)
     {
-        if ($this->_dropDatabase($database_name))
-        {
-            return $this->schema->createDatabase($database_name);
+        $result = $this->schema->db->manager->listDatabases();
+        if (PEAR::isError($result)) {
+            return false;
         }
-        return false;
+        return in_array(strtolower($database_name), array_map('strtolower', $result));
     }
 
 }
