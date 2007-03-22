@@ -2459,8 +2459,9 @@ class MDB2_Schema extends PEAR
         }
 
         $changes = $parser->instructionset;
-        $changes['constructive'] = $parser->constructive_changeset_definition;
-        $changes['destructive']  = $parser->destructive_changeset_definition;
+//        $changes['test'] = array_unique($parser->test);
+//        $changes['constructive'] = $parser->constructive_changeset_definition;
+//        $changes['destructive']  = $parser->destructive_changeset_definition;
 
         return $changes;
     }

@@ -66,7 +66,12 @@ class MDB2_Changeset_Parser extends XML_Parser
 
     var $constructive_changeset_definition = array('name'=>'','version'=>'', 'tables' => array());
     var $destructive_changeset_definition = array('name'=>'','version'=>'', 'tables' => array());
+    var $test;
 
+    var $events = array('tables'=>array());
+
+    var $name;
+    var $version;
 
     var $elements = array();
     var $element = '';
@@ -118,44 +123,66 @@ class MDB2_Changeset_Parser extends XML_Parser
             case 'instructionset':
             	break;
             case 'instructionset-name':
+                $this->name = '';
             	break;
             case 'instructionset-version':
+                $this->version = '';
             	break;
             case 'instructionset-constructive':
             	break;
             case 'instructionset-constructive-changeset':
             	break;
             case 'instructionset-constructive-changeset-name':
+                $this->name = '';
             	break;
             case 'instructionset-constructive-changeset-version':
+                $this->version = '';
             	break;
             case 'instructionset-constructive-changeset-add':
+                $this->add = array();
             	break;
             case 'instructionset-constructive-changeset-add-table':
+                $this->table_name = '';
+                $this->table    = array();
             	break;
             case 'instructionset-constructive-changeset-change':
+                $this->change = array();
             	break;
             case 'instructionset-constructive-changeset-change-table':
+                $this->table = array();
             	break;
             case 'instructionset-constructive-changeset-change-table-name':
+                $this->table_name = '';
             	break;
             case 'instructionset-constructive-changeset-change-table-add':
+                $this->add = array();
             	break;
             case 'instructionset-constructive-changeset-change-table-add-field':
+                $this->field = array();
+                $this->field_name = '';
             	break;
             case 'instructionset-constructive-changeset-change-table-add-field-name':
-            	break;
             case 'instructionset-constructive-changeset-change-table-add-field-type':
-            	break;
             case 'instructionset-constructive-changeset-change-table-add-field-notnull':
-            	break;
             case 'instructionset-constructive-changeset-change-table-add-field-default':
-            	break;
             case 'instructionset-constructive-changeset-change-table-add-field-was':
-            	break;
+                break;
             case 'instructionset-constructive-changeset-change-table-index':
                 break;
             case 'instructionset-constructive-changeset-change-table-index-add':
+                $this->index_name = '';
+                $this->index    = array();
+                break;
+            case 'instructionset-constructive-changeset-change-table-index-add-indexfield':
+                $this->field_name = '';
+                $this->field = array();
+                break;
+            case 'instructionset-constructive-changeset-change-table-index-add-name':
+            case 'instructionset-constructive-changeset-change-table-index-add-primary':
+            case 'instructionset-constructive-changeset-change-table-index-add-unique':
+            case 'instructionset-constructive-changeset-change-table-index-add-was':
+            case 'instructionset-constructive-changeset-change-table-index-add-indexfield-name':
+            case 'instructionset-constructive-changeset-change-table-index-add-indexfield-sorting':
                 break;
 
             case 'instructionset-destructive':
@@ -163,25 +190,41 @@ class MDB2_Changeset_Parser extends XML_Parser
             case 'instructionset-destructive-changeset':
             	break;
             case 'instructionset-destructive-changeset-name':
+                $this->name = '';
             	break;
             case 'instructionset-destructive-changeset-version':
+                $this->version = '';
             	break;
-            case 'instructionset-destructive-changeset-version-change':
+            case 'instructionset-destructive-changeset-remove':
             	break;
-            case 'instructionset-destructive-changeset-version-change-table':
+            case 'instructionset-destructive-changeset-change':
             	break;
-            case 'instructionset-destructive-changeset-version-change-table-name':
+            case 'instructionset-destructive-changeset-change-table':
+                $this->table_name = '';
+                $this->table    = array();
             	break;
-            case 'instructionset-destructive-changeset-version-change-table-remove':
+            case 'instructionset-destructive-changeset-change-table-name':
             	break;
-            case 'instructionset-destructive-changeset-version-change-table-remove-field':
+            case 'instructionset-destructive-changeset-change-table-remove':
             	break;
-            case 'instructionset-destructive-changeset-version-change-table-remove-field-name':
+            case 'instructionset-destructive-changeset-change-table-remove-field':
+                $this->field = array();
+                $this->field_name = '';
             	break;
+            case 'instructionset-destructive-changeset-change-table-remove-field-name':
+            	break;
+            case 'instructionset-destructive-changeset-table-index':
+                break;
             case 'instructionset-destructive-changeset-change-table-index':
                 break;
             case 'instructionset-destructive-changeset-change-table-index-remove':
+                $this->index_name = '';
+                $this->index    = array();
                 break;
+            case 'instructionset-destructive-changeset-change-table-index-remove-name':
+                break;
+
+
         }
     }
 
@@ -194,72 +237,130 @@ class MDB2_Changeset_Parser extends XML_Parser
         switch ($this->element)
         {
             case 'instructionset':
+                $this->instructionset['events'] = $this->events;
+                $this->instructionset['test'] = $this->test;
             	break;
             case 'instructionset-name':
+                $this->instructionset['name'] = $this->name;
             	break;
             case 'instructionset-version':
+                $this->instructionset['version'] = $this->version;
             	break;
             case 'instructionset-constructive':
+                $this->instructionset['constructive'] = $this->constructive_changeset_definition;
             	break;
             case 'instructionset-constructive-changeset':
             	break;
             case 'instructionset-constructive-changeset-name':
+                $this->constructive_changeset_definition['name'] = $this->name;
             	break;
             case 'instructionset-constructive-changeset-version':
+                $this->constructive_changeset_definition['version'] = $this->version;
             	break;
             case 'instructionset-constructive-changeset-add':
             	break;
             case 'instructionset-constructive-changeset-add-table':
+                if (!isset($this->constructive_changeset_definition['tables']['add'][$this->table_name]))
+                {
+                    $this->constructive_changeset_definition['tables']['add'][$this->table_name] = true;
+                    $this->events['tables'][$this->table_name]['self']['beforeAddTable'] = "beforeAddTable_{$this->table_name}";
+                    $this->events['tables'][$this->table_name]['self']['afterAddTable']  = "afterAddTable_{$this->table_name}";
+                    //$this->events['tables'][$this->table_name]['was']  = "";
+                }
             	break;
             case 'instructionset-constructive-changeset-change':
             	break;
             case 'instructionset-constructive-changeset-change-table':
             	break;
             case 'instructionset-constructive-changeset-change-table-name':
+                if (!isset($this->constructive_changeset_definition['tables']['change'][$this->table_name]))
+                {
+                    $this->constructive_changeset_definition['tables']['change'][$this->table_name] = array();
+//                    $this->events['tables'][$this->table_name]['fields']  = array();
+//                    $this->events['tables'][$this->table_name]['indexes']  = array();
+//                    $this->events['tables'][$this->table_name]['self']  = array();
+                }
             	break;
             case 'instructionset-constructive-changeset-change-table-add':
+                $this->constructive_changeset_definition['tables']['change'][$this->table_name]['add'] = $this->add;
             	break;
             case 'instructionset-constructive-changeset-change-table-add-field':
+                $this->add['fields'][$this->field_name] = $this->field;
+                $this->events['tables'][$this->table_name]['fields'][$this->field_name]['beforeAddField'] = "beforeAddField_{$this->table_name}_{$this->field_name}";
+                $this->events['tables'][$this->table_name]['fields'][$this->field_name]['afterAddField']  = "afterAddField_{$this->table_name}_{$this->field_name}";
+                //$this->events['tables'][$this->table_name]['fields'][$this->field_name]['was']  = $this->field['was'];
             	break;
             case 'instructionset-constructive-changeset-change-table-add-field-name':
-            	break;
             case 'instructionset-constructive-changeset-change-table-add-field-type':
-            	break;
             case 'instructionset-constructive-changeset-change-table-add-field-notnull':
-            	break;
             case 'instructionset-constructive-changeset-change-table-add-field-default':
-            	break;
             case 'instructionset-constructive-changeset-change-table-add-field-was':
             	break;
             case 'instructionset-constructive-changeset-change-table-index':
                 break;
             case 'instructionset-constructive-changeset-change-table-index-add':
+                $this->constructive_changeset_definition['tables']['change'][$this->table_name]['indexes']['add'][$this->index_name] = $this->index;
+                $this->events['tables'][$this->table_name]['indexes'][$this->index_name]['beforeAddIndex'] = "beforeAddIndex_{$this->table_name}_{$this->index_name}";
+                $this->events['tables'][$this->table_name]['indexes'][$this->index_name]['afterAddIndex']  = "afterAddIndex_{$this->table_name}_{$this->index_name}";
+                //$this->events['tables'][$this->table_name]['indexes'][$this->index_name]['was']  = $this->index['was'];
+                break;
+            case 'instructionset-constructive-changeset-change-table-index-add-indexfield':
+                $this->index['fields'][$this->field_name] = $this->field;
+                break;
+            case 'instructionset-constructive-changeset-change-table-index-add-name':
+            case 'instructionset-constructive-changeset-change-table-index-add-primary':
+            case 'instructionset-constructive-changeset-change-table-index-add-unique':
+            case 'instructionset-constructive-changeset-change-table-index-add-was':
+            case 'instructionset-constructive-changeset-change-table-index-add-indexfield-name':
+            case 'instructionset-constructive-changeset-change-table-index-add-indexfield-sorting':
                 break;
 
             case 'instructionset-destructive':
+                $this->instructionset['destructive'] = $this->destructive_changeset_definition;
             	break;
             case 'instructionset-destructive-changeset':
             	break;
             case 'instructionset-destructive-changeset-name':
+                $this->destructive_changeset_definition['name'] = $this->name;
             	break;
             case 'instructionset-destructive-changeset-version':
+                $this->destructive_changeset_definition['version'] = $this->version;
             	break;
-            case 'instructionset-destructive-changeset-version-change':
+            case 'instructionset-destructive-changeset-remove':
             	break;
-            case 'instructionset-destructive-changeset-version-change-table':
+            case 'instructionset-destructive-changeset-change':
             	break;
-            case 'instructionset-destructive-changeset-version-change-table-name':
+            case 'instructionset-destructive-changeset-change-table':
             	break;
-            case 'instructionset-destructive-changeset-version-change-table-remove':
+            case 'instructionset-destructive-changeset-remove-table':
+                $this->destructive_changeset_definition['tables']['remove'][$this->table_name] = true;
+                $this->events['tables'][$this->table_name]['self']['beforeRemoveTable'] = "beforeRemoveTable_{$this->table_name}";
+                $this->events['tables'][$this->table_name]['self']['afterRemoveTable']  = "afterRemoveTable_{$this->table_name}";
             	break;
-            case 'instructionset-destructive-changeset-version-change-table-remove-field':
+            case 'instructionset-destructive-changeset-change-table-name':
+                $this->destructive_changeset_definition['tables']['change'][$this->table_name] = array();
             	break;
-            case 'instructionset-destructive-changeset-version-change-table-remove-field-name':
+            case 'instructionset-destructive-changeset-change-table-remove':
             	break;
+            case 'instructionset-destructive-changeset-change-table-remove-field':
+                $this->destructive_changeset_definition['tables']['change'][$this->table_name]['remove'] = array();
+            	break;
+            case 'instructionset-destructive-changeset-change-table-remove-field-name':
+                $this->destructive_changeset_definition['tables']['change'][$this->table_name]['remove'][$this->field_name] = true;
+                $this->events['tables'][$this->table_name]['fields'][$this->field_name]['beforeRemoveField'] = "beforeRemoveField_{$this->table_name}_{$this->field_name}";
+                $this->events['tables'][$this->table_name]['fields'][$this->field_name]['afterRemoveField']  = "afterRemoveField_{$this->table_name}_{$this->field_name}";
+            	break;
+
             case 'instructionset-destructive-changeset-change-table-index':
                 break;
             case 'instructionset-destructive-changeset-change-table-index-remove':
+                $this->destructive_changeset_definition['tables']['change'][$this->table_name]['indexes']['remove'][$this->index_name] = true;
+                $this->events['tables'][$this->table_name]['indexes'][$this->index_name]['beforeRemoveIndex'] = "beforeRemoveIndex_{$this->table_name}_{$this->index_name}";
+                $this->events['tables'][$this->table_name]['indexes'][$this->index_name]['afterRemoveIndex']  = "afterRemoveIndex_{$this->table_name}_{$this->index_name}";
                 break;
+            case 'instructionset-destructive-changeset-change-table-index-remove-name':
+                break;
+
         }
 
         unset($this->elements[--$this->count]);
@@ -303,57 +404,38 @@ class MDB2_Changeset_Parser extends XML_Parser
             }
             $data = $this->variables[$data];
         }
+//        $i = array_search($this->element, $this->instructionset);
+//        if (!$i)
+//        {
+            $this->test[] = $this->element;
+//        }
         switch ($this->element)
         {
             case 'instructionset':
             	break;
             case 'instructionset-name':
-                if (isset($this->instructionset['name'])) {
-                    $this->instructionset['name'].= $data;
-                } else {
-                    $this->instructionset['name'] = $data;
-                }
+                $this->name = $data;
             	break;
             case 'instructionset-version':
-                if (isset($this->instructionset['version'])) {
-                    $this->instructionset['version'].= $data;
-                } else {
-                    $this->instructionset['version'] = $data;
-                }
+                $this->version = $data;
             	break;
             case 'instructionset-comments':
-                if (isset($this->instructionset['comments'])) {
-                    $this->instructionset['comments'].= $data;
-                } else {
-                    $this->instructionset['comments'] = $data;
-                }
+                $this->comments = $data;
             	break;
             case 'instructionset-constructive':
             	break;
             case 'instructionset-constructive-changeset':
             	break;
             case 'instructionset-constructive-changeset-name':
-                if (isset($this->constructive_changeset_definition['name'])) {
-                    $this->constructive_changeset_definition['name'].= $data;
-                } else {
-                    $this->constructive_changeset_definition['name'] = $data;
-                }
+                $this->name = $data;
             	break;
             case 'instructionset-constructive-changeset-version':
-                if (isset($this->constructive_changeset_definition['version'])) {
-                    $this->constructive_changeset_definition['version'].= $data;
-                } else {
-                    $this->constructive_changeset_definition['version'] = $data;
-                }
+                $this->version = $data;
             	break;
             case 'instructionset-constructive-changeset-add':
             	break;
             case 'instructionset-constructive-changeset-add-table':
                 $this->table_name = $data;
-                if (!isset($this->constructive_changeset_definition['tables']['add'][$this->table_name]))
-                {
-                    $this->constructive_changeset_definition['tables']['add'][$this->table_name] = true;
-                }
             	break;
             case 'instructionset-constructive-changeset-change':
             	break;
@@ -361,86 +443,52 @@ class MDB2_Changeset_Parser extends XML_Parser
             	break;
             case 'instructionset-constructive-changeset-change-table-name':
                 $this->table_name = $data;
-                if (!isset($this->constructive_changeset_definition['tables']['change'][$this->table_name]))
-                {
-                    $this->constructive_changeset_definition['tables']['change'][$this->table_name] = array();
-                }
             	break;
             case 'instructionset-constructive-changeset-change-table-add':
-                if (!isset($this->constructive_changeset_definition['tables']['change'][$this->table_name]['add']))
-                {
-                    $this->constructive_changeset_definition['tables']['change'][$this->table_name]['add'] = array();
-                }
             	break;
             case 'instructionset-constructive-changeset-change-table-add-field':
             	break;
             case 'instructionset-constructive-changeset-change-table-add-field-name':
                 $this->field_name = $data;
-                if (!isset($this->constructive_changeset_definition['tables']['change'][$this->table_name]['add'][$this->field_name]))
-                {
-                    $this->constructive_changeset_definition['tables']['change'][$this->table_name]['add'][$this->field_name] = array();
-                }
             	break;
             case 'instructionset-constructive-changeset-change-table-add-field-type':
-                if (!isset($this->constructive_changeset_definition['tables']['change'][$this->table_name]['add'][$this->field_name]['type']))
-                {
-                    $this->constructive_changeset_definition['tables']['change'][$this->table_name]['add'][$this->field_name]['type'] = $data;
-                }
+                $this->field['type'] = $data;
+            	break;
+            case 'instructionset-constructive-changeset-change-table-add-field-length':
+                $this->field['length'] = $data;
             	break;
             case 'instructionset-constructive-changeset-change-table-add-field-notnull':
-                if (!isset($this->constructive_changeset_definition['tables']['change'][$this->table_name]['add'][$this->field_name]['notnull']))
-                {
-                    $this->constructive_changeset_definition['tables']['change'][$this->table_name]['add'][$this->field_name]['notnull'] = $data;
-                }
+                $this->field['notnull'] = $data;
             	break;
             case 'instructionset-constructive-changeset-change-table-add-field-default':
-                if (!isset($this->constructive_changeset_definition['tables']['change'][$this->table_name]['add'][$this->field_name]['default']))
-                {
-                    $this->constructive_changeset_definition['tables']['change'][$this->table_name]['add'][$this->field_name]['default'] = $data;
-                }
+                $this->field['default'] = $data;
             	break;
             case 'instructionset-constructive-changeset-change-table-add-field-was':
-                if (!isset($this->constructive_changeset_definition['tables']['change'][$this->table_name]['add'][$this->field_name]['was']))
-                {
-                    $this->constructive_changeset_definition['tables']['change'][$this->table_name]['add'][$this->field_name]['was'] = $data;
-                }
+                $this->field['was'] = $data;
             	break;
             case 'instructionset-constructive-changeset-change-table-index':
-                if(!isset($this->constructive_changeset_definition['tables']['change'][$this->table_name]['index']))
-                {
-                    $this->constructive_changeset_definition['tables']['change'][$this->table_name]['index'] = array();
-                }
                 break;
             case 'instructionset-constructive-changeset-change-table-index-add':
-                if(!isset($this->constructive_changeset_definition['tables']['change'][$this->table_name]['index']['add']))
-                {
-                    $this->constructive_changeset_definition['tables']['change'][$this->table_name]['index']['add'] = array();
-                }
                 break;
             case 'instructionset-constructive-changeset-change-table-index-add-name':
-                $this->constructive_changeset_definition['tables']['change'][$this->table_name]['index']['add']['name'] = $data;
+                $this->index_name = $data;
+                break;
+            case 'instructionset-constructive-changeset-change-table-index-add-primary':
+                $this->index['primary'] = $data;
                 break;
             case 'instructionset-constructive-changeset-change-table-index-add-unique':
-                $this->constructive_changeset_definition['tables']['change'][$this->table_name]['index']['add']['unique'] = $data;
+                $this->index['unique'] = $data;
                 break;
             case 'instructionset-constructive-changeset-change-table-index-add-was':
-                $this->constructive_changeset_definition['tables']['change'][$this->table_name]['index']['add']['was'] = $data;
+                $this->index['was'] = $data;
                 break;
-            case 'instructionset-constructive-changeset-change-table-index-add-field':
-                if (!isset($this->constructive_changeset_definition['tables']['change'][$this->table_name]['index']['add']['field']))
-                {
-                    $this->constructive_changeset_definition['tables']['change'][$this->table_name]['index']['add']['field'] = array();
-                }
+            case 'instructionset-constructive-changeset-change-table-index-add-indexfield':
                 break;
-            case 'instructionset-constructive-changeset-change-table-index-add-field-name':
+            case 'instructionset-constructive-changeset-change-table-index-add-indexfield-name':
                 $this->field_name = $data;
-                if (!isset($this->constructive_changeset_definition['tables']['change'][$this->table_name]['index']['add']['field'][$this->field_name]))
-                {
-                    $this->constructive_changeset_definition['tables']['change'][$this->table_name]['index']['add']['field'][$this->field_name] = array();
-                }
                 break;
-            case 'instructionset-constructive-changeset-change-table-index-add-field-sorting':
-                $this->constructive_changeset_definition['tables']['change'][$this->table_name]['index']['add']['field'][$this->field_name]['sorting'] = $data;
+            case 'instructionset-constructive-changeset-change-table-index-add-indexfield-sorting':
+                $this->field['sorting'] = $data;
                 break;
 
 
@@ -449,54 +497,38 @@ class MDB2_Changeset_Parser extends XML_Parser
             case 'instructionset-destructive-changeset':
             	break;
             case 'instructionset-destructive-changeset-name':
-                if (isset($this->destructive_changeset_definition['name'])) {
-                    $this->destructive_changeset_definition['name'].= $data;
-                } else {
-                    $this->destructive_changeset_definition['name'] = $data;
-                }
+                $this->name = $data;
             	break;
             case 'instructionset-destructive-changeset-version':
-                if (isset($this->destructive_changeset_definition['version'])) {
-                    $this->destructive_changeset_definition['version'].= $data;
-                } else {
-                    $this->destructive_changeset_definition['version'] = $data;
-                }
+                $this->version = $data;
             	break;
-            case 'instructionset-destructive-changeset-version-change':
+            case 'instructionset-destructive-changeset-remove':
             	break;
-            case 'instructionset-destructive-changeset-version-change-table':
+            case 'instructionset-destructive-changeset-change':
             	break;
-            case 'instructionset-destructive-changeset-version-change-table-name':
+            case 'instructionset-destructive-changeset-change-table':
+            	break;
+            case 'instructionset-destructive-changeset-remove-table':
                 $this->table_name = $data;
-                if (!isset($this->destructive_changeset_definition['tables']['change'][$this->table_name]))
-                {
-                    $this->destructive_changeset_definition['tables']['change'][$this->table_name] = array();
-                }
             	break;
-            case 'instructionset-destructive-changeset-version-change-table-remove':
-                if (!isset($this->destructive_changeset_definition['tables']['change'][$this->table_name]['remove']))
-                {
-                    $this->destructive_changeset_definition['tables']['change'][$this->table_name]['remove'] = true;
-                }
+            case 'instructionset-destructive-changeset-change-table-name':
+                $this->table_name = $data;
             	break;
-            case 'instructionset-destructive-changeset-version-change-table-remove-field':
+            case 'instructionset-destructive-changeset-change-table-remove':
             	break;
-            case 'instructionset-destructive-changeset-version-change-table-remove-field-name':
+            case 'instructionset-destructive-changeset-change-table-remove-field':
+            	break;
+            case 'instructionset-destructive-changeset-change-table-remove-field-name':
                 $this->field_name = $data;
-                if (!isset($this->destructive_changeset_definition['tables']['change'][$this->table_name]['remove'][$this->field_name]))
-                {
-                    $this->destructive_changeset_definition['tables']['change'][$this->table_name]['remove'][$this->field_name] = true;
-                }
             	break;
 
             case 'instructionset-destructive-changeset-change-table-index':
                 break;
             case 'instructionset-destructive-changeset-change-table-index-remove':
-//                $this->destructive_changeset_definition['tables']['change'][$this->table_name]['index']['remove']['field'] = array();
+//                $this->destructive_changeset_definition['tables']['change'][$this->table_name]['indexes']['remove']['field'] = array();
                 break;
             case 'instructionset-destructive-changeset-change-table-index-remove-name':
-                $this->field_name = $data;
-                $this->destructive_changeset_definition['tables']['change'][$this->table_name]['index']['remove'][$this->field_name] = true;
+                $this->index_name = $data;
                 break;
         }
     }

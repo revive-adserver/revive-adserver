@@ -633,8 +633,14 @@ class MDB2_Schema_Writer
                         }
                         if ($aTable['indexes']['change'])
                         {
-                            //$constructive['tables']['change'][$table]['indexes']['change'] = $aTable['indexes']['change'];
-                            $constructive['tables']['change'][$table]['indexes']['add'] = $aTable['indexes']['change'];
+                            if (!isset($constructive['tables']['change'][$table]['indexes']['add']))
+                            {
+                                $constructive['tables']['change'][$table]['indexes']['add'] = $aTable['indexes']['change'];
+                            }
+                            else
+                            {
+                                $constructive['tables']['change'][$table]['indexes']['add']= array_merge($constructive['tables']['change'][$table]['indexes']['add'], $aTable['indexes']['change']);
+                            }
                             foreach ($aTable['indexes']['change'] AS $k=>$v)
                             {
                                 $destructive['tables']['change'][$table]['indexes']['remove'][$k] = 'true';
@@ -820,13 +826,13 @@ class MDB2_Schema_Writer
                         {
                             $aIndex = $aTable['indexes']['add'];
                             $this->writeXMLline("index");
-                            $this->writeXMLline("add", '', 'IN');
                             foreach ($aIndex AS $name=>$def)
                             {
-                                $this->writeXMLline($name, '', 'IN');
+                                $this->writeXMLline("add", '', 'IN');
+                                $this->writeXMLline('name',$name, 'IN', true);
                                 if ($aIndex[$name]['was'])
                                 {
-                                    $this->writeXMLline("was", $aIndex[$name]['was'], 'IN', true);
+                                    $this->writeXMLline("was", $aIndex[$name]['was'], '', true);
                                 }
                                 if ($aIndex[$name]['unique'])
                                 {
@@ -846,23 +852,22 @@ class MDB2_Schema_Writer
                                     }
                                     $this->writeXMLline('/indexfield', '', 'OUT');
                                 }
-                                $this->writeXMLline('/'.$name, '', 'OUT');
+                                $this->writeXMLline("/add", '', 'OUT');
                             }
-                            $this->writeXMLline("/add", '', 'OUT');
                             $this->writeXMLline("/index", '', 'OUT');
                         }
                         if ($aTable['indexes']['remove'])
                         {
                             $aIndex = $aTable['indexes']['remove'];
                             $this->writeXMLline("index");
-                            $this->writeXMLline("remove", '', 'IN');
-                            $dent = 'IN';
+                            //$dent = 'IN';
                             foreach ($aIndex AS $name=>$array)
                             {
-                                $this->writeXMLline("name", $name, $dent, true);
-                                $dent = '';
+                                $this->writeXMLline("remove", '', 'IN');
+                                $this->writeXMLline("name", $name, 'INANDOUT', true);
+                                //$dent = '';
+                                $this->writeXMLline("/remove", '', 'OUT');
                             }
-                            $this->writeXMLline("/remove", '', 'OUT');
                             $this->writeXMLline("/index", '', 'OUT');
                         }
                     }
