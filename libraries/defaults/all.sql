@@ -175,6 +175,7 @@ CREATE TABLE phpads_clients (
    reportinterval mediumint(9) DEFAULT '7' NOT NULL,
    reportlastdate date DEFAULT '0000-00-00' NOT NULL,
    reportdeactivate enum('t','f') DEFAULT 't' NOT NULL,
+   lb_reporting enum('t','f') DEFAULT 'f' NOT NULL,
    PRIMARY KEY (clientid)
 );
 
@@ -312,3 +313,11 @@ CREATE TABLE phpads_config (
    PRIMARY KEY (configid)
 );
 
+
+
+-- Table structure for table 'phpads_lb_local'
+
+
+CREATE TABLE phpads_lb_local (
+   last_run int(11) DEFAULT '0' NOT NULL
+);

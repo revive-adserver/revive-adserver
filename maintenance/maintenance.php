@@ -35,7 +35,6 @@ if (!defined('LIBUSERLOG_INCLUDED'))
 require (phpAds_path."/libraries/lib-log.inc.php");
 require (phpAds_path."/maintenance/lib-maintenance.inc.php");
 
-
 // Register input variables
 phpAds_registerGlobal ('priority_only');
 
@@ -49,10 +48,14 @@ phpAds_LoadDbConfig();
 phpAds_userlogSetUser (phpAds_userMaintenance);
 
 // Check if we only need to recalculate priorities
-$priority_only = !empty($priority_only);
-
-if (!$priority_only)
+if ($phpAds_config['lb_enabled'])
+	$maintenance_type = PHPADS_MAINT_TYPE_CLEARCACHE;
+elseif (!empty($priority_only))
+	$maintenance_type = PHPADS_MAINT_TYPE_PRIORITY;
+else
 {
+	$maintenance_type = PHPADS_MAINT_TYPE_REGULAR;
+
 	// Sometimes cron jobs could start before the exact minute they were set,
 	// especially if many are scheduled at the same time (e.g. midnight)
 	//
@@ -61,16 +64,12 @@ if (!$priority_only)
 	
 	if (date('i') == 59 && date('s') >= 45)
 		sleep(60 - date('s'));
-	
-	// Run distributed stats maintenance
-	if ($phpAds_config['lb_enabled'])
-		include (phpAds_path."/maintenance/maintenance-distributed.php");
 }
 
 // Finally run maintenance
-if (phpAds_performMaintenance($priority_only))
+if (phpAds_performMaintenance($maintenance_type))
 {
-	if (!$priority_only)
+	if ($maintenance_type == PHPADS_MAINT_TYPE_REGULAR)
 	{
 		// Update the timestamp
 		$res = phpAds_dbQuery ("

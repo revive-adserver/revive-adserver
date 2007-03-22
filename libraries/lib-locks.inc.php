@@ -46,7 +46,7 @@ function phpAds_maintenanceReleaseLock($lock)
 	switch ($lock['type'])
 	{
 		case 'db':
-			phpAds_dbQuery("DO RELEASE('{$lock['id']}')");
+			phpAds_dbQuery("DO RELEASE_LOCK('{$lock['id']}')");
 			break;
 	}
 }

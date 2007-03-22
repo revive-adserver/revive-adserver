@@ -37,6 +37,7 @@ $phpAds_config['tbl_images'] = 'phpads_images';
 $phpAds_config['tbl_userlog'] = 'phpads_userlog';
 $phpAds_config['tbl_cache'] = 'phpads_cache';
 $phpAds_config['tbl_targetstats'] = 'phpads_targetstats';
+$phpAds_config['tbl_lb_local'] = 'phpads_lb_local';
 
 // Database table name prefix
 $phpAds_config['table_prefix'] = 'phpads_';

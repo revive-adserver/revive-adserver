@@ -269,8 +269,8 @@ function phpAds_dbDistributedMode()
 		}
 		
 		// Make sure that verbose stats are enabled
-		$phpAds_config['lb_backup']['compact_stats'] = $phpAds_config['compact_stats'];
-		$phpAds_config['compact_stats'] = false;
+		//$phpAds_config['lb_backup']['compact_stats'] = $phpAds_config['compact_stats'];
+		//$phpAds_config['compact_stats'] = false;
 	}
 	
 	// Make sure we use the correct database

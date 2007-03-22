@@ -19,6 +19,7 @@ $GLOBALS['strDeliveryEngine']				= "Delivery Engine";
 $GLOBALS['strMaintenance']					= "Maintenance";
 $GLOBALS['strAdministrator']				= "Administrator";
 $GLOBALS['strAutoMaintenance']				= "Automatic maintenance";
+$GLOBALS['strDistributedMaintenance']		= "Distributed maintenance";
 
 
 $GLOBALS['strUserlog'] = array (
@@ -33,7 +34,7 @@ $GLOBALS['strUserlog'] = array (
 	phpAds_actionAutoClean					=> "Auto clean of database",
 	phpAds_actionGeotargeting				=> "Geotargeting configuration update",
 	phpAds_actionOpenadsSync				=> "Openads Sync",
-	phpAds_actionDistributedStats			=> "Distributed stats"
+	phpAds_actionDistributedStats			=> "Imported distributed stats"
 );
 
 ?>

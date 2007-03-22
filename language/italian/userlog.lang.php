@@ -21,6 +21,7 @@ $GLOBALS['strDeliveryEngine']				= "Motore di consenga";
 $GLOBALS['strMaintenance']					= "Manutenzione";
 $GLOBALS['strAdministrator']				= "Amministratore";
 $GLOBALS['strAutoMaintenance']				= "Manutenzione automatica";
+$GLOBALS['strDistributedMaintenance']		= "Manutenzione distribuita";
 
 
 $GLOBALS['strUserlog'] = array (
@@ -35,7 +36,7 @@ $GLOBALS['strUserlog'] = array (
 	phpAds_actionAutoClean					=> "Pulizia automatica del database",
 	phpAds_actionGeotargeting				=> "Aggiornamento configurazione geotargeting",
 	phpAds_actionOpenadsSync				=> "Openads Sync",
-	phpAds_actionDistributedStats			=> "Statistiche distribuite"
+	phpAds_actionDistributedStats			=> "Importazione statistiche distribuite"
 );
 
 ?>

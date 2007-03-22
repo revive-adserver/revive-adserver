@@ -28,6 +28,7 @@ if (!defined('LIBWARNING_INCLUDED'))
 	require (phpAds_path."/libraries/lib-warnings.inc.php"); 
 
 
+
 /*********************************************************/
 /* Mail clients and check for activation  				 */
 /* and expiration dates					 				 */
@@ -46,7 +47,7 @@ $res_clients = phpAds_dbQuery("
 	WHERE
 		parent = 0
 	
-	") or die($GLOBALS['strLogErrorClients']);
+	") or die($GLOBALS['strLogErrorClients'].' '.phpAds_dbError());
 
 while($client = phpAds_dbFetchArray($res_clients))
 {
@@ -69,49 +70,64 @@ while($client = phpAds_dbFetchArray($res_clients))
 			UNIX_TIMESTAMP(expire) as expire_st,
 			activate,
 			UNIX_TIMESTAMP(activate) as activate_st,
-			active
+			active,
+			lb_reporting
 		FROM
 			".$phpAds_config['tbl_clients']."
 		WHERE
 			parent = ".$client['clientid']."
-		") or die($GLOBALS['strLogErrorClients']);
+		") or die($GLOBALS['strLogErrorClients'].' '.phpAds_dbError());
 	
 	
 	while($campaign = phpAds_dbFetchArray($res_campaigns))
 	{
-		$active = "t";
-		
-		if ($campaign["clicks"] == 0 || $campaign["views"] == 0)
-			$active = "f";
-		
-		if (time() < $campaign["activate_st"])
-			$active = "f";
-		
-		if (time() > $campaign["expire_st"] && $campaign["expire_st"] != 0)
-			$active = "f";
-		
-		if ($campaign["active"] != $active)
+		if ($phpAds_config['maintenance_timestamp'] < phpAds_LastMidnight)
 		{
-			if ($active == "t")
-				phpAds_userlogAdd (phpAds_actionActiveCampaign, $campaign['clientid']);
-			else
+			$active = "t";
+			
+			if ($campaign["clicks"] == 0 || $campaign["views"] == 0)
+				$active = "f";
+			
+			if (time() < $campaign["activate_st"])
+				$active = "f";
+			
+			if (time() > $campaign["expire_st"] && $campaign["expire_st"] != 0)
+				$active = "f";
+			
+			if ($campaign["active"] != $active)
 			{
-				phpAds_userlogAdd (phpAds_actionDeactiveCampaign, $campaign['clientid']);
-				phpAds_deactivateMail ($campaign);
+				if ($active == "t")
+					phpAds_userlogAdd (phpAds_actionActiveCampaign, $campaign['clientid']);
+				else
+				{
+					phpAds_userlogAdd (phpAds_actionDeactiveCampaign, $campaign['clientid']);
+					phpAds_deactivateMail ($campaign);
+				}
+				
+				phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET active='$active' WHERE clientid=".$campaign['clientid']);
 			}
 			
-			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET active='$active' WHERE clientid=".$campaign['clientid']);
+			if ($active == "t" && ($phpAds_config['warn_admin'] || $phpAds_config['warn_client']))
+			{
+				$days_left = round(($campaign["expire_st"] - phpAds_LastMidnight) / (60*60*24));
+				
+				if ($days_left == $phpAds_config['warn_limit_days'])
+					phpAds_warningMail ($campaign, $campaign["expire_st"]);
+			}
 		}
 		
-		if ($active == "t" && ($phpAds_config['warn_admin'] || $phpAds_config['warn_client']))
+		// Deal with reporting when in a load balanced environment
+		if ($campaign['lb_reporting'] == 't')
 		{
-			$days_left = round(($campaign["expire_st"] - phpAds_LastMidnight) / (60*60*24));
-			
-			if ($days_left == $phpAds_config['warn_limit_days'])
-				phpAds_warningMail ($campaign, $campaign["expire_st"]);
+			if (!$campaign['views'] || !$campaign['clicks'])
+				phpAds_deactivateMail($campaign);
+			elseif ($campaign['views'] > 0)
+				phpAds_warningMail ($campaign);
+
+			phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET lb_reporting = 'f'
+				WHERE clientid = '".$campaign['clientid']."'");
 		}
 	}
 }
-
 
 ?>

@@ -14,31 +14,49 @@
 
 
 
-// Prevent full path disclosure
-if (!defined('phpAds_path')) die();
+// Figure out our location
+if (strlen(__FILE__) > strlen(basename(__FILE__)))
+    define ('phpAds_path', ereg_replace("[/\\\\]maintenance[/\\\\][^/\\\\]+$", '', __FILE__));
+else
+    define ('phpAds_path', '..');
 
 
+
+// Include required files
+require (phpAds_path."/config.inc.php");
+
+// Exit if load balancing is not enabled
+if (!$phpAds_config['lb_enabled'])
+	die();
+
+// Include required files
+require (phpAds_path."/libraries/lib-io.inc.php");
+require (phpAds_path."/libraries/lib-db.inc.php");
+require (phpAds_path."/libraries/lib-dbconfig.inc.php");
+require (phpAds_path."/libraries/lib-cache.inc.php");
+
+if (!defined('LIBUSERLOG_INCLUDED'))
+	require (phpAds_path."/libraries/lib-userlog.inc.php");
 
 // Include required files
 if (!defined('LIBLOCKS_INCLUDED'))
 	require (phpAds_path.'/libraries/lib-locks.inc.php');
 
+require (phpAds_path."/libraries/lib-log.inc.php");
+require (phpAds_path."/maintenance/lib-maintenance.inc.php");
 
-
-// Switch database
-phpAds_dbDistributedMode();
 
 // Acquire lock
 if ($dlock = phpAds_maintenanceGetLock(phpAds_lockDistributed))
 {
+	phpAds_userlogSetUser(phpAds_userDistributedMaintenance);
+
 	// Check when the last run was
 	$t_stamp_start = phpAds_dbResult(phpAds_dbQuery("
 		SELECT
-			maintenance_cron_timestamp
+			last_run
 		FROM
-			".$phpAds_config['tbl_config']."
-		WHERE
-			configid = 0
+			".$phpAds_config['tbl_lb_local']."
 		"), 0, 0);
 	
 	if (empty($t_stamp_start))
@@ -46,14 +64,15 @@ if ($dlock = phpAds_maintenanceGetLock(phpAds_lockDistributed))
 		// Distributed maintenance hasn't run
 		$t_stamp_start = mktime(0, 0, 0, 1, 1, 2000);
 		
-		// Make suire that the config row exists
-		phpAds_dbQuery("INSERT INTO ".$phpAds_config['tbl_config']." (configid) VALUES (0)");
+		// Make suire that the local config row exists
+		phpAds_dbQuery("INSERT INTO ".$phpAds_config['tbl_lb_local']." (last_run) VALUES (0)");
 	}
 	
 	// Only fetch rows inserted until the last second
 	$t_stamp_end = time() - 1;
 	
-	$compact_stats = $phpAds_config['lb_backup']['compact_stats'];
+	// Force replicating to compact stats
+	$compact_stats = true;
 	
 	$stats = array();	
 	$count = array();
@@ -143,7 +162,7 @@ if ($dlock = phpAds_maintenanceGetLock(phpAds_lockDistributed))
 		}
 		
 		// Switch databases
-		phpAds_dbNormalMode();
+		phpAds_dbDistributedMode();
 		
 		// Reconnect
 		phpAds_dbConnect();
@@ -322,29 +341,28 @@ if ($dlock = phpAds_maintenanceGetLock(phpAds_lockDistributed))
 		}
 	}
 	
-	$report .= "Server name: ".(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'Unknown')."\n\n";
-	$report .= "Imported views:  {$imported_views}\n";
-	$report .= "Imported clicks: {$imported_clicks}\n";
-
-	phpAds_userlogAdd (phpAds_actionDistributedStats, 0, $report);
+	if ($imported_views || $imported_clicks)
+	{
+		$report .= "Server name: ".(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'Unknown')."\n\n";
+		$report .= "Imported views:  {$imported_views}\n";
+		$report .= "Imported clicks: {$imported_clicks}\n";
 	
+		phpAds_userlogAdd(phpAds_actionDistributedStats, 0, $report);
+	}	
 	
 	// Switch databases
-	phpAds_dbDistributedMode();
+	phpAds_dbNormalMode();
 	
 	// Update the timestamp
 	phpAds_dbQuery ("
 		UPDATE
-			".$phpAds_config['tbl_config']."
+			".$phpAds_config['tbl_lb_local']."
 		SET
-			maintenance_cron_timestamp = '".$t_stamp_end."'
+			last_run = '".$t_stamp_end."'
 	");
 	
 	// Release lock
 	phpAds_maintenanceReleaseLock($dlock);
 }
-
-// Switch databases
-phpAds_dbNormalMode();
 
 ?>

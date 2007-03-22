@@ -344,6 +344,7 @@ if (phpAds_isUser(phpAds_Admin))
 				$phpAds_config['tbl_userlog'] 	 = $installvars['tbl_userlog'] 	  = $table_prefix.'userlog';
 				$phpAds_config['tbl_cache'] 	 = $installvars['tbl_cache'] 	  = $table_prefix.'cache';
 				$phpAds_config['tbl_targetstats'] = $installvars['tbl_targetstats'] = $table_prefix.'targetstats';
+				$phpAds_config['tbl_lb_local']   = $installvars['tbl_lb_local']   = $table_prefix.'lb_local';
 				
 				if (phpAds_checkDatabaseExists())
 				{
@@ -388,6 +389,7 @@ if (phpAds_isUser(phpAds_Admin))
 								phpAds_SettingsWriteAdd('tbl_userlog', $installvars['tbl_userlog']);
 								phpAds_SettingsWriteAdd('tbl_cache', $installvars['tbl_cache']);
 								phpAds_SettingsWriteAdd('tbl_targetstats', $installvars['tbl_targetstats']);
+								phpAds_SettingsWriteAdd('tbl_lb_local', $installvars['tbl_lb_local']);
 								
 								phpAds_SettingsWriteAdd('admin_fullname', $installvars['admin_fullname']);
 								phpAds_SettingsWriteAdd('company_name', $installvars['company_name']);

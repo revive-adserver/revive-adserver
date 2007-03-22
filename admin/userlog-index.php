@@ -106,6 +106,8 @@ while ($row = phpAds_dbFetchArray($res))
 		case phpAds_userMaintenance:		echo "<img src='images/icon-time.gif' align='absmiddle'>&nbsp;".$strMaintenance; break;
 		case phpAds_userAdministrator:		echo "<img src='images/icon-client.gif' align='absmiddle'>&nbsp;".$strAdministrator; break;
 		case phpAds_userAutoMaintenance:	echo "<img src='images/warning.gif' align='absmiddle'>&nbsp;".$strAutoMaintenance; break;
+		case phpAds_userDistributedMaintenance:
+											echo "<img src='images/icon-time.gif' align='absmiddle'>&nbsp;".$strDistributedMaintenance; break;
 	}
 	echo "</td>";
 	

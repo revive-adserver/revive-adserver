@@ -37,10 +37,9 @@ function phpAds_logExpire ($clientid, $type = 0, $number = 1, $force_run = false
 		"SELECT *, UNIX_TIMESTAMP(expire) AS expire_st, UNIX_TIMESTAMP(activate) AS activate_st FROM ".
 		$phpAds_config['tbl_clients']." WHERE clientid = '".$clientid."'");
 	
-	
 	if ($campaign = phpAds_dbFetchArray ($campaignresult))
 	{
-		$views_before	= $views_after	=$campaign['views'];
+		$views_before	= $views_after	= $campaign['views'];
 		$clicks_before	= $clicks_after	= $campaign['clicks'];
 
 		// Decrement views
@@ -56,22 +55,27 @@ function phpAds_logExpire ($clientid, $type = 0, $number = 1, $force_run = false
 				$views_after <= $phpAds_config['warn_limit'] &&
 			   ($phpAds_config['warn_admin'] || $phpAds_config['warn_client']))
 			{
-				// Include warning library
-				if (!defined('LIBWARNING_INCLUDED'))
-					require (phpAds_path.'/libraries/lib-warnings.inc.php');
-				
-				if (!defined('LIBMAIL_INCLUDED'))
-					require (phpAds_path.'/libraries/lib-mail.inc.php');
-				
-				if (!defined('LIBUSERLOG_INCLUDED'))
-					require (phpAds_path.'/libraries/lib-userlog.inc.php');
-				
 				if ($phpAds_config['lb_enabled'])
-					phpAds_userlogSetUser (phpAds_userMaintenance);
+				{
+					phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET lb_reporting = 't'
+						WHERE clientid = '".$clientid."'");
+				}
 				else
+				{
+					// Include warning library
+					if (!defined('LIBWARNING_INCLUDED'))
+						require (phpAds_path.'/libraries/lib-warnings.inc.php');
+					
+					if (!defined('LIBMAIL_INCLUDED'))
+						require (phpAds_path.'/libraries/lib-mail.inc.php');
+					
+					if (!defined('LIBUSERLOG_INCLUDED'))
+						require (phpAds_path.'/libraries/lib-userlog.inc.php');
+					
 					phpAds_userlogSetUser (phpAds_userDeliveryEngine);
-				
-				phpAds_warningMail ($campaign);
+					
+					phpAds_warningMail ($campaign);
+				}
 			}
 		}
 		
@@ -91,7 +95,9 @@ function phpAds_logExpire ($clientid, $type = 0, $number = 1, $force_run = false
 		$active = "t";
 		
 		if (($clicks_before > 0 && $clicks_after <= 0) ||
+			($clicks_before == 0) ||
 			($views_before > 0 && $views_after <= 0) ||
+			($views_before == 0) ||
 			(time() < $campaign["activate_st"]) || 
 			(time() > $campaign["expire_st"] && $campaign["expire_st"] != 0))
 			$active = "f";
@@ -102,9 +108,7 @@ function phpAds_logExpire ($clientid, $type = 0, $number = 1, $force_run = false
 				require (phpAds_path.'/libraries/lib-userlog.inc.php');
 			
 			// Log deactivation
-			if ($phpAds_config['lb_enabled'])
-				phpAds_userlogSetUser (phpAds_userMaintenance);
-			else
+			if (!$phpAds_config['lb_enabled'])
 				phpAds_userlogSetUser (phpAds_userDeliveryEngine);
 			
 			phpAds_userlogAdd (phpAds_actionDeactiveCampaign, $campaign['clientid']);
@@ -115,7 +119,12 @@ function phpAds_logExpire ($clientid, $type = 0, $number = 1, $force_run = false
 			// Send deactivation warning 
 			if ($active == 'f')
 			{
-				if (!$phpAds_config['lb_enabled'])
+				if ($phpAds_config['lb_enabled'])
+				{
+					phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_clients']." SET lb_reporting = 't'
+						WHERE clientid = '".$clientid."'");
+				}
+				else
 				{
 					// Rebuild priorities
 					if (!defined('LIBPRIORITY_INCLUDED'))  
@@ -129,16 +138,16 @@ function phpAds_logExpire ($clientid, $type = 0, $number = 1, $force_run = false
 						include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
 					
 					phpAds_cacheDelete();
+					
+					// Include warning library
+					if (!defined('LIBWARNING_INCLUDED'))
+						require (phpAds_path.'/libraries/lib-warnings.inc.php');
+					
+					if (!defined('LIBMAIL_INCLUDED'))
+						require (phpAds_path.'/libraries/lib-mail.inc.php');
+					
+					phpAds_deactivateMail ($campaign);
 				}
-				
-				// Include warning library
-				if (!defined('LIBWARNING_INCLUDED'))
-					require (phpAds_path.'/libraries/lib-warnings.inc.php');
-				
-				if (!defined('LIBMAIL_INCLUDED'))
-					require (phpAds_path.'/libraries/lib-mail.inc.php');
-				
-				phpAds_deactivateMail ($campaign);
 			}
 		}
 	}
@@ -190,10 +199,8 @@ function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
 	{
 		$log_source = $phpAds_config['log_source'] ? $source : '';
 		
-		// Switch databases if needed
-		phpAds_dbDistributedMode();
-
-		if ($phpAds_config['compact_stats'])
+		// Make sure that when using load balancing, stats are logged as verbose
+		if ($phpAds_config['compact_stats'] && !$phpAds_config['lb_enabled'])
 	    {
 			// LOW PRIORITY UPDATEs are disabled until further notice - Matteo
 	        $result = phpAds_dbQuery(
@@ -234,9 +241,6 @@ function phpAds_logImpression ($bannerid, $clientid, $zoneid, $source)
 				country = '".$log_country."' ");
 		}
 		
-		// Switch databases if needed
-		phpAds_dbNormalMode();
-		
 		phpAds_logExpire ($clientid, phpAds_Views);
 	}
 }
@@ -256,10 +260,8 @@ function phpAds_logClick($bannerid, $clientid, $zoneid, $source)
 	{
 		$log_source = $phpAds_config['log_source'] ? $source : '';
 		
-		// Switch databases if needed
-		phpAds_dbDistributedMode();
-		
-   		if ($phpAds_config['compact_stats'])
+		// Make sure that when using load balancing, stats are logged as verbose
+   		if ($phpAds_config['compact_stats'] && !$phpAds_config['lb_enabled'])
 	    {
 			// LOW PRIORITY UPDATEs are disabled until further notice - Matteo
     	    $result = phpAds_dbQuery(
@@ -298,9 +300,6 @@ function phpAds_logClick($bannerid, $clientid, $zoneid, $source)
 				$phpAds_config['tbl_adclicks']." SET bannerid = '".$bannerid."', zoneid = '".$zoneid."',
 				host = '".$log_host."', source = '".$log_source."', country = '".$log_country."' ");
 		}
-		
-		// Switch databases if needed
-		phpAds_dbNormalMode();
 		
 		phpAds_logExpire ($clientid, phpAds_Clicks);
 	}

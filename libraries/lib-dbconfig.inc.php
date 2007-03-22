@@ -18,8 +18,8 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.321;
-$phpAds_version_readable = "2.0.12-rc7";
+$phpAds_version = 200.327;
+$phpAds_version_readable = "2.0.12-beta2";
 $phpAds_version_development = false;
 
 $phpAds_productname = "Openads";
@@ -46,6 +46,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'tbl_userlog' =>				array ('type' => 'string', 	'sql' => false),
 	'tbl_cache' =>					array ('type' => 'string', 	'sql' => false),
 	'tbl_targetstats' => 			array ('type' => 'string', 	'sql' => false),
+	'tbl_lb_local' =>	 			array ('type' => 'string', 	'sql' => false),
 	'tbl_config' => 				array ('type' => 'string', 	'sql' => false),
 	'table_prefix' =>				array ('type' => 'string', 	'sql' => false),
 	'table_type' =>					array ('type' => 'string', 	'sql' => false),

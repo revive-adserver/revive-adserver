@@ -23,8 +23,14 @@ if (!defined('phpAds_path')) die();
 if (!defined('phpAds_LastMidnight'))
 	define('phpAds_LastMidnight', mktime(0, 0, 0, date('m'), date('d'), date('Y')));
 
+// Set up constants
+define('PHPADS_MAINT_TYPE_REGULAR',		0);
+define('PHPADS_MAINT_TYPE_PRIORITY',	1);
+define('PHPADS_MAINT_TYPE_CLEARCACHE',	2);
 
-function phpAds_performMaintenance($priority_only = false)
+
+
+function phpAds_performMaintenance($maintenance_type = PHPADS_MAINT_TYPE_REGULAR)
 {
 	global $phpAds_config;
 	
@@ -55,7 +61,7 @@ function phpAds_performMaintenance($priority_only = false)
 		if ($phpAds_config['language'] != 'english' && file_exists(phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php'))
 			@include (phpAds_path.'/language/'.$phpAds_config['language'].'/default.lang.php');
 		
-		if (!$priority_only)
+		if ($maintenance_type == PHPADS_MAINT_TYPE_REGULAR)
 		{			
 			// Update the timestamp
 			$res = phpAds_dbQuery ("
@@ -69,21 +75,25 @@ function phpAds_performMaintenance($priority_only = false)
 			if ($phpAds_config['maintenance_timestamp'] < phpAds_LastMidnight)
 			{
 				include (phpAds_path."/maintenance/maintenance-reports.php");
-				include (phpAds_path."/maintenance/maintenance-activation.php");
 				include (phpAds_path."/maintenance/maintenance-autotargeting.php");
 				include (phpAds_path."/maintenance/maintenance-geotargeting.php");
 				include (phpAds_path."/maintenance/maintenance-cleantables.php");
 				include (phpAds_path."/maintenance/maintenance-openadssync.php");
 			}
+			
+			// Always run activation, it will run lb-only tasks if midnight maintenance has already run
+			include (phpAds_path."/maintenance/maintenance-activation.php");
 		}		
 		
 		// Release maintenance lock
 		phpAds_maintenanceReleaseLock($lock);
 		
-		include (phpAds_path."/maintenance/maintenance-priority.php");
+		// Run priority only when needed
+		if ($maintenance_type != PHPADS_MAINT_TYPE_CLEARCACHE)
+			include (phpAds_path."/maintenance/maintenance-priority.php");
 		
 		// Acquire priority lock, waiting for the task completion
-		if ($dclock = phpAds_maintenanceGetLock(phpAds_lockPriority, phpAds_lockTimeDeliveryCache))
+		if (true) // $dclock = phpAds_maintenanceGetLock(phpAds_lockPriority, phpAds_lockTimeDeliveryCache))
 		{
 			// Rebuild cache
 			if (!defined('LIBVIEWCACHE_INCLUDED')) 
@@ -96,7 +106,7 @@ function phpAds_performMaintenance($priority_only = false)
 			sleep(1);
 			
 			// Release lock
-			phpAds_maintenanceReleaseLock($dclock);
+			//phpAds_maintenanceReleaseLock($dclock);
 		}
 		
 		return true;
