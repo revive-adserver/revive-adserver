@@ -22,13 +22,13 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 /**
- * Openads Schema Management Utility
- *
- * @author Monique Szpak <monique.szpak@openads.org>
- *
- * $Id$
- *
- */
+* Openads Schema Management Utility
+*
+* @author Monique Szpak <monique.szpak@openads.org>
+*
+* $Id$
+*
+*/
 
 function getLastChangeset()
 {
@@ -62,7 +62,30 @@ if (array_key_exists('select_changesets', $_POST))
 }
 else if (array_key_exists('xajax', $_POST))
 {
-   $file = $_COOKIE['changesetFile'];
+    $file = $_COOKIE['changesetFile'];
+}
+else if (array_key_exists('btn_migration_create', $_POST))
+{
+    $schemaFile = $_COOKIE['schemaFile'];
+    if (!$schemaFile)
+    {
+        $schemaFile = MAX_PATH.'/etc/tables_core.xml';
+    }
+    $changesFile = $_COOKIE['changesetFile'];
+    if (!$changesFile)
+    {
+        $changesFile = MAX_PATH.'/var/changes_tables_core.xml';
+    }
+
+    require_once 'oaSchema.php';
+    $oaSchema = & new Openads_Schema_Manager($schemaFile);
+
+    if (($aErrs = $oaSchema->checkPermissions()) !== true) {
+        die(join("<br />\n", $aErrs));
+    }
+
+    $oaSchema->writeMigrationClass($changesFile);
+    $file = $schemaFile;
 }
 else {
     $file = getLastChangeset();
@@ -83,7 +106,7 @@ if ($file && file_exists($file))
 }
 else
 {
-//    echo 'Error reading file: '.MAX_CHG.$file;
+    //    echo 'Error reading file: '.MAX_CHG.$file;
     header('Location: index.php');
     exit;
 

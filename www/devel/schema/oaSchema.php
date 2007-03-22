@@ -82,6 +82,8 @@ class Openads_Schema_Manager
 
     var $file_perms;
 
+    var $dbo_name = 'openads_dbo';
+
     /**
      * php5 class constructor
      *
@@ -94,7 +96,8 @@ class Openads_Schema_Manager
         $this->path_changes_final = MAX_PATH.'/etc/changes/';
         $this->path_changes_trans = MAX_PATH.'/var/';
 
-        $this->path_links_final = MAX_PATH.'/lib/max/Dal/DataObjects/';
+        //$this->path_links_final = MAX_PATH.'/lib/max/Dal/DataObjects/';
+        $this->path_links_final = MAX_PATH.'/etc/';
         $this->path_links_trans = MAX_PATH.'/var/';
 
         $file_changes   = 'changes_'.$file_schema;
@@ -192,43 +195,6 @@ class Openads_Schema_Manager
     }
 
     /**
-     * temporary method to help understand the differences
-     * between the changes array after compare and
-     * the changes array after parsing
-     *
-     * the differences should be resolved sometime and this method removed :)
-     *
-     * @param string $output
-     * @return unknown
-     */
-    function testChangeset($output='')
-    {
-        if (file_exists($this->schema_trans) && file_exists($this->schema_final))
-        {
-            $prev_definition = $this->schema->parseDatabaseDefinitionFile($this->schema_final);
-            $curr_definition = $this->schema->parseDatabaseDefinitionFile($this->schema_trans);
-            $changes         = $this->schema->compareDefinitions($curr_definition, $prev_definition);
-            $this->dump_options['output'] = ($output ? $output : $this->changes_trans);
-            $this->dump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
-            $changes['version']               = $curr_definition['version'];
-            $changes['name']                  = $curr_definition['name'];
-            $changes['comments']              = '';
-            $result = $this->schema->dumpChangeset($changes, $this->dump_options, true);
-            $changesX        = $this->schema->parseChangesetDefinitionFile($this->changes_trans);
-            echo '<div>';
-            var_dump($changes);
-            echo '</div>';
-            echo '<div>';
-            var_dump($changesX);
-            echo '</div>';
-            if (!Pear::iserror($result))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    /**
      * use mdb2_schema to compare 2 definition files
      * write the changeset array in xmlformat
      *
@@ -302,20 +268,43 @@ class Openads_Schema_Manager
 
             $this->parseWorkingDefinitionFile();
 
-            $this->dump_options['custom_tags']['status']='final';
+            $db_definition = $this->db_definition;
+            $db_definition['name'] = $this->dbo_name;
+            $result = $this->_createDatabase($this->dbo_name);
 
-            $this->changes_final = $this->path_changes_final.'schema_'.$this->version.'.xml';
-            $result = $this->createChangeset($this->changes_final, $comments);
+            if (PEAR::isError($result))
+            {
+                $result = false;
+                return $result->raiseError(MDB2_SCHEMA_ERROR, null, null,
+                'error creating the openads_dbo database');
+            }
+            else
+            {
+                $this->_generateDataObjects();
+            }
             if ($result)
             {
-                $result = $this->writeWorkingDefinitionFile($this->schema_final);
-            }
-            if ($result && $this->use_links)
-            {
-                $result = (!empty($this->links_trans) && file_exists($this->links_trans));
+                $this->dump_options['custom_tags']['status']='final';
+
+                $this->changes_final = $this->path_changes_final.'schema_'.$this->version.'.xml';
+                $result = $this->createChangeset($this->changes_final, $comments);
                 if ($result)
                 {
-                    copy($this->links_trans, $this->links_final);
+                    $result = $this->writeMigrationClass($this->changes_final);
+                    if ($result)
+                    {
+                        copy($this->path_changes_trans.$result, $this->path_changes_final.$result);
+                        unlink($this->path_changes_trans.$result);
+                        $result = $this->writeWorkingDefinitionFile($this->schema_final);
+                    }
+                }
+                if ($result && $this->use_links)
+                {
+                    $result = (!empty($this->links_trans) && file_exists($this->links_trans));
+                    if ($result)
+                    {
+                        copy($this->links_trans, $this->links_final);
+                    }
                 }
             }
         }
@@ -824,8 +813,8 @@ class Openads_Schema_Manager
     {
         $dsn['phptype']     = $GLOBALS['_MAX']['CONF']['database']['type'];
         $dsn['hostspec']    = $GLOBALS['_MAX']['CONF']['database']['host'];
-        $dsn['username']    = '';
-        $dsn['password']    = '';
+        $dsn['username']    = $GLOBALS['_MAX']['CONF']['database']['username'];
+        $dsn['password']    = $GLOBALS['_MAX']['CONF']['database']['password'];
         $dsn['database']    = '';
         return MDB2_Schema::factory(Openads_Dal::singleton($dsn), $options);
     }
@@ -1102,6 +1091,225 @@ class Openads_Schema_Manager
 
         return true;
     }
+
+    /**
+     * build and write a data migration class
+     * based on the given changeset
+     *
+     * @param string $file_changes
+     */
+    function writeMigrationClass($file_changes)
+    {
+        $method_buffer      = '';
+        $task_buffer        = '';
+
+        //$this->testChangeset();
+        $changes = $this->schema->parseChangesetDefinitionFile($file_changes);
+
+        foreach ($changes['events']['tables'] AS $table => $table_events)
+        {
+            $params = "'{$table}'";
+            foreach ($table_events['self'] AS $parent => $method)
+            {
+                $task_buffer.= $this->_buildTask($method);
+                $method_buffer.= $this->_buildMethod($method, $parent, $params);
+            }
+
+            foreach ($table_events['fields'] AS $field => $field_events)
+            {
+                foreach ($field_events AS $parent => $method)
+                {
+                    $params = "'{$table}', '{$field}'";
+                    $task_buffer.= $this->_buildTask($method);
+                    $method_buffer.= $this->_buildMethod($method, $parent, $params);
+                }
+            }
+            foreach ($table_events['indexes'] AS $index => $index_events)
+            {
+                foreach ($index_events AS $parent => $method)
+                {
+                    $params = "'{$table}', '{$index}'";
+                    $task_buffer.= $this->_buildTask($method);
+                    $method_buffer.= $this->_buildMethod($method, $parent, $params);
+                }
+            }
+        }
+
+        $buffer = file_get_contents(MAX_PATH."/www/devel/schema/tpl/class_migration.tpl");
+        $buffer = str_replace('/*version*/', $changes['version'], $buffer);
+        $buffer = str_replace('/*methods*/', $method_buffer, $buffer);
+        $buffer = str_replace('/*tasklist*/', $task_buffer, $buffer);
+
+        $file = MAX_PATH."/var/migration_{$changes['version']}.php";
+        $file = "migration_{$changes['version']}.php";
+        $fp = fopen($this->path_changes_trans.$file, 'w');
+        if ($fp === false)
+        {
+            return PEAR::raiseError(MDB2_SCHEMA_ERROR_WRITER, null, null,
+                'it was not possible to open the migration output file: '.$this->path_changes_trans.$file);
+        }
+
+        fwrite($fp, $buffer);
+        fclose($fp);
+
+        if (file_exists($this->path_changes_trans.$file))
+        {
+            return $file;
+        }
+        return false;
+    }
+
+    /**
+     * return code that will add a task to the migration class tasklist
+     *
+     * @param string $method
+     * @return string
+     */
+    function _buildTask($method)
+    {
+        return "\n\t\t\$this->taskList[] = '{$method}';";
+    }
+
+    /**
+     * return code that will define a migration class method
+     *
+     * @param string $method_name
+     * @param string $parent_name
+     * @param string $params
+     * @return string
+     */
+    function _buildMethod($method_name, $parent_name, $params)
+    {
+
+        return   "\n\n\tfunction {$method_name}()"
+                ."\n\t{"
+                ."\n\t\t\$this->{$parent_name}({$params});"
+                ."\n\t}";
+    }
+
+    /**
+     * temporary method to help understand the differences
+     * between the changes array after compare and
+     * the changes array after parsing
+     *
+     * the differences should be resolved sometime and this method removed :)
+     *
+     * @param string $output
+     * @return unknown
+     */
+    function testChangeset($output='')
+    {
+        if (file_exists($this->schema_trans) && file_exists($this->schema_final))
+        {
+            $prev_definition                = $this->schema->parseDatabaseDefinitionFile($this->schema_final);
+            $curr_definition                = $this->schema->parseDatabaseDefinitionFile($this->schema_trans);
+            $changes                        = $this->schema->compareDefinitions($curr_definition, $prev_definition);
+            $this->dump_options['output']   = ($output ? $output : $this->changes_trans);
+            $this->dump_options['xsl_file'] = "xsl/mdb2_changeset.xsl";
+            $changes['version']             = $curr_definition['version'];
+            $changes['name']                = $curr_definition['name'];
+            $changes['comments']            = '';
+            $result                         = $this->schema->dumpChangeset($changes, $this->dump_options, true);
+            $changesX                       = $this->schema->parseChangesetDefinitionFile($this->changes_trans);
+            $changes1                       = $changesX['constructive'];
+            $changes2                       = $changesX['destructive'];
+//            echo '<div><pre>';
+//            foreach ($changesX['test'] as $k=>$v)
+//            {
+//                echo "case '{$v}': ";
+//            	echo "\n\tbreak;\n";
+//            }
+//            //var_dump($changesX['test']);
+//            echo '</pre></div>';
+
+            echo '<div><pre>';
+            var_dump($changes);
+            echo '</pre></div>';
+            echo '<div><pre>';
+            var_dump($changes1);
+            echo '</pre></div>';
+            if (!Pear::iserror($result))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function _generateDataObjects()
+    {
+        //  init DB_DataObject
+        $path_dbo =  $this->path_changes_final.'DataObjects_'.$this->version;
+
+        if (!dir($path_dbo))
+        {
+            mkdir($path_dbo);
+            if (!dir($path_dbo))
+            {
+                die("Error: could not create the databojects directory {$path_dbo} \n");
+            }
+        }
+        $conf['database']['name'] = $GLOBALS['_MAX']['CONF']['database']['name'];
+        $GLOBALS['_MAX']['CONF']['database']['name'] = $this->dbo_name;
+        $options = &PEAR::getStaticProperty('DB_DataObject', 'options');
+        $options = array(
+            'database'              => Openads_Dal::getDsn(MAX_DSN_STRING), //MAX_DB::getDsn(MAX_DSN_STRING),
+            'schema_location'       => $path_dbo,
+            'class_location'        => $path_dbo,
+            'require_prefix'        => $path_dbo . '/',
+            'class_prefix'          => 'DataObjects_',
+            'debug'                 => 0,
+            'extends'               => 'DB_DataObjectCommon',
+            'extends_location'      => 'DB_DataObjectCommon.php',
+            'production'            => 0,
+            'ignore_sequence_keys'  => 'ALL',
+            'generator_strip_schema'=> 1,
+            'generator_exclude_regex' => '/(data_raw_.*|data_summary_channel_.*|data_summary_zone_.*)/'
+        );
+
+        require_once 'DB/DataObject/Generator.php';
+        // remove original dbdo keys file as it is unable to update an existing file
+        $schemaFile = $path_dbo . '/db_schema.ini';
+        if (is_file($schemaFile)) {
+            unlink($schemaFile);
+        }
+
+        $generator = new DB_DataObject_Generator();
+        $generator->start();
+
+        // rename schema ini file
+        $newSchemaFile = $path_dbo . '/' . $conf['database']['name'] . '.ini';
+        rename($newSchemaFile, $schemaFile);
+        $GLOBALS['_MAX']['CONF']['database']['name'] = $conf['database']['name'];
+    }
+
+    function _databaseExists($database_name)
+    {
+        $result = $this->schema->db->manager->listDatabases();
+        if (PEAR::isError($result)) {
+            return false;
+        }
+        return in_array(strtolower($database_name), array_map('strtolower', $result));
+    }
+
+    function _dropDatabase($database_name)
+    {
+        if ($this->_databaseExists($database_name))
+        {
+            $this->schema->db->manager->dropDatabase($database_name);
+        }
+        return (!$this->_databaseExists($database_name));
+    }
+
+    function _createDatabase($database_name)
+    {
+        if ($this->_dropDatabase($database_name))
+        {
+            return $this->schema->createDatabase($database_name);
+        }
+        return false;
+    }
+
 }
 
 ?>

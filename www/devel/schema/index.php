@@ -33,8 +33,8 @@
 require_once '../../../init.php';
 define('MAX_DEV', MAX_PATH.'/www/devel');
 
+//require_once 'error.php';
 require_once 'oaSchema.php';
-
 
 if ( array_key_exists('xml_file', $_POST) && (!empty($_POST['xml_file'])) )
 {
@@ -136,11 +136,6 @@ else if (array_key_exists('btn_index_add', $_POST))
     $index_name = $_POST['index_add'];
     $index_fields = $_POST['idx_fld_add'];
     $sort_desc = $_POST['idx_fld_desc'];
-//    foreach($index_fields AS $k => $v)
-//    {
-//        $index_fields[$k] = (array_key_exists($k, $sort_desc)?'descending':'ascending');
-//    }
-//    reset($index_fields);
     $unique = $_POST['idx_unique'];
     $primary = $_POST['idx_primary'];
     $oaSchema->indexAdd($table, $index_name, $index_fields, $primary, $unique, $sort_desc);
@@ -222,5 +217,6 @@ else
     include 'edit.html';
     exit();
 }
+
 
 ?>
