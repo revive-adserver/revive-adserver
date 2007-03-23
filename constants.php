@@ -54,7 +54,7 @@ function setupConstants()
     // Database connection constants
     define('MAX_DSN_ARRAY',                 0);
     define('MAX_DSN_STRING',                1);
-    $GLOBALS['_MAX']['CONNECTIONS'] =       array();
+    $GLOBALS['_OA']['CONNECTIONS'] =        array();
 
     // Error codes to use with MAX::raiseError()
     // Start at -100 in order not to conflict with PEAR::DB error codes
