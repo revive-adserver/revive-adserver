@@ -55,18 +55,18 @@ class Openads_Dal
      * @param string $dsn Optional database DSN details - connects to the
      *                    database defined by the configuration file otherwise.
      *                    See {@link Openads_Dal::parseDSN()} for format.
-     * @return mixed Reference to an MDB2 connection resource, or PEAR_Error
-     *               on failure to connect.
+     * @return MDB2_Driver_Common An MDB2 connection resource, or PEAR_Error
+     *                            on failure to connect.
      */
     function &singleton($dsn = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         // Get the DSN, if not set
-        $dsn = ($dsn === null) ? Openads_Dal::getDsn(MAX_DSN_STRING) : $dsn;
+        $dsn = ($dsn === null) ? Openads_Dal::getDsn() : $dsn;
         // Create an MD5 checksum of the DSN
         $dsnMd5 = md5($dsn);
         // Does this database connection already exist?
-        $aConnections = array_keys($GLOBALS['_MAX']['CONNECTIONS']);
+        $aConnections = array_keys($GLOBALS['_OA']['CONNECTIONS']);
         if (!(count($aConnections)) || !(in_array($dsnMd5, $aConnections))) {
             // Prepare options for a new database connection
             $aOptions = array();
@@ -118,49 +118,48 @@ class Openads_Dal
                 }
             }
             // Create the new database connection
-            $GLOBALS['_MAX']['CONNECTIONS'][$dsnMd5] = &MDB2::singleton($dsn, $aOptions);
+            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] = &MDB2::singleton($dsn, $aOptions);
+            // Set the fetchmode to be use used
+            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->setFetchMode(MDB2_FETCHMODE_ASSOC);
             // Load modules that are likely to be needed
-            $GLOBALS['_MAX']['CONNECTIONS'][$dsnMd5]->loadModule('Datatype');
-            $GLOBALS['_MAX']['CONNECTIONS'][$dsnMd5]->loadModule('Manager');
+            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->loadModule('Datatype');
+            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->loadModule('Manager');
         }
-        return $GLOBALS['_MAX']['CONNECTIONS'][$dsnMd5];
+        return $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5];
     }
 
     /**
      * A method to return the default DSN specified by the configuration file.
      *
      * @static
-     * @param int $type A constant that specifies the return type, that is,
-     *                  MAX_DSN_ARRAY for the DSN in array format, or
-     *                  MAX_DSN_STRING for the DSN in string format.
-     * @return mixed An array or string containing the DSN.
+     * @param array $aConf An optional array containing the database details,
+     *                     specifically containing index "database" which is
+     *                     an array containing:
+     *                      type     - Database type, matching PEAR::MDB2 driver name
+     *                      protocol - Optional communications protocol
+     *                      port     - Optional database server port
+     *                      username - Optional username
+     *                      password - Optional password
+     *                      host     - Database server hostname
+     *                      name     - Optional database name
+     *
+     * @return string An string containing the DSN.
      */
-    function getDsn($type = MAX_DSN_ARRAY, $overrideMysql = true)
+    function getDsn($aConf = null)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $dbType = $conf['database']['type'];
-        //  Return DSN as array or as string as specified
-        if ($type == MAX_DSN_ARRAY) {
-            $dsn = array(
-                'phptype'  => $dbType,
-                'username' => $conf['database']['username'],
-                'password' => $conf['database']['password'],
-                'protocol' => $conf['database']['protocol'],
-                'hostspec' => $conf['database']['host'],
-                'database' => $conf['database']['name'],
-                'port'     => $conf['database']['port'],
-            );
-        } else {
-        	$protocol = isset($conf['database']['protocol']) ? $conf['database']['protocol'] . '+' : '';
-        	$port = !empty($conf['database']['port']) ? ':' . $conf['database']['port'] : '';
-            $dsn = $dbType . '://' .
-                $conf['database']['username'] . ':' .
-                $conf['database']['password'] . '@' .
-                $protocol .
-                $conf['database']['host'] .
-                $port . '/' .
-                $conf['database']['name'];
+        if (is_null($aConf)) {
+            $aConf = $GLOBALS['_MAX']['CONF'];
         }
+        $dbType = $aConf['database']['type'];
+    	$protocol = isset($aConf['database']['protocol']) ? $aConf['database']['protocol'] . '+' : '';
+    	$port = !empty($aConf['database']['port']) ? ':' . $aConf['database']['port'] : '';
+        $dsn = $dbType . '://' .
+            $aConf['database']['username'] . ':' .
+            $aConf['database']['password'] . '@' .
+            $protocol .
+            $aConf['database']['host'] .
+            $port . '/' .
+            $aConf['database']['name'];
         return $dsn;
     }
 
