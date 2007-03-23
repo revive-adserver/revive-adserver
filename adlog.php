@@ -45,6 +45,9 @@ phpAds_registerGlobal ('bannerid', 'clientid', 'zoneid', 'source',
 /* Main code                                             */
 /*********************************************************/
 
+// make sure that gzip compression is off when request came from IE
+phpAds_disableGzipCompressionForIE();
+
 if (isset($bannerid) && isset($clientid) && isset($zoneid))
 {
 	if (!isset($source)) $source = '';

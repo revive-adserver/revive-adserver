@@ -17,7 +17,8 @@ SVN
 			  - 2007-01-31:  Fixed #63  - Resource files may trigger an Undefined index notice  (Matteo)
 			  - 2007-02-10:  Fixed #132 - Update ISO 3666-1 codes  (Matteo)
 			  - 2007-03-22:  Fixed #249 - Wrong deactivation cause displayed in campaign-edit.php  (Matteo)
-			  - 2007-03-22:  Fixed #165 - Missing phpAds_makeTimeStamp when a campaign expires  (Marek)
+			  - 2007-03-23:  Fixed #165 - Missing phpAds_makeTimeStamp when a campaign expires  (Marek)
+			  - 2007-03-23:  Fixed #170 - Enabling zlib.output_compression may break delivery scripts  (Marek)
 
 
 Openads 2.0.11

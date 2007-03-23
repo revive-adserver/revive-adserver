@@ -336,4 +336,17 @@ function phpAds_unpackCookies()
 	}
 }
 
+function phpAds_disableGzipCompressionForIE()
+{
+	// IE workaround: Turn off outputbuffering
+	// if zlib compression is turned on
+	if (strpos ($_SERVER['HTTP_USER_AGENT'], 'MSIE') > 0 && 
+		function_exists('ini_get') && (
+		ini_get ('zlib.output_compression') ||
+		ini_get ('output_handler') == 'ob_gzhandler'))
+	{
+		ini_set('zlib.output_compression', false);
+		ini_set('output_handler', '');
+	}    
+}
 ?>

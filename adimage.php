@@ -27,6 +27,8 @@ phpAds_registerGlobal ('filename', 'contenttype');
 // Open a connection to the database
 phpAds_dbConnect();
 
+// make sure that gzip compression is off when request came from IE
+phpAds_disableGzipCompressionForIE();
 
 if (isset($filename) && $filename != '')
 {

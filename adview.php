@@ -58,6 +58,9 @@ phpAds_registerGlobal ('clientid', 'clientID', 'what', 'source',
 /* Main code                                             */
 /*********************************************************/
 
+// make sure that gzip compression is off when request came from IE
+phpAds_disableGzipCompressionForIE();
+
 $url = parse_url($phpAds_config['url_prefix']);
 
 
