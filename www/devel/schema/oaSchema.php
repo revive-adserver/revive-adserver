@@ -35,8 +35,9 @@ require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
 require_once 'Config.php';
 
-require_once MAX_PATH.'/lib/openads/Dal.php';
-require_once MAX_PATH.'/lib/openads/Dal/Links.php';
+require_once MAX_PATH.'/lib/OA/DB.php';
+require_once MAX_PATH.'/lib/OA/DB/Table.php';
+require_once MAX_PATH.'/lib/OA/Dal/Links.php';
 
 class Openads_Schema_Manager
 {
@@ -838,7 +839,7 @@ class Openads_Schema_Manager
         $dsn['username']    = $GLOBALS['_MAX']['CONF']['database']['username'];
         $dsn['password']    = $GLOBALS['_MAX']['CONF']['database']['password'];
         $dsn['database']    = '';
-        return MDB2_Schema::factory(Openads_Dal::singleton($dsn), $options);
+        return MDB2_Schema::factory(OA_DB::singleton($dsn), $options);
     }
 
     /**
@@ -1398,7 +1399,13 @@ class Openads_Schema_Manager
         if ($this->_dropDatabase($database_name))
         {
             $this->db_definition['name'] = $database_name;
-            return $this->schema->createDatabase($this->db_definition);
+            if ($this->schema->db->manager->createDatabase($database_name))
+            {
+                $oaTable = new OA_DB_Table();
+                $oaTable->oSchema = $this->schema;
+                $oaTable->aDefinition = $this->db_definition;
+                $oaTable->createAllTables();
+            }
         }
         return false;
     }

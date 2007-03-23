@@ -7,7 +7,7 @@ require_once('pear.inc.php');
 require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
 
-require_once MAX_PATH.'/lib/openads/Dal.php';
+require_once MAX_PATH.'/lib/OA/DB.php';
 
 function getSchemas()
 {
