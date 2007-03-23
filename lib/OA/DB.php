@@ -30,22 +30,18 @@ require_once 'MDB2.php';
 /**
  * A class for creating database connections. Currently uses PEAR::MDB2.
  *
- * @package    OpenadsDal
+ * @package    OpenadsDB
  * @author     Andrew Hill <andrew.hill@openads.org>
  * @author     Demian Turner <demian@m3.net>
- *
- * @TODO This class needs to be reviewed when the DAL is refactored,
- *       to determine if we are happy with it simply returning an MDB2
- *       object, or if we need to provide wrapper functions.
  */
-class Openads_Dal
+class OA_DB
 {
 
     /**
      * A method to return a singleton database connection resource.
      *
      * Example usage:
-     * $db = &Openads_Dal::singleton();
+     * $oDbh = &OA_DB::singleton();
      *
      * Warning: In order to work correctly, the singleton method must
      * be instantiated statically and by reference, as in the above
@@ -54,7 +50,7 @@ class Openads_Dal
      * @static
      * @param string $dsn Optional database DSN details - connects to the
      *                    database defined by the configuration file otherwise.
-     *                    See {@link Openads_Dal::parseDSN()} for format.
+     *                    See {@link OA_DB::parseDSN()} for format.
      * @return MDB2_Driver_Common An MDB2 connection resource, or PEAR_Error
      *                            on failure to connect.
      */
@@ -62,7 +58,7 @@ class Openads_Dal
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         // Get the DSN, if not set
-        $dsn = ($dsn === null) ? Openads_Dal::getDsn() : $dsn;
+        $dsn = is_null($dsn) ? OA_DB::getDsn() : $dsn;
         // Create an MD5 checksum of the DSN
         $dsnMd5 = md5($dsn);
         // Does this database connection already exist?
