@@ -67,6 +67,16 @@ function loadChangeset()
         }
         closedir($dh);
         $objResponse->addAssign('select_changesets',"innerHTML", $opts);
+        //$objResponse->addAssign('file_name',"value", $file);
+        if (is_null($changefile))
+        {
+            $objResponse->addAssign('was_edit',"style.display", 'none');
+            $objResponse->addAssign('was_show',"style.display", 'inline');
+        }
+        else
+        {
+            $objResponse->addAssign('trans_changeset',"style.display", 'none');
+        }
     }
 	return $objResponse;
 }
@@ -143,7 +153,9 @@ function exitTableProperty($form, $elementId)
 function editFieldProperty($form, $elementId, $elementNo)
 {
 	$objResponse = new xajaxResponse();
+	//$objResponse->addAlert(print_r($form, true));
 	$id = $elementId.'_'.$elementNo;
+	//$objResponse->addAlert($id);
 	$objResponse->addAssign('fld_old_'.$id,"style.display", 'none');
     $objResponse->addAssign('fld_new_'.$id,"style.display", 'inline');
     $objResponse->addAssign('btn_field_save_'.$id,"style.display", 'inline');

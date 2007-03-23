@@ -72,6 +72,28 @@ else if (array_key_exists('btn_migration_create', $_POST))
         $schemaFile = MAX_PATH.'/etc/tables_core.xml';
     }
     $changesFile = $_COOKIE['changesetFile'];
+    if ($changesFile)
+    {
+
+        require_once 'oaSchema.php';
+        $oaSchema = & new Openads_Schema_Manager($schemaFile);
+
+        if (($aErrs = $oaSchema->checkPermissions()) !== true) {
+            die(join("<br />\n", $aErrs));
+        }
+
+        $oaSchema->writeMigrationClass(MAX_CHG.$changesFile, MAX_CHG);
+        $file = MAX_CHG.$changesFile;
+    }
+}
+else if (array_key_exists('btn_field_save', $_POST))
+{
+    $schemaFile = $_COOKIE['schemaFile'];
+    if (!$schemaFile)
+    {
+        $schemaFile = MAX_PATH.'/etc/tables_core.xml';
+    }
+    $changesFile = $_COOKIE['changesetFile'];
     if (!$changesFile)
     {
         $changesFile = MAX_PATH.'/var/changes_tables_core.xml';
@@ -84,10 +106,15 @@ else if (array_key_exists('btn_migration_create', $_POST))
         die(join("<br />\n", $aErrs));
     }
 
-    $oaSchema->writeMigrationClass($changesFile);
+    $table_name = $_POST['table_name'];
+    $field_name = $_POST['fld_old_name'];
+    $field_name_was = $_POST['fld_new_name'];
+    $oaSchema->fieldWasSave(MAX_CHG.$changesFile, $table_name, $field_name, $field_name_was);
+
     $file = $schemaFile;
 }
-else {
+else
+{
     $file = getLastChangeset();
     if ($file)
     {

@@ -224,11 +224,11 @@
 </xsl:template>
 
 <xsl:template name="showchangesetcomments">
-    <span class="titlemini">
+    <!--span class="titlemini">
         <xsl:text>commit changeset comments  </xsl:text>
         <br />
         <textarea name="comments" cols="100" rows="2" ></textarea>
-    </span>
+    </span-->
 </xsl:template>
 
 <xsl:template name="showtableadd">
@@ -250,7 +250,7 @@
 <xsl:template name="showadminmenutrans">
         <input name="btn_delete_trans" type="submit" value="delete transitional schema"/>
         <input name="btn_compare_schemas" type="submit" value="inspect the changeset"/>
-        <input name="btn_commit_final" type="submit" value="commit transitional schema as final"/>
+        <!--input name="btn_commit_final" type="submit" value="commit transitional schema as final"/-->
 </xsl:template>
 
 </xsl:stylesheet>

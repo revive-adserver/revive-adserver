@@ -9,6 +9,8 @@ class Migration_/*version*/ extends Migration
     {
         $this->__construct();
 /*tasklist*/
+
+/*fieldmap*/
     }
 
 /*methods*/

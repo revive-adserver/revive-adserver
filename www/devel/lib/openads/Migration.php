@@ -11,6 +11,9 @@ class Migration
 {
     var $field_map;
 
+    var $constructive_taskList;
+    var $destructive_taskList;
+
     function Migration()
     {
         $this->__construct();

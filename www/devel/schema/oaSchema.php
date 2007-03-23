@@ -186,10 +186,11 @@ class Openads_Schema_Manager
             $changes         = $this->schema->compareDefinitions($curr_definition, $prev_definition);
             $this->dump_options['output'] = ($output ? $output : $this->changes_trans);
             $this->dump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
+            $this->dump_options['split']      = true;
             $changes['version']               = $curr_definition['version'];
             $changes['name']                  = $curr_definition['name'];
             $changes['comments']              = htmlspecialchars($comments);
-            $result = $this->schema->dumpChangeset($changes, $this->dump_options, true);
+            $result = $this->schema->dumpChangeset($changes, $this->dump_options);
             if (!Pear::iserror($result))
             {
                 return true;
@@ -213,7 +214,8 @@ class Openads_Schema_Manager
             $this->dump_options['output'] = ($output ? $output : $this->changes_trans);
             $this->dump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
             $changes['comments']              = $comments;
-            $result = $this->schema->dumpChangeset($changes, $this->dump_options, true);
+            $this->dump_options['split']      = true;
+            $result = $this->schema->dumpChangeset($changes, $this->dump_options);
             if (!Pear::iserror($result))
             {
                 return true;
@@ -282,13 +284,14 @@ class Openads_Schema_Manager
                 {
                     //when the common connection method is in place this will work properly
                     //$this->_generateDataObjects($this->changes_final);
+                    $result = $this->_createDatabase($this->dbo_name);
 
                     //returns the migration class filename
-                    $result = $this->writeMigrationClass($this->changes_final);
+                    //$result = $this->writeMigrationClass($this->changes_final);
                     if ($result)
                     {
-                        copy($this->path_changes_trans.$result, $this->path_changes_final.$result);
-                        unlink($this->path_changes_trans.$result);
+                        //copy($this->path_changes_trans.$result, $this->path_changes_final.$result);
+                        //unlink($this->path_changes_trans.$result);
                         $result = $this->writeWorkingDefinitionFile($this->schema_final);
                     }
                 }
@@ -552,6 +555,31 @@ class Openads_Schema_Manager
         return false;
     }
 
+    /**
+     * validate and store a 'was' field in a changeset
+     *
+     * @param string $table_name
+     * @param string $field_name_old
+     * @param string $field_name_new
+     * @param string $field_type_old
+     * @param string $field_type_new
+     * @return boolean
+     */
+    function fieldWasSave($input_file, $table_name, $field_name, $field_name_was)
+    {
+
+        $changes = $this->schema->parseChangesetDefinitionFile($input_file);
+
+        $changes['constructive']['tables']['change'][$table_name]['add']['fields'][$field_name]['was'] = $field_name_was;
+
+        $this->dump_options['output']     = $input_file;
+        $this->dump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
+        $this->dump_options['split']      = false;
+        $this->dump_options['rewrite']    = true; // this is a rewrite of a previously split changeset, don't split it again
+        $result = $this->schema->dumpChangeset($changes, $this->dump_options);
+
+        return false;
+    }
 
     /**
      * remove an index from a table
@@ -1092,65 +1120,95 @@ class Openads_Schema_Manager
      *
      * @param string $file_changes
      */
-    function writeMigrationClass($file_changes)
+    function writeMigrationClass($file_changes, $output_path='')
     {
         $method_buffer      = '';
         $task_buffer        = '';
+        $map_buffer         = '';
 
         //$this->testChangeset();
         $changes = $this->schema->parseChangesetDefinitionFile($file_changes);
 
-        foreach ($changes['events']['tables'] AS $table => $table_events)
-        {
-            $params = "'{$table}'";
-            foreach ($table_events['self'] AS $parent => $method)
-            {
-                $task_buffer.= $this->_buildTask($method);
-                $method_buffer.= $this->_buildMethod($method, $parent, $params);
-            }
-
-            foreach ($table_events['fields'] AS $field => $field_events)
-            {
-                foreach ($field_events AS $parent => $method)
-                {
-                    $params = "'{$table}', '{$field}'";
-                    $task_buffer.= $this->_buildTask($method);
-                    $method_buffer.= $this->_buildMethod($method, $parent, $params);
-                }
-            }
-            foreach ($table_events['indexes'] AS $index => $index_events)
-            {
-                foreach ($index_events AS $parent => $method)
-                {
-                    $params = "'{$table}', '{$index}'";
-                    $task_buffer.= $this->_buildTask($method);
-                    $method_buffer.= $this->_buildMethod($method, $parent, $params);
-                }
-            }
-        }
+        $this->_buildBuffers($changes, 'constructive', $task_buffer, $method_buffer, $map_buffer);
+        $this->_buildBuffers($changes, 'destructive', $task_buffer, $method_buffer, $map_buffer);
+        $this->_buildFieldMap($changes['fieldmap'], $map_buffer);
 
         $buffer = file_get_contents(MAX_PATH."/www/devel/schema/tpl/class_migration.tpl");
-        $buffer = str_replace('/*version*/', $changes['version'], $buffer);
-        $buffer = str_replace('/*methods*/', $method_buffer, $buffer);
+        $buffer = str_replace('/*version*/' , $changes['version'], $buffer);
+        $buffer = str_replace('/*methods*/' , $method_buffer, $buffer);
         $buffer = str_replace('/*tasklist*/', $task_buffer, $buffer);
+        $buffer = str_replace('/*fieldmap*/', $map_buffer, $buffer);
 
-        $file = MAX_PATH."/var/migration_{$changes['version']}.php";
         $file = "migration_{$changes['version']}.php";
-        $fp = fopen($this->path_changes_trans.$file, 'w');
+        if (!$output_path)
+        {
+            $output_path = $this->path_changes_trans;
+        }
+        $fp = fopen($output_path.$file, 'w');
         if ($fp === false)
         {
             return PEAR::raiseError(MDB2_SCHEMA_ERROR_WRITER, null, null,
-                'it was not possible to open the migration output file: '.$this->path_changes_trans.$file);
+                'it was not possible to open the migration output file: '.$output_path.$file);
         }
 
         fwrite($fp, $buffer);
         fclose($fp);
 
-        if (file_exists($this->path_changes_trans.$file))
+        if (file_exists($output_path.$file))
         {
             return $file;
         }
         return false;
+    }
+
+    /**
+     * grab the tasks from the changeset
+     *
+     * @param array $changes
+     * @param string $task_type
+     * @param string $task_buffer
+     * @param string $method_buffer
+     */
+    function _buildBuffers($changes, $task_type, &$task_buffer, &$method_buffer)
+    {
+        foreach ($changes['hooks'][$task_type]['tables'] AS $table => $table_hooks)
+        {
+            $params = "'{$table}'";
+            foreach ($table_hooks['self'] AS $parent => $method)
+            {
+                $task_buffer.= $this->_buildTask($method, $task_type);
+                $method_buffer.= $this->_buildMethod($method, $parent, $params);
+            }
+
+            foreach ($table_hooks['fields'] AS $field => $field_hooks)
+            {
+                foreach ($field_hooks AS $parent => $method)
+                {
+                    $params = "'{$table}', '{$field}'";
+                    $task_buffer.= $this->_buildTask($method, $task_type);
+                    $method_buffer.= $this->_buildMethod($method, $parent, $params);
+                }
+            }
+            foreach ($table_hooks['indexes'] AS $index => $index_hooks)
+            {
+                foreach ($index_hooks AS $parent => $method)
+                {
+                    $params = "'{$table}', '{$index}'";
+                    $task_buffer.= $this->_buildTask($method, $task_type);
+                    $method_buffer.= $this->_buildMethod($method, $parent, $params);
+                }
+            }
+        }
+    }
+    /**
+     * return code that will add a task to the migration class tasklist
+     *
+     * @param string $method
+     * @return string
+     */
+    function _buildTask($method, $task_type)
+    {
+        return "\n\t\t\$this->{$task_type}_taskList[] = '{$method}';";
     }
 
     /**
@@ -1159,9 +1217,12 @@ class Openads_Schema_Manager
      * @param string $method
      * @return string
      */
-    function _buildTask($method)
+    function _buildFieldMap($fieldmap_array, &$map_buffer)
     {
-        return "\n\t\t\$this->taskList[] = '{$method}';";
+        foreach ($fieldmap_array AS $k => $map)
+        {
+            $map_buffer.= "\n\t\t\$this->field_map['{$map['toTable']}']['{$map['toField']}'] = array('fromTable'=>'{$map['fromTable']}', 'fromField'=>'{$map['fromField']}');";
+        }
     }
 
     /**
@@ -1200,10 +1261,11 @@ class Openads_Schema_Manager
             $changes                        = $this->schema->compareDefinitions($curr_definition, $prev_definition);
             $this->dump_options['output']   = ($output ? $output : $this->changes_trans);
             $this->dump_options['xsl_file'] = "xsl/mdb2_changeset.xsl";
+            $this->dump_options['split']    = true;
             $changes['version']             = $curr_definition['version'];
             $changes['name']                = $curr_definition['name'];
             $changes['comments']            = '';
-            $result                         = $this->schema->dumpChangeset($changes, $this->dump_options, true);
+            $result                         = $this->schema->dumpChangeset($changes, $this->dump_options);
             $changesX                       = $this->schema->parseChangesetDefinitionFile($this->changes_trans);
             $changes1                       = $changesX['constructive'];
             $changes2                       = $changesX['destructive'];
@@ -1335,7 +1397,8 @@ class Openads_Schema_Manager
     {
         if ($this->_dropDatabase($database_name))
         {
-            return $this->schema->createDatabase($database_name);
+            $this->db_definition['name'] = $database_name;
+            return $this->schema->createDatabase($this->db_definition);
         }
         return false;
     }
