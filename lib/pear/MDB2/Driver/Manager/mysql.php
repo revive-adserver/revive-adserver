@@ -773,7 +773,7 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
                 if ($index_data[$key_name] !== 'PRIMARY') {
                     $index = $this->_fixIndexName($index_data[$key_name]);
                 } else {
-                    $index = 'PRIMARY';
+                    $index = $index_data['table'] . '_pkey';
                 }
                 if (!empty($index)) {
                     $result[$index] = true;
