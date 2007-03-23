@@ -28,10 +28,10 @@ $Id$
 /**
  */
 
-require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
+require_once MAX_PATH . '/lib/openads/Dal.php';
 require_once MAX_PATH . '/lib/openads/Table/Core.php';
 require_once MAX_PATH . '/lib/openads/Table/Priority.php';
 require_once MAX_PATH . '/lib/openads/Table/Statistics.php';
@@ -51,23 +51,23 @@ class TestEnv
      */
     function setupDB()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        // Create a DSN to access the SQL server with
-        $dbType = $conf['database']['type'];
-        if ($dbType == 'mysql') {
-            $dbType = 'mysql_SGL';
-        }
-    	$protocol = isset($conf['database']['protocol']) ? $conf['database']['protocol'] . '+' : '';
-        $dsn = $dbType . '://' .
-            $conf['database']['username'] . ':' .
-            $conf['database']['password'] . '@' .
-            $protocol .
-            $conf['database']['host'];
-        $dbh = &MAX_DB::singleton($dsn);
-        $query = 'DROP DATABASE IF EXISTS ' . $conf['database']['name'];
-        $result = $dbh->query($query);
-        $query = 'CREATE DATABASE ' . $conf['database']['name'];
-        $result = $dbh->query($query);
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        // Prepare a new array of the database details, without the
+        // database name, so that a connection to the database server
+        // can be created, but so the database itself is not in use
+        // (eg. PostgreSQL will not allow a database to be dropped
+        // while a connection to the database exists)
+        $aDatabaseDSN = $aConf;
+        // The "test" database exists in MySQL and PostgreSQL, may
+        // required tweaking for other database types!
+        $aDatabaseDSN['database']['name'] = 'test';
+        $dsn = Openads_Dal::getDsn($aDatabaseDSN);
+        $oDbh = &Openads_Dal::singleton($dsn);
+        // Ignore errors when dropping database - it may not exist
+        PEAR::pushErrorHandling(null);
+        $result = $oDbh->manager->dropDatabase($aConf['database']['name']);
+        PEAR::popErrorHandling();
+        $result = $oDbh->manager->createDatabase($aConf['database']['name']);
     }
 
     /**
@@ -141,8 +141,8 @@ class TestEnv
                 switch ($mode)
                 {
                     case 'insert':
-                        $dbh = &MAX_DB::singleton();
-                        $res = $dbh->query($v);
+                        $oDbh = &Openads_Dal::singleton();
+                        $res = $oDbh->query($v);
                         if (!res || PEAR::isError($res))
                         {
                             MAX::raiseError($res);
@@ -165,10 +165,9 @@ class TestEnv
      */
     function teardownDB()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
-        $query = 'DROP DATABASE ' . $conf['database']['name'];
-        $result = $dbh->query($query);
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $oDbh = &Openads_Dal::singleton();
+        $result = $oDbh->manager->dropDatabase($aConf['database']['name']);
     }
 
     /**
@@ -200,21 +199,21 @@ class TestEnv
     function restoreEnv()
     {
         // Disable transactions, so that setting up the test environment works
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &Openads_Dal::singleton();
         $query = 'SET AUTOCOMMIT=1';
-        $result = $dbh->query($query);
+        $result = $oDbh->exec($query);
         // Drop all known temporary tables
         $oTable = &Openads_Table_Priority::singleton();
         foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
-            $oTable->dropTempTable($tableName);
+            $oTable->dropTable($tableName);
         }
         $oTable = &Openads_Table_Statistics::singleton();
         foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
-            $oTable->dropTempTable($tableName);
+            $oTable->dropTable($tableName);
         }
         // Drop the database connection
-        $dbh->disconnect();
-        $GLOBALS['_MAX']['CONNECTIONS'] = array();
+        $oDbh->disconnect();
+        $GLOBALS['_OA']['CONNECTIONS'] = array();
         // Destroy any DataObject connection
         DB_DataObjectCommon::disconnect();
         // Destroy any DAL connection
@@ -246,8 +245,8 @@ class TestEnv
      */
     function startTransaction()
     {
-        $dbh = &MAX_DB::singleton();
-        $dbh->startTransaction();
+        $oDbh = &Openads_Dal::singleton();
+        $oDbh->beginTransaction();
     }
 
     /**
@@ -255,8 +254,8 @@ class TestEnv
      */
     function rollbackTransaction()
     {
-        $dbh = &MAX_DB::singleton();
-        $dbh->rollback();
+        $oDbh = &Openads_Dal::singleton();
+        $oDbh->rollback();
     }
 
 }
