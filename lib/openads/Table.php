@@ -180,9 +180,19 @@ class Openads_Table
         }
         $aOptions['type'] = $conf['table']['type'];
         // Merge any primary keys into the options array
-        if (isset($this->aDefinition['tables'][$table]['indexes']['primary'])) {
-            if ($this->aDefinition['tables'][$table]['indexes']['primary']) {
-                $aOptions['primary'] = $this->aDefinition['tables'][$table]['indexes']['primary']['fields'];
+        if (isset($this->aDefinition['tables'][$table]['indexes'])) {
+            if (is_array($this->aDefinition['tables'][$table]['indexes'])) {
+                foreach ($this->aDefinition['tables'][$table]['indexes'] as $key => $aIndex) {
+                    if (isset($aIndex['primary']) && $aIndex['primary']) {
+                        $aOptions['primary'] = $aIndex['fields'];
+                        // Does the primary key name need to be udpated to match the table?
+                        if (($conf['table']['split']) && ($conf['splitTables'][$table])) {
+                            $this->aDefinition['tables'][$table]['indexes'][$tableName . '_pkey']
+                                = $this->aDefinition['tables'][$table]['indexes'][$key];
+                            unset($this->aDefinition['tables'][$table]['indexes'][$key]);
+                        }
+                    }
+                }
             }
         }
         // Create the table
@@ -292,28 +302,6 @@ class Openads_Table
             }
         }
         return $allTablesDropped;
-    }
-
-    /**
-     * A method for dropping a temporary table.
-     *
-     * @param string $table The temporary table to drop.
-     * @return boolean True if table dropped correctly, false otherwise.
-     *
-     * @TODO May not be database agnostic. MDB2 Doesn't support dropping temporary tables, yet.
-     */
-    function dropTempTable($table)
-    {
-        $query = 'DROP TEMPORARY TABLE ' . $table;
-        MAX::debug('Dropping temporary table ' . $table, PEAR_LOG_DEBUG);
-        PEAR::pushErrorHandling(null);
-        $result = $this->oDbh->query($query);
-        PEAR::popErrorHandling();
-        if (PEAR::isError($result)) {
-            MAX::debug('Unable to drop temporary table ' . $table, PEAR_LOG_ERROR);
-            return false;
-        }
-        return true;
     }
 
     /**
