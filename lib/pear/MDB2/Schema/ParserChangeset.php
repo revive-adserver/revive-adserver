@@ -249,6 +249,9 @@ class MDB2_Changeset_Parser extends XML_Parser
             case 'instructionset-version':
                 $this->instructionset['version'] = $this->version;
             	break;
+            case 'instructionset-comments':
+                $this->instructionset['comments'] = $this->comments;
+            	break;
             case 'instructionset-constructive':
                 $this->instructionset['constructive'] = $this->constructive_changeset_definition;
             	break;
