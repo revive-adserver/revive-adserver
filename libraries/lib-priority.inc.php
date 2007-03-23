@@ -21,6 +21,10 @@ define ('LIBPRIORITY_INCLUDED', true);
 define('phpAds_CurrentHour', (int)date('H'));
 $debuglog = '';
 
+if (!defined('LIBADMINSTATISTICS_INCLUDED'))
+{
+	require (phpAds_path.'/admin/lib-statistics.inc.php');
+}
 
 function phpAds_PriorityGetImpressions($days, $offset)
 {
