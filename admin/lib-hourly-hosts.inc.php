@@ -217,10 +217,10 @@ if (!$phpAds_config['compact_stats'])
 	{
 		?>
 	
-	<script language='JavaScript'>
+	<script type='text/javascript'>
 	<!--
 		function gethostbyaddr() {
-			document.write ("<script language='JavaScript' src='lib-hourly-hosts.inc.php?ip[]=<?php echo implode ('&ip[]=', $gethostbyaddr); ?>'></script>");
+			document.write ("<scr"+"ipt type='text/javascript' src='lib-hourly-hosts.inc.php?ip[]=<?php echo implode ('&ip[]=', $gethostbyaddr); ?>'></scr"+"ipt>");
 		}
 		
 		gethostbyaddr();
