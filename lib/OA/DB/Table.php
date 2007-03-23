@@ -40,17 +40,17 @@ require_once 'MDB2/Schema.php';
  * directly, and this is easier to do if the prefix doesn't have to be prepended
  * in order to do so.
  *
- * @package    OpenadsDal
+ * @package    OpenadsDB
  * @subpackage Table
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Openads_Table
+class OA_DB_Table
 {
 
     /**
-     * An instance of the Openads_Dal class.
+     * An instance of the OA_DB class.
      *
-     * @var Openads_Dal
+     * @var OA_DB
      */
     var $oDbh;
 
@@ -79,7 +79,7 @@ class Openads_Table
     /**
      * The class constructor method.
      */
-    function Openads_Table()
+    function OA_DB_Table()
     {
         $this->oDbh = &$this->_getDbConnection();
     }
@@ -93,7 +93,7 @@ class Openads_Table
      */
     function &_getDbConnection()
     {
-        return Openads_Dal::singleton();
+        return OA_DB::singleton();
     }
 
     /**

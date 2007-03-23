@@ -31,17 +31,17 @@ require_once MAX_PATH . '/lib/openads/Table.php';
  * A class for creating the temporary Openads database tables required
  * for performing the Maintenance Priority Engine (MPE) tasks.
  *
- * @package    OpenadsDal
+ * @package    OpenadsDB
  * @subpackage Table
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Openads_Table_Priority extends Openads_Table
+class OA_DB_Table_Priority extends OA_DB_Table
 {
 
     /**
      * The class constructor method.
      */
-    function Openads_Table_Priority()
+    function OA_DB_Table_Priority()
     {
         parent::Openads_Table();
         $this->temporary = true;
@@ -49,16 +49,16 @@ class Openads_Table_Priority extends Openads_Table
 
     /**
      * A singleton method to create or return a single instance
-     * of the {@link Openads_Table_Priority} object.
+     * of the {@link OA_DB_Table_Priority} object.
      *
      * @static
-     * @return Openads_Table_Priority The created {@link Openads_Table_Priority} object.
+     * @return OA_DB_Table_Priority The created {@link OA_DB_Table_Priority} object.
      */
     function &singleton()
     {
-        $static = &$GLOBALS['_OPENADS']['TABLES'][__CLASS__];
+        $static = &$GLOBALS['_OA']['TABLES'][__CLASS__];
         if (!isset($static)) {
-            $static = new Openads_Table_Priority(); // Don't use a reference here!
+            $static = new OA_DB_Table_Priority(); // Don't use a reference here!
             $static->init(MAX_PATH . '/etc/tables_temp_priority.xml');
         }
         return $static;
@@ -72,8 +72,8 @@ class Openads_Table_Priority extends Openads_Table
      */
     function destroy()
     {
-        if (isset($GLOBALS['_OPENADS']['TABLES'][__CLASS__])) {
-            unset($GLOBALS['_OPENADS']['TABLES'][__CLASS__]);
+        if (isset($GLOBALS['_OA']['TABLES'][__CLASS__])) {
+            unset($GLOBALS['_OA']['TABLES'][__CLASS__]);
         }
     }
 

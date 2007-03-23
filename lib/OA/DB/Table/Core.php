@@ -30,33 +30,33 @@ require_once MAX_PATH . '/lib/openads/Table.php';
 /**
  * A class for creating the core Openads database tables.
  *
- * @package    OpenadsDal
+ * @package    OpenadsDB
  * @subpackage Table
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Openads_Table_Core extends Openads_Table
+class OA_DB_Table_Core extends OA_DB_Table
 {
 
     /**
      * The class constructor method.
      */
-    function Openads_Table_Core()
+    function OA_DB_Table_Core()
     {
-        parent::Openads_Table();
+        parent::OA_DB_Table();
     }
 
     /**
      * A singleton method to create or return a single instance
-     * of the {@link Openads_Table_Core} object.
+     * of the {@link OA_DB_Table_Core} object.
      *
      * @static
-     * @return Openads_Table_Core The created {@link Openads_Table_Core} object.
+     * @return OA_DB_Table_Core The created {@link OA_DB_Table_Core} object.
      */
     function &singleton()
     {
-        $static = &$GLOBALS['_OPENADS']['TABLES'][__CLASS__];
+        $static = &$GLOBALS['_OA']['TABLES'][__CLASS__];
         if (!isset($static)) {
-            $static = new Openads_Table_Core(); // Don't use a reference here!
+            $static = new OA_DB_Table_Core(); // Don't use a reference here!
             $static->init(MAX_PATH . '/etc/tables_core.xml');
         }
         return $static;
@@ -70,8 +70,8 @@ class Openads_Table_Core extends Openads_Table
      */
     function destroy()
     {
-        if (isset($GLOBALS['_OPENADS']['TABLES'][__CLASS__])) {
-            unset($GLOBALS['_OPENADS']['TABLES'][__CLASS__]);
+        if (isset($GLOBALS['_OA']['TABLES'][__CLASS__])) {
+            unset($GLOBALS['_OA']['TABLES'][__CLASS__]);
         }
     }
 

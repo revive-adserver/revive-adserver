@@ -31,34 +31,34 @@ require_once MAX_PATH . '/lib/openads/Table.php';
  * A class for creating the temporary Openads database tables required
  * for performing the Maintenance Statistics Engine (MSE) tasks.
  *
- * @package    OpenadsDal
+ * @package    OpenadsDB
  * @subpackage Table
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Openads_Table_Statistics extends Openads_Table
+class OA_DB_Table_Statistics extends OA_DB_Table
 {
 
     /**
      * The class constructor method.
      */
-    function Openads_Table_Statistics()
+    function OA_DB_Table_Statistics()
     {
-        parent::Openads_Table();
+        parent::OA_DB_Table();
         $this->temporary = true;
     }
 
     /**
      * A singleton method to create or return a single instance
-     * of the {@link Openads_Table_Statistics} object.
+     * of the {@link OA_DB_Table_Statistics} object.
      *
      * @static
-     * @return Openads_Table_Statistics The created {@link Openads_Table_Statistics} object.
+     * @return OA_DB_Table_Statistics The created {@link OA_DB_Table_Statistics} object.
      */
     function &singleton()
     {
-        $static = &$GLOBALS['_OPENADS']['TABLES'][__CLASS__];
+        $static = &$GLOBALS['_OA']['TABLES'][__CLASS__];
         if (!isset($static)) {
-            $static = new Openads_Table_Statistics(); // Don't use a reference here!
+            $static = new OA_DB_Table_Statistics(); // Don't use a reference here!
             $static->init(MAX_PATH . '/etc/tables_temp_statistics.xml');
         }
         return $static;
@@ -72,8 +72,8 @@ class Openads_Table_Statistics extends Openads_Table
      */
     function destroy()
     {
-        if (isset($GLOBALS['_OPENADS']['TABLES'][__CLASS__])) {
-            unset($GLOBALS['_OPENADS']['TABLES'][__CLASS__]);
+        if (isset($GLOBALS['_OA']['TABLES'][__CLASS__])) {
+            unset($GLOBALS['_OA']['TABLES'][__CLASS__]);
         }
     }
 
