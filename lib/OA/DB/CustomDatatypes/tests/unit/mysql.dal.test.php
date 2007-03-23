@@ -32,11 +32,11 @@ require_once MAX_PATH . '/lib/openads/Dal.php';
  * to nativetype mappings, and nativetype to MDB2 datatype mappings work as
  * expected.
  *
- * @package    OpenadsDal
+ * @package    OpenadsDB
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
+class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
 {
 
     var $db;
@@ -46,10 +46,10 @@ class Test_Openads_Dal_CustomDatatypes_mysql extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_Openads_Dal_CustomDatatypes_mysql()
+    function Test_OA_DB_CustomDatatypes_mysql()
     {
         $this->UnitTestCase();
-        $this->db = Openads_Dal::singleton();
+        $this->db = &OA_DB::singleton();
         $this->db->loadModule('Datatype', null, true);
     }
 

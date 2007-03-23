@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/openads/Table.php';
+require_once MAX_PATH . '/lib/OA/DB/Table.php';
 
 /**
  * A class for creating the core Openads database tables.

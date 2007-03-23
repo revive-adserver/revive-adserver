@@ -25,26 +25,24 @@
 $Id$
 */
 
-/**
- * @package    OpenadsDal
- * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.org>
- */
-
-require_once MAX_PATH . '/lib/openads/Dal.php';
-require_once MAX_PATH . '/lib/openads/Table.php';
+require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB/Table.php';
 require_once 'Date.php';
 
 /**
- * A class for testing the Openads_Table class.
+ * A class for testing the OA_DB_Table class.
+ *
+ * @package    OpenadsDB
+ * @subpackage TestSuite
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Test_Openads_Table extends UnitTestCase
+class Test_OA_DB_Table extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Test_Openads_Table()
+    function Test_OA_DB_Table()
     {
         $this->UnitTestCase();
 
