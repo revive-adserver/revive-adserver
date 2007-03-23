@@ -38,6 +38,8 @@ $Id$
  * them into PostgreSQL nativetypes.
  */
 $aDatatypes = array(
+    'date'               => 'date',
+    'timestamp'          => 'timestamp',
     'openads_bigint'     => 'openads_bigint',
     'openads_char'       => 'openads_char',
     'openads_decimal'    => 'openads_decimal',

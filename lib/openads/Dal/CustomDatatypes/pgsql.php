@@ -40,6 +40,138 @@ $Id$
  */
 
 /**
+ * A callback function to map the MDB2 datatype "date" into
+ * the PostgreSQL nativetype "DATE".
+ *
+ * @param MDB2   $db         The MDB2 database reource object.
+ * @param string $method     The name of the MDB2_Driver_Datatype_Common method
+ *                           the callback function was called from. One of
+ *                           "getValidTypes", "convertResult", "getDeclaration",
+ *                           "compareDefinition", "quote" and "mapPrepareDatatype".
+ *                           See {@link MDB2_Driver_Datatype_Common} for the
+ *                           details of what each method does.
+ * @param array $aParameters An array of parameters, being the parameters that
+ *                           were passed to the method calling the callback
+ *                           function.
+ * @return mixed Returns the appropriate value depending on the method that
+ *               called the function. See {@link MDB2_Driver_Datatype_Common}
+ *               for details of the expected return values of the five possible
+ *               calling methods.
+ */
+function datatype_date_callback(&$db, $method, $aParameters)
+{
+    // Lowercase method names for PHP4/PHP5 compatibility
+    $method = strtolower($method);
+    switch($method) {
+        case 'getvalidtypes':
+            // Return the default value for this custom datatype
+            return '';
+        case 'convertresult':
+            // Convert the nativetype value to a datatype value using the
+            // built in "timestamp" datatype
+            return $db->datatype->convertResult($aParameters['value'], 'timestamp', $aParameters['rtrim']);
+        case 'getdeclaration':
+            // Prepare and return the PostgreSQL specific code needed to declare
+            // a column of this custom datatype
+            $name = $db->quoteIdentifier($aParameters['name'], true);
+            $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
+            // For DATETIME fields, if the column is NOT NULL, but the default value is empty,
+            // do not include the default value
+            if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] == '')) {
+                unset($aParameters['field']['default']);
+            }
+            if (isset($aParameters['field']['default']) && ($aParameters['field']['default'] == '0000-00-00')) {
+                unset($aParameters['field']['default']);
+            }
+            $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
+            $value = $name . ' ' . $datatype;
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
+                $value .= '(' . $aParameters['field']['length'] . ')';
+            }
+            $value .= $declaration_options;
+            return $value;
+        case 'comparedefinition':
+            // Return the same array of changes that would be used for
+            // the built in "timestamp" datatype
+            return $db->datatype->_compareTimestampDefinition($aParameters['current'], $aParameters['previous']);
+        case 'quote':
+            // Convert the datatype value into a quoted nativetype value
+            // suitable for inserting into PostgreSQL using the built in
+            // "timestamp" datatype
+            return $db->datatype->quote($aParameters['value'], 'timestamp');
+        case 'mappreparedatatype':
+            // Return the PostgreSQL nativetype declaration for this custom datatype
+            return 'DATE';
+        }
+}
+
+/**
+ * A callback function to map the MDB2 datatype "timestamp" into
+ * the PostgreSQL nativetype "TIMESTAMP".
+ *
+ * @param MDB2   $db         The MDB2 database reource object.
+ * @param string $method     The name of the MDB2_Driver_Datatype_Common method
+ *                           the callback function was called from. One of
+ *                           "getValidTypes", "convertResult", "getDeclaration",
+ *                           "compareDefinition", "quote" and "mapPrepareDatatype".
+ *                           See {@link MDB2_Driver_Datatype_Common} for the
+ *                           details of what each method does.
+ * @param array $aParameters An array of parameters, being the parameters that
+ *                           were passed to the method calling the callback
+ *                           function.
+ * @return mixed Returns the appropriate value depending on the method that
+ *               called the function. See {@link MDB2_Driver_Datatype_Common}
+ *               for details of the expected return values of the five possible
+ *               calling methods.
+ */
+function datatype_timestamp_callback(&$db, $method, $aParameters)
+{
+    // Lowercase method names for PHP4/PHP5 compatibility
+    $method = strtolower($method);
+    switch($method) {
+        case 'getvalidtypes':
+            // Return the default value for this custom datatype
+            return '';
+        case 'convertresult':
+            // Convert the nativetype value to a datatype value using the
+            // built in "timestamp" datatype
+            return $db->datatype->convertResult($aParameters['value'], 'timestamp', $aParameters['rtrim']);
+        case 'getdeclaration':
+            // Prepare and return the PostgreSQL specific code needed to declare
+            // a column of this custom datatype
+            $name = $db->quoteIdentifier($aParameters['name'], true);
+            $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
+            // For DATETIME fields, if the column is NOT NULL, but the default value is empty,
+            // do not include the default value
+            if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] == '')) {
+                unset($aParameters['field']['default']);
+            }
+            if (isset($aParameters['field']['default']) && ($aParameters['field']['default'] == '0000-00-00 00:00:00')) {
+                unset($aParameters['field']['default']);
+            }
+            $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
+            $value = $name . ' ' . $datatype;
+            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
+                $value .= '(' . $aParameters['field']['length'] . ')';
+            }
+            $value .= $declaration_options;
+            return $value;
+        case 'comparedefinition':
+            // Return the same array of changes that would be used for
+            // the built in "timestamp" datatype
+            return $db->datatype->_compareTimestampDefinition($aParameters['current'], $aParameters['previous']);
+        case 'quote':
+            // Convert the datatype value into a quoted nativetype value
+            // suitable for inserting into PostgreSQL using the built in
+            // "timestamp" datatype
+            return $db->datatype->quote($aParameters['value'], 'timestamp');
+        case 'mappreparedatatype':
+            // Return the PostgreSQL nativetype declaration for this custom datatype
+            return 'TIMESTAMP';
+        }
+}
+
+/**
  * A callback function to map the MDB2 datatype "openads_bigint" into
  * the PostgreSQL nativetype "BIGINT".
  *
@@ -281,6 +413,9 @@ function datatype_openads_date_callback(&$db, $method, $aParameters)
             if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] == '')) {
                 unset($aParameters['field']['default']);
             }
+            if (isset($aParameters['field']['default']) && ($aParameters['field']['default'] == '0000-00-00')) {
+                unset($aParameters['field']['default']);
+            }
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
             if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
@@ -342,6 +477,9 @@ function datatype_openads_datetime_callback(&$db, $method, $aParameters)
             // For DATETIME fields, if the column is NOT NULL, but the default value is empty,
             // do not include the default value
             if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] == '')) {
+                unset($aParameters['field']['default']);
+            }
+            if (isset($aParameters['field']['default']) && ($aParameters['field']['default'] == '0000-00-00 00:00:00')) {
                 unset($aParameters['field']['default']);
             }
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
@@ -474,9 +612,6 @@ function datatype_openads_enum_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (isset($aParameters['field']['length']) && $aParameters['field']['length']) {
-                $value .= '(' . $aParameters['field']['length'] . ')';
-            }
             $value .= $declaration_options;
             return $value;
         case 'comparedefinition':
@@ -920,6 +1055,12 @@ function datatype_openads_timestamp_callback(&$db, $method, $aParameters)
             // For DATETIME fields, if the column is NOT NULL, but the default value is empty,
             // do not include the default value
             if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] == '')) {
+                unset($aParameters['field']['default']);
+            }
+            if (isset($aParameters['field']['default']) && ($aParameters['field']['default'] == '0000-00-00 00:00:00')) {
+                unset($aParameters['field']['default']);
+            }
+            if (isset($aParameters['field']['default']) && ($aParameters['field']['default'] == 'CURRENT_TIMESTAMP')) {
                 unset($aParameters['field']['default']);
             }
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
