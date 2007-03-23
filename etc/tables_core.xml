@@ -201,7 +201,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>ad_category_assoc_pkey</name>
     <primary>true</primary>
     <field>
      <name>ad_category_assoc_id</name>
@@ -260,7 +260,7 @@
    </field>
 
    <index>
-    <name>zone_id</name>
+    <name>ad_zone_assoc_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -276,7 +276,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>ad_zone_assoc_pkey</name>
     <primary>true</primary>
     <field>
      <name>ad_zone_assoc_id</name>
@@ -413,7 +413,7 @@
    </field>
 
    <index>
-    <name>agencyid</name>
+    <name>affiliates_agencyid</name>
     <field>
      <name>agencyid</name>
      <sorting>ascending</sorting>
@@ -421,7 +421,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>affiliates_pkey</name>
     <primary>true</primary>
     <field>
      <name>affiliateid</name>
@@ -575,7 +575,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>affiliates_extra_pkey</name>
     <primary>true</primary>
     <field>
      <name>affiliateid</name>
@@ -682,7 +682,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>agency_pkey</name>
     <primary>true</primary>
     <field>
      <name>agencyid</name>
@@ -1006,7 +1006,7 @@
    </field>
 
    <index>
-    <name>campaignid</name>
+    <name>banners_campaignid</name>
     <field>
      <name>campaignid</name>
      <sorting>ascending</sorting>
@@ -1014,7 +1014,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>banners_pkey</name>
     <primary>true</primary>
     <field>
      <name>bannerid</name>
@@ -1214,7 +1214,7 @@
    </field>
 
    <index>
-    <name>clientid</name>
+    <name>campaigns_clientid</name>
     <field>
      <name>clientid</name>
      <sorting>ascending</sorting>
@@ -1222,7 +1222,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>campaigns_pkey</name>
     <primary>true</primary>
     <field>
      <name>campaignid</name>
@@ -1291,7 +1291,7 @@
    </field>
 
    <index>
-    <name>campaignid</name>
+    <name>campaigns_trackers_campaignid</name>
     <field>
      <name>campaignid</name>
      <sorting>ascending</sorting>
@@ -1299,7 +1299,7 @@
    </index>
 
    <index>
-    <name>trackerid</name>
+    <name>campaigns_trackers_trackerid</name>
     <field>
      <name>trackerid</name>
      <sorting>ascending</sorting>
@@ -1307,7 +1307,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>campaigns_trackers_pkey</name>
     <primary>true</primary>
     <field>
      <name>campaign_trackerid</name>
@@ -1344,7 +1344,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>category_pkey</name>
     <primary>true</primary>
     <field>
      <name>category_id</name>
@@ -1447,7 +1447,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>channel_pkey</name>
     <primary>true</primary>
     <field>
      <name>channelid</name>
@@ -1584,7 +1584,7 @@
    </field>
 
    <index>
-    <name>agencyid</name>
+    <name>clients_agencyid</name>
     <field>
      <name>agencyid</name>
      <sorting>ascending</sorting>
@@ -1592,7 +1592,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>clients_pkey</name>
     <primary>true</primary>
     <field>
      <name>clientid</name>
@@ -1786,7 +1786,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_intermediate_ad_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_intermediate_ad_id</name>
@@ -2227,7 +2227,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_intermediate_ad_connection_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_intermediate_ad_connection_id</name>
@@ -2303,7 +2303,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_intermediate_ad_variable_value_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_intermediate_ad_variable_value_id</name>
@@ -3763,7 +3763,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_raw_tracker_impression_pkey</name>
     <primary>true</primary>
     <field>
      <name>server_raw_tracker_impression_id</name>
@@ -3825,7 +3825,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>data_raw_tracker_variable_value_pkey</name>
     <primary>true</primary>
     <field>
      <name>server_raw_tracker_impression_id</name>
@@ -4019,7 +4019,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_summary_ad_hourly_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_summary_ad_hourly_id</name>
@@ -4216,7 +4216,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_summary_ad_zone_assoc_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_summary_ad_zone_assoc_id</name>
@@ -4311,7 +4311,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_summary_channel_daily_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_summary_channel_daily_id</name>
@@ -4381,7 +4381,7 @@
    </field>
 
    <index>
-    <name>day</name>
+    <name>data_summary_zone_country_daily_day</name>
     <field>
      <name>day</name>
      <sorting>ascending</sorting>
@@ -4389,7 +4389,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_country_daily_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -4397,7 +4397,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_summary_zone_country_daily_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_summary_zone_country_daily_id</name>
@@ -4459,7 +4459,7 @@
    </field>
 
    <index>
-    <name>day_of_week</name>
+    <name>data_summary_zone_country_forecast_day_of_week</name>
     <field>
      <name>day_of_week</name>
      <sorting>ascending</sorting>
@@ -4467,7 +4467,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_country_forecast_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -4475,7 +4475,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_summary_zone_country_forecast_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_summary_zone_country_forecast_id</name>
@@ -4546,7 +4546,7 @@
    </field>
 
    <index>
-    <name>yearmonth</name>
+    <name>data_summary_zone_country_monthly_yearmonth</name>
     <field>
      <name>yearmonth</name>
      <sorting>ascending</sorting>
@@ -4554,7 +4554,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_country_monthly_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -4562,7 +4562,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_summary_zone_country_monthly_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_summary_zone_country_monthly_id</name>
@@ -4640,7 +4640,7 @@
    </field>
 
    <index>
-    <name>day</name>
+    <name>data_summary_zone_domain_page_daily_day</name>
     <field>
      <name>day</name>
      <sorting>ascending</sorting>
@@ -4648,7 +4648,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_domain_page_daily_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -4656,7 +4656,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_summary_zone_domain_page_daily_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_summary_zone_domain_page_daily_id</name>
@@ -4726,7 +4726,7 @@
    </field>
 
    <index>
-    <name>day_of_week</name>
+    <name>data_summary_zone_domain_page_forecast_day_of_week</name>
     <field>
      <name>day_of_week</name>
      <sorting>ascending</sorting>
@@ -4734,7 +4734,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_domain_page_forecast_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -4742,7 +4742,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_summary_zone_domain_page_forecast_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_summary_zone_domain_page_forecast_id</name>
@@ -4821,7 +4821,7 @@
    </field>
 
    <index>
-    <name>yearmonth</name>
+    <name>data_summary_zone_domain_page_monthly_yearmonth</name>
     <field>
      <name>yearmonth</name>
      <sorting>ascending</sorting>
@@ -4829,7 +4829,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_domain_page_monthly_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -4837,7 +4837,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_summary_zone_domain_page_monthly_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_summary_zone_domain_page_monthly_id</name>
@@ -4940,7 +4940,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_summary_zone_impression_history_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_summary_zone_impression_history_id</name>
@@ -5018,7 +5018,7 @@
    </field>
 
    <index>
-    <name>day</name>
+    <name>data_summary_zone_site_keyword_daily_day</name>
     <field>
      <name>day</name>
      <sorting>ascending</sorting>
@@ -5026,7 +5026,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_site_keyword_daily_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5034,7 +5034,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_summary_zone_site_keyword_daily_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_summary_zone_site_keyword_daily_id</name>
@@ -5104,7 +5104,7 @@
    </field>
 
    <index>
-    <name>day_of_week</name>
+    <name>data_summary_zone_site_keyword_forecast_day_of_week</name>
     <field>
      <name>day_of_week</name>
      <sorting>ascending</sorting>
@@ -5112,7 +5112,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_site_keyword_forecast_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5120,7 +5120,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_summary_zone_site_keyword_forecast_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_summary_zone_site_keyword_forecast_id</name>
@@ -5199,7 +5199,7 @@
    </field>
 
    <index>
-    <name>yearmonth</name>
+    <name>data_summary_zone_site_keyword_monthly_yearmonth</name>
     <field>
      <name>yearmonth</name>
      <sorting>ascending</sorting>
@@ -5207,7 +5207,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_site_keyword_monthly_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5215,7 +5215,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_summary_zone_site_keyword_monthly_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_summary_zone_site_keyword_monthly_id</name>
@@ -5285,7 +5285,7 @@
    </field>
 
    <index>
-    <name>day</name>
+    <name>data_summary_zone_source_daily_day</name>
     <field>
      <name>day</name>
      <sorting>ascending</sorting>
@@ -5293,7 +5293,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_source_daily_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5301,7 +5301,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_summary_zone_source_daily_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_summary_zone_source_daily_id</name>
@@ -5363,7 +5363,7 @@
    </field>
 
    <index>
-    <name>day_of_week</name>
+    <name>data_summary_zone_source_forecast_day_of_week</name>
     <field>
      <name>day_of_week</name>
      <sorting>ascending</sorting>
@@ -5371,7 +5371,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_source_forecast_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5379,7 +5379,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_summary_zone_source_forecast_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_summary_zone_source_forecast_id</name>
@@ -5450,7 +5450,7 @@
    </field>
 
    <index>
-    <name>yearmonth</name>
+    <name>data_summary_zone_source_monthly_yearmonth</name>
     <field>
      <name>yearmonth</name>
      <sorting>ascending</sorting>
@@ -5458,7 +5458,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_source_monthly_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5466,7 +5466,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>data_summary_zone_source_monthly_pkey</name>
     <primary>true</primary>
     <field>
      <name>data_summary_zone_source_monthly_id</name>
@@ -5562,7 +5562,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>log_maintenance_forecasting_pkey</name>
     <primary>true</primary>
     <field>
      <name>log_maintenance_forecasting_id</name>
@@ -5636,7 +5636,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>log_maintenance_priority_pkey</name>
     <primary>true</primary>
     <field>
      <name>log_maintenance_priority_id</name>
@@ -5717,7 +5717,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>log_maintenance_statistics_pkey</name>
     <primary>true</primary>
     <field>
      <name>log_maintenance_statistics_id</name>
@@ -5767,7 +5767,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>password_recovery_pkey</name>
     <primary>true</primary>
     <field>
      <name>user_type</name>
@@ -5824,7 +5824,7 @@
    </field>
 
    <index>
-    <name>zone_id</name>
+    <name>placement_zone_assoc_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5840,7 +5840,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>placement_zone_assoc_pkey</name>
     <primary>true</primary>
     <field>
      <name>placement_zone_assoc_id</name>
@@ -5909,7 +5909,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>plugins_channel_delivery_assoc_pkey</name>
     <primary>true</primary>
     <field>
      <name>rule_id</name>
@@ -5958,7 +5958,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>plugins_channel_delivery_domains_pkey</name>
     <primary>true</primary>
     <field>
      <name>domain_id</name>
@@ -6010,7 +6010,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>plugins_channel_delivery_rules_pkey</name>
     <primary>true</primary>
     <field>
      <name>rule_id</name>
@@ -6942,7 +6942,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>preference_pkey</name>
     <primary>true</primary>
     <field>
      <name>agencyid</name>
@@ -6984,7 +6984,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>preference_advertiser_pkey</name>
     <primary>true</primary>
     <field>
      <name>advertiser_id</name>
@@ -7030,7 +7030,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>preference_publisher_pkey</name>
     <primary>true</primary>
     <field>
      <name>publisher_id</name>
@@ -7075,7 +7075,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>session_pkey</name>
     <primary>true</primary>
     <field>
      <name>sessionid</name>
@@ -7203,7 +7203,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>tracker_append_pkey</name>
     <primary>true</primary>
     <field>
      <name>tracker_append_id</name>
@@ -7327,7 +7327,7 @@
    </field>
 
    <index>
-    <name>clientid</name>
+    <name>trackers_clientid</name>
     <field>
      <name>clientid</name>
      <sorting>ascending</sorting>
@@ -7335,7 +7335,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>trackers_pkey</name>
     <primary>true</primary>
     <field>
      <name>trackerid</name>
@@ -7410,7 +7410,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>userlog_pkey</name>
     <primary>true</primary>
     <field>
      <name>userlogid</name>
@@ -7453,7 +7453,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>variable_publisher_pkey</name>
     <primary>true</primary>
     <field>
      <name>variable_id</name>
@@ -7582,7 +7582,7 @@
    </index>
 
    <index>
-    <name>trackerid</name>
+    <name>variables_trackerid</name>
     <field>
      <name>trackerid</name>
      <sorting>ascending</sorting>
@@ -7590,7 +7590,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>variables_pkey</name>
     <primary>true</primary>
     <field>
      <name>variableid</name>
@@ -7831,7 +7831,7 @@
    </index>
 
    <index>
-    <name>primary</name>
+    <name>zones_pkey</name>
     <primary>true</primary>
     <field>
      <name>zoneid</name>
