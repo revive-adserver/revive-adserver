@@ -316,7 +316,7 @@ class OA_DB_Table
     function _getRequiredTables($table, $aLinks = null, $aSkip = null, $level = 0)
     {
         if (is_null($aLinks)) {
-            require_once MAX_PATH . '/lib/openads/Dal/Links.php';
+            require_once MAX_PATH . '/lib/OA/Dal/Links.php';
             $aLinks = Openads_Links::readLinksDotIni(MAX_PATH . '/lib/max/Dal/DataObjects/db_schema.links.ini');
         }
         $aTables = array();

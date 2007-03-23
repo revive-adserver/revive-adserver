@@ -46,13 +46,13 @@ class Test_OA_DB_Table extends UnitTestCase
     {
         $this->UnitTestCase();
 
-        // Mock the Openads_Dal class
-        Mock::generate('Openads_Dal');
+        // Mock the OA_DB class
+        Mock::generate('OA_DB');
 
-        // Partially mock the Openads_Table class
+        // Partially mock the OA_DB_Table class
         Mock::generatePartial(
-            'Openads_Table',
-            'PartialMockOpenads_Table',
+            'OA_DB_Table',
+            'PartialMockOA_DB_Table',
             array('_getDbConnection')
         );
     }
@@ -128,20 +128,20 @@ class Test_OA_DB_Table extends UnitTestCase
      *
      * Requirements:
      * Test 1: Ensure the constructor correctly creates and registers
-     *         an Openads_Dal object.
+     *         an OA_DB object.
      */
     function testConstructor()
     {
-        // Mock the Openads_Dal class
-        $oDbh = new MockOpenads_Dal($this);
+        // Mock the OA_DB class
+        $oDbh = new MockOA_DB($this);
 
-        // Partially mock the Openads_Table class
-        $oTable = new PartialMockOpenads_Table($this);
+        // Partially mock the OA_DB_Table class
+        $oTable = new PartialMockOA_DB_Table($this);
         $oTable->setReturnReference('_getDbConnection', $oDbh);
 
         // Test 1
-        $oTable->Openads_Table();
-        $this->assertEqual(strtolower(get_class($oTable)), 'partialmockopenads_table');
+        $oTable->OA_DB_Table();
+        $this->assertEqual(strtolower(get_class($oTable)), strtolower('PartialMockOA_DB_Table'));
         $oDbhReturn = $oTable->_getDbConnection();
         $this->assertIdentical($oDbh, $oDbhReturn);
     }
@@ -157,7 +157,7 @@ class Test_OA_DB_Table extends UnitTestCase
      */
     function testInit()
     {
-        $oTable = new Openads_Table();
+        $oTable = new OA_DB_Table();
 
         // Test 1
         $return = $oTable->init(null);
@@ -198,10 +198,10 @@ class Test_OA_DB_Table extends UnitTestCase
     {
         // Test 1
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &Openads_Dal::singleton();
+        $oDbh = &OA_DB::singleton();
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
-        $oTable = new Openads_Table();
+        $oTable = new OA_DB_Table();
         $this->_writeTestDatabaseSchema();
         $oTable->init(MAX_PATH . '/var/test.xml');
         $oTable->createTable('test_table');
@@ -214,8 +214,8 @@ class Test_OA_DB_Table extends UnitTestCase
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = true;
         $conf['splitTables']['test_table'] = true;
-        $oDbh = &Openads_Dal::singleton();
-        $oTable = new Openads_Table();
+        $oDbh = &OA_DB::singleton();
+        $oTable = new OA_DB_Table();
         $this->_writeTestDatabaseSchema();
         $oTable->init(MAX_PATH . '/var/test.xml');
         $oDate = new Date();
@@ -237,10 +237,10 @@ class Test_OA_DB_Table extends UnitTestCase
     {
         // Test 1
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &Openads_Dal::singleton();
+        $oDbh = &OA_DB::singleton();
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
-        $oTable = new Openads_Table();
+        $oTable = new OA_DB_Table();
         $this->_writeTestDatabaseSchema();
         $oTable->init(MAX_PATH . '/var/test.xml');
         $oTable->createAllTables();
@@ -250,11 +250,11 @@ class Test_OA_DB_Table extends UnitTestCase
 
         // Test 2
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &Openads_Dal::singleton();
+        $oDbh = &OA_DB::singleton();
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = true;
         $conf['splitTables']['test_table'] = true;
-        $oTable = new Openads_Table();
+        $oTable = new OA_DB_Table();
         $this->_writeBigTestDatabaseSchema();
         $oTable->init(MAX_PATH . '/var/test.xml');
         $oDate = new Date();
@@ -277,8 +277,8 @@ class Test_OA_DB_Table extends UnitTestCase
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
-        $oDbh = &Openads_Dal::singleton();
-        $oTable = &Openads_Table_Core::singleton();
+        $oDbh = &OA_DB::singleton();
+        $oTable = &OA_DB_Table_Core::singleton();
         $oTable->createRequiredTables('banners');
         $aExistingTables = $oDbh->manager->listTables();
         $this->assertEqual($aExistingTables[0], 'agency');
@@ -299,8 +299,8 @@ class Test_OA_DB_Table extends UnitTestCase
     {
         // Test 1
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &Openads_Dal::singleton();
-        $oTable = new Openads_Table();
+        $oDbh = &OA_DB::singleton();
+        $oTable = new OA_DB_Table();
         $query = "CREATE TABLE foo ( a INTEGER )";
         $oDbh->query($query);
         $aExistingTables = $oDbh->manager->listTables();
@@ -312,8 +312,8 @@ class Test_OA_DB_Table extends UnitTestCase
 
         // Test 2
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &Openads_Dal::singleton();
-        $oTable = new Openads_Table();
+        $oDbh = &OA_DB::singleton();
+        $oTable = new OA_DB_Table();
         $query = "CREATE TEMPORARY TABLE foo ( a INTEGER )";
         $oDbh->query($query);
         // Test table exists with an insert

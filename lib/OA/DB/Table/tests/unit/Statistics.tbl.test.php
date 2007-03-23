@@ -54,18 +54,18 @@ class Test_OA_DB_Table_Statistics extends UnitTestCase
      */
     function testSingleton()
     {
-        // Mock the Openads_Dal class used in the constructor method
-        Mock::generate('Openads_Dal');
-        $oDbh = &new MockOpenads_Dal($this);
+        // Mock the OA_DB class used in the constructor method
+        Mock::generate('OA_DB');
+        $oDbh = &new MockOA_DB($this);
 
-        // Partially mock the Openads_Table_Statistics class, overriding the
+        // Partially mock the OA_DB_Table_Statistics class, overriding the
         // inherited _getDbConnection() method
         Mock::generatePartial(
-            'Openads_Table_Statistics',
-            'PartialMockOpenads_Table_Statistics',
+            'OA_DB_Table_Statistics',
+            'PartialMockOA_DB_Table_Statistics',
             array('_getDbConnection')
         );
-        $oTable = &new PartialMockOpenads_Table_Statistics($this);
+        $oTable = new PartialMockOA_DB_Table_Statistics($this);
         $oTable->setReturnReference('_getDbConnection', $oDbh);
 
         // Test 1
@@ -97,7 +97,7 @@ class Test_OA_DB_Table_Statistics extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['split'] = false;
         $conf['table']['prefix'] = '';
-        $oDbh = &Openads_Dal::singleton();
+        $oDbh = &OA_DB::singleton();
         foreach ($tmpTables as $tableName) {
             $query = "SELECT * FROM $tableName";
             PEAR::pushErrorHandling(null);
@@ -105,7 +105,7 @@ class Test_OA_DB_Table_Statistics extends UnitTestCase
             PEAR::popErrorHandling();
             $this->assertEqual(strtolower(get_class($result)), 'mdb2_error');
         }
-        $oTable = Openads_Table_Statistics::singleton();
+        $oTable = &OA_DB_Table_Statistics::singleton();
         foreach ($tmpTables as $tableName) {
             $oTable->createTable($tableName);
         }

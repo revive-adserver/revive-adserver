@@ -55,18 +55,18 @@ class Test_OA_DB_Table_Core extends UnitTestCase
      */
     function testSingleton()
     {
-        // Mock the Openads_Dal class used in the constructor method
-        Mock::generate('Openads_Dal');
-        $oDbh = &new MockOpenads_Dal($this);
+        // Mock the OA_DB class used in the constructor method
+        Mock::generate('OA_DB');
+        $oDbh = &new MockOA_DB($this);
 
-        // Partially mock the Openads_Table_Core class, overriding the
+        // Partially mock the OA_DB_Table_Core class, overriding the
         // inherited _getDbConnection() method
         Mock::generatePartial(
-            'Openads_Table_Core',
-            'PartialMockOpenads_Table_Core',
+            'OA_DB_Table_Core',
+            'PartialMockOA_DB_Table_Core',
             array('_getDbConnection')
         );
-        $oTable = &new PartialMockOpenads_Table_Core($this);
+        $oTable = new PartialMockOA_DB_Table_Core($this);
         $oTable->setReturnReference('_getDbConnection', $oDbh);
 
         // Test 1
@@ -91,14 +91,14 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['split'] = false;
         $conf['table']['prefix'] = '';
-        $oDbh = &Openads_Dal::singleton();
+        $oDbh = &OA_DB::singleton();
         $aExistingTables = $oDbh->manager->listTables();
         if (PEAR::isError($aExistingTables)) {
             // Can't talk to database, test fails!
             $this->assertTrue(false);
         }
         $this->assertEqual(count($aExistingTables), 0);
-        $oTable = Openads_Table_Core::singleton();
+        $oTable = &OA_DB_Table_Core::singleton();
         $oTable->createAllTables();
         $aExistingTables = $oDbh->manager->listTables();
         foreach ($conf['table'] as $key => $tableName) {
@@ -117,14 +117,14 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['split'] = true;
         $conf['table']['prefix'] = '';
-        $oDbh = &Openads_Dal::singleton();
+        $oDbh = &OA_DB::singleton();
         $aExistingTables = $oDbh->manager->listTables();
         if (PEAR::isError($aExistingTables)) {
             // Can't talk to database, test fails!
             $this->assertTrue(false);
         }
         $this->assertEqual(count($aExistingTables), 0);
-        $oTable = Openads_Table_Core::singleton();
+        $oTable = &OA_DB_Table_Core::singleton();
         $oDate = new Date();
         $oTable->createAllTables($oDate);
         $aExistingTables = $oDbh->manager->listTables();

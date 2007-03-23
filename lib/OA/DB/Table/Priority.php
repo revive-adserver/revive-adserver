@@ -43,7 +43,7 @@ class OA_DB_Table_Priority extends OA_DB_Table
      */
     function OA_DB_Table_Priority()
     {
-        parent::Openads_Table();
+        parent::OA_DB_Table();
         $this->temporary = true;
     }
 
