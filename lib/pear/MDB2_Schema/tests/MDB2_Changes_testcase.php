@@ -175,10 +175,11 @@ class MDB2_Changes_TestCase extends PHPUnit_TestCase {
         $changes_write['version']       = '9';
         $changes_write['name']          = 'changes_split';
         $changes_write['comments']      = '';
+        $options['split']               = true;
         $options['output']              = SCHEMA_PATH.'changes_split.xml';
         $options['xsl_file']            = "";
         $options['output_mode']         = 'file';
-        $result                         = $this->schema->dumpChangeset($changes_write, $options, true);
+        $result                         = $this->schema->dumpChangeset($changes_write, $options);
         $changes_parse                  = $this->schema->parseChangesetDefinitionFile($options['output']);
 
         $this->assertTrue(isset($changes_parse['constructive']), 'constructive changes not found');
@@ -194,10 +195,11 @@ class MDB2_Changes_TestCase extends PHPUnit_TestCase {
         $changes_write['version']       = '2';
         $changes_write['name']          = 'changes_test';
         $changes_write['comments']      = '';
+        $options['split']               = true;
         $options['output']              = str_replace('schema', 'changes', $this->aSchemas[2]);
         $options['xsl_file']            = "";
         $options['output_mode']         = 'file';
-        $result                         = $this->schema->dumpChangeset($changes_write, $options, true);
+        $result                         = $this->schema->dumpChangeset($changes_write, $options);
         $changes_parse                  = $this->schema->parseChangesetDefinitionFile($options['output']);
 
         $this->assertTrue(isset($changes_parse['constructive']['tables']['change']['table1']['add']['fields']['new_field']), 'added field not found');
@@ -212,10 +214,11 @@ class MDB2_Changes_TestCase extends PHPUnit_TestCase {
         $changes_write['version']       = '3';
         $changes_write['name']          = 'changes_test';
         $changes_write['comments']      = '';
+        $options['split']               = true;
         $options['output']              = str_replace('schema', 'changes', $this->aSchemas[3]);
         $options['xsl_file']            = "";
         $options['output_mode']         = 'file';
-        $result                         = $this->schema->dumpChangeset($changes_write, $options, true);
+        $result                         = $this->schema->dumpChangeset($changes_write, $options);
         $changes_parse                  = $this->schema->parseChangesetDefinitionFile($options['output']);
 
         $this->assertTrue(isset($changes_parse['constructive']['tables']['change']['table1']['indexes']['add']['index1']['primary']), 'primary field not found');
@@ -231,10 +234,11 @@ class MDB2_Changes_TestCase extends PHPUnit_TestCase {
         $changes_write['version']       = '4';
         $changes_write['name']          = 'changes_test';
         $changes_write['comments']      = '';
+        $options['split']               = true;
         $options['output']              = str_replace('schema', 'changes', $this->aSchemas[4]);
         $options['xsl_file']            = "";
         $options['output_mode']         = 'file';
-        $result                         = $this->schema->dumpChangeset($changes_write, $options, true);
+        $result                         = $this->schema->dumpChangeset($changes_write, $options);
         $changes_parse                  = $this->schema->parseChangesetDefinitionFile($options['output']);
 
         $this->assertTrue(isset($changes_parse['tables']['change']['table1']['indexes']['change']['index2']), 'index with changed field order not found');
@@ -249,10 +253,11 @@ class MDB2_Changes_TestCase extends PHPUnit_TestCase {
         $changes_write['version']       = '5';
         $changes_write['name']          = 'changes_test';
         $changes_write['comments']      = '';
+        $options['split']               = true;
         $options['output']              = str_replace('schema', 'changes', $this->aSchemas[5]);
         $options['xsl_file']            = "";
         $options['output_mode']         = 'file';
-        $result                         = $this->schema->dumpChangeset($changes_write, $options, true);
+        $result                         = $this->schema->dumpChangeset($changes_write, $options);
         $changes_parse                  = $this->schema->parseChangesetDefinitionFile($options['output']);
 
         $this->assertTrue(isset($changes_parse['constructive']['tables']['change']['table1']['change']['fields']['new_field']), 'changed field not found');
@@ -268,10 +273,11 @@ class MDB2_Changes_TestCase extends PHPUnit_TestCase {
         $changes_write['version']       = '6';
         $changes_write['name']          = 'changes_test';
         $changes_write['comments']      = '';
+        $options['split']               = true;
         $options['output']              = str_replace('schema', 'changes', $this->aSchemas[6]);
         $options['xsl_file']            = "";
         $options['output_mode']         = 'file';
-        $result                         = $this->schema->dumpChangeset($changes_write, $options, true);
+        $result                         = $this->schema->dumpChangeset($changes_write, $options);
         $changes_parse                  = $this->schema->parseChangesetDefinitionFile($options['output']);
 
         $this->assertTrue(isset($changes_parse['destructive']['tables']['change']['table1']['remove']['new_field']), 'removed field not found');
@@ -286,10 +292,11 @@ class MDB2_Changes_TestCase extends PHPUnit_TestCase {
         $changes_write['version']       = '7';
         $changes_write['name']          = 'changes_test';
         $changes_write['comments']      = '';
+        $options['split']               = true;
         $options['output']              = str_replace('schema', 'changes', $this->aSchemas[7]);
         $options['xsl_file']            = "";
         $options['output_mode']         = 'file';
-        $result                         = $this->schema->dumpChangeset($changes_write, $options, true);
+        $result                         = $this->schema->dumpChangeset($changes_write, $options);
         $changes_parse                  = $this->schema->parseChangesetDefinitionFile($options['output']);
 
         $this->assertTrue(isset($changes_parse['destructive']['tables']['change']['table1']['indexes']['remove']['index2']), 'removed index not found');
@@ -304,10 +311,11 @@ class MDB2_Changes_TestCase extends PHPUnit_TestCase {
         $changes_write['version']       = '8';
         $changes_write['name']          = 'changes_test';
         $changes_write['comments']      = '';
+        $options['split']               = true;
         $options['output']              = str_replace('schema', 'changes', $this->aSchemas[8]);
         $options['xsl_file']            = "";
         $options['output_mode']         = 'file';
-        $result                         = $this->schema->dumpChangeset($changes_write, $options, true);
+        $result                         = $this->schema->dumpChangeset($changes_write, $options);
         $changes_parse                  = $this->schema->parseChangesetDefinitionFile($options['output']);
 
         $this->assertTrue(isset($changes_parse['constructive']['tables']['add']['new_table']), 'added table not found');
@@ -322,10 +330,11 @@ class MDB2_Changes_TestCase extends PHPUnit_TestCase {
         $changes_write['version']       = '9';
         $changes_write['name']          = 'changes_test';
         $changes_write['comments']      = '';
+        $options['split']               = true;
         $options['output']              = str_replace('schema', 'changes', $this->aSchemas[9]);
         $options['xsl_file']            = "";
         $options['output_mode']         = 'file';
-        $result                         = $this->schema->dumpChangeset($changes_write, $options, true);
+        $result                         = $this->schema->dumpChangeset($changes_write, $options);
         $changes_parse                  = $this->schema->parseChangesetDefinitionFile($options['output']);
 
         $this->assertTrue(isset($changes_parse['destructive']['tables']['remove']['new_table']), 'removed table not found');
