@@ -28,7 +28,7 @@ $Id$
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/core/Task.php';
 require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
-require_once MAX_PATH . '/lib/openads/Table/Priority.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
 
 /**
  * A parent class, defining an interface for Maintenance Priority AdServer Task
