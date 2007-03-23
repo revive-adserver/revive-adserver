@@ -98,9 +98,9 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
         $this->writeXMLline("/changeset", '', 'OUT');
 
         if ($output) {
-            call_user_func($output, $buffer);
+            call_user_func($output, $this->buffer);
         } else {
-            fwrite($fp, $buffer);
+            fwrite($fp, $this->buffer);
         }
 
         return $this->buffer;
@@ -253,7 +253,7 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
         $this->writeXMLline("/instructionset", '', 'OUT');
 
         if ($output) {
-            call_user_func($output, $buffer);
+            call_user_func($output, $this->buffer);
         } else {
             fwrite($fp, $this->buffer);
         }
@@ -317,7 +317,7 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
         $this->writeXMLline("/instructionset", '', 'OUT');
 
         if ($output) {
-            call_user_func($output, $buffer);
+            call_user_func($output, $this->buffer);
         } else {
             fwrite($fp, $this->buffer);
         }
@@ -332,8 +332,6 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
      * add something to the buffer
      *
      * @param array $changes
-     * @param string $buffer
-     * @param string $eol
      */
     function addChangesToBuffer($changes)
     {
