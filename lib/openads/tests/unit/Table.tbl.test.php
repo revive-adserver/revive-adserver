@@ -295,6 +295,7 @@ class Test_Openads_Table extends UnitTestCase
      *
      * Requirements:
      * Test 1: Test that a table can be dropped.
+     * Test 2: Test that a temporary table can be dropped.
      */
     function testDropTable()
     {
@@ -310,17 +311,8 @@ class Test_Openads_Table extends UnitTestCase
         $aExistingTables = $oDbh->manager->listTables();
         $this->assertEqual(count($aExistingTables), 0);
         TestEnv::restoreEnv();
-    }
 
-    /**
-     * A method to test the drop temporary table method.
-     *
-     * Requirements:
-     * Test 1: Test that a temporary table can be dropped.
-     */
-    function testDropTempTable()
-    {
-        // Test 1
+        // Test 2
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &Openads_Dal::singleton();
         $oTable = new Openads_Table();
@@ -330,7 +322,7 @@ class Test_Openads_Table extends UnitTestCase
         $query = "INSERT INTO foo (a) VALUES (37)";
         $result = $oDbh->query($query);
         $this->assertTrue($result);
-        $oTable->dropTempTable('foo');
+        $oTable->dropTable('foo');
         // Test table does not exist with an insert
         $query = "INSERT INTO foo (a) VALUES (37)";
         PEAR::pushErrorHandling(null);
@@ -339,6 +331,7 @@ class Test_Openads_Table extends UnitTestCase
         $this->assertEqual(strtolower(get_class($result)), 'mdb2_error');
         TestEnv::restoreEnv();
     }
+
 }
 
 ?>
