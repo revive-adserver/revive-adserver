@@ -25,8 +25,9 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
+
 require_once MAX_PATH . '/lib/max/DB.php';
-require_once MAX_PATH . '/lib/openads/Table/Core.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php'; // Needed for the constants at the top of the file...
