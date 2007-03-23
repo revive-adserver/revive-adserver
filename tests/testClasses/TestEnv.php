@@ -31,10 +31,10 @@ $Id$
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
-require_once MAX_PATH . '/lib/openads/Dal.php';
-require_once MAX_PATH . '/lib/openads/Table/Core.php';
-require_once MAX_PATH . '/lib/openads/Table/Priority.php';
-require_once MAX_PATH . '/lib/openads/Table/Statistics.php';
+require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
 require_once MAX_PATH . '/tests/data/DefaultData.php';
 
 /**
@@ -61,8 +61,8 @@ class TestEnv
         // The "test" database exists in MySQL and PostgreSQL, may
         // required tweaking for other database types!
         $aDatabaseDSN['database']['name'] = 'test';
-        $dsn = Openads_Dal::getDsn($aDatabaseDSN);
-        $oDbh = &Openads_Dal::singleton($dsn);
+        $dsn = OA_DB::getDsn($aDatabaseDSN);
+        $oDbh = &OA_DB::singleton($dsn);
         // Ignore errors when dropping database - it may not exist
         PEAR::pushErrorHandling(null);
         $result = $oDbh->manager->dropDatabase($aConf['database']['name']);
@@ -75,8 +75,8 @@ class TestEnv
      */
     function setupCoreTables()
     {
-        Openads_Table_Core::destroy();
-        $oTable = &Openads_Table_Core::singleton();
+        OA_DB_Table_Core::destroy();
+        $oTable = &OA_DB_Table_Core::singleton();
         $oTable->createAllTables();
     }
 
@@ -141,7 +141,7 @@ class TestEnv
                 switch ($mode)
                 {
                     case 'insert':
-                        $oDbh = &Openads_Dal::singleton();
+                        $oDbh = &OA_DB::singleton();
                         $res = $oDbh->query($v);
                         if (!res || PEAR::isError($res))
                         {
@@ -166,7 +166,7 @@ class TestEnv
     function teardownDB()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &Openads_Dal::singleton();
+        $oDbh = &OA_DB::singleton();
         $result = $oDbh->manager->dropDatabase($aConf['database']['name']);
     }
 
@@ -178,7 +178,7 @@ class TestEnv
     function restoreConfig()
     {
         // Destroy cached table classes
-        Openads_Table_Core::destroy();
+        OA_DB_Table_Core::destroy();
         // Re-parse the config file
         $newConf = @parse_ini_file(MAX_PATH . '/var/test.conf.ini', true);
         foreach($newConf as $configGroup => $configGroupSettings) {
@@ -199,15 +199,15 @@ class TestEnv
     function restoreEnv()
     {
         // Disable transactions, so that setting up the test environment works
-        $oDbh = &Openads_Dal::singleton();
+        $oDbh = &OA_DB::singleton();
         $query = 'SET AUTOCOMMIT=1';
         $result = $oDbh->exec($query);
         // Drop all known temporary tables
-        $oTable = &Openads_Table_Priority::singleton();
+        $oTable = &OA_DB_Table_Priority::singleton();
         foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
             $oTable->dropTable($tableName);
         }
-        $oTable = &Openads_Table_Statistics::singleton();
+        $oTable = &OA_DB_Table_Statistics::singleton();
         foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
             $oTable->dropTable($tableName);
         }
@@ -222,9 +222,9 @@ class TestEnv
         unset($GLOBALS['_MAX']['ADMIN_DB_LINK']);
         unset($GLOBALS['_MAX']['RAW_DB_LINK']);
         // Destroy any cached table classes
-        Openads_Table_Core::destroy();
-        Openads_Table_Priority::destroy();
-        Openads_Table_Statistics::destroy();
+        OA_DB_Table_Core::destroy();
+        OA_DB_Table_Priority::destroy();
+        OA_DB_Table_Statistics::destroy();
         // Destroy the service locator
         $oServiceLocator = &ServiceLocator::instance();
         unset($oServiceLocator->aService);
@@ -245,7 +245,7 @@ class TestEnv
      */
     function startTransaction()
     {
-        $oDbh = &Openads_Dal::singleton();
+        $oDbh = &OA_DB::singleton();
         $oDbh->beginTransaction();
     }
 
@@ -254,7 +254,7 @@ class TestEnv
      */
     function rollbackTransaction()
     {
-        $oDbh = &Openads_Dal::singleton();
+        $oDbh = &OA_DB::singleton();
         $oDbh->rollback();
     }
 
