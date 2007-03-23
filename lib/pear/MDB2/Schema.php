@@ -2386,9 +2386,11 @@ class MDB2_Schema extends PEAR
      * @param unknown_type $options
      * @return unknown
      */
-    function dumpChangeset($changes, $options, $split=false)
+    function dumpChangeset($changes, $options)
     {
-        $class_name = $this->options['writer'];
+        require_once("MDB2/Schema/WriterChangeset.php");
+
+        $class_name = 'MDB2_Schema_Changeset_Writer';
         $result = MDB2::loadClass($class_name, $this->db->getOption('debug'));
         if (PEAR::isError($result)) {
             return $result;
@@ -2397,9 +2399,13 @@ class MDB2_Schema extends PEAR
         if (PEAR::isError($writer)) {
             return $writer;
         }
-        if ($split)
+        if (isset($options['split']) && $options['split'])
         {
             return $writer->dumpSplitChanges($changes, $options);
+        }
+        else if (isset($options['rewrite']) && $options['rewrite'])
+        {
+            return $writer->rewriteSplitChanges($changes, $options);
         }
         else
         {
@@ -2459,9 +2465,6 @@ class MDB2_Schema extends PEAR
         }
 
         $changes = $parser->instructionset;
-//        $changes['test'] = array_unique($parser->test);
-//        $changes['constructive'] = $parser->constructive_changeset_definition;
-//        $changes['destructive']  = $parser->destructive_changeset_definition;
 
         return $changes;
     }

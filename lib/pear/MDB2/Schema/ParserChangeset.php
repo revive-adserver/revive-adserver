@@ -1,49 +1,31 @@
 <?php
-// +----------------------------------------------------------------------+
-// | PHP versions 4 and 5                                                 |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2006 Manuel Lemos, Tomas V.V.Cox,                 |
-// | Stig. S. Bakken, Lukas Smith                                         |
-// | All rights reserved.                                                 |
-// +----------------------------------------------------------------------+
-// | MDB2 is a merge of PEAR DB and Metabases that provides a unified DB  |
-// | API as well as changeset abstraction for PHP applications.            |
-// | This LICENSE is in the BSD license style.                            |
-// |                                                                      |
-// | Redistribution and use in source and binary forms, with or without   |
-// | modification, are permitted provided that the following conditions   |
-// | are met:                                                             |
-// |                                                                      |
-// | Redistributions of source code must retain the above copyright       |
-// | notice, this list of conditions and the following disclaimer.        |
-// |                                                                      |
-// | Redistributions in binary form must reproduce the above copyright    |
-// | notice, this list of conditions and the following disclaimer in the  |
-// | documentation and/or other materials provided with the distribution. |
-// |                                                                      |
-// | Neither the name of Manuel Lemos, Tomas V.V.Cox, Stig. S. Bakken,    |
-// | Lukas Smith nor the names of his contributors may be used to endorse |
-// | or promote products derived from this software without specific prior|
-// | written permission.                                                  |
-// |                                                                      |
-// | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS  |
-// | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT    |
-// | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS    |
-// | FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE      |
-// | REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,          |
-// | INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, |
-// | BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS|
-// |  OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED  |
-// | AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT          |
-// | LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY|
-// | WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE          |
-// | POSSIBILITY OF SUCH DAMAGE.                                          |
-// +----------------------------------------------------------------------+
-// | Author: Christian Dickmann <dickmann@php.net>                        |
-// +----------------------------------------------------------------------+
-//
-// $Id$
-//
+/*
++---------------------------------------------------------------------------+
+| Max Media Manager v0.3                                                    |
+| =================                                                         |
+|                                                                           |
+| Copyright (c) 2003-2006 m3 Media Services Limited                         |
+| For contact details, see: http://www.m3.net/                              |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+/**
+ *
+ * $Id$
+ */
+
 
 require_once 'XML/Parser.php';
 require_once 'MDB2/Schema/Validate.php';
@@ -68,7 +50,9 @@ class MDB2_Changeset_Parser extends XML_Parser
     var $destructive_changeset_definition = array('name'=>'','version'=>'', 'tables' => array());
     var $test;
 
-    var $events = array('tables'=>array());
+    var $events = array();
+    var $hooks = array();
+    var $fieldmap = array();
 
     var $name;
     var $version;
@@ -121,6 +105,10 @@ class MDB2_Changeset_Parser extends XML_Parser
         switch ($this->element)
         {
             case 'instructionset':
+                $this->hooks['constructive'] = array('tables'=>array());
+                $this->hooks['destructive'] = array('tables'=>array());
+                $this->events['constructive'] = array('tables'=>array());
+                $this->events['destructive'] = array('tables'=>array());
             	break;
             case 'instructionset-name':
                 $this->name = '';
@@ -251,7 +239,9 @@ class MDB2_Changeset_Parser extends XML_Parser
         {
             case 'instructionset':
                 $this->instructionset['events'] = $this->events;
+                $this->instructionset['hooks'] = $this->hooks;
                 $this->instructionset['test'] = $this->test;
+                $this->instructionset['fieldmap'] = $this->fieldmap;
             	break;
             case 'instructionset-name':
                 $this->instructionset['name'] = $this->name;
@@ -276,9 +266,10 @@ class MDB2_Changeset_Parser extends XML_Parser
                 if (!isset($this->constructive_changeset_definition['tables']['add'][$this->table_name]))
                 {
                     $this->constructive_changeset_definition['tables']['add'][$this->table_name] = true;
-                    $this->events['tables'][$this->table_name]['self']['beforeAddTable'] = "beforeAddTable_{$this->table_name}";
-                    $this->events['tables'][$this->table_name]['self']['afterAddTable']  = "afterAddTable_{$this->table_name}";
-                    //$this->events['tables'][$this->table_name]['was']  = "";
+                    $this->hooks['constructive']['tables'][$this->table_name]['self']['beforeAddTable'] = "beforeAddTable__{$this->table_name}";
+                    $this->events['constructive']['tables'][$this->table_name]['self']['doAddTable']    = "doAddTable__{$this->table_name}";
+                    $this->hooks['constructive']['tables'][$this->table_name]['self']['afterAddTable']  = "afterAddTable__{$this->table_name}";
+                    //$this->map['tables'][$this->table_name]['was']  = "";
                 }
             	break;
             case 'instructionset-constructive-changeset-change':
@@ -299,9 +290,10 @@ class MDB2_Changeset_Parser extends XML_Parser
             	break;
             case 'instructionset-constructive-changeset-change-table-add-field':
                 $this->add['fields'][$this->field_name] = $this->field;
-                $this->events['tables'][$this->table_name]['fields'][$this->field_name]['beforeAddField'] = "beforeAddField_{$this->table_name}_{$this->field_name}";
-                $this->events['tables'][$this->table_name]['fields'][$this->field_name]['afterAddField']  = "afterAddField_{$this->table_name}_{$this->field_name}";
-                //$this->events['tables'][$this->table_name]['fields'][$this->field_name]['was']  = $this->field['was'];
+                $this->hooks['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['beforeAddField'] = "beforeAddField__{$this->table_name}__{$this->field_name}";
+                $this->events['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['doAddField']    = "doAddField__{$this->table_name}__{$this->field_name}";
+                $this->hooks['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['afterAddField']  = "afterAddField__{$this->table_name}__{$this->field_name}";
+                $this->fieldmap[] = array('toTable'=>$this->table_name,'toField'=>$this->field_name, 'fromTable'=>$this->table_name, 'fromField'=>$this->field['was']);
             	break;
             case 'instructionset-constructive-changeset-change-table-add-field-name':
             case 'instructionset-constructive-changeset-change-table-add-field-type':
@@ -314,8 +306,9 @@ class MDB2_Changeset_Parser extends XML_Parser
             	break;
             case 'instructionset-constructive-changeset-change-table-change-field':
                 $this->change['fields'][$this->field_name] = $this->field;
-                $this->events['tables'][$this->table_name]['fields'][$this->field_name]['beforeAlterField'] = "beforeAlterField_{$this->table_name}_{$this->field_name}";
-                $this->events['tables'][$this->table_name]['fields'][$this->field_name]['afterAlterField']  = "afterAlterField_{$this->table_name}_{$this->field_name}";
+                $this->hooks['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['beforeAlterField'] = "beforeAlterField__{$this->table_name}__{$this->field_name}";
+                $this->events['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['doAlterField']    = "doAlterField__{$this->table_name}__{$this->field_name}";
+                $this->hooks['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['afterAlterField']  = "afterAlterField__{$this->table_name}__{$this->field_name}";
                 //$this->events['tables'][$this->table_name]['fields'][$this->field_name]['was']  = $this->field['was'];
             	break;
             case 'instructionset-constructive-changeset-change-table-change-field-name':
@@ -328,8 +321,9 @@ class MDB2_Changeset_Parser extends XML_Parser
                 break;
             case 'instructionset-constructive-changeset-change-table-index-add':
                 $this->constructive_changeset_definition['tables']['change'][$this->table_name]['indexes']['add'][$this->index_name] = $this->index;
-                $this->events['tables'][$this->table_name]['indexes'][$this->index_name]['beforeAddIndex'] = "beforeAddIndex_{$this->table_name}_{$this->index_name}";
-                $this->events['tables'][$this->table_name]['indexes'][$this->index_name]['afterAddIndex']  = "afterAddIndex_{$this->table_name}_{$this->index_name}";
+                $this->hooks['constructive']['tables'][$this->table_name]['indexes'][$this->index_name]['beforeAddIndex']  = "beforeAddIndex__{$this->table_name}__{$this->index_name}";
+                $this->events['constructive']['tables'][$this->table_name]['indexes'][$this->index_name]['doAddIndex']      = "doAddIndex__{$this->table_name}__{$this->index_name}";
+                $this->hooks['constructive']['tables'][$this->table_name]['indexes'][$this->index_name]['afterAddIndex']   = "afterAddIndex__{$this->table_name}__{$this->index_name}";
                 //$this->events['tables'][$this->table_name]['indexes'][$this->index_name]['was']  = $this->index['was'];
                 break;
             case 'instructionset-constructive-changeset-change-table-index-add-indexfield':
@@ -362,8 +356,9 @@ class MDB2_Changeset_Parser extends XML_Parser
             	break;
             case 'instructionset-destructive-changeset-remove-table':
                 $this->destructive_changeset_definition['tables']['remove'][$this->table_name] = true;
-                $this->events['tables'][$this->table_name]['self']['beforeRemoveTable'] = "beforeRemoveTable_{$this->table_name}";
-                $this->events['tables'][$this->table_name]['self']['afterRemoveTable']  = "afterRemoveTable_{$this->table_name}";
+                $this->hooks['destructive']['tables'][$this->table_name]['self']['beforeRemoveTable']  = "beforeRemoveTable__{$this->table_name}";
+                $this->events['destructive']['tables'][$this->table_name]['self']['doRemoveTable']      = "doRemoveTable__{$this->table_name}";
+                $this->hooks['destructive']['tables'][$this->table_name]['self']['afterRemoveTable']   = "afterRemoveTable__{$this->table_name}";
             	break;
             case 'instructionset-destructive-changeset-change-table-name':
                 $this->destructive_changeset_definition['tables']['change'][$this->table_name] = array();
@@ -375,16 +370,18 @@ class MDB2_Changeset_Parser extends XML_Parser
             	break;
             case 'instructionset-destructive-changeset-change-table-remove-field-name':
                 $this->destructive_changeset_definition['tables']['change'][$this->table_name]['remove'][$this->field_name] = true;
-                $this->events['tables'][$this->table_name]['fields'][$this->field_name]['beforeRemoveField'] = "beforeRemoveField_{$this->table_name}_{$this->field_name}";
-                $this->events['tables'][$this->table_name]['fields'][$this->field_name]['afterRemoveField']  = "afterRemoveField_{$this->table_name}_{$this->field_name}";
+                $this->hooks['destructive']['tables'][$this->table_name]['fields'][$this->field_name]['beforeRemoveField'] = "beforeRemoveField__{$this->table_name}__{$this->field_name}";
+                $this->events['destructive']['tables'][$this->table_name]['fields'][$this->field_name]['doRemoveField']     = "doRemoveField__{$this->table_name}__{$this->field_name}";
+                $this->hooks['destructive']['tables'][$this->table_name]['fields'][$this->field_name]['afterRemoveField']  = "afterRemoveField__{$this->table_name}__{$this->field_name}";
             	break;
 
             case 'instructionset-destructive-changeset-change-table-index':
                 break;
             case 'instructionset-destructive-changeset-change-table-index-remove':
                 $this->destructive_changeset_definition['tables']['change'][$this->table_name]['indexes']['remove'][$this->index_name] = true;
-                $this->events['tables'][$this->table_name]['indexes'][$this->index_name]['beforeRemoveIndex'] = "beforeRemoveIndex_{$this->table_name}_{$this->index_name}";
-                $this->events['tables'][$this->table_name]['indexes'][$this->index_name]['afterRemoveIndex']  = "afterRemoveIndex_{$this->table_name}_{$this->index_name}";
+                $this->hooks['destructive']['tables'][$this->table_name]['indexes'][$this->index_name]['beforeRemoveIndex'] = "beforeRemoveIndex__{$this->table_name}__{$this->index_name}";
+                $this->events['destructive']['tables'][$this->table_name]['indexes'][$this->index_name]['doRemoveIndex']    = "doRemoveIndex__{$this->table_name}__{$this->index_name}";
+                $this->hooks['destructive']['tables'][$this->table_name]['indexes'][$this->index_name]['afterRemoveIndex']  = "afterRemoveIndex__{$this->table_name}__{$this->index_name}";
                 break;
             case 'instructionset-destructive-changeset-change-table-index-remove-name':
                 break;
