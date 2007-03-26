@@ -14,7 +14,7 @@
                     </tr>
                     <?php
                     $i = 0;
-                    foreach ($tbl_definition['fields'] AS $field => $field_def )
+                    foreach ($aTbl_definition['fields'] AS $field => $field_def )
                     {
                         $i++;
                         $form_name = 'frm_field_'.$i;
@@ -89,7 +89,7 @@
                                         <input type="text" name="field_add" id="field_add" value="" style="display:inline"/>
                                         <select name="sel_field_add">
                                         <?php
-                                        foreach ($dd_definition['options'] AS $k => $option )
+                                        foreach ($aDD_definition['options'] AS $k => $option )
                                         {
                                             echo $option;
                                         }

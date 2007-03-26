@@ -38,12 +38,16 @@
                 </td>
             </tr>
             <tr id="trans_changeset" style="display:block;">
-                <td class="tableheader" colspan="3">
+                <td class="tableheader" colspan="10">
                     <form name="frm_admin" method="POST" action="index.php">
                         <span class="titlemini">
                             <xsl:text>comments</xsl:text>
                             <br />
                             <textarea name="comments" cols="100" rows="1" ></textarea>
+                            <br />
+                            <xsl:text>version</xsl:text>
+                            <br />
+                            <input type="text" id="version" name="version" value="" size="10" />
                         </span>
                         <span class="titlemini" style="text-align:right;vertical-align:top;">
                             <input name="btn_commit_final" type="submit" value="finalise this changeset"/>

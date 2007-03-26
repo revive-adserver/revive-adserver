@@ -67,11 +67,18 @@ function loadChangeset()
         }
         closedir($dh);
         $objResponse->addAssign('select_changesets',"innerHTML", $opts);
-        //$objResponse->addAssign('file_name',"value", $file);
+
         if (is_null($changefile))
         {
             $objResponse->addAssign('was_edit',"style.display", 'none');
             $objResponse->addAssign('was_show',"style.display", 'inline');
+            global $oaSchema;
+            if ($oaSchema)
+            {
+                $oaSchema->setWorkingFiles();
+                $oaSchema->parseWorkingDefinitionFile();
+                $objResponse->addAssign('version',"value", $oaSchema->version);
+            }
         }
         else
         {

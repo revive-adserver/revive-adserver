@@ -11,7 +11,7 @@
                     </tr>
                     <?php
                     $i = 0;
-                    foreach ($tbl_definition['indexes'] AS $name => $idx_def )
+                    foreach ($aTbl_definition['indexes'] AS $name => $idx_def )
                     {
                         $i++;
                         $form_name = 'frm_index_'.$i;
@@ -109,7 +109,7 @@
                                                 <ul name="fld_list" name="fld_list" style="cursor:pointer;list-style-type: none;" >
                                                 <?php
                                                 $i = 0;
-                                                foreach ($tbl_definition['fields'] AS $field => $field_def )
+                                                foreach ($aTbl_definition['fields'] AS $field => $field_def )
                                                 {
                                                     $i++;
                                                     echo "<li id=\"fld_{$i}\" value=\"{$field}\" ondblclick=\"xajax_addIndexField('{$field}'); return false\">{$field}</li>";

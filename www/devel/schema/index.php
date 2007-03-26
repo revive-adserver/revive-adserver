@@ -57,7 +57,7 @@ else
         $schemaFile = 'tables_core.xml';
     }
 }
-
+global $oaSchema;
 $oaSchema = & new Openads_Schema_Manager($schemaFile);
 
 if (($aErrs = $oaSchema->checkPermissions()) !== true) {
@@ -95,7 +95,7 @@ else if (array_key_exists('btn_changeset_delete', $_POST))
 }
 else if (array_key_exists('btn_commit_final', $_POST))
 {
-    $oaSchema->commitFinal($_POST['comments']);
+    $oaSchema->commitFinal($_POST['comments'], $_POST['version']);
 }
 
 $oaSchema->setWorkingFiles();
@@ -206,12 +206,12 @@ if (!$table)
 else
 {
     $oaSchema->parseWorkingDefinitionFile();
-    $dd_definition  = $oaSchema->dd_definition;
-    $db_definition  = $oaSchema->db_definition;
-    $tbl_definition = $oaSchema->db_definition['tables'][$table];
-    $links          = $oaSchema->readForeignKeys($table);
-    $tbl_links      = $links[$table];
-    $link_targets   = $oaSchema->getLinkTargets();
+    $aDD_definition  = $oaSchema->aDD_definition;
+    $aDB_definition  = $oaSchema->aDB_definition;
+    $aTbl_definition = $oaSchema->aDB_definition['tables'][$table];
+    $aLinks          = $oaSchema->readForeignKeys($table);
+    $aTbl_links      = $aLinks[$table];
+    $aLink_targets   = $oaSchema->getLinkTargets();
 
     include 'edit.html';
     exit();

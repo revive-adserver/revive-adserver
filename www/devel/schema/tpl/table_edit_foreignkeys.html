@@ -40,7 +40,7 @@
                                 <span class="textmini" id="span_link_add" style="display:inline;">
                                     <select name="link_add" >
                                     <?php
-                                    foreach ($tbl_definition['fields'] AS $field => $field_def )
+                                    foreach ($aTbl_definition['fields'] AS $field => $field_def )
                                     {
                                         if (isset($tbl_links[$field])) {
                                             continue;
@@ -51,7 +51,7 @@
                                     </select>
                                     <select name="link_add_target" >
                                     <?php
-                                    foreach ($link_targets AS $link => $link_def )
+                                    foreach ($aLink_targets AS $link => $link_def )
                                     {
                                         echo "<option value=\"{$link}\">{$link_def}</option>";
                                     }
