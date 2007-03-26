@@ -28,7 +28,7 @@ $Id$
 require_once MAX_PATH . '/lib/max/Entity/Placement.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
-require_once MAX_PATH . '/lib/openads/Table/Priority.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
 
 /**
  * A class to allocate the required impressions for each advertisement to

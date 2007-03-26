@@ -48,7 +48,7 @@ class TestOfPriorityAdserverAllocateZoneImpressions extends UnitTestCase
         $this->UnitTestCase();
         Mock::generate('MAX_Dal_Entities');
         Mock::generate('MAX_Dal_Maintenance_Priority');
-        Mock::generate('Openads_Table_Priority');
+        Mock::generate('OA_DB_Table_Priority');
     }
 
     /**
@@ -62,8 +62,8 @@ class TestOfPriorityAdserverAllocateZoneImpressions extends UnitTestCase
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntites);
         $oMaxDalMaintenancePriority = new MockMAX_Dal_Maintenance_Priority($this);
         $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oMaxDalMaintenancePriority);
-        $oTable = new MockOpenads_Table_Priority($this);
-        $oServiceLocator->register('Openads_Table_Priority', $oTable);
+        $oTable = new MockOA_DB_Table_Priority($this);
+        $oServiceLocator->register('OA_DB_Table_Priority', $oTable);
     }
 
     /**
@@ -76,7 +76,7 @@ class TestOfPriorityAdserverAllocateZoneImpressions extends UnitTestCase
         $oServiceLocator = &ServiceLocator::instance();
         $oServiceLocator->remove('MAX_Dal_Entities');
         $oServiceLocator->remove('MAX_Dal_Maintenance_Priority');
-        $oServiceLocator->remove('Openads_Table_Priority');
+        $oServiceLocator->remove('OA_DB_Table_Priority');
     }
 
     /**

@@ -84,10 +84,10 @@ class MAX_Maintenance_Priority_AdServer_Task extends MAX_Core_Task
     {
         $dbType = strtolower($GLOBALS['_MAX']['CONF']['database']['type']);
         $oServiceLocator = &ServiceLocator::instance();
-        $oTable = $oServiceLocator->get('Openads_Table_Priority');
+        $oTable = $oServiceLocator->get('OA_DB_Table_Priority');
         if (!$oTable) {
-            $oTable = &Openads_Table_Priority::singleton($dbType);
-            $oServiceLocator->register('Openads_Table_Priority', $oTable);
+            $oTable = &OA_DB_Table_Priority::singleton();
+            $oServiceLocator->register('OA_DB_Table_Priority', $oTable);
         }
         return $oTable;
     }
