@@ -42,7 +42,7 @@ require_once 'Date.php';
  */
 class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_Statistics_Common
 {
-    var $dbh;
+    var $oDbh;
     var $sortBufferSize;
 
     /**
@@ -53,16 +53,16 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
     function MAX_Dal_Maintenance_Statistics_AdServer_mysql()
     {
         parent::MAX_Dal_Maintenance_Statistics_Common();
-        $this->dbh = &MAX_DB::singleton();
+        $this->oDbh = &OA_DB::singleton();
         // Store the original MySQL sort_buffer_size value
         $query = "SHOW SESSION VARIABLES like 'sort_buffer_size'";
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
-        $row = $result->fetchRow();
-        if (is_array($row) && (count($row) == 2) && (isset($row['Value']))) {
-            $this->sortBufferSize = $row['Value'];
+        $aRow = $rc->fetchRow();
+        if (is_array($aRow) && (count($aRow) == 2) && (isset($aRow['Value']))) {
+            $this->sortBufferSize = $aRow['Value'];
         }
     }
 
@@ -77,13 +77,13 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         // Only set if the original sort_buffer_size is stored, and
         // if a specified value for the sort_buffer_size has been
         // defined by the user in the configuration
-        $conf = $GLOBALS['_MAX']['CONF'];
-        if (isset($this->sortBufferSize) && isset($conf['databaseMysql']['statisticsSortBufferSize']) &&
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        if (isset($this->sortBufferSize) && isset($aConf['databaseMysql']['statisticsSortBufferSize']) &&
             is_numeric($conf['databaseMysql']['statisticsSortBufferSize'])) {
-            $query = 'SET SESSION sort_buffer_size='.$conf['databaseMysql']['statisticsSortBufferSize'];
-            $result = $this->dbh->query($query);
-            if (PEAR::isError($result)) {
-                MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+            $query = 'SET SESSION sort_buffer_size='.$aConf['databaseMysql']['statisticsSortBufferSize'];
+            $rows = $this->oDbh->exec($query);
+            if (PEAR::isError($rows)) {
+                MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             }
         }
     }
@@ -99,13 +99,13 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         // Only restore if the original sort_buffer_size is stored,
         // and if a specified value for the sort_buffer_size has
         // been defined by the user in the configuration
-        $conf = $GLOBALS['_MAX']['CONF'];
-        if (isset($this->sortBufferSize) && isset($conf['databaseMysql']['statisticsSortBufferSize']) &&
-            is_numeric($conf['databaseMysql']['statisticsSortBufferSize'])) {
-            $query = 'SET SESSION sort_buffer_size='.$this->sortBufferSize;
-            $result = $this->dbh->query($query);
-            if (PEAR::isError($result)) {
-                MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        if (isset($this->sortBufferSize) && isset($aConf['databaseMysql']['statisticsSortBufferSize']) &&
+            is_numeric($aConf['databaseMysql']['statisticsSortBufferSize'])) {
+            $query = 'SET SESSION sort_buffer_size='.$aConf->sortBufferSize;
+            $rows = $this->oDbh->exec($query);
+            if (PEAR::isError($rows)) {
+                MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             }
         }
     }
@@ -324,11 +324,10 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
             GROUP BY
                 day, hour, ad_id, creative_id, zone_id";
         MAX::debug("Summarising ad $type" . "s from the $baseTable table.", PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
-        $rows = $this->dbh->affectedRows();
         // Restore the MySQL sort buffer size
         $this->restoreSortBufferSize();
         return $rows;
@@ -468,11 +467,10 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
 //                AND ct.$windowName > 0";
         MAX::debug('Selecting tracker impressions that may connect to ad ' .
                    $action . 's into the ' . $tempTable . ' temporary table.', PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $trackerImpressionRows = $this->oDbh->exec($query);
+        if (PEAR::isError($trackerImpressionRows)) {
+            return MAX::raiseError($trackerImpressionRows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
-        $trackerImpressionRows = $this->dbh->affectedRows();
         MAX::debug('Selected ' . $trackerImpressionRows . ' tracker impressions that may connect to ad ' .
                    $action . 's into the ' . $tempTable . ' temporary table.', PEAR_LOG_DEBUG);
         // Connect the tracker impressions with raw connection types, where possible,
@@ -569,11 +567,10 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 AND tt.date_time < DATE_ADD(drat.date_time, INTERVAL 30 DAY)
                 AND tt.date_time >= drat.date_time";
         MAX::debug('Connecting tracker impressions with ad ' . $action . 's, where possible.', PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
-        $rows = $this->dbh->affectedRows();
         // Drop the temporary table
         $this->tempTables->dropTempTable($tempTable);
         // Return the summarised connection rows
@@ -789,9 +786,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         }
         $message .= " into the $table table.";
         MAX::debug($message, PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         // Drop the tmp_union table
         $this->tempTables->dropTempTable('tmp_union');
@@ -2406,15 +2403,15 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function deleteOldData($summarisedTo)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $deleteDate = $summarisedTo;
-        if ($conf['maintenance']['compactStatsGrace'] > 0) {
-            $deleteDate->subtractSeconds((int) $conf['maintenance']['compactStatsGrace']);
+        if ($aConf['maintenance']['compactStatsGrace'] > 0) {
+            $deleteDate->subtractSeconds((int) $aConf['maintenance']['compactStatsGrace']);
         }
-        $rows = 0;
+        $resultRows = 0;
         // Delete the ad requests before taking into account the maximum connection window
-        $table = $conf['table']['prefix'] .
-                 $conf['table']['data_raw_ad_request'];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table']['data_raw_ad_request'];
         $query = "
             DELETE FROM
                 $table
@@ -2422,13 +2419,13 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 date_time <= '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
         MAX::debug("Deleting summarised (earlier than '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') .
                    "') ad requests from the $table table", PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
-        $rows += $this->dbh->affectedRows();
+        $resultRows += $rows;
         // Take into account the maximum connection window, if approproate
-        if ($conf['modules']['Tracker']) {
+        if ($aConf['modules']['Tracker']) {
             // Find the largest, active impression and click connection windows
             list($impressionWindow, $clickWindow) = $this->oDalMaintenanceStatistics->maxConnectionWindows();
             // Find the largest of the two windows
@@ -2442,8 +2439,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                                             // doesn't deal with strings
         }
         // Delete the ad impressions
-        $table = $conf['table']['prefix'] .
-                 $conf['table']['data_raw_ad_impression'];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table']['data_raw_ad_impression'];
         $query = "
             DELETE FROM
                 $table
@@ -2451,14 +2448,14 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 date_time <= '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
         MAX::debug("Deleting summarised (earlier than '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') .
                    "') ad impressions from the $table table", PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
-        $rows += $this->dbh->affectedRows();
+        $resultRows += $rows;
         // Delete the ad clicks
-        $table = $conf['table']['prefix'] .
-                 $conf['table']['data_raw_ad_click'];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table']['data_raw_ad_click'];
         $query = "
             DELETE FROM
                 $table
@@ -2466,12 +2463,12 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 date_time <= '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
         MAX::debug("Deleting summarised (earlier than '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') .
                    "') ad clicks from the $table table", PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
-        $rows += $this->dbh->affectedRows();
-        return $rows;
+        $resultRows += $rows;
+        return $resultRows;
     }
 
 }

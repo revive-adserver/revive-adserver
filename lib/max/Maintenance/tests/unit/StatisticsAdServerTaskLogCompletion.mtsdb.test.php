@@ -66,16 +66,16 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_LogCompletion e
         TestEnv::restoreEnv();
 
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $tables = &Openads_Table_Core::singleton();
-        $dbh = &MAX_DB::singleton();
+        $oTable = &OA_DB_Table_Core::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
         // Create the required table
-        $tables->createTable('data_raw_ad_impression');
-        $tables->createTable('log_maintenance_statistics');
-        $tables->createTable('userlog');
+        $oTable->createTable('data_raw_ad_impression');
+        $oTable->createTable('log_maintenance_statistics');
+        $oTable->createTable('userlog');
 
-        $now = new Date('2004-06-06 18:10:00');
-        $oServiceLocator->register('now', $now);
+        $oNow = new Date('2004-06-06 18:10:00');
+        $oServiceLocator->register('now', $oNow);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
@@ -87,8 +87,8 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_LogCompletion e
         $oLogCompletion->oController->updateIntermediateToDate = new Date('2004-06-06 17:59:59');
         $oLogCompletion->oController->updateFinal = false;
         $oLogCompletion->oController->updateFinalToDate = null;
-        $end = new Date('2004-06-06 18:12:00');
-        $oLogCompletion->run($end);
+        $oEnd = new Date('2004-06-06 18:12:00');
+        $oLogCompletion->run($oEnd);
         // Test
         $query = "
             SELECT
@@ -97,18 +97,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_LogCompletion e
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
             WHERE
                 adserver_run_type = 0";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['start_run'], '2004-06-06 18:10:00');
-        $this->assertEqual($row['end_run'], '2004-06-06 18:12:00');
-        $this->assertEqual($row['duration'], 120);
-        $this->assertEqual($row['updated_to'], '2004-06-06 17:59:59');
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['start_run'], '2004-06-06 18:10:00');
+        $this->assertEqual($aRow['end_run'], '2004-06-06 18:12:00');
+        $this->assertEqual($aRow['duration'], 120);
+        $this->assertEqual($aRow['updated_to'], '2004-06-06 17:59:59');
         // Set some of the object's variables, and log
         $oLogCompletion->oController->updateIntermediate = false;
         $oLogCompletion->oController->updateIntermediateToDate = null;
         $oLogCompletion->oController->updateFinal = true;
         $oLogCompletion->oController->updateFinalToDate = new Date('2004-06-06 17:59:59');
-        $end = new Date('2004-06-06 18:13:00');
-        $oLogCompletion->run($end);
+        $oEnd = new Date('2004-06-06 18:13:00');
+        $oLogCompletion->run($oEnd);
         // Test
         $query = "
             SELECT
@@ -117,18 +118,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_LogCompletion e
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
             WHERE
                 adserver_run_type = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['start_run'], '2004-06-06 18:10:00');
-        $this->assertEqual($row['end_run'], '2004-06-06 18:13:00');
-        $this->assertEqual($row['duration'], 180);
-        $this->assertEqual($row['updated_to'], '2004-06-06 17:59:59');
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['start_run'], '2004-06-06 18:10:00');
+        $this->assertEqual($aRow['end_run'], '2004-06-06 18:13:00');
+        $this->assertEqual($aRow['duration'], 180);
+        $this->assertEqual($aRow['updated_to'], '2004-06-06 17:59:59');
         // Set some of the object's variables, and log
         $oLogCompletion->oController->updateIntermediate = true;
         $oLogCompletion->oController->updateIntermediateToDate = new Date('2004-06-06 17:59:59');
         $oLogCompletion->oController->updateFinal = true;
         $oLogCompletion->oController->updateFinalToDate = new Date('2004-06-06 17:59:59');
-        $end = new Date('2004-06-06 18:14:00');
-        $oLogCompletion->run($end);
+        $oEnd = new Date('2004-06-06 18:14:00');
+        $oLogCompletion->run($oEnd);
         // Test
         $query = "
             SELECT
@@ -137,11 +139,12 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_LogCompletion e
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
             WHERE
                 adserver_run_type = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['start_run'], '2004-06-06 18:10:00');
-        $this->assertEqual($row['end_run'], '2004-06-06 18:14:00');
-        $this->assertEqual($row['duration'], 240);
-        $this->assertEqual($row['updated_to'], '2004-06-06 17:59:59');
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['start_run'], '2004-06-06 18:10:00');
+        $this->assertEqual($aRow['end_run'], '2004-06-06 18:14:00');
+        $this->assertEqual($aRow['duration'], 240);
+        $this->assertEqual($aRow['updated_to'], '2004-06-06 17:59:59');
 
         // Reset the testing environment
         TestEnv::restoreEnv();

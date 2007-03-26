@@ -65,8 +65,8 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
         $conf['maintenance']['operationInterval'] = 60;
         $conf['table']['prefix'] = 'max_';
         $conf['table']['split'] = false;
-        $tables = &Openads_Table_Core::singleton();
-        $dbh = &MAX_DB::singleton();
+        $tables = &OA_DB_Table_Core::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
         // Create the required tables
         $tables->createTable('campaigns_trackers');
@@ -77,10 +77,10 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Maintenance/data/TestOfMaintenanceStatisticsCommon.php';
         // Insert the test data
-        $result = $dbh->query(COMMON_DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
-        $result = $dbh->query(COMMON_DELETE_OLD_DATA_AD_CLICKS);
-        $result = $dbh->query(COMMON_DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $result = $dbh->query(COMMON_DELETE_OLD_DATA_AD_REQUESTS);
+        $rows = $oDbh->exec(COMMON_DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
+        $rows = $oDbh->exec(COMMON_DELETE_OLD_DATA_AD_CLICKS);
+        $rows = $oDbh->exec(COMMON_DELETE_OLD_DATA_AD_IMPRESSIONS);
+        $rows = $oDbh->exec(COMMON_DELETE_OLD_DATA_AD_REQUESTS);
         // Set compact_stats to false
         $conf['maintenance']['compactStats'] = false;
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
@@ -95,22 +95,25 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         // Set compact_stats to true
         $conf['maintenance']['compactStats'] = true;
         // Set compact_stats grace to one hour
@@ -132,22 +135,25 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
         $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateFinal = true;
@@ -163,22 +169,25 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
         $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateFinal = false;
@@ -194,22 +203,25 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
         $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateFinal = true;
@@ -226,22 +238,25 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         // Drop and re-create the tables
         $tables->dropTable($conf['table']['prefix'].$conf['table']['data_raw_ad_click']);
         $tables->dropTable($conf['table']['prefix'].$conf['table']['data_raw_ad_impression']);
@@ -252,9 +267,9 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
         $tables->createTable('data_raw_ad_request');
         $tables->createTable('log_maintenance_statistics');
         // Re-insert the test data
-        $result = $dbh->query(COMMON_DELETE_OLD_DATA_AD_CLICKS);
-        $result = $dbh->query(COMMON_DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $result = $dbh->query(COMMON_DELETE_OLD_DATA_AD_REQUESTS);
+        $rows = $oDbh->exec(COMMON_DELETE_OLD_DATA_AD_CLICKS);
+        $rows = $oDbh->exec(COMMON_DELETE_OLD_DATA_AD_IMPRESSIONS);
+        $rows = $oDbh->exec(COMMON_DELETE_OLD_DATA_AD_REQUESTS);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
         $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateFinal = false;
@@ -271,22 +286,25 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         // Reset the testing environment
         TestEnv::restoreEnv();
     }
