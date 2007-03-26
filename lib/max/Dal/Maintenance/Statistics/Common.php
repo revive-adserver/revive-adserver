@@ -33,8 +33,8 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/max/Maintenance.php';
-require_once MAX_PATH . '/lib/openads/Table/Core.php';
-require_once MAX_PATH . '/lib/openads/Table/Statistics.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
 
 /**
  * Definitions of class constants.
@@ -62,8 +62,8 @@ class MAX_Dal_Maintenance_Statistics_Common
      */
     function MAX_Dal_Maintenance_Statistics_Common()
     {
-        $this->tables = &Openads_Table_Core::singleton();
-        $this->tempTables = &Openads_Table_Statistics::singleton();
+        $this->tables = &OA_DB_Table_Core::singleton();
+        $this->tempTables = &OA_DB_Table_Statistics::singleton();
         $this->oDalMaintenanceStatistics = new MAX_Dal_Maintenance_Statistics();
     }
 
