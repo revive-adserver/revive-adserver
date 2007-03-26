@@ -60,7 +60,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
     function testGetPlacementFirstStatsDate()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $adTable = $conf['table']['prefix'] . $conf['table']['banners'];
         $dsahTable = $conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'];
@@ -98,7 +98,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
                     2,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $dsahTable
@@ -113,7 +113,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
                     12,
                     2
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $oResult = $oDalStatistics->getPlacementFirstStatsDate($placementId);
         $oExpectedDate = new Date('2006-10-30 12:00:00');
         $this->assertEqual($oResult, $oExpectedDate);
@@ -135,7 +135,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
                     1,
                     2
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $dsahTable
@@ -165,7 +165,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
                     12,
                     4
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $oResult = $oDalStatistics->getPlacementFirstStatsDate($placementId);
         $oExpectedDate = new Date('2006-10-27 12:00:00');
         $this->assertEqual($oResult, $oExpectedDate);
@@ -193,7 +193,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
     function testGetChannelDailyInventoryForecastByChannelZoneIds()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oDalStatistics = new MAX_Dal_Statistics();
 
         // Test 1
@@ -337,7 +337,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
                     1,
                     9
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $conf['maintenance']['channelForecasting'] = 'true';
         $channelId = 1;
         $aZoneIds = array(1, 2);
@@ -373,7 +373,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
                     2,
                     999
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $conf['maintenance']['channelForecasting'] = 'true';
         $channelId = 1;
         $aZoneIds = array(1, 2);
@@ -415,7 +415,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
                     2,
                     5999
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $conf['maintenance']['channelForecasting'] = 'true';
         $channelId = 1;
         $aZoneIds = array(1, 2);
@@ -451,7 +451,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
                     1,
                     13
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $conf['maintenance']['channelForecasting'] = 'true';
         $channelId = 1;
         $aZoneIds = array(1, 2);
@@ -493,7 +493,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
     function testGetRecentAverageZoneForecastByZoneIds()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oDalStatistics = new MAX_Dal_Statistics();
 
         // Test 1
@@ -540,7 +540,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
                     1,
                     500
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aZoneIds = array(1, 2, 3);
         $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
         $aExpectedResult = array(
@@ -575,7 +575,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
                     2,
                     500
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aZoneIds = array(1, 2, 3);
         $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
         $aExpectedResult = array(
