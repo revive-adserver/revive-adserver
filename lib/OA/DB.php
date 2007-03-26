@@ -138,7 +138,6 @@ class OA_DB
      *                      password - Optional password
      *                      host     - Database server hostname
      *                      name     - Optional database name
-     *
      * @return string An string containing the DSN.
      */
     function getDsn($aConf = null)
@@ -157,6 +156,29 @@ class OA_DB
             $port . '/' .
             $aConf['database']['name'];
         return $dsn;
+    }
+
+    /**
+     * A method to use the existing default DSN information to connect
+     * to the database server, but connect to a specified database name.
+     *
+     * Useful for talking to different databases on the Openads database
+     * server.
+     *
+     * @static
+     * @param string $name The name of the database to connect to.
+     * @return MDB2_Driver_Common An MDB2 connection resource, or PEAR_Error
+     *                            on failure to connect.
+     */
+    function &changeDatabase($name)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        // Overwrite the database name
+        $aConf['database']['name'] = $name;
+        // Get the DSN
+        $dsn = OA_DB::getDsn($aConf);
+        // Return the database connection
+        return OA_DB::singleton($dsn);
     }
 
 }
