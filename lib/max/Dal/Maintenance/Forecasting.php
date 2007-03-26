@@ -117,11 +117,11 @@ class MAX_Dal_Maintenance_Forecasting extends MAX_Dal_Maintenance_Common
             return array();
         }
         PEAR::pushErrorHandling(null);
-        $rResult = $this->dbh->query($query);
+        $rc = $this->oDbh->query($query);
         PEAR::popErrorHandling();
-        if (!PEAR::isError($rResult)) {
+        if (!PEAR::isError($rc)) {
             $aResult = array();
-            while ($aRow = $rResult->fetchRow()) {
+            while ($aRow = $rc->fetchRow()) {
                 $aResult[$aRow['zone_id']] = $aRow['count'];
             }
             return $aResult;
@@ -242,11 +242,11 @@ class MAX_Dal_Maintenance_Forecasting extends MAX_Dal_Maintenance_Common
                 AND day = '" . $oDate->format('%Y-%m-%d 00:00:00') . "'";
         MAX::debug('Selecting existing zones IDs from the ' . $table . ' table for channel ' .
                    $channelId . ' and day ' . $oDate->format('%Y-%m-%d'), PEAR_LOG_DEBUG);
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             if (!is_null($aCount[$aRow['zone_id']])) {
                 // A value needs to be logged for this channel/zone,
                 // but a forecast already exists - note this
@@ -285,9 +285,9 @@ class MAX_Dal_Maintenance_Forecasting extends MAX_Dal_Maintenance_Common
                             $impressions
                         )";
             }
-            $rResult = $this->dbh->query($query);
-            if (PEAR::isError($rResult)) {
-                return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+            $rows = $this->oDbh->exec($query);
+            if (PEAR::isError($rows)) {
+                return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             }
         }
         return true;

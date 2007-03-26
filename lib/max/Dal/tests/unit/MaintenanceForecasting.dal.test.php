@@ -60,7 +60,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
 
         TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new MAX_Dal_Maintenance_Forecasting();
 
         // Test 1
@@ -80,12 +80,13 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['start_run'], '2005-06-21 15:00:01');
-        $this->assertEqual($row['end_run'], '2005-06-21 15:01:01');
-        $this->assertEqual($row['operation_interval'], $conf['maintenance']['operationInterval']);
-        $this->assertEqual($row['duration'], 60);
-        $this->assertEqual($row['updated_to'], '2005-06-21 15:59:59');
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['start_run'], '2005-06-21 15:00:01');
+        $this->assertEqual($aRow['end_run'], '2005-06-21 15:01:01');
+        $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['duration'], 60);
+        $this->assertEqual($aRow['updated_to'], '2005-06-21 15:59:59');
 
         // Test 2
         $oStartDate = new Date('2005-06-21 16:00:01');
@@ -104,12 +105,13 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['start_run'], '2005-06-21 15:00:01');
-        $this->assertEqual($row['end_run'], '2005-06-21 15:01:01');
-        $this->assertEqual($row['operation_interval'], $conf['maintenance']['operationInterval']);
-        $this->assertEqual($row['duration'], 60);
-        $this->assertEqual($row['updated_to'], '2005-06-21 15:59:59');
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['start_run'], '2005-06-21 15:00:01');
+        $this->assertEqual($aRow['end_run'], '2005-06-21 15:01:01');
+        $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['duration'], 60);
+        $this->assertEqual($aRow['updated_to'], '2005-06-21 15:59:59');
         $query = "
             SELECT
                 start_run,
@@ -121,12 +123,13 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['start_run'], '2005-06-21 16:00:01');
-        $this->assertEqual($row['end_run'], '2005-06-21 16:01:06');
-        $this->assertEqual($row['operation_interval'], $conf['maintenance']['operationInterval']);
-        $this->assertEqual($row['duration'], 65);
-        $this->assertEqual($row['updated_to'], '2005-06-21 16:59:59');
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['start_run'], '2005-06-21 16:00:01');
+        $this->assertEqual($aRow['end_run'], '2005-06-21 16:01:06');
+        $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['duration'], 65);
+        $this->assertEqual($aRow['updated_to'], '2005-06-21 16:59:59');
 
         TestEnv::rollbackTransaction();
     }
@@ -144,7 +147,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
         TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
         $table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new MAX_Dal_Maintenance_Forecasting();
 
         // Test 1
@@ -202,7 +205,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
     function testSummariseRecordsInZonesBySqlLimitations()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new MAX_Dal_Maintenance_Forecasting();
 
         // Test 1
@@ -438,7 +441,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
                     7,
                     'www.bar.com'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         $aSqlLimitations = array(
             0 => array(
@@ -504,7 +507,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
                     7,
                     'www.foo.com'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         $aSqlLimitations = array(
             0 => array(
@@ -607,7 +610,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
                     'www.example.com',
                     'US'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test 5
         $aSqlLimitations = array(
@@ -708,7 +711,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
     function testSaveChannelSummaryForZones()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new MAX_Dal_Maintenance_Forecasting();
         $table = $conf['table']['prefix'] . $conf['table']['data_summary_channel_daily'];
 
@@ -730,8 +733,8 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
                 day = '2006-10-12'
                 AND channel_id = 7
                 AND zone_id = 1";
-        $rResult = $dbh->query($query);
-        $aRow = $rResult->fetchRow();
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['actual_impressions'], 48);
         $query = "
             SELECT
@@ -742,8 +745,8 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
                 day = '2006-10-12'
                 AND channel_id = 7
                 AND zone_id = 2";
-        $rResult = $dbh->query($query);
-        $aRow = $rResult->fetchRow();
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['actual_impressions'], 40);
 
         // Test 2
@@ -763,8 +766,8 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
                 day = '2006-10-12'
                 AND channel_id = 7
                 AND zone_id = 1";
-        $rResult = $dbh->query($query);
-        $aRow = $rResult->fetchRow();
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['actual_impressions'], 58);
         $query = "
             SELECT
@@ -775,8 +778,8 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
                 day = '2006-10-12'
                 AND channel_id = 7
                 AND zone_id = 2";
-        $rResult = $dbh->query($query);
-        $aRow = $rResult->fetchRow();
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['actual_impressions'], 40);
         $query = "
             SELECT
@@ -787,8 +790,8 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
                 day = '2006-10-12'
                 AND channel_id = 7
                 AND zone_id = 3";
-        $rResult = $dbh->query($query);
-        $aRow = $rResult->fetchRow();
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['actual_impressions'], 0);
         TestEnv::rollbackTransaction();
     }
