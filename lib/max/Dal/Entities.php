@@ -89,15 +89,15 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 campaignid = $placementId
             ORDER BY
                 ad_id";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['ad_id']] = $aRow;
         }
         return $aResult;
@@ -144,15 +144,15 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 aza.zone_id IN (" . implode(', ', $aZoneIds) . ")
             ORDER BY
                 ad_id";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['zone_id']][] = $aRow['ad_id'];
         }
         return $aResult;
@@ -224,16 +224,16 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 a.campaignid IN (" . implode(', ', $aPlacementIds) . ")
                 AND
                 a.active = 't'";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
         $aAdIds = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             if (is_null($aResult[$aRow['placement_id']][$aRow['ad_id']])) {
                 $aResult[$aRow['placement_id']][$aRow['ad_id']]['active'] = $aRow['active'];
                 $aResult[$aRow['placement_id']][$aRow['ad_id']]['weight'] = $aRow['weight'];
@@ -291,15 +291,15 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 $table
             WHERE
                 bannerid = $adId";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['executionorder']] = array(
                 'logical'    => $aRow['logical'],
                 'type'       => $aRow['type'],
@@ -331,15 +331,15 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 active = 1
             ORDER BY
                 agencyid";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[] = $aRow['agency_id'];
         }
         return $aResult;
@@ -391,15 +391,15 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 AND active = 1
             ORDER BY
                 channelid";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[] = $aRow['channel_id'];
         }
         return $aResult;
@@ -441,15 +441,15 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 $table
             WHERE
                 channelid = $channelId";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['executionorder']] = array(
                 'logical'    => $aRow['logical'],
                 'type'       => $aRow['type'],
@@ -542,15 +542,15 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                     (p.active = 'f' AND p.activate != '0000-00-00' AND p.activate <= '" . $aPeriod['end']->format('%Y-%m-%d') . "' AND p.expire != '0000-00-00' AND p.expire >= '" . $aPeriod['start']->format('%Y-%m-%d') . "')
                 )
         ";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['placement_id']] = $aRow;
         }
         return $aResult;
@@ -587,15 +587,15 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 agencyid = $agencyId
             ORDER BY
                 affiliateid";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[] = $aRow['publisher_id'];
         }
         return $aResult;
@@ -657,15 +657,15 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 $table
             WHERE
                 zoneid IN (" . implode(', ', $aZoneIds) . ")";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['zone_id']] = $aRow;
         }
         return $aResult;
@@ -700,15 +700,15 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 affiliateid = $publisherId
             ORDER BY
                 zoneid";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[] = $aRow['zone_id'];
         }
         return $aResult;
@@ -754,15 +754,15 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 AND (inventory_forecast_type & 8) != 0
             ORDER BY
                 zoneid";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[] = $aRow['zone_id'];
         }
         return $aResult;
@@ -803,15 +803,15 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 link_type != 0
             ORDER BY
                 ad_id, zone_id";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['ad_id']][] = $aRow['zone_id'];
         }
         return $aResult;

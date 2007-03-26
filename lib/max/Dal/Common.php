@@ -28,6 +28,7 @@ $Id:Common.php 3884 2005-11-25 10:54:56Z andrew@m3.net $
 require_once MAX_PATH . '/lib/max/Maintenance.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
+
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once 'DB/QueryTool.php';
 
@@ -42,7 +43,7 @@ require_once 'DB/QueryTool.php';
  */
 class MAX_Dal_Common
 {
-    var $dbh;
+    var $oDbh;
     var $queryBuilder;
     var $conf;
     var $prefix;
@@ -81,7 +82,7 @@ class MAX_Dal_Common
     {
         $this->conf = $GLOBALS['_MAX']['CONF'];
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $this->dbh = &$this->_getDbConnection();
+        $this->oDbh = &$this->_getDbConnection();
         $dsn = OA_DB::getDsn();
         $this->queryBuilder = $this->_getQueryTool($dsn);
     }
@@ -288,13 +289,13 @@ class MAX_Dal_Common
     {
         $lockName = $GLOBALS['_MAX']['CONF']['database']['name'].".$lockName";
         $query = "SELECT GET_LOCK('$lockName', 1) AS 'lock'";
-        $result = $this->dbh->query( $query );
-        if( $result->fetchInto( $row ) != DB_OK ) {
-            // couldn't fetch row
+        $rc = $this->oDbh->query($query);
+        if (!($aRow = $rc->fetchRow())) {
+            // Couldn't fetch row
             return false;
         }
 
-        if ($row['lock'] == 1) {
+        if ($aRow['lock'] == 1) {
             // Lock obtained successfully
             return true;
         }
@@ -311,13 +312,13 @@ class MAX_Dal_Common
     {
         $lockName = $GLOBALS['_MAX']['CONF']['database']['name'].".$lockName";
         $query = "SELECT RELEASE_LOCK('$lockName') AS 'release_lock'";
-        $result = $this->dbh->query( $query );
-        if( $result->fetchInto( $row ) != DB_OK ) {
-            // couldn't fetch row
+        $rc = $this->oDbh->query($query);
+        if (!($aRow = $rc->fetchRow())) {
+            // Couldn't fetch row
             return false;
         }
 
-        if ($row['release_lock'] == 1) {
+        if ($aRow['release_lock'] == 1) {
             // Lock released successfully
             return true;
         }
@@ -329,7 +330,6 @@ class MAX_Dal_Common
     {
         $direction = $this->getOrderDirection($orderDirection);
         $nameColumn = $this->getOrderColumn($listOrder);
-
         if (is_array($nameColumn)) {
             $sqlTableOrder = ' ORDER BY ' . implode($direction . ',', $nameColumn) . $direction;
         } else {
