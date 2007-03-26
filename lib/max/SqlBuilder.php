@@ -1175,7 +1175,7 @@ class SqlBuilder
     function _query($query, $primaryKey)
     {
         $queryValid = true;
-        $dbh =& MAX_DB::singleton();
+        $dbh =& OA_DB::singleton();
         $res = $dbh->query($query);
 
         if (!(PEAR::isError($res))) {
