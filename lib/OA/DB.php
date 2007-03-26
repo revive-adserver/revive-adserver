@@ -121,7 +121,6 @@ class OA_DB
             $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->loadModule('Extended');
             $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->loadModule('Datatype');
             $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->loadModule('Manager');
-            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->loadModule('Extended');
         }
         return $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5];
     }
