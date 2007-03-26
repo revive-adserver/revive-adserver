@@ -119,7 +119,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
         // Set the MySQL sort buffer size
         $this->setSortBufferSize();
         // Summarise the data
-        $rows = 0;
+        $returnRows = 0;
         $currentDate = new Date();
         $currentDate->copy($aDates['start']);
         for ($counter = 0; $counter <= $days; $counter++) {
@@ -162,19 +162,19 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
                     day, hour, ad_id, creative_id, zone_id";
             MAX::debug("Summarising ad $type" . "s from the $requestTable table.", PEAR_LOG_DEBUG);
             PEAR::pushErrorHandling(null);
-            $result = $this->dbh->query($query);
+            $rows = $this->oDbh->exec($query);
             PEAR::popErrorHandling();
-            if (!PEAR::isError($result)) {
-                $rows += $this->dbh->affectedRows();
-            } elseif (!PEAR::isError($result, DB_ERROR_NOSUCHTABLE)) {
-                MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+            if (!PEAR::isError($rows)) {
+                $returnRows += $rows;
+            } elseif (!PEAR::isError($rows, DB_ERROR_NOSUCHTABLE)) {
+                MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             }
             // Update the split table being used
             $currentDate = $currentDate->getNextDay();
         }
         // Restore the MySQL sort buffer size
         $this->restoreSortBufferSize();
-        return $rows;
+        return $returnRows;
     }
 
     /**
@@ -237,7 +237,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
         // Ensure the temporary table for storing connections is created
         $this->tempTables->createTable('tmp_ad_connection');
         // Initialise row counter
-        $rows = 0;
+        $returnRows = 0;
         // Insert tracker impressions that may result in connections
         // into the temporary table for these connection types
         $oCurrentDate = new Date();
@@ -330,10 +330,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
             MAX::debug('Selecting tracker impressions that may connect to ad ' .
                        $type . 's into the ' . $tempTable . ' temporary table.', PEAR_LOG_DEBUG);
             PEAR::pushErrorHandling(null);
-            $result = $this->dbh->query($query);
+            $trackerImpressionRows = $this->oDbh->exec($query);
             PEAR::popErrorHandling();
-            if (!PEAR::isError($result)) {
-                $trackerImpressionRows = $this->dbh->affectedRows();
+            if (!PEAR::isError($trackerImpressionRows)) {
                 MAX::debug('Selected ' . $trackerImpressionRows . ' tracker impressions that may connect to ad ' .
                            $type . 's into the ' . $tempTable . ' temporary table.', PEAR_LOG_DEBUG);
                 if ($trackerImpressionRows > 0) {
@@ -453,27 +452,27 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
                         MAX::debug('Connecting tracker impressions with ad ' . $type . 's from the ' .
                                    $adTable . ' table, where possible.', PEAR_LOG_DEBUG);
                         PEAR::pushErrorHandling(null);
-                        $result = $this->dbh->query($query);
+                        $rows = $this->oDbh->exec($query);
                         PEAR::popErrorHandling();
-                        if (!PEAR::isError($result)) {
-                            $rows += $this->dbh->affectedRows();
-                        } elseif (!PEAR::isError($result, DB_ERROR_NOSUCHTABLE)) {
-                            MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                        if (!PEAR::isError($rows)) {
+                            $returnRows += $rows;
+                        } elseif (!PEAR::isError($rows, DB_ERROR_NOSUCHTABLE)) {
+                            MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                         }
                         // Update the date for the split data_raw_ad_ table being used
                         $oCurrentConnectionDate = $oCurrentConnectionDate->getNextDay();
                     }
                 }
-            } elseif (!PEAR::isError($result, DB_ERROR_NOSUCHTABLE)) {
-                MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+            } elseif (!PEAR::isError($trackerImpressionRows, DB_ERROR_NOSUCHTABLE)) {
+                MAX::raiseError($trackerImpressionRows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             }
             // Drop the temporary table
-            $this->tempTables->dropTempTable($tempTable);
+            $this->tempTables->dropTable($tempTable);
             // Update the date for the split data_raw_tracker_impression table being used
             $oCurrentDate = $oCurrentDate->getNextDay();
         }
         // Return the summarised connection rows
-        return $rows;
+        return $returnRows;
     }
 
     /**
@@ -605,10 +604,10 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
                     AND tac.latest = 1";
             MAX::debug("Inserting the connections into the $outerTable table", PEAR_LOG_DEBUG);
             PEAR::pushErrorHandling(null);
-            $result = $this->dbh->query($query);
+            $rows = $this->oDbh->exec($query);
             PEAR::popErrorHandling();
-            if (PEAR::isError($result) && (!PEAR::isError($result, DB_ERROR_NOSUCHTABLE))) {
-                MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+            if (PEAR::isError($rows) && (!PEAR::isError($result, DB_ERROR_NOSUCHTABLE))) {
+                MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             }
             // Save any variable values associated with the above connections
             $innerDate = &new Date();
@@ -644,10 +643,10 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
                 MAX::debug("Saving the tracker impression variable values from the $innerTable table",
                            PEAR_LOG_DEBUG);
                 PEAR::pushErrorHandling(null);
-                $result = $this->dbh->query($query);
+                $rows = $this->oDbh->exec($query);
                 PEAR::popErrorHandling();
-                if (PEAR::isError($result) && (!PEAR::isError($result, DB_ERROR_NOSUCHTABLE))) {
-                    MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                if (PEAR::isError($rows) && (!PEAR::isError($result, DB_ERROR_NOSUCHTABLE))) {
+                    MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                 }
                 // Update the split data_raw_tracker_variable_value table being used
                 $innerDate = $innerDate->getNextDay();
