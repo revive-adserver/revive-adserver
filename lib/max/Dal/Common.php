@@ -27,8 +27,8 @@ $Id:Common.php 3884 2005-11-25 10:54:56Z andrew@m3.net $
 
 require_once MAX_PATH . '/lib/max/Maintenance.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
+require_once MAX_PATH . '/lib/OA/DB.php';
 require_once 'DB/QueryTool.php';
 
 /**
@@ -46,7 +46,7 @@ class MAX_Dal_Common
     var $queryBuilder;
     var $conf;
     var $prefix;
-    
+
     /**
      * Usually most of models will be created to handle persistent operation per
      * specific table. This variable store that table name and it is used by factoryDO() method
@@ -54,7 +54,7 @@ class MAX_Dal_Common
      * @var string
      */
     var $table;
-    
+
     /**
      * This array is used by getSqlListOrder(), getOrderColumn to decide how to sort
      * rows. It should be overwritten in child classes.
@@ -63,14 +63,14 @@ class MAX_Dal_Common
      *  'id'   => 'idField',
      *  etc...
      *  Each value may be an array if ordering by multiple columns is desired.
-     *  
+     *
      * It replaces deprecated phpAds_getListOrder
-     * 
+     *
      * @see MAX_Dal_Common::getSqlListOrder()
      * @var array
      */
     var $orderListName = array();
-    
+
     // Default column to order by.
     var $defaultOrderListName = 'name';
 
@@ -82,7 +82,7 @@ class MAX_Dal_Common
         $this->conf = $GLOBALS['_MAX']['CONF'];
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         $this->dbh = &$this->_getDbConnection();
-        $dsn = MAX_DB::getDsn(MAX_DSN_STRING);
+        $dsn = OA_DB::getDsn();
         $this->queryBuilder = $this->_getQueryTool($dsn);
     }
 
@@ -106,10 +106,10 @@ class MAX_Dal_Common
                 return false;
             }
         }
-        
+
         return new $class;
     }
-    
+
     /**
      * Factory DataObject which corresponds to this model
      *
@@ -121,7 +121,7 @@ class MAX_Dal_Common
     {
     	return MAX_DB::factoryDO($this->table);
     }
-    
+
     /**
      * Autoload class
      *
@@ -137,7 +137,7 @@ class MAX_Dal_Common
             return false;
         }
         include_once $path;
-        
+
         $class = MAX_Dal_Common::getClassName($modelName);
         if (!class_exists($class)) {
             PEAR::raiseError("autoload:Could not autoload {$class}");
@@ -145,17 +145,17 @@ class MAX_Dal_Common
         }
         return $class;
     }
-    
+
     function getClassName($table)
     {
         return 'MAX_Dal_Admin_'.ucfirst($table);
     }
-    
+
     function getTablePrefix()
     {
         return $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
-    
+
     /**
      * A private method to manage creation of the utilised MAX_DB class.
      *
@@ -164,12 +164,7 @@ class MAX_Dal_Common
      */
     function &_getDbConnection()
     {
-        $oServiceLocator = &ServiceLocator::instance();
-        $dbh = $oServiceLocator->get('MAX_DB');
-        if (!$dbh) {
-            $dbh = &MAX_DB::singleton();
-        }
-        return $dbh;
+        return OA_DB::singleton();
     }
 
     /**
@@ -298,7 +293,7 @@ class MAX_Dal_Common
             // couldn't fetch row
             return false;
         }
-        
+
         if ($row['lock'] == 1) {
             // Lock obtained successfully
             return true;
@@ -334,7 +329,7 @@ class MAX_Dal_Common
     {
         $direction = $this->getOrderDirection($orderDirection);
         $nameColumn = $this->getOrderColumn($listOrder);
-        
+
         if (is_array($nameColumn)) {
             $sqlTableOrder = ' ORDER BY ' . implode($direction . ',', $nameColumn) . $direction;
         } else {
@@ -342,7 +337,7 @@ class MAX_Dal_Common
         }
         return $sqlTableOrder;
     }
-    
+
     /**
      * Gets the direction to order by
      *
@@ -353,7 +348,7 @@ class MAX_Dal_Common
     {
         return ($orderDirection == 'down') ? ' DESC' : ' ASC';
     }
-    
+
     /**
      * Gets the column name(s) to order by.
      *
