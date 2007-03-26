@@ -74,9 +74,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
      */
     function getMaintenanceStatisticsLastRunInfo($type, $now = null)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] .
-                 $conf['table']['data_raw_ad_impression'] . '_' .
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table']['data_raw_ad_impression'] . '_' .
                  date('Ymd');
         return $this->_getMaintenanceStatisticsLastRunInfo($type, $table, $now);
     }
@@ -92,7 +92,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
     */
     function _summariseData($oStart, $oEnd, $type)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if (empty($type)) {
             return 0;
         }
@@ -100,7 +100,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
         $tmpTableName = 'tmp_ad_' . $type;
         $countColumnName = $type . 's';
         // Check the start and end dates
-        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $conf['maintenance']['operationInterval'])) {
+        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $aConf['maintenance']['operationInterval'])) {
             return 0;
         }
         // Get the start and end dates of the operation interval ID
@@ -124,8 +124,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
         $currentDate->copy($aDates['start']);
         for ($counter = 0; $counter <= $days; $counter++) {
             // Set the appropriate data_raw_ad_request table
-            $requestTable = $conf['table']['prefix'] .
-                            $conf['table']['data_raw_ad_' . $type] . '_' .
+            $requestTable = $aConf['table']['prefix'] .
+                            $aConf['table']['data_raw_ad_' . $type] . '_' .
                             $currentDate->format('%Y%m%d');
             $query = "
                 INSERT INTO
@@ -145,7 +145,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
                 SELECT
                     DATE_FORMAT(drar.date_time, '%Y-%m-%d') AS day,
                     DATE_FORMAT(drar.date_time, '%k') AS hour,
-                    {$conf['maintenance']['operationInterval']} AS operation_interval,
+                    {$aConf['maintenance']['operationInterval']} AS operation_interval,
                     $operationIntervalID AS operation_interval_id,
                     '".$aDates['start']->format('%Y-%m-%d %H:%M:%S')."' AS interval_start,
                     '".$aDates['end']->format('%Y-%m-%d %H:%M:%S')."' AS interval_end,
@@ -212,13 +212,13 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
      */
     function _summariseConnections($oStart, $oEnd, $type, $connectionAction)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // If the tracker module is not installed, don't summarise connections
-        if (!$conf['modules']['Tracker']) {
+        if (!$aConf['modules']['Tracker']) {
             return 0;
         }
         // Check the start and end dates
-        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $conf['maintenance']['operationInterval'])) {
+        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $aConf['maintenance']['operationInterval'])) {
             return 0;
         }
         // Get the start and end dates of the operation interval ID
@@ -253,8 +253,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
             }
             $this->tempTables->createTable($tempTable);
             // Set the appropriate data_raw_tracker_impression table
-            $trackerImpressionTable = $conf['table']['prefix'] .
-                                      $conf['table']['data_raw_tracker_impression'] . '_' .
+            $trackerImpressionTable = $aConf['table']['prefix'] .
+                                      $aConf['table']['data_raw_tracker_impression'] . '_' .
                                       $oCurrentDate->format('%Y%m%d');
             // Prepare the window type name for the SQL
             if ($type == 'impression') {
@@ -293,7 +293,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
                     drti.server_raw_ip AS server_raw_ip,
                     drti.tracker_id AS tracker_id,
                     ct.campaignid AS campaign_id,
-                    {$conf['maintenance']['operationInterval']} AS operation_interval,
+                    {$aConf['maintenance']['operationInterval']} AS operation_interval,
                     $operationIntervalID AS operation_interval_id,
                     '".$aDates['start']->format('%Y-%m-%d %H:%M:%S')."' AS interval_start,
                     '".$aDates['end']->format('%Y-%m-%d %H:%M:%S')."' AS interval_end,";
@@ -312,7 +312,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
                     ct.status AS connection_status
                 FROM
                     $trackerImpressionTable AS drti,
-                    {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']} AS ct
+                    {$aConf['table']['prefix']}{$aConf['table']['campaigns_trackers']} AS ct
                 WHERE
                     drti.tracker_id = ct.trackerid";
             if ($GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) {
@@ -358,8 +358,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
                     $oCurrentConnectionDate->copy($oStartConnectionDate);
                     for ($connectionCounter = 0; $connectionCounter <= $connectionDays; $connectionCounter++) {
                         // Set the appropriate data_raw_ad_ table
-                        $adTable = $conf['table']['prefix'] .
-                                   $conf['table']["data_raw_ad_$type"] . '_' .
+                        $adTable = $aConf['table']['prefix'] .
+                                   $aConf['table']["data_raw_ad_$type"] . '_' .
                                    $oCurrentConnectionDate->format('%Y%m%d');
                         $query = "
                             INSERT INTO
@@ -432,8 +432,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
                             FROM
                                 $tempTable AS tt,
                                 $adTable AS drat,
-                                {$conf['table']['prefix']}{$conf['table']['banners']} AS b,
-                                {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']} AS ct
+                                {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
+                                {$aConf['table']['prefix']}{$aConf['table']['campaigns_trackers']} AS ct
                             WHERE";
                         if ($GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) {
                             $query .= "
@@ -488,21 +488,21 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
      */
     function _saveConnectionsAndVariableValues($start, $end)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // How many days does the operation interval span?
         $days = Date_Calc::dateDiff($start->getDay(), $start->getMonth(), $start->getYear(),
                                     $end->getDay(),   $end->getMonth(),   $end->getYear());
-        $outerTable = $conf['table']['prefix'] .
-                      $conf['table']['data_intermediate_ad_connection'];
-        $innerTable = $conf['table']['prefix'] .
-                       $conf['table']['data_intermediate_ad_variable_value'];
+        $outerTable = $aConf['table']['prefix'] .
+                      $aConf['table']['data_intermediate_ad_connection'];
+        $innerTable = $aConf['table']['prefix'] .
+                      $aConf['table']['data_intermediate_ad_variable_value'];
         // Save the connections
         $outerDate = &new Date();
         $outerDate->copy($start);
         for ($counter = 0; $counter <= $days; $counter++) {
             // Set the appropriate data_raw_tracker_impression table
-            $trackerImpressionTable = $conf['table']['prefix'] .
-                                      $conf['table']['data_raw_tracker_impression'] . '_' .
+            $trackerImpressionTable = $aConf['table']['prefix'] .
+                                      $aConf['table']['data_raw_tracker_impression'] . '_' .
                                       $outerDate->format('%Y%m%d');
             $query = "
                 INSERT INTO
@@ -615,8 +615,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
             $innerDate->copy($outerDate);
             for ($innerCounter = 0; $innterCounter < 2; $innterCounter++) {
                 // Set the appropriate data_raw_tracker_variable_value table
-                $trackerVariableValueTable = $conf['table']['prefix'] .
-                                             $conf['table']['data_raw_tracker_variable_value'] . '_' .
+                $trackerVariableValueTable = $aConf['table']['prefix'] .
+                                             $aConf['table']['data_raw_tracker_variable_value'] . '_' .
                                              $innerDate->format('%Y%m%d');
                 $query = "
                     INSERT INTO
@@ -631,7 +631,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
                         drtvv.tracker_variable_id AS tracker_variable_id,
                         drtvv.value AS value
                     FROM
-                        {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']} AS diac,
+                        {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} AS diac,
                         $trackerVariableValueTable AS drtvv,
                         $trackerImpressionTable AS drti
                     WHERE
@@ -672,11 +672,11 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
      */
     function deleteOldData($summarisedTo)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $now = new Date();  // Current day
         $deleteDate = $summarisedTo;
-        if ($conf['maintenance']['compactStatsGrace'] > 0) {
-            $deleteDate->subtractSeconds((int) $conf['maintenance']['compactStatsGrace']);
+        if ($aConf['maintenance']['compactStatsGrace'] > 0) {
+            $deleteDate->subtractSeconds((int) $aConf['maintenance']['compactStatsGrace']);
         }
         $tablesDropped = 0;
         // As split tables are in use, look over all possible tables
@@ -687,7 +687,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
         // Delete the requests before taking into account the maximum connection window
         foreach ($tables as $table) {
             // Look at the data_raw_ad_request tables
-            if (preg_match('/^' . $conf['table']['prefix'] . $conf['table']['data_raw_ad_request'] . '_' .
+            if (preg_match('/^' . $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_request'] . '_' .
                            '(\d{4})(\d{2})(\d{2})$/', $table, $matches)) {
                 $date = new Date("{$matches[1]}-{$matches[2]}-{$matches[3]}");
                 // Is this today's table?
@@ -697,8 +697,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
                     // Don't drop today's table
                     continue;
                 }
-                $table = $conf['table']['prefix'] .
-                         $conf['table']['data_raw_ad_request'] . '_' .
+                $table = $aConf['table']['prefix'] .
+                         $aConf['table']['data_raw_ad_request'] . '_' .
                          $date->format('%Y%m%d');
                 $query = "
                     SELECT
@@ -725,7 +725,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
             }
         }
         // Take into account the maximum connection window, if approproate
-        if ($conf['modules']['Tracker']) {
+        if ($aConf['modules']['Tracker']) {
             // Find the largest, active impression and click connection windows
             list($impressionWindow, $clickWindow) = $this->oDalMaintenanceStatistics->maxConnectionWindows();
             // Find the largest of the two windows
@@ -741,7 +741,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
         // Delete from remaining tables
         foreach ($tables as $table) {
             // Look at the data_raw_ad_impression tables
-            if (preg_match('/^' . $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'] . '_' .
+            if (preg_match('/^' . $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_impression'] . '_' .
                            '(\d{4})(\d{2})(\d{2})$/', $table, $matches)) {
                 $date = new Date("{$matches[1]}-{$matches[2]}-{$matches[3]}");
                 // Is this today's table?
@@ -751,8 +751,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
                     // Don't drop today's table
                     continue;
                 }
-                $table = $conf['table']['prefix'] .
-                         $conf['table']['data_raw_ad_impression'] . '_' .
+                $table = $aConf['table']['prefix'] .
+                         $aConf['table']['data_raw_ad_impression'] . '_' .
                          $date->format('%Y%m%d');
                 $query = "
                     SELECT
@@ -778,7 +778,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
                 }
             }
             // Look at the data_raw_ad_click tables
-            if (preg_match('/^' . $conf['table']['prefix'] . $conf['table']['data_raw_ad_click'] . '_' .
+            if (preg_match('/^' . $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_click'] . '_' .
                            '(\d{4})(\d{2})(\d{2})$/', $table, $matches)) {
                 $date = new Date("{$matches[1]}-{$matches[2]}-{$matches[3]}");
                 // Is this today's table?
@@ -788,8 +788,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
                     // Don't drop today's table
                     continue;
                 }
-                $table = $conf['table']['prefix'] .
-                         $conf['table']['data_raw_ad_click'] . '_' .
+                $table = $aConf['table']['prefix'] .
+                         $aConf['table']['data_raw_ad_click'] . '_' .
                          $date->format('%Y%m%d');
                 $query = "
                     SELECT

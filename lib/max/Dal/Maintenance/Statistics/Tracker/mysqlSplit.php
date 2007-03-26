@@ -74,9 +74,9 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends MAX_Dal_Maintena
      */
     function getMaintenanceStatisticsLastRunInfo($type, $now = null)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] .
-                 $conf['table']['data_raw_tracker_impression'] . '_' .
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table']['data_raw_tracker_impression'] . '_' .
                  date('Ymd');
         return $this->_getMaintenanceStatisticsLastRunInfo($type, $table, $now);
     }
@@ -92,11 +92,11 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends MAX_Dal_Maintena
      */
     function deleteOldData($summarisedTo)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $now = new Date();  // Current day
         $deleteDate = $summarisedTo;
-        if ($conf['maintenance']['compactStatsGrace'] > 0) {
-            $deleteDate->subtractSeconds((int) $conf['maintenance']['compactStatsGrace']);
+        if ($aConf['maintenance']['compactStatsGrace'] > 0) {
+            $deleteDate->subtractSeconds((int) $aConf['maintenance']['compactStatsGrace']);
         }
         $tablesDropped = 0;
         // As split tables are in use, look over all possible tables
@@ -117,7 +117,7 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends MAX_Dal_Maintena
                                                         // doesn't deal with strings
         foreach ($tables as $table) {
             // Look at the data_raw_tracker_impression tables
-            if (preg_match('/^' . $conf['table']['prefix'] . $conf['table']['data_raw_tracker_impression'] . '_' .
+            if (preg_match('/^' . $aConf['table']['prefix'] . $aConf['table']['data_raw_tracker_impression'] . '_' .
                            '(\d{4})(\d{2})(\d{2})$/', $table, $matches)) {
                 $date = new Date("{$matches[1]}-{$matches[2]}-{$matches[3]}");
                 // Is this today's table?
@@ -127,8 +127,8 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends MAX_Dal_Maintena
                     // Don't drop today's table
                     continue;
                 }
-                $table = $conf['table']['prefix'] .
-                         $conf['table']['data_raw_tracker_impression'] . '_' .
+                $table = $aConf['table']['prefix'] .
+                         $aConf['table']['data_raw_tracker_impression'] . '_' .
                          $date->format('%Y%m%d');
                 $query = "
                     SELECT
@@ -154,7 +154,7 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends MAX_Dal_Maintena
                 }
             }
             // Look at the data_raw_tracker_variable_value tables
-            if (preg_match('/^' . $conf['table']['prefix'] . $conf['table']['data_raw_tracker_variable_value'] . '_' .
+            if (preg_match('/^' . $aConf['table']['prefix'] . $aConf['table']['data_raw_tracker_variable_value'] . '_' .
                            '(\d{4})(\d{2})(\d{2})$/', $table, $matches)) {
                 $date = new Date("{$matches[1]}-{$matches[2]}-{$matches[3]}");
                 // Is this today's table?
@@ -164,8 +164,8 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends MAX_Dal_Maintena
                     // Don't drop today's table
                     continue;
                 }
-                $table = $conf['table']['prefix'] .
-                         $conf['table']['data_raw_tracker_variable_value'] . '_' .
+                $table = $aConf['table']['prefix'] .
+                         $aConf['table']['data_raw_tracker_variable_value'] . '_' .
                          $date->format('%Y%m%d');
                 $query = "
                     SELECT
@@ -191,7 +191,7 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends MAX_Dal_Maintena
                 }
             }
             // Look at the data_raw_tracker_click tables
-            if (preg_match('/^' . $conf['table']['prefix'] . $conf['table']['data_raw_tracker_click'] . '_' .
+            if (preg_match('/^' . $aConf['table']['prefix'] . $aConf['table']['data_raw_tracker_click'] . '_' .
                            '(\d{4})(\d{2})(\d{2})$/', $table, $matches)) {
                 $date = new Date("{$matches[1]}-{$matches[2]}-{$matches[3]}");
                 // Is this today's table?
@@ -201,8 +201,8 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends MAX_Dal_Maintena
                     // Don't drop today's table
                     continue;
                 }
-                $table = $conf['table']['prefix'] .
-                         $conf['table']['data_raw_tracker_click'] . '_' .
+                $table = $aConf['table']['prefix'] .
+                         $aConf['table']['data_raw_tracker_click'] . '_' .
                          $date->format('%Y%m%d');
                 $query = "
                     SELECT

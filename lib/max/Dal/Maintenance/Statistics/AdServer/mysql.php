@@ -79,7 +79,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         // defined by the user in the configuration
         $aConf = $GLOBALS['_MAX']['CONF'];
         if (isset($this->sortBufferSize) && isset($aConf['databaseMysql']['statisticsSortBufferSize']) &&
-            is_numeric($conf['databaseMysql']['statisticsSortBufferSize'])) {
+            is_numeric($aConf['databaseMysql']['statisticsSortBufferSize'])) {
             $query = 'SET SESSION sort_buffer_size='.$aConf['databaseMysql']['statisticsSortBufferSize'];
             $rows = $this->oDbh->exec($query);
             if (PEAR::isError($rows)) {
@@ -134,9 +134,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function getMaintenanceStatisticsLastRunInfo($type, $oNow = null)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] .
-                 $conf['table']['data_raw_ad_impression'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table']['data_raw_ad_impression'];
         return $this->_getMaintenanceStatisticsLastRunInfo($type, $table, $oNow);
     }
 
@@ -169,7 +169,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function _getMaintenanceStatisticsLastRunInfo($type, $rawTable, $oNow = null)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if ($type == DAL_STATISTICS_COMMON_UPDATE_OI) {
             $whereClause = 'WHERE (adserver_run_type = ' . DAL_STATISTICS_COMMON_UPDATE_OI .
                            ' OR adserver_run_type = ' . DAL_STATISTICS_COMMON_UPDATE_BOTH. ')';
@@ -201,7 +201,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         }
         MAX::debug($message, PEAR_LOG_DEBUG);
         $aRow = $this->oDalMaintenanceStatistics->getProcessLastRunInfo(
-            $conf['table']['prefix'] . $conf['table']['log_maintenance_statistics'],
+            $aConf['table']['prefix'] . $aConf['table']['log_maintenance_statistics'],
             array(),
             $whereClause,
             'updated_to',
@@ -269,7 +269,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function _summariseData($oStart, $oEnd, $type)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if (empty($type)) {
             return 0;
         }
@@ -277,7 +277,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         $tmpTableName = 'tmp_ad_' . $type;
         $countColumnName = $type . 's';
         // Check the start and end dates
-         if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $conf['maintenance']['operationInterval'])) {
+         if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $aConf['maintenance']['operationInterval'])) {
             return 0;
         }
         // Get the start and end dates of the operation interval ID
@@ -289,7 +289,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         // Set the MySQL sort buffer size
         $this->setSortBufferSize();
         // Summarise the requests
-        $baseTable = $conf['table']['prefix'] . $conf['table']['data_raw_ad_' . $type];
+        $baseTable = $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_' . $type];
         $query = "
             INSERT INTO
                 $tmpTableName
@@ -308,7 +308,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
             SELECT
                 DATE_FORMAT(drad.date_time, '%Y-%m-%d') AS day,
                 DATE_FORMAT(drad.date_time, '%k') AS hour,
-                {$conf['maintenance']['operationInterval']} AS operation_interval,
+                {$aConf['maintenance']['operationInterval']} AS operation_interval,
                 $operationIntervalID AS operation_interval_id,
                 '".$aDates['start']->format('%Y-%m-%d %H:%M:%S')."' AS interval_start,
                 '".$aDates['end']->format('%Y-%m-%d %H:%M:%S')."' AS interval_end,
@@ -368,13 +368,13 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function _summariseConnections($oStart, $oEnd, $action, $connectionAction)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // If the tracker module is not installed, don't summarise connections
-        if (!$conf['modules']['Tracker']) {
+        if (!$aConf['modules']['Tracker']) {
             return 0;
         }
         // Check the start and end dates
-        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $conf['maintenance']['operationInterval'])) {
+        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $aConf['maintenance']['operationInterval'])) {
             return 0;
         }
         // Get the start and end dates of the operation interval ID
@@ -431,7 +431,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 drti.server_raw_ip AS server_raw_ip,
                 drti.tracker_id AS tracker_id,
                 ct.campaignid AS campaign_id,
-                {$conf['maintenance']['operationInterval']} AS operation_interval,
+                {$aConf['maintenance']['operationInterval']} AS operation_interval,
                 $operationIntervalID AS operation_interval_id,
                 '".$aDates['start']->format('%Y-%m-%d %H:%M:%S')."' AS interval_start,
                 '".$aDates['end']->format('%Y-%m-%d %H:%M:%S')."' AS interval_end,";
@@ -449,8 +449,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 ct.$windowName AS connection_window,
                 ct.status AS connection_status
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']} AS drti,
-                {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']} AS ct
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']} AS drti,
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns_trackers']} AS ct
             WHERE
                 drti.tracker_id = ct.trackerid";
         if ($GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) {
@@ -547,9 +547,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 IF(tt.date_time < DATE_ADD(drat.date_time, INTERVAL tt.connection_window SECOND), 1, 0) AS inside_window
             FROM
                 $tempTable AS tt,
-                {$conf['table']['prefix']}{$conf['table']["data_raw_ad_$action"]} AS drat,
-                {$conf['table']['prefix']}{$conf['table']['banners']} AS b,
-                {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']} AS ct
+                {$aConf['table']['prefix']}{$aConf['table']["data_raw_ad_$action"]} AS drat,
+                {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns_trackers']} AS ct
             WHERE";
             if ($GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) {
                 $query .= "
@@ -613,9 +613,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function saveIntermediate($oStart, $oEnd, $aActions, $intermediateTable = 'data_intermediate_ad', $saveConnections = true)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Check the start and end dates
-        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $conf['maintenance']['operationInterval'])) {
+        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $aConf['maintenance']['operationInterval'])) {
             return 0;
         }
         // Check that there are types to summarise
@@ -628,7 +628,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         // Save connections to the intermediate tables, unless set not
         // to do so (and unless the tracker module is not installed)
-        if ($saveConnections && $conf['modules']['Tracker']) {
+        if ($saveConnections && $aConf['modules']['Tracker']) {
             // Mark which connections are "latest"
             $connectionRows = $this->_saveIntermediateMarkLatestConnections($oStart, $oEnd);
             if ($connectionRows > 0) {
@@ -643,14 +643,14 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         // of $saveConnections is true or not - put the appropriate connections
         // (i.e. that are conversions AND that have one of the connection types
         // passed in) into the tmp_conversions table
-        if ($conf['modules']['Tracker']) {
+        if ($aConf['modules']['Tracker']) {
             $this->_saveIntermediateSummariseConversions($oStart, $oEnd, $aActions);
         }
         // Create a temporary union table (tmp_union) of the required data types
         $query = "
             CREATE TEMPORARY TABLE
                 tmp_union
-            TYPE={$conf['table']['type']}";
+            TYPE={$aConf['table']['type']}";
         $aQueries = array();
         foreach ($aActions['types'] as $type) {
             $innerQuery = "
@@ -683,7 +683,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         }
         $query .= implode("
                 UNION ALL", $aQueries);
-        if ($conf['modules']['Tracker']) {
+        if ($aConf['modules']['Tracker']) {
             $query .= "
                 UNION ALL
                 SELECT
@@ -712,7 +712,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         }
         // Prepare the message about what's about to happen
         $message = 'Creating a union of the ad ' . implode('s, ', $aActions['types']) . 's';
-        if ($conf['modules']['Tracker']) {
+        if ($aConf['modules']['Tracker']) {
             $message .= ' and conversions';
         }
         $message .= '.';
@@ -725,14 +725,14 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         foreach ($aActions['types'] as $type) {
             $this->tempTables->dropTable("tmp_ad_{$type}");
         }
-        if ($conf['modules']['Tracker']) {
+        if ($aConf['modules']['Tracker']) {
             // Drop the tmp_conversions table
             $this->tempTables->dropTable('tmp_conversions');
         }
         // Summarise the data in temporary union table (tmp_union) into the
         // main (data_intermediate_ad) table, to finally finish the job! ;-)
-        $table = $conf['table']['prefix'] .
-                 $conf['table'][$intermediateTable];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table'][$intermediateTable];
         $query = "
             INSERT INTO
                 $table
@@ -781,7 +781,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 day, hour, ad_id, creative_id, zone_id";
         // Prepare the message about what's about to happen
         $message = 'Inserting the ad ' . implode('s, ', $aActions['types']) . 's';
-        if ($conf['modules']['Tracker']) {
+        if ($aConf['modules']['Tracker']) {
             $message .= ' and conversions';
         }
         $message .= " into the $table table.";
@@ -806,14 +806,14 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function _saveIntermediateMarkLatestConnections($oStart, $oEnd)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Select the possible connections that are the most recent connections,
         // in the case of duplicate connections per tracker impression, and put
         // them into the tmp_connection_latest table
         $query = "
             CREATE TEMPORARY TABLE
                 tmp_connection_latest
-            TYPE={$conf['table']['type']}
+            TYPE={$aConf['table']['type']}
             SELECT
                 tac.server_raw_tracker_impression_id AS server_raw_tracker_impression_id,
                 tac.server_raw_ip AS server_raw_ip,
@@ -883,9 +883,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function _saveIntermediateSummariseConversions($oStart, $oEnd, $aActions)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Check the start and end dates
-        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $conf['maintenance']['operationInterval'])) {
+        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $aConf['maintenance']['operationInterval'])) {
             return 0;
         }
         // Get the start and end dates of the operation interval ID
@@ -923,7 +923,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 diac.data_intermediate_ad_connection_id AS data_intermediate_ad_connection_id,
                 DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d') AS day,
                 DATE_FORMAT(diac.tracker_date_time, '%k') AS hour,
-                {$conf['maintenance']['operationInterval']} AS operation_interval,
+                {$aConf['maintenance']['operationInterval']} AS operation_interval,
                 $operationIntervalID AS operation_interval_id,
                 '".$aDates['start']->format('%Y-%m-%d %H:%M:%S')."' AS interval_start,
                 '".$aDates['end']->format('%Y-%m-%d %H:%M:%S')."' AS interval_end,
@@ -933,15 +933,15 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 SUM(IF(v.purpose = 'basket_value' AND diac.connection_status = ". MAX_CONNECTION_STATUS_APPROVED .", diavv.value, 0)) AS basket_value,
                 SUM(IF(v.purpose = 'num_items' AND diac.connection_status = ". MAX_CONNECTION_STATUS_APPROVED .", diavv.value, 0)) AS num_items
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']} AS diac
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} AS diac
             LEFT JOIN
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']} AS diavv
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv
             USING
                 (
                     data_intermediate_ad_connection_id
                 )
             LEFT JOIN
-                {$conf['table']['prefix']}{$conf['table']['variables']} AS v
+                {$aConf['table']['prefix']}{$aConf['table']['variables']} AS v
             ON
                 (
                     diavv.tracker_variable_id = v.variableid
@@ -975,10 +975,10 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function _saveConnectionsAndVariableValues($oStart, $oEnd)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Save the connections
-        $table = $conf['table']['prefix'] .
-                 $conf['table']['data_intermediate_ad_connection'];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table']['data_intermediate_ad_connection'];
         $query = "
             INSERT INTO
                 $table
@@ -1077,7 +1077,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 '".date('Y-m-d H:i:s')."'
             FROM
                 tmp_ad_connection AS tac,
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']} AS drti
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']} AS drti
             WHERE
                 tac.server_raw_tracker_impression_id = drti.server_raw_tracker_impression_id
                 AND tac.server_raw_ip = drti.server_raw_ip
@@ -1088,8 +1088,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         // Save the variable values
-        $table = $conf['table']['prefix'] .
-                 $conf['table']['data_intermediate_ad_variable_value'];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table']['data_intermediate_ad_variable_value'];
         $query = "
             INSERT INTO
                 $table
@@ -1103,9 +1103,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 drtvv.tracker_variable_id AS tracker_variable_id,
                 drtvv.value AS value
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']} AS diac,
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']} AS drtvv,
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']} AS drti
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} AS diac,
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_variable_value']} AS drtvv,
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']} AS drti
             WHERE
                 diac.server_raw_tracker_impression_id = drti.server_raw_tracker_impression_id
                 AND diac.server_raw_ip = drti.server_raw_ip
@@ -1134,12 +1134,12 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function _dedupConversions($oStart, $oEnd)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $query = "
             UPDATE
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']} AS diac
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} AS diac
             JOIN
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']} AS diavv
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv
             ON
                 (
                     diac.data_intermediate_ad_connection_id = diavv.data_intermediate_ad_connection_id
@@ -1148,14 +1148,14 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     AND diac.tracker_date_time <= '" . $oEnd->format('%Y-%m-%d %H:%M:%S') . "'
                 )
             JOIN
-                {$conf['table']['prefix']}{$conf['table']['variables']} AS v
+                {$aConf['table']['prefix']}{$aConf['table']['variables']} AS v
             ON
                 (
                     diavv.tracker_variable_id = v.variableid
                     AND v.is_unique = 1
                 )
             JOIN
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']} AS diac2
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} AS diac2
             ON
                 (
                     v.trackerid = diac2.tracker_id
@@ -1164,7 +1164,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     AND UNIX_TIMESTAMP(diac.tracker_date_time) - UNIX_TIMESTAMP(diac2.tracker_date_time) > 0
                 )
             JOIN
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']} AS diavv2
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv2
             ON
                 (
                     diac2.data_intermediate_ad_connection_id = diavv2.data_intermediate_ad_connection_id
@@ -1195,18 +1195,18 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function _rejectEmptyVarConversions($oStart, $oEnd)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $query = "
             UPDATE
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']} AS diac
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} AS diac
             JOIN
-                {$conf['table']['prefix']}{$conf['table']['variables']} AS v
+                {$aConf['table']['prefix']}{$aConf['table']['variables']} AS v
             ON
                 (
                     diac.tracker_id = v.trackerid
                 )
             LEFT JOIN
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']} AS diavv
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv
             ON
                 (
                     diac.data_intermediate_ad_connection_id = diavv.data_intermediate_ad_connection_id
@@ -1240,11 +1240,11 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function saveHistory($oStart, $oEnd)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $fromTable = $conf['table']['prefix'] .
-                     $conf['table']['data_intermediate_ad'];
-        $toTable   = $conf['table']['prefix'] .
-                     $conf['table']['data_summary_zone_impression_history'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $fromTable = $aConf['table']['prefix'] .
+                     $aConf['table']['data_intermediate_ad'];
+        $toTable   = $aConf['table']['prefix'] .
+                     $aConf['table']['data_summary_zone_impression_history'];
         $query = "
             SELECT
                 operation_interval AS operation_interval,
@@ -1345,7 +1345,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function saveSummary($oStartDate, $oEndDate, $aActions, $fromTable, $toTable)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Check that there are types to summarise
         if (empty($aActions['types']) || empty($aActions['connections'])) {
             return;
@@ -1419,12 +1419,12 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function _saveSummary($oStartDate, $oEndDate, $aActions, $fromTable, $toTable)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if ($oStartDate->format('%Y-%m-%d') != $oEndDate->format('%Y-%m-%d')) {
             MAX::raiseError('_saveSummary called with dates not on the same day.', null, PEAR_ERROR_DIE);
         }
-        $finalFromTable = $conf['table']['prefix'] . $conf['table'][$fromTable];
-        $finalToTable   = $conf['table']['prefix'] . $conf['table'][$toTable];
+        $finalFromTable = $aConf['table']['prefix'] . $aConf['table'][$fromTable];
+        $finalToTable   = $aConf['table']['prefix'] . $aConf['table'][$toTable];
         $query = "
             INSERT INTO
                 $finalToTable
@@ -1469,7 +1469,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 day, hour, ad_id, creative_id, zone_id";
         // Prepare the message about what's about to happen
         $message = 'Summarising the ad ' . implode('s, ', $aActions['types']) . 's';
-        if ($conf['modules']['Tracker']) {
+        if ($aConf['modules']['Tracker']) {
             $message .= ' and conversions';
         }
         $message .= " from the $finalFromTable table into the $finalToTable table, for data" .
@@ -1496,7 +1496,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function _updateWithFinanceInfo($oStartDate, $oEndDate, $table)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if ($oStartDate->format('%Y-%m-%d') != $oEndDate->format('%Y-%m-%d')) {
             MAX::raiseError('_updateWithFinanceInfo called with dates not on the same day.', null, PEAR_ERROR_DIE);
         }
@@ -1505,7 +1505,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
             SELECT DISTINCT
                 ad_id AS ad_id
             FROM
-                {$conf['table']['prefix']}{$conf['table'][$table]}
+                {$aConf['table']['prefix']}{$aConf['table'][$table]}
             WHERE
                 day = '".$oStartDate->format('%Y-%m-%d')."'
                 AND hour >= ".$oStartDate->format('%H')."
@@ -1529,7 +1529,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
             SELECT DISTINCT
                 zone_id AS zone_id
             FROM
-                {$conf['table']['prefix']}{$conf['table'][$table]}
+                {$aConf['table']['prefix']}{$aConf['table'][$table]}
             WHERE
                 day = '".$oStartDate->format('%Y-%m-%d')."'
                 AND hour >= ".$oStartDate->format('%H')."
@@ -1561,7 +1561,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function _getAdFinanceInfo($aAdIds)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if (empty($aAdIds)) {
             return false;
         }
@@ -1571,8 +1571,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 c.revenue AS revenue,
                 c.revenue_type AS revenue_type
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c,
-                {$conf['table']['prefix']}{$conf['table']['banners']} AS a
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS c,
+                {$aConf['table']['prefix']}{$aConf['table']['banners']} AS a
             WHERE
                 a.bannerid IN (" . implode(', ', $aAdIds) . ")
                 AND a.campaignid = c.campaignid
@@ -1604,7 +1604,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function _getZoneFinanceInfo($aZoneIds)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if (empty($aZoneIds)) {
             return false;
         }
@@ -1617,7 +1617,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 z.technology_cost AS technology_cost,
                 z.technology_cost_type AS technology_cost_type
             FROM
-                {$conf['table']['prefix']}{$conf['table']['zones']} AS z
+                {$aConf['table']['prefix']}{$aConf['table']['zones']} AS z
             WHERE
                 z.zoneid IN (" . implode(', ', $aZoneIds) . ")
                 AND z.cost IS NOT NULL
@@ -1670,7 +1670,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function _updateAdsWithFinanceInfo($aAdFinanceInfo, $oStartDate, $oEndDate, $table)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if ($oStartDate->format('%H') != 0 || $oEndDate->format('%H') != 23) {
             if ($oStartDate->format('%Y-%m-%d') != $oEndDate->format('%Y-%m-%d')) {
                 MAX::raiseError('_updateAdsWithFinanceInfo called with dates not on the same day.', null, PEAR_ERROR_DIE);
@@ -1707,7 +1707,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     case MAX_FINANCE_CPM:
                         $query = "
                             UPDATE
-                                {$conf['table']['prefix']}{$conf['table'][$table]}
+                                {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_revenue = ({$aAdFinanceMappings[MAX_FINANCE_CPM]} / 1000) * {$aInfo['revenue']},
                                 updated = NOW()
@@ -1721,7 +1721,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     case MAX_FINANCE_CPC:
                         $query = "
                             UPDATE
-                                {$conf['table']['prefix']}{$conf['table'][$table]}
+                                {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_revenue = {$aAdFinanceMappings[MAX_FINANCE_CPC]} * {$aInfo['revenue']},
                                 updated = NOW()
@@ -1735,7 +1735,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     case MAX_FINANCE_CPA:
                         $query = "
                             UPDATE
-                                {$conf['table']['prefix']}{$conf['table'][$table]}
+                                {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_revenue = {$aAdFinanceMappings[MAX_FINANCE_CPA]} * {$aInfo['revenue']},
                                 updated = NOW()
@@ -1795,7 +1795,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function _updateZonesWithFinanceInfo($aZoneFinanceInfo, $oStartDate, $oEndDate, $table, $aLimitToTypes = null)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if ($oStartDate->format('%H') != 0 || $oEndDate->format('%H') != 23) {
             if ($oStartDate->format('%Y-%m-%d') != $oEndDate->format('%Y-%m-%d')) {
                 MAX::raiseError('_updateZonesWithFinanceInfo called with dates not on the same day.', null, PEAR_ERROR_DIE);
@@ -1846,7 +1846,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     case MAX_FINANCE_CPM:
                         $query = "
                             UPDATE
-                                {$conf['table']['prefix']}{$conf['table'][$table]}
+                                {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_cost = ({$aZoneFinanceMappings[MAX_FINANCE_CPM]} / 1000) * {$aInfo['cost']},
                                 updated = NOW()
@@ -1860,7 +1860,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     case MAX_FINANCE_CPC:
                         $query = "
                             UPDATE
-                                {$conf['table']['prefix']}{$conf['table'][$table]}
+                                {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_CPC]} * {$aInfo['cost']},
                                 updated = NOW()
@@ -1874,7 +1874,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     case MAX_FINANCE_CPA:
                         $query = "
                             UPDATE
-                                {$conf['table']['prefix']}{$conf['table'][$table]}
+                                {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_CPA]} * {$aInfo['cost']},
                                 updated = NOW()
@@ -1888,7 +1888,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     case MAX_FINANCE_RS:
                         $query = "
                             UPDATE
-                                {$conf['table']['prefix']}{$conf['table'][$table]}
+                                {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_RS]} * {$aInfo['cost']} / 100,
                                 updated = NOW()
@@ -1902,7 +1902,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     case MAX_FINANCE_BV:
                         $query = "
                             UPDATE
-                                {$conf['table']['prefix']}{$conf['table'][$table]}
+                                {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_BV]} * {$aInfo['cost']} / 100,
                                 updated = NOW()
@@ -1916,7 +1916,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     case MAX_FINANCE_AI:
                         $query = "
                             UPDATE
-                                {$conf['table']['prefix']}{$conf['table'][$table]}
+                                {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_AI]} * {$aInfo['cost']},
                                 updated = NOW()
@@ -1933,7 +1933,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                             // Reset costs to be sure we don't leave out rows without conversions
                             $this->dbh->query("
                                 UPDATE
-                                    {$conf['table']['prefix']}{$conf['table'][$table]}
+                                    {$aConf['table']['prefix']}{$aConf['table'][$table]}
                                 SET
                                     total_cost = 0,
                                     updated = NOW()
@@ -1952,8 +1952,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                     diac.creative_id,
                                     COALESCE(SUM(diavv.value), 0) * {$aInfo['cost']} / 100 AS total_cost
                                 FROM
-                                    {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']} diac,
-                                    {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']} diavv
+                                    {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} diac,
+                                    {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} diavv
                                 WHERE
                                     diac.zone_id = {$aInfo['zone_id']}
                                     AND diavv.data_intermediate_ad_connection_id = diac.data_intermediate_ad_connection_id
@@ -1973,7 +1973,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                             foreach ($res as $row) {
                                 $this->dbh->query("
                                     UPDATE
-                                        {$conf['table']['prefix']}{$conf['table'][$table]}
+                                        {$aConf['table']['prefix']}{$aConf['table'][$table]}
                                     SET
                                         total_cost = '".$row['total_cost']."',
                                         updated = NOW()
@@ -1993,7 +1993,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                             // Reset costs to be sure we don't leave out rows without conversions
                             $this->dbh->query("
                                 UPDATE
-                                    {$conf['table']['prefix']}{$conf['table'][$table]}
+                                    {$aConf['table']['prefix']}{$aConf['table'][$table]}
                                 SET
                                     total_cost = 0,
                                     updated = NOW()
@@ -2012,8 +2012,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                     diac.creative_id,
                                     COALESCE(SUM(diavv.value), 0) * {$aInfo['cost']} / 100 AS total_cost
                                 FROM
-                                    {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']} diac,
-                                    {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']} diavv
+                                    {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} diac,
+                                    {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} diavv
                                 WHERE
                                     diac.zone_id = {$aInfo['zone_id']}
                                     AND diavv.data_intermediate_ad_connection_id = diac.data_intermediate_ad_connection_id
@@ -2033,7 +2033,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                             foreach ($res as $row) {
                                 $this->dbh->query("
                                     UPDATE
-                                        {$conf['table']['prefix']}{$conf['table'][$table]}
+                                        {$aConf['table']['prefix']}{$aConf['table'][$table]}
                                     SET
                                         total_cost = '".$row['total_cost']."',
                                         updated = NOW()
@@ -2076,7 +2076,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     case MAX_FINANCE_CPM:
                         $query = "
                             UPDATE
-                                {$conf['table']['prefix']}{$conf['table'][$table]}
+                                {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_techcost = ({$aZoneFinanceMappings[MAX_FINANCE_CPM]} / 1000) * {$aInfo['technology_cost']},
                                 updated = NOW()
@@ -2090,7 +2090,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     case MAX_FINANCE_CPC:
                         $query = "
                             UPDATE
-                                {$conf['table']['prefix']}{$conf['table'][$table]}
+                                {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_techcost = {$aZoneFinanceMappings[MAX_FINANCE_CPC]} * {$aInfo['technology_cost']},
                                 updated = NOW()
@@ -2104,7 +2104,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     case MAX_FINANCE_RS:
                         $query = "
                             UPDATE
-                                {$conf['table']['prefix']}{$conf['table'][$table]}
+                                {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_techcost = {$aZoneFinanceMappings[MAX_FINANCE_RS]} * {$aInfo['technology_cost']} / 100,
                                 updated = NOW()
@@ -2135,7 +2135,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
      */
     function manageCampaigns($oDate)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $report .= "\n";
         $query = "
             SELECT
@@ -2151,8 +2151,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 ca.expire AS end,
                 NOW() AS now
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']} AS ca,
-                {$conf['table']['prefix']}{$conf['table']['clients']} AS cl
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS ca,
+                {$aConf['table']['prefix']}{$aConf['table']['clients']} AS cl
             WHERE
                 ca.clientid = cl.clientid";
         MAX::debug("Selecting all campaigns", PEAR_LOG_DEBUG);
@@ -2175,8 +2175,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                             SUM(dia.clicks) AS clicks,
                             SUM(dia.conversions) AS conversions
                         FROM
-                            {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']} AS dia,
-                            {$conf['table']['prefix']}{$conf['table']['banners']} AS b
+                            {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']} AS dia,
+                            {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b
                         WHERE
                             dia.ad_id = b.bannerid
                             AND b.campaignid = {$campaignRow['campaign_id']}";
@@ -2222,7 +2222,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                             // One of the campaign targets was exceeded, so disable
                             $query = "
                                 UPDATE
-                                    {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                                    {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
                                 SET
                                     active = 'f'
                                 WHERE
@@ -2245,7 +2245,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     $disableReason |= MAX_PLACEMENT_DISABLED_DATE;
                     $query = "
                         UPDATE
-                            {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                            {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
                         SET
                             active = 'f'
                         WHERE
@@ -2272,7 +2272,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                             alt AS alt,
                             url AS url
                         FROM
-                            {$conf['table']['prefix']}{$conf['table']['banners']}
+                            {$aConf['table']['prefix']}{$aConf['table']['banners']}
                         WHERE
                             campaignid = {$campaignRow['campaign_id']}";
                     MAX::debug("Getting the advertisements for campaign ID {$campaignRow['campaign_id']}", PEAR_LOG_DEBUG);
@@ -2285,7 +2285,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                             array($advertisementRow['description'], $advertisementRow['alt'],
                                   $advertisementRow['url']);
                     }
-                    if ($conf['email']['sendMail']) {
+                    if ($aConf['email']['sendMail']) {
                         $message =& MAX_Maintenance::prepareDeactivateCampaignEmail($campaignRow['contact'],
                                                                                    $campaignRow['campaign_name'],
                                                                                    $disableReason, $advertisements);
@@ -2316,8 +2316,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                 SUM(dia.clicks) AS clicks,
                                 SUM(dia.conversions) AS conversions
                             FROM
-                                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']} AS dia,
-                                {$conf['table']['prefix']}{$conf['table']['banners']} AS b
+                                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']} AS dia,
+                                {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b
                             WHERE
                                 dia.ad_id = b.bannerid
                                 AND b.campaignid = {$campaignRow['campaign_id']}";
@@ -2342,7 +2342,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                         (($end->format('%Y-%m-%d %H:%M:%S') == '0000-00-00 00:00:00') || (($end->format('%Y-%m-%d %H:%M:%S') != '0000-00-00 00:00:00') && (Date::compare($oDate, $end) < 0)))) {
                         $query = "
                             UPDATE
-                                {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
                             SET
                                 active = 't'
                             WHERE
@@ -2366,7 +2366,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                 alt AS alt,
                                 url AS url
                             FROM
-                                {$conf['table']['prefix']}{$conf['table']['banners']}
+                                {$aConf['table']['prefix']}{$aConf['table']['banners']}
                             WHERE
                                 campaignid = {$campaignRow['campaign_id']}";
                         MAX::debug("Getting the advertisements for campaign ID {$campaignRow['campaign_id']}",
@@ -2380,7 +2380,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                 array($advertisementRow['description'], $advertisementRow['alt'],
                                     $advertisementRow['url']);
                         }
-                        if ($conf['email']['sendMail']) {
+                        if ($aConf['email']['sendMail']) {
                             $message =& MAX_Maintenance::prepareActivateCampaignEmail($campaignRow['contact'],
                                                                                       $campaignRow['campaign_name'],
                                                                                       $advertisements);

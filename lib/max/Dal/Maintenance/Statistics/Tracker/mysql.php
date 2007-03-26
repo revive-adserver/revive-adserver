@@ -40,7 +40,7 @@ require_once 'Date.php';
  */
 class MAX_Dal_Maintenance_Statistics_Tracker_mysql extends MAX_Dal_Maintenance_Statistics_Common
 {
-    var $dbh;
+    var $oDbh;
 
     /**
      * The constructor method.
@@ -50,7 +50,7 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysql extends MAX_Dal_Maintenance_S
     function MAX_Dal_Maintenance_Statistics_Tracker_mysql()
     {
         parent::MAX_Dal_Maintenance_Statistics_Common();
-        $this->dbh = &MAX_DB::singleton();
+        $this->oDbh = &OA_DB::singleton();
     }
 
     /**
@@ -77,9 +77,9 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysql extends MAX_Dal_Maintenance_S
      */
     function getMaintenanceStatisticsLastRunInfo($type, $oNow = null)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] .
-                 $conf['table']['data_raw_tracker_impression'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table']['data_raw_tracker_impression'];
         return $this->_getMaintenanceStatisticsLastRunInfo($type, $table, $oNow);
     }
 
@@ -112,7 +112,7 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysql extends MAX_Dal_Maintenance_S
      */
     function _getMaintenanceStatisticsLastRunInfo($type, $rawTable, $oNow = null)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if ($type == DAL_STATISTICS_COMMON_UPDATE_OI) {
             $whereClause = 'WHERE (tracker_run_type = ' . DAL_STATISTICS_COMMON_UPDATE_OI .
                            ' OR tracker_run_type = ' . DAL_STATISTICS_COMMON_UPDATE_BOTH . ')';
@@ -144,7 +144,7 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysql extends MAX_Dal_Maintenance_S
         }
         MAX::debug($message, PEAR_LOG_DEBUG);
         $aRow = $this->oDalMaintenanceStatistics->getProcessLastRunInfo(
-            $conf['table']['prefix'] . $conf['table']['log_maintenance_statistics'],
+            $aConf['table']['prefix'] . $aConf['table']['log_maintenance_statistics'],
             array(),
             $whereClause,
             'updated_to',
@@ -175,15 +175,15 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysql extends MAX_Dal_Maintenance_S
      */
     function deleteOldData($summarisedTo)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $deleteDate = $summarisedTo;
-        if ($conf['maintenance']['compactStatsGrace'] > 0) {
-            $deleteDate->subtractSeconds((int) $conf['maintenance']['compactStatsGrace']);
+        if ($aConf['maintenance']['compactStatsGrace'] > 0) {
+            $deleteDate->subtractSeconds((int) $aConf['maintenance']['compactStatsGrace']);
         }
         $rows = 0;
         // Delete the tracker impressions
-        $table = $conf['table']['prefix'] .
-                 $conf['table']['data_raw_tracker_impression'];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table']['data_raw_tracker_impression'];
         $query = "
             DELETE FROM
                 $table
@@ -196,8 +196,8 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysql extends MAX_Dal_Maintenance_S
             $rows += $this->dbh->affectedRows();
         }
         // Delete the tracker variable values
-        $table = $conf['table']['prefix'] .
-                 $conf['table']['data_raw_tracker_variable_value'];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table']['data_raw_tracker_variable_value'];
         $query = "
             DELETE FROM
                 $table
@@ -210,8 +210,8 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysql extends MAX_Dal_Maintenance_S
             $rows += $this->dbh->affectedRows();
         }
         // Delete the tracker clicks
-        $table = $conf['table']['prefix'] .
-                 $conf['table']['data_raw_tracker_click'];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table']['data_raw_tracker_click'];
         $query = "
             DELETE FROM
                 $table

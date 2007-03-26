@@ -27,8 +27,9 @@ $Id$
 
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/DB.php';
-require_once MAX_PATH . '/lib/openads/Table/Core.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Tracker.php';
+
+require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 require_once 'Date.php';
 
 /**
@@ -59,20 +60,20 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
         // options can be changed while the test is running
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = 'max_';
-        $dbh = &MAX_DB::singleton();
-        $tables = &Openads_Table_Core::singleton();
+        $oDbh = &OA_DB::singleton();
+        $oTable = &OA_DB_Table_Core::singleton();
         // Create the required tables
-        $tables->createTable('data_raw_tracker_click');
-        $tables->createTable('data_raw_tracker_impression');
-        $tables->createTable('data_raw_tracker_variable_value');
-        $tables->createTable('log_maintenance_statistics');
-        $tables->createTable('userlog');
+        $oTable->createTable('data_raw_tracker_click');
+        $oTable->createTable('data_raw_tracker_impression');
+        $oTable->createTable('data_raw_tracker_variable_value');
+        $oTable->createTable('log_maintenance_statistics');
+        $oTable->createTable('userlog');
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Maintenance/data/TestOfMaintenanceStatisticsTracker.php';
         // Insert the test data
-        $result = $dbh->query(TRACKER_FULL_TEST_TRACKER_IMPRESSIONS);
-        $result = $dbh->query(TRACKER_FULL_TEST_TRACKER_VARIABLE_VALUES);
-        $result = $dbh->query(TRACKER_FULL_TEST_TRACKER_CLICK);
+        $rows = $oDbh->exec(TRACKER_FULL_TEST_TRACKER_IMPRESSIONS);
+        $rows = $oDbh->exec(TRACKER_FULL_TEST_TRACKER_VARIABLE_VALUES);
+        $rows = $oDbh->exec(TRACKER_FULL_TEST_TRACKER_CLICK);
         // Set up the config as desired for testing
         $conf['maintenance']['operationInterval'] = 60;
         $conf['maintenance']['compactStats'] = false;
@@ -91,22 +92,25 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 30);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 30);
         // Reset the testing environment
         TestEnv::restoreEnv();
     }
