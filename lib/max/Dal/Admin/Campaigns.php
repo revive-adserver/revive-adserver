@@ -359,9 +359,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 
         $query_active_campaigns = "SELECT count(*) AS count".
             " FROM ".$conf['table']['prefix'].$conf['table']['campaigns']." WHERE active='t'";
-        $number_of_active_campaigns = $this->dbh->getOne($query_active_campaigns);
-
-        return $number_of_active_campaigns;
+        return $this->oDbh->queryOne($query_active_campaigns);
     }
 
     /**
@@ -379,8 +377,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             " WHERE m.clientid=c.clientid".
             " AND c.agencyid=".$agency_id.
             " AND m.active='t'";
-        $number_of_active_campaigns =  $this->dbh->getOne($query_active_campaigns);
-        return $number_of_active_campaigns;
+        return $this->oDbh->queryOne($query_active_campaigns);
     }
 
     /**

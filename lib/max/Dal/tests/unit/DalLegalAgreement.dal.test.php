@@ -52,7 +52,7 @@ class Dal_TestOfDalLegalAgreement extends UnitTestCase
     
     function addSamplePublishers()
     {
-        $dbh = &MAX_DB::singleton();
+        $dbh = &OA_DB::singleton();
         $conf = $GLOBALS['_MAX']['CONF'];
         $publisher_table = $conf['table']['prefix'] . 'affiliates';
         
@@ -64,12 +64,12 @@ class Dal_TestOfDalLegalAgreement extends UnitTestCase
             (2, '1999-12-31 23:59:59', 'codger', 'Agreed ages ago', 'codger@example.com', 674),  
             (3, NULL, 'simple', 'Affiliate with no agreement', 'fresh@example.com', 999)
         ";
-        $dbh->query($query);
+        $dbh->exec($query);
     }
     
     function addSampleAgencies()
     {
-        $dbh = &MAX_DB::singleton();
+        $dbh = &OA_DB::singleton();
         $conf = $GLOBALS['_MAX']['CONF'];
         $agency_table = $conf['table']['prefix'] . 'agency';
         $preference_table = $conf['table']['prefix'] . 'preference';
@@ -81,7 +81,7 @@ class Dal_TestOfDalLegalAgreement extends UnitTestCase
             (674, 'Agency with agreement', 'agreement@example.com'),
             (999, 'Agency without agreement', 'no.agreement@example.com')
         ";
-        $dbh->query($query);
+        $dbh->exec($query);
         
         $query = "
             INSERT INTO $preference_table
@@ -90,7 +90,7 @@ class Dal_TestOfDalLegalAgreement extends UnitTestCase
             (674, 't', 'I will breathe in and out at least once.'),
             (999, 'f', NULL)
         ";
-        $dbh->query($query);
+        $dbh->exec($query);
     }
         
     function testDetectPublisherHasAgreed_NotAgreed()

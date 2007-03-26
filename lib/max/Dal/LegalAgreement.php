@@ -49,9 +49,9 @@ class MAX_Dal_LegalAgreement extends MAX_Dal_Common
         $query = "
             SELECT last_accepted_agency_agreement
             FROM $publisher_table
-            WHERE affiliateid = ?
+            WHERE affiliateid = $publisher_id
         ";
-        $agreed_date_string = $this->dbh->getOne($query, array($publisher_id));
+        $agreed_date_string = $this->oDbh->queryOne($query);
         if (is_null($agreed_date_string)) {
             return false;
         }
@@ -72,9 +72,9 @@ class MAX_Dal_LegalAgreement extends MAX_Dal_Common
         $query = "
             UPDATE $publisher_table
             SET last_accepted_agency_agreement = NOW()
-            WHERE affiliateid = ?
+            WHERE affiliateid = $publisher_id
         ";
-        $this->dbh->query($query, array($publisher_id));
+        $this->oDbh->exec($query);
     }
     
     /**
@@ -88,9 +88,9 @@ class MAX_Dal_LegalAgreement extends MAX_Dal_Common
         $query = "
             UPDATE $publisher_table
             SET last_accepted_agency_agreement = NULL
-            WHERE affiliateid = ?
+            WHERE affiliateid = $publisher_id
         ";
-        $this->dbh->query($query, array($publisher_id));
+        $this->oDbh->exec($query);
     }
     
     function getAgreementTextForAgency($agency_id)
@@ -99,10 +99,9 @@ class MAX_Dal_LegalAgreement extends MAX_Dal_Common
         $query = "
             SELECT publisher_agreement_text
             FROM $preference_table
-            WHERE agencyid = ?
+            WHERE agencyid = $agency_id
         ";
-        $text = $this->dbh->getOne($query, array($agency_id));
-        return $text;
+        return $this->oDbh->queryOne($query);
     }
     
     function isAgreementNecessaryForPublisher($publisher_id)
@@ -122,9 +121,9 @@ class MAX_Dal_LegalAgreement extends MAX_Dal_Common
             FROM $publisher_table p
                 LEFT JOIN $preference_table a
                 ON p.agencyid = a.agencyid
-            WHERE p.affiliateid = ?
+            WHERE p.affiliateid = $publisher_id
         ";
-        $has_agreement = $this->dbh->getOne($query, array($publisher_id));
+        $has_agreement = $this->oDbh->queryOne($query);
         return $has_agreement == 1;
     }
     
@@ -134,9 +133,9 @@ class MAX_Dal_LegalAgreement extends MAX_Dal_Common
         $query = "
             SELECT IF(a.publisher_agreement = 't', 1, 0) AS has_agreement
             FROM $preference_table a
-            WHERE a.agencyid = ?
+            WHERE a.agencyid = $agency_id
         ";
-        $has_agreement = $this->dbh->getOne($query, array($agency_id));
+        $has_agreement = $this->oDbh->queryOne($query);
         return $has_agreement == 1;
     }
     
