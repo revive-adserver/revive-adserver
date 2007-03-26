@@ -118,6 +118,7 @@ class OA_DB
             // Set the fetchmode to be use used
             $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->setFetchMode(MDB2_FETCHMODE_ASSOC);
             // Load modules that are likely to be needed
+            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->loadModule('Extended');
             $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->loadModule('Datatype');
             $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->loadModule('Manager');
         }
