@@ -79,13 +79,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         ",storagetype AS type".
         " FROM ".$conf['table']['prefix'].$conf['table']['banners'];
         $query .= $this->getSqlListOrder($listorder, $orderdirection);
-        $flat_banners = $this->dbh->getAll($query);
-        if (PEAR::isError($flat_banners)) {
-            MAX::raiseError($flat_banners);
-            return array();
-        }
-        $banners = $this->_rekeyBannersArray($flat_banners);
-        return $banners;
+        return $this->oDbh->queryAll($query, null, MDB2_FETCHMODE_DEFAULT, true);
     }
     
     /**
@@ -142,8 +136,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
             " WHERE b.campaignid=m.campaignid".
             " AND m.active='t'".
             " AND b.active='t'";
-        $number_of_active_banners = $this->dbh->getOne($query_active_banners);
-        return $number_of_active_banners;
+        return $this->oDbh->queryOne($query_active_banners);
     }
 
     function countActiveBannersUnderAdvertiser($advertiser_id)
@@ -179,8 +172,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         " AND c.agencyid=".$agency_id.
         " AND m.active='t'".
         " AND b.active='t'";
-        $number_of_active_banners = $this->dbh->getOne($query_active_banners);
-        return $number_of_active_banners;
+        return $this->oDbh->queryOne($query_active_banners);
     }
 
     /**

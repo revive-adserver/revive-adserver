@@ -43,6 +43,9 @@ require_once 'DB/QueryTool.php';
  */
 class MAX_Dal_Common
 {
+    /**
+     * @var MDB2_Driver_Common
+     */
     var $oDbh;
     var $queryBuilder;
     var $conf;

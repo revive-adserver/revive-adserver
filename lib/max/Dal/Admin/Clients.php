@@ -55,21 +55,11 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      */
     function getAdvertiserDetails($advertiserId)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $query = "
-            SELECT
-                *
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['clients']}
-            WHERE
-                clientid = ?";
-        $aQueryParams = array($advertiserId);
-        $aAdvertiserDetails = $this->dbh->getRow($query, $aQueryParams, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($aAdvertiserDetails)) {
-            MAX::raiseError($aAdvertiserDetails);
-            return array();
+        $doClients = MAX_DB::staticGetDO('clients', $advertiserId);
+        if ($doClients) {
+            return $doClients->toArray();
         }
-        return $aAdvertiserDetails;
+        return null;
     }
 
     /**
