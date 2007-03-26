@@ -62,7 +62,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Statistics extends UnitTestCase
         require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new MAX_Dal_Maintenance_Statistics();
 
         // Test 1
@@ -82,12 +82,13 @@ class Dal_TestOfMAX_Dal_Maintenance_Statistics extends UnitTestCase
             WHERE
                 userlogid = 1";
 
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['usertype'], phpAds_userMaintenance);
-        $this->assertEqual($row['userid'], '0');
-        $this->assertEqual($row['action'], phpAds_actionBatchStatistics);
-        $this->assertEqual($row['object'], '0');
-        $this->assertEqual($row['details'], $report);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['usertype'], phpAds_userMaintenance);
+        $this->assertEqual($aRow['userid'], '0');
+        $this->assertEqual($aRow['action'], phpAds_actionBatchStatistics);
+        $this->assertEqual($aRow['object'], '0');
+        $this->assertEqual($aRow['details'], $report);
 
         $report = '2nd Maintenance run has finished :: Maintenance will run again at XYZ.';
         $oMaxDalMaintenance->setMaintenanceStatisticsRunReport($report);
@@ -105,13 +106,14 @@ class Dal_TestOfMAX_Dal_Maintenance_Statistics extends UnitTestCase
             WHERE
                 userlogid = 2";
 
-           $row = $dbh->getRow($query);
-           $this->assertEqual($row['usertype'], phpAds_userMaintenance);
-           $this->assertEqual($row['userid'], '0');
-           $this->assertEqual($row['action'], phpAds_actionBatchStatistics);
-           $this->assertEqual($row['object'], '0');
-           $this->assertEqual($row['details'], $report);
-           TestEnv::rollbackTransaction();
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['usertype'], phpAds_userMaintenance);
+        $this->assertEqual($aRow['userid'], '0');
+        $this->assertEqual($aRow['action'], phpAds_actionBatchStatistics);
+        $this->assertEqual($aRow['object'], '0');
+        $this->assertEqual($aRow['details'], $report);
+        TestEnv::rollbackTransaction();
     }
 
     /**
@@ -126,7 +128,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Statistics extends UnitTestCase
     {
         TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new MAX_Dal_Maintenance_Statistics();
 
         // Test 1
@@ -147,12 +149,13 @@ class Dal_TestOfMAX_Dal_Maintenance_Statistics extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
             WHERE
                 log_maintenance_statistics_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['start_run'], '2005-06-21 15:00:01');
-        $this->assertEqual($row['end_run'], '2005-06-21 15:01:01');
-        $this->assertEqual($row[$runTypeField], $type);
-        $this->assertEqual($row['duration'], 60);
-        $this->assertEqual($row['updated_to'], '2005-06-21 15:59:59');
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['start_run'], '2005-06-21 15:00:01');
+        $this->assertEqual($aRow['end_run'], '2005-06-21 15:01:01');
+        $this->assertEqual($aRow[$runTypeField], $type);
+        $this->assertEqual($aRow['duration'], 60);
+        $this->assertEqual($aRow['updated_to'], '2005-06-21 15:59:59');
 
         // Test 2
         $oStartDate = new Date('2005-06-21 16:00:01');
@@ -172,12 +175,13 @@ class Dal_TestOfMAX_Dal_Maintenance_Statistics extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
             WHERE
                 log_maintenance_statistics_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['start_run'], '2005-06-21 15:00:01');
-        $this->assertEqual($row['end_run'], '2005-06-21 15:01:01');
-        $this->assertEqual($row[$runTypeField], $type);
-        $this->assertEqual($row['duration'], 60);
-        $this->assertEqual($row['updated_to'], '2005-06-21 15:59:59');
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['start_run'], '2005-06-21 15:00:01');
+        $this->assertEqual($aRow['end_run'], '2005-06-21 15:01:01');
+        $this->assertEqual($aRow[$runTypeField], $type);
+        $this->assertEqual($aRow['duration'], 60);
+        $this->assertEqual($aRow['updated_to'], '2005-06-21 15:59:59');
         $query = "
             SELECT
                 start_run,
@@ -189,12 +193,13 @@ class Dal_TestOfMAX_Dal_Maintenance_Statistics extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
             WHERE
                 log_maintenance_statistics_id = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['start_run'], '2005-06-21 16:00:01');
-        $this->assertEqual($row['end_run'], '2005-06-21 16:01:06');
-        $this->assertEqual($row[$runTypeField], $type);
-        $this->assertEqual($row['duration'], 65);
-        $this->assertEqual($row['updated_to'], '2005-06-21 16:59:59');
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['start_run'], '2005-06-21 16:00:01');
+        $this->assertEqual($aRow['end_run'], '2005-06-21 16:01:06');
+        $this->assertEqual($aRow[$runTypeField], $type);
+        $this->assertEqual($aRow['duration'], 65);
+        $this->assertEqual($aRow['updated_to'], '2005-06-21 16:59:59');
 
         // Test 3:
         $oStartDate = new Date('2005-06-21 16:00:01');
@@ -214,12 +219,13 @@ class Dal_TestOfMAX_Dal_Maintenance_Statistics extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
             WHERE
                 log_maintenance_statistics_id = 3";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['start_run'], '2005-06-21 16:00:01');
-        $this->assertEqual($row['end_run'], '2005-06-21 16:02:07');
-        $this->assertEqual($row[$runTypeField], $type);
-        $this->assertEqual($row['duration'], 126);
-        $this->assertEqual($row['updated_to'], '2005-06-21 16:59:59');
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['start_run'], '2005-06-21 16:00:01');
+        $this->assertEqual($aRow['end_run'], '2005-06-21 16:02:07');
+        $this->assertEqual($aRow[$runTypeField], $type);
+        $this->assertEqual($aRow['duration'], 126);
+        $this->assertEqual($aRow['updated_to'], '2005-06-21 16:59:59');
         TestEnv::rollbackTransaction();
     }
 
