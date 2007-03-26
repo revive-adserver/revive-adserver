@@ -26,9 +26,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/Max.php';
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/DB.php';
-require_once MAX_PATH . '/lib/openads/Table/Core.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once 'Date.php';
 
