@@ -79,7 +79,7 @@ class MAX_Dal_Maintenance_Statistics extends MAX_Dal_Maintenance_Common
                     '".addslashes($report)."'
                 )";
         MAX::debug('Logging the maintenance statistics run report', PEAR_LOG_DEBUG);
-        return $this->dbh->query($query);
+        return $this->oDbh->exec($query);
     }
 
     /**
