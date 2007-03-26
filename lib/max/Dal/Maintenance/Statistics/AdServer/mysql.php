@@ -1749,9 +1749,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 }
             }
             if (!empty($query)) {
-                $result = $this->dbh->query($query);
-                if (PEAR::isError($result)) {
-                    return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                $rows = $this->oDbh->exec($query);
+                if (PEAR::isError($rows)) {
+                    return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                 }
             }
         }
@@ -1931,7 +1931,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                         // Get variable ID
                         if (!empty($aInfo['cost_variable_id'])) {
                             // Reset costs to be sure we don't leave out rows without conversions
-                            $this->dbh->query("
+                            $innerQuery = "
                                 UPDATE
                                     {$aConf['table']['prefix']}{$aConf['table'][$table]}
                                 SET
@@ -1942,9 +1942,10 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                     AND day >= '".$oStartDate->format('%Y-%m-%d')."'
                                     AND day <= '".$oEndDate->format('%Y-%m-%d')."'
                                     AND hour >= ".$oStartDate->format('%H')."
-                                    AND hour <= ".$oEndDate->format('%H'));
+                                    AND hour <= ".$oEndDate->format('%H');
+                            $rows = $this->oDbh->exec($innerQuery);
 
-                            $res = $this->dbh->getAll("
+                            $innerQuery = "
                                 SELECT
                                     DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d') AS day,
                                     HOUR(diac.tracker_date_time) AS hour,
@@ -1968,10 +1969,11 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                     hour,
                                     ad_id,
                                     creative_id
-                            ");
+                            ";
+                            $rc = $this->oDbh->query($innerQuery);
 
-                            foreach ($res as $row) {
-                                $this->dbh->query("
+                            while ($row = $rc->fetchRow()) {
+                                $innermostQuery = "
                                     UPDATE
                                         {$aConf['table']['prefix']}{$aConf['table'][$table]}
                                     SET
@@ -1982,7 +1984,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                         AND day = '".$row['day']."'
                                         AND hour = ".$row['hour']."
                                         AND ad_id = ".$row['ad_id']."
-                                        AND creative_id = ".$row['creative_id']);
+                                        AND creative_id = ".$row['creative_id'];
+                                $rows = $this->oDbh->exec($innermostQuery);
                             }
                         }
 
@@ -1991,7 +1994,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                         // Get variable ID
                         if (!empty($aInfo['cost_variable_id'])) {
                             // Reset costs to be sure we don't leave out rows without conversions
-                            $this->dbh->query("
+                            $innerQuery = "
                                 UPDATE
                                     {$aConf['table']['prefix']}{$aConf['table'][$table]}
                                 SET
@@ -2002,9 +2005,10 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                     AND day >= '".$oStartDate->format('%Y-%m-%d')."'
                                     AND day <= '".$oEndDate->format('%Y-%m-%d')."'
                                     AND hour >= ".$oStartDate->format('%H')."
-                                    AND hour <= ".$oEndDate->format('%H'));
+                                    AND hour <= ".$oEndDate->format('%H');
+                            $rows = $this->oDbh->exec($innerQuery);
 
-                            $res = $this->dbh->getAll("
+                            $innerQuery = "
                                 SELECT
                                     DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d') AS day,
                                     HOUR(diac.tracker_date_time) AS hour,
@@ -2028,10 +2032,11 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                     hour,
                                     ad_id,
                                     creative_id
-                            ");
+                            ";
+                            $rc = $this->oDbh->query($innerQuery);
 
-                            foreach ($res as $row) {
-                                $this->dbh->query("
+                            while ($row = $rc->fetchRow()) {
+                                $innermostQuery = "
                                     UPDATE
                                         {$aConf['table']['prefix']}{$aConf['table'][$table]}
                                     SET
@@ -2042,7 +2047,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                         AND day = '".$row['day']."'
                                         AND hour = ".$row['hour']."
                                         AND ad_id = ".$row['ad_id']."
-                                        AND creative_id = ".$row['creative_id']);
+                                        AND creative_id = ".$row['creative_id'];
+                                $rows = $this->oDbh->exec($innermostQuery);
                             }
                         }
 
@@ -2050,9 +2056,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 }
             }
             if (!empty($query)) {
-                $result = $this->dbh->query($query);
-                if (PEAR::isError($result)) {
-                    return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                $rows = $this->oDbh->exec($query);
+                if (PEAR::isError($rows)) {
+                    return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                 }
             }
 
@@ -2118,9 +2124,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 }
             }
             if (!empty($query)) {
-                $result = $this->dbh->query($query);
-                if (PEAR::isError($result)) {
-                    return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                $rows = $this->oDbh->exec($query);
+                if (PEAR::isError($rows)) {
+                    return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                 }
             }
         }
@@ -2143,9 +2149,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 ca.campaignname AS campaign_name,
                 cl.contact AS contact,
                 cl.email AS email,
-                ca.views AS targetImpressions,
-                ca.clicks AS targetClicks,
-                ca.conversions AS targetConversions,
+                ca.views AS targetimpressions,
+                ca.clicks AS targetclicks,
+                ca.conversions AS targetconversions,
                 ca.active AS active,
                 ca.activate AS start,
                 ca.expire AS end,
@@ -2164,9 +2170,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
             if ($campaignRow['active'] == 't') {
                 // The campaign is currently active, look at the campaign
                 $disableReason = 0;
-                if (($campaignRow['targetImpressions'] > 0) ||
-                    ($campaignRow['targetClicks'] > 0) ||
-                    ($campaignRow['targetConversions'] > 0)) {
+                if (($campaignRow['targetimpressions'] > 0) ||
+                    ($campaignRow['targetclicks'] > 0) ||
+                    ($campaignRow['targetconversions'] > 0)) {
                     // The campaign has an impression, click and/or conversion target,
                     // so get the sum total statistics for the campaign
                     $query = "
@@ -2197,22 +2203,22 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                             // No conversions
                             $valuesRow['conversions'] = 0;
                         }
-                        if ($campaignRow['targetImpressions'] > 0) {
-                            if ($campaignRow['targetImpressions'] <= $valuesRow['impressions']) {
+                        if ($campaignRow['targetimpressions'] > 0) {
+                            if ($campaignRow['targetimpressions'] <= $valuesRow['impressions']) {
                                 // The campaign has an impressions target, and this has been
                                 // passed, so update and disable the campagin
                                 $disableReason |= MAX_PLACEMENT_DISABLED_IMPRESSIONS;
                             }
                         }
-                        if ($campaignRow['targetClicks'] > 0) {
-                            if ($campaignRow['targetClicks'] <= $valuesRow['clicks']) {
+                        if ($campaignRow['targetclicks'] > 0) {
+                            if ($campaignRow['targetclicks'] <= $valuesRow['clicks']) {
                                 // The campaign has a click target, and this has been
                                 // passed, so update and disable the campaign
                                 $disableReason |= MAX_PLACEMENT_DISABLED_CLICKS;
                             }
                         }
-                        if ($campaignRow['targetConversions'] > 0) {
-                            if ($campaignRow['targetConversions'] <= $valuesRow['conversions']) {
+                        if ($campaignRow['targetconversions'] > 0) {
+                            if ($campaignRow['targetconversions'] <= $valuesRow['conversions']) {
                                 // The campaign has a target limitation, and this has been
                                 // passed, so update and disable the campagin
                                 $disableReason |= MAX_PLACEMENT_DISABLED_CONVERSIONS;
@@ -2305,9 +2311,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     $remainingImpressions = 0;
                     $remainingClicks      = 0;
                     $remainingConversions = 0;
-                    if (($campaignRow['targetImpressions'] > 0) ||
-                        ($campaignRow['targetClicks'] > 0) ||
-                        ($campaignRow['targetConversions'] > 0)) {
+                    if (($campaignRow['targetimpressions'] > 0) ||
+                        ($campaignRow['targetclicks'] > 0) ||
+                        ($campaignRow['targetconversions'] > 0)) {
                         // The placement has an impression, click and/or conversion target,
                         // so get the sum total statistics for the placement so far
                         $query = "
@@ -2324,9 +2330,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                         $rcInner = $this->oDbh->query($query);
                         $valuesRow = $rcInner->fetchRow();
                         // Set the remaining impressions, clicks and conversions for the placement
-                        $remainingImpressions = $campaignRow['targetImpressions'] - $valuesRow['impressions'];
-                        $remainingClicks      = $campaignRow['targetClicks']      - $valuesRow['clicks'];
-                        $remainingConversions = $campaignRow['targetConversions'] - $valuesRow['conversions'];
+                        $remainingImpressions = $campaignRow['targetimpressions'] - $valuesRow['impressions'];
+                        $remainingClicks      = $campaignRow['targetclicks']      - $valuesRow['clicks'];
+                        $remainingConversions = $campaignRow['targetconversions'] - $valuesRow['conversions'];
                     }
                     // In order for the placement to be activated, need to test:
                     // 1) That there is no impression target (<=0), or, if there is an impression target (>0),
@@ -2336,9 +2342,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     // 3) That there is no conversion target (<=0), or, if there is a conversion target (>0),
                     //    then there must be remaining conversions to deliver (>0); and
                     // 4) Either there is no end date, or the end date has not been passed
-                    if ((($campaignRow['targetImpressions'] <= 0) || (($campaignRow['targetImpressions'] > 0) && ($remainingImpressions > 0))) &&
-                        (($campaignRow['targetClicks']      <= 0) || (($campaignRow['targetClicks']      > 0) && ($remainingClicks      > 0))) &&
-                        (($campaignRow['targetConversions'] <= 0) || (($campaignRow['targetConversions'] > 0) && ($remainingConversions > 0))) &&
+                    if ((($campaignRow['targetimpressions'] <= 0) || (($campaignRow['targetimpressions'] > 0) && ($remainingImpressions > 0))) &&
+                        (($campaignRow['targetclicks']      <= 0) || (($campaignRow['targetclicks']      > 0) && ($remainingClicks      > 0))) &&
+                        (($campaignRow['targetconversions'] <= 0) || (($campaignRow['targetconversions'] > 0) && ($remainingConversions > 0))) &&
                         (($end->format('%Y-%m-%d %H:%M:%S') == '0000-00-00 00:00:00') || (($end->format('%Y-%m-%d %H:%M:%S') != '0000-00-00 00:00:00') && (Date::compare($oDate, $end) < 0)))) {
                         $query = "
                             UPDATE

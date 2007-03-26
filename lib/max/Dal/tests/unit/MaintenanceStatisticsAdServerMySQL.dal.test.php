@@ -53,7 +53,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
     function testGetMaintenanceStatisticsLastRunInfo()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 60;
         $conf['table']['split'] = false;
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
@@ -66,28 +66,28 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
         // Insert ad impressions
-        $result = $dbh->query(DATA_RAW_AD_IMPRESSIONS);
+        $aRows = $oDbh->exec(DATA_RAW_AD_IMPRESSIONS);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
         // Insert an hourly (only) update
-        $result = $dbh->query(LMS_HOUR);
+        $aRows = $oDbh->exec(LMS_HOUR);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert an operation interval (only) update
-        $result = $dbh->query(LMS_OI);
+        $aRows = $oDbh->exec(LMS_OI);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-06 10:16:00'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert a dual interval update
-        $result = $dbh->query(LMS_DUAL);
+        $aRows = $oDbh->exec(LMS_DUAL);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
@@ -110,7 +110,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         );
 
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $conf['table']['split'] = false;
         $conf['maintenance']['operationInterval'] = 30;
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
@@ -120,49 +120,49 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             // Test with no data
             $start = new Date('2004-06-06 12:00:00');
             $end = new Date('2004-06-06 12:29:59');
-            $rows = $dsa->_summariseData($start, $end, $type);
-            $this->assertEqual($rows, 0);
+            $aRows = $dsa->_summariseData($start, $end, $type);
+            $this->assertEqual($aRows, 0);
             $query = "
                 SELECT
                     COUNT(*) AS number
                 FROM
                     tmp_ad_{$type}";
-            $row = $dbh->getRow($query);
-            $this->assertEqual($row['number'], 0);
+            $aRow = $oDbh->queryRow($query);
+            $this->assertEqual($aRow['number'], 0);
             TestEnv::startTransaction();
             // Get the data for the tests
             include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
             // Insert 3 ad requests
-            $result = $dbh->query($sqlData);
+            $aRows = $oDbh->exec($sqlData);
             // Summarise where requests don't exist
             $start = new Date('2004-05-06 12:00:00');
             $end = new Date('2004-05-06 12:29:59');
-            $rows = $dsa->_summariseData($start, $end, $type);
-            $this->assertEqual($rows, 0);
+            $aRows = $dsa->_summariseData($start, $end, $type);
+            $this->assertEqual($aRows, 0);
             $query = "
                 SELECT
                     COUNT(*) AS number
                 FROM
                     tmp_ad_{$type}";
-            $row = $dbh->getRow($query);
-            $this->assertEqual($row['number'], 0);
+            $aRow = $oDbh->queryRow($query);
+            $this->assertEqual($aRow['number'], 0);
             // Summarise where one requests exists
             $start = new Date('2004-05-06 12:30:00');
             $end = new Date('2004-05-06 12:59:59');
-            $rows = $dsa->_summariseData($start, $end, $type);
-            $this->assertEqual($rows, 1);
+            $aRows = $dsa->_summariseData($start, $end, $type);
+            $this->assertEqual($aRows, 1);
             $query = "
                 SELECT
                     COUNT(*) AS number
                 FROM
                     tmp_ad_{$type}";
-            $row = $dbh->getRow($query);
-            $this->assertEqual($row['number'], 1);
+            $aRow = $oDbh->queryRow($query);
+            $this->assertEqual($aRow['number'], 1);
             // Summarise where the other two requests exists
             $start = new Date('2004-06-06 18:00:00');
             $end = new Date('2004-06-06 18:29:59');
-            $rows = $dsa->_summariseData($start, $end, $type);
-            $this->assertEqual($rows, 1);
+            $aRows = $dsa->_summariseData($start, $end, $type);
+            $this->assertEqual($aRows, 1);
             $query = "
                 SELECT
                     COUNT(*) AS number
@@ -170,8 +170,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     tmp_ad_{$type}
                 WHERE
                     day = '2004-05-06'";
-            $row = $dbh->getRow($query);
-            $this->assertEqual($row['number'], 1);
+            $aRow = $oDbh->queryRow($query);
+            $this->assertEqual($aRow['number'], 1);
             $query = "
                 SELECT
                     COUNT(*) AS number
@@ -179,8 +179,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     tmp_ad_{$type}
                 WHERE
                     day = '2004-06-06'";
-            $row = $dbh->getRow($query);
-            $this->assertEqual($row['number'], 1);
+            $aRow = $oDbh->queryRow($query);
+            $this->assertEqual($aRow['number'], 1);
             $query = "
                 SELECT
                     $returnColumnName AS $returnColumnName
@@ -188,8 +188,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     tmp_ad_{$type}
                 WHERE
                     day = '2004-06-06'";
-            $row = $dbh->getRow($query);
-            $this->assertEqual($row[$returnColumnName], 2);
+            $aRow = $oDbh->queryRow($query);
+            $this->assertEqual($aRow[$returnColumnName], 2);
             TestEnv::rollbackTransaction();
         }
         TestEnv::restoreConfig();
@@ -266,7 +266,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
     function test_dedupConversions()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         // Test 0
         $oStartDate = new Date('2005-09-05 12:00:00');
@@ -279,7 +279,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 0);
         TestEnv::rollbackTransaction();
@@ -323,7 +323,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -331,7 +331,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         $query = "
@@ -341,7 +341,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         TestEnv::rollbackTransaction();
@@ -385,7 +385,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
@@ -421,7 +421,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -429,7 +429,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -439,7 +439,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         TestEnv::rollbackTransaction();
@@ -467,7 +467,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     0,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -503,7 +503,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -521,7 +521,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     NULL
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -529,7 +529,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         $query = "
@@ -539,7 +539,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         TestEnv::rollbackTransaction();
@@ -567,7 +567,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     0,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -603,7 +603,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -621,7 +621,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     ''
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -629,7 +629,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         $query = "
@@ -639,7 +639,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         TestEnv::rollbackTransaction();
@@ -667,7 +667,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     0,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -703,7 +703,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -721,7 +721,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     'value'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -729,7 +729,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         $query = "
@@ -739,7 +739,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         TestEnv::rollbackTransaction();
@@ -767,7 +767,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     0,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -803,7 +803,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -821,7 +821,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     NULL
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
@@ -857,7 +857,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -875,7 +875,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     NULL
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -883,7 +883,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -893,7 +893,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         TestEnv::rollbackTransaction();
@@ -921,7 +921,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     0,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -957,7 +957,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -975,7 +975,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     NULL
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
@@ -1011,7 +1011,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -1029,7 +1029,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     ''
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -1037,7 +1037,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -1047,7 +1047,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         TestEnv::rollbackTransaction();
@@ -1075,7 +1075,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     0,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -1111,7 +1111,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -1129,7 +1129,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     NULL
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
@@ -1165,7 +1165,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -1183,7 +1183,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     'value'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -1191,7 +1191,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -1201,7 +1201,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         TestEnv::rollbackTransaction();
@@ -1229,7 +1229,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     0,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -1265,7 +1265,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -1283,7 +1283,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     ''
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
@@ -1319,7 +1319,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -1337,7 +1337,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     ''
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -1345,7 +1345,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -1355,7 +1355,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         TestEnv::rollbackTransaction();
@@ -1383,7 +1383,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     0,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -1419,7 +1419,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -1437,7 +1437,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     ''
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
@@ -1473,7 +1473,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -1491,7 +1491,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     'value'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -1499,7 +1499,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -1509,7 +1509,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         TestEnv::rollbackTransaction();
@@ -1537,7 +1537,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     0,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -1573,7 +1573,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -1591,7 +1591,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     'value'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
@@ -1627,7 +1627,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -1645,7 +1645,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     'value'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -1653,7 +1653,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -1663,7 +1663,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         TestEnv::rollbackTransaction();
@@ -1691,7 +1691,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -1727,7 +1727,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -1745,7 +1745,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     NULL
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -1753,7 +1753,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         $query = "
@@ -1763,7 +1763,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         TestEnv::rollbackTransaction();
@@ -1791,7 +1791,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -1827,7 +1827,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -1845,7 +1845,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     ''
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -1853,7 +1853,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         $query = "
@@ -1863,7 +1863,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         TestEnv::rollbackTransaction();
@@ -1891,7 +1891,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -1927,7 +1927,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -1945,7 +1945,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     'value'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -1953,7 +1953,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         $query = "
@@ -1963,7 +1963,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         TestEnv::rollbackTransaction();
@@ -1991,7 +1991,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -2027,7 +2027,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -2045,7 +2045,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     NULL
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
@@ -2081,7 +2081,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -2099,7 +2099,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     NULL
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -2107,7 +2107,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -2117,7 +2117,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         TestEnv::rollbackTransaction();
@@ -2145,7 +2145,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -2181,7 +2181,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -2199,7 +2199,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     NULL
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
@@ -2235,7 +2235,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -2253,7 +2253,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     ''
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -2261,7 +2261,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -2271,7 +2271,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         TestEnv::rollbackTransaction();
@@ -2299,7 +2299,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -2335,7 +2335,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -2353,7 +2353,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     NULL
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
@@ -2389,7 +2389,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1209600,
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -2407,7 +2407,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     'value'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -2415,7 +2415,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -2425,7 +2425,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         TestEnv::rollbackTransaction();
@@ -2453,7 +2453,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -2491,7 +2491,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     " . MAX_CONNECTION_STATUS_APPROVED . ",
                     1
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -2509,7 +2509,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     ''
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
@@ -2547,7 +2547,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     " . MAX_CONNECTION_STATUS_APPROVED . ",
                     1
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -2565,7 +2565,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     ''
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -2573,7 +2573,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -2583,7 +2583,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         $query = "
@@ -2595,7 +2595,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 1";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $this->assertEqual($aRow['comments'], '');
@@ -2606,7 +2606,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_DUPLICATE;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         $query = "
@@ -2618,7 +2618,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 2";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_DUPLICATE);
         $this->assertEqual($aRow['comments'], 'Duplicate of connection ID 1');
@@ -2647,7 +2647,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -2685,7 +2685,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     " . MAX_CONNECTION_STATUS_APPROVED . ",
                     1
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -2703,7 +2703,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     ''
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
@@ -2741,7 +2741,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     " . MAX_CONNECTION_STATUS_APPROVED . ",
                     1
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -2759,7 +2759,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     'value'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -2767,7 +2767,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -2777,7 +2777,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         TestEnv::rollbackTransaction();
@@ -2805,7 +2805,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -2843,7 +2843,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     " . MAX_CONNECTION_STATUS_APPROVED . ",
                     1
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -2861,7 +2861,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     'value1'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
@@ -2899,7 +2899,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     " . MAX_CONNECTION_STATUS_APPROVED . ",
                     1
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -2917,7 +2917,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     'value2'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -2925,7 +2925,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -2935,7 +2935,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         TestEnv::rollbackTransaction();
@@ -2963,7 +2963,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -3001,7 +3001,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     " . MAX_CONNECTION_STATUS_APPROVED . ",
                     1
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -3019,7 +3019,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     'value'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
@@ -3057,7 +3057,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     " . MAX_CONNECTION_STATUS_APPROVED . ",
                     1
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
@@ -3075,7 +3075,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     'value'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
@@ -3083,7 +3083,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -3093,7 +3093,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         $query = "
@@ -3105,7 +3105,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 1";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $this->assertEqual($aRow['comments'], '');
@@ -3116,7 +3116,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_DUPLICATE;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         $query = "
@@ -3128,7 +3128,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 2";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_DUPLICATE);
         $this->assertEqual($aRow['comments'], 'Duplicate of connection ID 1');
@@ -3155,7 +3155,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     0,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['variables']}
@@ -3174,7 +3174,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['variables']}
@@ -3193,7 +3193,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     3600
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09,
         // using tracker ID 1 (two variable values)
         $query = "
@@ -3232,7 +3232,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     " . MAX_CONNECTION_STATUS_APPROVED . ",
                     1
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
@@ -3250,7 +3250,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     'test non-unique'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
@@ -3267,7 +3267,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     2,
                     'test unique'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 12:15:00, from a click on ad ID 7, zone ID 8, at 12:14,
         // using tracker ID 2 (one variable value)
         $query = "
@@ -3306,7 +3306,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     " . MAX_CONNECTION_STATUS_APPROVED . ",
                     1
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
@@ -3324,7 +3324,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     3,
                     'test unique'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Dedupe this hour
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
@@ -3336,7 +3336,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -3346,7 +3346,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -3358,7 +3358,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 1";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $this->assertEqual($aRow['comments'], '');
@@ -3371,7 +3371,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 2";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $this->assertEqual($aRow['comments'], '');
@@ -3413,7 +3413,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     " . MAX_CONNECTION_STATUS_APPROVED . ",
                     1
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
@@ -3431,7 +3431,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     'test non-unique'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
@@ -3448,7 +3448,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     2,
                     'test unique different'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 13:06:00, from a click on ad ID 5, zone ID 6, at 13:05,
         // using tracker ID 1 (two variable values)
         $query = "
@@ -3487,7 +3487,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     " . MAX_CONNECTION_STATUS_APPROVED . ",
                     1
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
@@ -3505,7 +3505,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     'test non-unique'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
@@ -3522,7 +3522,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     2,
                     'test unique'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Dedupe this hour
         $oStartDate = new Date('2005-09-05 13:00:00');
         $oEndDate   = new Date('2005-09-07 13:29:59');
@@ -3534,7 +3534,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 4);
         $query = "
@@ -3544,7 +3544,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 3);
         $query = "
@@ -3554,7 +3554,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_DUPLICATE;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
         $query = "
@@ -3566,7 +3566,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 1";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $this->assertEqual($aRow['comments'], '');
@@ -3579,7 +3579,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 2";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $this->assertEqual($aRow['comments'], '');
@@ -3592,7 +3592,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 3";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $this->assertEqual($aRow['comments'], '');
@@ -3605,7 +3605,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 4";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_DUPLICATE);
         $this->assertEqual($aRow['comments'], 'Duplicate of connection ID 1');
@@ -3647,7 +3647,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     " . MAX_CONNECTION_STATUS_APPROVED . ",
                     1
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
@@ -3665,7 +3665,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     1,
                     'test non-unique'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
@@ -3682,7 +3682,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     2,
                     'test unique'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert a connection at 14:15:00, from a click on ad ID 7, zone ID 8, at 14:14,
         // using tracker ID 2 (one variable value)
         $query = "
@@ -3721,7 +3721,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     " . MAX_CONNECTION_STATUS_APPROVED . ",
                     1
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
@@ -3739,7 +3739,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     3,
                     'test unique'
                 )";
-        $rResult = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Dedupe this hour
         $oStartDate = new Date('2005-09-05 14:00:00');
         $oEndDate   = new Date('2005-09-07 14:29:59');
@@ -3751,7 +3751,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS rows
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 6);
         $query = "
@@ -3761,7 +3761,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 4);
         $query = "
@@ -3771,7 +3771,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_DUPLICATE;
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
         $query = "
@@ -3783,7 +3783,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 1";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $this->assertEqual($aRow['comments'], '');
@@ -3796,7 +3796,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 2";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $this->assertEqual($aRow['comments'], '');
@@ -3809,7 +3809,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 3";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $this->assertEqual($aRow['comments'], '');
@@ -3822,7 +3822,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 4";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_DUPLICATE);
         $this->assertEqual($aRow['comments'], 'Duplicate of connection ID 1');
@@ -3835,7 +3835,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 5";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_DUPLICATE);
         $this->assertEqual($aRow['comments'], 'Duplicate of connection ID 4');
@@ -3848,7 +3848,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 6";
-        $aRow = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $this->assertEqual($aRow['comments'], '');
@@ -3903,56 +3903,56 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
     function testSummariseConnections()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         // Test with no data
         $start = new Date('2004-06-06 12:00:00');
         $end = new Date('2004-06-06 12:29:59');
-        $rows = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($rows, 0);
+        $aRows = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($aRows, 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 tmp_ad_connection";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
         TestEnv::startTransaction();
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
         // Insert some ads (banners), campaign trackers, ad
         // impressions, ad clicks, and tracker impressions
-        $result = $dbh->query(SUMMARISE_CONVERSIONS_BANNERS);
-        $result = $dbh->query(SUMMARISE_CONVERSIONS_CAMPAIGNS_TRACKERS);
-        $result = $dbh->query(SUMMARISE_CONVERSIONS_AD_IMPRESSIONS);
-        $result = $dbh->query(SUMMARISE_CONVERSIONS_AD_CLICKS);
-        $result = $dbh->query(SUMMARISE_CONVERSIONS_TRACKER_IMPRESSIONS);
+        $aRows = $oDbh->exec(SUMMARISE_CONVERSIONS_BANNERS);
+        $aRows = $oDbh->exec(SUMMARISE_CONVERSIONS_CAMPAIGNS_TRACKERS);
+        $aRows = $oDbh->exec(SUMMARISE_CONVERSIONS_AD_IMPRESSIONS);
+        $aRows = $oDbh->exec(SUMMARISE_CONVERSIONS_AD_CLICKS);
+        $aRows = $oDbh->exec(SUMMARISE_CONVERSIONS_TRACKER_IMPRESSIONS);
         // Summarise where tracker impressions don't exist
         $start = new Date('2004-05-06 12:00:00');
         $end = new Date('2004-05-06 12:29:59');
-        $rows = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($rows, 0);
+        $aRows = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($aRows, 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 tmp_ad_connection";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
         // Summarise where just one tracker impression exists
         $start = new Date('2004-05-06 12:30:00');
         $end = new Date('2004-05-06 12:59:59');
-        $rows = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($rows, 2);
+        $aRows = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($aRows, 2);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 tmp_ad_connection";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 2);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
@@ -3960,33 +3960,33 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 tmp_ad_connection
             WHERE
                 connection_action = 0";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 2);
-        $this->assertEqual($row['connection_viewer_id'], 'aa');
-        $this->assertEqual($row['connection_viewer_session_id'], 0);
-        $this->assertEqual($row['connection_date_time'], '2004-05-06 12:34:56');
-        $this->assertEqual($row['connection_ad_id'], 2);
-        $this->assertEqual($row['connection_creative_id'], 0);
-        $this->assertEqual($row['connection_zone_id'], 0);
-        $this->assertEqual($row['connection_channel'], 'chan2');
-        $this->assertEqual($row['connection_language'], 'en2');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.2');
-        $this->assertEqual($row['connection_host_name'], 'localhost2');
-        $this->assertEqual($row['connection_country'], 'U2');
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['connection_domain'], 'domain2');
-        $this->assertEqual($row['connection_page'], 'page2');
-        $this->assertEqual($row['connection_query'], 'query2');
-        $this->assertEqual($row['connection_referer'], 'referer2');
-        $this->assertEqual($row['connection_search_term'], 'term2');
-        $this->assertEqual($row['connection_user_agent'], 'agent2');
-        $this->assertEqual($row['connection_os'], 'linux2');
-        $this->assertEqual($row['connection_browser'], 'mozilla2');
-        $this->assertEqual($row['connection_action'], 0);
-        $this->assertEqual($row['connection_window'], 2592000);
-        $this->assertEqual($row['connection_status'], 0);
-        $this->assertEqual($row['inside_window'], 1);
-        $this->assertEqual($row['latest'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 2);
+        $this->assertEqual($aRow['connection_viewer_id'], 'aa');
+        $this->assertEqual($aRow['connection_viewer_session_id'], 0);
+        $this->assertEqual($aRow['connection_date_time'], '2004-05-06 12:34:56');
+        $this->assertEqual($aRow['connection_ad_id'], 2);
+        $this->assertEqual($aRow['connection_creative_id'], 0);
+        $this->assertEqual($aRow['connection_zone_id'], 0);
+        $this->assertEqual($aRow['connection_channel'], 'chan2');
+        $this->assertEqual($aRow['connection_language'], 'en2');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.2');
+        $this->assertEqual($aRow['connection_host_name'], 'localhost2');
+        $this->assertEqual($aRow['connection_country'], 'U2');
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['connection_domain'], 'domain2');
+        $this->assertEqual($aRow['connection_page'], 'page2');
+        $this->assertEqual($aRow['connection_query'], 'query2');
+        $this->assertEqual($aRow['connection_referer'], 'referer2');
+        $this->assertEqual($aRow['connection_search_term'], 'term2');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent2');
+        $this->assertEqual($aRow['connection_os'], 'linux2');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla2');
+        $this->assertEqual($aRow['connection_action'], 0);
+        $this->assertEqual($aRow['connection_window'], 2592000);
+        $this->assertEqual($aRow['connection_status'], 0);
+        $this->assertEqual($aRow['inside_window'], 1);
+        $this->assertEqual($aRow['latest'], 0);
         $query = "
             SELECT
                 *
@@ -3994,47 +3994,47 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 tmp_ad_connection
             WHERE
                 connection_action = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 2);
-        $this->assertEqual($row['connection_viewer_id'], 'aa');
-        $this->assertEqual($row['connection_viewer_session_id'], 0);
-        $this->assertEqual($row['connection_date_time'], '2004-05-06 12:34:56');
-        $this->assertEqual($row['connection_ad_id'], 2);
-        $this->assertEqual($row['connection_creative_id'], 0);
-        $this->assertEqual($row['connection_zone_id'], 0);
-        $this->assertEqual($row['connection_channel'], 'chan2');
-        $this->assertEqual($row['connection_language'], 'en2');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.2');
-        $this->assertEqual($row['connection_host_name'], 'localhost2');
-        $this->assertEqual($row['connection_country'], 'U2');
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['connection_domain'], 'domain2');
-        $this->assertEqual($row['connection_page'], 'page2');
-        $this->assertEqual($row['connection_query'], 'query2');
-        $this->assertEqual($row['connection_referer'], 'referer2');
-        $this->assertEqual($row['connection_search_term'], 'term2');
-        $this->assertEqual($row['connection_user_agent'], 'agent2');
-        $this->assertEqual($row['connection_os'], 'linux2');
-        $this->assertEqual($row['connection_browser'], 'mozilla2');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 2592000);
-        $this->assertEqual($row['connection_status'], 0);
-        $this->assertEqual($row['inside_window'], 1);
-        $this->assertEqual($row['latest'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 2);
+        $this->assertEqual($aRow['connection_viewer_id'], 'aa');
+        $this->assertEqual($aRow['connection_viewer_session_id'], 0);
+        $this->assertEqual($aRow['connection_date_time'], '2004-05-06 12:34:56');
+        $this->assertEqual($aRow['connection_ad_id'], 2);
+        $this->assertEqual($aRow['connection_creative_id'], 0);
+        $this->assertEqual($aRow['connection_zone_id'], 0);
+        $this->assertEqual($aRow['connection_channel'], 'chan2');
+        $this->assertEqual($aRow['connection_language'], 'en2');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.2');
+        $this->assertEqual($aRow['connection_host_name'], 'localhost2');
+        $this->assertEqual($aRow['connection_country'], 'U2');
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['connection_domain'], 'domain2');
+        $this->assertEqual($aRow['connection_page'], 'page2');
+        $this->assertEqual($aRow['connection_query'], 'query2');
+        $this->assertEqual($aRow['connection_referer'], 'referer2');
+        $this->assertEqual($aRow['connection_search_term'], 'term2');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent2');
+        $this->assertEqual($aRow['connection_os'], 'linux2');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla2');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 2592000);
+        $this->assertEqual($aRow['connection_status'], 0);
+        $this->assertEqual($aRow['inside_window'], 1);
+        $this->assertEqual($aRow['latest'], 0);
         // Drop the temporary table
-        $dsa->tempTables->dropTempTable('tmp_ad_connection');
+        $dsa->tempTables->dropTable('tmp_ad_connection');
         // Summarise where the other connections are
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $rows = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($rows, 6);
+        $aRows = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($aRows, 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 tmp_ad_connection";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -4042,8 +4042,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 tmp_ad_connection
             WHERE
                 inside_window = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 4);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 4);
         $query = "
             SELECT
                 *
@@ -4052,33 +4052,33 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 connection_action = 1
                 AND connection_ad_id = 3";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 3);
-        $this->assertEqual($row['connection_viewer_id'], 'aa');
-        $this->assertEqual($row['connection_viewer_session_id'], 0);
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:22:11');
-        $this->assertEqual($row['connection_ad_id'], 3);
-        $this->assertEqual($row['connection_creative_id'], 0);
-        $this->assertEqual($row['connection_zone_id'], 0);
-        $this->assertEqual($row['connection_channel'], 'chan3');
-        $this->assertEqual($row['connection_language'], 'en3');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.3');
-        $this->assertEqual($row['connection_host_name'], 'localhost3');
-        $this->assertEqual($row['connection_country'], 'U3');
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['connection_domain'], 'domain3');
-        $this->assertEqual($row['connection_page'], 'page3');
-        $this->assertEqual($row['connection_query'], 'query3');
-        $this->assertEqual($row['connection_referer'], 'referer3');
-        $this->assertEqual($row['connection_search_term'], 'term3');
-        $this->assertEqual($row['connection_user_agent'], 'agent3');
-        $this->assertEqual($row['connection_os'], 'linux3');
-        $this->assertEqual($row['connection_browser'], 'mozilla3');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 2592000);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
-        $this->assertEqual($row['inside_window'], 1);
-        $this->assertEqual($row['latest'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 3);
+        $this->assertEqual($aRow['connection_viewer_id'], 'aa');
+        $this->assertEqual($aRow['connection_viewer_session_id'], 0);
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:22:11');
+        $this->assertEqual($aRow['connection_ad_id'], 3);
+        $this->assertEqual($aRow['connection_creative_id'], 0);
+        $this->assertEqual($aRow['connection_zone_id'], 0);
+        $this->assertEqual($aRow['connection_channel'], 'chan3');
+        $this->assertEqual($aRow['connection_language'], 'en3');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.3');
+        $this->assertEqual($aRow['connection_host_name'], 'localhost3');
+        $this->assertEqual($aRow['connection_country'], 'U3');
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['connection_domain'], 'domain3');
+        $this->assertEqual($aRow['connection_page'], 'page3');
+        $this->assertEqual($aRow['connection_query'], 'query3');
+        $this->assertEqual($aRow['connection_referer'], 'referer3');
+        $this->assertEqual($aRow['connection_search_term'], 'term3');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent3');
+        $this->assertEqual($aRow['connection_os'], 'linux3');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla3');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 2592000);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $this->assertEqual($aRow['inside_window'], 1);
+        $this->assertEqual($aRow['latest'], 0);
         $query = "
             SELECT
                 *
@@ -4087,40 +4087,40 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 connection_action = 1
                 AND connection_ad_id = 4";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 3);
-        $this->assertEqual($row['connection_viewer_id'], 'aa');
-        $this->assertEqual($row['connection_viewer_session_id'], 0);
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:22:12');
-        $this->assertEqual($row['connection_ad_id'], 4);
-        $this->assertEqual($row['connection_creative_id'], 0);
-        $this->assertEqual($row['connection_zone_id'], 0);
-        $this->assertEqual($row['connection_channel'], 'chan4');
-        $this->assertEqual($row['connection_language'], 'en4');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.4');
-        $this->assertEqual($row['connection_host_name'], 'localhost4');
-        $this->assertEqual($row['connection_country'], 'U4');
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['connection_domain'], 'domain4');
-        $this->assertEqual($row['connection_page'], 'page4');
-        $this->assertEqual($row['connection_query'], 'query4');
-        $this->assertEqual($row['connection_referer'], 'referer4');
-        $this->assertEqual($row['connection_search_term'], 'term4');
-        $this->assertEqual($row['connection_user_agent'], 'agent4');
-        $this->assertEqual($row['connection_os'], 'linux4');
-        $this->assertEqual($row['connection_browser'], 'mozilla4');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 2592000);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
-        $this->assertEqual($row['inside_window'], 1);
-        $this->assertEqual($row['latest'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 3);
+        $this->assertEqual($aRow['connection_viewer_id'], 'aa');
+        $this->assertEqual($aRow['connection_viewer_session_id'], 0);
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:22:12');
+        $this->assertEqual($aRow['connection_ad_id'], 4);
+        $this->assertEqual($aRow['connection_creative_id'], 0);
+        $this->assertEqual($aRow['connection_zone_id'], 0);
+        $this->assertEqual($aRow['connection_channel'], 'chan4');
+        $this->assertEqual($aRow['connection_language'], 'en4');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.4');
+        $this->assertEqual($aRow['connection_host_name'], 'localhost4');
+        $this->assertEqual($aRow['connection_country'], 'U4');
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['connection_domain'], 'domain4');
+        $this->assertEqual($aRow['connection_page'], 'page4');
+        $this->assertEqual($aRow['connection_query'], 'query4');
+        $this->assertEqual($aRow['connection_referer'], 'referer4');
+        $this->assertEqual($aRow['connection_search_term'], 'term4');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent4');
+        $this->assertEqual($aRow['connection_os'], 'linux4');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla4');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 2592000);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $this->assertEqual($aRow['inside_window'], 1);
+        $this->assertEqual($aRow['latest'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 tmp_ad_connection";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 *
@@ -4129,33 +4129,33 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 connection_action = 0
                 AND connection_ad_id = 3";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 3);
-        $this->assertEqual($row['connection_viewer_id'], 'aa');
-        $this->assertEqual($row['connection_viewer_session_id'], 0);
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:22:11');
-        $this->assertEqual($row['connection_ad_id'], 3);
-        $this->assertEqual($row['connection_creative_id'], 0);
-        $this->assertEqual($row['connection_zone_id'], 0);
-        $this->assertEqual($row['connection_channel'], 'chan3');
-        $this->assertEqual($row['connection_language'], 'en3');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.3');
-        $this->assertEqual($row['connection_host_name'], 'localhost3');
-        $this->assertEqual($row['connection_country'], 'U3');
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['connection_domain'], 'domain3');
-        $this->assertEqual($row['connection_page'], 'page3');
-        $this->assertEqual($row['connection_query'], 'query3');
-        $this->assertEqual($row['connection_referer'], 'referer3');
-        $this->assertEqual($row['connection_search_term'], 'term3');
-        $this->assertEqual($row['connection_user_agent'], 'agent3');
-        $this->assertEqual($row['connection_os'], 'linux3');
-        $this->assertEqual($row['connection_browser'], 'mozilla3');
-        $this->assertEqual($row['connection_action'], 0);
-        $this->assertEqual($row['connection_window'], 2592000);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
-        $this->assertEqual($row['inside_window'], 1);
-        $this->assertEqual($row['latest'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 3);
+        $this->assertEqual($aRow['connection_viewer_id'], 'aa');
+        $this->assertEqual($aRow['connection_viewer_session_id'], 0);
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:22:11');
+        $this->assertEqual($aRow['connection_ad_id'], 3);
+        $this->assertEqual($aRow['connection_creative_id'], 0);
+        $this->assertEqual($aRow['connection_zone_id'], 0);
+        $this->assertEqual($aRow['connection_channel'], 'chan3');
+        $this->assertEqual($aRow['connection_language'], 'en3');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.3');
+        $this->assertEqual($aRow['connection_host_name'], 'localhost3');
+        $this->assertEqual($aRow['connection_country'], 'U3');
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['connection_domain'], 'domain3');
+        $this->assertEqual($aRow['connection_page'], 'page3');
+        $this->assertEqual($aRow['connection_query'], 'query3');
+        $this->assertEqual($aRow['connection_referer'], 'referer3');
+        $this->assertEqual($aRow['connection_search_term'], 'term3');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent3');
+        $this->assertEqual($aRow['connection_os'], 'linux3');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla3');
+        $this->assertEqual($aRow['connection_action'], 0);
+        $this->assertEqual($aRow['connection_window'], 2592000);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $this->assertEqual($aRow['inside_window'], 1);
+        $this->assertEqual($aRow['latest'], 0);
         $query = "
             SELECT
                 *
@@ -4164,43 +4164,43 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 connection_action = 0
                 AND connection_ad_id = 4";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 3);
-        $this->assertEqual($row['connection_viewer_id'], 'aa');
-        $this->assertEqual($row['connection_viewer_session_id'], 0);
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:22:12');
-        $this->assertEqual($row['connection_ad_id'], 4);
-        $this->assertEqual($row['connection_creative_id'], 0);
-        $this->assertEqual($row['connection_zone_id'], 0);
-        $this->assertEqual($row['connection_channel'], 'chan4');
-        $this->assertEqual($row['connection_language'], 'en4');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.4');
-        $this->assertEqual($row['connection_host_name'], 'localhost4');
-        $this->assertEqual($row['connection_country'], 'U4');
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['connection_domain'], 'domain4');
-        $this->assertEqual($row['connection_page'], 'page4');
-        $this->assertEqual($row['connection_query'], 'query4');
-        $this->assertEqual($row['connection_referer'], 'referer4');
-        $this->assertEqual($row['connection_search_term'], 'term4');
-        $this->assertEqual($row['connection_user_agent'], 'agent4');
-        $this->assertEqual($row['connection_os'], 'linux4');
-        $this->assertEqual($row['connection_browser'], 'mozilla4');
-        $this->assertEqual($row['connection_action'], 0);
-        $this->assertEqual($row['connection_window'], 2592000);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
-        $this->assertEqual($row['inside_window'], 1);
-        $this->assertEqual($row['latest'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 3);
+        $this->assertEqual($aRow['connection_viewer_id'], 'aa');
+        $this->assertEqual($aRow['connection_viewer_session_id'], 0);
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:22:12');
+        $this->assertEqual($aRow['connection_ad_id'], 4);
+        $this->assertEqual($aRow['connection_creative_id'], 0);
+        $this->assertEqual($aRow['connection_zone_id'], 0);
+        $this->assertEqual($aRow['connection_channel'], 'chan4');
+        $this->assertEqual($aRow['connection_language'], 'en4');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.4');
+        $this->assertEqual($aRow['connection_host_name'], 'localhost4');
+        $this->assertEqual($aRow['connection_country'], 'U4');
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['connection_domain'], 'domain4');
+        $this->assertEqual($aRow['connection_page'], 'page4');
+        $this->assertEqual($aRow['connection_query'], 'query4');
+        $this->assertEqual($aRow['connection_referer'], 'referer4');
+        $this->assertEqual($aRow['connection_search_term'], 'term4');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent4');
+        $this->assertEqual($aRow['connection_os'], 'linux4');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla4');
+        $this->assertEqual($aRow['connection_action'], 0);
+        $this->assertEqual($aRow['connection_window'], 2592000);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $this->assertEqual($aRow['inside_window'], 1);
+        $this->assertEqual($aRow['latest'], 0);
         // Drop the temporary table
-        $dsa->tempTables->dropTempTable('tmp_ad_connection');
+        $dsa->tempTables->dropTable('tmp_ad_connection');
         // Test with the data present, but the tracker module uninstalled
         $conf['modules']['Tracker'] = false;
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         // Summarise where the other connections are
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $rows = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($rows, 0);
+        $aRows = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($aRows, 0);
 
         TestEnv::restoreEnv();
     }
@@ -4240,7 +4240,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Test 1
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -4265,36 +4265,36 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
-        $row = $dbh->getRow($query);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
+        $aRow = $oDbh->queryRow($query);
 
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
 
         // Test 2
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $result = $dbh->query(SAVE_INTERMEDIATE_AD_REQUESTS);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_REQUESTS);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -4303,8 +4303,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 2);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
@@ -4312,21 +4312,21 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['requests'], 1);
-        $this->assertEqual($row['impressions'], 0);
-        $this->assertEqual($row['clicks'], 0);
-        $this->assertEqual($row['conversions'], 0);
-        $this->assertEqual($row['total_basket_value'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['requests'], 1);
+        $this->assertEqual($aRow['impressions'], 0);
+        $this->assertEqual($aRow['clicks'], 0);
+        $this->assertEqual($aRow['conversions'], 0);
+        $this->assertEqual($aRow['total_basket_value'], 0);
         $query = "
             SELECT
                 *
@@ -4334,47 +4334,47 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 2);
-        $this->assertEqual($row['creative_id'], 2);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['requests'], 2);
-        $this->assertEqual($row['impressions'], 0);
-        $this->assertEqual($row['clicks'], 0);
-        $this->assertEqual($row['conversions'], 0);
-        $this->assertEqual($row['total_basket_value'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 2);
+        $this->assertEqual($aRow['creative_id'], 2);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['requests'], 2);
+        $this->assertEqual($aRow['impressions'], 0);
+        $this->assertEqual($aRow['clicks'], 0);
+        $this->assertEqual($aRow['conversions'], 0);
+        $this->assertEqual($aRow['total_basket_value'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
 
         // Test 3
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $result = $dbh->query(SAVE_INTERMEDIATE_AD_IMPRESSIONS);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_IMPRESSIONS);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -4383,8 +4383,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 2);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
@@ -4392,21 +4392,21 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['requests'], 0);
-        $this->assertEqual($row['impressions'], 1);
-        $this->assertEqual($row['clicks'], 0);
-        $this->assertEqual($row['conversions'], 0);
-        $this->assertEqual($row['total_basket_value'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['requests'], 0);
+        $this->assertEqual($aRow['impressions'], 1);
+        $this->assertEqual($aRow['clicks'], 0);
+        $this->assertEqual($aRow['conversions'], 0);
+        $this->assertEqual($aRow['total_basket_value'], 0);
         $query = "
             SELECT
                 *
@@ -4414,47 +4414,47 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 2);
-        $this->assertEqual($row['creative_id'], 2);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['requests'], 0);
-        $this->assertEqual($row['impressions'], 2);
-        $this->assertEqual($row['clicks'], 0);
-        $this->assertEqual($row['conversions'], 0);
-        $this->assertEqual($row['total_basket_value'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 2);
+        $this->assertEqual($aRow['creative_id'], 2);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['requests'], 0);
+        $this->assertEqual($aRow['impressions'], 2);
+        $this->assertEqual($aRow['clicks'], 0);
+        $this->assertEqual($aRow['conversions'], 0);
+        $this->assertEqual($aRow['total_basket_value'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
 
         // Test 4
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $result = $dbh->query(SAVE_INTERMEDIATE_AD_CLICKS);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_CLICKS);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -4463,8 +4463,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
@@ -4472,21 +4472,21 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['requests'], 0);
-        $this->assertEqual($row['impressions'], 0);
-        $this->assertEqual($row['clicks'], 1);
-        $this->assertEqual($row['conversions'], 0);
-        $this->assertEqual($row['total_basket_value'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['requests'], 0);
+        $this->assertEqual($aRow['impressions'], 0);
+        $this->assertEqual($aRow['clicks'], 1);
+        $this->assertEqual($aRow['conversions'], 0);
+        $this->assertEqual($aRow['total_basket_value'], 0);
         $query = "
             SELECT
                 *
@@ -4494,21 +4494,21 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 2);
-        $this->assertEqual($row['creative_id'], 2);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['requests'], 0);
-        $this->assertEqual($row['impressions'], 0);
-        $this->assertEqual($row['clicks'], 2);
-        $this->assertEqual($row['conversions'], 0);
-        $this->assertEqual($row['total_basket_value'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 2);
+        $this->assertEqual($aRow['creative_id'], 2);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['requests'], 0);
+        $this->assertEqual($aRow['impressions'], 0);
+        $this->assertEqual($aRow['clicks'], 2);
+        $this->assertEqual($aRow['conversions'], 0);
+        $this->assertEqual($aRow['total_basket_value'], 0);
         $query = "
             SELECT
                 *
@@ -4516,49 +4516,49 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 3";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 3);
-        $this->assertEqual($row['creative_id'], 3);
-        $this->assertEqual($row['zone_id'], 3);
-        $this->assertEqual($row['requests'], 0);
-        $this->assertEqual($row['impressions'], 0);
-        $this->assertEqual($row['clicks'], 1);
-        $this->assertEqual($row['conversions'], 0);
-        $this->assertEqual($row['total_basket_value'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 3);
+        $this->assertEqual($aRow['creative_id'], 3);
+        $this->assertEqual($aRow['zone_id'], 3);
+        $this->assertEqual($aRow['requests'], 0);
+        $this->assertEqual($aRow['impressions'], 0);
+        $this->assertEqual($aRow['clicks'], 1);
+        $this->assertEqual($aRow['conversions'], 0);
+        $this->assertEqual($aRow['total_basket_value'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
 
         // Test 5
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $result = $dbh->query(SAVE_INTERMEDIATE_AD_REQUESTS);
-        $result = $dbh->query(SAVE_INTERMEDIATE_AD_IMPRESSIONS);
-        $result = $dbh->query(SAVE_INTERMEDIATE_AD_CLICKS);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_REQUESTS);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_IMPRESSIONS);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_CLICKS);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -4567,8 +4567,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
@@ -4576,21 +4576,21 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['requests'], 1);
-        $this->assertEqual($row['impressions'], 1);
-        $this->assertEqual($row['clicks'], 1);
-        $this->assertEqual($row['conversions'], 0);
-        $this->assertEqual($row['total_basket_value'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['requests'], 1);
+        $this->assertEqual($aRow['impressions'], 1);
+        $this->assertEqual($aRow['clicks'], 1);
+        $this->assertEqual($aRow['conversions'], 0);
+        $this->assertEqual($aRow['total_basket_value'], 0);
         $query = "
             SELECT
                 *
@@ -4598,21 +4598,21 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 2);
-        $this->assertEqual($row['creative_id'], 2);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['requests'], 2);
-        $this->assertEqual($row['impressions'], 2);
-        $this->assertEqual($row['clicks'], 2);
-        $this->assertEqual($row['conversions'], 0);
-        $this->assertEqual($row['total_basket_value'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 2);
+        $this->assertEqual($aRow['creative_id'], 2);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['requests'], 2);
+        $this->assertEqual($aRow['impressions'], 2);
+        $this->assertEqual($aRow['clicks'], 2);
+        $this->assertEqual($aRow['conversions'], 0);
+        $this->assertEqual($aRow['total_basket_value'], 0);
         $query = "
             SELECT
                 *
@@ -4620,48 +4620,48 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 3";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 3);
-        $this->assertEqual($row['creative_id'], 3);
-        $this->assertEqual($row['zone_id'], 3);
-        $this->assertEqual($row['requests'], 0);
-        $this->assertEqual($row['impressions'], 0);
-        $this->assertEqual($row['clicks'], 1);
-        $this->assertEqual($row['conversions'], 0);
-        $this->assertEqual($row['total_basket_value'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 3);
+        $this->assertEqual($aRow['creative_id'], 3);
+        $this->assertEqual($aRow['zone_id'], 3);
+        $this->assertEqual($aRow['requests'], 0);
+        $this->assertEqual($aRow['impressions'], 0);
+        $this->assertEqual($aRow['clicks'], 1);
+        $this->assertEqual($aRow['conversions'], 0);
+        $this->assertEqual($aRow['total_basket_value'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
 
         // Test 6
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $result = $dbh->query(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_6);
-        $result = $dbh->query(SAVE_INTERMEDIATE_CONNECTIONS_TEST_6);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_6);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_6);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -4670,8 +4670,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
@@ -4680,62 +4680,62 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 2);
-        $this->assertEqual($row['server_raw_ip'], '127.0.0.1');
-        $this->assertEqual($row['viewer_id'], 'aa');
-        $this->assertEqual($row['viewer_session_id'], 1);
-        $this->assertEqual($row['tracker_date_time'], '2004-06-06 18:10:30');
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['tracker_id'], 1);
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['tracker_channel'], 'tchan1');
-        $this->assertEqual($row['connection_channel'], 'chan1');
-        $this->assertEqual($row['tracker_language'], 'ten1');
-        $this->assertEqual($row['connection_language'], 'en1');
-        $this->assertEqual($row['tracker_ip_address'], 't127.0.0.1');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.1');
-        $this->assertEqual($row['tracker_host_name'], 'thost1');
-        $this->assertEqual($row['connection_host_name'], 'host1');
-        $this->assertEqual($row['tracker_country'], 'T1');
-        $this->assertEqual($row['connection_country'], 'U1');
-        $this->assertEqual($row['tracker_https'], 1);
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['tracker_domain'], 'tdomain1');
-        $this->assertEqual($row['connection_domain'], 'domain1');
-        $this->assertEqual($row['tracker_page'], 'tpage1');
-        $this->assertEqual($row['connection_page'], 'page1');
-        $this->assertEqual($row['tracker_query'], 'tquery1');
-        $this->assertEqual($row['connection_query'], 'query1');
-        $this->assertEqual($row['tracker_referer'], 'tref1');
-        $this->assertEqual($row['connection_referer'], 'ref1');
-        $this->assertEqual($row['tracker_search_term'], 'tterm1');
-        $this->assertEqual($row['connection_search_term'], 'term1');
-        $this->assertEqual($row['tracker_user_agent'], 'tagent1');
-        $this->assertEqual($row['connection_user_agent'], 'agent1');
-        $this->assertEqual($row['tracker_os'], 'tlinux1');
-        $this->assertEqual($row['connection_os'], 'linux1');
-        $this->assertEqual($row['tracker_browser'], 'tmozilla1');
-        $this->assertEqual($row['connection_browser'], 'mozilla1');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 259200);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 2);
+        $this->assertEqual($aRow['server_raw_ip'], '127.0.0.1');
+        $this->assertEqual($aRow['viewer_id'], 'aa');
+        $this->assertEqual($aRow['viewer_session_id'], 1);
+        $this->assertEqual($aRow['tracker_date_time'], '2004-06-06 18:10:30');
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['tracker_id'], 1);
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['tracker_channel'], 'tchan1');
+        $this->assertEqual($aRow['connection_channel'], 'chan1');
+        $this->assertEqual($aRow['tracker_language'], 'ten1');
+        $this->assertEqual($aRow['connection_language'], 'en1');
+        $this->assertEqual($aRow['tracker_ip_address'], 't127.0.0.1');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.1');
+        $this->assertEqual($aRow['tracker_host_name'], 'thost1');
+        $this->assertEqual($aRow['connection_host_name'], 'host1');
+        $this->assertEqual($aRow['tracker_country'], 'T1');
+        $this->assertEqual($aRow['connection_country'], 'U1');
+        $this->assertEqual($aRow['tracker_https'], 1);
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['tracker_domain'], 'tdomain1');
+        $this->assertEqual($aRow['connection_domain'], 'domain1');
+        $this->assertEqual($aRow['tracker_page'], 'tpage1');
+        $this->assertEqual($aRow['connection_page'], 'page1');
+        $this->assertEqual($aRow['tracker_query'], 'tquery1');
+        $this->assertEqual($aRow['connection_query'], 'query1');
+        $this->assertEqual($aRow['tracker_referer'], 'tref1');
+        $this->assertEqual($aRow['connection_referer'], 'ref1');
+        $this->assertEqual($aRow['tracker_search_term'], 'tterm1');
+        $this->assertEqual($aRow['connection_search_term'], 'term1');
+        $this->assertEqual($aRow['tracker_user_agent'], 'tagent1');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent1');
+        $this->assertEqual($aRow['tracker_os'], 'tlinux1');
+        $this->assertEqual($aRow['connection_os'], 'linux1');
+        $this->assertEqual($aRow['tracker_browser'], 'tmozilla1');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla1');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 259200);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
@@ -4743,35 +4743,35 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['requests'], 0);
-        $this->assertEqual($row['impressions'], 0);
-        $this->assertEqual($row['clicks'], 0);
-        $this->assertEqual($row['conversions'], 1);
-        $this->assertEqual($row['total_basket_value'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['requests'], 0);
+        $this->assertEqual($aRow['impressions'], 0);
+        $this->assertEqual($aRow['clicks'], 0);
+        $this->assertEqual($aRow['conversions'], 1);
+        $this->assertEqual($aRow['total_basket_value'], 0);
         TestEnv::restoreEnv();
 
         // Test 7
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $result = $dbh->query(SAVE_INTERMEDIATE_VARIABLES_TEST_7);
-        $result = $dbh->query(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_7);
-        $result = $dbh->query(SAVE_INTERMEDIATE_CONNECTIONS_TEST_7);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_7);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_7);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_7);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -4780,8 +4780,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
@@ -4790,62 +4790,62 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 2);
-        $this->assertEqual($row['server_raw_ip'], '127.0.0.1');
-        $this->assertEqual($row['viewer_id'], 'aa');
-        $this->assertEqual($row['viewer_session_id'], 1);
-        $this->assertEqual($row['tracker_date_time'], '2004-06-06 18:10:30');
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['tracker_id'], 1);
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['tracker_channel'], 'tchan1');
-        $this->assertEqual($row['connection_channel'], 'chan1');
-        $this->assertEqual($row['tracker_language'], 'ten1');
-        $this->assertEqual($row['connection_language'], 'en1');
-        $this->assertEqual($row['tracker_ip_address'], 't127.0.0.1');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.1');
-        $this->assertEqual($row['tracker_host_name'], 'thost1');
-        $this->assertEqual($row['connection_host_name'], 'host1');
-        $this->assertEqual($row['tracker_country'], 'T1');
-        $this->assertEqual($row['connection_country'], 'U1');
-        $this->assertEqual($row['tracker_https'], 1);
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['tracker_domain'], 'tdomain1');
-        $this->assertEqual($row['connection_domain'], 'domain1');
-        $this->assertEqual($row['tracker_page'], 'tpage1');
-        $this->assertEqual($row['connection_page'], 'page1');
-        $this->assertEqual($row['tracker_query'], 'tquery1');
-        $this->assertEqual($row['connection_query'], 'query1');
-        $this->assertEqual($row['tracker_referer'], 'tref1');
-        $this->assertEqual($row['connection_referer'], 'ref1');
-        $this->assertEqual($row['tracker_search_term'], 'tterm1');
-        $this->assertEqual($row['connection_search_term'], 'term1');
-        $this->assertEqual($row['tracker_user_agent'], 'tagent1');
-        $this->assertEqual($row['connection_user_agent'], 'agent1');
-        $this->assertEqual($row['tracker_os'], 'tlinux1');
-        $this->assertEqual($row['connection_os'], 'linux1');
-        $this->assertEqual($row['tracker_browser'], 'tmozilla1');
-        $this->assertEqual($row['connection_browser'], 'mozilla1');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 259200);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 2);
+        $this->assertEqual($aRow['server_raw_ip'], '127.0.0.1');
+        $this->assertEqual($aRow['viewer_id'], 'aa');
+        $this->assertEqual($aRow['viewer_session_id'], 1);
+        $this->assertEqual($aRow['tracker_date_time'], '2004-06-06 18:10:30');
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['tracker_id'], 1);
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['tracker_channel'], 'tchan1');
+        $this->assertEqual($aRow['connection_channel'], 'chan1');
+        $this->assertEqual($aRow['tracker_language'], 'ten1');
+        $this->assertEqual($aRow['connection_language'], 'en1');
+        $this->assertEqual($aRow['tracker_ip_address'], 't127.0.0.1');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.1');
+        $this->assertEqual($aRow['tracker_host_name'], 'thost1');
+        $this->assertEqual($aRow['connection_host_name'], 'host1');
+        $this->assertEqual($aRow['tracker_country'], 'T1');
+        $this->assertEqual($aRow['connection_country'], 'U1');
+        $this->assertEqual($aRow['tracker_https'], 1);
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['tracker_domain'], 'tdomain1');
+        $this->assertEqual($aRow['connection_domain'], 'domain1');
+        $this->assertEqual($aRow['tracker_page'], 'tpage1');
+        $this->assertEqual($aRow['connection_page'], 'page1');
+        $this->assertEqual($aRow['tracker_query'], 'tquery1');
+        $this->assertEqual($aRow['connection_query'], 'query1');
+        $this->assertEqual($aRow['tracker_referer'], 'tref1');
+        $this->assertEqual($aRow['connection_referer'], 'ref1');
+        $this->assertEqual($aRow['tracker_search_term'], 'tterm1');
+        $this->assertEqual($aRow['connection_search_term'], 'term1');
+        $this->assertEqual($aRow['tracker_user_agent'], 'tagent1');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent1');
+        $this->assertEqual($aRow['tracker_os'], 'tlinux1');
+        $this->assertEqual($aRow['connection_os'], 'linux1');
+        $this->assertEqual($aRow['tracker_browser'], 'tmozilla1');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla1');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 259200);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
@@ -4853,36 +4853,36 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['requests'], 0);
-        $this->assertEqual($row['impressions'], 0);
-        $this->assertEqual($row['clicks'], 0);
-        $this->assertEqual($row['conversions'], 1);
-        $this->assertEqual($row['total_basket_value'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['requests'], 0);
+        $this->assertEqual($aRow['impressions'], 0);
+        $this->assertEqual($aRow['clicks'], 0);
+        $this->assertEqual($aRow['conversions'], 1);
+        $this->assertEqual($aRow['total_basket_value'], 0);
         TestEnv::restoreEnv();
 
         // Test 8
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $result = $dbh->query(SAVE_INTERMEDIATE_VARIABLES_TEST_8);
-        $result = $dbh->query(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_8);
-        $result = $dbh->query(SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TEST_8);
-        $result = $dbh->query(SAVE_INTERMEDIATE_CONNECTIONS_TEST_8);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_8);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_8);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TEST_8);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_8);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -4891,8 +4891,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
@@ -4901,55 +4901,55 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 2);
-        $this->assertEqual($row['server_raw_ip'], '127.0.0.1');
-        $this->assertEqual($row['viewer_id'], 'aa');
-        $this->assertEqual($row['viewer_session_id'], 1);
-        $this->assertEqual($row['tracker_date_time'], '2004-06-06 18:10:30');
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['tracker_id'], 1);
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['tracker_channel'], 'tchan1');
-        $this->assertEqual($row['connection_channel'], 'chan1');
-        $this->assertEqual($row['tracker_language'], 'ten1');
-        $this->assertEqual($row['connection_language'], 'en1');
-        $this->assertEqual($row['tracker_ip_address'], 't127.0.0.1');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.1');
-        $this->assertEqual($row['tracker_host_name'], 'thost1');
-        $this->assertEqual($row['connection_host_name'], 'host1');
-        $this->assertEqual($row['tracker_country'], 'T1');
-        $this->assertEqual($row['connection_country'], 'U1');
-        $this->assertEqual($row['tracker_https'], 1);
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['tracker_domain'], 'tdomain1');
-        $this->assertEqual($row['connection_domain'], 'domain1');
-        $this->assertEqual($row['tracker_page'], 'tpage1');
-        $this->assertEqual($row['connection_page'], 'page1');
-        $this->assertEqual($row['tracker_query'], 'tquery1');
-        $this->assertEqual($row['connection_query'], 'query1');
-        $this->assertEqual($row['tracker_referer'], 'tref1');
-        $this->assertEqual($row['connection_referer'], 'ref1');
-        $this->assertEqual($row['tracker_search_term'], 'tterm1');
-        $this->assertEqual($row['connection_search_term'], 'term1');
-        $this->assertEqual($row['tracker_user_agent'], 'tagent1');
-        $this->assertEqual($row['connection_user_agent'], 'agent1');
-        $this->assertEqual($row['tracker_os'], 'tlinux1');
-        $this->assertEqual($row['connection_os'], 'linux1');
-        $this->assertEqual($row['tracker_browser'], 'tmozilla1');
-        $this->assertEqual($row['connection_browser'], 'mozilla1');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 259200);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 2);
+        $this->assertEqual($aRow['server_raw_ip'], '127.0.0.1');
+        $this->assertEqual($aRow['viewer_id'], 'aa');
+        $this->assertEqual($aRow['viewer_session_id'], 1);
+        $this->assertEqual($aRow['tracker_date_time'], '2004-06-06 18:10:30');
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['tracker_id'], 1);
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['tracker_channel'], 'tchan1');
+        $this->assertEqual($aRow['connection_channel'], 'chan1');
+        $this->assertEqual($aRow['tracker_language'], 'ten1');
+        $this->assertEqual($aRow['connection_language'], 'en1');
+        $this->assertEqual($aRow['tracker_ip_address'], 't127.0.0.1');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.1');
+        $this->assertEqual($aRow['tracker_host_name'], 'thost1');
+        $this->assertEqual($aRow['connection_host_name'], 'host1');
+        $this->assertEqual($aRow['tracker_country'], 'T1');
+        $this->assertEqual($aRow['connection_country'], 'U1');
+        $this->assertEqual($aRow['tracker_https'], 1);
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['tracker_domain'], 'tdomain1');
+        $this->assertEqual($aRow['connection_domain'], 'domain1');
+        $this->assertEqual($aRow['tracker_page'], 'tpage1');
+        $this->assertEqual($aRow['connection_page'], 'page1');
+        $this->assertEqual($aRow['tracker_query'], 'tquery1');
+        $this->assertEqual($aRow['connection_query'], 'query1');
+        $this->assertEqual($aRow['tracker_referer'], 'tref1');
+        $this->assertEqual($aRow['connection_referer'], 'ref1');
+        $this->assertEqual($aRow['tracker_search_term'], 'tterm1');
+        $this->assertEqual($aRow['connection_search_term'], 'term1');
+        $this->assertEqual($aRow['tracker_user_agent'], 'tagent1');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent1');
+        $this->assertEqual($aRow['tracker_os'], 'tlinux1');
+        $this->assertEqual($aRow['connection_os'], 'linux1');
+        $this->assertEqual($aRow['tracker_browser'], 'tmozilla1');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla1');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 259200);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 value
@@ -4957,15 +4957,15 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['value'], 2);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['value'], 2);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
@@ -4973,35 +4973,35 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['requests'], 0);
-        $this->assertEqual($row['impressions'], 0);
-        $this->assertEqual($row['clicks'], 0);
-        $this->assertEqual($row['conversions'], 1);
-        $this->assertEqual($row['total_basket_value'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['requests'], 0);
+        $this->assertEqual($aRow['impressions'], 0);
+        $this->assertEqual($aRow['clicks'], 0);
+        $this->assertEqual($aRow['conversions'], 1);
+        $this->assertEqual($aRow['total_basket_value'], 0);
         TestEnv::restoreEnv();
 
         // Test 9
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $result = $dbh->query(SAVE_INTERMEDIATE_VARIABLES_TEST_9);
-        $result = $dbh->query(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_9);
-        $result = $dbh->query(SAVE_INTERMEDIATE_CONNECTIONS_TEST_9);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_9);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_9);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_9);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -5010,8 +5010,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
@@ -5020,62 +5020,62 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 2);
-        $this->assertEqual($row['server_raw_ip'], '127.0.0.1');
-        $this->assertEqual($row['viewer_id'], 'aa');
-        $this->assertEqual($row['viewer_session_id'], 1);
-        $this->assertEqual($row['tracker_date_time'], '2004-06-06 18:10:30');
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['tracker_id'], 1);
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['tracker_channel'], 'tchan1');
-        $this->assertEqual($row['connection_channel'], 'chan1');
-        $this->assertEqual($row['tracker_language'], 'ten1');
-        $this->assertEqual($row['connection_language'], 'en1');
-        $this->assertEqual($row['tracker_ip_address'], 't127.0.0.1');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.1');
-        $this->assertEqual($row['tracker_host_name'], 'thost1');
-        $this->assertEqual($row['connection_host_name'], 'host1');
-        $this->assertEqual($row['tracker_country'], 'T1');
-        $this->assertEqual($row['connection_country'], 'U1');
-        $this->assertEqual($row['tracker_https'], 1);
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['tracker_domain'], 'tdomain1');
-        $this->assertEqual($row['connection_domain'], 'domain1');
-        $this->assertEqual($row['tracker_page'], 'tpage1');
-        $this->assertEqual($row['connection_page'], 'page1');
-        $this->assertEqual($row['tracker_query'], 'tquery1');
-        $this->assertEqual($row['connection_query'], 'query1');
-        $this->assertEqual($row['tracker_referer'], 'tref1');
-        $this->assertEqual($row['connection_referer'], 'ref1');
-        $this->assertEqual($row['tracker_search_term'], 'tterm1');
-        $this->assertEqual($row['connection_search_term'], 'term1');
-        $this->assertEqual($row['tracker_user_agent'], 'tagent1');
-        $this->assertEqual($row['connection_user_agent'], 'agent1');
-        $this->assertEqual($row['tracker_os'], 'tlinux1');
-        $this->assertEqual($row['connection_os'], 'linux1');
-        $this->assertEqual($row['tracker_browser'], 'tmozilla1');
-        $this->assertEqual($row['connection_browser'], 'mozilla1');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 259200);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 2);
+        $this->assertEqual($aRow['server_raw_ip'], '127.0.0.1');
+        $this->assertEqual($aRow['viewer_id'], 'aa');
+        $this->assertEqual($aRow['viewer_session_id'], 1);
+        $this->assertEqual($aRow['tracker_date_time'], '2004-06-06 18:10:30');
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['tracker_id'], 1);
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['tracker_channel'], 'tchan1');
+        $this->assertEqual($aRow['connection_channel'], 'chan1');
+        $this->assertEqual($aRow['tracker_language'], 'ten1');
+        $this->assertEqual($aRow['connection_language'], 'en1');
+        $this->assertEqual($aRow['tracker_ip_address'], 't127.0.0.1');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.1');
+        $this->assertEqual($aRow['tracker_host_name'], 'thost1');
+        $this->assertEqual($aRow['connection_host_name'], 'host1');
+        $this->assertEqual($aRow['tracker_country'], 'T1');
+        $this->assertEqual($aRow['connection_country'], 'U1');
+        $this->assertEqual($aRow['tracker_https'], 1);
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['tracker_domain'], 'tdomain1');
+        $this->assertEqual($aRow['connection_domain'], 'domain1');
+        $this->assertEqual($aRow['tracker_page'], 'tpage1');
+        $this->assertEqual($aRow['connection_page'], 'page1');
+        $this->assertEqual($aRow['tracker_query'], 'tquery1');
+        $this->assertEqual($aRow['connection_query'], 'query1');
+        $this->assertEqual($aRow['tracker_referer'], 'tref1');
+        $this->assertEqual($aRow['connection_referer'], 'ref1');
+        $this->assertEqual($aRow['tracker_search_term'], 'tterm1');
+        $this->assertEqual($aRow['connection_search_term'], 'term1');
+        $this->assertEqual($aRow['tracker_user_agent'], 'tagent1');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent1');
+        $this->assertEqual($aRow['tracker_os'], 'tlinux1');
+        $this->assertEqual($aRow['connection_os'], 'linux1');
+        $this->assertEqual($aRow['tracker_browser'], 'tmozilla1');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla1');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 259200);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
@@ -5083,36 +5083,36 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['requests'], 0);
-        $this->assertEqual($row['impressions'], 0);
-        $this->assertEqual($row['clicks'], 0);
-        $this->assertEqual($row['conversions'], 1);
-        $this->assertEqual($row['total_basket_value'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['requests'], 0);
+        $this->assertEqual($aRow['impressions'], 0);
+        $this->assertEqual($aRow['clicks'], 0);
+        $this->assertEqual($aRow['conversions'], 1);
+        $this->assertEqual($aRow['total_basket_value'], 0);
         TestEnv::restoreEnv();
 
         // Test 10
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $result = $dbh->query(SAVE_INTERMEDIATE_VARIABLES_TEST_10);
-        $result = $dbh->query(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_10);
-        $result = $dbh->query(SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TEST_10);
-        $result = $dbh->query(SAVE_INTERMEDIATE_CONNECTIONS_TEST_10);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_10);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_10);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TEST_10);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_10);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -5121,8 +5121,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
@@ -5131,55 +5131,55 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 2);
-        $this->assertEqual($row['server_raw_ip'], '127.0.0.1');
-        $this->assertEqual($row['viewer_id'], 'aa');
-        $this->assertEqual($row['viewer_session_id'], 1);
-        $this->assertEqual($row['tracker_date_time'], '2004-06-06 18:10:30');
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['tracker_id'], 1);
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['tracker_channel'], 'tchan1');
-        $this->assertEqual($row['connection_channel'], 'chan1');
-        $this->assertEqual($row['tracker_language'], 'ten1');
-        $this->assertEqual($row['connection_language'], 'en1');
-        $this->assertEqual($row['tracker_ip_address'], 't127.0.0.1');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.1');
-        $this->assertEqual($row['tracker_host_name'], 'thost1');
-        $this->assertEqual($row['connection_host_name'], 'host1');
-        $this->assertEqual($row['tracker_country'], 'T1');
-        $this->assertEqual($row['connection_country'], 'U1');
-        $this->assertEqual($row['tracker_https'], 1);
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['tracker_domain'], 'tdomain1');
-        $this->assertEqual($row['connection_domain'], 'domain1');
-        $this->assertEqual($row['tracker_page'], 'tpage1');
-        $this->assertEqual($row['connection_page'], 'page1');
-        $this->assertEqual($row['tracker_query'], 'tquery1');
-        $this->assertEqual($row['connection_query'], 'query1');
-        $this->assertEqual($row['tracker_referer'], 'tref1');
-        $this->assertEqual($row['connection_referer'], 'ref1');
-        $this->assertEqual($row['tracker_search_term'], 'tterm1');
-        $this->assertEqual($row['connection_search_term'], 'term1');
-        $this->assertEqual($row['tracker_user_agent'], 'tagent1');
-        $this->assertEqual($row['connection_user_agent'], 'agent1');
-        $this->assertEqual($row['tracker_os'], 'tlinux1');
-        $this->assertEqual($row['connection_os'], 'linux1');
-        $this->assertEqual($row['tracker_browser'], 'tmozilla1');
-        $this->assertEqual($row['connection_browser'], 'mozilla1');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 259200);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 2);
+        $this->assertEqual($aRow['server_raw_ip'], '127.0.0.1');
+        $this->assertEqual($aRow['viewer_id'], 'aa');
+        $this->assertEqual($aRow['viewer_session_id'], 1);
+        $this->assertEqual($aRow['tracker_date_time'], '2004-06-06 18:10:30');
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['tracker_id'], 1);
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['tracker_channel'], 'tchan1');
+        $this->assertEqual($aRow['connection_channel'], 'chan1');
+        $this->assertEqual($aRow['tracker_language'], 'ten1');
+        $this->assertEqual($aRow['connection_language'], 'en1');
+        $this->assertEqual($aRow['tracker_ip_address'], 't127.0.0.1');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.1');
+        $this->assertEqual($aRow['tracker_host_name'], 'thost1');
+        $this->assertEqual($aRow['connection_host_name'], 'host1');
+        $this->assertEqual($aRow['tracker_country'], 'T1');
+        $this->assertEqual($aRow['connection_country'], 'U1');
+        $this->assertEqual($aRow['tracker_https'], 1);
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['tracker_domain'], 'tdomain1');
+        $this->assertEqual($aRow['connection_domain'], 'domain1');
+        $this->assertEqual($aRow['tracker_page'], 'tpage1');
+        $this->assertEqual($aRow['connection_page'], 'page1');
+        $this->assertEqual($aRow['tracker_query'], 'tquery1');
+        $this->assertEqual($aRow['connection_query'], 'query1');
+        $this->assertEqual($aRow['tracker_referer'], 'tref1');
+        $this->assertEqual($aRow['connection_referer'], 'ref1');
+        $this->assertEqual($aRow['tracker_search_term'], 'tterm1');
+        $this->assertEqual($aRow['connection_search_term'], 'term1');
+        $this->assertEqual($aRow['tracker_user_agent'], 'tagent1');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent1');
+        $this->assertEqual($aRow['tracker_os'], 'tlinux1');
+        $this->assertEqual($aRow['connection_os'], 'linux1');
+        $this->assertEqual($aRow['tracker_browser'], 'tmozilla1');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla1');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 259200);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 value
@@ -5187,15 +5187,15 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['value'], 2);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['value'], 2);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
@@ -5203,39 +5203,39 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['requests'], 0);
-        $this->assertEqual($row['impressions'], 0);
-        $this->assertEqual($row['clicks'], 0);
-        $this->assertEqual($row['conversions'], 1);
-        $this->assertEqual($row['total_basket_value'], 2);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['requests'], 0);
+        $this->assertEqual($aRow['impressions'], 0);
+        $this->assertEqual($aRow['clicks'], 0);
+        $this->assertEqual($aRow['conversions'], 1);
+        $this->assertEqual($aRow['total_basket_value'], 2);
         TestEnv::restoreEnv();
 
         // Test 11
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $result = $dbh->query(SAVE_INTERMEDIATE_AD_REQUESTS);
-        $result = $dbh->query(SAVE_INTERMEDIATE_AD_IMPRESSIONS);
-        $result = $dbh->query(SAVE_INTERMEDIATE_AD_CLICKS);
-        $result = $dbh->query(SAVE_INTERMEDIATE_VARIABLES_TEST_11);
-        $result = $dbh->query(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_11);
-        $result = $dbh->query(SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TEST_11);
-        $result = $dbh->query(SAVE_INTERMEDIATE_CONNECTIONS_TEST_11);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_REQUESTS);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_IMPRESSIONS);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_CLICKS);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_11);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_11);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TEST_11);
+        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_11);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -5244,8 +5244,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 9);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 9);
         $query = "
             SELECT
                 *
@@ -5254,48 +5254,48 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 2);
-        $this->assertEqual($row['server_raw_ip'], '127.0.0.1');
-        $this->assertEqual($row['viewer_id'], 'aa');
-        $this->assertEqual($row['viewer_session_id'], 1);
-        $this->assertEqual($row['tracker_date_time'], '2004-06-06 18:10:30');
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['tracker_id'], 20);
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['tracker_channel'], 'tchan1');
-        $this->assertEqual($row['connection_channel'], 'chan1');
-        $this->assertEqual($row['tracker_language'], 'ten1');
-        $this->assertEqual($row['connection_language'], 'en1');
-        $this->assertEqual($row['tracker_ip_address'], 't127.0.0.1');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.1');
-        $this->assertEqual($row['tracker_host_name'], 'thost1');
-        $this->assertEqual($row['connection_host_name'], 'host1');
-        $this->assertEqual($row['tracker_country'], 'T1');
-        $this->assertEqual($row['connection_country'], 'U1');
-        $this->assertEqual($row['tracker_https'], 1);
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['tracker_domain'], 'tdomain1');
-        $this->assertEqual($row['connection_domain'], 'domain1');
-        $this->assertEqual($row['tracker_page'], 'tpage1');
-        $this->assertEqual($row['connection_page'], 'page1');
-        $this->assertEqual($row['tracker_query'], 'tquery1');
-        $this->assertEqual($row['connection_query'], 'query1');
-        $this->assertEqual($row['tracker_referer'], 'tref1');
-        $this->assertEqual($row['connection_referer'], 'ref1');
-        $this->assertEqual($row['tracker_search_term'], 'tterm1');
-        $this->assertEqual($row['connection_search_term'], 'term1');
-        $this->assertEqual($row['tracker_user_agent'], 'tagent1');
-        $this->assertEqual($row['connection_user_agent'], 'agent1');
-        $this->assertEqual($row['tracker_os'], 'tlinux1');
-        $this->assertEqual($row['connection_os'], 'linux1');
-        $this->assertEqual($row['tracker_browser'], 'tmozilla1');
-        $this->assertEqual($row['connection_browser'], 'mozilla1');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 259200);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 2);
+        $this->assertEqual($aRow['server_raw_ip'], '127.0.0.1');
+        $this->assertEqual($aRow['viewer_id'], 'aa');
+        $this->assertEqual($aRow['viewer_session_id'], 1);
+        $this->assertEqual($aRow['tracker_date_time'], '2004-06-06 18:10:30');
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['tracker_id'], 20);
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['tracker_channel'], 'tchan1');
+        $this->assertEqual($aRow['connection_channel'], 'chan1');
+        $this->assertEqual($aRow['tracker_language'], 'ten1');
+        $this->assertEqual($aRow['connection_language'], 'en1');
+        $this->assertEqual($aRow['tracker_ip_address'], 't127.0.0.1');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.1');
+        $this->assertEqual($aRow['tracker_host_name'], 'thost1');
+        $this->assertEqual($aRow['connection_host_name'], 'host1');
+        $this->assertEqual($aRow['tracker_country'], 'T1');
+        $this->assertEqual($aRow['connection_country'], 'U1');
+        $this->assertEqual($aRow['tracker_https'], 1);
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['tracker_domain'], 'tdomain1');
+        $this->assertEqual($aRow['connection_domain'], 'domain1');
+        $this->assertEqual($aRow['tracker_page'], 'tpage1');
+        $this->assertEqual($aRow['connection_page'], 'page1');
+        $this->assertEqual($aRow['tracker_query'], 'tquery1');
+        $this->assertEqual($aRow['connection_query'], 'query1');
+        $this->assertEqual($aRow['tracker_referer'], 'tref1');
+        $this->assertEqual($aRow['connection_referer'], 'ref1');
+        $this->assertEqual($aRow['tracker_search_term'], 'tterm1');
+        $this->assertEqual($aRow['connection_search_term'], 'term1');
+        $this->assertEqual($aRow['tracker_user_agent'], 'tagent1');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent1');
+        $this->assertEqual($aRow['tracker_os'], 'tlinux1');
+        $this->assertEqual($aRow['connection_os'], 'linux1');
+        $this->assertEqual($aRow['tracker_browser'], 'tmozilla1');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla1');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 259200);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $query = "
             SELECT
                 *
@@ -5304,48 +5304,48 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 server_raw_tracker_impression_id = 3
                 AND server_raw_ip = '127.0.0.3'";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 3);
-        $this->assertEqual($row['server_raw_ip'], '127.0.0.3');
-        $this->assertEqual($row['viewer_id'], 'cc');
-        $this->assertEqual($row['viewer_session_id'], 3);
-        $this->assertEqual($row['tracker_date_time'], '2004-06-06 18:10:33');
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:00:34');
-        $this->assertEqual($row['tracker_id'], 1);
-        $this->assertEqual($row['ad_id'], 2);
-        $this->assertEqual($row['creative_id'], 2);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['tracker_channel'], 'tchan3');
-        $this->assertEqual($row['connection_channel'], 'chan3');
-        $this->assertEqual($row['tracker_language'], 'ten3');
-        $this->assertEqual($row['connection_language'], 'en3');
-        $this->assertEqual($row['tracker_ip_address'], 't127.0.0.3');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.3');
-        $this->assertEqual($row['tracker_host_name'], 'thost3');
-        $this->assertEqual($row['connection_host_name'], 'host3');
-        $this->assertEqual($row['tracker_country'], 'T3');
-        $this->assertEqual($row['connection_country'], 'U3');
-        $this->assertEqual($row['tracker_https'], 1);
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['tracker_domain'], 'tdomain3');
-        $this->assertEqual($row['connection_domain'], 'domain3');
-        $this->assertEqual($row['tracker_page'], 'tpage3');
-        $this->assertEqual($row['connection_page'], 'page3');
-        $this->assertEqual($row['tracker_query'], 'tquery3');
-        $this->assertEqual($row['connection_query'], 'query3');
-        $this->assertEqual($row['tracker_referer'], 'tref3');
-        $this->assertEqual($row['connection_referer'], 'ref3');
-        $this->assertEqual($row['tracker_search_term'], 'tterm3');
-        $this->assertEqual($row['connection_search_term'], 'term3');
-        $this->assertEqual($row['tracker_user_agent'], 'tagent3');
-        $this->assertEqual($row['connection_user_agent'], 'agent3');
-        $this->assertEqual($row['tracker_os'], 'tlinux3');
-        $this->assertEqual($row['connection_os'], 'linux3');
-        $this->assertEqual($row['tracker_browser'], 'tmozilla3');
-        $this->assertEqual($row['connection_browser'], 'mozilla3');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 259200);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 3);
+        $this->assertEqual($aRow['server_raw_ip'], '127.0.0.3');
+        $this->assertEqual($aRow['viewer_id'], 'cc');
+        $this->assertEqual($aRow['viewer_session_id'], 3);
+        $this->assertEqual($aRow['tracker_date_time'], '2004-06-06 18:10:33');
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:00:34');
+        $this->assertEqual($aRow['tracker_id'], 1);
+        $this->assertEqual($aRow['ad_id'], 2);
+        $this->assertEqual($aRow['creative_id'], 2);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['tracker_channel'], 'tchan3');
+        $this->assertEqual($aRow['connection_channel'], 'chan3');
+        $this->assertEqual($aRow['tracker_language'], 'ten3');
+        $this->assertEqual($aRow['connection_language'], 'en3');
+        $this->assertEqual($aRow['tracker_ip_address'], 't127.0.0.3');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.3');
+        $this->assertEqual($aRow['tracker_host_name'], 'thost3');
+        $this->assertEqual($aRow['connection_host_name'], 'host3');
+        $this->assertEqual($aRow['tracker_country'], 'T3');
+        $this->assertEqual($aRow['connection_country'], 'U3');
+        $this->assertEqual($aRow['tracker_https'], 1);
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['tracker_domain'], 'tdomain3');
+        $this->assertEqual($aRow['connection_domain'], 'domain3');
+        $this->assertEqual($aRow['tracker_page'], 'tpage3');
+        $this->assertEqual($aRow['connection_page'], 'page3');
+        $this->assertEqual($aRow['tracker_query'], 'tquery3');
+        $this->assertEqual($aRow['connection_query'], 'query3');
+        $this->assertEqual($aRow['tracker_referer'], 'tref3');
+        $this->assertEqual($aRow['connection_referer'], 'ref3');
+        $this->assertEqual($aRow['tracker_search_term'], 'tterm3');
+        $this->assertEqual($aRow['connection_search_term'], 'term3');
+        $this->assertEqual($aRow['tracker_user_agent'], 'tagent3');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent3');
+        $this->assertEqual($aRow['tracker_os'], 'tlinux3');
+        $this->assertEqual($aRow['connection_os'], 'linux3');
+        $this->assertEqual($aRow['tracker_browser'], 'tmozilla3');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla3');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 259200);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $query = "
             SELECT
                 *
@@ -5354,48 +5354,48 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 server_raw_tracker_impression_id = 4
                 AND server_raw_ip = '127.0.0.3'";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 4);
-        $this->assertEqual($row['server_raw_ip'], '127.0.0.3');
-        $this->assertEqual($row['viewer_id'], 'cc');
-        $this->assertEqual($row['viewer_session_id'], 3);
-        $this->assertEqual($row['tracker_date_time'], '2004-06-06 18:10:33');
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:00:34');
-        $this->assertEqual($row['tracker_id'], 2);
-        $this->assertEqual($row['ad_id'], 2);
-        $this->assertEqual($row['creative_id'], 2);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['tracker_channel'], 'tchan3');
-        $this->assertEqual($row['connection_channel'], 'chan3');
-        $this->assertEqual($row['tracker_language'], 'ten3');
-        $this->assertEqual($row['connection_language'], 'en3');
-        $this->assertEqual($row['tracker_ip_address'], 't127.0.0.3');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.3');
-        $this->assertEqual($row['tracker_host_name'], 'thost3');
-        $this->assertEqual($row['connection_host_name'], 'host3');
-        $this->assertEqual($row['tracker_country'], 'T3');
-        $this->assertEqual($row['connection_country'], 'U3');
-        $this->assertEqual($row['tracker_https'], 1);
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['tracker_domain'], 'tdomain3');
-        $this->assertEqual($row['connection_domain'], 'domain3');
-        $this->assertEqual($row['tracker_page'], 'tpage3');
-        $this->assertEqual($row['connection_page'], 'page3');
-        $this->assertEqual($row['tracker_query'], 'tquery3');
-        $this->assertEqual($row['connection_query'], 'query3');
-        $this->assertEqual($row['tracker_referer'], 'tref3');
-        $this->assertEqual($row['connection_referer'], 'ref3');
-        $this->assertEqual($row['tracker_search_term'], 'tterm3');
-        $this->assertEqual($row['connection_search_term'], 'term3');
-        $this->assertEqual($row['tracker_user_agent'], 'tagent3');
-        $this->assertEqual($row['connection_user_agent'], 'agent3');
-        $this->assertEqual($row['tracker_os'], 'tlinux3');
-        $this->assertEqual($row['connection_os'], 'linux3');
-        $this->assertEqual($row['tracker_browser'], 'tmozilla3');
-        $this->assertEqual($row['connection_browser'], 'mozilla3');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 259200);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 4);
+        $this->assertEqual($aRow['server_raw_ip'], '127.0.0.3');
+        $this->assertEqual($aRow['viewer_id'], 'cc');
+        $this->assertEqual($aRow['viewer_session_id'], 3);
+        $this->assertEqual($aRow['tracker_date_time'], '2004-06-06 18:10:33');
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:00:34');
+        $this->assertEqual($aRow['tracker_id'], 2);
+        $this->assertEqual($aRow['ad_id'], 2);
+        $this->assertEqual($aRow['creative_id'], 2);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['tracker_channel'], 'tchan3');
+        $this->assertEqual($aRow['connection_channel'], 'chan3');
+        $this->assertEqual($aRow['tracker_language'], 'ten3');
+        $this->assertEqual($aRow['connection_language'], 'en3');
+        $this->assertEqual($aRow['tracker_ip_address'], 't127.0.0.3');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.3');
+        $this->assertEqual($aRow['tracker_host_name'], 'thost3');
+        $this->assertEqual($aRow['connection_host_name'], 'host3');
+        $this->assertEqual($aRow['tracker_country'], 'T3');
+        $this->assertEqual($aRow['connection_country'], 'U3');
+        $this->assertEqual($aRow['tracker_https'], 1);
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['tracker_domain'], 'tdomain3');
+        $this->assertEqual($aRow['connection_domain'], 'domain3');
+        $this->assertEqual($aRow['tracker_page'], 'tpage3');
+        $this->assertEqual($aRow['connection_page'], 'page3');
+        $this->assertEqual($aRow['tracker_query'], 'tquery3');
+        $this->assertEqual($aRow['connection_query'], 'query3');
+        $this->assertEqual($aRow['tracker_referer'], 'tref3');
+        $this->assertEqual($aRow['connection_referer'], 'ref3');
+        $this->assertEqual($aRow['tracker_search_term'], 'tterm3');
+        $this->assertEqual($aRow['connection_search_term'], 'term3');
+        $this->assertEqual($aRow['tracker_user_agent'], 'tagent3');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent3');
+        $this->assertEqual($aRow['tracker_os'], 'tlinux3');
+        $this->assertEqual($aRow['connection_os'], 'linux3');
+        $this->assertEqual($aRow['tracker_browser'], 'tmozilla3');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla3');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 259200);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $query = "
             SELECT
                 *
@@ -5404,48 +5404,48 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 server_raw_tracker_impression_id = 5
                 AND server_raw_ip = '127.0.0.3'";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 5);
-        $this->assertEqual($row['server_raw_ip'], '127.0.0.3');
-        $this->assertEqual($row['viewer_id'], 'cc');
-        $this->assertEqual($row['viewer_session_id'], 3);
-        $this->assertEqual($row['tracker_date_time'], '2004-06-06 18:10:33');
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:00:34');
-        $this->assertEqual($row['tracker_id'], 2);
-        $this->assertEqual($row['ad_id'], 2);
-        $this->assertEqual($row['creative_id'], 2);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['tracker_channel'], 'tchan3');
-        $this->assertEqual($row['connection_channel'], 'chan3');
-        $this->assertEqual($row['tracker_language'], 'ten3');
-        $this->assertEqual($row['connection_language'], 'en3');
-        $this->assertEqual($row['tracker_ip_address'], 't127.0.0.3');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.3');
-        $this->assertEqual($row['tracker_host_name'], 'thost3');
-        $this->assertEqual($row['connection_host_name'], 'host3');
-        $this->assertEqual($row['tracker_country'], 'T3');
-        $this->assertEqual($row['connection_country'], 'U3');
-        $this->assertEqual($row['tracker_https'], 1);
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['tracker_domain'], 'tdomain3');
-        $this->assertEqual($row['connection_domain'], 'domain3');
-        $this->assertEqual($row['tracker_page'], 'tpage3');
-        $this->assertEqual($row['connection_page'], 'page3');
-        $this->assertEqual($row['tracker_query'], 'tquery3');
-        $this->assertEqual($row['connection_query'], 'query3');
-        $this->assertEqual($row['tracker_referer'], 'tref3');
-        $this->assertEqual($row['connection_referer'], 'ref3');
-        $this->assertEqual($row['tracker_search_term'], 'tterm3');
-        $this->assertEqual($row['connection_search_term'], 'term3');
-        $this->assertEqual($row['tracker_user_agent'], 'tagent3');
-        $this->assertEqual($row['connection_user_agent'], 'agent3');
-        $this->assertEqual($row['tracker_os'], 'tlinux3');
-        $this->assertEqual($row['connection_os'], 'linux3');
-        $this->assertEqual($row['tracker_browser'], 'tmozilla3');
-        $this->assertEqual($row['connection_browser'], 'mozilla3');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 259200);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 5);
+        $this->assertEqual($aRow['server_raw_ip'], '127.0.0.3');
+        $this->assertEqual($aRow['viewer_id'], 'cc');
+        $this->assertEqual($aRow['viewer_session_id'], 3);
+        $this->assertEqual($aRow['tracker_date_time'], '2004-06-06 18:10:33');
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:00:34');
+        $this->assertEqual($aRow['tracker_id'], 2);
+        $this->assertEqual($aRow['ad_id'], 2);
+        $this->assertEqual($aRow['creative_id'], 2);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['tracker_channel'], 'tchan3');
+        $this->assertEqual($aRow['connection_channel'], 'chan3');
+        $this->assertEqual($aRow['tracker_language'], 'ten3');
+        $this->assertEqual($aRow['connection_language'], 'en3');
+        $this->assertEqual($aRow['tracker_ip_address'], 't127.0.0.3');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.3');
+        $this->assertEqual($aRow['tracker_host_name'], 'thost3');
+        $this->assertEqual($aRow['connection_host_name'], 'host3');
+        $this->assertEqual($aRow['tracker_country'], 'T3');
+        $this->assertEqual($aRow['connection_country'], 'U3');
+        $this->assertEqual($aRow['tracker_https'], 1);
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['tracker_domain'], 'tdomain3');
+        $this->assertEqual($aRow['connection_domain'], 'domain3');
+        $this->assertEqual($aRow['tracker_page'], 'tpage3');
+        $this->assertEqual($aRow['connection_page'], 'page3');
+        $this->assertEqual($aRow['tracker_query'], 'tquery3');
+        $this->assertEqual($aRow['connection_query'], 'query3');
+        $this->assertEqual($aRow['tracker_referer'], 'tref3');
+        $this->assertEqual($aRow['connection_referer'], 'ref3');
+        $this->assertEqual($aRow['tracker_search_term'], 'tterm3');
+        $this->assertEqual($aRow['connection_search_term'], 'term3');
+        $this->assertEqual($aRow['tracker_user_agent'], 'tagent3');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent3');
+        $this->assertEqual($aRow['tracker_os'], 'tlinux3');
+        $this->assertEqual($aRow['connection_os'], 'linux3');
+        $this->assertEqual($aRow['tracker_browser'], 'tmozilla3');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla3');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 259200);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $query = "
             SELECT
                 *
@@ -5454,48 +5454,48 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 server_raw_tracker_impression_id = 6
                 AND server_raw_ip = '127.0.0.6'";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 6);
-        $this->assertEqual($row['server_raw_ip'], '127.0.0.6');
-        $this->assertEqual($row['viewer_id'], 'ff');
-        $this->assertEqual($row['viewer_session_id'], 6);
-        $this->assertEqual($row['tracker_date_time'], '2004-06-06 18:10:36');
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:00:36');
-        $this->assertEqual($row['tracker_id'], 3);
-        $this->assertEqual($row['ad_id'], 3);
-        $this->assertEqual($row['creative_id'], 3);
-        $this->assertEqual($row['zone_id'], 3);
-        $this->assertEqual($row['tracker_channel'], 'tchan6');
-        $this->assertEqual($row['connection_channel'], 'chan6');
-        $this->assertEqual($row['tracker_language'], 'ten6');
-        $this->assertEqual($row['connection_language'], 'en6');
-        $this->assertEqual($row['tracker_ip_address'], 't127.0.0.6');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.6');
-        $this->assertEqual($row['tracker_host_name'], 'thost6');
-        $this->assertEqual($row['connection_host_name'], 'host6');
-        $this->assertEqual($row['tracker_country'], 'T6');
-        $this->assertEqual($row['connection_country'], 'U6');
-        $this->assertEqual($row['tracker_https'], 1);
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['tracker_domain'], 'tdomain6');
-        $this->assertEqual($row['connection_domain'], 'domain6');
-        $this->assertEqual($row['tracker_page'], 'tpage6');
-        $this->assertEqual($row['connection_page'], 'page6');
-        $this->assertEqual($row['tracker_query'], 'tquery6');
-        $this->assertEqual($row['connection_query'], 'query6');
-        $this->assertEqual($row['tracker_referer'], 'tref6');
-        $this->assertEqual($row['connection_referer'], 'ref6');
-        $this->assertEqual($row['tracker_search_term'], 'tterm6');
-        $this->assertEqual($row['connection_search_term'], 'term6');
-        $this->assertEqual($row['tracker_user_agent'], 'tagent6');
-        $this->assertEqual($row['connection_user_agent'], 'agent6');
-        $this->assertEqual($row['tracker_os'], 'tlinux6');
-        $this->assertEqual($row['connection_os'], 'linux6');
-        $this->assertEqual($row['tracker_browser'], 'tmozilla6');
-        $this->assertEqual($row['connection_browser'], 'mozilla6');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 259200);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 6);
+        $this->assertEqual($aRow['server_raw_ip'], '127.0.0.6');
+        $this->assertEqual($aRow['viewer_id'], 'ff');
+        $this->assertEqual($aRow['viewer_session_id'], 6);
+        $this->assertEqual($aRow['tracker_date_time'], '2004-06-06 18:10:36');
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:00:36');
+        $this->assertEqual($aRow['tracker_id'], 3);
+        $this->assertEqual($aRow['ad_id'], 3);
+        $this->assertEqual($aRow['creative_id'], 3);
+        $this->assertEqual($aRow['zone_id'], 3);
+        $this->assertEqual($aRow['tracker_channel'], 'tchan6');
+        $this->assertEqual($aRow['connection_channel'], 'chan6');
+        $this->assertEqual($aRow['tracker_language'], 'ten6');
+        $this->assertEqual($aRow['connection_language'], 'en6');
+        $this->assertEqual($aRow['tracker_ip_address'], 't127.0.0.6');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.6');
+        $this->assertEqual($aRow['tracker_host_name'], 'thost6');
+        $this->assertEqual($aRow['connection_host_name'], 'host6');
+        $this->assertEqual($aRow['tracker_country'], 'T6');
+        $this->assertEqual($aRow['connection_country'], 'U6');
+        $this->assertEqual($aRow['tracker_https'], 1);
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['tracker_domain'], 'tdomain6');
+        $this->assertEqual($aRow['connection_domain'], 'domain6');
+        $this->assertEqual($aRow['tracker_page'], 'tpage6');
+        $this->assertEqual($aRow['connection_page'], 'page6');
+        $this->assertEqual($aRow['tracker_query'], 'tquery6');
+        $this->assertEqual($aRow['connection_query'], 'query6');
+        $this->assertEqual($aRow['tracker_referer'], 'tref6');
+        $this->assertEqual($aRow['connection_referer'], 'ref6');
+        $this->assertEqual($aRow['tracker_search_term'], 'tterm6');
+        $this->assertEqual($aRow['connection_search_term'], 'term6');
+        $this->assertEqual($aRow['tracker_user_agent'], 'tagent6');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent6');
+        $this->assertEqual($aRow['tracker_os'], 'tlinux6');
+        $this->assertEqual($aRow['connection_os'], 'linux6');
+        $this->assertEqual($aRow['tracker_browser'], 'tmozilla6');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla6');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 259200);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $query = "
             SELECT
                 *
@@ -5504,48 +5504,48 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 server_raw_tracker_impression_id = 7
                 AND server_raw_ip = '127.0.0.6'";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 7);
-        $this->assertEqual($row['server_raw_ip'], '127.0.0.6');
-        $this->assertEqual($row['viewer_id'], 'ff');
-        $this->assertEqual($row['viewer_session_id'], 6);
-        $this->assertEqual($row['tracker_date_time'], '2004-06-06 18:10:36');
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:00:36');
-        $this->assertEqual($row['tracker_id'], 4);
-        $this->assertEqual($row['ad_id'], 3);
-        $this->assertEqual($row['creative_id'], 3);
-        $this->assertEqual($row['zone_id'], 3);
-        $this->assertEqual($row['tracker_channel'], 'tchan6');
-        $this->assertEqual($row['connection_channel'], 'chan6');
-        $this->assertEqual($row['tracker_language'], 'ten6');
-        $this->assertEqual($row['connection_language'], 'en6');
-        $this->assertEqual($row['tracker_ip_address'], 't127.0.0.6');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.6');
-        $this->assertEqual($row['tracker_host_name'], 'thost6');
-        $this->assertEqual($row['connection_host_name'], 'host6');
-        $this->assertEqual($row['tracker_country'], 'T6');
-        $this->assertEqual($row['connection_country'], 'U6');
-        $this->assertEqual($row['tracker_https'], 1);
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['tracker_domain'], 'tdomain6');
-        $this->assertEqual($row['connection_domain'], 'domain6');
-        $this->assertEqual($row['tracker_page'], 'tpage6');
-        $this->assertEqual($row['connection_page'], 'page6');
-        $this->assertEqual($row['tracker_query'], 'tquery6');
-        $this->assertEqual($row['connection_query'], 'query6');
-        $this->assertEqual($row['tracker_referer'], 'tref6');
-        $this->assertEqual($row['connection_referer'], 'ref6');
-        $this->assertEqual($row['tracker_search_term'], 'tterm6');
-        $this->assertEqual($row['connection_search_term'], 'term6');
-        $this->assertEqual($row['tracker_user_agent'], 'tagent6');
-        $this->assertEqual($row['connection_user_agent'], 'agent6');
-        $this->assertEqual($row['tracker_os'], 'tlinux6');
-        $this->assertEqual($row['connection_os'], 'linux6');
-        $this->assertEqual($row['tracker_browser'], 'tmozilla6');
-        $this->assertEqual($row['connection_browser'], 'mozilla6');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 259200);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 7);
+        $this->assertEqual($aRow['server_raw_ip'], '127.0.0.6');
+        $this->assertEqual($aRow['viewer_id'], 'ff');
+        $this->assertEqual($aRow['viewer_session_id'], 6);
+        $this->assertEqual($aRow['tracker_date_time'], '2004-06-06 18:10:36');
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:00:36');
+        $this->assertEqual($aRow['tracker_id'], 4);
+        $this->assertEqual($aRow['ad_id'], 3);
+        $this->assertEqual($aRow['creative_id'], 3);
+        $this->assertEqual($aRow['zone_id'], 3);
+        $this->assertEqual($aRow['tracker_channel'], 'tchan6');
+        $this->assertEqual($aRow['connection_channel'], 'chan6');
+        $this->assertEqual($aRow['tracker_language'], 'ten6');
+        $this->assertEqual($aRow['connection_language'], 'en6');
+        $this->assertEqual($aRow['tracker_ip_address'], 't127.0.0.6');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.6');
+        $this->assertEqual($aRow['tracker_host_name'], 'thost6');
+        $this->assertEqual($aRow['connection_host_name'], 'host6');
+        $this->assertEqual($aRow['tracker_country'], 'T6');
+        $this->assertEqual($aRow['connection_country'], 'U6');
+        $this->assertEqual($aRow['tracker_https'], 1);
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['tracker_domain'], 'tdomain6');
+        $this->assertEqual($aRow['connection_domain'], 'domain6');
+        $this->assertEqual($aRow['tracker_page'], 'tpage6');
+        $this->assertEqual($aRow['connection_page'], 'page6');
+        $this->assertEqual($aRow['tracker_query'], 'tquery6');
+        $this->assertEqual($aRow['connection_query'], 'query6');
+        $this->assertEqual($aRow['tracker_referer'], 'tref6');
+        $this->assertEqual($aRow['connection_referer'], 'ref6');
+        $this->assertEqual($aRow['tracker_search_term'], 'tterm6');
+        $this->assertEqual($aRow['connection_search_term'], 'term6');
+        $this->assertEqual($aRow['tracker_user_agent'], 'tagent6');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent6');
+        $this->assertEqual($aRow['tracker_os'], 'tlinux6');
+        $this->assertEqual($aRow['connection_os'], 'linux6');
+        $this->assertEqual($aRow['tracker_browser'], 'tmozilla6');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla6');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 259200);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $query = "
             SELECT
                 *
@@ -5554,48 +5554,48 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 server_raw_tracker_impression_id = 8
                 AND server_raw_ip = '127.0.0.8'";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 8);
-        $this->assertEqual($row['server_raw_ip'], '127.0.0.8');
-        $this->assertEqual($row['viewer_id'], 'gg');
-        $this->assertEqual($row['viewer_session_id'], 8);
-        $this->assertEqual($row['tracker_date_time'], '2004-06-06 18:10:38');
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:00:38');
-        $this->assertEqual($row['tracker_id'], 5);
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['tracker_channel'], 'tchan8');
-        $this->assertEqual($row['connection_channel'], 'chan8');
-        $this->assertEqual($row['tracker_language'], 'ten8');
-        $this->assertEqual($row['connection_language'], 'en8');
-        $this->assertEqual($row['tracker_ip_address'], 't127.0.0.8');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.8');
-        $this->assertEqual($row['tracker_host_name'], 'thost8');
-        $this->assertEqual($row['connection_host_name'], 'host8');
-        $this->assertEqual($row['tracker_country'], 'T8');
-        $this->assertEqual($row['connection_country'], 'U8');
-        $this->assertEqual($row['tracker_https'], 1);
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['tracker_domain'], 'tdomain8');
-        $this->assertEqual($row['connection_domain'], 'domain8');
-        $this->assertEqual($row['tracker_page'], 'tpage8');
-        $this->assertEqual($row['connection_page'], 'page8');
-        $this->assertEqual($row['tracker_query'], 'tquery8');
-        $this->assertEqual($row['connection_query'], 'query8');
-        $this->assertEqual($row['tracker_referer'], 'tref8');
-        $this->assertEqual($row['connection_referer'], 'ref8');
-        $this->assertEqual($row['tracker_search_term'], 'tterm8');
-        $this->assertEqual($row['connection_search_term'], 'term8');
-        $this->assertEqual($row['tracker_user_agent'], 'tagent8');
-        $this->assertEqual($row['connection_user_agent'], 'agent8');
-        $this->assertEqual($row['tracker_os'], 'tlinux8');
-        $this->assertEqual($row['connection_os'], 'linux8');
-        $this->assertEqual($row['tracker_browser'], 'tmozilla8');
-        $this->assertEqual($row['connection_browser'], 'mozilla8');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 259200);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 8);
+        $this->assertEqual($aRow['server_raw_ip'], '127.0.0.8');
+        $this->assertEqual($aRow['viewer_id'], 'gg');
+        $this->assertEqual($aRow['viewer_session_id'], 8);
+        $this->assertEqual($aRow['tracker_date_time'], '2004-06-06 18:10:38');
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:00:38');
+        $this->assertEqual($aRow['tracker_id'], 5);
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['tracker_channel'], 'tchan8');
+        $this->assertEqual($aRow['connection_channel'], 'chan8');
+        $this->assertEqual($aRow['tracker_language'], 'ten8');
+        $this->assertEqual($aRow['connection_language'], 'en8');
+        $this->assertEqual($aRow['tracker_ip_address'], 't127.0.0.8');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.8');
+        $this->assertEqual($aRow['tracker_host_name'], 'thost8');
+        $this->assertEqual($aRow['connection_host_name'], 'host8');
+        $this->assertEqual($aRow['tracker_country'], 'T8');
+        $this->assertEqual($aRow['connection_country'], 'U8');
+        $this->assertEqual($aRow['tracker_https'], 1);
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['tracker_domain'], 'tdomain8');
+        $this->assertEqual($aRow['connection_domain'], 'domain8');
+        $this->assertEqual($aRow['tracker_page'], 'tpage8');
+        $this->assertEqual($aRow['connection_page'], 'page8');
+        $this->assertEqual($aRow['tracker_query'], 'tquery8');
+        $this->assertEqual($aRow['connection_query'], 'query8');
+        $this->assertEqual($aRow['tracker_referer'], 'tref8');
+        $this->assertEqual($aRow['connection_referer'], 'ref8');
+        $this->assertEqual($aRow['tracker_search_term'], 'tterm8');
+        $this->assertEqual($aRow['connection_search_term'], 'term8');
+        $this->assertEqual($aRow['tracker_user_agent'], 'tagent8');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent8');
+        $this->assertEqual($aRow['tracker_os'], 'tlinux8');
+        $this->assertEqual($aRow['connection_os'], 'linux8');
+        $this->assertEqual($aRow['tracker_browser'], 'tmozilla8');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla8');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 259200);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $query = "
             SELECT
                 *
@@ -5604,48 +5604,48 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 server_raw_tracker_impression_id = 9
                 AND server_raw_ip = '127.0.0.9'";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 9);
-        $this->assertEqual($row['server_raw_ip'], '127.0.0.9');
-        $this->assertEqual($row['viewer_id'], 'hh');
-        $this->assertEqual($row['viewer_session_id'], 9);
-        $this->assertEqual($row['tracker_date_time'], '2004-06-06 18:10:39');
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:00:39');
-        $this->assertEqual($row['tracker_id'], 6);
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['tracker_channel'], 'tchan9');
-        $this->assertEqual($row['connection_channel'], 'chan9');
-        $this->assertEqual($row['tracker_language'], 'ten9');
-        $this->assertEqual($row['connection_language'], 'en9');
-        $this->assertEqual($row['tracker_ip_address'], 't127.0.0.9');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.9');
-        $this->assertEqual($row['tracker_host_name'], 'thost9');
-        $this->assertEqual($row['connection_host_name'], 'host9');
-        $this->assertEqual($row['tracker_country'], 'T9');
-        $this->assertEqual($row['connection_country'], 'U9');
-        $this->assertEqual($row['tracker_https'], 1);
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['tracker_domain'], 'tdomain9');
-        $this->assertEqual($row['connection_domain'], 'domain9');
-        $this->assertEqual($row['tracker_page'], 'tpage9');
-        $this->assertEqual($row['connection_page'], 'page9');
-        $this->assertEqual($row['tracker_query'], 'tquery9');
-        $this->assertEqual($row['connection_query'], 'query9');
-        $this->assertEqual($row['tracker_referer'], 'tref9');
-        $this->assertEqual($row['connection_referer'], 'ref9');
-        $this->assertEqual($row['tracker_search_term'], 'tterm9');
-        $this->assertEqual($row['connection_search_term'], 'term9');
-        $this->assertEqual($row['tracker_user_agent'], 'tagent9');
-        $this->assertEqual($row['connection_user_agent'], 'agent9');
-        $this->assertEqual($row['tracker_os'], 'tlinux9');
-        $this->assertEqual($row['connection_os'], 'linux9');
-        $this->assertEqual($row['tracker_browser'], 'tmozilla9');
-        $this->assertEqual($row['connection_browser'], 'mozilla9');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 259200);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 9);
+        $this->assertEqual($aRow['server_raw_ip'], '127.0.0.9');
+        $this->assertEqual($aRow['viewer_id'], 'hh');
+        $this->assertEqual($aRow['viewer_session_id'], 9);
+        $this->assertEqual($aRow['tracker_date_time'], '2004-06-06 18:10:39');
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:00:39');
+        $this->assertEqual($aRow['tracker_id'], 6);
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['tracker_channel'], 'tchan9');
+        $this->assertEqual($aRow['connection_channel'], 'chan9');
+        $this->assertEqual($aRow['tracker_language'], 'ten9');
+        $this->assertEqual($aRow['connection_language'], 'en9');
+        $this->assertEqual($aRow['tracker_ip_address'], 't127.0.0.9');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.9');
+        $this->assertEqual($aRow['tracker_host_name'], 'thost9');
+        $this->assertEqual($aRow['connection_host_name'], 'host9');
+        $this->assertEqual($aRow['tracker_country'], 'T9');
+        $this->assertEqual($aRow['connection_country'], 'U9');
+        $this->assertEqual($aRow['tracker_https'], 1);
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['tracker_domain'], 'tdomain9');
+        $this->assertEqual($aRow['connection_domain'], 'domain9');
+        $this->assertEqual($aRow['tracker_page'], 'tpage9');
+        $this->assertEqual($aRow['connection_page'], 'page9');
+        $this->assertEqual($aRow['tracker_query'], 'tquery9');
+        $this->assertEqual($aRow['connection_query'], 'query9');
+        $this->assertEqual($aRow['tracker_referer'], 'tref9');
+        $this->assertEqual($aRow['connection_referer'], 'ref9');
+        $this->assertEqual($aRow['tracker_search_term'], 'tterm9');
+        $this->assertEqual($aRow['connection_search_term'], 'term9');
+        $this->assertEqual($aRow['tracker_user_agent'], 'tagent9');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent9');
+        $this->assertEqual($aRow['tracker_os'], 'tlinux9');
+        $this->assertEqual($aRow['connection_os'], 'linux9');
+        $this->assertEqual($aRow['tracker_browser'], 'tmozilla9');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla9');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 259200);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $query = "
             SELECT
                 *
@@ -5654,55 +5654,55 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 server_raw_tracker_impression_id = 10
                 AND server_raw_ip = '127.0.0.10'";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['server_raw_tracker_impression_id'], 10);
-        $this->assertEqual($row['server_raw_ip'], '127.0.0.10');
-        $this->assertEqual($row['viewer_id'], 'ii');
-        $this->assertEqual($row['viewer_session_id'], 10);
-        $this->assertEqual($row['tracker_date_time'], '2004-06-06 18:10:40');
-        $this->assertEqual($row['connection_date_time'], '2004-06-06 18:00:40');
-        $this->assertEqual($row['tracker_id'], 7);
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['tracker_channel'], 'tchan10');
-        $this->assertEqual($row['connection_channel'], 'chan10');
-        $this->assertEqual($row['tracker_language'], 'ten10');
-        $this->assertEqual($row['connection_language'], 'en10');
-        $this->assertEqual($row['tracker_ip_address'], 't127.0.0.10');
-        $this->assertEqual($row['connection_ip_address'], '127.0.0.10');
-        $this->assertEqual($row['tracker_host_name'], 'thost10');
-        $this->assertEqual($row['connection_host_name'], 'host10');
-        $this->assertEqual($row['tracker_country'], 'T1');
-        $this->assertEqual($row['connection_country'], 'U1');
-        $this->assertEqual($row['tracker_https'], 1);
-        $this->assertEqual($row['connection_https'], 0);
-        $this->assertEqual($row['tracker_domain'], 'tdomain10');
-        $this->assertEqual($row['connection_domain'], 'domain10');
-        $this->assertEqual($row['tracker_page'], 'tpage10');
-        $this->assertEqual($row['connection_page'], 'page10');
-        $this->assertEqual($row['tracker_query'], 'tquery10');
-        $this->assertEqual($row['connection_query'], 'query10');
-        $this->assertEqual($row['tracker_referer'], 'tref10');
-        $this->assertEqual($row['connection_referer'], 'ref10');
-        $this->assertEqual($row['tracker_search_term'], 'tterm10');
-        $this->assertEqual($row['connection_search_term'], 'term10');
-        $this->assertEqual($row['tracker_user_agent'], 'tagent10');
-        $this->assertEqual($row['connection_user_agent'], 'agent10');
-        $this->assertEqual($row['tracker_os'], 'tlinux10');
-        $this->assertEqual($row['connection_os'], 'linux10');
-        $this->assertEqual($row['tracker_browser'], 'tmozilla10');
-        $this->assertEqual($row['connection_browser'], 'mozilla10');
-        $this->assertEqual($row['connection_action'], 1);
-        $this->assertEqual($row['connection_window'], 259200);
-        $this->assertEqual($row['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['server_raw_tracker_impression_id'], 10);
+        $this->assertEqual($aRow['server_raw_ip'], '127.0.0.10');
+        $this->assertEqual($aRow['viewer_id'], 'ii');
+        $this->assertEqual($aRow['viewer_session_id'], 10);
+        $this->assertEqual($aRow['tracker_date_time'], '2004-06-06 18:10:40');
+        $this->assertEqual($aRow['connection_date_time'], '2004-06-06 18:00:40');
+        $this->assertEqual($aRow['tracker_id'], 7);
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['tracker_channel'], 'tchan10');
+        $this->assertEqual($aRow['connection_channel'], 'chan10');
+        $this->assertEqual($aRow['tracker_language'], 'ten10');
+        $this->assertEqual($aRow['connection_language'], 'en10');
+        $this->assertEqual($aRow['tracker_ip_address'], 't127.0.0.10');
+        $this->assertEqual($aRow['connection_ip_address'], '127.0.0.10');
+        $this->assertEqual($aRow['tracker_host_name'], 'thost10');
+        $this->assertEqual($aRow['connection_host_name'], 'host10');
+        $this->assertEqual($aRow['tracker_country'], 'T1');
+        $this->assertEqual($aRow['connection_country'], 'U1');
+        $this->assertEqual($aRow['tracker_https'], 1);
+        $this->assertEqual($aRow['connection_https'], 0);
+        $this->assertEqual($aRow['tracker_domain'], 'tdomain10');
+        $this->assertEqual($aRow['connection_domain'], 'domain10');
+        $this->assertEqual($aRow['tracker_page'], 'tpage10');
+        $this->assertEqual($aRow['connection_page'], 'page10');
+        $this->assertEqual($aRow['tracker_query'], 'tquery10');
+        $this->assertEqual($aRow['connection_query'], 'query10');
+        $this->assertEqual($aRow['tracker_referer'], 'tref10');
+        $this->assertEqual($aRow['connection_referer'], 'ref10');
+        $this->assertEqual($aRow['tracker_search_term'], 'tterm10');
+        $this->assertEqual($aRow['connection_search_term'], 'term10');
+        $this->assertEqual($aRow['tracker_user_agent'], 'tagent10');
+        $this->assertEqual($aRow['connection_user_agent'], 'agent10');
+        $this->assertEqual($aRow['tracker_os'], 'tlinux10');
+        $this->assertEqual($aRow['connection_os'], 'linux10');
+        $this->assertEqual($aRow['tracker_browser'], 'tmozilla10');
+        $this->assertEqual($aRow['connection_browser'], 'mozilla10');
+        $this->assertEqual($aRow['connection_action'], 1);
+        $this->assertEqual($aRow['connection_window'], 259200);
+        $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 12);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 12);
         $query = "
             SELECT
                 value
@@ -5710,8 +5710,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['value'], 37);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['value'], 37);
         $query = "
             SELECT
                 value
@@ -5719,8 +5719,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['value'], 8);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['value'], 8);
         $query = "
             SELECT
                 value
@@ -5728,8 +5728,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 3";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['value'], 10);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['value'], 10);
         $query = "
             SELECT
                 value
@@ -5737,8 +5737,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 4";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['value'], 11);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['value'], 11);
         $query = "
             SELECT
                 value
@@ -5746,8 +5746,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 5";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['value'], 10);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['value'], 10);
         $query = "
             SELECT
                 value
@@ -5755,8 +5755,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 6";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['value'], 11);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['value'], 11);
         $query = "
             SELECT
                 value
@@ -5764,8 +5764,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 7";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['value'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['value'], 1);
         $query = "
             SELECT
                 value
@@ -5773,8 +5773,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 8";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['value'], 2);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['value'], 2);
         $query = "
             SELECT
                 value
@@ -5782,8 +5782,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 9";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['value'], 10);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['value'], 10);
         $query = "
             SELECT
                 value
@@ -5791,8 +5791,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 10";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['value'], 2);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['value'], 2);
         $query = "
             SELECT
                 value
@@ -5800,8 +5800,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 11";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['value'], 5);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['value'], 5);
         $query = "
             SELECT
                 value
@@ -5809,15 +5809,15 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 12";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['value'], 2);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['value'], 2);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
@@ -5825,22 +5825,22 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['requests'], 1);
-        $this->assertEqual($row['impressions'], 1);
-        $this->assertEqual($row['clicks'], 1);
-        $this->assertEqual($row['conversions'], 4);
-        $this->assertEqual($row['total_basket_value'], 13);
-        $this->assertEqual($row['total_num_items'], 9);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['requests'], 1);
+        $this->assertEqual($aRow['impressions'], 1);
+        $this->assertEqual($aRow['clicks'], 1);
+        $this->assertEqual($aRow['conversions'], 4);
+        $this->assertEqual($aRow['total_basket_value'], 13);
+        $this->assertEqual($aRow['total_num_items'], 9);
         $query = "
             SELECT
                 *
@@ -5848,22 +5848,22 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 2);
-        $this->assertEqual($row['creative_id'], 2);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['requests'], 2);
-        $this->assertEqual($row['impressions'], 2);
-        $this->assertEqual($row['clicks'], 2);
-        $this->assertEqual($row['conversions'], 3);
-        $this->assertEqual($row['total_basket_value'], 8);
-        $this->assertEqual($row['total_num_items'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 2);
+        $this->assertEqual($aRow['creative_id'], 2);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['requests'], 2);
+        $this->assertEqual($aRow['impressions'], 2);
+        $this->assertEqual($aRow['clicks'], 2);
+        $this->assertEqual($aRow['conversions'], 3);
+        $this->assertEqual($aRow['total_basket_value'], 8);
+        $this->assertEqual($aRow['total_num_items'], 0);
         $query = "
             SELECT
                 *
@@ -5871,22 +5871,22 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 3";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['operation_interval'], 30);
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['ad_id'], 3);
-        $this->assertEqual($row['creative_id'], 3);
-        $this->assertEqual($row['zone_id'], 3);
-        $this->assertEqual($row['requests'], 0);
-        $this->assertEqual($row['impressions'], 0);
-        $this->assertEqual($row['clicks'], 1);
-        $this->assertEqual($row['conversions'], 2);
-        $this->assertEqual($row['total_basket_value'], 11);
-        $this->assertEqual($row['total_num_items'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['operation_interval'], 30);
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['ad_id'], 3);
+        $this->assertEqual($aRow['creative_id'], 3);
+        $this->assertEqual($aRow['zone_id'], 3);
+        $this->assertEqual($aRow['requests'], 0);
+        $this->assertEqual($aRow['impressions'], 0);
+        $this->assertEqual($aRow['clicks'], 1);
+        $this->assertEqual($aRow['conversions'], 2);
+        $this->assertEqual($aRow['total_basket_value'], 11);
+        $this->assertEqual($aRow['total_num_items'], 0);
         TestEnv::restoreEnv();
     }
 
@@ -5896,7 +5896,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
     function testSaveHistory()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 30;
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         // Test with no data
@@ -5908,13 +5908,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
         TestEnv::startTransaction();
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
         // Insert the test data
-        $result = $dbh->query(SAVE_HISTORY_INTERMEDIATE_AD);
+        $aRows = $oDbh->exec(SAVE_HISTORY_INTERMEDIATE_AD);
         // Test
         $start = new Date('2004-06-06 18:00:00');
         $end   = new Date('2004-06-06 18:29:59');
@@ -5924,23 +5924,23 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['operation_interval'], '30');
-        $this->assertEqual($row['operation_interval_id'], 36);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:29:59');
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertNull($row['forecast_impressions']); // Default value in table
-        $this->assertEqual($row['actual_impressions'], 4);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['operation_interval'], '30');
+        $this->assertEqual($aRow['operation_interval_id'], 36);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:29:59');
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertNull($aRow['forecast_impressions']); // Default value in table
+        $this->assertEqual($aRow['actual_impressions'], 4);
         // Insert more test data
-        $result = $dbh->query(SAVE_HISTORY_INTERMEDIATE_AD_NEXT);
+        $aRows = $oDbh->exec(SAVE_HISTORY_INTERMEDIATE_AD_NEXT);
         // Test
         $start = new Date('2004-06-06 18:30:00');
         $end   = new Date('2004-06-06 18:59:59');
@@ -5950,8 +5950,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 2);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
@@ -5959,24 +5959,24 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
             WHERE
                 operation_interval_id = 37";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['operation_interval'], '30');
-        $this->assertEqual($row['operation_interval_id'], 37);
-        $this->assertEqual($row['interval_start'], '2004-06-06 18:30:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 18:59:59');
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertNull($row['forecast_impressions']); // Default value in table
-        $this->assertEqual($row['actual_impressions'], 4);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['operation_interval'], '30');
+        $this->assertEqual($aRow['operation_interval_id'], 37);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 18:30:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 18:59:59');
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertNull($aRow['forecast_impressions']); // Default value in table
+        $this->assertEqual($aRow['actual_impressions'], 4);
         // Insert some predicted values into the data_summary_zone_impression_history table
-        $result = $dbh->query(SAVE_HISTORY_INTERMEDIATE_HISTORY_DUPES);
+        $aRows = $oDbh->exec(SAVE_HISTORY_INTERMEDIATE_HISTORY_DUPES);
         // Test
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
@@ -5984,16 +5984,16 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
             WHERE
                 operation_interval_id = 38";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['operation_interval'], '30');
-        $this->assertEqual($row['operation_interval_id'], 38);
-        $this->assertEqual($row['interval_start'], '2004-06-06 19:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 19:29:59');
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertNull($row['forecast_impressions']); // Default value in table
-        $this->assertEqual($row['actual_impressions'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['operation_interval'], '30');
+        $this->assertEqual($aRow['operation_interval_id'], 38);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 19:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 19:29:59');
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertNull($aRow['forecast_impressions']); // Default value in table
+        $this->assertEqual($aRow['actual_impressions'], 0);
         // Insert more test data
-        $result = $dbh->query(SAVE_HISTORY_INTERMEDIATE_AD_DUPES);
+        $aRows = $oDbh->exec(SAVE_HISTORY_INTERMEDIATE_AD_DUPES);
         // Test
         $start = new Date('2004-06-06 19:00:00');
         $end   = new Date('2004-06-06 19:29:59');
@@ -6003,8 +6003,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
@@ -6012,14 +6012,14 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
             WHERE
                 operation_interval_id = 38";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['operation_interval'], '30');
-        $this->assertEqual($row['operation_interval_id'], 38);
-        $this->assertEqual($row['interval_start'], '2004-06-06 19:00:00');
-        $this->assertEqual($row['interval_end'], '2004-06-06 19:29:59');
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertNull($row['forecast_impressions']); // Default value in table
-        $this->assertEqual($row['actual_impressions'], 4);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['operation_interval'], '30');
+        $this->assertEqual($aRow['operation_interval_id'], 38);
+        $this->assertEqual($aRow['interval_start'], '2004-06-06 19:00:00');
+        $this->assertEqual($aRow['interval_end'], '2004-06-06 19:29:59');
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertNull($aRow['forecast_impressions']); // Default value in table
+        $this->assertEqual($aRow['actual_impressions'], 4);
         TestEnv::rollbackTransaction();
         TestEnv::restoreConfig();
     }
@@ -6035,7 +6035,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
     function testSaveSummary()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
 
         // Test 1
@@ -6058,8 +6058,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 0);
 
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
@@ -6067,10 +6067,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Test 2
         TestEnv::startTransaction();
         // Insert the test data
-        $result = $dbh->query(SAVE_SUMMARY_PLACEMENT);
-        $result = $dbh->query(SAVE_SUMMARY_AD);
-        $result = $dbh->query(SAVE_SUMMARY_ZONE);
-        $result = $dbh->query(SAVE_SUMMARY_INTERMEDIATE_AD);
+        $aRows = $oDbh->exec(SAVE_SUMMARY_PLACEMENT);
+        $aRows = $oDbh->exec(SAVE_SUMMARY_AD);
+        $aRows = $oDbh->exec(SAVE_SUMMARY_ZONE);
+        $aRows = $oDbh->exec(SAVE_SUMMARY_INTERMEDIATE_AD);
         // Test
         $start = new Date('2004-06-06 18:00:00');
         $end   = new Date('2004-06-06 18:29:59');
@@ -6080,8 +6080,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 8);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 8);
         $query = "
             SELECT
                 *
@@ -6090,16 +6090,16 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 ad_id = 1
                 AND creative_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['impressions'], 1);
-        $this->assertEqual($row['clicks'], 1);
-        $this->assertEqual($row['conversions'], 1);
-        $this->assertEqual($row['total_basket_value'], 1);
-        $this->assertEqual($row['total_revenue'], 5);
-        $this->assertEqual($row['total_cost'], 0.02);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['impressions'], 1);
+        $this->assertEqual($aRow['clicks'], 1);
+        $this->assertEqual($aRow['conversions'], 1);
+        $this->assertEqual($aRow['total_basket_value'], 1);
+        $this->assertEqual($aRow['total_revenue'], 5);
+        $this->assertEqual($aRow['total_cost'], 0.02);
         $query = "
             SELECT
                 *
@@ -6108,16 +6108,16 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 ad_id = 1
                 AND creative_id = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['impressions'], 2);
-        $this->assertEqual($row['clicks'], 2);
-        $this->assertEqual($row['conversions'], 2);
-        $this->assertEqual($row['total_basket_value'], 2);
-        $this->assertEqual($row['total_revenue'], 10);
-        $this->assertEqual($row['total_cost'], 0.04);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['impressions'], 2);
+        $this->assertEqual($aRow['clicks'], 2);
+        $this->assertEqual($aRow['conversions'], 2);
+        $this->assertEqual($aRow['total_basket_value'], 2);
+        $this->assertEqual($aRow['total_revenue'], 10);
+        $this->assertEqual($aRow['total_cost'], 0.04);
         $query = "
             SELECT
                 *
@@ -6125,17 +6125,17 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}
             WHERE
                 ad_id = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['impressions'], 1);
-        $this->assertEqual($row['clicks'], 1);
-        $this->assertEqual($row['conversions'], 0);
-        $this->assertEqual($row['total_basket_value'], 0);
-        $this->assertEqual($row['total_revenue'], 2);
-        $this->assertEqual($row['total_cost'], 0.02);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['impressions'], 1);
+        $this->assertEqual($aRow['clicks'], 1);
+        $this->assertEqual($aRow['conversions'], 0);
+        $this->assertEqual($aRow['total_basket_value'], 0);
+        $this->assertEqual($aRow['total_revenue'], 2);
+        $this->assertEqual($aRow['total_cost'], 0.02);
         $query = "
             SELECT
                 *
@@ -6143,17 +6143,17 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}
             WHERE
                 ad_id = 3";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['impressions'], 1);
-        $this->assertEqual($row['clicks'], 1);
-        $this->assertEqual($row['conversions'], 0);
-        $this->assertEqual($row['total_basket_value'], 0);
-        $this->assertEqual($row['total_revenue'], 0);
-        $this->assertEqual($row['total_cost'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['impressions'], 1);
+        $this->assertEqual($aRow['clicks'], 1);
+        $this->assertEqual($aRow['conversions'], 0);
+        $this->assertEqual($aRow['total_basket_value'], 0);
+        $this->assertEqual($aRow['total_revenue'], 0);
+        $this->assertEqual($aRow['total_cost'], 1);
         $query = "
             SELECT
                 *
@@ -6163,65 +6163,65 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 ad_id = 4
             ORDER BY
                 zone_id";
-        $result = $dbh->query($query);
-        $this->assertEqual($result->numRows(), 4);
+        $rc = $oDbh->query($query);
+        $this->assertEqual($rc->numRows(), 4);
 
-        $row = $result->fetchRow();
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 3);
-        $this->assertEqual($row['impressions'], 1);
-        $this->assertEqual($row['clicks'], 1);
-        $this->assertEqual($row['conversions'], 5);
-        $this->assertEqual($row['total_basket_value'], 0);
-        $this->assertEqual($row['total_revenue'], 20);
-        $this->assertEqual($row['total_cost'], 10);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 3);
+        $this->assertEqual($aRow['impressions'], 1);
+        $this->assertEqual($aRow['clicks'], 1);
+        $this->assertEqual($aRow['conversions'], 5);
+        $this->assertEqual($aRow['total_basket_value'], 0);
+        $this->assertEqual($aRow['total_revenue'], 20);
+        $this->assertEqual($aRow['total_cost'], 10);
 
-        $row = $result->fetchRow();
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 4);
-        $this->assertEqual($row['impressions'], 1);
-        $this->assertEqual($row['clicks'], 1);
-        $this->assertEqual($row['conversions'], 5);
-        $this->assertEqual($row['total_basket_value'], 0);
-        $this->assertEqual($row['total_revenue'], 20);
-        $this->assertEqual($row['total_cost'], 10);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 4);
+        $this->assertEqual($aRow['impressions'], 1);
+        $this->assertEqual($aRow['clicks'], 1);
+        $this->assertEqual($aRow['conversions'], 5);
+        $this->assertEqual($aRow['total_basket_value'], 0);
+        $this->assertEqual($aRow['total_revenue'], 20);
+        $this->assertEqual($aRow['total_cost'], 10);
 
-        $row = $result->fetchRow();
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 5);
-        $this->assertEqual($row['impressions'], 1);
-        $this->assertEqual($row['clicks'], 1);
-        $this->assertEqual($row['conversions'], 5);
-        $this->assertEqual($row['total_basket_value'], 100);
-        $this->assertEqual($row['total_revenue'], 20);
-        $this->assertEqual($row['total_cost'], 5);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 5);
+        $this->assertEqual($aRow['impressions'], 1);
+        $this->assertEqual($aRow['clicks'], 1);
+        $this->assertEqual($aRow['conversions'], 5);
+        $this->assertEqual($aRow['total_basket_value'], 100);
+        $this->assertEqual($aRow['total_revenue'], 20);
+        $this->assertEqual($aRow['total_cost'], 5);
 
-        $row = $result->fetchRow();
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 6);
-        $this->assertEqual($row['impressions'], 1);
-        $this->assertEqual($row['clicks'], 1);
-        $this->assertEqual($row['conversions'], 5);
-        $this->assertEqual($row['total_basket_value'], 100);
-        $this->assertEqual($row['total_revenue'], 20);
-        $this->assertEqual($row['total_cost'], 1.5);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 6);
+        $this->assertEqual($aRow['impressions'], 1);
+        $this->assertEqual($aRow['clicks'], 1);
+        $this->assertEqual($aRow['conversions'], 5);
+        $this->assertEqual($aRow['total_basket_value'], 100);
+        $this->assertEqual($aRow['total_revenue'], 20);
+        $this->assertEqual($aRow['total_cost'], 1.5);
         TestEnv::rollbackTransaction();
 
         // Test 3
         TestEnv::startTransaction();
         // Insert the test data
-        $result = $dbh->query(SAVE_SUMMARY_PLACEMENT);
-        $result = $dbh->query(SAVE_SUMMARY_AD);
-        $result = $dbh->query(SAVE_SUMMARY_ZONE);
-        $result = $dbh->query(SAVE_SUMMARY_INTERMEDIATE_AD_MULTIDAY);
+        $aRows = $oDbh->exec(SAVE_SUMMARY_PLACEMENT);
+        $aRows = $oDbh->exec(SAVE_SUMMARY_AD);
+        $aRows = $oDbh->exec(SAVE_SUMMARY_ZONE);
+        $aRows = $oDbh->exec(SAVE_SUMMARY_INTERMEDIATE_AD_MULTIDAY);
         // Test
         $start = new Date('2004-06-06 18:00:00');
         $end   = new Date('2004-06-08 18:29:59');
@@ -6231,8 +6231,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
@@ -6241,16 +6241,16 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 ad_id = 1
                 AND creative_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-06');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['impressions'], 1);
-        $this->assertEqual($row['clicks'], 1);
-        $this->assertEqual($row['conversions'], 1);
-        $this->assertEqual($row['total_basket_value'], 1);
-        $this->assertEqual($row['total_revenue'], 5);
-        $this->assertEqual($row['total_cost'], 0.02);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-06');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['impressions'], 1);
+        $this->assertEqual($aRow['clicks'], 1);
+        $this->assertEqual($aRow['conversions'], 1);
+        $this->assertEqual($aRow['total_basket_value'], 1);
+        $this->assertEqual($aRow['total_revenue'], 5);
+        $this->assertEqual($aRow['total_cost'], 0.02);
         $query = "
             SELECT
                 *
@@ -6259,16 +6259,16 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             WHERE
                 ad_id = 1
                 AND creative_id = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-07');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['impressions'], 2);
-        $this->assertEqual($row['clicks'], 2);
-        $this->assertEqual($row['conversions'], 2);
-        $this->assertEqual($row['total_basket_value'], 2);
-        $this->assertEqual($row['total_revenue'], 10);
-        $this->assertEqual($row['total_cost'], 0.04);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-07');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['impressions'], 2);
+        $this->assertEqual($aRow['clicks'], 2);
+        $this->assertEqual($aRow['conversions'], 2);
+        $this->assertEqual($aRow['total_basket_value'], 2);
+        $this->assertEqual($aRow['total_revenue'], 10);
+        $this->assertEqual($aRow['total_cost'], 0.04);
         $query = "
             SELECT
                 *
@@ -6276,17 +6276,17 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}
             WHERE
                 ad_id = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2004-06-08');
-        $this->assertEqual($row['hour'], 18);
-        $this->assertEqual($row['creative_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['impressions'], 1);
-        $this->assertEqual($row['clicks'], 1);
-        $this->assertEqual($row['conversions'], 0);
-        $this->assertEqual($row['total_basket_value'], 0);
-        $this->assertEqual($row['total_revenue'], 2);
-        $this->assertEqual($row['total_cost'], 0.02);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['day'], '2004-06-08');
+        $this->assertEqual($aRow['hour'], 18);
+        $this->assertEqual($aRow['creative_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['impressions'], 1);
+        $this->assertEqual($aRow['clicks'], 1);
+        $this->assertEqual($aRow['conversions'], 0);
+        $this->assertEqual($aRow['total_basket_value'], 0);
+        $this->assertEqual($aRow['total_revenue'], 2);
+        $this->assertEqual($aRow['total_cost'], 0.02);
         TestEnv::rollbackTransaction();
         TestEnv::restoreConfig();
     }
@@ -6297,7 +6297,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
     function testManageCampaigns()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 60;
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         $oDate = &new Date();
@@ -6305,9 +6305,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
         // Insert the base test data
-        $result = $dbh->query(MANAGE_CAMPAIGNS_CAMPAIGNS);
-        $result = $dbh->query(MANAGE_CAMPAIGNS_CLIENTS);
-        $result = $dbh->query(MANAGE_CAMPAIGNS_BANNERS);
+        $aRows = $oDbh->exec(MANAGE_CAMPAIGNS_CAMPAIGNS);
+        $aRows = $oDbh->exec(MANAGE_CAMPAIGNS_CLIENTS);
+        $aRows = $oDbh->exec(MANAGE_CAMPAIGNS_BANNERS);
         // Test with no summarised data
         $report = $dsa->manageCampaigns($oDate);
         $query = "
@@ -6317,13 +6317,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
             WHERE
                 campaignid = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['views'], -1);
-        $this->assertEqual($row['clicks'], -1);
-        $this->assertEqual($row['conversions'], -1);
-        $this->assertEqual($row['expire'], '0000-00-00');
-        $this->assertEqual($row['activate'], '0000-00-00');
-        $this->assertEqual($row['active'], 't');
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['views'], -1);
+        $this->assertEqual($aRow['clicks'], -1);
+        $this->assertEqual($aRow['conversions'], -1);
+        $this->assertEqual($aRow['expire'], '0000-00-00');
+        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
                 *
@@ -6331,13 +6331,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
             WHERE
                 campaignid = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['views'], 10);
-        $this->assertEqual($row['clicks'], -1);
-        $this->assertEqual($row['conversions'], -1);
-        $this->assertEqual($row['expire'], '0000-00-00');
-        $this->assertEqual($row['activate'], '0000-00-00');
-        $this->assertEqual($row['active'], 't');
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['views'], 10);
+        $this->assertEqual($aRow['clicks'], -1);
+        $this->assertEqual($aRow['conversions'], -1);
+        $this->assertEqual($aRow['expire'], '0000-00-00');
+        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
                 *
@@ -6345,13 +6345,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
             WHERE
                 campaignid = 3";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['views'], -1);
-        $this->assertEqual($row['clicks'], 10);
-        $this->assertEqual($row['conversions'], -1);
-        $this->assertEqual($row['expire'], '0000-00-00');
-        $this->assertEqual($row['activate'], '0000-00-00');
-        $this->assertEqual($row['active'], 't');
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['views'], -1);
+        $this->assertEqual($aRow['clicks'], 10);
+        $this->assertEqual($aRow['conversions'], -1);
+        $this->assertEqual($aRow['expire'], '0000-00-00');
+        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
                 *
@@ -6359,13 +6359,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
             WHERE
                 campaignid = 4";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['views'], -1);
-        $this->assertEqual($row['clicks'], -1);
-        $this->assertEqual($row['conversions'], 10);
-        $this->assertEqual($row['expire'], '0000-00-00');
-        $this->assertEqual($row['activate'], '0000-00-00');
-        $this->assertEqual($row['active'], 't');
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['views'], -1);
+        $this->assertEqual($aRow['clicks'], -1);
+        $this->assertEqual($aRow['conversions'], 10);
+        $this->assertEqual($aRow['expire'], '0000-00-00');
+        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
                 *
@@ -6373,13 +6373,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
             WHERE
                 campaignid = 5";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['views'], 10);
-        $this->assertEqual($row['clicks'], 10);
-        $this->assertEqual($row['conversions'], 10);
-        $this->assertEqual($row['expire'], '0000-00-00');
-        $this->assertEqual($row['activate'], '0000-00-00');
-        $this->assertEqual($row['active'], 't');
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['views'], 10);
+        $this->assertEqual($aRow['clicks'], 10);
+        $this->assertEqual($aRow['conversions'], 10);
+        $this->assertEqual($aRow['expire'], '0000-00-00');
+        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
                 *
@@ -6387,13 +6387,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
             WHERE
                 campaignid = 6";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['views'], -1);
-        $this->assertEqual($row['clicks'], -1);
-        $this->assertEqual($row['conversions'], -1);
-        $this->assertEqual($row['expire'], '2004-06-06');
-        $this->assertEqual($row['activate'], '0000-00-00');
-        $this->assertEqual($row['active'], 'f');
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['views'], -1);
+        $this->assertEqual($aRow['clicks'], -1);
+        $this->assertEqual($aRow['conversions'], -1);
+        $this->assertEqual($aRow['expire'], '2004-06-06');
+        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['active'], 'f');
         $query = "
             SELECT
                 *
@@ -6401,15 +6401,15 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
             WHERE
                 campaignid = 7";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['views'], -1);
-        $this->assertEqual($row['clicks'], -1);
-        $this->assertEqual($row['conversions'], -1);
-        $this->assertEqual($row['expire'], '0000-00-00');
-        $this->assertEqual($row['activate'], '2004-06-06');
-        $this->assertEqual($row['active'], 't');
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['views'], -1);
+        $this->assertEqual($aRow['clicks'], -1);
+        $this->assertEqual($aRow['conversions'], -1);
+        $this->assertEqual($aRow['expire'], '0000-00-00');
+        $this->assertEqual($aRow['activate'], '2004-06-06');
+        $this->assertEqual($aRow['active'], 't');
         // Insert the summary test data - Part 1
-        $result = $dbh->query(MANAGE_CAMPAIGNS_INTERMEDIATE_AD);
+        $aRows = $oDbh->exec(MANAGE_CAMPAIGNS_INTERMEDIATE_AD);
         // Test with summarised data
         $report = $dsa->manageCampaigns($oDate);
         $query = "
@@ -6419,13 +6419,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
             WHERE
                 campaignid = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['views'], -1);
-        $this->assertEqual($row['clicks'], -1);
-        $this->assertEqual($row['conversions'], -1);
-        $this->assertEqual($row['expire'], '0000-00-00');
-        $this->assertEqual($row['activate'], '0000-00-00');
-        $this->assertEqual($row['active'], 't');
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['views'], -1);
+        $this->assertEqual($aRow['clicks'], -1);
+        $this->assertEqual($aRow['conversions'], -1);
+        $this->assertEqual($aRow['expire'], '0000-00-00');
+        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
                 *
@@ -6433,13 +6433,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
             WHERE
                 campaignid = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['views'], 10);
-        $this->assertEqual($row['clicks'], -1);
-        $this->assertEqual($row['conversions'], -1);
-        $this->assertEqual($row['expire'], '0000-00-00');
-        $this->assertEqual($row['activate'], '0000-00-00');
-        $this->assertEqual($row['active'], 'f');
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['views'], 10);
+        $this->assertEqual($aRow['clicks'], -1);
+        $this->assertEqual($aRow['conversions'], -1);
+        $this->assertEqual($aRow['expire'], '0000-00-00');
+        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['active'], 'f');
         $query = "
             SELECT
                 *
@@ -6447,13 +6447,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
             WHERE
                 campaignid = 3";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['views'], -1);
-        $this->assertEqual($row['clicks'], 10);
-        $this->assertEqual($row['conversions'], -1);
-        $this->assertEqual($row['expire'], '0000-00-00');
-        $this->assertEqual($row['activate'], '0000-00-00');
-        $this->assertEqual($row['active'], 't');
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['views'], -1);
+        $this->assertEqual($aRow['clicks'], 10);
+        $this->assertEqual($aRow['conversions'], -1);
+        $this->assertEqual($aRow['expire'], '0000-00-00');
+        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
                 *
@@ -6461,13 +6461,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
             WHERE
                 campaignid = 4";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['views'], -1);
-        $this->assertEqual($row['clicks'], -1);
-        $this->assertEqual($row['conversions'], 10);
-        $this->assertEqual($row['expire'], '0000-00-00');
-        $this->assertEqual($row['activate'], '0000-00-00');
-        $this->assertEqual($row['active'], 'f');
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['views'], -1);
+        $this->assertEqual($aRow['clicks'], -1);
+        $this->assertEqual($aRow['conversions'], 10);
+        $this->assertEqual($aRow['expire'], '0000-00-00');
+        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['active'], 'f');
         $query = "
             SELECT
                 *
@@ -6475,13 +6475,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
             WHERE
                 campaignid = 5";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['views'], 10);
-        $this->assertEqual($row['clicks'], 10);
-        $this->assertEqual($row['conversions'], 10);
-        $this->assertEqual($row['expire'], '0000-00-00');
-        $this->assertEqual($row['activate'], '0000-00-00');
-        $this->assertEqual($row['active'], 't');
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['views'], 10);
+        $this->assertEqual($aRow['clicks'], 10);
+        $this->assertEqual($aRow['conversions'], 10);
+        $this->assertEqual($aRow['expire'], '0000-00-00');
+        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
                 *
@@ -6489,13 +6489,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
             WHERE
                 campaignid = 6";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['views'], -1);
-        $this->assertEqual($row['clicks'], -1);
-        $this->assertEqual($row['conversions'], -1);
-        $this->assertEqual($row['expire'], '2004-06-06');
-        $this->assertEqual($row['activate'], '0000-00-00');
-        $this->assertEqual($row['active'], 'f');
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['views'], -1);
+        $this->assertEqual($aRow['clicks'], -1);
+        $this->assertEqual($aRow['conversions'], -1);
+        $this->assertEqual($aRow['expire'], '2004-06-06');
+        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['active'], 'f');
         $query = "
             SELECT
                 *
@@ -6503,13 +6503,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
             WHERE
                 campaignid = 7";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['views'], -1);
-        $this->assertEqual($row['clicks'], -1);
-        $this->assertEqual($row['conversions'], -1);
-        $this->assertEqual($row['expire'], '0000-00-00');
-        $this->assertEqual($row['activate'], '2004-06-06');
-        $this->assertEqual($row['active'], 't');
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['views'], -1);
+        $this->assertEqual($aRow['clicks'], -1);
+        $this->assertEqual($aRow['conversions'], -1);
+        $this->assertEqual($aRow['expire'], '0000-00-00');
+        $this->assertEqual($aRow['activate'], '2004-06-06');
+        $this->assertEqual($aRow['active'], 't');
         TestEnv::rollbackTransaction();
         // Final test to ensure that placements expired as a result of limitations met are
         // not re-activated in the event that their expiration date has not yet been reached
@@ -6540,7 +6540,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                         '2005-12-07',
                         'f'
                     )";
-        $row = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 clients
@@ -6555,7 +6555,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                         'Test Contact',
                         'postmaster@localhost'
                     )";
-        $row = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 banners
@@ -6568,7 +6568,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                         1,
                         1
                     )";
-        $row = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 data_intermediate_ad
@@ -6589,7 +6589,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                         1,
                         0
                      )";
-        $row = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $oDate = &new Date('2005-12-08 01:00:01');
         $report = $dsa->manageCampaigns($oDate);
         $query = "
@@ -6599,13 +6599,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
             WHERE
                 campaignid = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['views'], 10);
-        $this->assertEqual($row['clicks'], -1);
-        $this->assertEqual($row['conversions'], -1);
-        $this->assertEqual($row['expire'], '2005-12-09');
-        $this->assertEqual($row['activate'], '2005-12-07');
-        $this->assertEqual($row['active'], 'f');
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['views'], 10);
+        $this->assertEqual($aRow['clicks'], -1);
+        $this->assertEqual($aRow['conversions'], -1);
+        $this->assertEqual($aRow['expire'], '2005-12-09');
+        $this->assertEqual($aRow['activate'], '2005-12-07');
+        $this->assertEqual($aRow['active'], 'f');
         TestEnv::rollbackTransaction();
         TestEnv::restoreConfig();
     }
@@ -6616,7 +6616,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
     function testDeleteOldData()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $conf['maintenance']['compactStatsGrace'] = 0;
         // Enable the tracker
         $conf['modules']['Tracker'] = true;
@@ -6625,10 +6625,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
         // Insert the test data
-        $result = $dbh->query(DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
-        $result = $dbh->query(DELETE_OLD_DATA_AD_CLICKS);
-        $result = $dbh->query(DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $result = $dbh->query(DELETE_OLD_DATA_AD_REQUESTS);
+        $aRows = $oDbh->exec(DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
+        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
+        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_IMPRESSIONS);
+        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_REQUESTS);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -6637,31 +6637,31 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         TestEnv::rollbackTransaction();
         // Disable the tracker
         $conf['modules']['Tracker'] = false;
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         TestEnv::startTransaction();
         // Insert the test data
-        $result = $dbh->query(DELETE_OLD_DATA_AD_CLICKS);
-        $result = $dbh->query(DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $result = $dbh->query(DELETE_OLD_DATA_AD_REQUESTS);
+        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
+        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_IMPRESSIONS);
+        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_REQUESTS);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -6670,22 +6670,22 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         TestEnv::rollbackTransaction();
         // Set a compact_stats_grace window
         $conf['maintenance']['compactStatsGrace'] = 3600;
@@ -6694,10 +6694,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         TestEnv::startTransaction();
         // Insert the test data
-        $result = $dbh->query(DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
-        $result = $dbh->query(DELETE_OLD_DATA_AD_CLICKS);
-        $result = $dbh->query(DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $result = $dbh->query(DELETE_OLD_DATA_AD_REQUESTS);
+        $aRows = $oDbh->exec(DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
+        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
+        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_IMPRESSIONS);
+        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_REQUESTS);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -6706,31 +6706,31 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 5);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 5);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 5);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 5);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
         TestEnv::rollbackTransaction();
         // Disable the tracker
         $conf['modules']['Tracker'] = false;
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         TestEnv::startTransaction();
         // Insert the test data
-        $result = $dbh->query(DELETE_OLD_DATA_AD_CLICKS);
-        $result = $dbh->query(DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $result = $dbh->query(DELETE_OLD_DATA_AD_REQUESTS);
+        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
+        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_IMPRESSIONS);
+        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_REQUESTS);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -6739,22 +6739,22 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
         TestEnv::rollbackTransaction();
         TestEnv::restoreConfig();
     }
