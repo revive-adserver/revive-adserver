@@ -84,17 +84,17 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
             LIMIT 1";
         $message = "Finding start date of placement ID $placementId based on delivery statistics.";
         MAX::debug($message, PEAR_LOG_DEBUG);
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return $rResult;
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return $rc;
         }
         // Was a result found?
-        if ($rResult->numRows() == 0) {
+        if ($rc->numRows() == 0) {
             // Return the current time
             $oDate = new Date();
         } else {
             // Store the results
-            $aRow = $rResult->fetchRow();
+            $aRow = $rc->fetchRow();
             $oDate = new Date($aRow['day'] . ' ' . $aRow['hour'] . ':00:00');
         }
         return $oDate;
@@ -188,13 +188,13 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
                    ' and zone ID in ' . implode(', ', $aZoneIds) . ' in the period ' .
                    $aPeriod['start']->format('%Y-%m-%d') . ' to ' . $aPeriod['end']->format('%Y-%m-%d');
         MAX::debug($message, PEAR_LOG_DEBUG);
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return $rResult;
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return $rc;
         }
         // Store the results
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             if (!is_null($aRow['forecast_impressions'])) {
                 $aResult[$aRow['zone_id']][$aRow['day']] = $aRow['forecast_impressions'];
             }
@@ -236,14 +236,14 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
                 $message = 'Finding the seven most recent days of channel/zone forecast inventory data ' .
                             ' for channel ID ' . $channelId . ' and zone ID ' . $zoneId;
                 MAX::debug($message, PEAR_LOG_DEBUG);
-                $rResult = $this->dbh->query($query);
-                if (PEAR::isError($rResult)) {
-                    return $rResult;
+                $rc = $this->oDbh->query($query);
+                if (PEAR::isError($rc)) {
+                    return $rc;
                 }
                 // Prepare an array of the forecast values found, indexed by day
                 // of the week
                 $aDaysFound = array();
-                while ($aRow = $rResult->fetchRow()) {
+                while ($aRow = $rc->fetchRow()) {
                     if (!is_null($aRow['day']) && !is_null($aRow['forecast_impressions'])) {
                         $oDate = new Date($aRow['day']);
                         $dayOfWeek = $oDate->getDayOfWeek();
@@ -312,11 +312,11 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
                     interval_start DESC
                 LIMIT
                     " . MAX_OperationInterval::operationIntervalsPerWeek();
-            $rResult = $this->dbh->query($query);
-            if (PEAR::isError($rResult)) {
-                return $rResult;
+            $rc = $this->oDbh->query($query);
+            if (PEAR::isError($rc)) {
+                return $rc;
             }
-            while ($aRow = $rResult->fetchRow()) {
+            while ($aRow = $rc->fetchRow()) {
                 if (!is_null($aRow['impressions'])) {
                     $aResult[$zoneId] = $aRow['impressions'];
                 }
