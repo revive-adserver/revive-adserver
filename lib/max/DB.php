@@ -100,7 +100,9 @@ class MAX_DB
     {
         $dsn = ($dsn === null) ? MAX_DB::getDsn(MAX_DSN_STRING) : $dsn;
         $dsnMd5 = md5($dsn);
-        $aConnections = array_keys($GLOBALS['_MAX']['CONNECTIONS']);
+        $aConnections = isset($GLOBALS['_MAX']['CONNECTIONS']) && is_array($GLOBALS['_MAX']['CONNECTIONS']) ?
+            array_keys($GLOBALS['_MAX']['CONNECTIONS']) :
+            array();
         if (!(count($aConnections)) || !(in_array($dsnMd5, $aConnections))) {
             $conf = $GLOBALS['_MAX']['CONF'];
             $GLOBALS['_MAX']['CONNECTIONS'][$dsnMd5] = DB::connect($dsn);
