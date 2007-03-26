@@ -59,7 +59,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
     function testSetProcessLastRunInfo()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oStartDate    = new Date('2006-10-05 12:07:01');
         $oEndDate      = new Date('2006-10-05 12:15:00');
@@ -122,17 +122,18 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
                 updated_to
             FROM
                 $log_maintenance_priority";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['log_maintenance_priority_id'], 1);
-        $this->assertEqual($row['start_run'], '2006-10-05 12:07:01');
-        $this->assertEqual($row['end_run'], '2006-10-05 12:15:00');
-        $this->assertEqual($row['operation_interval'], $conf['maintenance']['operationInterval']);
-        $this->assertEqual($row['duration'], (7 * 60) + 59);
-        $this->assertEqual($row['updated_to'], '2006-10-05 11:59:59');
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['log_maintenance_priority_id'], 1);
+        $this->assertEqual($aRow['start_run'], '2006-10-05 12:07:01');
+        $this->assertEqual($aRow['end_run'], '2006-10-05 12:15:00');
+        $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['duration'], (7 * 60) + 59);
+        $this->assertEqual($aRow['updated_to'], '2006-10-05 11:59:59');
 
         // Test 3
         PEAR::pushErrorHandling(null);
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenanceCommon = new MAX_Dal_Maintenance_Common();
         $result = $oMaxDalMaintenanceCommon->setProcessLastRunInfo(
             $oStartDate,
@@ -178,14 +179,15 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
                 $log_maintenance_priority
             WHERE
                 log_maintenance_priority_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['log_maintenance_priority_id'], 1);
-        $this->assertEqual($row['start_run'], '2006-10-05 12:07:01');
-        $this->assertEqual($row['end_run'], '2006-10-05 12:15:00');
-        $this->assertEqual($row['operation_interval'], $conf['maintenance']['operationInterval']);
-        $this->assertEqual($row['duration'], (7 * 60) + 59);
-        $this->assertEqual($row['updated_to'], '2006-10-05 11:59:59');
-        $this->assertEqual($row['run_type'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['log_maintenance_priority_id'], 1);
+        $this->assertEqual($aRow['start_run'], '2006-10-05 12:07:01');
+        $this->assertEqual($aRow['end_run'], '2006-10-05 12:15:00');
+        $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['duration'], (7 * 60) + 59);
+        $this->assertEqual($aRow['updated_to'], '2006-10-05 11:59:59');
+        $this->assertEqual($aRow['run_type'], 0);
         $query = "
             SELECT
                 log_maintenance_priority_id,
@@ -199,14 +201,15 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
                 $log_maintenance_priority
             WHERE
                 log_maintenance_priority_id = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['log_maintenance_priority_id'], 2);
-        $this->assertEqual($row['start_run'], '2006-10-05 12:07:01');
-        $this->assertEqual($row['end_run'], '2006-10-05 12:15:00');
-        $this->assertEqual($row['operation_interval'], $conf['maintenance']['operationInterval']);
-        $this->assertEqual($row['duration'], (7 * 60) + 59);
-        $this->assertEqual($row['updated_to'], '2006-10-05 11:59:59');
-        $this->assertEqual($row['run_type'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['log_maintenance_priority_id'], 2);
+        $this->assertEqual($aRow['start_run'], '2006-10-05 12:07:01');
+        $this->assertEqual($aRow['end_run'], '2006-10-05 12:15:00');
+        $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['duration'], (7 * 60) + 59);
+        $this->assertEqual($aRow['updated_to'], '2006-10-05 11:59:59');
+        $this->assertEqual($aRow['run_type'], 1);
         TestEnv::restoreEnv();
     }
 
@@ -223,7 +226,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
     function testGetProcessLastRunInfo()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $log_maintenance_priority = $conf['table']['prefix'] . $conf['table']['log_maintenance_priority'];
         $data_raw_ad_impression = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
@@ -314,7 +317,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
                     1,
                     1
                 )";
-        $result = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oMaxDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array('operation_interval'),
@@ -344,7 +347,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
                     1,
                     1
                 )";
-        $result = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oMaxDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array('operation_interval'),
@@ -439,7 +442,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
                     1,
                     '2006-10-06 11:59:59'
                 )";
-        $result = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oMaxDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array('operation_interval', 'run_type'),
@@ -475,7 +478,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
                     0,
                     '2006-10-06 20:59:59'
                 )";
-        $result = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oMaxDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array('operation_interval', 'run_type'),
@@ -555,7 +558,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
     function testGetAllDeliveryLimitationsByTypeId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oMaxDalMaintenanceCommon = new MAX_Dal_Maintenance_Common();
 
@@ -597,7 +600,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
                     'GB',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test 3
         $aResult = $oMaxDalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'ad');
@@ -662,7 +665,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
                     'GB',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test 7
         $aResult = $oMaxDalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'ad');
@@ -712,7 +715,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
     function testMaxConnectionWindow()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oMaxDalMaintenanceCommon = new MAX_Dal_Maintenance_Common();
 
@@ -737,7 +740,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
                     0,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $max = $oMaxDalMaintenanceCommon->maxConnectionWindow('impression');
         $this->assertEqual($max, 0);
         $max = $oMaxDalMaintenanceCommon->maxConnectionWindow('click');
@@ -756,7 +759,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
                     60,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $max = $oMaxDalMaintenanceCommon->maxConnectionWindow('impression');
         $this->assertEqual($max, 60);
         $max = $oMaxDalMaintenanceCommon->maxConnectionWindow('click');
@@ -775,7 +778,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
                     180,
                     70
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $max = $oMaxDalMaintenanceCommon->maxConnectionWindow('impression');
         $this->assertEqual($max, 180);
         $max = $oMaxDalMaintenanceCommon->maxConnectionWindow('click');
@@ -790,7 +793,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
     function testMaxConnectionWindows()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oMaxDalMaintenanceCommon = new MAX_Dal_Maintenance_Common();
 
@@ -814,7 +817,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
                     0,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         list($impression, $click) = $oMaxDalMaintenanceCommon->maxConnectionWindows();
         $this->assertEqual($impression, 0);
         $this->assertEqual($click, 0);
@@ -832,7 +835,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
                     60,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         list($impression, $click) = $oMaxDalMaintenanceCommon->maxConnectionWindows();
         $this->assertEqual($impression, 60);
         $this->assertEqual($click, 0);
@@ -850,7 +853,7 @@ class Dal_TestOfDalMaintenanceCommon extends UnitTestCase
                     180,
                     70
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         list($impression, $click) = $oMaxDalMaintenanceCommon->maxConnectionWindows();
         $this->assertEqual($impression, 180);
         $this->assertEqual($click, 70);

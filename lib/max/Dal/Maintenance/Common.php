@@ -134,11 +134,11 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
         $query .= "
                 )";
         MAX::debug('Logging maintenance process run information into ' . $tableName, PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (DB::isError($result)) {
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
             return false;
         } else {
-            return $result;
+            return $rows;
         }
     }
 
@@ -199,11 +199,11 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
             ORDER BY $orderBy DESC
             LIMIT 1";
         MAX::debug('Obtaining maintenance process run information from ' . $tableName, PEAR_LOG_DEBUG);
-        $rResult = $this->dbh->query($query);
-        if (DB::isError($rResult)) {
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
             return false;
         }
-        $aResult = $rResult->fetchRow();
+        $aResult = $rc->fetchRow();
         if (!is_null($aResult)) {
             // The process run information was found, return.
             return $aResult;
@@ -223,17 +223,17 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
             if ($conf['table']['split']) {
                 PEAR::pushErrorHandling(null);
             }
-            $rResult = $this->dbh->query($query);
+            $rc = $this->oDbh->query($query);
             if ($conf['table']['split']) {
                 PEAR::popErrorHandling();
             }
-            if (PEAR::isError($rResult)) {
+            if (PEAR::isError($rc)) {
                 return false;
             }
-            if ($rResult->numRows() > 0) {
+            if ($rc->numRows() > 0) {
                 // A raw data result was found - convert it to the end of the previous
                 // operation interval, or hour
-                $aResult = $rResult->fetchRow();
+                $aResult = $rc->fetchRow();
                 $oDate = new Date($aResult['date']);
                 if ($aAlternateInfo['type'] == 'oi') {
                     $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
@@ -336,15 +336,15 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
             WHERE
                 $key = $id
             ORDER BY executionorder";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[] = $aRow;
         }
         return $aResult;
@@ -372,7 +372,8 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
             FROM
                 {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']}";
         MAX::debug('Finding the largest active ' . $type . ' connection window.', PEAR_LOG_DEBUG);
-        $aRow = $this->dbh->getRow($query);
+        $rc = $this->oDbh->query($query);
+        $aRow = $rc->fetchRow();
         if (PEAR::isError($aRow)) {
             MAX::debug('Error finding ' . $type . ' connection window.', PEAR_LOG_ERROR);
             return 0;
