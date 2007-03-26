@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/openads/Dal.php';
+require_once MAX_PATH . '/lib/OA/DB.php';
 
 /**
  * A class for testing that the required custom MDB2 datatypes, MDB2 datatype
