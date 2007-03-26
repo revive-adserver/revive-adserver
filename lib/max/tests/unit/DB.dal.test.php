@@ -144,8 +144,8 @@ class Dal_TestOfDB extends UnitTestCase
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
         //$conf['database']['name'] = 'test'; // Is configuring a name part of the test? Why?
-        $firstConnection  = &MAX_DB::singleton();
-        $secondConnection = &MAX_DB::singleton();
+        $firstConnection  = &OA_DB::singleton();
+        $secondConnection = &OA_DB::singleton();
         $this->assertIdentical($firstConnection, $secondConnection);
         $this->assertReference($firstConnection, $secondConnection);
         TestEnv::restoreConfig();
