@@ -222,26 +222,25 @@ class DataGenerator
             }
         }
         $fields = $do->table();
-        $keys = $do->keys();
         foreach ($fields as $fieldName => $fieldType) {
-            if (!array_key_exists($fieldName, $keys) && (!isset($do->$fieldName))) {
-                $do->$fieldName = DataGenerator::setDefaultValue($do->getTableWithoutPrefix(),
+            if (!isset($do->$fieldName)) {
+                $do->$fieldName = DataGenerator::getDefaultValue($do->getTableWithoutPrefix(),
                     $fieldName, $counter);
             }
         }
     }
     
     /**
-     * Return default data
+     * Return default data for a specified field in the table.
      *
-     * @todo Implement
+     * @todo Implement returning global default based on type of the field.
      * 
      * @param string $fieldType
      * @return mixed
      * @access package private
      * @static 
      */
-    function setDefaultValue($table, $fieldName, $counter)
+    function getDefaultValue($table, $fieldName, $counter)
     {
         if (isset($this)) {
             if (isset($this->data[$table]) && isset($this->data[$table][$fieldName])) {
@@ -249,7 +248,7 @@ class DataGenerator
                 return $this->data[$table][$fieldName][$index];
             }
         }
-        return 1; // @TODO: Add a default value by type
+        return 1; // @TODO: Add a default value by type, return null for primary keys
     }
     
     /**

@@ -1015,15 +1015,11 @@ class SqlBuilder
         // Doublecheck that there is something in the WHERE clause
         //  - to ensure that a bug does not delete the entire contents of a table!
         if (strlen($where) > 0) {
-            $dbh = &MAX_DB::singleton();
-            $res = $dbh->query($query);
+            $dbh = &OA_DB::singleton();
+            return $dbh->exec($query);
         } else {
-            $res = PEAR::raiseError('Invalid WHERE clause');
+            return PEAR::raiseError('Invalid WHERE clause');
         }
-        if (!(PEAR::isError($res))) {
-            $res = $dbh->affectedRows();
-        }
-        return $res;
     }
 
     /**
@@ -1060,13 +1056,13 @@ class SqlBuilder
         $query = "INSERT INTO $table" . $names . $values;
         $queryValid = true;
 
-        $dbh =& MAX_DB::singleton();
-        $res = $dbh->query($query);
+        $dbh =& OA_DB::singleton();
+        $rc = $dbh->query($query);
 
         if (!(PEAR::isError($res))) {
-            $res = MAX_DB::getInsertId();
+            return $dbh->lastInsertID();
         }
-        return $res;
+        return $rc;
     }
 
     /**
@@ -1176,16 +1172,12 @@ class SqlBuilder
     {
         $queryValid = true;
         $dbh =& OA_DB::singleton();
-        $res = $dbh->query($query);
+        $rc = $dbh->query($query);
 
-        if (!(PEAR::isError($res))) {
-            $aRows = array();
-            while ($res->fetchInto($row)) {
-                $aRows[$row[$primaryKey]] = $row;
-            }
-            return $aRows;
+        if (!(PEAR::isError($rc))) {
+            return $rc->fetchAll(MDB2_FETCHMODE_DEFAULT, $rekey = true);
         }
-        return $res;
+        return $rc;
     }
 
     /**
