@@ -36,6 +36,7 @@ require_once 'Date.php';
  */
 class MAX_Dal_Admin extends MAX_Dal_Common
 {
+
     function MAX_Dal_Admin()
     {
         parent :: MAX_Dal_Common();
