@@ -79,7 +79,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test 1
@@ -88,15 +88,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Test 2
         $oDate = new Date('2006-06-15 13:01:01');
@@ -109,15 +111,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Test 3
         $query = "
@@ -142,7 +146,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:Country',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -163,7 +167,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'GB',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -176,7 +180,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -191,7 +195,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         $oDate = new Date('2006-06-15 13:01:01');
         $oServiceLocator->register('now', $oDate);
@@ -203,15 +207,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Test 4
         $query = "
@@ -234,7 +240,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'US'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         $oDate = new Date('2006-06-15 13:01:01');
         $oServiceLocator->register('now', $oDate);
@@ -246,15 +252,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Test 5
         $query = "
@@ -277,7 +285,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'US'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         $oDate = new Date('2006-06-15 13:01:01');
         $oServiceLocator->register('now', $oDate);
@@ -291,15 +299,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -308,14 +318,15 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         // Test 6
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
@@ -336,7 +347,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'GB'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         $oDate = new Date('2006-06-15 13:01:01');
         $oServiceLocator->register('now', $oDate);
@@ -350,8 +361,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -360,19 +372,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -381,10 +395,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 2";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -404,7 +419,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -413,15 +428,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the complex channel, and required publisher and zone
         $query = "
@@ -446,7 +463,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:Country,Site:Pageurl,Geo:Netspeed',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -483,7 +500,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'cabledsl',
                     2
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -496,7 +513,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -511,7 +528,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -524,18 +541,20 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised in a split table
-        $oTable = &Openads_Table_Core::singleton();
+        $oTable = &OA_DB_Table_Core::singleton();
         $oTable->createTable($conf['table']['data_raw_ad_impression'], new Date('2006-06-14'));
         $query = "
             INSERT INTO
@@ -619,7 +638,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '',
                     'cabledsl'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -634,8 +653,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -644,19 +664,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 3);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -665,10 +687,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -684,7 +707,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -693,15 +716,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:Browser channel, and required publisher and zone
         $query = "
@@ -726,7 +751,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:Browser',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -747,7 +772,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'IE,FX',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -760,7 +785,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -775,7 +800,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -788,15 +813,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -835,7 +862,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'NS'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -850,8 +877,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -860,19 +888,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 2);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -881,10 +911,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -892,7 +923,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -901,15 +932,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:Browser channel, and required publisher and zone
         $query = "
@@ -934,7 +967,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:Browser',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -955,7 +988,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'IE,FX',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -968,7 +1001,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -983,7 +1016,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -996,15 +1029,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -1043,7 +1078,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'NS'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -1058,8 +1093,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -1068,19 +1104,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -1089,10 +1127,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -1113,7 +1152,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -1122,15 +1161,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:Domain channel, and required publisher and zone
         $query = "
@@ -1155,7 +1196,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:Domain',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -1176,7 +1217,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'm3',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -1189,7 +1230,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -1204,7 +1245,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -1217,15 +1258,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -1256,7 +1299,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'www.m3.net'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -1271,8 +1314,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -1281,19 +1325,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -1302,10 +1348,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -1321,7 +1368,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -1330,15 +1377,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:IP channel, and required publisher and zone
         $query = "
@@ -1363,7 +1412,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:IP',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -1384,7 +1433,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '192.168.0.1',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -1397,7 +1446,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -1412,7 +1461,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -1425,15 +1474,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -1472,7 +1523,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     '192.168.1.1'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -1487,8 +1538,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -1497,19 +1549,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -1518,10 +1572,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -1529,7 +1584,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -1538,15 +1593,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:IP channel, and required publisher and zone
         $query = "
@@ -1571,7 +1628,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:IP',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -1592,7 +1649,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '192.168.0.*',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -1605,7 +1662,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -1620,7 +1677,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -1633,15 +1690,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -1680,7 +1739,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     '192.168.1.1'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -1695,8 +1754,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -1705,19 +1765,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 2);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -1726,10 +1788,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -1737,7 +1800,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -1746,15 +1809,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:IP channel, and required publisher and zone
         $query = "
@@ -1779,7 +1844,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:IP',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -1800,7 +1865,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '192.168.0.1',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -1813,7 +1878,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -1828,7 +1893,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -1841,15 +1906,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -1888,7 +1955,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     '192.168.1.1'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -1903,8 +1970,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -1913,19 +1981,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 2);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -1934,17 +2004,18 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -1953,15 +2024,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:IP channel, and required publisher and zone
         $query = "
@@ -1986,7 +2059,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:IP',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -2007,7 +2080,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '192.168.0.*',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -2020,7 +2093,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -2035,7 +2108,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -2048,15 +2121,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -2095,7 +2170,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     '192.168.1.1'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -2110,8 +2185,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -2120,19 +2196,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -2141,10 +2219,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -2160,7 +2239,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -2169,15 +2248,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:Language channel, and required publisher and zone
         $query = "
@@ -2202,7 +2283,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:Language',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -2223,7 +2304,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'en',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -2236,7 +2317,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -2251,7 +2332,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -2264,15 +2345,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -2311,7 +2394,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'pl,en-us;q=0.7,en;q=0.3'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -2326,8 +2409,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -2336,19 +2420,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -2357,10 +2443,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -2368,7 +2455,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -2377,15 +2464,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:Language channel, and required publisher and zone
         $query = "
@@ -2410,7 +2499,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:Language',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -2431,7 +2520,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'en',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -2444,7 +2533,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -2459,7 +2548,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -2472,15 +2561,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -2519,7 +2610,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'pl,en-us;q=0.7,en;q=0.3'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -2534,8 +2625,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -2544,19 +2636,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 2);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -2565,10 +2659,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -2584,7 +2679,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -2593,15 +2688,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:Os channel, and required publisher and zone
         $query = "
@@ -2626,7 +2723,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:Os',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -2647,7 +2744,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'linux',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -2660,7 +2757,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -2675,7 +2772,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -2688,15 +2785,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -2735,7 +2834,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'linux'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -2750,8 +2849,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -2760,19 +2860,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -2781,10 +2883,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -2792,7 +2895,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -2801,15 +2904,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:Os channel, and required publisher and zone
         $query = "
@@ -2834,7 +2939,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:Language',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -2855,7 +2960,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'linux',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -2868,7 +2973,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -2883,7 +2988,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -2896,15 +3001,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -2943,7 +3050,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'linux'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -2958,8 +3065,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -2968,19 +3076,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 2);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -2989,10 +3099,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -3011,7 +3122,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -3020,15 +3131,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:Useragent channel, and required publisher and zone
         $query = "
@@ -3053,7 +3166,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:Os',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -3074,7 +3187,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Mozilla',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -3087,7 +3200,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -3102,7 +3215,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -3115,15 +3228,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -3162,7 +3277,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'Opera/9.02 (Windows NT 5.1; U; en)'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -3177,8 +3292,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -3187,19 +3303,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -3208,10 +3326,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -3219,7 +3338,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -3228,15 +3347,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:Useragent channel, and required publisher and zone
         $query = "
@@ -3261,7 +3382,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:Os',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -3282,7 +3403,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Mozilla',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -3295,7 +3416,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -3310,7 +3431,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -3323,15 +3444,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -3370,7 +3493,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'Opera/9.02 (Windows NT 5.1; U; en)'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -3385,8 +3508,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -3395,19 +3519,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 2);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -3416,10 +3542,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -3427,7 +3554,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -3436,15 +3563,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:Useragent channel, and required publisher and zone
         $query = "
@@ -3469,7 +3598,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:Os',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -3490,7 +3619,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Mozilla',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -3503,7 +3632,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -3518,7 +3647,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -3531,15 +3660,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -3578,7 +3709,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'Opera/9.02 (Windows NT 5.1; U; en)'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -3593,8 +3724,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -3603,19 +3735,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 2);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -3624,10 +3758,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -3635,7 +3770,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -3644,15 +3779,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:Useragent channel, and required publisher and zone
         $query = "
@@ -3677,7 +3814,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:Os',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -3698,7 +3835,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Mozilla',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -3711,7 +3848,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -3726,7 +3863,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -3739,15 +3876,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -3786,7 +3925,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'Opera/9.02 (Windows NT 5.1; U; en)'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -3801,8 +3940,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -3811,19 +3951,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -3832,10 +3974,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -3843,7 +3986,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -3852,15 +3995,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:Useragent channel, and required publisher and zone
         $query = "
@@ -3885,7 +4030,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:Os',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -3906,7 +4051,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'moz.*',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -3919,7 +4064,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -3934,7 +4079,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -3947,15 +4092,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -3994,7 +4141,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'Opera/9.02 (Windows NT 5.1; U; en)'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -4009,8 +4156,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -4019,19 +4167,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 2);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -4040,10 +4190,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -4051,7 +4202,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -4060,15 +4211,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Client:Useragent channel, and required publisher and zone
         $query = "
@@ -4093,7 +4246,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Client:Os',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -4114,7 +4267,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'moz.*',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -4127,7 +4280,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -4142,7 +4295,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -4155,15 +4308,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -4202,7 +4357,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'Opera/9.02 (Windows NT 5.1; U; en)'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -4217,8 +4372,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -4227,19 +4383,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -4248,10 +4406,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -4272,7 +4431,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -4281,15 +4440,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Geo:Areacode channel, and required publisher and zone
         $query = "
@@ -4314,7 +4475,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:Areacode',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -4335,7 +4496,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '1234',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -4348,7 +4509,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -4363,7 +4524,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -4376,15 +4537,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -4415,7 +4578,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     12345
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -4430,8 +4593,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -4440,19 +4604,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -4461,10 +4627,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -4480,7 +4647,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -4489,15 +4656,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Geo:City channel, and required publisher and zone
         $query = "
@@ -4522,7 +4691,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:City',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -4543,7 +4712,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'GB|London',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -4556,7 +4725,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -4571,7 +4740,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -4584,15 +4753,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -4635,7 +4806,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'GB',
                     'Manchester'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -4650,8 +4821,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -4660,19 +4832,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -4681,10 +4855,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -4700,7 +4875,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -4709,15 +4884,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Geo:Continent channel, and required publisher and zone
         $query = "
@@ -4742,7 +4919,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:Continent',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -4763,7 +4940,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'OC',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -4776,7 +4953,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -4791,7 +4968,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -4804,15 +4981,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -4851,7 +5030,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'NZ'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -4866,8 +5045,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -4876,19 +5056,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 2);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -4897,10 +5079,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -4908,7 +5091,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -4917,15 +5100,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Geo:Continent channel, and required publisher and zone
         $query = "
@@ -4950,7 +5135,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:Continent',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -4971,7 +5156,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'OC',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -4984,7 +5169,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -4999,7 +5184,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -5012,15 +5197,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -5059,7 +5246,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'NZ'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -5074,8 +5261,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -5084,19 +5272,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -5105,10 +5295,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -5124,7 +5315,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -5133,15 +5324,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Geo:Country channel, and required publisher and zone
         $query = "
@@ -5166,7 +5359,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:Country',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -5187,7 +5380,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'GB,US',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -5200,7 +5393,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -5215,7 +5408,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -5228,15 +5421,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -5275,7 +5470,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'US'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -5290,8 +5485,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -5300,19 +5496,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 2);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -5321,10 +5519,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -5332,7 +5531,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -5341,15 +5540,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Geo:Country channel, and required publisher and zone
         $query = "
@@ -5374,7 +5575,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:Country',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -5395,7 +5596,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'GB,US',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -5408,7 +5609,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -5423,7 +5624,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -5436,15 +5637,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -5483,7 +5686,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'US'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -5498,8 +5701,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -5508,19 +5712,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -5529,10 +5735,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -5548,7 +5755,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -5557,15 +5764,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Geo:Dma channel, and required publisher and zone
         $query = "
@@ -5590,7 +5799,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:Dma',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -5611,7 +5820,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '514,626',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -5624,7 +5833,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -5639,7 +5848,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -5652,15 +5861,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -5699,7 +5910,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     626
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -5714,8 +5925,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -5724,19 +5936,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 2);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -5745,10 +5959,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -5756,7 +5971,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -5765,15 +5980,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Geo:Dma channel, and required publisher and zone
         $query = "
@@ -5798,7 +6015,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:Dma',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -5819,7 +6036,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '514,626',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -5832,7 +6049,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -5847,7 +6064,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -5860,15 +6077,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -5907,7 +6126,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     626
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -5922,8 +6141,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -5932,19 +6152,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -5953,10 +6175,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -5972,7 +6195,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -5981,15 +6204,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Geo:Latlong channel, and required publisher and zone
         $query = "
@@ -6014,7 +6239,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:Latlong',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -6035,7 +6260,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '10,20,30,40',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -6048,7 +6273,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -6063,7 +6288,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -6076,15 +6301,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -6145,7 +6372,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     25,
                     45
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -6160,8 +6387,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -6170,19 +6398,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -6191,10 +6421,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -6202,7 +6433,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -6211,15 +6442,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Geo:Latlong channel, and required publisher and zone
         $query = "
@@ -6244,7 +6477,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:Latlong',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -6265,7 +6498,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '10,20,30,40',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -6278,7 +6511,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -6293,7 +6526,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -6306,15 +6539,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -6375,7 +6610,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     25,
                     45
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -6390,8 +6625,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -6400,19 +6636,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 4);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 4);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -6421,10 +6659,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -6440,7 +6679,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -6449,15 +6688,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Geo:Netspeed channel, and required publisher and zone
         $query = "
@@ -6482,7 +6723,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:Netspeed',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -6503,7 +6744,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'cabledsl,corporate',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -6516,7 +6757,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -6531,7 +6772,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -6544,15 +6785,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -6591,7 +6834,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'corporate'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -6606,8 +6849,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -6616,19 +6860,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 2);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -6637,10 +6883,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -6648,7 +6895,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -6657,15 +6904,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Geo:Netspeed channel, and required publisher and zone
         $query = "
@@ -6690,7 +6939,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:Netspeed',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -6711,7 +6960,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'cabledsl,corporate',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -6724,7 +6973,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -6739,7 +6988,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -6752,15 +7001,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -6799,7 +7050,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'corporate'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -6814,8 +7065,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -6824,19 +7076,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -6845,10 +7099,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -6869,7 +7124,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -6878,15 +7133,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Geo:Organisation channel, and required publisher and zone
         $query = "
@@ -6911,7 +7168,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:Organisation',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -6932,7 +7189,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'm3',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -6945,7 +7202,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -6960,7 +7217,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -6973,15 +7230,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -7012,7 +7271,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'm3 Media Services Limited'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -7027,8 +7286,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -7037,19 +7297,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -7058,10 +7320,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -7082,7 +7345,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -7091,15 +7354,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Geo:Postalcode channel, and required publisher and zone
         $query = "
@@ -7124,7 +7389,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:Postalcode',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -7145,7 +7410,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '1234',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -7158,7 +7423,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -7173,7 +7438,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -7186,15 +7451,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -7225,7 +7492,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     12345
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -7240,8 +7507,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -7250,19 +7518,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -7271,10 +7541,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -7290,7 +7561,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -7299,15 +7570,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Geo:Region channel, and required publisher and zone
         $query = "
@@ -7332,7 +7605,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Geo:Region',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -7353,7 +7626,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'gb|t5,h9',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -7366,7 +7639,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -7381,7 +7654,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -7394,15 +7667,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -7445,7 +7720,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'GB',
                     'T5'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -7460,8 +7735,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -7470,19 +7746,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -7491,10 +7769,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -7515,7 +7794,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -7524,15 +7803,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Site:Pageurl channel, and required publisher and zone
         $query = "
@@ -7557,7 +7838,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Site:Pageurl',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -7578,7 +7859,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'm3',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -7591,7 +7872,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -7606,7 +7887,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -7619,15 +7900,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -7667,7 +7950,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '/index.html',
                     ''
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -7682,8 +7965,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -7692,19 +7976,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -7713,10 +7999,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -7737,7 +8024,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -7746,15 +8033,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Site:Referingpage channel, and required publisher and zone
         $query = "
@@ -7779,7 +8068,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Site:Referingpage',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -7800,7 +8089,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'm3',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -7813,7 +8102,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -7828,7 +8117,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -7841,15 +8130,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -7880,7 +8171,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'www.m3.net'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -7895,8 +8186,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -7905,19 +8197,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -7926,10 +8220,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -7950,7 +8245,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -7959,15 +8254,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Site:Source channel, and required publisher and zone
         $query = "
@@ -7992,7 +8289,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Site:Source',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -8013,7 +8310,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'm3',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -8026,7 +8323,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -8041,7 +8338,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -8054,15 +8351,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -8093,7 +8392,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     2,
                     'm3.net'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -8108,8 +8407,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -8118,19 +8418,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -8139,10 +8441,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -8158,7 +8461,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -8167,15 +8470,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Time:Date channel, and required publisher and zone
         $query = "
@@ -8200,7 +8505,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Time:Date',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -8221,7 +8526,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '20060612',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -8234,7 +8539,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -8249,7 +8554,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-13 13:01:01');
@@ -8270,15 +8575,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -8313,7 +8620,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     0,
                     2
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-13 13:01:01');
@@ -8336,8 +8643,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -8348,19 +8656,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}
             ORDER BY
                 day";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-12');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-12');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 end_run,
@@ -8369,10 +8679,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-12 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-12 23:59:59');
         $query = "
             SELECT
                 end_run,
@@ -8381,10 +8692,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 2";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-13 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-13 23:59:59');
         $query = "
             SELECT
                 end_run,
@@ -8393,10 +8705,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 3";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -8404,7 +8717,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -8413,15 +8726,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Time:Date channel, and required publisher and zone
         $query = "
@@ -8446,7 +8761,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Time:Date',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -8467,7 +8782,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '20060612',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -8480,7 +8795,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -8495,7 +8810,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-13 13:01:01');
@@ -8516,15 +8831,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -8559,7 +8876,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     0,
                     2
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-13 13:01:01');
@@ -8582,8 +8899,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 day,
@@ -8594,25 +8912,26 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}
             ORDER BY
                 day";
-        $rResult = $dbh->query($query);
-        $row = $rResult->fetchRow();
-        $this->assertEqual($row['day'], '2006-06-13');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
-        $row = $rResult->fetchRow();
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-13');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 end_run,
@@ -8621,10 +8940,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-12 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-12 23:59:59');
         $query = "
             SELECT
                 end_run,
@@ -8633,10 +8953,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 2";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-13 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-13 23:59:59');
         $query = "
             SELECT
                 end_run,
@@ -8645,10 +8966,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 3";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -8656,7 +8978,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -8665,15 +8987,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Time:Date channel, and required publisher and zone
         $query = "
@@ -8698,7 +9022,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Time:Date',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -8719,7 +9043,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '20060612',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -8732,7 +9056,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -8747,7 +9071,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-13 13:01:01');
@@ -8768,15 +9092,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -8811,7 +9137,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     0,
                     2
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-13 13:01:01');
@@ -8834,8 +9160,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 day,
@@ -8846,25 +9173,26 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}
             ORDER BY
                 day";
-        $rResult = $dbh->query($query);
-        $row = $rResult->fetchRow();
-        $this->assertEqual($row['day'], '2006-06-13');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
-        $row = $rResult->fetchRow();
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-13');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 end_run,
@@ -8873,10 +9201,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-12 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-12 23:59:59');
         $query = "
             SELECT
                 end_run,
@@ -8885,10 +9214,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 2";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-13 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-13 23:59:59');
         $query = "
             SELECT
                 end_run,
@@ -8897,10 +9227,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 3";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -8908,7 +9239,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -8917,15 +9248,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Time:Date channel, and required publisher and zone
         $query = "
@@ -8950,7 +9283,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Time:Date',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -8971,7 +9304,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '20060612',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -8984,7 +9317,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -8999,7 +9332,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-13 13:01:01');
@@ -9020,15 +9353,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -9063,7 +9398,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     0,
                     2
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-13 13:01:01');
@@ -9086,8 +9421,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 day,
@@ -9098,30 +9434,31 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}
             ORDER BY
                 day";
-        $rResult = $dbh->query($query);
-        $row = $rResult->fetchRow();
-        $this->assertEqual($row['day'], '2006-06-12');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
-        $row = $rResult->fetchRow();
-        $this->assertEqual($row['day'], '2006-06-13');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
-        $row = $rResult->fetchRow();
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-12');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-13');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 end_run,
@@ -9130,10 +9467,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-12 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-12 23:59:59');
         $query = "
             SELECT
                 end_run,
@@ -9142,10 +9480,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 2";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-13 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-13 23:59:59');
         $query = "
             SELECT
                 end_run,
@@ -9154,10 +9493,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 3";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -9166,7 +9506,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -9175,15 +9515,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Time:Date channel, and required publisher and zone
         $query = "
@@ -9208,7 +9550,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Time:Date',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -9229,7 +9571,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '20060614',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -9242,7 +9584,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -9257,7 +9599,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-13 13:01:01');
@@ -9278,15 +9620,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -9321,7 +9665,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     0,
                     2
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-13 13:01:01');
@@ -9344,8 +9688,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 day,
@@ -9356,25 +9701,26 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}
             ORDER BY
                 day";
-        $rResult = $dbh->query($query);
-        $row = $rResult->fetchRow();
-        $this->assertEqual($row['day'], '2006-06-12');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
-        $row = $rResult->fetchRow();
-        $this->assertEqual($row['day'], '2006-06-13');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-12');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-13');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 end_run,
@@ -9383,10 +9729,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-12 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-12 23:59:59');
         $query = "
             SELECT
                 end_run,
@@ -9395,10 +9742,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 2";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-13 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-13 23:59:59');
         $query = "
             SELECT
                 end_run,
@@ -9407,10 +9755,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 3";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -9418,7 +9767,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -9427,15 +9776,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Time:Date channel, and required publisher and zone
         $query = "
@@ -9460,7 +9811,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Time:Date',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -9481,7 +9832,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '20060614',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -9494,7 +9845,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -9509,7 +9860,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-13 13:01:01');
@@ -9530,15 +9881,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -9573,7 +9926,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     0,
                     2
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-13 13:01:01');
@@ -9596,8 +9949,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 day,
@@ -9608,30 +9962,31 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}
             ORDER BY
                 day";
-        $rResult = $dbh->query($query);
-        $row = $rResult->fetchRow();
-        $this->assertEqual($row['day'], '2006-06-12');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
-        $row = $rResult->fetchRow();
-        $this->assertEqual($row['day'], '2006-06-13');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
-        $row = $rResult->fetchRow();
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-12');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-13');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 end_run,
@@ -9640,10 +9995,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-12 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-12 23:59:59');
         $query = "
             SELECT
                 end_run,
@@ -9652,10 +10008,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 2";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-13 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-13 23:59:59');
         $query = "
             SELECT
                 end_run,
@@ -9664,10 +10021,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 3";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -9683,7 +10041,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -9692,15 +10050,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Time:Day channel, and required publisher and zone
         $query = "
@@ -9725,7 +10085,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Time:Day',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -9746,7 +10106,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '1',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -9759,7 +10119,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -9774,7 +10134,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-13 13:01:01');
@@ -9795,15 +10155,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -9838,7 +10200,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     0,
                     2
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-13 13:01:01');
@@ -9861,8 +10223,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -9873,19 +10236,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}
             ORDER BY
                 day";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-12');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-12');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 end_run,
@@ -9894,10 +10259,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-12 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-12 23:59:59');
         $query = "
             SELECT
                 end_run,
@@ -9906,10 +10272,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 2";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-13 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-13 23:59:59');
         $query = "
             SELECT
                 end_run,
@@ -9918,10 +10285,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 3";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -9929,7 +10297,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -9938,15 +10306,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Time:Day channel, and required publisher and zone
         $query = "
@@ -9971,7 +10341,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Time:Day',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -9992,7 +10362,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '1',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -10005,7 +10375,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -10020,7 +10390,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-13 13:01:01');
@@ -10041,15 +10411,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -10084,7 +10456,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     0,
                     2
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-13 13:01:01');
@@ -10107,8 +10479,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 day,
@@ -10119,25 +10492,26 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}
             ORDER BY
                 day";
-        $rResult = $dbh->query($query);
-        $row = $rResult->fetchRow();
-        $this->assertEqual($row['day'], '2006-06-13');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
-        $row = $rResult->fetchRow();
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-13');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 end_run,
@@ -10146,10 +10520,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-12 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-12 23:59:59');
         $query = "
             SELECT
                 end_run,
@@ -10158,10 +10533,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 2";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-13 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-13 23:59:59');
         $query = "
             SELECT
                 end_run,
@@ -10170,10 +10546,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 3";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
@@ -10189,7 +10566,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -10198,15 +10575,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Time:Hour channel, and required publisher and zone
         $query = "
@@ -10231,7 +10610,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Time:Hour',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -10252,7 +10631,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '12',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -10265,7 +10644,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -10280,7 +10659,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -10293,15 +10672,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -10336,7 +10717,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     0,
                     2
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -10351,8 +10732,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -10361,19 +10743,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 1);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -10382,10 +10766,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
 
@@ -10393,7 +10778,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $conf['maintenance']['operationInteval'] = 60;
         $conf['maintenance']['channelForecasting'] = true;
 
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test nothing is in the database to begin with
@@ -10402,15 +10787,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add the Time:Hour channel, and required publisher and zone
         $query = "
@@ -10435,7 +10822,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     'Time:Hour',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['acls_channel']}
@@ -10456,7 +10843,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     '12',
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['affiliates']}
@@ -10469,7 +10856,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -10484,7 +10871,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     5,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, no data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -10497,15 +10884,17 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
         $query = "
@@ -10540,7 +10929,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                     0,
                     2
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -10555,8 +10944,9 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 day,
@@ -10565,19 +10955,21 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 actual_impressions
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['day'], '2006-06-14');
-        $this->assertEqual($row['channel_id'], 1);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['actual_impressions'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['day'], '2006-06-14');
+        $this->assertEqual($aRow['channel_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['actual_impressions'], 2);
 
         $query = "
             SELECT
                 count(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 end_run,
@@ -10586,10 +10978,11 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
             WHERE
                 log_maintenance_forecasting_id = 1";
-        $row = $dbh->getRow($query);
-        $oRunEndDate = new Date($row['end_run']);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $oRunEndDate = new Date($aRow['end_run']);
         $this->assertTrue($oAfterUpdateDate->after($oRunEndDate));
-        $this->assertEqual($row['updated_to'], '2006-06-14 23:59:59');
+        $this->assertEqual($aRow['updated_to'], '2006-06-14 23:59:59');
 
         TestEnv::restoreEnv();
     }
