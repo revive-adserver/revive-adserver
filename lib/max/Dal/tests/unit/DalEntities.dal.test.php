@@ -61,7 +61,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $table  = $conf['table']['prefix'] . $conf['table']['banners'];
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oDal = new MAX_Dal_Entities();
 
@@ -96,7 +96,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     'sql',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAdsByPlacementId($placementId);
         $aExpectedResult = array(
             1 => array(
@@ -134,7 +134,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     'sql',
                     2
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAdsByPlacementId($placementId);
         $aExpectedResult = array(
             1 => array(
@@ -171,7 +171,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         $adTable  = $conf['table']['prefix'] . $conf['table']['banners'];
         $azaTable = $conf['table']['prefix'] . $conf['table']['ad_zone_assoc'];
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oDal = new MAX_Dal_Entities();
 
@@ -203,7 +203,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     'f'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $azaTable
@@ -218,7 +218,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aZoneIds = array(1);
         $aResult = $oDal->getLinkedActiveAdIdsByZoneIds($aZoneIds);
         $this->assertNull($aResult);
@@ -238,7 +238,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     't'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $azaTable
@@ -253,7 +253,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aZoneIds = array(1);
         $aResult = $oDal->getLinkedActiveAdIdsByZoneIds($aZoneIds);
         $aExpectedResult = array(1 => array(1));
@@ -290,7 +290,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     5,
                     't'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $azaTable
@@ -330,7 +330,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     5,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aZoneIds = array(1, 2);
         $aResult = $oDal->getLinkedActiveAdIdsByZoneIds($aZoneIds);
         $aExpectedResult = array(
@@ -359,7 +359,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         $adTable = $conf['table']['prefix'] . $conf['table']['banners'];
         $dlTable = $conf['table']['prefix'] . $conf['table']['acls'];
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oDal = new MAX_Dal_Entities();
 
@@ -395,7 +395,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     'f',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aPlacmementIds = array(1);
         $aResult = $oDal->getAllActiveAdsDeliveryLimitationsByPlacementIds($aPlacmementIds);
         $this->assertNull($aResult);
@@ -419,7 +419,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     't',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aPlacmementIds = array(1);
         $aResult = $oDal->getAllActiveAdsDeliveryLimitationsByPlacementIds($aPlacmementIds);
         $aExpectedResult = array(
@@ -452,7 +452,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     't',
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $dlTable
@@ -473,7 +473,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     12,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aPlacmementIds = array(1);
         $aResult = $oDal->getAllActiveAdsDeliveryLimitationsByPlacementIds($aPlacmementIds);
         $aExpectedResult = array(
@@ -531,7 +531,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     't',
                     10
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $dlTable
@@ -576,7 +576,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     10,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aPlacmementIds = array(1, 7);
         $aResult = $oDal->getAllActiveAdsDeliveryLimitationsByPlacementIds($aPlacmementIds);
         $aExpectedResult = array(
@@ -634,7 +634,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $table = $conf['table']['prefix'] . $conf['table']['acls'];
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oDal = new MAX_Dal_Entities();
 
@@ -670,7 +670,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     12,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $adId = 1;
         $aResult = $oDal->getDeliveryLimitationsByAdId($adId);
         $this->assertNull($aResult);
@@ -714,7 +714,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     12,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $adId = 1;
         $aResult = $oDal->getDeliveryLimitationsByAdId($adId);
         $aExpectedResult = array(
@@ -751,7 +751,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $table = $conf['table']['prefix'] . $conf['table']['agency'];
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oDal = new MAX_Dal_Entities();
 
@@ -773,7 +773,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAllActiveAgencyIds();
         $this->assertNull($aResult);
         TestEnv::rollbackTransaction();
@@ -792,7 +792,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAllActiveAgencyIds();
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -825,7 +825,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     4,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAllActiveAgencyIds();
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -851,7 +851,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $table = $conf['table']['prefix'] . $conf['table']['channel'];
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oDal = new MAX_Dal_Entities();
 
@@ -879,7 +879,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     0,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyId(1);
         $this->assertNull($aResult);
         TestEnv::rollbackTransaction();
@@ -902,7 +902,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     0,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -951,7 +951,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     0,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -977,7 +977,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $table = $conf['table']['prefix'] . $conf['table']['channel'];
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oDal = new MAX_Dal_Entities();
 
@@ -1009,7 +1009,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyPublisherId(1, 1);
         $this->assertNull($aResult);
         TestEnv::rollbackTransaction();
@@ -1032,7 +1032,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyPublisherId(1, 1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -1081,7 +1081,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyPublisherId(1, 1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -1105,7 +1105,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $table = $conf['table']['prefix'] . $conf['table']['acls_channel'];
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oDal = new MAX_Dal_Entities();
 
@@ -1141,7 +1141,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     12,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $channelId = 1;
         $aResult = $oDal->getDeliveryLimitationsByChannelId($channelId);
         $this->assertNull($aResult);
@@ -1185,7 +1185,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     12,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $channelId = 1;
         $aResult = $oDal->getDeliveryLimitationsByChannelId($channelId);
         $aExpectedResult = array(
@@ -1237,7 +1237,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         $adTable        = $conf['table']['prefix'] . $conf['table']['banners'];
         $placementTable = $conf['table']['prefix'] . $conf['table']['campaigns'];
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oDal = new MAX_Dal_Entities();
 
@@ -1297,7 +1297,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $placementTable
@@ -1312,7 +1312,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     'f',
                     '0000-00-00'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aAdIds = array(1);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1336,7 +1336,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $placementTable
@@ -1351,7 +1351,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     't',
                     '2006-10-22'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aAdIds = array(1);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1375,7 +1375,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     2,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $placementTable
@@ -1410,7 +1410,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     -1,
                     -1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1451,7 +1451,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     2,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $placementTable
@@ -1486,7 +1486,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     -1,
                     -1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1527,7 +1527,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     2,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $placementTable
@@ -1562,7 +1562,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     -1,
                     -1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1601,7 +1601,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     2,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $placementTable
@@ -1636,7 +1636,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     -1,
                     -1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1675,7 +1675,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     2,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $placementTable
@@ -1710,7 +1710,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     -1,
                     -1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1751,7 +1751,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     2,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $placementTable
@@ -1786,7 +1786,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     -1,
                     -1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1827,7 +1827,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     2,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $placementTable
@@ -1862,7 +1862,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     -1,
                     -1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1901,7 +1901,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     2,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $placementTable
@@ -1936,7 +1936,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     -1,
                     -1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1975,7 +1975,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     2,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $placementTable
@@ -2010,7 +2010,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     -1,
                     -1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -2051,7 +2051,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     2,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $placementTable
@@ -2086,7 +2086,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     -1,
                     -1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -2114,7 +2114,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     3,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 $placementTable
@@ -2149,7 +2149,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     -1,
                     -1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aAdIds = array(1, 2, 3, 4);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -2192,7 +2192,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $table = $conf['table']['prefix'] . $conf['table']['affiliates'];
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oDal = new MAX_Dal_Entities();
 
@@ -2218,7 +2218,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAllPublisherIdsByAgencyId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -2247,7 +2247,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     3,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAllPublisherIdsByAgencyId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -2269,7 +2269,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $table = $conf['table']['prefix'] . $conf['table']['zones'];
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oDal = new MAX_Dal_Entities();
 
@@ -2348,7 +2348,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     15,
                     16
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aZoneIds = array(1, 3);
         $aResult = $oDal->getZonesByZoneIds($aZoneIds);
         $this->assertTrue(is_array($aResult));
@@ -2397,7 +2397,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $table = $conf['table']['prefix'] . $conf['table']['zones'];
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oDal = new MAX_Dal_Entities();
 
@@ -2423,7 +2423,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAllZonesIdsByPublisherId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -2452,7 +2452,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     3,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAllZonesIdsByPublisherId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -2478,7 +2478,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $table = $conf['table']['prefix'] . $conf['table']['zones'];
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oDal = new MAX_Dal_Entities();
 
@@ -2507,7 +2507,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAllChannelForecastZonesIdsByPublisherId(1);
         $this->assertNull($aResult);
         TestEnv::rollbackTransaction();
@@ -2528,7 +2528,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     8
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAllChannelForecastZonesIdsByPublisherId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -2566,7 +2566,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     4
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = $oDal->getAllChannelForecastZonesIdsByPublisherId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -2588,7 +2588,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $table = $conf['table']['prefix'] . $conf['table']['ad_zone_assoc'];
-        $dbh = MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $oDal = new MAX_Dal_Entities();
 
@@ -2622,7 +2622,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aZoneIds = array(1);
         $aResult = $oDal->getLinkedZonesIdsByAdIds($aZoneIds);
         $aExpectedResult = array(1 => array(1));
@@ -2670,7 +2670,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     5,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aZoneIds = array(1, 2);
         $aResult = $oDal->getLinkedZonesIdsByAdIds($aZoneIds);
         $aExpectedResult = array(
