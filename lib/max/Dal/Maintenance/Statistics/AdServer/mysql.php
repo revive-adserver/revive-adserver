@@ -572,7 +572,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         // Drop the temporary table
-        $this->tempTables->dropTempTable($tempTable);
+        $this->tempTables->dropTable($tempTable);
         // Return the summarised connection rows
         return $rows;
     }
@@ -636,7 +636,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 $this->_saveConnectionsAndVariableValues($oStart, $oEnd);
             }
             // Drop the tmp_ad_connection table
-            $this->tempTables->dropTempTable('tmp_ad_connection');
+            $this->tempTables->dropTable('tmp_ad_connection');
         }
         // If the tracker module is installed, there may be connections that need
         // to be put into the main intermediate table, regardless of if the value
@@ -717,17 +717,17 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         }
         $message .= '.';
         MAX::debug($message, PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         // Drop the temporary tables now that the data is summarised
         foreach ($aActions['types'] as $type) {
-            $this->tempTables->dropTempTable("tmp_ad_{$type}");
+            $this->tempTables->dropTable("tmp_ad_{$type}");
         }
         if ($conf['modules']['Tracker']) {
             // Drop the tmp_conversions table
-            $this->tempTables->dropTempTable('tmp_conversions');
+            $this->tempTables->dropTable('tmp_conversions');
         }
         // Summarise the data in temporary union table (tmp_union) into the
         // main (data_intermediate_ad) table, to finally finish the job! ;-)
@@ -791,7 +791,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         // Drop the tmp_union table
-        $this->tempTables->dropTempTable('tmp_union');
+        $this->tempTables->dropTable('tmp_union');
     }
 
     /**
@@ -827,9 +827,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 tac.server_raw_tracker_impression_id, tac.server_raw_ip";
         MAX::debug('Selecting the possible connections that are the most recent connections ' .
                    '(ie. they have the most recent connection_date_time field).', PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         // Mark these "latest" connections in the tmp_ad_connection table
         $query = "
@@ -844,13 +844,12 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 AND tac.connection_date_time = tcl.connection_date_time";
         MAX::debug('Setting the \'latest connection\' flag in the temporary tmp_connection table.',
                    PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $connectionRows = $this->oDbh->exec($query);
+        if (PEAR::isError($connectionRows)) {
+            return MAX::raiseError($connectionRows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
-        $connectionRows = $this->dbh->affectedRows();
         // Drop the tmp_connection_latest table
-        $this->tempTables->dropTempTable('tmp_connection_latest');
+        $this->tempTables->dropTable('tmp_connection_latest');
         return $connectionRows;
     }
 
@@ -957,9 +956,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
             GROUP BY
                 diac.data_intermediate_ad_connection_id, day, hour, ad_id, creative_id, zone_id";
         MAX::debug('Selecting all conversions.', PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
 
     }
@@ -1084,9 +1083,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 AND tac.server_raw_ip = drti.server_raw_ip
                 AND tac.latest = 1";
         MAX::debug("Inserting the connections into the $table table", PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         // Save the variable values
         $table = $conf['table']['prefix'] .
@@ -1115,9 +1114,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 AND diac.tracker_date_time >= '" . $oStart->format('%Y-%m-%d %H:%M:%S') . "'
                 AND diac.tracker_date_time <= '" . $oEnd->format('%Y-%m-%d %H:%M:%S') . "'";
         MAX::debug("Saving the tracker impression variable values from the $table table", PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         // Reject connections with empty required variables
         $this->_rejectEmptyVarConversions($oStart, $oEnd);
@@ -1179,9 +1178,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         $message = 'Deduping conversions between "' . $oStart->format('%Y-%m-%d %H:%M:%S') . '"' .
                    ' and "' . $oEnd->format('%Y-%m-%d %H:%M:%S') . '"';
         MAX::debug($message, PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
     }
 
@@ -1227,9 +1226,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         $message = 'Rejecting conversions with empty required variables between "' . $oStart->format('%Y-%m-%d %H:%M:%S') . '"' .
                    ' and "' . $oEnd->format('%Y-%m-%d %H:%M:%S') . '"';
         MAX::debug($message, PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
     }
 
@@ -1264,11 +1263,11 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
         MAX::debug('Selecting total zone impressions from the ' . $fromTable . ' table for data >= ' .
                    $oStart->format('%Y-%m-%d %H:%M:%S') . ', and <= ' . $oEnd->format('%Y-%m-%d %H:%M:%S'),
                    PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
-        while ($row = $result->fetchRow()) {
+        while ($row = $rc->fetchRow()) {
             $query = "
                 UPDATE
                     $toTable
@@ -1280,11 +1279,11 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     AND interval_start = '{$row['interval_start']}'
                     AND interval_end = '{$row['interval_end']}'
                     AND zone_id = {$row['zone_id']}";
-            $innerResult = $this->dbh->query($query);
-            if (PEAR::isError($innerResult)) {
-                return MAX::raiseError($innerResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+            $rows = $this->oDbh->exec($query);
+            if (PEAR::isError($rows)) {
+                return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             }
-            if ($this->dbh->affectedRows() == 0) {
+            if ($rows == 0) {
                 // Unable to UPDATE, try INSERT instead
                 $query = "
                     INSERT INTO
@@ -1306,9 +1305,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                             {$row['zone_id']},
                             {$row['actual_impressions']}
                         )";
-                $innerResult = $this->dbh->query($query);
-                if (PEAR::isError($innerResult)) {
-                    return MAX::raiseError($innerResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                $rows = $this->oDbh->exec($query);
+                if (PEAR::isError($rows)) {
+                    return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                 }
             }
         }
@@ -1477,9 +1476,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                     ' between ' . $oStartDate->format('%Y-%m-%d') . ' ' . $oStartDate->format('%H') . ':00:00' .
                     ' and ' . $oStartDate->format('%Y-%m-%d') . ' ' . $oEndDate->format('%H') . ':59:59.';
         MAX::debug($message, PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         // Update the recently summarised data with basic financial information
         $this->_updateWithFinanceInfo($oStartDate, $oEndDate, $toTable);
@@ -1511,12 +1510,12 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 day = '".$oStartDate->format('%Y-%m-%d')."'
                 AND hour >= ".$oStartDate->format('%H')."
                 AND hour <= ".$oEndDate->format('%H');
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         $aAdIds = array();
-        while ($aRow = $result->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aAdIds[] = $aRow['ad_id'];
         }
         // Get the finance information for the ads found
@@ -1535,12 +1534,12 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 day = '".$oStartDate->format('%Y-%m-%d')."'
                 AND hour >= ".$oStartDate->format('%H')."
                 AND hour <= ".$oEndDate->format('%H');
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         $aZoneIds = array();
-        while ($aRow = $result->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aZoneIds[] = $aRow['zone_id'];
         }
         // Get the finance information for the zones found
@@ -1579,13 +1578,13 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 AND a.campaignid = c.campaignid
                 AND c.revenue IS NOT NULL
                 AND c.revenue_type IS NOT NULL";
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             return false;
         }
         $aResult = array();
-        while ($aRow = $result->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[] = $aRow;
         }
         if (!empty($aResult)) {
@@ -1623,13 +1622,13 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 z.zoneid IN (" . implode(', ', $aZoneIds) . ")
                 AND z.cost IS NOT NULL
                 AND z.cost_type IS NOT NULL";
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             return false;
         }
         $aResult = array();
-        while ($aRow = $result->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[] = $aRow;
         }
         if (!empty($aResult)) {
@@ -2157,11 +2156,11 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
             WHERE
                 ca.clientid = cl.clientid";
         MAX::debug("Selecting all campaigns", PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
-        while ($campaignRow = $result->fetchRow()) {
+        while ($campaignRow = $rc->fetchRow()) {
             if ($campaignRow['active'] == 't') {
                 // The campaign is currently active, look at the campaign
                 $disableReason = 0;
@@ -2181,7 +2180,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                         WHERE
                             dia.ad_id = b.bannerid
                             AND b.campaignid = {$campaignRow['campaign_id']}";
-                    $valuesRow = $this->dbh->getRow($query);
+                    $rcInner = $this->oDbh->query($query);
+                    $valuesRow = $rcInner->fetchRow();
                     if ((!is_null($valuesRow['impressions'])) || (!is_null($valuesRow['clicks'])) || (!is_null($valuesRow['conversions']))) {
                         // There were impressions, clicks and/or conversions for this
                         // campaign, so find out if campaign targets have been passed
@@ -2231,9 +2231,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                   "{$campaignRow['campaign_id']}: {$campaignRow['campaign_name']}\n";
                             MAX::debug('Exceeded a campaign quota: Deactivating campaign ID ' .
                                        "{$campaignRow['campaign_id']}: {$campaignRow['campaign_name']}");
-                            $innerResult = $this->dbh->query($query);
-                            if (PEAR::isError($innerResult)) {
-                                return MAX::raiseError($innerResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                            $rows = $this->oDbh->exec($query);
+                            if (PEAR::isError($rows)) {
+                                return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                             }
                             phpAds_userlogAdd(phpAds_actionDeactiveCampaign, $campaignRow['campaign_id']);
                         }
@@ -2256,9 +2256,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                'passed by current time of ' . $oDate->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_DEBUG);
                     MAX::debug('Passed campaign end time: Deactivating campaign ID ' .
                                "{$campaignRow['campaign_id']}: {$campaignRow['campaign_name']}", PEAR_LOG_INFO);
-                    $innerResult = $this->dbh->query($query);
-                    if (PEAR::isError($innerResult)) {
-                        return MAX::raiseError($innerResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                    $rows = $this->oDbh->exec($query);
+                    if (PEAR::isError($rows)) {
+                        return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                     }
                     phpAds_userlogAdd(phpAds_actionDeactiveCampaign, $campaignRow['campaign_id']);
                 }
@@ -2276,11 +2276,11 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                         WHERE
                             campaignid = {$campaignRow['campaign_id']}";
                     MAX::debug("Getting the advertisements for campaign ID {$campaignRow['campaign_id']}", PEAR_LOG_DEBUG);
-                    $advertisementResult = $this->dbh->query($query);
-                    if (PEAR::isError($advertisementResult)) {
-                        return MAX::raiseError($advertisementResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                    $rcAdvertisement = $this->oDbh->query($query);
+                    if (PEAR::isError($rcAdvertisement)) {
+                        return MAX::raiseError($rcAdvertisement, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                     }
-                    while ($advertisementRow = $advertisementResult->fetchRow()) {
+                    while ($advertisementRow = $rcAdvertisement->fetchRow()) {
                         $advertisements[$advertisementRow['advertisement_id']] =
                             array($advertisementRow['description'], $advertisementRow['alt'],
                                   $advertisementRow['url']);
@@ -2321,7 +2321,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                             WHERE
                                 dia.ad_id = b.bannerid
                                 AND b.campaignid = {$campaignRow['campaign_id']}";
-                        $valuesRow = $this->dbh->getRow($query);
+                        $rcInner = $this->oDbh->query($query);
+                        $valuesRow = $rcInner->fetchRow();
                         // Set the remaining impressions, clicks and conversions for the placement
                         $remainingImpressions = $campaignRow['targetImpressions'] - $valuesRow['impressions'];
                         $remainingClicks      = $campaignRow['targetClicks']      - $valuesRow['clicks'];
@@ -2352,9 +2353,9 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                    'passed by current time of ' . $oDate->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_DEBUG);
                         MAX::debug('Passed campaign start time: Activating campaign ID ' .
                                    "{$campaignRow['campaign_id']}: {$campaignRow['campaign_name']}", PEAR_LOG_INFO);
-                        $innerResult = $this->dbh->query($query);
-                        if (PEAR::isError($innerResult)) {
-                            return MAX::raiseError($innerResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                        $rows = $this->oDbh->exec($query);
+                        if (PEAR::isError($rows)) {
+                            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                         }
                         phpAds_userlogAdd(phpAds_actionActiveCampaign, $campaignRow['campaign_id']);
                         // Get the advertisements associated with the campaign
@@ -2370,11 +2371,11 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                                 campaignid = {$campaignRow['campaign_id']}";
                         MAX::debug("Getting the advertisements for campaign ID {$campaignRow['campaign_id']}",
                                    PEAR_LOG_DEBUG);
-                        $advertisementResult = $this->dbh->query($query);
-                        if (PEAR::isError($advertisementResult)) {
-                            return MAX::raiseError($advertisementResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                        $rcAdvertisement = $this->oDbh->query($query);
+                        if (PEAR::isError($rcAdvertisement)) {
+                            return MAX::raiseError($rcAdvertisement, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                         }
-                        while ($advertisementRow = $advertisementResult->fetchRow()) {
+                        while ($advertisementRow = $rcAdvertisement->fetchRow()) {
                             $advertisements[$advertisementRow['advertisement_id']] =
                                 array($advertisementRow['description'], $advertisementRow['alt'],
                                     $advertisementRow['url']);

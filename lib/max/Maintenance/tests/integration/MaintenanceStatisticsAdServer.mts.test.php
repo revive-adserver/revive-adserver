@@ -59,31 +59,31 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
         // options can be changed while the test is running
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = 'max_';
-        $dbh = &MAX_DB::singleton();
-        $tables = &Openads_Table_Core::singleton();
+        $oDbh = &OA_DB::singleton();
+        $oTable = &OA_DB_Table_Core::singleton();
         // Create the required tables
-        $tables->createTable('banners');
-        $tables->createTable('campaigns');
-        $tables->createTable('campaigns_trackers');
-        $tables->createTable('clients');
-        $tables->createTable('data_intermediate_ad');
-        $tables->createTable('data_intermediate_ad_connection');
-        $tables->createTable('data_intermediate_ad_variable_value');
-        $tables->createTable('data_raw_ad_click');
-        $tables->createTable('data_raw_ad_impression');
-        $tables->createTable('data_raw_ad_request');
-        $tables->createTable('data_raw_tracker_impression');
-        $tables->createTable('data_raw_tracker_variable_value');
-        $tables->createTable('data_summary_ad_hourly');
-        $tables->createTable('data_summary_zone_impression_history');
-        $tables->createTable('log_maintenance_statistics');
-        $tables->createTable('trackers');
-        $tables->createTable('userlog');
-        $tables->createTable('variables');
-        $tables->createTable('zones');
-        $tables->createTable('channel');
-        $tables->createTable('acls');
-        $tables->createTable('acls_channel');
+        $oTable->createTable('banners');
+        $oTable->createTable('campaigns');
+        $oTable->createTable('campaigns_trackers');
+        $oTable->createTable('clients');
+        $oTable->createTable('data_intermediate_ad');
+        $oTable->createTable('data_intermediate_ad_connection');
+        $oTable->createTable('data_intermediate_ad_variable_value');
+        $oTable->createTable('data_raw_ad_click');
+        $oTable->createTable('data_raw_ad_impression');
+        $oTable->createTable('data_raw_ad_request');
+        $oTable->createTable('data_raw_tracker_impression');
+        $oTable->createTable('data_raw_tracker_variable_value');
+        $oTable->createTable('data_summary_ad_hourly');
+        $oTable->createTable('data_summary_zone_impression_history');
+        $oTable->createTable('log_maintenance_statistics');
+        $oTable->createTable('trackers');
+        $oTable->createTable('userlog');
+        $oTable->createTable('variables');
+        $oTable->createTable('zones');
+        $oTable->createTable('channel');
+        $oTable->createTable('acls');
+        $oTable->createTable('acls_channel');
 /*
 currently plugins such as arrivals are not tested at all
 this test will fail if arrivals are installed
@@ -98,19 +98,19 @@ the solution at the moment is to remove the plugins/maintenance/arrivals folder 
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Maintenance/data/TestOfMaintenanceStatisticsAdServer.php';
         // Insert the test data
-        $result = $dbh->query(ADSERVER_FULL_TEST_BANNERS);
-        $result = $dbh->query(ADSERVER_FULL_TEST_CAMPAIGNS);
-        $result = $dbh->query(ADSERVER_FULL_TEST_CAMPAIGNS_TRACKERS);
-        $result = $dbh->query(ADSERVER_FULL_TEST_CLIENTS);
-        $result = $dbh->query(ADSERVER_FULL_TEST_AD_IMPRESSIONS);
-        $result = $dbh->query(ADSERVER_FULL_TEST_AD_REQUESTS);
-        $result = $dbh->query(ADSERVER_FULL_TEST_TRACKER_IMPRESSIONS);
-        $result = $dbh->query(ADSERVER_FULL_TEST_TRACKERS);
-        $result = $dbh->query(ADSERVER_FULL_TEST_ZONES);
-        $result = $dbh->query(ADSERVER_FULL_TEST_CHANNELS);
-        $result = $dbh->query(ADSERVER_FULL_TEST_CHANNELS_ACLS);
-        $result = $dbh->query(ADSERVER_FULL_TEST_CHANNELS_ACLS_CHANNEL);
-        $result = $dbh->query(ADSERVER_FULL_TEST_CHANNELS_BANNER);
+        $rows = $oDbh->exec(ADSERVER_FULL_TEST_BANNERS);
+        $rows = $oDbh->exec(ADSERVER_FULL_TEST_CAMPAIGNS);
+        $rows = $oDbh->exec(ADSERVER_FULL_TEST_CAMPAIGNS_TRACKERS);
+        $rows = $oDbh->exec(ADSERVER_FULL_TEST_CLIENTS);
+        $rows = $oDbh->exec(ADSERVER_FULL_TEST_AD_IMPRESSIONS);
+        $rows = $oDbh->exec(ADSERVER_FULL_TEST_AD_REQUESTS);
+        $rows = $oDbh->exec(ADSERVER_FULL_TEST_TRACKER_IMPRESSIONS);
+        $rows = $oDbh->exec(ADSERVER_FULL_TEST_TRACKERS);
+        $rows = $oDbh->exec(ADSERVER_FULL_TEST_ZONES);
+        $rows = $oDbh->exec(ADSERVER_FULL_TEST_CHANNELS);
+        $rows = $oDbh->exec(ADSERVER_FULL_TEST_CHANNELS_ACLS);
+        $rows = $oDbh->exec(ADSERVER_FULL_TEST_CHANNELS_ACLS_CHANNEL);
+        $rows = $oDbh->exec(ADSERVER_FULL_TEST_CHANNELS_BANNER);
         // Set up the config as desired for testing
         $conf['maintenance']['operationInterval'] = 60;
         $conf['maintenance']['compactStats'] = false;
@@ -129,71 +129,81 @@ the solution at the moment is to remove the plugins/maintenance/arrivals folder 
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 2);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 30);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 30);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 30);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 30);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 0);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 0);
         // Reset the testing environment
         TestEnv::restoreEnv();
     }
