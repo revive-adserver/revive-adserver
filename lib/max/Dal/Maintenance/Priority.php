@@ -418,9 +418,9 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 AND t1.zone_id != 0
             ORDER BY
                 t1.zone_id";
-        $result = $this->dbh->getAll($query);
-        foreach ($result as $row) {
-            $aResult[$row['zone_id']] = $row;
+        $rc = $this->oDbh->query($query);
+        while ($aRow = $rc->fetchRow()) {
+            $aResult[$aRow['zone_id']] = $aRow;
         }
         // Get all possible zones in the system
         $query = "
@@ -430,11 +430,11 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 {$conf['table']['prefix']}{$conf['table']['zones']}
             WHERE
                 zoneid != 0";
-        $result = $this->dbh->getAll($query);
-        foreach ($result as $row) {
-            if (!isset($aResult[$row['zone_id']])) {
-                $aResult[$row['zone_id']] = array(
-                    'zone_id'               => $row['zone_id'],
+        $rc = $this->oDbh->query($query);
+        while ($aRow = $rc->fetchRow()) {
+            if (!isset($aResult[$aRow['zone_id']])) {
+                $aResult[$aRow['zone_id']] = array(
+                    'zone_id'               => $aRow['zone_id'],
                     'forecast_impressions'  => $conf['priority']['defaultZoneForecastImpressions'],
                     'actual_impressions'    => 0
                 );
@@ -490,8 +490,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 AND b.active = 't'
                 AND b.campaignid = c.campaignid
                 AND c.active = 't'";
-        $aResult = $this->dbh->getAll($query);
-        foreach ($aResult as $aRow) {
+        $rc = $this->oDbh->query($query);
+        while ($aRow = $rc->fetchRow()) {
             $aAds[$aRow['ad_id']] = $aRow['changed'];
         }
         // Select those ads where the delivery limitations were changed in the previous
@@ -512,8 +512,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 AND b.active = 't'
                 AND b.campaignid = c.campaignid
                 AND c.active = 't'";
-        $aResult = $this->dbh->getAll($query);
-        foreach ($aResult as $aRow) {
+        $rc = $this->oDbh->query($query);
+        while ($aRow = $rc->fetchRow()) {
             $aAds[$aRow['ad_id']] = $aRow['changed'];
         }
         return $aAds;
@@ -596,9 +596,10 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 interval_start
             LIMIT
                 1";
-        $aResult = $this->dbh->getAll($query);
-        if ((!PEAR::isError($aResult)) && (count($aResult) == 1)) {
-            $oEarliestPastPriorityRecordDate = new Date($aResult[0]['interval_start']);
+        $rc = $this->oDbh->query($query);
+        if ((!PEAR::isError($rc)) && ($rc->numRows() == 1)) {
+            $aRow = $rc->fetchRow();
+            $oEarliestPastPriorityRecordDate = new Date($aRow['interval_start']);
             // Create a new date that is the limit number of minutes ago
             $oLimitDate = new Date();
             $oLimitDate->copy($oDate);
@@ -638,8 +639,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
             ORDER BY
                 ad_id,
                 zone_id";
-        $aResult = $this->dbh->getAll($query);
-        foreach ($aResult as $aRow) {
+        $rc = $this->oDbh->query($query);
+        while ($aRow = $rc->fetchRow()) {
             // Store the ad ID as being one that has delivered
             $aAds[$aRow['ad_id']] = $aRow['ad_id'];
             // Store the zone ID as one that had impressions in it
@@ -693,7 +694,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                             ORDER BY
                                 ad_id,
                                 zone_id";
-                        $aResult = $this->dbh->getAll($query);
+                        $rc = $this->oDbh->query($query);
+                        $aResult = $rc->fetchAll();
                         // Calculate the past priority results, using $aPastDeliveryResult in the call to
                         // _calculateAveragePastPriorityValues(), so that if this is the second (or greater)
                         // time this has been done then any ad/zone pairs that have come up with details for
@@ -804,7 +806,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
             ORDER BY
                 ad_id,
                 zone_id";
-        $aResult = $this->dbh->getAll($query);
+        $rc = $this->oDbh->query($query);
+        $aResult = $rc->fetchAll();
         // Calculate the past priority results, but without the optional parameter to
         // _calculateAveragePastPriorityValues(), as this is a single calculation on data
         // in the past OI, and no further looping back over time will occur
@@ -915,7 +918,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                             ORDER BY
                                 ad_id,
                                 zone_id";
-                        $aResult = $this->dbh->getAll($query);
+                        $rc = $this->oDbh->query($query);
+                        $aResult = $rc->fetchAll();
                         // Calculate the past priority results, using $aNotInLastOIPastDeliveryResult in the
                         // call to _calculateAveragePastPriorityValues(), so that if this is the second
                         // (or greater) time this has been done then any ad/zone pairs that have come up
@@ -994,7 +998,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                                 AND interval_end = '{$aNotInLastOIPastPriorityResult[$a][$z]['interval_end']}'
                                 AND ad_id = $a
                                 AND zone_id = $z";
-                        $aResult = $this->dbh->getAll($query);
+                        $rc = $this->oDbh->query($query);
+                        $aResult = $rc->fetchAll();
                         if (isset($aResult[0]['impressions'])) {
                             $aNotInLastOIPastPriorityResult[$a][$z]['impressions'] = $aResult[0]['impressions'];
                         }
@@ -1185,7 +1190,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         // Start a transaction
-        $this->dbh->startTransaction();
+        $this->oDbh->beginTransaction();
         // Delete all category-based (ie. link_type = MAX_AD_ZONE_LINK_CATEGORY) priorities
         // from ad_zone_assoc
         $query = "
@@ -1193,9 +1198,9 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 link_type = " . MAX_AD_ZONE_LINK_CATEGORY;
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            $this->dbh->rollback();
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            $this->oDbh->rollback();
             return false;
         }
         // Set all remaining normal (ie. link_type = MAX_AD_ZONE_LINK_NORMAL) priorities to zero
@@ -1206,9 +1211,9 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 priority = 0
             WHERE
                 link_type = " . MAX_AD_ZONE_LINK_NORMAL;
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            $this->dbh->rollback();
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            $this->oDbh->rollback();
             return false;
         }
         // Update the static priority values
@@ -1225,9 +1230,9 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                                 ad_id = {$aAdZonePriority['ad_id']}
                                 AND zone_id = {$aAdZonePriority['zone_id']}
                                 AND link_type = " . MAX_AD_ZONE_LINK_NORMAL;
-                        $result = $this->dbh->query($query);
-                        if (PEAR::isError($result)) {
-                            $this->dbh->rollback();
+                        $rows = $this->oDbh->exec($query);
+                        if (PEAR::isError($rows)) {
+                            $this->oDbh->rollback();
                             return false;
                         }
                     }
@@ -1245,9 +1250,9 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 expired_by = 0
             WHERE
                 expired IS NULL";
-        $result = $this->dbh->query($query);
-        if (PEAR::isError($result)) {
-            $this->dbh->rollback();
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            $this->oDbh->rollback();
             return false;
         }
         // Add the new priority values to data_summary_ad_zone_assoc
@@ -1309,9 +1314,9 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                                     created_by
                                 )
                              VALUES" . implode(', ', $aInsertValues);
-                        $result = $this->dbh->query($query);
-                        if (PEAR::isError($result)) {
-                            $this->dbh->rollback();
+                        $rows = $this->oDbh->exec($query);
+                        if (PEAR::isError($rows)) {
+                            $this->oDbh->rollback();
                             return false;
                         }
                     }
@@ -1319,7 +1324,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
             }
         }
         // Commit the transaction
-        $this->dbh->commit();
+        $this->oDbh->commit();
         return true;
     }
 
@@ -1403,16 +1408,16 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
             HAVING
                 COUNT(actual_impressions) = $weeks";
         // Execute the query
-        $res = $this->dbh->query($query);
+        $rc = $this->oDbh->query($query);
         // Store the average impressions data
-        if (!(PEAR::isError($res))) {
-            $return = array();
-            while ($res->fetchInto($row)) {
-                $return[$row['zone_id']][$row['operation_interval_id']] = $row;
+        if (!(PEAR::isError($rc))) {
+            $aReturn = array();
+            while ($aRow = $rc->fetchRow()) {
+                $aReturn[$aRow['zone_id']][$aRow['operation_interval_id']] = $aRow;
             }
-            return $return;
+            return $aReturn;
         } else {
-            return $res;
+            return $rc;
         }
     }
 
@@ -1472,16 +1477,16 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 AND operation_interval = {$conf['maintenance']['operationInterval']}
                 AND interval_start >= '" . $startDate->format('%Y-%m-%d %H:%M:%S') . "'
                 AND interval_start <= '" . $endDate->format('%Y-%m-%d %H:%M:%S') . "'";
-        $res = $this->dbh->query($query);
+        $rc = $this->oDbh->query($query);
         // Store the impression data
-        if (!(PEAR::isError($res))) {
-            $return = array();
-            while ($res->fetchInto($row)) {
-                $return[$row['zone_id']][$row['operation_interval_id']] = $row;
+        if (!(PEAR::isError($rc))) {
+            $aReturn = array();
+            while ($aRow = $rc->fetchRow()) {
+                $aReturn[$aRow['zone_id']][$aRow['operation_interval_id']] = $aRow;
             }
-            return $return;
+            return $aReturn;
         } else {
-            return $res;
+            return $rc;
         }
     }
 
@@ -1562,15 +1567,15 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                	"AND interval_end >= {$aIntervalEnd['min']} AND interval_end <= {$aIntervalEnd['max']} " .
                 "";
 
-        $result = $this->dbh->query($sSelectQuery);
+        $rc = $this->oDbh->query($sSelectQuery);
 
-        if( PEAR::isError( $result ) ) {
-            return $result;
+        if( PEAR::isError( $rc ) ) {
+            return $rc;
         }
 
-        if ($result->numRows() > 0) {
+        if ($rc->numRows() > 0) {
 
-            while ($result->fetchInto($row)) {
+            while ($row = $rc->fetchRow()) {
 
                 // skip row if there's no data for it in the array
                 if(
@@ -1593,10 +1598,10 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 }
             }
         }
-        $result->free();
+        $rc->free();
 
         // run query and check for results
-        $oRes = $this->dbh->startTransaction();
+        $oRes = $this->oDbh->beginTransaction();
         if( PEAR::isError( $oRes ) ) {
             // cannot start transaction
             return $oRes;
@@ -1612,13 +1617,13 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 	"AND operation_interval = {$conf['maintenance']['operationInterval']} ";
 
         // run query and check for results
-        $oRes = $this->dbh->query( $sDeleteQuery );
-        if( PEAR::isError( $oRes ) ) {
+        $rc = $this->oDbh->query( $sDeleteQuery );
+        if( PEAR::isError( $rc ) ) {
             // rollback
-            $this->dbh->rollback();
+            $this->oDbh->rollback();
 
             // return error object
-            return $oRes;
+            return $rc;
         }
 
         // append all values to the multiple insert stmt
@@ -1655,17 +1660,17 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         $sInsertQuery = substr( $sInsertQuery, 0, -1 );
 
         // run query and return the output (DB_OK/DB_Error)
-        $oRes = $this->dbh->query( $sInsertQuery );
+        $rows = $this->oDbh->exec( $sInsertQuery );
 
-        if( PEAR::isError( $oRes ) ) {
+        if( PEAR::isError( $rows ) ) {
             // rollback
-            $this->dbh->rollback();
+            $this->oDbh->rollback();
 
             // return error object
-            return $oRes;
+            return $rows;
         }
 
-        return $this->dbh->commit();
+        return $this->oDbh->commit();
 
     }
 
@@ -1723,7 +1728,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                         required_impressions
                     )
                 VALUES" . implode(', ', $values);
-            $this->dbh->query($query);
+            $rows = $this->oDbh->exec($query);
         }
     }
 
@@ -1751,19 +1756,19 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         // Don't use a PEAR_Error handler
         PEAR::pushErrorHandling(null);
         // Execute the query
-        $result = $this->dbh->query($query);
+        $rc = $this->oDbh->query($query);
         // Resore the PEAR_Error handler
         PEAR::popErrorHandling();
-        if (!PEAR::isError($result)) {
+        if (!PEAR::isError($rc)) {
             $aResult = array();
-            while ($row = $result->fetchRow()) {
+            while ($row = $rc->fetchRow()) {
                 $aResult[$row['ad_id']] = $row['required_impressions'];
             }
             return $aResult;
-        } elseif (PEAR::isError($result, DB_ERROR_NOSUCHTABLE)) {
+        } elseif (PEAR::isError($rc, DB_ERROR_NOSUCHTABLE)) {
             return array();
         }
-        MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
     }
 
     /**
@@ -1907,7 +1912,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                     )
                 VALUES ";
             $query .= implode(', ', $aValues);
-            $this->dbh->query($query);
+            $rows = $this->oDbh->exec($query);
         }
     }
 
@@ -1971,11 +1976,11 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 AND zone_id != 0
             ORDER BY
                 interval_start";
-        $result = $this->dbh->query($query);
-        if (!(PEAR::isError($result))) {
+        $rc = $this->oDbh->query($query);
+        if (!(PEAR::isError($rc))) {
             // Sort the results into an array indexed by the operation interval ID
             $aFinalResult = array();
-            while ($result->fetchInto($aRow)) {
+            while ($aRow = $rc->fetchRow()) {
                 $aFinalResult[$aRow['operation_interval_id']] =
                     array(
                         'zone_id'               => $aRow['zone_id'],

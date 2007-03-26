@@ -29,7 +29,8 @@ require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
-require_once MAX_PATH . '/lib/openads/Table/Priority.php';
+
+require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
 require_once 'Date.php';
 require_once 'DB/QueryTool.php';
 
@@ -67,7 +68,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
 
         TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
 
         // Test 1
@@ -88,13 +89,14 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_priority']}
             WHERE
                 log_maintenance_priority_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['start_run'], '2005-06-21 15:00:01');
-        $this->assertEqual($row['end_run'], '2005-06-21 15:01:01');
-        $this->assertEqual($row['operation_interval'], $conf['maintenance']['operationInterval']);
-        $this->assertEqual($row['duration'], 60);
-        $this->assertEqual($row['run_type'], DAL_PRIORITY_UPDATE_ZIF);
-        $this->assertEqual($row['updated_to'], '2005-06-21 15:59:59');
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['start_run'], '2005-06-21 15:00:01');
+        $this->assertEqual($aRow['end_run'], '2005-06-21 15:01:01');
+        $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['duration'], 60);
+        $this->assertEqual($aRow['run_type'], DAL_PRIORITY_UPDATE_ZIF);
+        $this->assertEqual($aRow['updated_to'], '2005-06-21 15:59:59');
 
         // Test 2
         $oStartDate = new Date('2005-06-21 16:00:01');
@@ -114,13 +116,14 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_priority']}
             WHERE
                 log_maintenance_priority_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['start_run'], '2005-06-21 15:00:01');
-        $this->assertEqual($row['end_run'], '2005-06-21 15:01:01');
-        $this->assertEqual($row['operation_interval'], $conf['maintenance']['operationInterval']);
-        $this->assertEqual($row['duration'], 60);
-        $this->assertEqual($row['run_type'], DAL_PRIORITY_UPDATE_ZIF);
-        $this->assertEqual($row['updated_to'], '2005-06-21 15:59:59');
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['start_run'], '2005-06-21 15:00:01');
+        $this->assertEqual($aRow['end_run'], '2005-06-21 15:01:01');
+        $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['duration'], 60);
+        $this->assertEqual($aRow['run_type'], DAL_PRIORITY_UPDATE_ZIF);
+        $this->assertEqual($aRow['updated_to'], '2005-06-21 15:59:59');
         $query = "
             SELECT
                 start_run,
@@ -133,13 +136,14 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_priority']}
             WHERE
                 log_maintenance_priority_id = 2";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['start_run'], '2005-06-21 16:00:01');
-        $this->assertEqual($row['end_run'], '2005-06-21 16:01:06');
-        $this->assertEqual($row['operation_interval'], $conf['maintenance']['operationInterval']);
-        $this->assertEqual($row['duration'], 65);
-        $this->assertEqual($row['run_type'], DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION);
-        $this->assertEqual($row['updated_to'], '2005-06-21 16:59:59');
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['start_run'], '2005-06-21 16:00:01');
+        $this->assertEqual($aRow['end_run'], '2005-06-21 16:01:06');
+        $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['duration'], 65);
+        $this->assertEqual($aRow['run_type'], DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION);
+        $this->assertEqual($aRow['updated_to'], '2005-06-21 16:59:59');
 
         TestEnv::rollbackTransaction();
     }
@@ -157,7 +161,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     {
         TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
 
         // Test 1
@@ -259,7 +263,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     {
         TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
 
         // Test 1
@@ -293,7 +297,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     200,
                     300
                 )";
-        $result = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['banners']}
@@ -306,7 +310,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     1
                 )";
-        $result = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
@@ -338,7 +342,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     25,
                     5
                 )";
-        $result = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = $oMaxDalMaintenance->getPlacementDeliveryToDate(1);
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 1);
@@ -415,11 +419,11 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testGetAllZonesWithAllocInv()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
 
         // Create the required temporary table for the tests
-        $oTable = &Openads_Table_Priority::singleton();
+        $oTable = &OA_DB_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_zone_impression');
 
         // Test 1
@@ -456,7 +460,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     7
                 )";
     	TestEnv::startTransaction();
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getAllZonesWithAllocInv();
         $this->assertEqual(count($result), 3);
         $this->assertEqual($result[0]['zone_id'], 1);
@@ -490,7 +494,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testGetAllZonesImpInv()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
 
         // Test 1
@@ -533,7 +537,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     42
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $oNewDate = new Date();
         $oNewDate->copy($aDates['start']);
         $oNewDate->subtractSeconds(1);
@@ -559,7 +563,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     37
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertEqual(count($result), 0);
         TestEnv::rollbackTransaction();
@@ -600,7 +604,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     2
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $oNewDate = new Date();
         $oNewDate->copy($oDate);
         $oNewDate->subtractSeconds(($conf['maintenance']['operationInterval'] * 60) + 1);
@@ -646,7 +650,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     5,
                     6
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $oNewDate = new Date();
         $oNewDate->copy($aDates['start']);
         $oNewDate->subtractSeconds(1);
@@ -674,7 +678,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     10,
                     9
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertEqual(count($result), 2);
         $this->assertEqual($result[1]['zone_id'], 1);
@@ -706,7 +710,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                 (
                     3
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
@@ -738,7 +742,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     2
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $oNewDate = new Date();
         $oNewDate->copy($oDate);
         $oNewDate->subtractSeconds(($conf['maintenance']['operationInterval'] * 60) + 1);
@@ -784,7 +788,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     5,
                     6
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $oNewDate = new Date();
         $oNewDate->copy($aDates['start']);
         $oNewDate->subtractSeconds(1);
@@ -812,7 +816,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     10,
                     9
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertEqual(count($result), 3);
         $this->assertEqual($result[1]['zone_id'], 1);
@@ -851,7 +855,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testGetAllDeliveryLimitationChangedAds()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
 
         $oDateNow = new Date('2006-10-04 12:07:01');
@@ -885,7 +889,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     't'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['banners']}
@@ -903,7 +907,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     't',
                     ''
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = &$oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
@@ -923,7 +927,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     't'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['banners']}
@@ -941,7 +945,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     't',
                     '2006-10-04 11:10:00'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = &$oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
@@ -961,7 +965,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     't'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['banners']}
@@ -979,7 +983,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     't',
                     '2006-10-04 11:15:00'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = &$oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -1000,7 +1004,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     't'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['banners']}
@@ -1018,7 +1022,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     't',
                     '2006-10-04 12:15:00'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = &$oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -1039,7 +1043,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     'f'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['banners']}
@@ -1057,7 +1061,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     't',
                     '2006-10-04 11:10:00'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = &$oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
@@ -1077,7 +1081,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     'f'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['banners']}
@@ -1095,7 +1099,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     't',
                     '2006-10-04 11:15:00'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = &$oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
@@ -1115,7 +1119,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     't'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['banners']}
@@ -1133,7 +1137,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     'f',
                     '2006-10-04 12:15:00'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = &$oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
@@ -1161,7 +1165,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     3,
                     'f'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['banners']}
@@ -1209,7 +1213,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     't',
                     '2006-10-04 12:01:00'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aResult = &$oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -1301,7 +1305,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testGetPreviousAdDeliveryInfo()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
 
         $aEmptyZoneAdArray = array();
@@ -1355,7 +1359,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
         TestEnv::rollbackTransaction();
@@ -1387,7 +1391,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -1428,7 +1432,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
@@ -1467,7 +1471,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     0.5,
                     0.99
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
         TestEnv::rollbackTransaction();
@@ -1505,7 +1509,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     0.5,
                     0.99
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -1552,7 +1556,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     0.5,
                     0.99
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
@@ -1592,7 +1596,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $query = "
@@ -1623,7 +1627,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     0.5,
                     0.99
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
         TestEnv::rollbackTransaction();
@@ -1654,7 +1658,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
@@ -1686,7 +1690,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     0.5,
                     0.99
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -1724,7 +1728,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
@@ -1758,7 +1762,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     0.5,
                     0.99
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
@@ -1801,7 +1805,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $query = "
@@ -1832,7 +1836,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     0.5,
                     0.99
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
         TestEnv::rollbackTransaction();
@@ -1866,7 +1870,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
@@ -1898,7 +1902,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     0.5,
                     0.99
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -1939,7 +1943,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
@@ -1973,7 +1977,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     0.5,
                     0.99
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
@@ -2014,7 +2018,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $query = "
@@ -2045,7 +2049,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     0.5,
                     0.99
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -2084,7 +2088,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
@@ -2116,7 +2120,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     0.5,
                     0.99
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -2155,7 +2159,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
@@ -2189,7 +2193,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     0.5,
                     0.99
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -2273,7 +2277,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     5,
                     5
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
@@ -2346,7 +2350,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     5,
                     500
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
@@ -2392,7 +2396,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     95,
                     0.995
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
@@ -2467,7 +2471,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     '" . $aDates['start']->format('%Y-%m-%d %H:30:00') . "',
                     '" . $oSpecialDate->format('%Y-%m-%d %H:%M:%S') . "'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
@@ -2521,7 +2525,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     '" . $aDates['start']->format('%Y-%m-%d %H:30:00') . "',
                     '" . $oSpecialDate->format('%Y-%m-%d %H:%M:%S') . "'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 4);
         $this->assertEqual(count($result[1]), 2);
@@ -2653,7 +2657,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     5,
                     5
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
@@ -2735,7 +2739,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     4,
                     1000
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         for ($i = 0; $i <= (MINUTES_PER_WEEK / $conf['maintenance']['operationInterval']); $i++) {
@@ -2767,7 +2771,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     4,
                     2000
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
@@ -2813,7 +2817,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     95,
                     0.995
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
@@ -2888,7 +2892,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     '" . $aDates['start']->format('%Y-%m-%d %H:30:00') . "',
                     '" . $oSpecialDate->format('%Y-%m-%d %H:%M:%S') . "'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
@@ -2956,7 +2960,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     '" . $aDates['start']->format('%Y-%m-%d %H:30:00') . "',
                     '" . $oSpecialDate->format('%Y-%m-%d %H:%M:%S') . "'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         for ($i = 0; $i <= (MINUTES_PER_WEEK / $conf['maintenance']['operationInterval']); $i++) {
@@ -3000,7 +3004,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     '" . $aDates['start']->format('%Y-%m-%d %H:30:00') . "',
                     '" . $oSpecialDate->format('%Y-%m-%d %H:%M:%S') . "'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 5);
         $this->assertEqual(count($result[1]), 2);
@@ -3072,7 +3076,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testUpdatePriorities()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
         // Insert the data into the ad_zone_assoc table, as an ad is linked to a zone
         $query = "
@@ -3089,7 +3093,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     0
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Test 1
         $oServiceLocator = &ServiceLocator::instance();
@@ -3128,10 +3132,11 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['priority'], 0.45);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['priority'], 0.45);
         $query = "
             SELECT
                 operation_interval,
@@ -3154,25 +3159,26 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
             WHERE
                 ad_id = 1";
-        $row = $dbh->getRow($query);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
         $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $this->assertEqual($row['operation_interval'], $conf['maintenance']['operationInterval']);
-        $this->assertEqual($row['operation_interval_id'], $currentOperationIntervalID);
-        $this->assertEqual($row['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
-        $this->assertEqual($row['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['required_impressions'], 1000);
-        $this->assertEqual($row['requested_impressions'], 1000);
-        $this->assertEqual($row['priority'], 0.45);
-        $this->assertNull($row['priority_factor']);
-        $this->assertFalse($row['priority_factor_limited']);
-        $this->assertNull($row['past_zone_traffic_fraction']);
-        $this->assertEqual($row['created'], $oDate->format('%Y-%m-%d %H:%M:%S'));
-        $this->assertEqual($row['created_by'], 0);
-        $this->assertNull($row['expired']);
-        $this->assertNull($row['expired_by']);
+        $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['operation_interval_id'], $currentOperationIntervalID);
+        $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
+        $this->assertEqual($aRow['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['required_impressions'], 1000);
+        $this->assertEqual($aRow['requested_impressions'], 1000);
+        $this->assertEqual($aRow['priority'], 0.45);
+        $this->assertNull($aRow['priority_factor']);
+        $this->assertFalse($aRow['priority_factor_limited']);
+        $this->assertNull($aRow['past_zone_traffic_fraction']);
+        $this->assertEqual($aRow['created'], $oDate->format('%Y-%m-%d %H:%M:%S'));
+        $this->assertEqual($aRow['created_by'], 0);
+        $this->assertNull($aRow['expired']);
+        $this->assertNull($aRow['expired_by']);
 
         // Test 3
         $aData =
@@ -3217,10 +3223,11 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
             WHERE
                 ad_id = 1";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['priority'], 0.9);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['priority'], 0.9);
         $query = "
             SELECT
                 operation_interval,
@@ -3244,25 +3251,26 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
             WHERE
                 ad_id = 1
                 AND expired IS NOT NULL";
-        $row = $dbh->getRow($query);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
         $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oOldDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oOldDate);
-        $this->assertEqual($row['operation_interval'], $conf['maintenance']['operationInterval']);
-        $this->assertEqual($row['operation_interval_id'], $currentOperationIntervalID);
-        $this->assertEqual($row['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
-        $this->assertEqual($row['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['required_impressions'], 1000);
-        $this->assertEqual($row['requested_impressions'], 1000);
-        $this->assertEqual($row['priority'], 0.45);
-        $this->assertNull($row['priority_factor']);
-        $this->assertFalse($row['priority_factor_limited']);
-        $this->assertNull($row['past_zone_traffic_fraction']);
-        $this->assertEqual($row['created'], $oOldDate->format('%Y-%m-%d %H:%M:%S'));
-        $this->assertEqual($row['created_by'], 0);
-        $this->assertEqual($row['expired'], $oDate->format('%Y-%m-%d %H:%M:%S'));
-        $this->assertEqual($row['expired_by'], 0);
+        $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['operation_interval_id'], $currentOperationIntervalID);
+        $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
+        $this->assertEqual($aRow['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['required_impressions'], 1000);
+        $this->assertEqual($aRow['requested_impressions'], 1000);
+        $this->assertEqual($aRow['priority'], 0.45);
+        $this->assertNull($aRow['priority_factor']);
+        $this->assertFalse($aRow['priority_factor_limited']);
+        $this->assertNull($aRow['past_zone_traffic_fraction']);
+        $this->assertEqual($aRow['created'], $oOldDate->format('%Y-%m-%d %H:%M:%S'));
+        $this->assertEqual($aRow['created_by'], 0);
+        $this->assertEqual($aRow['expired'], $oDate->format('%Y-%m-%d %H:%M:%S'));
+        $this->assertEqual($aRow['expired_by'], 0);
         $query = "
             SELECT
                 operation_interval,
@@ -3286,25 +3294,26 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
             WHERE
                 ad_id = 1
                 AND expired IS NULL";
-        $row = $dbh->getRow($query);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
         $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $this->assertEqual($row['operation_interval'], $conf['maintenance']['operationInterval']);
-        $this->assertEqual($row['operation_interval_id'], $currentOperationIntervalID);
-        $this->assertEqual($row['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
-        $this->assertEqual($row['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
-        $this->assertEqual($row['ad_id'], 1);
-        $this->assertEqual($row['zone_id'], 1);
-        $this->assertEqual($row['required_impressions'], 2000);
-        $this->assertEqual($row['requested_impressions'], 2000);
-        $this->assertEqual($row['priority'], 0.9);
-        $this->assertEqual($row['priority_factor'], 0.1);
-        $this->assertFalse($row['priority_factor_limited']);
-        $this->assertEqual($row['past_zone_traffic_fraction'], 0.99);
-        $this->assertEqual($row['created'], $oDate->format('%Y-%m-%d %H:%M:%S'));
-        $this->assertEqual($row['created_by'], 0);
-        $this->assertNull($row['expired']);
-        $this->assertNull($row['expired_by']);
+        $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['operation_interval_id'], $currentOperationIntervalID);
+        $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
+        $this->assertEqual($aRow['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
+        $this->assertEqual($aRow['ad_id'], 1);
+        $this->assertEqual($aRow['zone_id'], 1);
+        $this->assertEqual($aRow['required_impressions'], 2000);
+        $this->assertEqual($aRow['requested_impressions'], 2000);
+        $this->assertEqual($aRow['priority'], 0.9);
+        $this->assertEqual($aRow['priority_factor'], 0.1);
+        $this->assertFalse($aRow['priority_factor_limited']);
+        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0.99);
+        $this->assertEqual($aRow['created'], $oDate->format('%Y-%m-%d %H:%M:%S'));
+        $this->assertEqual($aRow['created_by'], 0);
+        $this->assertNull($aRow['expired']);
+        $this->assertNull($aRow['expired_by']);
         $query = "
             SELECT
                 operation_interval,
@@ -3327,25 +3336,26 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
             WHERE
                 ad_id = 2";
-        $row = $dbh->getRow($query);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
         $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $this->assertEqual($row['operation_interval'], $conf['maintenance']['operationInterval']);
-        $this->assertEqual($row['operation_interval_id'], $currentOperationIntervalID);
-        $this->assertEqual($row['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
-        $this->assertEqual($row['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
-        $this->assertEqual($row['ad_id'], 2);
-        $this->assertEqual($row['zone_id'], 2);
-        $this->assertEqual($row['required_impressions'], 500);
-        $this->assertEqual($row['requested_impressions'], 500);
-        $this->assertEqual($row['priority'], 0.1);
-        $this->assertEqual($row['priority_factor'], 0.2);
-        $this->assertTrue($row['priority_factor_limited']);
-        $this->assertEqual($row['past_zone_traffic_fraction'], 0.45);
-        $this->assertEqual($row['created'], $oDate->format('%Y-%m-%d %H:%M:%S'));
-        $this->assertEqual($row['created_by'], 0);
-        $this->assertNull($row['expired']);
-        $this->assertNull($row['expired_by']);
+        $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['operation_interval_id'], $currentOperationIntervalID);
+        $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
+        $this->assertEqual($aRow['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
+        $this->assertEqual($aRow['ad_id'], 2);
+        $this->assertEqual($aRow['zone_id'], 2);
+        $this->assertEqual($aRow['required_impressions'], 500);
+        $this->assertEqual($aRow['requested_impressions'], 500);
+        $this->assertEqual($aRow['priority'], 0.1);
+        $this->assertEqual($aRow['priority_factor'], 0.2);
+        $this->assertTrue($aRow['priority_factor_limited']);
+        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0.45);
+        $this->assertEqual($aRow['created'], $oDate->format('%Y-%m-%d %H:%M:%S'));
+        $this->assertEqual($aRow['created_by'], 0);
+        $this->assertNull($aRow['expired']);
+        $this->assertNull($aRow['expired_by']);
 
         // Test 4
         $aData = array();
@@ -3382,7 +3392,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testGetZonesImpressionAverageByRange()
     {
         TestEnv::startTransaction();
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         // Set up test test data
         $conf = $GLOBALS['_MAX']['CONF'];
         // Write two record for same interval id one week apart
@@ -3403,8 +3413,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     (2, 60, 0, '2005-05-09 00:00:00',  '2005-05-09 00:59:59',  1,  100,    200),
                     (3, 60, 1, '2005-05-02 01:00:00',  '2005-05-02 01:59:59',  1,  200,    500),
                     (4, 60, 1, '2005-05-09 01:00:00',  '2005-05-09 01:59:59',  1,  100,    700)";
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Set up operation interval date range to query
         $oStartDate = new Date('2005-05-16 00:00:00');
@@ -3440,7 +3449,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testGetZonesImpressionHistoryByRange()
     {
         TestEnv::startTransaction();
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         // set up test test data
         $conf = $GLOBALS['_MAX']['CONF'];
         // write two record for same interval id one week apart
@@ -3463,8 +3472,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     (4,  60, 3,  '2005-05-09 03:00:00',  '2005-05-09 03:59:59',  1,  500,   200),
                     (5,  60, 4,  '2005-05-09 04:00:00',  '2005-05-09 04:59:59',  1,  500,   600),
                     (6,  60, 5,  '2005-05-09 05:00:00',  '2005-05-09 05:59:59',  1,  600,   700)";
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
 
         // Set up operation interval date range to query
         $oStartDate = new Date('2005-05-09 01:00:00');
@@ -3509,7 +3517,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testSaveZoneImpressionForecasts()
     {
         TestEnv::startTransaction();
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         // Test data
         $aForecasts = array(
             1 => array(
@@ -3531,15 +3539,15 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
         // Test keys
         $conf = $GLOBALS['_MAX']['CONF'];
         $query = 'SELECT * from ' . $conf['table']['prefix'] . $conf['table']['data_summary_zone_impression_history'];
-        $dbh->query($query);
-        $row = $dbh->getAll($query);
-        $this->assertTrue(isset($row[0]['data_summary_zone_impression_history_id']));
-        $this->assertTrue(isset($row[0]['operation_interval']));
-        $this->assertTrue(isset($row[0]['operation_interval_id']));
-        $this->assertTrue(isset($row[0]['interval_start']));
-        $this->assertTrue(isset($row[0]['interval_end']));
-        $this->assertTrue(isset($row[0]['zone_id']));
-        $this->assertTrue(isset($row[0]['forecast_impressions']));
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchAll();
+        $this->assertTrue(isset($aRow[0]['data_summary_zone_impression_history_id']));
+        $this->assertTrue(isset($aRow[0]['operation_interval']));
+        $this->assertTrue(isset($aRow[0]['operation_interval_id']));
+        $this->assertTrue(isset($aRow[0]['interval_start']));
+        $this->assertTrue(isset($aRow[0]['interval_end']));
+        $this->assertTrue(isset($aRow[0]['zone_id']));
+        $this->assertTrue(isset($aRow[0]['forecast_impressions']));
 
         // Test forecast values written
         foreach($row as $key => $aValues) {
@@ -3577,7 +3585,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testSaveRequiredAdImpressions()
     {
         $oDal = new MAX_Dal_Maintenance_Priority();
-        $oTable = &Openads_Table_Priority::singleton();
+        $oTable = &OA_DB_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_required_impression');
         $aData = array(
             array(
@@ -3586,16 +3594,17 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
             )
         );
         $result = $oDal->saveRequiredAdImpressions($aData);
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $query = "SELECT * FROM tmp_ad_required_impression";
-        $result = $dbh->getAll($query);
-        $this->assertTrue(is_array($result));
-        $this->assertTrue(count($result) == 1);
-        $item = $result[0];
-        $this->assertTrue(array_key_exists('ad_id', $item));
-        $this->assertTrue(array_key_exists('required_impressions', $item));
-        $this->assertEqual($item['ad_id'], 23);
-        $this->assertEqual($item['required_impressions'], 140);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchAll();
+        $this->assertTrue(is_array($aRow));
+        $this->assertTrue(count($aRow) == 1);
+        $aItem = $aRow[0];
+        $this->assertTrue(array_key_exists('ad_id', $aItem));
+        $this->assertTrue(array_key_exists('required_impressions', $aItem));
+        $this->assertEqual($aItem['ad_id'], 23);
+        $this->assertEqual($aItem['required_impressions'], 140);
         TestEnv::restoreEnv();
     }
 
@@ -3605,7 +3614,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testGetRequiredAdImpressions()
     {
         $oDal = new MAX_Dal_Maintenance_Priority();
-        $oTable = &Openads_Table_Priority::singleton();
+        $oTable = &OA_DB_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_required_impression');
         $aData = array(
             array(
@@ -3650,7 +3659,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testGetZoneImpressionForecasts()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oDal = new MAX_Dal_Maintenance_Priority();
 
         // Test 1
@@ -3687,7 +3696,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     'Test Zone 2'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = $oDal->getZoneImpressionForecasts();
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 2);
@@ -3716,7 +3725,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     'Test Zone 2'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
@@ -3747,7 +3756,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     2,
                     " . ($conf['priority']['defaultZoneForecastImpressions'] + 40) . "
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = $oDal->getZoneImpressionForecasts();
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 2);
@@ -3776,7 +3785,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     'Test Zone 2'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
@@ -3807,7 +3816,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     2,
                     " . ($conf['priority']['defaultZoneForecastImpressions'] + 40) . "
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = $oDal->getZoneImpressionForecasts();
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 2);
@@ -3841,7 +3850,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     2,
                     'Test Zone 5'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
@@ -3872,7 +3881,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     2,
                     " . ($conf['priority']['defaultZoneForecastImpressions'] + 40) . "
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
@@ -3903,7 +3912,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     2,
                     " . ($conf['priority']['defaultZoneForecastImpressions'] + 100) . "
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = $oDal->getZoneImpressionForecasts();
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 3);
@@ -3924,7 +3933,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testGetAdZoneAssociationsByAds()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oDal = new MAX_Dal_Maintenance_Priority();
 
         // Test 1
@@ -3954,7 +3963,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     1,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aAdIds = array(1);
         $result = $oDal->getAdZoneAssociationsByAds($aAdIds);
         $this->assertTrue(is_array($result));
@@ -4013,7 +4022,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     9,
                     1
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $aAdIds = array(1, 2, 3);
         $result = $oDal->getAdZoneAssociationsByAds($aAdIds);
         $this->assertTrue(is_array($result));
@@ -4056,10 +4065,10 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
      */
     function testSaveAllocatedImpressions()
     {
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oDal = new MAX_Dal_Maintenance_Priority();
         // Create the required temporary table for the tests
-        $oTable = &Openads_Table_Priority::singleton();
+        $oTable = &OA_DB_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_zone_impression');
         // Prepare the test data
         $aData = array(
@@ -4078,7 +4087,8 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
         );
         $result = $oDal->saveAllocatedImpressions($aData);
         $query = "SELECT * FROM tmp_ad_zone_impression ORDER BY ad_id, zone_id";
-        $result = $dbh->getAll($query);
+        $rc = $oDbh->query($query);
+        $result = $rc->fetchAll();
         $this->assertTrue(is_array($result));
         $this->assertTrue(count($result) == 2);
         $tmp = $result[0];
@@ -4116,7 +4126,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testGetPreviousWeekZoneForcastImpressions()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oDal = new MAX_Dal_Maintenance_Priority();
 
         // Test 1
@@ -4168,7 +4178,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
                     '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert forcast for the previous operation interval
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $secondIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
@@ -4192,7 +4202,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
                     '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         // Insert forcast for the second previous operation interval, but
         // one week ago (so it should not be in the result set)
         $oNewDate = new Date();
@@ -4220,7 +4230,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                     '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
                     '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
                 )";
-        $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $result = $oDal->getPreviousWeekZoneForcastImpressions(1);
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), (MINUTES_PER_WEEK / $conf['maintenance']['operationInterval']));
@@ -4249,7 +4259,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
      */
     function testLocking()
     {
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oDal = new MAX_Dal_Maintenance_Priority();
         // Try to get the lock
         $result = $oDal->obtainPriorityLock();
@@ -4275,7 +4285,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function _generateStatsOne()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         $date = new Date();
         $date->addSeconds((SECONDS_PER_DAY * 4));
@@ -4292,27 +4302,27 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
         $sql = "INSERT INTO $campaignsTable
         (campaignid, campaignname,      clientid,   views,  clicks, conversions,    expire,             activate,       active,     priority,   weight, target_impression, anonymous)
         VALUES (1,   'test  campaign',  1,          0,      400,      0,          '" . $expiryDate1 . "',  '0000-00-00',   't',        '3',        1,      0,        'f')";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         $sql = "INSERT INTO $campaignsTable
         (campaignid, campaignname,      clientid,   views,  clicks, conversions,    expire,             activate,       active,     priority,   weight, target_impression, anonymous)
         VALUES (2,   'test  campaign',  1,          0,      0,        400,          '0000-00-00',         '0000-00-00',   't',         '2',        1,      0,        'f')";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         $sql = "INSERT INTO $campaignsTable
         (campaignid, campaignname,      clientid,   views,  clicks, conversions,    expire,             activate,       active,     priority,   weight, target_impression, anonymous)
         VALUES (3,   'test  campaign',  1,          500,      0,      0,            '" . $expiryDate2 . "', '0000-00-00',   't',       '3',        1,      0,        'f')";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         $sql = "INSERT INTO $campaignsTable
         (campaignid, campaignname,      clientid,   views,  clicks, conversions,    expire,             activate,       active,     priority,   weight, target_impression, anonymous)
         VALUES (4,   'test  campaign',  1,          500,      0,      401,          '0000-00-00',  '0000-00-00',   't',                '4',        2,      0,        'f')";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         $sql = "INSERT INTO $campaignsTable
         (campaignid, campaignname,      clientid,   views,  clicks, conversions,    expire,             activate,       active,     priority,   weight, target_impression, anonymous)
         VALUES (5,   'test  campaign',  1,          500,      0,      401,          '0000-00-00',  '0000-00-00',   't',                '3',        2,      0,        'f')";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
 
 
@@ -4321,33 +4331,33 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
         $bannersTable = $conf['table']['prefix'] . 'banners';
         $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype)
         VALUES (1,1,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign1 - Banner 1','','','','f','',0, 0,0,'','',0,0,'','','');";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         // add Campaign 1 - banner 1 - acls delivery restrictions
         $aclsTable = $conf['table']['prefix'] . 'acls';
         $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,                        executionorder)
                                 VALUES (1,          'and',   'date',   '!=',       '$expiryDateLessTwoDays',    0)";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,   executionorder)
                                 VALUES (1,          'and',   'time',   '!=',       '1',    1)";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         // add 2nd banner to campaign 1
         $bannersTable = $conf['table']['prefix'] . 'banners';
         $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype)
         VALUES (2,1,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign 1 - Banner 2','','','','f','',0, 0,0,'','',0,0,'','','');";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         // add Campaign 1 - banner 2 - acls delivery restrictions
         $aclsTable = $conf['table']['prefix'] . 'acls';
         $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,                        executionorder)
                                 VALUES (2,          'and',   'date',   '!=',       '$expiryDateLessTwoDays',    0)";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,   executionorder)
                                 VALUES (2,          'and',   'time',   '!=',       '1,2',    1)";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
 
 
@@ -4355,51 +4365,51 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
         $bannersTable = $conf['table']['prefix'] . 'banners';
         $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype)
         VALUES (3,2,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign 2 - Banner 1','','','','f','',0, 0,0,'','',0,0,'','','');";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         // add 1st banner - Campaign 2 - acls delivery restrictions
         $aclsTable = $conf['table']['prefix'] . 'acls';
         $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,                        executionorder)
                                 VALUES (3,          'and',   'date',   '!=',       '$expiryDateLessTwoDays',    0)";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,   executionorder)
                                 VALUES (3,          'and',   'weekday',   '!=',       '5',    1)";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
 
         // add 2nd banner to campaign 2
         $bannersTable = $conf['table']['prefix'] . 'banners';
         $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype)
         VALUES (4,2,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign 2 - Banner 2','','','','f','',0, 0,0,'','',0,0,'','','');";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         // add banner 2 - Campaign 1 - acls delivery restrictions
         $aclsTable = $conf['table']['prefix'] . 'acls';
         $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,                        executionorder)
                                 VALUES (4,          'or',   'date',   '!=',       '$expiryDateLessTwoDays',    0)";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,   executionorder)
                                 VALUES (4,          'or',   'time',   '==',       '1,2',    1)";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
 
         //  add 1st banner to campaign 3
         $bannersTable = $conf['table']['prefix'] . 'banners';
         $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype)
         VALUES (5,3,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign 3 - Banner 1','','','','f','',0, 0,0,'','',0,0,'','','');";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         // add 1st banner - Campaign 2 - acls delivery restrictions
         $aclsTable = $conf['table']['prefix'] . 'acls';
         $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,                        executionorder)
                                 VALUES (5,          'and',   'date',   '!=',       '$expiryDateLessTwoDays',    0)";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,   executionorder)
                                 VALUES (5,          'or',   'weekday',   '==',       '5',    1)";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
 
 
@@ -4407,17 +4417,17 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
         $bannersTable = $conf['table']['prefix'] . 'banners';
         $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype)
         VALUES (6,3,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign 3 - Banner 2','','','','f','',0, 0,0,'','',0,0,'','','');";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         // add banner 2 - Campaign 1 - acls delivery restrictions
         $aclsTable = $conf['table']['prefix'] . 'acls';
         $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,                        executionorder)
                                 VALUES (6,          'or',   'date',   '!=',       '$expiryDateLessTwoDays',    0)";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,   executionorder)
                                 VALUES (6,          'or',   'time',   '!=',       '1,2',    1)";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
     }
 
     /**
@@ -4428,7 +4438,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function _generateStatsTwo()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
         // Populate data_summary_ad_hourly
         $statsTable = $conf['table']['prefix'] . 'data_summary_ad_hourly';
@@ -4459,14 +4469,14 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                 ".rand(1, 999).",
                 0
                 )";
-            $result = $dbh->query($sql);
+            $rows = $oDbh->exec($sql);
         }
         // Populate campaigns table
         $campaignsTable = $conf['table']['prefix'] . 'campaigns';
         $sql = "INSERT INTO $campaignsTable
         (campaignid, campaignname,      clientid,   views,  clicks, conversions,    expire,             activate,       active,     priority,   weight, target_impression, anonymous)
         VALUES (4,   'test  campaign',  1,          500,      0,      401,          '0000-00-00',  '0000-00-00',   't',                '4',        2,      0,        'f')";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         // Add a banner
         $bannersTable = $conf['table']['prefix'] . 'banners';
@@ -4542,12 +4552,12 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                         '',
                         ''
                     )";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         // Add an agency record
         $agencyTable = $conf['table']['prefix'] . 'agency';
         $sql = "INSERT INTO $agencyTable ( `agencyid` , `name` , `contact` , `email` , `username` , `password` , `permissions` , `language` , `logout_url` , `active`) VALUES (1, 'test agency', 'sdfsdfsdf', 'demian@phpkitchen.com', 'Demian Turner', 'passwd', 0, 'en_GB', 'logout.php', 1)";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         // Add a client record (advertiser)
         $clientsTable = $conf['table']['prefix'] . 'clients';
@@ -4585,7 +4595,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                         '2005-03-21',
                         't'
                     )";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         // Add an affiliate (publisher) record
         $publisherTable = $conf['table']['prefix'] . 'affiliates';
@@ -4621,7 +4631,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                         NULL,
                         'f'
                     )";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         // Add zone record
         $zonesTable = $conf['table']['prefix'] . 'zones';
@@ -4663,12 +4673,12 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
                         0,
                         'f'
                     )";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
 
         // Add ad_zone_assoc record
         $zonesAssocTable = $conf['table']['prefix'] . 'ad_zone_assoc';
         $sql = "INSERT INTO $zonesAssocTable VALUES (1, 1, 1, '0', 1)";
-        $result = $dbh->query($sql);
+        $rows = $oDbh->exec($sql);
     }
 
 }
