@@ -562,20 +562,8 @@ class Admin_DA
             ac.tracker_date_time
         $limit";
 
-        $dbh = &MAX_DB::singleton();
-        $res = &$dbh->query($query);
-        if (DB::isError($res)) {
-            return false;
-        }
-        $results = array();
-        while (DB_OK === $res->fetchInto($row)) {
-            if (DB::isError($row)) {
-                return false;
-            }
-            $results[$row['connection_id']] = $row;
-        }
-        $res->free();
-        return $results;
+        $dbh = &OA_DB::singleton();
+        return $dbh->queryAll($query, null, MDB2_FETCHMODE_DEFAULT, true);
     }
 
     /**
@@ -594,20 +582,11 @@ class Admin_DA
                 ".$conf['table']['prefix'].$conf['table']['zones']."
             WHERE
                 affiliateid = '".$affiliateId."'";
-        $dbh = &MAX_DB::singleton();
-        $res = &$dbh->query($query);
-        if (DB::isError($res)) {
+        $rsZoneIds = DBC::NewRecordSet($query);
+        if (PEAR::isError($rsZoneIds)) {
             return false;
         }
-        $results = array();
-        while (DB_OK === $res->fetchInto($row)) {
-            if (DB::isError($row)) {
-                return false;
-            }
-            $results[] = $row['zoneid'];
-        }
-        $res->free();
-        return $results;
+        return $rsZoneIds->getAll();
     }
 
     /**
@@ -649,27 +628,20 @@ class Admin_DA
             vv.data_intermediate_ad_connection_id='".$connectionId."'
         ORDER BY
             v.name";
-        $dbh = &MAX_DB::singleton();
-        $res = &$dbh->query($query);
-        if (DB::isError($res)) {
+        $rsVariables = DBC::NewRecordSet($query);
+        if (!$rsVariables->find()) {
             return false;
         }
-        $results = array();
-        while (DB_OK === $res->fetchInto($row)) {
-            if (DB::isError($row)) {
-                return false;
+        $aDataVariables = array();
+        while($rsVariables->fetch()) {
+            $dataVariable = $rsVariables->toArray();
+            if (!is_null($dataVariable['visible'])) {
+                $dataVariable['hidden'] = $dataVariable['visible'] ? 'f' : 't';
             }
-
-            // Override visibility
-            if (!is_null($row['visible'])) {
-                $row['hidden'] = $row['visible'] ? 'f' : 't';
-            }
-            unset($row['visible']);
-
-            $results[$row['variableid']] = $row;
+            unset($dataVariable['visible']);
+            $aDataVariables[$dataVariable['variableid']] = $dataVariable;
         }
-        $res->free();
-        return $results;
+        return $aDataVariables;
     }
 
     function getPlacementsStats($aParams, $allFields=false)
@@ -1057,17 +1029,12 @@ class Admin_DA
     {
         if (!empty($id) && is_bool($active)) {
             $status = ($active === true) ? 1 : 0;
-            $db =& MAX_DB::singleton();
-            $res =& $db->query('UPDATE agency SET active = ' . $status . ' WHERE agencyid = ' . $id);
-            if (PEAR::isError($res)) {
-                return $res;
+            $dbh =& OA_DB::singleton();
+            $result = $dbh->exec('UPDATE agency SET active = ' . $status . ' WHERE agencyid = ' . $id);
+            if (PEAR::isError($result)) {
+                return $result;
             }
-            // did status really change?
-            $rowCount = $db->affectedRows();
-            if (PEAR::isError($rowCount)) {
-                return $rowCount;
-            }
-            if ($rowCount > 0) {
+            if ($result > 0) {
                 return true;
             } else {
                 // no rows affected by update - nothing to change
@@ -1137,7 +1104,7 @@ class Admin_DA
                 return PEAR::raiseError("Invalid arguments passed to " . __CLASS__ . '::' . __FUNCTION__ .
                     'end date is before or equal to start date.', MAX_ERROR_INVALIDARGS);
             }
-            $db = &MAX_DB::singleton();
+            $db = &OA_DB::singleton();
             // Get list of ad ids to include
             $agencyIds = implode(',', $aAgencyId);
             // Is start and end date in same day? - different operator required
@@ -1147,7 +1114,7 @@ class Admin_DA
             } else {
                 $operator = 'OR';
             }
-            $aCampaigns = $db->getAll('
+            $query = '
             SELECT
                 clients.agencyid, clients.clientid,
                 campaigns.campaignid,
@@ -1169,31 +1136,14 @@ class Admin_DA
                         OR (data_summary_ad_hourly.day > \'' . $oStart->format('%Y-%m-%e')  . '\'
                             AND data_summary_ad_hourly.day < \'' . $oEnd->format('%Y-%m-%e')  .'\')
                     )
-           GROUP BY campaignid, day, hour', array(), DB_FETCHMODE_ASSOC);
+            GROUP BY campaignid, day, hour';
+            $aCampaigns = $db->getAll($query);
             if (PEAR::isError($aCampaigns)) {
                 return $aCampaigns;
             }
-            if (is_array($aCampaigns) && count($aCampaigns)) {
-                foreach($aCampaigns as $campaign) {
-                    $campaignImpressions = Admin_DA::getViewCampaignImpressions($campaign['totalImpressions'], $campaign['totalClicks']);
-                    if (PEAR::isError($campaignImpressions)) {
-                        // return or log error?
-                        return PEAR::raiseError('Method returned PEAR::Error. Input values: $campaign[totalImpressions] = ' .
-                            $campaign['totalImpressions'] . ' and $campaign[totalClicks] = ' . $campaign['totalClicks']
-                            , MAX_ERROR_INVALIDARGS);
-                    } else {
-                        $aAgencyStats[$campaign['day']][$campaign['hour']][$campaign['agencyid']]['totalImpressions'] += $campaignImpressions;
-                    }
-                    $campaignClicks = Admin_DA::getClickCampaignImpressions($campaign['totalImpressions'], $campaign['totalClicks']);
-                    if (PEAR::isError($campaignClicks)) {
-                        // return or log error?
-                        return PEAR::raiseError('Method returned PEAR::Error. Input values: $campaign[totalImpressions] = ' .
-                            $campaign['totalImpressions'] . ' and $campaign[totalClicks] = ' . $campaign['totalClicks']
-                            , MAX_ERROR_INVALIDARGS);
-                    } else {
-                        $aAgencyStats[$campaign['day']][$campaign['hour']][$campaign['agencyid']]['totalClicks'] += $campaignClicks;
-                    }
-                }
+            foreach($aCampaigns as $campaign) {
+                $aAgencyStats[$campaign['day']][$campaign['hour']][$campaign['agencyid']]['totalImpressions'] += $campaign['totalimpressions'];
+                $aAgencyStats[$campaign['day']][$campaign['hour']][$campaign['agencyid']]['totalClicks'] += $campaign['totalclicks'];
             }
         } else {
             return PEAR::raiseError("Invalid arguments passed to " . __CLASS__ . '::' . __FUNCTION__ , MAX_ERROR_INVALIDARGS);
@@ -1201,15 +1151,6 @@ class Admin_DA
         return $aAgencyStats;
     }
 
-    function getViewCampaignImpressions($totalImpressions, $totalClicks)
-    {
-        return $totalImpressions;
-    }
-
-    function getClickCampaignImpressions($totalImpressions, $totalClicks)
-    {
-        return $totalClicks;
-    }
 
     // +---------------------------------------+
     // | placements                            |

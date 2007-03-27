@@ -1054,12 +1054,11 @@ class SqlBuilder
         if (!empty($values)) $values .= ')';
 
         $query = "INSERT INTO $table" . $names . $values;
-        $queryValid = true;
 
         $dbh =& OA_DB::singleton();
-        $rc = $dbh->query($query);
+        $rc = $dbh->exec($query);
 
-        if (!(PEAR::isError($res))) {
+        if (!(PEAR::isError($rc))) {
             return $dbh->lastInsertID();
         }
         return $rc;
@@ -1170,16 +1169,20 @@ class SqlBuilder
      */
     function _query($query, $primaryKey)
     {
-        $queryValid = true;
-        $dbh =& OA_DB::singleton();
-        $rc = $dbh->query($query);
-
-        if (!(PEAR::isError($rc))) {
-            return $rc->fetchAll(MDB2_FETCHMODE_DEFAULT, $rekey = true);
+        $rs = DBC::NewRecordSet($query);
+        $aDataEntities = array();
+        if ($rs->find()) {
+            while ($rs->fetch()) {
+                $dataEntity = $rs->toArray();
+                $aDataEntities[$dataEntity[$primaryKey]] = $dataEntity;
+            }
+            return $aDataEntities;
+        } else {
+            return false;
         }
-        return $rc;
     }
-
+    
+    
     /**
      * Performs an SQL update.
      *

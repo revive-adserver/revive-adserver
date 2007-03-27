@@ -51,7 +51,7 @@ class Admin_DaTest extends UnitTestCase
     function Admin_DaTest()
     {
         $this->UnitTestCase();
-        $dbh =& MAX_DB::singleton();
+        $dbh =& OA_DB::singleton();
     }
 
     function getLastRecordInserted($tableName, $tableIndexField)
@@ -688,8 +688,8 @@ class Admin_DaTest extends UnitTestCase
 
     function testGetAgenciesCampaignStats()
     {
-
-        $dbh =& MAX_DB::singleton();
+        TestEnv::startTransaction();
+        $dbh =& OA_DB::singleton();
         // INSERT test data
         $agencyId = Admin_DA::addAgency(
             array(
@@ -708,7 +708,7 @@ class Admin_DaTest extends UnitTestCase
         VALUES
             (1,1,'Test Advertiser 1','James Floyd','james@m3.net','','',0,'english','t',7,'2005-05-10','t'),
             (2,2,'Test Advertiser 2','James Floyd','james@m3.net','','',0,'english','t',7,'2005-05-10','t');";
-        $result = $dbh->query($sql);
+        $result = $dbh->exec($sql);
 
         // define campaigns
         $campaignTable = $conf['table']['prefix'] . 'campaigns';
@@ -718,7 +718,7 @@ class Admin_DaTest extends UnitTestCase
                 (2,'Test Advertiser 1 - Campaign 2',1,-1,-1,-1,'0000-00-00','0000-00-00','t',0,1,0,0,0,'f',0),
                 (3,'Test Advertiser 2 - Default Campaign',2,-1,-1,-1,'2005-06-10','0000-00-00','t',0,1,0,0,0,'f',0),
                 (4,'Test Advertiser 2 - Campaign 2',2,-1,-1,-1,'0000-00-00','0000-00-00','t',0,1,0,0,0,'f',0)";
-        $result = $dbh->query($sql);
+        $result = $dbh->exec($sql);
 
         // define ads
         $bannerTable = $conf['table']['prefix'] . 'banners';
@@ -729,7 +729,7 @@ class Admin_DaTest extends UnitTestCase
                 (3,3,'t','gif',0,'sql','468x60.gif','','','',468,60,1,0,'_blank','http://www.google.com','Google','','','','f','',0,0,0,'','',0,0,'','',''),
                 (4,4,'t','gif',0,'sql','','','','',0,0,1,0,'','','','','','','t','',0,0,0,'','',0,0,'','','gif')";
 
-        $result = $dbh->query($sql);
+        $result = $dbh->exec($sql);
 
         // define stats
         $statsTable = $conf['table']['prefix'] . 'data_summary_ad_hourly';
@@ -774,9 +774,9 @@ class Admin_DaTest extends UnitTestCase
                 (36,'2005-05-23',7,1,0,0,0,100,100,0,NULL),
                 (37,'2005-05-23',8,1,0,0,0,100,100,0,NULL),
                 (38,'2005-05-23',9,1,0,0,0,100,100,0,NULL)";
-        $result = $dbh->query($sql);
+        $result = $dbh->exec($sql);
 
-        // test 1 - get data for a single hour for a singe agency
+        // test 1 - get data for a single hour for a single agency
         $aAgencies = array(1);
         $oStart = new Date('2005-05-22 10:00:00');
         $oEnd = new Date('2005-05-22 10:00:01');
@@ -939,7 +939,7 @@ class Admin_DaTest extends UnitTestCase
     function testGetZone()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh  =&MAX_DB::singleton();
+        $dbh  = &OA_DB::singleton();
 
         TestEnv::startTransaction();
 
