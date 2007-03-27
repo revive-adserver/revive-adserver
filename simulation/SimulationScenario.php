@@ -24,9 +24,8 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
-require_once MAX_PATH . '/lib/max/DB.php';
+
 require_once MAX_PATH . '/lib/max/SqlBuilder.php';
-require_once MAX_PATH . '/lib/openads/Table/Core.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
@@ -34,6 +33,9 @@ require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
+
+require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 
 /**
  * A class for simulating maintenance/delivery scenarios
@@ -60,7 +62,7 @@ class SimulationScenario
     var $tablePrefix = '';
     var $oServiceLocator;
     var $oCoreTables;
-    var $oDBH;
+    var $oDbh;
 
     var $loadCommonData = true;
 
@@ -104,10 +106,10 @@ class SimulationScenario
 
         // start with a clean set of tables
         Openads_Table_Core::destroy();
-        $this->oCoreTables = &Openads_Table_Core::singleton();
+        $this->oCoreTables = &OA_DB_Table_Core::singleton();
 
         // get the database handler
-        $this->oDBH = MAX_DB::singleton();
+        $this->oDbh = &OA_DB::singleton();
 
         // fake the date/time
         $this->setDateTime();
@@ -121,14 +123,14 @@ class SimulationScenario
      */
     function newTables()
     {
-        if ($this->oDBH)
+        if ($this->oDbh)
         {
             $this->oCoreTables->dropAllTables();
             $this->oCoreTables->createAllTables();
         }
         else
         {
-            $this->reportResult(false, 'could not create new tables, invalid db object', $this->oDBH);
+            $this->reportResult(false, 'could not create new tables, invalid db object', $this->oDbh);
         }
     }
 
@@ -721,10 +723,10 @@ class SimulationScenario
     {
         foreach ($aQueries as $k => $query)
         {
-            $result = $this->oDBH->query($query);
-            if (!$result)
+            $rows = $this->oDbh->exec($query);
+            if (!$rows)
             {
-                $this->reportResult($result, 'execution failed', $query);
+                $this->reportResult($rows, 'execution failed', $query);
                 exit();
             }
         }
@@ -732,7 +734,7 @@ class SimulationScenario
 
     function printResult($query, $title)
     {
-        $this->printTable($this->oDBH->query($query), $title);
+        $this->printTable($this->oDbh->query($query), $title);
     }
     /**
      * print out any pre-run summary info you want
