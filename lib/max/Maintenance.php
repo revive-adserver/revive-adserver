@@ -27,12 +27,13 @@ $Id$
 
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once MAX_PATH . '/lib/max/other/lib-reports.inc.php';
 require_once MAX_PATH . '/scripts/maintenance/translationStrings.php';
+
+require_once MAX_PATH . '/lib/OA/DB.php';
 require_once 'Date.php';
 
 /**
@@ -57,7 +58,7 @@ class MAX_Maintenance
         $this->pref =& $GLOBALS['_MAX']['PREF'];
 
         // Get a connection to the datbase
-        $this->oDbh = &MAX_DB::singleton();
+        $this->oDbh = &OA_DB::singleton();
         if (PEAR::isError($this->oDbh)) {
             // Unable to continue!
             MAX::raiseError($this->oDbh, null, PEAR_ERROR_DIE);
@@ -324,7 +325,7 @@ class MAX_Maintenance
                         WHERE
                             agencyid = 0
                         ";
-                    $row = $this->oDbh->getRow($query);
+                    $row = $this->oDbh->queryRow($query);
                     MAX::sendMail($row['admin_email'], '', 'Lockfile altert!', $message);
                     MAX::raiseError('Aborting script execution', null, PEAR_ERROR_DIE);
                 }
@@ -364,7 +365,7 @@ class MAX_Maintenance
                 {$this->conf['table']['prefix']}{$this->conf['table']['preference']}
             SET
                 maintenance_timestamp = UNIX_TIMESTAMP(NOW())";
-        $result = $this->oDbh->query($query);
+        $rows = $this->oDbh->exec($query);
     }
 }
 
