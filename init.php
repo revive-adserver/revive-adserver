@@ -48,7 +48,7 @@ function init()
     // generates PHP warnings in places
     error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
     // If not being called from the installation script...
-    if (basename($_SERVER['PHP_SELF']) != 'install.php') {
+    if (basename($_SERVER['PHP_SELF']) != 'install.php' && PHP_SAPI != 'cli') {
         // Direct the user to the installation script if not installed
         if (!$GLOBALS['_MAX']['CONF']['max']['installed']) {
             $path = dirname($_SERVER['PHP_SELF']);
