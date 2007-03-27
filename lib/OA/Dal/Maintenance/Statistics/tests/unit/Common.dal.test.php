@@ -26,7 +26,8 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/Max.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics/Common.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Common.php';
 require_once 'Date.php';
 
 /**
@@ -36,13 +37,13 @@ require_once 'Date.php';
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */
-class Dal_TestOfMaxDalStatisticsCommon extends UnitTestCase
+class Test_OA_Dal_Maintenance_Statistics_Common extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Dal_TestOfMaxDalMaintenanceStatisticsCommon()
+    function Test_OA_Dal_Maintenance_Statistics_Common()
     {
         $this->UnitTestCase();
     }

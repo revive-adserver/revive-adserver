@@ -25,9 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/DB.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics/AdServer/mysqlSplit.php';
+
+require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysqlSplit.php';
 
 /**
  * A class for testing the OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit class.

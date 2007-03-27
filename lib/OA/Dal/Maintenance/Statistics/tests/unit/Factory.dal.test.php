@@ -26,7 +26,8 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/Max.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics/Factory.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Factory.php';
 
 /**
  * A class for testing the OA_Dal_Maintenance_Statistics_Factory class.
@@ -35,13 +36,13 @@ require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics/Factory.php';
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */
-class Dal_TestOfMaxDalMaintenanceStatisticsFactory extends UnitTestCase
+class Test_OA_Dal_Maintenance_Statistics_Factory extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Dal_TestOfMaxDalMaintenanceStatisticsFactory()
+    function Test_OA_Dal_Maintenance_Statistics_Factory()
     {
         $this->UnitTestCase();
     }

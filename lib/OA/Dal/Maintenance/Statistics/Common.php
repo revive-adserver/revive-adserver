@@ -31,10 +31,11 @@ $Id$
  * @author     Andrew Hill <andrew@m3.net>
  */
 
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/max/Maintenance.php';
+
 require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics.php';
 
 /**
  * Definitions of class constants.
