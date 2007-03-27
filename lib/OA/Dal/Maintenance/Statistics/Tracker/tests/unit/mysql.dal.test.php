@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics/Tracker/mysql.php';
 
 /**
- * A class for testing the MAX_Dal_Maintenance_Statistics_Tracker_mysql_MySql class.
+ * A class for testing the OA_Dal_Maintenance_Statistics_Tracker_mysql_MySql class.
  *
  * @package    MaxDal
  * @subpackage TestSuite
@@ -52,8 +52,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
      */
     function testSingleton()
     {
-        $first = new MAX_Dal_Maintenance_Statistics_Tracker_mysql();
-        $second = new MAX_Dal_Maintenance_Statistics_Tracker_mysql();
+        $first = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
+        $second = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
         $this->assertIdentical($first, $second);
     }
 
@@ -66,7 +66,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 60;
         $conf['table']['split'] = false;
-        $dsa = new MAX_Dal_Maintenance_Statistics_Tracker_mysql();
+        $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
         // Test with no data
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertNull($date);
@@ -114,7 +114,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['compactStatsGrace'] = 0;
-        $dsa = new MAX_Dal_Maintenance_Statistics_Tracker_mysql();
+        $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
         TestEnv::startTransaction();
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsTrackermysql.php';
@@ -149,7 +149,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         TestEnv::rollbackTransaction();
         // Set a compact_stats_grace window
         $conf['maintenance']['compactStatsGrace'] = 3600;
-        $dsa = new MAX_Dal_Maintenance_Statistics_Tracker_mysql();
+        $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
         TestEnv::startTransaction();
         // Insert the test data
         $aRow = $oDbh->exec(TOT_DELETE_OLD_DATA_TRACKER_CLICKS);

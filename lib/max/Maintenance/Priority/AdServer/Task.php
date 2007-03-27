@@ -27,8 +27,9 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/core/Task.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
+
 require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 /**
  * A parent class, defining an interface for Maintenance Priority AdServer Task
@@ -43,9 +44,9 @@ class MAX_Maintenance_Priority_AdServer_Task extends MAX_Core_Task
 {
 
     /**
-     * Object of type MAX_Dal_Maintenance_Priority
+     * Object of type OA_Dal_Maintenance_Priority
      *
-     * @var MAX_Dal_Maintenance_Priority
+     * @var OA_Dal_Maintenance_Priority
      */
     var $oDal;
 
@@ -61,15 +62,15 @@ class MAX_Maintenance_Priority_AdServer_Task extends MAX_Core_Task
      * A method to create, register and return the Maintenance Priority DAL.
      *
      * @access private
-     * @return object MAX_Dal_Maintenance_Priority
+     * @return object OA_Dal_Maintenance_Priority
      */
     function &_getDal()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Priority');
+        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
         if (!$oDal) {
-            $oDal = new MAX_Dal_Maintenance_Priority();
-            $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+            $oDal = new OA_Dal_Maintenance_Priority();
+            $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         }
         return $oDal;
     }

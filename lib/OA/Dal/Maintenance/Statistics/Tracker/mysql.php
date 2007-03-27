@@ -38,18 +38,18 @@ require_once 'Date.php';
  * @subpackage MaintenanceStatistics
  * @author     Andrew Hill <andrew@m3.net>
  */
-class MAX_Dal_Maintenance_Statistics_Tracker_mysql extends MAX_Dal_Maintenance_Statistics_Common
+class OA_Dal_Maintenance_Statistics_Tracker_mysql extends OA_Dal_Maintenance_Statistics_Common
 {
     var $oDbh;
 
     /**
      * The constructor method.
      *
-     * @uses MAX_Dal_Maintenance_Statistics_Common::MAX_Dal_Maintenance_Statistics_Common()
+     * @uses OA_Dal_Maintenance_Statistics_Common::OA_Dal_Maintenance_Statistics_Common()
      */
-    function MAX_Dal_Maintenance_Statistics_Tracker_mysql()
+    function OA_Dal_Maintenance_Statistics_Tracker_mysql()
     {
-        parent::MAX_Dal_Maintenance_Statistics_Common();
+        parent::OA_Dal_Maintenance_Statistics_Common();
         $this->oDbh = &OA_DB::singleton();
     }
 
@@ -85,7 +85,7 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysql extends MAX_Dal_Maintenance_S
 
     /**
      * A private function to do the job of
-     * {@link MAX_Dal_Maintenance_Statistics_Tracker_mysql::getMaintenanceStatisticsLastRunInfo()},
+     * {@link OA_Dal_Maintenance_Statistics_Tracker_mysql::getMaintenanceStatisticsLastRunInfo()},
      * but with an extra parameter to specify the raw table to look in, in
      * the case of maintenance statistics not having been run before.
      *

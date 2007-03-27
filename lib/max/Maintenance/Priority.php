@@ -26,8 +26,9 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/Max.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 require_once 'Date.php';
 
 /**
@@ -71,7 +72,7 @@ class MAX_Maintenance_Priority
             @ignore_user_abort(true);
         }
         // Create a Maintenance DAL object
-        $oDal = new MAX_Dal_Maintenance_Priority();
+        $oDal = new OA_Dal_Maintenance_Priority();
         // Try to get the MPE database-level lock
         $lock = $oDal->obtainPriorityLock();
         if (!$lock) {

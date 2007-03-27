@@ -27,7 +27,8 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Common.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Common.php';
 require_once 'Date.php';
 
 /**
@@ -44,23 +45,24 @@ define('DAL_PRIORITY_UPDATE_ZIF',                   0);
 define('DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION', 1);
 
 /**
- * The non-DB specific Data Access Layer (DAL) class for the Maintenance Priority Engine.
+ * The non-DB specific Data Abstraction Layer (DAL) class for the
+ * Maintenance Priority Engine (MPE).
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage MaintenancePriority
  * @author     James Floyd <james@m3.net>
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.net>
  * @author     Radek Maciaszek <radek@m3.net>
  */
-class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
+class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
 {
 
     /**
      * The class constructor method.
      */
-    function MAX_Dal_Maintenance_Priority()
+    function OA_Dal_Maintenance_Priority()
     {
-        parent::MAX_Dal_Maintenance_Common();
+        parent::OA_Dal_Maintenance_Common();
     }
 
     /**
@@ -98,9 +100,9 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
      */
     function getMaintenancePriorityLastRunInfo($type = null, $aAdditionalFields = array())
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] .
-                 $conf['table']['log_maintenance_priority'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table']['log_maintenance_priority'];
         $aFields = array('operation_interval');
         if (is_array($aAdditionalFields) && !empty($aAdditionalFields)) {
             $aFields = array_merge($aFields, $aAdditionalFields);
@@ -111,8 +113,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
             } elseif ($type == DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION) {
                 $whereClause = 'WHERE (run_type = ' . DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION . ')';
             } else {
-                MAX::debug('Invalid run_type value ' . $type, PEAR_LOG_ERR);
-                MAX::debug('Aborting script execution', PEAR_LOG_ERR);
+                OA::debug('Invalid run_type value ' . $type, PEAR_LOG_ERR);
+                OA::debug('Aborting script execution', PEAR_LOG_ERR);
                 exit();
             }
         }
@@ -132,9 +134,9 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
      */
     function getPlacements($fields = array(), $wheres = array(), $joins = array(), $orderBys = array())
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table             = $conf['table']['prefix'] . $conf['table']['campaigns'];
+        $table             = $aConf['table']['prefix'] . $aConf['table']['campaigns'];
         $query['table']    = $table;
         $query['fields']   = array(
                                 "$table.campaignid",
@@ -186,10 +188,10 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
      */
     function getPlacementData($id)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table             = $conf['table']['prefix'] . $conf['table']['campaigns'];
-        $joinTable         = $conf['table']['prefix'] . $conf['table']['banners'];
+        $table             = $aConf['table']['prefix'] . $aConf['table']['campaigns'];
+        $joinTable         = $aConf['table']['prefix'] . $aConf['table']['banners'];
         $query['table']    = $table;
         $query['fields']   = array(
                                 "$table.clientid AS advertiser_id",
@@ -219,11 +221,11 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
      */
     function getPlacementDeliveryToDate($id)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table             = $conf['table']['prefix'] . $conf['table']['campaigns'];
-        $joinTable1        = $conf['table']['prefix'] . $conf['table']['banners'];
-        $joinTable2        = $conf['table']['prefix'] . $conf['table']['data_intermediate_ad'];
+        $table             = $aConf['table']['prefix'] . $aConf['table']['campaigns'];
+        $joinTable1        = $aConf['table']['prefix'] . $aConf['table']['banners'];
+        $joinTable2        = $aConf['table']['prefix'] . $aConf['table']['data_intermediate_ad'];
         $query['table']    = $table;
         $query['fields']   = array(
                                 "SUM($joinTable2.requests) AS sum_requests",
@@ -255,11 +257,11 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
      */
     function getPlacementDeliveryToday($id, $today)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table             = $conf['table']['prefix'] . $conf['table']['campaigns'];
-        $joinTable1        = $conf['table']['prefix'] . $conf['table']['banners'];
-        $joinTable2        = $conf['table']['prefix'] . $conf['table']['data_intermediate_ad'];
+        $table             = $aConf['table']['prefix'] . $aConf['table']['campaigns'];
+        $joinTable1        = $aConf['table']['prefix'] . $aConf['table']['banners'];
+        $joinTable2        = $aConf['table']['prefix'] . $aConf['table']['data_intermediate_ad'];
         $query['table']    = $table;
         $query['fields']   = array(
                                 "SUM($joinTable2.requests) AS sum_requests",
@@ -343,8 +345,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
      */
     function &getAllZonesWithAllocInv()
     {
-        MAX::debug('Getting all of the zones with ad impressions allocated.', PEAR_LOG_DEBUG);
-        $conf = $GLOBALS['_MAX']['CONF'];
+        OA::debug('Getting all of the zones with ad impressions allocated.', PEAR_LOG_DEBUG);
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
         $table             = 'tmp_ad_zone_impression';
         $query['table']    = $table;
@@ -380,8 +382,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
      */
     function &getAllZonesImpInv()
     {
-        MAX::debug("Getting all of the zones impression inventories.", PEAR_LOG_DEBUG);
-        $conf = $GLOBALS['_MAX']['CONF'];
+        OA::debug("Getting all of the zones impression inventories.", PEAR_LOG_DEBUG);
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator = &ServiceLocator::instance();
         $oDate = &$oServiceLocator->get('now');
         if (!$oDate) {
@@ -393,7 +395,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         $aCurrentDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $previousOptIntID = MAX_OperationInterval::previousOperationIntervalID($currentOpIntID);
         $aPreviousDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $table = $conf['table']['prefix'] . $conf['table']['data_summary_zone_impression_history'];
+        $table = $aConf['table']['prefix'] . $aConf['table']['data_summary_zone_impression_history'];
         $query = "
             SELECT
                 t1.zone_id AS zone_id,
@@ -405,13 +407,13 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 $table AS t2
             ON
                 t1.zone_id = t2.zone_id
-                AND t2.operation_interval = {$conf['maintenance']['operationInterval']}
+                AND t2.operation_interval = {$aConf['maintenance']['operationInterval']}
                 AND t2.operation_interval_id = $previousOptIntID
                 AND t2.interval_start = '" . $aPreviousDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
                 AND t2.interval_end = '" . $aPreviousDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
                 AND t2.zone_id != 0
             WHERE
-                t1.operation_interval = {$conf['maintenance']['operationInterval']}
+                t1.operation_interval = {$aConf['maintenance']['operationInterval']}
                 AND t1.operation_interval_id = $currentOpIntID
                 AND t1.interval_start = '" . $aCurrentDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
                 AND t1.interval_end = '" . $aCurrentDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
@@ -427,7 +429,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
             SELECT
                 zoneid AS zone_id
             FROM
-                {$conf['table']['prefix']}{$conf['table']['zones']}
+                {$aConf['table']['prefix']}{$aConf['table']['zones']}
             WHERE
                 zoneid != 0";
         $rc = $this->oDbh->query($query);
@@ -435,7 +437,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
             if (!isset($aResult[$aRow['zone_id']])) {
                 $aResult[$aRow['zone_id']] = array(
                     'zone_id'               => $aRow['zone_id'],
-                    'forecast_impressions'  => $conf['priority']['defaultZoneForecastImpressions'],
+                    'forecast_impressions'  => $aConf['priority']['defaultZoneForecastImpressions'],
                     'actual_impressions'    => 0
                 );
             }
@@ -461,8 +463,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
      */
     function &getAllDeliveryLimitationChangedAds($aLastRun)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        MAX::debug("Getting all ads where delivery limitations have changed.", PEAR_LOG_DEBUG);
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        OA::debug("Getting all ads where delivery limitations have changed.", PEAR_LOG_DEBUG);
         $aAds = array();
         // Test the input data
         if (!is_array($aLastRun) || (count($aLastRun) != 2)) {
@@ -482,8 +484,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 b.bannerid AS ad_id,
                 b.acls_updated AS changed
             FROM
-                {$conf['table']['prefix']}{$conf['table']['banners']} AS b,
-                {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c
+                {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS c
             WHERE
                 b.acls_updated >= '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
                 AND b.acls_updated <= '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
@@ -504,8 +506,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 b.bannerid AS ad_id,
                 b.acls_updated AS changed
             FROM
-                {$conf['table']['prefix']}{$conf['table']['banners']} AS b,
-                {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c
+                {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS c
             WHERE
                 b.acls_updated >= '" . $aLastRun['start_run']->format('%Y-%m-%d %H:%M:%S') . "'
                 AND b.acls_updated <= '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "'
@@ -571,8 +573,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
      */
     function &getPreviousAdDeliveryInfo($aCurrentZones)
     {
-        MAX::debug("Getting details of previous ad/zone delivery.", PEAR_LOG_DEBUG);
-        $conf = $GLOBALS['_MAX']['CONF'];
+        OA::debug("Getting details of previous ad/zone delivery.", PEAR_LOG_DEBUG);
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator = &ServiceLocator::instance();
         $oDate = &$oServiceLocator->get('now');
         if (!$oDate) {
@@ -591,7 +593,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
             SELECT
                 interval_start AS interval_start
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
             ORDER BY
                 interval_start
             LIMIT
@@ -618,16 +620,16 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         // Obtain the ad ID, zone ID and number of impressions delivered for every ad/zone
         // combination that delivered impressions in the previous operation interval
-        MAX::debug("  - Getting details of ad/zone pairs that delivered last OI.", PEAR_LOG_DEBUG);
+        OA::debug("  - Getting details of ad/zone pairs that delivered last OI.", PEAR_LOG_DEBUG);
         $query = "
             SELECT
                 ad_id AS ad_id,
                 zone_id AS zone_id,
                 SUM(impressions) AS impressions
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
-                operation_interval = {$conf['maintenance']['operationInterval']}
+                operation_interval = {$aConf['maintenance']['operationInterval']}
                 AND operation_interval_id = $previousOperationIntervalID
                 AND interval_start = '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
                 AND interval_end = '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
@@ -683,11 +685,11 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                                 created AS created,
                                 expired AS expired
                             FROM
-                                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
+                                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
                             WHERE
                                 ad_id IN (" . implode(', ', $aAds) . ")
                                 AND zone_id IN (" . implode(', ', $aZones) . ")
-                                AND operation_interval = {$conf['maintenance']['operationInterval']}
+                                AND operation_interval = {$aConf['maintenance']['operationInterval']}
                                 AND operation_interval_id = $previousOperationIntervalIDLoop
                                 AND interval_start = '" . $aDatesLoop['start']->format('%Y-%m-%d %H:%M:%S') . "'
                                 AND interval_end = '" . $aDatesLoop['end']->format('%Y-%m-%d %H:%M:%S') . "'
@@ -701,7 +703,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                         // time this has been done then any ad/zone pairs that have come up with details for
                         // a second (or greater) time will NOT have their past priority info re-calculated
                         // with the wrong values
-                        MAX::debug("  - Getting past details of ad/zone pairs for OI starting at " .
+                        OA::debug("  - Getting past details of ad/zone pairs for OI starting at " .
                                    $aDatesLoop['start']->format('%Y-%m-%d %H:%M:%S') . ".", PEAR_LOG_DEBUG);
                         $this->_calculateAveragePastPriorityValues($aPastPriorityResult, $aResult, $oDate, $aPastDeliveryResult);
                         // Loop over the results, marking off the ad/zone combinations
@@ -772,7 +774,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         }
         // Select the details of all ad/zones that had required/requested impressions,
         // in the previous operation interval, but for which no impressions were delivered
-        MAX::debug("  - Getting details of ad/zone pairs that did not deliver last OI (but should have).", PEAR_LOG_DEBUG);
+        OA::debug("  - Getting details of ad/zone pairs that did not deliver last OI (but should have).", PEAR_LOG_DEBUG);
         $query = "
             SELECT
                 dsaza.ad_id AS ad_id,
@@ -784,9 +786,9 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 dsaza.created AS created,
                 dsaza.expired AS expired
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']} AS dsaza
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']} AS dsaza
             LEFT JOIN
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']} AS dia
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']} AS dia
             ON
                 dsaza.ad_id = dia.ad_id
                 AND dsaza.zone_id = dia.zone_id
@@ -795,7 +797,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 AND dsaza.interval_start = dia.interval_start
                 AND dsaza.interval_end = dia.interval_end
             WHERE
-                dsaza.operation_interval = {$conf['maintenance']['operationInterval']}
+                dsaza.operation_interval = {$aConf['maintenance']['operationInterval']}
                 AND dsaza.operation_interval_id = $previousOperationIntervalID
                 AND dsaza.interval_start = '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
                 AND dsaza.interval_end = '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
@@ -811,7 +813,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         // Calculate the past priority results, but without the optional parameter to
         // _calculateAveragePastPriorityValues(), as this is a single calculation on data
         // in the past OI, and no further looping back over time will occur
-        MAX::debug("  - Getting past details of the non-delivering ad/zone pairs", PEAR_LOG_DEBUG);
+        OA::debug("  - Getting past details of the non-delivering ad/zone pairs", PEAR_LOG_DEBUG);
         $this->_calculateAveragePastPriorityValues($aNonDeliveringPastPriorityResult, $aResult, $oDate);
         // Merge the past priority values into the final results array
         if (!empty($aNonDeliveringPastPriorityResult)) {
@@ -834,7 +836,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         // in the previous operation interval and delivered/didn't deliver have been dealt
         // with, check to see if there are any ad/zone combinations that are linked to
         // deliver in the current operation interval, which are not covered by the above
-        MAX::debug("  - Finding ad/zone pairs set to deliver, but with no past data yet.", PEAR_LOG_DEBUG);
+        OA::debug("  - Finding ad/zone pairs set to deliver, but with no past data yet.", PEAR_LOG_DEBUG);
         $aAds = array();
         $aZones = array();
         $aZonesAds = array();
@@ -907,11 +909,11 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                                 interval_start AS interval_start,
                                 interval_end AS interval_end
                             FROM
-                                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
+                                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
                             WHERE
                                 ad_id IN (" . implode(', ', $aAds) . ")
                                 AND zone_id IN (" . implode(', ', $aZones) . ")
-                                AND operation_interval = {$conf['maintenance']['operationInterval']}
+                                AND operation_interval = {$aConf['maintenance']['operationInterval']}
                                 AND operation_interval_id = $previousOperationIntervalIDLoop
                                 AND interval_start = '" . $aDatesLoop['start']->format('%Y-%m-%d %H:%M:%S') . "'
                                 AND interval_end = '" . $aDatesLoop['end']->format('%Y-%m-%d %H:%M:%S') . "'
@@ -925,7 +927,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                         // (or greater) time this has been done then any ad/zone pairs that have come up
                         // with details for a second (or greater) time will NOT have their past priority info
                         // re-calculated
-                        MAX::debug("  - Getting past details of ad/zone pairs which didn't deliver last OI, for OI " .
+                        OA::debug("  - Getting past details of ad/zone pairs which didn't deliver last OI, for OI " .
                                    "starting at " . $aDatesLoop['start']->format('%Y-%m-%d %H:%M:%S') . ".", PEAR_LOG_DEBUG);
                         $this->_calculateAveragePastPriorityValues($aNotInLastOIPastPriorityResult, $aResult, $oDate, $aNotInLastOIPastDeliveryResult);
                         // Loop over the results, marking off the ad/zone combinations
@@ -990,7 +992,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                             SELECT
                                 SUM(impressions) AS impressions
                             FROM
-                                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
                             WHERE
                                 operation_interval = {$aNotInLastOIPastPriorityResult[$a][$z]['operation_interval']}
                                 AND operation_interval_id = {$aNotInLastOIPastPriorityResult[$a][$z]['operation_interval_id']}
@@ -1180,8 +1182,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
      */
     function updatePriorities(&$aData)
     {
-        MAX::debug('Saving calculated priorities.', PEAR_LOG_DEBUG);
-        $conf = $GLOBALS['_MAX']['CONF'];
+        OA::debug('Saving calculated priorities.', PEAR_LOG_DEBUG);
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator = &ServiceLocator::instance();
         $oDate = &$oServiceLocator->get('now');
         if (!$oDate) {
@@ -1195,7 +1197,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         // from ad_zone_assoc
         $query = "
             DELETE FROM
-                {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
+                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
             WHERE
                 link_type = " . MAX_AD_ZONE_LINK_CATEGORY;
         $rows = $this->oDbh->exec($query);
@@ -1206,7 +1208,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         // Set all remaining normal (ie. link_type = MAX_AD_ZONE_LINK_NORMAL) priorities to zero
         $query = "
             UPDATE
-                {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
+                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
             SET
                 priority = 0
             WHERE
@@ -1223,7 +1225,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                     foreach ($aZoneData['ads'] as $aAdZonePriority) {
                         $query = "
                             UPDATE
-                                {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
+                                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
                             SET
                                 priority = {$aAdZonePriority['priority']}
                             WHERE
@@ -1244,7 +1246,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         // Expire the old priority values in data_summary_ad_zone_assoc
         $query = "
             UPDATE
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
             SET
                 expired = '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "',
                 expired_by = 0
@@ -1269,7 +1271,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                     foreach ($aZoneData['ads'] as $aAdZonePriority) {
                         $aValues[$insertCounter][] = "
                             (
-                                {$conf['maintenance']['operationInterval']},
+                                {$aConf['maintenance']['operationInterval']},
                                 $currentOperationIntervalID,
                                 '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
                                 '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
@@ -1296,7 +1298,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                     if (is_array($aInsertValues) && !empty($aInsertValues)) {
                         $query = "
                             INSERT INTO
-                                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
+                                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
                                 (
                                     operation_interval,
                                     operation_interval_id,
@@ -1371,7 +1373,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         if ((!is_array($aZoneIds)) || (!count($aZoneIds))) {
             return;
         }
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Clone date parameters
         $oStartDateCopy = new Date();
         $oStartDateCopy->copy($oStartDate);
@@ -1398,10 +1400,10 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 operation_interval_id AS operation_interval_id,
                 ROUND(SUM(actual_impressions)/COUNT(actual_impressions)) AS average_impressions
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
             WHERE
                 zone_id IN (" . implode(', ', $aZoneIds) . ")
-                AND operation_interval = {$conf['maintenance']['operationInterval']}
+                AND operation_interval = {$aConf['maintenance']['operationInterval']}
                 AND " . $dateConstraints . "
             GROUP BY
                 zone_id, operation_interval_id
@@ -1462,7 +1464,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         if ((!is_array($aZoneIds)) || (!count($aZoneIds))) {
             return;
         }
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Construct the SQL to obtain the impressions
         $query = "
             SELECT
@@ -1471,10 +1473,10 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 forecast_impressions AS forecast_impressions,
                 actual_impressions AS actual_impressions
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
             WHERE
                 zone_id IN (" . implode(', ', $aZoneIds) . ")
-                AND operation_interval = {$conf['maintenance']['operationInterval']}
+                AND operation_interval = {$aConf['maintenance']['operationInterval']}
                 AND interval_start >= '" . $startDate->format('%Y-%m-%d %H:%M:%S') . "'
                 AND interval_start <= '" . $endDate->format('%Y-%m-%d %H:%M:%S') . "'";
         $rc = $this->oDbh->query($query);
@@ -1511,7 +1513,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
             return;
         }
 
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
 
         // save values to further querries
         $aIntervalStart = array( 'min'=> 0, 'max' => 0 );
@@ -1559,10 +1561,10 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 forecast_impressions,
                 actual_impressions
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
             WHERE
                 zone_id in (" . join( ',', array_keys( $aForecasts ) ) . ") " .
-                "AND operation_interval = {$conf['maintenance']['operationInterval']} ".
+                "AND operation_interval = {$aConf['maintenance']['operationInterval']} ".
                	"AND interval_start >= '{$aIntervalStart['min']}' AND interval_start <= '{$aIntervalStart['max']}' " .
                	"AND interval_end >= {$aIntervalEnd['min']} AND interval_end <= {$aIntervalEnd['max']} " .
                 "";
@@ -1609,12 +1611,12 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
 
         $sDeleteQuery =  "
                 DELETE FROM
-                    {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
                 WHERE " .
                 	"zone_id IN (" . join( ',', array_keys( $aForecasts ) ) . ") " .
                 	"AND interval_start >= '{$aIntervalStart['min']}' AND interval_start <= '{$aIntervalStart['max']}' " .
                 	"AND interval_end >= {$aIntervalEnd['min']} AND interval_end <= {$aIntervalEnd['max']} " .
-                	"AND operation_interval = {$conf['maintenance']['operationInterval']} ";
+                	"AND operation_interval = {$aConf['maintenance']['operationInterval']} ";
 
         // run query and check for results
         $rc = $this->oDbh->query( $sDeleteQuery );
@@ -1629,7 +1631,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         // append all values to the multiple insert stmt
         $sInsertQuery = "
                 INSERT INTO
-                    {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
                     (
                         zone_id,
                         operation_interval,
@@ -1647,7 +1649,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 // add another value set to the insert stmt
                 $sInsertQuery .= "(" .
                 		"$zoneId," .
-                		"{$conf['maintenance']['operationInterval']}," .
+                		"{$aConf['maintenance']['operationInterval']}," .
                 		"$id," .
                 		"'{$aValues['interval_start']}'," .
                 		"'{$aValues['interval_end']}'," .
@@ -1683,11 +1685,11 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
      */
     function getActiveZones()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table             = $conf['table']['prefix'] . $conf['table']['zones'];
-        $joinTable1        = $conf['table']['prefix'] . $conf['table']['ad_zone_assoc'];
-        $joinTable2        = $conf['table']['prefix'] . $conf['table']['banners'];
+        $table             = $aConf['table']['prefix'] . $aConf['table']['zones'];
+        $joinTable1        = $aConf['table']['prefix'] . $aConf['table']['ad_zone_assoc'];
+        $joinTable2        = $aConf['table']['prefix'] . $aConf['table']['banners'];
         $query['table']    = $table;
         $query['fields']   = array(
                                 "$table.zoneid",
@@ -1744,7 +1746,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         if (empty($aAdvertID)) {
             return array();
         }
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $query = "
             SELECT
                 ad_id AS ad_id,
@@ -1791,7 +1793,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
      */
     function getZoneImpressionForecasts()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator = &ServiceLocator::instance();
         $oDate = &$oServiceLocator->get('now');
         if (!$oDate) {
@@ -1802,14 +1804,14 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         $currentOpIntID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aCurrentDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $query = array();
-        $table             = $conf['table']['prefix'] . $conf['table']['data_summary_zone_impression_history'];
+        $table             = $aConf['table']['prefix'] . $aConf['table']['data_summary_zone_impression_history'];
         $query['table']    = $table;
         $query['fields']   = array(
                                 "$table.zone_id AS zone_id",
                                 "$table.forecast_impressions AS forecast_impressions"
                              );
         $query['wheres']   = array(
-                                 array("$table.operation_interval = {$conf['maintenance']['operationInterval']}", 'AND'),
+                                 array("$table.operation_interval = {$aConf['maintenance']['operationInterval']}", 'AND'),
                                  array("$table.operation_interval_id = $currentOpIntID",  'AND'),
                                  array("$table.interval_start = '" . $aCurrentDates['start']->format('%Y-%m-%d %H:%M:%S') . "'", 'AND'),
                                  array("$table.interval_end = '" . $aCurrentDates['end']->format('%Y-%m-%d %H:%M:%S') . "'", 'AND'),
@@ -1821,7 +1823,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         }
         // Get all possible zones in the system
         $query = array();
-        $table             = $conf['table']['prefix'] . $conf['table']['zones'];
+        $table             = $aConf['table']['prefix'] . $aConf['table']['zones'];
         $query['table']    = $table;
         $query['fields']   = array(
                                 "$table.zoneid AS zone_id"
@@ -1831,8 +1833,8 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                              );
         $result = $this->_get($query);
         foreach ($result as $row) {
-            if ((!isset($aResult[$row['zone_id']])) || ($aResult[$row['zone_id']] < $conf['priority']['defaultZoneForecastImpressions'])) {
-                $aResult[$row['zone_id']] = $conf['priority']['defaultZoneForecastImpressions'];
+            if ((!isset($aResult[$row['zone_id']])) || ($aResult[$row['zone_id']] < $aConf['priority']['defaultZoneForecastImpressions'])) {
+                $aResult[$row['zone_id']] = $aConf['priority']['defaultZoneForecastImpressions'];
             }
         }
         // Return the result
@@ -1866,9 +1868,9 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
         if (!is_array($aAdvertID) || empty($aAdvertID)) {
             return array();
         }
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table             = $conf['table']['prefix'] . $conf['table']['ad_zone_assoc'];
+        $table             = $aConf['table']['prefix'] . $aConf['table']['ad_zone_assoc'];
         $query['table']    = $table;
         $query['fields']   = array(
                                 "$table.ad_id AS ad_id",
@@ -1942,10 +1944,10 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
     function getPreviousWeekZoneForcastImpressions($zoneId)
     {
         if (empty($zoneId) || !is_numeric($zoneId)) {
-            MAX::debug('Invalid zone ID argument', PEAR_LOG_ERR);
+            OA::debug('Invalid zone ID argument', PEAR_LOG_ERR);
             return false;
         }
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator = &ServiceLocator::instance();
         $oDate = &$oServiceLocator->get('now');
         if (!$oDate) {
@@ -1967,10 +1969,10 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
                 interval_start AS interval_start,
                 interval_end AS interval_end
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
             WHERE
                 zone_id = $zoneId
-                AND operation_interval = {$conf['maintenance']['operationInterval']}
+                AND operation_interval = {$aConf['maintenance']['operationInterval']}
                 AND interval_start >= '" . $oDateWeekStart->format('%Y-%m-%d %H:%M:%S') . "'
                 AND interval_end <= '" . $oDateWeekEnd->format('%Y-%m-%d %H:%M:%S') . "'
                 AND zone_id != 0
@@ -1995,7 +1997,7 @@ class MAX_Dal_Maintenance_Priority extends MAX_Dal_Maintenance_Common
             if (!isset($aFinalResult[$i])) {
                 $aFinalResult[$i] = array(
                     'zone_id'               => $zoneId,
-                    'forecast_impressions'  => $conf['priority']['defaultZoneForecastImpressions'],
+                    'forecast_impressions'  => $aConf['priority']['defaultZoneForecastImpressions'],
                     'operation_interval_id' => $i,
                 );
             }

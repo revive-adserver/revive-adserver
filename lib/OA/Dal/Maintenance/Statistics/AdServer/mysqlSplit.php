@@ -37,17 +37,17 @@ require_once 'Date.php';
  * @subpackage MaintenanceStatistics
  * @author     Andrew Hill <andrew@m3.net>
  */
-class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Maintenance_Statistics_AdServer_mysql
+class OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends OA_Dal_Maintenance_Statistics_AdServer_mysql
 {
 
     /**
      * The constructor method.
      *
-     * @uses MAX_Dal_Maintenance_Statistics_AdServer_mysql::MAX_Dal_Maintenance_Statistics_AdServer_mysql()
+     * @uses OA_Dal_Maintenance_Statistics_AdServer_mysql::OA_Dal_Maintenance_Statistics_AdServer_mysql()
      */
-    function MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit()
+    function OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit()
     {
-        parent::MAX_Dal_Maintenance_Statistics_AdServer_mysql();
+        parent::OA_Dal_Maintenance_Statistics_AdServer_mysql();
     }
 
     /**

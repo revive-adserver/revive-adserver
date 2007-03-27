@@ -46,10 +46,10 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer extends UnitTestCase
     {
         $this->UnitTestCase();
         // Register a mocked DAL in the service locator
-        Mock::generate('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
-        $oDal = new MockMAX_Dal_Maintenance_Statistics_AdServer_mysql($this);
+        Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
+        $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Statistics_AdServer', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
     }
 
     /**

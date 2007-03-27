@@ -55,9 +55,9 @@ phpAds_registerGlobal('zoneid', 'cost', 'cost_type', 'cost_variable_id', 'cost_v
 /*-------------------------------------------------------*/
 
 $oServiceLocator = &ServiceLocator::instance();
-$oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
+$oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer_mysql');
 if (!$oDal) {
-    $oDal = & new MAX_Dal_Maintenance_Statistics_AdServer_mysql;
+    $oDal = & new OA_Dal_Maintenance_Statistics_AdServer_mysql;
 }
 
 $oDaySpan =& new Admin_UI_DaySpanField('period');
@@ -77,10 +77,10 @@ if (!empty($oDaySpan->_value)) {
 if ($cost_type == MAX_FINANCE_VARSUM && is_array($cost_variable_id_mult)) {
     $cost_variable_id = 0;
     foreach ($cost_variable_id_mult as $val) {
-        if ($cost_variable_id) {                
+        if ($cost_variable_id) {
             $cost_variable_id .= "," . $val;
-        } else {   
-            $cost_variable_id = $val;                
+        } else {
+            $cost_variable_id = $val;
         }
     }
 }

@@ -44,8 +44,8 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
     {
         $this->UnitTestCase();
         Mock::generate(
-            'MAX_Dal_Maintenance_Priority',
-            $this->mockDal = 'MockMAX_Dal_Maintenance_Priority'.rand()
+            'OA_Dal_Maintenance_Priority',
+            $this->mockDal = 'MockOA_Dal_Maintenance_Priority'.rand()
         );
         Mock::generatePartial(
             'PriorityCompensation',
@@ -66,7 +66,7 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
         // Mock the MAX_DB class used in the constructor method
         $oDal = new $this->mockDal($this);
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         // Partially mock the PriorityCompensation class
         $oPriorityCompensation = new PartialMockPriorityCompensation($this);
@@ -357,7 +357,7 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
         // Mock the MAX_DB class used in the constructor method
         $oDal = new $this->mockDal($this);
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         // Partially mock the PriorityCompensation class
         $oPriorityCompensation = new PartialMockPriorityCompensation($this);
@@ -460,7 +460,7 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
         // Mock the MAX_DB class used in the constructor method
         $oDal = new $this->mockDal($this);
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         // Partially mock the PriorityCompensation class
         $oPriorityCompensation = new PartialMockPriorityCompensation($this);
@@ -805,7 +805,7 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
         // Mock the MAX_DB class used in the constructor method
         $oDal = new $this->mockDal($this);
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         // Partially mock the PriorityCompensation class
         $oPriorityCompensation = new PartialMockPriorityCompensation($this);

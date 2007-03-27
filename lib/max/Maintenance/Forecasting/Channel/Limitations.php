@@ -45,9 +45,9 @@ class MAX_Maintenance_Forecasting_Channel_Limitations
 {
 
     /**
-     * A local instance of the MAX_Dal_Maintenance_Forecasting class.
+     * A local instance of the OA_Dal_Maintenance_Forecasting class.
      *
-     * @var MAX_Dal_Maintenance_Forecasting
+     * @var OA_Dal_Maintenance_Forecasting
      */
     var $oDalMaintenanceForecasting;
 
@@ -90,10 +90,10 @@ class MAX_Maintenance_Forecasting_Channel_Limitations
     function &_getDal()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oDal = $oServiceLocator->get('MAX_Dal_Maintenance_Forecasting');
+        $oDal = $oServiceLocator->get('OA_Dal_Maintenance_Forecasting');
         if (!$oDal) {
-            $oDal = new MAX_Dal_Maintenance_Forecasting();
-            $oServiceLocator->register('MAX_Dal_Maintenance_Forecasting', $oDal);
+            $oDal = new OA_Dal_Maintenance_Forecasting();
+            $oServiceLocator->register('OA_Dal_Maintenance_Forecasting', $oDal);
             }
         return $oDal;
     }

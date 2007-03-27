@@ -26,30 +26,30 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
 
 require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 require_once 'Date.php';
 require_once 'DB/QueryTool.php';
 
 /**
- * A class for testing the MAX_Dal_Maintenance_Priority class.
+ * A class for testing the non-DB specific OA_Dal_Maintenance_Priority class.
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Demian Turner <demian@m3.net>
  * @author     James Floyd <james@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.net>
+ * @author     Demian Turner <demian@m3.net>
  */
-class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
+class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Dal_TestOfMAX_Dal_Maintenance_Priority()
+    function Test_OA_Dal_Maintenance_Priority()
     {
         $this->UnitTestCase();
     }
@@ -69,7 +69,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
         TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Test 1
         $oStartDate = new Date('2005-06-21 15:00:01');
@@ -162,7 +162,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
         TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Test 1
         $result = $oMaxDalMaintenance->getMaintenancePriorityLastRunInfo(DAL_PRIORITY_UPDATE_ZIF);
@@ -208,7 +208,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
      */
     function testGetPlacements()
     {
-        $da = new MAX_Dal_Maintenance_Priority();
+        $da = new OA_Dal_Maintenance_Priority();
         TestEnv::startTransaction();
         $this->_generateStatsOne();
         $ret = $da->getPlacements();
@@ -234,7 +234,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
      */
     function testGetPlacementData()
     {
-        $da = new MAX_Dal_Maintenance_Priority();
+        $da = new OA_Dal_Maintenance_Priority();
         TestEnv::startTransaction();
         $this->_generateStatsOne();
         $ret = $da->getPlacementData(1);
@@ -264,7 +264,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
         TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Test 1
         $result = $oMaxDalMaintenance->getPlacementDeliveryToDate(1);
@@ -389,7 +389,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
      */
     function testGetPlacementStats()
     {
-        $da = new MAX_Dal_Maintenance_Priority();
+        $da = new OA_Dal_Maintenance_Priority();
         TestEnv::startTransaction();
         $this->_generateStatsOne();
         $ret = $da->getPlacementStats(1);
@@ -420,7 +420,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Create the required temporary table for the tests
         $oTable = &OA_DB_Table_Priority::singleton();
@@ -495,7 +495,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Test 1
         $oServiceLocator = &ServiceLocator::instance();
@@ -856,7 +856,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         $oDateNow = new Date('2006-10-04 12:07:01');
         $oDateLastPC = new Date('2006-10-04 11:14:53');
@@ -1306,7 +1306,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         $aEmptyZoneAdArray = array();
 
@@ -3077,7 +3077,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
         // Insert the data into the ad_zone_assoc table, as an ad is linked to a zone
         $query = "
             INSERT INTO
@@ -3424,7 +3424,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
 
         // Number of weeks to get average over
         $weeks = 2;
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
         $result = &$oMaxDalMaintenance->getZonesImpressionAverageByRange($aZones, $oStartDate, $oEndDate, $weeks);
 
         $this->assertEqual(count($result), 1);
@@ -3483,7 +3483,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
 
         // Number of weeks to get average over
         $weeks = 2;
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
         $result = &$oMaxDalMaintenance->getZonesImpressionHistoryByRange($aZones, $oStartDate, $oEndDate);
 
         $this->assertEqual(count($result), 1);
@@ -3533,7 +3533,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
         );
 
         // Run write method
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Priority();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
         $oMaxDalMaintenance->saveZoneImpressionForecasts($aForecasts);
 
         // Test keys
@@ -3565,7 +3565,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
      */
     function testGetActiveZones()
     {
-        $da = new MAX_Dal_Maintenance_Priority();
+        $da = new OA_Dal_Maintenance_Priority();
         TestEnv::startTransaction();
         $this->_generateStatsTwo();
         $ret = $da->getActiveZones();
@@ -3584,7 +3584,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
      */
     function testSaveRequiredAdImpressions()
     {
-        $oDal = new MAX_Dal_Maintenance_Priority();
+        $oDal = new OA_Dal_Maintenance_Priority();
         $oTable = &OA_DB_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_required_impression');
         $aData = array(
@@ -3613,7 +3613,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
      */
     function testGetRequiredAdImpressions()
     {
-        $oDal = new MAX_Dal_Maintenance_Priority();
+        $oDal = new OA_Dal_Maintenance_Priority();
         $oTable = &OA_DB_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_required_impression');
         $aData = array(
@@ -3660,7 +3660,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oDal = new MAX_Dal_Maintenance_Priority();
+        $oDal = new OA_Dal_Maintenance_Priority();
 
         // Test 1
         $oServiceLocator = &ServiceLocator::instance();
@@ -3934,7 +3934,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oDal = new MAX_Dal_Maintenance_Priority();
+        $oDal = new OA_Dal_Maintenance_Priority();
 
         // Test 1
         $result = $oDal->getAdZoneAssociationsByAds(1);
@@ -4066,7 +4066,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testSaveAllocatedImpressions()
     {
         $oDbh = &OA_DB::singleton();
-        $oDal = new MAX_Dal_Maintenance_Priority();
+        $oDal = new OA_Dal_Maintenance_Priority();
         // Create the required temporary table for the tests
         $oTable = &OA_DB_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_zone_impression');
@@ -4127,7 +4127,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oDal = new MAX_Dal_Maintenance_Priority();
+        $oDal = new OA_Dal_Maintenance_Priority();
 
         // Test 1
         $result = $oDal->getPreviousWeekZoneForcastImpressions('foo');
@@ -4260,7 +4260,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Priority extends UnitTestCase
     function testLocking()
     {
         $oDbh = &OA_DB::singleton();
-        $oDal = new MAX_Dal_Maintenance_Priority();
+        $oDal = new OA_Dal_Maintenance_Priority();
         // Try to get the lock
         $result = $oDal->obtainPriorityLock();
         $this->assertTrue($result);

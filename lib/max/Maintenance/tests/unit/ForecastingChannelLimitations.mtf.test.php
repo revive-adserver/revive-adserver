@@ -47,7 +47,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_Channel_Limitations extends 
     function Maintenance_TestOfMAX_Maintenance_Forecasting_Channel_Limitations()
     {
         $this->UnitTestCase();
-        Mock::generate('MAX_Dal_Maintenance_Forecasting');
+        Mock::generate('OA_Dal_Maintenance_Forecasting');
         Mock::generatePartial(
             'MAX_Maintenance_Forecasting_Channel_Limitations',
             'PartialMockMAX_Maintenance_Forecasting_Channel_Limitations_test_buildLimitations',
@@ -82,13 +82,13 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_Channel_Limitations extends 
         $oServiceLocator = &ServiceLocator::instance();
 
         // Test 1
-        $oDalMaintenanceForecasting = new MockMAX_Dal_Maintenance_Forecasting($this);
+        $oDalMaintenanceForecasting = new MockOA_Dal_Maintenance_Forecasting($this);
         $oDalMaintenanceForecasting->expectArgumentsAt(0, 'getAllDeliveryLimitationsByTypeId', array(1, 'channel'));
         $oDalMaintenanceForecasting->expectArgumentsAt(1, 'getAllDeliveryLimitationsByTypeId', array(1, 'channel'));
         $oDalMaintenanceForecasting->expectCallCount('getAllDeliveryLimitationsByTypeId', 2);
         $oDalMaintenanceForecasting->setReturnValueAt(0, 'getAllDeliveryLimitationsByTypeId', new PEAR_Error());
         $oDalMaintenanceForecasting->setReturnValueAt(1, 'getAllDeliveryLimitationsByTypeId', null);
-        $oServiceLocator->register('MAX_Dal_Maintenance_Forecasting', $oDalMaintenanceForecasting);
+        $oServiceLocator->register('OA_Dal_Maintenance_Forecasting', $oDalMaintenanceForecasting);
 
         $oChannelLimitations = new MAX_Maintenance_Forecasting_Channel_Limitations();
         $result = $oChannelLimitations->buildLimitations(1);
@@ -100,7 +100,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_Channel_Limitations extends 
         $oChannelLimitations->oDalMaintenanceForecasting->tally();
 
         // Test 2
-        $oDalMaintenanceForecasting = new MockMAX_Dal_Maintenance_Forecasting($this);
+        $oDalMaintenanceForecasting = new MockOA_Dal_Maintenance_Forecasting($this);
         $oDalMaintenanceForecasting->expectArgumentsAt(0, 'getAllDeliveryLimitationsByTypeId', array(1, 'channel'));
         $oDalMaintenanceForecasting->expectArgumentsAt(1, 'getAllDeliveryLimitationsByTypeId', array(1, 'channel'));
         $oDalMaintenanceForecasting->expectCallCount('getAllDeliveryLimitationsByTypeId', 2);
@@ -132,7 +132,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_Channel_Limitations extends 
             'getAllDeliveryLimitationsByTypeId',
             $aRawLimitations
         );
-        $oServiceLocator->register('MAX_Dal_Maintenance_Forecasting', $oDalMaintenanceForecasting);
+        $oServiceLocator->register('OA_Dal_Maintenance_Forecasting', $oDalMaintenanceForecasting);
 
         $oChannelLimitations = new PartialMockMAX_Maintenance_Forecasting_Channel_Limitations_test_buildLimitations($this);
         $oChannelLimitations->expectArgumentsAt(0, '_buildSqlLimitations', array(0));
@@ -154,7 +154,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_Channel_Limitations extends 
         $oChannelLimitations->oDalMaintenanceForecasting->tally();
 
         // Test 3
-        $oDalMaintenanceForecasting = new MockMAX_Dal_Maintenance_Forecasting($this);
+        $oDalMaintenanceForecasting = new MockOA_Dal_Maintenance_Forecasting($this);
         $oDalMaintenanceForecasting->expectArgumentsAt(0, 'getAllDeliveryLimitationsByTypeId', array(1, 'channel'));
         $oDalMaintenanceForecasting->expectArgumentsAt(1, 'getAllDeliveryLimitationsByTypeId', array(1, 'channel'));
         $oDalMaintenanceForecasting->expectCallCount('getAllDeliveryLimitationsByTypeId', 2);
@@ -218,7 +218,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_Channel_Limitations extends 
             'getAllDeliveryLimitationsByTypeId',
             $aRawLimitations
         );
-        $oServiceLocator->register('MAX_Dal_Maintenance_Forecasting', $oDalMaintenanceForecasting);
+        $oServiceLocator->register('OA_Dal_Maintenance_Forecasting', $oDalMaintenanceForecasting);
 
         $oChannelLimitations = new PartialMockMAX_Maintenance_Forecasting_Channel_Limitations_test_buildLimitations($this);
         $oChannelLimitations->expectArgumentsAt(0, '_buildSqlLimitations', array(0));

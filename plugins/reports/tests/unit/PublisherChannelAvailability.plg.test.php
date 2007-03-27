@@ -45,7 +45,7 @@ class Plugins_TestOfPlugins_Reports_Publisher_ChannelAvailability extends UnitTe
         $this->UnitTestCase();
         Mock::generate('MAX_Dal_Entities');
         Mock::generate('MAX_Dal_Statistics');
-        Mock::generate('MAX_Dal_Maintenance_Priority');
+        Mock::generate('OA_Dal_Maintenance_Priority');
         Mock::generate('MAX_Dal_Reporting_Proprietary');
         Mock::generatePartial(
             'Plugins_Reports_Publisher_ChannelAvailability',
@@ -65,8 +65,8 @@ class Plugins_TestOfPlugins_Reports_Publisher_ChannelAvailability extends UnitTe
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);
         $oMaxDalStatistics = new MockMAX_Dal_Statistics($this);
         $oServiceLocator->register('MAX_Dal_Statistics', $oMaxDalStatistics);
-        $oMaxDalMaintenancePriority = new MockMAX_Dal_Maintenance_Priority($this);
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oMaxDalMaintenancePriority);
+        $oMaxDalMaintenancePriority = new MockOA_Dal_Maintenance_Priority($this);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oMaxDalMaintenancePriority);
         $MaxDalReportingProprietary = new MockMAX_Dal_Reporting_Proprietary($this);
         $oServiceLocator->register('MAX_Dal_Reporting_Proprietary', $MaxDalReportingProprietary);
     }
@@ -80,7 +80,7 @@ class Plugins_TestOfPlugins_Reports_Publisher_ChannelAvailability extends UnitTe
         $oServiceLocator = &ServiceLocator::instance();
         $oServiceLocator->remove('MAX_Dal_Entities');
         $oServiceLocator->remove('MAX_Dal_Statistics');
-        $oServiceLocator->remove('MAX_Dal_Maintenance_Priority');
+        $oServiceLocator->remove('OA_Dal_Maintenance_Priority');
         $oServiceLocator->remove('MAX_Dal_Reporting_Proprietary');
     }
 

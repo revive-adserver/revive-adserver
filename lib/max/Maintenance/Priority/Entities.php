@@ -31,8 +31,8 @@ $Id$
  */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
 
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 /**
  * An entity class used to represent zones.

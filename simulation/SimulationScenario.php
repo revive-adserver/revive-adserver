@@ -32,10 +32,10 @@ require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
 
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 /**
  * A class for simulating maintenance/delivery scenarios

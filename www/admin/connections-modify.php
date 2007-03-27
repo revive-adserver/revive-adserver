@@ -205,17 +205,17 @@ if (!empty($aConversions))
                 $dalData_intermediate_ad->addConversion($operation,
                     $basketValue, $numItems, $ad_id,
                     $creative_id, $zone_id, $day, $hour);
-                    
+
                 // Update "$data_summary_table" table
                 $dalData_intermediate_ad->addConversion($operation,
                     $basketValue, $numItems, $ad_id,
                     $creative_id, $zone_id, $day, $hour, $data_summary_table);
-                    
+
                 // Update finance info
                 $oServiceLocator = &ServiceLocator::instance();
-                $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
+                $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer_mysql');
                 if (!$oDal) {
-                    $oDal = new MAX_Dal_Maintenance_Statistics_AdServer_mysql;
+                    $oDal = new OA_Dal_Maintenance_Statistics_AdServer_mysql;
                 }
                 $oStartDate = new Date($oConnectionDate->format('%Y-%m-%d %H:00:00'));
                 $oEndDate   = new Date($oConnectionDate->format('%Y-%m-%d %H:00:00'));

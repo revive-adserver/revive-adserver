@@ -29,21 +29,23 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/lib/max/Maintenance.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
 
+require_once MAX_PATH . '/lib/OA.php';
+
 /**
- * A non-DB specific base Data Access Layer (DAL) class that provides
+ * A non-DB specific base Data Abstraction Layer (DAL) class that provides
  * functionality that is common to all of the Maintenance DALs.
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage Maintenance
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.net>
  */
-class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
+class OA_Dal_Maintenance_Common extends MAX_Dal_Common
 {
 
     /**
      * The class constructor method.
      */
-    function MAX_Dal_Maintenance_Common()
+    function OA_Dal_Maintenance_Common()
     {
         parent::MAX_Dal_Common();
     }
@@ -68,7 +70,7 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
      */
     function setProcessLastRunInfo($oStart, $oEnd, $oUpdateTo, $tableName, $setOperationInterval, $runTypeField = null, $type = null)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Test input values $oStart and $oEnd are dates
         if (!is_a($oStart, 'Date') || !is_a($oEnd, 'Date')) {
             return false;
@@ -93,7 +95,7 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
         // Prepare the logging query
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table'][$tableName]}
+                {$aConf['table']['prefix']}{$aConf['table'][$tableName]}
                 (
                     start_run,
                     end_run,";
@@ -119,7 +121,7 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
                     '".$oEnd->format('%Y-%m-%d %H:%M:%S')."',";
         if ($setOperationInterval) {
             $query .= "
-                    {$conf['maintenance']['operationInterval']},";
+                    {$aConf['maintenance']['operationInterval']},";
         }
         $query .= "
                     ".$oDuration->toSeconds();
@@ -133,7 +135,7 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
         }
         $query .= "
                 )";
-        MAX::debug('Logging maintenance process run information into ' . $tableName, PEAR_LOG_DEBUG);
+        OA::debug('Logging maintenance process run information into ' . $tableName, PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
             return false;
@@ -177,7 +179,7 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
      */
     function getProcessLastRunInfo($tableName, $aAdditionalFields = array(), $whereClause = null, $orderBy = 'start_run', $aAlternateInfo = array())
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Test input values $aAdditionalFields and $aAlternateInfo are arrays
         if (!is_array($aAdditionalFields) || !is_array($aAlternateInfo)) {
             return false;
@@ -198,7 +200,7 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
         $query .= "
             ORDER BY $orderBy DESC
             LIMIT 1";
-        MAX::debug('Obtaining maintenance process run information from ' . $tableName, PEAR_LOG_DEBUG);
+        OA::debug('Obtaining maintenance process run information from ' . $tableName, PEAR_LOG_DEBUG);
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
             return false;
@@ -219,12 +221,12 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
                     {$aAlternateInfo['tableName']}
                 ORDER BY date ASC
                 LIMIT 1";
-            MAX::debug('Maintenance process run information not found - trying to get data from ' . $aAlternateInfo['tableName'], PEAR_LOG_DEBUG);
-            if ($conf['table']['split']) {
+            OA::debug('Maintenance process run information not found - trying to get data from ' . $aAlternateInfo['tableName'], PEAR_LOG_DEBUG);
+            if ($aConf['table']['split']) {
                 PEAR::pushErrorHandling(null);
             }
             $rc = $this->oDbh->query($query);
-            if ($conf['table']['split']) {
+            if ($aConf['table']['split']) {
                 PEAR::popErrorHandling();
             }
             if (PEAR::isError($rc)) {
@@ -258,16 +260,16 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
      *               index as "updated_to", and the type of update done,
      *               indexed as "adserver_run_type".
      *
-     * Note that this method is in the MAX_Dal_Maintenance_Common class, and
-     * not the MAX_Dal_Maintenance_Statistics class, because it is used by
+     * Note that this method is in the OA_Dal_Maintenance_Common class, and
+     * not the OA_Dal_Maintenance_Statistics class, because it is used by
      * the Maintenance Statistics, Maintenance Priority AND the Maintenance
      * Forecasting engines.
      */
     function getMaintenanceStatisticsLastRunInfo()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] .
-                 $conf['table']['log_maintenance_statistics'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table']['log_maintenance_statistics'];
         return $this->getProcessLastRunInfo($table, array('adserver_run_type'));
     }
 
@@ -300,7 +302,7 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
      * where "key" is either "ad_id" or "channel_id", depending on the $type.
      * The array is sorted in "executionorder".
      *
-     * Note that this method is in the MAX_Dal_Maintenance_Common class,
+     * Note that this method is in the OA_Dal_Maintenance_Common class,
      * because both the Maintenance Priorty and the Maintenance Forecasting
      * engines use this class.
      *
@@ -311,13 +313,13 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
      */
     function getAllDeliveryLimitationsByTypeId($id, $type)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if ($type == 'ad') {
-            $table = $conf['table']['prefix'] . $conf['table']['acls'];
+            $table = $aConf['table']['prefix'] . $aConf['table']['acls'];
             $key = 'bannerid';
             $keyAs = 'ad_id';
         } else if ($type == 'channel') {
-            $table = $conf['table']['prefix'] . $conf['table']['acls_channel'];
+            $table = $aConf['table']['prefix'] . $aConf['table']['acls_channel'];
             $key = 'channelid';
             $keyAs = 'ad_id';
         } else {
@@ -359,7 +361,7 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
      */
     function maxConnectionWindow($type)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Translate the "impression" type name
         if ($type == 'impression') {
             $tableType = 'view';
@@ -370,15 +372,15 @@ class MAX_Dal_Maintenance_Common extends MAX_Dal_Common
             SELECT
                 MAX(" . $tableType . "window) AS max
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']}";
-        MAX::debug('Finding the largest active ' . $type . ' connection window.', PEAR_LOG_DEBUG);
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns_trackers']}";
+        OA::debug('Finding the largest active ' . $type . ' connection window.', PEAR_LOG_DEBUG);
         $rc = $this->oDbh->query($query);
         $aRow = $rc->fetchRow();
         if (PEAR::isError($aRow)) {
-            MAX::debug('Error finding ' . $type . ' connection window.', PEAR_LOG_ERROR);
+            OA::debug('Error finding ' . $type . ' connection window.', PEAR_LOG_ERROR);
             return 0;
         }
-        MAX::debug('Found ' . $aRow['max'] . ' as the largest active ' . $type . ' connection window.', PEAR_LOG_DEBUG);
+        OA::debug('Found ' . $aRow['max'] . ' as the largest active ' . $type . ' connection window.', PEAR_LOG_DEBUG);
         if ($aRow['max'] > 0) {
             return $aRow['max'];
         }

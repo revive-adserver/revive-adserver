@@ -46,7 +46,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_ForecastChanne
     function Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_ForecastChannels()
     {
         $this->UnitTestCase();
-        Mock::generate('MAX_Dal_Maintenance_Forecasting');
+        Mock::generate('OA_Dal_Maintenance_Forecasting');
     }
 
     /**
@@ -55,8 +55,8 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_ForecastChanne
     function testCreate()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oMaxDalMaintenanceForecasting = new MockMAX_Dal_Maintenance_Forecasting($this);
-        $oServiceLocator->register('MAX_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
+        $oMaxDalMaintenanceForecasting = new MockOA_Dal_Maintenance_Forecasting($this);
+        $oServiceLocator->register('OA_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
 
         $oForecastChannels = new MAX_Maintenance_Forecasting_AdServer_Task_ForecastChannels();
         $this->assertTrue(is_a($oForecastChannels, 'MAX_Maintenance_Forecasting_AdServer_Task_ForecastChannels'));

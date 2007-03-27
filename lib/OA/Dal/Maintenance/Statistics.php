@@ -27,27 +27,29 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Common.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Common.php';
 require_once 'Date.php';
 
 /**
- * The non-DB specific Data Access Layer (DAL) class for the Maintenance Statistics Engine.
+ * The non-DB specific Data Abstraction Layer (DAL) class for the
+ * Maintenance Statistics Engine (MSE).
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage MaintenanceStatistics
  * @author     James Floyd <james@m3.net>
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.net>
  * @author     Radek Maciaszek <radek@m3.net>
  */
-class MAX_Dal_Maintenance_Statistics extends MAX_Dal_Maintenance_Common
+class OA_Dal_Maintenance_Statistics extends OA_Dal_Maintenance_Common
 {
 
     /**
      * The class constructor method.
      */
-    function MAX_Dal_Maintenance_Statistics()
+    function OA_Dal_Maintenance_Statistics()
     {
-        parent::MAX_Dal_Maintenance_Common();
+        parent::OA_Dal_Maintenance_Common();
     }
 
     /**
@@ -57,10 +59,10 @@ class MAX_Dal_Maintenance_Statistics extends MAX_Dal_Maintenance_Common
      */
     function setMaintenanceStatisticsRunReport($report)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['userlog']}
+                {$aConf['table']['prefix']}{$aConf['table']['userlog']}
                 (
                     timestamp,
                     usertype,
@@ -78,7 +80,7 @@ class MAX_Dal_Maintenance_Statistics extends MAX_Dal_Maintenance_Common
                     0,
                     '".addslashes($report)."'
                 )";
-        MAX::debug('Logging the maintenance statistics run report', PEAR_LOG_DEBUG);
+        OA::debug('Logging the maintenance statistics run report', PEAR_LOG_DEBUG);
         return $this->oDbh->exec($query);
     }
 

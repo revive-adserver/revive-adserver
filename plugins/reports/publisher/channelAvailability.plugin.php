@@ -28,13 +28,14 @@ $Id$
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/Entities.php';
 require_once MAX_PATH . '/lib/max/Dal/Statistics.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/Entity/Placement.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressions.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once MAX_PATH . '/lib/max/Plugin/DeliveryLimitations/MatchOverlap.php';
 require_once MAX_PATH . '/plugins/reports/lib.php';
 require_once MAX_PATH . '/plugins/reports/Reports.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 require_once 'Date.php';
 require_once 'Date/Span.php';
 require_once 'Spreadsheet/Excel/Writer.php';
@@ -345,18 +346,18 @@ class Plugins_Reports_Publisher_ChannelAvailability extends Plugins_ExcelReports
     }
 
     /**
-     * A private method to get an instance of the MAX_Dal_Maintenance_Priority class.
+     * A private method to get an instance of the OA_Dal_Maintenance_Priority class.
      *
      * @access private
-     * @return MAX_Dal_Maintenance_Priority
+     * @return OA_Dal_Maintenance_Priority
      */
-    function &_getMAX_Dal_Maintenance_Priority()
+    function &_getOA_Dal_Maintenance_Priority()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Priority');
+        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
         if (!$oDal) {
-            $oDal = new MAX_Dal_Maintenance_Priority();
-            $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+            $oDal = new OA_Dal_Maintenance_Priority();
+            $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         }
         return $oDal;
     }

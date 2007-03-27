@@ -40,7 +40,7 @@ require_once 'Date.php';
  * @subpackage MaintenanceStatistics
  * @author     Andrew Hill <andrew@m3.net>
  */
-class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_Statistics_Common
+class OA_Dal_Maintenance_Statistics_AdServer_mysql extends OA_Dal_Maintenance_Statistics_Common
 {
     var $oDbh;
     var $sortBufferSize;
@@ -48,11 +48,11 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
     /**
      * The constructor method.
      *
-     * @uses MAX_Dal_Maintenance_Statistics_Common::MAX_Dal_Maintenance_Statistics_Common()
+     * @uses OA_Dal_Maintenance_Statistics_Common::OA_Dal_Maintenance_Statistics_Common()
      */
-    function MAX_Dal_Maintenance_Statistics_AdServer_mysql()
+    function OA_Dal_Maintenance_Statistics_AdServer_mysql()
     {
-        parent::MAX_Dal_Maintenance_Statistics_Common();
+        parent::OA_Dal_Maintenance_Statistics_Common();
         $this->oDbh = &OA_DB::singleton();
         // Store the original MySQL sort_buffer_size value
         $query = "SHOW SESSION VARIABLES like 'sort_buffer_size'";
@@ -142,7 +142,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
 
     /**
      * A private function to do the job of
-     * {@link MAX_Dal_Maintenance_Statistics_AdServer_mysql::getMaintenanceStatisticsLastRunInfo()},
+     * {@link OA_Dal_Maintenance_Statistics_AdServer_mysql::getMaintenanceStatisticsLastRunInfo()},
      * but with an extra parameter to specify the raw table to look in, in
      * the case of maintenance statistics not having been run before.
      *

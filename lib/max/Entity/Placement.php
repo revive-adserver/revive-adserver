@@ -29,7 +29,8 @@ require_once MAX_PATH . '/lib/max/Entity.php';
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/Entities.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 /**
  * An entity class used to represent placements (used to be campaigns).
@@ -162,9 +163,9 @@ class MAX_Entity_Placement extends MAX_Entity
     var $oMaxDalEntities;
 
     /**
-     * A local instance of the MAX_Dal_Maintenance_Priority class.
+     * A local instance of the OA_Dal_Maintenance_Priority class.
      *
-     * @var MAX_Dal_Maintenance_Priority
+     * @var OA_Dal_Maintenance_Priority
      */
     var $oMaxDalMaintenancePriority;
 
@@ -246,7 +247,7 @@ class MAX_Entity_Placement extends MAX_Entity
         $this->priority                   = isset($aParams['priority']) ? (int)$aParams['priority'] : 0;
         // Set the object's data access layer objects
         $this->oMaxDalEntities            = &$this->_getMAX_Dal_Entities();
-        $this->oMaxDalMaintenancePriority = &$this->_getMAX_Dal_Maintenance_Priority();
+        $this->oMaxDalMaintenancePriority = &$this->_getOA_Dal_Maintenance_Priority();
     }
 
     /**
@@ -267,18 +268,18 @@ class MAX_Entity_Placement extends MAX_Entity
     }
 
     /**
-     * A private method to get an instance of the MAX_Dal_Maintenance_Priority class.
+     * A private method to get an instance of the OA_Dal_Maintenance_Priority class.
      *
      * @access private
-     * @return MAX_Dal_Maintenance_Priority
+     * @return OA_Dal_Maintenance_Priority
      */
-    function &_getMAX_Dal_Maintenance_Priority()
+    function &_getOA_Dal_Maintenance_Priority()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Priority');
+        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
         if (!$oDal) {
-            $oDal = new MAX_Dal_Maintenance_Priority();
-            $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+            $oDal = new OA_Dal_Maintenance_Priority();
+            $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         }
         return $oDal;
     }

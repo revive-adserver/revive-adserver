@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics/Common.php';
 require_once 'Date.php';
 
 /**
- * A class for testing the MAX_Dal_Maintenance_Statistics_Common class.
+ * A class for testing the OA_Dal_Maintenance_Statistics_Common class.
  *
  * @package    MaxDal
  * @subpackage TestSuite
@@ -53,8 +53,8 @@ class Dal_TestOfMaxDalStatisticsCommon extends UnitTestCase
     function testConstructor()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dsc = new MAX_Dal_Maintenance_Statistics_Common();
-        // Only test the constructor code specific to the MAX_Dal_Maintenance_Statistics_Common class
+        $dsc = new OA_Dal_Maintenance_Statistics_Common();
+        // Only test the constructor code specific to the OA_Dal_Maintenance_Statistics_Common class
         $this->assertEqual(strtolower(get_class($dsc->tables)), strtolower('OA_DB_Table_Core'));
         $this->assertEqual(strtolower(get_class($dsc->tempTables)), strtolower('OA_DB_Table_Statistics'));
     }

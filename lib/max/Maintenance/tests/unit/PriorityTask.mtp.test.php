@@ -43,19 +43,19 @@ class TestOfPriorityTask extends UnitTestCase
     function TestOfPriorityTask()
     {
         $this->UnitTestCase();
-        Mock::generate('MAX_Dal_Maintenance_Priority');
+        Mock::generate('OA_Dal_Maintenance_Priority');
     }
 
     function testRunnerHasResources()
     {
-        // Mock the MAX_Dal_Maintenance_Priority class used in the constructor method
-        $oDal = new MockMAX_Dal_Maintenance_Priority($this);
+        // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
+        $oDal = new MockOA_Dal_Maintenance_Priority($this);
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         $task = new MAX_Maintenance_Priority_Adserver_Task();
         $this->assertTrue(is_object($task->oDal));
-        $this->assertTrue(is_a($task->oDal, 'MockMAX_Dal_Maintenance_Priority'));
+        $this->assertTrue(is_a($task->oDal, 'MockOA_Dal_Maintenance_Priority'));
     }
 }
 

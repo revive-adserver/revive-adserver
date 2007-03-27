@@ -46,7 +46,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SummariseChann
     function Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels()
     {
         $this->UnitTestCase();
-        Mock::generate('MAX_Dal_Maintenance_Forecasting');
+        Mock::generate('OA_Dal_Maintenance_Forecasting');
         Mock::generate('MAX_Dal_Entities');
         Mock::generate('MAX_Maintenance_Forecasting_Channel_Limitations');
         Mock::generatePartial(
@@ -83,8 +83,8 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SummariseChann
         $oMaxDalEntities = new MockMAX_Dal_Entities($this);
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);
 
-        $oMaxDalMaintenanceForecasting = new MockMAX_Dal_Maintenance_Forecasting($this);
-        $oServiceLocator->register('MAX_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
+        $oMaxDalMaintenanceForecasting = new MockOA_Dal_Maintenance_Forecasting($this);
+        $oServiceLocator->register('OA_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
 
         $oSummariseChannels = new MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels();
         $this->assertTrue(is_a($oSummariseChannels, 'MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels'));
@@ -222,8 +222,8 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SummariseChann
         $oEndDate = new Date('2006-10-13 23:59:59');
         $oError = new PEAR_Error();
 
-        $oMaxDalMaintenanceForecasting = new MockMAX_Dal_Maintenance_Forecasting($this);
-        $oServiceLocator->register('MAX_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
+        $oMaxDalMaintenanceForecasting = new MockOA_Dal_Maintenance_Forecasting($this);
+        $oServiceLocator->register('OA_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
 
         // Test 1
         $oMaxDalEntities = new MockMAX_Dal_Entities($this);
@@ -830,8 +830,8 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SummariseChann
         $oMaxDalEntities = new MockMAX_Dal_Entities($this);
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);
 
-        $oMaxDalMaintenanceForecasting = new MockMAX_Dal_Maintenance_Forecasting($this);
-        $oServiceLocator->register('MAX_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
+        $oMaxDalMaintenanceForecasting = new MockOA_Dal_Maintenance_Forecasting($this);
+        $oServiceLocator->register('OA_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
 
         $oChannelLimitations = new MockMAX_Maintenance_Forecasting_Channel_Limitations($this);
         $oChannelLimitations->expectArgumentsAt(0, 'buildLimitations', array(1));
@@ -853,10 +853,10 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SummariseChann
         $oMaxDalEntities = new MockMAX_Dal_Entities($this);
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);
 
-        $oMaxDalMaintenanceForecasting = new MockMAX_Dal_Maintenance_Forecasting($this);
+        $oMaxDalMaintenanceForecasting = new MockOA_Dal_Maintenance_Forecasting($this);
         $oMaxDalMaintenanceForecasting->expectArgumentsAt(0, 'saveChannelSummaryForZones', array($oStartDate, $channelId, array('impressions' => 5)));
         $oMaxDalMaintenanceForecasting->expectCallCount('saveChannelSummaryForZones', 1);
-        $oServiceLocator->register('MAX_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
+        $oServiceLocator->register('OA_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
 
         $oChannelLimitations = new MockMAX_Maintenance_Forecasting_Channel_Limitations($this);
         $oChannelLimitations->expectArgumentsAt(0, 'buildLimitations', array(1));
@@ -910,9 +910,9 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SummariseChann
         $oMaxDalEntities = new MockMAX_Dal_Entities($this);
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);
 
-        $oMaxDalMaintenanceForecasting = new MockMAX_Dal_Maintenance_Forecasting($this);
+        $oMaxDalMaintenanceForecasting = new MockOA_Dal_Maintenance_Forecasting($this);
         $oMaxDalMaintenanceForecasting->expectNever('summariseRecordsInZonesBySqlLimitations');
-        $oServiceLocator->register('MAX_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
+        $oServiceLocator->register('OA_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
         $oSummariseChannels = new MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels();
         $aResult = $oSummariseChannels->_summariseBySqlLimitations($oStartDate, $oEndDate, $aZoneIds);
         $this->assertTrue(is_array($aResult));
@@ -928,11 +928,11 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SummariseChann
         $oMaxDalEntities = new MockMAX_Dal_Entities($this);
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);
 
-        $oMaxDalMaintenanceForecasting = new MockMAX_Dal_Maintenance_Forecasting($this);
+        $oMaxDalMaintenanceForecasting = new MockOA_Dal_Maintenance_Forecasting($this);
         $oMaxDalMaintenanceForecasting->expectArgumentsAt(0, 'summariseRecordsInZonesBySqlLimitations', array(null, $oStartDate, $oEndDate, $aZoneIds, $impressionTable));
         $oMaxDalMaintenanceForecasting->expectCallCount('summariseRecordsInZonesBySqlLimitations', 1);
         $oMaxDalMaintenanceForecasting->setReturnValueAt(0, 'summariseRecordsInZonesBySqlLimitations', array(1 => 500));
-        $oServiceLocator->register('MAX_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
+        $oServiceLocator->register('OA_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
 
         $oSummariseChannels = new MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels();
         $aResult = $oSummariseChannels->_summariseBySqlLimitations($oStartDate, $oEndDate, $aZoneIds);
@@ -950,11 +950,11 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SummariseChann
         $oMaxDalEntities = new MockMAX_Dal_Entities($this);
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);
 
-        $oMaxDalMaintenanceForecasting = new MockMAX_Dal_Maintenance_Forecasting($this);
+        $oMaxDalMaintenanceForecasting = new MockOA_Dal_Maintenance_Forecasting($this);
         $oMaxDalMaintenanceForecasting->expectArgumentsAt(0, 'summariseRecordsInZonesBySqlLimitations', array(null, $oStartDate, $oEndDate, $aZoneIds, $impressionTable));
         $oMaxDalMaintenanceForecasting->expectCallCount('summariseRecordsInZonesBySqlLimitations', 1);
         $oMaxDalMaintenanceForecasting->setReturnValueAt(0, 'summariseRecordsInZonesBySqlLimitations', array(1 => 500));
-        $oServiceLocator->register('MAX_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
+        $oServiceLocator->register('OA_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
 
         $oSummariseChannels = new MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels();
         $aResult = $oSummariseChannels->_summariseBySqlLimitations($oStartDate, $oEndDate, $aZoneIds);

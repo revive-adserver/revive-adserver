@@ -25,23 +25,24 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Forecasting.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Forecasting.php';
 require_once 'Date.php';
 
 /**
- * A class for testing the non-DB specific MAX_Dal_Maintenance_Forecasting class.
+ * A class for testing the non-DB specific OA_Dal_Maintenance_Forecasting class.
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage TestSuite
+ * @author     Andrew Hill <andrew.hill@openads.net>
  * @author     Radek Maciaszek <radek@m3.net>
  */
-class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
+class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Dal_TestOfMAX_Dal_Maintenance_Forecasting()
+    function Test_OA_Dal_Maintenance_Forecasting()
     {
         $this->UnitTestCase();
     }
@@ -61,7 +62,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
         TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Forecasting();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Forecasting();
 
         // Test 1
         $oStartDate = new Date('2005-06-21 15:00:01');
@@ -148,7 +149,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         $table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
         $oDbh = &OA_DB::singleton();
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Forecasting();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Forecasting();
 
         // Test 1
         $result = $oMaxDalMaintenance->getMaintenanceForecastingLastRunInfo($table);
@@ -206,7 +207,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Forecasting();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Forecasting();
 
         // Test 1
         $aSqlLimitations = 'This is not an array';
@@ -712,7 +713,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Forecasting extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Forecasting();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Forecasting();
         $table = $conf['table']['prefix'] . $conf['table']['data_summary_channel_daily'];
 
         // Test 1

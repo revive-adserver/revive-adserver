@@ -64,7 +64,7 @@ class MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends MAX_M
         if (!$oNowDate) {
             $oNowDate = new Date();
         }
-        $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Statistics_' . $this->oController->module);
+        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_' . $this->oController->module);
         $module = $this->oController->module . ' Module.';
         $this->oController->report = 'Maintenance Statistics Report: ' . $module . "\n";
         MAX::debug('Running Maintenance Statistics: ' . $module, PEAR_LOG_INFO);

@@ -26,10 +26,11 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 /**
  * A class for testing the Maintenance_Priority_DeliveryLimitation class.
@@ -48,31 +49,31 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
     function TestOfPriorityAdserverForecastZoneImpressions()
     {
         $this->UnitTestCase();
-        Mock::generate('MAX_Dal_Maintenance_Priority');
+        Mock::generate('OA_Dal_Maintenance_Priority');
     }
 
     /**
-     * A method to register a mock of the MAX_Dal_Maintenance_Priority
+     * A method to register a mock of the OA_Dal_Maintenance_Priority
      * class in the service locator at the start of every test.
      */
     function setUp()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oDalMaintenancePriority = &$oServiceLocator->get('MAX_Dal_Maintenance_Priority');
-        if (!is_a($oDalMaintenancePriority, 'MockMAX_Dal_Maintenance_Priority')) {
-            $oDalMaintenancePriority = new MockMAX_Dal_Maintenance_Priority($this);
-            $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDalMaintenancePriority);
+        $oDalMaintenancePriority = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
+        if (!is_a($oDalMaintenancePriority, 'MockOA_Dal_Maintenance_Priority')) {
+            $oDalMaintenancePriority = new MockOA_Dal_Maintenance_Priority($this);
+            $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDalMaintenancePriority);
         }
     }
 
     /**
-     * A method to de-register the mock of the MAX_Dal_Maintenance_Priority
+     * A method to de-register the mock of the OA_Dal_Maintenance_Priority
      * class in the service locator at the end of every test.
      */
     function tearDown()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oDalMaintenancePriority = &$oServiceLocator->remove('MAX_Dal_Maintenance_Priority');
+        $oDalMaintenancePriority = &$oServiceLocator->remove('OA_Dal_Maintenance_Priority');
     }
 
     /**
@@ -444,15 +445,15 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
             array('zoneid' => 4),
         );
 
-        // Mock the MAX_Dal_Maintenance_Priority class
-        $oDalMaintenancePriority = new MockMAX_Dal_Maintenance_Priority($this);
+        // Mock the OA_Dal_Maintenance_Priority class
+        $oDalMaintenancePriority = new MockOA_Dal_Maintenance_Priority($this);
 
-        // Set the return values for the mocked MAX_Dal_Maintenance_Priority
+        // Set the return values for the mocked OA_Dal_Maintenance_Priority
         $oDalMaintenancePriority->setReturnValue('getActiveZones', $aTestZones);
 
-        // Register the mocked MAX_Dal_Maintenance_Priority in the service locator
+        // Register the mocked OA_Dal_Maintenance_Priority in the service locator
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDalMaintenancePriority);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDalMaintenancePriority);
 
         // Get the task, and test
         $oTask = new ForecastZoneImpressions();
@@ -474,7 +475,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $aZone[] = new Zone(array('zoneid' => 1));
         $aZone[] = new Zone(array('zoneid' => 2));
 
-        // Prepare return data for the MAX_Dal_Maintenance_Priority's
+        // Prepare return data for the OA_Dal_Maintenance_Priority's
         // getZonesImpressionAverageByRange() method.
         $aGetZonesImpressionAverageByRange = array(
             1 => array(
@@ -489,18 +490,18 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
             )
         );
 
-        // Mock the MAX_Dal_Maintenance_Priority class
-        $oDalMaintenancePriority = new MockMAX_Dal_Maintenance_Priority($this);
+        // Mock the OA_Dal_Maintenance_Priority class
+        $oDalMaintenancePriority = new MockOA_Dal_Maintenance_Priority($this);
 
-        // Set the return values for the mocked MAX_Dal_Maintenance_Priority
+        // Set the return values for the mocked OA_Dal_Maintenance_Priority
         $oDalMaintenancePriority->setReturnValue(
             'getZonesImpressionAverageByRange',
             $aGetZonesImpressionAverageByRange
         );
 
-        // Register the mocked MAX_Dal_Maintenance_Priority in the service locator
+        // Register the mocked OA_Dal_Maintenance_Priority in the service locator
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDalMaintenancePriority);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDalMaintenancePriority);
 
         // Prepare start and end dates
         $oStart = new Date('2005-01-01 00:00:00');

@@ -26,26 +26,27 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics.php';
 require_once 'Date.php';
 require_once 'DB/QueryTool.php';
 
 /**
- * A class for testing the MAX_Dal_Maintenance_Statistics class.
+ * A class for testing the non-DB specific OA_Dal_Maintenance_Statistics class.
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Demian Turner <demian@m3.net>
  * @author     James Floyd <james@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.net>
+ * @author     Demian Turner <demian@m3.net>
  */
-class Dal_TestOfMAX_Dal_Maintenance_Statistics extends UnitTestCase
+class Test_OA_Dal_Maintenance_Statistics extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Dal_TestOfMAX_Dal_Maintenance_Statistics()
+    function Test_OA_Dal_Maintenance_Statistics()
     {
         $this->UnitTestCase();
     }
@@ -63,7 +64,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Statistics extends UnitTestCase
 
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Statistics();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Statistics();
 
         // Test 1
         $report = 'Maintenance run has finished :: Maintenance will run again at XYZ.';
@@ -129,7 +130,7 @@ class Dal_TestOfMAX_Dal_Maintenance_Statistics extends UnitTestCase
         TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oMaxDalMaintenance = new MAX_Dal_Maintenance_Statistics();
+        $oMaxDalMaintenance = new OA_Dal_Maintenance_Statistics();
 
         // Test 1
         $oStartDate = new Date('2005-06-21 15:00:01');

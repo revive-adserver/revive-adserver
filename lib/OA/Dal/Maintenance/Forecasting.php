@@ -25,25 +25,26 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Common.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Common.php';
 
 /**
- * The non-DB specific Data Access Layer (DAL) class for the Maintenance Forecasting Engine.
+ * The non-DB specific Data Abstraction Layer (DAL) class for the
+ * Maintenance Forecasting Engine (MFE).
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage MaintenanceForecasting
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.net>
  * @author     Radek Maciaszek <radek@m3.net>
  */
-class MAX_Dal_Maintenance_Forecasting extends MAX_Dal_Maintenance_Common
+class OA_Dal_Maintenance_Forecasting extends OA_Dal_Maintenance_Common
 {
 
     /**
      * The class constructor method.
      */
-    function MAX_Dal_Maintenance_Forecasting()
+    function OA_Dal_Maintenance_Forecasting()
     {
-        parent::MAX_Dal_Maintenance_Common();
+        parent::OA_Dal_Maintenance_Common();
     }
 
     /**
@@ -74,9 +75,9 @@ class MAX_Dal_Maintenance_Forecasting extends MAX_Dal_Maintenance_Common
      */
     function getMaintenanceForecastingLastRunInfo($rawTable)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] .
-                 $conf['table']['log_maintenance_forecasting'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table']['log_maintenance_forecasting'];
         return $this->getProcessLastRunInfo(
             $table,
             array('operation_interval'),
@@ -228,9 +229,9 @@ class MAX_Dal_Maintenance_Forecasting extends MAX_Dal_Maintenance_Common
     function saveChannelSummaryForZones($oDate, $channelId, $aCount)
     {
         // Select existing channel/zone pairs that may already exist
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $table   = $conf['table']['prefix'] .
-                   $conf['table']['data_summary_channel_daily'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $table   = $aConf['table']['prefix'] .
+                   $aConf['table']['data_summary_channel_daily'];
         $aExistingData = array();
         $query = "
             SELECT
@@ -240,7 +241,7 @@ class MAX_Dal_Maintenance_Forecasting extends MAX_Dal_Maintenance_Common
             WHERE
                 channel_id = $channelId
                 AND day = '" . $oDate->format('%Y-%m-%d 00:00:00') . "'";
-        MAX::debug('Selecting existing zones IDs from the ' . $table . ' table for channel ' .
+        OA::debug('Selecting existing zones IDs from the ' . $table . ' table for channel ' .
                    $channelId . ' and day ' . $oDate->format('%Y-%m-%d'), PEAR_LOG_DEBUG);
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {

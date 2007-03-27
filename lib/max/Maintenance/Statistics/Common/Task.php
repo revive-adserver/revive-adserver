@@ -67,9 +67,9 @@ class MAX_Maintenance_Statistics_Common_Task extends MAX_Core_Task
         if (!empty($this->oController->module)) {
             // Ensure that the required data access layer class is
             // registered in the service locator
-            $serviceName = 'MAX_Dal_Maintenance_Statistics_' . $this->oController->module;
+            $serviceName = 'OA_Dal_Maintenance_Statistics_' . $this->oController->module;
             if (!$oServiceLocator->get($serviceName)) {
-                $oMDMSF = new MAX_Dal_Maintenance_Statistics_Factory();
+                $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
                 $oMaxDalMaintenanceStatistics = $oMDMSF->factory($this->oController->module);
                 $oServiceLocator->register($serviceName, $oMaxDalMaintenanceStatistics);
             }

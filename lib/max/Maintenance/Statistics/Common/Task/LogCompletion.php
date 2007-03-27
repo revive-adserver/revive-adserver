@@ -68,8 +68,8 @@ class MAX_Maintenance_Statistics_Common_Task_LogCompletion extends MAX_Maintenan
         if (is_null($oEndDate)) {
             $oEndDate = new Date();
         }
-        // Get instance of MAX_Dal_Maintenance_Statistics
-        $oDal = new MAX_Dal_Maintenance_Statistics();
+        // Get instance of OA_Dal_Maintenance_Statistics
+        $oDal = new OA_Dal_Maintenance_Statistics();
         if (($this->oController->updateFinal) && ($this->oController->updateIntermediate)) {
             $oDal->setMaintenanceStatisticsLastRunInfo(
                 $oNowDate,

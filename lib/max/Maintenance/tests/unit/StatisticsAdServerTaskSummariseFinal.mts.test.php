@@ -78,11 +78,11 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseFinal 
         );
 
         // Mock the DAL, and set expectations
-        Mock::generate('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
-        $oDal = new MockMAX_Dal_Maintenance_Statistics_AdServer_mysql($this);
+        Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
+        $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
         $oDal->expectNever('saveHistory');
         $oDal->expectNever('saveSummary');
-        $oServiceLocator->register('MAX_Dal_Maintenance_Statistics_AdServer', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Set the controller class
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
@@ -100,11 +100,11 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseFinal 
         $oStartDate->addSeconds(1);
         $oUpdateIntermediateToDate = new Date('2006-03-09 11:59:59');
         // Mock the DAL, and set expectations
-        Mock::generate('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
-        $oDal = new MockMAX_Dal_Maintenance_Statistics_AdServer_mysql($this);
+        Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
+        $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
         $oDal->expectOnce('saveHistory', array($oStartDate, $oUpdateIntermediateToDate));
         $oDal->expectNever('saveSummary');
-        $oServiceLocator->register('MAX_Dal_Maintenance_Statistics_AdServer', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Set the controller class
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
@@ -124,11 +124,11 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseFinal 
         $oStartDate->addSeconds(1);
         $oUpdateFinalToDate = new Date('2006-03-09 11:59:59');
         // Mock the DAL, and set expectations
-        Mock::generate('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
-        $oDal = new MockMAX_Dal_Maintenance_Statistics_AdServer_mysql($this);
+        Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
+        $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
         $oDal->expectNever('saveHistory');
         $oDal->expectOnce('saveSummary', array($oStartDate, $oUpdateFinalToDate, $aTypes, 'data_intermediate_ad', 'data_summary_ad_hourly'));
-        $oServiceLocator->register('MAX_Dal_Maintenance_Statistics_AdServer', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Set the controller class
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
@@ -153,11 +153,11 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseFinal 
         $oStartDate->addSeconds(1);
         $oUpdateFinalToDate = new Date('2006-03-09 11:59:59');
         // Mock the DAL, and set expectations
-        Mock::generate('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
-        $oDal = new MockMAX_Dal_Maintenance_Statistics_AdServer_mysql($this);
+        Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
+        $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
         $oDal->expectOnce('saveHistory', array($oStartDate, $oUpdateIntermediateToDate));
         $oDal->expectOnce('saveSummary', array($oStartDate, $oUpdateFinalToDate, $aTypes, 'data_intermediate_ad', 'data_summary_ad_hourly'));
-        $oServiceLocator->register('MAX_Dal_Maintenance_Statistics_AdServer', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Set the controller class
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);

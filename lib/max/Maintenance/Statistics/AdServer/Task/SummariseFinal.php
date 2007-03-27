@@ -123,7 +123,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseFinal extends MAX_Mainte
         $this->oController->report .= $message . ".\n";
         MAX::debug($message, PEAR_LOG_DEBUG);
         $oServiceLocator = &ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Statistics_AdServer');
+        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $oDal->saveHistory($oStartDate, $oEndDate);
     }
 
@@ -142,7 +142,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseFinal extends MAX_Mainte
         $this->oController->report .= $message . ".\n";
         MAX::debug($message, PEAR_LOG_DEBUG);
         $oServiceLocator = &ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Statistics_AdServer');
+        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $aTypes = array(
             'types' => array(
                 0 => 'request',

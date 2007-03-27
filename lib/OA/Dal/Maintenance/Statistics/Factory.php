@@ -28,22 +28,22 @@ $Id$
 require_once MAX_PATH . '/lib/Max.php';
 
 /**
- * A class for creating {@link MAX_Dal_Maintenance_Statistics_Common} subclass
+ * A class for creating {@link OA_Dal_Maintenance_Statistics_Common} subclass
  * objects, depending on the database type in use.
  *
  * @package    MaxDal
  * @subpackage MaintenanceStatistics
  * @author     Andrew Hill <andrew@m3.net>
  */
-class MAX_Dal_Maintenance_Statistics_Factory
+class OA_Dal_Maintenance_Statistics_Factory
 {
 
     /**
      * The factory method used to instantiate a class that implements the
-     * MAX_Dal_Maintenance_Statistics_Common interface.
+     * OA_Dal_Maintenance_Statistics_Common interface.
      *
      * @param string $moduleName The name of the module class to instantiate.
-     * @return {@link MAX_Dal_Maintenance_Statistics_Common} The class object created.
+     * @return {@link OA_Dal_Maintenance_Statistics_Common} The class object created.
      */
     function factory($moduleName)
     {
@@ -64,10 +64,10 @@ class MAX_Dal_Maintenance_Statistics_Factory
         $conf = $GLOBALS['_MAX']['CONF'];
         if ($conf['table']['split']) {
             $filename  = $conf['database']['type'] . 'Split';
-            $classname = 'MAX_Dal_Maintenance_Statistics_' . $moduleName . '_' . $conf['database']['type'] . 'Split';
+            $classname = 'OA_Dal_Maintenance_Statistics_' . $moduleName . '_' . $conf['database']['type'] . 'Split';
         } else {
             $filename  = $conf['database']['type'];
-            $classname = 'MAX_Dal_Maintenance_Statistics_' . $moduleName . '_' . $conf['database']['type'];
+            $classname = 'OA_Dal_Maintenance_Statistics_' . $moduleName . '_' . $conf['database']['type'];
         }
         $includeFile = MAX_PATH . "/lib/max/Dal/Maintenance/Statistics/$moduleName/{$filename}.php";
         @include_once $includeFile;

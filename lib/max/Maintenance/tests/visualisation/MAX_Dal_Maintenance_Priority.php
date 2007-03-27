@@ -25,10 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 /**
- * An extended version of the MAX_Dal_Maintenance_Priority class with a modified
+ * An extended version of the OA_Dal_Maintenance_Priority class with a modified
  * saveZoneImpressionForecasts() method, so that the results of zone
  * forecasts can be inspected without accessing the database.
  *
@@ -36,12 +36,12 @@ require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */
-class MAX_Dal_Maintenance_TestOfForecastZoneImpressions extends MAX_Dal_Maintenance_Priority
+class MAX_Dal_Maintenance_TestOfForecastZoneImpressions extends OA_Dal_Maintenance_Priority
 {
 
     function MAX_Dal_Maintenance_TestOfForecastZoneImpressions()
     {
-        parent::MAX_Dal_Maintenance_Priority();
+        parent::OA_Dal_Maintenance_Priority();
     }
 
     /**

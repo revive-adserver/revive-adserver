@@ -49,7 +49,7 @@ define('DAL_STATISTICS_COMMON_UPDATE_BOTH', 2);
  *
  * @abstract
  */
-class MAX_Dal_Maintenance_Statistics_Common
+class OA_Dal_Maintenance_Statistics_Common
 {
     var $tables;
     var $tempTables;
@@ -58,13 +58,13 @@ class MAX_Dal_Maintenance_Statistics_Common
     /**
      * The constructor method.
      *
-     * @return MAX_Dal_Maintenance_Statistics_Common
+     * @return OA_Dal_Maintenance_Statistics_Common
      */
-    function MAX_Dal_Maintenance_Statistics_Common()
+    function OA_Dal_Maintenance_Statistics_Common()
     {
         $this->tables = &OA_DB_Table_Core::singleton();
         $this->tempTables = &OA_DB_Table_Statistics::singleton();
-        $this->oDalMaintenanceStatistics = new MAX_Dal_Maintenance_Statistics();
+        $this->oDalMaintenanceStatistics = new OA_Dal_Maintenance_Statistics();
     }
 
     /**

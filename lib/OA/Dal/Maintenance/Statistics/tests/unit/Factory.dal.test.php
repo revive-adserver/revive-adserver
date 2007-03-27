@@ -29,7 +29,7 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics/Factory.php';
 
 /**
- * A class for testing the MAX_Dal_Maintenance_Statistics_Factory class.
+ * A class for testing the OA_Dal_Maintenance_Statistics_Factory class.
  *
  * @package    MaxDal
  * @subpackage TestSuite
@@ -53,9 +53,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsFactory extends UnitTestCase
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['split'] = false;
-        $oMDMSF = new MAX_Dal_Maintenance_Statistics_Factory();
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $classname = $oMDMSF->_deriveClassName('AdServer');
-        $this->assertEqual($classname, 'MAX_Dal_Maintenance_Statistics_AdServer_mysql');
+        $this->assertEqual($classname, 'OA_Dal_Maintenance_Statistics_AdServer_mysql');
         TestEnv::restoreConfig();
     }
 
@@ -66,9 +66,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsFactory extends UnitTestCase
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['split'] = true;
-        $oMDMSF = new MAX_Dal_Maintenance_Statistics_Factory();
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $classname = $oMDMSF->_deriveClassName('AdServer');
-        $this->assertEqual($classname, 'MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit');
+        $this->assertEqual($classname, 'OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit');
         TestEnv::restoreConfig();
     }
 
@@ -79,9 +79,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsFactory extends UnitTestCase
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['split'] = false;
-        $oMDMSF = new MAX_Dal_Maintenance_Statistics_Factory();
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $classname = $oMDMSF->_deriveClassName('Tracker');
-        $this->assertEqual($classname, 'MAX_Dal_Maintenance_Statistics_Tracker_mysql');
+        $this->assertEqual($classname, 'OA_Dal_Maintenance_Statistics_Tracker_mysql');
         TestEnv::restoreConfig();
     }
 
@@ -92,9 +92,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsFactory extends UnitTestCase
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['split'] = true;
-        $oMDMSF = new MAX_Dal_Maintenance_Statistics_Factory();
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $classname = $oMDMSF->_deriveClassName('Tracker');
-        $this->assertEqual($classname, 'MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit');
+        $this->assertEqual($classname, 'OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit');
         TestEnv::restoreConfig();
     }
 

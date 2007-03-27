@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics/Tracker/mysqlSplit.php';
 
 /**
- * A class for testing the MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit class.
+ * A class for testing the OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit class.
  *
  * @package    MaxDal
  * @subpackage TestSuite
@@ -52,8 +52,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
      */
     function testSingleton()
     {
-        $first = new MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
-        $second = new MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
+        $first = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
+        $second = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
         $this->assertIdentical($first, $second);
     }
 
@@ -66,7 +66,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $oDbh = &OA_DB::singleton();
         $conf['table']['split'] = true;
         $conf['maintenance']['operationInterval'] = 60;
-        $dsa = new MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
+        $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
         // Create the required tables
         $now = new Date();
         $dsa->tables->createTable('data_raw_tracker_impression', $now);
@@ -162,7 +162,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $oDbh = &OA_DB::singleton();
         $conf['table']['split'] = true;
         $conf['maintenance']['compactStatsGrace'] = 0;
-        $dsa = new MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
+        $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
         // Create the required tables
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_tracker_click', $now);
@@ -245,7 +245,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $conf['table']['split'] = true;
         // Set a compact_stats_grace window
         $conf['maintenance']['compactStatsGrace'] = 3600;
-        $dsa = new MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
+        $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
         // Create the required tables
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_tracker_click', $now);

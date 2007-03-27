@@ -64,8 +64,8 @@ class MAX_Maintenance_Forecasting_AdServer_Task_LogCompletion extends MAX_Mainte
         if (is_null($oEndDate)) {
             $oEndDate = new Date();
         }
-        // Get instance of MAX_Dal_Maintenance_Forecasting
-        $oDal = new MAX_Dal_Maintenance_Forecasting();
+        // Get instance of OA_Dal_Maintenance_Forecasting
+        $oDal = new OA_Dal_Maintenance_Forecasting();
         if (($this->oController->update)) {
             $this->oDal->setMaintenanceForecastingLastRunInfo(
                 $oNowDate,

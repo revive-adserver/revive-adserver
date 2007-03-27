@@ -37,17 +37,17 @@ require_once 'Date.php';
  * @subpackage MaintenanceStatistics
  * @author     Andrew Hill <andrew@m3.net>
  */
-class MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends MAX_Dal_Maintenance_Statistics_Tracker_mysql
+class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenance_Statistics_Tracker_mysql
 {
 
     /**
      * The constructor method.
      *
-     * @uses MAX_Dal_Maintenance_Statistics_Tracker_mysql::MAX_Dal_Maintenance_Statistics_Tracker_mysql()
+     * @uses OA_Dal_Maintenance_Statistics_Tracker_mysql::OA_Dal_Maintenance_Statistics_Tracker_mysql()
      */
-    function MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit()
+    function OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit()
     {
-        parent::MAX_Dal_Maintenance_Statistics_Tracker_mysql();
+        parent::OA_Dal_Maintenance_Statistics_Tracker_mysql();
     }
 
     /**

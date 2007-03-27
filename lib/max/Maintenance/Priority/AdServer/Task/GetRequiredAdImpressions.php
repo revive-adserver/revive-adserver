@@ -136,12 +136,12 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
      * in children classes to return an array of MAX_Entity_Placement objects.
      *
      * Essentially a convenience method to convert the results of the
-     * {@link MAX_Dal_Maintenance_Priority::_getPlacements()} method from an array
+     * {@link OA_Dal_Maintenance_Priority::_getPlacements()} method from an array
      * of database records into an array of MAX_Entity_Placement objects.
      *
      * @access private
      * @param array $aFields An optional array of extra fields to select from the database
-     *                       (see the {@link MAX_Dal_Maintenance_Priority::getPlacements()}
+     *                       (see the {@link OA_Dal_Maintenance_Priority::getPlacements()}
      *                       class.)
      * @param array $aWheres An optional array of where statements to limit which placements
      *                      are returned from the database (see the

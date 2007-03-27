@@ -647,10 +647,10 @@ class MtcePriorityLastRun
     function &_getDal()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oDal = $oServiceLocator->get('MAX_Dal_Maintenance_Priority');
+        $oDal = $oServiceLocator->get('OA_Dal_Maintenance_Priority');
         if (!$oDal) {
-            $oDal = new MAX_Dal_Maintenance_Priority();
-            $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+            $oDal = new OA_Dal_Maintenance_Priority();
+            $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         }
         return $oDal;
     }
@@ -682,10 +682,10 @@ class MtceStatsLastRun
     function &_getDal()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oDal = $oServiceLocator->get('MAX_Dal_Maintenance_Priority');
+        $oDal = $oServiceLocator->get('OA_Dal_Maintenance_Priority');
         if (!$oDal) {
-            $oDal = new MAX_Dal_Maintenance_Priority();
-            $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+            $oDal = new OA_Dal_Maintenance_Priority();
+            $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         }
         return $oDal;
     }

@@ -70,18 +70,18 @@ class MAX_Maintenance_Forecasting_AdServer_Task extends MAX_Core_Task
 
     /**
      * A private method to create/register/return the
-     * MAX_Dal_Maintenance_Forecasting class.
+     * OA_Dal_Maintenance_Forecasting class.
      *
      * @access private
-     * @return MAX_Dal_Maintenance_Forecasting
+     * @return OA_Dal_Maintenance_Forecasting
      */
     function &_getDal()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Forecasting');
+        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Forecasting');
         if (!$oDal) {
-            $oDal = new MAX_Dal_Maintenance_Forecasting();
-            $oServiceLocator->register('MAX_Dal_Maintenance_Forecasting', $oDal);
+            $oDal = new OA_Dal_Maintenance_Forecasting();
+            $oServiceLocator->register('OA_Dal_Maintenance_Forecasting', $oDal);
         }
         return $oDal;
     }
