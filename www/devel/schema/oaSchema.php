@@ -91,7 +91,7 @@ class Openads_Schema_Manager
      *
      * @param string The XML schema file we are working on
      */
-    function __construct($file_schema = 'tables_core.xml')
+    function __construct($file_schema = 'tables_core.xml', $file_changes='')
     {
         $this->path_schema_final = MAX_PATH.'/etc/';
         $this->path_schema_trans = MAX_PATH.'/var/';
@@ -104,7 +104,7 @@ class Openads_Schema_Manager
 
         $this->path_dbo = $this->path_changes_final.'DataObjects_';
 
-        $file_changes   = 'changes_'.$file_schema;
+        $file_changes   = ($file_changes ? $file_changes : 'changes_'.$file_schema);
         $file_links     = 'db_schema.links.ini';
 
         $this->schema_final = $this->path_schema_final.$file_schema;
@@ -281,16 +281,16 @@ class Openads_Schema_Manager
             {
                 $this->aDump_options['custom_tags']['status']='final';
 
-                $this->changes_final = $this->path_changes_final.'schema_'.$this->version.'.xml';
+                $this->changes_final = $this->path_changes_final.'changes_'.$this->version.'.xml';
                 $result = $this->createChangeset($this->changes_final, $comments, $version);
                 if ($result)
                 {
                     if ($result)
                     {
                         $this->_generateDataObjects($this->changes_final);
-                        //copy($this->path_changes_trans.$result, $this->path_changes_final.$result);
-                        //unlink($this->path_changes_trans.$result);
                         $result = $this->writeWorkingDefinitionFile($this->schema_final);
+                        $schema = $this->path_changes_final.'schema_'.$this->version.'.xml';
+                        $result = $this->writeWorkingDefinitionFile($schema);
                     }
                 }
                 if ($result && $this->use_links)
@@ -568,8 +568,30 @@ class Openads_Schema_Manager
 
         $aChanges = $this->oSchema->parseChangesetDefinitionFile($input_file);
 
-        $aChanges['constructive']['tables']['change'][$table_name]['add']['fields'][$field_name]['was'] = $field_name_was;
-
+        if (isset($aChanges['constructive']['tables']['change'][$table_name]['add']['fields'][$field_name]))
+        {
+            $aChanges['constructive']['tables']['change'][$table_name]['add']['fields'][$field_name]['was'] = $field_name_was;
+        }
+        else if (isset($aChanges['constructive']['tables']['change'][$table_name]['rename']['fields'][$field_name]))
+        {
+            $aChanges['constructive']['tables']['change'][$table_name]['rename']['fields'][$field_name]['was'] = $field_name_was;
+            if (isset($aChanges['destructive']['tables']['change'][$table_name]['remove'][$field_name_was]))
+            {
+                unset($aChanges['destructive']['tables']['change'][$table_name]['remove'][$field_name_was]);
+                if (empty($aChanges['destructive']['tables']['change'][$table_name]['remove']))
+                {
+                    unset($aChanges['destructive']['tables']['change'][$table_name]['remove']);
+                }
+                if (empty($aChanges['destructive']['tables']['change'][$table_name]))
+                {
+                    unset($aChanges['destructive']['tables']['change'][$table_name]);
+                }
+                if (empty($aChanges['destructive']['tables']['change']))
+                {
+                    unset($aChanges['destructive']['tables']['change']);
+                }
+            }
+        }
         $this->aDump_options['output']     = $input_file;
         $this->aDump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
         $this->aDump_options['split']      = false;

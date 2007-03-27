@@ -35,8 +35,10 @@ function getLastChangeset()
     $opts = '';
     $dh = opendir(MAX_CHG);
     if ($dh) {
-        while (false !== ($file = readdir($dh))) {
-            if (strpos($file, '.xml')>0)
+        while (false !== ($file = readdir($dh)))
+        {
+            //if (strpos($file, '.xml')>0)
+            if (preg_match('/changes_[\d]+\.xml/', $file, $aMatches))
             {
                 return $file;
             }
@@ -44,6 +46,30 @@ function getLastChangeset()
         closedir($dh);
     }
     return false;
+}
+
+function getChangesFile()
+{
+    $changesFile = $_COOKIE['changesetFile'];
+    if (!$changesFile)
+    {
+        $changesFile = MAX_PATH.'/var/changes_tables_core.xml';
+    }
+    return $changesFile;
+}
+
+function getSchemaFile($changesFile)
+{
+    $schemaFile = $_COOKIE['schemaFile'];
+    if (!$schemaFile)
+    {
+        $schemaFile = MAX_PATH.'/etc/tables_core.xml';
+    }
+    if ($changesFile)
+    {
+        $schemaFile = 'changes/'.str_replace('changes_', 'schema_', $changesFile);
+    }
+    return $schemaFile;
 }
 
 require_once '../../../init.php';
@@ -74,6 +100,7 @@ else if (array_key_exists('btn_migration_create', $_POST))
     $changesFile = $_COOKIE['changesetFile'];
     if ($changesFile)
     {
+        $schemaFile = 'changes/'.str_replace('changes_', 'schema_', $changesFile);
 
         require_once 'oaSchema.php';
         $oaSchema = & new Openads_Schema_Manager($schemaFile);
@@ -98,9 +125,13 @@ else if (array_key_exists('btn_field_save', $_POST))
     {
         $changesFile = MAX_PATH.'/var/changes_tables_core.xml';
     }
+    else
+    {
+        $schemaFile = 'changes/'.str_replace('changes_', 'schema_', $changesFile);
+    }
 
     require_once 'oaSchema.php';
-    $oaSchema = & new Openads_Schema_Manager($schemaFile);
+    $oaSchema = & new Openads_Schema_Manager($schemaFile, $changesFile);
 
     if (($aErrs = $oaSchema->checkPermissions()) !== true) {
         die(join("<br />\n", $aErrs));

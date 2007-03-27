@@ -22,8 +22,7 @@ class Migration
     function __construct()
     {
 		$this->field_map = array();
-		// currently the only way to map renamed objects is via manual mapping
-	    //$this->field_map['<totablename>']['<tofieldname>'] = array('fromTable'=>'<fromtablename>', 'fromField'=>'<fromfieldname>');
+	    //$this->field_map['totablename']['tofieldname'] = array('fromTable'=>'fromtablename', 'fromField'=>'fromfieldname');
     }
 
     function logEvent($event, $params=array())
@@ -57,8 +56,19 @@ class Migration
             $fromTable = $this->field_map[$table][$field]['fromTable'];
             $fromField = $this->field_map[$table][$field]['fromField'];
             $this->copyData($fromTable, $fromField, $table, $field);
-
         }
+    }
+
+    function beforeRenameField($table, $field)
+    {
+        // the $field param is the new field name
+        // look up the field map to get the old field name
+    }
+
+    function afterRenameField($table, $field)
+    {
+        // the $field param is the new field name
+        // look up the field map to get the old field name
     }
 
     function beforeAlterField($table, $field)

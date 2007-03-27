@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>Openads DB Upgrade</title>
+</head>
+<body>
+<?php
+if (count($oUpgrade->aErrors)>0)
+{
+?>
+<div style="background-color:pink;">
+    <?php
+        foreach ($oUpgrade->aErrors AS $k => $err)
+        {
+            echo $err.'<br />';
+        }
+    ?>
+</div>
+<?php
+}
+?>
+<div style="background-color:lightblue;">
+    <?php
+        foreach ($oUpgrade->aMessages AS $k => $msg)
+        {
+            echo $msg.'<br />';
+        }
+    ?>
+</div>
+<?php
+if (count($oUpgrade->aErrors)==0)
+{
+?>
+<div style="background-color:yellow;text-align:center;">
+    <form name="frmUpgrade" method="POST" action="upgrade.php">
+        <button name="btn_upgrade">upgrade me baby i dare ya!</button>
+    </form>
+</div>
+<?php
+}
+?>
+
+</body>
+</html>
+

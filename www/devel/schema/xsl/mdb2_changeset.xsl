@@ -141,6 +141,17 @@
                             </xsl:call-template>
                         </xsl:for-each>
                     </xsl:if>
+                    <xsl:if test="rename/field">
+                        <xsl:call-template name="showfieldheader">
+                            <xsl:with-param name="method" select="'rename'"/>
+                        </xsl:call-template>
+                        <xsl:for-each select="rename/field">
+                            <xsl:call-template name="showfield">
+                                <xsl:with-param name="table"><xsl:value-of select="$tablename"/></xsl:with-param>
+                                <xsl:with-param name="method"><xsl:value-of select="'rename'"/></xsl:with-param>
+                            </xsl:call-template>
+                        </xsl:for-each>
+                    </xsl:if>
                     <xsl:if test="change/field">
                         <xsl:call-template name="showfieldheader">
                             <xsl:with-param name="method" select="'change'"/>
@@ -238,6 +249,9 @@
                 </xsl:if>
                 <xsl:if test="$method='change'">
                     <xsl:text>fields changed in table : </xsl:text>
+                </xsl:if>
+                <xsl:if test="$method='rename'">
+                    <xsl:text>fields renamed in table : </xsl:text>
                 </xsl:if>
                 <xsl:if test="$method='remove'">
                     <xsl:text>fields removed from table : </xsl:text>
