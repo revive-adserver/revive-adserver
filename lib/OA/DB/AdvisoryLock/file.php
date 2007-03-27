@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
  * An abstract class defining the interface for using advisory locks inside Openads.
  *
  * @package    OpenadsDB
- * @subpackage Table
+ * @subpackage AdvisoryLock
  * @author     Matteo Beccati <matteo.beccati@openads.org>
  */
 class OA_DB_AdvisoryLock_file extends OA_DB_AdvisoryLock
@@ -70,22 +70,21 @@ class OA_DB_AdvisoryLock_file extends OA_DB_AdvisoryLock
     /**
      * A private method to release a previously acquired lock.
      *
-     * @return void
+     * @return boolean True if the lock was correctly released.
      */
     function _releaseLock()
     {
         if (!empty($this->_rFile)) {
-            @flock($this->_rFile, LOCK_UN);
+            $bLock = @flock($this->_rFile, LOCK_UN);
             @fclose($this->_rFile);
             @unlink($this->_sPath);
             $this->sPath = null;
             $this->rFile = null;
-        }
-    }
 
-    function _isLockingSupported()
-    {
-        return true;
+            return $bLock;
+        }
+
+        return false;
     }
 }
 

@@ -64,6 +64,11 @@ class OA_DB_AdvisoryLock
      */
     var $_sId;
 
+    /**
+     * The class constructor method.
+     *
+     * @return OA_DB_AdvisoryLock
+     */
     function OA_DB_AdvisoryLock()
     {
         $this->oDbh =& OA_DB::singleton();
@@ -137,7 +142,7 @@ class OA_DB_AdvisoryLock
      * @return boolean True if the current class will work
      */
     function _isLockingSupported() {
-        return false;
+        return true;
     }
 
     /**
@@ -149,18 +154,19 @@ class OA_DB_AdvisoryLock
      */
     function _getLock($iType, $iWaitTime)
     {
-        // Placeholder
+        MAX::debug('Base class cannot be used directly, use the factory method instead', PEAR_LOG_ERR);
         return false;
     }
 
     /**
      * A private method to release a previously acquired lock.
      *
-     * @return void
+     * @return boolean True if the lock was correctly released.
      */
     function _releaseLock()
     {
-        // Placeholder
+        MAX::debug('Base class cannot be used directly, use the factory method instead', PEAR_LOG_ERR);
+        return false;
     }
 
     /**
@@ -174,13 +180,13 @@ class OA_DB_AdvisoryLock
     function _getId($sName)
     {
         if (isset($GLOBALS['_MAX']['PREF'])) {
-            $pref = $GLOBALS['_MAX']['PREF'];
+            $sId = $GLOBALS['_MAX']['PREF']['instance_id'];
         } else {
-            // TODO: We need to load the instance id from the database
-            $pref = array('instance_id' => sha1(''));
+            $conf = $GLOBALS['_MAX']['CONF'];
+            $sId = sha1($this->oDbh->getDsn().'/'.$conf['table']['prefix']);
         }
 
-        return "OA_{$sName}.{$pref['instance_id']}";
+        return "OA_{$sName}.{$sId}";
     }
 }
 

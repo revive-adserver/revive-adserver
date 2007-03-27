@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
  * An abstract class defining the interface for using advisory locks inside Openads.
  *
  * @package    OpenadsDB
- * @subpackage Table
+ * @subpackage AdvisoryLock
  * @author     Matteo Beccati <matteo.beccati@openads.org>
  */
 class OA_DB_AdvisoryLock_mysql extends OA_DB_AdvisoryLock
@@ -55,23 +55,26 @@ class OA_DB_AdvisoryLock_mysql extends OA_DB_AdvisoryLock
             )
         );
 
-        return !PEAR::isError($iAcquired) && $iAcquired;
+        return !PEAR::isError($iAcquired) && !empty($iAcquired);
     }
 
     /**
      * A private method to release a previously acquired lock.
      *
-     * @return void
+     * @return boolean True if the lock was correctly released.
      */
     function _releaseLock()
     {
         // Relase lock
-        $rc = $this->oDbh->extended->ExecParam(
-            "DO RELEASE_LOCK(?)",
+        $iReleased = $this->oDbh->extended->GetOne(
+            "SELECT RELEASE_LOCK(?)",
+            'integer',
             array(
                 $this->_sId
             )
         );
+
+        return !PEAR::isError($iReleased) && !empty($iReleased);
     }
 }
 

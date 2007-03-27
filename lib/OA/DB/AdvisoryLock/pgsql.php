@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
  * An abstract class defining the interface for using advisory locks inside Openads.
  *
  * @package    OpenadsDB
- * @subpackage Table
+ * @subpackage AdvisoryLock
  * @author     Matteo Beccati <matteo.beccati@openads.org>
  */
 class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
@@ -54,7 +54,7 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
             $aParams
         );
 
-        return !PEAR::isError($iAcquired) && $iAcquired;
+        return !PEAR::isError($iAcquired) && !empty($iAcquired);
     }
 
     /**
@@ -67,16 +67,19 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
         $aParams = unserialize($this->_sId);
 
         // Relase lock
-        $rc = $this->oDbh->extended->execParam(
+        $iReleased = $this->oDbh->extended->getOne(
             "SELECT pg_advisory_unlock(?, ?)",
+            'boolean',
             $aParams
         );
+
+        return !PEAR::isError($iReleased) && !empty($iReleased);
     }
 
     /**
      * A method to check if PostgreSQL supports advisory locks.
      *
-     * @return boolean
+     * @return boolean True if the lock was correctly released.
      */
     function _isLockingSupported()
     {
@@ -86,13 +89,21 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
         return (bool)version_compare($sVersion, '8.2', '>=');
     }
 
+    /**
+     * A method to generate a lock id.
+     *
+     * @access protected
+     *
+     * @param string The lock name.
+     * @return string The lock id.
+     */
     function _getId($sName)
     {
         if (isset($GLOBALS['_MAX']['PREF'])) {
-            $pref = $GLOBALS['_MAX']['PREF'];
+            $sId = $GLOBALS['_MAX']['PREF']['instance_id'];
         } else {
-            // TODO: We need to load the instance id from the database
-            $pref = array('instance_id' => sha1(''));
+            $conf = $GLOBALS['_MAX']['CONF'];
+            $sId = $this->oDbh->getDsn().'/'.$conf['table']['prefix'];
         }
 
         // PostgreSQL needs two int4, we generate them using crc32
