@@ -56,80 +56,41 @@ require_once MAX_PATH.'/lib/OA/Dal/Links.php';
 
 require_once MAX_DEV.'/lib/openads/DB_Upgrade.php';
 
-if (array_key_exists('btn_upgrade', $_POST))
+$welcome = false;
+$backup  = false;
+$upgrade = false;
+
+if (array_key_exists('btn_initialise', $_REQUEST))
 {
     $oUpgrade = new Openads_DB_Upgrade();
-    if ($oUpgrade->init(10))
-    {
-        $oUpgrade->upgrade('constructive');
-    }
-//    $upgradeFunction = $_REQUEST['function'];
-//    $upgradeVersion  = $_REQUEST['version'];
-//    $oUpgrade->$upgradeFunction();
-//    if (count($oUpgrade->errors)>0)
-//    {
-//        $errorText = '';
-//        foreach ($oUpgrade->errors AS $k => $v)
-//        {
-//            $errorText.= $v;
-//        }
-//        include MAX_PATH . '/www//upgrade/templates/error.html';
-//    } else {
-//        $oUpgrade->upgradeTo = $upgradeVersion;
-//        $oUpgrade->_upgradeInstalledVersion();
-//        initUpgrade(true);
-//    }
+    $oUpgrade->init('constructive', 10);
+    $backup = true;
+    include 'tpl/upgrade.html';
 }
-else if (array_key_exists('btn_continue', $_REQUEST))
+else if (array_key_exists('btn_backup', $_REQUEST))
 {
-//    $oUpgrade        = initUpgrade(false);
-//    $upgradeVersion  = $_REQUEST['version'];
-//    $oUpgrade->upgradeTo = $upgradeVersion;
-//    $oUpgrade->_upgradeInstalledVersion();
-//    initUpgrade(true);
+    $oUpgrade = new Openads_DB_Upgrade();
+    $oUpgrade->init('constructive', 10);
+    $oUpgrade->_createBackup();
+    $upgrade = true;
+    include 'tpl/upgrade.html';
+}
+else if (array_key_exists('btn_upgrade', $_POST))
+{
+    $oUpgrade = new Openads_DB_Upgrade();
+    if ($oUpgrade->init('constructive', 10))
+    {
+        $oUpgrade->upgrade();
+    }
+    include 'tpl/upgrade.html';
 }
 else
 {
-    $oUpgrade = new Openads_DB_Upgrade();
-    $oUpgrade->init(10);
+    $welcome = true;
+    include 'tpl/upgrade.html';
 }
 
-include 'tpl/upgrade.html';
 
-function initUpgrade($display=true)
-{
-    $oUpgrade = new Openads_DB_Upgrade();
-//    $oUpgrade->init(10);
-//    $verCode = $upgrade->getVersionConstant();
-//    $verSchema = $upgrade->getVersionSchema();
-//    if (!$verSchema)
-//    {
-//        $verSchema = 'v0.2.0-alpha';
-//        $upgrade->upgradeFrom = 'v0.1.16-beta';
-//        $upgrade->upgradeTo = 'v0.2.0-alpha';
-//        $upgrade->setInstalledVersion();
-//        $upgrade->_upgradeInstalledVersion();
-//    }
-//    else
-//    {
-//        $upgradeRequired = $upgrade->previousVersionExists($verCode);
-//    }
-//    $aUpgrade = $upgrade->getUpgradeFunction();
-//    $upgradeRequired = ($aUpgrade['version'] ? true : false);
-//    if ($upgradeRequired)
-//    {
-//        $upgradeVersion = $aUpgrade['version'];
-//        $upgradeFunction = $aUpgrade['function'];
-//    }
-    if ($display)
-    {
-        include 'tpl/upgrade.html';
-    }
-    else
-    {
-        return $oUpgrade;
-    }
-}
 ?>
 
 

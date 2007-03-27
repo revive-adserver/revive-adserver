@@ -4,6 +4,30 @@
 </head>
 <body>
 <?php
+if ($welcome)
+{
+?>
+<div style="background-color:yellow;text-align:center;">
+    <form name="frmUpgrade" method="POST" action="upgrade.php">
+        <button name="btn_initialise">hey! i see you need an upgrade, would you like me to help you with that?</button>
+    </form>
+</div>
+<?php
+}
+?>
+<?php
+if ($backup)
+{
+?>
+<div style="background-color:yellow;text-align:center;">
+    <form name="frmUpgrade" method="POST" action="upgrade.php">
+        <button name="btn_backup">i guess you should backup your database, yeah?</button>
+    </form>
+</div>
+<?php
+}
+?>
+<?php
 if (count($oUpgrade->aErrors)>0)
 {
 ?>
@@ -27,7 +51,7 @@ if (count($oUpgrade->aErrors)>0)
     ?>
 </div>
 <?php
-if (count($oUpgrade->aErrors)==0)
+if ($upgrade)
 {
 ?>
 <div style="background-color:yellow;text-align:center;">
