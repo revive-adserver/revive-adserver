@@ -28,6 +28,8 @@ $Id$
 require_once MAX_PATH . '/lib/max/Entity/Placement.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
+
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
 
 /**
@@ -71,7 +73,7 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
      */
     function run()
     {
-        MAX::debug('Starting to Allocate Zone Impressions.', PEAR_LOG_DEBUG);
+        OA::debug('Starting to Allocate Zone Impressions.', PEAR_LOG_DEBUG);
         // Set the zone forecast information
         $this->_setZoneForecasts();
         // Set the placement information
@@ -305,7 +307,7 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                     $message  = "Found that Zone ID $zoneId was over-subscribed: Want ";
                     $message .= "{$aZoneInfo['desiredImpressions']} in {$aZoneInfo['availableImpressions']}";
                     $globalMessage .= $message . "\n";
-                    MAX::debug($message, PEAR_LOG_DEBUG);
+                    OA::debug($message, PEAR_LOG_DEBUG);
                     // The zone was over-subscribed, set the flag, and calculate
                     // the factor that is needed to be adjusted by
                     $this->aOverSubscribedZones[$zoneId]['oversubscribed'] = true;

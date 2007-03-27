@@ -25,11 +25,12 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
+
+require_once MAX_PATH . '/lib/OA.php';
 require_once 'Date.php';
 
 /**
@@ -77,7 +78,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
      */
     function run()
     {
-        MAX::debug('Starting Priority Compensation.', PEAR_LOG_DEBUG);
+        OA::debug('Starting Priority Compensation.', PEAR_LOG_DEBUG);
         // Record the start of this Priority Compensation run
         $oStartDate = new Date();
         // Prepare an array for the priority results
@@ -113,7 +114,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
             // Note that the $oUpdateTo parameter is "null", as this value is not
             // appropriate when recording Priority Compensation task runs - all that
             // matters is the start/end dates.
-            MAX::debug('Recording completion of the Priority Compensation task', PEAR_LOG_DEBUG);
+            OA::debug('Recording completion of the Priority Compensation task', PEAR_LOG_DEBUG);
             $oEndDate = new Date();
             $this->oDal->setMaintenancePriorityLastRunInfo(
                 $oStartDate,
@@ -134,7 +135,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
      */
     function &_buildClasses()
     {
-        MAX::debug('Building zone and advert objects.', PEAR_LOG_DEBUG);
+        OA::debug('Building zone and advert objects.', PEAR_LOG_DEBUG);
         // Obtain the forecast impression inventory for each zone for the current OI
         $aZoneImpInvs = &$this->oDal->getAllZonesImpInv();
         // Create an array of all of the zones, indexed by zone ID
@@ -174,7 +175,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                 } else {
                     $message  = 'Attempted to link Ad ID ' . $oAd->id . ' ';
                     $message .= 'to non-existant Zone ID ' . $aZoneImpAlloc['zone_id'];
-                    MAX::debug($message, PEAR_LOG_WARNING);
+                    OA::debug($message, PEAR_LOG_WARNING);
 
                 }
             }
@@ -448,7 +449,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
             if (is_null($oAdvert->pastAdZonePriorityFactor)) {
                 $message .= 'WARNING! Ad has a null past zone priority factor!';
                 $this->globalMessage .= $message . "\n";
-                MAX::debug($message, PEAR_LOG_DEBUG);
+                OA::debug($message, PEAR_LOG_DEBUG);
             } else {
                 if ($oAdvert->pastAdZonePriorityFactor != 0) {
                     $newFactor = $oAdvert->pastAdZonePriorityFactor * BASE_FACTOR;
@@ -457,7 +458,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                         $message .= 'Using new priority factor of';
                         $message .= sprintf('%26.5f.', $newFactor);
                         $this->globalMessage .= $message . "\n";
-                        MAX::debug($message, PEAR_LOG_DEBUG);
+                        OA::debug($message, PEAR_LOG_DEBUG);
                         return array($newFactor, false, 0);
                     } else {
                         // Use the past ad zone priority factor
@@ -465,13 +466,13 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                         $message .= 'Re-using priority factor of';
                         $message .= sprintf('%27.5f.', $newFactor);
                         $this->globalMessage .= $message . "\n";
-                        MAX::debug($message, PEAR_LOG_DEBUG);
+                        OA::debug($message, PEAR_LOG_DEBUG);
                         if ($newFactor > MAX_RAND) {
                             $newFactor = MAX_RAND / 2;
                             $message = '    OMG!!! PONIES!!! The value above is > MAX_RAND! Using MAX_RAND / 2:' .
                                        sprintf('%70.5f.', $newFactor);
                             $this->globalMessage .= $message . "\n";
-                            MAX::debug($message, PEAR_LOG_DEBUG);
+                            OA::debug($message, PEAR_LOG_DEBUG);
                         }
                         return array($newFactor, true, 0);
                     }
@@ -481,7 +482,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                     $message .= 'Found a zero priority factor, so using base factor of';
                     $message .= sprintf('%26.5f.', $newFactor);
                     $this->globalMessage .= $message . "\n";
-                    MAX::debug($message, PEAR_LOG_DEBUG);
+                    OA::debug($message, PEAR_LOG_DEBUG);
                     return array($newFactor, false, 0);
                 }
             }
@@ -536,7 +537,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
             $message .= 'had a calculated factor outside of limits of supported numbers, using old value of';
             $message .= sprintf('%23.5f.', $newFactor);
             $this->globalMessage .= $message . "\n";
-            MAX::debug($message, PEAR_LOG_DEBUG);
+            OA::debug($message, PEAR_LOG_DEBUG);
         } elseif ($fullFactor > MAX_RAND) {
             // The full factor is greater than the limit set by the value of mt_getrandmax(),
             // so don't use the full factor - instead, use a value half way between the old
@@ -548,13 +549,13 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
             $message .= 'had a calculated factor > mt_getrandmax() limits, using new value of';
             $message .= sprintf('%42.5f.', $newFactor);
             $this->globalMessage .= $message . "\n";
-            MAX::debug($message, PEAR_LOG_DEBUG);
+            OA::debug($message, PEAR_LOG_DEBUG);
             if ($newFactor > MAX_RAND) {
                 $newFactor = MAX_RAND / 2;
                 $message = '    OMG!!! PONIES!!! The value above is > MAX_RAND! Using MAX_RAND / 2:' .
                            sprintf('%70.5f.', $newFactor);
                 $this->globalMessage .= $message . "\n";
-                MAX::debug($message, PEAR_LOG_DEBUG);
+                OA::debug($message, PEAR_LOG_DEBUG);
             }
         } elseif ($fullFactor < MAX_RAND_INV) {
             // The full factor is less than the limit set by the value of mt_getrandmax(),
@@ -567,7 +568,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
             $message .= 'had a calculated factor < mt_getrandmax() limits, using new value of';
             $message .= sprintf('%42.5f.', $newFactor);
             $this->globalMessage .= $message . "\n";
-            MAX::debug($message, PEAR_LOG_DEBUG);
+            OA::debug($message, PEAR_LOG_DEBUG);
         } else {
             // Use the full factor as the new factor
             $newFactor = $fullFactor;

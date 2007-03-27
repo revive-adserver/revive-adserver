@@ -8,9 +8,6 @@
 | Copyright (c) 2003-2006 m3 Media Services Limited                         |
 | For contact details, see: http://www.m3.net/                              |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -39,6 +36,85 @@ require_once 'PEAR.php';
  */
 class OA
 {
+
+    /**
+     * A method to log debugging messages to the location configured by the user.
+     *
+     * @static
+     * @param mixed $message     Either a string or a PEAR_Error object.
+     * @param integer $priority  The priority of the message. One of:
+     *                           PEAR_LOG_EMERG, PEAR_LOG_ALERT, PEAR_LOG_CRIT
+     *                           PEAR_LOG_ERR, PEAR_LOG_WARNING, PEAR_LOG_NOTICE
+     *                           PEAR_LOG_INFO, PEAR_LOG_DEBUG
+     * @return boolean           True on success or false on failure.
+     *
+     * @TODO Logging to anything other than a file is probably broken - test!
+     */
+    function debug($message, $priority = PEAR_LOG_INFO)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        // Logging is not activated
+        if ($aConf['log']['enabled'] == false) {
+            return true;
+        }
+        // Is the priority under logging threshold level?
+        if (defined($aConf['log']['priority'])) {
+            $aConf['log']['priority'] = constant($aConf['log']['priority']);
+        }
+        if ($priority > $aConf['log']['priority']) {
+            return true;
+        }
+        // Grab DSN if we are logging to a database
+        $dsn = ($conf['log']['type'] == 'sql') ? Base::getDsn() : '';
+        // Instantiate a logger object based on logging options
+        $oLogger = &Log::singleton(
+            $aConf['log']['type'],
+            MAX_PATH . '/var/' . $aConf['log']['name'],
+            $aConf['log']['ident'],
+            array(
+                $aConf['log']['paramsUsername'],
+                $aConf['log']['paramsPassword'],
+                'dsn' => $dsn,
+                'mode' => octdec($aConf['log']['fileMode']),
+            )
+        );
+        // If log message is an error object, extract info
+        if (PEAR::isError($message)) {
+            $userinfo = $message->getUserInfo();
+            $message = $message->getMessage();
+            if (!empty($userinfo)) {
+                if (is_array($userinfo)) {
+                    $userinfo = implode(', ', $userinfo);
+                }
+            $message .= ' : ' . $userinfo;
+            }
+        }
+        // Obtain backtrace information, if supported by PHP
+        // TODO: Consider replacing version_compare with function_exists
+        if (version_compare(phpversion(), '4.3.0') >= 0) {
+            $aBacktrace = debug_backtrace();
+            if ($aConf['log']['methodNames']) {
+                // Show from four calls up the stack, to avoid the
+                // showing the PEAR error call info itself
+                $aErrorBacktrace = $aBacktrace[4];
+                if (isset($aErrorBacktrace['class']) && $aErrorBacktrace['type'] && isset($aErrorBacktrace['function'])) {
+                    $callInfo = $aErrorBacktrace['class'] . $aErrorBacktrace['type'] . $aErrorBacktrace['function'] . ': ';
+                    $message = $callInfo . $message;
+                }
+            }
+            // Show entire stack, line-by-line
+            if ($aConf['log']['lineNumbers']) {
+                foreach($aBacktrace as $aErrorBacktrace) {
+                    if (isset($aErrorBacktrace['file']) && isset($aErrorBacktrace['line'])) {
+                        $message .=  "\n" . str_repeat(' ', 20 + strlen($aConf['log']['ident']) + strlen($oLogger->priorityToString($priority)));
+                        $message .= 'on line ' . $aErrorBacktrace['line'] . ' of "' . $aErrorBacktrace['file'] . '"';
+                    }
+                }
+            }
+        }
+        // Log the message
+        return $oLogger->log($message, $priority);
+    }
 
     /**
      * A method to temporarily disable PEAR error handling by

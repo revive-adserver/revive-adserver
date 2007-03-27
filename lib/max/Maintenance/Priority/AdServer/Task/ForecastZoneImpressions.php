@@ -28,6 +28,8 @@ $Id$
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
+
+require_once MAX_PATH . '/lib/OA.php';
 require_once 'Date.php';
 
 // Number of weeks to average actual impressions
@@ -81,7 +83,7 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
      */
     function run()
     {
-        MAX::debug('Starting to Forecast Zone Impressions.', PEAR_LOG_DEBUG);
+        OA::debug('Starting to Forecast Zone Impressions.', PEAR_LOG_DEBUG);
         $oStartDate = new Date();
         // Determine type of update required
         if ($type = $this->getUpdateTypeRequired()) {
@@ -93,7 +95,7 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                 $this->doForecast($range);
             }
             // Record the completion of the task in the database
-            MAX::debug('Recording completion of the Forecast Zone Impressions task', PEAR_LOG_DEBUG);
+            OA::debug('Recording completion of the Forecast Zone Impressions task', PEAR_LOG_DEBUG);
             $oEndDate = new Date();
             $this->oDal->setMaintenancePriorityLastRunInfo($oStartDate, $oEndDate, $this->oUpdateToDate, DAL_PRIORITY_UPDATE_ZIF);
         }
@@ -114,21 +116,21 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
      */
     function getUpdateTypeRequired()
     {
-        MAX::debug('Calculating range of operation intervals which require ZIF update', PEAR_LOG_DEBUG);
+        OA::debug('Calculating range of operation intervals which require ZIF update', PEAR_LOG_DEBUG);
         // Set default return value
         $ret = false;
         if (is_null($this->mtceStatsLastRun->oUpdatedToDate)) {
             // mtceStatsLastRun date is null, there are no stats, update all so new install can run: return true
-            MAX::debug('No previous maintenance statisitcs run, so update all required', PEAR_LOG_DEBUG);
+            OA::debug('No previous maintenance statisitcs run, so update all required', PEAR_LOG_DEBUG);
             // Not safe to simply insert data, otherwise multiple rows may result
             $ret = true;
         } elseif (is_null($this->mtcePriorityLastRun->oUpdatedToDate)) {
             // mtcePriorityLastRun date is null, priority has never been run before, update all: return true
-            MAX::debug('No previous maintenance priority run, so update all required', PEAR_LOG_DEBUG);
+            OA::debug('No previous maintenance priority run, so update all required', PEAR_LOG_DEBUG);
             $ret = true;
         } elseif (MAX_OperationInterval::getOperationInterval() != $this->mtcePriorityLastRun->operationInt) {
             // The operation interval has changed since the last run, force an update all: return true
-            MAX::debug('Operation interval length change since last run, so update all required', PEAR_LOG_DEBUG);
+            OA::debug('Operation interval length change since last run, so update all required', PEAR_LOG_DEBUG);
             $ret = true;
         } else {
             // If stats was run after priority, then the maintenance stats updated to date will be equal to,
@@ -144,7 +146,7 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                 $oDateNowCopy->copy($this->oDateNow);
                 $oSpan->setFromDateDiff($oUpdatedToDateCopy, $oDateNowCopy);
                 if ($oSpan->day >= 7) {
-                    MAX::debug('One week passed since last run, so update all required', PEAR_LOG_DEBUG);
+                    OA::debug('One week passed since last run, so update all required', PEAR_LOG_DEBUG);
                     $ret = true;
                 } else {
                     // Get the operation intervals for each run
@@ -154,10 +156,10 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                     $statsOpIntId = MAX_OperationInterval::nextOperationIntervalID($statsOpIntId, 1);
                     // As long as the operation intervals are not in the same interval, priority should be run
                     if ($statsOpIntId != $priorityOpIntId) {
-                        MAX::debug('Found range to update', PEAR_LOG_DEBUG);
+                        OA::debug('Found range to update', PEAR_LOG_DEBUG);
                         $ret = array($priorityOpIntId, $statsOpIntId);
                     } else {
-                        MAX::debug('Update range is simply current interval, so no update required', PEAR_LOG_DEBUG);
+                        OA::debug('Update range is simply current interval, so no update required', PEAR_LOG_DEBUG);
                         $ret = false;
                     }
                 }

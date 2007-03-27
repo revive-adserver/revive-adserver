@@ -30,6 +30,8 @@ require_once MAX_PATH . '/lib/max/Entity/Placement.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
+
+require_once MAX_PATH . '/lib/OA.php';
 require_once 'Date.php';
 
 /**
@@ -78,7 +80,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
      */
     function run()
     {
-        MAX::debug('Starting to Get Required Ad Impressions.', PEAR_LOG_DEBUG);
+        OA::debug('Starting to Get Required Ad Impressions.', PEAR_LOG_DEBUG);
         $conf = $GLOBALS['_MAX']['CONF'];
         $aAllPlacements = $this->_getValidPlacements();
         if (is_array($aAllPlacements) && (count($aAllPlacements) > 0)) {
@@ -351,7 +353,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                 // placement in terms of activation/expiration dates and
                 // either (total) inventory requirements or daily targets
                 $message = "Error calculating the end date for Placement ID {$oPlacement->id}.";
-                MAX::debug($message, PEAR_LOG_ERR);
+                OA::debug($message, PEAR_LOG_ERR);
                 continue;
             }
             // Determine number of remaining operation intervals for placement
@@ -533,7 +535,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                 // placement in terms of activation/expiration dates and
                 // either (total) inventory requirements or daily targets
                 $message = "Error calculating the end date for Placement ID {$oPlacement->id}.";
-                MAX::debug($message, PEAR_LOG_ERR);
+                OA::debug($message, PEAR_LOG_ERR);
                 continue;
             }
             // Sum the weights of all ads in placement
@@ -694,7 +696,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         if (empty($adId) || !is_numeric($adId)) {
-            MAX::debug("Invalid advertisement ID argument", PEAR_LOG_ERR);
+            OA::debug("Invalid advertisement ID argument", PEAR_LOG_ERR);
             return false;
         }
         // Get all zones associated with the advertisement
