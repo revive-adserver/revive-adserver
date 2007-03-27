@@ -23,9 +23,6 @@ define('phpAds_lockMaintenance',	1);
 define('phpAds_lockPriority',		2);
 define('phpAds_lockDistributed',	3);
 
-// Lock times
-define('phpAds_lockTimeDeliveryCache', 120);
-
 
 function phpAds_maintenanceGetLock($type = phpAds_lockMaintenance, $wait = 0)
 {

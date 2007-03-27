@@ -92,22 +92,11 @@ function phpAds_performMaintenance($maintenance_type = PHPADS_MAINT_TYPE_REGULAR
 		if ($maintenance_type != PHPADS_MAINT_TYPE_CLEARCACHE)
 			include (phpAds_path."/maintenance/maintenance-priority.php");
 		
-		// Acquire priority lock, waiting for the task completion
-		if (true) // $dclock = phpAds_maintenanceGetLock(phpAds_lockPriority, phpAds_lockTimeDeliveryCache))
-		{
-			// Rebuild cache
-			if (!defined('LIBVIEWCACHE_INCLUDED')) 
-				include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
-			
-			phpAds_cacheDelete();
-			
-			// Sleep for 1 second to avoid load balanced webservers to
-			// connect to the main db at the same time
-			sleep(1);
-			
-			// Release lock
-			//phpAds_maintenanceReleaseLock($dclock);
-		}
+		// Rebuild cache
+		if (!defined('LIBVIEWCACHE_INCLUDED')) 
+			include (phpAds_path.'/libraries/deliverycache/cache-'.$phpAds_config['delivery_caching'].'.inc.php');
+		
+		phpAds_cacheDelete();
 		
 		return true;
 	}
