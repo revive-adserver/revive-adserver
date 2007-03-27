@@ -29,8 +29,8 @@ $Id$
 */
 
 // Required files
-require_once MAX_PATH . '/lib/max/DB.php';
-require_once MAX_PATH . '/lib/openads/Table/Core.php';
+require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 
 class Max_Admin_DB
 {
@@ -46,9 +46,9 @@ class Max_Admin_DB
         if ($type == 'MYISAM') {
             return true;
         } else {
-            $dbh = MAX_DB::singleton();
-            $result = $dbh->query('SHOW VARIABLES');
-            while ($row = $result->fetchRow(DB_FETCHMODE_ORDERED)) {
+            $oDbh = &OA_DB::singleton();
+            $rc = $oDbh->query('SHOW VARIABLES');
+            while ($row = $rc->fetchRow(DB_FETCHMODE_ORDERED)) {
                 if ($type == 'BDB' && $row[0] == 'have_bdb' && $row[1] == 'YES') {
                     return true;
                 }
@@ -98,13 +98,13 @@ class Max_Admin_DB
      */
     function checkDatabaseExists($installvars)
     {
-        $dbh = MAX_DB::singleton();
-        $tables = Openads_Table_Core::singleton();
-        $availabletables = array();
-        $availabletables = $dbh->getListOf('tables');
+        $oDbh = &OA_DB::singleton();
+        $oTable = OA_DB_Table_Core::singleton();
+        $aTables = array();
+        $aTables = $oDbh->manager->listTables();
         $result = false;
-        foreach ($tables->tables as $k => $v) {
-            if (is_array($availabletables) && in_array($installvars['table_prefix'] . $k, $availabletables)) {
+        foreach ($oTable->tables as $k => $v) {
+            if (is_array($aTables) && in_array($installvars['table_prefix'] . $k, $aTables)) {
                 // Table exists
                 $result = true;
                 break;
