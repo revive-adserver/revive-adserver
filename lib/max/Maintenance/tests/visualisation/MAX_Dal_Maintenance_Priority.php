@@ -55,7 +55,7 @@ class MAX_Dal_Maintenance_TestOfForecastZoneImpressions extends MAX_Dal_Maintena
         // Update the database, instead of inserting, as existing data already
         // exists
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         foreach ($aForecasts as $zoneId => $aOperationIntervals) {
             foreach ($aOperationIntervals as $id => $aValues) {
                 $query = "
@@ -69,7 +69,7 @@ class MAX_Dal_Maintenance_TestOfForecastZoneImpressions extends MAX_Dal_Maintena
                         AND operation_interval_id = $id
                         AND interval_start = '" . $aValues['interval_start'] . "'
                         AND interval_end = '" . $aValues['interval_end'] . "'";
-                $res = $dbh->query($query);
+                $rows = $oDbh->exec($query);
             }
         }
     }
