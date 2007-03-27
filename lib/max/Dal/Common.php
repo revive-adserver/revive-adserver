@@ -287,6 +287,8 @@ class MAX_Dal_Common
      *
      * @param string $lockName Name of the lock to obtain.
      * @return boolean Returns true if lock was obtained, false otherwise.
+     *
+     * @TODO DEPRECATED! Use the OA_DB_AdvisoryLock class instead.
      */
     function obtainLock($lockName)
     {
@@ -310,6 +312,8 @@ class MAX_Dal_Common
      *
      * @param string $lockName Name of the lock to release.
      * @return boolean Returns true if lock was released, false otherwise.
+     *
+     * @TODO DEPRECATED! Use the OA_DB_AdvisoryLock class instead.
      */
     function releaseLock($lockName)
     {
