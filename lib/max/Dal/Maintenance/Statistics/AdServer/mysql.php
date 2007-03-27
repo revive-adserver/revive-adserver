@@ -2402,18 +2402,18 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
     /**
      * A method to delete old (ie. summarised) raw data.
      *
-     * @param Date $summarisedTo The date/time up to which data have been summarised (i.e. data up
+     * @param Date $oSummarisedTo The date/time up to which data have been summarised (i.e. data up
      *                           to and including this date (minus any compact_stats_grace window)
      *                           will be deleted, unless required by the tracking module, where
      *                           installed).
      * @return integer The number of rows deleted.
      */
-    function deleteOldData($summarisedTo)
+    function deleteOldData($oSummarisedTo)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $deleteDate = $summarisedTo;
+        $oDeleteDate = $oSummarisedTo;
         if ($aConf['maintenance']['compactStatsGrace'] > 0) {
-            $deleteDate->subtractSeconds((int) $aConf['maintenance']['compactStatsGrace']);
+            $oDeleteDate->subtractSeconds((int) $aConf['maintenance']['compactStatsGrace']);
         }
         $resultRows = 0;
         // Delete the ad requests before taking into account the maximum connection window
@@ -2423,8 +2423,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
             DELETE FROM
                 $table
             WHERE
-                date_time <= '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
-        MAX::debug("Deleting summarised (earlier than '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') .
+                date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
+        MAX::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                    "') ad requests from the $table table", PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
@@ -2442,7 +2442,7 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
                 $maxWindow = $clickWindow;
             }
             MAX::debug('Found maximum connection window of ' . $maxWindow . ' seconds', PEAR_LOG_DEBUG);
-            $deleteDate->subtractSeconds((int) $maxWindow); // Cast to int, as Date class
+            $oDeleteDate->subtractSeconds((int) $maxWindow); // Cast to int, as Date class
                                                             // doesn't deal with strings
         }
         // Delete the ad impressions
@@ -2452,8 +2452,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
             DELETE FROM
                 $table
             WHERE
-                date_time <= '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
-        MAX::debug("Deleting summarised (earlier than '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') .
+                date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
+        MAX::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                    "') ad impressions from the $table table", PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
@@ -2467,8 +2467,8 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysql extends MAX_Dal_Maintenance_
             DELETE FROM
                 $table
             WHERE
-                date_time <= '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
-        MAX::debug("Deleting summarised (earlier than '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') .
+                date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
+        MAX::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                    "') ad clicks from the $table table", PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {

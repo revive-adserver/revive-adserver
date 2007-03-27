@@ -89,7 +89,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
                 (
                     '" . $now->format('%Y-%m-%d %H:%M:%S') . "'
                 )";
-        $aRows = $oDbh->exec($query);
+        $rows = $oDbh->exec($query);
         $now->setHour(12);
         $now->setMinute(34);
         $now->setSecond(56);
@@ -103,7 +103,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
                 (
                     '" . $now->format('%Y-%m-%d %H:%M:%S') . "'
                 )";
-        $aRows = $oDbh->exec($query);
+        $rows = $oDbh->exec($query);
         $now->setHour(18);
         $now->setMinute(22);
         $now->setSecond(11);
@@ -117,7 +117,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
                 (
                     '" . $now->format('%Y-%m-%d %H:%M:%S') . "'
                 )";
-        $aRows = $oDbh->exec($query);
+        $rows = $oDbh->exec($query);
         $now->setHour(11);
         $now->setMinute(59);
         $now->setSecond(59);
@@ -129,21 +129,21 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Get the data for the tests
         include_once MAX_PATH. '/lib/max/Dal/data/TestOfStatisticsAdServermysqlSplit.php';
         // Insert an hourly (only) update
-        $aRows = $oDbh->exec(SPLIT_LMS_HOUR);
+        $aRow = $oDbh->exec(SPLIT_LMS_HOUR);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, $now);
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert an operation interval (only) update
-        $aRows = $oDbh->exec(SPLIT_LMS_OI);
+        $aRow = $oDbh->exec(SPLIT_LMS_OI);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-06 10:16:00'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert a dual interval update
-        $aRows = $oDbh->exec(SPLIT_LMS_DUAL);
+        $aRow = $oDbh->exec(SPLIT_LMS_DUAL);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
@@ -170,8 +170,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Test with no data
         $start = new Date('2004-06-06 12:00:00');
         $end = new Date('2004-06-06 12:29:59');
-        $aRows = $dsa->summariseRequests($start, $end);
-        $this->assertEqual($aRows, 0);
+        $aRow = $dsa->summariseRequests($start, $end);
+        $this->assertEqual($aRow, 0);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -182,13 +182,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysqlSplit.php';
         // Insert 3 ad requests
-        $aRows = $oDbh->exec(SPLIT_SUMMARISE_AD_REQUESTS_ONE);
-        $aRows = $oDbh->exec(SPLIT_SUMMARISE_AD_REQUESTS_TWO);
+        $aRow = $oDbh->exec(SPLIT_SUMMARISE_AD_REQUESTS_ONE);
+        $aRow = $oDbh->exec(SPLIT_SUMMARISE_AD_REQUESTS_TWO);
         // Summarise where requests don't exist
         $start = new Date('2004-05-06 12:00:00');
         $end = new Date('2004-05-06 12:29:59');
-        $aRows = $dsa->summariseRequests($start, $end);
-        $this->assertEqual($aRows, 0);
+        $aRow = $dsa->summariseRequests($start, $end);
+        $this->assertEqual($aRow, 0);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -199,8 +199,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Summarise where one request exists
         $start = new Date('2004-05-06 12:30:00');
         $end = new Date('2004-05-06 12:59:59');
-        $aRows = $dsa->summariseRequests($start, $end);
-        $this->assertEqual($aRows, 1);
+        $aRow = $dsa->summariseRequests($start, $end);
+        $this->assertEqual($aRow, 1);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -211,8 +211,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Summarise where the other two requests exists
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $aRows = $dsa->summariseRequests($start, $end);
-        $this->assertEqual($aRows, 1);
+        $aRow = $dsa->summariseRequests($start, $end);
+        $this->assertEqual($aRow, 1);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -261,8 +261,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Test with no data
         $start = new Date('2004-06-06 12:00:00');
         $end = new Date('2004-06-06 12:29:59');
-        $aRows = $dsa->summariseImpressions($start, $end);
-        $this->assertEqual($aRows, 0);
+        $aRow = $dsa->summariseImpressions($start, $end);
+        $this->assertEqual($aRow, 0);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -273,13 +273,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysqlSplit.php';
         // Insert 3 ad impressions
-        $aRows = $oDbh->exec(SPLIT_SUMMARISE_AD_IMPRESSIONS_ONE);
-        $aRows = $oDbh->exec(SPLIT_SUMMARISE_AD_IMPRESSIONS_TWO);
+        $aRow = $oDbh->exec(SPLIT_SUMMARISE_AD_IMPRESSIONS_ONE);
+        $aRow = $oDbh->exec(SPLIT_SUMMARISE_AD_IMPRESSIONS_TWO);
         // Summarise where impressions don't exist
         $start = new Date('2004-05-06 12:00:00');
         $end = new Date('2004-05-06 12:29:59');
-        $aRows = $dsa->summariseImpressions($start, $end);
-        $this->assertEqual($aRows, 0);
+        $aRow = $dsa->summariseImpressions($start, $end);
+        $this->assertEqual($aRow, 0);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -290,8 +290,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Summarise where one impression exists
         $start = new Date('2004-05-06 12:30:00');
         $end = new Date('2004-05-06 12:59:59');
-        $aRows = $dsa->summariseImpressions($start, $end);
-        $this->assertEqual($aRows, 1);
+        $aRow = $dsa->summariseImpressions($start, $end);
+        $this->assertEqual($aRow, 1);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -302,8 +302,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Summarise where the other two impression exists
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $aRows = $dsa->summariseImpressions($start, $end);
-        $this->assertEqual($aRows, 1);
+        $aRow = $dsa->summariseImpressions($start, $end);
+        $this->assertEqual($aRow, 1);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -352,8 +352,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Test with no data
         $start = new Date('2004-06-06 12:00:00');
         $end = new Date('2004-06-06 12:29:59');
-        $aRows = $dsa->summariseClicks($start, $end);
-        $this->assertEqual($aRows, 0);
+        $aRow = $dsa->summariseClicks($start, $end);
+        $this->assertEqual($aRow, 0);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -364,13 +364,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysqlSplit.php';
         // Insert 3 ad clicks
-        $aRows = $oDbh->exec(SPLIT_SUMMARISE_AD_CLICKS_ONE);
-        $aRows = $oDbh->exec(SPLIT_SUMMARISE_AD_CLICKS_TWO);
+        $aRow = $oDbh->exec(SPLIT_SUMMARISE_AD_CLICKS_ONE);
+        $aRow = $oDbh->exec(SPLIT_SUMMARISE_AD_CLICKS_TWO);
         // Summarise where clicks don't exist
         $start = new Date('2004-05-06 12:00:00');
         $end = new Date('2004-05-06 12:29:59');
-        $aRows = $dsa->summariseClicks($start, $end);
-        $this->assertEqual($aRows, 0);
+        $aRow = $dsa->summariseClicks($start, $end);
+        $this->assertEqual($aRow, 0);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -381,8 +381,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Summarise where one click exists
         $start = new Date('2004-05-06 12:30:00');
         $end = new Date('2004-05-06 12:59:59');
-        $aRows = $dsa->summariseClicks($start, $end);
-        $this->assertEqual($aRows, 1);
+        $aRow = $dsa->summariseClicks($start, $end);
+        $this->assertEqual($aRow, 1);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -393,8 +393,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Summarise where the other two clicks exists
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $aRows = $dsa->summariseClicks($start, $end);
-        $this->assertEqual($aRows, 1);
+        $aRow = $dsa->summariseClicks($start, $end);
+        $this->assertEqual($aRow, 1);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -448,8 +448,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Test with no data
         $start = new Date('2004-06-06 12:00:00');
         $end = new Date('2004-06-06 12:29:59');
-        $aRows = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($aRows, 0);
+        $aRow = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($aRow, 0);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -461,19 +461,19 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysqlSplit.php';
         // Insert some ads (banners), campaign trackers, ad
         // impressions, ad clicks, and tracker impressions
-        $aRows = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_BANNERS);
-        $aRows = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_CAMPAIGNS_TRACKERS);
-        $aRows = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_AD_IMPRESSIONS_ONE);
-        $aRows = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_AD_IMPRESSIONS_TWO);
-        $aRows = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_AD_CLICKS_ONE);
-        $aRows = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_AD_CLICKS_TWO);
-        $aRows = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_TRACKER_IMPRESSIONS_ONE);
-        $aRows = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_TRACKER_IMPRESSIONS_TWO);
+        $aRow = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_BANNERS);
+        $aRow = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_CAMPAIGNS_TRACKERS);
+        $aRow = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_AD_IMPRESSIONS_ONE);
+        $aRow = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_AD_IMPRESSIONS_TWO);
+        $aRow = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_AD_CLICKS_ONE);
+        $aRow = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_AD_CLICKS_TWO);
+        $aRow = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_TRACKER_IMPRESSIONS_ONE);
+        $aRow = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_TRACKER_IMPRESSIONS_TWO);
         // Summarise where tracker impressions don't exist
         $start = new Date('2004-05-06 12:00:00');
         $end = new Date('2004-05-06 12:29:59');
-        $aRows = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($aRows, 0);
+        $aRow = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($aRow, 0);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -484,8 +484,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Summarise where just one tracker impression exists
         $start = new Date('2004-05-06 12:30:00');
         $end = new Date('2004-05-06 12:59:59');
-        $aRows = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($aRows, 2);
+        $aRow = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($aRow, 2);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -566,8 +566,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Summarise where the other connections are
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $aRows = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($aRows, 4);
+        $aRow = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($aRow, 4);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -730,8 +730,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Summarise where the other connections are
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $aRows = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($aRows, 0);
+        $aRow = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($aRow, 0);
         TestEnv::restoreEnv();
     }
 
@@ -800,13 +800,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysqlSplit.php';
         // Insert the test data
-        $aRows = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_VARIABLES);
-        $aRows = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_AD_CLICKS);
-        $aRows = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_AD_IMPRESSIONS);
-        $aRows = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS);
-        $aRows = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_ONE);
-        $aRows = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TWO);
-        $aRows = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_CONNECTIONS);
+        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_VARIABLES);
+        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_AD_CLICKS);
+        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_AD_IMPRESSIONS);
+        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS);
+        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_ONE);
+        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TWO);
+        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_CONNECTIONS);
         // Test
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
@@ -1066,9 +1066,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $now = new Date('2004-06-07');
         $dsa->tables->createTable('data_raw_tracker_variable_value', $now);
         // Insert the test data
-        $aRows = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_VARIABLES);
-        $aRows = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_AD_CLICKS);
-        $aRows = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_AD_IMPRESSIONS);
+        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_VARIABLES);
+        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_AD_CLICKS);
+        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_AD_IMPRESSIONS);
         // Test
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
@@ -1144,13 +1144,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysqlSplit.php';
         // Insert the test data
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -1161,9 +1161,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1179,9 +1179,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1197,9 +1197,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1226,12 +1226,12 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $dsa->tables->createTable('data_raw_ad_impression', $now);
         $dsa->tables->createTable('data_raw_ad_request', $now);
         // Insert the test data
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -1242,9 +1242,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1260,9 +1260,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1278,9 +1278,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1307,12 +1307,12 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $dsa->tables->createTable('data_raw_ad_impression', $now);
         $dsa->tables->createTable('data_raw_ad_request', $now);
         // Insert the test data
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
         // Test
         $summarisedTo = new Date('2004-06-06 18:00:00');
         $dsa->deleteOldData($summarisedTo);
@@ -1323,9 +1323,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1333,9 +1333,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-05');
         $query = "
             SELECT
@@ -1343,9 +1343,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1353,9 +1353,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-05');
         $query = "
             SELECT
@@ -1363,9 +1363,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1373,9 +1373,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         // Restore the testing environment
         TestEnv::restoreEnv();
         $conf = &$GLOBALS['_MAX']['CONF'];
@@ -1395,12 +1395,12 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $dsa->tables->createTable('data_raw_ad_impression', $now);
         $dsa->tables->createTable('data_raw_ad_request', $now);
         // Insert the test data
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -1411,9 +1411,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1429,9 +1429,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1447,9 +1447,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1477,12 +1477,12 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $dsa->tables->createTable('data_raw_ad_impression', $now);
         $dsa->tables->createTable('data_raw_ad_request', $now);
         // Insert the test data
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -1493,9 +1493,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1511,9 +1511,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1529,9 +1529,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1559,12 +1559,12 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $dsa->tables->createTable('data_raw_ad_impression', $now);
         $dsa->tables->createTable('data_raw_ad_request', $now);
         // Insert the test data
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
-        $aRows = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
+        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
         // Test
         $summarisedTo = new Date('2004-06-06 18:00:00');
         $dsa->deleteOldData($summarisedTo);
@@ -1575,9 +1575,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1593,9 +1593,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
@@ -1611,9 +1611,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $aRows = $oDbh->exec($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT

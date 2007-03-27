@@ -63,7 +63,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
     function testGetMaintenanceStatisticsLastRunInfo()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $conf['table']['split'] = true;
         $conf['maintenance']['operationInterval'] = 60;
         $dsa = new MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
@@ -90,7 +90,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
                 (
                     '" . $now->format('%Y-%m-%d %H:%M:%S') . "'
                 )";
-        $result = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $now->setHour(12);
         $now->setMinute(34);
         $now->setSecond(56);
@@ -104,7 +104,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
                 (
                     '" . $now->format('%Y-%m-%d %H:%M:%S') . "'
                 )";
-        $result = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $now->setHour(18);
         $now->setMinute(22);
         $now->setSecond(11);
@@ -118,7 +118,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
                 (
                     '" . $now->format('%Y-%m-%d %H:%M:%S') . "'
                 )";
-        $result = $dbh->query($query);
+        $rows = $oDbh->exec($query);
         $now->setHour(11);
         $now->setMinute(59);
         $now->setSecond(59);
@@ -130,21 +130,21 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsTrackermysqlSplit.php';
         // Insert an hourly (only) update
-        $result = $dbh->query(TOT_SPLIT_LMS_HOUR);
+        $rows = $oDbh->exec(TOT_SPLIT_LMS_HOUR);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, $now);
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert an operation interval (only) update
-        $result = $dbh->query(TOT_SPLIT_LMS_OI);
+        $rows = $oDbh->exec(TOT_SPLIT_LMS_OI);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-06 10:16:00'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert a dual interval update
-        $result = $dbh->query(TOT_SPLIT_LMS_DUAL);
+        $rows = $oDbh->exec(TOT_SPLIT_LMS_DUAL);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
@@ -159,7 +159,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
     function testDeleteOldData()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $conf['table']['split'] = true;
         $conf['maintenance']['compactStatsGrace'] = 0;
         $dsa = new MAX_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
@@ -175,12 +175,12 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsTrackermysqlSplit.php';
         // Insert the test data
-        $result = $dbh->query(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_CLICKS_ONE);
-        $result = $dbh->query(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_CLICKS_TWO);
-        $result = $dbh->query(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_IMPRESSIONS_ONE);
-        $result = $dbh->query(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_IMPRESSIONS_TWO);
-        $result = $dbh->query(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_REQUESTS_ONE);
-        $result = $dbh->query(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_REQUESTS_TWO);
+        $rows = $oDbh->exec(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_CLICKS_ONE);
+        $rows = $oDbh->exec(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_CLICKS_TWO);
+        $rows = $oDbh->exec(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_IMPRESSIONS_ONE);
+        $rows = $oDbh->exec(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_IMPRESSIONS_TWO);
+        $rows = $oDbh->exec(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_REQUESTS_ONE);
+        $rows = $oDbh->exec(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_REQUESTS_TWO);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -191,17 +191,17 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $result = $dbh->query($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_click']}_" . $now->format('%Y%m%d');
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
         $query = "
             SELECT
@@ -209,17 +209,17 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $result = $dbh->query($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']}_" . $now->format('%Y%m%d');
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
         $query = "
             SELECT
@@ -227,21 +227,21 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $result = $dbh->query($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 6);
         // Restore the testing environment
         TestEnv::restoreEnv();
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $conf['table']['split'] = true;
         // Set a compact_stats_grace window
         $conf['maintenance']['compactStatsGrace'] = 3600;
@@ -256,12 +256,12 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $dsa->tables->createTable('data_raw_tracker_impression', $now);
         $dsa->tables->createTable('data_raw_tracker_variable_value', $now);
         // Insert the test data
-        $result = $dbh->query(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_CLICKS_ONE);
-        $result = $dbh->query(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_CLICKS_TWO);
-        $result = $dbh->query(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_IMPRESSIONS_ONE);
-        $result = $dbh->query(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_IMPRESSIONS_TWO);
-        $result = $dbh->query(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_REQUESTS_ONE);
-        $result = $dbh->query(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_REQUESTS_TWO);
+        $rows = $oDbh->exec(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_CLICKS_ONE);
+        $rows = $oDbh->exec(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_CLICKS_TWO);
+        $rows = $oDbh->exec(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_IMPRESSIONS_ONE);
+        $rows = $oDbh->exec(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_IMPRESSIONS_TWO);
+        $rows = $oDbh->exec(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_REQUESTS_ONE);
+        $rows = $oDbh->exec(TOT_SPLIT_DELETE_OLD_DATA_TRACKER_REQUESTS_TWO);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -272,17 +272,17 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $result = $dbh->query($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_click']}_" . $now->format('%Y%m%d');
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
         $query = "
             SELECT
@@ -290,17 +290,17 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $result = $dbh->query($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']}_" . $now->format('%Y%m%d');
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
         $query = "
             SELECT
@@ -308,17 +308,17 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
-        $result = $dbh->query($query);
+        $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($result, DB_ERROR_NOSUCHTABLE));
+        $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 6);
         TestEnv::restoreEnv();
     }
 

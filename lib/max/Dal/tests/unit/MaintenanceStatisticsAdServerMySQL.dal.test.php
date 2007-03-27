@@ -66,28 +66,28 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
         // Insert ad impressions
-        $aRows = $oDbh->exec(DATA_RAW_AD_IMPRESSIONS);
+        $rows = $oDbh->exec(DATA_RAW_AD_IMPRESSIONS);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
         // Insert an hourly (only) update
-        $aRows = $oDbh->exec(LMS_HOUR);
+        $rows = $oDbh->exec(LMS_HOUR);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert an operation interval (only) update
-        $aRows = $oDbh->exec(LMS_OI);
+        $rows = $oDbh->exec(LMS_OI);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-06 10:16:00'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert a dual interval update
-        $aRows = $oDbh->exec(LMS_DUAL);
+        $rows = $oDbh->exec(LMS_DUAL);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
@@ -120,8 +120,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             // Test with no data
             $start = new Date('2004-06-06 12:00:00');
             $end = new Date('2004-06-06 12:29:59');
-            $aRows = $dsa->_summariseData($start, $end, $type);
-            $this->assertEqual($aRows, 0);
+            $rows = $dsa->_summariseData($start, $end, $type);
+            $this->assertEqual($rows, 0);
             $query = "
                 SELECT
                     COUNT(*) AS number
@@ -133,12 +133,12 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             // Get the data for the tests
             include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
             // Insert 3 ad requests
-            $aRows = $oDbh->exec($sqlData);
+            $rows = $oDbh->exec($sqlData);
             // Summarise where requests don't exist
             $start = new Date('2004-05-06 12:00:00');
             $end = new Date('2004-05-06 12:29:59');
-            $aRows = $dsa->_summariseData($start, $end, $type);
-            $this->assertEqual($aRows, 0);
+            $rows = $dsa->_summariseData($start, $end, $type);
+            $this->assertEqual($rows, 0);
             $query = "
                 SELECT
                     COUNT(*) AS number
@@ -149,8 +149,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             // Summarise where one requests exists
             $start = new Date('2004-05-06 12:30:00');
             $end = new Date('2004-05-06 12:59:59');
-            $aRows = $dsa->_summariseData($start, $end, $type);
-            $this->assertEqual($aRows, 1);
+            $rows = $dsa->_summariseData($start, $end, $type);
+            $this->assertEqual($rows, 1);
             $query = "
                 SELECT
                     COUNT(*) AS number
@@ -161,8 +161,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
             // Summarise where the other two requests exists
             $start = new Date('2004-06-06 18:00:00');
             $end = new Date('2004-06-06 18:29:59');
-            $aRows = $dsa->_summariseData($start, $end, $type);
-            $this->assertEqual($aRows, 1);
+            $rows = $dsa->_summariseData($start, $end, $type);
+            $this->assertEqual($rows, 1);
             $query = "
                 SELECT
                     COUNT(*) AS number
@@ -3910,8 +3910,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Test with no data
         $start = new Date('2004-06-06 12:00:00');
         $end = new Date('2004-06-06 12:29:59');
-        $aRows = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($aRows, 0);
+        $rows = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($rows, 0);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -3924,16 +3924,16 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
         // Insert some ads (banners), campaign trackers, ad
         // impressions, ad clicks, and tracker impressions
-        $aRows = $oDbh->exec(SUMMARISE_CONVERSIONS_BANNERS);
-        $aRows = $oDbh->exec(SUMMARISE_CONVERSIONS_CAMPAIGNS_TRACKERS);
-        $aRows = $oDbh->exec(SUMMARISE_CONVERSIONS_AD_IMPRESSIONS);
-        $aRows = $oDbh->exec(SUMMARISE_CONVERSIONS_AD_CLICKS);
-        $aRows = $oDbh->exec(SUMMARISE_CONVERSIONS_TRACKER_IMPRESSIONS);
+        $rows = $oDbh->exec(SUMMARISE_CONVERSIONS_BANNERS);
+        $rows = $oDbh->exec(SUMMARISE_CONVERSIONS_CAMPAIGNS_TRACKERS);
+        $rows = $oDbh->exec(SUMMARISE_CONVERSIONS_AD_IMPRESSIONS);
+        $rows = $oDbh->exec(SUMMARISE_CONVERSIONS_AD_CLICKS);
+        $rows = $oDbh->exec(SUMMARISE_CONVERSIONS_TRACKER_IMPRESSIONS);
         // Summarise where tracker impressions don't exist
         $start = new Date('2004-05-06 12:00:00');
         $end = new Date('2004-05-06 12:29:59');
-        $aRows = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($aRows, 0);
+        $rows = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($rows, 0);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -3944,8 +3944,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Summarise where just one tracker impression exists
         $start = new Date('2004-05-06 12:30:00');
         $end = new Date('2004-05-06 12:59:59');
-        $aRows = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($aRows, 2);
+        $rows = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($rows, 2);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -4026,8 +4026,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Summarise where the other connections are
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $aRows = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($aRows, 6);
+        $rows = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($rows, 6);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -4199,8 +4199,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Summarise where the other connections are
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $aRows = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($aRows, 0);
+        $rows = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($rows, 0);
 
         TestEnv::restoreEnv();
     }
@@ -4294,7 +4294,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_REQUESTS);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_REQUESTS);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -4374,7 +4374,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_IMPRESSIONS);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_IMPRESSIONS);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -4454,7 +4454,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_CLICKS);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_CLICKS);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -4556,9 +4556,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_REQUESTS);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_IMPRESSIONS);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_CLICKS);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_REQUESTS);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_IMPRESSIONS);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_CLICKS);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -4660,8 +4660,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_6);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_6);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_6);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_6);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -4769,9 +4769,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_7);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_7);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_7);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_7);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_7);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_7);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -4879,10 +4879,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_8);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_8);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TEST_8);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_8);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_8);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_8);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TEST_8);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_8);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -4999,9 +4999,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_9);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_9);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_9);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_9);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_9);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_9);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -5109,10 +5109,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_10);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_10);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TEST_10);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_10);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_10);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_10);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TEST_10);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_10);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -5229,13 +5229,13 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_REQUESTS);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_IMPRESSIONS);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_AD_CLICKS);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_11);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_11);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TEST_11);
-        $aRows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_11);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_REQUESTS);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_IMPRESSIONS);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_CLICKS);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_11);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_11);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TEST_11);
+        $rows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_11);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aTypes);
@@ -5914,7 +5914,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
         // Insert the test data
-        $aRows = $oDbh->exec(SAVE_HISTORY_INTERMEDIATE_AD);
+        $rows = $oDbh->exec(SAVE_HISTORY_INTERMEDIATE_AD);
         // Test
         $start = new Date('2004-06-06 18:00:00');
         $end   = new Date('2004-06-06 18:29:59');
@@ -5940,7 +5940,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $this->assertNull($aRow['forecast_impressions']); // Default value in table
         $this->assertEqual($aRow['actual_impressions'], 4);
         // Insert more test data
-        $aRows = $oDbh->exec(SAVE_HISTORY_INTERMEDIATE_AD_NEXT);
+        $rows = $oDbh->exec(SAVE_HISTORY_INTERMEDIATE_AD_NEXT);
         // Test
         $start = new Date('2004-06-06 18:30:00');
         $end   = new Date('2004-06-06 18:59:59');
@@ -5968,7 +5968,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $this->assertNull($aRow['forecast_impressions']); // Default value in table
         $this->assertEqual($aRow['actual_impressions'], 4);
         // Insert some predicted values into the data_summary_zone_impression_history table
-        $aRows = $oDbh->exec(SAVE_HISTORY_INTERMEDIATE_HISTORY_DUPES);
+        $rows = $oDbh->exec(SAVE_HISTORY_INTERMEDIATE_HISTORY_DUPES);
         // Test
         $query = "
             SELECT
@@ -5993,7 +5993,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $this->assertNull($aRow['forecast_impressions']); // Default value in table
         $this->assertEqual($aRow['actual_impressions'], 0);
         // Insert more test data
-        $aRows = $oDbh->exec(SAVE_HISTORY_INTERMEDIATE_AD_DUPES);
+        $rows = $oDbh->exec(SAVE_HISTORY_INTERMEDIATE_AD_DUPES);
         // Test
         $start = new Date('2004-06-06 19:00:00');
         $end   = new Date('2004-06-06 19:29:59');
@@ -6067,10 +6067,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Test 2
         TestEnv::startTransaction();
         // Insert the test data
-        $aRows = $oDbh->exec(SAVE_SUMMARY_PLACEMENT);
-        $aRows = $oDbh->exec(SAVE_SUMMARY_AD);
-        $aRows = $oDbh->exec(SAVE_SUMMARY_ZONE);
-        $aRows = $oDbh->exec(SAVE_SUMMARY_INTERMEDIATE_AD);
+        $rows = $oDbh->exec(SAVE_SUMMARY_PLACEMENT);
+        $rows = $oDbh->exec(SAVE_SUMMARY_AD);
+        $rows = $oDbh->exec(SAVE_SUMMARY_ZONE);
+        $rows = $oDbh->exec(SAVE_SUMMARY_INTERMEDIATE_AD);
         // Test
         $start = new Date('2004-06-06 18:00:00');
         $end   = new Date('2004-06-06 18:29:59');
@@ -6218,10 +6218,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Test 3
         TestEnv::startTransaction();
         // Insert the test data
-        $aRows = $oDbh->exec(SAVE_SUMMARY_PLACEMENT);
-        $aRows = $oDbh->exec(SAVE_SUMMARY_AD);
-        $aRows = $oDbh->exec(SAVE_SUMMARY_ZONE);
-        $aRows = $oDbh->exec(SAVE_SUMMARY_INTERMEDIATE_AD_MULTIDAY);
+        $rows = $oDbh->exec(SAVE_SUMMARY_PLACEMENT);
+        $rows = $oDbh->exec(SAVE_SUMMARY_AD);
+        $rows = $oDbh->exec(SAVE_SUMMARY_ZONE);
+        $rows = $oDbh->exec(SAVE_SUMMARY_INTERMEDIATE_AD_MULTIDAY);
         // Test
         $start = new Date('2004-06-06 18:00:00');
         $end   = new Date('2004-06-08 18:29:59');
@@ -6305,9 +6305,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
         // Insert the base test data
-        $aRows = $oDbh->exec(MANAGE_CAMPAIGNS_CAMPAIGNS);
-        $aRows = $oDbh->exec(MANAGE_CAMPAIGNS_CLIENTS);
-        $aRows = $oDbh->exec(MANAGE_CAMPAIGNS_BANNERS);
+        $rows = $oDbh->exec(MANAGE_CAMPAIGNS_CAMPAIGNS);
+        $rows = $oDbh->exec(MANAGE_CAMPAIGNS_CLIENTS);
+        $rows = $oDbh->exec(MANAGE_CAMPAIGNS_BANNERS);
         // Test with no summarised data
         $report = $dsa->manageCampaigns($oDate);
         $query = "
@@ -6409,7 +6409,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $this->assertEqual($aRow['activate'], '2004-06-06');
         $this->assertEqual($aRow['active'], 't');
         // Insert the summary test data - Part 1
-        $aRows = $oDbh->exec(MANAGE_CAMPAIGNS_INTERMEDIATE_AD);
+        $rows = $oDbh->exec(MANAGE_CAMPAIGNS_INTERMEDIATE_AD);
         // Test with summarised data
         $report = $dsa->manageCampaigns($oDate);
         $query = "
@@ -6625,10 +6625,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
         // Insert the test data
-        $aRows = $oDbh->exec(DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
-        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
-        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_REQUESTS);
+        $rows = $oDbh->exec(DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
+        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
+        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_IMPRESSIONS);
+        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_REQUESTS);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -6659,9 +6659,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         TestEnv::startTransaction();
         // Insert the test data
-        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
-        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_REQUESTS);
+        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
+        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_IMPRESSIONS);
+        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_REQUESTS);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -6694,10 +6694,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         TestEnv::startTransaction();
         // Insert the test data
-        $aRows = $oDbh->exec(DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
-        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
-        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_REQUESTS);
+        $rows = $oDbh->exec(DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
+        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
+        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_IMPRESSIONS);
+        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_REQUESTS);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -6728,9 +6728,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $dsa = new MAX_Dal_Maintenance_Statistics_AdServer_mysql();
         TestEnv::startTransaction();
         // Insert the test data
-        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
-        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $aRows = $oDbh->exec(DELETE_OLD_DATA_AD_REQUESTS);
+        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
+        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_IMPRESSIONS);
+        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_REQUESTS);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);

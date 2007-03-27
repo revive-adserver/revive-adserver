@@ -61,24 +61,24 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
      *                      DAL_STATISTICS_COMMON_UPDATE_BOTH if the update
      *                      was done on the basis of both the operation
      *                      interval and the hour.
-     * @param Date $now An optional Date, used to specify the "current time", and
-     *                  to limit the method to only look for past maintenance
-     *                  statistics runs before this date. Normally only used
-     *                  to assist with re-generation of statistics in the event
-     *                  of faulty raw tables.
+     * @param Date $oNow An optional Date, used to specify the "current time", and
+     *                   to limit the method to only look for past maintenance
+     *                   statistics runs before this date. Normally only used
+     *                   to assist with re-generation of statistics in the event
+     *                   of faulty raw tables.
      * @return Date A Date representing the date up to which the statistics
      *              have been summarised, for the specified update type, or
      *              the appropriate date based on raw data if maintenance
      *              statistics has never been run for the Max module before.
      *              Returns null if no raw data is available.
      */
-    function getMaintenanceStatisticsLastRunInfo($type, $now = null)
+    function getMaintenanceStatisticsLastRunInfo($type, $oNow = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $table = $aConf['table']['prefix'] .
                  $aConf['table']['data_raw_ad_impression'] . '_' .
                  date('Ymd');
-        return $this->_getMaintenanceStatisticsLastRunInfo($type, $table, $now);
+        return $this->_getMaintenanceStatisticsLastRunInfo($type, $table, $oNow);
     }
 
    /**
@@ -663,62 +663,62 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
     /**
      * A method to delete old (ie. summarised) raw data.
      *
-     * @param Date $summarisedTo The date/time up to which data have been summarised (i.e. if there
-     *                           is no newer data than this date (minus any compact_stats_grace window)
-     *                           then the raw table will be dropped, unless required by the tracking
-     *                           module, where installed).
+     * @param Date $oSummarisedTo The date/time up to which data have been summarised (i.e. if there
+     *                            is no newer data than this date (minus any compact_stats_grace window)
+     *                            then the raw table will be dropped, unless required by the tracking
+     *                            module, where installed).
      * @return integer The number of raw tables dropped.
      */
-    function deleteOldData($summarisedTo)
+    function deleteOldData($oSummarisedTo)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $now = new Date();  // Current day
-        $deleteDate = $summarisedTo;
+        $oNow = new Date();  // Current day
+        $oDeleteDate = $oSummarisedTo;
+        $oTable = new OA_DB_Table();
         if ($aConf['maintenance']['compactStatsGrace'] > 0) {
-            $deleteDate->subtractSeconds((int) $aConf['maintenance']['compactStatsGrace']);
+            $oDeleteDate->subtractSeconds((int) $aConf['maintenance']['compactStatsGrace']);
         }
         $tablesDropped = 0;
         // As split tables are in use, look over all possible tables
-        $tables = $this->dbh->getListOf('tables');
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        $aTables = $this->oDbh->manager->listTables();
+        if (PEAR::isError($aTables)) {
+            return MAX::raiseError($aTables, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         // Delete the requests before taking into account the maximum connection window
-        foreach ($tables as $table) {
+        foreach ($aTables as $table) {
             // Look at the data_raw_ad_request tables
             if (preg_match('/^' . $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_request'] . '_' .
                            '(\d{4})(\d{2})(\d{2})$/', $table, $matches)) {
-                $date = new Date("{$matches[1]}-{$matches[2]}-{$matches[3]}");
+                $oDate = new Date("{$matches[1]}-{$matches[2]}-{$matches[3]}");
                 // Is this today's table?
-                if (($date->getYear() == $now->getYear()) &&
-                    ($date->getMonth() == $now->getMonth()) &&
-                    ($date->getDay() == $now->getDay())) {
+                if (($oDate->getYear() == $oNow->getYear()) &&
+                    ($oDate->getMonth() == $oNow->getMonth()) &&
+                    ($oDate->getDay() == $oNow->getDay())) {
                     // Don't drop today's table
                     continue;
                 }
                 $table = $aConf['table']['prefix'] .
                          $aConf['table']['data_raw_ad_request'] . '_' .
-                         $date->format('%Y%m%d');
+                         $oDate->format('%Y%m%d');
                 $query = "
                     SELECT
                         *
                     FROM
                         $table
                     WHERE
-                        date_time > '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') ."'
+                        date_time > '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'
                     LIMIT 1";
-                MAX::debug("Selecting non-summarised (later than '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') .
+                MAX::debug("Selecting non-summarised (later than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                            "') ad requests from the $table table", PEAR_LOG_DEBUG);
-                $innerResult = $this->dbh->query($query);
-                if (PEAR::isError($innerResult)) {
-                    MAX::raiseError($innerResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                $rc = $this->oDbh->query($query);
+                if (PEAR::isError($rc)) {
+                    MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                 }
-                if ($innerResult->numRows() == 0) {
+                if ($rc->numRows() == 0) {
                     // No current data in the table - drop it
-                    $query = "DROP TABLE $table";
                     MAX::debug("No non-summarised ad requests in the $table table, so dropping",
                                PEAR_LOG_DEBUG);
-                    $innerResult = $this->dbh->query($query);
+                    $oTable->dropTable($table);
                     $tablesDropped++;
                 }
             }
@@ -734,82 +734,80 @@ class MAX_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends MAX_Dal_Mainten
                 $maxWindow = $clickWindow;
             }
             MAX::debug('Found maximum connection window of ' . $maxWindow . ' seconds', PEAR_LOG_DEBUG);
-            $deleteDate->subtractSeconds((int) $maxWindow); // Cast to int, as Date class
-                                                            // doesn't deal with strings
+            $oDeleteDate->subtractSeconds((int) $maxWindow); // Cast to int, as Date class
+                                                             // doesn't deal with strings
         }
         // Delete from remaining tables
-        foreach ($tables as $table) {
+        foreach ($aTables as $table) {
             // Look at the data_raw_ad_impression tables
             if (preg_match('/^' . $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_impression'] . '_' .
                            '(\d{4})(\d{2})(\d{2})$/', $table, $matches)) {
-                $date = new Date("{$matches[1]}-{$matches[2]}-{$matches[3]}");
+                $oDate = new Date("{$matches[1]}-{$matches[2]}-{$matches[3]}");
                 // Is this today's table?
-                if (($date->getYear() == $now->getYear()) &&
-                    ($date->getMonth() == $now->getMonth()) &&
-                    ($date->getDay() == $now->getDay())) {
+                if (($oDate->getYear() == $oNow->getYear()) &&
+                    ($oDate->getMonth() == $oNow->getMonth()) &&
+                    ($oDate->getDay() == $oNow->getDay())) {
                     // Don't drop today's table
                     continue;
                 }
                 $table = $aConf['table']['prefix'] .
                          $aConf['table']['data_raw_ad_impression'] . '_' .
-                         $date->format('%Y%m%d');
+                         $oDate->format('%Y%m%d');
                 $query = "
                     SELECT
                         *
                     FROM
                         $table
                     WHERE
-                        date_time > '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') ."'
+                        date_time > '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'
                     LIMIT 1";
-                MAX::debug("Selecting non-summarised (later than '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') .
+                MAX::debug("Selecting non-summarised (later than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                            "') ad impressions from the $table table", PEAR_LOG_DEBUG);
-                $innerResult = $this->dbh->query($query);
-                if (PEAR::isError($innerResult)) {
-                    MAX::raiseError($innerResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                $rc = $this->oDbh->query($query);
+                if (PEAR::isError($rc)) {
+                    MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                 }
-                if ($innerResult->numRows() == 0) {
+                if ($rc->numRows() == 0) {
                     // No current data in the table - drop it
-                    $query = "DROP TABLE $table";
                     MAX::debug("No non-summarised ad impressions in the $table table, so dropping",
                                PEAR_LOG_DEBUG);
-                    $innerResult = $this->dbh->query($query);
+                    $oTable->dropTable($table);
                     $tablesDropped++;
                 }
             }
             // Look at the data_raw_ad_click tables
             if (preg_match('/^' . $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_click'] . '_' .
                            '(\d{4})(\d{2})(\d{2})$/', $table, $matches)) {
-                $date = new Date("{$matches[1]}-{$matches[2]}-{$matches[3]}");
+                $oDate = new Date("{$matches[1]}-{$matches[2]}-{$matches[3]}");
                 // Is this today's table?
-                if (($date->getYear() == $now->getYear()) &&
-                    ($date->getMonth() == $now->getMonth()) &&
-                    ($date->getDay() == $now->getDay())) {
+                if (($oDate->getYear() == $oNow->getYear()) &&
+                    ($oDate->getMonth() == $oNow->getMonth()) &&
+                    ($oDate->getDay() == $oNow->getDay())) {
                     // Don't drop today's table
                     continue;
                 }
                 $table = $aConf['table']['prefix'] .
                          $aConf['table']['data_raw_ad_click'] . '_' .
-                         $date->format('%Y%m%d');
+                         $oDate->format('%Y%m%d');
                 $query = "
                     SELECT
                         *
                     FROM
                         $table
                     WHERE
-                        date_time > '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') ."'
+                        date_time > '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'
                     LIMIT 1";
-                MAX::debug("Selecting non-summarised (later than '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') .
+                MAX::debug("Selecting non-summarised (later than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                            "') ad clicks from the $table table", PEAR_LOG_DEBUG);
-                $innerResult = $this->dbh->query($query);
-                if (PEAR::isError($innerResult)) {
-                    MAX::raiseError($innerResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                $rc = $this->oDbh->query($query);
+                if (PEAR::isError($rc)) {
+                    MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                 }
-                if ($innerResult->numRows() == 0) {
+                if ($rc->numRows() == 0) {
                     // No current data in the table - drop it
-                    $query = "DROP TABLE $table";
                     MAX::debug("No non-summarised ad clicks in the $table table, so dropping",
                                PEAR_LOG_DEBUG);
-                    $innerResult = $this->dbh->query($query);
+                    $oTable->dropTable($table);
                     $tablesDropped++;
                 }
             }

@@ -168,19 +168,19 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysql extends MAX_Dal_Maintenance_S
     /**
      * A method to delete old (ie. summarised) raw data.
      *
-     * @param Date $summarisedTo The date/time up to which data have been summarised (i.e. data up
-     *                           to and including this date (minus any compact_stats_grace window)
-     *                           will be deleted).
+     * @param Date $oSummarisedTo The date/time up to which data have been summarised (i.e. data up
+     *                            to and including this date (minus any compact_stats_grace window)
+     *                            will be deleted).
      * @return integer The number of rows deleted.
      */
-    function deleteOldData($summarisedTo)
+    function deleteOldData($oSummarisedTo)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $deleteDate = $summarisedTo;
+        $oDeleteDate = $oSummarisedTo;
         if ($aConf['maintenance']['compactStatsGrace'] > 0) {
-            $deleteDate->subtractSeconds((int) $aConf['maintenance']['compactStatsGrace']);
+            $oDeleteDate->subtractSeconds((int) $aConf['maintenance']['compactStatsGrace']);
         }
-        $rows = 0;
+        $resultRows = 0;
         // Delete the tracker impressions
         $table = $aConf['table']['prefix'] .
                  $aConf['table']['data_raw_tracker_impression'];
@@ -188,13 +188,14 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysql extends MAX_Dal_Maintenance_S
             DELETE FROM
                 $table
             WHERE
-                date_time <= '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
-        MAX::debug("Deleting summarised (earlier than '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') .
+                date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
+        MAX::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                    "') tracker impressions from the $table table", PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (!PEAR::isError($result)) {
-            $rows += $this->dbh->affectedRows();
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
+        $resultRows += $rows;
         // Delete the tracker variable values
         $table = $aConf['table']['prefix'] .
                  $aConf['table']['data_raw_tracker_variable_value'];
@@ -202,13 +203,14 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysql extends MAX_Dal_Maintenance_S
             DELETE FROM
                 $table
             WHERE
-                date_time <= '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
-        MAX::debug("Deleting summarised (earlier than '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') .
+                date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
+        MAX::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                    "') tracker variable values from the $table table", PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (!PEAR::isError($result)) {
-            $rows += $this->dbh->affectedRows();
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
+        $resultRows += $rows;
         // Delete the tracker clicks
         $table = $aConf['table']['prefix'] .
                  $aConf['table']['data_raw_tracker_click'];
@@ -216,14 +218,15 @@ class MAX_Dal_Maintenance_Statistics_Tracker_mysql extends MAX_Dal_Maintenance_S
             DELETE FROM
                 $table
             WHERE
-                date_time <= '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
-        MAX::debug("Deleting summarised (earlier than '" . $deleteDate->format('%Y-%m-%d %H:%M:%S') .
+                date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
+        MAX::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                    "') tracker clicks from the $table table", PEAR_LOG_DEBUG);
-        $result = $this->dbh->query($query);
-        if (!PEAR::isError($result)) {
-            $rows += $this->dbh->affectedRows();
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
-        return $rows;
+        $resultRows += $rows;
+        return $resultRows;
     }
 
 }

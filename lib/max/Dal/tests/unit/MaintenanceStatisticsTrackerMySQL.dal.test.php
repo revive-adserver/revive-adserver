@@ -63,7 +63,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
     function testGetMaintenanceStatisticsLastRunInfo()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 60;
         $conf['table']['split'] = false;
         $dsa = new MAX_Dal_Maintenance_Statistics_Tracker_mysql();
@@ -76,28 +76,28 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         // Get the data for the tests
         include_once MAX_PATH. '/lib/max/Dal/data/TestOfStatisticsTrackermysql.php';
         // Insert tracker impressions
-        $result = $dbh->query(TOT_DATA_RAW_TRACKER_IMPRESSIONS);
+        $aRow = $oDbh->exec(TOT_DATA_RAW_TRACKER_IMPRESSIONS);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
         // Insert an hourly (only) update
-        $result = $dbh->query(TOT_LMS_HOUR);
+        $aRow = $oDbh->exec(TOT_LMS_HOUR);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert an operation interval (only) update
-        $result = $dbh->query(TOT_LMS_OI);
+        $aRow = $oDbh->exec(TOT_LMS_OI);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-06 10:16:00'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert a dual interval update
-        $result = $dbh->query(TOT_LMS_DUAL);
+        $aRow = $oDbh->exec(TOT_LMS_DUAL);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
@@ -112,16 +112,16 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
     function testDeleteOldData()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $conf['maintenance']['compactStatsGrace'] = 0;
         $dsa = new MAX_Dal_Maintenance_Statistics_Tracker_mysql();
         TestEnv::startTransaction();
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsTrackermysql.php';
         // Insert the test data
-        $result = $dbh->query(TOT_DELETE_OLD_DATA_TRACKER_CLICKS);
-        $result = $dbh->query(TOT_DELETE_OLD_DATA_TRACKER_IMPRESSIONS);
-        $result = $dbh->query(TOT_DELETE_OLD_DATA_TRACKER_VARIABLE_VALUES);
+        $aRow = $oDbh->exec(TOT_DELETE_OLD_DATA_TRACKER_CLICKS);
+        $aRow = $oDbh->exec(TOT_DELETE_OLD_DATA_TRACKER_IMPRESSIONS);
+        $aRow = $oDbh->exec(TOT_DELETE_OLD_DATA_TRACKER_VARIABLE_VALUES);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -130,31 +130,31 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 1);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
         TestEnv::rollbackTransaction();
         // Set a compact_stats_grace window
         $conf['maintenance']['compactStatsGrace'] = 3600;
         $dsa = new MAX_Dal_Maintenance_Statistics_Tracker_mysql();
         TestEnv::startTransaction();
         // Insert the test data
-        $result = $dbh->query(TOT_DELETE_OLD_DATA_TRACKER_CLICKS);
-        $result = $dbh->query(TOT_DELETE_OLD_DATA_TRACKER_IMPRESSIONS);
-        $result = $dbh->query(TOT_DELETE_OLD_DATA_TRACKER_VARIABLE_VALUES);
+        $aRow = $oDbh->exec(TOT_DELETE_OLD_DATA_TRACKER_CLICKS);
+        $aRow = $oDbh->exec(TOT_DELETE_OLD_DATA_TRACKER_IMPRESSIONS);
+        $aRow = $oDbh->exec(TOT_DELETE_OLD_DATA_TRACKER_VARIABLE_VALUES);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -163,22 +163,22 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
         TestEnv::rollbackTransaction();
     }
 
