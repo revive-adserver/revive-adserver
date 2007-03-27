@@ -138,7 +138,18 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
                     $constructive['tables']['change'][$table] = array();
                     if (isset($aTable['add']))
                     {
-                        $constructive['tables']['change'][$table]['add'] = $changes['tables']['change'][$table]['add'];
+                        foreach ($aTable['add'] as $field => $fld_def)
+                        {
+                            if (isset($fld_def['autoincrement']) && $fld_def['autoincrement'] )
+                            {
+                                $constructive['tables']['change'][$table]['rename'][$field] = $fld_def;
+                            }
+                            else
+                            {
+                                $constructive['tables']['change'][$table]['add'][$field] = $fld_def;
+                            }
+                        }
+                        //$constructive['tables']['change'][$table]['add'] = $changes['tables']['change'][$table]['add'];
                     }
                     if (isset($aTable['remove']))
                     {
@@ -160,17 +171,34 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
                         }
                         if (isset($aTable['indexes']['change']))
                         {
-                            if (!isset($constructive['tables']['change'][$table]['indexes']['add']))
+                            foreach ($aTable['indexes']['change'] as $index => $aIdx_def)
                             {
-                                $constructive['tables']['change'][$table]['indexes']['add'] = $aTable['indexes']['change'];
-                            }
-                            else
-                            {
-                                $constructive['tables']['change'][$table]['indexes']['add']= array_merge($constructive['tables']['change'][$table]['indexes']['add'], $aTable['indexes']['change']);
-                            }
-                            foreach ($aTable['indexes']['change'] AS $k=>$v)
-                            {
-                                $destructive['tables']['change'][$table]['indexes']['remove'][$k] = 'true';
+                                $ignore = false;
+                                if (isset($aIdx_def['primary']) && $aIdx_def['primary'])
+                                {
+                                    foreach ($aIdx_def['fields'] as $field => $aFld_def)
+                                    {
+                                        if (isset($constructive['tables']['change'][$table]['rename'][$field]))
+                                        {
+                                            $ignore = true;
+                                        }
+                                    }
+                                }
+                                if (!$ignore)
+                                {
+                                    if (!isset($constructive['tables']['change'][$table]['indexes']['add']))
+                                    {
+                                        $constructive['tables']['change'][$table]['indexes']['add'] = $aTable['indexes']['change'];
+                                    }
+                                    else
+                                    {
+                                        $constructive['tables']['change'][$table]['indexes']['add']= array_merge($constructive['tables']['change'][$table]['indexes']['add'], $aTable['indexes']['change']);
+                                    }
+                                    foreach ($aTable['indexes']['change'] AS $k=>$v)
+                                    {
+                                        $destructive['tables']['change'][$table]['indexes']['remove'][$k] = 'true';
+                                    }
+                                }
                             }
                         }
                     }
@@ -389,6 +417,34 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
                             $this->writeXMLline("/field", '', 'OUT');
                         }
                         $this->writeXMLline("/add", '', 'OUT');
+                    }
+                    if (isset($aTable['rename']))
+                    {
+                        $this->writeXMLline("rename", '', 'IN');
+                        //small bodgette to allow for discrepancy between a comparison changeset and
+                        //a parsed changeset
+                        if (isset($aTable['rename']['fields']))
+                        {
+                            $aFields = $aTable['rename']['fields'];
+                        }
+                        else
+                        {
+                            $aFields = $aTable['rename'];
+                        }
+                        foreach ($aFields AS $field=>$aField)
+                        {
+                            $this->writeXMLline("field", '', 'IN');
+                            $this->writeXMLline("name", $field, 'IN', true);
+                            foreach ($aField AS $k=>$v)
+                            {
+                                if (!is_array($v))
+                                {
+                                    $this->writeXMLline($k, $v, '', true);
+                                }
+                            }
+                            $this->writeXMLline("/field", '', 'OUT');
+                        }
+                        $this->writeXMLline("/rename", '', 'OUT');
                     }
                     if (isset($aTable['remove']))
                     {

@@ -56,6 +56,7 @@ class MDB2_Changeset_Parser extends XML_Parser
 
     var $name;
     var $version;
+    var $comments;
 
     var $elements = array();
     var $element = '';
@@ -63,6 +64,7 @@ class MDB2_Changeset_Parser extends XML_Parser
 
     var $remove = array();
     var $add = array();
+    var $rename = array();
     var $change = array();
 
     var $table = array();
@@ -151,9 +153,24 @@ class MDB2_Changeset_Parser extends XML_Parser
             	break;
             case 'instructionset-constructive-changeset-change-table-add-field-name':
             case 'instructionset-constructive-changeset-change-table-add-field-type':
+            case 'instructionset-constructive-changeset-change-table-add-field-autoincrement':
             case 'instructionset-constructive-changeset-change-table-add-field-notnull':
             case 'instructionset-constructive-changeset-change-table-add-field-default':
             case 'instructionset-constructive-changeset-change-table-add-field-was':
+                break;
+            case 'instructionset-constructive-changeset-change-table-rename':
+                $this->rename = array();
+            	break;
+            case 'instructionset-constructive-changeset-change-table-rename-field':
+                $this->field = array();
+                $this->field_name = '';
+            	break;
+            case 'instructionset-constructive-changeset-change-table-rename-field-name':
+            case 'instructionset-constructive-changeset-change-table-rename-field-type':
+            case 'instructionset-constructive-changeset-change-table-rename-field-autoincrement':
+            case 'instructionset-constructive-changeset-change-table-rename-field-notnull':
+            case 'instructionset-constructive-changeset-change-table-rename-field-default':
+            case 'instructionset-constructive-changeset-change-table-rename-field-was':
                 break;
             case 'instructionset-constructive-changeset-change-table-change':
                 $this->change = array();
@@ -164,6 +181,7 @@ class MDB2_Changeset_Parser extends XML_Parser
             	break;
             case 'instructionset-constructive-changeset-change-table-change-field-name':
             case 'instructionset-constructive-changeset-change-table-change-field-type':
+            case 'instructionset-constructive-changeset-change-table-change-field-autoincrement':
             case 'instructionset-constructive-changeset-change-table-change-field-notnull':
             case 'instructionset-constructive-changeset-change-table-change-field-default':
             case 'instructionset-constructive-changeset-change-table-change-field-was':
@@ -300,9 +318,27 @@ class MDB2_Changeset_Parser extends XML_Parser
             	break;
             case 'instructionset-constructive-changeset-change-table-add-field-name':
             case 'instructionset-constructive-changeset-change-table-add-field-type':
+            case 'instructionset-constructive-changeset-change-table-add-field-autoincrement':
             case 'instructionset-constructive-changeset-change-table-add-field-notnull':
             case 'instructionset-constructive-changeset-change-table-add-field-default':
             case 'instructionset-constructive-changeset-change-table-add-field-was':
+            	break;
+            case 'instructionset-constructive-changeset-change-table-rename':
+                $this->constructive_changeset_definition['tables']['change'][$this->table_name]['rename'] = $this->rename;
+            	break;
+            case 'instructionset-constructive-changeset-change-table-rename-field':
+                $this->rename['fields'][$this->field_name] = $this->field;
+                $this->hooks['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['beforeRenameField'] = "beforeRenameField__{$this->table_name}__{$this->field_name}";
+                $this->events['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['doRenameField']    = "doRenameField__{$this->table_name}__{$this->field_name}";
+                $this->hooks['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['afterRenameField']  = "afterRenameField__{$this->table_name}__{$this->field_name}";
+                $this->fieldmap[] = array('toTable'=>$this->table_name,'toField'=>$this->field_name, 'fromTable'=>$this->table_name, 'fromField'=>$this->field['was']);
+            	break;
+            case 'instructionset-constructive-changeset-change-table-rename-field-name':
+            case 'instructionset-constructive-changeset-change-table-rename-field-type':
+            case 'instructionset-constructive-changeset-change-table-rename-field-autoincrement':
+            case 'instructionset-constructive-changeset-change-table-rename-field-notnull':
+            case 'instructionset-constructive-changeset-change-table-rename-field-default':
+            case 'instructionset-constructive-changeset-change-table-rename-field-was':
             	break;
             case 'instructionset-constructive-changeset-change-table-change':
                 $this->constructive_changeset_definition['tables']['change'][$this->table_name]['change'] = $this->change;
@@ -316,6 +352,7 @@ class MDB2_Changeset_Parser extends XML_Parser
             	break;
             case 'instructionset-constructive-changeset-change-table-change-field-name':
             case 'instructionset-constructive-changeset-change-table-change-field-type':
+            case 'instructionset-constructive-changeset-change-table-change-field-autoincrement':
             case 'instructionset-constructive-changeset-change-table-change-field-notnull':
             case 'instructionset-constructive-changeset-change-table-change-field-default':
             case 'instructionset-constructive-changeset-change-table-change-field-was':
@@ -482,6 +519,9 @@ class MDB2_Changeset_Parser extends XML_Parser
             case 'instructionset-constructive-changeset-change-table-add-field-type':
                 $this->field['type'] = $data;
             	break;
+            case 'instructionset-constructive-changeset-change-table-add-field-autoincrement':
+                $this->field['autoincrement'] = $data;
+            	break;
             case 'instructionset-constructive-changeset-change-table-add-field-length':
                 $this->field['length'] = $data;
             	break;
@@ -494,6 +534,31 @@ class MDB2_Changeset_Parser extends XML_Parser
             case 'instructionset-constructive-changeset-change-table-add-field-was':
                 $this->field['was'] = $data;
             	break;
+            case 'instructionset-constructive-changeset-change-table-rename':
+            	break;
+            case 'instructionset-constructive-changeset-change-table-rename-field':
+            	break;
+            case 'instructionset-constructive-changeset-change-table-rename-field-name':
+                $this->field_name = $data;
+            	break;
+            case 'instructionset-constructive-changeset-change-table-rename-field-type':
+                $this->field['type'] = $data;
+            	break;
+            case 'instructionset-constructive-changeset-change-table-rename-field-autoincrement':
+                $this->field['autoincrement'] = $data;
+            	break;
+            case 'instructionset-constructive-changeset-change-table-rename-field-length':
+                $this->field['length'] = $data;
+            	break;
+            case 'instructionset-constructive-changeset-change-table-rename-field-notnull':
+                $this->field['notnull'] = $data;
+            	break;
+            case 'instructionset-constructive-changeset-change-table-rename-field-default':
+                $this->field['default'] = $data;
+            	break;
+            case 'instructionset-constructive-changeset-change-table-rename-field-was':
+                $this->field['was'] = $data;
+            	break;
             case 'instructionset-constructive-changeset-change-table-change':
             	break;
             case 'instructionset-constructive-changeset-change-table-change-field':
@@ -503,6 +568,9 @@ class MDB2_Changeset_Parser extends XML_Parser
                 break;
             case 'instructionset-constructive-changeset-change-table-change-field-type':
                 $this->field['type'] = $data;
+            	break;
+            case 'instructionset-constructive-changeset-change-table-change-field-autoincrement':
+                $this->field['autoincrement'] = $data;
             	break;
             case 'instructionset-constructive-changeset-change-table-change-field-length':
                 $this->field['length'] = $data;

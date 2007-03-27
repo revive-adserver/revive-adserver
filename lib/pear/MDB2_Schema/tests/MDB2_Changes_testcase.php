@@ -81,7 +81,8 @@ class MDB2_Changes_TestCase extends PHPUnit_TestCase {
                                 6 => SCHEMA_PATH.'schema_6_removefield.xml',
                                 7 => SCHEMA_PATH.'schema_7_removeindex.xml',
                                 8 => SCHEMA_PATH.'schema_8_addtable.xml',
-                                9 => SCHEMA_PATH.'schema_9_removetable.xml'
+                                9 => SCHEMA_PATH.'schema_9_removetable.xml',
+                                10=> SCHEMA_PATH.'schema_10_keyfield.xml'
                                 );
     }
 
@@ -164,6 +165,20 @@ class MDB2_Changes_TestCase extends PHPUnit_TestCase {
         $changes                        = $this->schema->compareDefinitions($curr_definition, $prev_definition);
 
         $this->assertTrue(isset($changes['remove']['new_table']), 'removed table not found');
+    }
+
+    /**
+     * test that renaming of an autoinc field and affect on primary index
+     *
+     */
+    function testKeyField()
+    {
+        $prev_definition                = $this->schema->parseDatabaseDefinitionFile($this->aSchemas[3]);
+        $curr_definition                = $this->schema->parseDatabaseDefinitionFile($this->aSchemas[10]);
+        $changes                        = $this->schema->compareDefinitions($curr_definition, $prev_definition);
+
+        $this->assertTrue(isset($changes['tables']['change']['table1']['indexes']['change']['index1']), 'primary index with renamed field not found');
+        $this->assertTrue(isset($changes['tables']['change']['table1']['add']['id_field_renamed']), 'renamed key field not found in add array');
     }
 
     function testDumpSplitChanges()
@@ -339,6 +354,39 @@ class MDB2_Changes_TestCase extends PHPUnit_TestCase {
 
         $this->assertTrue(isset($changes_parse['destructive']['tables']['remove']['new_table']), 'removed table not found');
     }
+
+    /**
+     * test the renaming of an autoinc field and affect on primary index
+     * this test xml file 10 does not *upgrade* from test 9 but test 3 instead
+     *
+     * you cannot add a primary key field to a table with an existing primary key field and primary index
+     * you cannot drop a primary index on a table with an autoincremnt field
+     * therefore we have to rename that field, the index will follow automatically
+     *
+     */
+    function testDumpKeyField()
+    {
+        $prev_definition                = $this->schema->parseDatabaseDefinitionFile($this->aSchemas[3]);
+        $curr_definition                = $this->schema->parseDatabaseDefinitionFile($this->aSchemas[10]);
+        $changes_write                  = $this->schema->compareDefinitions($curr_definition, $prev_definition);
+
+        $changes_write['version']       = '10';
+        $changes_write['name']          = 'changes_test';
+        $changes_write['comments']      = '';
+        $options['split']               = true;
+        $options['output']              = str_replace('schema', 'changes', $this->aSchemas[10]);
+        $options['xsl_file']            = "";
+        $options['output_mode']         = 'file';
+        $result                         = $this->schema->dumpChangeset($changes_write, $options);
+        $changes_parse                  = $this->schema->parseChangesetDefinitionFile($options['output']);
+
+
+        $this->assertFalse(isset($changes_parse['constructive']['tables']['change']['table1']['indexes']['change']['index1']), 'primary index with renamed field found in change array');
+        $this->assertFalse(isset($changes_parse['constructive']['tables']['change']['table1']['add']['id_field_renamed']), 'renamed key field found in add array');
+        $this->assertTrue(isset($changes_parse['constructive']['tables']['change']['table1']['rename']['fields']['id_field_renamed']), 'renamed key field not found in rename array');
+    }
+
+
 
 }
 
