@@ -37,7 +37,6 @@ require_once '../../init.php';
 $conf =& $GLOBALS['_MAX']['CONF'];
 
 // Required files
-require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/Admin/DB.php';
 require_once MAX_PATH . '/lib/max/Admin/Config.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
@@ -47,6 +46,9 @@ require_once MAX_PATH . '/lib/max/language/Default.php';
 require_once MAX_PATH . '/lib/max/language/Settings.php';
 require_once MAX_PATH . '/lib/max/other/lib-db.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
+
+require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 
 // Register input variables
 phpAds_registerGlobal('installvars', 'phase', 'max_language', 'database_type',
@@ -154,13 +156,14 @@ if (phpAds_isUser(phpAds_Admin)) {
             $GLOBALS['_MAX']['CONF']['database']['username']  = $database_username;
             $GLOBALS['_MAX']['CONF']['database']['password']  = $database_password;
             $GLOBALS['_MAX']['CONF']['database']['name']      = $database_name;
-            if (!$dbh = MAX_DB::singleton()) {
+            $oDbh = &OA_DB::singleton();
+            if (PEAR::isError($oDBH)) {
                 $errormessage[0][] = $strCouldNotConnectToDB;
             } else {
                 // Don't use a PEAR_Error handler
                 PEAR::pushErrorHandling(null);
                 // Get the database version number
-                $row = $dbh->getRow('SELECT VERSION() AS version');
+                $row = $oDbh->queryRow('SELECT VERSION() AS version');
                 if (PEAR::isError($row)) {
                     $errormessage[0][] = $strNoVersionInfo;
                 } else {
@@ -171,14 +174,14 @@ if (phpAds_isUser(phpAds_Admin)) {
                             $errormessage[0][] = $strInvalidMySqlVersion;
                         } else {
                             // Drop test table if one exists
-                            $result = $dbh->query('DROP TABLE max_tmp_dbpriviligecheck');
+                            $result = $oDbh->exec('DROP TABLE max_tmp_dbpriviligecheck');
                             // Check if Max can create tables
-                            $result = $dbh->query('CREATE TABLE max_tmp_dbpriviligecheck (tmp int)');
-                            $data = $dbh->tableInfo('max_tmp_dbpriviligecheck');
+                            $result = $oDbh->exec('CREATE TABLE max_tmp_dbpriviligecheck (tmp int)');
+                            $data = $oDbh->manager->listTableFields('max_tmp_dbpriviligecheck');
                             // Resore the PEAR_Error handler
                             PEAR::popErrorHandling();
                             if (!PEAR::isError($data)) {
-                                $result = $dbh->query('DROP TABLE max_tmp_dbpriviligecheck');
+                                $result = $oDbh->exec('DROP TABLE max_tmp_dbpriviligecheck');
                             } else {
                                 $errormessage[0][] = $strCreateTableTestFailed;
                             }
@@ -374,10 +377,10 @@ if (phpAds_isUser(phpAds_Admin)) {
                 }
                 if (count($fatal) == 0) {
                     // Create the database
-                    if ($dbh = MAX_DB::singleton()) {
+                    if ($oDbh = &OA_DB::singleton()) {
                         // Is this an installation, or an upgrade?
                         if ((!isset($installvars['dbUpgrade'])) || (!$installvars['dbUpgrade'])) {
-                            $tables = &Openads_Table_Core::singleton();
+                            $tables = &OA_DB_Table_Core::singleton();
                             if (!$tables->createAllTables()) {
                                 $fatal[] = $strErrorInstallDatabase;
                             }
