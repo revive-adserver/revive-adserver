@@ -71,33 +71,14 @@ class MDB2Connection {
 	* @access protected
 	*/
 	function connect() {
-	    // TODO - use existing connection if it already exists
-	    $dbinfo = array(
-            'phptype' => $this->config->get('phptype'),
-        );
-        $user = $this->config->get('username');
-        if ($user) {
-            $dbinfo['username'] = $user;
-            $password = $this->config->get('password');
-            if ($password) {
-                $dbinfo['password'] = $password;
-            }
-        }
-        $host = $this->config->get('hostspec');
-	    if ($host) {
-  	        $dbinfo['hostspec'] = $host;
+	    // use existing connection
+	    $dbh = &OA_DB::singleton();
+	    
+	    if (PEAR::isError($dbh)) {
+	        $this->RaiseError();
+	    } else {
+	        $this->ConnectionId =& $dbh;
 	    }
-	    $database = $this->config->get('database');
-	    if ($database) {
-  	        $dbinfo['database'] = $database;
-  	    }
-  	    $this->ConnectionId = MDB2::connect($dbinfo);
-		if (MDB2::isError($this->ConnectionId)) {
-			$this->RaiseError();
-		} else {
-    	    // store the reference in ADMIN_DB_LINK
-            $GLOBALS['_MAX']['ADMIN_DB_LINK'] = &$this->ConnectionId->connection;
-		}
 	}
 
 	/**
