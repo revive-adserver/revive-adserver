@@ -20,6 +20,7 @@ SVN
 			  - 2007-03-23:  Fixed #165 - Missing phpAds_makeTimeStamp when a campaign expires  (Marek)
 			  - 2007-03-23:  Fixed #170 - Enabling zlib.output_compression may break delivery scripts  (Marek)
 			  - 2007-03-23:  Fixed #207 - PHP error in stats-client-daily-hosts.php  (Marek)
+			  - 2007-03-28:  Fixed #211 - Updates available pop-up is shown even when updates check is disabled (Marek)
 
 
 Openads 2.0.11

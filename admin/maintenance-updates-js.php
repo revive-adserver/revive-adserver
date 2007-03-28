@@ -71,7 +71,7 @@ if (phpAds_isUser(phpAds_Admin))
 	phpAds_SessionDataStore();
 	
 	// Add Product Update redirector
-	if ($update_check[0] == 0)
+	if (isset($update_check[0]) && $update_check[0] == 0)
 	{
 		header("Content-Type: application/x-javascript");
 		
