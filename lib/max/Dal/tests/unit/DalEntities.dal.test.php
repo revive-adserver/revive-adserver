@@ -78,6 +78,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         TestEnv::startTransaction();
 
         // Test 3
+        $oNow = new Date();
         $query = "
             INSERT INTO
                 $table
@@ -86,17 +87,50 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     campaignid,
                     active,
                     storagetype,
-                    weight
+                    htmltemplate,
+                    htmlcache,
+                    weight,
+                    url,
+                    bannertext,
+                    compiledlimitation,
+                    append,
+                    updated,
+                    acls_updated
                 )
             VALUES
-                (
-                    1,
-                    1,
-                    't',
-                    'sql',
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'timestamp',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            1,
+            't',
+            'sql',
+            '',
+            '',
+            1,
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAdsByPlacementId($placementId);
         $aExpectedResult = array(
             1 => array(
@@ -109,32 +143,38 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertEqual($aResult, $aExpectedResult);
 
         // Test 4
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    bannerid,
-                    campaignid,
-                    active,
-                    storagetype,
-                    weight
-                )
-            VALUES
-                (
-                    2,
-                    1,
-                    'f',
-                    'sql',
-                    5
-                ),
-                (
-                    3,
-                    2,
-                    't',
-                    'sql',
-                    2
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            2,
+            1,
+            'f',
+            'sql',
+            '',
+            '',
+            5,
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            2,
+            't',
+            'sql',
+            '',
+            '',
+            2,
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAdsByPlacementId($placementId);
         $aExpectedResult = array(
             1 => array(
@@ -191,19 +231,53 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         TestEnv::startTransaction();
+        $oNow = new Date();
         $query = "
             INSERT INTO
                 $adTable
                 (
                     bannerid,
-                    active
+                    active,
+                    storagetype,
+                    htmltemplate,
+                    htmlcache,
+                    url,
+                    bannertext,
+                    compiledlimitation,
+                    append,
+                    updated,
+                    acls_updated
                 )
             VALUES
-                (
-                    1,
-                    'f'
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'timestamp',
+            'timestamp'
+        );
+        $stAd = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            'f',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
         $query = "
             INSERT INTO
                 $azaTable
@@ -213,12 +287,19 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     link_type
                 )
             VALUES
-                (
-                    1,
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer'
+        );
+        $rows = $stAza = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            1,
+            1
+        );
+        $rows = $stAza->execute($aData);
         $aZoneIds = array(1);
         $aResult = $oDal->getLinkedActiveAdIdsByZoneIds($aZoneIds);
         $this->assertNull($aResult);
@@ -226,34 +307,26 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 4
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    active
-                )
-            VALUES
-                (
-                    1,
-                    't'
-                )";
-        $rows = $oDbh->exec($query);
-        $query = "
-            INSERT INTO
-                $azaTable
-                (
-                    zone_id,
-                    ad_id,
-                    link_type
-                )
-            VALUES
-                (
-                    1,
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            't',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            1,
+            1,
+            1
+        );
+        $rows = $stAza->execute($aData);
         $aZoneIds = array(1);
         $aResult = $oDal->getLinkedActiveAdIdsByZoneIds($aZoneIds);
         $aExpectedResult = array(1 => array(1));
@@ -262,75 +335,112 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 5
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    active
-                )
-            VALUES
-                (
-                    1,
-                    't'
-                ),
-                (
-                    2,
-                    'f'
-                ),
-                (
-                    3,
-                    't'
-                ),
-                (
-                    4,
-                    't'
-                ),
-                (
-                    5,
-                    't'
-                )";
-        $rows = $oDbh->exec($query);
-        $query = "
-            INSERT INTO
-                $azaTable
-                (
-                    zone_id,
-                    ad_id,
-                    link_type
-                )
-            VALUES
-                (
-                    1,
-                    1,
-                    1
-                ),
-                (
-                    1,
-                    2,
-                    1
-                ),
-                (
-                    1,
-                    3,
-                    0
-                ),
-                (
-                    2,
-                    3,
-                    1
-                ),
-                (
-                    2,
-                    4,
-                    1
-                ),
-                (
-                    2,
-                    5,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            't',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            2,
+            'f',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            3,
+            't',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            4,
+            't',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            5,
+            't',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            1,
+            1,
+            1
+        );
+        $rows = $stAza->execute($aData);
+        $aData = array(
+            1,
+            2,
+            1
+        );
+        $rows = $stAza->execute($aData);
+        $aData = array(
+            1,
+            3,
+            0
+        );
+        $rows = $stAza->execute($aData);
+        $aData = array(
+            2,
+            3,
+            1
+        );
+        $rows = $stAza->execute($aData);
+        $aData = array(
+            2,
+            4,
+            1
+        );
+        $rows = $stAza->execute($aData);
+        $aData = array(
+            2,
+            5,
+            1
+        );
+        $rows = $stAza->execute($aData);
         $aZoneIds = array(1, 2);
         $aResult = $oDal->getLinkedActiveAdIdsByZoneIds($aZoneIds);
         $aExpectedResult = array(
@@ -379,6 +489,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         TestEnv::startTransaction();
+        $oNow = new Date();
         $query = "
             INSERT INTO
                 $adTable
@@ -386,16 +497,51 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     bannerid,
                     campaignid,
                     active,
-                    weight
+                    storagetype,
+                    htmltemplate,
+                    htmlcache,
+                    weight,
+                    url,
+                    bannertext,
+                    compiledlimitation,
+                    append,
+                    updated,
+                    acls_updated
                 )
             VALUES
-                (
-                    2,
-                    1,
-                    'f',
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'timestamp',
+            'timestamp'
+        );
+        $stAd = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            2,
+            1,
+            'f',
+            '',
+            '',
+            '',
+            1,
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
         $aPlacmementIds = array(1);
         $aResult = $oDal->getAllActiveAdsDeliveryLimitationsByPlacementIds($aPlacmementIds);
         $this->assertNull($aResult);
@@ -403,23 +549,22 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 4
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid,
-                    active,
-                    weight
-                )
-            VALUES
-                (
-                    2,
-                    1,
-                    't',
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            2,
+            1,
+            't',
+            '',
+            '',
+            '',
+            1,
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
         $aPlacmementIds = array(1);
         $aResult = $oDal->getAllActiveAdsDeliveryLimitationsByPlacementIds($aPlacmementIds);
         $aExpectedResult = array(
@@ -436,23 +581,22 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 5
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid,
-                    active,
-                    weight
-                )
-            VALUES
-                (
-                    2,
-                    1,
-                    't',
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            2,
+            1,
+            't',
+            '',
+            '',
+            '',
+            1,
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
         $query = "
             INSERT INTO
                 $dlTable
@@ -465,15 +609,25 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     executionorder
                 )
             VALUES
-                (
-                    2,
-                    'and',
-                    'Site:Channel',
-                    '==',
-                    12,
-                    0
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer'
+        );
+        $stAcl = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            2,
+            'and',
+            'Site:Channel',
+            '==',
+            12,
+            0
+        );
+        $rows = $stAcl->execute($aData);
         $aPlacmementIds = array(1);
         $aResult = $oDal->getAllActiveAdsDeliveryLimitationsByPlacementIds($aPlacmementIds);
         $aExpectedResult = array(
@@ -497,86 +651,106 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 5
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid,
-                    active,
-                    weight
-                )
-            VALUES
-                (
-                    2,
-                    1,
-                    'f',
-                    1
-                ),
-                (
-                    3,
-                    1,
-                    't',
-                    1
-                ),
-                (
-                    4,
-                    8,
-                    't',
-                    1
-                ),
-                (
-                    5,
-                    7,
-                    't',
-                    10
-                )";
-        $rows = $oDbh->exec($query);
-        $query = "
-            INSERT INTO
-                $dlTable
-                (
-                    bannerid,
-                    logical,
-                    type,
-                    comparison,
-                    data,
-                    executionorder
-                )
-            VALUES
-                (
-                    2,
-                    'and',
-                    'Site:Channel',
-                    '==',
-                    12,
-                    0
-                ),
-                (
-                    3,
-                    'and',
-                    'Site:Channel',
-                    '!=',
-                    12,
-                    1
-                ),
-                (
-                    3,
-                    'and',
-                    'Site:Channel',
-                    '==',
-                    15,
-                    0
-                ),
-                (
-                    5,
-                    'and',
-                    'Site:Channel',
-                    '==',
-                    10,
-                    0
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            2,
+            1,
+            'f',
+            '',
+            '',
+            '',
+            1,
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            3,
+            1,
+            't',
+            '',
+            '',
+            '',
+            1,
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            4,
+            8,
+            't',
+            '',
+            '',
+            '',
+            1,
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            5,
+            7,
+            't',
+            '',
+            '',
+            '',
+            10,
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            2,
+            'and',
+            'Site:Channel',
+            '==',
+            12,
+            0
+        );
+        $rows = $stAcl->execute($aData);
+        $aData = array(
+            3,
+            'and',
+            'Site:Channel',
+            '!=',
+            12,
+            1
+        );
+        $rows = $stAcl->execute($aData);
+        $aData = array(
+            3,
+            'and',
+            'Site:Channel',
+            '==',
+            15,
+            0
+        );
+        $rows = $stAcl->execute($aData);
+        $aData = array(
+            5,
+            'and',
+            'Site:Channel',
+            '==',
+            10,
+            0
+        );
+        $rows = $stAcl->execute($aData);
         $aPlacmementIds = array(1, 7);
         $aResult = $oDal->getAllActiveAdsDeliveryLimitationsByPlacementIds($aPlacmementIds);
         $aExpectedResult = array(
@@ -662,15 +836,25 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     executionorder
                 )
             VALUES
-                (
-                    2,
-                    'and',
-                    'Site:Channel',
-                    '==',
-                    12,
-                    0
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            2,
+            'and',
+            'Site:Channel',
+            '==',
+            12,
+            0
+        );
+        $rows = $st->execute($aData);
         $adId = 1;
         $aResult = $oDal->getDeliveryLimitationsByAdId($adId);
         $this->assertNull($aResult);
@@ -678,43 +862,33 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 4
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    bannerid,
-                    logical,
-                    type,
-                    comparison,
-                    data,
-                    executionorder
-                )
-            VALUES
-                (
-                    1,
-                    'and',
-                    'Site:Channel',
-                    '==',
-                    10,
-                    0
-                ),
-                (
-                    1,
-                    'or',
-                    'Site:Channel',
-                    '==',
-                    11,
-                    1
-                ),
-                (
-                    2,
-                    'and',
-                    'Site:Channel',
-                    '==',
-                    12,
-                    0
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            'and',
+            'Site:Channel',
+            '==',
+            10,
+            0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            'or',
+            'Site:Channel',
+            '==',
+            11,
+            1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            'and',
+            'Site:Channel',
+            '==',
+            12,
+            0
+        );
+        $rows = $st->execute($aData);
         $adId = 1;
         $aResult = $oDal->getDeliveryLimitationsByAdId($adId);
         $aExpectedResult = array(
@@ -761,38 +935,41 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 2
         TestEnv::startTransaction();
+        $oNow = new Date();
         $query = "
             INSERT INTO
                 $table
                 (
                     agencyid,
-                    active
+                    active,
+                    updated
                 )
             VALUES
-                (
-                    1,
-                    0
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            0,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAllActiveAgencyIds();
         $this->assertNull($aResult);
         TestEnv::rollbackTransaction();
 
         // Test 3
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    agencyid,
-                    active
-                )
-            VALUES
-                (
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAllActiveAgencyIds();
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -801,31 +978,30 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 4
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    agencyid,
-                    active
-                )
-            VALUES
-                (
-                    1,
-                    0
-                ),
-                (
-                    2,
-                    1
-                ),
-                (
-                    3,
-                    0
-                ),
-                (
-                    4,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            0,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            0,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAllActiveAgencyIds();
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -865,21 +1041,38 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         TestEnv::startTransaction();
+        $oNow = new Date();
         $query = "
             INSERT INTO
                 $table
                 (
                     agencyid,
                     affiliateid,
-                    active
+                    active,
+                    compiledlimitation,
+                    updated,
+                    acls_updated
                 )
             VALUES
-                (
-                    1,
-                    0,
-                    0
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'text',
+            'timestamp',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            0,
+            0,
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyId(1);
         $this->assertNull($aResult);
         TestEnv::rollbackTransaction();
@@ -893,16 +1086,33 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     channelid,
                     agencyid,
                     affiliateid,
-                    active
+                    active,
+                    compiledlimitation,
+                    updated,
+                    acls_updated
                 )
             VALUES
-                (
-                    1,
-                    1,
-                    0,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'text',
+            'timestamp',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            1,
+            0,
+            1,
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -911,47 +1121,56 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 5
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    channelid,
-                    agencyid,
-                    affiliateid,
-                    active
-                )
-            VALUES
-                (
-                    1,
-                    1,
-                    0,
-                    0
-                ),
-                (
-                    2,
-                    1,
-                    0,
-                    1
-                ),
-                (
-                    3,
-                    2,
-                    0,
-                    1
-                ),
-                (
-                    4,
-                    1,
-                    2,
-                    1
-                ),
-                (
-                    5,
-                    1,
-                    0,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            1,
+            0,
+            0,
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            1,
+            0,
+            1,
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            2,
+            0,
+            1,
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4,
+            1,
+            2,
+            1,
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            5,
+            1,
+            0,
+            1,
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -993,6 +1212,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         TestEnv::startTransaction();
+        $oNow = new Date();
         $query = "
             INSERT INTO
                 $table
@@ -1000,39 +1220,49 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     channelid,
                     agencyid,
                     affiliateid,
-                    active
+                    active,
+                    compiledlimitation,
+                    updated,
+                    acls_updated
                 )
             VALUES
-                (
-                    1,
-                    1,
-                    1,
-                    0
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'text',
+            'timestamp',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            1,
+            1,
+            0,
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyPublisherId(1, 1);
         $this->assertNull($aResult);
         TestEnv::rollbackTransaction();
 
         // Test 4
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    channelid,
-                    agencyid,
-                    affiliateid,
-                    active
-                )
-            VALUES
-                (
-                    1,
-                    1,
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            1,
+            1,
+            1,
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyPublisherId(1, 1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -1041,47 +1271,56 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 5
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    channelid,
-                    agencyid,
-                    affiliateid,
-                    active
-                )
-            VALUES
-                (
-                    1,
-                    1,
-                    1,
-                    0
-                ),
-                (
-                    2,
-                    1,
-                    1,
-                    1
-                ),
-                (
-                    3,
-                    2,
-                    1,
-                    1
-                ),
-                (
-                    4,
-                    1,
-                    2,
-                    1
-                ),
-                (
-                    5,
-                    1,
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            1,
+            1,
+            0,
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            1,
+            1,
+            1,
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            2,
+            1,
+            1,
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4,
+            1,
+            2,
+            1,
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            5,
+            1,
+            1,
+            1,
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyPublisherId(1, 1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -1133,15 +1372,25 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     executionorder
                 )
             VALUES
-                (
-                    2,
-                    'and',
-                    'Time:Hour',
-                    '==',
-                    12,
-                    0
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            2,
+            'and',
+            'Time:Hour',
+            '==',
+            12,
+            0
+        );
+        $rows = $st->execute($aData);
         $channelId = 1;
         $aResult = $oDal->getDeliveryLimitationsByChannelId($channelId);
         $this->assertNull($aResult);
@@ -1149,43 +1398,33 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 4
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    channelid,
-                    logical,
-                    type,
-                    comparison,
-                    data,
-                    executionorder
-                )
-            VALUES
-                (
-                    1,
-                    'and',
-                    'Time:Hour',
-                    '==',
-                    10,
-                    0
-                ),
-                (
-                    1,
-                    'or',
-                    'Time:Hour',
-                    '==',
-                    11,
-                    1
-                ),
-                (
-                    2,
-                    'and',
-                    'Time:Hour',
-                    '==',
-                    12,
-                    0
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            'and',
+            'Time:Hour',
+            '==',
+            10,
+            0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            'or',
+            'Time:Hour',
+            '==',
+            11,
+            1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            'and',
+            'Time:Hour',
+            '==',
+            12,
+            0
+        );
+        $rows = $st->execute($aData);
         $channelId = 1;
         $aResult = $oDal->getDeliveryLimitationsByChannelId($channelId);
         $aExpectedResult = array(
