@@ -122,7 +122,7 @@ class OA_DB
             if (PEAR::isError($success)) {
                 return $success;
             }
-            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] = $oDbh;
+            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] = &$oDbh;
             // Set the fetchmode to be use used
             $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->setFetchMode(MDB2_FETCHMODE_ASSOC);
             // Load modules that are likely to be needed
