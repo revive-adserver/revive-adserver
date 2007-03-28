@@ -81,6 +81,7 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
     array(
         'core'  => array('Core Classes',                        DB_NO_TABLES),
         'tbl'   => array('Table Creation Layer (DB)',           DB_NO_TABLES),
+        'db'    => array('Basic database access routines',      DB_NO_TABLES),
         'dal'   => array('Data Access Layer (DB)',              DB_WITH_TABLES),
         'del'   => array('Delivery Engine',                     NO_DB),
         'dl'    => array('Delivery Limitations',                NO_DB),
