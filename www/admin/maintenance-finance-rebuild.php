@@ -35,8 +35,9 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics/AdServer/mysql.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/Field/DaySpanField.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysql.php';
 
 // Security check
 //phpAds_checkAccess(phpAds_Admin);
