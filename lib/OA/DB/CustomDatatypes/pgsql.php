@@ -97,8 +97,8 @@ function datatype_date_callback(&$db, $method, $aParameters)
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into PostgreSQL using the built in
-            // "timestamp" datatype
-            return $db->datatype->quote($aParameters['value'], 'timestamp');
+            // "text" datatype
+            return $db->datatype->quote($aParameters['value'], 'text');
         case 'mappreparedatatype':
             // Return the PostgreSQL nativetype declaration for this custom datatype
             return 'DATE';
@@ -163,8 +163,8 @@ function datatype_timestamp_callback(&$db, $method, $aParameters)
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
             // suitable for inserting into PostgreSQL using the built in
-            // "timestamp" datatype
-            return $db->datatype->quote($aParameters['value'], 'timestamp');
+            // "text" datatype
+            return $db->datatype->quote($aParameters['value'], 'text');
         case 'mappreparedatatype':
             // Return the PostgreSQL nativetype declaration for this custom datatype
             return 'TIMESTAMP';
