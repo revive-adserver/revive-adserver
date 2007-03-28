@@ -32,7 +32,7 @@ if (!defined('IMAGE_CANVAS_SYSTEM_FONT_PATH')) {
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
-require_once MAX_PATH . '/lib/max/Maintenance/tests/visualisation/OA_Dal_Maintenance_Priority.php';
+require_once MAX_PATH . '/lib/max/Maintenance/tests/visualisation/MAX_Dal_Maintenance_Priority.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once 'Image/Canvas.php';
 require_once 'Image/Graph.php';
