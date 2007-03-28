@@ -32,12 +32,12 @@ require_once 'MDB2.php';
 /**
  * Generic lock type
  */
-define('OA_LOCK_TYPE_GENERIC',      0);
+define('OA_LOCK_TYPE_GENERIC',      '0');
 
 /**
  * Maintenance lock type
  */
-define('OA_LOCK_TYPE_MAINTENANCE',  1);
+define('OA_LOCK_TYPE_MAINTENANCE',  '1');
 
 
 /**
@@ -105,31 +105,44 @@ class OA_DB_AdvisoryLock
     /**
      * A method to acquire an advisory lock.
      *
-     * @param int $sType Lock type.
+     * @param string $sType Lock type.
      * @param int $iWaitTime Wait time.
-     * @return boolean True if lock was correctly acquired.
+     * @return bool True if lock was correctly acquired.
      */
-    function get($iType = OA_LOCK_TYPE_GENERIC, $iWaitTime = 0)
+    function get($sType = OA_LOCK_TYPE_GENERIC, $iWaitTime = 0)
     {
         // Release previous lock, if any
         $this->release();
 
         // Generate new id
-        $this->_sId = $this->_getId($iType);
+        $this->_sId = $this->_getId($sType);
 
-        return $this->_getLock($iType, $iWaitTime);
+        return $this->_getLock($iWaitTime);
     }
 
     /**
      * A method to release a previously acquired lock.
      *
-     * @return void
+     * @return bool True if lock was correctly released.
      */
     function release()
     {
         if (!empty($this->_sId)) {
-            $this->_releaseLock();
+            return $this->_releaseLock();
         }
+
+        return false;
+    }
+
+    /**
+     * A method to check if the lock id matches.
+     *
+     * @param string $sType Lock type.
+     * @return bool True if locks match.
+     */
+    function hasSameId($sType)
+    {
+        return $this->_getId($sType) == $this->_sId;
     }
 
     /**
@@ -148,11 +161,10 @@ class OA_DB_AdvisoryLock
     /**
      * A private method to acquire an advisory lock.
      *
-     * @param int $sType Lock type.
      * @param int $iWaitTime Wait time.
-     * @return boolean True if lock was correctly acquired.
+     * @return bool True if lock was correctly acquired.
      */
-    function _getLock($iType, $iWaitTime)
+    function _getLock($iWaitTime)
     {
         MAX::debug('Base class cannot be used directly, use the factory method instead', PEAR_LOG_ERR);
         return false;
@@ -161,7 +173,7 @@ class OA_DB_AdvisoryLock
     /**
      * A private method to release a previously acquired lock.
      *
-     * @return boolean True if the lock was correctly released.
+     * @return bool True if the lock was correctly released.
      */
     function _releaseLock()
     {

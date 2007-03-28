@@ -30,6 +30,7 @@ require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
 require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once 'DB/QueryTool.php';
 
 /**
@@ -58,6 +59,11 @@ class MAX_Dal_Common
      * @var string
      */
     var $table;
+
+    /**
+     * @var OA_DB_AdvisoryLock
+     */
+    var $oLock;
 
     /**
      * This array is used by getSqlListOrder(), getOrderColumn to decide how to sort
@@ -292,19 +298,9 @@ class MAX_Dal_Common
      */
     function obtainLock($lockName)
     {
-        $lockName = $GLOBALS['_MAX']['CONF']['database']['name'].".$lockName";
-        $query = "SELECT GET_LOCK('$lockName', 1) AS 'lock'";
-        $rc = $this->oDbh->query($query);
-        if (!($aRow = $rc->fetchRow())) {
-            // Couldn't fetch row
-            return false;
-        }
+        $this->oLock =& OA_DB_AdvisoryLock::factory();
 
-        if ($aRow['lock'] == 1) {
-            // Lock obtained successfully
-            return true;
-        }
-        return false;
+        return $this->oLock->get($lockName, 1);
     }
 
     /**
@@ -317,19 +313,15 @@ class MAX_Dal_Common
      */
     function releaseLock($lockName)
     {
-        $lockName = $GLOBALS['_MAX']['CONF']['database']['name'].".$lockName";
-        $query = "SELECT RELEASE_LOCK('$lockName') AS 'release_lock'";
-        $rc = $this->oDbh->query($query);
-        if (!($aRow = $rc->fetchRow())) {
-            // Couldn't fetch row
+        if (empty($this->oLock)) {
+            MAX::debug('Lock wasn\'t acquired by the same db connection', PEAR_LOG_ERR);
+            return false;
+        } elseif (!$this->oLock->hasSameId($lockName)) {
+            MAX::debug('Lock names to not match', PEAR_LOG_ERR);
             return false;
         }
 
-        if ($aRow['release_lock'] == 1) {
-            // Lock released successfully
-            return true;
-        }
-        return false;
+        return $this->oLock->release();
     }
 
     // Get any generic list order...

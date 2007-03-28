@@ -47,11 +47,10 @@ class OA_DB_AdvisoryLock_file extends OA_DB_AdvisoryLock
     /**
      * A private method to acquire an advisory lock.
      *
-     * @param int $sType Lock type.
      * @param int $iWaitTime Wait time.
-     * @return boolean True if lock was correctly acquired.
+     * @return bool True if lock was correctly acquired.
      */
-    function _getLock($iType, $iWaitTime)
+    function _getLock($iWaitTime)
     {
         $this->_sPath = MAX_PATH . '/var/cache/' . $this->_sId . '.lock';
 
@@ -70,7 +69,7 @@ class OA_DB_AdvisoryLock_file extends OA_DB_AdvisoryLock
     /**
      * A private method to release a previously acquired lock.
      *
-     * @return boolean True if the lock was correctly released.
+     * @return bool True if the lock was correctly released.
      */
     function _releaseLock()
     {

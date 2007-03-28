@@ -39,47 +39,50 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
     /**
      * A private method to acquire an advisory lock.
      *
-     * @param int $sType Lock type.
      * @param int $iWaitTime Wait time.
-     * @return boolean True if lock was correctly acquired.
+     * @return bool True if lock was correctly acquired.
      */
-    function _getLock($iType, $iWaitTime)
+    function _getLock($iWaitTime)
     {
         $aParams = unserialize($this->_sId);
 
         // Acquire lock
-        $iAcquired = $this->oDbh->extended->GetOne(
+        $bAcquired = $this->oDbh->extended->GetOne(
             "SELECT pg_try_advisory_lock(?, ?)",
             'boolean',
             $aParams
         );
+        while (!$bAcquired && $iWaitTime > 0) {
+            // TODO: Emulate waittime - don't know if it's really needed
+            break;
+        }
 
-        return !PEAR::isError($iAcquired) && !empty($iAcquired);
+        return !PEAR::isError($bAcquired) && !empty($bAcquired);
     }
 
     /**
      * A private method to release a previously acquired lock.
      *
-     * @return void
+     * @return bool True if the lock was correctly released.
      */
     function _releaseLock()
     {
         $aParams = unserialize($this->_sId);
 
         // Relase lock
-        $iReleased = $this->oDbh->extended->getOne(
+        $bReleased = $this->oDbh->extended->getOne(
             "SELECT pg_advisory_unlock(?, ?)",
             'boolean',
             $aParams
         );
 
-        return !PEAR::isError($iReleased) && !empty($iReleased);
+        return !PEAR::isError($bReleased) && !empty($bReleased);
     }
 
     /**
      * A method to check if PostgreSQL supports advisory locks.
      *
-     * @return boolean True if the lock was correctly released.
+     * @return bool True if the connected database supports advisory locks.
      */
     function _isLockingSupported()
     {
