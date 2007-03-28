@@ -68,6 +68,10 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
      */
     function testGetClientByKeyword()
     {
+        // Restore the test environment - tests rely on the fact that the
+        // clients generated will start with client ID 1
+        TestEnv::restoreEnv();
+
         // Test 1
         $rsClients = $this->dalClients->getClientByKeyword('foo');
         $rsClients->reset();
