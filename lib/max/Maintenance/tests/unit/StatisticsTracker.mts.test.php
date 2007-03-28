@@ -26,8 +26,9 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics/Tracker/mysql.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Tracker.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Tracker/mysql.php';
 
 /**
  * A class for testing the MAX_Maintenance_Statistics_Tracker class.
