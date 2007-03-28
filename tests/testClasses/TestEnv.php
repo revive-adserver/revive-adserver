@@ -31,10 +31,13 @@ $Id$
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
+
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
+
 require_once MAX_PATH . '/tests/data/DefaultData.php';
 
 /**
@@ -63,10 +66,9 @@ class TestEnv
         $aDatabaseDSN['database']['name'] = 'test';
         $dsn = OA_DB::getDsn($aDatabaseDSN);
         $oDbh = &OA_DB::singleton($dsn);
-        // Ignore errors when dropping database - it may not exist
-        PEAR::pushErrorHandling(null);
+        OA::disableErrorHandling();
         $result = $oDbh->manager->dropDatabase($aConf['database']['name']);
-        PEAR::popErrorHandling();
+        OA::enableErrorHandling();
         $result = $oDbh->manager->createDatabase($aConf['database']['name']);
     }
 
@@ -160,6 +162,7 @@ class TestEnv
         MAX::raiseError('loadData error: unable to open '.$source);
         return;
     }
+
     /**
      * A method for tearing down (dropping) the test database.
      */
@@ -167,7 +170,9 @@ class TestEnv
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
+        OA::disableErrorHandling();
         $result = $oDbh->manager->dropDatabase($aConf['database']['name']);
+        OA::enableErrorHandling();
     }
 
     /**
