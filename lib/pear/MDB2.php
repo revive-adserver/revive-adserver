@@ -485,10 +485,12 @@ class MDB2
             $dsninfo = array_merge($GLOBALS['_MDB2_dsninfo_default'], $dsninfo);
             $keys = array_keys($GLOBALS['_MDB2_databases']);
             for ($i=0, $j=count($keys); $i<$j; ++$i) {
-                $tmp_dsn = $GLOBALS['_MDB2_databases'][$keys[$i]]->getDSN('array');
-                if (count(array_diff($tmp_dsn, $dsninfo)) == 0) {
-                    MDB2::setOptions($GLOBALS['_MDB2_databases'][$keys[$i]], $options);
-                    return $GLOBALS['_MDB2_databases'][$keys[$i]];
+                if (isset($GLOBALS['_MDB2_databases'][$keys[$i]])) {
+                    $tmp_dsn = $GLOBALS['_MDB2_databases'][$keys[$i]]->getDSN('array');
+                    if (count(array_diff($tmp_dsn, $dsninfo)) == 0) {
+                        MDB2::setOptions($GLOBALS['_MDB2_databases'][$keys[$i]], $options);
+                        return $GLOBALS['_MDB2_databases'][$keys[$i]];
+                    }
                 }
             }
         } elseif (is_array($GLOBALS['_MDB2_databases']) && reset($GLOBALS['_MDB2_databases'])) {
