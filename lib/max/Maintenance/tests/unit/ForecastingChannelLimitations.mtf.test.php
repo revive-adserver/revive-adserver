@@ -26,7 +26,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Forecasting.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Forecasting/Channel/Limitations.php';
 require_once MAX_PATH . '/plugins/deliveryLimitations/DeliveryLimitations.php';
 

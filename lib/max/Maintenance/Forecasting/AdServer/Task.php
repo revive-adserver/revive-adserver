@@ -27,7 +27,8 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/core/Task.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Forecasting.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Forecasting.php';
 
 /**
  * A parent class, defining an interface for Maintenance Forecasting AdServer Task

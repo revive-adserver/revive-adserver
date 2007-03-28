@@ -27,7 +27,8 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Forecasting.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Forecasting.php';
 
 /**
  * A class to store and manipulate channels (ie. collections of delivery limitations)
