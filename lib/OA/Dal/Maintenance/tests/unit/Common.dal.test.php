@@ -65,10 +65,10 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $oUpdateToDate = new Date('2006-10-05 11:59:59');
         $log_maintenance_priority = $conf['table']['prefix'] . $conf['table']['log_maintenance_priority'];
 
-        $oOADalMaintenanceCommon = new OA_Dal_Maintenance_Common();
+        $oDalMaintenanceCommon = new OA_Dal_Maintenance_Common();
 
         // Test 1
-        $result = $oOADalMaintenanceCommon->setProcessLastRunInfo(
+        $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
             null,
             $oEndDate,
             $oUpdateToDate,
@@ -76,7 +76,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             true
         );
         $this->assertFalse($result);
-        $result = $oOADalMaintenanceCommon->setProcessLastRunInfo(
+        $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
             $oStartDate,
             null,
             $oUpdateToDate,
@@ -84,7 +84,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             true
         );
         $this->assertFalse($result);
-        $result = $oOADalMaintenanceCommon->setProcessLastRunInfo(
+        $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
             $oStartDate,
             $oEndDate,
             'foo',
@@ -93,7 +93,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         );
         $this->assertFalse($result);
         $this->assertFalse($result);
-        $result = $oOADalMaintenanceCommon->setProcessLastRunInfo(
+        $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
             $oStartDate,
             $oEndDate,
             $oUpdateToDate,
@@ -103,7 +103,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertFalse($result);
 
         // Test 2
-        $result = $oOADalMaintenanceCommon->setProcessLastRunInfo(
+        $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
             $oStartDate,
             $oEndDate,
             $oUpdateToDate,
@@ -133,8 +133,8 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         // Test 3
         PEAR::pushErrorHandling(null);
         $oDbh = &OA_DB::singleton();
-        $oOADalMaintenanceCommon = new OA_Dal_Maintenance_Common();
-        $result = $oOADalMaintenanceCommon->setProcessLastRunInfo(
+        $oDalMaintenanceCommon = new OA_Dal_Maintenance_Common();
+        $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
             $oStartDate,
             $oEndDate,
             $oUpdateToDate,
@@ -142,7 +142,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             true
         );
         $this->assertFalse($result);
-        $result = $oOADalMaintenanceCommon->setProcessLastRunInfo(
+        $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
             $oStartDate,
             $oEndDate,
             $oUpdateToDate,
@@ -155,7 +155,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         PEAR::popErrorHandling();
 
         // Test 4
-        $result = $oOADalMaintenanceCommon->setProcessLastRunInfo(
+        $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
             $oStartDate,
             $oEndDate,
             $oUpdateToDate,
@@ -230,10 +230,10 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $log_maintenance_priority = $conf['table']['prefix'] . $conf['table']['log_maintenance_priority'];
         $data_raw_ad_impression = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
 
-        $oOADalMaintenanceCommon = new OA_Dal_Maintenance_Common();
+        $oDalMaintenanceCommon = new OA_Dal_Maintenance_Common();
 
         // Test 1
-        $result = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $result = $oDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             'foo',
             null,
@@ -241,7 +241,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             array()
         );
         $this->assertFalse($result);
-        $result = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $result = $oDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array(),
             null,
@@ -251,11 +251,11 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertFalse($result);
 
         // Test 2
-        $result = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $result = $oDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority
         );
         $this->assertNull($result);
-        $result = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $result = $oDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array(),
             null,
@@ -269,7 +269,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
 
         // Test 3
         PEAR::pushErrorHandling(null);
-        $result = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $result = $oDalMaintenanceCommon->getProcessLastRunInfo(
             'foo',
             array(),
             null,
@@ -277,7 +277,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             array()
         );
         $this->assertFalse($result);
-        $result = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $result = $oDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array('foo'),
             null,
@@ -285,7 +285,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             array()
         );
         $this->assertFalse($result);
-        $result = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $result = $oDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array(),
             null,
@@ -317,7 +317,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
                     1
                 )";
         $rows = $oDbh->exec($query);
-        $aResult = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $aResult = $oDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array('operation_interval'),
             null,
@@ -347,7 +347,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
                     1
                 )";
         $rows = $oDbh->exec($query);
-        $aResult = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $aResult = $oDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array('operation_interval'),
             null,
@@ -362,7 +362,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual($aResult['updated_to'], '2006-10-06 07:59:59');
 
         $conf['maintenance']['operationInterval'] = 60;
-        $aResult = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $aResult = $oDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array('operation_interval'),
             null,
@@ -375,7 +375,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult['updated_to'], '2006-10-06 07:59:59');
-        $aResult = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $aResult = $oDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array('operation_interval'),
             null,
@@ -390,7 +390,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual($aResult['updated_to'], '2006-10-06 07:59:59');
 
         $conf['maintenance']['operationInterval'] = 30;
-        $aResult = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $aResult = $oDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array('operation_interval'),
             null,
@@ -403,7 +403,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult['updated_to'], '2006-10-06 07:59:59');
-        $aResult = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $aResult = $oDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array('operation_interval'),
             null,
@@ -442,7 +442,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
                     '2006-10-06 11:59:59'
                 )";
         $rows = $oDbh->exec($query);
-        $aResult = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $aResult = $oDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array('operation_interval', 'run_type'),
             null,
@@ -478,7 +478,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
                     '2006-10-06 20:59:59'
                 )";
         $rows = $oDbh->exec($query);
-        $aResult = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $aResult = $oDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array('operation_interval', 'run_type'),
             null,
@@ -493,7 +493,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual($aResult['updated_to'], '2006-10-06 11:59:59');
         $this->assertEqual($aResult['operation_interval'], 60);
         $this->assertEqual($aResult['run_type'], 1);
-        $aResult = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $aResult = $oDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array('operation_interval', 'run_type'),
             null,
@@ -508,7 +508,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual($aResult['updated_to'], '2006-10-06 20:59:59');
         $this->assertEqual($aResult['operation_interval'], 60);
         $this->assertEqual($aResult['run_type'], 0);
-        $aResult = $oOADalMaintenanceCommon->getProcessLastRunInfo(
+        $aResult = $oDalMaintenanceCommon->getProcessLastRunInfo(
             $log_maintenance_priority,
             array('operation_interval', 'run_type'),
             'WHERE run_type = 0',
@@ -559,14 +559,14 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
 
-        $oOADalMaintenanceCommon = new OA_Dal_Maintenance_Common();
+        $oDalMaintenanceCommon = new OA_Dal_Maintenance_Common();
 
         // Test 1
-        $aResult = $oOADalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'ad');
+        $aResult = $oDalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'ad');
         $this->assertNull($aResult);
 
         // Test 2
-        $aResult = $oOADalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'channel');
+        $aResult = $oDalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'channel');
         $this->assertNull($aResult);
 
         TestEnv::startTransaction();
@@ -602,19 +602,19 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $rows = $oDbh->exec($query);
 
         // Test 3
-        $aResult = $oOADalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'ad');
+        $aResult = $oDalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'ad');
         $this->assertNull($aResult);
 
         // Test 4
-        $aResult = $oOADalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'channel');
+        $aResult = $oDalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'channel');
         $this->assertNull($aResult);
 
         // Test 5
-        $aResult = $oOADalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(3, 'foo');
+        $aResult = $oDalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(3, 'foo');
         $this->assertNull($aResult);
 
         // Test 6
-        $aResult = $oOADalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(3, 'ad');
+        $aResult = $oDalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(3, 'ad');
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual(count($aResult[0]), 6);
@@ -667,19 +667,19 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $rows = $oDbh->exec($query);
 
         // Test 7
-        $aResult = $oOADalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'ad');
+        $aResult = $oDalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'ad');
         $this->assertNull($aResult);
 
         // Test 8
-        $aResult = $oOADalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'channel');
+        $aResult = $oDalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'channel');
         $this->assertNull($aResult);
 
         // Test 9
-        $aResult = $oOADalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(3, 'foo');
+        $aResult = $oDalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(3, 'foo');
         $this->assertNull($aResult);
 
         // Test 10
-        $aResult = $oOADalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(3, 'channel');
+        $aResult = $oDalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(3, 'channel');
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual(count($aResult[0]), 6);
@@ -716,12 +716,12 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
 
-        $oOADalMaintenanceCommon = new OA_Dal_Maintenance_Common();
+        $oDalMaintenanceCommon = new OA_Dal_Maintenance_Common();
 
         // Test 1
-        $max = $oOADalMaintenanceCommon->maxConnectionWindow('impression');
+        $max = $oDalMaintenanceCommon->maxConnectionWindow('impression');
         $this->assertEqual($max, 0);
-        $max = $oOADalMaintenanceCommon->maxConnectionWindow('click');
+        $max = $oDalMaintenanceCommon->maxConnectionWindow('click');
         $this->assertEqual($max, 0);
 
         TestEnv::startTransaction();
@@ -740,9 +740,9 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
                     0
                 )";
         $rows = $oDbh->exec($query);
-        $max = $oOADalMaintenanceCommon->maxConnectionWindow('impression');
+        $max = $oDalMaintenanceCommon->maxConnectionWindow('impression');
         $this->assertEqual($max, 0);
-        $max = $oOADalMaintenanceCommon->maxConnectionWindow('click');
+        $max = $oDalMaintenanceCommon->maxConnectionWindow('click');
         $this->assertEqual($max, 0);
 
         // Test 3
@@ -759,9 +759,9 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
                     0
                 )";
         $rows = $oDbh->exec($query);
-        $max = $oOADalMaintenanceCommon->maxConnectionWindow('impression');
+        $max = $oDalMaintenanceCommon->maxConnectionWindow('impression');
         $this->assertEqual($max, 60);
-        $max = $oOADalMaintenanceCommon->maxConnectionWindow('click');
+        $max = $oDalMaintenanceCommon->maxConnectionWindow('click');
         $this->assertEqual($max, 0);
 
         // Test 4
@@ -778,9 +778,9 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
                     70
                 )";
         $rows = $oDbh->exec($query);
-        $max = $oOADalMaintenanceCommon->maxConnectionWindow('impression');
+        $max = $oDalMaintenanceCommon->maxConnectionWindow('impression');
         $this->assertEqual($max, 180);
-        $max = $oOADalMaintenanceCommon->maxConnectionWindow('click');
+        $max = $oDalMaintenanceCommon->maxConnectionWindow('click');
         $this->assertEqual($max, 70);
 
         TestEnv::rollbackTransaction();
@@ -794,10 +794,10 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
 
-        $oOADalMaintenanceCommon = new OA_Dal_Maintenance_Common();
+        $oDalMaintenanceCommon = new OA_Dal_Maintenance_Common();
 
         // Test 1
-        list($impression, $click) = $oOADalMaintenanceCommon->maxConnectionWindows();
+        list($impression, $click) = $oDalMaintenanceCommon->maxConnectionWindows();
         $this->assertEqual($impression, 0);
         $this->assertEqual($click, 0);
 
@@ -817,7 +817,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
                     0
                 )";
         $rows = $oDbh->exec($query);
-        list($impression, $click) = $oOADalMaintenanceCommon->maxConnectionWindows();
+        list($impression, $click) = $oDalMaintenanceCommon->maxConnectionWindows();
         $this->assertEqual($impression, 0);
         $this->assertEqual($click, 0);
 
@@ -835,7 +835,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
                     0
                 )";
         $rows = $oDbh->exec($query);
-        list($impression, $click) = $oOADalMaintenanceCommon->maxConnectionWindows();
+        list($impression, $click) = $oDalMaintenanceCommon->maxConnectionWindows();
         $this->assertEqual($impression, 60);
         $this->assertEqual($click, 0);
 
@@ -853,7 +853,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
                     70
                 )";
         $rows = $oDbh->exec($query);
-        list($impression, $click) = $oOADalMaintenanceCommon->maxConnectionWindows();
+        list($impression, $click) = $oDalMaintenanceCommon->maxConnectionWindows();
         $this->assertEqual($impression, 180);
         $this->assertEqual($click, 70);
 
