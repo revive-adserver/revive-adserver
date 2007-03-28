@@ -421,28 +421,39 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
                     host_name
                 )
                 VALUES
-                (
-                    '2006-10-11 10:30:00',
-                    1,
-                    2,
-                    7,
-                    'www.foo.com'
-                ),
-                (
-                    '2006-10-12 10:30:00',
-                    1,
-                    2,
-                    1,
-                    'www.foo.com'
-                ),
-                (
-                    '2006-10-12 10:30:00',
-                    1,
-                    2,
-                    7,
-                    'www.bar.com'
-                )";
-        $rows = $oDbh->exec($query);
+                    (?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'text'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '2006-10-11 10:30:00',
+            1,
+            2,
+            7,
+            'www.foo.com'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2006-10-12 10:30:00',
+            1,
+            2,
+            1,
+            'www.foo.com'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2006-10-12 10:30:00',
+            1,
+            2,
+            7,
+            'www.bar.com'
+        );
+        $rows = $st->execute($aData);
 
         $aSqlLimitations = array(
             0 => array(
@@ -480,35 +491,47 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
                     host_name
                 )
                 VALUES
-                (
-                    '2006-10-11 10:30:00',
-                    1,
-                    2,
-                    7,
-                    'www.foo.com'
-                ),
-                (
-                    '2006-10-12 10:30:00',
-                    1,
-                    2,
-                    1,
-                    'www.foo.com'
-                ),
-                (
-                    '2006-10-12 10:30:00',
-                    1,
-                    2,
-                    7,
-                    'www.bar.com'
-                ),
-                (
-                    '2006-10-12 10:30:00',
-                    1,
-                    2,
-                    7,
-                    'www.foo.com'
-                )";
-        $rows = $oDbh->exec($query);
+                    (?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'text'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '2006-10-11 10:30:00',
+            1,
+            2,
+            7,
+            'www.foo.com'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2006-10-12 10:30:00',
+            1,
+            2,
+            1,
+            'www.foo.com'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2006-10-12 10:30:00',
+            1,
+            2,
+            7,
+            'www.bar.com'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2006-10-12 10:30:00',
+            1,
+            2,
+            7,
+            'www.foo.com'
+        );
+        $rows = $st->execute($aData);
 
         $aSqlLimitations = array(
             0 => array(
@@ -548,70 +571,87 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
                     country
                 )
                 VALUES
-                (
-                    '2006-10-11 10:30:00',
-                    1,
-                    2,
-                    7,
-                    '192.168.0.1',
-                    'www.foo.com',
-                    'GB'
-                ),
-                (
-                    '2006-10-12 10:30:00',
-                    1,
-                    2,
-                    1,
-                    '192.168.0.1',
-                    'www.foo.com',
-                    'GB'
-                ),
-                (
-                    '2006-10-12 10:30:00',
-                    1,
-                    2,
-                    7,
-                    '192.168.0.1',
-                    'www.bar.com',
-                    'GB'
-                ),
-                (
-                    '2006-10-12 10:30:00',
-                    1,
-                    2,
-                    7,
-                    '192.168.0.1',
-                    'www.foo.com',
-                    'GB'
-                ),
-                (
-                    '2006-10-12 10:30:00',
-                    1,
-                    2,
-                    7,
-                    '192.168.0.1',
-                    'www.foo.co.uk',
-                    'AU'
-                ),
-                (
-                    '2006-10-12 10:30:00',
-                    1,
-                    2,
-                    7,
-                    '192.168.0.1',
-                    'www.foo.co.uk',
-                    'GB'
-                ),
-                (
-                    '2006-10-12 10:30:00',
-                    1,
-                    2,
-                    9,
-                    '127.0.0.1',
-                    'www.example.com',
-                    'US'
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'text'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '2006-10-11 10:30:00',
+            1,
+            2,
+            7,
+            '192.168.0.1',
+            'www.foo.com',
+            'GB'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2006-10-12 10:30:00',
+            1,
+            2,
+            1,
+            '192.168.0.1',
+            'www.foo.com',
+            'GB'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2006-10-12 10:30:00',
+            1,
+            2,
+            7,
+            '192.168.0.1',
+            'www.bar.com',
+            'GB'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2006-10-12 10:30:00',
+            1,
+            2,
+            7,
+            '192.168.0.1',
+            'www.foo.com',
+            'GB'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2006-10-12 10:30:00',
+            1,
+            2,
+            7,
+            '192.168.0.1',
+            'www.foo.co.uk',
+            'AU'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2006-10-12 10:30:00',
+            1,
+            2,
+            7,
+            '192.168.0.1',
+            'www.foo.co.uk',
+            'GB'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2006-10-12 10:30:00',
+            1,
+            2,
+            9,
+            '127.0.0.1',
+            'www.example.com',
+            'US'
+        );
+        $rows = $st->execute($aData);
 
         // Test 5
         $aSqlLimitations = array(
