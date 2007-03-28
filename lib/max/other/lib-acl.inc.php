@@ -259,7 +259,11 @@ function MAX_AclValidate($page, $aParams) {
             $query_acls = "SELECT channelid as id, logical, type, comparison, data, executionorder FROM {$conf['table']['acls_channel']} WHERE channelid = {$aParams['channelid']} ORDER BY executionorder";
         break;
     }
-    list($compiledLimitation, $acl_plugins) = phpAds_dbFetchRow(phpAds_dbQuery($query_existing));
+    $dbh = &OA_DB::singleton();
+    if (PEAR::isError($dbh)) {
+        // FIXME: What am I supposed to do here???
+    }
+    list($compiledLimitation, $acl_plugins) = $dbh->queryRow($query_existing, null, MDB2_FETCHMODE_ORDERED);
     $compiledLimitation = stripslashes($compiledLimitation);
 
     $acls = array();

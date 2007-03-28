@@ -655,7 +655,6 @@ function _delete($aTable, $aLimitations, $aOtherTables = null)
     // Doublecheck that there is something in the where clause
     //  - to ensure that a bug does not delete the entire contents of a table!
     if (strlen($where) > 0) {
-        MAX_connectDB();
         $res = phpAds_dbQuery($query)
         or $queryValid = false;
     } else {
@@ -690,7 +689,6 @@ function _insert($aTable, $aVariables)
 
     $query = "INSERT INTO $table" . $names . $values;
     $queryValid = true;
-    MAX_connectDB();
     $res = phpAds_dbQuery($query)
     or $queryValid = false;
 
@@ -744,7 +742,6 @@ function _query($query, $primaryKey)
 {
     $queryValid = true;
 
-    MAX_connectDB();
     $res = phpAds_dbQuery($query)
     or $queryValid = false;
 
@@ -790,7 +787,6 @@ function _update($aTable, $aVariables, $aLimitations)
     $query = "UPDATE $table" . $set . $where;
     $queryValid = true;
     // Connect to the DB
-    MAX_connectDB();
     $res = phpAds_dbQuery($query)
     or $queryValid = false;
     if ($queryValid) {
@@ -800,13 +796,4 @@ function _update($aTable, $aVariables, $aLimitations)
         return false;
     }
 }
-
-function MAX_connectDB()
-{
-    if (empty($GLOBALS['_MAX']['ADMIN_DB_LINK'])) {
-        require_once 'lib-db.inc.php';
-        phpAds_dbConnect();
-    }
-}
-
 ?>
