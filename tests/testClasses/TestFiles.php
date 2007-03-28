@@ -39,72 +39,80 @@ class TestFiles
 {
 
     /**
-     * A method to scan a Max folder (and all sub-folders) and find all
-     * tests relating to a supplied layer.
+     * A method to scan a directory (and, optionally, all sub-directories)
+     * and find all Openads tests of the appropriate type and relating to
+     * a supplied test "layer" code.
      *
-     * @param string $type The type of test being run (eg. "unit").
-     * @param string $code The layer's code (eg. "dal").
-     * @param string $folder Base folder name to begin search from.
-     * @return mixed An array containing all of the files found that
+     * @param string  $type      The type of test being run (eg. "unit").
+     * @param string  $code      The layer's code (eg. "dal").
+     * @param string  $dir       Base directory name to begin search from.
+     * @param boolean $recursive Optional. If true, searches sub-folders
+     *                           recursively.
+     * @return array An array containing all of the files found that
      *               match the layer test code supplied.
      */
-    function getTestFiles($type, $code, $folder)
+    function getTestFiles($type, $code, $dir, $recursive = true)
     {
-        $files = array();
-        $dh = opendir($folder);
-        if ($dh) {
-            while (false !== ($file = readdir($dh))) {
-                if (($file == '.') || ($file == '..') || ($file == '.svn')) {
-                    // Ignore
-                    continue;
+        $aFiles = array();
+        // Search recursively?
+        if ($recursive) {
+            // Open the base directory
+            $dh = opendir($dir);
+            if ($dh) {
+                while (false !== ($file = readdir($dh))) {
+                    // Ignore the parent, self and subversion directories
+                    if (($file == '.') || ($file == '..') || ($file == '.svn')) {
+                        continue;
+                    }
+                    // Is the file another directory?
+                    if (is_dir($dir . '/' . $file)) {
+                        // In recursive mode, so add in all tests found in this sub-directory
+                        $aFiles = array_merge($aFiles, TestFiles::getTestFiles($type, $code, $dir . '/' . $file));
+                    }
                 }
-                // Is the file another directory?
-                if (is_dir($folder . '/' . $file)) {
-                    $files = array_merge($files, TestFiles::getTestFiles($type, $code, $folder . '/' . $file));
-                }
+                closedir($dh);
             }
-            closedir($dh);
         }
         // Can we open a tests directory?
-        $dh = @opendir($folder . '/' . constant($type . '_TEST_STORE'));
+        $dh = @opendir($dir . '/' . constant($type . '_TEST_STORE'));
         if ($dh) {
             while (($file = readdir($dh)) !== false) {
                 // Does the filename match?
                 if (preg_match("/[^.]+\.$code\.test\.php/", $file)) {
                     // Strip the MAX_PROJECT_PATH from the folder before storing
-                    $storeFolder = preg_replace('#' . str_replace('\\', '\\\\', MAX_PROJECT_PATH) . '/#', '', $folder);
-                    $files[$storeFolder][] = $file;
+                    $storeFolder = preg_replace('#' . str_replace('\\', '\\\\', MAX_PROJECT_PATH) . '/#', '', $dir);
+                    $aFiles[$storeFolder][] = $file;
                 }
             }
             closedir($dh);
-            if (count($files[$storeFolder]) > 1) {
-                asort($files[$storeFolder]);
+            if (count($aFiles[$storeFolder]) > 1) {
+                asort($aFiles[$storeFolder]);
             }
         }
-        return $files;
+        return $aFiles;
     }
-    
+
     /**
      * A method to get all test files in the Max project.
      *
      * @param string $type The type of test being run (eg. "unit").
-     * @return mixed An array containing the details of all the test files
+     * @return array An array containing the details of all the test files
      *               in the Max project.
      */
     function getAllTestFiles($type)
     {
-        $tests = array();
+        $aTests = array();
         foreach ($GLOBALS['_MAX']['TEST'][$type . '_layers'] as $layer => $data) {
             foreach ($GLOBALS['_MAX']['TEST']['directories'] as $path) {
-                if (empty($tests[$layer])) {
-                    $tests[$layer] = array();
+                if (empty($aTests[$layer])) {
+                    $aTests[$layer] = array();
                 }
-                $tests[$layer] = array_merge($tests[$layer], TestFiles::getTestFiles($type, $layer, MAX_PROJECT_PATH.'/'.$path));
+                $aTests[$layer] = array_merge($aTests[$layer], TestFiles::getTestFiles($type, $layer, MAX_PROJECT_PATH.'/'.$path));
             }
         }
-        return $tests;
+        return $aTests;
     }
-    
+
     /**
      * A method to get all test files in the Max project for a specified layer.
      *
@@ -115,16 +123,16 @@ class TestFiles
      */
     function getLayerTestFiles($type, $layer)
     {
-        $tests = array();
+        $aTests = array();
         foreach ($GLOBALS['_MAX']['TEST']['directories'] as $path) {
-            if (empty($tests[$layer])) {
-                $tests[$layer] = array();
+            if (empty($aTests[$layer])) {
+                $aTests[$layer] = array();
             }
-            $tests[$layer] = array_merge($tests[$layer], TestFiles::getTestFiles($type, $layer, MAX_PROJECT_PATH.'/'.$path));
+            $aTests[$layer] = array_merge($aTests[$layer], TestFiles::getTestFiles($type, $layer, MAX_PROJECT_PATH.'/'.$path));
         }
-        return $tests;
+        return $aTests;
     }
-        
+
 }
 
 ?>

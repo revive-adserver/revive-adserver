@@ -47,40 +47,40 @@ class TestRunner
 {
     /**
      * @var string The reporter format for displaying results.
-     * 
+     *
      * One of 'auto', 'xml', 'text', or 'html'
      */
     var $output_format_name = 'auto';
 
     /**
      * @var string The type of tests being run.
-     * 
+     *
      * One of 'unit', 'integration', or maybe others.
      */
     var $test_type_name = 'unit';
 
     /**
      * @var string The level at which testing should be directed.
-     * 
+     *
      * One of 'all', 'layer', 'folder' or 'file'.
      */
     var $test_level_name = 'sdh';
 
     /**
      * @var string A folder (relative to the Max root) containing tests to run.
-     * 
+     *
      * It should not include a leading '/'.
      */
     var $test_folder_name = '';
 
     /**
      * @var string A base filename containing tests to run.
-     * 
+     *
      * Stored as a full filename without path, such as
      * "example.dal.test.php"
      */
     var $test_file_name;
-    
+
     /** @var int The number of times any run has failed.
      * @todo Consider querying report object instead of storing failures.
      */
@@ -125,8 +125,8 @@ class TestRunner
         foreach ($tests as $layerCode => $folders) {
             foreach ($folders as $folder => $files) {
                 foreach ($files as $index => $file) {
-                    $test->addTestFile(MAX_PROJECT_PATH . '/' . $folder . '/' .
-                                       constant($type . '_TEST_STORE') . '/' . $file);
+                    $testFile = MAX_PROJECT_PATH . '/' . $folder . '/' . constant($type . '_TEST_STORE') . '/' . $file;
+                    $test->addTestFile($testFile);
                 }
             }
         }
@@ -146,16 +146,17 @@ class TestRunner
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
         // Set up the environment for the test
         TestRunner::setupEnv($layer);
-        // Find all the tests in the layer/folder
-        $tests = TestFiles::getTestFiles($type, $layer, MAX_PROJECT_PATH . '/' . $folder);
+        // Find all the tests in the layer/folder, but ensure
+        // that they are NOT obtained recursively!
+        $tests = TestFiles::getTestFiles($type, $layer, MAX_PROJECT_PATH . '/' . $folder, false);
         // Add the test files to a SimpleTest group
         $testName = strtoupper($type) . ': ' .
             $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][0] . ': Tests in ' . $folder;
         $test = new GroupTest($testName);
         foreach ($tests as $folder => $data) {
             foreach ($data as $index => $file) {
-                $test->addTestFile(MAX_PROJECT_PATH . '/' . $folder . '/' .
-                                   constant($type . '_TEST_STORE') . '/' . $file);
+                $testFile = MAX_PROJECT_PATH . '/' . $folder . '/' . constant($type . '_TEST_STORE') . '/' . $file;
+                $test->addTestFile($testFile);
             }
         }
         $this->runCase($test);
@@ -178,11 +179,11 @@ class TestRunner
         $testName = strtoupper($type) . ': ' .
             $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][0] . ': ' . $folder . '/' . $file;
         $test = new GroupTest($testName);
-        $test->addTestFile(MAX_PROJECT_PATH . '/' . $folder . '/' .
-                           constant($type . '_TEST_STORE') . '/' . $file);
+        $testFile = MAX_PROJECT_PATH . '/' . $folder . '/' . constant($type . '_TEST_STORE') . '/' . $file;
+        $test->addTestFile($testFile);
         $this->runCase($test);
         // Tear down the environment for the test
-        TestRunner::teardownEnv($layer); 
+        TestRunner::teardownEnv($layer);
     }
 
     /**
@@ -231,11 +232,11 @@ class TestRunner
 
     /**
      * Populate default testing focus based on parameters.
-     * 
-     * This implementation reads parameters from the command-line. 
-     * 
+     *
+     * This implementation reads parameters from the command-line.
+     *
      * @return void This method does not return a value.
-     * 
+     *
      * @todo Consider renaming this method to better express its intent.
      * @todo Deprecate the $_GET compatibility, moving $_GET parameter handling
      * to a subclass.
@@ -279,8 +280,7 @@ class TestRunner
             }
         }
     }
-    
-    
+
     /**
      * @return SimpleReporter
      */
@@ -297,9 +297,9 @@ class TestRunner
         PEAR::raiseError($error);
         die(254);
     }
-    
+
     /**
-     * @return SimpleReporter 
+     * @return SimpleReporter
      */
     function _createDefaultReporter()
     {
@@ -310,10 +310,10 @@ class TestRunner
         }
         return $reporter;
     }
-    
+
     /**
      * Run a test case (usually a group/suite) with the inferred reporter.
-     * 
+     *
      * @param SimpleTestCase $test_case
      * @return void    This method does not return a value.
      *                 Use hasFailures() to query status after running this.
@@ -337,7 +337,7 @@ class TestRunner
     {
         return $this->_failed_runs > 0;
     }
-    
+
     function exitWithCode()
     {
         if ($this->hasFailures()) {
