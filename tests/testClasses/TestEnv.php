@@ -68,8 +68,12 @@ class TestEnv
         $oDbh = &OA_DB::singleton($dsn);
         OA::disableErrorHandling();
         $result = $oDbh->manager->dropDatabase($aConf['database']['name']);
-        OA::enableErrorHandling();
         $result = $oDbh->manager->createDatabase($aConf['database']['name']);
+        OA::enableErrorHandling();
+        if (PEAR::isError($result)) {
+            PEAR::raiseError("TestEnv unable to create the {$aConf['database']['name']} test database.", PEAR_LOG_ERR);
+            die();
+        }
     }
 
     /**
