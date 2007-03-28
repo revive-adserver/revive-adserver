@@ -114,7 +114,15 @@ class OA_DB
                 }
             }
             // Create the new database connection
-            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] = &MDB2::singleton($dsn, $aOptions);
+            $oDbh = &MDB2::singleton($dsn, $aOptions);
+            if (PEAR::isError($oDbh)) {
+                return $oDbh;
+            }
+            $success = $oDbh->connect();
+            if (PEAR::isError($success)) {
+                return $success;
+            }
+            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] = $oDbh;
             // Set the fetchmode to be use used
             $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->setFetchMode(MDB2_FETCHMODE_ASSOC);
             // Load modules that are likely to be needed
