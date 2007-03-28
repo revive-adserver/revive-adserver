@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Common.php';
 require_once 'Date.php';
 
@@ -51,7 +52,8 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
      *
      * Requirements:
      * Test 1: Test with invalid data, and ensure false is returned.
-     * Test 2: Test that basic information is logged correctly.
+     * Test 2: Test that basic information is logged correctly (use log_maintenance_forecasting
+     *              table, as run_type info not needed).
      * Test 3: Test that bad table and column names return false.
      * Test 4: Test that run type information is logged correctly.
      */
@@ -64,6 +66,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $oEndDate      = new Date('2006-10-05 12:15:00');
         $oUpdateToDate = new Date('2006-10-05 11:59:59');
         $log_maintenance_priority = $conf['table']['prefix'] . $conf['table']['log_maintenance_priority'];
+        $log_maintenance_forecasting = $conf['table']['prefix'] . $conf['table']['log_maintenance_forecasting'];
 
         $oDalMaintenanceCommon = new OA_Dal_Maintenance_Common();
 
@@ -107,23 +110,23 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             $oStartDate,
             $oEndDate,
             $oUpdateToDate,
-            $log_maintenance_priority,
+            $log_maintenance_forecasting,
             true
         );
         $this->assertTrue($result);
         $query = "
             SELECT
-                log_maintenance_priority_id,
+                log_maintenance_forecasting_id,
                 start_run,
                 end_run,
                 operation_interval,
                 duration,
                 updated_to
             FROM
-                $log_maintenance_priority";
+                $log_maintenance_forecasting";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['log_maintenance_priority_id'], 1);
+        $this->assertEqual($aRow['log_maintenance_forecasting_id'], 1);
         $this->assertEqual($aRow['start_run'], '2006-10-05 12:07:01');
         $this->assertEqual($aRow['end_run'], '2006-10-05 12:15:00');
         $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
@@ -131,7 +134,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual($aRow['updated_to'], '2006-10-05 11:59:59');
 
         // Test 3
-        PEAR::pushErrorHandling(null);
+        OA::disableErrorHandling();
         $oDbh = &OA_DB::singleton();
         $oDalMaintenanceCommon = new OA_Dal_Maintenance_Common();
         $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
@@ -152,9 +155,18 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             1
         );
         $this->assertFalse($result);
-        PEAR::popErrorHandling();
+        OA::enableErrorHandling();
 
         // Test 4
+        $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
+            $oStartDate,
+            $oEndDate,
+            $oUpdateToDate,
+            $log_maintenance_priority,
+            true,
+            'run_type',
+            0
+        );
         $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
             $oStartDate,
             $oEndDate,
@@ -268,7 +280,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertNull($result);
 
         // Test 3
-        PEAR::pushErrorHandling(null);
+        OA::disableErrorHandling();
         $result = $oDalMaintenanceCommon->getProcessLastRunInfo(
             'foo',
             array(),
@@ -296,7 +308,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             )
         );
         $this->assertFalse($result);
-        PEAR::popErrorHandling();
+        OA::enableErrorHandling();
 
         // Test 4
         TestEnv::startTransaction();
@@ -583,23 +595,34 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
                     executionorder
                 )
             VALUES
-                (
-                    3,
-                    'and',
-                    'Time:Date',
-                    '!=',
-                    '2005-05-25',
-                    0
-                ),
-                (
-                    3,
-                    'and',
-                    'Geo:Country',
-                    '==',
-                    'GB',
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            3,
+            'and',
+            'Time:Date',
+            '!=',
+            '2005-05-25',
+            0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            'and',
+            'Geo:Country',
+            '==',
+            'GB',
+            1
+        );
+        $rows = $st->execute($aData);
 
         // Test 3
         $aResult = $oDalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'ad');
@@ -648,23 +671,34 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
                     executionorder
                 )
             VALUES
-                (
-                    3,
-                    'and',
-                    'Time:Date',
-                    '!=',
-                    '2005-05-25',
-                    0
-                ),
-                (
-                    3,
-                    'and',
-                    'Geo:Country',
-                    '==',
-                    'GB',
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            3,
+            'and',
+            'Time:Date',
+            '!=',
+            '2005-05-25',
+            0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            'and',
+            'Geo:Country',
+            '==',
+            'GB',
+            1
+        );
+        $rows = $st->execute($aData);
 
         // Test 7
         $aResult = $oDalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'ad');
