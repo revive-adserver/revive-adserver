@@ -1137,7 +1137,7 @@ class Admin_DA
                             AND data_summary_ad_hourly.day < \'' . $oEnd->format('%Y-%m-%e')  .'\')
                     )
             GROUP BY campaignid, day, hour';
-            $aCampaigns = $db->getAll($query);
+            $aCampaigns = $db->queryAll($query);
             if (PEAR::isError($aCampaigns)) {
                 return $aCampaigns;
             }
