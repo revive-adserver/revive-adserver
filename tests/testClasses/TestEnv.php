@@ -211,9 +211,8 @@ class TestEnv
         foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
             $oTable->dropTable($tableName);
         }
-        // Drop the database connection
-        $oDbh->disconnect();
-        $GLOBALS['_OA']['CONNECTIONS'] = array();
+        // Drop all database connections
+        OA_DB::disconnectAll();
         // Destroy any DataObject connection
         DB_DataObjectCommon::disconnect();
         // Destroy any DAL connection

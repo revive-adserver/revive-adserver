@@ -50,20 +50,20 @@ class OA_DB
      * @static
      * @param string $dsn Optional database DSN details - connects to the
      *                    database defined by the configuration file otherwise.
-     *                    See {@link OA_DB::parseDSN()} for format.
+     *                    See {@link OA_DB::getDsn()} for format.
      * @return MDB2_Driver_Common An MDB2 connection resource, or PEAR_Error
      *                            on failure to connect.
      */
     function &singleton($dsn = null)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Get the DSN, if not set
         $dsn = is_null($dsn) ? OA_DB::getDsn() : $dsn;
         // Create an MD5 checksum of the DSN
         $dsnMd5 = md5($dsn);
         // Does this database connection already exist?
         $aConnections = array_keys($GLOBALS['_OA']['CONNECTIONS']);
-        if (!(count($aConnections)) || !(in_array($dsnMd5, $aConnections))) {
+        if (!(count($aConnections) > 0) || !(in_array($dsnMd5, $aConnections))) {
             // Prepare options for a new database connection
             $aOptions = array();
             $aOptions['datatype_map'] = '';
@@ -76,14 +76,14 @@ class OA_DB
             // Set the portability options
             $aOptions['portability'] = MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL;
             // Set the default table type, if appropriate
-            if (!empty($conf['table']['type'])) {
-                $aOptions['default_table_type'] = $conf['table']['type'];
+            if (!empty($aConf['table']['type'])) {
+                $aOptions['default_table_type'] = $aConf['table']['type'];
             }
             // Set any custom MDB2 datatypes & nativetype mappings
             $customTypesInfoFile = MAX_PATH . '/lib/OA/DB/CustomDatatypes/' .
-                               $conf['database']['type'] . '_info.php';
+                               $aConf['database']['type'] . '_info.php';
             $customTypesFile = MAX_PATH . '/lib/OA/DB/CustomDatatypes/' .
-                               $conf['database']['type'] . '.php';
+                               $aConf['database']['type'] . '.php';
             if (is_readable($customTypesInfoFile) && is_readable($customTypesFile)) {
                 include $customTypesInfoFile;
                 require_once $customTypesFile;
@@ -188,6 +188,46 @@ class OA_DB
         $dsn = OA_DB::getDsn($aConf);
         // Return the database connection
         return OA_DB::singleton($dsn);
+    }
+
+    /**
+     * A method to disconnect a database connection resource.
+     *
+     * @static
+     * @param string $dsn Optional database DSN details - disconnects from the
+     *                    database defined by the configuration file otherwise.
+     *                    See {@link OA_DB::getDsn()} for format.
+     * @return void
+     */
+    function disconnect($dsn)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        // Get the DSN, if not set
+        $dsn = is_null($dsn) ? OA_DB::getDsn() : $dsn;
+        // Create an MD5 checksum of the DSN
+        $dsnMd5 = md5($dsn);
+        // Does this database connection already exist?
+        $aConnections = array_keys($GLOBALS['_OA']['CONNECTIONS']);
+        if ((count($aConnections) > 0) && (in_array($dsnMd5, $aConnections))) {
+            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->disconnect();
+            unset($GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]);
+        }
+    }
+
+    /**
+     * A method to disconnect any and all database connection resources.
+     *
+     * @static
+     * @return void
+     */
+    function disconnectAll()
+    {
+        if (is_array($GLOBALS['_OA']['CONNECTIONS'])) {
+            foreach ($GLOBALS['_OA']['CONNECTIONS'] as $key => $oDbh) {
+                $GLOBALS['_OA']['CONNECTIONS'][$key]->disconnect();
+                unset($GLOBALS['_OA']['CONNECTIONS'][$key]);
+            }
+        }
     }
 
 }

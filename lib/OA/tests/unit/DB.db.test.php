@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once 'Date.php';
 
@@ -37,15 +38,21 @@ require_once 'Date.php';
  */
 class OA_DBTest extends UnitTestCase
 {
+
     function testSingleton()
     {
         $oDbh = OA_DB::singleton();
         $this->assertNotNull($oDbh);
         $this->assertFalse(PEAR::isError($oDbh));
-        
+
         $dsn = "mysql://scott:tiger@non-existent-host:666/non-existent-database";
+        OA::disableErrorHandling();
         $oDbh = &OA_DB::singleton($dsn);
+        OA::enableErrorHandling();
         $this->assertNotNull($oDbh);
         $this->assertTrue(PEAR::isError($oDbh));
     }
+
 }
+
+?>
