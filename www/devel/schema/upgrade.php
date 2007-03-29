@@ -39,11 +39,6 @@ require_once '../../../init.php';
 define('MAX_DEV', MAX_PATH.'/www/devel');
 
 
-// Overwrite $conf, as a reference to $GLOBALS['_MAX']['CONF'],
-// so that configuration options can be more easily set during
-// the upgrade process
-//$conf = &$GLOBALS['_MAX']['CONF'];
-
 // Required files
 require_once MAX_DEV.'/lib/pear.inc.php';
 require_once 'MDB2.php';
@@ -51,8 +46,8 @@ require_once 'MDB2/Schema.php';
 require_once 'Config.php';
 
 require_once MAX_PATH.'/lib/OA/DB.php';
-require_once MAX_PATH.'/lib/OA/DB/Table.php';
-require_once MAX_PATH.'/lib/OA/Dal/Links.php';
+//require_once MAX_PATH.'/lib/OA/DB/Table.php';
+//require_once MAX_PATH.'/lib/OA/Dal/Links.php';
 
 require_once MAX_DEV.'/lib/openads/DB_Upgrade.php';
 
@@ -62,23 +57,23 @@ $upgrade = false;
 
 if (array_key_exists('btn_initialise', $_REQUEST))
 {
-    $oUpgrade = new Openads_DB_Upgrade();
-    $oUpgrade->init('constructive', 10);
+    $oUpgrade = new OA_DB_Upgrade();
+    $oUpgrade->init('constructive', 2);
     $backup = true;
     include 'tpl/upgrade.html';
 }
 else if (array_key_exists('btn_backup', $_REQUEST))
 {
-    $oUpgrade = new Openads_DB_Upgrade();
-    $oUpgrade->init('constructive', 10);
+    $oUpgrade = new OA_DB_Upgrade();
+    $oUpgrade->init('constructive', 2);
     $oUpgrade->_createBackup();
     $upgrade = true;
     include 'tpl/upgrade.html';
 }
 else if (array_key_exists('btn_upgrade', $_POST))
 {
-    $oUpgrade = new Openads_DB_Upgrade();
-    if ($oUpgrade->init('constructive', 10))
+    $oUpgrade = new OA_DB_Upgrade();
+    if ($oUpgrade->init('constructive', 2))
     {
         $oUpgrade->upgrade();
     }

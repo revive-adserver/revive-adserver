@@ -49,7 +49,7 @@ define('DB_UPGRADE_ACTION_CODE_IGNORE_OUTSTANDING_DROP_BACKUP_UNTIL',   6);
 define('DB_UPGRADE_ACTION_CODE_IGNORE_OUTSTANDING_DROP_BACKUP',         7);
 
 
-class Openads_DB_Upgrade
+class OA_DB_Upgrade
 {
     var $versionFrom;
     var $versionTo;
@@ -78,22 +78,40 @@ class Openads_DB_Upgrade
 
     var $aActionCodes = array();
     var $aTaskList = array();
+    var $aRestoreTables = array();
+
+    var $logToDB = true;
+
+    var $prefix = '';
+    var $database = '';
+
+    var $continue = true;
 
     /**
      * php5 class constructor
      *
+     * simpletest throws a BadGroupTest error
+     * Redefining already defined constructor for class Openads_DB_Upgrade
+     * when both constructors are present
+     *
      */
-    function __construct()
-    {
-    }
+//    function __construct()
+//    {
+//    }
 
     /**
      * php4 class constructor
      *
      */
-    function Openads_DB_Upgrade()
+    function OA_DB_Upgrade()
     {
-        $this->__construct();
+        //this->__construct();
+
+        $result  = & MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()));
+        if (!$this->_isPearError($result, 'failed to instantiate MDB2_Schema'))
+        {
+            $this->oSchema = $result;
+        }
     }
 
     function init($timing='constructive', $versionTo, $versionFrom='')
@@ -146,12 +164,12 @@ class Openads_DB_Upgrade
             $this->aMessages[] = 'yay! file found: '.$this->file_migrate;
         }
 
-        $result  = & MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()));
-        if (!PEAR::isError($result))
-        {
-            $this->oSchema = $result;
+//        $result  = & MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()));
+//        if (!$this->_isPearError($result, 'failed to instantiate MDB2_Schema'))
+//        {
+            //$this->oSchema = $result;
             $result = $this->oSchema->parseDatabaseDefinitionFile($this->file_schema);
-            if (!PEAR::isError($result))
+            if (!$this->_isPearError($result, 'failed to parse new schema ('.$this->file_schema.')'))
             {
                 $this->aDefinitionNew = $result;
                 $this->aMessages[] = 'successfully parsed the schema';
@@ -160,7 +178,7 @@ class Openads_DB_Upgrade
                 $this->aMessages[] = 'schema status: '.$this->aDefinitionNew['status'];
 
                 $result = $this->oSchema->parseChangesetDefinitionFile($this->file_changes);
-                if (!PEAR::isError($result))
+                if (!$this->_isPearError($result, 'failed to parse changeset ('.$this->file_changes.')'))
                 {
                     $this->aChanges = $result;
                     $this->aMessages[] = 'successfully parsed the changeset';
@@ -172,22 +190,29 @@ class Openads_DB_Upgrade
                 }
                 else
                 {
-                    $this->aErrors[] = 'failed to parse changeset ('.$this->file_changes.'): '.$result->getMessage();
                     return false;
                 }
             }
             else
             {
-                $this->aErrors[] = 'failed to parse new schema ('.$this->file_schema.'): '.$result->getMessage();
                 return false;
             }
-        }
-        else
-        {
-            $this->aErrors[] = 'failed to instantiate MDB2_Schema: '.$result->getMessage();
-            return false;
-        }
+//        }
+//        else
+//        {
+//            return false;
+//        }
         $this->aChangeset = $this->aChanges[$this->timing];
+
+        $this->prefix   = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $this->database = $GLOBALS['_MAX']['CONF']['database']['name'];
+
+        $this->aMessages[] = 'target database: '.$this->database;
+        $this->aMessages[] = 'table prefix: '.$this->prefix;
+
+        $aDBTables = $this->_listTables();
+        $this->logToDB = in_array($this->prefix.'database_action', $aDBTables);
+
         $this->aMessages[] = 'successfully initialised DB Upgrade';
         return true;
     }
@@ -200,25 +225,47 @@ class Openads_DB_Upgrade
      */
     function upgrade()
     {
-        //$this->_compileTaskList();
 
         //$this->aDefinitionOld = $this->oSchema->getDefinitionFromDatabase();
 
-        $this->aMessages[] = 'verifying '.$timing.' changes: initial';
+        $this->aMessages[] = 'verifying '.$timing.' changes';
         $result = $this->oSchema->verifyAlterDatabase($this->aChangeset);
-        $msg = (PEAR::isError($result) ? ' INITIAL VERIFICATION FAILED:'.$result->getMessage() : ' initial verification OK');
-        $this->aMessages[] = $timing.$msg;
-        if ($result)
+        if (!$this->_isPearError($result, 'VERIFICATION FAILED'))
         {
-            $this->aMessages[] = 'verifying '.$timing.' changes: detailed';
-            $result = $this->_verifyAlterDatabase();
+            $this->aMessages[] = ' verified OK';
+            $this->aMessages[] = 'creating '.$timing.' tasklist';
+            $result = $this->_verifyTaskList();
+            if (!$this->_isPearError($result, 'TASKLIST CREATION FAILED'))
+            {
+                $this->aMessages[] = 'executing '.$timing.' tasks';
+                if (!$this->_executeTasks())
+                {
+                    $result = $this->_rollback();
+                    if ($result)
+                    {
+                        $this->aErrors[] = 'upgrade failed but rollback succeeded';
+                        return false;
+                    }
+                    else
+                    {
+                        $this->aErrors[] = 'upgrade failed and rollback failed';
+                        return false;
+                    }
+                }
+                else
+                {
+                    $this->aMessages[] = 'upgrade succeeded';
+                    $this->_logDatabaseAction(DB_UPGRADE_ACTION_CODE_UPGRADE, 'success');
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
-        $msg = (!$result ? ' DETAILED VERIFICATION FAILED' : ' detailed verification OK');
-        $this->aMessages[] = $timing.$msg;
-        if ($result)
+        else
         {
-            $this->aMessages[] = 'executing '.$timing.' changes';
-            //$this->_executeTasks();
+            return false;
         }
         return true;
     }
@@ -233,168 +280,344 @@ class Openads_DB_Upgrade
         return true;
     }
 
+    function _listTables()
+    {
+        $portability = $this->oSchema->db->getOption('portability');
+        $this->oSchema->db->setOption('portability', MDB2_PORTABILITY_NONE);
+        $aDBTables = $this->oSchema->db->manager->listTables();
+        $this->oSchema->db->setOption('portability', $portability);
+        return $aDBTables;
+    }
+
     /**
-     * create uniquely name copies of affected tables
+     * create uniquely named copies of affected tables
      * audit each backup
      *
+     * @return boolean
      */
     function _createBackup()
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        $database_name = $aConf['database']['name'];
-        $table_prefix = $aConf['table']['prefix'];
-        $this->aMessages[] = 'backing up your database: '.OA_DB::getDsn();
-
+        $aDBTables = $this->_listTables();
         $aTables = $this->aChanges['affected_tables'][$this->timing];
-
         foreach ($aTables AS $k => $table)
         {
-            $this->_logDatabaseAction(DB_UPGRADE_ACTION_CODE_BACKUP, $database_name.'.'.$table_prefix.$table);
+            $table = $this->prefix.$table;
+            if (in_array($table, $aDBTables))
+            {
+                $string     = $this->versionFrom.$this->timing.$this->database.$table.date('Y-m-d h:i:s');
+                $hash       = str_replace(array('+','/','='),array('_','_',''),base64_encode(pack("H*",md5($string)))); // packs down to 22 chars and removes illegal chars
+                $table_bak  ="{$this->prefix}zzz_{$hash}";
+                $this->aMessages[]  = "backing up table {$table} to table {$table_bak} ";
+
+                // better query? increment off first?
+                $engine = $this->oSchema->db->getOption('default_table_type');
+                $query      = "CREATE TABLE `{$table_bak}` ENGINE = {$engine} (SELECT * FROM `{$table}`)";
+                $result     = $this->oSchema->db->exec($query);
+                if ($this->_isPearError($result, 'error creating backup'))
+                {
+                    $this->_halt();
+                    return false;
+                }
+                $this->_logDatabaseAction(DB_UPGRADE_ACTION_CODE_BACKUP, $table, $table_bak);
+                $aBakDef = $this->oSchema->getDefinitionFromDatabase(array($table));
+                $aBakDef = $aBakDef['tables'][$table];
+                // error: index fields are being re-ordered alphabetically
+                // but now have an 'order' value in the def
+                $this->aRestoreTables[$table] = array(
+                                                        'bak'=>$table_bak,
+                                                        'def'=>$aBakDef
+                                                     );
+            }
         }
+        return true;
+    }
+
+    /**
+     * restore all affected tables
+     *
+     * @return boolean
+     */
+    function _rollback()
+    {
+        $aDBTables = $this->_listTables();
+
+        if ($this->_isPearError($result, 'error listing tables during rollback'))
+        {
+            return false;
+        }
+        else
+        {
+            krsort($this->aRestoreTables);
+            foreach ($this->aRestoreTables AS $table => $aTable_bak)
+            {
+                if (in_array($aTable_bak['bak'], $aDBTables))
+                {
+                    $dropfirst = (in_array($this->prefix.$table, $aDBTables));
+                    $result = $this->_restoreFromBackup($this->prefix.$table, $aTable_bak['bak'], $aTable_bak['def'], $dropfirst);
+                    if (!$result)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    $this->aErrors[] = "backup table not found during rollback: {$aTable_bak['bak']}";
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * restore individual tables
+     * remove the backups?
+     * audit each restore?
+     * remove the database_action recs?  null them somehow?
+     *
+     * @param string $table
+     * @param string $table_bak
+     * @param array $aDef_bak
+     * @param boolean $dropfirst
+     * @return boolean
+     */
+    function _restoreFromBackup($table, $table_bak, $aDef_bak, $dropfirst=true)
+    {
+        if ($dropfirst)
+        {
+            $result = $this->oSchema->db->manager->dropTable($table);
+            if ($this->_isPearError($result, 'error dropping '.$table. ' during rollback'))
+            {
+                return false;
+            }
+        }
+        $engine = $this->oSchema->db->getOption('default_table_type');
+        $query  = "CREATE TABLE `{$table}` ENGINE = {$engine} (SELECT * FROM `{$table_bak}`)";
+        $result = $this->oSchema->db->exec($query);
+        if ($this->_isPearError($result, 'error creating table during rollback'))
+        {
+            $this->_halt();
+            return false;
+        }
+        foreach ($aDef_bak['indexes'] as $index => $aIndex_def)
+        {
+            $aIndex_def = $this->_sortIndexFields($aIndex_def);
+            $result = $this->oSchema->db->manager->createIndex($table, $index, $aIndex_def);
+            if (!$this->_isPearError($result, 'error creating index on table during rollback'))
+            {
+                $this->aMessages[] = 'create index success';
+            }
+            else
+            {
+                $this->_halt();
+                return false;
+            }
+        }
+        //$this->_logDatabaseAction(DB_UPGRADE_ACTION_CODE_BACKUP, $table, $table_bak);
+        return true;
     }
 
     /**
      * drop a given backup table
      *
+     * @param string $table
+     * @return boolean
      */
     function _dropBackup($table)
     {
         $this->aMessages[] = 'dropping your backup: '.$table;
+        return true;
     }
-
-    /**
-     * read the parsed list of tasks
-     *
-     * @return boolean
-     */
-//    function _compileTaskList()
-//    {
-//        $this->aMessages[] = 'compiling task list...';
-//        foreach ($this->aChanges['tasks'][$this->timing]['tables'] AS $table => $aTable_tasks)
-//        {
-//            foreach ($aTable_tasks['self'] AS $parent => $method)
-//            {
-//                $this->aMessages[] = 'task found: '.$method;
-//                $this->aTaskList[] = $method;
-//            }
-//
-//            foreach ($aTable_tasks['fields'] AS $field => $aField_tasks)
-//            {
-//                foreach ($aField_tasks AS $parent => $method)
-//                {
-//                    $this->aMessages[] = 'task found: '.$method;
-//                    $was = $this->_getPreviousFieldname($table, $field);
-//                    if ($was)
-//                    {
-//                        $this->aMessages[] = 'yay! found that this field : '.$table.'.'.$field.' was called: '.$table.'.'.$was;
-//                    }
-//                    else
-//                    {
-//                        $this->aMessages[] = 'hmmm.. couldn\'t find what this field was called: '.$table.'.'.$field;
-//                    }
-//                }
-//            }
-//            foreach ($aTable_tasks['indexes'] AS $index => $aIndex_tasks)
-//            {
-//                $this->aMessages[] = 'task found: '.$method;
-//            }
-//        }
-//        $this->aMessages[] = 'task list complete';
-//        return true;
-//    }
 
     /**
      * audit actions taken
      *
      * @param integer $action
-     * @param string $info
+     * @param string $info1
+     * @param string $info2
+     * @return boolean
      */
-    function _logDatabaseAction($action, $info='')
+    function _logDatabaseAction($action, $info1='', $info2='')
     {
-        $this->aMessages[] = '';
+        $this->aMessages[] = '_logDatabaseAction start';
         $backup_record = array();
-        $backup_record['version']   = $this->versionFrom;
-        $backup_record['timing']    = $this->timing;
-        $backup_record['action']    = $action;
-        $backup_record['updated']   = date('Y-m-d h:i:s');
-        $backup_record['info']     = $info;
-        foreach ($backup_record AS $k => $v)
+        $record['version']   = $this->versionFrom;
+        $record['timing']    = $this->timing;
+        $record['action']    = $action;
+        $record['info1']     = $info1;
+        $record['info2']     = $info2;
+        //$record['updated']   = 'NOW()';
+
+        foreach ($record AS $k => $v)
         {
             $this->aMessages[] = $k.' : '.$v;
         }
+        $this->aMessages[] = '_logDatabaseAction end';
+        if ($this->logToDB)
+        {
+            $columns = implode("`,`", array_keys($record));
+            $values  = implode("','", array_values($record));
+            //$values  = implode("','", mysql_escape_string(array_values($record)));
+
+            $query = "INSERT INTO {$this->prefix}database_action (`{$columns}`, `updated`) VALUES ('{$values}', NOW())";
+
+            $result = $this->oSchema->db->exec($query);
+
+            if ($this->_isPearError($result, "error updating {$this->prefix}database_action"))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * iterate through the task list and perform each task
+     * handle errors and report
+     *
+     * @return boolean
+     */
+    function _executeTasks()
+    {
+        foreach ($this->aTaskList['tables']['add'] as $k => $aTask)
+        {
+            $this->aMessages[] = 'executing tables task '.$k.' : '.$this->prefix.$aTask['name'].'=>'.'create';
+            $result = $this->oSchema->db->manager->createTable($this->prefix.$aTask['name'], $aTask['task'], array());
+            if (!$this->_isPearError($result, ''))
+            {
+                if (isset($aTask['indexes']))
+                {
+                    foreach ($aTask['indexes'] AS $k => $aIndex)
+                    {
+                        $this->aMessages[] = 'executing tables task '.$k.' : '.$this->prefix.$aTask['name'].'=>'.'create index';
+                        $result = $this->oSchema->db->manager->createIndex($this->prefix.$aIndex['table'], $aIndex['name'], $aIndex['task']);
+                        if (!$this->_isPearError($result, ''))
+                        {
+                            $this->aMessages[] = 'create index success';
+                        }
+                        else
+                        {
+                            $this->_halt();
+                            return false;
+                        }
+                    }
+                }
+                $this->aMessages[] = 'create table success';
+            }
+            else
+            {
+                $this->_halt();
+                return false;
+            }
+        }
+        if ($this->continue)
+        {
+            foreach ($this->aTaskList['fields'] as $k => $aTask)
+            {
+                $this->aMessages[] = 'executing fields task '.$k.' : '.$this->prefix.$aTask['name'].'=>'.$aTask['task'];
+                $result = $this->oSchema->db->manager->alterTable($this->prefix.$aTask['name'], $aTask['task'], false);
+                if (!$this->_isPearError($result, ''))
+                {
+                    $this->aMessages[] = 'task success';
+                }
+                else
+                {
+                    $this->_halt();
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
      * check that for each of the tables affected by a task
      * the table exists and that any field affected exists
+     * also compiles the tasklist in a format ready for schema _alterTable method
      *
      * @return boolean;
      */
-    function _verifyAlterDatabase()
+    function _verifyTaskList()
     {
-
-        $aDBTables = $this->oSchema->db->manager->listTables();
+        $aDBTables = $this->_listTables();
 
         foreach ($this->aChanges['tasks'][$this->timing]['tables'] AS $table => $aTable_tasks)
         {
-            foreach ($aTable_tasks['self'] AS $parent => $method)
+            $continue = true;
+            foreach ($aTable_tasks['self'] AS $task => $method)
             {
                 $this->aMessages[] = 'task found: '.$method;
-                $this->aTaskList[] = $this->_compileTask($table, $task, '', '');
-            }
-            $this->aMessages[] = 'checking table: '.$table;
-            if (!in_array($table, $aDBTables))
-            {
-                $this->aErrors[] = 'table '.$table.' not found in database '.$this->oSchema->db->database_name;
-            }
-            else
-            {
-                $this->aMessages[] = 'yay! found table '.$table;
-                $aDBFields = $this->oSchema->db->manager->listTableFields($table);
-
-                foreach ($aTable_tasks['fields'] AS $field => $aField_tasks)
+                if ($task == 'add')
                 {
-                    $this->aMessages[] = 'checking field: '.$field;
-                    if (!in_array($field, $aDBFields))
+                    if (in_array($this->prefix.$table, $aDBTables))
                     {
-                        $this->aMessages[] = 'task found: '.$method;
+                        $this->aErrors[] = 'table '.$this->prefix.$table.' already exists in database '.$this->oSchema->db->database_name;
+                    }
+                    else
+                    {
+                        $this->_addCreateTableTasks($task, $table);
+                    }
+                    $continue = false;
+                }
+                else
+                {
+                    $this->aTaskList['tables'][$task][] = $this->_compileTableTask($task, $table);
+                }
+            }
+            if ($continue)
+            {
+                $this->aMessages[] = 'checking table: '.$this->prefix.$table;
+                if (!in_array($this->prefix.$table, $aDBTables))
+                {
+                    $this->aErrors[] = 'table '.$this->prefix.$table.' not found in database '.$this->oSchema->db->database_name;
+                }
+                else
+                {
+                    $this->aMessages[] = 'yay! found table '.$this->prefix.$table;
+                    $aDBFields = $this->oSchema->db->manager->listTableFields($this->prefix.$table);
 
-                        if (array_key_exists('rename', $aField_tasks))
+                    foreach ($aTable_tasks['fields'] AS $field => $aField_tasks)
+                    {
+                        $this->aMessages[] = 'checking field: '.$field;
+                        if (!in_array($field, $aDBFields))
                         {
-                            $was = $this->_getPreviousFieldname($table, $field);
-                            if ($was)
+                            $this->aMessages[] = 'task found: '.$method;
+
+                            if (array_key_exists('rename', $aField_tasks))
                             {
-                                $this->aMessages[] = 'yay! found that this field : '.$table.'.'.$field.' was called: '.$table.'.'.$was;
-                                $this->aTaskList[] = $this->_compileTask($table, 'rename', $field, $was);
+                                $was = $this->_getPreviousFieldname($table, $field);
+                                if ($was)
+                                {
+                                    $this->aMessages[] = 'yay! found that this field : '.$table.'.'.$field.' was called: '.$table.'.'.$was;
+                                    $this->aTaskList['fields']['rename'][] = $this->_compileFieldTask('rename', $table, $was, $field);
+                                }
+                                else
+                                {
+                                    $this->aErrors[] = 'hmmm.. couldn\'t find what this field was called: '.$table.'.'.$field;
+                                }
                             }
                             else
                             {
-                                $this->aErrors[] = 'hmmm.. couldn\'t find what this field was called: '.$table.'.'.$field;
+                                $this->aErrors[] = 'oh dear.. field '.$field.' not found in table '.$this->prefix.$table;
                             }
                         }
                         else
                         {
-                            $this->aErrors[] = 'oh dear.. field '.$field.' not found in table '.$table;
-                        }
-                    }
-                    else
-                    {
-                        $this->aMessages[] = 'yay! found field '.$field;
-                        foreach ($aField_tasks AS $task => $method)
-                        {
-                            if ($task != 'rename')
+                            $this->aMessages[] = 'yay! found field '.$field;
+                            foreach ($aField_tasks AS $task => $method)
                             {
-                                $this->aTaskList[] = $this->_compileTask($table, $task, $field, $field);
+                                if ($task != 'rename')
+                                {
+                                    $this->aTaskList['fields'][$task][] = $this->_compileFieldTask($task, $table, $field, $field);
+                                }
                             }
                         }
-
-                        $this->aTaskList[] = $aField_tasks;
                     }
-                }
-                foreach ($aTable_tasks['indexes'] AS $index => $aIndex_tasks)
-                {
-                    $this->aMessages[] = 'task found: '.$method;
-                    $this->aTaskList[] = $this->_compileTask($table, $task, '', '');
+                    foreach ($aTable_tasks['indexes'] AS $index => $aIndex_tasks)
+                    {
+                        $this->aMessages[] = 'task found: '.$method;
+                        $this->aTaskList['indexes'][$task][] = $this->_compileIndexTask($task, $table, $index);
+                    }
                 }
             }
         }
@@ -421,45 +644,210 @@ class Openads_DB_Upgrade
         return $result;
     }
 
-    function _getFieldDefinitionNew($table, $field)
+    /**
+     * retrieve the table definition from a parsed schema
+     *
+     * @param string $table
+     * @return array
+     */
+    function _getTableDefinition($aDefinition, $table)
     {
         $result = false;
-        if (isset($this->aDefinitionNew['tables'][$table]))
+        if (isset($aDefinition['tables'][$table]))
         {
-            if (isset($this->aDefinitionNew['tables'][$table]['fields'][$field]))
+            $result = $aDefinition['tables'][$table];
+        }
+        return $result;
+    }
+
+    /**
+     * retrieve the field definition from a parsed schema
+     *
+     * @param string $table
+     * @param string $field
+     * @return array
+     */
+    function _getFieldDefinition($aDefinition, $table, $field)
+    {
+        $result = false;
+        if (isset($aDefinitionOld['tables'][$table]))
+        {
+            if (isset($aDefinitionOld['tables'][$table]['fields'][$field]))
             {
-                $result = $this->aDefinitionNew['tables'][$table]['fields'][$field];
+                $result = $aDefinitionOld['tables'][$table]['fields'][$field];
             }
         }
         return $result;
     }
 
-    function _getFieldDefinitionOld($table, $field)
+    /**
+     * multiple tasks are required for table creation
+     *
+     * @param string $task
+     * @param string $table
+     * @return array
+     */
+    function _addCreateTableTasks($task, $table)
     {
-        $result = false;
-        if (isset($this->aDefinitionOld['tables'][$table]))
+        $aTableDef  = $this->_getTableDefinition($this->aDefinitionNew, $table);
+
+        $aTable =  array(
+                        'name'=>$this->prefix.$table,
+                        'task'=>$aTableDef['fields']
+                        );
+
+        if (isset($aTableDef['indexes']))
         {
-            if (isset($this->aDefinitionOld['tables'][$table]['fields'][$field]))
+            foreach ($aTableDef['indexes'] AS $index_name=>$aIndex_def)
             {
-                $result = $this->aDefinitionOld['tables'][$table]['fields'][$field];
+                $aTable['indexes'][] = array(
+                                              'table'=>$this->prefix.$table,
+                                              'name'=>$index_name,
+                                              'task'=>$aIndex_def
+                                            );
             }
         }
-        return $result;
+        $this->aTaskList['tables'][$task][] = $aTable;
+
+        return true;
     }
 
-    function _compileTask($table, $task, $field_new, $field_old)
+    /**
+     * return an array that can be passed to mdb2_schema _alterTable() method
+     *
+     * $field_name and $field_name_new should be the same except in the case of rename task
+     * $field_name_new is the field for which the definition is retrieved
+     *
+     * @param string $task
+     * @param string $table
+     * @param string $field_name
+     * @param string $field_name_new
+     * @return array
+     */
+    function _compileFieldTask($task, $table, $field_name, $field_name_new)
     {
-        $result =   array('name'=>$table,
+        $result =   array('name'=>$this->prefix.$table,
                           'task'=>array(
                                         $task=>array(
-                                                     $field_new=>array(
-                                                                       'name'=>$field_old,
-                                                                       'definition'=>$this->_getFieldDefinitionNew($table, $field_new)
+                                                     $field_name=>array(
+                                                                       'name'=>$field_name_new,
+                                                                       'definition'=>$this->_getFieldDefinitionNew($table, $field_name_new)
                                                                       )
                                                     )
                                         )
                          );
+        return $result;
 
     }
+
+    /**
+     * Enter description here...
+     *
+     * @param string $task
+     * @param string $table
+     * @param string $index
+     * @return array
+     */
+    function _compileIndexTask($task, $table, $index_name)
+    {
+        if ($task=='add')
+        {
+            $aTableDef = $this->_getTableDefinition($this->aDefinitionNew, $table);
+            $result =   array(
+                              'table'=>$this->prefix.$table,
+                              'name'=>$index_name,
+                              'task'=>$aTableDef['indexes']
+                             );
+        }
+        else
+        {
+            $result = array();
+        }
+        return $result;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param string $task
+     * @param string $table
+     * @return array
+     */
+    function _compileTableTask($task, $table)
+    {
+        $aTableDef = $this->_getTableDefinition($this->aDefinitionNew, $table);
+        $result =   array(
+                          'name'=>$this->prefix.$table,
+                          'task'=>$aTableDef['fields']
+                         );
+        return $result;
+    }
+
+    /**
+     * check for a Pear error
+     * log the error
+     * returns true if pear error, false if not
+     *
+     * @param mixed $result
+     * @param string $message
+     * @return boolean
+     */
+    function _isPearError($result, $message='omg it all went PEAR shaped!')
+    {
+        if (PEAR::isError($result))
+        {
+            $this->aErrors[] = $message.' '. $result->getUserInfo();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * set the continue flag to false
+     *
+     */
+    function _halt()
+    {
+        $this->continue = false;
+    }
+
+    function _sortIndexFields($aIndex_def)
+    {
+        foreach ($aIndex_def['fields'] as $field => $aDef)
+        {
+            $aIdx_sort[$aDef['order']] = $field;
+        }
+        ksort($aIdx_sort);
+        reset($aIdx_sort);
+        foreach ($aIdx_sort as $k => $field)
+        {
+            $sorting = ($aIndex_definition['fields'][$field]['sorting']?'ascending':'descending');
+            $aIdx_new['fields'][$field] = array('sorting'=>$sorting);
+        }
+        reset($aIdx_new['fields']);
+        return $aIdx_new;
+    }
 }
+
+/*
+CREATE TABLE `database_action` (
+  `version` int(11) default NULL,
+  `timing` varchar(255) NOT NULL default '',
+  `action` int(11) default NULL,
+  `info1` varchar(255) NOT NULL,
+  `info2` varchar(255) NOT NULL,
+  `updated` datetime default NULL,
+  KEY `updated` (`updated`),
+  KEY `version_timing_action` (`version`,`timing`,`action`,`info1`,`info2`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+            $query = "SELECT FROM database_action
+                        WHERE version='{$this->versionFrom}'
+                        AND timing = '{$this->timing}'
+                        AND action = ".DB_UPGRADE_ACTION_CODE_BACKUP."
+                        AND info1 = '{$table}'";
+
+*/
+
 ?>
