@@ -1,7 +1,7 @@
 Openads 2.0 - ChangeLog
 
 
-SVN
+Openads 2.0.12-rc1
 			+ Misc changes
 			  - 2007-01-26:  Fixed #17  - Remove deprecated fakecron script, automaintenance should be used instead  (Matteo)
 			  - 2007-01-26:  Fixed #55  - Add delivery limitation by page URL  (Matteo)
