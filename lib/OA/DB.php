@@ -129,9 +129,15 @@ class OA_DB
             $oDbh->loadModule('Datatype');
             $oDbh->loadModule('Manager');
             // Prepare the format of the quoted "NO DATE" string
-            $oDbh->noDateString = "NULL";
+            $oDbh->noDateString         = "NULL";
+            $oDbh->equalNoDateString    = "IS NULL";
+            $oDbh->notEqualNoDateString = "IS NOT NULL";
+            $oDbh->noDateValue          = null;
             if ($oDbh->dsn['phptype'] == 'mysql') {
-                $oDbh->noDateString = "'000-00-00'";
+                $oDbh->noDateString         = "'0000-00-00'";
+                $oDbh->equalNoDateString    = "= '0000-00-00'";
+                $oDbh->notEqualNoDateString = "!= '0000-00-00'";
+                $oDbh->noDateValue          = '0000-00-00';
             }
             // Store the database connection
             $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] = &$oDbh;

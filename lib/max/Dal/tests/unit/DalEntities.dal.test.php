@@ -1524,34 +1524,81 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         TestEnv::startTransaction();
+        $oNow = new Date();
         $query = "
             INSERT INTO
                 $adTable
                 (
                     bannerid,
-                    campaignid
+                    campaignid,
+                    active,
+                    storagetype,
+                    htmltemplate,
+                    htmlcache,
+                    weight,
+                    url,
+                    bannertext,
+                    compiledlimitation,
+                    append,
+                    updated,
+                    acls_updated
                 )
             VALUES
-                (
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'timestamp',
+            'timestamp'
+        );
+        $stAd = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
         $query = "
             INSERT INTO
                 $placementTable
                 (
                     campaignid,
                     active,
-                    activate
+                    updated
                 )
             VALUES
-                (
-                    1,
-                    'f',
-                    '0000-00-00'
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'timestamp'
+        );
+        $stPlNoExpire = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            'f',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stPlNoExpire->execute($aData);
         $aAdIds = array(1);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1563,34 +1610,47 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 4
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid
-                )
-            VALUES
-                (
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
         $query = "
             INSERT INTO
                 $placementTable
                 (
                     campaignid,
                     active,
-                    expire
+                    expire,
+                    updated
                 )
             VALUES
-                (
-                    1,
-                    't',
-                    '2006-10-22'
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'timestamp',
+            'timestamp'
+        );
+        $stPlExpire = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            't',
+            '2006-10-22',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stPlExpire->execute($aData);
         $aAdIds = array(1);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1602,19 +1662,22 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 5
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid
-                )
-            VALUES
-                (
-                    2,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            2,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
         $query = "
             INSERT INTO
                 $placementTable
@@ -1623,33 +1686,47 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     campaignname,
                     active,
                     weight,
-                    activate,
-                    expire,
                     priority,
                     views,
                     clicks,
                     conversions,
                     target_impression,
                     target_click,
-                    target_conversion
+                    target_conversion,
+                    updated
                 )
             VALUES
-                (
-                    1,
-                    'Test Placement',
-                    't',
-                    1,
-                    '0000-00-00',
-                    '0000-00-00',
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'text',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp'
+        );
+        $stPlNoActivateNoExpire = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            'Test Placement',
+            't',
+            1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stPlNoActivateNoExpire->execute($aData);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1662,8 +1739,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                 'placement_name'            => 'Test Placement',
                 'active'                    => 't',
                 'weight'                    => 1,
-                'placement_start'           => '0000-00-00',
-                'placement_end'             => '0000-00-00',
+                'placement_start'           => $oDbh->noDateValue,
+                'placement_end'             => $oDbh->noDateValue,
                 'priority'                  => -1,
                 'impression_target_total'   => -1,
                 'click_target_total'        => -1,
@@ -1678,19 +1755,22 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 6
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid
-                )
-            VALUES
-                (
-                    2,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            2,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
         $query = "
             INSERT INTO
                 $placementTable
@@ -1699,7 +1779,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     campaignname,
                     active,
                     weight,
-                    activate,
                     expire,
                     priority,
                     views,
@@ -1707,25 +1786,43 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     conversions,
                     target_impression,
                     target_click,
-                    target_conversion
+                    target_conversion,
+                    updated
                 )
             VALUES
-                (
-                    1,
-                    'Test Placement',
-                    't',
-                    1,
-                    '0000-00-00',
-                    '2006-10-28',
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'text',
+            'integer',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp'
+        );
+        $stPlNoActivate = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            'Test Placement',
+            't',
+            1,
+            '2006-10-28',
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stPlNoActivate->execute($aData);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1738,7 +1835,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                 'placement_name'            => 'Test Placement',
                 'active'                    => 't',
                 'weight'                    => 1,
-                'placement_start'           => '0000-00-00',
+                'placement_start'           => $oDbh->noDateValue,
                 'placement_end'             => '2006-10-28',
                 'priority'                  => -1,
                 'impression_target_total'   => -1,
@@ -1754,54 +1851,38 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 7
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid
-                )
-            VALUES
-                (
-                    2,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
-        $query = "
-            INSERT INTO
-                $placementTable
-                (
-                    campaignid,
-                    campaignname,
-                    active,
-                    weight,
-                    activate,
-                    expire,
-                    priority,
-                    views,
-                    clicks,
-                    conversions,
-                    target_impression,
-                    target_click,
-                    target_conversion
-                )
-            VALUES
-                (
-                    1,
-                    'Test Placement',
-                    't',
-                    1,
-                    '0000-00-00',
-                    '2006-10-27',
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            2,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            1,
+            'Test Placement',
+            't',
+            1,
+            '2006-10-27',
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stPlNoActivate->execute($aData);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1814,7 +1895,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                 'placement_name'            => 'Test Placement',
                 'active'                    => 't',
                 'weight'                    => 1,
-                'placement_start'           => '0000-00-00',
+                'placement_start'           => $oDbh->noDateValue,
                 'placement_end'             => '2006-10-27',
                 'priority'                  => -1,
                 'impression_target_total'   => -1,
@@ -1828,54 +1909,38 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertEqual($aResult, $aExpectedResult);
         TestEnv::rollbackTransaction();
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid
-                )
-            VALUES
-                (
-                    2,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
-        $query = "
-            INSERT INTO
-                $placementTable
-                (
-                    campaignid,
-                    campaignname,
-                    active,
-                    weight,
-                    activate,
-                    expire,
-                    priority,
-                    views,
-                    clicks,
-                    conversions,
-                    target_impression,
-                    target_click,
-                    target_conversion
-                )
-            VALUES
-                (
-                    1,
-                    'Test Placement',
-                    't',
-                    1,
-                    '0000-00-00',
-                    '2006-10-25',
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            2,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            1,
+            'Test Placement',
+            't',
+            1,
+            '2006-10-25',
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stPlNoActivate->execute($aData);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1888,7 +1953,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                 'placement_name'            => 'Test Placement',
                 'active'                    => 't',
                 'weight'                    => 1,
-                'placement_start'           => '0000-00-00',
+                'placement_start'           => $oDbh->noDateValue,
                 'placement_end'             => '2006-10-25',
                 'priority'                  => -1,
                 'impression_target_total'   => -1,
@@ -1902,54 +1967,38 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertEqual($aResult, $aExpectedResult);
         TestEnv::rollbackTransaction();
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid
-                )
-            VALUES
-                (
-                    2,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
-        $query = "
-            INSERT INTO
-                $placementTable
-                (
-                    campaignid,
-                    campaignname,
-                    active,
-                    weight,
-                    activate,
-                    expire,
-                    priority,
-                    views,
-                    clicks,
-                    conversions,
-                    target_impression,
-                    target_click,
-                    target_conversion
-                )
-            VALUES
-                (
-                    1,
-                    'Test Placement',
-                    't',
-                    1,
-                    '0000-00-00',
-                    '2006-10-23',
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            2,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            1,
+            'Test Placement',
+            't',
+            1,
+            '2006-10-23',
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stPlNoActivate->execute($aData);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -1962,7 +2011,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                 'placement_name'            => 'Test Placement',
                 'active'                    => 't',
                 'weight'                    => 1,
-                'placement_start'           => '0000-00-00',
+                'placement_start'           => $oDbh->noDateValue,
                 'placement_end'             => '2006-10-23',
                 'priority'                  => -1,
                 'impression_target_total'   => -1,
@@ -1978,19 +2027,22 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 8
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid
-                )
-            VALUES
-                (
-                    2,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            2,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
         $query = "
             INSERT INTO
                 $placementTable
@@ -2000,32 +2052,49 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     active,
                     weight,
                     activate,
-                    expire,
                     priority,
                     views,
                     clicks,
                     conversions,
                     target_impression,
                     target_click,
-                    target_conversion
+                    target_conversion,
+                    updated
                 )
             VALUES
-                (
-                    1,
-                    'Test Placement',
-                    'f',
-                    1,
-                    '2006-10-22',
-                    '0000-00-00',
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'text',
+            'integer',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp'
+        );
+        $stPlNoExpire = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            'Test Placement',
+            'f',
+            1,
+            '2006-10-22',
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stPlNoExpire->execute($aData);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -2039,7 +2108,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                 'active'                    => 'f',
                 'weight'                    => 1,
                 'placement_start'           => '2006-10-22',
-                'placement_end'             => '0000-00-00',
+                'placement_end'             => $oDbh->noDateValue,
                 'priority'                  => -1,
                 'impression_target_total'   => -1,
                 'click_target_total'        => -1,
@@ -2054,54 +2123,38 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 9
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid
-                )
-            VALUES
-                (
-                    2,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
-        $query = "
-            INSERT INTO
-                $placementTable
-                (
-                    campaignid,
-                    campaignname,
-                    active,
-                    weight,
-                    activate,
-                    expire,
-                    priority,
-                    views,
-                    clicks,
-                    conversions,
-                    target_impression,
-                    target_click,
-                    target_conversion
-                )
-            VALUES
-                (
-                    1,
-                    'Test Placement',
-                    'f',
-                    1,
-                    '2006-10-23',
-                    '0000-00-00',
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            2,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            1,
+            'Test Placement',
+            'f',
+            1,
+            '2006-10-23',
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stPlNoExpire->execute($aData);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -2115,7 +2168,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                 'active'                    => 'f',
                 'weight'                    => 1,
                 'placement_start'           => '2006-10-23',
-                'placement_end'             => '0000-00-00',
+                'placement_end'             => $oDbh->noDateValue,
                 'priority'                  => -1,
                 'impression_target_total'   => -1,
                 'click_target_total'        => -1,
@@ -2128,54 +2181,38 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertEqual($aResult, $aExpectedResult);
         TestEnv::rollbackTransaction();
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid
-                )
-            VALUES
-                (
-                    2,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
-        $query = "
-            INSERT INTO
-                $placementTable
-                (
-                    campaignid,
-                    campaignname,
-                    active,
-                    weight,
-                    activate,
-                    expire,
-                    priority,
-                    views,
-                    clicks,
-                    conversions,
-                    target_impression,
-                    target_click,
-                    target_conversion
-                )
-            VALUES
-                (
-                    1,
-                    'Test Placement',
-                    'f',
-                    1,
-                    '2006-10-25',
-                    '0000-00-00',
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            2,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            1,
+            'Test Placement',
+            'f',
+            1,
+            '2006-10-25',
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stPlNoExpire->execute($aData);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -2189,7 +2226,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                 'active'                    => 'f',
                 'weight'                    => 1,
                 'placement_start'           => '2006-10-25',
-                'placement_end'             => '0000-00-00',
+                'placement_end'             => $oDbh->noDateValue,
                 'priority'                  => -1,
                 'impression_target_total'   => -1,
                 'click_target_total'        => -1,
@@ -2202,54 +2239,38 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertEqual($aResult, $aExpectedResult);
         TestEnv::rollbackTransaction();
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid
-                )
-            VALUES
-                (
-                    2,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
-        $query = "
-            INSERT INTO
-                $placementTable
-                (
-                    campaignid,
-                    campaignname,
-                    active,
-                    weight,
-                    activate,
-                    expire,
-                    priority,
-                    views,
-                    clicks,
-                    conversions,
-                    target_impression,
-                    target_click,
-                    target_conversion
-                )
-            VALUES
-                (
-                    1,
-                    'Test Placement',
-                    'f',
-                    1,
-                    '2006-10-27',
-                    '0000-00-00',
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            2,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            1,
+            'Test Placement',
+            'f',
+            1,
+            '2006-10-27',
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stPlNoExpire->execute($aData);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -2263,7 +2284,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                 'active'                    => 'f',
                 'weight'                    => 1,
                 'placement_start'           => '2006-10-27',
-                'placement_end'             => '0000-00-00',
+                'placement_end'             => $oDbh->noDateValue,
                 'priority'                  => -1,
                 'impression_target_total'   => -1,
                 'click_target_total'        => -1,
@@ -2278,54 +2299,38 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 10
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid
-                )
-            VALUES
-                (
-                    2,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
-        $query = "
-            INSERT INTO
-                $placementTable
-                (
-                    campaignid,
-                    campaignname,
-                    active,
-                    weight,
-                    activate,
-                    expire,
-                    priority,
-                    views,
-                    clicks,
-                    conversions,
-                    target_impression,
-                    target_click,
-                    target_conversion
-                )
-            VALUES
-                (
-                    1,
-                    'Test Placement',
-                    'f',
-                    1,
-                    '2006-10-28',
-                    '0000-00-00',
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            2,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            1,
+            'Test Placement',
+            'f',
+            1,
+            '2006-10-28',
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stPlNoExpire->execute($aData);
         $aAdIds = array(2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -2337,58 +2342,54 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 11
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid
-                )
-            VALUES
-                (
-                    2,
-                    1
-                ),
-                (
-                    3,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
-        $query = "
-            INSERT INTO
-                $placementTable
-                (
-                    campaignid,
-                    campaignname,
-                    active,
-                    weight,
-                    activate,
-                    expire,
-                    priority,
-                    views,
-                    clicks,
-                    conversions,
-                    target_impression,
-                    target_click,
-                    target_conversion
-                )
-            VALUES
-                (
-                    1,
-                    'Test Placement',
-                    'f',
-                    1,
-                    '2006-10-23',
-                    '0000-00-00',
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1,
-                    -1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            2,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            3,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            1,
+            'Test Placement',
+            'f',
+            1,
+            '2006-10-23',
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stPlNoExpire->execute($aData);
         $aAdIds = array(1, 2, 3, 4);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
@@ -2402,7 +2403,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                 'active'                    => 'f',
                 'weight'                    => 1,
                 'placement_start'           => '2006-10-23',
-                'placement_end'             => '0000-00-00',
+                'placement_end'             => $oDbh->noDateValue,
                 'priority'                  => -1,
                 'impression_target_total'   => -1,
                 'click_target_total'        => -1,
@@ -2445,19 +2446,30 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         TestEnv::startTransaction();
+        $oNow = new Date();
         $query = "
             INSERT INTO
                 $table
                 (
                     affiliateid,
-                    agencyid
+                    agencyid,
+                    updated
                 )
             VALUES
-                (
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+
         $aResult = $oDal->getAllPublisherIdsByAgencyId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -2466,27 +2478,24 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 4
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    affiliateid,
-                    agencyid
-                )
-            VALUES
-                (
-                    1,
-                    1
-                ),
-                (
-                    2,
-                    2
-                ),
-                (
-                    3,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            2,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAllPublisherIdsByAgencyId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -2650,19 +2659,44 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         TestEnv::startTransaction();
+        $oNow = new Date();
         $query = "
             INSERT INTO
                 $table
                 (
                     zoneid,
-                    affiliateid
+                    affiliateid,
+                    category,
+                    ad_selection,
+                    chain,
+                    prepend,
+                    append,
+                    updated
                 )
             VALUES
-                (
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAllZonesIdsByPublisherId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -2671,27 +2705,39 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 4
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    zoneid,
-                    affiliateid
-                )
-            VALUES
-                (
-                    1,
-                    1
-                ),
-                (
-                    2,
-                    2
-                ),
-                (
-                    3,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            2,
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAllZonesIdsByPublisherId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -2732,42 +2778,65 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         TestEnv::startTransaction();
+        $oNow = new Date();
         $query = "
             INSERT INTO
                 $table
                 (
                     zoneid,
                     affiliateid,
-                    inventory_forecast_type
+                    inventory_forecast_type,
+                    category,
+                    ad_selection,
+                    chain,
+                    prepend,
+                    append,
+                    updated
                 )
             VALUES
-                (
-                    1,
-                    1,
-                    0
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            1,
+            0,
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAllChannelForecastZonesIdsByPublisherId(1);
         $this->assertNull($aResult);
         TestEnv::rollbackTransaction();
 
         // Test 4
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    zoneid,
-                    affiliateid,
-                    inventory_forecast_type
-                )
-            VALUES
-                (
-                    1,
-                    1,
-                    8
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            1,
+            8,
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAllChannelForecastZonesIdsByPublisherId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -2776,36 +2845,54 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 5
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    zoneid,
-                    affiliateid,
-                    inventory_forecast_type
-                )
-            VALUES
-                (
-                    1,
-                    1,
-                    10
-                ),
-                (
-                    2,
-                    2,
-                    8
-                ),
-                (
-                    3,
-                    1,
-                    12
-                ),
-                (
-                    4,
-                    1,
-                    4
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            1,
+            10,
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            2,
+            8,
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            1,
+            12,
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4,
+            1,
+            4,
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aResult = $oDal->getAllChannelForecastZonesIdsByPublisherId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -2856,12 +2943,19 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                     link_type
                 )
             VALUES
-                (
-                    1,
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            1,
+            1
+        );
+        $rows = $st->execute($aData);
         $aZoneIds = array(1);
         $aResult = $oDal->getLinkedZonesIdsByAdIds($aZoneIds);
         $aExpectedResult = array(1 => array(1));
@@ -2870,46 +2964,42 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 4
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    ad_id,
-                    zone_id,
-                    link_type
-                )
-            VALUES
-                (
-                    1,
-                    1,
-                    1
-                ),
-                (
-                    1,
-                    2,
-                    1
-                ),
-                (
-                    1,
-                    3,
-                    0
-                ),
-                (
-                    2,
-                    3,
-                    1
-                ),
-                (
-                    2,
-                    4,
-                    1
-                ),
-                (
-                    2,
-                    5,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            1,
+            1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            2,
+            1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            3,
+            0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            3,
+            1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            4,
+            1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            5,
+            1
+        );
+        $rows = $st->execute($aData);
         $aZoneIds = array(1, 2);
         $aResult = $oDal->getLinkedZonesIdsByAdIds($aZoneIds);
         $aExpectedResult = array(
