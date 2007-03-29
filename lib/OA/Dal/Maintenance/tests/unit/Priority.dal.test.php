@@ -4287,146 +4287,302 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
 
-        $date = new Date();
-        $date->addSeconds((SECONDS_PER_DAY * 4));
-        $expiryDate1 = $date->getYear() . "-" . $date->getMonth() . "-" . $date->getDay();
+        $oDate = new Date();
+        $oDate->addSeconds((SECONDS_PER_DAY * 4));
+        $expiryDate1 = $oDate->getYear() . "-" . $oDate->getMonth() . "-" . $oDate->getDay();
 
-        $date->addSeconds((SECONDS_PER_DAY * 4));
-        $expiryDate2 = $date->getYear() . "-" . $date->getMonth() . "-" . $date->getDay();
+        $oDate->addSeconds((SECONDS_PER_DAY * 4));
+        $expiryDate2 = $oDate->getYear() . "-" . $oDate->getMonth() . "-" . $oDate->getDay();
 
-        $date->subtractSeconds((SECONDS_PER_DAY * 2));
-        $expiryDateLessTwoDays = $date->getYear() . "-" . $date->getMonth() . "-" . $date->getDay();
+        $oDate->subtractSeconds((SECONDS_PER_DAY * 2));
+        $expiryDateLessTwoDays = $oDate->getYear() . "-" . $oDate->getMonth() . "-" . $oDate->getDay();
 
-        //  Add 3 campaigns
+        // Add 3 campaigns
         $campaignsTable = $conf['table']['prefix'] . 'campaigns';
-        $sql = "INSERT INTO $campaignsTable
-        (campaignid, campaignname,      clientid,   views,  clicks, conversions,    expire,             activate,       active,     priority,   weight, target_impression, anonymous)
-        VALUES (1,   'test  campaign',  1,          0,      400,      0,          '" . $expiryDate1 . "',  '0000-00-00',   't',        '3',        1,      0,        'f')";
+        $sql = "
+            INSERT INTO
+                $campaignsTable
+                (
+                    campaignid,
+                    campaignname,
+                    clientid,
+                    views,
+                    clicks,
+                    conversions,
+                    expire,
+                    activate,
+                    active,
+                    priority,
+                    weight,
+                    target_impression,
+                    anonymous,
+                    updated
+                )
+            VALUES
+                (
+                    1,
+                    'Test Campaign',
+                    1,
+                    0,
+                    400,
+                    0,
+                    '" . $expiryDate1 . "',
+                    $oDbh->noDateString,
+                    't',
+                    '3',
+                    1,
+                    0,
+                    'f',
+                    '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "'
+                )";
         $rows = $oDbh->exec($sql);
 
-        $sql = "INSERT INTO $campaignsTable
-        (campaignid, campaignname,      clientid,   views,  clicks, conversions,    expire,             activate,       active,     priority,   weight, target_impression, anonymous)
-        VALUES (2,   'test  campaign',  1,          0,      0,        400,          '0000-00-00',         '0000-00-00',   't',         '2',        1,      0,        'f')";
+        $sql = "
+            INSERT INTO
+                $campaignsTable
+                (
+                    campaignid,
+                    campaignname,
+                    clientid,
+                    views,
+                    clicks,
+                    conversions,
+                    expire,
+                    activate,
+                    active,
+                    priority,
+                    weight,
+                    target_impression,
+                    anonymous,
+                    updated
+                )
+            VALUES
+                (
+                    2,
+                    'Test Campaign',
+                    1,
+                    0,
+                    0,
+                    400,
+                    $oDbh->noDateString,
+                    $oDbh->noDateString,
+                    't',
+                    '2',
+                    1,
+                    0,
+                    'f',
+                    '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "'
+                )";
         $rows = $oDbh->exec($sql);
 
-        $sql = "INSERT INTO $campaignsTable
-        (campaignid, campaignname,      clientid,   views,  clicks, conversions,    expire,             activate,       active,     priority,   weight, target_impression, anonymous)
-        VALUES (3,   'test  campaign',  1,          500,      0,      0,            '" . $expiryDate2 . "', '0000-00-00',   't',       '3',        1,      0,        'f')";
+        $sql = "
+            INSERT INTO
+                $campaignsTable
+                (
+                    campaignid,
+                    campaignname,
+                    clientid,
+                    views,
+                    clicks,
+                    conversions,
+                    expire,
+                    activate,
+                    active,
+                    priority,
+                    weight,
+                    target_impression,
+                    anonymous,
+                    updated
+                )
+            VALUES
+                (
+                    3,
+                    'Test Campaign',
+                    1,
+                    500,
+                    0,
+                    0,
+                    '" . $expiryDate2 . "',
+                    $oDbh->noDateString,
+                    't',
+                    '3',
+                    1,
+                    0,
+                    'f',
+                    '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "'
+                )";
         $rows = $oDbh->exec($sql);
 
-        $sql = "INSERT INTO $campaignsTable
-        (campaignid, campaignname,      clientid,   views,  clicks, conversions,    expire,             activate,       active,     priority,   weight, target_impression, anonymous)
-        VALUES (4,   'test  campaign',  1,          500,      0,      401,          '0000-00-00',  '0000-00-00',   't',                '4',        2,      0,        'f')";
+        $sql = "
+            INSERT INTO
+                $campaignsTable
+                (
+                    campaignid,
+                    campaignname,
+                    clientid,
+                    views,
+                    clicks,
+                    conversions,
+                    expire,
+                    activate,
+                    active,
+                    priority,
+                    weight,
+                    target_impression,
+                    anonymous,
+                    updated
+                )
+            VALUES
+                (
+                    4,
+                    'Test Campaign',
+                    1,
+                    500,
+                    0,
+                    401,
+                    $oDbh->noDateString,
+                    $oDbh->noDateString,
+                    't',
+                    '4',
+                    2,
+                    0,
+                    'f',
+                    '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "'
+                )";
         $rows = $oDbh->exec($sql);
 
-        $sql = "INSERT INTO $campaignsTable
-        (campaignid, campaignname,      clientid,   views,  clicks, conversions,    expire,             activate,       active,     priority,   weight, target_impression, anonymous)
-        VALUES (5,   'test  campaign',  1,          500,      0,      401,          '0000-00-00',  '0000-00-00',   't',                '3',        2,      0,        'f')";
+        $sql = "
+            INSERT INTO
+                $campaignsTable
+                (
+                    campaignid,
+                    campaignname,
+                    clientid,
+                    views,
+                    clicks,
+                    conversions,
+                    expire,
+                    activate,
+                    active,
+                    priority,
+                    weight,
+                    target_impression,
+                    anonymous,
+                    updated
+                )
+            VALUES
+                (
+                    5,
+                    'Test Campaign',
+                    1,
+                    500,
+                    0,
+                    401,
+                    $oDbh->noDateString,
+                    $oDbh->noDateString,
+                    't',
+                    '3',
+                    2,
+                    0,
+                    'f',
+                    '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "'
+                )";
         $rows = $oDbh->exec($sql);
 
-
-
-
-        //  add a banner to campaign 1
+        // Add 1st banner to campaign 1
         $bannersTable = $conf['table']['prefix'] . 'banners';
-        $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype)
-        VALUES (1,1,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign1 - Banner 1','','','','f','',0, 0,0,'','',0,0,'','','');";
+        $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype, acls_updated, updated)
+        VALUES (1,1,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign1 - Banner 1','','','','f','',0, 0,0,'','',0,0,'','','','" . $oDate->format('%Y-%m-%d %H:%M:%S') . "','" . $oDate->format('%Y-%m-%d %H:%M:%S') . "');";
         $rows = $oDbh->exec($sql);
 
-        // add Campaign 1 - banner 1 - acls delivery restrictions
+        // Banner 1, Campaign 1 - acls delivery restrictions
+        $aclsTable = $conf['table']['prefix'] . 'acls';
+        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,        comparison, data,                        executionorder)
+                                VALUES (1,          'and',   'Time:Date', '!=',       '$expiryDateLessTwoDays',    0)";
+        $rows = $oDbh->exec($sql);
+
+        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,        comparison, data,   executionorder)
+                                VALUES (1,          'and',   'Time:Hour', '!=',       '1',    1)";
+        $rows = $oDbh->exec($sql);
+
+        // Add 2nd banner to campaign 1
+        $bannersTable = $conf['table']['prefix'] . 'banners';
+        $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype, acls_updated, updated)
+        VALUES (2,1,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign 1 - Banner 2','','','','f','',0, 0,0,'','',0,0,'','','','" . $oDate->format('%Y-%m-%d %H:%M:%S') . "','" . $oDate->format('%Y-%m-%d %H:%M:%S') . "');";
+        $rows = $oDbh->exec($sql);
+
+        // Banner 2, Campaign 1 - acls delivery restrictions
+        $aclsTable = $conf['table']['prefix'] . 'acls';
+        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,        comparison, data,                        executionorder)
+                                VALUES (2,          'and',   'Time:Date', '!=',       '$expiryDateLessTwoDays',    0)";
+        $rows = $oDbh->exec($sql);
+
+        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,        comparison, data,   executionorder)
+                                VALUES (2,          'and',   'Time:Hour', '!=',       '1,2',    1)";
+        $rows = $oDbh->exec($sql);
+
+        // Add 1st banner to campaign 2
+        $bannersTable = $conf['table']['prefix'] . 'banners';
+        $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype, acls_updated, updated)
+        VALUES (3,2,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign 2 - Banner 1','','','','f','',0, 0,0,'','',0,0,'','','','" . $oDate->format('%Y-%m-%d %H:%M:%S') . "','" . $oDate->format('%Y-%m-%d %H:%M:%S') . "');";
+        $rows = $oDbh->exec($sql);
+
+        // Banner 1, Campaign 2 - acls delivery restrictions
+        $aclsTable = $conf['table']['prefix'] . 'acls';
+        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,        comparison, data,                        executionorder)
+                                VALUES (3,          'and',   'Time:Date', '!=',       '$expiryDateLessTwoDays',    0)";
+        $rows = $oDbh->exec($sql);
+
+        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,       comparison, data,   executionorder)
+                                VALUES (3,          'and',   'Time:Day', '!=',       '5',    1)";
+        $rows = $oDbh->exec($sql);
+
+        // Add 2nd banner to campaign 2
+        $bannersTable = $conf['table']['prefix'] . 'banners';
+        $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype, acls_updated, updated)
+        VALUES (4,2,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign 2 - Banner 2','','','','f','',0, 0,0,'','',0,0,'','','','" . $oDate->format('%Y-%m-%d %H:%M:%S') . "','" . $oDate->format('%Y-%m-%d %H:%M:%S') . "');";
+        $rows = $oDbh->exec($sql);
+
+        // Banner 2, Campaign 2 - acls delivery restrictions
+        $aclsTable = $conf['table']['prefix'] . 'acls';
+        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,       comparison, data,                        executionorder)
+                                VALUES (4,          'or',   'Time:Date', '!=',       '$expiryDateLessTwoDays',    0)";
+        $rows = $oDbh->exec($sql);
+
+        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,       comparison, data,   executionorder)
+                                VALUES (4,          'or',   'Time:Hour', '==',       '1,2',    1)";
+        $rows = $oDbh->exec($sql);
+
+        // Add 1st banner to campaign 3
+        $bannersTable = $conf['table']['prefix'] . 'banners';
+        $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype, acls_updated, updated)
+        VALUES (5,3,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign 3 - Banner 1','','','','f','',0, 0,0,'','',0,0,'','','','" . $oDate->format('%Y-%m-%d %H:%M:%S') . "','" . $oDate->format('%Y-%m-%d %H:%M:%S') . "');";
+        $rows = $oDbh->exec($sql);
+
+        // Banner 1, Campaign 3 - acls delivery restrictions
+        $aclsTable = $conf['table']['prefix'] . 'acls';
+        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,        comparison, data,                        executionorder)
+                                VALUES (5,          'and',   'Time:Date', '!=',       '$expiryDateLessTwoDays',    0)";
+        $rows = $oDbh->exec($sql);
+
+        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,      comparison, data,   executionorder)
+                                VALUES (5,          'or',   'Time:Day', '==',       '5',    1)";
+        $rows = $oDbh->exec($sql);
+
+        // Add 2nd banner to campaign 3
+        $bannersTable = $conf['table']['prefix'] . 'banners';
+        $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype, acls_updated, updated)
+        VALUES (6,3,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign 3 - Banner 2','','','','f','',0, 0,0,'','',0,0,'','','','" . $oDate->format('%Y-%m-%d %H:%M:%S') . "','" . $oDate->format('%Y-%m-%d %H:%M:%S') . "');";
+        $rows = $oDbh->exec($sql);
+
+        // Banner 2, Campaign 3 - acls delivery restrictions
         $aclsTable = $conf['table']['prefix'] . 'acls';
         $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,                        executionorder)
-                                VALUES (1,          'and',   'date',   '!=',       '$expiryDateLessTwoDays',    0)";
+                                VALUES (6,          'or',   'Time:Date',   '!=',       '$expiryDateLessTwoDays',    0)";
         $rows = $oDbh->exec($sql);
 
-        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,   executionorder)
-                                VALUES (1,          'and',   'time',   '!=',       '1',    1)";
-        $rows = $oDbh->exec($sql);
-
-        // add 2nd banner to campaign 1
-        $bannersTable = $conf['table']['prefix'] . 'banners';
-        $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype)
-        VALUES (2,1,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign 1 - Banner 2','','','','f','',0, 0,0,'','',0,0,'','','');";
-        $rows = $oDbh->exec($sql);
-
-        // add Campaign 1 - banner 2 - acls delivery restrictions
-        $aclsTable = $conf['table']['prefix'] . 'acls';
-        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,                        executionorder)
-                                VALUES (2,          'and',   'date',   '!=',       '$expiryDateLessTwoDays',    0)";
-        $rows = $oDbh->exec($sql);
-
-        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,   executionorder)
-                                VALUES (2,          'and',   'time',   '!=',       '1,2',    1)";
-        $rows = $oDbh->exec($sql);
-
-
-
-        //  add 1st banner to campaign 2
-        $bannersTable = $conf['table']['prefix'] . 'banners';
-        $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype)
-        VALUES (3,2,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign 2 - Banner 1','','','','f','',0, 0,0,'','',0,0,'','','');";
-        $rows = $oDbh->exec($sql);
-
-        // add 1st banner - Campaign 2 - acls delivery restrictions
-        $aclsTable = $conf['table']['prefix'] . 'acls';
-        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,                        executionorder)
-                                VALUES (3,          'and',   'date',   '!=',       '$expiryDateLessTwoDays',    0)";
-        $rows = $oDbh->exec($sql);
-
-        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,   executionorder)
-                                VALUES (3,          'and',   'weekday',   '!=',       '5',    1)";
-        $rows = $oDbh->exec($sql);
-
-
-        // add 2nd banner to campaign 2
-        $bannersTable = $conf['table']['prefix'] . 'banners';
-        $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype)
-        VALUES (4,2,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign 2 - Banner 2','','','','f','',0, 0,0,'','',0,0,'','','');";
-        $rows = $oDbh->exec($sql);
-
-        // add banner 2 - Campaign 1 - acls delivery restrictions
-        $aclsTable = $conf['table']['prefix'] . 'acls';
-        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,                        executionorder)
-                                VALUES (4,          'or',   'date',   '!=',       '$expiryDateLessTwoDays',    0)";
-        $rows = $oDbh->exec($sql);
-
-        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,   executionorder)
-                                VALUES (4,          'or',   'time',   '==',       '1,2',    1)";
-        $rows = $oDbh->exec($sql);
-
-
-        //  add 1st banner to campaign 3
-        $bannersTable = $conf['table']['prefix'] . 'banners';
-        $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype)
-        VALUES (5,3,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign 3 - Banner 1','','','','f','',0, 0,0,'','',0,0,'','','');";
-        $rows = $oDbh->exec($sql);
-
-        // add 1st banner - Campaign 2 - acls delivery restrictions
-        $aclsTable = $conf['table']['prefix'] . 'acls';
-        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,                        executionorder)
-                                VALUES (5,          'and',   'date',   '!=',       '$expiryDateLessTwoDays',    0)";
-        $rows = $oDbh->exec($sql);
-
-        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,   executionorder)
-                                VALUES (5,          'or',   'weekday',   '==',       '5',    1)";
-        $rows = $oDbh->exec($sql);
-
-
-
-        // add 2nd banner to campaign 2
-        $bannersTable = $conf['table']['prefix'] . 'banners';
-        $sql = "INSERT INTO $bannersTable (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannerTEXT, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype)
-        VALUES (6,3,'t','gif',0,'sql','468x60_4.gif','','','',468,60,1,0,'','http://www.google.com','Campaign 3 - Banner 2','','','','f','',0, 0,0,'','',0,0,'','','');";
-        $rows = $oDbh->exec($sql);
-
-        // add banner 2 - Campaign 1 - acls delivery restrictions
-        $aclsTable = $conf['table']['prefix'] . 'acls';
-        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,                        executionorder)
-                                VALUES (6,          'or',   'date',   '!=',       '$expiryDateLessTwoDays',    0)";
-        $rows = $oDbh->exec($sql);
-
-        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,     comparison, data,   executionorder)
-                                VALUES (6,          'or',   'time',   '!=',       '1,2',    1)";
+        $sql = "INSERT INTO $aclsTable (bannerid,   logical, type,       comparison, data,   executionorder)
+                                VALUES (6,          'or',   'Time:Hour', '!=',       '1,2',    1)";
         $rows = $oDbh->exec($sql);
     }
 
