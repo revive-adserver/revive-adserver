@@ -171,7 +171,7 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
             SELECT
                 zone_id AS zone_id,
                 day AS day,
-                $columnName AS forecast_impressions
+                SUM($columnName) AS forecast_impressions
             FROM
                 $table
             WHERE
@@ -183,9 +183,9 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
                 AND
                 day <= '" . $aPeriod['end']->format('%Y-%m-%d') . "'
             GROUP BY
-                channel_id, day";
+                zone_id, day";
         $message = 'Finding all channel/zone forecast inventory data for channel ID ' . $channelId .
-                   ' and zone ID in ' . implode(', ', $aZoneIds) . ' in the period ' .
+                   ' and zone IDs in ' . implode(', ', $aZoneIds) . ' in the period ' .
                    $aPeriod['start']->format('%Y-%m-%d') . ' to ' . $aPeriod['end']->format('%Y-%m-%d');
         MAX::debug($message, PEAR_LOG_DEBUG);
         $rc = $this->oDbh->query($query);
@@ -308,8 +308,6 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
                     $table
                 WHERE
                     zone_id = $zoneId
-                ORDER BY
-                    interval_start DESC
                 LIMIT
                     " . MAX_OperationInterval::operationIntervalsPerWeek();
             $rc = $this->oDbh->query($query);

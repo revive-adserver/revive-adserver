@@ -408,13 +408,21 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
                     forecast_impressions
                 )
             VALUES
-                (
-                    '2006-10-20',
-                    1,
-                    1,
-                    9
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?)";
+        $aTypes = array(
+            'date',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '2006-10-20',
+            1,
+            1,
+            9
+        );
+        $rows = $st->execute($aData);
         $conf['maintenance']['channelForecasting'] = 'true';
         $channelId = 1;
         $aZoneIds = array(1, 2);
@@ -434,23 +442,13 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         $this->assertEqual($aResult, $aResultShouldBe);
 
         // Test 8
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}
-                (
-                    day,
-                    channel_id,
-                    zone_id,
-                    forecast_impressions
-                )
-            VALUES
-                (
-                    '2006-10-14',
-                    1,
-                    2,
-                    999
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            '2006-10-14',
+            1,
+            2,
+            999
+        );
+        $rows = $st->execute($aData);
         $conf['maintenance']['channelForecasting'] = 'true';
         $channelId = 1;
         $aZoneIds = array(1, 2);
@@ -470,29 +468,20 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         $this->assertEqual($aResult, $aResultShouldBe);
 
         // Test 9
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}
-                (
-                    day,
-                    channel_id,
-                    zone_id,
-                    forecast_impressions
-                )
-            VALUES
-                (
-                    '2006-10-13',
-                    1,
-                    1,
-                    4999
-                ),
-                (
-                    '2006-10-13',
-                    1,
-                    2,
-                    5999
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            '2006-10-13',
+            1,
+            1,
+            4999
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2006-10-13',
+            1,
+            2,
+            5999
+        );
+        $rows = $st->execute($aData);
         $conf['maintenance']['channelForecasting'] = 'true';
         $channelId = 1;
         $aZoneIds = array(1, 2);
@@ -512,23 +501,13 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         $this->assertEqual($aResult, $aResultShouldBe);
 
         // Test 10
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}
-                (
-                    day,
-                    channel_id,
-                    zone_id,
-                    forecast_impressions
-                )
-            VALUES
-                (
-                    '2006-10-05',
-                    1,
-                    1,
-                    13
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            '2006-10-05',
+            1,
+            1,
+            13
+        );
+        $rows = $st->execute($aData);
         $conf['maintenance']['channelForecasting'] = 'true';
         $channelId = 1;
         $aZoneIds = array(1, 2);
@@ -607,17 +586,33 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
                 (
+                    operation_interval,
+                    operation_interval_id,
                     interval_start,
+                    interval_end,
                     zone_id,
                     forecast_impressions
                 )
             VALUES
-                (
-                    '2006-10-24 12:00:00',
-                    1,
-                    500
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'date',
+            'date',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            60,
+            '',
+            '2006-10-24 12:00:00',
+            '2006-10-24 12:59:59',
+            1,
+            500
+        );
+        $rows = $st->execute($aData);
         $aZoneIds = array(1, 2, 3);
         $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
         $aExpectedResult = array(
@@ -628,31 +623,33 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
 
         // Test 5
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
-                (
-                    interval_start,
-                    zone_id,
-                    forecast_impressions
-                )
-            VALUES
-                (
-                    '2006-10-24 12:00:00',
-                    1,
-                    500
-                ),
-                (
-                    '2006-10-24 11:00:00',
-                    1,
-                    300
-                ),
-                (
-                    '2006-10-24 12:00:00',
-                    2,
-                    500
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            60,
+            '',
+            '2006-10-24 12:00:00',
+            '2006-10-24 12:59:59',
+            1,
+            500
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            60,
+            '',
+            '2006-10-24 11:00:00',
+            '2006-10-24 11:59:59',
+            1,
+            300
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            60,
+            '',
+            '2006-10-24 12:00:00',
+            '2006-10-24 12:59:59',
+            2,
+            500
+        );
+        $rows = $st->execute($aData);
         $aZoneIds = array(1, 2, 3);
         $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
         $aExpectedResult = array(
