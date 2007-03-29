@@ -415,7 +415,7 @@ class DB_QueryTool_Query
         if ($count) {
             $query = array('limit' => array($from, $count));
         }
-        
+
         // JSS - temp bug fix...  Permanent fix suggested and is being
         // tracked at pear.php.net/bugs Bug #7316
         $res = $this->execute($this->_buildSelectQuery($query), $method);
@@ -1596,8 +1596,8 @@ so that's why we do the following, i am not sure if that is standard SQL and abs
             $from .= ','.implode(',',array_keys($join['default']));
         }
 
-        $from = '('.$from.')'; // mysql 5 workaround
-        
+        //$from = '('.$from.')'; // mysql 5 workaround
+
         // handle left/right joins
         foreach (array('left', 'right') as $joinType) {
             if (isset($join[$joinType]) && count($join[$joinType])) {
