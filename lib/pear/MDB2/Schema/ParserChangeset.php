@@ -293,7 +293,6 @@ class MDB2_Changeset_Parser extends XML_Parser
                     $this->tasks['constructive']['tables'][$this->table_name]['self']['add']    = "doAddTable__{$this->table_name}";
                     $this->hooks['constructive']['tables'][$this->table_name]['self']['afterAddTable']  = "afterAddTable__{$this->table_name}";
                     $this->affected_tables['constructive'][] = $this->table_name;
-                    //$this->map['tables'][$this->table_name]['was']  = "";
                 }
             	break;
             case 'instructionset-constructive-changeset-change':
@@ -355,7 +354,6 @@ class MDB2_Changeset_Parser extends XML_Parser
                 $this->hooks['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['beforeAlterField'] = "beforeAlterField__{$this->table_name}__{$this->field_name}";
                 $this->tasks['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['change']    = "doAlterField__{$this->table_name}__{$this->field_name}";
                 $this->hooks['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['afterAlterField']  = "afterAlterField__{$this->table_name}__{$this->field_name}";
-                //$this->tasks['tables'][$this->table_name]['fields'][$this->field_name]['was']  = $this->field['was'];
             	break;
             case 'instructionset-constructive-changeset-change-table-change-field-name':
             case 'instructionset-constructive-changeset-change-table-change-field-type':
@@ -372,7 +370,6 @@ class MDB2_Changeset_Parser extends XML_Parser
                 $this->hooks['constructive']['tables'][$this->table_name]['indexes'][$this->index_name]['beforeAddIndex']  = "beforeAddIndex__{$this->table_name}__{$this->index_name}";
                 $this->tasks['constructive']['tables'][$this->table_name]['indexes'][$this->index_name]['add']      = "doAddIndex__{$this->table_name}__{$this->index_name}";
                 $this->hooks['constructive']['tables'][$this->table_name]['indexes'][$this->index_name]['afterAddIndex']   = "afterAddIndex__{$this->table_name}__{$this->index_name}";
-                //$this->tasks['tables'][$this->table_name]['indexes'][$this->index_name]['was']  = $this->index['was'];
                 break;
             case 'instructionset-constructive-changeset-change-table-index-add-indexfield':
                 $this->index['fields'][$this->field_name] = $this->field;
