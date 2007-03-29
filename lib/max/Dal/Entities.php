@@ -533,13 +533,13 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 a.bannerid IN (" . implode(', ', $aAdIds) . ")
                 AND
                 (
-                    (p.active = 't' AND p.expire = '0000-00-00')
+                    (p.active = 't' AND p.expire = {$this->oDbh->noDateString})
                     OR
-                    (p.active = 't' AND p.expire != '0000-00-00' AND p.expire >= '" . $aPeriod['start']->format('%Y-%m-%d') . "')
+                    (p.active = 't' AND p.expire != {$this->oDbh->noDateString} AND p.expire >= '" . $aPeriod['start']->format('%Y-%m-%d') . "')
                     OR
-                    (p.active = 'f' AND p.activate != '0000-00-00' AND p.activate <= '" . $aPeriod['end']->format('%Y-%m-%d') . "' AND p.expire = '0000-00-00')
+                    (p.active = 'f' AND p.activate != {$this->oDbh->noDateString} AND p.activate <= '" . $aPeriod['end']->format('%Y-%m-%d') . "' AND p.expire = {$this->oDbh->noDateString})
                     OR
-                    (p.active = 'f' AND p.activate != '0000-00-00' AND p.activate <= '" . $aPeriod['end']->format('%Y-%m-%d') . "' AND p.expire != '0000-00-00' AND p.expire >= '" . $aPeriod['start']->format('%Y-%m-%d') . "')
+                    (p.active = 'f' AND p.activate != {$this->oDbh->noDateString} AND p.activate <= '" . $aPeriod['end']->format('%Y-%m-%d') . "' AND p.expire != {$this->oDbh->noDateString} AND p.expire >= '" . $aPeriod['start']->format('%Y-%m-%d') . "')
                 )
         ";
         $rc = $this->oDbh->query($query);
