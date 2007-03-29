@@ -237,6 +237,10 @@ class MDB2_Driver_Reverse_mysql extends MDB2_Driver_Reverse_Common
             return $db;
         }
 
+        if (strtolower($index_name)==strtolower($table).'_pkey')
+        {
+            $index_name = 'primary';
+        }
         if (strtolower($index_name) != 'primary') {
             $index_name = $db->getIndexName($index_name);
         }
@@ -247,7 +251,11 @@ class MDB2_Driver_Reverse_mysql extends MDB2_Driver_Reverse_Common
             return $result;
         }
         $definition = array();
+        // OPENADS: value to denote the index's sequential field order
+        $order = 0;
         while (is_array($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))) {
+            // OPENADS: increment the index's sequential field order
+            $order++;
             $row = array_change_key_case($row, CASE_LOWER);
             $key_name = $row['key_name'];
             if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
@@ -276,6 +284,8 @@ class MDB2_Driver_Reverse_mysql extends MDB2_Driver_Reverse_Common
                     }
                 }
                 $definition['fields'][$column_name] = array();
+                // OPENADS: store the index's sequential field order
+                $definition['fields'][$column_name]['order'] = $order;
                 if (!empty($row['collation'])) {
                     $definition['fields'][$column_name]['sorting'] = ($row['collation'] == 'A'
                         ? 'ascending' : 'descending');
