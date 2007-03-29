@@ -398,7 +398,8 @@ class MDB2_Schema extends PEAR
      * @return array|MDB2_Error array with definition or error object
      * @access public
      */
-    function getDefinitionFromDatabase()
+    // OPENADS: @param array $tables - pass in an array of tables
+    function getDefinitionFromDatabase($tables='')
     {
         $database = $this->db->database_name;
         if (empty($database)) {
@@ -413,8 +414,11 @@ class MDB2_Schema extends PEAR
             'tables' => array(),
             'sequences' => array(),
         );
-
-        $tables = $this->db->manager->listTables();
+        // OPENADS: only get table list if tables param is not sent
+        if (!tables)
+        {
+            $tables = $this->db->manager->listTables();
+        }
         if (PEAR::isError($tables)) {
             return $tables;
         }
