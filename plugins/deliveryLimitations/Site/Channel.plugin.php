@@ -106,7 +106,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
             $affiliates[] = $row['affiliateid'];
         }
 
-        $res_agency = phpAds_dbQuery("
+        $query = "
             SELECT
                 a.agencyid
             FROM
@@ -116,8 +116,15 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
             WHERE
                 a.clientid = m.clientid
               AND m.campaignid = b.campaignid
-              AND b.bannerid = {$this->bannerid}") or phpAds_sqlDie();
-        $this->agencyid = phpAds_dbResult($res_agency, 0, 0);
+              AND b.bannerid = {$this->bannerid}";
+        $dbh = &OA_DB::singleton();
+        if (PEAR::isError($dbh)) {
+            phpAds_sqlDie();
+        }
+        $this->agencyid = $dbh->queryOne($query);
+        if (PEAR::isError($this->agencyid)) {
+            phpAds_sqlDie();
+        }
 
         $channels = Admin_DA::getChannels(array('channel_type' => 'admin'), true);
 

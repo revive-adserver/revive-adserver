@@ -1023,7 +1023,7 @@ class Admin_DaTest extends UnitTestCase
     function testGetZones()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh =& MAX_DB::singleton();
+        $dbh =& OA_DB::singleton();
         TestEnv::startTransaction();
 
         $ret = Admin_DA::addZone(
@@ -1038,7 +1038,7 @@ class Admin_DaTest extends UnitTestCase
 
         //  get zone record as control element
         $query = 'SELECT * FROM '.$conf['table']['prefix'].'zones WHERE zoneid = ' . $ret;
-        $aZone1 = $dbh->getRow($query);
+        $aZone1 = $dbh->queryRow($query);
         $this->assertTrue(is_array($aZone1));
 
         //  massage results so as to be comparable with Admin_DA::getZone()
@@ -1081,7 +1081,7 @@ class Admin_DaTest extends UnitTestCase
     function testDuplicateZone()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh =& MAX_DB::singleton();
+        $dbh =& OA_DB::singleton();
         TestEnv::startTransaction();
 
         $id = Admin_DA::addZone(array(
@@ -1094,7 +1094,7 @@ class Admin_DaTest extends UnitTestCase
 
         //  get zone record as control element
         $query = 'SELECT * FROM '.$conf['table']['prefix'].'zones WHERE zoneid = ' . $id;
-        $aZone1 = $dbh->getRow($query);
+        $aZone1 = $dbh->queryRow($query);
         $this->assertTrue(is_array($aZone1));
 
 
@@ -1103,7 +1103,7 @@ class Admin_DaTest extends UnitTestCase
         $this->assertTrue($ret > 0);
 
         $query = 'SELECT * FROM '.$conf['table']['prefix'].'zones WHERE zoneid = ' . $ret;
-        $aZone2 = $dbh->getRow($query);
+        $aZone2 = $dbh->queryRow($query);
         $this->assertTrue(is_array($aZone2));
 
         //  unset zoneid and name as these are unique
@@ -1504,7 +1504,7 @@ class Admin_DaTest extends UnitTestCase
     function _generateStats()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh =& MAX_DB::singleton();
+        $dbh =& OA_DB::singleton();
         // Populate data_summary_ad_hourly
         $statsTable = $conf['table']['prefix'] . 'data_summary_ad_hourly';
         for ($hour = 0; $hour < 24; $hour ++) {
@@ -1534,7 +1534,7 @@ class Admin_DaTest extends UnitTestCase
                 ".rand(1, 999).",
                 0
                 )";
-            $result = $dbh->query($sql);
+            $result = $dbh->exec($sql);
         }
 
         // Populate campaigns table
@@ -1579,7 +1579,7 @@ class Admin_DaTest extends UnitTestCase
                         'f',
                         1
                     )";
-        $result = $dbh->query($sql);
+        $result = $dbh->exec($sql);
 
         // Add a banner
         $bannersTable = $conf['table']['prefix'] . 'banners';
@@ -1655,12 +1655,12 @@ class Admin_DaTest extends UnitTestCase
                         '',
                         ''
                     )";
-        $result = $dbh->query($sql);
+        $result = $dbh->exec($sql);
 
         // Add an agency record
         $agencyTable = $conf['table']['prefix'] . 'agency';
         $sql = "INSERT INTO $agencyTable ( `agencyid` , `name` , `contact` , `email` , `username` , `password` , `permissions` , `language` , `logout_url` , `active`)  VALUES (1, 'test agency', 'sdfsdfsdf', 'demian@phpkitchen.com', 'Demian Turner', '', 0, '', 'logout.com', 1)";
-        $result = $dbh->query($sql);
+        $result = $dbh->exec($sql);
 
         // Add a client record (advertiser)
         $clientsTable = $conf['table']['prefix'] . 'clients';
@@ -1698,7 +1698,7 @@ class Admin_DaTest extends UnitTestCase
                         '2005-03-21',
                         't'
                     )";
-        $result = $dbh->query($sql);
+        $result = $dbh->exec($sql);
 
         // Add an affiliate (publisher) record
         $publisherTable = $conf['table']['prefix'] . 'affiliates';
@@ -1734,7 +1734,7 @@ class Admin_DaTest extends UnitTestCase
                         NULL,
                         'f'
                     )";
-        $result = $dbh->query($sql);
+        $result = $dbh->exec($sql);
 
         // Add zone record
         $zonesTable = $conf['table']['prefix'] . 'zones';
@@ -1778,7 +1778,7 @@ class Admin_DaTest extends UnitTestCase
                         'f',
                         0
                     )";
-        $result = $dbh->query($sql);
+        $result = $dbh->exec($sql);
     }
 
 }

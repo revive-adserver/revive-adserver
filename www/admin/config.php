@@ -38,9 +38,7 @@ require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 require_once MAX_PATH . '/lib/max/Permission.php';
 
-// Open the database connection
-//$link = phpAds_dbConnect();
-$link=true;
+$link = phpAds_dbConnect();
 if (!$link) {
     // Check if UI is enabled
     if (!$conf['max']['uiEnabled']) {

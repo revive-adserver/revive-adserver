@@ -43,10 +43,6 @@ function setupConstants()
     define('MAX_PRODUCT_NAME',      'Max Media Manager');
     define('MAX_PRODUCT_URL',       'max.m3.net');
 
-    // Old PAN "constants" still required
-    // TODO: remove these definitions from the only place that uses them - www/admin/lib-db.inc.php
-    define('phpAds_adminDb',  1);
-    define('phpAds_rawDb',    2);
     // This old PAN constant is used in a couple places but could well conflict with the configured DB
     // TODO: find any uses of this constant and re-think their place.
     define('phpAds_dbmsname', 'MySQL');

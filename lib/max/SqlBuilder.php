@@ -1219,13 +1219,8 @@ class SqlBuilder
         $query = "UPDATE $table" . $set . $where;
         $queryValid = true;
 
-        $dbh =& MAX_DB::singleton();
-        $res = $dbh->query($query);
-
-        if (!(PEAR::isError($res))) {
-            $res = $dbh->affectedRows();
-        }
-        return $res;
+        $dbh =& OA_DB::singleton();
+        return $dbh->exec($query);
     }
 }
 ?>
