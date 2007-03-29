@@ -84,6 +84,7 @@ class OA_DB_Upgrade
 
     var $prefix = '';
     var $database = '';
+    var $engine = '';
 
     var $continue = true;
 
@@ -111,6 +112,14 @@ class OA_DB_Upgrade
         if (!$this->_isPearError($result, 'failed to instantiate MDB2_Schema'))
         {
             $this->oSchema = $result;
+            if ($this->oSchema->db->options['default_table_type'])
+            {
+                $this->engine = 'ENGINE='.$this->oSchema->db->getOption('default_table_type');
+            }
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -310,8 +319,7 @@ class OA_DB_Upgrade
                 $this->aMessages[]  = "backing up table {$table} to table {$table_bak} ";
 
                 // better query? increment off first?
-                $engine = 'ENGINE='.$this->oSchema->db->getOption('default_table_type');
-                $query      = "CREATE TABLE `{$table_bak}` {$engine} (SELECT * FROM `{$table}`)";
+                $query      = "CREATE TABLE `{$table_bak}` {$this->engine} (SELECT * FROM `{$table}`)";
                 $result     = $this->oSchema->db->exec($query);
                 if ($this->_isPearError($result, 'error creating backup'))
                 {
@@ -391,8 +399,7 @@ class OA_DB_Upgrade
                 return false;
             }
         }
-        $engine = 'ENGINE='.$this->oSchema->db->getOption('default_table_type');
-        $query  = "CREATE TABLE `{$table}` {$engine} (SELECT * FROM `{$table_bak}`)";
+        $query  = "CREATE TABLE `{$table}` {$this->engine} (SELECT * FROM `{$table_bak}`)";
         $result = $this->oSchema->db->exec($query);
         if ($this->_isPearError($result, 'error creating table during rollback'))
         {
