@@ -310,8 +310,8 @@ class OA_DB_Upgrade
                 $this->aMessages[]  = "backing up table {$table} to table {$table_bak} ";
 
                 // better query? increment off first?
-                $engine = $this->oSchema->db->getOption('default_table_type');
-                $query      = "CREATE TABLE `{$table_bak}` ENGINE = {$engine} (SELECT * FROM `{$table}`)";
+                $engine = 'ENGINE='.$this->oSchema->db->getOption('default_table_type');
+                $query      = "CREATE TABLE `{$table_bak}` {$engine} (SELECT * FROM `{$table}`)";
                 $result     = $this->oSchema->db->exec($query);
                 if ($this->_isPearError($result, 'error creating backup'))
                 {
@@ -391,8 +391,8 @@ class OA_DB_Upgrade
                 return false;
             }
         }
-        $engine = $this->oSchema->db->getOption('default_table_type');
-        $query  = "CREATE TABLE `{$table}` ENGINE = {$engine} (SELECT * FROM `{$table_bak}`)";
+        $engine = 'ENGINE='.$this->oSchema->db->getOption('default_table_type');
+        $query  = "CREATE TABLE `{$table}` {$engine} (SELECT * FROM `{$table_bak}`)";
         $result = $this->oSchema->db->exec($query);
         if ($this->_isPearError($result, 'error creating table during rollback'))
         {
