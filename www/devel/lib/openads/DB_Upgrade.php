@@ -319,7 +319,7 @@ class OA_DB_Upgrade
                 $this->aMessages[]  = "backing up table {$table} to table {$table_bak} ";
 
                 // better query? increment off first?
-                $query      = "CREATE TABLE `{$table_bak}` {$this->engine} (SELECT * FROM `{$table}`)";
+                $query      = "CREATE TABLE {$table_bak} {$this->engine} (SELECT * FROM {$table})";
                 $result     = $this->oSchema->db->exec($query);
                 if ($this->_isPearError($result, 'error creating backup'))
                 {
@@ -399,7 +399,7 @@ class OA_DB_Upgrade
                 return false;
             }
         }
-        $query  = "CREATE TABLE `{$table}` {$this->engine} (SELECT * FROM `{$table_bak}`)";
+        $query  = "CREATE TABLE {$table} {$this->engine} (SELECT * FROM {$table_bak})";
         $result = $this->oSchema->db->exec($query);
         if ($this->_isPearError($result, 'error creating table during rollback'))
         {
@@ -409,7 +409,14 @@ class OA_DB_Upgrade
         foreach ($aDef_bak['indexes'] as $index => $aIndex_def)
         {
             $aIndex_def = $this->_sortIndexFields($aIndex_def);
-            $result = $this->oSchema->db->manager->createIndex($table, $index, $aIndex_def);
+            if (array_key_exists('primary', $aIndex_def) || array_key_exists('unique', $aIndex_def))
+            {
+                $result = $this->oSchema->db->manager->createConstraint($table, $index, $aIndex_def);
+            }
+            else
+            {
+                $result = $this->oSchema->db->manager->createIndex($table, $index, $aIndex_def);
+            }
             if (!$this->_isPearError($result, 'error creating index on table during rollback'))
             {
                 $this->aMessages[] = 'create index success';
@@ -462,11 +469,11 @@ class OA_DB_Upgrade
         $this->aMessages[] = '_logDatabaseAction end';
         if ($this->logToDB)
         {
-            $columns = implode("`,`", array_keys($record));
+            $columns = implode(",", array_keys($record));
             $values  = implode("','", array_values($record));
             //$values  = implode("','", mysql_escape_string(array_values($record)));
 
-            $query = "INSERT INTO {$this->prefix}database_action (`{$columns}`, `updated`) VALUES ('{$values}', NOW())";
+            $query = "INSERT INTO {$this->prefix}database_action ({$columns}, updated) VALUES ('{$values}', NOW())";
 
             $result = $this->oSchema->db->exec($query);
 
@@ -832,6 +839,14 @@ class OA_DB_Upgrade
             $aIdx_new['fields'][$field] = array('sorting'=>$sorting);
         }
         reset($aIdx_new['fields']);
+        if (array_key_exists('primary', $aIndex_def))
+        {
+            $aIdx_new['primary'] = true;
+        }
+        if (array_key_exists('unique', $aIndex_def))
+        {
+            $aIdx_new['unique'] = true;
+        }
         return $aIdx_new;
     }
 }

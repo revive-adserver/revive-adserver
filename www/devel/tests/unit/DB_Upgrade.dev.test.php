@@ -141,6 +141,14 @@ class Test_DB_Upgrade extends UnitTestCase
         foreach ($tbl_def_orig['indexes'] AS $index=>$aDef)
         {
             $this->assertTrue(array_key_exists($index, $tbl_def_rest['indexes']), 'index missing from restored table');
+            if (array_key_exists('primary', $aDef))
+            {
+                $this->assertTrue(array_key_exists('primary', $tbl_def_rest['indexes'][$index]), 'primary flag missing from restored index');
+            }
+            if (array_key_exists('unique', $aDef))
+            {
+                $this->assertTrue(array_key_exists('unique', $tbl_def_rest['indexes'][$index]), 'unique flag missing from restored index');
+            }
             foreach ($aDef['fields'] AS $field=>$aField)
             {
                 $this->assertTrue(array_key_exists($field, $tbl_def_rest['indexes'][$index]['fields']), 'index field missing from restored table');

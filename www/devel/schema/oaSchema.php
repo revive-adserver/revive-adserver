@@ -643,19 +643,9 @@ class Openads_Schema_Manager
         return $this->writeWorkingDefinitionFile();
     }
 
-    /**
-     * validate and store a changed index
-     *
-     * @param string $table_name
-     * @param string $index_name
-     * @param array $aIndex_definition
-     * @return boolean
-     */
-    function indexSave($table_name, $index_name, $aIndex_defintion)
+    function _sortIndexFields($aIndex_def)
     {
-        $this->parseWorkingDefinitionFile();
-        $idx_old = $this->aDB_definition['tables'][$table_name]['indexes'][$index_name];
-        foreach ($aIndex_definition['fields'] as $field => $aDef)
+        foreach ($aIndex_def['fields'] as $field => $aDef)
         {
             $aIdx_sort[$aDef['order']] = $field;
         }
@@ -667,6 +657,34 @@ class Openads_Schema_Manager
             $aIdx_new['fields'][$field] = array('sorting'=>$sorting);
         }
         reset($aIdx_new['fields']);
+        return $aIdx_new;
+    }
+
+    /**
+     * validate and store a changed index
+     *
+     * @param string $table_name
+     * @param string $index_name
+     * @param array $aIndex_definition
+     * @return boolean
+     */
+    function indexSave($table_name, $index_name, $aIndex_definition)
+    {
+        $this->parseWorkingDefinitionFile();
+        $idx_old = $this->aDB_definition['tables'][$table_name]['indexes'][$index_name];
+        $aIdx_new = $this->_sortIndexFields($aIndex_definition);
+//        foreach ($aIndex_definition['fields'] as $field => $aDef)
+//        {
+//            $aIdx_sort[$aDef['order']] = $field;
+//        }
+//        ksort($aIdx_sort);
+//        reset($aIdx_sort);
+//        foreach ($aIdx_sort as $k => $field)
+//        {
+//            $sorting = ($aIndex_definition['fields'][$field]['sorting']?'ascending':'descending');
+//            $aIdx_new['fields'][$field] = array('sorting'=>$sorting);
+//        }
+//        reset($aIdx_new['fields']);
         if (isset($aIndex_definition['unique']))
         {
             $aIdx_new['unique'] = $aIndex_definition['unique'];
