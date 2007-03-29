@@ -86,86 +86,163 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         TestEnv::startTransaction();
 
         // Test 3
+        $oNow = new Date();
         $query = "
             INSERT INTO
                 $adTable
                 (
                     bannerid,
-                    campaignid
+                    campaignid,
+                    active,
+                    storagetype,
+                    htmltemplate,
+                    htmlcache,
+                    weight,
+                    url,
+                    bannertext,
+                    compiledlimitation,
+                    append,
+                    updated,
+                    acls_updated
                 )
             VALUES
-                (
-                    2,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'timestamp',
+            'timestamp'
+        );
+        $stAd = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            2,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
         $query = "
             INSERT INTO
                 $dsahTable
                 (
                     day,
                     hour,
-                    ad_id
+                    ad_id,
+                    creative_id,
+                    zone_id,
+                    updated
                 )
             VALUES
-                (
-                    '2006-10-30',
-                    12,
-                    2
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'date',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp'
+        );
+        $stDsah = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '2006-10-30',
+            12,
+            2,
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDsah->execute($aData);
         $oResult = $oDalStatistics->getPlacementFirstStatsDate($placementId);
         $oExpectedDate = new Date('2006-10-30 12:00:00');
         $this->assertEqual($oResult, $oExpectedDate);
 
         // Test 4
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid
-                )
-            VALUES
-                (
-                    3,
-                    1
-                ),
-                (
-                    1,
-                    2
-                )";
-        $rows = $oDbh->exec($query);
-        $query = "
-            INSERT INTO
-                $dsahTable
-                (
-                    day,
-                    hour,
-                    ad_id
-                )
-            VALUES
-                (
-                    '2006-10-29',
-                    12,
-                    2
-                ),
-                (
-                    '2006-10-28',
-                    12,
-                    2
-                ),
-                (
-                    '2006-10-27',
-                    12,
-                    3
-                ),
-                (
-                    '2006-10-26',
-                    12,
-                    4
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            3,
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            1,
+            2,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stAd->execute($aData);
+        $aData = array(
+            '2006-10-29',
+            12,
+            2,
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDsah->execute($aData);
+        $aData = array(
+            '2006-10-28',
+            12,
+            2,
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDsah->execute($aData);
+        $aData = array(
+            '2006-10-27',
+            12,
+            3,
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDsah->execute($aData);
+        $aData = array(
+            '2006-10-26',
+            12,
+            4,
+            '',
+            '',
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDsah->execute($aData);
         $oResult = $oDalStatistics->getPlacementFirstStatsDate($placementId);
         $oExpectedDate = new Date('2006-10-27 12:00:00');
         $this->assertEqual($oResult, $oExpectedDate);
