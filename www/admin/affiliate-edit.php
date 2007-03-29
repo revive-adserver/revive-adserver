@@ -75,7 +75,7 @@ if (isset($submit)) {
     $errormessage = array();
     $affiliate = array();
     $affiliate_extra = array();
-    
+
     // Get previous values
     if (isset($affiliateid)) {
         $doAffiliates = MAX_DB::factoryDO('affiliates');
@@ -113,10 +113,10 @@ if (isset($submit)) {
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
         // Mnemonic
         $affiliate['mnemonic'] = trim($mnemonic);
-        
+
         // Public
         $affiliate['publiczones'] = isset($publiczones) ? 't' : 'f';
-        
+
         // Password
         if (isset($password)) {
             if ($password == '') {
@@ -161,7 +161,7 @@ if (isset($submit)) {
             }
         }
     }
-    
+
     // Extra fields
     $affiliate_extra['address']         = trim($address);
     $affiliate_extra['city']            = trim($city);
@@ -180,15 +180,15 @@ if (isset($submit)) {
     if (!empty($category)) {
         $affiliate_extra['category']    = trim($category);
     }
-    
+
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
         // Extra fields
         $affiliate['comments']    = trim($comments);
         if (!empty($help_file)) {
             $affiliate_extra['help_file'] = trim($help_file);
         }
-    }    
-    
+    }
+
     if (count($errormessage) == 0) {
         if ($affiliateid && $publiczones != 't' && $publiczones_old == 't') {
             // Reset append codes which called this affiliate's zones
@@ -216,7 +216,7 @@ if (isset($submit)) {
             $doAffiliates->setFrom($affiliate);
             $doAffiliates->updated = date('Y-m-d H:i:s');
             $affiliateid = $doAffiliates->insert();
-                        
+
             // Go to next page
             if (isset($move) && $move == 't') {
                 // Move loose zones to this affiliate
@@ -225,7 +225,7 @@ if (isset($submit)) {
                 $doZones->whereAdd('affiliateid = NULL');
                 $doZones->whereAdd('affiliateid = 0', 'OR');
                 $doZones->update();
-                
+
                 $redirect_url = "affiliate-zones.php?affiliateid=$affiliateid";
             } else {
                 $redirect_url = "zone-edit.php?affiliateid=$affiliateid";
@@ -234,10 +234,10 @@ if (isset($submit)) {
             $doAffiliates = MAX_DB::factoryDO('affiliates');
             $doAffiliates->get($affiliateid);
             $doAffiliates->setFrom($affiliate);
-            
+
             // Update
             $doAffiliates->update();
-                
+
             // Go to next page
             if (phpAds_isUser(phpAds_Affiliate)) {
                 // Set current session to new language
@@ -252,15 +252,6 @@ if (isset($submit)) {
         }
 
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-            // Terms and conditions
-            $legalAgreement = & new MAX_Dal_LegalAgreement();
-            if ($legalAgreement->doesAgreementExistForPublisher($affiliateid)) {
-                if (isset($terms_and_conditions) && !$legalAgreement->hasPublisherAgreed($affiliateid)) {
-                    $legalAgreement->acceptAgreementForPublisher($affiliateid);
-                } elseif (!isset($terms_and_conditions) && $legalAgreement->hasPublisherAgreed($affiliateid)) {
-                    $legalAgreement->unAcceptAgreementForPublisher($affiliateid);
-                }
-            }
 
             // Delete publisher preferences when switching to affiliate
             if (isset($account_type) && $account_type == 'affiliate') {
@@ -269,7 +260,7 @@ if (isset($submit)) {
                 $doPreference_publisher->delete();
             }
         }
-               
+
         // Update extra fields
         if (isset($affiliate_extra['affiliateid'])) {
             $doAffiliatesExtra = MAX_DB::factoryDO('affiliates_extra');
@@ -312,7 +303,7 @@ if ($affiliateid != "") {
             $navdirection = '';
         }
         // Get other affiliates
-        
+
         $doAffiliates = MAX_DB::factoryDO('affiliates');
         if (phpAds_isUser(phpAds_Agency)) {
             $doAffiliates->agencyid = $agencyid;
@@ -352,7 +343,7 @@ if ($affiliateid != "") {
         if ($doAffiliates->get($affiliateid)) {
             $affiliate = $doAffiliates->toArray();
         }
-                
+
         // Set password to default value
         if ($affiliate['password'] != '') {
             $affiliate['password'] = '********';
@@ -379,10 +370,10 @@ if ($affiliateid != "") {
         $affiliate['password']    = '';
         $affiliate['permissions'] = 0;
         $affiliate['comments']    = '';
-        
+
         $affiliate['tax_id_present']                 = $pref['publisher_default_tax_id'];
         $affiliate['last_accepted_agency_agreement'] = $pref['publisher_default_approved'];
-        
+
         $affiliate_extra = array();
         $affiliate_extra['address'] = '';
         $affiliate_extra['city'] = '';
@@ -463,7 +454,7 @@ if (!MAX_Permission::isAllowed(MAX_AffiliateIsReallyAffiliate)) {
     echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strLanguage."</td><td>";
     echo "<select name='language' tabindex='".($tabindex++)."'>";
     echo "<option value='' SELECTED>".$strDefault."</option>\n";
-    
+
     $languages = MAX_Admin_Languages::AvailableLanguages();
     while (list($k, $v) = each($languages)) {
         if (isset($affiliate['language']) && $affiliate['language'] == $k) {
@@ -472,7 +463,7 @@ if (!MAX_Permission::isAllowed(MAX_AffiliateIsReallyAffiliate)) {
             echo "<option value='$k'>$v</option>\n";
         }
     }
-    
+
     echo "</select></td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
 }
 
@@ -754,7 +745,7 @@ echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>
 
 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-    
+
     // Comments
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strComments."</td>";
@@ -778,18 +769,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     echo "</select>";
     echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
     echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-    
-    // Terms and conditions - show disbaled if the publisher agency doesn't have an agreement
-    $legalAgreement = & new MAX_Dal_LegalAgreement();
-    if ($affiliateid) {
-        $show_agreement = $legalAgreement->doesAgreementExistForPublisher($affiliateid);
-    } else {
-        $show_agreement = $legalAgreement->doesAgreementExistForAgency($agencyid);
-    }
-    echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-    echo "<input type='checkbox' name='terms_and_conditions' value='t'".(!empty($affiliate['last_accepted_agency_agreement']) ? ' checked="checked"' : '').($show_agreement ? '' : ' disabled')." tabindex='".($tabindex++)."'>&nbsp;";
-    echo $strApprovedTandC;
-    echo "</td></tr>";
+
 }
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -827,7 +807,7 @@ $unique_users = MAX_Permission::getUniqueUserNames($affiliate['username']);
     max_formSetRequirements('unique_users', '<?php echo addslashes('Unique users/month'); ?>', false, 'number*');
     max_formSetRequirements('unique_views', '<?php echo addslashes('Unique views/month'); ?>', false, 'number*');
     max_formSetRequirements('page_rank', '<?php echo addslashes('Page rank'); ?>', false, 'number*');
-    
+
 <?php if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) { ?>
     max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
     max_formSetRequirements('username', '<?php echo addslashes($strUsername); ?>', false, 'unique');
@@ -840,13 +820,13 @@ $unique_users = MAX_Permission::getUniqueUserNames($affiliate['username']);
         var e = findObj('affiliatepermissions_<?php echo phpAds_EditZone; ?>');
         var a = findObj('affiliatepermissions_<?php echo phpAds_AddZone; ?>');
         var d = findObj('affiliatepermissions_<?php echo phpAds_DeleteZone; ?>');
-        
+
         a.disabled = d.disabled = !e.checked;
         if (!e.checked) {
             a.checked = d.checked = false;
         }
     }
-    
+
     MMM_cascadePermissionsChange();
 
     function MMM_accountTypeChange()
@@ -854,7 +834,7 @@ $unique_users = MAX_Permission::getUniqueUserNames($affiliate['username']);
         var o = findObj('account_type');
         var e = document.getElementsByTagName('INPUT');
         var i;
-        
+
         for (i = 0; i < e.length; i++) {
             if (e[i].name.match(/^affiliatepermissions/)) {
                 if (e[i].value != <?php echo MAX_AffiliateViewOnlyApprPendConv; ?>) {
@@ -862,12 +842,12 @@ $unique_users = MAX_Permission::getUniqueUserNames($affiliate['username']);
                 }
             }
         }
-        
+
         if (!o.selectedIndex) {
             MMM_cascadePermissionsChange();
         }
     }
-    
+
     MMM_accountTypeChange();
 
 <?php } ?>
@@ -875,16 +855,16 @@ $unique_users = MAX_Permission::getUniqueUserNames($affiliate['username']);
     function MMM_taxIdChange(o)
     {
         var t = findObj('tax_id');
-        
+
         if (t) {
             t.disabled = o.form.tax_id_present[0].checked;
-            
+
             if (t.disabled) {
                 max_formValidateElement(t);
             }
         }
     }
-    
+
     MMM_taxIdChange(findObj('tax_id_present_f'));
 
 //-->

@@ -28,9 +28,6 @@
 $Id$
 */
 
-// Define a constant to avoid being redirected in case the agreement is needed
-define ('MAX_SKIP_LEGAL_AGREEMENT', 1);
-
 // Require the initialisation file
 require_once '../../init.php';
 

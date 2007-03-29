@@ -63,8 +63,8 @@ function phpAds_Start()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     global $session;
-    
-    // XXX: Why not try loading session data when Max is not installed?  
+
+    // XXX: Why not try loading session data when Max is not installed?
     if ($conf['max']['installed']) {
         phpAds_SessionDataFetch();
     }
@@ -90,16 +90,6 @@ function phpAds_Start()
         $GLOBALS['_MAX']['CONF']['max']['language'] = $session['language'];
     }
 
-    if ($conf['max']['installed']) {
-        // Show legal agreement (terms & conditions) if necessary
-        $oLegalAgreement = new MAX_Admin_LegalAgreement();
-        if ($oLegalAgreement->doesCurrentUserNeedToSeeAgreement()) {
-            if (!defined('MAX_SKIP_LEGAL_AGREEMENT')) {
-                header("Location: legal-agreement.php");
-                exit;
-            }
-        }
-    }
 }
 
 /*-------------------------------------------------------*/
@@ -200,7 +190,7 @@ function phpAds_getAgencyID ()
 function phpAds_getHelpFile ()
 {
     global $session;
-    
+
     if (!empty($session['help_file'])) {
         return $session['help_file'];
     }
@@ -224,13 +214,13 @@ function phpAds_Login()
         $username  = MAX_commonGetPostValueUnslashed('username');
         $password  = MAX_commonGetPostValueUnslashed('password');
         $md5digest = MAX_commonGetPostValueUnslashed('phpAds_md5');
-        
+
         $md5digest = MAX_Permission_Session::getMd5FromPassword($md5digest, $password);
-        
+
         MAX_Permission_Session::restartIfUsernameOrPasswordEmpty($md5digest, $username);
-        
+
         MAX_Permission_Session::restartIfCookiesDisabled();
-        
+
         if (phpAds_isAdmin($username, $md5digest)) {
             return MAX_Permission_User::getAAdminData($username);
         } elseif ($doUser = MAX_Permission_User::findAndGetDoUser($username, $md5digest)) {
@@ -284,7 +274,7 @@ function phpAds_LoginScreen($message='', $sessionID=0, $inLineLogin = false)
         phpAds_PageHeader(phpAds_Login);
     }
     if ($conf['max']['uiEnabled'] == true)
-    { 
+    {
         echo "<br />";
         echo "<form name='login' method='post' action='".basename($_SERVER['PHP_SELF']);
         echo (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != '' ? '?'.htmlentities($_SERVER['QUERY_STRING']) : '')."'>";
