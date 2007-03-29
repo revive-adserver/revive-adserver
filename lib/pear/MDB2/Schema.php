@@ -415,7 +415,7 @@ class MDB2_Schema extends PEAR
             'sequences' => array(),
         );
         // OPENADS: only get table list if tables param is not sent
-        if (!tables)
+        if (!$tables)
         {
             $tables = $this->db->manager->listTables();
         }
