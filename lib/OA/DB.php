@@ -122,13 +122,19 @@ class OA_DB
             if (PEAR::isError($success)) {
                 return $success;
             }
-            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] = &$oDbh;
             // Set the fetchmode to be use used
-            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->setFetchMode(MDB2_FETCHMODE_ASSOC);
+            $oDbh->setFetchMode(MDB2_FETCHMODE_ASSOC);
             // Load modules that are likely to be needed
-            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->loadModule('Extended');
-            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->loadModule('Datatype');
-            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->loadModule('Manager');
+            $oDbh->loadModule('Extended');
+            $oDbh->loadModule('Datatype');
+            $oDbh->loadModule('Manager');
+            // Prepare the format of the quoted "NO DATE" string
+            $oDbh->noDateString = "NULL";
+            if ($oDbh->dsn['phptype'] == 'mysql') {
+                $oDbh->noDateString = "'000-00-00'";
+            }
+            // Store the database connection
+            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] = &$oDbh;
         }
         return $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5];
     }
