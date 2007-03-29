@@ -30,7 +30,6 @@ $Id$
 
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
-require_once MAX_PATH . '/lib/max/Admin/LegalAgreement.php';
 require_once MAX_PATH . '/lib/max/Permission/User.php';
 require_once MAX_PATH . '/lib/max/Permission/Session.php';
 
