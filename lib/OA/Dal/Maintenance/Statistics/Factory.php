@@ -31,9 +31,9 @@ require_once MAX_PATH . '/lib/OA.php';
  * A class for creating {@link OA_Dal_Maintenance_Statistics_Common} subclass
  * objects, depending on the database type in use.
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage MaintenanceStatistics
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class OA_Dal_Maintenance_Statistics_Factory
 {

@@ -33,9 +33,9 @@ require_once 'Date.php';
  * The data access layer code for summarising raw data into statistics, for
  * the Tracker module, when split tables are in use.
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage MaintenanceStatistics
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenance_Statistics_Tracker_mysql
 {
@@ -78,7 +78,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenanc
         $table = $aConf['table']['prefix'] .
                  $aConf['table']['data_raw_tracker_impression'] . '_' .
                  date('Ymd');
-        return $this->_getMaintenanceStatisticsLastRunInfo($type, $table, $oNow);
+        return $this->_getMaintenanceStatisticsLastRunInfo($type, "Tracker", $table, $oNow);
     }
 
     /**

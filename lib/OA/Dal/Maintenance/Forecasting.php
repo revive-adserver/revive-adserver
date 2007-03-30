@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Common.php';
  *
  * @package    OpenadsDal
  * @subpackage MaintenanceForecasting
- * @author     Andrew Hill <andrew.hill@openads.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  * @author     Radek Maciaszek <radek@m3.net>
  */
 class OA_Dal_Maintenance_Forecasting extends OA_Dal_Maintenance_Common

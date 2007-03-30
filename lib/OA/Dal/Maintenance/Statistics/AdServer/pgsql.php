@@ -22,10 +22,12 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: mysql.php 5411 2007-03-27 16:00:31Z andrew.hill@openads.org $
 */
 
+require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance.php';
+require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Common.php';
@@ -33,13 +35,13 @@ require_once 'Date.php';
 
 /**
  * The data access layer code for summarising raw data into statistics, for
- * the Tracker module.
+ * the AdServer module.
  *
  * @package    OpenadsDal
  * @subpackage MaintenanceStatistics
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Dal_Maintenance_Statistics_Tracker_mysql extends OA_Dal_Maintenance_Statistics_Common
+class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_Statistics_Common
 {
     var $oDbh;
 
@@ -48,7 +50,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysql extends OA_Dal_Maintenance_Sta
      *
      * @uses OA_Dal_Maintenance_Statistics_Common::OA_Dal_Maintenance_Statistics_Common()
      */
-    function OA_Dal_Maintenance_Statistics_Tracker_mysql()
+    function OA_Dal_Maintenance_Statistics_AdServer_pgsql()
     {
         parent::OA_Dal_Maintenance_Statistics_Common();
         $this->oDbh = &OA_DB::singleton();
@@ -80,72 +82,47 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysql extends OA_Dal_Maintenance_Sta
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $table = $aConf['table']['prefix'] .
-                 $aConf['table']['data_raw_tracker_impression'];
-        return $this->_getMaintenanceStatisticsLastRunInfo($type, "Tracker", $table, $oNow);
+                 $aConf['table']['data_raw_ad_impression'];
+        return $this->_getMaintenanceStatisticsLastRunInfo($type, "AdServer", $table, $oNow);
     }
 
     /**
-     * A method to delete old (ie. summarised) raw data.
+     * A method for summarising requests into a temporary table.
      *
-     * @param Date $oSummarisedTo The date/time up to which data have been summarised (i.e. data up
-     *                            to and including this date (minus any compact_stats_grace window)
-     *                            will be deleted).
-     * @return integer The number of rows deleted.
+     * @param PEAR::Date $oStart The start date/time to summarise from.
+     * @param PEAR::Date $oEnd The end date/time to summarise to.
+     * @return integer The number of request rows summarised.
      */
-    function deleteOldData($oSummarisedTo)
+    function summariseRequests($oStart, $oEnd)
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDeleteDate = $oSummarisedTo;
-        if ($aConf['maintenance']['compactStatsGrace'] > 0) {
-            $oDeleteDate->subtractSeconds((int) $aConf['maintenance']['compactStatsGrace']);
-        }
-        $resultRows = 0;
-        // Delete the tracker impressions
-        $table = $aConf['table']['prefix'] .
-                 $aConf['table']['data_raw_tracker_impression'];
-        $query = "
-            DELETE FROM
-                $table
-            WHERE
-                date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
-        MAX::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
-                   "') tracker impressions from the $table table", PEAR_LOG_DEBUG);
-        $rows = $this->oDbh->exec($query);
-        if (PEAR::isError($rows)) {
-            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-        }
-        $resultRows += $rows;
-        // Delete the tracker variable values
-        $table = $aConf['table']['prefix'] .
-                 $aConf['table']['data_raw_tracker_variable_value'];
-        $query = "
-            DELETE FROM
-                $table
-            WHERE
-                date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
-        MAX::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
-                   "') tracker variable values from the $table table", PEAR_LOG_DEBUG);
-        $rows = $this->oDbh->exec($query);
-        if (PEAR::isError($rows)) {
-            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-        }
-        $resultRows += $rows;
-        // Delete the tracker clicks
-        $table = $aConf['table']['prefix'] .
-                 $aConf['table']['data_raw_tracker_click'];
-        $query = "
-            DELETE FROM
-                $table
-            WHERE
-                date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
-        MAX::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
-                   "') tracker clicks from the $table table", PEAR_LOG_DEBUG);
-        $rows = $this->oDbh->exec($query);
-        if (PEAR::isError($rows)) {
-            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-        }
-        $resultRows += $rows;
-        return $resultRows;
+        // Summarise the requests
+        return $this->_summariseData($oStart, $oEnd, 'request');
+    }
+
+    /**
+     * A method for summarising impressions into a temporary table.
+     *
+     * @param PEAR::Date $oStart The start date/time to summarise from.
+     * @param PEAR::Date $oEnd The end date/time to summarise to.
+     * @return integer The number of impression rows summarised.
+     */
+    function summariseImpressions($oStart, $oEnd)
+    {
+        // Summarise the impressions
+        return $this->_summariseData($oStart, $oEnd, 'impression');
+    }
+
+    /**
+     * A method for summarising clicks into a temporary table.
+     *
+     * @param PEAR::Date $oStart The start date/time to summarise from.
+     * @param PEAR::Date $oEnd The end date/time to summarise to.
+     * @return integer The number of click rows summarised.
+     */
+    function summariseClicks($oStart, $oEnd)
+    {
+        // Summarise the clicks
+        return $this->_summariseData($oStart, $oEnd, 'click');
     }
 
 }

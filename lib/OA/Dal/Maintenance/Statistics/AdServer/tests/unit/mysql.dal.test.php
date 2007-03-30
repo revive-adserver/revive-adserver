@@ -28,22 +28,22 @@ $Id$
 require_once MAX_PATH . '/lib/max/DB.php';
 
 require_once MAX_PATH . '/lib/OA.php';
-require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysql.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Factory.php';
 
 /**
- * A class for testing the OA_Dal_Maintenance_Statistics_AdServer_MySql class.
+ * A class for testing the OA_Dal_Maintenance_Statistics_AdServer_* classes.
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
+class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql()
+    function Test_OA_Dal_Maintenance_Statistics_AdServer_Star()
     {
         $this->UnitTestCase();
     }
@@ -57,7 +57,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 60;
         $conf['table']['split'] = false;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
+        $dsa = $oMDMSF->factory("AdServer");
+        
         // Test with no data
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertNull($date);
@@ -114,7 +117,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $conf['table']['split'] = false;
         $conf['maintenance']['operationInterval'] = 30;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
+        $dsa = $oMDMSF->factory("AdServer");
 
         foreach ($aType as $type => $sqlData) {
             $returnColumnName = $type . 's';
@@ -273,7 +278,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
         TestEnv::startTransaction();
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
+        $dsa = $oMDMSF->factory("AdServer");
+        
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -325,7 +333,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -423,7 +431,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     " . MAX_CONNECTION_STATUS_APPROVED . "
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -523,7 +531,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     NULL
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -623,7 +631,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     ''
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -723,7 +731,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     'value'
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -877,7 +885,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     NULL
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -1031,7 +1039,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     ''
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -1185,7 +1193,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     'value'
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -1339,7 +1347,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     ''
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -1493,7 +1501,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     'value'
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -1647,7 +1655,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     'value'
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -1747,7 +1755,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     NULL
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -1847,7 +1855,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     ''
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -1947,7 +1955,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     'value'
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -2101,7 +2109,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     NULL
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -2255,7 +2263,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     ''
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -2409,7 +2417,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     'value'
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -2567,7 +2575,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     ''
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -2761,7 +2769,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     'value'
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -2919,7 +2927,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     'value2'
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -3077,7 +3085,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
                     'value'
                 )";
         $rows = $oDbh->exec($query);
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -3329,7 +3337,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Dedupe this hour
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         // Ensure that both conversions have NOT been deduped
         $query = "
@@ -3527,7 +3535,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Dedupe this hour
         $oStartDate = new Date('2005-09-05 13:00:00');
         $oEndDate   = new Date('2005-09-07 13:29:59');
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         // Ensure that both only the correct conversions has been deduped
         $query = "
@@ -3744,7 +3752,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         // Dedupe this hour
         $oStartDate = new Date('2005-09-05 14:00:00');
         $oEndDate   = new Date('2005-09-07 14:29:59');
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         // Ensure that both only the correct conversions has been deduped
         $query = "
@@ -3907,7 +3915,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
+        $dsa = $oMDMSF->factory("AdServer");
+        
         // Test with no data
         $start = new Date('2004-06-06 12:00:00');
         $end = new Date('2004-06-06 12:29:59');
@@ -4196,7 +4207,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $dsa->tempTables->dropTable('tmp_ad_connection');
         // Test with the data present, but the tracker module uninstalled
         $conf['modules']['Tracker'] = false;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         // Summarise where the other connections are
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
@@ -4242,7 +4253,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
+        $dsa = $oMDMSF->factory("AdServer");
+        
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
@@ -4290,7 +4304,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
@@ -4370,7 +4384,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
@@ -4450,7 +4464,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
@@ -4552,7 +4566,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
@@ -4656,7 +4670,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
@@ -4765,7 +4779,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
@@ -4875,7 +4889,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
@@ -4995,7 +5009,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
@@ -5105,7 +5119,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
@@ -5225,7 +5239,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
@@ -5899,7 +5913,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 30;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
+        $dsa = $oMDMSF->factory("AdServer");
+        
         // Test with no data
         $start = new Date('2004-06-06 12:00:00');
         $end   = new Date('2004-06-06 12:29:59');
@@ -6037,7 +6054,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
+        $dsa = $oMDMSF->factory("AdServer");
 
         // Test 1
         $start = new Date('2004-06-06 12:00:00');
@@ -6300,8 +6319,11 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 60;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
-        $oDate = &new Date();
+        
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
+        $dsa = $oMDMSF->factory("AdServer");
+        
+        $oDate = new Date();
         TestEnv::startTransaction();
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
@@ -6621,7 +6643,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $conf['maintenance']['compactStatsGrace'] = 0;
         // Enable the tracker
         $conf['modules']['Tracker'] = true;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
+        $dsa = $oMDMSF->factory("AdServer");
+        
         TestEnv::startTransaction();
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
@@ -6657,7 +6682,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         TestEnv::rollbackTransaction();
         // Disable the tracker
         $conf['modules']['Tracker'] = false;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         TestEnv::startTransaction();
         // Insert the test data
         $rows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
@@ -6692,7 +6717,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         $conf['maintenance']['compactStatsGrace'] = 3600;
         // Enable the tracker
         $conf['modules']['Tracker'] = true;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         TestEnv::startTransaction();
         // Insert the test data
         $rows = $oDbh->exec(DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
@@ -6726,7 +6751,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysql extends UnitTestCase
         TestEnv::rollbackTransaction();
         // Disable the tracker
         $conf['modules']['Tracker'] = false;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysql();
+        $dsa = $oMDMSF->factory("AdServer");
         TestEnv::startTransaction();
         // Insert the test data
         $rows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);

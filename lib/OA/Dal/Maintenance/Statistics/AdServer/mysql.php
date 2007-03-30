@@ -37,9 +37,9 @@ require_once 'Date.php';
  * The data access layer code for summarising raw data into statistics, for
  * the AdServer module.
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage MaintenanceStatistics
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class OA_Dal_Maintenance_Statistics_AdServer_mysql extends OA_Dal_Maintenance_Statistics_Common
 {
@@ -138,89 +138,7 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysql extends OA_Dal_Maintenance_St
         $aConf = $GLOBALS['_MAX']['CONF'];
         $table = $aConf['table']['prefix'] .
                  $aConf['table']['data_raw_ad_impression'];
-        return $this->_getMaintenanceStatisticsLastRunInfo($type, $table, $oNow);
-    }
-
-    /**
-     * A private function to do the job of
-     * {@link OA_Dal_Maintenance_Statistics_AdServer_mysql::getMaintenanceStatisticsLastRunInfo()},
-     * but with an extra parameter to specify the raw table to look in, in
-     * the case of maintenance statistics not having been run before.
-     *
-     * @access private
-     * @param integer $type The update type that occurred - that is,
-     *                      DAL_STATISTICS_COMMON_UPDATE_OI if the update was
-     *                      done on the basis of the operation interval,
-     *                      DAL_STATISTICS_COMMON_UPDATE_HOUR if the update
-     *                      was done on the basis of the hour, or
-     *                      DAL_STATISTICS_COMMON_UPDATE_BOTH if the update
-     *                      was done on the basis of both the operation
-     *                      interval and the hour.
-     * @param string $rawTable The raw table to use in case of no previous run.
-     * @param PEAR::Date $oNow An optional Date, used to specify the "current time", and
-     *                         to limit the method to only look for past maintenance
-     *                         statistics runs before this date. Normally only used
-     *                         to assist with re-generation of statistics in the event
-     *                         of faulty raw tables.
-     * @return mixed A PEAR::Date representing the date up to which the statistics
-     *               have been summarised, for the specified update type, or
-     *               the appropriate date based on raw data if maintenance
-     *               statistics has never been run for the Max module before.
-     *               Returns null if no raw data is available.
-     */
-    function _getMaintenanceStatisticsLastRunInfo($type, $rawTable, $oNow = null)
-    {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        if ($type == DAL_STATISTICS_COMMON_UPDATE_OI) {
-            $whereClause = 'WHERE (adserver_run_type = ' . DAL_STATISTICS_COMMON_UPDATE_OI .
-                           ' OR adserver_run_type = ' . DAL_STATISTICS_COMMON_UPDATE_BOTH. ')';
-            $rawType = 'oi';
-        } elseif ($type == DAL_STATISTICS_COMMON_UPDATE_HOUR) {
-            $whereClause = 'WHERE (adserver_run_type = ' . DAL_STATISTICS_COMMON_UPDATE_HOUR .
-                           ' OR adserver_run_type = ' . DAL_STATISTICS_COMMON_UPDATE_BOTH . ')';
-           $rawType = 'hour';
-        } elseif ($type == DAL_STATISTICS_COMMON_UPDATE_BOTH) {
-            $whereClause = 'WHERE (adserver_run_type = ' . DAL_STATISTICS_COMMON_UPDATE_BOTH . ')';
-            $rawType = 'hour';
-        } else {
-            MAX::debug('Invalid update type value ' . $type, PEAR_LOG_ERR);
-            MAX::debug('Aborting script execution', PEAR_LOG_ERR);
-            exit();
-        }
-        if (!is_null($oNow)) {
-            // Limit to past maintenance statistics runs before this Date
-            $whereClause .= ' AND updated_to < ' . "'" . $oNow->format('%Y-%m-%d %H:%M:%S') . "'";
-        }
-        $message = 'Getting the details of when maintenance statistics last ran for the AdServer module ' .
-                   'on the basis of the ';
-        if ($type == DAL_STATISTICS_COMMON_UPDATE_OI) {
-            $message .= 'operation interval';
-        } elseif ($type == DAL_STATISTICS_COMMON_UPDATE_HOUR) {
-            $message .= 'hour';
-        } elseif ($type == DAL_STATISTICS_COMMON_UPDATE_BOTH) {
-            $message .= 'both the opertaion interval and hour';
-        }
-        MAX::debug($message, PEAR_LOG_DEBUG);
-        $aRow = $this->oDalMaintenanceStatistics->getProcessLastRunInfo(
-            $aConf['table']['prefix'] . $aConf['table']['log_maintenance_statistics'],
-            array(),
-            $whereClause,
-            'updated_to',
-            array(
-                'tableName' => $rawTable,
-                'type'      => $rawType
-            )
-        );
-        if ($aRow === false) {
-            $error = 'Error finding details on when maintenance statistics last ran for the AdServer module.';
-            return MAX::raiseError($error, null, PEAR_ERROR_DIE);
-        }
-        if (!is_null($aRow)) {
-            $oDate = new Date($aRow['updated_to']);
-            return $oDate;
-        }
-        // No raw data was found
-        return null;
+        return $this->_getMaintenanceStatisticsLastRunInfo($type, "AdServer", $table, $oNow);
     }
 
     /**
@@ -232,7 +150,12 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysql extends OA_Dal_Maintenance_St
      */
     function summariseRequests($oStart, $oEnd)
     {
+        // Set the MySQL sort buffer size
+        $this->setSortBufferSize();
+        // Summarise the requests
         return $this->_summariseData($oStart, $oEnd, 'request');
+        // Restore the MySQL sort buffer size
+        $this->restoreSortBufferSize();
     }
 
     /**
@@ -244,7 +167,12 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysql extends OA_Dal_Maintenance_St
      */
     function summariseImpressions($oStart, $oEnd)
     {
+        // Set the MySQL sort buffer size
+        $this->setSortBufferSize();
+        // Summarise the impressions
         return $this->_summariseData($oStart, $oEnd, 'impression');
+        // Restore the MySQL sort buffer size
+        $this->restoreSortBufferSize();
     }
 
     /**
@@ -256,82 +184,12 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysql extends OA_Dal_Maintenance_St
      */
     function summariseClicks($oStart, $oEnd)
     {
-        return $this->_summariseData($oStart, $oEnd, 'click');
-    }
-
-    /**
-     * A private method to summarise request, impression or click data.
-     *
-     * @access private
-     * @param PEAR::Date $oStart The start date/time to summarise from.
-     * @param PEAR::Date $oEnd The end date/time to summarise to.
-     * @param string $type Type of data to summarise.
-     * @return integer The number of rows summarised.
-     */
-    function _summariseData($oStart, $oEnd, $type)
-    {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        if (empty($type)) {
-            return 0;
-        }
-        $type = strtolower($type);
-        $tmpTableName = 'tmp_ad_' . $type;
-        $countColumnName = $type . 's';
-        // Check the start and end dates
-         if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $aConf['maintenance']['operationInterval'])) {
-            return 0;
-        }
-        // Get the start and end dates of the operation interval ID
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart);
-        // Get the operation interval ID
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
-        // Create temporary table
-        $this->tempTables->createTable($tmpTableName);
         // Set the MySQL sort buffer size
         $this->setSortBufferSize();
-        // Summarise the requests
-        $baseTable = $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_' . $type];
-        $query = "
-            INSERT INTO
-                $tmpTableName
-                (
-                    day,
-                    hour,
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    creative_id,
-                    zone_id,
-                    $countColumnName
-                )
-            SELECT
-                DATE_FORMAT(drad.date_time, '%Y-%m-%d') AS day,
-                DATE_FORMAT(drad.date_time, '%k') AS hour,
-                {$aConf['maintenance']['operationInterval']} AS operation_interval,
-                $operationIntervalID AS operation_interval_id,
-                '".$aDates['start']->format('%Y-%m-%d %H:%M:%S')."' AS interval_start,
-                '".$aDates['end']->format('%Y-%m-%d %H:%M:%S')."' AS interval_end,
-                drad.ad_id AS ad_id,
-                drad.creative_id AS creative_id,
-                drad.zone_id AS zone_id,
-                COUNT(*) AS $countColumnName
-            FROM
-                $baseTable AS drad
-            WHERE
-                drad.date_time >= ".$oStart->format('%Y%m%d%H%M%S')."
-                AND drad.date_time <= ".$oEnd->format('%Y%m%d%H%M%S')."
-            GROUP BY
-                day, hour, ad_id, creative_id, zone_id";
-        MAX::debug("Summarising ad $type" . "s from the $baseTable table.", PEAR_LOG_DEBUG);
-        $rows = $this->oDbh->exec($query);
-        if (PEAR::isError($rows)) {
-            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-        }
+        // Summarise the clicks
+        return $this->_summariseData($oStart, $oEnd, 'click');
         // Restore the MySQL sort buffer size
         $this->restoreSortBufferSize();
-        return $rows;
     }
 
     /**

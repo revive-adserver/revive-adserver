@@ -33,7 +33,7 @@ require_once 'Date.php';
  *
  * @package    OpenadsDal
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openads.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  * @author     Radek Maciaszek <radek@m3.net>
  */
 class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase

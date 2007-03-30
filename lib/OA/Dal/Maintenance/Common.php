@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/OA.php';
  *
  * @package    OpenadsDal
  * @subpackage Maintenance
- * @author     Andrew Hill <andrew.hill@openads.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class OA_Dal_Maintenance_Common extends MAX_Dal_Common
 {

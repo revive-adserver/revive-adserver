@@ -33,9 +33,9 @@ require_once 'Date.php';
 /**
  * A class for testing the OA_Dal_Maintenance_Statistics_Common class.
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class Test_OA_Dal_Maintenance_Statistics_Common extends UnitTestCase
 {

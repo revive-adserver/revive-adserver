@@ -33,9 +33,9 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Tracker/mysql.php';
 /**
  * A class for testing the OA_Dal_Maintenance_Statistics_Tracker_mysql_MySql class.
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
 {

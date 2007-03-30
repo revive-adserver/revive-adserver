@@ -33,9 +33,9 @@ require_once 'Date.php';
  * The data access layer code for summarising raw data into statistics, for
  * the AdServer module, when split tables are in use.
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage MaintenanceStatistics
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends OA_Dal_Maintenance_Statistics_AdServer_mysql
 {
@@ -78,7 +78,7 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends OA_Dal_Maintenan
         $table = $aConf['table']['prefix'] .
                  $aConf['table']['data_raw_ad_impression'] . '_' .
                  date('Ymd');
-        return $this->_getMaintenanceStatisticsLastRunInfo($type, $table, $oNow);
+        return $this->_getMaintenanceStatisticsLastRunInfo($type, "AdServer", $table, $oNow);
     }
 
    /**
@@ -86,95 +86,13 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends OA_Dal_Maintenan
      *
      * @access private
      * @param PEAR::Date $oStart The start date/time to summarise from.
-     * @param PEAR::Date $oEnd The end date/time to summarise to.
-     * @param string $type Type of data to summarise.
+     * @param PEAR::Date $oEnd   The end date/time to summarise to.
+     * @param string     $type   Type of data to summarise.
      * @return integer The number of rows summarised.
     */
     function _summariseData($oStart, $oEnd, $type)
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        if (empty($type)) {
-            return 0;
-        }
-        $type = strtolower($type);
-        $tmpTableName = 'tmp_ad_' . $type;
-        $countColumnName = $type . 's';
-        // Check the start and end dates
-        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $aConf['maintenance']['operationInterval'])) {
-            return 0;
-        }
-        // Get the start and end dates of the operation interval ID
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart);
-        // How many days does the operation interval span?
-        $days = Date_Calc::dateDiff($aDates['start']->getDay(),
-                                    $aDates['start']->getMonth(),
-                                    $aDates['start']->getYear(),
-                                    $aDates['end']->getDay(),
-                                    $aDates['end']->getMonth(),
-                                    $aDates['end']->getYear());
-        // Get the operation interval ID
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
-        // Create the temporary summary table
-        $this->tempTables->createTable($tmpTableName);
-        // Set the MySQL sort buffer size
-        $this->setSortBufferSize();
-        // Summarise the data
-        $returnRows = 0;
-        $currentDate = new Date();
-        $currentDate->copy($aDates['start']);
-        for ($counter = 0; $counter <= $days; $counter++) {
-            // Set the appropriate data_raw_ad_request table
-            $requestTable = $aConf['table']['prefix'] .
-                            $aConf['table']['data_raw_ad_' . $type] . '_' .
-                            $currentDate->format('%Y%m%d');
-            $query = "
-                INSERT INTO
-                    $tmpTableName
-                    (
-                        day,
-                        hour,
-                        operation_interval,
-                        operation_interval_id,
-                        interval_start,
-                        interval_end,
-                        ad_id,
-                        creative_id,
-                        zone_id,
-                        $countColumnName
-                    )
-                SELECT
-                    DATE_FORMAT(drar.date_time, '%Y-%m-%d') AS day,
-                    DATE_FORMAT(drar.date_time, '%k') AS hour,
-                    {$aConf['maintenance']['operationInterval']} AS operation_interval,
-                    $operationIntervalID AS operation_interval_id,
-                    '".$aDates['start']->format('%Y-%m-%d %H:%M:%S')."' AS interval_start,
-                    '".$aDates['end']->format('%Y-%m-%d %H:%M:%S')."' AS interval_end,
-                    drar.ad_id AS ad_id,
-                    drar.creative_id AS creative_id,
-                    drar.zone_id AS zone_id,
-                    COUNT(*) AS $countColumnName
-                FROM
-                    $requestTable AS drar
-                WHERE
-                    drar.date_time >= ".$oStart->format('%Y%m%d%H%M%S')."
-                    AND drar.date_time <= ".$oEnd->format('%Y%m%d%H%M%S')."
-                GROUP BY
-                    day, hour, ad_id, creative_id, zone_id";
-            MAX::debug("Summarising ad $type" . "s from the $requestTable table.", PEAR_LOG_DEBUG);
-            PEAR::pushErrorHandling(null);
-            $rows = $this->oDbh->exec($query);
-            PEAR::popErrorHandling();
-            if (!PEAR::isError($rows)) {
-                $returnRows += $rows;
-            } elseif (!PEAR::isError($rows, DB_ERROR_NOSUCHTABLE)) {
-                MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-            }
-            // Update the split table being used
-            $currentDate = $currentDate->getNextDay();
-        }
-        // Restore the MySQL sort buffer size
-        $this->restoreSortBufferSize();
-        return $returnRows;
+        return parent::_summariseData($oStart, $oEnd, $type, true);
     }
 
     /**

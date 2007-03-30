@@ -28,34 +28,24 @@ $Id$
 require_once MAX_PATH . '/lib/max/DB.php';
 
 require_once MAX_PATH . '/lib/OA.php';
-require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysqlSplit.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Factory.php';
 
 /**
- * A class for testing the OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit class.
+ * A class for testing the OA_Dal_Maintenance_Statistics_AdServer_*Split class.
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCase
+class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit()
+    function Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit()
     {
         $this->UnitTestCase();
-    }
-
-    /**
-     * Tests that the singleton() method only ever returns one class instance.
-     */
-    function xtestSingleton()
-    {
-        $first = new OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit();
-        $second = new OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit();
-        $this->assertIdentical($first, $second);
     }
 
     /**
@@ -67,7 +57,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $oDbh = &OA_DB::singleton();
         $conf['table']['split'] = true;
         $conf['maintenance']['operationInterval'] = 60;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit();
+        
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
+        $dsa = $oMDMSF->factory("AdServer");
+        
         // Create the required tables
         $now = new Date();
         $dsa->tables->createTable('data_raw_ad_impression', $now);
@@ -162,7 +155,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 30;
         $conf['table']['split'] = true;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit();
+        
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
+        $dsa = $oMDMSF->factory("AdServer");
+        
         // Create the required tables
         $now = new Date('2004-05-06');
         $dsa->tables->createTable('data_raw_ad_request', $now);
@@ -253,7 +249,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 30;
         $conf['table']['split'] = true;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit();
+        
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
+        $dsa = $oMDMSF->factory("AdServer");
+        
         // Create the required tables
         $now = new Date('2004-05-06');
         $dsa->tables->createTable('data_raw_ad_impression', $now);
@@ -344,7 +343,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 30;
         $conf['table']['split'] = true;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit();
+        
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
+        $dsa = $oMDMSF->factory("AdServer");
+        
         // Create the required tables
         $now = new Date('2004-05-06');
         $dsa->tables->createTable('data_raw_ad_click', $now);
@@ -436,7 +438,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $conf['maintenance']['operationInterval'] = 30;
         $conf['table']['split'] = true;
         $conf['modules']['Tracker'] = true;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit();
+        
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
+        $dsa = $oMDMSF->factory("AdServer");
+        
         // Create the required tables
         $now = new Date('2004-05-06');
         $dsa->tables->createTable('data_raw_ad_click', $now);
@@ -727,7 +732,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $dsa->tempTables->dropTable('tmp_ad_connection');
         // Test with the data present, but the tracker module uninstalled
         $conf['modules']['Tracker'] = false;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit();
+        $dsa = $oMDMSF->factory("AdServer");
         // Summarise where the other connections are
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
@@ -746,7 +751,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $conf['maintenance']['operationInterval'] = 30;
         $conf['table']['split'] = true;
         $conf['modules']['Tracker'] = true;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit();
+        
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
+        $dsa = $oMDMSF->factory("AdServer");
+        
         // Create the required tables
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
@@ -1041,7 +1049,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $conf['maintenance']['operationInterval'] = 30;
         $conf['table']['split'] = true;
         $conf['modules']['Tracker'] = false;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit();
+        $dsa = $oMDMSF->factory("AdServer");
         // Create the (minimum set of) required tables
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -1133,7 +1141,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $conf['maintenance']['compactStatsGrace'] = 0;
         // Enable the tracker
         $conf['modules']['Tracker'] = true;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit();
+        
+        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
+        $dsa = $oMDMSF->factory("AdServer");
+        
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);
         $dsa->tables->createTable('data_raw_ad_impression', $now);
@@ -1217,7 +1228,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $conf['maintenance']['compactStatsGrace'] = 0;
         // Disable the tracker
         $conf['modules']['Tracker'] = false;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit();
+        $dsa = $oMDMSF->factory("AdServer");
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);
         $dsa->tables->createTable('data_raw_ad_impression', $now);
@@ -1298,7 +1309,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $conf['maintenance']['compactStatsGrace'] = 0;
         // Disable the tracker
         $conf['modules']['Tracker'] = false;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit();
+        $dsa = $oMDMSF->factory("AdServer");
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);
         $dsa->tables->createTable('data_raw_ad_impression', $now);
@@ -1386,7 +1397,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $conf['maintenance']['compactStatsGrace'] = 3600;
         // Enable the tracker
         $conf['modules']['Tracker'] = true;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit();
+        $dsa = $oMDMSF->factory("AdServer");
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);
         $dsa->tables->createTable('data_raw_ad_impression', $now);
@@ -1468,7 +1479,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $conf['maintenance']['compactStatsGrace'] = 3600;
         // Disable the tracker
         $conf['modules']['Tracker'] = false;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit();
+        $dsa = $oMDMSF->factory("AdServer");
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);
         $dsa->tables->createTable('data_raw_ad_impression', $now);
@@ -1550,7 +1561,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsAdServermysqlSplit extends UnitTestCa
         $conf['maintenance']['compactStatsGrace'] = 3600;
         // Disable the tracker
         $conf['modules']['Tracker'] = false;
-        $dsa = new OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit();
+        $dsa = $oMDMSF->factory("AdServer");
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);
         $dsa->tables->createTable('data_raw_ad_impression', $now);

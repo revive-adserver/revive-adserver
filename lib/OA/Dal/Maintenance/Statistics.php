@@ -38,7 +38,7 @@ require_once 'Date.php';
  * @package    OpenadsDal
  * @subpackage MaintenanceStatistics
  * @author     James Floyd <james@m3.net>
- * @author     Andrew Hill <andrew.hill@openads.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  * @author     Radek Maciaszek <radek@m3.net>
  */
 class OA_Dal_Maintenance_Statistics extends OA_Dal_Maintenance_Common
