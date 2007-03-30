@@ -44,9 +44,7 @@ require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/Admin/Upgrade.php';
 require_once MAX_PATH . '/lib/max/language/Default.php';
 require_once MAX_PATH . '/lib/max/language/Settings.php';
-require_once MAX_PATH . '/lib/max/other/lib-db.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
-
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 
@@ -67,9 +65,9 @@ if (!isset($installvars['language']) && isset($language)) {
 Language_Default::load();
 Language_Settings::load();
 
+
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
-require_once MAX_PATH . '/www/admin/lib-install-db.inc.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
@@ -90,7 +88,6 @@ unset($session);
 
 // Authorize the user
 phpAds_Start();
-
 // Setup navigation
 $phpAds_nav = array (
     "admin" => array (
