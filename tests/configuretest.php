@@ -33,6 +33,7 @@ require_once(MAX_PATH . '/tests/testClasses/CCConfigWriter.php');
  */
 
 if ($_SERVER['argc'] != 8) {
+    echo "The program expects 7 arguments!";
     exit(1);
 }
 

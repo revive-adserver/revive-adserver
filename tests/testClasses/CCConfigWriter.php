@@ -25,14 +25,14 @@
 $Id: TestEnv.php 5447 2007-03-28 14:33:48Z andrew.hill@openads.org $
 */
 
-require_once('Config.php');
+require_once(MAX_PATH . '/lib/pear/Config.php');
 
 class CCConfigWriter
 {
     function configureTest($type, $host, $port, $username, $password, $name, $tableType)
     {
         $fTestConfigSource = MAX_PATH . '/etc/test.conf.ini';
-        $fTestConfigDestination = MAX_PATH . '/var/test.conf.test.ini';
+        $fTestConfigDestination = MAX_PATH . '/var/test.conf.ini';
         $config = new Config();
         $configContainer = &$config->parseConfig($fTestConfigSource, 'inifile');
 
