@@ -3776,17 +3776,17 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         $query = 'SELECT * from ' . $conf['table']['prefix'] . $conf['table']['data_summary_zone_impression_history'];
         $rc = $oDbh->query($query);
-        $aRow = $rc->fetchAll();
-        $this->assertTrue(isset($aRow[0]['data_summary_zone_impression_history_id']));
-        $this->assertTrue(isset($aRow[0]['operation_interval']));
-        $this->assertTrue(isset($aRow[0]['operation_interval_id']));
-        $this->assertTrue(isset($aRow[0]['interval_start']));
-        $this->assertTrue(isset($aRow[0]['interval_end']));
-        $this->assertTrue(isset($aRow[0]['zone_id']));
-        $this->assertTrue(isset($aRow[0]['forecast_impressions']));
+        $aRows = $rc->fetchAll();
+        $this->assertTrue(isset($aRows[0]['data_summary_zone_impression_history_id']));
+        $this->assertTrue(isset($aRows[0]['operation_interval']));
+        $this->assertTrue(isset($aRows[0]['operation_interval_id']));
+        $this->assertTrue(isset($aRows[0]['interval_start']));
+        $this->assertTrue(isset($aRows[0]['interval_end']));
+        $this->assertTrue(isset($aRows[0]['zone_id']));
+        $this->assertTrue(isset($aRows[0]['forecast_impressions']));
 
         // Test forecast values written
-        foreach($row as $key => $aValues) {
+        foreach($aRows as $key => $aValues) {
             $this->assertTrue($aValues['forecast_impressions'] > 0);
             $this->assertTrue(!(empty($aValues['interval_start'])));
             $this->assertTrue(!(empty($aValues['interval_end'])));
