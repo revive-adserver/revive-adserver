@@ -608,6 +608,7 @@ function phpAds_PageFooter()
                     echo "<script language='JavaScript'>\n";
                     echo "<!--//\n";
                     echo "\talert('".$strMaintenanceNotActive."');\n";
+                    echo "\tlocation.replace('maintenance-maintenance.php');\n";
                     echo "//-->\n";
                     echo "</script>\n";
                 }
