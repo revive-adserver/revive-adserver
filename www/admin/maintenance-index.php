@@ -37,8 +37,8 @@ if ($conf['max']['installed']) {
     if (phpAds_isUser(phpAds_Agency)) {
         MAX_Admin_Redirect::redirect('maintenance-finance.php');
     }
-    
-    MAX_Admin_Redirect::redirect('maintenance-priority.php');
+
+    MAX_Admin_Redirect::redirect('maintenance-maintenance.php');
 }
 
 ?>

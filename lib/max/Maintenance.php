@@ -364,8 +364,10 @@ class MAX_Maintenance
     /**
      * A method to update maintenance last run information for old maintenance code
      */
-    function updateLastRun()
+    function updateLastRun($bScheduled = false)
     {
+        $sField = $bScheduled ? 'maintenance_cron_timestamp' : 'maintenance_timestamp';
+
         // Update the timestamp (for old maintenance code)
         // TODO: Move this query to the DAL, so that other code (tests, installation) can call it.
         MAX::debug('Updating the timestamp in the preference table', PEAR_LOG_DEBUG);
@@ -373,7 +375,7 @@ class MAX_Maintenance
             UPDATE
                 {$this->conf['table']['prefix']}{$this->conf['table']['preference']}
             SET
-                maintenance_timestamp = UNIX_TIMESTAMP(NOW())";
+                {$sField} = UNIX_TIMESTAMP(NOW())";
         $rows = $this->oDbh->exec($query);
     }
 }

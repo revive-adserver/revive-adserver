@@ -46,4 +46,7 @@ require_once MAX_PATH . '/lib/max/Maintenance.php';
 $oMaint =& new MAX_Maintenance();
 $oMaint->run();
 
+// Update scheduled maintenance last run record
+$oMaint->updateLastRun(true);
+
 ?>

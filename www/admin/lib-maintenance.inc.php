@@ -36,7 +36,7 @@ Language_Maintenance::load();
 
 function phpAds_MaintenanceSelection($section)
 {
-    global 
+    global
          $phpAds_TextDirection
         ,$strBanners
         ,$strCache
@@ -45,6 +45,7 @@ function phpAds_MaintenanceSelection($section)
         ,$strSourceEdit
         ,$strStats
         ,$strStorage
+        ,$strMaintenance
     ;
 
 ?>
@@ -62,40 +63,41 @@ function maintenance_goto_section()
 <?php
     $conf =& $GLOBALS['_MAX']['CONF'];
     $pref =& $GLOBALS['_MAX']['PREF'];
-    
+
     echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
     echo "<tr><form name='maintenance_selection'><td height='35'>";
     echo "<b>".$strChooseSection.":&nbsp;</b>";
     echo "<select name='section' onChange='maintenance_goto_section();'>";
-    
-    if (phpAds_isUser(phpAds_Admin)) {    
+
+    if (phpAds_isUser(phpAds_Admin)) {
+        echo "<option value='maintenance'".($section == 'maintenance' ? ' selected' : '').">".$strMaintenance."</option>";
         echo "<option value='banners'".($section == 'banners' ? ' selected' : '').">".$strBanners."</option>";
         echo "<option value='priority'".($section == 'priority' ? ' selected' : '').">".$strPriority."</option>";
-    
+
         $login = 'ftp://' . $conf['store']['ftpUsername'] . ':' . $conf['store']['ftpPassword'] . '@' .
                  $conf['store']['ftpHost'] . '/' . $conf['store']['ftpPath'];
-        if ($pref['type_web_allow'] == true && (($conf['store']['mode'] == 0 && 
-            $conf['store']['webDir'] != '') || ($conf['store']['mode'] == 1 && 
+        if ($pref['type_web_allow'] == true && (($conf['store']['mode'] == 0 &&
+            $conf['store']['webDir'] != '') || ($conf['store']['mode'] == 1 &&
             $login != '')) && $conf['webpath']['images'] != '')
             echo "<option value='storage'".($section == 'storage' ? ' selected' : '').">".$strStorage."</option>";
-        
+
         if (!isset($conf['delivery']['cache']) || $conf['delivery']['cache'] != 'none')
             echo "<option value='cache'".($section == 'zones' ? ' selected' : '').">".$strCache."</option>";
-    
+
         if ($conf['delivery']['acls']) {
             echo "<option value='acls'".($section == 'acls' ? ' selected' : '').">Delivery Limitations</option>";
         }
-        
+
         echo "<option value='appendcodes'".($section == 'appendcodes' ? ' selected' : '').">Append codes</option>";
     }
-    
+
     echo "<option value='finance'".($section == 'finance' ? ' selected' : '').">Finance</option>";
-        
+
     echo "</select>&nbsp;<a href='javascript:void(0)' onClick='maintenance_goto_section();'>";
     echo "<img src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";
     echo "</td></form></tr>";
       echo "</table>";
-    
+
     phpAds_ShowBreak();
 }
 
