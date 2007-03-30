@@ -119,8 +119,7 @@ class TestRunner
         // Find all the tests in the layer
         $tests = TestFiles::getLayerTestFiles($type, $layer);
         // Add the test files to a SimpleTest group
-        $testName = strtoupper($type) . ': ' .
-            $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][0] .' Tests';
+        $testName = $this->_testName($layer);
         $test = new GroupTest($testName);
         foreach ($tests as $layerCode => $folders) {
             foreach ($folders as $folder => $files) {
@@ -150,8 +149,7 @@ class TestRunner
         // that they are NOT obtained recursively!
         $tests = TestFiles::getTestFiles($type, $layer, MAX_PROJECT_PATH . '/' . $folder, false);
         // Add the test files to a SimpleTest group
-        $testName = strtoupper($type) . ': ' .
-            $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][0] . ': Tests in ' . $folder;
+        $testName = $this->_testName($layer, $folder);
         $test = new GroupTest($testName);
         foreach ($tests as $folder => $data) {
             foreach ($data as $index => $file) {
@@ -176,14 +174,43 @@ class TestRunner
         // Set up the environment for the test
         TestRunner::setupEnv($layer);
         // Add the test file to a SimpleTest group
-        $testName = strtoupper($type) . ': ' .
-            $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][0] . ': ' . $folder . '/' . $file;
+        $testName = $this->_testName($layer, $folder, $file);
         $test = new GroupTest($testName);
         $testFile = MAX_PROJECT_PATH . '/' . $folder . '/' . constant($type . '_TEST_STORE') . '/' . $file;
         $test->addTestFile($testFile);
         $this->runCase($test);
         // Tear down the environment for the test
         TestRunner::teardownEnv($layer);
+    }
+    
+    /**
+     * A private method to create the test name for display.
+     *
+     * @access private
+     * @param string $layer  The name of a layer group to run.
+     * @param string $folder The folder group to run, not including "tests/unit". Optional.
+     * @param string $file   The file to run, including ".test.php". Optional.
+     * @return string The display string for the test.
+     */
+    function _testName($layer, $folder = null, $file = null)
+    {
+        $type = $GLOBALS['_MAX']['TEST']['test_type'];
+        $name = ''.
+        $name .= strtoupper($type) . ': ';
+        $unitname .= $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][0];
+        if (preg_match('/\(DB\)/', $unitname)) {
+            $oDbh = &OA_DB::singleton();
+            $unitname = preg_replace('/\(DB\)/', '(DB -> ' . $oDbh->dsn['phptype'] . ')', $unitname);
+        }
+        $name .= $unitname;
+        if (is_null($folder) && is_null($file)) {
+            $name .= ' Tests';
+        } else if (!is_null($folder) && is_null($file)) {
+            $name .= ': Tests in ' . $folder;
+        } else if (!is_null($folder) && !is_null($file)) {
+            $name .= ': ' . $folder . '/' . $file;
+        }
+        return $name;
     }
 
     /**
