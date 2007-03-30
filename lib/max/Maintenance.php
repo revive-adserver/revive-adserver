@@ -34,14 +34,15 @@ require_once MAX_PATH . '/lib/max/other/lib-reports.inc.php';
 require_once MAX_PATH . '/scripts/maintenance/translationStrings.php';
 
 require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once 'Date.php';
 
 /**
  * A library class for providing common maintenance process methods.
  *
- * @static
  * @package    Max
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@opends.org>
+ * @author     Matteo Beccati <matteo.beccati@openads.org>
  */
 class MAX_Maintenance
 {
@@ -178,40 +179,48 @@ class MAX_Maintenance
      */
     function run()
     {
-        MAX::debug('Running Maintenance Statistics and Priority', PEAR_LOG_INFO);
+        // Acquire the maintenance lock
+        $oLock =& OA_DB_AdvisoryLock::factory();
 
-        // Record the current time, and register with the ServiceLocator
-        $oDate = new Date();
-        $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('now', $oDate);
+        if ($oLock->get(OA_LOCK_TYPE_MAINTENANCE)) {
+            MAX::debug('Running Maintenance Statistics and Priority', PEAR_LOG_INFO);
 
-        // Check the operation interval is valid
-        $result = MAX_OperationInterval::checkOperationIntervalValue($this->conf['maintenance']['operationInterval']);
-        if (PEAR::isError($result)) {
-            // Unable to continue!
-            MAX::raiseError($result, null, PEAR_ERROR_DIE);
+            // Update the timestamp for old maintenance code and auto-maintenance
+            $this->updateLastRun();
+
+            // Record the current time, and register with the ServiceLocator
+            $oDate = new Date();
+            $oServiceLocator = &ServiceLocator::instance();
+            $oServiceLocator->register('now', $oDate);
+
+            // Check the operation interval is valid
+            $result = MAX_OperationInterval::checkOperationIntervalValue($this->conf['maintenance']['operationInterval']);
+            if (PEAR::isError($result)) {
+                // Unable to continue!
+                MAX::raiseError($result, null, PEAR_ERROR_DIE);
+            }
+
+            // Create lockfile, if required
+            $this->getLock();
+
+            // Run the Maintenance Statistics Engine (MSE) process
+            $this->runMSE();
+
+            // Run Midnight phpAdsNew Tasks
+            $this->runMidnightTasks();
+
+            // Release lock before starting MPE
+            $oLock->release();
+
+            // Run the Maintenance Priority Engine (MPE) process, ensuring that the
+            // process always runs, even if instant update of priorities is disabled
+            $this->runMPE();
+
+            // Remove lockfile, if required
+            $this->releaseLock();
+
+            MAX::debug('Maintenance Statistics and Priority Completed', PEAR_LOG_INFO);
         }
-
-        // Create lockfile, if required
-        $this->getLock();
-
-        // Run the Maintenance Statistics Engine (MSE) process
-        $this->runMSE();
-
-        // Run Midnight phpAdsNew Tasks
-        $this->runMidnightTasks();
-
-        // Run the Maintenance Priority Engine (MPE) process, ensuring that the
-        // process always runs, even if instant update of priorities is disabled
-        $this->runMPE();
-
-        // Remove lockfile, if required
-        $this->releaseLock();
-
-        // Update the timestamp (for old maintenance code)
-        $this->updateLastRun();
-
-        MAX::debug('Maintenance Statistics and Priority Completed', PEAR_LOG_INFO);
     }
 
     /**

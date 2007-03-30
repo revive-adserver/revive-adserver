@@ -83,4 +83,11 @@ if (!empty($row['html'])) {
 // stop benchmarking
 MAX_benchmarkStop();
 
+// Run automaintenance, if needed
+if (!empty($GLOBALS['_MAX']['CONF']['maintenance']['autoMaintenance'])) {
+    require_once '/lib/OA/Maintenance/Auto.php';
+
+    OA_Maintenance_Auto::run();
+}
+
 ?>
