@@ -186,6 +186,13 @@ class Openads_Schema_Manager
             $aCurr_definition                   = $this->oSchema->parseDatabaseDefinitionFile($this->schema_trans);
             //$aCurr_definition                   = $this->aDB_definition;
             $aChanges                           = $this->oSchema->compareDefinitions($aCurr_definition, $aPrev_definition);
+            if (isset($aChanges['tables']['add']))
+            {
+                foreach ($aChanges['tables']['add'] AS $table => $val)
+                {
+                    $aChanges['tables']['add'][$table] = array('was'=>$table);
+                }
+            }
             $this->aDump_options['output']      = ($output ? $output : $this->changes_trans);
             $this->aDump_options['xsl_file']    = "xsl/mdb2_changeset.xsl";
             $this->aDump_options['split']       = true;
@@ -592,6 +599,44 @@ class Openads_Schema_Manager
                 }
             }
         }
+        $this->aDump_options['output']     = $input_file;
+        $this->aDump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
+        $this->aDump_options['split']      = false;
+        $this->aDump_options['rewrite']    = true; // this is a rewrite of a previously split changeset, don't split it again
+        $result = $this->oSchema->dumpChangeset($aChanges, $this->aDump_options);
+
+        return false;
+    }
+
+    function tableWasSave($input_file, $table_name, $table_name_was)
+    {
+
+        $aChanges = $this->oSchema->parseChangesetDefinitionFile($input_file);
+        if ($table_name != $table_name_was)
+        {
+            if (isset($aChanges['constructive']['tables']['add'][$table_name]))
+            {
+                unset($aChanges['constructive']['tables']['add'][$table_name]);
+                if (empty($aChanges['constructive']['tables']['add']))
+                {
+                    unset($aChanges['constructive']['tables']['add']);
+                }
+                $aChanges['constructive']['tables']['rename'][$table_name]['was'] = $table_name_was;
+                if (isset($aChanges['destructive']['tables']['remove'][$table_name_was]))
+                {
+                    unset($aChanges['destructive']['tables']['remove'][$table_name_was]);
+                    if (empty($aChanges['destructive']['tables']['remove']))
+                    {
+                        unset($aChanges['destructive']['tables']['remove']);
+                    }
+                }
+            }
+            else if (isset($aChanges['constructive']['tables']['rename'][$table_name]))
+            {
+                $aChanges['constructive']['tables']['rename'][$table_name]['was'] = $table_name_was;
+            }
+        }
+
         $this->aDump_options['output']     = $input_file;
         $this->aDump_options['xsl_file']   = "xsl/mdb2_changeset.xsl";
         $this->aDump_options['split']      = false;

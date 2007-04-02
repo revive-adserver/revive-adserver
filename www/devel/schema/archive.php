@@ -90,6 +90,10 @@ else if (array_key_exists('xajax', $_POST))
 {
     $file = $_COOKIE['changesetFile'];
 }
+else if (in_array('exit', $_POST))
+{
+    $file = MAX_CHG.$_COOKIE['changesetFile'];
+}
 else if (array_key_exists('btn_migration_create', $_POST))
 {
     $schemaFile = $_COOKIE['schemaFile'];
@@ -141,6 +145,37 @@ else if (array_key_exists('btn_field_save', $_POST))
     $field_name = $_POST['fld_old_name'];
     $field_name_was = $_POST['fld_new_name'];
     $oaSchema->fieldWasSave(MAX_CHG.$changesFile, $table_name, $field_name, $field_name_was);
+
+    $file = $schemaFile;
+}
+else if (array_key_exists('btn_table_save', $_POST))
+{
+    $schemaFile = $_COOKIE['schemaFile'];
+    if (!$schemaFile)
+    {
+        $schemaFile = MAX_PATH.'/etc/tables_core.xml';
+    }
+    $changesFile = $_COOKIE['changesetFile'];
+    if (!$changesFile)
+    {
+        $changesFile = MAX_PATH.'/var/changes_tables_core.xml';
+    }
+    else
+    {
+        $schemaFile = 'changes/'.str_replace('changes_', 'schema_', $changesFile);
+    }
+
+    require_once 'oaSchema.php';
+    $oaSchema = & new Openads_Schema_Manager($schemaFile, $changesFile);
+
+    if (($aErrs = $oaSchema->checkPermissions()) !== true) {
+        die(join("<br />\n", $aErrs));
+    }
+
+    //$table_name = $_POST['table_name'];
+    $table_name = $_POST['tbl_old_name'];
+    $table_name_was = $_POST['tbl_new_name'];
+    $oaSchema->tableWasSave(MAX_CHG.$changesFile, $table_name, $table_name_was);
 
     $file = $schemaFile;
 }

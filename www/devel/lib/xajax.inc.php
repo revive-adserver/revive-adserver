@@ -71,8 +71,10 @@ function loadChangeset()
 
         if (is_null($changefile))
         {
-            $objResponse->addAssign('was_edit',"style.display", 'none');
-            $objResponse->addAssign('was_show',"style.display", 'inline');
+            $objResponse->addAssign('was_edit_field',"style.display", 'none');
+            $objResponse->addAssign('was_show_field',"style.display", 'inline');
+            $objResponse->addAssign('was_edit_table',"style.display", 'none');
+            $objResponse->addAssign('was_show_table',"style.display", 'inline');
             global $oaSchema;
             if ($oaSchema)
             {
@@ -141,8 +143,8 @@ function editTableProperty($form, $elementId)
 	$id = $elementId;
 	$objResponse->addAssign('tbl_old_'.$id,"style.display", 'none');
     $objResponse->addAssign('tbl_new_'.$id,"style.display", 'inline');
-    $objResponse->addAssign('btn_tbl_save_'.$id,"style.display", 'inline');
-    $objResponse->addAssign('btn_tbl_exit_'.$id,"style.display", 'inline');
+    $objResponse->addAssign('btn_table_save_'.$id,"style.display", 'inline');
+    $objResponse->addAssign('btn_exit_'.$id,"style.display", 'inline');
 	return $objResponse;
 }
 
@@ -153,8 +155,8 @@ function exitTableProperty($form, $elementId)
     $objResponse->addAssign('tbl_new_'.$id,"value", '');
 	$objResponse->addAssign('tbl_old_'.$id,"style.display", 'inline');
     $objResponse->addAssign('tbl_new_'.$id,"style.display", 'none');
-    $objResponse->addAssign('btn_tbl_save_'.$id,"style.display", 'none');
-    $objResponse->addAssign('btn_tbl_exit_'.$id,"style.display", 'none');
+    $objResponse->addAssign('btn_table_save_'.$id,"style.display", 'none');
+    $objResponse->addAssign('btn_exit_'.$id,"style.display", 'none');
 	return $objResponse;
 }
 

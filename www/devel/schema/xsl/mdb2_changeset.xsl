@@ -116,11 +116,46 @@
                             <xsl:text>tables added to schema</xsl:text>
                         </span>
                     </th>
+                    <th class="tableheader" style="text-align:left;">was called</th>
                 </tr>
-                <xsl:for-each select="add">
+                <xsl:for-each select="add/table">
                     <tr>
                         <td class="tablebody">
-                            <xsl:value-of select="table"/>
+                            <xsl:value-of select="name"/>
+                        </td>
+                        <td class="tablebody">
+                            <span id="was_edit_table" style="display:inline;">
+                                <xsl:call-template name="showwastable">
+                                    <xsl:with-param name="table">
+                                        <xsl:value-of select="name"/>
+                                    </xsl:with-param>
+                                </xsl:call-template>
+                            </span>
+                            <span id="was_show_table" style="display:none;">
+                                <xsl:value-of select="was"/>
+                            </span>
+                        </td>
+                    </tr>
+                </xsl:for-each>
+            </TABLE>
+        </xsl:if>
+        <xsl:if test="rename">
+            <TABLE class="tablemain">
+                <tr>
+                    <th class="tableheader" style="text-align:left;">
+                        <span class="titlemini">
+                            <xsl:text>tables renamed in schema</xsl:text>
+                        </span>
+                    </th>
+                    <th class="tableheader" style="text-align:left;">was called</th>
+                </tr>
+                <xsl:for-each select="rename/table">
+                    <tr>
+                        <td class="tablebody">
+                            <xsl:value-of select="name"/>
+                        </td>
+                        <td class="tablebody">
+                            <xsl:value-of select="was"/>
                         </td>
                     </tr>
                 </xsl:for-each>
@@ -291,8 +326,8 @@
         <xsl:if test="$method!='remove'">
             <xsl:if test="$method!='change'">
                 <td class="tablebody">
-                    <span id="was_edit" style="display:inline;">
-                        <xsl:call-template name="showwas">
+                    <span id="was_edit_field" style="display:inline;">
+                        <xsl:call-template name="showwasfield">
                             <xsl:with-param name="table">
                                 <xsl:value-of select="$table"/>
                             </xsl:with-param>
@@ -301,7 +336,7 @@
                             </xsl:with-param-->
                         </xsl:call-template>
                     </span>
-                    <span id="was_show" style="display:none;">
+                    <span id="was_show_field" style="display:none;">
                         <xsl:value-of select="was"/>
                     </span>
                 </td>
@@ -384,7 +419,7 @@
     </tr>
 </xsl:template>
 
-<xsl:template name="showwas">
+<xsl:template name="showwasfield">
     <xsl:param name="table">unkown</xsl:param>
     <xsl:variable name="field"><xsl:value-of select="name"/></xsl:variable>
     <xsl:variable name="fieldname"><xsl:value-of select="$table"/>_<xsl:value-of select="$field"/></xsl:variable>
@@ -403,6 +438,29 @@
 
         <input type="hidden" name="fld_old_name" value="{$field}"/>
         <input type="hidden" name="table_name" value="{$table}"/>
+
+    </form>
+</xsl:template>
+
+<xsl:template name="showwastable">
+    <xsl:param name="table">unkown</xsl:param>
+    <xsl:variable name="field"><xsl:value-of select="name"/></xsl:variable>
+    <xsl:variable name="fieldname"><xsl:value-of select="$table"/></xsl:variable>
+    <xsl:variable name="value"><xsl:value-of select="was"/></xsl:variable>
+    <xsl:variable name="form_name"><xsl:text>frm_</xsl:text><xsl:value-of select="$value"/></xsl:variable>
+
+    <form id="{$form_name}" method="POST" action="archive.php">
+
+        <span class="titlemini" id="tbl_old_{$fieldname}" name="tbl_old_name" style="cursor: pointer;display:inline;" ondblclick="xajax_editTableProperty(xajax.getFormValues('{$form_name}'),'{$table}');" ><xsl:value-of select="$value"/></span>
+
+        <input type="text" id="tbl_new_{$fieldname}" name="tbl_new_name" ondblclick="xajax_editTableProperty(xajax.getFormValues('{$form_name}'),'{$table}');" style="display:none" value="{$value}"/>
+
+        <input type="submit" id="btn_table_save_{$fieldname}" name="btn_table_save" style="display:none" value="save"/>
+
+        <input type="submit" id="btn_exit_{$fieldname}" name="btn_exit_name" onclick="xajax_exitTableProperty(xajax.getFormValues('{$form_name}'),'{$table}');" style="display:none" value="exit"/>
+
+        <input type="hidden" name="tbl_old_name" value="{$field}"/>
+        <!--input type="hidden" name="table_name" value="{$table}"/-->
 
     </form>
 </xsl:template>
