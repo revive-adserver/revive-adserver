@@ -96,9 +96,6 @@ class DataObjects_BannersTest extends DalUnitTestCase
         $doAdZoneAssoc->zone_id = 0;
         $this->assertTrue($doAdZoneAssoc->find());
         $this->assertTrue($doAdZoneAssoc->fetch());
-        
-        $doAdZoneAssoc->delete();
-        $doBanners->delete();
     }
 }
 ?>

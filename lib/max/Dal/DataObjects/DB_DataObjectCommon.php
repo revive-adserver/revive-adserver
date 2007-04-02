@@ -662,21 +662,14 @@ class DB_DataObjectCommon extends DB_DataObject
      * @todo Add sharing connections in connection Pool
      * @see DB_DataObject::_connect()
      *
-     * @return PEAR::error | true
+     * @return PEAR_Error | true
      */
     function _connect()
     {
-        $ret = parent::_connect();
-        if (PEAR::isError($ret)) {
-            return false;
+        if ($this->_database_dsn_md5 && !empty($GLOBALS['_DB_DATAOBJECT']['CONNECTIONS'][$this->_database_dsn_md5]) && $this->_database) {
+            return true;
         }
-        global $_DB_DATAOBJECT;
-        $dbh = &$_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5];
-        // store the reference in ADMIN_DB_LINK
-        $GLOBALS['_MAX']['ADMIN_DB_LINK'] = &$dbh->connection;
-
-        return $ret;
-        /*
+        
         if (empty($_DB_DATAOBJECT['CONFIG'])) {
             $this->_loadConfig();
         }
@@ -684,9 +677,27 @@ class DB_DataObjectCommon extends DB_DataObject
         if (PEAR::isError($dbh)) {
             return $dbh;
         }
-        $this->_database_dsn_md5 = md5(OA_DB::getDsn(MAX_DSN_STRING, false));
-        $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5] = &$dbh;
-        */
+        $this->_database_dsn_md5 = md5(OA_DB::getDsn());
+        $GLOBALS['_DB_DATAOBJECT']['CONNECTIONS'][$this->_database_dsn_md5] = &$dbh;
+        
+        $this->_database = $dbh->getDatabase();
+        
+        // store the reference in ADMIN_DB_LINK - backward compatibility
+        $GLOBALS['_MAX']['ADMIN_DB_LINK'] = &$dbh->connection;
+        
+        return parent::_connect();
+    }
+    
+    function _loadConfig()
+    {
+        global $_DB_DATAOBJECT;
+
+        if(!isset($_DB_DATAOBJECT['CONFIG'])) {
+            parent::_loadConfig();
+        }
+        
+        // Set DB Driver as MDB2
+        $_DB_DATAOBJECT['CONFIG']['db_driver'] = 'MDB2';
     }
 
     /**

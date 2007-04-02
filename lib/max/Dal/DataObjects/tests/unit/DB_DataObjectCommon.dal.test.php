@@ -401,4 +401,24 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $key = $doBanners->getFirstPrimaryKey();
         $this->assertEqual($key, 'bannerid');
     }
+    
+    function testConnection()
+    {
+        $dbh = &OA_DB::singleton();
+        
+        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners->count();
+        
+        // First let's check if global object still keeps the correct reference
+        global $_DB_DATAOBJECT;
+        $dbh1 = &$_DB_DATAOBJECT['CONNECTIONS'][$doBanners->_database_dsn_md5];
+        $this->assertReference($dbh, $dbh1);
+        
+        // Now take the connection from DataObject
+        $dbh1 =& $doBanners->getDatabaseConnection();
+        $this->assertIdentical($dbh, $dbh1);
+        
+        // But why this one doesn't work?
+        // $this->assertReference($dbh, $dbh1);
+    }
 }
