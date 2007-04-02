@@ -1082,8 +1082,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
 
-        // Test 2
-//        TestEnv::startTransaction();
+        // Test 3
+        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
@@ -1100,12 +1100,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             'timestamp'
         );
         $stPl = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-//        $aData = array(
-//            1,
-//            't',
-//            $oDateNow->format('%Y-%m-%d %H:%M:%S')
-//        );
-//        $rows = $stPl->execute($aData);
+        $aData = array(
+            1,
+            't',
+            $oDateNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stPl->execute($aData);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['banners']}
@@ -1138,33 +1138,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             'timestamp'
         );
         $stAd = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-//        $aData = array(
-//            1,
-//            1,
-//            't',
-//            $oDbh->noDateValue,
-//            '',
-//            '',
-//            '',
-//            '',
-//            '',
-//            '',
-//            $oDateNow->format('%Y-%m-%d %H:%M:%S')
-//        );
-//        $rows = $stAd->execute($aData);
-//        $aResult = &$oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
-//        $this->assertTrue(is_array($aResult));
-//        $this->assertEqual(count($aResult), 0);
-//        TestEnv::rollbackTransaction();
-
-        // Test 3
-        TestEnv::startTransaction();
-        $aData = array(
-            1,
-            't',
-            $oDateNow->format('%Y-%m-%d %H:%M:%S')
-        );
-        $rows = $stPl->execute($aData);
         $aData = array(
             1,
             1,
@@ -1566,20 +1539,35 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                     updated
                 )
             VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $operationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['start']->format('%Y-%m-%d') . "',
-                    '" . $aDates['start']->format('%H') . "',
-                    1,
-                    0,
-                    1,
-                    1,
-                    '" . $oNow->format('%Y-%m-%d %H:%M:%S') . "'
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'date',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp'
+        );
+        $stDia = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $operationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
         TestEnv::rollbackTransaction();
@@ -1589,37 +1577,20 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    day,
-                    hour,
-                    ad_id,
-                    creative_id,
-                    zone_id,
-                    impressions,
-                    updated
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['start']->format('%Y-%m-%d') . "',
-                    '" . $aDates['start']->format('%H') . "',
-                    1,
-                    0,
-                    1,
-                    1,
-                    '" . $oNow->format('%Y-%m-%d %H:%M:%S') . "'
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -1638,37 +1609,20 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    day,
-                    hour,
-                    ad_id,
-                    creative_id,
-                    zone_id,
-                    impressions,
-                    updated
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['start']->format('%Y-%m-%d') . "',
-                    '" . $aDates['start']->format('%H') . "',
-                    1,
-                    0,
-                    1,
-                    1,
-                    '" . $oNow->format('%Y-%m-%d %H:%M:%S') . "'
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
@@ -1691,23 +1645,46 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                     zone_id,
                     required_impressions,
                     requested_impressions,
+                    priority,
                     priority_factor,
-                    past_zone_traffic_fraction
+                    past_zone_traffic_fraction,
+                    created,
+                    created_by
                 )
             VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $operationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1,
-                    1,
-                    0.5,
-                    0.99
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'float',
+            'float',
+            'float',
+            'timestamp',
+            'integer'
+        );
+        $stDsaza = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $operationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            1,
+            1,
+            1,
+            1,
+            0.1,
+            0.5,
+            0.99,
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            0
+        );
+        $rows = $stDsaza->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
         TestEnv::rollbackTransaction();
@@ -1717,35 +1694,22 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1,
-                    1,
-                    0.5,
-                    0.99
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            1,
+            1,
+            1,
+            1,
+            0,
+            0.5,
+            0.99,
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            0
+        );
+        $rows = $stDsaza->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -1764,35 +1728,22 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1,
-                    1,
-                    0.5,
-                    0.99
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            1,
+            1,
+            1,
+            1,
+            0,
+            0.5,
+            0.99,
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            0
+        );
+        $rows = $stDsaza->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
@@ -1810,60 +1761,38 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    impressions
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $operationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $operationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $operationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1,
-                    1,
-                    0.5,
-                    0.99
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $operationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            1,
+            1,
+            1,
+            1,
+            0,
+            0.5,
+            0.99,
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            0
+        );
+        $rows = $stDsaza->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
         TestEnv::rollbackTransaction();
@@ -1872,61 +1801,39 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    impressions
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $operationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $operationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1,
-                    1,
-                    0.5,
-                    0.99
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            1,
+            1,
+            1,
+            1,
+            0,
+            0.5,
+            0.99,
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            0
+        );
+        $rows = $stDsaza->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -1942,63 +1849,41 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    impressions
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $operationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $operationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1,
-                    1,
-                    0.5,
-                    0.99
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            1,
+            1,
+            1,
+            1,
+            0,
+            0.5,
+            0.99,
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            0
+        );
+        $rows = $stDsaza->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
@@ -2019,60 +1904,38 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    impressions
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $operationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1,
-                    1,
-                    0.5,
-                    0.99
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $operationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            1,
+            1,
+            1,
+            1,
+            0,
+            0.5,
+            0.99,
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            0
+        );
+        $rows = $stDsaza->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
         TestEnv::rollbackTransaction();
@@ -2084,61 +1947,39 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    impressions
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1,
-                    1,
-                    0.5,
-                    0.99
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            1,
+            1,
+            1,
+            1,
+            0,
+            0.5,
+            0.99,
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            0
+        );
+        $rows = $stDsaza->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -2157,63 +1998,41 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    impressions
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1,
-                    1,
-                    0.5,
-                    0.99
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            1,
+            1,
+            1,
+            1,
+            0,
+            0.5,
+            0.99,
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            0
+        );
+        $rows = $stDsaza->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
@@ -2232,60 +2051,38 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    impressions
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $operationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1,
-                    1,
-                    0.5,
-                    0.99
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $operationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            1,
+            1,
+            1,
+            1,
+            0,
+            0.5,
+            0.99,
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            0
+        );
+        $rows = $stDsaza->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -2302,61 +2099,39 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    impressions
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1,
-                    1,
-                    0.5,
-                    0.99
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            1,
+            1,
+            1,
+            1,
+            0,
+            0.5,
+            0.99,
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            0
+        );
+        $rows = $stDsaza->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -2373,63 +2148,41 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    impressions
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1,
-                    1,
-                    0.5,
-                    0.99
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            1,
+            1,
+            1,
+            1,
+            0,
+            0.5,
+            0.99,
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            0
+        );
+        $rows = $stDsaza->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -2455,143 +2208,202 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    impressions
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    2,
-                    1
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    2,
-                    3,
-                    2
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    2,
-                    4,
-                    2
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    3,
-                    5,
-                    5
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            2,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            2,
+            0,
+            3,
+            2,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            2,
+            0,
+            4,
+            2,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            3,
+            0,
+            5,
+            5,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    impressions
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    100
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    2,
-                    100
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    2,
-                    3,
-                    200
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    2,
-                    4,
-                    200
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    3,
-                    5,
-                    500
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    4,
-                    5,
-                    500
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            1,
+            100,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            2,
+            100,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            2,
+            0,
+            3,
+            200,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            2,
+            0,
+            4,
+            200,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            3,
+            0,
+            5,
+            500,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            4,
+            0,
+            5,
+            500,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            1,
+            2,
+            10,
+            10,
+            0,
+            0.5,
+            0.99,
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            0
+        );
+        $rows = $stDsaza->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            9,
+            9,
+            59,
+            59,
+            0,
+            95,
+            0.995,
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            0
+        );
+        $rows = $stDsaza->execute($aData);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
@@ -2604,110 +2416,100 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                     zone_id,
                     required_impressions,
                     requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    2,
-                    10,
-                    10,
-                    0.5,
-                    0.99
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    9,
-                    9,
-                    59,
-                    59,
-                    95,
-                    0.995
-                )";
-        $rows = $oDbh->exec($query);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
+                    priority,
                     priority_factor,
                     past_zone_traffic_fraction,
                     created,
+                    created_by,
                     expired
                 )
             VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    2,
-                    3,
-                    30,
-                    30,
-                    0.4,
-                    0.5,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:30:00') . "'
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    2,
-                    3,
-                    30,
-                    30,
-                    0.4,
-                    0.5,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:30:00') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    2,
-                    4,
-                    10,
-                    10,
-                    0.4,
-                    0.5,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:30:00') . "'
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    2,
-                    4,
-                    20,
-                    20,
-                    0.8,
-                    0.5,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:30:00') . "',
-                    '" . $oSpecialDate->format('%Y-%m-%d %H:%M:%S') . "'
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'float',
+            'float',
+            'float',
+            'timestamp',
+            'integer',
+            'timestamp'
+        );
+        $stDsazaExpired = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            2,
+            3,
+            30,
+            30,
+            0,
+            0.4,
+            0.5,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            0,
+            $aDates['end']->format('%Y-%m-%d %H:30:00')
+        );
+        $rows = $stDsazaExpired->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            2,
+            3,
+            30,
+            30,
+            0,
+            0.4,
+            0.5,
+            $aDates['start']->format('%Y-%m-%d %H:30:00'),
+            0,
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDsazaExpired->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            2,
+            4,
+            10,
+            10,
+            0,
+            0.4,
+            0.5,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            0,
+            $aDates['end']->format('%Y-%m-%d %H:30:00')
+        );
+        $rows = $stDsazaExpired->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            2,
+            4,
+            20,
+            20,
+            0,
+            0.8,
+            0.5,
+            $aDates['start']->format('%Y-%m-%d %H:30:00'),
+            0,
+            $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDsazaExpired->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
@@ -2715,53 +2517,40 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction,
-                    created,
-                    expired
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    3,
-                    5,
-                    200,
-                    200,
-                    0.2,
-                    0.95,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:30:00') . "'
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    3,
-                    5,
-                    100,
-                    100,
-                    0.4,
-                    0.95,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:30:00') . "',
-                    '" . $oSpecialDate->format('%Y-%m-%d %H:%M:%S') . "'
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            3,
+            5,
+            200,
+            200,
+            0,
+            0.2,
+            0.95,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            0,
+            $aDates['end']->format('%Y-%m-%d %H:30:00')
+        );
+        $rows = $stDsazaExpired->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            3,
+            5,
+            100,
+            100,
+            0,
+            0.4,
+            0.95,
+            $aDates['start']->format('%Y-%m-%d %H:30:00'),
+            0,
+            $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDsazaExpired->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 4);
         $this->assertEqual(count($result[1]), 2);
@@ -2835,147 +2624,179 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    impressions
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    1
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    2,
-                    1
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    2,
-                    3,
-                    2
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    2,
-                    4,
-                    2
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    3,
-                    5,
-                    5
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            1,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            2,
+            1,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            2,
+            0,
+            3,
+            2,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            2,
+            0,
+            4,
+            2,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            3,
+            0,
+            5,
+            5,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    impressions
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    1,
-                    100
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    2,
-                    100
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    2,
-                    3,
-                    200
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    2,
-                    4,
-                    200
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    3,
-                    5,
-                    500
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    4,
-                    5,
-                    500
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    10,
-                    4,
-                    1000
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            1,
+            100,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            1,
+            0,
+            2,
+            100,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            2,
+            0,
+            3,
+            200,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            2,
+            0,
+            4,
+            200,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            3,
+            0,
+            5,
+            500,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            4,
+            0,
+            5,
+            500,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            10,
+            0,
+            4,
+            1000,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         for ($i = 0; $i <= (MINUTES_PER_WEEK / $conf['maintenance']['operationInterval']); $i++) {
