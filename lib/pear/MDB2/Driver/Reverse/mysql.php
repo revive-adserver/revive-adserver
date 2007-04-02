@@ -236,7 +236,9 @@ class MDB2_Driver_Reverse_mysql extends MDB2_Driver_Reverse_Common
         if (PEAR::isError($db)) {
             return $db;
         }
-
+        // OPENADS
+        // this may change.  currently pks are being renamed elsewhere
+        // and coming in as <tablename>_pkey
         if (strtolower($index_name)==strtolower($table).'_pkey')
         {
             $index_name = 'primary';
