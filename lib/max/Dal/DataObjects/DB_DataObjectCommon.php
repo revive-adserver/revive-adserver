@@ -29,6 +29,7 @@ $Id$
  */
 require_once 'DB/DataObject.php';
 require_once MAX_PATH . '/lib/max/Util/ArrayUtils.php';
+require_once 'Date.php';
 
 /**
  * The non-DB specific Data Access Layer (DAL) class for the User Interface (Admin).
@@ -45,30 +46,30 @@ class DB_DataObjectCommon extends DB_DataObject
      * @var boolean
      */
     var $onDeleteCascade = false;
-    
+
     /**
      * If true "updated" field is automatically updated with current time on every insert and update
      *
      * @var unknown_type
      */
     var $refreshUpdatedFieldIfExists = false;
-    
+
     /**
      * Any default values which could be set before inserting record into database.
      * So far it is only in use with DataGenerator
-     * 
+     *
      * @see DataGenerator
      * @var array
      */
     var $defaultValues = array();
-    
+
     /**
      * Store table prefix
      *
      * @var string
      */
     var $_prefix;
-    
+
     /**
      * Keep reference dataobjects - required by addReferenceFilter()
      *
@@ -76,7 +77,7 @@ class DB_DataObjectCommon extends DB_DataObject
      * @see DB_DataObjectCommon::addReferenceFilter()
      */
     var $_aReferences = array();
-    
+
     /**
      * If $triggerSqlDie is true DataObject behaves in exactly
      * the same way as we would execute phpAdsSqlDie() on any SQL failure.
@@ -84,11 +85,11 @@ class DB_DataObjectCommon extends DB_DataObject
      * @var boolean
      */
     var $triggerSqlDie = true;
-    
+
     /**
      * //// Public methods, added to help users to optimize the use of DataObjects
      */
-    
+
     /**
      * Loads corresponding DAL class. Plain SQL should be kept inside DAL class
      *
@@ -99,9 +100,9 @@ class DB_DataObjectCommon extends DB_DataObject
     	include_once MAX_PATH . '/lib/max/Dal/Common.php';
     	return MAX_Dal_Common::factory($this->_tableName);
     }
-    
+
     /**
-     * OpenAds uses in many places arrays containing all records, for example 
+     * OpenAds uses in many places arrays containing all records, for example
      * array of all zones Ids associated with specific advertiser.
      * It is not encouraged to use this method for all purposes as it's
      * better to loop through all records and analyze one at a time.
@@ -120,7 +121,7 @@ class DB_DataObjectCommon extends DB_DataObject
     	    if (empty($filter)) $filter = array();
     	    $filter = array($filter);
     	}
-        
+
     	$fields = $this->table();
     	$keys = $this->keys();
         $primaryKey = null;
@@ -148,7 +149,7 @@ class DB_DataObjectCommon extends DB_DataObject
         	}
             $this->find();
     	}
-    	
+
     	$rows = array();
     	while ($this->fetch()) {
     		$row = array();
@@ -176,7 +177,7 @@ class DB_DataObjectCommon extends DB_DataObject
     	$this->free();
     	return $rows;
     }
-    
+
     /**
      * This method uses information from links.ini to handle hierarchy of tables.
      * It checks if there is a linked (referenced) object to this object with
@@ -192,14 +193,14 @@ class DB_DataObjectCommon extends DB_DataObject
     	if (!$this->N && !$this->find($autoFetch = true)) {
     		return null;
     	}
-    	
+
       	$found = null;
-      	
+
       	if ($this->getTableWithoutPrefix() == $userTable) {
       	    $key = $this->getFirstPrimaryKey();
       	    return $this->$key == $userId;
       	}
-      	
+
     	$links = $this->links();
         if(!empty($links)) {
         	foreach ($links as $key => $match) {
@@ -223,7 +224,7 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         return $found;
     }
-    
+
     /**
      * This method allows to automatically join DataObject with other records
      * using information from links.ini file. It allow for example to very
@@ -233,9 +234,9 @@ class DB_DataObjectCommon extends DB_DataObject
      * $doCampaigns->addReferenceFilter('agency', $agencyId);
      * $doCampaigns->find();
      * }}}
-     * 
+     *
      * It's possible to add many filters to the same DataObject.
-     * 
+     *
      * It raise PEAR_Error in case referenced table wasn't find
      *
      * @param string $referenceTable
@@ -258,11 +259,11 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         return $found;
     }
-    
+
    /**
 	* Returns the number of rows in a query
 	* Note it returns number of records from the last search (find())
-	* 
+	*
 	* @see count()
 	* @return int number of rows
 	* @access public
@@ -270,11 +271,11 @@ class DB_DataObjectCommon extends DB_DataObject
 	function getRowCount() {
 		return $this->N;
 	}
-    
+
     /**
      * This method is a equivalent of phpAds_getFooListOrder
      * It adds orderBy() limitations to current DB_DataObject
-     * 
+     *
      * This method is used as a common way of sorting rows in OpenAds UI
      *
      * @see MAX_Dal_Common::getSqlListOrder
@@ -290,7 +291,7 @@ class DB_DataObjectCommon extends DB_DataObject
     	}
     	$nameColumns = $dalModel->getOrderColumn($listOrder);
     	$direction   = $dalModel->getOrderDirection($orderDirection);
-    	
+
     	if (!is_array($nameColumns)) {
             $nameColumns = array($nameColumns);
         }
@@ -298,7 +299,7 @@ class DB_DataObjectCommon extends DB_DataObject
             $this->orderBy($nameColumn . ' ' . $direction);
         }
     }
-    
+
     /**
      * Adds a case-insensitive (lower) WHERE condition using the MySQL LOWER() function.
      *
@@ -310,7 +311,7 @@ class DB_DataObjectCommon extends DB_DataObject
     {
         $this->whereAdd("LOWER($field) = '" . $this->escape(strtolower($value)) . "'");
     }
-    
+
     /**
      * Return table name without the prefix
      *
@@ -328,7 +329,7 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         return $table;
     }
-    
+
     /**
      * Get array of unique values from this object table and it's $columnName
      *
@@ -354,7 +355,7 @@ class DB_DataObjectCommon extends DB_DataObject
         ArrayUtils::unsetIfKeyNumeric($aValues, $exceptValue);
         return $aValues;
     }
-    
+
     /**
      * Used by duplicate() methods to create a new unique name for a record before
      * creating a copy of it.
@@ -376,7 +377,7 @@ class DB_DataObjectCommon extends DB_DataObject
         } else {
             $basename = $this->$columnName;
         }
-        
+
         $doCheck = $this->factory($this->_tableName);
         $names = $doCheck->getUniqueValuesFromColumn($columnName);
         // Get unique name
@@ -386,7 +387,7 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         return $basename.' ('.$i.')';
     }
-    
+
     /**
      * Delete record by it's primary key id
      *
@@ -410,12 +411,12 @@ class DB_DataObjectCommon extends DB_DataObject
         $this->$primaryKey = $primaryId;
         return $this->delete($useWhere, $cascadeDelete);
     }
-    
+
     /**
      * Adds a condition to the WHERE statement
      * eg: bracketAdd('affiliateid', array(1,2,3), 'AND')
      * is changed into: whereAdd('(affiliateid = 1 OR affiliateid = 2 OR affiliateid = 3)', 'AND');
-     * 
+     *
      * Question: Should we change it into WHERE IN?
      *
      * @param string $field
@@ -429,7 +430,7 @@ class DB_DataObjectCommon extends DB_DataObject
         if (empty($values)) {
             return true;
         }
-        
+
         $condistions = array();
         foreach ($values as $value) {
             $condistions[] = $field." = '".$this->escape($value)."'";
@@ -437,15 +438,15 @@ class DB_DataObjectCommon extends DB_DataObject
         $query = implode ($condistions, ' OR ');
         return $this->whereAdd($query, $logic);
     }
-    
+
     /**
      * //// Protected methods, could be overwritten in child classes but
      * //// a good practice is to call them in child methods by parent::methodName()
      */
-    
+
     /**
-     * This method is calles explicite by MAX_DB class which
-     * 
+     * This method is called explicitly by MAX_DB class
+     *
      * @access public
      */
     function init()
@@ -458,17 +459,21 @@ class DB_DataObjectCommon extends DB_DataObject
         $_DB_DATAOBJECT['CONFIG']["ini_{$this->_database}"] = array(
             "{$_DB_DATAOBJECT['CONFIG']['schema_location']}/db_schema.ini",
         );
-        $_DB_DATAOBJECT['CONFIG']["links_{$this->_database}"] = 
+        $_DB_DATAOBJECT['CONFIG']["links_{$this->_database}"] =
             "{$_DB_DATAOBJECT['CONFIG']['schema_location']}/db_schema.links.ini";
-    	
+
         $this->databaseStructure();
         $this->_addPrefixToTableName();
+        // Set the default value for the "updated" column in tables
+        // that have this column (ignored when does not exist)
+        $oNow = new Date();
+        $this->defaultValues['updated'] = $oNow->format('%Y-%m-%d %H:%M:%S');
     }
-    
+
     /**
      * Override standard links() method, to make sure it reads correctly data from links.ini
      * file even if DataObjects uses prefix.
-     * 
+     *
      * @access public
      * @see DB_DataObject::links()
      * @return array
@@ -488,7 +493,7 @@ class DB_DataObjectCommon extends DB_DataObject
     	    return $prefixedLinks;
     	}
     }
-    
+
     /**
      * Overwrite DB_DataObject::delete() method and add a "ON DELETE CASCADE"
      *
@@ -533,14 +538,14 @@ class DB_DataObjectCommon extends DB_DataObject
 
         return parent::delete($useWhere);
     }
-    
+
     /**
      * Override parent method to make sure that newly created dataobject
      * is properly initialized with prefixes.
      *
      * @param  string  $table  tablename (use blank to create a new instance of the same class.)
      * @access private
-     * @return DataObject|PEAR_Error 
+     * @return DataObject|PEAR_Error
      */
     function factory($table = '')
     {
@@ -554,7 +559,7 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         return parent::factory($table);
     }
-    
+
     /**
      * Could automatically handle updating "updated" datetime field
      * before calling parent update()
@@ -569,7 +574,7 @@ class DB_DataObjectCommon extends DB_DataObject
         $this->_refreshUpdated();
         return parent::update($dataObject);
     }
-    
+
     /**
      * Could automatically handle updating "updated" datetime field
      * before calling parent insert()
@@ -584,12 +589,12 @@ class DB_DataObjectCommon extends DB_DataObject
         $this->_refreshUpdated();
         return parent::insert();
     }
-    
+
     /**
      * //// Private methods - shouldn't be overwritten and you shouldn't call them directly
      * //// until it's really necessary and you know what your are doing
      */
-    
+
     /**
      * Keeps the original (without prefix) table name
      *
@@ -650,13 +655,13 @@ class DB_DataObjectCommon extends DB_DataObject
             }
         }
     }
-    
+
     /**
      * Added storing reference to DataBase connection
-     * 
+     *
      * @todo Add sharing connections in connection Pool
      * @see DB_DataObject::_connect()
-     * 
+     *
      * @return PEAR::error | true
      */
     function _connect()
@@ -669,7 +674,7 @@ class DB_DataObjectCommon extends DB_DataObject
         $dbh = &$_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5];
         // store the reference in ADMIN_DB_LINK
         $GLOBALS['_MAX']['ADMIN_DB_LINK'] = &$dbh->connection;
-        
+
         return $ret;
         /*
         // FIXME: following code doesn't work because MAX doesn't use standard DB_mysql extension...
@@ -684,12 +689,12 @@ class DB_DataObjectCommon extends DB_DataObject
         $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5] = &$dbh;
         */
     }
-    
+
     /**
      * Disconnects from the database server
      *
      * @return boolean
-     * @static 
+     * @static
      */
     function disconnect()
     {
@@ -705,10 +710,10 @@ class DB_DataObjectCommon extends DB_DataObject
             }
             unset($_DB_DATAOBJECT['CONNECTIONS'][$dsn_md5]);
         }
-        
+
         return $ret;
     }
-    
+
     /**
      * Added handling any errors caused by queries send from DataObjects to database
      *
@@ -727,7 +732,7 @@ class DB_DataObjectCommon extends DB_DataObject
 	    if ($production) {
 		  PEAR::staticPopErrorHandling();
 	    }
-	    
+
 	    if (PEAR::isError($ret)) {
 	        if(!$production) {
 	           $GLOBALS['_MAX']['ERRORS'][] = $ret;
@@ -740,14 +745,14 @@ class DB_DataObjectCommon extends DB_DataObject
 	    }
 	    return $ret;
     }
-    
+
     /**
      * Delete all referenced records
      *
      * Although it's a public access to this method it shouldn't be called outside
      * this class. The only reason it's not private is because it needs to be executed
      * on new objects.
-     * 
+     *
      * @return boolean  True on success else false
      * @access public
      **/
@@ -765,7 +770,7 @@ class DB_DataObjectCommon extends DB_DataObject
             $doLinkded->delete();
         }
     }
-    
+
     /**
      * Collects references from links file
      *
@@ -798,7 +803,7 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         return $linkedRefs;
     }
-    
+
     /**
      * Recursively join DataObject with referenced table by it's id.
      *
@@ -809,7 +814,7 @@ class DB_DataObjectCommon extends DB_DataObject
     function _addReferenceFilterRecursively($referenceTable, $tableId)
     {
       	$found = false;
-      	
+
     	$links = $this->links();
         if(!empty($links)) {
         	foreach ($links as $key => $match) {
@@ -847,7 +852,7 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         return $found;
     }
-    
+
     /**
      * Returns first primary key (if exists)
      *
@@ -859,7 +864,7 @@ class DB_DataObjectCommon extends DB_DataObject
     	$keys = $this->keys();
     	return !empty($keys) ? $keys[0] : null;
     }
-    
+
 }
 
 ?>
