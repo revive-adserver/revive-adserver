@@ -126,7 +126,8 @@ class OA_DB_Upgrade
         switch ($this->oSchema->db->dbsyntax)
         {
             case 'mysql':
-                $this->copyTableStatement  = "CREATE TABLE %s ENGINE={$this->oSchema->db->getOption('default_table_type')} (SELECT * FROM %s)";
+                $engine = $this->oSchema->db->getOption('default_table_type');
+                $this->copyTableStatement  = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
                 break;
             case 'postgres':
                 $this->copyTableStatement  = "CREATE TABLE %s AS SELECT * FROM %s";
