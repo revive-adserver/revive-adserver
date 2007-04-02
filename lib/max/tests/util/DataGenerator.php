@@ -24,6 +24,8 @@
 $Id$
 */
 
+define('MAX_DATAGENERATOR_DEFAULT_VALUE', 1);
+
 /**
  * A Data Generator class for easy 
  *
@@ -73,7 +75,7 @@ class DataGenerator
      */
     function generate($do, $numberOfCopies = 1, $generateReferences = false)
     {
-        // cleanup ancestor ids
+        // Cleanup ancestor ids
         DataGenerator::getReferenceId();
         
         if (is_string($do)) {
@@ -218,14 +220,14 @@ class DataGenerator
     {
         foreach ($do->defaultValues as $k => $v) {
             if (!isset($do->$k)) {
-                $do->$k = $v;
+                $do->$k = DataGenerator::getTemplateValue($v);
             }
         }
         $fields = $do->table();
         foreach ($fields as $fieldName => $fieldType) {
             if (!isset($do->$fieldName)) {
                 $do->$fieldName = DataGenerator::getDefaultValue($do->getTableWithoutPrefix(),
-                    $fieldName, $counter);
+                    $fieldName, $fieldType, $counter);
             }
         }
     }
@@ -233,14 +235,12 @@ class DataGenerator
     /**
      * Return default data for a specified field in the table.
      *
-     * @todo Implement returning global default based on type of the field.
-     * 
      * @param string $fieldType
      * @return mixed
      * @access package private
      * @static 
      */
-    function getDefaultValue($table, $fieldName, $counter)
+    function getDefaultValue($table, $fieldName, $fieldType, $counter)
     {
         if (isset($this)) {
             if (isset($this->data[$table]) && isset($this->data[$table][$fieldName])) {
@@ -248,7 +248,45 @@ class DataGenerator
                 return $this->data[$table][$fieldName][$index];
             }
         }
-        return 1; // @TODO: Add a default value by type, return null for primary keys
+        return DataGenerator::getDefaultValueByType($fieldType);
+    }
+    
+    /**
+     * Return default value by type.
+     * @todo This could be refactored if we will decide to add more types here
+     *
+     * @param string $fieldType
+     * @return string
+     * @static 
+     */
+    function getDefaultValueByType($fieldType)
+    {
+        if ($fieldType & DB_DATAOBJECT_DATE) {
+            // According to https://developer.openads.org/wiki/DatabasePractices#UsingPEAR::MDB2
+            $dbh = &OA_DB::singleton();
+            return $dbh->noDateValue;
+        }
+        return MAX_DATAGENERATOR_DEFAULT_VALUE;
+    }
+    
+    /**
+     * Replace variable by template or return it if it's not a template
+     * 
+     * Template variables:
+     * %DATE_TIME% is replaced with date('Y-m-d H:i:s')
+     *
+     * @param string $val  Template variable
+     * @return string
+     * @static 
+     */
+    function getTemplateValue($val)
+    {
+        switch ($val) {
+            case '%DATE_TIME%':
+                return date('Y-m-d H:i:s');
+            default:
+                return $val;
+        }
     }
     
     /**

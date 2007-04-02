@@ -11,10 +11,6 @@ class DataObjects_Banners extends DB_DataObjectCommon
     var $onDeleteCascade = true;
     var $refreshUpdatedFieldIfExists = true;
     
-    var $defaultValues = array(
-        'active' => 't',
-    );
-    
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 

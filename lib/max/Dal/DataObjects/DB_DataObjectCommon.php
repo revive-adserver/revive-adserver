@@ -29,7 +29,6 @@ $Id$
  */
 require_once 'DB/DataObject.php';
 require_once MAX_PATH . '/lib/max/Util/ArrayUtils.php';
-require_once 'Date.php';
 
 /**
  * The non-DB specific Data Access Layer (DAL) class for the User Interface (Admin).
@@ -55,13 +54,18 @@ class DB_DataObjectCommon extends DB_DataObject
     var $refreshUpdatedFieldIfExists = false;
 
     /**
-     * Any default values which could be set before inserting record into database.
-     * So far it is only in use with DataGenerator
+     * Any default values which could be set before inserting records into database
+     * using DataGenerator.
+     * 
+     * There is one template variable:
+     * %DATE_TIME% is replaced with date('Y-m-d H:i:s')
      *
      * @see DataGenerator
      * @var array
      */
-    var $defaultValues = array();
+    var $defaultValues = array(
+        'updated' => '%DATE_TIME%'
+    );
 
     /**
      * Store table prefix
@@ -464,10 +468,6 @@ class DB_DataObjectCommon extends DB_DataObject
 
         $this->databaseStructure();
         $this->_addPrefixToTableName();
-        // Set the default value for the "updated" column in tables
-        // that have this column (ignored when does not exist)
-        $oNow = new Date();
-        $this->defaultValues['updated'] = $oNow->format('%Y-%m-%d %H:%M:%S');
     }
 
     /**
@@ -677,15 +677,14 @@ class DB_DataObjectCommon extends DB_DataObject
 
         return $ret;
         /*
-        // FIXME: following code doesn't work because MAX doesn't use standard DB_mysql extension...
         if (empty($_DB_DATAOBJECT['CONFIG'])) {
             $this->_loadConfig();
         }
-        $dbh = &MAX_DB::singleton();
+        $dbh = &OA_DB::singleton();
         if (PEAR::isError($dbh)) {
             return $dbh;
         }
-        $this->_database_dsn_md5 = md5(MAX_DB::getDsn(MAX_DSN_STRING, false));
+        $this->_database_dsn_md5 = md5(OA_DB::getDsn(MAX_DSN_STRING, false));
         $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5] = &$dbh;
         */
     }
