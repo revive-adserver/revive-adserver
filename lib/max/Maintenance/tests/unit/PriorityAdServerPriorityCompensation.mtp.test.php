@@ -63,7 +63,7 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
      */
     function test_buildClasses()
     {
-        // Mock the MAX_DB class used in the constructor method
+        // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
         $oServiceLocator = &ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
@@ -354,7 +354,7 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
      */
     function testScalePriorities()
     {
-        // Mock the MAX_DB class used in the constructor method
+        // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
         $oServiceLocator = &ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
@@ -457,7 +457,7 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
      */
     function testInitialPriorities()
     {
-        // Mock the MAX_DB class used in the constructor method
+        // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
         $oServiceLocator = &ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
@@ -802,7 +802,7 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
      */
     function testLearnedPriorities()
     {
-        // Mock the MAX_DB class used in the constructor method
+        // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
         $oServiceLocator = &ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);

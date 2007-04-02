@@ -166,10 +166,10 @@ class MAX_Dal_Common
     }
 
     /**
-     * A private method to manage creation of the utilised MAX_DB class.
+     * A private method to manage creation of the utilised OA_DB class.
      *
      * @access private
-     * @return mixed An instance of the MAX_DB class.
+     * @return mixed An instance of the OA_DB class.
      */
     function &_getDbConnection()
     {
