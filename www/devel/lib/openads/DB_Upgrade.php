@@ -84,9 +84,10 @@ class OA_DB_Upgrade
 
     var $prefix = '';
     var $database = '';
-    var $engine = '';
 
     var $continue = true;
+
+    var $copyTableStatement = '';
 
     /**
      * php5 class constructor
@@ -112,14 +113,27 @@ class OA_DB_Upgrade
         if (!$this->_isPearError($result, 'failed to instantiate MDB2_Schema'))
         {
             $this->oSchema = $result;
-            if ($this->oSchema->db->options['default_table_type'])
-            {
-                $this->engine = 'ENGINE='.$this->oSchema->db->getOption('default_table_type');
-            }
+            $this->_setTableCopyStatement();
         }
         else
         {
             return false;
+        }
+    }
+
+    function _setTableCopyStatement()
+    {
+        switch ($this->oSchema->db->dbsyntax)
+        {
+            case 'mysql':
+                $this->copyTableStatement  = "CREATE TABLE %s ENGINE={$this->oSchema->db->getOption('default_table_type')} (SELECT * FROM %s)";
+                break;
+            case 'postgres':
+                $this->copyTableStatement  = "CREATE TABLE %s AS SELECT * FROM %s";
+                break;
+            default:
+                '';
+                break;
         }
     }
 
@@ -318,8 +332,7 @@ class OA_DB_Upgrade
                 $table_bak  ="{$this->prefix}zzz_{$hash}";
                 $this->aMessages[]  = "backing up table {$table} to table {$table_bak} ";
 
-                // better query? increment off first?
-                $query      = "CREATE TABLE {$table_bak} {$this->engine} (SELECT * FROM {$table})";
+                $query      = sprintf($this->copyTableStatement, $table_bak, $table);
                 $result     = $this->oSchema->db->exec($query);
                 if ($this->_isPearError($result, 'error creating backup'))
                 {
@@ -381,7 +394,7 @@ class OA_DB_Upgrade
      * restore individual tables
      * remove the backups?
      * audit each restore?
-     * remove the database_action recs?  null them somehow?
+     * remove the database_action recs?  flag them *done* somehow?
      *
      * @param string $table
      * @param string $table_bak
@@ -399,7 +412,7 @@ class OA_DB_Upgrade
                 return false;
             }
         }
-        $query  = "CREATE TABLE {$table} {$this->engine} (SELECT * FROM {$table_bak})";
+        $query  = sprintf($this->copyTableStatement, $table, $table_bak);
         $result = $this->oSchema->db->exec($query);
         if ($this->_isPearError($result, 'error creating table during rollback'))
         {
@@ -440,6 +453,12 @@ class OA_DB_Upgrade
     function _dropBackup($table)
     {
         $this->aMessages[] = 'dropping your backup: '.$table;
+
+        $result = $this->oSchema->db->manager->dropTable($table);
+        if ($this->_isPearError($result, 'error dropping '.$table))
+        {
+            return false;
+        }
         return true;
     }
 
