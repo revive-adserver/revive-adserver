@@ -40,42 +40,44 @@ class MAX_Dal_Admin_VariablesTest extends DalUnitTestCase
         $dalVariables = MAX_DB::factoryDAL('variables');
         $rs = $dalVariables->getTrackerVariables(null, 1, false);
         $this->assertEqual(0, $rs->getRowCount());
-        
+
         $doZones = MAX_DB::factoryDO('zones');
         $doZones->affiliateid = 1;
         $zoneId = DataGenerator::generateOne($doZones);
-        
+
         $doBanners = MAX_DB::factoryDO('banners');
         $doBanners->campaignid = 1;
+        $doBanners->acls_updated = '2007-04-03 19:22:16';
         $bannerId = DataGenerator::generateOne($doBanners);
-        
+
         $doAdZoneAssoc = MAX_DB::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->ad_id = $bannerId;
         $doAdZoneAssoc->find();
         $doAdZoneAssoc->fetch();
         $doAdZoneAssoc->zone_id = $zoneId;
         $doAdZoneAssoc->update();
-        
+
         $doTrackers = MAX_DB::factoryDO('trackers');
         $trackerId = DataGenerator::generateOne($doTrackers);
-        
+
         $doCampaignsTrackers = MAX_DB::factoryDO('campaigns_trackers');
         $doCampaignsTrackers->campaignid = 1;
         $doCampaignsTrackers->trackerid = $trackerId;
         DataGenerator::generateOne($doCampaignsTrackers);
-        
+
         $doVariables = MAX_DB::factoryDO('variables');
         $doVariables->trackerid = $trackerId;
         DataGenerator::generateOne($doVariables);
-        
+
         $doVariablePublisher = MAX_DB::factoryDO('variable_publisher');
         $doVariablePublisher->variable_id = $variableId;
         $doVariablePublisher->publisher_id = 1;
         DataGenerator::generateOne($doVariablePublisher);
-        
+
         $rs = $dalVariables->getTrackerVariables($zoneId, 1, false);
         $rs->reset();
         $this->assertEqual(1, $rs->getRowCount());
     }
 }
+
 ?>
