@@ -41,25 +41,31 @@
           </exec>
           <xslt style="tests/simpletest2junit.xslt" basedir="build/test-results" destdir="build/test-reports">
             <mapper type="glob" from="@{{test.name}}.simpletest.xml" to="@{{test.name}}.junit.xml" />
-          </xslt-->
+          </xslt>
+          <condition property="test.failure">
+            <not>
+              <equals arg1="0" arg2="${{test.@{{test.name}}.result}}"/>
+            </not>
+          </condition>
         </sequential>
       </macrodef>
+
       <target name="test">
         <xsl:for-each select="tests/php/version">
           <xsl:call-template name="fulltest">
             <xsl:with-param name="php" select="."/>
           </xsl:call-template>
         </xsl:for-each>
+
+        <!-- Fail the build if there was test failure -->
+        <fail message="Simpletest Suite Failure: ${test.failure}">
+          <condition>
+            <isset property="test.failure"/>
+          </condition>
+        </fail>
       </target>
     </project>    
 
-          <!-- fail message="Simpletest Suite Failure">
-              <condition>
-                  <not>
-                      <equals arg1="0" arg2="${test..result}"/>
-                  </not>
-              </condition>
-          </fail -->
   </xsl:template>
 
   <xsl:template name="fulltest">

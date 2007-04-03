@@ -1,65 +1,93 @@
-<project name="openads" default="simpletest">
-    <target name="simpletest" depends="clean, init, test-all, phpunit" />
-    <target name="full-build" depends="simpletest, test-with-selenium" />
-    <property file="etc/build.properties" />
-    <property name="max.base_dir" value="${user.dir}" />
-    <property name="max.build_dir" value="${max.base_dir}/build" />
-    <property name="max.test_admin_host" value="www-tests" />
-    <property name="max.php_cli_executable" value="php" />
-	<macrodef name="report-on-simpletest-results">
-        <attribute name="basename" />
-        <sequential>
-            <xslt style="tests/simpletest2junit.xslt" basedir="build/test-results" destdir="build/test-reports">
-                <mapper type="glob" from="@{basename}.simpletest.xml" to="@{basename}.junit.xml" />
-            </xslt>
-        </sequential>
-    </macrodef>
-    <target name="init">
-        <touch file="should_not_exist"/>
-        <mkdir dir="build/test-results"/>
-        <mkdir dir="build/test-reports"/>
-    </target>
-    <target name="clean">
-        <delete file="var/test.log" />
-        <delete dir="build" />
-    </target>
-    <target name="test-all" depends="init">
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-results/test-all.simpletest.xml" resultproperty="test.test-all.result">
-            <arg value="cli_test_runner.php" />
-            <arg value="${max.php_cli_executable}" />
-        </exec>
-        <report-on-simpletest-results basename="test-all" />
-        <fail message="Simpletest Suite Failure">
-            <condition>
-                <not>
-                    <equals arg1="0" arg2="${test.test-all.result}"/>
-                </not>
-            </condition>
-        </fail>
-    </target>
-    <target name="phpunit">
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/MDB2.html">
-            <arg value="run.php" />
-            <arg value="--type=phpunit" />
-            <arg value="--dir=../lib/pear/MDB2/tests/" />
-        </exec>
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-results/MDB2_Schema.html">
-            <arg value="run.php" />
-            <arg value="--type=phpunit" />
-            <arg value="--dir=../lib/pear/MDB2_Schema/tests/" />
-        </exec>
-    </target>
-    <target name="test-with-selenium">
-        <fail unless="max.base_dir" message="The property 'max.base_dir' should point to the Openads root." />
-        <fail unless="max.build_dir" message="The property 'max.build_dir' should point a folder to which results can be written." />
-        <fail unless="max.test_admin_host" message="The property 'max.test_admin_host' should be set to a hostname where the Openads Web Interface for Administration is published." />
-        <fail unless="max.firefox_cli_executable" message="The property 'max.firefox_cli_executable' should be set to a binary that Selenium RC can launch and control. (Perhaps something like '/usr/lib/firefox/firefox-bin'.)" />
-        <java jar="${selenium_server.lib_path}/selenium-server.jar" fork="true">
-			<arg value="-htmlSuite" />
-			<arg value="*firefox ${max.firefox_cli_executable}" />
-			<arg value="http://${max.test_admin_host}" />
-			<arg value="${max.base_dir}/www/admin/tests/functional/CriticalSuite.html" />
-			<arg value="${max.build_dir}/test-results/critical.selenium.html" />
-		</java>
-	</target>
+<project name="openads" default="simpletest" basedir=".">
+  <target name="simpletest" depends="clean, checkconsistency, init, test-all, phpunit, release" />
+  <property name="max.php_cli_executable" value="/usr/local/php4/bin/php" />
+  <property name="test.conf.xml" value="devel.xml"/>
+
+  <patternset id="dist.included">
+    <exclude name="**/tests"/>
+    <exclude name="**/tests/**"/>
+    <exclude name="*.xml"/>
+    <exclude name="simulation"/>
+    <exclude name="simulation/**"/>
+    <exclude name="build"/>
+    <exclude name="build/**"/>
+    <exclude name="www/devel**/">
+  </patternset>
+
+  <patternset id="dist.excluded">
+    <include name="**/tests"/>
+    <include name="**/tests/**"/>
+    <include name="*.xml"/>
+    <include name="simulation"/>
+    <include name="simulation/**"/>
+    <include name="build"/>
+    <include name="build/**"/>
+    <include name="www/devel**/">
+  </patternset>
+
+  <!-- Openads Package Integrity Plugin -->
+  <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
+
+  <target name="clean">
+    <delete file="var/test.log" />
+    <delete dir="build" />
+  </target>
+
+  <target name="checkconsistency">
+    <checkdistribution>
+      <includeset dir="${basedir}">
+        <patternset refid="dist.included"/>
+      </includeset>
+      <excludeset dir="${basedir}">
+        <patternset refid="dist.excluded"/>
+      </excludeset>
+    </checkdistribution>
+  </target>
+
+  <target name="init">
+    <touch file="should_not_exist"/>
+    <mkdir dir="build/test-results"/>
+    <mkdir dir="build/test-reports"/>
+  </target>
+
+  <target name="init-timestamp" unless="cctimestamp">
+    <tstamp/>
+    <property name="cctimestamp" value="${DSTAMP}${TSTAMP}"/>
+  </target>
+
+  <target name="init-label" unless="label">
+    <property name="label" value="trunk"/>
+  </target>
+
+  <target name="init-release" unless="release" depends="init-timestamp,init-label">
+    <property name="release" value="openads-${label}-${cctimestamp}"/>
+  </target>
+
+  <target name="test-prepare">
+    <xslt style="tests.xsl" in="${test.conf.xml}" out="tests.xml"/>
+  </target>
+
+  <target name="test-all" depends="init">
+    <ant antfile="tests.xml"/>
+  </target>
+
+  <target name="phpunit">
+    <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/MDB2.html">
+      <arg value="run.php" />
+      <arg value="--type=phpunit" />
+      <arg value="--dir=../lib/pear/MDB2/tests/" />
+    </exec>
+    <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-results/MDB2_Schema.html">
+      <arg value="run.php" />
+      <arg value="--type=phpunit" />
+      <arg value="--dir=../lib/pear/MDB2_Schema/tests/" />
+    </exec>
+  </target>
+
+  <target name="release" depends="init-release">
+    <tar destfile="${release}.tar.bz2" basedir="." compression="bzip2" longfile="gnu">
+      <patternset refid="dist.included"/>
+    </tar>
+  </target>
+
 </project>
