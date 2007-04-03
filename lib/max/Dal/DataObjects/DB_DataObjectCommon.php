@@ -24,14 +24,12 @@
 $Id$
 */
 
-/**
- * Table Definition for campaigns
- */
-require_once 'DB/DataObject.php';
+require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/max/Util/ArrayUtils.php';
+require_once 'DB/DataObject.php';
 
 /**
- * The non-DB specific Data Access Layer (DAL) class for the User Interface (Admin).
+ * The non-DB specific Data Abstraction Layer (DAL) class for the User Interface (Admin).
  *
  * @package    DataObjects
  * @author     David Keen <david.keen@openads.org>
@@ -56,7 +54,7 @@ class DB_DataObjectCommon extends DB_DataObject
     /**
      * Any default values which could be set before inserting records into database
      * using DataGenerator.
-     * 
+     *
      * There is one template variable:
      * %DATE_TIME% is replaced with date('Y-m-d H:i:s')
      *
@@ -669,7 +667,7 @@ class DB_DataObjectCommon extends DB_DataObject
         if ($this->_database_dsn_md5 && !empty($GLOBALS['_DB_DATAOBJECT']['CONNECTIONS'][$this->_database_dsn_md5]) && $this->_database) {
             return true;
         }
-        
+
         if (empty($_DB_DATAOBJECT['CONFIG'])) {
             $this->_loadConfig();
         }
@@ -679,15 +677,15 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         $this->_database_dsn_md5 = md5(OA_DB::getDsn());
         $GLOBALS['_DB_DATAOBJECT']['CONNECTIONS'][$this->_database_dsn_md5] = &$dbh;
-        
+
         $this->_database = $dbh->getDatabase();
-        
+
         // store the reference in ADMIN_DB_LINK - backward compatibility
         $GLOBALS['_MAX']['ADMIN_DB_LINK'] = &$dbh->connection;
-        
+
         return parent::_connect();
     }
-    
+
     function _loadConfig()
     {
         global $_DB_DATAOBJECT;
@@ -695,7 +693,7 @@ class DB_DataObjectCommon extends DB_DataObject
         if(!isset($_DB_DATAOBJECT['CONFIG'])) {
             parent::_loadConfig();
         }
-        
+
         // Set DB Driver as MDB2
         $_DB_DATAOBJECT['CONFIG']['db_driver'] = 'MDB2';
     }
@@ -710,7 +708,7 @@ class DB_DataObjectCommon extends DB_DataObject
     {
         $ret = true;
         // reset DataObject cache
-        $dsn = MAX_DB::getDsn(MAX_DSN_STRING, false);
+        $dsn = OA_DB::getDsn();
         $dsn_md5 = md5($dsn);
         global $_DB_DATAOBJECT;
         if (isset($_DB_DATAOBJECT['CONNECTIONS'][$dsn_md5])) {

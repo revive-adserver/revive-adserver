@@ -25,45 +25,45 @@
 $Id: demoDataFill.php 6 2006-12-15 17:27:27Z  $
 */
 
-    require_once dirname(__FILE__) . '/../../init.php';
-    require_once MAX_PATH . '/lib/max/DB.php';
-    
-    $conf = $GLOBALS['_MAX']['CONF'];
-    
-    if(!empty($conf['table']['prefix'])) {
-        die("Error: please remove prefix from database tables before regenerating DataObjects\n");
-    }
-    
-    //  init DB_DataObject
-    $MAX_ENT_DIR =  MAX_PATH . '/lib/max/Dal/DataObjects';
-    $options = &PEAR::getStaticProperty('DB_DataObject', 'options');
-    $options = array(
-        'database'              => MAX_DB::getDsn(MAX_DSN_STRING),
-        'schema_location'       => $MAX_ENT_DIR,
-        'class_location'        => $MAX_ENT_DIR,
-        'require_prefix'        => $MAX_ENT_DIR . '/',
-        'class_prefix'          => 'DataObjects_',
-        'debug'                 => 0,
-        'extends'               => 'DB_DataObjectCommon',
-        'extends_location'      => 'DB_DataObjectCommon.php',
-        'production'            => 0,
-        'ignore_sequence_keys'  => 'ALL',
-        'generator_strip_schema'=> 1,
-        'generator_exclude_regex' => '/(data_raw_.*|data_summary_channel_.*|data_summary_zone_.*)/'
-    );
-    
-    require_once 'DB/DataObject/Generator.php';
-    // remove original dbdo keys file as it is unable to update an existing file
-    $schemaFile = $MAX_ENT_DIR . '/db_schema.ini';
-    if (is_file($schemaFile)) {
-        unlink($schemaFile);
-    }
-      
-    $generator = new DB_DataObject_Generator();
-    $generator->start();
-    
-    // rename schema ini file
-    $newSchemaFile = $MAX_ENT_DIR . '/' . $conf['database']['name'] . '.ini';
-    rename($newSchemaFile, $schemaFile);
-    
+require_once dirname(__FILE__) . '/../../init.php';
+require_once MAX_PATH . '/lib/OA/DB.php';
+
+$conf = $GLOBALS['_MAX']['CONF'];
+
+if (!empty($conf['table']['prefix'])) {
+    die("Error: please remove prefix from database tables before regenerating DataObjects\n");
+}
+
+//  init DB_DataObject
+$MAX_ENT_DIR =  MAX_PATH . '/lib/max/Dal/DataObjects';
+$options = &PEAR::getStaticProperty('DB_DataObject', 'options');
+$options = array(
+    'database'              => OA_DB::getDsn(),
+    'schema_location'       => $MAX_ENT_DIR,
+    'class_location'        => $MAX_ENT_DIR,
+    'require_prefix'        => $MAX_ENT_DIR . '/',
+    'class_prefix'          => 'DataObjects_',
+    'debug'                 => 0,
+    'extends'               => 'DB_DataObjectCommon',
+    'extends_location'      => 'DB_DataObjectCommon.php',
+    'production'            => 0,
+    'ignore_sequence_keys'  => 'ALL',
+    'generator_strip_schema'=> 1,
+    'generator_exclude_regex' => '/(data_raw_.*|data_summary_channel_.*|data_summary_zone_.*)/'
+);
+
+require_once 'DB/DataObject/Generator.php';
+// remove original dbdo keys file as it is unable to update an existing file
+$schemaFile = $MAX_ENT_DIR . '/db_schema.ini';
+if (is_file($schemaFile)) {
+    unlink($schemaFile);
+}
+
+$generator = new DB_DataObject_Generator();
+$generator->start();
+
+// rename schema ini file
+$newSchemaFile = $MAX_ENT_DIR . '/' . $conf['database']['name'] . '.ini';
+rename($newSchemaFile, $schemaFile);
+
 ?>
