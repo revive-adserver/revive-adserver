@@ -25,7 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/SqlBuilder.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 
