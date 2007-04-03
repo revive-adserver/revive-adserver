@@ -42,22 +42,24 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
     {
         $this->UnitTestCase();
     }
-    
+
     function tearDown()
     {
         DataGenerator::cleanUp();
     }
-    
+
     function testInsert()
     {
         // Prepare test data
-        $clientId = DataGenerator::generateOne('clients');
-        
+        $doChannel = MAX_DB::factoryDO('channel');
+        $doChannel->acls_updated = '2007-04-03 19:29:54';
+        $channelId = DataGenerator::generateOne($doChannel);
+
         $doTrackers = MAX_DB::factoryDO('trackers');
         $doTrackers->clientid = $clientId;
         $doTrackers->linkcampaigns = 't';
         $aTrackerId = DataGenerator::generate($doTrackers, $numTrackers = 2);
-        
+
         $doTrackers = MAX_DB::factoryDO('trackers');
         $doTrackers->linkcampaigns = 'f';
         DataGenerator::generateOne($doTrackers); // redundant one
@@ -65,17 +67,17 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         // Test that inserting new campaigns triggers to insert new campaigns_trackers (if exists)
         $doCampaigns = MAX_DB::factoryDO('campaigns');
         $doCampaigns->clientid = $clientId;
-        $campaignId = $doCampaigns->insert();
+        $campaignId = DataGenerator::generateOne($doCampaigns);
         $this->assertNotEmpty($campaignId);
-        
+
         // Test that two campaign_trackers were inserted as well
         $doCampaigns_trackers = MAX_DB::factoryDO('campaigns_trackers');
         $doCampaigns_trackers->campaignid = $campaignId;
         $this->assertEqual($doCampaigns_trackers->count(), $numTrackers);
-        
+
         // Delete any data which wasn't created by DataGenerator
         DataGenerator::cleanUp(array('campaigns', 'campaigns_trackers'));
     }
-    
+
 }
 ?>
