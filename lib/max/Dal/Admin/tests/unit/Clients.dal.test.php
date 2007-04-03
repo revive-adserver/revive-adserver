@@ -81,6 +81,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $doClients = MAX_DB::factoryDO('clients');
         $doClients->clientname = 'Advertiser 1';
         $doClients->agencyid = 1;
+        $doClients->reportlastdate = '2007-04-03 19:14:59';
         $aClientId = DataGenerator::generateOne($doClients);
 
         // Test 2
@@ -101,6 +102,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $doClients = MAX_DB::factoryDO('clients');
         $doClients->clientname = 'Advertiser 2';
         $doClients->agencyid = 2;
+        $doClients->reportlastdate = '2007-04-03 19:14:59';
         $aClientId = DataGenerator::generateOne($doClients);
         $rsClients->fetch();
         $aRow = $rsClients->toArray();
@@ -160,6 +162,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
 
         // Insert a single advertiser
         $doClients = MAX_DB::factoryDO('clients');
+        $doClients->reportlastdate = '2007-04-03 19:14:59';
         $aClientId = DataGenerator::generateOne($doClients);
 
         // Test 2
@@ -168,6 +171,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
 
         // Insert a second advertiser
         $doClients = MAX_DB::factoryDO('clients');
+        $doClients->reportlastdate = '2007-04-03 19:14:59';
         $aClientId = DataGenerator::generateOne($doClients);
 
         // Test 3
@@ -214,6 +218,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $doClients = MAX_DB::factoryDO('clients');
         $doClients->clientname = 'Advertiser 1';
         $doClients->agencyid = 1;
+        $doClients->reportlastdate = '2007-04-03 19:14:59';
         $aClientId = DataGenerator::generateOne($doClients);
 
         // Test 2
@@ -228,6 +233,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $doClients = MAX_DB::factoryDO('clients');
         $doClients->clientname = 'Advertiser 2';
         $doClients->agencyid = 2;
+        $doClients->reportlastdate = '2007-04-03 19:14:59';
         $aClientId = DataGenerator::generateOne($doClients);
 
         // Test 3
@@ -295,6 +301,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $doClients = MAX_DB::factoryDO('clients');
         $doClients->clientname = 'Advertiser 1';
         $doClients->agencyid = 1;
+        $doClients->reportlastdate = '2007-04-03 19:14:59';
         $aClientId = DataGenerator::generateOne($doClients);
 
         // Test 1
