@@ -487,7 +487,7 @@ class MDB2
             for ($i=0, $j=count($keys); $i<$j; ++$i) {
                 if (isset($GLOBALS['_MDB2_databases'][$keys[$i]])) {
                     $tmp_dsn = $GLOBALS['_MDB2_databases'][$keys[$i]]->getDSN('array');
-                    if (count(array_diff($tmp_dsn, $dsninfo)) == 0) {
+                    if (count(array_diff_assoc($tmp_dsn, $dsninfo)) == 0) {
                         MDB2::setOptions($GLOBALS['_MDB2_databases'][$keys[$i]], $options);
                         return $GLOBALS['_MDB2_databases'][$keys[$i]];
                     }
