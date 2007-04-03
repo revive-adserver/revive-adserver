@@ -1258,65 +1258,72 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             return false;
         }
         // Add the new priority values to data_summary_ad_zone_assoc
-        // This query can get quite large, but MySQL (for example) only supports
-        // a 1MB packet; as a result, this insert may need to be split up into
-        // multiple statements; an insert could be up to 1k per ad/zone
-        // association, therefore limit inserts to 500 ad/zone associations.
         if (is_array($aData) && !empty($aData)) {
-            $counter = 0;
-            $insertCounter = 0;
             $aValues = array();
             foreach ($aData as $aZoneData) {
                 if (is_array($aZoneData['ads']) && !empty($aZoneData['ads'])) {
                     foreach ($aZoneData['ads'] as $aAdZonePriority) {
-                        $aValues[$insertCounter][] = "
-                            (
-                                {$aConf['maintenance']['operationInterval']},
-                                $currentOperationIntervalID,
-                                '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                                '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                                {$aAdZonePriority['ad_id']},
-                                {$aAdZonePriority['zone_id']},
-                                {$aAdZonePriority['required_impressions']},
-                                {$aAdZonePriority['requested_impressions']},
-                                {$aAdZonePriority['priority']},
-                                " . (is_null($aAdZonePriority['priority_factor']) ? 'NULL' : $aAdZonePriority['priority_factor']) . ",
-                                " . ($aAdZonePriority['priority_factor_limited'] ? 1 : 0) . ",
-                                " . (is_null($aAdZonePriority['past_zone_traffic_fraction']) ? 'NULL' : $aAdZonePriority['past_zone_traffic_fraction']) . ",
-                                '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "',
-                                0
-                            )";
-                        $counter++;
-                        if (($counter % 500) == 0) {
-                            $insertCounter++;
-                        }
+                        $aValues[] = array(
+                            $aConf['maintenance']['operationInterval'],
+                            $currentOperationIntervalID,
+                            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+                            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+                            $aAdZonePriority['ad_id'],
+                            $aAdZonePriority['zone_id'],
+                            $aAdZonePriority['required_impressions'],
+                            $aAdZonePriority['requested_impressions'],
+                            $aAdZonePriority['priority'],
+                            is_null($aAdZonePriority['priority_factor']) ? 'NULL' : $aAdZonePriority['priority_factor'],
+                            $aAdZonePriority['priority_factor_limited'] ? 1 : 0,
+                            is_null($aAdZonePriority['past_zone_traffic_fraction']) ? 'NULL' : $aAdZonePriority['past_zone_traffic_fraction'],
+                            $oDate->format('%Y-%m-%d %H:%M:%S'),
+                            0
+                        );
                     }
                 }
             }
+            $query = "
+                INSERT INTO
+                    {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                    (
+                        operation_interval,
+                        operation_interval_id,
+                        interval_start,
+                        interval_end,
+                        ad_id,
+                        zone_id,
+                        required_impressions,
+                        requested_impressions,
+                        priority,
+                        priority_factor,
+                        priority_factor_limited,
+                        past_zone_traffic_fraction,
+                        created,
+                        created_by
+                    )
+                 VALUES
+                    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $aTypes = array(
+                'integer',
+                'integer',
+                'timestamp',
+                'timestamp',
+                'integer',
+                'integer',
+                'integer',
+                'integer',
+                'float',
+                'float',
+                'integer',
+                'float',
+                'timestamp',
+                'integer'
+            );
+            $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
             if (is_array($aValues) && !empty($aValues)) {
                 foreach ($aValues as $aInsertValues) {
                     if (is_array($aInsertValues) && !empty($aInsertValues)) {
-                        $query = "
-                            INSERT INTO
-                                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-                                (
-                                    operation_interval,
-                                    operation_interval_id,
-                                    interval_start,
-                                    interval_end,
-                                    ad_id,
-                                    zone_id,
-                                    required_impressions,
-                                    requested_impressions,
-                                    priority,
-                                    priority_factor,
-                                    priority_factor_limited,
-                                    past_zone_traffic_fraction,
-                                    created,
-                                    created_by
-                                )
-                             VALUES" . implode(', ', $aInsertValues);
-                        $rows = $this->oDbh->exec($query);
+                        $rows = $st->execute($aInsertValues);
                         if (PEAR::isError($rows)) {
                             $this->oDbh->rollback();
                             return false;
@@ -1507,50 +1514,66 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function saveZoneImpressionForecasts( $aForecasts )
     {
-
         // Check the parameter
-        if ( !is_array($aForecasts) || !count($aForecasts) ) {
+        if (!is_array($aForecasts) || !count($aForecasts)) {
             return;
         }
-
         $aConf = $GLOBALS['_MAX']['CONF'];
-
-        // save values to further querries
-        $aIntervalStart = array( 'min'=> 0, 'max' => 0 );
-        $aIntervalEnd = array( 'min'=> 0, 'max' => 0 );
-
-        // loop through forecasts array to find min/max start/end intervals
-        while ( list(,$aOperationIntervals) = each( $aForecasts ) ) {
-            while( list( ,$aValues ) = each($aOperationIntervals ) ) {
-
-                $iInterval = strtotime(  $aValues['interval_start'] );
-
-                if( ( !$aIntervalStart['max'] || $iInterval > $aIntervalStart['max'] ) && $iInterval > 0 ) {
-                    $aIntervalStart['max'] = $iInterval;
+        // Prepare arrays for storing interval start and end dates
+        $aIntervalStartCompare = array(
+        'min' => 0,
+        'max' => 0
+        );
+        $aIntervalStart = array();
+        $aIntervalEndCompare = array(
+            'min' => 0,
+            'max' => 0
+        );
+        $aIntervalEnd = array();
+        // Loop through forecasts array to find min/max start/end intervals
+        reset($aForecasts);
+        while (list( ,$aOperationIntervals) = each($aForecasts)) {
+            reset($aOperationIntervals);
+            while (list( ,$aValues) = each($aOperationIntervals)) {
+                // Convert the start of the interval to a number, and compare
+                $iInterval = strtotime($aValues['interval_start']);
+                if (($iInterval > 0) && (($iInterval < $aIntervalStartCompare['min']) || (!$aIntervalStartCompare['min'])))
+                {
+                    // This is the smallest interval start (so far)
+                    $aIntervalStartCompare['min'] = $iInterval;
+                    $aIntervalStart['min'] = $aValues['interval_start'];
                 }
-
-                if( ( !$aIntervalStart['min'] || $iInterval < $aIntervalStart['min'] ) && $iInterval > 0 ) {
-                    $aIntervalStart['min'] = $iInterval;
+                if (($iInterval > 0) && (($iInterval > $aIntervalStartCompare['max']) || (!$aIntervalStartCompare['max'])))
+                {
+                    // This is the biggest interval start (so far)
+                    $aIntervalStartCompare['max'] = $iInterval;
+                    $aIntervalStart['max'] = $aValues['interval_start'];
                 }
-
-                $iInterval = strtotime(  $aValues['interval_end'] );
-
-                if( ( !$aIntervalEnd['max'] || $iInterval > $aIntervalEnd['max'] ) && $iInterval > 0 ) {
-                    $aIntervalEnd['max'] = $iInterval;
+                // Convert the end of the interval to a number, and compare
+                $iInterval = strtotime($aValues['interval_end']);
+                if (($iInterval > 0) && (($iInterval < $aIntervalEndCompare['min']) || (!$aIntervalEndCompare['min'])))
+                {
+                    // This is the smallest interval start (so far)
+                    $aIntervalEndCompare['min'] = $iInterval;
+                    $aIntervalEnd['min'] = $aValues['interval_end'];
                 }
-
-                if( ( !$aIntervalEnd['min'] || $iInterval < $aIntervalEnd['min'] ) && $iInterval > 0 ) {
-                    $aIntervalEnd['min'] = $iInterval;
+                if (($iInterval > 0) && (($iInterval > $aIntervalEndCompare['max']) || (!$aIntervalEndCompare['max'])))
+                {
+                    // This is the biggest interval end (so far)
+                    $aIntervalEndCompare['max'] = $iInterval;
+                    $aIntervalEnd['max'] = $aValues['interval_end'];
                 }
-
             }
         }
-
-        // leave if at least one of endpoints for dates hasn't been set
-        if( !$aIntervalStart['min'] || !$aIntervalStart['max'] || !$aIntervalEnd['min'] || !$aIntervalEnd['max'] ) {
+        // Return if at least one of endpoints for dates hasn't been set
+        if (
+            !$aIntervalStartCompare['min'] ||
+            !$aIntervalStartCompare['max'] ||
+            !$aIntervalEndCompare['min'] ||
+            !$aIntervalEndCompare['max']
+        ) {
             return;
         }
-
         $sSelectQuery = "
 	        SELECT
 	            zone_id,
@@ -1563,117 +1586,109 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             FROM
                 {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
             WHERE
-                zone_id in (" . join( ',', array_keys( $aForecasts ) ) . ") " .
-                "AND operation_interval = {$aConf['maintenance']['operationInterval']} ".
-               	"AND interval_start >= '{$aIntervalStart['min']}' AND interval_start <= '{$aIntervalStart['max']}' " .
-               	"AND interval_end >= {$aIntervalEnd['min']} AND interval_end <= {$aIntervalEnd['max']} " .
-                "";
-
+                zone_id in (" . join(',', array_keys($aForecasts)) . ")
+                AND operation_interval = {$aConf['maintenance']['operationInterval']}
+               	AND interval_start >= '{$aIntervalStart['min']}' AND interval_start <= '{$aIntervalStart['max']}'
+               	AND interval_end >= '{$aIntervalEnd['min']}' AND interval_end <= '{$aIntervalEnd['max']}'";
         $rc = $this->oDbh->query($sSelectQuery);
-
-        if( PEAR::isError( $rc ) ) {
+        if (PEAR::isError($rc)) {
             return $rc;
         }
-
         if ($rc->numRows() > 0) {
-
             while ($row = $rc->fetchRow()) {
-
-                // skip row if there's no data for it in the array
-                if(
-                    !empty( $aForecasts[ $row['zone_id'] ] ) &&
-                    !empty( $aForecasts[ $row['zone_id'] ][ $row['operation_interval_id'] ] ) &&
-                    $aForecasts[ $row['zone_id'] ][ $row['operation_interval_id'] ][ 'interval_start' ] == $row['interval_start']  &&
-                    $aForecasts[ $row['zone_id'] ][ $row['operation_interval_id'] ][ 'interval_end' ] == $row['interval_end']
-                ) {
-
-	                // merge impresions
-	                if( !empty( $row['actual_impressions'] ) ) {
-	                    $aForecasts[ $row['zone_id'] ][ $row['operation_interval_id'] ][ 'actual_impressions' ] = $row['actual_impressions'];
+                // Skip row if there's no data for it in the array
+                if (
+                    !empty($aForecasts[$row['zone_id']]) &&
+                    !empty($aForecasts[$row['zone_id']][$row['operation_interval_id']]) &&
+                    $aForecasts[$row['zone_id']][$row['operation_interval_id']]['interval_start'] == $row['interval_start']  &&
+                    $aForecasts[$row['zone_id']][$row['operation_interval_id']]['interval_end'] == $row['interval_end']
+                )
+                {
+	                // Merge impresions
+	                if (!empty($row['actual_impressions']))
+	                {
+	                    $aForecasts[$row['zone_id']][$row['operation_interval_id']]['actual_impressions'] = $row['actual_impressions'];
 	                }
-
-	                // save forecast_impressions if there's no newer value in the array already
-	                if( empty( $aForecasts[ $row['zone_id'] ][ $row['operation_interval_id'] ][ 'forecast_impressions' ] ) ) {
-	                    $aForecasts[ $row['zone_id'] ][ $row['operation_interval_id'] ][ 'forecast_impressions' ] = $row['forecast_impressions'];
+	                // Save forecast_impressions only if there is no newer value in the array already
+	                if (empty($aForecasts[$row['zone_id']][$row['operation_interval_id']]['forecast_impressions']))
+	                {
+	                    $aForecasts[$row['zone_id']][$row['operation_interval_id']]['forecast_impressions'] = $row['forecast_impressions'];
 	                }
-
                 }
             }
         }
         $rc->free();
-
-        // run query and check for results
+        // Run query and check for results
         $oRes = $this->oDbh->beginTransaction();
-        if( PEAR::isError( $oRes ) ) {
-            // cannot start transaction
+        if (PEAR::isError($oRes)) {
+            // Cannot start transaction
             return $oRes;
         }
-
         $sDeleteQuery =  "
-                DELETE FROM
-                    {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
-                WHERE " .
-                	"zone_id IN (" . join( ',', array_keys( $aForecasts ) ) . ") " .
-                	"AND interval_start >= '{$aIntervalStart['min']}' AND interval_start <= '{$aIntervalStart['max']}' " .
-                	"AND interval_end >= {$aIntervalEnd['min']} AND interval_end <= {$aIntervalEnd['max']} " .
-                	"AND operation_interval = {$aConf['maintenance']['operationInterval']} ";
-
-        // run query and check for results
-        $rc = $this->oDbh->query( $sDeleteQuery );
-        if( PEAR::isError( $rc ) ) {
-            // rollback
+            DELETE FROM
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+            WHERE
+            	zone_id IN (" . join( ',', array_keys( $aForecasts ) ) . ")
+            	AND interval_start >= '{$aIntervalStart['min']}' AND interval_start <= '{$aIntervalStart['max']}'
+            	AND interval_end >= '{$aIntervalEnd['min']}' AND interval_end <= '{$aIntervalEnd['max']}'
+            	AND operation_interval = {$aConf['maintenance']['operationInterval']}";
+        // Run query and check for results
+        $rc = $this->oDbh->query($sDeleteQuery);
+        if (PEAR::isError($rc)) {
+            // Rollback
             $this->oDbh->rollback();
-
-            // return error object
+            // Return error object
             return $rc;
         }
-
-        // append all values to the multiple insert stmt
+        // Append all values to the multiple insert stmt
         $sInsertQuery = "
-                INSERT INTO
-                    {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
-                    (
-                        zone_id,
-                        operation_interval,
-                        operation_interval_id,
-                        interval_start,
-                        interval_end,
-                        forecast_impressions
-                    )
-                VALUES ";
-
+            INSERT INTO
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                (
+                    zone_id,
+                    operation_interval,
+                    operation_interval_id,
+                    interval_start,
+                    interval_end,
+                    forecast_impressions
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'integer'
+        );
+        $st = $this->oDbh->prepare($sInsertQuery, $aTypes, MDB2_PREPARE_MANIP);
         // For each forecast in the array
         foreach ($aForecasts as $zoneId => $aOperationIntervals) {
             foreach ($aOperationIntervals as $id => $aValues) {
-
-                // add another value set to the insert stmt
-                $sInsertQuery .= "(" .
-                		"$zoneId," .
-                		"{$aConf['maintenance']['operationInterval']}," .
-                		"$id," .
-                		"'{$aValues['interval_start']}'," .
-                		"'{$aValues['interval_end']}'," .
-                		"{$aValues['forecast_impressions']}" .
-                		"),";
+                // Insert the forecast
+                $aData = array(
+            		$zoneId,
+            		$aConf['maintenance']['operationInterval'],
+            		$id,
+            		$aValues['interval_start'],
+            		$aValues['interval_end'],
+            		$aValues['forecast_impressions']
+        		);
+        		$rows = $st->execute($aData);
+                if (PEAR::isError($rows)) {
+                    // Rollback
+                    $this->oDbh->rollback();
+                    // Return error object
+                    return $rows;
+                }
             }
         }
-
-        // remove last comma
-        $sInsertQuery = substr( $sInsertQuery, 0, -1 );
-
-        // run query and return the output (DB_OK/DB_Error)
-        $rows = $this->oDbh->exec( $sInsertQuery );
-
-        if( PEAR::isError( $rows ) ) {
-            // rollback
-            $this->oDbh->rollback();
-
-            // return error object
-            return $rows;
+        // Commit the data
+        $oRes = $this->oDbh->commit();
+        if (PEAR::isError($oRes)) {
+            return $oRes;
         }
-
-        return $this->oDbh->commit();
-
     }
 
     /**
@@ -1686,22 +1701,30 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     function getActiveZones()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $query = array();
-        $table             = $aConf['table']['prefix'] . $aConf['table']['zones'];
-        $joinTable1        = $aConf['table']['prefix'] . $aConf['table']['ad_zone_assoc'];
-        $joinTable2        = $aConf['table']['prefix'] . $aConf['table']['banners'];
-        $query['table']    = $table;
-        $query['fields']   = array(
-                                "$table.zoneid",
-                                "$table.zonename",
-                                "$table.zonetype"
-                             );
-        $query['joins']    = array(
-                                array($joinTable1, "$table.zoneid = $joinTable1.zone_id"),
-                                array($joinTable2, "$joinTable1.ad_id = $joinTable2.bannerid AND $joinTable2.active = 't'")
-                             );
-        $query['group']    = "zoneid";
-        return $this->_get($query);
+        $query = "
+            SELECT
+                z.zoneid AS zoneid,
+                z.zonename AS zonename,
+                z.zonetype AS zonetype
+            FROM
+                {$aConf['table']['prefix']}{$aConf['table']['zones']} AS z,
+                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']} AS aza,
+                {$aConf['table']['prefix']}{$aConf['table']['banners']} as b
+            WHERE
+                z.zoneid = aza.zone_id
+                AND
+                aza.ad_id = b.bannerid
+                AND
+                b.active = 't'
+            GROUP BY
+                zoneid,
+                zonename,
+                zonetype";
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return $rc;
+        }
+        return $rc->fetchAll();
     }
 
     /**
@@ -1714,14 +1737,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     function saveRequiredAdImpressions($aData)
     {
         if (is_array($aData) && (count($aData) > 0)) {
-            $values = array();
-            foreach ($aData as $data) {
-                $values[] = "
-                    (
-                        {$data['ad_id']},
-                        {$data['required_impressions']}
-                    )";
-            }
             $query = "
                 INSERT INTO
                     tmp_ad_required_impression
@@ -1729,8 +1744,25 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                         ad_id,
                         required_impressions
                     )
-                VALUES" . implode(', ', $values);
-            $rows = $this->oDbh->exec($query);
+                VALUES
+                    (?, ?)";
+            $aTypes = array(
+                'integer',
+                'integer'
+            );
+            $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+            $this->oDbh->beginTransaction();
+            foreach ($aData as $aValues) {
+                $aData = array();
+                $aData[0] = $aValues['ad_id'];
+                $aData[1] = $aValues['required_impressions'];
+                $rows = $st->execute($aData);
+                if (PEAR::isError($rows)) {
+                    $this->oDbh->rollback();
+                    return $rows;
+                }
+            }
+            $this->oDbh->commit();
         }
     }
 
@@ -1898,11 +1930,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     function saveAllocatedImpressions($aData)
     {
         if (is_array($aData) && (count($aData) > 0)) {
-            $aValues = array();
-            foreach ($aData as $aItem) {
-                $aValues[] = "({$aItem['ad_id']}, {$aItem['zone_id']},
-                               {$aItem['required_impressions']}, {$aItem['requested_impressions']})";
-            }
             $query = "
                 INSERT INTO
                     tmp_ad_zone_impression
@@ -1912,9 +1939,29 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                         required_impressions,
                         requested_impressions
                     )
-                VALUES ";
-            $query .= implode(', ', $aValues);
-            $rows = $this->oDbh->exec($query);
+                VALUES
+                    (?, ?, ?, ?)";
+            $aTypes = array(
+                'integer',
+                'integer',
+                'integer',
+                'integer'
+            );
+            $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+            $this->oDbh->beginTransaction();
+            foreach ($aData as $aValues) {
+                $aData = array();
+                $aData[0] = $aValues['ad_id'];
+                $aData[1] = $aValues['zone_id'];
+                $aData[2] = $aValues['required_impressions'];
+                $aData[3] = $aValues['requested_impressions'];
+                $rows = $st->execute($aData);
+                if (PEAR::isError($rows)) {
+                    $this->oDbh->rollback();
+                    return $rows;
+                }
+            }
+            $this->oDbh->commit();
         }
     }
 
