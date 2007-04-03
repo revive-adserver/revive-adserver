@@ -148,9 +148,16 @@ class Admin_DaTest extends UnitTestCase
 
         $aTable = array('zones' => 'foo');
         $aVariables = array(
-            'affiliateid' => 23,
-            'zonename' => 'foo',
-            'description' => 'this is the desc');
+            'affiliateid'  => 23,
+            'zonename'     => 'foo',
+            'description'  => 'this is the desc',
+            'category'     => 0,
+            'ad_selection' => 0,
+            'chain'        => 0,
+            'prepend'      => 0,
+            'append'       => 0,
+            'updated'      => '2007-04-03 16:41:15'
+        );
         $ret = SqlBuilder::_insert($aTable, $aVariables);
         $this->assertTrue(is_int($ret));
         $this->assertTrue($ret > 0);
