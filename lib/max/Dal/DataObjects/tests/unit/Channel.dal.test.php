@@ -42,13 +42,14 @@ class DataObjects_ChannelTest extends DalUnitTestCase
     {
         $this->UnitTestCase();
     }
-    
-    
+
+
     function testDelete()
     {
         $doChannel = MAX_DB::factoryDO('channel');
+        $doChannel->acls_updated = '2007-04-03 19:29:54';
         $channelId = DataGenerator::generateOne($doChannel);
-        
+
         $doAcls = MAX_DB::factoryDO('acls');
         $doAcls->bannerid = 1;
         $doAcls->type = 'Site:Channel';
@@ -58,10 +59,10 @@ class DataObjects_ChannelTest extends DalUnitTestCase
         $doAcls->data = "$channelId, 196";
         $doAcls->executionorder = 2;
         $doAcls->insert();
-        
+
         $doChannel->channelid = $channelId;
         $doChannel->delete();
-        
+
         $doAcls = MAX_DB::factoryDO('acls');
         $this->assertEqual(1, $doAcls->count());
     }
