@@ -28,6 +28,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Util/ArrayUtils.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 
@@ -46,7 +47,7 @@ class MAX_Permission
 	        phpAds_Die($strAccessDenied, $strNotAdmin);
 		}
 	}
-	
+
 	/**
 	 * Checks if user is allowed to perform action
 	 *
@@ -60,7 +61,7 @@ class MAX_Permission
 			phpAds_Die ($strAccessDenied, $strNotAdmin);
 		}
 	}
-	
+
 	/**
 	 * Checks the user is allowed to access the requested object.
 	 *
@@ -75,7 +76,7 @@ class MAX_Permission
 			phpAds_Die($strAccessDenied, $strNotAdmin);
 		}
 	}
-	
+
 	/**
 	 * Checks if user has access to specific area (for example admin or agency area)
 	 * Parametere is on of or sum of any of constants eg: phpAds_Admin + phpAds_Agency
@@ -92,7 +93,7 @@ class MAX_Permission
 	    }
 	    return true;
 	}
-	
+
 	/**
 	 * Checks if user is allowed to perform specific action.
 	 * eg: phpAds_ModifyInfo
@@ -111,7 +112,7 @@ class MAX_Permission
 	    global $session;
     	return ($allowed & (int) $session['permissions']);
 	}
-	
+
 	/**
 	 * Check if looged user has access to DataObject (defined by it's table name)
 	 *
@@ -135,7 +136,7 @@ class MAX_Permission
 		    // when a new object is created
 		    return true;
 		}
-		$do = MAX_DB::factoryDO($objectTable);
+		$do = OA_Dal::factoryDO($objectTable);
 		if (!$do) {
 			return false;
 		}
@@ -157,7 +158,7 @@ class MAX_Permission
 		}
 		return $do->belongToUser($userTable, $userId);
 	}
-	
+
 	/**
 	 * Return user table for logged user
 	 *
@@ -176,7 +177,7 @@ class MAX_Permission
 		);
         return isset($userTables[$userType]) ? $userTables[$userType] : null;
 	}
-	
+
 	/**
 	 * Checks if username is still available and if
 	 * it is allowed to use.
@@ -198,14 +199,14 @@ class MAX_Permission
 	    // check against all users in system
 	    $userTables = array('affiliates', 'clients', 'agency');
 	    foreach($userTables as $table) {
-	        $doUser = MAX_DB::factoryDO($table);
+	        $doUser = OA_Dal::factoryDO($table);
 	        if (!PEAR::isError($doUser) && $doUser->userExists($newName)) {
 	            return false;
 	        }
 	    }
 	    return true;
 	}
-	
+
 	/**
 	 * Gets a list of unique usernames.
 	 *
@@ -216,17 +217,17 @@ class MAX_Permission
 	{
         global $pref;
 	    $uniqueUsers = array($pref['admin']);
-        
+
 	    $userTables = array('affiliates', 'clients', 'agency');
 	    foreach($userTables as $table) {
-	        $doUser = MAX_DB::factoryDO($table);
+	        $doUser = OA_Dal::factoryDO($table);
 	        if (PEAR::isError($doUser)) {
 	            return false;
 	        }
 	        $newUniqueNames = $doUser->getUniqueUsers();
 	        $uniqueUsers = array_merge($uniqueUsers, $newUniqueNames);
 	    }
-	    
+
 	    ArrayUtils::unsetIfKeyNumeric($uniqueUsers, $removeName);
         return $uniqueUsers;
 	}
