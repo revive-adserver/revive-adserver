@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/max/Dal/Admin/Affiliates.php';
 class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
 {
     var $dalAffiliates;
-    
+
     /**
      * The constructor method.
      */
@@ -45,17 +45,17 @@ class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
     {
         $this->UnitTestCase();
     }
-    
+
     function setUp()
     {
         $this->dalAffiliates = MAX_DB::factoryDAL('affiliates');
     }
-    
+
     function tearDown()
     {
         DataGenerator::cleanUp();
     }
-    
+
     function testGetAffiliateByKeyword()
     {
         // Insert some affiliates
@@ -66,21 +66,21 @@ class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
         $dg = new DataGenerator();
         $dg->setData('affiliates', $aData);
         $aAffiliateId = $dg->generate('affiliates', 2);
-        
+
         // Search by name
         $expectedRows = 2;
         $rsAffiliates = $this->dalAffiliates->getAffiliateByKeyword('foo');
         $rsAffiliates->find();
         $actualRows = $rsAffiliates->getRowCount();
         $this->assertEqual($actualRows, $expectedRows);
-        
+
         // Search by id
         $expectedRows = 1;
         $rsAffiliates = $this->dalAffiliates->getAffiliateByKeyword($aAffiliateId[0]);
         $rsAffiliates->find();
         $actualRows = $rsAffiliates->getRowCount();
         $this->assertEqual($actualRows, $expectedRows);
-        
+
         // Restrict to agency
         $expectedRows = 1;
         $rsAffiliates = $this->dalAffiliates->getAffiliateByKeyword('foo', 1);
@@ -88,28 +88,29 @@ class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
         $actualRows = $rsAffiliates->getRowCount();
         $this->assertEqual($actualRows, $expectedRows);
     }
-    
+
     function testGetPublishersByTracker()
     {
         $campaignId = 1;
-        
+
         // Add a couple of campaign_trackers
         $doCampaignsTrackers = MAX_DB::factoryDO('campaigns_trackers');
         $doCampaignsTrackers->campaignid = $campaignId;
         $doCampaignsTrackers->trackerid = 1;
         $aCampaignTrackerId = DataGenerator::generate($doCampaignsTrackers, 2);
-        
+
         $doBanners = MAX_DB::factoryDO('banners');
         $doBanners->campaignid = $campaignId;
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
         $bannerId = DataGenerator::generateOne($doBanners);
-        
+
         // Add a couple of affiliates
         $aAffiliateId = DataGenerator::generate('affiliates', 2);
-        
+
         $doZones = MAX_DB::factoryDO('zones');
         $doZones->affiliateid = $aAffiliateId[0];
         $zoneId = DataGenerator::generateOne($doZones);
-        
+
         $doAddZoneAssoc = MAX_DB::factoryDO('ad_zone_assoc');
         $doAddZoneAssoc->zone_id = $zoneId;
         $doAddZoneAssoc->ad_id = $BannerId;
@@ -122,6 +123,6 @@ class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
         $actualRows = $rsAffiliates->getRowCount();
         $this->assertEqual($actualRows, $expectedRows);
     }
-    
+
 }
 ?>
