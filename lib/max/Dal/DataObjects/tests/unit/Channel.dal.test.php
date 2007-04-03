@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
@@ -46,11 +47,11 @@ class DataObjects_ChannelTest extends DalUnitTestCase
 
     function testDelete()
     {
-        $doChannel = MAX_DB::factoryDO('channel');
+        $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->acls_updated = '2007-04-03 19:29:54';
         $channelId = DataGenerator::generateOne($doChannel);
 
-        $doAcls = MAX_DB::factoryDO('acls');
+        $doAcls = OA_Dal::factoryDO('acls');
         $doAcls->bannerid = 1;
         $doAcls->type = 'Site:Channel';
         $doAcls->data = "$channelId";
@@ -63,7 +64,7 @@ class DataObjects_ChannelTest extends DalUnitTestCase
         $doChannel->channelid = $channelId;
         $doChannel->delete();
 
-        $doAcls = MAX_DB::factoryDO('acls');
+        $doAcls = OA_Dal::factoryDO('acls');
         $this->assertEqual(1, $doAcls->count());
     }
 }

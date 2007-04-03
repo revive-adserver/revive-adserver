@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
@@ -42,7 +43,7 @@ class DataObjects_BannersTest extends DalUnitTestCase
     {
         $this->UnitTestCase();
     }
-    
+
     function tearDown()
     {
         DataGenerator::cleanUp();
@@ -51,14 +52,15 @@ class DataObjects_BannersTest extends DalUnitTestCase
     function testDuplicate()
     {
         $filename = 'test.gif';
-        
-        $doBanners = MAX_DB::factoryDO('banners');
+
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->filename = $filename;
         $doBanners->storagetype = 'sql';
-        
+        $doBanners->acls_updated = '2007-04-03 19:28:06';
+
         $id1 = DataGenerator::generateOne($doBanners);
 
-        $doBanners = MAX_DB::staticGetDO('banners', $id1);
+        $doBanners = OA_Dal::staticGetDO('banners', $id1);
 
         Mock::generatePartial(
             'DataObjects_Banners',
@@ -72,26 +74,27 @@ class DataObjects_BannersTest extends DalUnitTestCase
         $doMockBanners->expectOnce('_imageDuplicate');
         $id2 = $doMockBanners->duplicate(); // duplicate
         $doMockBanners->tally();
-        
+
         $this->assertNotEmpty($id2);
         $this->assertNotEqual($id1, $id2);
 
-        $doBanners1 = MAX_DB::staticGetDO('banners', $id1);
-        $doBanners2 = MAX_DB::staticGetDO('banners', $id2);
+        $doBanners1 = OA_Dal::staticGetDO('banners', $id1);
+        $doBanners2 = OA_Dal::staticGetDO('banners', $id2);
         // assert they are equal (but without comparing primary key)
         $this->assertNotEqualDataObjects($this->stripKeys($doBanners1), $this->stripKeys($doBanners2));
-        
+
         // Test that the only difference is their description
         $doBanners1->description = $doBanners2->description = null;
         $this->assertEqualDataObjects($this->stripKeys($doBanners1), $this->stripKeys($doBanners2));
     }
-    
-    
+
+
     function testInsert()
     {
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->acls_updated = '2007-04-03 19:28:06';
         $bannerId = $doBanners->insert();
-        $doAdZoneAssoc = MAX_DB::factoryDO('ad_zone_assoc');
+        $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->ad_id = $bannerId;
         $doAdZoneAssoc->zone_id = 0;
         $this->assertTrue($doAdZoneAssoc->find());

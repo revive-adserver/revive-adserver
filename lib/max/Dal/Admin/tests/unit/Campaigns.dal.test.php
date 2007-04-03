@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Campaigns.php';
 
@@ -48,7 +49,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
 
     function setUp()
     {
-        $this->dalCampaigns = MAX_DB::factoryDAL('campaigns');
+        $this->dalCampaigns = OA_Dal::factoryDAL('campaigns');
     }
 
     function tearDown()
@@ -64,7 +65,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
     {
         // Insert campaigns
         $numCampaigns = 2;
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $aCampaignId = DataGenerator::generate($doCampaigns, $numCampaigns);
 
         // Call method
@@ -78,12 +79,12 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
     function testCountActiveCampaigns()
     {
         // Insert an active campaign
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->active = 't';
         $activeId = DataGenerator::generateOne($doCampaigns);
 
         // Insert an inactive campaign
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->active = 'f';
         $inactiveId = DataGenerator::generateOne($doCampaigns);
 
@@ -99,31 +100,31 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $agencyId = 1;
 
         // Insert an advertiser under this agency.
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = $agencyId;
         $doClients->reportlastdate = '2007-04-03 19:14:59';
         $agencyClientId = DataGenerator::generateOne($doClients);
 
         // Insert an active campaign with this client
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->active = 't';
         $doCampaigns->clientid = $agencyClientId;
         $agencyCampaignIdActive = DataGenerator::generateOne($doCampaigns);
 
         // Insert an inactive campaign with this client
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->active = 'f';
         $doCampaigns->clientid = $agencyClientId;
         $agencyCampaignInactiveId = DataGenerator::generateOne($doCampaigns);
 
         // Insert an advertiser under no agency.
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = 0;
         $doClients->reportlastdate = '2007-04-03 19:14:59';
         $noAgencyClientId = DataGenerator::generateOne($doClients);
 
          // Insert an active campaign with this client
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->active = 't';
         $doCampaigns->clientid = $noAgencyClientId;
         $noAgencyCampaignIdActive = DataGenerator::generateOne($doCampaigns);
@@ -151,7 +152,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $this->assertEqual($actual, $expected);
 
         // Create a campaign
-        $doCampaign = MAX_DB::factoryDO('campaigns');
+        $doCampaign = OA_Dal::factoryDO('campaigns');
         $doCampaign->campaignname = 'foo';
         DataGenerator::generateOne($doCampaign, true);
         $agencyId = DataGenerator::getReferenceId('agency');
@@ -201,14 +202,14 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $daysLeft = 10;
         $now = time();
         $expirationDate = mktime(0, 0, 0, date("m", $now), date("d", $now) + $daysLeft, date("Y", $now));
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->views = -1;
         $doCampaigns->clicks = -1;
         $doCampaigns->expire = date('Y-m-d', $expirationDate);
         $campaignId = DataGenerator::generateOne($doCampaigns, true);
 
         // Link a banner to this campaign
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $campaignId;
         $bannerId = DataGenerator::generateOne($doBanners);
 
@@ -222,20 +223,20 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
 
         // Test a view limited campaign
         $views = 1000;
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->views = $views;
         $doCampaigns->clicks = -1;
         $campaignId = DataGenerator::generateOne($doCampaigns, true);
 
         // Link a banner to this campaign
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $campaignId;
         $bannerId = DataGenerator::generateOne($doBanners);
 
         // Insert some dsah data
         $impressions = 50;
         $clicks = 5;
-        $doDSAH = MAX_DB::factoryDO('data_summary_ad_hourly');
+        $doDSAH = OA_Dal::factoryDO('data_summary_ad_hourly');
         $doDSAH->day = date('Y-m-d', $now);
         $doDSAH->hour = 10;
         $doDSAH->ad_id = $bannerId;
@@ -255,20 +256,20 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
 
         // Test a click limited campaign
         $campaignClicks = 500;
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->views = -1;
         $doCampaigns->clicks = $campaignClicks;
         $campaignId = DataGenerator::generateOne($doCampaigns, true);
 
         // Link a banner to this campaign
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $campaignId;
         $bannerId = DataGenerator::generateOne($doBanners);
 
         // Insert some dsah data
         $impressions = 50;
         $clicks = 5;
-        $doDSAH = MAX_DB::factoryDO('data_summary_ad_hourly');
+        $doDSAH = OA_Dal::factoryDO('data_summary_ad_hourly');
         $doDSAH->day = date('Y-m-d', $now);
         $doDSAH->hour = 10;
         $doDSAH->ad_id = $bannerId;
@@ -291,7 +292,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
     {
         // Insert a campaign
         $numClicks = 100;
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clicks = $numClicks;
         $campaignId = DataGenerator::generateOne($doCampaigns);
 
@@ -299,7 +300,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
 
         // Set the clicks to unlimited
         $numClicks = -1;
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clicks = $numClicks;
         $campaignId = DataGenerator::generateOne($doCampaigns);
 
@@ -312,7 +313,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
     {
         // Insert a campaign
         $numViews = 100;
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->views = $numViews;
         $campaignId = DataGenerator::generateOne($doCampaigns);
 
@@ -320,7 +321,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
 
         // Set the views to unlimited
         $numViews = -1;
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->views = $numViews;
         $campaignId = DataGenerator::generateOne($doCampaigns);
 

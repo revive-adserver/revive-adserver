@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
@@ -46,7 +47,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
 
     function setUp()
     {
-        $this->dalClients = MAX_DB::factoryDAL('clients');
+        $this->dalClients = OA_Dal::factoryDAL('clients');
     }
 
     function tearDown()
@@ -78,7 +79,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertEqual($rsClients->getRowCount(), 0);
 
         // Insert a single advertiser
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
         $doClients->clientname = 'Advertiser 1';
         $doClients->agencyid = 1;
         $doClients->reportlastdate = '2007-04-03 19:14:59';
@@ -99,7 +100,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertEqual($aRow['clientname'], 'Advertiser 1');
 
         // Insert a second advertiser
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
         $doClients->clientname = 'Advertiser 2';
         $doClients->agencyid = 2;
         $doClients->reportlastdate = '2007-04-03 19:14:59';
@@ -161,7 +162,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertNull($aClients);
 
         // Insert a single advertiser
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
         $doClients->reportlastdate = '2007-04-03 19:14:59';
         $aClientId = DataGenerator::generateOne($doClients);
 
@@ -170,7 +171,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertNull($aClients);
 
         // Insert a second advertiser
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
         $doClients->reportlastdate = '2007-04-03 19:14:59';
         $aClientId = DataGenerator::generateOne($doClients);
 
@@ -215,7 +216,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertEqual(count($aClients), 0);
 
         // Insert a single advertiser
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
         $doClients->clientname = 'Advertiser 1';
         $doClients->agencyid = 1;
         $doClients->reportlastdate = '2007-04-03 19:14:59';
@@ -230,7 +231,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
 
         // Insert a second advertiser
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
         $doClients->clientname = 'Advertiser 2';
         $doClients->agencyid = 2;
         $doClients->reportlastdate = '2007-04-03 19:14:59';
@@ -298,7 +299,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
     function testGetAllAdvertisersForAgency()
     {
         // Insert a single advertiser
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
         $doClients->clientname = 'Advertiser 1';
         $doClients->agencyid = 1;
         $doClients->reportlastdate = '2007-04-03 19:14:59';

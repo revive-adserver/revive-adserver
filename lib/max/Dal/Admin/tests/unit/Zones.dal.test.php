@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
@@ -36,7 +37,7 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
 {
     var $dalZones;
-    
+
     /**
      * The constructor method.
      */
@@ -44,17 +45,17 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
     {
         $this->UnitTestCase();
     }
-    
+
     function setUp()
     {
-        $this->dalZones = MAX_DB::factoryDAL('zones');
+        $this->dalZones = OA_Dal::factoryDAL('zones');
     }
-    
+
     function tearDown()
     {
         DataGenerator::cleanUp();
     }
-    
+
     function testGetZoneByKeyword()
     {
         // Search for zones when none exist.
@@ -63,83 +64,83 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $rsZones->find();
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
-        
+
         $agencyId = 1;
         $rsZones = $this->dalZones->getZoneByKeyword('foo', $agencyId);
         $rsZones->find();
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
-        
+
         $affiliateId = 1;
         $rsZones = $this->dalZones->getZoneByKeyword('foo', null, $affiliateId);
         $rsZones->find();
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
-        
+
         $affiliateId = 1;
         $rsZones = $this->dalZones->getZoneByKeyword('foo', $agencyId, $affiliateId);
         $rsZones->find();
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
-        
+
         // Add a zone (and parent objects)
-        $doZones = MAX_DB::factoryDO('zones');
+        $doZones = OA_Dal::factoryDO('zones');
         $doZones->zonename = 'foo';
         $doZones->description = 'bar';
         $zoneId = DataGenerator::generateOne($doZones, true);
         $affiliateId1 = DataGenerator::getReferenceId('affiliates');
         $agencyId1 = DataGenerator::getReferenceId('agency');
-        
+
         // Add another zone
-        $doZones = MAX_DB::factoryDO('zones');
+        $doZones = OA_Dal::factoryDO('zones');
         $doZones->zonename = 'baz';
         $doZones->description = 'quux';
         $zoneId = DataGenerator::generateOne($doZones, true);
         $agencyId2 = DataGenerator::getReferenceId('agency');
-        
+
         // Search for the zone by string
         $expected = 1;
         $rsZones = $this->dalZones->getZoneByKeyword('foo');
         $rsZones->find();
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
-        
+
         $rsZones = $this->dalZones->getZoneByKeyword('bar');
         $rsZones->find();
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
-        
+
         // Restrict the search to agency ID
         $expected = 0;
         $rsZones = $this->dalZones->getZoneByKeyword('foo', $agencyId = 0);
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
-        
+
         $expected = 1;
         $rsZones = $this->dalZones->getZoneByKeyword('foo', $agencyId1);
         $rsZones->find();
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
-        
+
         // Restrict the search to affiliate ID
         $expected = 0;
         $rsZones = $this->dalZones->getZoneByKeyword('foo', $agencyId, $affiliateId = 0);
         $rsZones->find();
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
-        
+
         $expected = 1;
         $rsZones = $this->dalZones->getZoneByKeyword('foo', $agencyId1, $affiliateId1);
         $rsZones->find();
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
-        
+
         $rsZones = $this->dalZones->getZoneByKeyword('bar', null, $affiliateId1);
         $rsZones->find();
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
-        
-        
+
+
         // Search for zone by zone ID
         $expected = 1;
         $rsZones = $this->dalZones->getZoneByKeyword($zoneId);
@@ -147,22 +148,22 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $actual = $rsZones->getRowCount();
         $this->assertEqual($actual, $expected);
     }
-    
+
     function testGetZoneForInvocationForm()
     {
         // Insert a publisher
-        $doAffiliates = MAX_DB::factoryDO('affiliates');
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
         $doAffiliates->website = 'http://example.com';
         $affiliateId = DataGenerator::generateOne($doAffiliates);
-        
+
         // Insert a zone
-        $doZone = MAX_DB::factoryDO('zones');
+        $doZone = OA_Dal::factoryDO('zones');
         $doZone->affiliateid = $affiliateId;
         $doZone->height = 5;
         $doZone->width = 10;
         $doZone->delivery = 1;
         $zoneId = DataGenerator::generateOne($doZone);
-        
+
         $aExpected = array(
             'affiliateid' => $affiliateId,
             'height' => 5,
@@ -171,10 +172,10 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
             'website' => 'http://example.com'
         );
         $aActual = $this->dalZones->getZoneForInvocationForm($zoneId);
-        
+
         ksort($aExpected);
         ksort($aActual);
-        
+
         $this->assertEqual($aActual, $aExpected);
     }
 }

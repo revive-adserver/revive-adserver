@@ -3,6 +3,7 @@
  * @since Max v0.3.30 - 20-Nov-2006
  */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
 class MAX_Dal_Admin_Clients extends MAX_Dal_Common
@@ -55,7 +56,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      */
     function getAdvertiserDetails($advertiserId)
     {
-        $doClients = MAX_DB::staticGetDO('clients', $advertiserId);
+        $doClients = OA_Dal::staticGetDO('clients', $advertiserId);
         if ($doClients) {
             return $doClients->toArray();
         }
@@ -75,7 +76,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      */
     function getAllAdvertisers($listorder, $orderdirection, $agencyId = null)
     {
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
         if (!empty($agencyId) && is_numeric($agencyId)) {
             $doClients->agencyid = $agencyId;
         }

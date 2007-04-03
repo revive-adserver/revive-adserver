@@ -232,7 +232,7 @@ class DB_DataObjectCommon extends DB_DataObject
      * using information from links.ini file. It allow for example to very
      * easly select all campaign which belong to specific agency.
      * {{{
-     * $doCampaigns = MAX_DB::factoryDO('campaigns');
+     * $doCampaigns = OA_Dal::factoryDO('campaigns');
      * $doCampaigns->addReferenceFilter('agency', $agencyId);
      * $doCampaigns->find();
      * }}}
@@ -447,7 +447,8 @@ class DB_DataObjectCommon extends DB_DataObject
      */
 
     /**
-     * This method is called explicitly by MAX_DB class
+     * This method is called explicitly by the OA_Dal class methods used
+     * to instantiate implementations of this class.
      *
      * @access public
      */

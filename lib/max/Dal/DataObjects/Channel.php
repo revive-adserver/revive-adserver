@@ -2,9 +2,11 @@
 /**
  * Table Definition for channel
  */
+
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once 'DB_DataObjectCommon.php';
 
-class DataObjects_Channel extends DB_DataObjectCommon 
+class DataObjects_Channel extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
     ###START_AUTOCODE
@@ -14,11 +16,11 @@ class DataObjects_Channel extends DB_DataObjectCommon
     var $channelid;                       // int(9)  not_null primary_key auto_increment
     var $agencyid;                        // int(9)  not_null
     var $affiliateid;                     // int(9)  not_null
-    var $name;                            // string(255)  
-    var $description;                     // string(255)  
+    var $name;                            // string(255)
+    var $description;                     // string(255)
     var $compiledlimitation;              // blob(65535)  not_null blob
     var $acl_plugins;                     // blob(65535)  blob
-    var $active;                          // int(1)  
+    var $active;                          // int(1)
     var $comments;                        // blob(65535)  blob
     var $updated;                         // datetime(19)  not_null binary
     var $acls_updated;                    // datetime(19)  not_null binary
@@ -31,17 +33,17 @@ class DataObjects_Channel extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-    
+
     function delete($useWhere = false, $cascade = true)
     {
     	// find acls which uses this channels
-    	$dalAcls = MAX_DB::factoryDAL('acls');
+    	$dalAcls = OA_Dal::factoryDAL('acls');
     	$rsChannel = $dalAcls->getAclsByDataValueType($this->channelid, 'Site:Channel');
     	$rsChannel->reset();
     	while ($rsChannel->next()) {
     		$channelIds = explode(',', $rsChannel->get('data'));
     		$channelIds = array_diff($channelIds, array($this->channelid));
-    		
+
     		$doAcl = DB_DataObject::factory('acls');
     		$doAcl->init();
     		$doAcl->bannerid = $rsChannel->get('bannerid');
@@ -53,7 +55,7 @@ class DataObjects_Channel extends DB_DataObjectCommon
     			$doAcl->delete();
     		}
     	}
-    	
+
     	return parent::delete($useWhere, $cascade);
     }
 }

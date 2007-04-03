@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Affiliates.php';
 
@@ -48,7 +49,7 @@ class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
 
     function setUp()
     {
-        $this->dalAffiliates = MAX_DB::factoryDAL('affiliates');
+        $this->dalAffiliates = OA_Dal::factoryDAL('affiliates');
     }
 
     function tearDown()
@@ -94,12 +95,12 @@ class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
         $campaignId = 1;
 
         // Add a couple of campaign_trackers
-        $doCampaignsTrackers = MAX_DB::factoryDO('campaigns_trackers');
+        $doCampaignsTrackers = OA_Dal::factoryDO('campaigns_trackers');
         $doCampaignsTrackers->campaignid = $campaignId;
         $doCampaignsTrackers->trackerid = 1;
         $aCampaignTrackerId = DataGenerator::generate($doCampaignsTrackers, 2);
 
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $campaignId;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $bannerId = DataGenerator::generateOne($doBanners);
@@ -107,11 +108,11 @@ class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
         // Add a couple of affiliates
         $aAffiliateId = DataGenerator::generate('affiliates', 2);
 
-        $doZones = MAX_DB::factoryDO('zones');
+        $doZones = OA_Dal::factoryDO('zones');
         $doZones->affiliateid = $aAffiliateId[0];
         $zoneId = DataGenerator::generateOne($doZones);
 
-        $doAddZoneAssoc = MAX_DB::factoryDO('ad_zone_assoc');
+        $doAddZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAddZoneAssoc->zone_id = $zoneId;
         $doAddZoneAssoc->ad_id = $BannerId;
         $adZoneAssocId = DataGenerator::generateOne($doAddZoneAssoc);

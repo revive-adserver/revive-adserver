@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
@@ -47,7 +48,7 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
 
     function setUp()
     {
-        $this->dalBanners = MAX_DB::factoryDAL('banners');
+        $this->dalBanners = OA_Dal::factoryDAL('banners');
     }
 
     function tearDown()
@@ -59,7 +60,7 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
     {
         // Insert banners
         $numBanners = 2;
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $aBannerId = DataGenerator::generate($doBanners, $numBanners);
 
@@ -72,30 +73,30 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
 
     function testGetAllBannersUnderAgency()
     {
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = 0;
         $doClients->reportlastdate = '2007-04-03 18:39:45';
         $aClientId[] = DataGenerator::generateOne($doClients);
 
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = 1;
         $doClients->reportlastdate = '2007-04-03 18:39:45';
         $aClientId[] = DataGenerator::generateOne($doClients);
 
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $aClientId[0];
         $aCampaignId[] = DataGenerator::generateOne($doCampaigns);
 
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $aClientId[1];
         $aCampaignId[] = DataGenerator::generateOne($doCampaigns);
 
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $aCampaignId[0];
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $aBannerId[] = DataGenerator::generateOne($doBanners);
 
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $aCampaignId[1];
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $aBannerId[] = DataGenerator::generateOne($doBanners);
@@ -109,19 +110,19 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
     function testCountActiveBanners()
     {
         // Insert an active campaign
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->active = 't';
         $activeCampaignId = DataGenerator::generateOne($doCampaigns);
 
         // Insert an active banner
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->active = 't';
         $doBanners->campaignid = $activeCampaignId;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $activeBannerId = DataGenerator::generateOne($doBanners);
 
         // Insert an inactive banner
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->active = 'f';
         $doBanners->campaignid = $activeCampaignId;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
@@ -138,45 +139,45 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
         $agencyId = 1;
 
         // Insert an advertiser under this agency.
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = $agencyId;
         $doClients->reportlastdate = '2007-04-03 18:39:45';
         $agencyClientId = DataGenerator::generateOne($doClients);
 
         // Insert an active campaign with this client
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->active = 't';
         $doCampaigns->clientid = $agencyClientId;
         $agencyCampaignIdActive = DataGenerator::generateOne($doCampaigns);
 
         // Insert an active banner in this campaign
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->active = 't';
         $doBanners->campaignid = $agencyCampaignIdActive;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $agencyBannerIdActive = DataGenerator::generateOne($doBanners);
 
         // Insert an inactive banner in this campaign
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->active = 'f';
         $doBanners->campaignid = $agencyCampaignIdActive;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $agencyBannerIdInactive = DataGenerator::generateOne($doBanners);
 
         // Insert an advertiser under no agency.
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = 0;
         $doClients->reportlastdate = '2007-04-03 18:39:45';
         $noAgencyClientId = DataGenerator::generateOne($doClients);
 
          // Insert an active campaign with this client
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->active = 't';
         $doCampaigns->clientid = $noAgencyClientId;
         $noAgencyCampaignIdActive = DataGenerator::generateOne($doCampaigns);
 
         // Insert an active banner in this campaign
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->active = 't';
         $doBanners->campaignid = $noAgencyCampaignIdActive;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
@@ -205,7 +206,7 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
         $this->assertEqual($actual, $expected);
 
         // Insert a banner (and it's parent campaign/client)
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->description = 'foo';
         $doBanners->alt = 'bar';
         $doBanners->campaignid = $campaignId;
@@ -245,7 +246,7 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
         $this->assertTrue($this->dalBanners->moveBannerToCampaign($bannerId, $newCampaignId));
 
         // Check its campaign ID
-        $doBanners = MAX_DB::staticGetDO('banners', $bannerId);
+        $doBanners = OA_Dal::staticGetDO('banners', $bannerId);
         $this->assertEqual($doBanners->campaignid, $newCampaignId);
     }
 

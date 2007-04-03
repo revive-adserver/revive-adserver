@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
@@ -51,7 +52,7 @@ class DataObjects_TrackersTest extends DalUnitTestCase
     function testDuplicate()
     {
         // Insert a tracker with some default data.
-        $doTrackers = MAX_DB::factoryDO('trackers');
+        $doTrackers = OA_Dal::factoryDO('trackers');
         $doTrackers->trackername = 'foo';
         $doTrackers->clientid = 1;
         $doTrackers->clickwindow = 3600;
@@ -60,26 +61,26 @@ class DataObjects_TrackersTest extends DalUnitTestCase
         $trackerId = DataGenerator::generateOne($doTrackers);
 
         // Insert a variable for the tracker
-        $doVariables = MAX_DB::factoryDO('variables');
+        $doVariables = OA_Dal::factoryDO('variables');
         $doVariables->trackerid = $trackerId;
         $doVariables->name = 'bar';
         $variableId = DataGenerator::generateOne($doVariables);
 
         // Link the tracker to a campaign
-        $doCampaignTrackers = MAX_DB::factoryDO('campaigns_trackers');
+        $doCampaignTrackers = OA_Dal::factoryDO('campaigns_trackers');
         $doCampaignTrackers->campaignid = 1;
         $doCampaignTrackers->trackerid = $trackerId;
         $campaignTrackerId = DataGenerator::generateOne($doCampaignTrackers);
 
         // Duplicate the tracker
-        $doTrackers = MAX_DB::staticGetDO('trackers', $trackerId);
+        $doTrackers = OA_Dal::staticGetDO('trackers', $trackerId);
         $newTrackerId = $doTrackers->duplicate();
         $this->assertNotEmpty($newTrackerId);
 
         // Get the two trackers
-        $doNewTrackers = MAX_DB::staticGetDO('trackers', $newTrackerId);
+        $doNewTrackers = OA_Dal::staticGetDO('trackers', $newTrackerId);
         $this->assertTrue($doNewTrackers);
-        $doTrackers = MAX_DB::staticGetDO('trackers', $trackerId);
+        $doTrackers = OA_Dal::staticGetDO('trackers', $trackerId);
         $this->assertTrue($doTrackers);
 
         // Assert the trackers are not equal, excluding the primary key
@@ -90,9 +91,9 @@ class DataObjects_TrackersTest extends DalUnitTestCase
         $this->assertEqualDataObjects($this->stripKeys($doTrackers), $this->stripKeys($doNewTrackers));
 
         // Get the two variables
-        $doNewVariables = MAX_DB::staticGetDO('variables', 'trackerid', $newTrackerId);
+        $doNewVariables = OA_Dal::staticGetDO('variables', 'trackerid', $newTrackerId);
         $this->assertTrue($doNewVariables);
-        $doVariables = MAX_DB::staticGetDO('variables', $variableId);
+        $doVariables = OA_Dal::staticGetDO('variables', $variableId);
         $this->assertTrue($doVariables);
 
         // Assert the variables are not equal, excluding the primary key
@@ -103,9 +104,9 @@ class DataObjects_TrackersTest extends DalUnitTestCase
         $this->assertEqualDataObjects($this->stripKeys($doVariables), $this->stripKeys($doNewVariables));
 
         // Get the two campaign tracker links
-        $doNewCampaignTrackers = MAX_DB::staticGetDO('campaigns_trackers', 'trackerid', $newTrackerId);
+        $doNewCampaignTrackers = OA_Dal::staticGetDO('campaigns_trackers', 'trackerid', $newTrackerId);
         $this->assertTrue($doNewCampaignTrackers);
-        $doCampaignTrackers = MAX_DB::staticGetDO('campaigns_trackers', $campaignTrackerId);
+        $doCampaignTrackers = OA_Dal::staticGetDO('campaigns_trackers', $campaignTrackerId);
         $this->assertTrue($doCampaignTrackers);
 
         // Assert the campaign trackers are not equal, excluding the primary key

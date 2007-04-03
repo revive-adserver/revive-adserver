@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
@@ -36,7 +37,7 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 class MAX_Dal_Admin_ChannelTest extends DalUnitTestCase
 {
     var $dalChannel;
-    
+
     /**
      * The constructor method.
      */
@@ -44,35 +45,35 @@ class MAX_Dal_Admin_ChannelTest extends DalUnitTestCase
     {
         $this->UnitTestCase();
     }
-    
+
     function setUp()
     {
-        $this->dalChannel = MAX_DB::factoryDAL('channel');
+        $this->dalChannel = OA_Dal::factoryDAL('channel');
     }
-    
+
     function tearDown()
     {
         DataGenerator::cleanUp();
     }
-    
+
     function testGetChannelsAndAffiliates()
     {
         // Insert 2 channels
         $aChannelId = DataGenerator::generate('channel', 2, true);
-        
+
         // Check the correct number of rows returned
         $expectedRows = 2;
         $rsChannel = $this->dalChannel->getChannelsAndAffiliates();
         $rsChannel->find();
         $actualRows = $rsChannel->getRowCount();
         $this->assertEqual($actualRows, $expectedRows);
-        
+
         // Check each row has the correct number of fields
         $rsChannel->fetch();
         $aChannel = $rsChannel->export();
         $this->assertEqual(count($aChannel), 4);
     }
-    
-    
+
+
 }
 ?>

@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
@@ -51,27 +52,27 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
     function testInsert()
     {
         // Prepare test data
-        $doChannel = MAX_DB::factoryDO('channel');
+        $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->acls_updated = '2007-04-03 19:29:54';
         $channelId = DataGenerator::generateOne($doChannel);
 
-        $doTrackers = MAX_DB::factoryDO('trackers');
+        $doTrackers = OA_Dal::factoryDO('trackers');
         $doTrackers->clientid = $clientId;
         $doTrackers->linkcampaigns = 't';
         $aTrackerId = DataGenerator::generate($doTrackers, $numTrackers = 2);
 
-        $doTrackers = MAX_DB::factoryDO('trackers');
+        $doTrackers = OA_Dal::factoryDO('trackers');
         $doTrackers->linkcampaigns = 'f';
         DataGenerator::generateOne($doTrackers); // redundant one
 
         // Test that inserting new campaigns triggers to insert new campaigns_trackers (if exists)
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $clientId;
         $campaignId = DataGenerator::generateOne($doCampaigns);
         $this->assertNotEmpty($campaignId);
 
         // Test that two campaign_trackers were inserted as well
-        $doCampaigns_trackers = MAX_DB::factoryDO('campaigns_trackers');
+        $doCampaigns_trackers = OA_Dal::factoryDO('campaigns_trackers');
         $doCampaigns_trackers->campaignid = $campaignId;
         $this->assertEqual($doCampaigns_trackers->count(), $numTrackers);
 

@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
@@ -51,17 +52,17 @@ class DataObjects_AgencyTest extends DalUnitTestCase
     function testInsert()
     {
         // Insert default preferences
-        $doPreference = MAX_DB::factoryDO('preference');
+        $doPreference = OA_Dal::factoryDO('preference');
         $doPreference->agencyid = 0;
         $doPreference->statslastday = '2007-04-03';
         DataGenerator::generateOne($doPreference);
 
         // Insert an agency
-        $doAgency = MAX_DB::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $agencyId = $doAgency->insert();
 
         // and check preferences were inserted.
-        $doPreference = MAX_DB::staticGetDO('preference', $agencyId);
+        $doPreference = OA_Dal::staticGetDO('preference', $agencyId);
 
         $this->assertTrue($doPreference->getRowCount(), 1);
     }
@@ -69,17 +70,17 @@ class DataObjects_AgencyTest extends DalUnitTestCase
     function testUpdate()
     {
         // Insert default prefs
-        $doPreference = MAX_DB::factoryDO('preference');
+        $doPreference = OA_Dal::factoryDO('preference');
         $doPreference->agencyid = 0;
         $doPreference->statslastday = '2007-04-03';
         DataGenerator::generateOne($doPreference);
 
         // Insert an agency
-        $doAgency = MAX_DB::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $agencyId = $doAgency->insert();
 
         // Update the agency
-        $doAgency = MAX_DB::staticGetDO('agency', $agencyId);
+        $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
         $doAgency->language = 'foo';
         $doAgency->name = 'bar';
         $doAgency->contact = 'baz';
@@ -87,7 +88,7 @@ class DataObjects_AgencyTest extends DalUnitTestCase
         $doAgency->update();
 
         // Test the prefs were updated too
-        $doPreference = MAX_DB::staticGetDO('preference', $agencyId);
+        $doPreference = OA_Dal::staticGetDO('preference', $agencyId);
 
         $this->assertEqual($doPreference->language, 'foo');
         $this->assertEqual($doPreference->name, 'bar');

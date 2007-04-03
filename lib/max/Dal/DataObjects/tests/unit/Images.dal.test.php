@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
@@ -42,27 +43,27 @@ class DataObjects_ImagesTest extends DalUnitTestCase
     {
         $this->UnitTestCase();
     }
-    
+
     function tearDown()
     {
         DataGenerator::cleanUp();
     }
-    
+
     function testGetUniqueFileNameForDuplication()
     {
         // Insert an image
-        $doImages = MAX_DB::factoryDO('images');
+        $doImages = OA_Dal::factoryDO('images');
         $doImages->filename = 'foo.jpg';
         $doImages->contents = '';
         DataGenerator::generateOne($doImages);
-        
+
         // Get the image out of the DB
-        $doImages = MAX_DB::staticGetDO('images', 'filename', 'foo.jpg');
+        $doImages = OA_Dal::staticGetDO('images', 'filename', 'foo.jpg');
 
         // Check it
         $expected = 'foo_2.jpg';
         $this->assertEqual($doImages->getUniqueFileNameForDuplication(), $expected);
     }
-    
+
 }
 ?>

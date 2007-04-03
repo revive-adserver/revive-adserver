@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Acls.php';
 
@@ -37,7 +38,7 @@ require_once MAX_PATH . '/lib/max/Dal/Admin/Acls.php';
 class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
 {
     var $dalData_intermediate_ad;
-    
+
     /**
      * The constructor method.
      */
@@ -45,17 +46,17 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
     {
         $this->UnitTestCase();
     }
-    
+
     function setUp()
     {
-        $this->dalData_intermediate_ad = MAX_DB::factoryDAL('data_intermediate_ad');
+        $this->dalData_intermediate_ad = OA_Dal::factoryDAL('data_intermediate_ad');
     }
-    
+
     function tearDown()
     {
         DataGenerator::cleanUp();
     }
-    
+
     function testGetDeliveredByCampaign()
     {
         // Check it's empty if no data
@@ -64,7 +65,7 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
         foreach ($aDelievered as $delivered) {
             $this->assertNull($delivered);
         }
-        
+
         // Add some test data
         DataGenerator::generateOne('banners', $addParents = true); // generate some reduntand data
         $bannerId = DataGenerator::generateOne('banners', $addParents = true);
@@ -79,7 +80,7 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
         $dg = new DataGenerator();
         $dg->setData('data_intermediate_ad', $data);
         $dg->generate('data_intermediate_ad', 3);
-        
+
         // Test
         $rsDal = $this->dalData_intermediate_ad->getDeliveredByCampaign($campaignId);
         $aDelievered = $rsDal->toArray();
@@ -88,7 +89,7 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
         $this->assertEqual($aDelievered['clicks_delivered'], $howMany * $clicks);
         $this->assertEqual($aDelievered['conversions_delivered'], $howMany * $conversions);
     }
-    
+
     function testAddConversion()
     {
         // Add test data
@@ -109,14 +110,14 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
         $dg = new DataGenerator();
         $dg->setData('data_intermediate_ad', $data);
         $data_intermediate_ad_id = $dg->generateOne('data_intermediate_ad');
-        
+
         $this->dalData_intermediate_ad->addConversion('+', $basketValue = 12,
                 $numItems = 4, $bannerId, $creative_id, $zone_id, $day, $hour);
-	                       
-	    $doData_intermediate_ad = MAX_DB::staticGetDO('data_intermediate_ad', $data_intermediate_ad_id);
-	    
+
+	    $doData_intermediate_ad = OA_Dal::staticGetDO('data_intermediate_ad', $data_intermediate_ad_id);
+
 	    $this->assertEqual($doData_intermediate_ad->total_basket_value, $data['total_basket_value'][0]+$basketValue);
     }
-    
+
 }
 ?>

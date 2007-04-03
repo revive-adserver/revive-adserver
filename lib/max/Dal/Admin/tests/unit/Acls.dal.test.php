@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Acls.php';
 
@@ -40,7 +41,7 @@ class MAX_Dal_Admin_AclsTest extends DalUnitTestCase
      * @var MAX_Dal_Admin_Acls
      */
     var $dalAcls;
-    
+
     /**
      * The constructor method.
      */
@@ -48,28 +49,28 @@ class MAX_Dal_Admin_AclsTest extends DalUnitTestCase
     {
         $this->UnitTestCase();
     }
-    
+
     function setUp()
     {
-        $this->dalAcls = MAX_DB::factoryDAL('acls');
+        $this->dalAcls = OA_Dal::factoryDAL('acls');
     }
-    
+
     function tearDown()
     {
         DataGenerator::cleanUp();
     }
-    
+
     function testGetAclsByDataValueType()
     {
         $type = 'Site:Channel';
         $bannerId = 1;
         $channelId = 1;
-        
+
         // Test it returns empty set if no data exists
         $rsChannel = $this->dalAcls->getAclsByDataValueType($bannerId, $type);
     	$rsChannel->reset();
     	$this->assertEqual($rsChannel->getRowCount(), 0);
-    	
+
     	// Generate acls, two of them with the same $bannerId
     	$data = array(
     	   'bannerid' => array($bannerId,$bannerId,3),
@@ -78,17 +79,17 @@ class MAX_Dal_Admin_AclsTest extends DalUnitTestCase
     	);
     	$dg = new DataGenerator();
     	$dg->setData('acls', $data);
-    	
+
     	// Add test data
-    	$doAcls = MAX_DB::factoryDO('acls');
+    	$doAcls = OA_Dal::factoryDO('acls');
     	$doAcls->type = $type;
     	$dg->generate($doAcls, 3);
-    	
+
     	// Test that $bannerId is in two sets
         $rsChannel = $this->dalAcls->getAclsByDataValueType($channelId, $type);
     	$rsChannel->reset();
     	$this->assertEqual($rsChannel->getRowCount(), 2);
     }
-    
+
 }
 ?>

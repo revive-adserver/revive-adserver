@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
@@ -36,7 +37,7 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 class MAX_Dal_Admin_AgencyTest extends DalUnitTestCase
 {
     var $dalAgency;
-    
+
     /**
      * The constructor method.
      */
@@ -44,36 +45,35 @@ class MAX_Dal_Admin_AgencyTest extends DalUnitTestCase
     {
         $this->UnitTestCase();
     }
-    
+
     function setUp()
     {
-        $this->dalAgency = MAX_DB::factoryDAL('agency');
+        $this->dalAgency = OA_Dal::factoryDAL('agency');
     }
-    
+
     function tearDown()
     {
         DataGenerator::cleanUp();
     }
-    
+
     function testGetLogoutUrl()
     {
         // Insert an agency without a logout url
-        $doAgency = MAX_DB::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->logout_url = '';
         $agencyId = DataGenerator::generateOne($doAgency);
-        
+
         $expected = 'index.php';
         $this->assertEqual($this->dalAgency->getLogoutUrl($agencyId), $expected);
-               
+
         // Insert an agency with a logout url
-        $doAgency = MAX_DB::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->logout_url = 'http://example.com';
         $agencyId = DataGenerator::generateOne($doAgency);
-        
+
         $expected = 'http://example.com';
         $this->assertEqual($this->dalAgency->getLogoutUrl($agencyId), $expected);
-        
+
     }
 }
 ?>
-    

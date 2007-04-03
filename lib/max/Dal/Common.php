@@ -30,6 +30,7 @@ require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once 'DB/QueryTool.php';
 
 /**
@@ -117,18 +118,6 @@ class MAX_Dal_Common
         }
 
         return new $class;
-    }
-
-    /**
-     * Factory DataObject which corresponds to this model
-     *
-     * @see MAX_DB::factoryDO()
-     * @return DataObject|PEAR_Error
-     * @access public
-     */
-    function factoryDO()
-    {
-    	return MAX_DB::factoryDO($this->table);
     }
 
     /**
