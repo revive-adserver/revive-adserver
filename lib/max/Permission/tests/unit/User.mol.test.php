@@ -28,6 +28,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Permission/User.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
@@ -44,8 +45,8 @@ class MAX_Permission_UserTest extends DalUnitTestCase
     {
         $this->UnitTestCase();
     }
-    
-    
+
+
     function testGetDoAffiliates()
     {
         $username = 'scott';
@@ -60,8 +61,8 @@ class MAX_Permission_UserTest extends DalUnitTestCase
             'needs_to_agree' => 0,
             'help_file' => 'help'
         );
-        
-        $doAffiliates = MAX_DB::factoryDO('affiliates');
+
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
         $doAffiliates->username = $username;
         $doAffiliates->password = $md5;
         $doAffiliates->agencyid = $aExpectedData['agencyid'];
@@ -70,11 +71,11 @@ class MAX_Permission_UserTest extends DalUnitTestCase
         $doAffiliates->last_accepted_agency_agreement = '2006-10-10';
         $affiliateId = $doAffiliates->insert();
         $aExpectedData['userid'] = $affiliateId;
-        $doAffiliatesExtra = MAX_DB::factoryDO('affiliates_extra');
+        $doAffiliatesExtra = OA_Dal::factoryDO('affiliates_extra');
         $doAffiliatesExtra->affiliateid = $affiliateId;
         $doAffiliatesExtra->help_file = 'help';
         $doAffiliatesExtra->insert();
-        
+
         $doAffiliates = MAX_Permission_User::findAndGetDoUser($username, $md5);
         $aAffiliateData = MAX_Permission_User::getAAffiliateData($doAffiliates);
         $this->assertEqual($aExpectedData, $aAffiliateData);

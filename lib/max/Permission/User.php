@@ -28,6 +28,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
+
 // Define usertypes bitwise, so 1, 2, 4, 8, 16, etc.
 define ("phpAds_Admin", 1);
 define ("phpAds_Client", 2);    // aka advertiser
@@ -57,8 +59,8 @@ class MAX_Permission_User
                        "username"         => $username)
                );
     }
-    
-    
+
+
     /**
      * Returns an array of user data for an admin user.
      *
@@ -69,8 +71,8 @@ class MAX_Permission_User
     {
         return MAX_Permission_User::getABaseUserData(phpAds_Admin, $username);
     }
-    
-    
+
+
     /**
      * Returns an array of user data initialized from the $doAbstractUser object.
      * It initializes base values as well as additional values not available
@@ -89,8 +91,8 @@ class MAX_Permission_User
         $aUserData["language"] = $doUser->language;
         return $aUserData;
     }
-    
-    
+
+
     /**
      * Returns an array of data for an affiliate user.
      *
@@ -107,7 +109,7 @@ class MAX_Permission_User
 
     /**
      * Finds and returns a user object for a given $username and $md5digest
-     * in the specified table. If the user can not be found, false is 
+     * in the specified table. If the user can not be found, false is
      * returned.
      *
      * @param string $table
@@ -117,7 +119,7 @@ class MAX_Permission_User
      */
     function getDoUser($table, $username, $md5digest)
     {
-        $doUser = MAX_DB::factoryDO($table);
+        $doUser = OA_Dal::factoryDO($table);
         $doUser->setSUsername($username);
         $doUser->setPassword($md5digest);
         $doUser->find();
@@ -128,8 +130,8 @@ class MAX_Permission_User
             return false;
         }
     }
-    
-    
+
+
     /**
      * Finds and returns an agency data object for a given $username and
      * $md5digest. If the agency can not be found, false is returned.
@@ -142,8 +144,8 @@ class MAX_Permission_User
     {
         return MAX_Permission_User::getDoUser('agency', $username, $md5digest);
     }
-    
-    
+
+
     /**
      * Finds and returns a client data object for a given $username and
      * $md5digest. If the client can not be found, false is returned.
@@ -170,10 +172,10 @@ class MAX_Permission_User
      */
     function getDoAffiliates($username, $md5digest)
     {
-        $doAffiliates = MAX_DB::factoryDO('affiliates');
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
         $doAffiliates->username = $username;
         $doAffiliates->password = $md5digest;
-        $doAffiliates_extra = MAX_DB::factoryDO('affiliates_extra');
+        $doAffiliates_extra = OA_Dal::factoryDO('affiliates_extra');
         $doAffiliates->joinAdd($doAffiliates_extra);
         $doAffiliates->selectAdd();
         $doAffiliates->selectAs($doAffiliates);
@@ -182,7 +184,7 @@ class MAX_Permission_User
         if ($doAffiliates->fetch()) {
             return $doAffiliates;
         }
-        
+
         return false;
     }
 
