@@ -25,8 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/DB.php';
-
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Factory.php';
 
@@ -57,10 +55,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $conf['table']['split'] = true;
         $conf['maintenance']['operationInterval'] = 60;
-        
+
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
-        
+
         // Create the required tables
         $now = new Date();
         $dsa->tables->createTable('data_raw_ad_impression', $now);
@@ -155,10 +153,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 30;
         $conf['table']['split'] = true;
-        
+
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
-        
+
         // Create the required tables
         $now = new Date('2004-05-06');
         $dsa->tables->createTable('data_raw_ad_request', $now);
@@ -249,10 +247,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 30;
         $conf['table']['split'] = true;
-        
+
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
-        
+
         // Create the required tables
         $now = new Date('2004-05-06');
         $dsa->tables->createTable('data_raw_ad_impression', $now);
@@ -343,10 +341,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 30;
         $conf['table']['split'] = true;
-        
+
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
-        
+
         // Create the required tables
         $now = new Date('2004-05-06');
         $dsa->tables->createTable('data_raw_ad_click', $now);
@@ -438,10 +436,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $conf['maintenance']['operationInterval'] = 30;
         $conf['table']['split'] = true;
         $conf['modules']['Tracker'] = true;
-        
+
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
-        
+
         // Create the required tables
         $now = new Date('2004-05-06');
         $dsa->tables->createTable('data_raw_ad_click', $now);
@@ -751,10 +749,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $conf['maintenance']['operationInterval'] = 30;
         $conf['table']['split'] = true;
         $conf['modules']['Tracker'] = true;
-        
+
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
-        
+
         // Create the required tables
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
@@ -1141,10 +1139,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $conf['maintenance']['compactStatsGrace'] = 0;
         // Enable the tracker
         $conf['modules']['Tracker'] = true;
-        
+
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
-        
+
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);
         $dsa->tables->createTable('data_raw_ad_impression', $now);

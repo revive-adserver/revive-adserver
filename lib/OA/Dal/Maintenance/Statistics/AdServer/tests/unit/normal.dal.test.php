@@ -25,8 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/DB.php';
-
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Factory.php';
 
@@ -57,10 +55,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 60;
         $conf['table']['split'] = false;
-        
+
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
-        
+
         // Test with no data
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertNull($date);
@@ -117,7 +115,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $conf['table']['split'] = false;
         $conf['maintenance']['operationInterval'] = 30;
-        
+
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
 
@@ -278,10 +276,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
         TestEnv::startTransaction();
-        
+
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
-        
+
         $dsa->_dedupConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
@@ -3915,10 +3913,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
-        
+
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
-        
+
         // Test with no data
         $start = new Date('2004-06-06 12:00:00');
         $end = new Date('2004-06-06 12:29:59');
@@ -4253,10 +4251,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $conf['maintenance']['operationInterval'] = 30;
         $conf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
-        
+
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
-        
+
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
@@ -5913,10 +5911,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 30;
-        
+
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
-        
+
         // Test with no data
         $start = new Date('2004-06-06 12:00:00');
         $end   = new Date('2004-06-06 12:29:59');
@@ -6054,7 +6052,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        
+
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
 
@@ -6319,10 +6317,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['operationInterval'] = 60;
-        
+
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
-        
+
         $oDate = new Date();
         TestEnv::startTransaction();
         // Get the data for the tests
@@ -6643,10 +6641,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $conf['maintenance']['compactStatsGrace'] = 0;
         // Enable the tracker
         $conf['modules']['Tracker'] = true;
-        
+
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
-        
+
         TestEnv::startTransaction();
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
