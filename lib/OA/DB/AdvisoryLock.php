@@ -32,12 +32,17 @@ require_once 'MDB2.php';
 /**
  * Generic lock type
  */
-define('OA_LOCK_TYPE_GENERIC',      '0');
+define('OA_DB_ADVISORYLOCK_GENERIC',      '0');
 
 /**
  * Maintenance lock type
  */
-define('OA_LOCK_TYPE_MAINTENANCE',  '1');
+define('OA_DB_ADVISORYLOCK_MAINTENANCE',  '1');
+
+/**
+ * Distributed lock type
+ */
+define('OA_DB_ADVISORYLOCK_DISTRIBUTED',  '2');
 
 
 /**
@@ -109,7 +114,7 @@ class OA_DB_AdvisoryLock
      * @param int $iWaitTime Wait time.
      * @return bool True if lock was correctly acquired.
      */
-    function get($sType = OA_LOCK_TYPE_GENERIC, $iWaitTime = 0)
+    function get($sType = OA_DB_ADVISORYLOCK_GENERIC, $iWaitTime = 0)
     {
         // Release previous lock, if any
         $this->release();

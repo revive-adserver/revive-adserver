@@ -182,7 +182,7 @@ class MAX_Maintenance
         // Acquire the maintenance lock
         $oLock =& OA_DB_AdvisoryLock::factory();
 
-        if ($oLock->get(OA_LOCK_TYPE_MAINTENANCE)) {
+        if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE)) {
             MAX::debug('Running Maintenance Statistics and Priority', PEAR_LOG_INFO);
 
             // Update the timestamp for old maintenance code and auto-maintenance

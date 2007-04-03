@@ -29,6 +29,9 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
+require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed.php';
 
 /**
  * A library class for providing automatic maintenance process methods.
@@ -38,40 +41,42 @@ require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
  * @subpackage Maintenance
  * @author     Matteo Beccati <matteo.beccati@openads.org>
  */
-class OA_Maintenance_Auto
+class OA_Maintenance_Distributed
 {
     function run()
     {
-    	// Make sure that the output is sent to the browser before
-    	// loading libraries and connecting to the db
-    	flush();
+        $oLock =& OA_DB_AdvisoryLock::factory();
 
-    	MAX_Admin_Preferences::loadPrefs(0);
-
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        $aPref = $GLOBALS['_MAX']['PREF'];
-
-    	$iLastRun = $aPref['maintenance_timestamp'];
-
-    	// Make sure that negative values don't break the script
-    	if ($iLastRun > 0) {
-    		$iLastRun = strtotime(date('Y-m-d H:00:05', $iLastRun));
-    	}
-
-    	if (time() >= $iLastRun + 3600)
+    	if ($oLock->get(OA_DB_ADVISORYLOCK_DISTIRBUTED))
     	{
-    	    $oLock =& OA_DB_AdvisoryLock::factory();
+            MAX::debug('Running Distributed Statistics Engine', PEAR_LOG_INFO);
 
-    		if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE))
-    		{
-    			require_once MAX_PATH . '/lib/max/Maintenance.php';
+    	    $oDal  =& new OA_Dal_Maintenance_Distributed();
 
-    			$oMaint =& new MAX_Maintenance();
+            $oStart = $oDal->getMaintenanceDistributedLastRunInfo();
 
-    			$oMaint->run();
+            // Ensure the the current time is registered with the ServiceLocator
+            $oServiceLocator = &ServiceLocator::instance();
+            $oEnd = &$oServiceLocator->get('now');
+            if (!$oEnd) {
+                // Record the current time, and register with the ServiceLocator
+                $oEnd = new Date();
+                $oServiceLocator->register('now', $oEnd);
+            }
 
-    			$oLock->release();
-    		}
+            // Copy statistics up to the previous second
+            $oEnd->subtractSeconds(1);
+
+            $oDal->processTable('data_raw_ad_impression', $oStart, $oEnd);
+            $oDal->processTable('data_raw_ad_click', $oStart, $oEnd);
+
+            $oDal->setMaintenanceDistributedLastRunInfo($oEnd);
+
+    		$oLock->release();
+
+            MAX::debug('Distributed Statistics Engine Completed', PEAR_LOG_INFO);
+    	} else {
+            MAX::debug('Distributed Statistics Engine Already Running', PEAR_LOG_INFO);
     	}
     }
 }
