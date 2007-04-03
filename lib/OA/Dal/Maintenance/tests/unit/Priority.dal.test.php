@@ -2806,150 +2806,125 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         for ($i = 0; $i <= (MINUTES_PER_WEEK / $conf['maintenance']['operationInterval']); $i++) {
             $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         }
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    impressions
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    11,
-                    4,
-                    2000
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['start']->format('%Y-%m-%d'),
+            $aDates['start']->format('%H'),
+            11,
+            0,
+            4,
+            2000,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDia->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    1,
-                    2,
-                    10,
-                    10,
-                    0.5,
-                    0.99
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    9,
-                    9,
-                    59,
-                    59,
-                    95,
-                    0.995
-                )";
-        $rows = $oDbh->exec($query);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction,
-                    created,
-                    expired
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    2,
-                    3,
-                    30,
-                    30,
-                    0.4,
-                    0.5,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:30:00') . "'
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    2,
-                    3,
-                    30,
-                    30,
-                    0.4,
-                    0.5,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:30:00') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    2,
-                    4,
-                    10,
-                    10,
-                    0.4,
-                    0.5,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:30:00') . "'
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    2,
-                    4,
-                    20,
-                    20,
-                    0.8,
-                    0.5,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:30:00') . "',
-                    '" . $oSpecialDate->format('%Y-%m-%d %H:%M:%S') . "'
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            1,
+            2,
+            10,
+            10,
+            0,
+            0.5,
+            0.99,
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            0
+        );
+        $rows = $stDsaza->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            9,
+            9,
+            59,
+            59,
+            0,
+            95,
+            0.995,
+            $oNow->format('%Y-%m-%d %H:%M:%S'),
+            0
+        );
+        $rows = $stDsaza->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            2,
+            3,
+            30,
+            30,
+            0,
+            0.4,
+            0.5,
+            $aDates['start']->format('%Y-%m-%d %H:30:00'),
+            0,
+            $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDsazaExpired->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            2,
+            3,
+            30,
+            30,
+            0,
+            0.4,
+            0.5,
+            $aDates['start']->format('%Y-%m-%d %H:30:00'),
+            0,
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDsazaExpired->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            2,
+            4,
+            10,
+            10,
+            0,
+            0.4,
+            0.5,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            0,
+            $aDates['end']->format('%Y-%m-%d %H:30:00')
+        );
+        $rows = $stDsazaExpired->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            2,
+            4,
+            20,
+            20,
+            0,
+            0.8,
+            0.5,
+            $aDates['start']->format('%Y-%m-%d %H:30:00'),
+            0,
+            $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDsazaExpired->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
@@ -2957,67 +2932,57 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction,
-                    created,
-                    expired
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    3,
-                    5,
-                    200,
-                    200,
-                    0.2,
-                    0.95,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:30:00') . "'
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    3,
-                    5,
-                    100,
-                    100,
-                    0.4,
-                    0.95,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:30:00') . "',
-                    '" . $oSpecialDate->format('%Y-%m-%d %H:%M:%S') . "'
-                ),
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    10,
-                    4,
-                    1000,
-                    1000,
-                    1,
-                    0.9,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:30:00') . "',
-                    '" . $oSpecialDate->format('%Y-%m-%d %H:%M:%S') . "'
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            3,
+            5,
+            200,
+            200,
+            0,
+            0.2,
+            0.95,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            0,
+            $aDates['end']->format('%Y-%m-%d %H:30:00')
+        );
+        $rows = $stDsazaExpired->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            3,
+            5,
+            100,
+            100,
+            0,
+            0.4,
+            0.95,
+            $aDates['start']->format('%Y-%m-%d %H:30:00'),
+            0,
+            $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDsazaExpired->execute($aData);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            10,
+            4,
+            1000,
+            1000,
+            0,
+            1,
+            0.9,
+            $aDates['start']->format('%Y-%m-%d %H:30:00'),
+            0,
+            $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDsazaExpired->execute($aData);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         for ($i = 0; $i <= (MINUTES_PER_WEEK / $conf['maintenance']['operationInterval']); $i++) {
@@ -3029,39 +2994,23 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         }
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority_factor,
-                    past_zone_traffic_fraction,
-                    created,
-                    expired
-                )
-            VALUES
-                (
-                    {$conf['maintenance']['operationInterval']},
-                    $previousOperationIntervalID,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
-                    11,
-                    4,
-                    2000,
-                    2000,
-                    1,
-                    0.9,
-                    '" . $aDates['start']->format('%Y-%m-%d %H:30:00') . "',
-                    '" . $oSpecialDate->format('%Y-%m-%d %H:%M:%S') . "'
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            $conf['maintenance']['operationInterval'],
+            $previousOperationIntervalID,
+            $aDates['start']->format('%Y-%m-%d %H:%M:%S'),
+            $aDates['end']->format('%Y-%m-%d %H:%M:%S'),
+            11,
+            4,
+            2000,
+            2000,
+            0,
+            1,
+            0.9,
+            $aDates['start']->format('%Y-%m-%d %H:30:00'),
+            0,
+            $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $stDsazaExpired->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 5);
         $this->assertEqual(count($result[1]), 2);
@@ -3453,25 +3402,76 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         // Set up test test data
         $conf = $GLOBALS['_MAX']['CONF'];
         // Write two record for same interval id one week apart
-        $query = "INSERT INTO
-                    {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
-                    (
-                        data_summary_zone_impression_history_id,
-                        operation_interval,
-                        operation_interval_id,
-                        interval_start,
-                        interval_end,
-                        zone_id,
-                        forecast_impressions,
-                        actual_impressions
-                    )
-                    VALUES
-                    (1, 60, 0, '2005-05-02 00:00:00',  '2005-05-02 00:59:59',  1,  200,    400),
-                    (2, 60, 0, '2005-05-09 00:00:00',  '2005-05-09 00:59:59',  1,  100,    200),
-                    (3, 60, 1, '2005-05-02 01:00:00',  '2005-05-02 01:59:59',  1,  200,    500),
-                    (4, 60, 1, '2005-05-09 01:00:00',  '2005-05-09 01:59:59',  1,  100,    700)";
-        $rows = $oDbh->exec($query);
-
+        $query = "
+            INSERT INTO
+                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                (
+                    data_summary_zone_impression_history_id,
+                    operation_interval,
+                    operation_interval_id,
+                    interval_start,
+                    interval_end,
+                    zone_id,
+                    forecast_impressions,
+                    actual_impressions
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            60,
+            0,
+            '2005-05-02 00:00:00',
+            '2005-05-02 00:59:59',
+            1,
+            200,
+            400
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            60,
+            0,
+            '2005-05-09 00:00:00',
+            '2005-05-09 00:59:59',
+            1,
+            100,
+            200
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            60,
+            1,
+            '2005-05-02 01:00:00',
+            '2005-05-02 01:59:59',
+            1,
+            200,
+            500
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4,
+            60,
+            1,
+            '2005-05-09 01:00:00',
+            '2005-05-09 01:59:59',
+            1,
+            100,
+            700
+        );
+        $rows = $st->execute($aData);
         // Set up operation interval date range to query
         $oStartDate = new Date('2005-05-16 00:00:00');
         $oEndDate = new Date('2005-05-16 01:59:59');
@@ -3510,26 +3510,98 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         // set up test test data
         $conf = $GLOBALS['_MAX']['CONF'];
         // write two record for same interval id one week apart
-        $query = "INSERT INTO
-                    {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
-                    (
-                        data_summary_zone_impression_history_id,
-                        operation_interval,
-                        operation_interval_id,
-                        interval_start,
-                        interval_end,
-                        zone_id,
-                        forecast_impressions,
-                        actual_impressions
-                    )
-                    VALUES
-                    (1,  60, 0,  '2005-05-09 00:00:00',  '2005-05-09 00:59:59',  1,  100,   700),
-                    (2,  60, 1,  '2005-05-09 01:00:00',  '2005-05-09 01:59:59',  1,  200,   300),
-                    (3,  60, 2,  '2005-05-09 02:00:00',  '2005-05-09 02:59:59',  1,  300,   400),
-                    (4,  60, 3,  '2005-05-09 03:00:00',  '2005-05-09 03:59:59',  1,  500,   200),
-                    (5,  60, 4,  '2005-05-09 04:00:00',  '2005-05-09 04:59:59',  1,  500,   600),
-                    (6,  60, 5,  '2005-05-09 05:00:00',  '2005-05-09 05:59:59',  1,  600,   700)";
-        $rows = $oDbh->exec($query);
+        $query = "
+            INSERT INTO
+                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                (
+                    data_summary_zone_impression_history_id,
+                    operation_interval,
+                    operation_interval_id,
+                    interval_start,
+                    interval_end,
+                    zone_id,
+                    forecast_impressions,
+                    actual_impressions
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            60,
+            0,
+            '2005-05-09 00:00:00',
+            '2005-05-09 00:59:59',
+            1,
+            100,
+            700
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            60,
+            1,
+            '2005-05-09 01:00:00',
+            '2005-05-09 01:59:59',
+            1,
+            200,
+            300
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            60,
+            2,
+            '2005-05-09 02:00:00',
+            '2005-05-09 02:59:59',
+            1,
+            300,
+            400
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4,
+            60,
+            3,
+            '2005-05-09 03:00:00',
+            '2005-05-09 03:59:59',
+            1,
+            500,
+            200
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            5,
+            60,
+            4,
+            '2005-05-09 04:00:00',
+            '2005-05-09 04:59:59',
+            1,
+            500,
+            600
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            6,
+            60,
+            5,
+            '2005-05-09 05:00:00',
+            '2005-05-09 05:59:59',
+            1,
+            600,
+            700
+        );
+        $rows = $st->execute($aData);
 
         // Set up operation interval date range to query
         $oStartDate = new Date('2005-05-09 01:00:00');
@@ -3734,26 +3806,59 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
 
         // Test 3
         TestEnv::startTransaction();
+        $oNow = new Date();
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
                 (
                     zoneid,
                     affiliateid,
-                    zonename
+                    zonename,
+                    category,
+                    ad_selection,
+                    chain,
+                    prepend,
+                    append,
+                    updated
                 )
             VALUES
-                (
-                    1,
-                    1,
-                    'Test Zone 1'
-                ),
-                (
-                    2,
-                    1,
-                    'Test Zone 2'
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'text',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            1,
+            'Test Zone 1',
+            0,
+            0,
+            0,
+            0,
+            0,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            1,
+            'Test Zone 2',
+            0,
+            0,
+            0,
+            0,
+            0,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $result = $oDal->getZoneImpressionForecasts();
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 2);
@@ -3763,26 +3868,30 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
 
         // Test 4
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['zones']}
-                (
-                    zoneid,
-                    affiliateid,
-                    zonename
-                )
-            VALUES
-                (
-                    1,
-                    1,
-                    'Test Zone 1'
-                ),
-                (
-                    2,
-                    1,
-                    'Test Zone 2'
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            1,
+            'Test Zone 1',
+            0,
+            0,
+            0,
+            0,
+            0,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            1,
+            'Test Zone 2',
+            0,
+            0,
+            0,
+            0,
+            0,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
@@ -3804,7 +3913,20 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                     '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
                     1,
                     " . ($conf['priority']['defaultZoneForecastImpressions'] + 20) . "
-                ),
+                )";
+        $rows = $oDbh->exec($query);
+        $query = "
+            INSERT INTO
+                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                (
+                    operation_interval,
+                    operation_interval_id,
+                    interval_start,
+                    interval_end,
+                    zone_id,
+                    forecast_impressions
+                )
+            VALUES
                 (
                     {$conf['maintenance']['operationInterval']},
                     $operationIntervalID,
@@ -3823,26 +3945,30 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
 
         // Test 5
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['zones']}
-                (
-                    zoneid,
-                    affiliateid,
-                    zonename
-                )
-            VALUES
-                (
-                    1,
-                    1,
-                    'Test Zone 1'
-                ),
-                (
-                    2,
-                    1,
-                    'Test Zone 2'
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            1,
+            'Test Zone 1',
+            0,
+            0,
+            0,
+            0,
+            0,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            1,
+            'Test Zone 2',
+            0,
+            0,
+            0,
+            0,
+            0,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
@@ -3864,7 +3990,20 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                     '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
                     1,
                     " . ($conf['priority']['defaultZoneForecastImpressions'] - 1) . "
-                ),
+                )";
+        $rows = $oDbh->exec($query);
+        $query = "
+            INSERT INTO
+                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                (
+                    operation_interval,
+                    operation_interval_id,
+                    interval_start,
+                    interval_end,
+                    zone_id,
+                    forecast_impressions
+                )
+            VALUES
                 (
                     {$conf['maintenance']['operationInterval']},
                     $operationIntervalID,
@@ -3883,31 +4022,42 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
 
         // Test 6
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['zones']}
-                (
-                    zoneid,
-                    affiliateid,
-                    zonename
-                )
-            VALUES
-                (
-                    1,
-                    1,
-                    'Test Zone 1'
-                ),
-                (
-                    2,
-                    1,
-                    'Test Zone 2'
-                ),
-                (
-                    5,
-                    2,
-                    'Test Zone 5'
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            1,
+            'Test Zone 1',
+            0,
+            0,
+            0,
+            0,
+            0,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            1,
+            'Test Zone 2',
+            0,
+            0,
+            0,
+            0,
+            0,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            5,
+            2,
+            'Test Zone 5',
+            0,
+            0,
+            0,
+            0,
+            0,
+            $oNow->format('%Y-%m-%d %H:%M:%S')
+        );
+        $rows = $st->execute($aData);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
@@ -3929,7 +4079,20 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                     '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
                     1,
                     " . ($conf['priority']['defaultZoneForecastImpressions'] - 1) . "
-                ),
+                )";
+        $rows = $oDbh->exec($query);
+        $query = "
+            INSERT INTO
+                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                (
+                    operation_interval,
+                    operation_interval_id,
+                    interval_start,
+                    interval_end,
+                    zone_id,
+                    forecast_impressions
+                )
+            VALUES
                 (
                     {$conf['maintenance']['operationInterval']},
                     $operationIntervalID,
@@ -3960,7 +4123,20 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                     '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "',
                     1,
                     " . ($conf['priority']['defaultZoneForecastImpressions'] + 100) . "
-                ),
+                )";
+        $rows = $oDbh->exec($query);
+        $query = "
+            INSERT INTO
+                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                (
+                    operation_interval,
+                    operation_interval_id,
+                    interval_start,
+                    interval_end,
+                    zone_id,
+                    forecast_impressions
+                )
+            VALUES
                 (
                     {$conf['maintenance']['operationInterval']},
                     $operationIntervalID,
@@ -4015,12 +4191,19 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                     link_type
                 )
             VALUES
-                (
-                    1,
-                    1,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+                (?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            1,
+            1
+        );
+        $rows = $st->execute($aData);
         $aAdIds = array(1);
         $result = $oDal->getAdZoneAssociationsByAds($aAdIds);
         $this->assertTrue(is_array($result));
@@ -4035,51 +4218,48 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
 
         // Test 4
         TestEnv::startTransaction();
-        $query = "
-            INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
-                (
-                    ad_id,
-                    zone_id,
-                    link_type
-                )
-            VALUES
-                (
-                    1,
-                    1,
-                    1
-                ),
-                (
-                    1,
-                    2,
-                    1
-                ),
-                (
-                    1,
-                    7,
-                    1
-                ),
-                (
-                    2,
-                    2,
-                    1
-                ),
-                (
-                    2,
-                    7,
-                    0
-                ),
-                (
-                    3,
-                    1,
-                    1
-                ),
-                (
-                    3,
-                    9,
-                    1
-                )";
-        $rows = $oDbh->exec($query);
+        $aData = array(
+            1,
+            1,
+            1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            2,
+            1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            7,
+            1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            2,
+            1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            7,
+            0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            1,
+            1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            9,
+            1
+        );
+        $rows = $st->execute($aData);
         $aAdIds = array(1, 2, 3);
         $result = $oDal->getAdZoneAssociationsByAds($aAdIds);
         $this->assertTrue(is_array($result));
@@ -4656,39 +4836,77 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         // Populate data_summary_ad_hourly
         $statsTable = $conf['table']['prefix'] . 'data_summary_ad_hourly';
         for ($hour = 0; $hour < 24; $hour ++) {
-            $sql = "INSERT INTO $statsTable
-                 ( data_summary_ad_hourly_id,
-                      day,
-                      hour,
-                      ad_id,
-                      creative_id,
-                      zone_id,
-                      requests,
-                      impressions,
-                      clicks,
-                      conversions,
-                      total_basket_value
-                )
-                  VALUES(
-                '',
-                NOW(),
-                $hour,
-                1, -- banner id
-                ".rand(1, 999).",
-                ".rand(1, 999).",
-                ".rand(1, 999).",
-                ".rand(1, 999).",
-                ".rand(1, 999).",
-                ".rand(1, 999).",
-                0
-                )";
+            $oNow = new Date();
+            $sql = "
+                INSERT INTO
+                    $statsTable
+                    (
+                        day,
+                        hour,
+                        ad_id,
+                        creative_id,
+                        zone_id,
+                        requests,
+                        impressions,
+                        clicks,
+                        conversions,
+                        total_basket_value,
+                        updated
+                    )
+                VALUES
+                    (
+                        '" . $oNow->format('%Y-%m-%d %H:%M:%S') . "',
+                        $hour,
+                        1,
+                        ".rand(1, 999).",
+                        ".rand(1, 999).",
+                        ".rand(1, 999).",
+                        ".rand(1, 999).",
+                        ".rand(1, 999).",
+                        ".rand(1, 999).",
+                        0,
+                        '" . $oNow->format('%Y-%m-%d %H:%M:%S') . "'
+                    )";
             $rows = $oDbh->exec($sql);
         }
         // Populate campaigns table
         $campaignsTable = $conf['table']['prefix'] . 'campaigns';
-        $sql = "INSERT INTO $campaignsTable
-        (campaignid, campaignname,      clientid,   views,  clicks, conversions,    expire,             activate,       active,     priority,   weight, target_impression, anonymous)
-        VALUES (4,   'test  campaign',  1,          500,      0,      401,          '0000-00-00',  '0000-00-00',   't',                '4',        2,      0,        'f')";
+        $sql = "
+            INSERT INTO
+                $campaignsTable
+                (
+                    campaignid,
+                    campaignname,
+                    clientid,
+                    views,
+                    clicks,
+                    conversions,
+                    expire,
+                    activate,
+                    active,
+                    priority,
+                    weight,
+                    target_impression,
+                    anonymous,
+                    updated
+                )
+            VALUES
+                (
+                    4,
+                    'Test Campaign',
+                    1,
+                    500,
+                    0,
+                    401,
+                    {$oDbh->noDateString},
+                    {$oDbh->noDateString},
+                    't',
+                    '4',
+                    2,
+                    0,
+                    'f',
+                    '" . $oNow->format('%Y-%m-%d %H:%M:%S') . "'
+                )";
         $rows = $oDbh->exec($sql);
 
         // Add a banner
@@ -4728,7 +4946,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                         bannertype,
                         alt_filename,
                         alt_imageurl,
-                        alt_contenttype
+                        alt_contenttype,
+                        updated,
+                        acls_updated
                     )
                 VALUES
                     (
@@ -4763,13 +4983,44 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                         0,
                         '',
                         '',
-                        ''
+                        '',
+                        '" . $oNow->format('%Y-%m-%d %H:%M:%S') . "',
+                        '" . $oNow->format('%Y-%m-%d %H:%M:%S') . "'
                     )";
         $rows = $oDbh->exec($sql);
 
         // Add an agency record
         $agencyTable = $conf['table']['prefix'] . 'agency';
-        $sql = "INSERT INTO $agencyTable ( `agencyid` , `name` , `contact` , `email` , `username` , `password` , `permissions` , `language` , `logout_url` , `active`) VALUES (1, 'test agency', 'sdfsdfsdf', 'demian@phpkitchen.com', 'Demian Turner', 'passwd', 0, 'en_GB', 'logout.php', 1)";
+        $sql = "
+            INSERT INTO
+                $agencyTable
+                (
+                    agencyid,
+                    name,
+                    contact,
+                    email,
+                    username,
+                    password,
+                    permissions,
+                    language,
+                    logout_url,
+                    active,
+                    updated
+                )
+            VALUES
+                (
+                    1,
+                    'Test Agency',
+                    'sdfsdfsdf',
+                    'demian@phpkitchen.com',
+                    'Demian Turner',
+                    'passwd',
+                    0,
+                    'en_GB',
+                    'logout.php',
+                    1,
+                    '" . $oNow->format('%Y-%m-%d %H:%M:%S') . "'
+                )";
         $rows = $oDbh->exec($sql);
 
         // Add a client record (advertiser)
@@ -4790,7 +5041,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                         report,
                         reportinterval,
                         reportlastdate,
-                        reportdeactivate
+                        reportdeactivate,
+                        updated
                     )
                 VALUES
                     (
@@ -4806,7 +5058,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                         't',
                         7,
                         '2005-03-21',
-                        't'
+                        't',
+                        '" . $oNow->format('%Y-%m-%d %H:%M:%S') . "'
                     )";
         $rows = $oDbh->exec($sql);
 
@@ -4827,7 +5080,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                         password,
                         permissions,
                         language,
-                        publiczones
+                        publiczones,
+                        updated
                     )
                 VALUES
                     (
@@ -4842,7 +5096,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                         'bar',
                         NULL,
                         NULL,
-                        'f'
+                        'f',
+                        '" . $oNow->format('%Y-%m-%d %H:%M:%S') . "'
                     )";
         $rows = $oDbh->exec($sql);
 
@@ -4866,7 +5121,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                         prepend,
                         append,
                         appendtype,
-                        forceappend
+                        forceappend,
+                        updated
                     )
                 VALUES
                     (
@@ -4884,7 +5140,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                         '',
                         '',
                         0,
-                        'f'
+                        'f',
+                        '" . $oNow->format('%Y-%m-%d %H:%M:%S') . "'
                     )";
         $rows = $oDbh->exec($sql);
 
