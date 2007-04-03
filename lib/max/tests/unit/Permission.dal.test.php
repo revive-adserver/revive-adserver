@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Permission.php';
 require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
 
@@ -69,20 +70,20 @@ class MAX_PermissionTest extends UnitTestCase
         $this->assertFalse(MAX_Permission::isUsernameAllowed('foo', 'admin'));
 
         // Check users as client, affiliate, agency
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
         $doClients->clientusername = 'bar';
         $doClients->reportlastdate = '2007-04-02 12:00:00';
         $clientId = DataGenerator::generateOne($doClients);
 
         $this->assertFalse(MAX_Permission::isUsernameAllowed('foo', 'bar'));
 
-        $doAffiliates = MAX_DB::factoryDO('affiliates');
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
         $doAffiliates->username = 'baz';
         $affiliateId = DataGenerator::generateOne($doAffiliates);
 
         $this->assertFalse(MAX_Permission::isUsernameAllowed('foo', 'baz'));
 
-        $doAgency = MAX_DB::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->username = 'quux';
         $agencyId = DataGenerator::generateOne($doAgency);
 
@@ -103,15 +104,15 @@ class MAX_PermissionTest extends UnitTestCase
         $this->assertEqual($actual, $expected);
 
         // Insert some users
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
         $doClients->clientusername = 'bar';
         $clientId = DataGenerator::generateOne($doClients);
 
-        $doAffiliates = MAX_DB::factoryDO('affiliates');
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
         $doAffiliates->username = 'baz';
         $affiliateId = DataGenerator::generateOne($doAffiliates);
 
-        $doAgency = MAX_DB::factoryDO('agency');
+        $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->username = 'quux';
         $agencyId = DataGenerator::generate($doAgency, 2); // Duplicate username
 

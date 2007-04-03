@@ -24,10 +24,12 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
+
 define('MAX_DATAGENERATOR_DEFAULT_VALUE', 1);
 
 /**
- * A Data Generator class for easy 
+ * A Data Generator class for easy
  *
  * @package    MaxDal
  * @subpackage TestSuite
@@ -41,7 +43,7 @@ class DataGenerator
      * @var array
      */
     var $data;
-    
+
     /**
      * Generate one record with default values and add insert it into database.
      * Returns id of created record
@@ -51,40 +53,40 @@ class DataGenerator
      * @param bool $generateReferences
      * @return int
      * @access public
-     * @static 
+     * @static
      */
     function generateOne($do, $generateReferences = false)
     {
         $ids = DataGenerator::generate($do, 1, $generateReferences);
         return array_pop($ids);
     }
-    
+
     /**
      * Generate many records with default values and insert them into database.
      * Returns array ids of created records
      *
      * @todo generate parent references (all the records this record has a foreign key to)
-     * 
+     *
      * @see DB_DataObject::insert()
      * @param DB_DataObjectCommon $do
      * @param int $numberOfCopies  How many records should be generated
      * @param bool $generateReferences
      * @return array
      * @access public
-     * @static 
+     * @static
      */
     function generate($do, $numberOfCopies = 1, $generateReferences = false)
     {
         // Cleanup ancestor ids
         DataGenerator::getReferenceId();
-        
+
         if (is_string($do)) {
-            $do = MAX_DB::factoryDO($do);
+            $do = OA_Dal::factoryDO($do);
             if (PEAR::isError($do)) {
                 return array();
             }
         }
-        
+
         if ($generateReferences) {
             $links = $do->links();
         	foreach ($links as $key => $match) {
@@ -97,7 +99,7 @@ class DataGenerator
         $doOriginal = clone($do);
         DataGenerator::setDefaultValues($do);
         DataGenerator::trackData($do->getTableWithoutPrefix());
-        
+
         $ids = array();
         for ($i = 0; $i < $numberOfCopies; $i++) {
             $id = $do->insert();
@@ -107,26 +109,26 @@ class DataGenerator
         }
         return $ids;
     }
-    
+
     /**
      * Remove the data from all tables where DataGenerator generated any records
      *
      * @access public
-     * @static 
+     * @static
      */
     function cleanUp($addTablesToCleanUp = array())
     {
         $tables = DataGenerator::trackData();
         $tables = array_merge($tables, $addTablesToCleanUp);
         foreach ($tables as $table) {
-            $do = MAX_DB::factoryDO($table);
+            $do = OA_Dal::factoryDO($table);
             $do->whereAdd('1=1');
             $do->delete($useWhere = true);
         }
         // cleanup ancestor ids
         DataGenerator::getReferenceId();
     }
-    
+
     /**
      * This method allows to store and retreive any ids which were created
      * for ancestors records (all records created atuomatically if $generateReferences is true)
@@ -135,7 +137,7 @@ class DataGenerator
      * @param int $id
      * @return int | false  Id or false if doesn't exist
      * @access public
-     * @static 
+     * @static
      */
     function getReferenceId($table = null, $id = null)
     {
@@ -148,14 +150,14 @@ class DataGenerator
         }
         return isset($ids[$table]) ? $ids[$table] : false;
     }
-    
+
     /**
      * Track tables where some data were generated so we could easily clean it up later
      *
      * @param string $table  If equal null it reset the static $tables
      * @return array
      * @access package private
-     * @static 
+     * @static
      */
     function trackData($table = null)
     {
@@ -172,7 +174,7 @@ class DataGenerator
         }
         return $tables;
     }
-    
+
     /**
      * Method adds related records recursively
      *
@@ -182,13 +184,13 @@ class DataGenerator
      */
     function addAncestor($table, $primaryKey = null)
     {
-        $doAncestor = MAX_DB::factoryDO($table);
+        $doAncestor = OA_Dal::factoryDO($table);
         if ($primaryKey && $primaryKeyField = $doAncestor->getFirstPrimaryKey()) {
             // it's possible to preset parent id's (only one level up so far)
             $doAncestor->$primaryKeyField = $primaryKey;
         }
         DataGenerator::setDefaultValues($doAncestor);
-        
+
         $links = $doAncestor->links();
     	foreach ($links as $key => $match) {
     		list($ancestorTable,$link) = explode(':', $match);
@@ -201,20 +203,20 @@ class DataGenerator
     	DataGenerator::getReferenceId($table, $id); // store the id
         return $id;
     }
-    
+
     /**
      * Check if DataObject has defined "defaultValues" array and if it does
      * set default values on DataObject. For all others fields
      * which are not set in default values set global default values
      * depends on field type.
-     * 
+     *
      * This method doesn't change a value if DataObject already has a value assigned
      * to some of it's fields.
      *
      * @param DataObject $do
      * @return DataObject
      * @access package private
-     * @static 
+     * @static
      */
     function setDefaultValues(&$do, $counter = 0)
     {
@@ -231,14 +233,14 @@ class DataGenerator
             }
         }
     }
-    
+
     /**
      * Return default data for a specified field in the table.
      *
      * @param string $fieldType
      * @return mixed
      * @access package private
-     * @static 
+     * @static
      */
     function getDefaultValue($table, $fieldName, $fieldType, $counter)
     {
@@ -250,14 +252,14 @@ class DataGenerator
         }
         return DataGenerator::getDefaultValueByType($fieldType);
     }
-    
+
     /**
      * Return default value by type.
      * @todo This could be refactored if we will decide to add more types here
      *
      * @param string $fieldType
      * @return string
-     * @static 
+     * @static
      */
     function getDefaultValueByType($fieldType)
     {
@@ -268,16 +270,16 @@ class DataGenerator
         }
         return MAX_DATAGENERATOR_DEFAULT_VALUE;
     }
-    
+
     /**
      * Replace variable by template or return it if it's not a template
-     * 
+     *
      * Template variables:
      * %DATE_TIME% is replaced with date('Y-m-d H:i:s')
      *
      * @param string $val  Template variable
      * @return string
-     * @static 
+     * @static
      */
     function getTemplateValue($val)
     {
@@ -288,10 +290,10 @@ class DataGenerator
                 return $val;
         }
     }
-    
+
     /**
      * This method sets data which is used by DataGenerator to populate records
-     * 
+     *
      *
      * @param string $table
      * @param array $data
