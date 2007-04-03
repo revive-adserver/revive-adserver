@@ -42,40 +42,42 @@ class DataObjects_AgencyTest extends DalUnitTestCase
     {
         $this->UnitTestCase();
     }
-    
+
     function tearDown()
     {
         DataGenerator::cleanUp();
     }
-    
+
     function testInsert()
     {
         // Insert default preferences
         $doPreference = MAX_DB::factoryDO('preference');
         $doPreference->agencyid = 0;
+        $doPreference->statslastday = '2007-04-03';
         DataGenerator::generateOne($doPreference);
-        
+
         // Insert an agency
         $doAgency = MAX_DB::factoryDO('agency');
         $agencyId = $doAgency->insert();
-                
+
         // and check preferences were inserted.
         $doPreference = MAX_DB::staticGetDO('preference', $agencyId);
-        
+
         $this->assertTrue($doPreference->getRowCount(), 1);
     }
-    
+
     function testUpdate()
     {
         // Insert default prefs
         $doPreference = MAX_DB::factoryDO('preference');
         $doPreference->agencyid = 0;
+        $doPreference->statslastday = '2007-04-03';
         DataGenerator::generateOne($doPreference);
-        
+
         // Insert an agency
         $doAgency = MAX_DB::factoryDO('agency');
         $agencyId = $doAgency->insert();
-        
+
         // Update the agency
         $doAgency = MAX_DB::staticGetDO('agency', $agencyId);
         $doAgency->language = 'foo';
@@ -83,17 +85,17 @@ class DataObjects_AgencyTest extends DalUnitTestCase
         $doAgency->contact = 'baz';
         $doAgency->email = 'quux';
         $doAgency->update();
-        
+
         // Test the prefs were updated too
         $doPreference = MAX_DB::staticGetDO('preference', $agencyId);
-        
+
         $this->assertEqual($doPreference->language, 'foo');
         $this->assertEqual($doPreference->name, 'bar');
         $this->assertEqual($doPreference->admin_fullname, 'baz');
         $this->assertEqual($doPreference->admin_email, 'quux');
-        
-           
+
+
     }
-    
+
 }
 ?>
