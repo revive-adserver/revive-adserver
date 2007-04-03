@@ -29,6 +29,7 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
 
 require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
 
 /**
  * A non-DB specific base Data Abstraction Layer (DAL) class that provides
@@ -48,12 +49,12 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
     {
         parent::MAX_Dal_Common();
 
-        $this->doLbLocal = MAX_DB::factoryDO('lb_local');
+        $this->doLbLocal = OA_Dal::factoryDO('lb_local');
     }
 
     function setMaintenanceDistributedLastRunInfo($oDate)
     {
-		$doLbLocal = MAX_DB::factoryDO('lb_local');
+		$doLbLocal = OA_Dal::factoryDO('lb_local');
         $doLbLocal->whereAdd('1=1');
         $doLbLocal->last_run = $oDate->getTime();
         $iRows = $doLbLocal->update(DB_DATAOBJECT_WHEREADD_ONLY);
@@ -64,7 +65,7 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
 
     function getMaintenanceDistributedLastRunInfo()
     {
-		$doLbLocal = MAX_DB::factoryDO('lb_local');
+		$doLbLocal = OA_Dal::factoryDO('lb_local');
 		$doLbLocal->find();
 
 		if ($doLbLocal->fetch()) {
