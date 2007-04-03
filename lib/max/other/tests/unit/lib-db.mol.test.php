@@ -28,6 +28,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
@@ -43,29 +44,29 @@ class LibDbTest extends DalUnitTestCase
     function testPhpAds_dbQuery()
     {
         $cBanners = 5;
-        $doZones = MAX_DB::factoryDO('zones');
+        $doZones = OA_Dal::factoryDO('zones');
         $aZoneIds = DataGenerator::generate($doZones, $cBanners);
-        
+
         $queryResult = phpAds_dbQuery(" SeLeCt * from zones");
         $this->assertTrue($queryResult);
-        
+
         $this->assertEqual($cBanners, phpAds_dbNumRows($queryResult));
-        
+
         $idxZone = 0;
         while ($dataZone = phpAds_dbFetchArray($queryResult)) {
             $this->assertTrue(in_array($dataZone['zoneid'], $aZoneIds));
             $idxZone++;
         }
         $this->assertEqual($cBanners, $idxZone);
-        
+
         $queryResult = phpAds_dbQuery("dElEtE from zones where zoneid > 30000");
         $this->assertTrue($queryResult);
         $this->assertEqual(0, phpAds_dbAffectedRows($queryResult));
-        
+
         $queryResult = phpAds_dbQuery(" uPDATe zones set zonename = 'blah' where zoneid = " . $aZoneIds[0] . " or zoneid = " . $aZoneIds[1]);
         $this->assertTrue($queryResult);
         $this->assertEqual(2, phpAds_dbAffectedRows($queryResult));
-        
+
         $queryResult = phpAds_dbQuery("insert into zones () values ()");
         $this->assertTrue($queryResult);
         $this->assertEqual(1, phpAds_dbAffectedRows($queryResult));

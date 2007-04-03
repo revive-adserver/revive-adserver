@@ -28,6 +28,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once(MAX_PATH . '/lib/max/other/lib-db.inc.php');
 require_once(MAX_PATH . '/www/admin/lib-banner.inc.php');
 require_once MAX_PATH . '/lib/max/Plugin.php';
@@ -124,7 +125,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     if ($page === false) {
         $page = basename($_SERVER['PHP_SELF']);
     }
-    
+
     if ('banner-acl.php' == $page) {
         $table = 'banners';
         $aclsTable = 'acls';
@@ -138,21 +139,21 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     else {
         return false;
     }
-    
+
     $sLimitation = MAX_AclGetCompiled($acls, $page);
     // TODO: it should be done inside plugins instead, there is no need to slash the data
     $sLimitation = (!get_magic_quotes_runtime()) ? stripslashes($sLimitation) : $sLimitation;
-    
+
     $aclsObjectId = $aEntities[$fieldId];
-    $doObject = MAX_DB::staticGetDO($table, $aclsObjectId);
-    
+    $doObject = OA_Dal::staticGetDO($table, $aclsObjectId);
+
     if ($sLimitation == $doObject->compiledlimitation) {
         return true;
     }
-    
+
     // There was a change to the ACL so update the necessary tables
-    
-    $doAclsObject = MAX_DB::factoryDO($aclsTable);
+
+    $doAclsObject = OA_Dal::factoryDO($aclsTable);
     $doAclsObject->$fieldId = $aclsObjectId;
     $doAclsObject->delete();
 
@@ -161,7 +162,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
             list($package, $name) = explode(':', $acl['type']);
             $deliveryLimitationPlugin = MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
             $deliveryLimitationPlugin->init($acl);
-            $doAclsObject = MAX_DB::factoryDO($aclsTable);
+            $doAclsObject = OA_Dal::factoryDO($aclsTable);
             $doAclsObject->$fieldId = $aclsObjectId;
             $doAclsObject->logical = $acl['logical'];
             $doAclsObject->type = $acl['type'];
@@ -171,8 +172,8 @@ function MAX_AclSave($acls, $aEntities, $page = false)
             $doAclsObject->insert();
         }
     }
-    
-    $doObject = MAX_DB::factoryDO($table);
+
+    $doObject = OA_Dal::factoryDO($table);
     $doObject->$fieldId = $aclsObjectId;
     $doObject->acl_plugins = MAX_AclGetPlugins($acls, $page);
     $doObject->acls_updated = $now = date('Y-m-d H:i:s');
@@ -397,7 +398,7 @@ function MAX_aclAStripslashed($aArray)
     if (get_magic_quotes_runtime() == 1) {
         return $aArray;
     }
-    
+
     foreach ($aArray AS $key => $item) {
         if (is_array($item)) {
             $aArray[$key] = MAX_aclAStripslashed($item);

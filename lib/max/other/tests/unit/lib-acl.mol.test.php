@@ -28,6 +28,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
@@ -44,14 +45,14 @@ class LibAclTest extends DalUnitTestCase
     {
         $this->UnitTestCase();
     }
-    
-    
+
+
     function tearDown()
     {
         // DataGenerator::cleanUp();
     }
-    
-    
+
+
     function testMAX_aclAStripslashed()
     {
 //        set_magic_quotes_runtime(0);
@@ -59,7 +60,7 @@ class LibAclTest extends DalUnitTestCase
 //        $aExpected = array('aabb', 'aa\\bb', 'aa\'bb');
 //        $aActual = MAX_aclAStripslashed($aValue);
 //        $this->assertEqual($aExpected, $aActual);
-//        
+//
 //        $aValue = array('aabb', 'aa\\\\bb', array('aa\\\'bb', 'cc\\\\dd'));
 //        $aExpected = array('aabb', 'aa\\bb', array('aa\'bb', 'cc\\dd'));
 //        $aActual = MAX_aclAStripslashed($aValue);
@@ -72,27 +73,27 @@ class LibAclTest extends DalUnitTestCase
 //        $this->assertEqual($aExpected, $aActual);
 //        set_magic_quotes_runtime(0);
     }
-    
-    
+
+
     function test_MAX_AclSave()
     {
 //        $this->assertTrue(set_magic_quotes_runtime(0));
         // array('comparison', 'data', 'executionorder', 'logical', 'type');
-        
-        $doChannel = MAX_DB::factoryDO('channel');
+
+        $doChannel = OA_Dal::factoryDO('channel');
         $channelId = DataGenerator::generateOne($doChannel, false);
-        
+
         $doChannel->channelid = $channelId;
-        
+
         $aEntities = array('agencyid' => 0, 'channelid' => $channelId);
-        
+
         $page = 'channel-acl.php';
-        
+
         $sLimitation = "MAX_checkClient_Domain('openads.org', '==')";
-        
+
         $comparison = '==';
         $type = 'Client:Domain';
-        
+
         $acls = array(
             array(
                 'comparison' => '==',
@@ -102,11 +103,11 @@ class LibAclTest extends DalUnitTestCase
                 'type' => $type));
         $this->assertTrue(MAX_AclSave($acls, $aEntities, $page));
 
-        $doChannel = MAX_DB::staticGetDO('channel', $channelId);
+        $doChannel = OA_Dal::staticGetDO('channel', $channelId);
         $this->assertTrue($doChannel);
         $this->assertEqual($sLimitation, $doChannel->compiledlimitation);
-        
-        $doAclsChannel = MAX_DB::factoryDO('acls_channel');
+
+        $doAclsChannel = OA_Dal::factoryDO('acls_channel');
         $doAclsChannel->channelid = $channelId;
         $doAclsChannel->logical = 'and';
         $doAclsChannel->type = $type;
@@ -115,16 +116,16 @@ class LibAclTest extends DalUnitTestCase
         $doAclsChannel->executionorder = 1;
         $doAclsChannel->find();
         $this->assertTrue($doAclsChannel->fetch());
-        
+
         $acls = array();
         $this->assertTrue(MAX_AclSave($acls, $aEntities, $page));
 
-        $doChannel = MAX_DB::staticGetDO('channel', $channelId);
+        $doChannel = OA_Dal::staticGetDO('channel', $channelId);
         $this->assertTrue($doChannel);
         $this->assertEqual('true', $doChannel->compiledlimitation);
         $this->assertEqual('', $doChannel->acl_plugins);
-        
-        $doAclsChannel = MAX_DB::factoryDO('acls_channel');
+
+        $doAclsChannel = OA_Dal::factoryDO('acls_channel');
         $this->assertEqual(0, $doAclsChannel->count());
     }
 }
