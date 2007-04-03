@@ -26,7 +26,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/Max.php';
-require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Tracker.php';
 
 require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';

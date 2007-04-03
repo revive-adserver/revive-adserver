@@ -25,7 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Forecasting/AdServer.php';
 
