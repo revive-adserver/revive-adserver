@@ -6,7 +6,7 @@
   />
     
   <xsl:template match="/">
-    <project name="openads">
+    <project name="openads" default="test">
       <macrodef name="fulltest">
         <attribute name="test.name"/>
         <attribute name="php"/>
@@ -58,7 +58,7 @@
         </xsl:for-each>
 
         <!-- Fail the build if there was test failure -->
-        <fail message="Simpletest Suite Failure: ${test.failure}">
+        <fail message="Simpletest Suite Failure: ${{test.failure}}">
           <condition>
             <isset property="test.failure"/>
           </condition>

@@ -2,6 +2,8 @@
   <target name="simpletest" depends="clean, checkconsistency, init, test-all, phpunit, release" />
   <property name="max.php_cli_executable" value="/usr/local/php4/bin/php" />
   <property name="test.conf.xml" value="devel.xml"/>
+  <property name="dir.test.results" location="build/test-results"/>
+  <property name="dir.test.reports" location="build/test-results"/>
 
   <patternset id="dist.included">
     <exclude name="**/tests"/>
@@ -11,7 +13,7 @@
     <exclude name="simulation/**"/>
     <exclude name="build"/>
     <exclude name="build/**"/>
-    <exclude name="www/devel**/">
+    <exclude name="www/devel**"/>
   </patternset>
 
   <patternset id="dist.excluded">
@@ -22,7 +24,8 @@
     <include name="simulation/**"/>
     <include name="build"/>
     <include name="build/**"/>
-    <include name="www/devel**/">
+    <include name="www/devel**"/>
+    <include name="www/devel/**"/>
   </patternset>
 
   <!-- Openads Package Integrity Plugin -->
@@ -67,7 +70,7 @@
     <xslt style="tests.xsl" in="${test.conf.xml}" out="tests.xml"/>
   </target>
 
-  <target name="test-all" depends="init">
+  <target name="test-all" depends="init,test-prepare">
     <ant antfile="tests.xml"/>
   </target>
 
@@ -85,7 +88,7 @@
   </target>
 
   <target name="release" depends="init-release">
-    <tar destfile="${release}.tar.bz2" basedir="." compression="bzip2" longfile="gnu">
+    <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="." compression="bzip2" longfile="gnu">
       <patternset refid="dist.included"/>
     </tar>
   </target>
