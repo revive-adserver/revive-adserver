@@ -150,9 +150,9 @@ class OA_DB_Table
      * @return mixed The name of the table created, or false if the table was not able
      *               to be created.
      */
-    function createTable($table, $oDate = NULL)
+    function createTable($table, $oDate = null)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if (!$this->_checkInit()) {
             return false;
         }
@@ -163,11 +163,11 @@ class OA_DB_Table
         }
         $tableName = $table;
         // Does a table prefix need to be added to the table name?
-        if ($conf['table']['prefix'] && !$this->temporary) {
-            $tableName = $conf['table']['prefix'] . $tableName;
+        if ($aConf['table']['prefix'] && !$this->temporary) {
+            $tableName = $aConf['table']['prefix'] . $tableName;
         }
         // Are split tables in operation, and is the table designed to be split?
-        if (($conf['table']['split']) && ($conf['splitTables'][$table])) {
+        if (($aConf['table']['split']) && ($aConf['splitTables'][$table])) {
             if ($oDate == NULL) {
                 $oDate = new Date();
             }
@@ -178,7 +178,7 @@ class OA_DB_Table
         if ($this->temporary) {
             $aOptions['temporary'] = true;
         }
-        $aOptions['type'] = $conf['table']['type'];
+        $aOptions['type'] = $aConf['table']['type'];
         // Merge any primary keys into the options array
         if (isset($this->aDefinition['tables'][$table]['indexes'])) {
             if (is_array($this->aDefinition['tables'][$table]['indexes'])) {
@@ -186,7 +186,7 @@ class OA_DB_Table
                     if (isset($aIndex['primary']) && $aIndex['primary']) {
                         $aOptions['primary'] = $aIndex['fields'];
                         // Does the primary key name need to be udpated to match the table?
-                        if (($conf['table']['split']) && ($conf['splitTables'][$table])) {
+                        if (($aConf['table']['split']) && ($aConf['splitTables'][$table])) {
                             $this->aDefinition['tables'][$table]['indexes'][$tableName . '_pkey']
                                 = $this->aDefinition['tables'][$table]['indexes'][$key];
                             unset($this->aDefinition['tables'][$table]['indexes'][$key]);
@@ -214,7 +214,7 @@ class OA_DB_Table
      *                    date if the date is required for creation, but not supplied.
      * @return boolean True if all tables created successfuly, false otherwise.
      */
-    function createAllTables($oDate = NULL)
+    function createAllTables($oDate = null)
     {
         if (!$this->_checkInit()) {
             return false;
@@ -237,7 +237,7 @@ class OA_DB_Table
      *                    date if the date is required for creation, but not supplied.
      * @return boolean True if all required tables created successfuly, false otherwise.
      */
-    function createRequiredTables($table, $oDate = NULL)
+    function createRequiredTables($table, $oDate = null)
     {
         if (!$this->_checkInit()) {
             return false;
@@ -284,18 +284,18 @@ class OA_DB_Table
      */
     function dropAllTables()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if (!$this->_checkInit()) {
             return false;
         }
         $allTablesDropped = true;
         foreach ($this->aDefinition['tables'] as $tableName => $aTable) {
-            if (($conf['table']['split']) && ($conf['splitTables'][$tableName])) {
+            if (($aConf['table']['split']) && ($aConf['splitTables'][$tableName])) {
                 // Don't drop
                 continue;
             }
             MAX::debug('Dropping the ' . $tableName . ' table', PEAR_LOG_DEBUG);
-            $result = $this->dropTable($conf['table']['prefix'].$tableName);
+            $result = $this->dropTable($aConf['table']['prefix'].$tableName);
             if (PEAR::isError($result)) {
                 MAX::debug('Unable to drop the table ' . $table, PEAR_LOG_ERROR);
                 $allTablesDropped = false;

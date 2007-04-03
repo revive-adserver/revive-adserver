@@ -242,6 +242,83 @@ class OA_DB
         }
     }
 
+    /**
+     * A method for creating a database. Connects to the database server using
+     * the "default" database for that database server type, creates the database,
+     * and sets up any defined functions for that database type, if any exist.
+     *
+     * @static
+     * @param string $name The name of the database to create.
+     * @return boolean True if the database was created correctly, false otherwise.
+     */
+    function createDatabase($name)
+    {
+        $dsn = OA_DB::_getDefaultDsn();
+        $oDbh = &OA_DB::singleton($dsn);
+        OA::disableErrorHandling();
+        $result = $oDbh->manager->createDatabase($name);
+        OA::enableErrorHandling();
+        if (PEAR::isError($result)) {
+            return false;
+        }
+        $functionsFile = MAX_PATH . '/etc/core.' . $oDbh->dsn['phptype'];
+        if (is_readable($functionsFile)) {
+            $fh = fopen($functionsFile, 'r');
+            $sql = fread($fh, filesize($functionsFile));
+            fclose($fh);
+            OA_DB::disconnectAll();
+            $oDbh = &OA_DB::singleton();
+            $rows = $oDbh->exec($sql);
+            if (PEAR::isError($rows)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * A method for dropping a database. Connects to the database server using
+     * the "default" database for that database server type, and attempts to
+     * drop the database.
+     *
+     * @static
+     * @param string $name The name of the database to drop.
+     * @return boolean True if the database was dropped correctly, false otherwise.
+     */
+    function dropDatabase($name)
+    {
+        $dsn = OA_DB::_getDefaultDsn();
+        $oDbh = &OA_DB::singleton($dsn);
+        OA::disableErrorHandling();
+        $result = $oDbh->manager->dropDatabase($name);
+        OA::enableErrorHandling();
+        if (PEAR::isError($result)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * A method to get a DSN string for connecting to the DSN defined by the
+     * configuration file, but where the database name has been converted
+     * to the "default" database for that database server type.
+     *
+     * @static
+     * @access private
+     * @return string The default database DSN.
+     */
+    function _getDefaultDsn()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        // Prepare a new DSN array, without a database name, so that
+        // a connection to the database server's default database can
+        // be created
+        $aDatabaseDSN = $aConf;
+        $aDatabaseDSN['database']['name'] = '';
+        $dsn = OA_DB::getDsn($aDatabaseDSN);
+        return $dsn;
+    }
+
 }
 
 ?>

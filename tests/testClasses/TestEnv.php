@@ -55,23 +55,10 @@ class TestEnv
     function setupDB()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        // Prepare a new array of the database details, without the
-        // database name, so that a connection to the database server
-        // can be created, but so the database itself is not in use
-        // (eg. PostgreSQL will not allow a database to be dropped
-        // while a connection to the database exists)
-        $aDatabaseDSN = $aConf;
-        // The "test" database exists in MySQL and PostgreSQL, may
-        // required tweaking for other database types!
-        $aDatabaseDSN['database']['name'] = 'test';
-        $dsn = OA_DB::getDsn($aDatabaseDSN);
-        $oDbh = &OA_DB::singleton($dsn);
-        OA::disableErrorHandling();
-        $result = $oDbh->manager->dropDatabase($aConf['database']['name']);
-        $result = $oDbh->manager->createDatabase($aConf['database']['name']);
-        OA::enableErrorHandling();
-        if (PEAR::isError($result)) {
-            PEAR::raiseError("TestEnv unable to create the {$aConf['database']['name']} test database:<br />" . $result->toString(), PEAR_LOG_ERR);
+        $result = OA_DB::dropDatabase($aConf['database']['name']);
+        $result = OA_DB::createDatabase($aConf['database']['name']);
+        if (!$result) {
+            PEAR::raiseError("TestEnv unable to create the {$aConf['database']['name']} test database.", PEAR_LOG_ERR);
             die();
         }
     }
