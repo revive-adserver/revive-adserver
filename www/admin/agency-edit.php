@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
@@ -63,7 +64,7 @@ if (isset($submit)) {
 	$errormessage = array();
 	// Get previous values
 	if (!empty($agencyid)) {
-	    $doAgency = MAX_DB::factoryDO('agency');
+	    $doAgency = OA_Dal::factoryDO('agency');
 	    $doAgency->get($agencyid);
 	    $agency = $doAgency->toArray();
 	}
@@ -111,7 +112,7 @@ if (isset($submit)) {
 		}
 	}
 	if (count($errormessage) == 0) {
-	    $doAgency = MAX_DB::factoryDO('agency');
+	    $doAgency = OA_Dal::factoryDO('agency');
 		if (empty($agencyid)) {
 		    $doAgency->setFrom($agency);
 		    $agencyid = $doAgency->insert();
@@ -147,7 +148,7 @@ if ($agencyid != '') {
 	} else {
 		$navdirection = '';
 	}
-	$doAgency = MAX_DB::factoryDO('agency');
+	$doAgency = OA_Dal::factoryDO('agency');
 	$doAgency->find();
 	while ($doAgency->fetch() && $row = $doAgency->toArray()) {
 		phpAds_PageContext (
@@ -157,13 +158,13 @@ if ($agencyid != '') {
 		);
 	}
 	phpAds_PageHeader("5.5.2");
-	$doAgency = MAX_DB::staticGetDO('agency', $agencyid);
+	$doAgency = OA_Dal::staticGetDO('agency', $agencyid);
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".$doAgency->name."</b><br /><br /><br />";
 	phpAds_ShowSections(array("5.5.2"));
 	// Do not get this information if the page
 	// is the result of an error message
 	if (!isset($agency)) {
-	    $doAgency = MAX_DB::factoryDO('agency');
+	    $doAgency = OA_Dal::factoryDO('agency');
 	    if ($doAgency->get($agencyid)) {
 	        $agency = $doAgency->toArray();
 	    }
@@ -314,7 +315,7 @@ echo "</form>";
 /*-------------------------------------------------------*/
 
 // Get unique agencyname
-$doAgency = MAX_DB::factoryDO('agency');
+$doAgency = OA_Dal::factoryDO('agency');
 $unique_names = $doAgency->getUniqueValuesFromColumn('name', $agency['name']);
 $unique_users = MAX_Permission::getUniqueUserNames($agency['username']);
 

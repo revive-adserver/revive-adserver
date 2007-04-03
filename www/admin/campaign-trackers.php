@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
@@ -81,36 +82,36 @@ foreach($invocationPlugins as $pluginKey => $plugin) {
 
 if (!empty($campaignid)) {
     if (isset($action) && $action == 'set') {
-        $doCampaigns_trackers = MAX_DB::factoryDO('campaigns_trackers');
+        $doCampaigns_trackers = OA_Dal::factoryDO('campaigns_trackers');
         $doCampaigns_trackers->campaignid = $campaignid;
         $doCampaigns_trackers->delete();
-        
+
         if (isset($trackerids) && is_array($trackerids)) {
             for ($i=0; $i<sizeof($trackerids); $i++) {
                 $clickwindow = $clickwindowday[$i] * (24*60*60) + $clickwindowhour[$i] * (60*60) + $clickwindowminute[$i] * (60) + $clickwindowsecond[$i];
                 $viewwindow = $viewwindowday[$i] * (24*60*60) + $viewwindowhour[$i] * (60*60) + $viewwindowminute[$i] * (60) + $viewwindowsecond[$i];
-                
+
                 $fields = array('campaignid', 'trackerid', 'status', 'viewwindow', 'clickwindow');
                 $values = array($campaignid, $trackerids[$i], $statusids[$i], $viewwindow, $clickwindow);
-                
+
                 foreach ($plugins as $plugin) {
                     $dbField = strtolower($plugin->trackerEvent) . "window";
                     $value = ${$dbField."day"}[$i] * (24*60*60) + ${$dbField."hour"}[$i] * (60*60) + ${$dbField."minute"}[$i] * (60) + ${$dbField."second"}[$i];
                     $fields[] = $dbField;
                     $values[] = $value;
                 }
-                
+
                 $fieldsSize = count($fields);
-                $doCampaigns_trackers = MAX_DB::factoryDO('campaigns_trackers');
+                $doCampaigns_trackers = OA_Dal::factoryDO('campaigns_trackers');
                 for ($k = 0; $k < $fieldsSize; $k++) {
                     $field = $fields[$k];
                     $doCampaigns_trackers->$field = $values[$k];
                 }
                 $doCampaigns_trackers->insert();
-                
+
             }
         }
-        
+
         header ("Location: campaign-trackers.php?clientid=".$clientid."&campaignid=".$campaignid);
         exit;
     }
@@ -151,7 +152,7 @@ $aOtherCampaigns = Admin_DA::getPlacements(array('advertiser_id' => $clientid));
 MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCampaigns, $aEntities);
 
 if (!empty($campaignid)) {
-    $doCampaigns = MAX_DB::factoryDO('campaigns');
+    $doCampaigns = OA_Dal::factoryDO('campaigns');
     if ($doCampaigns->get($campaignid)) {
         $campaign = $doCampaigns->toArray();
     }
@@ -211,13 +212,13 @@ $i = 0;
 $checkedall = true;
 
 if (!empty($campaignid)) {
-    $doCampaign_trackers = MAX_DB::factoryDO('campaigns_trackers');
+    $doCampaign_trackers = OA_Dal::factoryDO('campaigns_trackers');
     $doCampaign_trackers->campaignid = $campaignid;
     $campaign_tracker_row = $doCampaign_trackers->getAll(array(), $indexBy = 'trackerid');
-    
+
 }
 
-$doTrackers = MAX_DB::factoryDO('trackers');
+$doTrackers = OA_Dal::factoryDO('trackers');
 $doTrackers->clientid = $clientid;
 $doTrackers->addListOrderBy($listorder, $orderdirection);
 $doTrackers->find();
@@ -234,14 +235,14 @@ if ($doTrackers->getRowCount() == 0) {
     $trackers = $doTrackers->getAll();
 
     foreach ($trackers as $tracker) {
-        
+
         if ($i > 0) {
             echo "\t\t\t\t<tr height='1'>\n";
             echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>\n";
             echo "\t\t\t\t</tr>\n";
         }
         echo "\t\t\t\t<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">\n";
-        
+
         // Begin row
         echo "\t\t\t\t\t<td height='25'>";
 
@@ -252,10 +253,10 @@ if ($doTrackers->getRowCount() == 0) {
             echo "<input id='trk".$tracker['trackerid']."' type='checkbox' name='trackerids[]' value='".$tracker['trackerid']."' onclick='phpAds_reviewAll();' tabindex='".($tabindex++)."'>";
             $checkedall = false;
         }
-        
+
         // Campaign icon
         echo "<img src='images/icon-tracker.gif' align='absmiddle'>";
-        
+
         // Name
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
             echo "<a href='tracker-edit.php?clientid=".$tracker['clientid']."&trackerid=".$tracker['trackerid']."'>";
@@ -264,22 +265,22 @@ if ($doTrackers->getRowCount() == 0) {
             echo phpAds_breakString ($tracker['trackername'], '60');
         }
         echo "</td>\n";
-        
+
         // ID
         echo "\t\t\t\t\t<td height='25'>".$tracker['trackerid']."</td>\n";
-        
+
         // Status
         $statuses = $GLOBALS['_MAX']['STATUSES'];
         $startStatusesIds = array(1,2,4);
         echo "\t\t\t\t\t<td height='25'>";
         echo "<select name='statusids[]' id='statustrk".$tracker['trackerid']."' tabindex='".($tabindex++)."'>\n";
-        
+
         if (isset($campaign_tracker_row[$tracker['trackerid']]['status'])) {
             $trackerStatusId = $campaign_tracker_row[$tracker['trackerid']]['status'];
         } else {
             $trackerStatusId = $tracker['status'];
         }
-            
+
         foreach($statuses as $statusId => $statusName) {
             if(in_array($statusId, $startStatusesIds)) {
                 echo "<option value='$statusId' ". ($trackerStatusId == $statusId ? 'selected' : '')." >{$GLOBALS[$statusName]}&nbsp;</option>\n";
@@ -291,7 +292,7 @@ if ($doTrackers->getRowCount() == 0) {
         $seconds_left = $tracker['clickwindow'];
         if (isset($campaign_tracker_row[$tracker['trackerid']]))
             $seconds_left = $campaign_tracker_row[$tracker['trackerid']]['clickwindow'];
-        
+
         $clickwindowday = floor($seconds_left / (60*60*24));
         $seconds_left = $seconds_left % (60*60*24);
         $clickwindowhour = floor($seconds_left / (60*60));
@@ -299,7 +300,7 @@ if ($doTrackers->getRowCount() == 0) {
         $clickwindowminute = floor($seconds_left / (60));
         $seconds_left = $seconds_left % (60);
         $clickwindowsecond = $seconds_left;
-        
+
         // Click Window
         echo "<td nowrap>".$strClick."&nbsp;&nbsp;&nbsp;&nbsp;";
         echo "<input id='clickwindowdaytrk".$tracker['trackerid']."' class='flat' type='text' size='3' name='clickwindowday[]' value='".$clickwindowday."' onKeyUp=\"phpAds_formLimitUpdate('".$tracker['trackerid']."');\" tabindex='".($tabindex++)."'> ".$strDays." &nbsp;&nbsp;";
@@ -315,7 +316,7 @@ if ($doTrackers->getRowCount() == 0) {
         echo "\t\t\t\t\t<td".($i%2==0?" bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' height='1' width='100%'></td>\n";
         echo "\t\t\t\t\t<td colspan='3'><img src='images/break-l.gif' height='1' width='100%'></td>\n";
         echo "\t\t\t\t</tr>\n";
-        
+
         echo "<tr height='25'".($i%2==0?" bgcolor='#F6F6F6'":"").">";
         echo "<td>&nbsp;</td>";
         echo "<td>&nbsp;</td>";
@@ -324,7 +325,7 @@ if ($doTrackers->getRowCount() == 0) {
         $seconds_left = $tracker['viewwindow'];
         if (isset($campaign_tracker_row[$tracker['trackerid']]))
             $seconds_left = $campaign_tracker_row[$tracker['trackerid']]['viewwindow'];
-        
+
         $viewwindowday = floor($seconds_left / (60*60*24));
         $seconds_left = $seconds_left % (60*60*24);
         $viewwindowhour = floor($seconds_left / (60*60));
@@ -357,18 +358,18 @@ if ($doTrackers->getRowCount() == 0) {
             $minutes = floor($seconds_left / (60));
             $seconds_left = $seconds_left % (60);
             $seconds = $seconds_left;
-            
+
             // Mini Break Line
             echo "\t\t\t\t<tr height='1'>\n";
             echo "\t\t\t\t\t<td".($i%2==0?" bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' height='1' width='100%'></td>\n";
             echo "\t\t\t\t\t<td colspan='3'><img src='images/break-l.gif' height='1' width='100%'></td>\n";
             echo "\t\t\t\t</tr>\n";
-            
+
             echo "<tr height='25'".($i%2==0?" bgcolor='#F6F6F6'":"").">";
             echo "<td>&nbsp;</td>";
             echo "<td>&nbsp;</td>";
             echo "<td>&nbsp;</td>";
-            
+
             echo "<td nowrap>" . ucfirst($fieldName) . "&nbsp;&nbsp;";
             echo "<input id='{$fieldName}windowdaytrk{$tracker['trackerid']}' class='flat' type='text' size='3' name='{$fieldName}windowday[]' value='{$days}' onKeyUp=\"phpAds_formLimitUpdate('{$tracker['trackerid']}');\" tabindex='".($tabindex++)."'> ".$strDays." &nbsp;&nbsp;";
             echo "<input id='{$fieldName}windowhourtrk{$tracker['trackerid']}' class='flat' type='text' size='3' name='{$fieldName}windowhour[]' value='{$hours}' onKeyUp=\"phpAds_formLimitUpdate('{$tracker['trackerid']}');\" tabindex='".($tabindex++)."'> ".$strHours." &nbsp;&nbsp;";
@@ -376,7 +377,7 @@ if ($doTrackers->getRowCount() == 0) {
             echo "<input id='{$fieldName}windowsecondtrk{$tracker['trackerid']}' class='flat' type='text' size='3' name='{$fieldName}windowsecond[]' value='{$seconds}' onBlur=\"phpAds_formLimitBlur('{$tracker['trackerid']}');\" onKeyUp=\"phpAds_formLimitUpdate('{$tracker['trackerid']}');\" tabindex='".($tabindex++)."'> ".$strSeconds." &nbsp;&nbsp;";
             echo "</td></tr>";
         }
-        
+
         $i++;
     }
 }
@@ -422,11 +423,11 @@ echo "</form>"."\n";
             return allchecked;
         }
     }
-    
+
     function phpAds_toggleAll()
     {
         var allchecked = phpAds_getAllChecked();
-                
+
         if (document.availabletrackers) {
             for (var i=0; i<document.availabletrackers.elements.length; i++)
             {
@@ -437,13 +438,13 @@ echo "</form>"."\n";
             }
             phpAds_reviewAll();
         }
-        
+
     }
-    
+
     function phpAds_reviewAll()
     {
         if (document.availabletrackers) {
-            
+
             for (var i=0; i<document.availabletrackers.elements.length; i++)
             {
                 var element = document.availabletrackers.elements[i];
@@ -452,31 +453,31 @@ echo "</form>"."\n";
                     var trkid = element.id.substring(3);
                     phpAds_formLimitBlur(trkid);
                     phpAds_formLimitUpdate(trkid);
-                    
+
                     var logelement = document.getElementById('status' + element.id);
                     if (logelement) logelement.disabled = !element.checked;
-                    
+
                     var cwday = document.getElementById('clickwindowday' + element.id);
                     if (cwday) cwday.disabled = !element.checked;
-                    
+
                     var cwhour = document.getElementById('clickwindowhour' + element.id);
                     if (cwhour) cwhour.disabled = !element.checked;
-                    
+
                     var cwminute = document.getElementById('clickwindowminute' + element.id);
                     if (cwminute) cwminute.disabled = !element.checked;
-                    
+
                     var cwsecond = document.getElementById('clickwindowsecond' + element.id);
                     if (cwsecond) cwsecond.disabled = !element.checked;
-                    
+
                     var vwday = document.getElementById('viewwindowday' + element.id);
                     if (vwday) vwday.disabled = !element.checked;
-                    
+
                     var vwhour = document.getElementById('viewwindowhour' + element.id);
                     if (vwhour) vwhour.disabled = !element.checked;
-                    
+
                     var vwminute = document.getElementById('viewwindowminute' + element.id);
                     if (vwminute) vwminute.disabled = !element.checked;
-                    
+
                     var vwsecond = document.getElementById('viewwindowsecond' + element.id);
                     if (vwsecond) vwsecond.disabled = !element.checked;
                     <?php
@@ -486,13 +487,13 @@ echo "</form>"."\n";
                         echo "
                     var plugin{$i}_day = document.getElementById('{$fieldName}windowday' + element.id);
                     if (plugin{$i}_day) plugin{$i}_day.disabled = !element.checked;
-                    
+
                     var plugin{$i}_hour = document.getElementById('{$fieldName}windowhour' + element.id);
                     if (plugin{$i}_hour) plugin{$i}_hour.disabled = !element.checked;
-                    
+
                     var plugin{$i}_minute = document.getElementById('{$fieldName}windowminute' + element.id);
                     if (plugin{$i}_minute) plugin{$i}_minute.disabled = !element.checked;
-                    
+
                     var plugin{$i}_second = document.getElementById('{$fieldName}windowsecond' + element.id);
                     if (plugin{$i}_second) plugin{$i}_second.disabled = !element.checked;
                     ";
@@ -516,17 +517,17 @@ echo "</form>"."\n";
         if (cwhour.value == '') cwhour.value = '0';
         if (cwminute.value == '') cwminute.value = '0';
         if (cwsecond.value == '') cwsecond.value = '0';
-        
+
         var vwday = document.getElementById('viewwindowdaytrk'+trkid);
         var vwhour = document.getElementById('viewwindowhourtrk'+trkid);
         var vwminute = document.getElementById('viewwindowminutetrk'+trkid);
         var vwsecond = document.getElementById('viewwindowsecondtrk'+trkid);
-        
+
         if (vwday.value == '') vwday.value = '0';
         if (vwhour.value == '') vwhour.value = '0';
         if (vwminute.value == '') vwminute.value = '0';
         if (vwsecond.value == '') vwsecond.value = '0';
-        
+
         <?php
         $i = 0;
         foreach ($plugins as $plugin) {
@@ -536,7 +537,7 @@ echo "</form>"."\n";
             var plugin{$i}_hour = document.getElementById('{$fieldName}windowhourtrk'+trkid);
             var plugin{$i}_minute = document.getElementById('{$fieldName}windowminutetrk'+trkid);
             var plugin{$i}_second = document.getElementById('{$fieldName}windowsecondtrk'+trkid);
-    
+
             if (plugin{$i}_day.value == '') plugin{$i}_day.value = '0';
             if (plugin{$i}_hour.value == '') plugin{$i}_hour.value = '0';
             if (plugin{$i}_minute.value == '') plugin{$i}_minute.value = '0';
@@ -545,22 +546,22 @@ echo "</form>"."\n";
             $i++;
         }
         ?>
-        
+
         phpAds_formLimitUpdate (trkid);
     }
-            
+
     function phpAds_formLimitUpdate (trkid)
     {
         var cwday = document.getElementById('clickwindowdaytrk'+trkid);
         var cwhour = document.getElementById('clickwindowhourtrk'+trkid);
         var cwminute = document.getElementById('clickwindowminutetrk'+trkid);
         var cwsecond = document.getElementById('clickwindowsecondtrk'+trkid);
-        
+
         // Set -
         if (cwhour.value == '-' && cwday.value != '-') cwhour.value = '0';
         if (cwminute.value == '-' && cwhour.value != '-') cwminute.value = '0';
         if (cwsecond.value == '-' && cwminute.value != '-') cwsecond.value = '0';
-        
+
         // Set 0
         if (cwday.value == '0') cwday.value = '-';
         if (cwday.value == '-' && cwhour.value == '0') cwhour.value = '-';
@@ -571,18 +572,18 @@ echo "</form>"."\n";
         var vwhour = document.getElementById('viewwindowhourtrk'+trkid);
         var vwminute = document.getElementById('viewwindowminutetrk'+trkid);
         var vwsecond = document.getElementById('viewwindowsecondtrk'+trkid);
-        
+
         // Set -
         if (vwhour.value == '-' && vwday.value != '-') vwhour.value = '0';
         if (vwminute.value == '-' && vwhour.value != '-') vwminute.value = '0';
         if (vwsecond.value == '-' && vwminute.value != '-') vwsecond.value = '0';
-        
+
         // Set 0
         if (vwday.value == '0') vwday.value = '-';
         if (vwday.value == '-' && vwhour.value == '0') vwhour.value = '-';
         if (vwhour.value == '-' && vwminute.value == '0') vwminute.value = '-';
         if (vwminute.value == '-' && vwsecond.value == '0') vwsecond.value = '-';
-        
+
         <?php
         $i = 0;
         foreach ($plugins as $plugin) {
@@ -592,24 +593,24 @@ echo "</form>"."\n";
             var plugin{$i}_hour = document.getElementById('{$fieldName}windowhourtrk'+trkid);
             var plugin{$i}_minute = document.getElementById('{$fieldName}windowminutetrk'+trkid);
             var plugin{$i}_second = document.getElementById('{$fieldName}windowsecondtrk'+trkid);
-            
+
             // Set -
             if (plugin{$i}_hour.value == '-' && plugin{$i}_day.value != '-') plugin{$i}_hour.value = '0';
             if (plugin{$i}_minute.value == '-' && plugin{$i}_hour.value != '-') plugin{$i}_minute.value = '0';
             if (plugin{$i}_second.value == '-' && plugin{$i}_minute.value != '-') plugin{$i}_second.value = '0';
-            
+
             // Set 0
             if (plugin{$i}_day.value == '0') plugin{$i}_day.value = '-';
             if (plugin{$i}_day.value == '-' && plugin{$i}_hour.value == '0') plugin{$i}_hour.value = '-';
             if (plugin{$i}_hour.value == '-' && plugin{$i}_minute.value == '0') plugin{$i}_minute.value = '-';
             if (plugin{$i}_minute.value == '-' && plugin{$i}_second.value == '0') plugin{$i}_second.value = '-';
             ";
-            
+
             $i++;
         }
         ?>
     }
-    
+
     phpAds_reviewAll();
 //-->
 </script>

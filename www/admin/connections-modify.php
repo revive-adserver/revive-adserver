@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
@@ -130,7 +131,7 @@ if (!empty($aConversions))
 
             $modified = true;
             // Edit conversion
-            $doData_intermediate_ad_connection = MAX_DB::factoryDO('data_intermediate_ad_connection');
+            $doData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');
             $doData_intermediate_ad_connection->get($conversionId);
             $doData_intermediate_ad_connection->connection_status = $statusId;
             $doData_intermediate_ad_connection->update();
@@ -202,7 +203,7 @@ if (!empty($aConversions))
                 }
 
                 // Update "data_intermediate_ad" table
-                $dalData_intermediate_ad = MAX_DB::factoryDAL('data_intermediate_ad');
+                $dalData_intermediate_ad = OA_Dal::factoryDAL('data_intermediate_ad');
                 $dalData_intermediate_ad->addConversion($operation,
                     $basketValue, $numItems, $ad_id,
                     $creative_id, $zone_id, $day, $hour);

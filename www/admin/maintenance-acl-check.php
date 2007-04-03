@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
@@ -66,7 +67,7 @@ echo "<strong>Channels:</strong>";
 phpAds_showBreak();
 
 // Check all the channels...
-$dalChannel = MAX_DB::factoryDAL('channel');
+$dalChannel = OA_Dal::factoryDAL('channel');
 $rsChannel = $dalChannel->getChannelsAndAffiliates();
 $rsChannel->find();
 $allChannelsValid = true;
@@ -85,7 +86,7 @@ phpAds_showBreak();
 echo "<strong>Banners:</strong>";
 phpAds_ShowBreak();
 
-$dalBanners = MAX_DB::factoryDAL('banners');
+$dalBanners = OA_Dal::factoryDAL('banners');
 $rsBanners = $dalBanners->getBannersCampaignsClients();
 $rsBanners->find();
 

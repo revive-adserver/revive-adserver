@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
@@ -83,18 +84,18 @@ if (phpAds_isUser(phpAds_Agency)) {
 
 if (empty($zoneid)) {
 	echo "<select name='zoneid' id='zoneid' tabindex='".($tabindex++)."'>";
-	
+
 	$aZones = Admin_DA::fromCache('getZones', $aParams);
-	
+
 	foreach ($aZones as $zoneId => $zone) {
 		echo "<option value='{$zone['zone_id']}'>".strip_tags(phpAds_buildZoneName($zoneId, $zone['name']))."</option>";
 	}
-	
+
 	echo "</select>";
 } else {
 	$aParams['zone_id'] = $zoneid;
 	$aZones = Admin_DA::fromCache('getZones', $aParams, true);
-	
+
 	foreach ($aZones as $zoneId => $zone) {
 		echo "<b>".strip_tags(phpAds_buildZoneName($zoneId, $zone['name']))."</b>";
 		echo "<input type='hidden' name='zoneid' value='".$zoneId."' />";
@@ -106,17 +107,17 @@ echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 
 if (!empty($zoneid)) {
 	$zone = end($aZones);
-	
+
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td><td width='200'>". 'Period' ."</td><td>";
-	
+
 	$oDaySpan =& new Admin_UI_DaySpanField('period');
 	$oDaySpan->display();
-	
+
 	echo "</td>";
 	echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-	
+
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strCostInfo."</td>";
 	echo "<td>";
@@ -135,12 +136,12 @@ if (!empty($zoneid)) {
 	echo "</select>";
 	echo "&nbsp;&nbsp;";
 
-	$dalVariables = MAX_DB::factoryDAL('variables');
+	$dalVariables = OA_Dal::factoryDAL('variables');
     $rsVariables = $dalVariables->getTrackerVariables($zoneid, $affiliateid, phpAds_isUser(phpAds_Affiliate));
     $res_tracker_variables = $rsVariables->getAll();
-    
+
     echo "<select name='cost_variable_id' id='cost_variable_id'>";
-    
+
     if (empty($res_tracker_variables)) {
         echo "<option value=''>-- No linked tracker --</option>";
     } else {
@@ -153,17 +154,17 @@ if (!empty($zoneid)) {
             "</option>";
         }
     }
-    
+
     echo "</select>";
-    
+
     if (strpos($zone['cost_variable_id'], ',')) {
         $cost_variable_ids = explode(',', $zone['cost_variable_id']);
     } else {
         $cost_variable_ids = array($zone['cost_variable_id']);
     }
-    
+
     echo "<select name='cost_variable_id_mult[]' id='cost_variable_id_mult' multiple='multiple' size='3'>";
-    
+
     if (empty($res_tracker_variables)) {
         echo "<option value=''>-- No linked tracker --</option>";
     } else {
@@ -176,7 +177,7 @@ if (!empty($zoneid)) {
             "</option>";
         }
     }
-    
+
     echo "</select>";
 	echo "</td>";
 	echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
@@ -194,7 +195,7 @@ if (!empty($zoneid)) {
 	echo "</select>";
 	echo "</td></tr>";
 }
-	
+
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "</table>";
@@ -220,7 +221,7 @@ echo "<br /><br />";
         var o = document.getElementById('cost_type');
         var p = document.getElementById('cost_variable_id');
         var p2 = document.getElementById('cost_variable_id_mult');
-        
+
         if ( o.options[o.selectedIndex].value == <?php echo MAX_FINANCE_ANYVAR; ?>) {
             p.style.display = '';
             p2.style.display = 'none';
@@ -232,9 +233,9 @@ echo "<br /><br />";
             p2.style.display = 'none';
         }
     }
-    
+
     m3_updateFinance();
-    
+
 //-->
 </script>
 

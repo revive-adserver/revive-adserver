@@ -32,11 +32,11 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/max/DB.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed(
@@ -74,7 +74,7 @@ if (isset($submit)) {
 	$errormessage = array();
 	// Get previous values
 	if (!empty($clientid)) {
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
 		if ($doClients->get($clientid)) {
 			$client = $doClients->toArray();
 		}
@@ -149,7 +149,7 @@ if (isset($submit)) {
 	*/
 	if (count($errormessage) == 0) {
 		if (empty($clientid)) {
-            $doClients = MAX_DB::factoryDO('clients');
+            $doClients = OA_Dal::factoryDO('clients');
             $doClients->setFrom($client);
             $doClients->updated = date('Y-m-d H:i:s');
 
@@ -159,7 +159,7 @@ if (isset($submit)) {
 			// Go to next page
 			MAX_Admin_Redirect::redirect("campaign-edit.php?clientid=$clientid");
 		} else {
-            $doClients = MAX_DB::factoryDO('clients');
+            $doClients = OA_Dal::factoryDO('clients');
             $doClients->get($clientid);
             $doClients->setFrom($client);
             $doClients->updated = date('Y-m-d H:i:s');
@@ -202,13 +202,13 @@ if ($clientid != "") {
 		}
 
 		// Get other clients
-		$doClients = MAX_DB::factoryDO('clients');
+		$doClients = OA_Dal::factoryDO('clients');
 
 		// Unless admin, restrict results
 		if (phpAds_isUser(phpAds_Agency)) {
             $doClients->agencyid = $session['userid'];
 		}
-        
+
         $doClients->addListorderBy($navorder, $navdirection);
         $doClients->find();
 
@@ -230,7 +230,7 @@ if ($clientid != "") {
 	// Do not get this information if the page
 	// is the result of an error message
 	if (!isset($client)) {
-        $doClients = MAX_DB::factoryDO('clients');
+        $doClients = OA_Dal::factoryDO('clients');
 		if ($doClients->get($clientid)) {
 			$client = $doClients->toArray();
 		}
@@ -490,7 +490,7 @@ echo "</form>";
 /*-------------------------------------------------------*/
 
 // Get unique clientname
-$doClients = MAX_DB::factoryDO('clients');
+$doClients = OA_Dal::factoryDO('clients');
 $unique_names = $doClients->getUniqueValuesFromColumn('clientname', $client['clientname']);
 
 $unique_users = MAX_Permission::getUniqueUserNames($client['clientusername']);

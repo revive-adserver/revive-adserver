@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
@@ -43,7 +44,7 @@ MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$doBanners = MAX_DB::factoryDO('banners');
+$doBanners = OA_Dal::factoryDO('banners');
 
 if (phpAds_isUser(phpAds_Agency))
 {

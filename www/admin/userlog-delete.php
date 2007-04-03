@@ -32,8 +32,8 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/lib/max/DB.php';
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
@@ -42,7 +42,7 @@ phpAds_checkAccess(phpAds_Admin);
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$doUserLog = MAX_DB::factoryDO('userlog');
+$doUserLog = OA_Dal::factoryDO('userlog');
 $doUserLog->whereAdd('1=1');
 $doUserLog->delete(DB_DATAOBJECT_WHEREADD_ONLY);
 

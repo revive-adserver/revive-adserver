@@ -32,9 +32,9 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
-require_once MAX_PATH . '/lib/max/DB.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl');
@@ -56,10 +56,10 @@ if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
 /*-------------------------------------------------------*/
 
 if (!empty($clientid)) {
-    $doClients = MAX_DB::factoryDO('clients');
+    $doClients = OA_Dal::factoryDO('clients');
     $doClients->clientid = $clientid;
     $doClients->delete();
-    
+
     // Delete the advertiser from the $node_array,
     // if necessary
     if (isset($node_array)) {

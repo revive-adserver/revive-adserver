@@ -33,9 +33,9 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-require_once MAX_PATH . '/lib/max/DB.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl');
@@ -51,7 +51,7 @@ MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
 
 if (!empty($affiliateid))
 {
-	$doAffiliates = MAX_DB::factoryDO('affiliates');
+	$doAffiliates = OA_Dal::factoryDO('affiliates');
 	$doAffiliates->affiliateid = $affiliateid;
 	$doAffiliates->delete();
 }

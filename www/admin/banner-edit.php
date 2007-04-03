@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
@@ -106,13 +107,13 @@ if (!empty($bannerid)) {
 /*-------------------------------------------------------*/
 
 if (isset($submit)) {
-    $doBanners = MAX_DB::factoryDO('banners');
+    $doBanners = OA_Dal::factoryDO('banners');
     // Get the existing banner details (if it is not a new banner)
     if (!empty($bannerid)) {
         if ($doBanners->get($bannerid)) {
             $aBanner = $doBanners->toArray();
         }
-        // check if size has changed        
+        // check if size has changed
         $size_changed = ($width != $aBanner['width'] || $height != $aBanner['height']) ? true : false;
     }
 
@@ -217,11 +218,11 @@ if (isset($submit)) {
 
 if ($bannerid != '') {
     // Fetch the data from the database
-    $doBanners = MAX_DB::factoryDO('banners');
+    $doBanners = OA_Dal::factoryDO('banners');
     if ($doBanners->get($bannerid)) {
         $row = $doBanners->toArray();
     }
-    
+
     if (isset($session['prefs']['campaign-banners.php'][$campaignid]['listorder'])) {
         $navorder = $session['prefs']['campaign-banners.php'][$campaignid]['listorder'];
     } else {
@@ -260,7 +261,7 @@ if ($bannerid != '') {
 }
 
 $session['htmlerrormsg'] = '';
-    
+
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
@@ -377,7 +378,7 @@ echo ">
         <input type='hidden' name='type' value='{$type}'>
 ";
 
-if(isset($session['htmlerrormsg']) && strlen($session['htmlerrormsg']) > 0) { 
+if(isset($session['htmlerrormsg']) && strlen($session['htmlerrormsg']) > 0) {
     echo '<font color="red">'. $session['htmlerrormsg'] . '</font>';
     echo "&nbsp;<input type='submit' name='submit' value='Save Anyway' tabindex='10'>";
 }

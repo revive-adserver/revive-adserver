@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
@@ -77,16 +78,16 @@ if (!empty($campaignid)) {
         /*-------------------------------------------------------*/
 
         // Delete any campaign-tracker links
-        $doCampaign_trackers = MAX_DB::factoryDO('campaigns_trackers');
+        $doCampaign_trackers = OA_Dal::factoryDO('campaigns_trackers');
         $doCampaign_trackers->campaignid = $campaignid;
         $doCampaign_trackers->delete();
-        
+
         // Move the campaign
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->get($campaignid);
         $doCampaigns->clientid = $newclientid;
         $doCampaigns->update();
-        
+
         // Find and delete the campains from $node_array, if
         // necessary. (Later, it would be better to have
         // links to this file pass in the clientid as well,

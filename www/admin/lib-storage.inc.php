@@ -28,6 +28,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
+
 // Include FTP emulation library if extension is not present
 if (!function_exists("ftp_connect")) {
 	include_once MAX_PATH . '/www/admin/lib-ftp.inc.php';
@@ -75,7 +77,7 @@ function phpAds_ImageStore($type, $name, $buffer, $overwrite = false)
 	if ($type == 'sql') {
 
 	    // Look for existing image.
-	    $doImages = MAX_DB::staticGetDO('images', $name);
+	    $doImages = OA_Dal::staticGetDO('images', $name);
 	    if ($doImages) {
    			$doImages->contents = $buffer;
 	        if ($overwrite == false) {
@@ -87,7 +89,7 @@ function phpAds_ImageStore($type, $name, $buffer, $overwrite = false)
     			$doImages->update();
     		}
 	    } else {
-	        $doImages = MAX_DB::factoryDO('images');
+	        $doImages = OA_Dal::factoryDO('images');
     	    $doImages->filename = $name;
     		$doImages->contents = $buffer;
     		$doImages->insert();
@@ -99,7 +101,7 @@ function phpAds_ImageStore($type, $name, $buffer, $overwrite = false)
 	} else {
 		return false;
 	}
-} 
+}
 
 /*-------------------------------------------------------*/
 /* Duplicate a file on the webserver                     */
@@ -122,7 +124,7 @@ function phpAds_ImageDuplicate ($type, $name)
 			}
 			$server['user'] = $conf['store']['ftpUsername'];
 			$server['pass'] = $conf['store']['ftpPassword'];
-			$server['passiv'] = !empty( $conf['store']['ftpPassive'] );			
+			$server['passiv'] = !empty( $conf['store']['ftpPassive'] );
 			$stored_url = phpAds_FTPDuplicate($server, $name);
 		} else {
 			// Local mode
@@ -173,10 +175,10 @@ function phpAds_ImageRetrieve($type, $name)
 		}
 	}
 	if ($type == 'sql') {
-        if ($dbImages = MAX_DB::staticGetDO('images', 'filename', $name)) {
+        if ($dbImages = OA_Dal::staticGetDO('images', 'filename', $name)) {
             $result = $dbImages->contents;
         }
-        
+
 	}
 	if (!empty($result)) {
 		return ($result);
@@ -212,7 +214,7 @@ function phpAds_ImageDelete ($type, $name)
 		}
 	}
 	if ($type == 'sql') {
-        $doImages = MAX_DB::staticGetDO('images', 'filename', $name);
+        $doImages = OA_Dal::staticGetDO('images', 'filename', $name);
         $doImages->delete();
 	}
 }
@@ -245,7 +247,7 @@ function phpAds_ImageSize ($type, $name)
 		}
 	}
 	if ($type == 'sql') {
-        if ($doImages = MAX_DB::staticGetDO('images', 'filename', $name)) {
+        if ($doImages = OA_Dal::staticGetDO('images', 'filename', $name)) {
             $result = strlen($doImages->contents);
         }
 	}

@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/language/Userlog.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
@@ -55,7 +56,7 @@ Language_Userlog::load();
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$doUserLog = MAX_DB::factoryDO('userlog');
+$doUserLog = OA_Dal::factoryDO('userlog');
 if (!$count = $doUserLog->count()) {
     $count = 0;
 }
@@ -63,13 +64,13 @@ if (!$count = $doUserLog->count()) {
 $limit = 15;
 $start = isset($start) ? (int) $start : 0;
 
-$doUserLog = MAX_DB::factoryDO('userlog');
+$doUserLog = OA_Dal::factoryDO('userlog');
 $doUserLog->orderBy('timestamp DESC');
 $doUserLog->limit($start * $limit, $limit);
 $doUserLog->find();
 
 echo "<br /><br />";
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25'>&nbsp;&nbsp;<b>".$strDate."</b></td>";
 echo "<td height='25'><b>".$strAction."</b></td></tr>";
 echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
@@ -88,11 +89,11 @@ while ($doUserLog->fetch() && $row = $doUserLog->toArray())
 {
 	if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
 	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-	
+
 	// Timestamp
 	echo "<td height='25'>&nbsp;&nbsp;".strftime($date_format, $row['timestamp']).", ";
 	echo strftime($minute_format, $row['timestamp'])."</td>";
-	
+
 	// User
 	echo "<td height='25'>";
 	switch ($row['usertype'])
@@ -102,7 +103,7 @@ while ($doUserLog->fetch() && $row = $doUserLog->toArray())
 		case phpAds_userAdministrator:	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".$strAdministrator; break;
 	}
 	echo "</td>";
-	
+
 	// Details
 	echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
 	if ($row['details'] != '')
@@ -114,17 +115,17 @@ while ($doUserLog->fetch() && $row = $doUserLog->toArray())
 		echo "&nbsp;";
 	echo "&nbsp;&nbsp;</td>";
 	echo "</tr>";
-	
+
 	// Space
 	echo "<tr height='20' valign='top' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 	echo "<td>&nbsp;</td>";
-	
+
 	// Action
 	$action = $strUserlog[$row['action']];
 	$action = str_replace ('{id}', $row['object'], $action);
 	echo "<td height='20' colspan='2'><img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;".$action."</td>";
 	echo "</tr>";
-	
+
 	$i++;
 }
 
@@ -142,7 +143,7 @@ if ($doUserLog->getRowCount() > 0)
 		if ($count > ($start + 1) * $limit)
 		{
 			if ($start > 0) echo "&nbsp;|&nbsp;";
-			
+
 			echo "<a href='userlog-index.php?start=".($start + 1)."'>";
 			echo $strNext."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
 		}

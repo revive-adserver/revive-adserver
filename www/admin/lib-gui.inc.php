@@ -29,6 +29,7 @@ $Id$
 */
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
@@ -264,13 +265,13 @@ function phpAds_PageHeader($ID, $extra="")
                     } else {
                         $down_limit = 0;
                     }
-                    
+
                 }
-            
+
             }
         } else {
             $up_limit = count($phpAds_context);
-            $down_limit=0;             
+            $down_limit=0;
         }
 
         // Build Context
@@ -451,7 +452,7 @@ function phpAds_PageHeader($ID, $extra="")
     echo "\t\t<script language='JavaScript' src='js/sorttable.js'></script>\n";
     echo "\t\t<script language='JavaScript' src='js/boxrow.js'></script>\n";
     echo "\t\t<script language='JavaScript' src='js/formValidation.php'></script>\n";
-    
+
     echo "\t\t<script language='JavaScript' type='text/javascript' src='js/jscalendar/calendar.js'></script>\n";
     echo "\t\t<script language='JavaScript' type='text/javascript' src='js/jscalendar/lang/calendar-en.js'></script>\n";
     echo "\t\t<script language='JavaScript' type='text/javascript' src='js/jscalendar/calendar-setup.js'></script>\n";
@@ -459,7 +460,7 @@ function phpAds_PageHeader($ID, $extra="")
     if ($phpAds_showHelp) echo "\t\t<script language='JavaScript' src='js-help.js'></script>\n";
     // Include the flashObject resource file
     echo MAX_flashGetFlashObjectExternal();
-    
+
     // Show Moz site bar
     echo $mozbar;
     echo "\t</head>\n\n\n";
@@ -614,7 +615,7 @@ function phpAds_PageFooter()
                 }
                 // Update the timestamp to make sure the warning
                 // is shown only once every 24 hours
-                $doPreference = MAX_DB::factoryDO('preference');
+                $doPreference = OA_Dal::factoryDO('preference');
                 $doPreference->whereAdd('1 = 1'); //Global table update.
                 $doPreference->maintenance_timestamp = time();
                 $doPreference->update(DB_DATAOBJECT_WHEREADD_ONLY);
@@ -630,20 +631,20 @@ function phpAds_PageFooter()
 
 /**
  * Return all link parameters
- * 
+ *
  * Appears to serialize an array to URL query string format,
  * with special exclusions for "entity" and "breakdown".
- * 
+ *
  * @param array Associative array
  * @return string A string of the format "key1=value1&key2=value2"
- * 
+ *
  * @todo Make it clear why 'entity' and 'breakdown' are handled specially
  * @todo Consider renaming this function to better illustrate its purpose
  */
 function showParams($params)
 {
     $tempStr = '';
-    
+
     foreach($params as $k => $v) {
       if($k != 'entity' && $k != 'breakdown') {
           $tempStr .= '&' . $k . '=' . $v;
@@ -654,7 +655,7 @@ function showParams($params)
 }
 
 /**
- * Show section navigation 
+ * Show section navigation
  *
  * @param array Sections to be displayed
  * @param array page params
@@ -689,7 +690,7 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true)
     for ($i=0; $i < count($sections); $i++) {
         list($sectionUrl, $sectionStr) = each($pages["$sections[$i]"]);
         $selected = ($phpAds_NavID == $sections[$i]);
-        if ($selected) { 
+        if ($selected) {
             echo "\t\t\t\t\t<td background='images/".$phpAds_TextDirection."/stab-sb.gif' valign='middle' nowrap>";
             if ($i > 0) {
                 echo "<img src='images/".$phpAds_TextDirection."/stab-mus.gif' align='absmiddle'>";
@@ -701,7 +702,7 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true)
             echo "&nbsp;&nbsp;<a class='tab-s' href='".$sectionUrl;
             if($params) {
                 echo showParams($params);
-            }            
+            }
             echo "' accesskey='".($i+1)."'>".$sectionStr."</a></td>\n";
         } else {
             echo "\t\t\t\t\t<td background='images/".$phpAds_TextDirection."/stab-ub.gif' valign='middle' nowrap>";
@@ -719,7 +720,7 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true)
             echo "&nbsp;&nbsp;<a class='tab-g' href='".$sectionUrl;
             if($params) {
                 echo showParams($params);
-            }            
+            }
             echo "' accesskey='".($i+1)."'>".$sectionStr."</a></td>\n";
         }
         $previousselected = $selected;
@@ -804,13 +805,13 @@ function phpAds_sqlDie()
         $title    = $GLOBALS['strErrorDBPlain'];
         $message  = $GLOBALS['strErrorDBNoDataPlain'];
         if (phpAds_isLoggedIn() && (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))) {
-            
+
             // Get the DB server version
             $connection = DBC::getCurrentConnection();
             $connectionId = $connection->getConnectionId();
             $aVersion = $connectionId->getServerVersion();
             $dbVersion = $aVersion['major'] . '.' . $aVersion['minor'] . '.' . $aVersion['patch'] . '-' . $aVersion['extra'];
-            
+
             $message .= $GLOBALS['strErrorDBSubmitBug'];
             $last_query = $phpAds_last_query;
             $message .= "<br><br><table cellpadding='0' cellspacing='0' border='0'>";

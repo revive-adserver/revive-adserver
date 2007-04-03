@@ -32,9 +32,9 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/max/DB.php';
 
 // Register input variables
 phpAds_registerGlobal ('listorder', 'orderdirection');
@@ -79,15 +79,15 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 		$navorder = $session['prefs']['advertiser-index.php']['listorder'];
 	else
 		$navorder = '';
-	
+
 	if (isset($session['prefs']['advertiser-index.php']['orderdirection']))
 		$navdirection = $session['prefs']['advertiser-index.php']['orderdirection'];
 	else
 		$navdirection = '';
-	
-	
+
+
 	// Get other advertisers
-    $doAdvertiser = MAX_DB::factoryDO('clients');
+    $doAdvertiser = OA_Dal::factoryDO('clients');
     if (phpAds_isUser(phpAds_Agency)) {
 		$doAdvertiser->agencyid = $session['userid'];
     }
@@ -100,9 +100,9 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 			$clientid == $row['clientid']
 		);
 	}
-	
-	phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');	
-	
+
+	phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
+
 	phpAds_PageHeader("4.1.4");
 		echo "\t\t\t\t<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;\n";
 		echo "\t\t\t\t<b>".phpAds_getClientName($clientid)."</b>\n";
@@ -115,7 +115,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 /*-------------------------------------------------------*/
 
 // Get clients & campaign and build the tree
-$doTrackers = MAX_DB::factoryDO('trackers');
+$doTrackers = OA_Dal::factoryDO('trackers');
 $doTrackers->clientid = $clientid;
 $doTrackers->addListOrderBy($listorder, $orderdirection);
 $doTrackers->find();
@@ -190,7 +190,7 @@ if (!$doTrackers->getRowCount())
 	echo "&nbsp;&nbsp;".$strNoTrackers;
 	echo "</td>\n";
 	echo "\t\t\t\t</tr>\n";
-	
+
 	echo "\t\t\t\t<tr>\n";
 	echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>\n";
 	echo "\t\t\t\t</tr>\n";
@@ -213,13 +213,13 @@ while ($doTrackers->fetch() && $row_trackers = $doTrackers->toArray())
 		echo "<a href='tracker-edit.php?clientid=".$clientid."&trackerid=".$row_trackers['trackerid']."'>".$row_trackers['trackername']."</a>";
 	else
 		echo $row_trackers['trackername'];
-	
+
 //	echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "</td>\n";
-	
+
 	// ID
 	echo "\t\t\t\t\t<td height='25'>".$row_trackers['trackerid']."</td>\n";
-	
+
 	// Button 1, 2 & 3
 	echo "\t\t\t\t\t<td height='25'>";
 	if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_LinkCampaigns))
@@ -227,7 +227,7 @@ while ($doTrackers->fetch() && $row_trackers = $doTrackers->toArray())
 	else
 		echo "&nbsp;";
 	echo "</td>\n";
-	
+
 	echo "\t\t\t\t\t<td height='25'>";
 	if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_DeleteTracker))
 		echo "<a href='tracker-delete.php?clientid=".$clientid."&trackerid=".$row_trackers['trackerid']."&returnurl=advertiser-trackers.php'".phpAds_DelConfirm($strConfirmDeleteTracker)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>";
@@ -236,7 +236,7 @@ while ($doTrackers->fetch() && $row_trackers = $doTrackers->toArray())
 	echo "</td>\n";
 
 	echo "\t\t\t\t</tr>\n";
-	
+
 	$i++;
 }
 

@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/Admin/Inventory/TrackerAppend.php';
@@ -63,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 /*-------------------------------------------------------*/
 
 // Get other trackers
-$doTrackers = MAX_DB::factoryDO('trackers');
+$doTrackers = OA_Dal::factoryDO('trackers');
 $doTrackers->clientid = $clientid;
 if (isset($navorder) && isset($navdirection)) {
     $doTrackers->addListOrderBy($navorder, $navdirection);
@@ -94,7 +95,7 @@ $extra .= "\t\t\t\t<img src='images/spacer.gif' height='1' width='160' vspace='2
 $extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
 $extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
 
-$doClients = MAX_DB::factoryDO('clients');
+$doClients = OA_Dal::factoryDO('clients');
 $doClients->clientid = $clientid;
 
 if (phpAds_isUser(phpAds_Agency)) {
@@ -130,7 +131,7 @@ $trackerAppend->display();
 /*-------------------------------------------------------*/
 
 $session['prefs']['tracker-variables.php']['trackerid'] = $trackerid;
-    
+
 
 phpAds_SessionDataStore();
 

@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
@@ -99,8 +100,8 @@ if (isset($submit)) {
     } else {
         $viewwindow_seconds = 0;
     }
-    
-    $doTrackers = MAX_DB::factoryDO('trackers');
+
+    $doTrackers = OA_Dal::factoryDO('trackers');
     $doTrackers->trackername = $trackername;
     $doTrackers->description = $description;
     $doTrackers->clickwindow = $clickwindow_seconds;
@@ -109,20 +110,20 @@ if (isset($submit)) {
     $doTrackers->type = $type;
     $doTrackers->linkcampaigns = isset($linkcampaigns) ? "t" : "f";
     $doTrackers->clientid = $clientid;
-    
+
     foreach ($plugins as $plugin) {
         $dbField = strtolower($plugin->trackerEvent) . 'window';
         $value = ${$dbField}['day'] * (24*60*60) + ${$dbField}['hour'] * (60*60) + ${$dbField}['minute'] * (60) + ${$dbField}['second'];
         $doTrackers->$dbField = $value;
     }
-    
+
     if (empty($trackerid) || $trackerid == "null") {
         $trackerid = $doTrackers->insert();
     } else {
         $doTrackers->trackerid = $trackerid;
         $doTrackers->update();
     }
-    
+
     Header("Location: tracker-campaigns.php?clientid=".$clientid."&trackerid=".$trackerid);
     exit;
 }
@@ -144,7 +145,7 @@ if ($trackerid != "") {
     }
 
     // Get other trackers
-    $doTrackers = MAX_DB::factoryDO('trackers');
+    $doTrackers = OA_Dal::factoryDO('trackers');
     $doTrackers->clientid = $clientid;
     $doTrackers->find();
 
@@ -173,7 +174,7 @@ if ($trackerid != "") {
     $extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
     $extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
 
-    $doClients = MAX_DB::factoryDO('clients');
+    $doClients = OA_Dal::factoryDO('clients');
     $doClients->whereAdd('clientid <>'.$clientid);
     if (phpAds_isUser(phpAds_Agency)) {
         $doClients->agencyid = phpAds_getAgencyID();
@@ -183,7 +184,7 @@ if ($trackerid != "") {
     while ($doClients->fetch() && $row = $doClients->toArray()) {
         $extra .= "\t\t\t\t\t<option value='".$row['clientid']."'>".phpAds_buildName($row['clientid'], $row['clientname'])."</option>\n";
     }
-    
+
     $extra .= "\t\t\t\t</select>&nbsp;\n";
     $extra .= "\t\t\t\t<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif'><br />\n";
     $extra .= "\t\t\t\t<img src='images/break.gif' height='1' width='160' vspace='4'><br />\n";
@@ -222,12 +223,12 @@ if ($trackerid != "" || (isset($move) && $move == 't')) {
     if (isset($move) && $move == 't') {
         if (isset($clientid) && $clientid != "") $ID = $clientid;
     }
-    $doTrackers = MAX_DB::factoryDO('trackers');
+    $doTrackers = OA_Dal::factoryDO('trackers');
     $doTrackers->get($ID);
     $row = $doTrackers->toArray();
 } else {
     // New tracker
-    $doClients = MAX_DB::factoryDO('clients');
+    $doClients = OA_Dal::factoryDO('clients');
     $doClients->clientid = $clientid;
 
     if ($doClients->find() && $doClients->fetch() && $client = $doClients->toArray()) {
@@ -242,7 +243,7 @@ if ($trackerid != "" || (isset($move) && $move == 't')) {
     $row['status']        = isset($pref['default_tracker_status']) ? $pref['default_tracker_status'] : MAX_CONNECTION_STATUS_APPROVED;
     $row['type']          = isset($pref['default_tracker_type']) ? $pref['default_tracker_type'] : MAX_CONNECTION_TYPE_SALE;
     $row['linkcampaigns'] = isset($pref['default_tracker_linkcampaigns']) ? $pref['default_tracker_linkcampaigns'] : 'f';
-    
+
     $row['description'] = '';
 }
 
@@ -344,7 +345,7 @@ echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspac
 
 foreach ($plugins as $plugin) {
     $fieldName = strtolower($plugin->trackerEvent);
-    
+
     $seconds_left = $row[$fieldName . 'window'];
     $window['day'] = floor($seconds_left / (60*60*24));
     $seconds_left = $seconds_left % (60*60*24);
@@ -406,7 +407,7 @@ echo "</form>"."\n";
 /*-------------------------------------------------------*/
 
 // Get unique affiliate
-$doTrackers = MAX_DB::factoryDO('trackers');
+$doTrackers = OA_Dal::factoryDO('trackers');
 $doTrackers->clientid = $clientid;
 $unique_names = $doTrackers->getUniqueValuesFromColumn('trackername');
 
@@ -467,7 +468,7 @@ $unique_names = $doTrackers->getUniqueValuesFromColumn('trackername');
         if (f.viewwindowday.value == '-' && f.viewwindowhour.value == '0') f.viewwindowhour.value = '-';
         if (f.viewwindowhour.value == '-' && f.viewwindowminute.value == '0') f.viewwindowminute.value = '-';
         if (f.viewwindowminute.value == '-' && f.viewwindowsecond.value == '0') f.viewwindowsecond.value = '-';
-        
+
         <?php
         foreach ($plugins as $plugin) {
             $fieldName = strtolower($plugin->trackerEvent);
@@ -476,7 +477,7 @@ $unique_names = $doTrackers->getUniqueValuesFromColumn('trackername');
                 if (f.{$fieldName}windowhour.value == '-' && f.{$fieldName}windowday.value != '-') f.{$fieldName}windowhour.value = '0';
                 if (f.{$fieldName}windowminute.value == '-' && f.{$fieldName}windowhour.value != '-') f.{$fieldName}windowminute.value = '0';
                 if (f.{$fieldName}windowsecond.value == '-' && f.{$fieldName}windowminute.value != '-') f.{$fieldName}windowsecond.value = '0';
-        
+
                 // Set 0
                 if (f.{$fieldName}windowday.value == '0') f.{$fieldName}windowday.value = '-';
                 if (f.{$fieldName}windowday.value == '-' && f.{$fieldName}windowhour.value == '0') f.{$fieldName}windowhour.value = '-';

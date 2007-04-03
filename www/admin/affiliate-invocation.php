@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
@@ -61,7 +62,7 @@ if (isset($session['prefs']['affiliate-zones.php']['orderdirection'])) {
 
 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     // Get other affiliates
-    $doAffiliates = MAX_DB::factoryDO('affiliates');
+    $doAffiliates = OA_Dal::factoryDO('affiliates');
     $doAffiliates->addListOrderBy($navorder, $navdirection);
     if (phpAds_isUser(phpAds_Agency)) {
         $doAffiliates->agencyid = $agencyid;
@@ -74,7 +75,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
             $affiliateid == $row['affiliateid']
         );
     }
-    
+
     phpAds_PageShortcut($strAffiliateProperties, 'affiliate-edit.php?affiliateid='.$affiliateid, 'images/icon-affiliate.gif');
     phpAds_PageShortcut($strZoneHistory, 'stats.php?entity=zone&breakdown=history&affiliateid='.$affiliateid.'&zoneid='.$zoneid, 'images/icon-statistics.gif');
     phpAds_PageHeader("4.2.5");
@@ -88,7 +89,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
         $sections[] = "2.1";
         if (phpAds_isAllowed(MAX_AffiliateGenerateCode)) {
             $sections[] = "2.2";
-        }    
+        }
         phpAds_PageHeader('2.2');
         phpAds_ShowSections($sections);
     }

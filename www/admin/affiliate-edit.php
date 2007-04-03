@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
@@ -57,7 +58,7 @@ MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
 /*-------------------------------------------------------*/
 
 if (phpAds_isUser(phpAds_Affiliate)) {
-    $doAffiliates = MAX_DB::factoryDO('affiliates');
+    $doAffiliates = OA_Dal::factoryDO('affiliates');
     $affiliateid = phpAds_getUserID();
     $doAffiliates->get($affiliateid);
     $agencyid = $doAffiliates->agencyid;
@@ -78,12 +79,12 @@ if (isset($submit)) {
 
     // Get previous values
     if (isset($affiliateid)) {
-        $doAffiliates = MAX_DB::factoryDO('affiliates');
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
         if ($doAffiliates->get($affiliateid)) {
             $affiliate = $doAffiliates->toArray();
         }
 
-        $doAffiliatesExtra = MAX_DB::factoryDO('affiliates_extra');
+        $doAffiliatesExtra = OA_Dal::factoryDO('affiliates_extra');
         if ($doAffiliatesExtra->get($affiliateid)) {
             $affiliate_extra = $doAffiliatesExtra->toArray();
         }
@@ -192,12 +193,12 @@ if (isset($submit)) {
     if (count($errormessage) == 0) {
         if ($affiliateid && $publiczones != 't' && $publiczones_old == 't') {
             // Reset append codes which called this affiliate's zones
-            $doZones = MAX_DB::factoryDO('zones');
+            $doZones = OA_Dal::factoryDO('zones');
             $doZones->affiliateid = $affiliateid;
             $zones = $doZones->getAll(array('zoneid'));
 
             if (count($zones)) {
-                $doZones = MAX_DB::factoryDO('zones');
+                $doZones = OA_Dal::factoryDO('zones');
                 $doZones->appendtype = phpAds_ZoneAppendZone;
                 $doZones->whereAdd("affiliateid <> '$affiliateid'");
                 $doZones->find();
@@ -212,7 +213,7 @@ if (isset($submit)) {
             }
         }
         if (empty($affiliateid)) {
-            $doAffiliates = MAX_DB::factoryDO('affiliates');
+            $doAffiliates = OA_Dal::factoryDO('affiliates');
             $doAffiliates->setFrom($affiliate);
             $doAffiliates->updated = date('Y-m-d H:i:s');
             $affiliateid = $doAffiliates->insert();
@@ -220,7 +221,7 @@ if (isset($submit)) {
             // Go to next page
             if (isset($move) && $move == 't') {
                 // Move loose zones to this affiliate
-                $doZones = MAX_DB::factoryDO('zones');
+                $doZones = OA_Dal::factoryDO('zones');
                 $doZones->affiliateid = $affiliateid;
                 $doZones->whereAdd('affiliateid = NULL');
                 $doZones->whereAdd('affiliateid = 0', 'OR');
@@ -231,7 +232,7 @@ if (isset($submit)) {
                 $redirect_url = "zone-edit.php?affiliateid=$affiliateid";
             }
         } else {
-            $doAffiliates = MAX_DB::factoryDO('affiliates');
+            $doAffiliates = OA_Dal::factoryDO('affiliates');
             $doAffiliates->get($affiliateid);
             $doAffiliates->setFrom($affiliate);
 
@@ -255,7 +256,7 @@ if (isset($submit)) {
 
             // Delete publisher preferences when switching to affiliate
             if (isset($account_type) && $account_type == 'affiliate') {
-                $doPreference_publisher = MAX_DB::factoryDO('preference_publisher');
+                $doPreference_publisher = OA_Dal::factoryDO('preference_publisher');
                 $doPreference_publisher->publisher_id = $affiliateid;
                 $doPreference_publisher->delete();
             }
@@ -263,14 +264,14 @@ if (isset($submit)) {
 
         // Update extra fields
         if (isset($affiliate_extra['affiliateid'])) {
-            $doAffiliatesExtra = MAX_DB::factoryDO('affiliates_extra');
+            $doAffiliatesExtra = OA_Dal::factoryDO('affiliates_extra');
             $doAffiliatesExtra->get($affiliateid);
             $doAffiliatesExtra->setFrom($affiliate_extra);
 
             // Update
             $doAffiliatesExtra->update();
         } else {
-            $doAffiliatesExtra = MAX_DB::factoryDO('affiliates_extra');
+            $doAffiliatesExtra = OA_Dal::factoryDO('affiliates_extra');
             $doAffiliatesExtra->setFrom($affiliate_extra);
             $doAffiliatesExtra->affiliateid = $affiliateid;
 
@@ -304,7 +305,7 @@ if ($affiliateid != "") {
         }
         // Get other affiliates
 
-        $doAffiliates = MAX_DB::factoryDO('affiliates');
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
         if (phpAds_isUser(phpAds_Agency)) {
             $doAffiliates->agencyid = $agencyid;
         } elseif (phpAds_isUser(phpAds_Affiliate)) {
@@ -339,7 +340,7 @@ if ($affiliateid != "") {
     // Do not get this information if the page
     // is the result of an error message
     if (!isset($affiliate)) {
-        $doAffiliates = MAX_DB::factoryDO('affiliates');
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
         if ($doAffiliates->get($affiliateid)) {
             $affiliate = $doAffiliates->toArray();
         }
@@ -348,7 +349,7 @@ if ($affiliateid != "") {
         if ($affiliate['password'] != '') {
             $affiliate['password'] = '********';
         }
-        $doAffiliatesExtra = MAX_DB::factoryDO('affiliates_extra');
+        $doAffiliatesExtra = OA_Dal::factoryDO('affiliates_extra');
         if ($doAffiliatesExtra->get($affiliateid)) {
             $affiliate_extra = $doAffiliatesExtra->toArray();
         }
@@ -791,7 +792,7 @@ echo "</form>";
 
 // Get unique affiliate
 // XXX: Although the JS suggests otherwise, this unique_name constraint isn't enforced.
-$doAffiliates = MAX_DB::factoryDO('affiliates');
+$doAffiliates = OA_Dal::factoryDO('affiliates');
 $unique_names = $doAffiliates->getUniqueValuesFromColumn('name', $affiliate['name']);
 $unique_users = MAX_Permission::getUniqueUserNames($affiliate['username']);
 

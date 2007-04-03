@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
@@ -113,10 +114,10 @@ if (isset($submit))
     if ($cost_type == MAX_FINANCE_VARSUM && is_array($cost_variable_id_mult)) {
         $cost_variable_id = 0;
         foreach ($cost_variable_id_mult as $val) {
-            if ($cost_variable_id) {                
+            if ($cost_variable_id) {
                 $cost_variable_id .= "," . $val;
-            } else {   
-                $cost_variable_id = $val;                
+            } else {
+                $cost_variable_id = $val;
             }
         }
     }
@@ -127,8 +128,8 @@ if (isset($submit))
         // before we commit any changes to db, store whether the size has changed
         $aZone = Admin_DA::getZone($zoneid);
         $size_changed = ($width != $aZone['width'] || $height != $aZone['height']) ? true : false;
-        
-        $doZones = MAX_DB::factoryDO('zones');
+
+        $doZones = OA_Dal::factoryDO('zones');
         $doZones->zonename = $zonename;
         $doZones->description = $description;
         $doZones->width = $width;
@@ -150,11 +151,11 @@ if (isset($submit))
         }
         $doZones->zoneid = $zoneid;
         $doZones->update();
-        
+
         // Reset append codes which called this zone
-        $doZones = MAX_DB::factoryDO('zones');
+        $doZones = OA_Dal::factoryDO('zones');
         $doZones->appendtype = phpAds_ZoneAppendZone;
-        
+
         if (phpAds_isUser(phpAds_Agency))
         {
             $doZones->addReferenceFilter('agency', phpAds_getUserID());
@@ -180,7 +181,7 @@ if (isset($submit))
 
         if ($size_changed) {
             $aZone = Admin_DA::getZone($zoneid);
-            
+
             // Loop through all appended banners and make sure that they still fit...
             $aAds = Admin_DA::getAdZones(array('zone_id' => $zoneid), false, 'ad_id');
             if (!empty($aAds)) {
@@ -193,7 +194,7 @@ if (isset($submit))
                     }
                 }
             }
-            
+
             // Check if any campaigns linked to this zone have ads that now fit.
             // If so, link them to the zone.
             $aPlacementZones = Admin_DA::getPlacementZones(array('zone_id' => $zoneid), true);
@@ -212,7 +213,7 @@ if (isset($submit))
     // Add
     else
     {
-        $doZones = MAX_DB::factoryDO('zones');
+        $doZones = OA_Dal::factoryDO('zones');
         $doZones->affiliateid = $affiliateid;
         $doZones->zonename = $zonename;
         $doZones->zonetype = phpAds_ZoneCampaign;
@@ -230,7 +231,7 @@ if (isset($submit))
         }
         $zoneid = $doZones->insert();
     }
-    
+
     if (phpAds_isUser(phpAds_Affiliate)) {
         if (phpAds_isAllowed(phpAds_LinkBanners)) {
             MAX_Admin_Redirect::redirect("zone-include.php?affiliateid=$affiliateid&zoneid=$zoneid");
@@ -263,7 +264,7 @@ if (isset($submit))
 
 $zoneName = '';
 if (!empty($zoneid)) {
-    $doZones = MAX_DB::factoryDO('zones');
+    $doZones = OA_Dal::factoryDO('zones');
     $doZones->zoneid = $zoneid;
     if ($doZones->find() && $doZones->fetch()) {
         $zone = $doZones->toArray();
@@ -276,10 +277,10 @@ if (!empty($zoneid)) {
     if (!isset($zone['cost'])) {
         $zone['cost'] = '0.0000';
     }
-    
+
     $zoneName = $zone['zonename'];
 } else {
-    $doAffiliates = MAX_DB::factoryDO('affiliates');
+    $doAffiliates = OA_Dal::factoryDO('affiliates');
     $doAffiliates->affiliateid = $affiliateid;
 
     if ($doAffiliates->find() && $doAffiliates->fetch() && $affiliate = $doAffiliates->toArray())
@@ -414,7 +415,7 @@ echo "  <option value='".MAX_FINANCE_VARSUM."' ".(($zone['cost_type'] == MAX_FIN
 echo "</select>";
 echo "&nbsp;&nbsp;";
 
-$dalVariables = MAX_DB::factoryDAL('variables');
+$dalVariables = OA_Dal::factoryDAL('variables');
 $rsVariables = $dalVariables->getTrackerVariables($zoneid, $affiliateid, phpAds_isUser(phpAds_Affiliate));
 $rsVariables->find();
 
@@ -523,7 +524,7 @@ echo "</form>";
 /*-------------------------------------------------------*/
 
 // Get unique affiliate
-$doZones = MAX_DB::factoryDO('zones');
+$doZones = OA_Dal::factoryDO('zones');
 $doZones->affiliateid = $affiliateid;
 $unique_names = $doZones->getUniqueValuesFromColumn('zonename', $zoneName);
 
@@ -595,13 +596,13 @@ $unique_names = $doZones->getUniqueValuesFromColumn('zonename', $zoneName);
         document.zoneform.height.disabled = false;
         document.zoneform.size.disabled = false;
     }
-    
+
     function m3_updateFinance()
     {
         var o = document.getElementById('cost_type');
         var p = document.getElementById('cost_variable_id');
         var p2 = document.getElementById('cost_variable_id_mult');
-        
+
         if ( o.options[o.selectedIndex].value == <?php echo MAX_FINANCE_ANYVAR; ?>) {
             p.style.display = '';
             p2.style.display = 'none';
@@ -613,9 +614,9 @@ $unique_names = $doZones->getUniqueValuesFromColumn('zonename', $zoneName);
             p2.style.display = 'none';
         }
     }
-    
+
     m3_updateFinance();
-    
+
 //-->
 </script>
 

@@ -32,8 +32,9 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php'; 
+require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
 // Register input variables
 phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder',
@@ -95,7 +96,7 @@ else
 // Get agencies & campaign and build the tree
 if (phpAds_isUser(phpAds_Admin))
 {
-    $doAgency = MAX_DB::factoryDO('agency');
+    $doAgency = OA_Dal::factoryDO('agency');
     $agencies = $doAgency->getAll(array('name', 'agencyid'), true, false);
 }
 
@@ -173,7 +174,7 @@ if (!isset($agencies) || !is_array($agencies) || count($agencies) == 0)
     echo "\t\t\t\t<tr height='25' bgcolor='#F6F6F6'>\n";
     echo "\t\t\t\t\t<td height='25' colspan='5'>&nbsp;&nbsp;".$strNoAgencies."</td>\n";
     echo "\t\t\t\t</tr>\n";
-    
+
     echo "\t\t\t\t<tr>\n";
     echo "\t\t\t\t\t<td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>\n";
     echo "\t\t\t\t<tr>\n";
@@ -185,23 +186,23 @@ else
     {
         $agency = $agencies[$key];
         $channels = Admin_DA::getChannels(array('agency_id' => $agency['agencyid'], 'channel_type' => 'agency'));
-        
+
         echo "\t\t\t\t<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">\n";
-        
+
         // Icon & name
         echo "\t\t\t\t\t<td height='25'>\n";
         echo "\t\t\t\t\t\t<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>\n";
-            
+
         echo "\t\t\t\t\t\t<img src='images/icon-advertiser.gif' align='absmiddle'>\n";
         echo "\t\t\t\t\t\t<a href='agency-edit.php?agencyid=".$agency['agencyid']."'>".$agency['name']."</a>\n";
         echo "\t\t\t\t\t</td>\n";
-        
+
         // ID
         echo "\t\t\t\t\t<td height='25'>".$agency['agencyid']."</td>\n";
-        
+
         echo "\t\t\t\t\t<td height='25'>&nbsp;</td>\n";
         echo "\t\t\t\t\t<td height='25'>&nbsp;</td>\n";
-        
+
         // Button - Channel overview
         echo "<td height='25'>";
         echo "<a href='channel-index.php?agencyid={$agency['agencyid']}'>";
@@ -211,16 +212,16 @@ else
             echo "<img src='images/icon-channel.gif' border='0' align='absmiddle' alt='{$GLOBALS['strChannels']}'>";
         }
         echo "&nbsp;{$GLOBALS['strChannels']}</a>&nbsp;&nbsp;";
-        
+
         echo "</td>";
-        
+
         // Delete
         echo "\t\t\t\t\t<td height='25'>";
         echo "<a href='agency-delete.php?agencyid=".$agency['agencyid']."&returnurl=agency-index.php'".phpAds_DelConfirm($strConfirmDeleteAgency)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
         echo "</td>\n";
 
         echo "\t\t\t\t</tr>\n";
-        
+
         echo "\t\t\t\t<tr height='1'>\n";
         echo "\t\t\t\t\t<td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>\n";
         echo "\t\t\t\t</tr>\n";

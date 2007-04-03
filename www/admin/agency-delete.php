@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 //require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
 require_once MAX_PATH . '/www/admin/config.php';
@@ -52,7 +53,7 @@ MAX_Permission::checkAccess(phpAds_Admin);
 /*-------------------------------------------------------*/
 
 if (!empty($agencyid)) {
-    $doAgency = MAX_DB::factoryDO('agency');
+    $doAgency = OA_Dal::factoryDO('agency');
     $doAgency->agencyid = $agencyid;
     $doAgency->delete();
 }

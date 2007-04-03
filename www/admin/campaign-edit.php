@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/other/capping/lib-capping.inc.php';
@@ -221,8 +222,8 @@ if (isset($submit)) {
 
         // Get the capping variables
         _initCappingVariables();
-        
-        $doCampaigns = MAX_DB::factoryDO('campaigns');
+
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = $campaignname;
         $doCampaigns->clientid = $clientid;
         $doCampaigns->views = $impressions;
@@ -244,7 +245,7 @@ if (isset($submit)) {
         $doCampaigns->block = $block;
         $doCampaigns->capping = $cap;
         $doCampaigns->session_capping = $session_capping;
-        
+
         if (!empty($campaignid) && $campaignid != "null") {
             $doCampaigns->campaignid = $campaignid;
             $doCampaigns->update();
@@ -255,7 +256,7 @@ if (isset($submit)) {
         if (isset($move) && $move == 't') {
             // We are moving a client to a campaign
             // Update banners
-            $dalBanners = MAX_DB::factoryDAL('banners');
+            $dalBanners = OA_Dal::factoryDAL('banners');
             $dalBanners->moveBannerToCampaign($bannerId, $campaignid);
             // Force priority recalculation
             $new_campaign = false;
@@ -359,11 +360,11 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     }
 
     // Get the campaign data from the campaign table, and store in $row
-    $doCampaigns = MAX_DB::factoryDO('campaigns');
+    $doCampaigns = OA_Dal::factoryDO('campaigns');
     $doCampaigns->selectAdd("views AS impressions");
     $doCampaigns->get($ID);
     $data = $doCampaigns->toArray();
-    
+
     $row['campaignname']        = $data['campaignname'];
     $row['impressions']         = $data['impressions'];
     $row['clicks']              = $data['clicks'];
@@ -404,13 +405,13 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row['impressionsRemaining'] = '';
     $row['clicksRemaining']      = '';
     $row['conversionsRemaining'] = '';
-    
+
     // Get the campagin data from the data_intermediate_ad table, and store in $row
     if (($row['impressions'] >= 0) || ($row['clicks'] >= 0) || ($row['conversions'] >= 0)) {
-        $dalData_intermediate_ad = MAX_DB::factoryDAL('data_intermediate_ad');
+        $dalData_intermediate_ad = OA_Dal::factoryDAL('data_intermediate_ad');
         $record = $dalData_intermediate_ad->getDeliveredByCampaign($campaignid);
         $data = $record->toArray();
-        
+
         $row['impressionsRemaining'] = ($row['impressions']) ? ($row['impressions'] - $data['impressions_delivered']) : '';
         $row['clicksRemaining']      = ($row['clicks']) ? ($row['clicks'] - $data['clicks_delivered']) : '';
         $row['conversionsRemaining'] = ($row['conversions']) ? ($row['conversions'] - $data['conversions_delivered']) : '';
@@ -477,7 +478,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
 
 } else {
     // New campaign
-    $doClients = MAX_DB::factoryDO('clients');
+    $doClients = OA_Dal::factoryDO('clients');
     $doClients->clientid = $clientid;
     $client = $doClients->toArray();
 
@@ -879,7 +880,7 @@ echo "</form>"."\n";
 /*-------------------------------------------------------*/
 
 // Get unique campaignname
-$doCampaigns = MAX_DB::factoryDO('campaigns');
+$doCampaigns = OA_Dal::factoryDO('campaigns');
 $doCampaigns->clientid = $clientid;
 $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['campaignname']);
 ?>

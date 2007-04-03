@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
@@ -59,20 +60,20 @@ if (isset($zoneid) && $zoneid != '') {
             if (!MAX_checkPublisher($newaffiliateid)) {
                 phpAds_Die($strAccessDenied, $strNotAdmin);
             }
-        } 
-        
+        }
+
         // Move the zone to the new Publisher/Affiliate
-        $doZones = MAX_DB::factoryDO('zones');
+        $doZones = OA_Dal::factoryDO('zones');
         $doZones->get($zoneid);
         $doZones->affiliateid = $newaffiliateid;
         $doZones->update();
-        
+
         Header ("Location: ".$returnurl."?affiliateid=".$newaffiliateid."&zoneid=".$zoneid);
         exit;
-        
+
     } elseif (isset($duplicate) && $duplicate == 'true') {
         // Duplicate the zone
-        $doZones = MAX_DB::factoryDO('zones');
+        $doZones = OA_Dal::factoryDO('zones');
         $doZones->get($zoneid);
         $new_zoneid = $doZones->duplicate();
         Header ("Location: ".$returnurl."?affiliateid=".$affiliateid."&zoneid=".$new_zoneid);

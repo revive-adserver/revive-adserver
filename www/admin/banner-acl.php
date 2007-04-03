@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
@@ -84,12 +85,12 @@ if (!empty($action)) {
 
     if (!empty($values)) {
         $values['updated'] = $now;
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->get($bannerid);
         $doBanners->setFrom($values);
         $doBanners->update();
     }
-    
+
     header("Location: banner-zone.php?clientid={$clientid}&campaignid={$campaignid}&bannerid={$bannerid}");
     exit;
 }

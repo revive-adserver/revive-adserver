@@ -44,7 +44,6 @@ require_once '../../init.php';
 $conf = &$GLOBALS['_MAX']['CONF'];
 
 // Required files
-require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/Admin/Config.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Preferences.php';

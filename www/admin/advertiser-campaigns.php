@@ -28,11 +28,13 @@
 $Id$
 */
 
+// Require the initialisation file
 require_once '../../init.php';
 
+// Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/Permission.php';
 require_once 'Date.php';
 
@@ -63,7 +65,7 @@ if (isset($session['prefs']['advertiser-index.php']['orderdirection'])) {
 }
 
 // Get other clients
-$doClients = MAX_DB::factoryDO('clients');
+$doClients = OA_Dal::factoryDO('clients');
 
 // Unless admin, restrict results shown.
 if (phpAds_isUser(phpAds_Agency)) {
@@ -136,7 +138,7 @@ if (isset($session['prefs']['advertiser-campaigns.php'][$clientid]['nodes'])) {
 
 // Get clients & campaign and build the tree
 
-$doCampaigns = MAX_DB::factoryDO('campaigns');
+$doCampaigns = OA_Dal::factoryDO('campaigns');
 $doCampaigns->clientid = $clientid;
 
 $doCampaigns->addListOrderBy($listorder, $orderdirection);
@@ -179,7 +181,7 @@ while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
 }
 
 
-$doBanners = MAX_DB::factoryDO('banners');
+$doBanners = OA_Dal::factoryDO('banners');
 $doBanners->selectAs(array('storagetype'), 'type');
 $doBanners->addListOrderBy($listorder, $orderdirection);
 $doBanners->find();

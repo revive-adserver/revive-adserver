@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
@@ -46,7 +47,7 @@ MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
 MAX_Permission::checkAccessToObject('zones', $zoneid);
 
 if (phpAds_isUser(phpAds_Affiliate)) {
-    $doZones = MAX_DB::factoryDO('zones');
+    $doZones = OA_Dal::factoryDO('zones');
     if ($doZones->get($zoneid)) {
         $affiliateid = $doZones->affiliateid;
     }
@@ -90,10 +91,10 @@ function phpAds_showZoneBanners ($zoneId)
     global $strCampaignWeight, $strBannerWeight, $strProbability, $phpAds_TextAlignRight, $phpAds_TextAlignLeft;
     global $strRawQueryString, $strZoneProbListChain, $strZoneProbNullPri, $strZoneProbListChainLoop;
     global $strExclusiveAds, $strHighAds, $strLowAds, $strLimitations, $strCapping, $strNoLimitations, $strPriority;
-    
+
     MAX_Dal_Delivery_Include();
     $aZoneLinkedAds = MAX_Dal_Delivery_getZoneLinkedAds($zoneId, false);
-    
+
     if (empty($aZoneLinkedAds['xAds']) && empty($aZoneLinkedAds['ads']) &&  empty($aZoneLinkedAds['lAds'])) {
         echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
           echo "<tr height='25'><th align='$phpAds_TextAlignLeft' colspan='5'><strong>{$strZoneProbNullPri}</strong></th></tr>";
@@ -224,14 +225,14 @@ function phpAds_showZoneBanners ($zoneId)
                 $probability = $aLinkedAd['priority'] * 100;
                 $usedHighProbability += $aLinkedAd['priority'];
                 $exactProbability = ($probability == 0) ? '0.00' : sprintf('%0.64f', $probability);
-                echo "<td height='25'><acronym title='{$exactProbability}%'>".number_format($probability, $pref['percentage_decimals'])."%</acronym></td>";        
-                
+                echo "<td height='25'><acronym title='{$exactProbability}%'>".number_format($probability, $pref['percentage_decimals'])."%</acronym></td>";
+
                 // Priority
                 echo "<td height='25'>{$aLinkedAd['campaign_priority']}/10</td>";
 
                 $capping = _isAdCapped($aLinkedAd);
                 $limitations = _isAdLimited($aLinkedAd);
-                
+
                 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
                     $linkStart = "<a href='banner-acl.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid={$aLinkedAd['placement_id']}&bannerid={$aLinkedAd['ad_id']}'>";
                     $linkEnd = "</a>";
@@ -239,7 +240,7 @@ function phpAds_showZoneBanners ($zoneId)
                     $linkStart = '';
                     $linkEnd = '';
                 }
-                
+
                 echo "<td height='25'>";
                 if (!$capping && !$limitations) {
                     echo "{$linkStart}<img src='images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;$strNoLimitations{$linkEnd}";
@@ -251,7 +252,7 @@ function phpAds_showZoneBanners ($zoneId)
                     echo "{$linkStart}<img src='images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;$strCapping{$linkEnd}";
                 }
                 echo "</td>";
-                
+
                 // Show banner
                 if ($aLinkedAd['type'] == 'txt') {
                     $width    = 300;
@@ -284,7 +285,7 @@ function phpAds_showZoneBanners ($zoneId)
             echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
             $ofPriority = (1 - $usedHighProbability) * 100;
             if ($ofPriority < 0) $ofPriority = 0;
-            
+
             foreach($aZoneLinkedAds['lAds'] as $adId => $aLinkedAd) {
                 $name = phpAds_getBannerName ($adId, 60, false);
                 echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
@@ -313,10 +314,10 @@ function phpAds_showZoneBanners ($zoneId)
                 $probability = $aLinkedAd['priority'] / $aZoneLinkedAds['priority']['lAds'] * 100;
                 $realProbability = $probability * $ofPriority / 100;
                 $exactProbability = sprintf("%0.64f", $realProbability);
-                echo "<td height='25'><acronym title='{$exactProbability}'>".number_format($realProbability, $pref['percentage_decimals'])."%</acronym> (".number_format($probability, $pref['percentage_decimals'])."% of ".number_format($ofPriority, $pref['percentage_decimals'])."%)</td>";        
-                
+                echo "<td height='25'><acronym title='{$exactProbability}'>".number_format($realProbability, $pref['percentage_decimals'])."%</acronym> (".number_format($probability, $pref['percentage_decimals'])."% of ".number_format($ofPriority, $pref['percentage_decimals'])."%)</td>";
+
                 echo "<td height='25'>{$aLinkedAd['campaign_weight']}</td>";
-            
+
                 $capping = _isAdCapped($aLinkedAd);
                 $limitations = _isAdLimited($aLinkedAd);
 
@@ -327,7 +328,7 @@ function phpAds_showZoneBanners ($zoneId)
                     $linkStart = '';
                     $linkEnd = '';
                 }
-                
+
                 echo "<td height='25'>";
                 if (!$capping && !$limitations) {
                     echo "{$linkStart}<img src='images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;$strNoLimitations{$linkEnd}";
@@ -339,7 +340,7 @@ function phpAds_showZoneBanners ($zoneId)
                     echo "{$linkStart}<img src='images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;$strCapping{$linkEnd}";
                 }
                 echo "</td>";
-                
+
                 // Show banner
                 if ($aLinkedAd['type'] == 'txt') {
                     $width    = 300;
@@ -360,16 +361,16 @@ function phpAds_showZoneBanners ($zoneId)
         echo "</table>";
         echo "<br /><br />";
     }
-    
+
 }
 
 function _isAdCapped($aAd)
 {
     return (
-        empty($aAd['block_ad']) && 
-        empty($aAd['block_campaign']) && 
-        empty($aAd['cap_ad']) && 
-        empty($aAd['cap_campaign']) && 
+        empty($aAd['block_ad']) &&
+        empty($aAd['block_campaign']) &&
+        empty($aAd['cap_ad']) &&
+        empty($aAd['cap_campaign']) &&
         empty($aAd['session_cap_ad']) &&
         empty($aAd['session_cap_campaign'])
     ) ? false : true;

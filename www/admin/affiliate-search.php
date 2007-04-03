@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
@@ -129,27 +130,27 @@ if (!isset($keyword))
 <tr><td width='20'>&nbsp;</td><td>
 
 <?php
-    $publisherId = phpAds_getUserID();    
-    
-    $dalBanners = MAX_DB::factoryDAL('banners');
+    $publisherId = phpAds_getUserID();
+
+    $dalBanners = OA_Dal::factoryDAL('banners');
     $rsBanners = $dalBanners->getBannerByKeyword($keyword);
     $rsBanners->find();
-    
-    $dalCampaigns = MAX_DB::factoryDAL('campaigns');
+
+    $dalCampaigns = OA_Dal::factoryDAL('campaigns');
     $rsCampaigns = $dalCampaigns->getCampaignAndClientByKeyword($keyword);
     $rsCampaigns->find();
-    
-    $dalZones = MAX_DB::factoryDAL('zones');
+
+    $dalZones = OA_Dal::factoryDAL('zones');
     $rsZones = $dalZones->getZoneByKeyword($keyword, null, $publisherId);
     $rsZones->find();
-    
+
     $foundMatches = false;
     if ($rsCampaigns->getRowCount() ||
         $rsBanners->getRowCount() ||
         $rsZones->getRowCount())
     {
         $foundMatches = true;
-        
+
         echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
         echo "<tr height='25'>";
         echo "<td height='25'><b>&nbsp;&nbsp;".$GLOBALS['strName']."</b></td>";
@@ -170,7 +171,7 @@ if (!isset($keyword))
     {
         while ($rsCampaigns->fetch() && $row_campaigns = $rsCampaigns->toArray())
         {
-            $doPlacement_zone_assoc = MAX_DB::factoryDO('placement_zone_assoc');
+            $doPlacement_zone_assoc = OA_Dal::factoryDO('placement_zone_assoc');
             $doPlacement_zone_assoc->publisher_id = $publisherId;
             $doPlacement_zone_assoc->placement_id = $row_campaigns['campaignid'];
             if (!$doPlacement_zone_assoc->count()) {
@@ -200,16 +201,16 @@ if (!isset($keyword))
 
             if (!$compact)
             {
-                $doBanners = MAX_DB::factoryDO('banners');
+                $doBanners = OA_Dal::factoryDO('banners');
                 $doBanners->campaignid = $row_campaigns['campaignid'];
                 $doBanners->selectAs(array('contenttype'), 'type');
                 $doBanners->find();
 
-                $doAd_zone_assoc = MAX_DB::factoryDO('ad_zone_assoc');
+                $doAd_zone_assoc = OA_Dal::factoryDO('ad_zone_assoc');
                 $doAd_zone_assoc->publisher_id = $publisherId;
                 $doAd_zone_assoc->placement_id = $row_campaigns['campaignid'];
                 $aAds = $doAd_zone_assoc->getAll(array('ad_id'));
-                
+
                 while ($doBanners->fetch() && $row_b_expand = $doBanners->toArray())
                 {
                     if (!isset($aAds[$row_b_expand['bannerid']])) {
@@ -264,7 +265,7 @@ if (!isset($keyword))
     {
         while ($rsBanners->fetch() && $row_banners = $rsBanners->toArray())
         {
-            $doAd_zone_assoc = MAX_DB::factoryDO('ad_zone_assoc');
+            $doAd_zone_assoc = OA_Dal::factoryDO('ad_zone_assoc');
             $doAd_zone_assoc->publisher_id = $publisherId;
             $doAd_zone_assoc->ad_id = $row_banners['bannerid'];
             if(!$doAd_zone_assoc->count()) {

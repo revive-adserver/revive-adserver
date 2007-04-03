@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-size.inc.php';
@@ -61,13 +62,13 @@ foreach ($invPlugins as $plugin) {
 MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
 
 if (phpAds_isUser(phpAds_Agency)) {
-    $doBanners = MAX_DB::factoryDO('banners');
+    $doBanners = OA_Dal::factoryDO('banners');
     $doBanners->addReferenceFilter('agency', phpAds_getUserID());
     $doBanners->addReferenceFilter('campaigns', $campaignid);
     $doBanners->addReferenceFilter('clients', $clientid);
     $doBanners->addReferenceFilter('banners', $bannerid);
     $doBanners->find();
-    
+
     if (!$doBanners->getRowCount()) {
         phpAds_PageHeader("2");
         phpAds_Die ($strAccessDenied, $strNotAdmin);
@@ -107,7 +108,7 @@ if (isset($submitbutton)) {
             // Update banner
             $sqlupdate['append'] = $append;
             $sqlupdate['appendtype'] = $appendtype;
-        
+
             // Add variables from plugins
             foreach ($invPlugins as $plugin) {
                 foreach ($plugin->prepareVariables() as $k => $v) {
@@ -115,7 +116,7 @@ if (isset($submitbutton)) {
                 }
             }
 
-            $doBanners = MAX_DB::factoryDO('banners');
+            $doBanners = OA_Dal::factoryDO('banners');
             $doBanners->get($bannerid);
             $doBanners->setFrom($sqlupdate);
             $doBanners->update();
@@ -160,7 +161,7 @@ MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntit
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$doBanners = MAX_DB::factoryDO('banners');
+$doBanners = OA_Dal::factoryDO('banners');
 $doBanners->selectAdd('storagetype AS type');
 $doBanners->bannerid = $bannerid;
 if ($doBanners->find(true)) {
@@ -189,7 +190,7 @@ if ($banner['type'] != 'txt') {
     $available = array();
 
     // Get list of public publishers
-    $doAffiliates = MAX_DB::factoryDO('affiliates');
+    $doAffiliates = OA_Dal::factoryDO('affiliates');
     $doAffiliates->publiczones = 't';
     $doAffiliates->find();
     while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
@@ -198,7 +199,7 @@ if ($banner['type'] != 'txt') {
     $available = implode ($available, ' OR ');
 
     // Get public zones
-    $doZones = MAX_DB::factoryDO('zones');
+    $doZones = OA_Dal::factoryDO('zones');
     $doZones->selectAdd();
     $doZones->selectAdd('zoneid, zonename, delivery');
     $doZones->whereAdd('delivery = ' . phpAds_ZonePopup);
@@ -206,7 +207,7 @@ if ($banner['type'] != 'txt') {
     $available ? $doZones->whereAdd($available) : null;
     $doZones->orderBy('zoneid');
     $doZones->find();
-    
+
     $available = array(phpAds_ZonePopup => array(), phpAds_ZoneInterstitial => array());
     while ($doZones->fetch() && $row = $doZones->toArray()) {
         $available[$row['delivery']][$row['zoneid']] = phpAds_buildZoneName($row['zoneid'], $row['zonename']);

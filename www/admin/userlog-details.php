@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/language/Userlog.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
@@ -52,17 +53,17 @@ Language_Userlog::load();
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$doUserLog = MAX_DB::factoryDO('userlog');
+$doUserLog = OA_Dal::factoryDO('userlog');
 
 if ($doUserLog->get($userlogid))
 {
     $row = $doUserLog->toArray();
 	echo "<br />";
 	echo "<table cellpadding='0' cellspacing='0' border='0'>";
-	
+
 	echo "<tr height='20'><td><b>".$strDate."</b>:&nbsp;&nbsp;</td>";
 	echo "<td>".strftime($date_format, $row['timestamp']).", ".strftime($minute_format, $row['timestamp'])."</td></tr>";
-	
+
 	echo "<tr height='20'><td><b>".$strUser."</b>:&nbsp;&nbsp;</td><td>";
 	switch ($row['usertype'])
 	{
@@ -71,14 +72,14 @@ if ($doUserLog->get($userlogid))
 		case phpAds_userAdministrator:	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".$strAdministrator; break;
 	}
 	echo "</td></tr>";
-	
+
 	$action = $strUserlog[$row['action']];
 	$action = str_replace ('{id}', $row['object'], $action);
 	echo "<tr height='20'><td><b>".$strAction."</b>:&nbsp;&nbsp;</td><td>".$action."</td></tr>";
 	echo "</table>";
-	
+
 	phpAds_ShowBreak();
-	
+
 	echo "<br /><br />";
 	echo "<pre>".$row['details']."</pre>";
 	echo "<br /><br />";

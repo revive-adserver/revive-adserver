@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
@@ -60,7 +61,7 @@ function phpAds_showBanners()
 	global $strProbability, $strPriority, $strRecalculatePriority;
 	global $phpAds_TextDirection;
 
-	$doAdZoneAssoc = MAX_DB::factoryDO('ad_zone_assoc');
+	$doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
 	$doAdZoneAssoc->selectAdd();
 	$doAdZoneAssoc->selectAs(array('ad_id'), 'bannerid');
 	$doAdZoneAssoc->selectAdd('priority');

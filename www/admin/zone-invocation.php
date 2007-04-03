@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
@@ -76,9 +77,9 @@ MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$dalZones = MAX_DB::factoryDAL('zones');
+$dalZones = OA_Dal::factoryDAL('zones');
 if ($zone = $dalZones->getZoneForInvocationForm($zoneid)) {
-    $extra = array('affiliateid' => $affiliateid, 
+    $extra = array('affiliateid' => $affiliateid,
                    'zoneid' => $zoneid,
                    'width' => $zone['width'],
                    'height' => $zone['height'],

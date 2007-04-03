@@ -28,6 +28,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
 require_once MAX_PATH . '/lib/max/Permission/User.php';
@@ -98,7 +99,7 @@ function phpAds_Start()
 function phpAds_Logout()
 {
     phpAds_SessionDataDestroy();
-    $dalAgency = MAX_DB::factoryDAL('agency');
+    $dalAgency = OA_Dal::factoryDAL('agency');
     header ("Location: " . $dalAgency->getLogoutUrl($GLOBALS['agencyid']));
 }
 

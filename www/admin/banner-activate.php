@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
@@ -45,7 +46,7 @@ phpAds_registerGlobal ('value');
 MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
 if (phpAds_isUser(phpAds_Agency))
 {
-    $doBanners = MAX_DB::factoryDO('banners');
+    $doBanners = OA_Dal::factoryDO('banners');
     $doBanners->addReferenceFilter('agency', phpAds_getUserID());
     $doBanners->addReferenceFilter('campaigns', $campaignid);
     $doBanners->addReferenceFilter('clients', $clientid);
@@ -75,9 +76,9 @@ if (phpAds_isUser(phpAds_Client))
 	if (($value == 'f' && phpAds_isAllowed(phpAds_DisableBanner)) ||
 	    ($value == 't' && phpAds_isAllowed(phpAds_ActivateBanner)))
 	{
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->get($bannerid);
-        
+
 
 		if ($doBanners->campaignid == '' || phpAds_getUserID() != phpAds_getCampaignParentClientID ($doBanners->campaignid))
 		{
@@ -110,17 +111,17 @@ elseif (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 {
 	if (!empty($bannerid))
 	{
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->get($bannerid);
         $doBanners->active = $value;
         $doBanners->update();
 	}
 	elseif (!empty($campaignid))
 	{
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->active = $value;
         $doBanners->whereAdd('campaignid = ' . $campaignid);
-        
+
         // Update all the banners
         $doBanners->update(DB_DATAOBJECT_WHEREADD_ONLY);
 	}

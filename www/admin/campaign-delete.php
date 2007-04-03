@@ -32,12 +32,12 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
-require_once MAX_PATH . '/lib/max/DB.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl');
@@ -64,7 +64,7 @@ if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
 /*-------------------------------------------------------*/
 
 if (!empty($campaignid)) {
-    $doCampaigns = MAX_DB::factoryDO('campaigns');
+    $doCampaigns = OA_Dal::factoryDO('campaigns');
     $doCampaigns->campaignid = $campaignid;
     $doCampaigns->delete();
     // Find and delete the campains from $node_array, if

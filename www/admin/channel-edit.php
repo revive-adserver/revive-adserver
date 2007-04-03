@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 
@@ -77,7 +78,7 @@ if (!empty($affiliateid)) {
 if (isset($submit) && $submit == $GLOBALS['strSaveChanges']) {
     if (empty($affiliateid)) $affiliateid = 0;
     if ($channelid) {
-        $doChannel = MAX_DB::factoryDO('channel');
+        $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->get($channelid);
         $doChannel->name = $name;
         $doChannel->description = $description;
@@ -86,12 +87,12 @@ if (isset($submit) && $submit == $GLOBALS['strSaveChanges']) {
     } else {
         // Always insert the correct agencyid when channel is owned by a publisher
         if (!empty($affiliateid)) {
-            $doAffiliates = MAX_DB::factoryDO('affiliates');
+            $doAffiliates = OA_Dal::factoryDO('affiliates');
             $doAffiliates->get($affiliateid);
             $agencyid = $doAffiliates->agencyid;
         }
-        
-        $doChannel = MAX_DB::factoryDO('channel');
+
+        $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->agencyid = $agencyId;
         $doChannel->affiliateid = $affiliateid;
         $doChannel->name = $name;
@@ -102,7 +103,7 @@ if (isset($submit) && $submit == $GLOBALS['strSaveChanges']) {
         $doChannel->comments = $comments;
         $ret = $channelid = $doChannel->insert();
     }
-    
+
     if ($ret) {
         if (!empty($affiliateid)) {
             header("Location: channel-acl.php?affiliateid={$affiliateid}&channelid={$channelid}");
@@ -123,7 +124,7 @@ MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublishers, $aOt
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$doChannel = MAX_DB::factoryDO('channel');
+$doChannel = OA_Dal::factoryDO('channel');
 if (!empty($channelid)) {
     $doChannel->get($channelid);
 }
@@ -152,7 +153,7 @@ echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspac
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 echo "<tr><td width='30'>&nbsp;</td>";
 echo "<td width='200'>{$GLOBALS['strComments']}</td>";
- 
+
 echo "<td><textarea class='comments' cols='45' rows='6' name='comments' wrap='off' dir='ltr' style='width:350px;";
 echo "' tabindex='".($tabIndex++)."'>".htmlentities($channel['comments'])."</textarea></td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";

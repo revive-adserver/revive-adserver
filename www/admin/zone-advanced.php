@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
@@ -93,7 +94,7 @@ if (isset($submitbutton))
 {
     if (!empty($zoneid))
     {
-        $doZones = MAX_DB::factoryDO('zones');
+        $doZones = OA_Dal::factoryDO('zones');
         $doZones->get($zoneid);
 
         // Determine chain
@@ -208,7 +209,7 @@ MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$doZones = MAX_DB::factoryDO('zones');
+$doZones = OA_Dal::factoryDO('zones');
 if ($doZones->get($zoneid)) {
     $zone = $doZones->toArray();
 }
@@ -253,9 +254,9 @@ if ($zone['delivery'] == phpAds_ZoneText) echo "<img src='images/icon-textzone.g
 
 echo "&nbsp;&nbsp;<select name='chainzone' style='width: 200;' onchange='phpAds_formSelectZone()' tabindex='".($tabindex++)."'>";
 
-    $doAffiliates = MAX_DB::factoryDO('affiliates');
+    $doAffiliates = OA_Dal::factoryDO('affiliates');
     $doAffiliates->whereAdd("(publiczones = 't' OR affiliateid='".$affiliateid."')");
-    
+
     // Get list of public publishers
     if (phpAds_isUser(phpAds_Admin))
     {
@@ -266,15 +267,15 @@ echo "&nbsp;&nbsp;<select name='chainzone' style='width: 200;' onchange='phpAds_
     {
         $doAffiliates->addReferenceFilter('agency', phpAds_getUserID());
     }
-    
+
     if (phpAds_isUser(phpAds_Affiliate)) {
         // @todo FIXME: Affilitates should also have access to the "public" zones within their agency
         phpAds_Die ('Error', 'Affilitates should also have access to the "public" zones within their agency');
     }
     $availableAffiliates = $doAffiliates->getAll(array('affiliateid'));
-    
+
     // Get list of zones to link to
-    $doZones = MAX_DB::factoryDO('zones');
+    $doZones = OA_Dal::factoryDO('zones');
     $doZones->whereInAdd('affiliateid', $availableAffiliates);
 
     $allowothersizes = $zone['delivery'] == phpAds_ZoneInterstitial || $zone['delivery'] == phpAds_ZonePopup;
@@ -381,18 +382,18 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
 
 
         // Get list of public publishers
-        $doAffiliates = MAX_DB::factoryDO('affiliates');
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
         $doAffiliates->whereAdd("(publiczones = 't' OR affiliateid='".$affiliateid."')");
-        
+
         if (phpAds_isUser(phpAds_Agency)) {
             $doAffiliates->addReferenceFilter('agency', phpAds_getUserID());
         }
         $availableAffiliates = $doAffiliates->getAll(array('affiliateid'));
-    
+
         // Get list of zones to link to
-        $doZones = MAX_DB::factoryDO('zones');
+        $doZones = OA_Dal::factoryDO('zones');
         $doZones->whereInAdd('affiliateid', $availableAffiliates);
-    
+
         $allowothersizes = $zone['delivery'] == phpAds_ZoneInterstitial || $zone['delivery'] == phpAds_ZonePopup;
         if ($zone['width'] != -1 && !$allowothersizes) {
             $doZones->width = $zone['width'];
@@ -403,7 +404,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
         $doZones->delivery = $zone['delivery'];
         $doZones->whereAdd('zoneid <> '.$zoneid);
         $doZones->find();
-        
+
         $available = array(phpAds_ZonePopup => array(), phpAds_ZoneInterstitial => array());
         while ($doZones->fetch() && $row = $doZones->toArray())
             $available[$row['delivery']][$row['zoneid']] = phpAds_buildZoneName($row['zoneid'], $row['zonename']);

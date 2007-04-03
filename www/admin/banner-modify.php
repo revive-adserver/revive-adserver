@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
@@ -60,9 +61,9 @@ if (!empty($bannerid)) {
         if (phpAds_isUser(phpAds_Agency)) {
             MAX_Permission::checkAccessToObject('campaigns', $moveto);
         }
-        
+
         // Move the banner
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->get($bannerid);
         $doBanners->campaignid = $moveto;
         $doBanners->update();
@@ -92,7 +93,7 @@ if (!empty($bannerid)) {
             phpAds_sqlDie();
         }
     } elseif (isset($duplicate) && $duplicate == 'true') {
-        $doBanners = MAX_DB::factoryDO('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->get($bannerid);
         $new_bannerid = $doBanners->duplicate();
 

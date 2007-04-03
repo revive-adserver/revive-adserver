@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
@@ -58,7 +59,7 @@ if (phpAds_isUser(phpAds_Agency)) {
 }
 if (phpAds_isUser(phpAds_Client)) {
     MAX_Permission::checkAccessToObject('banners', $bannerid);
-    $doBanners = MAX_DB::factoryDO('banners');
+    $doBanners = OA_Dal::factoryDO('banners');
     $doBanners->get($bannerid);
     $campaignid = $doBanners->campaignid;
 }
@@ -68,10 +69,10 @@ if (phpAds_isUser(phpAds_Client)) {
 /*-------------------------------------------------------*/
 
 if (isset($convert)) {
-    $doBanners = MAX_DB::factoryDO('banners');
+    $doBanners = OA_Dal::factoryDO('banners');
     $doBanners->get($bannerid);
     $row = $doBanners->toArray();
-    
+
     if ($row['storagetype'] == 'sql' || $row['storagetype'] == 'web') {
         $swf_file = phpAds_ImageRetrieve ($row['storagetype'], $row['filename']);
     }
@@ -115,14 +116,14 @@ if (isset($convert)) {
                 $row['htmltemplate']  = $row['htmltemplate'];
 
                 // Store the HTML Template
-                $doBanners = MAX_DB::factoryDO('banners');
+                $doBanners = OA_Dal::factoryDO('banners');
                 $doBanners->get($bannerid);
                 $doBanners->url = $row['url'];
                 $doBanners->target = $row['target'];
                 $doBanners->pluginversion = $row['pluginversion'];
                 $doBanners->htmltemplate = $row['htmltemplate'];
                 $doBanners->update();
-                
+
                 // Store the banner
                 phpAds_ImageStore ($row['storagetype'], $row['filename'], $result, true);
 
@@ -167,11 +168,11 @@ if ($bannerid != '') {
     }
 
     // Get other banners
-    $doBanners = MAX_DB::factoryDO('banners');
+    $doBanners = OA_Dal::factoryDO('banners');
     $doBanners->campaignid = $campaignid;
     $doBanners->addListOrderBy($navorder, $navdirection);
     $doBanners->find();
-    
+
     while ($doBanners->fetch() && $row = $doBanners->toArray()) {
         phpAds_PageContext (
             phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt']),
@@ -202,10 +203,10 @@ if ($bannerid != '') {
         phpAds_ShowSections(array("1.2.2.3"));
     }
 
-    $doBanners = MAX_DB::factoryDO('banners');
+    $doBanners = OA_Dal::factoryDO('banners');
     $doBanners->get($bannerid);
     $row = $doBanners->toArray();
-    
+
     if ($row['contenttype'] == 'swf') {
         if ($row['storagetype'] == 'sql' || $row['storagetype'] == 'web') {
             $swf_file = phpAds_ImageRetrieve ($row['storagetype'], $row['filename']);

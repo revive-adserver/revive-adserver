@@ -32,12 +32,12 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
-require_once MAX_PATH . '/lib/max/DB.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl');
@@ -50,7 +50,7 @@ MAX_Permission::checkAccessToObject('banners', $bannerid);
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$doBanners = MAX_DB::factoryDO('banners');
+$doBanners = OA_Dal::factoryDO('banners');
 
 if (!empty($bannerid)) {
     $doBanners->bannerid = $bannerid;

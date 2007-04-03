@@ -28,6 +28,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
 // Define defaults
@@ -182,13 +183,13 @@ function phpAds_getBannerName($bannerid, $limit = 30, $id = true, $checkanonymou
     if (isset($bannerCache[$bannerid]) && is_array($bannerCache[$bannerid])) {
         $row = $bannerCache[$bannerid];
     } else {
-        $doBanners = MAX_DB::staticGetDO('banners', $bannerid);
+        $doBanners = OA_Dal::staticGetDO('banners', $bannerid);
         $row = $doBanners->toArray();
         $bannerCache[$bannerid] = $row;
     }
     if ($checkanonymous) {
         if  (!isset($row['anonymous']) || $row['anonymous'] = '') {
-            $doCampaigns = MAX_DB::factoryDO('campaigns');
+            $doCampaigns = OA_Dal::factoryDO('campaigns');
             $doCampaigns->addReferenceFilter('banners', $bannerid);
             $doCampaigns->selectAdd();
             $doCampaigns->selectAdd('anonymous');
@@ -228,7 +229,7 @@ function phpAds_getZoneName($zoneid)
         if (isset($zoneCache[$zoneid]) && is_array($zoneCache[$zoneid])) {
             $row = $zoneCache[$zoneid];
         } else {
-            $doZones = MAX_DB::staticGetDO('zones', $zoneid);
+            $doZones = OA_Dal::staticGetDO('zones', $zoneid);
             $zoneCache[$zoneid] = $doZones->toArray();
         }
         return (phpAds_BuildZoneName ($zoneid, $row['zonename']));
@@ -259,7 +260,7 @@ function phpAds_getAffiliateName($affiliateid)
         if (isset($affiliateCache[$affiliateid]) && is_array($affiliateCache[$affiliateid])) {
             $row = $affiliateCache[$affiliateid];
         } else {
-            $doAffiliates = MAX_DB::staticGetDO('affiliates', $affiliateid);
+            $doAffiliates = OA_Dal::staticGetDO('affiliates', $affiliateid);
             $row = $doAffiliates->toArray();
             $affiliateCache[$affiliateid] = $row;
         }
@@ -338,7 +339,7 @@ function phpAds_totalStats($column, $bannerid, $timeconstraint="")
     if (!empty($timeconstraint)) {
         if (!empty($bannerid)) {
             $where .= " AND ";
-        } 
+        }
         if ($timeconstraint == "month") {
             $begin = date('Ymd', mktime(0, 0, 0, date('m'), 1, date('Y')));
             $end   = date('Ymd', mktime(0, 0, 0, date('m') + 1, 1, date('Y')));
@@ -352,7 +353,7 @@ function phpAds_totalStats($column, $bannerid, $timeconstraint="")
             $where .= "day = $begin";
         }
     }
-    $doDataSummaryAdHourly = MAX_DB::factoryDO('data_summary_ad_hourly');
+    $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
     $doDataSummaryAdHourly->selectAdd();
     $doDataSummaryAdHourly->selectAdd("SUM($column) AS qnt");
     if (!empty($where)) {
@@ -399,11 +400,11 @@ function phpAds_htmlQuotes($string)
 function phpAds_getClientDetails($clientid)
 {
     global $clientCache;
-    
+
     if (isset($clientCache[$clientid]) && is_array($clientCache[$clientid])) {
         $client_details = $clientCache[$clientid];
     } else {
-        $dalClients = MAX_DB::factoryDAL('clients');
+        $dalClients = OA_Dal::factoryDAL('clients');
         $client_details = $dalClients->getAdvertiserDetails($clientid);
         $clientCache[$clientid] = $client_details;
     }
@@ -417,7 +418,7 @@ function phpAds_getCampaignDetails($campaignid)
     if (isset($campaignCache[$campaignid]) && is_array($campaignCache[$campaignid])) {
         $row = $campaignCache[$campaignid];
     } else {
-        $doCampaigns = MAX_DB::staticGetDO('campaigns', $campaignid);
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignid);
         $row = $doCampaigns->toArray();
         $campaignCache[$campaignid] = $row;
     }
@@ -431,7 +432,7 @@ function phpAds_getTrackerDetails($trackerid)
     if (isset($trackerCache[$trackerid]) && is_array($trackerCache[$trackerid])) {
         $row = $trackerCache[$trackerid];
     } else {
-        $doTrackers = MAX_DB::staticGetDO('trackers', $trackerid);
+        $doTrackers = OA_Dal::staticGetDO('trackers', $trackerid);
         $row = $doTrackers->toArray();
         $trackerCache[$trackerid] = $row;
     }

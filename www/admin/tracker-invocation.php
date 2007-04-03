@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
@@ -58,8 +59,8 @@ MAX_Permission::checkAccessToObject('clients', $clientid);
 
 if (isset($submit)) {
 	// If ID is not set, it should be a null-value for the auto_increment
-    
-    $doTrackers = MAX_DB::factoryDO('trackers');
+
+    $doTrackers = OA_Dal::factoryDO('trackers');
     $doTrackers->trackername = $trackername;
     $doTrackers->description = $description;
     $doTrackers->clientid = $clientid;
@@ -90,10 +91,10 @@ if ($trackerid != "") {
 		$navdirection = '';
 	}
 	// Get other trackers
-	$doTrackers = MAX_DB::factoryDO('trackers');
+	$doTrackers = OA_Dal::factoryDO('trackers');
 	$doTrackers->clientid = $clientid;
 	$doTrackers->find();
-	
+
 	while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
 		phpAds_PageContext (
 			phpAds_buildName ($row['trackerid'], $row['trackername']),
@@ -115,8 +116,8 @@ if ($trackerid != "") {
 	$extra .= "\t\t\t\t<img src='images/spacer.gif' height='1' width='160' vspace='2'><br />"."\n";
 	$extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
 	$extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
-	
-	$doClients = MAX_DB::factoryDO('clients');
+
+	$doClients = OA_Dal::factoryDO('clients');
 	$doClients->whereAdd('clientid <> '.$clientid);
 	if (phpAds_isUser(phpAds_Agency)) {
 	    $doClients->addReferenceFilter('agency', phpAds_getAgencyID());
@@ -167,17 +168,17 @@ if ($trackerid != "" || (isset($move) && $move == 't')) {
 		    $ID = $clientid;
 		}
 	}
-	$doTrackers = MAX_DB::factoryDO('trackers');
+	$doTrackers = OA_Dal::factoryDO('trackers');
 	if ($doTrackers->get($ID)) {
 	    $row = $doTrackers->toArray();
 	}
 } else {
 	// New tracker
-	$doClients = MAX_DB::factoryDO('clients');
+	$doClients = OA_Dal::factoryDO('clients');
 	if ($doClients->get($clientid)) {
 	    $client = $doClients->toArray();
 	}
-	
+
 	if ($client) {
 		$row['trackername'] = $client['clientname'].' - ';
 	} else {

@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
@@ -57,23 +58,23 @@ if (!empty($trackerid))
     if (!empty($moveto))
     {
         // Delete any campaign-tracker links
-        $doCampaign_trackers = MAX_DB::factoryDO('campaigns_trackers');
+        $doCampaign_trackers = OA_Dal::factoryDO('campaigns_trackers');
         $doCampaign_trackers->trackerid = $trackerid;
         $doCampaign_trackers->delete();
-        
+
         // Move the campaign
-        $doTrackers = MAX_DB::factoryDO('trackers');
+        $doTrackers = OA_Dal::factoryDO('trackers');
         if ($doTrackers->get($trackerid)) {
             $doTrackers->clientid = $moveto;
             $doTrackers->update();
         }
-        
+
         Header ("Location: ".$returnurl."?clientid=".$moveto."&trackerid=".$trackerid);
         exit;
     }
     elseif (isset($duplicate) && $duplicate == 'true')
     {
-        $doTrackers = MAX_DB::factoryDO('trackers');
+        $doTrackers = OA_Dal::factoryDO('trackers');
         if ($doTrackers->get($trackerid))
         {
             $new_trackerid = $doTrackers->duplicate();

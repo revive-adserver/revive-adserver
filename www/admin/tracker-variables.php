@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
@@ -63,7 +64,7 @@ if (!isset($variables))
 if (!empty($trackerid))
 {
     // Get publisher list
-    $dalAffiliates = MAX_DB::factoryDAL('affiliates');
+    $dalAffiliates = OA_Dal::factoryDAL('affiliates');
     $rsAffiliates = $dalAffiliates->getPublishersByTracker($trackerid);
     $rsAffiliates->find();
 
@@ -74,7 +75,7 @@ if (!empty($trackerid))
 
     if (!isset($variablemethod)) {
         // get variable method
-        $doTrackers = MAX_DB::factoryDO('trackers');
+        $doTrackers = OA_Dal::factoryDO('trackers');
         if ($doTrackers->get($trackerid)) {
             $variablemethod = $doTrackers->variablemethod;
         }
@@ -83,7 +84,7 @@ if (!empty($trackerid))
     if (!isset($variables))
     {
         // get variables from db
-        $doVariables = MAX_DB::factoryDO('variables');
+        $doVariables = OA_Dal::factoryDO('variables');
         $doVariables->trackerid = $trackerid;
         $doVariables->find();
 
@@ -100,9 +101,9 @@ if (!empty($trackerid))
         }
 
         // get publisher visibility from db
-        $doVariables = MAX_DB::factoryDO('variables');
+        $doVariables = OA_Dal::factoryDO('variables');
         $doVariables->trackerid = $trackerid;
-        $doVariable_publisher = MAX_DB::factoryDO('variable_publisher');
+        $doVariable_publisher = OA_Dal::factoryDO('variable_publisher');
         $doVariables->joinAdd($doVariable_publisher);
         $doVariables->find();
 
@@ -188,7 +189,7 @@ if (!empty($trackerid))
     if (isset($action['save']))
     {
         // save variablemethod
-        $doTrackers = MAX_DB::factoryDO('trackers');
+        $doTrackers = OA_Dal::factoryDO('trackers');
         $doTrackers->get($trackerid);
         $doTrackers->variablemethod = $variablemethod;
         $doTrackers->update();
@@ -225,12 +226,12 @@ if (!empty($trackerid))
 
             // Always delete variable_publisher entries
             if (!empty($v['variableid'])) {
-                $doVariable_publisher = MAX_DB::factoryDO('variable_publisher');
+                $doVariable_publisher = OA_Dal::factoryDO('variable_publisher');
                 $doVariable_publisher->variable_id = $v['variableid'];
                 $doVariable_publisher->delete();
             }
 
-            $doVariables = MAX_DB::factoryDO('variables');
+            $doVariables = OA_Dal::factoryDO('variables');
             if (!empty($v['variableid']) && isset($v['delete'])) {
                 // delete variables from db
                 $doVariables->deleteById($v['variableid']);
@@ -259,7 +260,7 @@ if (!empty($trackerid))
             }
 
             foreach ($variable_publisher as $publisher_id => $visible) {
-                $doVariable_publisher = MAX_DB::factoryDO('variable_publisher');
+                $doVariable_publisher = OA_Dal::factoryDO('variable_publisher');
                 $doVariable_publisher->variable_id = $v['variableid'];
                 $doVariable_publisher->publisher_id = $publisher_id;
                 $doVariable_publisher->visible = $visible;
@@ -285,7 +286,7 @@ if (!empty($trackerid))
 }
 
 // Get other trackers
-$doTrackers = MAX_DB::factoryDO('trackers');
+$doTrackers = OA_Dal::factoryDO('trackers');
 $doTrackers->clientid = $clientid;
 if (isset($navorder) && isset($navdirection)) {
     $doTrackers->addListOrderBy($navorder, $navdirection);
@@ -317,7 +318,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
     $extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
     $extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
 
-    $doClients = MAX_DB::factoryDO('clients');
+    $doClients = OA_Dal::factoryDO('clients');
     $doClients->whereAdd('clientid <>'.$clientid);
     if (phpAds_isUser(phpAds_Agency)) {
         $doClients->agencyid = phpAds_getUserID();

@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 
@@ -46,45 +47,45 @@ if (phpAds_isUser(phpAds_Admin))
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $pref = $GLOBALS['_MAX']['PREF'];
-    
+
     $update_check = false;
-    
+
     // Check accordingly to user preferences
     if ($pref['updates_enabled']) {
         require_once (MAX_PATH . '/lib/max/OpenadsSync.php');
-        
+
         $oSync = new MAX_OpenadsSync();
-        
+
         if ($pref['updates_cache']) {
             $update_check = unserialize($pref['updates_cache']);
         }
-        
+
         if (!is_array($update_check) || $oSync->getConfigVersion() <= $pref['updates_last_seen']) {
             $update_check = false;
         } else {
             // Make sure that the alert doesn't display everytime
-            $doPreference = MAX_DB::factoryDO('preference');
+            $doPreference = OA_Dal::factoryDO('preference');
             $doPreference->updates_last_seen = $update_check['config_version'];
             $doPreference->agencyid = 0;
             $doPreference->update();
-        
+
             // Format like the XML-RPC response
             $update_check = array(0, $update_check);
         }
     }
-    
+
     phpAds_SessionDataRegister('update_check', $update_check);
     phpAds_SessionDataStore();
-    
+
     // Add Product Update redirector
     if ($update_check)     {
         header("Content-Type: application/x-javascript");
-        
+
         if ($update_check[1]['security_fix'])
             echo "alert('".$strUpdateAlertSecurity."');\n";
         else
             echo "if (confirm('".$strUpdateAlert."'))\n\t";
-        
+
         echo "document.location.replace('maintenance-updates.php');\n";
     }
 }

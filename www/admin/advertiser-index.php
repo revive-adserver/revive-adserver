@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
@@ -96,9 +97,9 @@ if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
 // XXX: Now that the two are next to each other, some silliness
 //      is quite visible -- retrieving all items /then/ retrieving a count.
 // TODO: This looks like a perfect candidate for object "polymorphism"
-$dalClients = MAX_DB::factoryDAL('clients');
-$dalCampaigns = MAX_DB::factoryDAL('campaigns');
-$dalBanners = MAX_DB::factoryDAL('banners');
+$dalClients = OA_Dal::factoryDAL('clients');
+$dalCampaigns = OA_Dal::factoryDAL('campaigns');
+$dalBanners = OA_Dal::factoryDAL('banners');
 if (phpAds_isUser(phpAds_Admin)) {
     $clients = $dalClients->getAllAdvertisers($listorder, $orderdirection);
     $campaigns = $dalCampaigns->getAllCampaigns($listorder, $orderdirection);
