@@ -35,9 +35,116 @@ require_once 'Date.php';
  * @package    OpenadsDB
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_DBTest extends UnitTestCase
+class Test_OA_DB_Table extends UnitTestCase
 {
+
+    /**
+     * The constructor method.
+     */
+    function Test_OA_DB_Table()
+    {
+        $this->UnitTestCase();
+    }
+
+    /**
+     * Tests that the database type is setup in the config .ini file.
+     */
+    function testDbTypeDefined()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $this->assertNotNull($aConf['database']['type']);
+        $this->assertNotEqual($aConf['database']['type'], '');
+    }
+
+    /**
+     * Tests that the database host is setup in the config .ini file.
+     */
+    function testDbHostDefined()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $this->assertNotNull($aConf['database']['host']);
+        $this->assertNotEqual($aConf['database']['host'], '');
+    }
+
+    /**
+     * Tests that the database port is setup in the config .ini file.
+     */
+    function testDbPortDefined()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $this->assertNotNull($aConf['database']['port']);
+        $this->assertNotEqual($aConf['database']['port'], '');
+    }
+
+    /**
+     * Tests that the database user is setup in the config .ini file.
+     */
+    function testDbUserDefined()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $this->assertNotNull($aConf['database']['username']);
+        $this->assertNotEqual($aConf['database']['username'], '');
+    }
+
+    /**
+     * Tests that the database password is setup in the config .ini file.
+     */
+    function testDbPasswordDefined()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $this->assertNotNull($aConf['database']['password']);
+    }
+
+    /**
+     * Tests that the database name is setup in the config .ini file.
+     */
+    function testDbNameDefined()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $this->assertNotNull($aConf['database']['name']);
+        $this->assertNotEqual($aConf['database']['name'], '');
+    }
+
+    /**
+     * Tests that the Max table prefix is setup in the config .ini file.
+     */
+    function testDbPrefixDefined()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $this->assertNotNull($aConf['table']['prefix']);
+    }
+
+    /**
+     * Tests that the database connection can be made, without using the
+     * Dal class - that is, that the details specified above are okay.
+     */
+    function testDbConnection()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $dbConnection = MDB2::singleton(
+            strtolower($aConf['database']['type']) . '://' .
+            $aConf['database']['username'] . ':' .  $aConf['database']['password'] .
+            '@' . $aConf['database']['host'] . ':' . $aConf['database']['port'] . '/' .
+            $aConf['database']['name']
+        );
+        $this->assertTrue($dbConnection);
+    }
+
+    /**
+     * Tests that the singleton() method only ever returns one
+     * database connection.
+     */
+    function testSingletonDbConnection()
+    {
+        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $firstConnection  = &OA_DB::singleton();
+        $secondConnection = &OA_DB::singleton();
+        $this->assertIdentical($firstConnection, $secondConnection);
+        $this->assertReference($firstConnection, $secondConnection);
+        TestEnv::restoreConfig();
+    }
 
     function testSingleton()
     {
