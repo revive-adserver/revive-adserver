@@ -29,8 +29,8 @@ require_once MAX_PATH . '/lib/OA/DB.php';
 
 /**
  * A class for testing that the required custom MDB2 datatypes, MDB2 datatype
- * to nativetype mappings, and nativetype to MDB2 datatype mappings work as
- * expected.
+ * to nativetype mappings, and nativetype to MDB2 datatype mappings for
+ * MySQL work as expected.
  *
  * @package    OpenadsDB
  * @subpackage TestSuite
@@ -54,11 +54,30 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
     }
 
     /**
+     * A private method to test if it is okay to run these tests
+     * or not.
+     *
+     * @access private
+     * @return boolean True if the database in used is MySQL, false
+     *                 otherwise.
+     */
+    function _testOkayToRun()
+    {
+        if ($this->db->dsn['phptype'] == 'mysql') {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * A method to test that the MDB2 datatype to database nativetype
      * mappings work as expected for the "openads_bigint" datatype.
      */
     function testDatatypeToNativetypeMappings_openads_bigint()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'openads_bigint_test1' => array(
                 'method' => 'getValidTypes',
@@ -127,6 +146,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testDatatypeToNativetypeMappings_openads_char()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'openads_char_test1' => array(
                 'method' => 'getValidTypes',
@@ -195,6 +217,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testDatatypeToNativetypeMappings_openads_decimal()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'openads_decimal_test1' => array(
                 'method' => 'getValidTypes',
@@ -283,6 +308,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testDatatypeToNativetypeMappings_openads_double()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'openads_double_test1' => array(
                 'method' => 'getValidTypes',
@@ -351,6 +379,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testDatatypeToNativetypeMappings_openads_enum()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'openads_enum_test1' => array(
                 'method' => 'getValidTypes',
@@ -419,6 +450,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testDatatypeToNativetypeMappings_openads_float()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'openads_float_test1' => array(
                 'method' => 'getValidTypes',
@@ -487,6 +521,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testDatatypeToNativetypeMappings_openads_int()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'openads_int_test1' => array(
                 'method' => 'getValidTypes',
@@ -555,6 +592,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testDatatypeToNativetypeMappings_openads_mediumint()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'openads_mediumint_test1' => array(
                 'method' => 'getValidTypes',
@@ -633,6 +673,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testDatatypeToNativetypeMappings_openads_smallint()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'openads_smallint_test1' => array(
                 'method' => 'getValidTypes',
@@ -701,6 +744,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testDatatypeToNativetypeMappings_openads_text()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'openads_text_test1' => array(
                 'method' => 'getValidTypes',
@@ -779,6 +825,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testDatatypeToNativetypeMappings_openads_tinyint()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'openads_tinyint_test1' => array(
                 'method' => 'getValidTypes',
@@ -847,6 +896,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testDatatypeToNativetypeMappings_openads_varchar()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'openads_varchar_test1' => array(
                 'method' => 'getValidTypes',
@@ -915,6 +967,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testNativetypeToDatatypeMappings_bigint()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'bigint_test1' => array(
                 'type'    => 'bigint'
@@ -967,6 +1022,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testNativetypeToDatatypeMappings_char()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'char_test1' => array(
                 'type'    => 'char'
@@ -1001,6 +1059,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testNativetypeToDatatypeMappings_decimal()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'decimal_test1' => array(
                 'type'    => 'decimal'
@@ -1073,6 +1134,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testNativetypeToDatatypeMappings_double()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'double_test1' => array(
                 'type'    => 'double'
@@ -1125,6 +1189,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testNativetypeToDatatypeMappings_enum()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'enum_test1' => array(
                 'type'    => 'enum'
@@ -1159,6 +1226,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testNativetypeToDatatypeMappings_float()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'float_test1' => array(
                 'type'    => 'float'
@@ -1211,6 +1281,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testNativetypeToDatatypeMappings_int()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'int_test1' => array(
                 'type'    => 'int'
@@ -1263,6 +1336,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testNativetypeToDatatypeMappings_mediumint()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'mediumint_test1' => array(
                 'type'    => 'mediumint'
@@ -1325,6 +1401,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testNativetypeToDatatypeMappings_smallint()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'smallint_test1' => array(
                 'type'    => 'smallint'
@@ -1377,6 +1456,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testNativetypeToDatatypeMappings_text()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'text_test1' => array(
                 'type'    => 'text'
@@ -1421,6 +1503,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testNativetypeToDatatypeMappings_tinyint()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'tinyint_test1' => array(
                 'type'    => 'tinyint'
@@ -1473,6 +1558,9 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
      */
     function testNativetypeToDatatypeMappings_varchar()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $aTestData = array(
             'varchar_test1' => array(
                 'type'    => 'varchar'
