@@ -71,7 +71,7 @@ class TestEnv
         $result = $oDbh->manager->createDatabase($aConf['database']['name']);
         OA::enableErrorHandling();
         if (PEAR::isError($result)) {
-            PEAR::raiseError("TestEnv unable to create the {$aConf['database']['name']} test database.", PEAR_LOG_ERR);
+            PEAR::raiseError("TestEnv unable to create the {$aConf['database']['name']} test database:<br />" . $result->toString(), PEAR_LOG_ERR);
             die();
         }
     }
