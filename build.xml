@@ -1,6 +1,5 @@
 <project name="openads" default="simpletest" basedir=".">
-  <target name="simpletest" depends="clean, checkconsistency, init, test-all, phpunit, release" />
-  <property name="max.php_cli_executable" value="/usr/local/php4/bin/php" />
+  <target name="simpletest" depends="clean, checkconsistency, init, test-all, release" />
   <property name="test.conf.xml" value="devel.xml"/>
   <property name="dir.test.results" location="build/test-results"/>
   <property name="dir.test.reports" location="build/test-results"/>
@@ -72,19 +71,6 @@
 
   <target name="test-all" depends="init,test-prepare">
     <ant antfile="tests.xml"/>
-  </target>
-
-  <target name="phpunit">
-    <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/MDB2.html">
-      <arg value="run.php" />
-      <arg value="--type=phpunit" />
-      <arg value="--dir=../lib/pear/MDB2/tests/" />
-    </exec>
-    <exec dir="tests" executable="${max.php_cli_executable}" failonerror="false" output="build/test-results/MDB2_Schema.html">
-      <arg value="run.php" />
-      <arg value="--type=phpunit" />
-      <arg value="--dir=../lib/pear/MDB2_Schema/tests/" />
-    </exec>
   </target>
 
   <target name="release" depends="init-release">

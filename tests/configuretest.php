@@ -27,6 +27,7 @@ $Id: TestEnv.php 5447 2007-03-28 14:33:48Z andrew.hill@openads.org $
 
 require_once('init.php');
 require_once(MAX_PATH . '/tests/testClasses/CCConfigWriter.php');
+require_once(MAX_PATH . '/tests/testClasses/MDB2ConfigWriter.php');
 
 /**
  * This script configures test according to parameters passed on the command line.
@@ -47,5 +48,8 @@ $tableType = $_SERVER['argv'][7];
 
 $ccConfigWriter = new CCConfigWriter();
 $ccConfigWriter->configureTest($type, $host, $port, $username, $password, $name, $tableType);
+
+$mdb2ConfigWriter = new MDB2ConfigWriter();
+$mdb2ConfigWriter->configureTest($type, $host, $port, $username, $password, $name, $tableType);
 
 ?>

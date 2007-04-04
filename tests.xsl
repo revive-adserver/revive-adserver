@@ -48,6 +48,16 @@
               <equals arg1="0" arg2="${{test.@{{test.name}}.result}}"/>
             </not>
           </condition>
+          <exec dir="tests" executable="@{{php}}" failonerror="false" output="build/test-results/MDB2-@{{test.name}}.html">
+            <arg value="run.php" />
+            <arg value="--type=phpunit" />
+            <arg value="--dir=../lib/pear/MDB2/tests/" />
+          </exec>
+          <exec dir="tests" executable="@{{php}}" failonerror="false" output="build/test-results/MDB2_Schema-@{{test.name}}.html">
+            <arg value="run.php" />
+            <arg value="--type=phpunit" />
+            <arg value="--dir=../lib/pear/MDB2_Schema/tests/" />
+          </exec>
         </sequential>
       </macrodef>
 
