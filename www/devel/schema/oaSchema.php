@@ -60,6 +60,7 @@ class Openads_Schema_Manager
     var $path_links_trans;
 
     var $path_dbo;
+    var $use_links;
 
     var $file_schema_core;
     var $schema_final;
@@ -72,8 +73,6 @@ class Openads_Schema_Manager
     var $file_links_core;
     var $links_final = false;
     var $links_trans = false;
-
-    var $use_links;
 
     var $working_file_schema;
     var $working_file_links;
@@ -1195,13 +1194,13 @@ class Openads_Schema_Manager
 
         $this->_buildBuffers($aChanges, 'constructive', $task_buffer, $method_buffer, $map_buffer);
         $this->_buildBuffers($aChanges, 'destructive', $task_buffer, $method_buffer, $map_buffer);
-        $this->_buildFieldMap($aChanges['fieldmap'], $map_buffer);
+        $this->_buildMap($aChanges['objectmap'], $map_buffer);
 
         $buffer = file_get_contents(MAX_PATH."/www/devel/schema/tpl/class_migration.tpl");
         $buffer = str_replace('/*version*/' , $aChanges['version'], $buffer);
         $buffer = str_replace('/*methods*/' , $method_buffer, $buffer);
         $buffer = str_replace('/*tasklist*/', $task_buffer, $buffer);
-        $buffer = str_replace('/*fieldmap*/', $map_buffer, $buffer);
+        $buffer = str_replace('/*objectmap*/', $map_buffer, $buffer);
 
         $file = "migration_{$aChanges['version']}.php";
         if (!$output_path)
@@ -1229,18 +1228,18 @@ class Openads_Schema_Manager
      * grab the tasks from the changeset
      *
      * @param array $aChanges
-     * @param string $task_type
+     * @param string $timing
      * @param string $task_buffer
      * @param string $method_buffer
      */
-    function _buildBuffers($aChanges, $task_type, &$task_buffer, &$method_buffer)
+    function _buildBuffers($aChanges, $timing, &$task_buffer, &$method_buffer)
     {
-        foreach ($aChanges['hooks'][$task_type]['tables'] AS $table => $aTable_hooks)
+        foreach ($aChanges['hooks'][$timing]['tables'] AS $table => $aTable_hooks)
         {
             $params = "'{$table}'";
             foreach ($aTable_hooks['self'] AS $parent => $method)
             {
-                $task_buffer.= $this->_buildTask($method, $task_type);
+                $task_buffer.= $this->_buildTask($method, $timing);
                 $method_buffer.= $this->_buildMethod($method, $parent, $params);
             }
 
@@ -1249,7 +1248,7 @@ class Openads_Schema_Manager
                 foreach ($aField_hooks AS $parent => $method)
                 {
                     $params = "'{$table}', '{$field}'";
-                    $task_buffer.= $this->_buildTask($method, $task_type);
+                    $task_buffer.= $this->_buildTask($method, $timing);
                     $method_buffer.= $this->_buildMethod($method, $parent, $params);
                 }
             }
@@ -1258,7 +1257,7 @@ class Openads_Schema_Manager
                 foreach ($aIndex_hooks AS $parent => $method)
                 {
                     $params = "'{$table}', '{$index}'";
-                    $task_buffer.= $this->_buildTask($method, $task_type);
+                    $task_buffer.= $this->_buildTask($method, $timing);
                     $method_buffer.= $this->_buildMethod($method, $parent, $params);
                 }
             }
@@ -1270,9 +1269,9 @@ class Openads_Schema_Manager
      * @param string $method
      * @return string
      */
-    function _buildTask($method, $task_type)
+    function _buildTask($method, $timing)
     {
-        return "\n\t\t\$this->{$task_type}_taskList[] = '{$method}';";
+        return "\n\t\t\$this->aTaskList_{$timing}[] = '{$method}';";
     }
 
     /**
@@ -1281,11 +1280,18 @@ class Openads_Schema_Manager
      * @param string $method
      * @return string
      */
-    function _buildFieldMap($fieldmap_array, &$map_buffer)
+    function _buildMap($map_array, &$map_buffer)
     {
-        foreach ($fieldmap_array AS $k => $map)
+        foreach ($map_array AS $k => $map)
         {
-            $map_buffer.= "\n\t\t\$this->field_map['{$map['toTable']}']['{$map['toField']}'] = array('fromTable'=>'{$map['fromTable']}', 'fromField'=>'{$map['fromField']}');";
+            if ($map['toField'] && $map['fromField'])
+            {
+                $map_buffer.= "\n\t\t\$this->aObjectMap['{$map['toTable']}']['{$map['toField']}'] = array('fromTable'=>'{$map['fromTable']}', 'fromField'=>'{$map['fromField']}');";
+            }
+            else
+            {
+                $map_buffer.= "\n\t\t\$this->aObjectMap['{$map['toTable']}'] = array('fromTable'=>'{$map['fromTable']}');";
+            }
         }
     }
 
@@ -1302,7 +1308,7 @@ class Openads_Schema_Manager
 
         return   "\n\n\tfunction {$method_name}()"
                 ."\n\t{"
-                ."\n\t\t\$this->{$parent_name}({$params});"
+                ."\n\t\treturn \$this->{$parent_name}({$params});"
                 ."\n\t}";
     }
 

@@ -38,42 +38,50 @@ $Id$
 require_once '../../../init.php';
 define('MAX_DEV', MAX_PATH.'/www/devel');
 
-
 // Required files
 require_once MAX_DEV.'/lib/pear.inc.php';
 require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
 require_once 'Config.php';
-
 require_once MAX_PATH.'/lib/OA/DB.php';
-//require_once MAX_PATH.'/lib/OA/DB/Table.php';
-//require_once MAX_PATH.'/lib/OA/Dal/Links.php';
-
 require_once MAX_DEV.'/lib/openads/DB_Upgrade.php';
 
 $welcome = false;
 $backup  = false;
 $upgrade = false;
 
+//$version = 3;
+//$timing = 'constructive';
+
+//$version = 4;
+//$timing = 'constructive';
+
+//$version = 5;
+//$timing = 'destructive';
+
+$version = 6;
+$timing = 'destructive';
+
 if (array_key_exists('btn_initialise', $_REQUEST))
 {
     $oUpgrade = new OA_DB_Upgrade();
-    $oUpgrade->init('constructive', 2);
-    $backup = true;
+    $oUpgrade->init($timing, $version);
+//    $backup = true;
+    $upgrade = true;
     include 'tpl/upgrade.html';
 }
 else if (array_key_exists('btn_backup', $_REQUEST))
 {
     $oUpgrade = new OA_DB_Upgrade();
-    $oUpgrade->init('constructive', 2);
-    $oUpgrade->_createBackup();
+    $oUpgrade->init($timing, $version);
+    $oUpgrade->backup();
     $upgrade = true;
     include 'tpl/upgrade.html';
 }
 else if (array_key_exists('btn_upgrade', $_POST))
 {
     $oUpgrade = new OA_DB_Upgrade();
-    if ($oUpgrade->init('constructive', 2))
+    if ($oUpgrade->init($timing, $version))
     {
         $oUpgrade->upgrade();
     }

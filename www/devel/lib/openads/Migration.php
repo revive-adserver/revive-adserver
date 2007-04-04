@@ -9,10 +9,10 @@ require_once('MDB2.php');
 
 class Migration
 {
-    var $field_map;
+    var $aObjectMap;
 
-    var $constructive_taskList;
-    var $destructive_taskList;
+    var $aTaskList_constructive;
+    var $aTaskList_destructive;
 
     function Migration()
     {
@@ -21,104 +21,126 @@ class Migration
 
     function __construct()
     {
-		$this->field_map = array();
-	    //$this->field_map['totablename']['tofieldname'] = array('fromTable'=>'fromtablename', 'fromField'=>'fromfieldname');
+		$this->aObjectMap = array();
+		//$this->aObjectMap['totablename'] = array('fromTable'=>'fromtablename');
+		//or
+	    //$this->aObjectMap['totablename']['tofieldname'] = array('fromTable'=>'fromtablename', 'fromField'=>'fromfieldname');
     }
 
     function logEvent($event, $params=array())
     {
+
     }
 
     function copyData($fromTable, $fromColumn, $toTable, $toColumn)
     {
         // do copy data
+        return true;
     }
 
     function beforeAddTable($table)
     {
-
+        if ($this->aObjectMap[$table])
+        {
+            $fromTable = $this->aObjectMap[$table]['fromTable'];
+            return $this->copyData($fromTable, '', $table, '');
+        }
+        return true;
     }
 
     function afterAddTable($table)
     {
-
+        return true;
     }
 
     function beforeAddField($table, $field)
     {
-
+        return true;
     }
 
     function afterAddField($table, $field)
     {
-        if ($this->field_map[$table][$field])
+        if ($this->aObjectMap[$table][$field])
         {
-            $fromTable = $this->field_map[$table][$field]['fromTable'];
-            $fromField = $this->field_map[$table][$field]['fromField'];
-            $this->copyData($fromTable, $fromField, $table, $field);
+            $fromTable = $this->aObjectMap[$table][$field]['fromTable'];
+            $fromField = $this->aObjectMap[$table][$field]['fromField'];
+            return $this->copyData($fromTable, $fromField, $table, $field);
         }
+        return true;
     }
 
     function beforeRenameField($table, $field)
     {
         // the $field param is the new field name
         // look up the field map to get the old field name
+        return true;
     }
 
     function afterRenameField($table, $field)
     {
         // the $field param is the new field name
         // look up the field map to get the old field name
+        return true;
     }
 
     function beforeAlterField($table, $field)
     {
-
+        return true;
     }
 
     function afterAlterField($table, $field)
     {
-
+        return true;
     }
 
     function beforeAddIndex($table, $index)
     {
-
+        return true;
     }
 
     function afterAddIndex($table, $index)
     {
-
+        return true;
     }
 
     function beforeRemoveTable($table)
     {
-
+        return true;
     }
 
     function afterRemoveTable($table)
     {
+        return true;
+    }
 
+    function beforeRenameTable($table)
+    {
+        return true;
+    }
+
+    function afterRenameTable($table)
+    {
+        return true;
     }
 
     function beforeRemoveField($table, $field)
     {
-
+        return true;
     }
 
     function afterRemoveField($table, $field)
     {
-
+        return true;
     }
 
     function beforeRemoveIndex($table, $index)
     {
-
+        return true;
     }
 
     function afterRemoveIndex($table, $index)
     {
-
+        return true;
     }
 }
 
