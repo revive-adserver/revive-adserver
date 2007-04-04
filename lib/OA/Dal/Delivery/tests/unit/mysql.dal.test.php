@@ -39,16 +39,37 @@ require_once 'Log.php';
  * @subpackage TestSuite
  * @author     Unknown!
  */
-class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
+class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
 {
+    /**
+     * A private method to test if it is okay to run these tests
+     * or not.
+     *
+     * @access private
+     * @return boolean True if the database in used is MySQL, false
+     *                 otherwise.
+     */
+    function _testOkayToRun()
+    {
+        if ($this->db->dsn['phptype'] == 'mysql') {
+            return true;
+        }
+        return false;
+    }
 
     function setUpFixture()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $error = TestEnv::loadData('0.3.27_delivery', 'insert');
     }
 
     function tearDownFixture()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         TestEnv::restoreEnv();
     }
 
@@ -58,6 +79,9 @@ class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
      */
     function test_OA_Dal_Delivery_connect()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $GLOBALS['_MAX']['ADMIN_DB_LINK'] = OA_Dal_Delivery_connect();
         $this->assertNoErrors('test_OA_Dal_Delivery_query');
         $this->assertEqual(get_resource_type($GLOBALS['_MAX']['ADMIN_DB_LINK']), 'mysql link');
@@ -69,6 +93,9 @@ class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
      */
     function test_OA_Dal_Delivery_query()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $res = OA_Dal_Delivery_query("SELECT * FROM banners limit 1");
         $this->assertTrue($res);
         $row = @mysql_fetch_array($res);
@@ -82,6 +109,9 @@ class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
      */
     function test_OA_Dal_Delivery_getZoneInfo()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $zoneid     = 61;
         $aReturn    = OA_Dal_Delivery_getZoneInfo($zoneid);
         //$prn        = var_export($aReturn, TRUE);
@@ -95,6 +125,9 @@ class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
      */
     function test_OA_Dal_Delivery_getZoneLinkedAds()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $zoneid     = 61;
         $aReturn    = OA_Dal_Delivery_getZoneLinkedAds($zoneid);
 
@@ -125,6 +158,9 @@ class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
      */
     function test_OA_Dal_Delivery_getLinkedAds()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $placementid = 1;
         $search     = 'campaignid:'.$placementid;
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
@@ -142,6 +178,9 @@ class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
      */
     function test_OA_Dal_Delivery_getAd()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $ad_id      = 1;
         $aReturn    = OA_Dal_Delivery_getAd($ad_id);
         $this->assertIsA($aReturn, 'array');
@@ -154,6 +193,9 @@ class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
      */
     function test_OA_Dal_Delivery_getChannelLimitations()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         $channelid  = 1;
         $aReturn    = OA_Dal_Delivery_getChannelLimitations($channelid);
         //$prn        = var_export($aReturn, TRUE);
@@ -167,6 +209,9 @@ class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
      **/
     function test_OA_Dal_Delivery_getCreative()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
 //        $filename   = 'adOneTwoOneID.gif';
 //        $aReturn    = OA_Dal_Delivery_getCreative($filename);
 //        $prn        = var_export($aReturn, TRUE);
@@ -185,6 +230,9 @@ class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
      */
     function test_lastTest()
     {
+        if (!$this->_testOkayToRun()) {
+            return;
+        }
         TestEnv::restoreEnv();
     }
 }
