@@ -261,16 +261,16 @@ class OA_DB
         if (PEAR::isError($result)) {
             return false;
         }
-        $functionsFile = MAX_PATH . '/etc/core.' . $oDbh->dsn['phptype'];
+        $functionsFile = MAX_PATH . '/etc/core.' . $oDbh->dsn['phptype'] . '.php';
         if (is_readable($functionsFile)) {
-            $fh = fopen($functionsFile, 'r');
-            $sql = fread($fh, filesize($functionsFile));
-            fclose($fh);
+            include $functionsFile;
             OA_DB::disconnectAll();
             $oDbh = &OA_DB::singleton();
-            $rows = $oDbh->exec($sql);
-            if (PEAR::isError($rows)) {
-                return false;
+            foreach ($aCustomFunctions as $customFunction) {
+                $rows = $oDbh->exec($customFunction);
+                if (PEAR::isError($rows)) {
+                    return false;
+                }
             }
         }
         return true;
