@@ -26,10 +26,14 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
-require_once MAX_PATH . '/lib/max/OperationInterval.php';
 
 require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+
+require_once 'Date.php';
+
 
 /**
  * A non-DB specific base Data Abstraction Layer (DAL) class that provides
@@ -41,6 +45,7 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
  */
 class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
 {
+    var $aTables;
 
     /**
      * The class constructor method.
@@ -49,9 +54,22 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
     {
         parent::MAX_Dal_Common();
 
-        $this->doLbLocal = OA_Dal::factoryDO('lb_local');
+        $this->aTables = array(
+            'data_raw_ad_request',
+            'data_raw_ad_impression',
+            'data_raw_ad_click',
+            'data_raw_tracker_impression',
+            'data_raw_tracker_click',
+            'data_raw_tracker_variable_value',
+        );
     }
 
+    /**
+     * A method to store details on the last time that the distributed maintenance
+     * process ran.
+     *
+     * @param object $oDate a PEAR_Date instance
+     */
     function setMaintenanceDistributedLastRunInfo($oDate)
     {
 		$doLbLocal = OA_Dal::factoryDO('lb_local');
@@ -63,6 +81,12 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
         }
     }
 
+    /**
+     * A method to retrieve details on the last time that the distributed maintenance
+     * process ran.
+     *
+     * @return mixed A PEAR_Date instance or false if there is no need to run distributed maintenance
+     */
     function getMaintenanceDistributedLastRunInfo()
     {
 		$doLbLocal = OA_Dal::factoryDO('lb_local');
@@ -71,30 +95,54 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
 		if ($doLbLocal->fetch()) {
 		    return new Date((int)$doLbLocal->last_run);
 		} else {
-		    $oDateImp   = $this->_getFirstRecordTimestamp('data_raw_ad_impression');
-		    $oDateClick = $this->_getFirstRecordTimestamp('data_raw_ad_click');
-
-		    if (!is_null($oDateImp)) {
-		        if (!is_null($oDateClick)) {
-		            if ($oDateClick->before(new Date($oDateImp))) {
-		                return $oDateClick;
-		            }
+		    $oDate = false;
+		    foreach ($aTables as $sTableName) {
+		        $oTableDate = $this->_getFirstRecordTimestamp($sTableName);
+		        if (($oDate) || ($oTableDate && $oDate->after(new Date($oTableDate)))) {
+		            $oDate = new Date($oTableDate);
 		        }
-
-		        return $oDateImp;
 		    }
 
-		    return new Date('2000-01-01');
+		    return $oDate;
 		}
     }
 
-    function processTable($sTableName, $oStart, $oEnd)
+    /**
+     * A method to process all the tables and copy data to the main database.
+     *
+     * @param object $oStart A PEAR_Date instance, starting timestamp
+     * @param object $oEnd A PEAR_Date instance, ending timestamp
+     */
+    function processTables($oStart, $oEnd)
     {
+        foreach ($this->aTables as $sTableName) {
+            $this->_processTable($sTableName, $oStart, $oEnd);
+        }
+    }
+
+    /**
+     * A private method to process a table and copy data to the main database.
+     *
+     * @param string $sTableName The table to process
+     * @param object $oStart A PEAR_Date instance, starting timestamp
+     * @param object $oEnd A PEAR_Date instance, ending timestamp
+     */
+    function _processTable($sTableName, $oStart, $oEnd)
+    {
+        OA::debug(' - Copying '.$TableName.' from '.$oStart->format('%Y-%m-%d %H:%M:%S').' to '.$oEnd->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
+
         $prefix = $this->getTablePrefix();
         $oMainDbh =& OA_DB_Distributed::singleton();
 
+        if (PEAR::isError($oMainDbh)) {
+            MAX::raiseError($oMainDbh, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        }
+
         $rsData =& $this->_getDataRawTableContent($sTableName, $oStart, $oEnd);
         $oStatement = null;
+
+        OA::debug('   '.$rsData->getRowCount().' records found', PEAR_LOG_INFO);
+
         while ($rsData->fetch()) {
             $aRow = $rsData->toArray();
             if (is_null($oStatement)) {
@@ -111,11 +159,23 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
                         ") VALUES (".
                             join(', ', $aBindings)."
                         )", null, MDB2_PREPARE_MANIP);
+                if (PEAR::isError($oStatement)) {
+                    MAX::raiseError($oStatement, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                }
             }
-            $oStatement->execute(array_values($aRow));
+            $oInsert = $oStatement->execute(array_values($aRow));
+            if (PEAR::isError($oInsert)) {
+                MAX::raiseError($oInsert, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+            }
         }
     }
 
+    /**
+     * A method to get the timestamp of the first record, if any.
+     *
+     * @param string $sTableName The table to check for
+     * @return mixed a PEAR_Date object or false if the table is empty
+     */
     function _getFirstRecordTimestamp($sTableName)
     {
         $prefix = $this->getTablePrefix();
@@ -129,12 +189,20 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
         $sTimestamp = $this->oDbh->getOne($query);
 
         if (PEAR::isError($sTimestamp) || empty($sTimestamp)) {
-            return null;
+            return false;
         }
 
         return new Date($sTimestamp);
     }
 
+    /**
+     * A method to retrieve the table content as a recordset.
+     *
+     * @param string $sTableName The table to process
+     * @param object $oStart A PEAR_Date instance, starting timestamp
+     * @param object $oEnd A PEAR_Date instance, ending timestamp
+     * @return object A recordset of the results
+     */
     function _getDataRawTableContent($sTableName, $oStart, $oEnd)
     {
         $oEnd->subtractSeconds(1);

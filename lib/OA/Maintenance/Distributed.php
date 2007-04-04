@@ -26,12 +26,14 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/Max.php';
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
-require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
-
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed.php';
+
+require_once 'Date.php';
+
 
 /**
  * A library class for providing automatic maintenance process methods.
@@ -43,40 +45,47 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed.php';
  */
 class OA_Maintenance_Distributed
 {
+    /**
+     * A method to run distributed maintenance.
+     */
     function run()
     {
         $oLock =& OA_DB_AdvisoryLock::factory();
 
     	if ($oLock->get(OA_DB_ADVISORYLOCK_DISTIRBUTED))
     	{
-            MAX::debug('Running Distributed Statistics Engine', PEAR_LOG_INFO);
+            OA::debug('Running Maintenance Distributed Engine', PEAR_LOG_INFO);
 
-    	    $oDal  =& new OA_Dal_Maintenance_Distributed();
+    	    $oDal = new OA_Dal_Maintenance_Distributed();
 
             $oStart = $oDal->getMaintenanceDistributedLastRunInfo();
 
-            // Ensure the the current time is registered with the ServiceLocator
-            $oServiceLocator = &ServiceLocator::instance();
-            $oEnd = &$oServiceLocator->get('now');
-            if (!$oEnd) {
-                // Record the current time, and register with the ServiceLocator
-                $oEnd = new Date();
-                $oServiceLocator->register('now', $oEnd);
+            if ($oStart) {
+                // Ensure the the current time is registered with the ServiceLocator
+                $oServiceLocator = &ServiceLocator::instance();
+                $oEnd = &$oServiceLocator->get('now');
+                if (!$oEnd) {
+                    // Record the current time, and register with the ServiceLocator
+                    $oEnd = new Date();
+                    $oServiceLocator->register('now', $oEnd);
+                }
+
+                // Copy statistics up to the previous second
+                $oEnd->subtractSeconds(1);
+
+                // Copy tables
+                $oDal->processTables($oStart, $oEnd);
+
+                $oDal->setMaintenanceDistributedLastRunInfo($oEnd);
+            } else {
+                OA::debug(' - No data to copy over', PEAR_LOG_INFO);
             }
-
-            // Copy statistics up to the previous second
-            $oEnd->subtractSeconds(1);
-
-            $oDal->processTable('data_raw_ad_impression', $oStart, $oEnd);
-            $oDal->processTable('data_raw_ad_click', $oStart, $oEnd);
-
-            $oDal->setMaintenanceDistributedLastRunInfo($oEnd);
 
     		$oLock->release();
 
-            MAX::debug('Distributed Statistics Engine Completed', PEAR_LOG_INFO);
+            OA::debug('Maintenance Distributed Engine Completed', PEAR_LOG_INFO);
     	} else {
-            MAX::debug('Distributed Statistics Engine Already Running', PEAR_LOG_INFO);
+            OA::debug('Maintenance Distributed Engine Already Running', PEAR_LOG_INFO);
     	}
     }
 }
