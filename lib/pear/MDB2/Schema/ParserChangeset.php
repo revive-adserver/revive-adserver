@@ -52,7 +52,7 @@ class MDB2_Changeset_Parser extends XML_Parser
 
     var $tasks = array();
     var $hooks = array();
-    var $fieldmap = array();
+    var $objectmap = array();
     var $affected_tables = array('constructive'=>array(), 'destructive'=>array());
 
     var $name;
@@ -203,6 +203,7 @@ class MDB2_Changeset_Parser extends XML_Parser
             case 'instructionset-constructive-changeset-change-table-index-add-was':
             case 'instructionset-constructive-changeset-change-table-index-add-indexfield-name':
             case 'instructionset-constructive-changeset-change-table-index-add-indexfield-sorting':
+            case 'instructionset-constructive-changeset-change-table-index-add-indexfield-order':
                 break;
 
             case 'instructionset-destructive':
@@ -233,15 +234,15 @@ class MDB2_Changeset_Parser extends XML_Parser
             	break;
             case 'instructionset-destructive-changeset-change-table-remove-field-name':
             	break;
-            case 'instructionset-destructive-changeset-table-index':
+            case 'instructionset-constructive-changeset-table-index':
                 break;
-            case 'instructionset-destructive-changeset-change-table-index':
+            case 'instructionset-constructive-changeset-change-table-index':
                 break;
-            case 'instructionset-destructive-changeset-change-table-index-remove':
+            case 'instructionset-constructive-changeset-change-table-index-remove':
                 $this->index_name = '';
                 $this->index    = array();
                 break;
-            case 'instructionset-destructive-changeset-change-table-index-remove-name':
+            case 'instructionset-constructive-changeset-change-table-index-remove-name':
                 break;
 
 
@@ -260,7 +261,7 @@ class MDB2_Changeset_Parser extends XML_Parser
                 $this->instructionset['tasks'] = $this->tasks;
                 $this->instructionset['hooks'] = $this->hooks;
                 $this->instructionset['test'] = $this->test;
-                $this->instructionset['fieldmap'] = $this->fieldmap;
+                $this->instructionset['objectmap'] = $this->objectmap;
             	break;
             case 'instructionset-name':
                 $this->instructionset['name'] = $this->name;
@@ -288,11 +289,24 @@ class MDB2_Changeset_Parser extends XML_Parser
             case 'instructionset-constructive-changeset-add-table':
                 if (!isset($this->constructive_changeset_definition['tables']['add'][$this->table_name]))
                 {
-                    $this->constructive_changeset_definition['tables']['add'][$this->table_name] = true;
+                    $this->constructive_changeset_definition['tables']['add'][$this->table_name] = $this->table;
                     $this->hooks['constructive']['tables'][$this->table_name]['self']['beforeAddTable'] = "beforeAddTable__{$this->table_name}";
                     $this->tasks['constructive']['tables'][$this->table_name]['self']['add']    = "doAddTable__{$this->table_name}";
                     $this->hooks['constructive']['tables'][$this->table_name]['self']['afterAddTable']  = "afterAddTable__{$this->table_name}";
                     $this->affected_tables['constructive'][] = $this->table_name;
+                }
+            	break;
+            case 'instructionset-constructive-changeset-rename':
+            	break;
+            case 'instructionset-constructive-changeset-rename-table':
+                if (!isset($this->constructive_changeset_definition['tables']['rename'][$this->table_name]))
+                {
+                    $this->constructive_changeset_definition['tables']['rename'][$this->table_name] = $this->table;
+                    $this->hooks['constructive']['tables'][$this->table_name]['self']['beforeRenameTable'] = "beforeRenameTable__{$this->table_name}";
+                    $this->tasks['constructive']['tables'][$this->table_name]['self']['rename']    = "doRenameTable__{$this->table_name}";
+                    $this->hooks['constructive']['tables'][$this->table_name]['self']['afterRenameTable']  = "afterRenameTable__{$this->table_name}";
+                    $this->affected_tables['constructive'][] = $this->table['was'];
+                    $this->objectmap[] = array('toTable'=>$this->table_name, 'fromTable'=>$this->table['was']);
                 }
             	break;
             case 'instructionset-constructive-changeset-change':
@@ -318,7 +332,7 @@ class MDB2_Changeset_Parser extends XML_Parser
                 $this->hooks['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['beforeAddField'] = "beforeAddField__{$this->table_name}__{$this->field_name}";
                 $this->tasks['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['add']    = "doAddField__{$this->table_name}__{$this->field_name}";
                 $this->hooks['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['afterAddField']  = "afterAddField__{$this->table_name}__{$this->field_name}";
-                $this->fieldmap[] = array('toTable'=>$this->table_name,'toField'=>$this->field_name, 'fromTable'=>$this->table_name, 'fromField'=>$this->field['was']);
+                $this->objectmap[] = array('toTable'=>$this->table_name,'toField'=>$this->field_name, 'fromTable'=>$this->table_name, 'fromField'=>$this->field['was']);
             	break;
             case 'instructionset-constructive-changeset-change-table-add-field-name':
             case 'instructionset-constructive-changeset-change-table-add-field-type':
@@ -336,7 +350,7 @@ class MDB2_Changeset_Parser extends XML_Parser
                 $this->hooks['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['beforeRenameField'] = "beforeRenameField__{$this->table_name}__{$this->field_name}";
                 $this->tasks['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['rename']    = "doRenameField__{$this->table_name}__{$this->field_name}";
                 $this->hooks['constructive']['tables'][$this->table_name]['fields'][$this->field_name]['afterRenameField']  = "afterRenameField__{$this->table_name}__{$this->field_name}";
-                $this->fieldmap[] = array('toTable'=>$this->table_name,'toField'=>$this->field_name, 'fromTable'=>$this->table_name, 'fromField'=>$this->field['was']);
+                $this->objectmap[] = array('toTable'=>$this->table_name,'toField'=>$this->field_name, 'fromTable'=>$this->table_name, 'fromField'=>$this->field['was']);
             	break;
             case 'instructionset-constructive-changeset-change-table-rename-field-name':
             case 'instructionset-constructive-changeset-change-table-rename-field-type':
@@ -380,6 +394,7 @@ class MDB2_Changeset_Parser extends XML_Parser
             case 'instructionset-constructive-changeset-change-table-index-add-was':
             case 'instructionset-constructive-changeset-change-table-index-add-indexfield-name':
             case 'instructionset-constructive-changeset-change-table-index-add-indexfield-sorting':
+            case 'instructionset-constructive-changeset-change-table-index-add-indexfield-order':
                 break;
 
             case 'instructionset-destructive':
@@ -424,16 +439,16 @@ class MDB2_Changeset_Parser extends XML_Parser
                 $this->hooks['destructive']['tables'][$this->table_name]['fields'][$this->field_name]['afterRemoveField']  = "afterRemoveField__{$this->table_name}__{$this->field_name}";
             	break;
 
-            case 'instructionset-destructive-changeset-change-table-index':
-                $this->affected_tables['destructive'][] = $this->table_name;
+            case 'instructionset-constructive-changeset-change-table-index':
+                $this->affected_tables['constructive'][] = $this->table_name;
                 break;
-            case 'instructionset-destructive-changeset-change-table-index-remove':
+            case 'instructionset-constructive-changeset-change-table-index-remove':
                 $this->destructive_changeset_definition['tables']['change'][$this->table_name]['indexes']['remove'][$this->index_name] = true;
-                $this->hooks['destructive']['tables'][$this->table_name]['indexes'][$this->index_name]['beforeRemoveIndex'] = "beforeRemoveIndex__{$this->table_name}__{$this->index_name}";
-                $this->tasks['destructive']['tables'][$this->table_name]['indexes'][$this->index_name]['remove']    = "doRemoveIndex__{$this->table_name}__{$this->index_name}";
-                $this->hooks['destructive']['tables'][$this->table_name]['indexes'][$this->index_name]['afterRemoveIndex']  = "afterRemoveIndex__{$this->table_name}__{$this->index_name}";
+                $this->hooks['constructive']['tables'][$this->table_name]['indexes'][$this->index_name]['beforeRemoveIndex'] = "beforeRemoveIndex__{$this->table_name}__{$this->index_name}";
+                $this->tasks['constructive']['tables'][$this->table_name]['indexes'][$this->index_name]['remove']    = "doRemoveIndex__{$this->table_name}__{$this->index_name}";
+                $this->hooks['constructive']['tables'][$this->table_name]['indexes'][$this->index_name]['afterRemoveIndex']  = "afterRemoveIndex__{$this->table_name}__{$this->index_name}";
                 break;
-            case 'instructionset-destructive-changeset-change-table-index-remove-name':
+            case 'instructionset-constructive-changeset-change-table-index-remove-name':
                 break;
 
         }
@@ -510,7 +525,22 @@ class MDB2_Changeset_Parser extends XML_Parser
             case 'instructionset-constructive-changeset-add':
             	break;
             case 'instructionset-constructive-changeset-add-table':
+            	break;
+            case 'instructionset-constructive-changeset-add-table-name':
                 $this->table_name = $data;
+            	break;
+            case 'instructionset-constructive-changeset-add-table-was':
+                $this->table['was'] = $data;
+            	break;
+            case 'instructionset-constructive-changeset-rename':
+            	break;
+            case 'instructionset-constructive-changeset-rename-table':
+            	break;
+            case 'instructionset-constructive-changeset-rename-table-name':
+                $this->table_name = $data;
+            	break;
+            case 'instructionset-constructive-changeset-rename-table-was':
+                $this->table['was'] = $data;
             	break;
             case 'instructionset-constructive-changeset-change':
             	break;
@@ -618,7 +648,9 @@ class MDB2_Changeset_Parser extends XML_Parser
             case 'instructionset-constructive-changeset-change-table-index-add-indexfield-sorting':
                 $this->field['sorting'] = $data;
                 break;
-
+            case 'instructionset-constructive-changeset-change-table-index-add-indexfield-order':
+                $this->field['order'] = $data;
+                break;
 
             case 'instructionset-destructive':
             	break;
@@ -650,12 +682,12 @@ class MDB2_Changeset_Parser extends XML_Parser
                 $this->field_name = $data;
             	break;
 
-            case 'instructionset-destructive-changeset-change-table-index':
+            case 'instructionset-constructive-changeset-change-table-index':
                 break;
-            case 'instructionset-destructive-changeset-change-table-index-remove':
+            case 'instructionset-constructive-changeset-change-table-index-remove':
 //                $this->destructive_changeset_definition['tables']['change'][$this->table_name]['indexes']['remove']['field'] = array();
                 break;
-            case 'instructionset-destructive-changeset-change-table-index-remove-name':
+            case 'instructionset-constructive-changeset-change-table-index-remove-name':
                 $this->index_name = $data;
                 break;
         }

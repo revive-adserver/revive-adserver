@@ -125,9 +125,16 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
             if (isset($changes['tables']['add']))
             {
                 $constructive['tables']['add'] = array();
-                foreach ($changes['tables']['add'] AS $table=>$bool)
+                foreach ($changes['tables']['add'] AS $table=>$aVal)
                 {
-                    $constructive['tables']['add'][$table] = $bool;
+                    if (isset($aVal['was']) && ($table == $aVal['was']))
+                    {
+                        $constructive['tables']['add'][$table] = $aVal['was'];
+                    }
+                    else
+                    {
+                        $constructive['tables']['rename'][$table] = $aVal['was'];
+                    }
                 }
             }
             if (isset($changes['tables']['change']))
@@ -167,7 +174,7 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
                         }
                         if (isset($aTable['indexes']['remove']))
                         {
-                            $destructive['tables']['change'][$table]['indexes']['remove'] = $aTable['indexes']['remove'];
+                            $constructive['tables']['change'][$table]['indexes']['remove'] = $aTable['indexes']['remove'];
                         }
                         if (isset($aTable['indexes']['change']))
                         {
@@ -196,7 +203,7 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
                                     }
                                     foreach ($aTable['indexes']['change'] AS $k=>$v)
                                     {
-                                        $destructive['tables']['change'][$table]['indexes']['remove'][$k] = 'true';
+                                        $constructive['tables']['change'][$table]['indexes']['remove'][$k] = 'true';
                                     }
                                 }
                             }
@@ -377,11 +384,26 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
             if (isset($changes['tables']['add']))
             {
                 $this->writeXMLline("add");
-                foreach ($changes['tables']['add'] AS $table=>$bool)
+                foreach ($changes['tables']['add'] AS $table=>$was)
                 {
-                    $this->writeXMLline("table", $table, 'IN', true);
+                    $this->writeXMLline("table", '', 'IN');
+                    $this->writeXMLline("name", $table, '', true);
+                    $this->writeXMLline("was", $was, '', true);
+                    $this->writeXMLline("/table", '', 'OUT');
                 }
                 $this->writeXMLline("/add", '', 'OUT');
+            }
+            if (isset($changes['tables']['rename']))
+            {
+                $this->writeXMLline("rename");
+                foreach ($changes['tables']['rename'] AS $table=>$aTable)
+                {
+                    $this->writeXMLline("table", '', 'IN');
+                    $this->writeXMLline("name", $table, '', true);
+                    $this->writeXMLline("was", $aTable['was'], '', true);
+                    $this->writeXMLline("/table", '', 'OUT');
+                }
+                $this->writeXMLline("/rename", '', 'OUT');
             }
             if (isset($changes['tables']['change']))
             {
@@ -508,6 +530,10 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
                                     if (isset($val['sorting']))
                                     {
                                         $this->writeXMLline("sorting", $val['sorting'], '', true);
+                                    }
+                                    if (isset($val['order']))
+                                    {
+                                        $this->writeXMLline("order", $val['order'], '', true);
                                     }
                                     $this->writeXMLline('/indexfield', '', 'OUT');
                                 }
