@@ -51,7 +51,7 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
      */
     function _testOkayToRun()
     {
-        if ($this->db->dsn['phptype'] == 'mysql') {
+        if ($GLOBALS['_MAX']['conf']['database']['type'] == 'mysql') {
             return true;
         }
         return false;
