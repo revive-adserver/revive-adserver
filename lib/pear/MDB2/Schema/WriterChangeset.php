@@ -127,13 +127,13 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
                 $constructive['tables']['add'] = array();
                 foreach ($changes['tables']['add'] AS $table=>$aVal)
                 {
-                    if (isset($aVal['was']) && ($table == $aVal['was']))
+                    if (is_array($aVal) && isset($aVal['was'])) // && ($table == $aVal['was']))
                     {
-                        $constructive['tables']['add'][$table] = $aVal['was'];
+                        $constructive['tables']['rename'][$table] = $aVal['was'];
                     }
                     else
                     {
-                        $constructive['tables']['rename'][$table] = $aVal['was'];
+                        $constructive['tables']['add'][$table] = $aVal;
                     }
                 }
             }
