@@ -46,7 +46,8 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
         
         $query = "
             SELECT
-                p.*
+                p.affiliateid AS affiliateid,
+                p.name AS name
             FROM
                 {$prefix}ad_zone_assoc aza
                 JOIN {$prefix}zones z ON (aza.zone_id = z.zoneid)
