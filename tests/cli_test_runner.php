@@ -49,14 +49,13 @@ if ($_SERVER['argc'] < 2) {
 }
 
 $php = $_SERVER['argv'][1];
-if ($_SERVER['argv'][2]) {
-    $aLayer = array($_SERVER['argv'][2]);
-} else {
-    $aLayer = array(
-        'unit',
-        'integration'
-    );
-}
+
+$testName = isset($_SERVER['argv'][2]) ? $_SERVER['argv'][2] : "";
+
+$aLayer = array(
+    'unit',
+    'integration'
+);
 
 $oReporter = new XmlReporter();
 $oReporter->paintGroupStart("Tests", count($aLayer));
@@ -66,7 +65,7 @@ foreach ($aLayer as $layer) {
     foreach ($aTestFiles as $subLayer => $aDirectories) {
         $oReporter->paintGroupStart("Sublayer $subLayer", count($aDirectories));
         foreach ($aDirectories as $dirName => $aFiles) {
-            $oReporter->paintCaseStart("Directory $dirName");
+            $oReporter->paintCaseStart("Directory $dirName ($testName)");
             foreach ($aFiles as $fileName) {
                 $oReporter->paintMethodStart($fileName);
                 $returncode = -1;

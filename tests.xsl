@@ -38,7 +38,8 @@
           <exec dir="tests" executable="@{{php}}" failonerror="false" output="build/test-results/@{{test.name}}.simpletest.xml" resultproperty="test.@{{test.name}}.result">
               <arg value="-q" />
               <arg value="cli_test_runner.php" />
-              <arg value="@{{php}}" />
+              <arg value="@{{php}}"/>
+              <arg value="@{{test.name}}"/>
           </exec>
           <xslt style="tests/simpletest2junit.xslt" basedir="build/test-results" destdir="build/test-reports">
             <mapper type="glob" from="@{{test.name}}.simpletest.xml" to="@{{test.name}}.junit.xml" />
