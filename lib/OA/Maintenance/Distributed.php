@@ -52,11 +52,11 @@ class OA_Maintenance_Distributed
     {
         $oLock =& OA_DB_AdvisoryLock::factory();
 
-    	if ($oLock->get(OA_DB_ADVISORYLOCK_DISTIRBUTED))
-    	{
+        if ($oLock->get(OA_DB_ADVISORYLOCK_DISTIRBUTED))
+        {
             OA::debug('Running Maintenance Distributed Engine', PEAR_LOG_INFO);
 
-    	    $oDal = new OA_Dal_Maintenance_Distributed();
+            $oDal = new OA_Dal_Maintenance_Distributed();
 
             $oStart = $oDal->getMaintenanceDistributedLastRunInfo();
 
@@ -81,12 +81,12 @@ class OA_Maintenance_Distributed
                 OA::debug(' - No data to copy over', PEAR_LOG_INFO);
             }
 
-    		$oLock->release();
+            $oLock->release();
 
             OA::debug('Maintenance Distributed Engine Completed', PEAR_LOG_INFO);
-    	} else {
+        } else {
             OA::debug('Maintenance Distributed Engine Already Running', PEAR_LOG_INFO);
-    	}
+        }
     }
 }
 

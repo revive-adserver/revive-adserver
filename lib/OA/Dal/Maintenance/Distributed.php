@@ -72,7 +72,7 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
      */
     function setMaintenanceDistributedLastRunInfo($oDate)
     {
-		$doLbLocal = OA_Dal::factoryDO('lb_local');
+        $doLbLocal = OA_Dal::factoryDO('lb_local');
         $doLbLocal->whereAdd('1=1');
         $doLbLocal->last_run = $oDate->getTime();
         $iRows = $doLbLocal->update(DB_DATAOBJECT_WHEREADD_ONLY);
@@ -89,22 +89,22 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
      */
     function getMaintenanceDistributedLastRunInfo()
     {
-		$doLbLocal = OA_Dal::factoryDO('lb_local');
-		$doLbLocal->find();
+        $doLbLocal = OA_Dal::factoryDO('lb_local');
+        $doLbLocal->find();
 
-		if ($doLbLocal->fetch()) {
-		    return new Date((int)$doLbLocal->last_run);
-		} else {
-		    $oDate = false;
-		    foreach ($aTables as $sTableName) {
-		        $oTableDate = $this->_getFirstRecordTimestamp($sTableName);
-		        if (($oDate) || ($oTableDate && $oDate->after(new Date($oTableDate)))) {
-		            $oDate = new Date($oTableDate);
-		        }
-		    }
+        if ($doLbLocal->fetch()) {
+            return new Date((int)$doLbLocal->last_run);
+        } else {
+            $oDate = false;
+            foreach ($aTables as $sTableName) {
+                $oTableDate = $this->_getFirstRecordTimestamp($sTableName);
+                if (($oDate) || ($oTableDate && $oDate->after(new Date($oTableDate)))) {
+                    $oDate = new Date($oTableDate);
+                }
+            }
 
-		    return $oDate;
-		}
+            return $oDate;
+        }
     }
 
     /**
