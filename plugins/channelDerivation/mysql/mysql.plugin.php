@@ -62,7 +62,7 @@ class Plugins_ChannelDerivation_Mysql_Mysql extends Plugins_ChannelDerivation
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        require_once(MAX_PATH . '/lib/max/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
+        require_once(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
 
         $rulesRes = MAX_Dal_Delivery_query("
             SELECT r.modifier, r.rule

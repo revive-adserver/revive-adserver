@@ -28,10 +28,10 @@ $Id$
 function MAX_Dal_Delivery_Include()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    if (isset($conf['origin']['type']) && is_readable(MAX_PATH . '/lib/max/Dal/Delivery/' . strtolower($conf['origin']['type']) . '.php')) {
-        require_once(MAX_PATH . '/lib/max/Dal/Delivery/' . strtolower($conf['origin']['type']) . '.php');
+    if (isset($conf['origin']['type']) && is_readable(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['origin']['type']) . '.php')) {
+        require_once(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['origin']['type']) . '.php');
     } else {
-        require_once(MAX_PATH . '/lib/max/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
+        require_once(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
     }
 }
 

@@ -47,7 +47,7 @@ class test_DeliveryAdRender extends UnitTestCase
         require_once MAX_PATH . '/lib/max/Delivery/common.php';
 
         // note: following code to extract test data from db
-        // require_once MAX_PATH . '/lib/max/Dal/Delivery/mysql.php';
+        // require_once MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
         // MAX_Dal_Delivery_connect();
         // $aBanner = (array)MAX_Dal_Delivery_getAd(7);
         // $prn    = print_r($aBanner, TRUE);
@@ -75,7 +75,7 @@ class test_DeliveryAdRender extends UnitTestCase
 		require_once MAX_PATH . '/lib/max/Delivery/common.php';
 
 		// note: following code to extract test data from db
-//        require_once MAX_PATH . '/lib/max/Dal/Delivery/mysql.php';
+//        require_once MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
 //        MAX_Dal_Delivery_connect();
 //        $aBanner = (array)MAX_Dal_Delivery_getAd(2);
 //        $prn    = print_r($aBanner, TRUE);
@@ -163,7 +163,7 @@ class test_DeliveryAdRender extends UnitTestCase
 	{
 		$this->sendMessage('test_adRenderHtml');
 
-        require_once MAX_PATH . '/lib/max/Dal/Delivery/mysql.php';
+        require_once MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
         MAX_Dal_Delivery_connect();
         $aBanner    = (array)MAX_Dal_Delivery_getAd(4);
         $prn        = print_r($aBanner, TRUE);
@@ -187,7 +187,7 @@ class test_DeliveryAdRender extends UnitTestCase
 	{
 		$this->sendMessage('test_adRenderText');
 // note: following code to extract test data from db
-//	      require_once MAX_PATH . '/lib/max/DAL/Delivery/mysql.php';
+//	      require_once MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
 //        MAX_Dal_Delivery_connect();
 //        $aBanner = (array)MAX_Dal_Delivery_getAd(5);
 //        $prn    = print_r($aBanner, TRUE);

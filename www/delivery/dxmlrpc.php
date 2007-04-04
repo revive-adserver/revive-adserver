@@ -30,7 +30,7 @@ $Id$
 require_once '../../init-delivery.php';
 
 // Require the DAL file for the delivery engine
-require_once(MAX_PATH . '/lib/max/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
+require_once(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
 
 // Require the XMLRPC classes
 require_once 'XML/RPC/Server.php';

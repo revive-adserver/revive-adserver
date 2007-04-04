@@ -62,7 +62,7 @@ class Plugins_ChannelDerivation_Xmlrpc_Xmlrpc extends Plugins_ChannelDerivation
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        require_once(MAX_PATH . '/lib/max/Dal/Delivery/' . strtolower($this->package) . '.php');
+        require_once(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($this->package) . '.php');
 
         $xParams = array(
             'module'  => $this->module,
