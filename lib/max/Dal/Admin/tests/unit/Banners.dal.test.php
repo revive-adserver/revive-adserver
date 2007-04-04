@@ -211,8 +211,13 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
         $doBanners->alt = 'bar';
         $doBanners->campaignid = $campaignId;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
-        $bannerId = DataGenerator::generateOne($doBanners, true);
-        $agencyId = DataGenerator::getReferenceId('agency');
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $bannerId = $dg->generate($doBanners, 1, true);
+        $agencyId = $dg->getReferenceId('agency');
 
         // Search for banner by description
         $expected = 1;
@@ -239,7 +244,9 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
     function testMoveBannerToCampaign()
     {
         // Insert a banner
-        $bannerId = DataGenerator::generateOne('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $bannerId = DataGenerator::generateOne($doBanners);
 
         // Move it
         $newCampaignId = 99;
@@ -253,7 +260,14 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
     function testGetBannersCampaignsClients()
     {
         // Insert 2 banners
-        $aBannerId = DataGenerator::generate('banners', 2, true);
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $aBannerIds = $dg->generate($doBanners, 2, true);
 
         // Check the correct number of rows returned
         $expectedRows = 2;
