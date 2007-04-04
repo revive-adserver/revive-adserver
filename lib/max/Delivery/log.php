@@ -52,7 +52,7 @@ function MAX_Delivery_log_logAdRequest($viewerId, $adId, $creativeId, $zoneId)
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_request'];
         MAX_Dal_Delivery_Include();
-        MAX_Dal_Delivery_logAction(
+        OA_Dal_Delivery_logAction(
             $table,
             $viewerId,
             $adId,
@@ -81,7 +81,7 @@ function MAX_Delivery_log_logAdImpression($viewerId, $adId, $creativeId, $zoneId
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
         MAX_Dal_Delivery_Include();
-        MAX_Dal_Delivery_logAction(
+        OA_Dal_Delivery_logAction(
             $table,
             $viewerId,
             $adId,
@@ -110,7 +110,7 @@ function MAX_Delivery_log_logAdClick($viewerId, $adId, $creativeId, $zoneId)
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_click'];
         MAX_Dal_Delivery_Include();
-        MAX_Dal_Delivery_logAction(
+        OA_Dal_Delivery_logAction(
             $table,
             $viewerId,
             $adId,
@@ -152,7 +152,7 @@ function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $table = $conf['table']['prefix'] . $conf['table']['data_raw_tracker_impression'];
         MAX_Dal_Delivery_Include();
-        $rawTrackerImpressionId = MAX_Dal_Delivery_logTracker(
+        $rawTrackerImpressionId = OA_Dal_Delivery_logTracker(
             $table,
             $viewerId,
             $trackerId,
@@ -218,7 +218,7 @@ function MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTr
     }
     if (count($variables)) {
         MAX_Dal_Delivery_Include();
-        MAX_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressionId, $serverRawIp);
+        OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressionId, $serverRawIp);
     }
 }
 

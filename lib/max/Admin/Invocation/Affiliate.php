@@ -157,7 +157,7 @@ class MAX_Admin_Invocation_Affiliate extends MAX_Admin_Invocation {
         $aSizes = array();
         $buffer = '';
         foreach ($aZones as $zoneId => $zone) {
-            $zoneAds = MAX_Dal_Delivery_getZoneLinkedAds($zoneId);
+            $zoneAds = OA_Dal_Delivery_getZoneLinkedAds($zoneId);
     
             // Set ZoneID
             $this->zoneid = $zoneId;

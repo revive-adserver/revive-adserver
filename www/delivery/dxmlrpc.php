@@ -48,7 +48,7 @@ function _getZoneLinkedAds(&$params)
 {
     $paramZoneId = &$params->getParam(0);
     $zoneId = $paramZoneId->scalarval();
-    $response = new XML_RPC_Value(serialize(MAX_Dal_Delivery_getZoneLinkedAds($zoneId)), 'base64'); 
+    $response = new XML_RPC_Value(serialize(OA_Dal_Delivery_getZoneLinkedAds($zoneId)), 'base64'); 
     
     return new XML_RPC_Response($response);
 }
@@ -57,7 +57,7 @@ function _getLinkedAds(&$params)
 {
     $paramSearch = &$params->getParam(0);
     $search = $paramSearch->scalarval();
-    $response = new XML_RPC_Value(serialize(MAX_Dal_Delivery_getLinkedAds($search)), 'base64'); 
+    $response = new XML_RPC_Value(serialize(OA_Dal_Delivery_getLinkedAds($search)), 'base64'); 
     
     return new XML_RPC_Response($response);
 }
@@ -66,7 +66,7 @@ function _getZoneInfo(&$params)
 {
     $paramZoneId = &$params->getParam(0);
     $zoneId = $paramZoneId->scalarval();
-    $response = new XML_RPC_Value(serialize(MAX_Dal_Delivery_getZoneInfo($zoneId)), 'base64'); 
+    $response = new XML_RPC_Value(serialize(OA_Dal_Delivery_getZoneInfo($zoneId)), 'base64'); 
     
     return new XML_RPC_Response($response);
 }
@@ -75,7 +75,7 @@ function _getAd(&$params)
 {
     $paramAdId = &$params->getParam(0);
     $adId = $paramAdId->scalarval();
-    $response = new XML_RPC_Value(serialize(MAX_Dal_Delivery_getAd($adId)), 'base64'); 
+    $response = new XML_RPC_Value(serialize(OA_Dal_Delivery_getAd($adId)), 'base64'); 
     
     return new XML_RPC_Response($response);
 }

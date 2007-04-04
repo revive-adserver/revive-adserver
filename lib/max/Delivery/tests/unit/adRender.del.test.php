@@ -48,8 +48,8 @@ class test_DeliveryAdRender extends UnitTestCase
 
         // note: following code to extract test data from db
         // require_once MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
-        // MAX_Dal_Delivery_connect();
-        // $aBanner = (array)MAX_Dal_Delivery_getAd(7);
+        // OA_Dal_Delivery_connect();
+        // $aBanner = (array)OA_Dal_Delivery_getAd(7);
         // $prn    = print_r($aBanner, TRUE);
 
         require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
@@ -76,8 +76,8 @@ class test_DeliveryAdRender extends UnitTestCase
 
 		// note: following code to extract test data from db
 //        require_once MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
-//        MAX_Dal_Delivery_connect();
-//        $aBanner = (array)MAX_Dal_Delivery_getAd(2);
+//        OA_Dal_Delivery_connect();
+//        $aBanner = (array)OA_Dal_Delivery_getAd(2);
 //        $prn    = print_r($aBanner, TRUE);
 
         require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderFlash.php';
@@ -164,8 +164,8 @@ class test_DeliveryAdRender extends UnitTestCase
 		$this->sendMessage('test_adRenderHtml');
 
         require_once MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
-        MAX_Dal_Delivery_connect();
-        $aBanner    = (array)MAX_Dal_Delivery_getAd(4);
+        OA_Dal_Delivery_connect();
+        $aBanner    = (array)OA_Dal_Delivery_getAd(4);
         $prn        = print_r($aBanner, TRUE);
 
         $GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = '';
@@ -188,8 +188,8 @@ class test_DeliveryAdRender extends UnitTestCase
 		$this->sendMessage('test_adRenderText');
 // note: following code to extract test data from db
 //	      require_once MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
-//        MAX_Dal_Delivery_connect();
-//        $aBanner = (array)MAX_Dal_Delivery_getAd(5);
+//        OA_Dal_Delivery_connect();
+//        $aBanner = (array)OA_Dal_Delivery_getAd(5);
 //        $prn    = print_r($aBanner, TRUE);
 
 		$GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = '';

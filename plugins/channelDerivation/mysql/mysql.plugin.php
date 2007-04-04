@@ -64,7 +64,7 @@ class Plugins_ChannelDerivation_Mysql_Mysql extends Plugins_ChannelDerivation
 
         require_once(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
 
-        $rulesRes = MAX_Dal_Delivery_query("
+        $rulesRes = OA_Dal_Delivery_query("
             SELECT r.modifier, r.rule
             FROM
                 {$conf['table']['prefix']}{$conf['table']['plugins_channel_delivery_assoc']} AS dr,

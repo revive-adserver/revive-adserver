@@ -29,7 +29,7 @@ $Id$
 */
 
 /**
- * Cache-wrapper for MAX_Dal_Delivery_getAd()
+ * Cache-wrapper for OA_Dal_Delivery_getAd()
  *
  * The function to get and return a single ad
  *
@@ -48,13 +48,13 @@ function MAX_cacheGetAd($ad_id, $cached = true)
     } else {
         require_once(MAX_PATH . '/lib/max/Dal/Delivery.php');
         MAX_Dal_Delivery_Include();
-        $aRows  = MAX_Dal_Delivery_getAd($ad_id);
+        $aRows  = OA_Dal_Delivery_getAd($ad_id);
     }
     return $aRows;
 }
 
 /**
- * Cache-wrapper for MAX_Dal_Delivery_getZoneLinkedAds()
+ * Cache-wrapper for OA_Dal_Delivery_getZoneLinkedAds()
  *
  * The function to get and return the ads linked to a zone
  *
@@ -82,13 +82,13 @@ function MAX_cacheGetZoneLinkedAds($zoneId, $cached = true)
     } else {
         require_once(MAX_PATH . '/lib/max/Dal/Delivery.php');
         MAX_Dal_Delivery_Include();
-        $aRows  = MAX_Dal_Delivery_getZoneLinkedAds($zoneId);
+        $aRows  = OA_Dal_Delivery_getZoneLinkedAds($zoneId);
     }
     return $aRows;
 }
 
 /**
- * Cache-wrapper for MAX_Dal_Delivery_getZoneInfo
+ * Cache-wrapper for OA_Dal_Delivery_getZoneInfo
  *
  * This function gets zone properties from the database
  *
@@ -107,14 +107,14 @@ function MAX_cacheGetZoneInfo($zoneId, $cached = true)
     } else {
         require_once(MAX_PATH . '/lib/max/Dal/Delivery.php');
         MAX_Dal_Delivery_Include();
-        $aRows  = MAX_Dal_Delivery_getZoneInfo($zoneId);
+        $aRows  = OA_Dal_Delivery_getZoneInfo($zoneId);
     }
     return $aRows;
 }
 
 
 /**
- * Cache-wrapper for MAX_Dal_Delivery_getLinkedAds
+ * Cache-wrapper for OA_Dal_Delivery_getLinkedAds
  *
  * The function to get and return the ads for direct selection
  *
@@ -134,13 +134,13 @@ function MAX_cacheGetLinkedAds($search, $cached = true)
     } else {
         require_once(MAX_PATH . '/lib/max/Dal/Delivery.php');
         MAX_Dal_Delivery_Include();
-        $aAds = MAX_Dal_Delivery_getLinkedAds($search);
+        $aAds = OA_Dal_Delivery_getLinkedAds($search);
     }
     return $aAds;
 }
 
 /**
- * Cache-wrapper for MAX_Dal_Delivery_getCreative
+ * Cache-wrapper for OA_Dal_Delivery_getCreative
  *
  * This function gets a creative stored as a BLOB from the database
  *
@@ -158,13 +158,13 @@ function MAX_cacheGetCreative($filename, $cached = true)
     } else {
         require_once(MAX_PATH . '/lib/max/Dal/Delivery.php');
         MAX_Dal_Delivery_Include();
-        $aCreative = MAX_Dal_Delivery_getCreative($filename);
+        $aCreative = OA_Dal_Delivery_getCreative($filename);
     }
     return $aCreative;
 }
 
 /**
- * Cache-wrapper for MAX_Dal_Delivery_getTracker
+ * Cache-wrapper for OA_Dal_Delivery_getTracker
  *
  * This function gets a tracker and it's properties from the database
  *
@@ -182,13 +182,13 @@ function MAX_cacheGetTracker($trackerid, $cached = true)
     } else {
         require_once(MAX_PATH . '/lib/max/Dal/Delivery.php');
         MAX_Dal_Delivery_Include();
-        $aTracker = MAX_Dal_Delivery_getTracker($trackerid);
+        $aTracker = OA_Dal_Delivery_getTracker($trackerid);
     }
     return $aTracker;
 }
 
 /**
- * Cache-wrapper for MAX_Dal_Delivery_getTrackerVariables
+ * Cache-wrapper for OA_Dal_Delivery_getTrackerVariables
  *
  * This function gets all variables linked to a tracker
  *
@@ -206,13 +206,13 @@ function MAX_cacheGetTrackerVariables($trackerid, $cached = true)
     } else {
         require_once(MAX_PATH . '/lib/max/Dal/Delivery.php');
         MAX_Dal_Delivery_Include();
-        $aVariables = MAX_Dal_Delivery_getTrackerVariables($trackerid);
+        $aVariables = OA_Dal_Delivery_getTrackerVariables($trackerid);
     }
     return $aVariables;
 }
 
 /**
- * Cache-wrapper for MAX_Dal_Delivery_getChannelLimitations
+ * Cache-wrapper for OA_Dal_Delivery_getChannelLimitations
  *
  * The function to get delivery limitations for a channel
  *
@@ -231,7 +231,7 @@ function MAX_cacheGetChannelLimitations($channelid, $cached = true)
     } else {
         require_once(MAX_PATH . '/lib/max/Dal/Delivery.php');
         MAX_Dal_Delivery_Include();
-        $limitations = MAX_Dal_Delivery_getChannelLimitations($channelid);
+        $limitations = OA_Dal_Delivery_getChannelLimitations($channelid);
     }
     return $limitations;
 }

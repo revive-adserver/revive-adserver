@@ -113,7 +113,7 @@ function getFromOrigin($function, $params)
  *                    calculated on the basis of the placement and advertisement
  *                    weight
  */
-function MAX_Dal_Delivery_getZoneLinkedAds($zoneId)
+function OA_Dal_Delivery_getZoneLinkedAds($zoneId)
 {
     return getFromOrigin('getZoneLinkedAds', $zoneId);
 }
@@ -127,7 +127,7 @@ function MAX_Dal_Delivery_getZoneLinkedAds($zoneId)
  * @return array|false          The array of ads matching the search criteria
  *                              or false on failure
  */
-function MAX_Dal_Delivery_getLinkedAds($search)
+function OA_Dal_Delivery_getLinkedAds($search)
 {
     return getFromOrigin('getLinkedAds', $search);
 }
@@ -139,7 +139,7 @@ function MAX_Dal_Delivery_getLinkedAds($search)
  * @return array|false  An array containing the properties for that zone
  *                      or false on failure
  */
-function MAX_Dal_Delivery_getZoneInfo($zoneId)
+function OA_Dal_Delivery_getZoneInfo($zoneId)
 {
     return getFromOrigin('getZoneInfo', $zoneId);
 }
@@ -152,7 +152,7 @@ function MAX_Dal_Delivery_getZoneInfo($zoneId)
  *
  * @return array|null   $ad        An array containing the ad data or null if nothing found
  */
-function MAX_Dal_Delivery_getAd($adId)
+function OA_Dal_Delivery_getAd($adId)
 {
     return getFromOrigin('getAd', $adId);
 }
@@ -164,9 +164,9 @@ function MAX_Dal_Delivery_getAd($adId)
  *
  * @return array     $limitations  An array with the acls_plugins, and compiledlimitation
  */
-function MAX_Dal_Delivery_getChannelLimitations($channelId)
+function OA_Dal_Delivery_getChannelLimitations($channelId)
 {
-    return getFromOrigin('MAX_Dal_Delivery_getChannelLimitations', $channelId);
+    return getFromOrigin('OA_Dal_Delivery_getChannelLimitations', $channelId);
 }
 
 /**

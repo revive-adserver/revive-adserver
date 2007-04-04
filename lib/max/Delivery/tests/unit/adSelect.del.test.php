@@ -105,8 +105,8 @@ class test_DeliveryAdSelect extends UnitTestCase
         require MAX_PATH . '/lib/max/Delivery/tests/data/test_adSelectZone.php';
 
 //        require_once MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
-//        MAX_Dal_Delivery_connect();
-//        $aLinkedAds = (array)MAX_Dal_Delivery_getZoneLinkedAds(61);
+//        OA_Dal_Delivery_connect();
+//        $aLinkedAds = (array)OA_Dal_Delivery_getZoneLinkedAds(61);
 //        $prn = var_export($aLinkedAds, TRUE);
 
         // Test1

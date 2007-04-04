@@ -28,7 +28,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Dal/Delivery/mysql.php';
+require_once MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
 require_once MAX_PATH . '/tests/testClasses/SharedFixture.php';
 require_once 'Log.php';
 
@@ -56,10 +56,10 @@ class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
      * establish a singleton connection to the database
      *
      */
-    function test_MAX_Dal_Delivery_connect()
+    function test_OA_Dal_Delivery_connect()
     {
-        $GLOBALS['_MAX']['ADMIN_DB_LINK'] = MAX_Dal_Delivery_connect();
-        $this->assertNoErrors('test_MAX_Dal_Delivery_query');
+        $GLOBALS['_MAX']['ADMIN_DB_LINK'] = OA_Dal_Delivery_connect();
+        $this->assertNoErrors('test_OA_Dal_Delivery_query');
         $this->assertEqual(get_resource_type($GLOBALS['_MAX']['ADMIN_DB_LINK']), 'mysql link');
     }
 
@@ -67,23 +67,23 @@ class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
      * executes a sql query
      *
      */
-    function test_MAX_Dal_Delivery_query()
+    function test_OA_Dal_Delivery_query()
     {
-        $res = MAX_Dal_Delivery_query("SELECT * FROM banners limit 1");
+        $res = OA_Dal_Delivery_query("SELECT * FROM banners limit 1");
         $this->assertTrue($res);
         $row = @mysql_fetch_array($res);
         $this->assertTrue($row);
-        $this->assertNoErrors('test_MAX_Dal_Delivery_query');
+        $this->assertNoErrors('test_OA_Dal_Delivery_query');
     }
 
     /**
      * returns an array of properties for a zone
      *
      */
-    function test_MAX_Dal_Delivery_getZoneInfo()
+    function test_OA_Dal_Delivery_getZoneInfo()
     {
         $zoneid     = 61;
-        $aReturn    = MAX_Dal_Delivery_getZoneInfo($zoneid);
+        $aReturn    = OA_Dal_Delivery_getZoneInfo($zoneid);
         //$prn        = var_export($aReturn, TRUE);
         $this->assertIsA($aReturn, 'array');
         $this->assertEqual($zoneid, $aReturn['zone_id']);
@@ -93,10 +93,10 @@ class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
      * return an array of zone properties and arrays of linked ads for a given zone
      *
      */
-    function test_MAX_Dal_Delivery_getZoneLinkedAds()
+    function test_OA_Dal_Delivery_getZoneLinkedAds()
     {
         $zoneid     = 61;
-        $aReturn    = MAX_Dal_Delivery_getZoneLinkedAds($zoneid);
+        $aReturn    = OA_Dal_Delivery_getZoneLinkedAds($zoneid);
 
         $this->assertIsA($aReturn, 'array');
         $this->assertEqual($zoneid, $aReturn['zone_id']);
@@ -123,11 +123,11 @@ class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
      * return an array of ads that match a given search term
      *
      */
-    function test_MAX_Dal_Delivery_getLinkedAds()
+    function test_OA_Dal_Delivery_getLinkedAds()
     {
         $placementid = 1;
         $search     = 'campaignid:'.$placementid;
-        $aReturn    = MAX_Dal_Delivery_getLinkedAds($search);
+        $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
         //$prn        = var_export($aReturn, TRUE);
         $this->assertIsA($aReturn, 'array');
         foreach ($aReturn['ads'] as $k => $v)
@@ -140,10 +140,10 @@ class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
      * get an ad array formatted for render given an ad id
      *
      */
-    function test_MAX_Dal_Delivery_getAd()
+    function test_OA_Dal_Delivery_getAd()
     {
         $ad_id      = 1;
-        $aReturn    = MAX_Dal_Delivery_getAd($ad_id);
+        $aReturn    = OA_Dal_Delivery_getAd($ad_id);
         $this->assertIsA($aReturn, 'array');
         $this->assertEqual($aReturn['ad_id'], $ad_id);
     }
@@ -152,10 +152,10 @@ class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
      * get the plugins required and compiled limitations string for a given channel id
      *
      */
-    function test_MAX_Dal_Delivery_getChannelLimitations()
+    function test_OA_Dal_Delivery_getChannelLimitations()
     {
         $channelid  = 1;
-        $aReturn    = MAX_Dal_Delivery_getChannelLimitations($channelid);
+        $aReturn    = OA_Dal_Delivery_getChannelLimitations($channelid);
         //$prn        = var_export($aReturn, TRUE);
         $this->assertIsA($aReturn['acl_plugins'],'string');
         $this->assertEqual($aReturn['compiledlimitation'],'true');
@@ -165,10 +165,10 @@ class Dal_TestOfDalDeliveryMySQL extends SharedFixtureTestCase
      * low-priority test
      * problem loading binary data from xml file
      **/
-    function test_MAX_Dal_Delivery_getCreative()
+    function test_OA_Dal_Delivery_getCreative()
     {
 //        $filename   = 'adOneTwoOneID.gif';
-//        $aReturn    = MAX_Dal_Delivery_getCreative($filename);
+//        $aReturn    = OA_Dal_Delivery_getCreative($filename);
 //        $prn        = var_export($aReturn, TRUE);
 //        $this->assertIsA($aReturn, 'array');
 //        $this->assertEqual($aReturn['filename'], 'adOneTwoOneID.gif');

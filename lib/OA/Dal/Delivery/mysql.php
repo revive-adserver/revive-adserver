@@ -30,8 +30,9 @@ $Id$
  *
  * @package    MaxDal
  * @subpackage Delivery
- * @author     Chris Nutting <chris@m3.net>
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Chris Nutting <chris.nutting@openads.org>
+ * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Matteo Beccati <matteo.beccati@openads.org>
  */
 
 /**
@@ -42,7 +43,7 @@ $Id$
  * @return resource|false    The MySQL database resource
  *                           or false on failure
  */
-function MAX_Dal_Delivery_connect($database = 'database') {
+function OA_Dal_Delivery_connect($database = 'database') {
     // If a connection already exists, then return that
     if ($database == 'database' && isset($GLOBALS['_MAX']['ADMIN_DB_LINK']) && is_resource($GLOBALS['_MAX']['ADMIN_DB_LINK'])) {
         return $GLOBALS['_MAX']['ADMIN_DB_LINK'];
@@ -81,12 +82,12 @@ function MAX_Dal_Delivery_connect($database = 'database') {
  * @return resource|false  The MySQL resource if the query suceeded
  *                          or false on failure
  */
-function MAX_Dal_Delivery_query($query, $database = 'database') {
+function OA_Dal_Delivery_query($query, $database = 'database') {
     // Connect to the database if necessary
     $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
 
     if (empty($GLOBALS['_MAX'][$dbName])) {
-        $GLOBALS['_MAX'][$dbName] = MAX_Dal_Delivery_connect($database);
+        $GLOBALS['_MAX'][$dbName] = OA_Dal_Delivery_connect($database);
     }
     if (is_resource($GLOBALS['_MAX'][$dbName])) {
         return @mysql_query($query, $GLOBALS['_MAX'][$dbName]);
@@ -103,7 +104,7 @@ function MAX_Dal_Delivery_query($query, $database = 'database') {
  * @return int|false       The last insert ID (zero if last query didn't generate an ID)
  *                         or false on failure
  */
-function MAX_Dal_Delivery_insertId($database = 'database')
+function OA_Dal_Delivery_insertId($database = 'database')
 {
     $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
     if (!isset($GLOBALS['_MAX'][$dbName]) || !(is_resource($GLOBALS['_MAX'][$dbName]))) {
@@ -120,10 +121,10 @@ function MAX_Dal_Delivery_insertId($database = 'database')
  * @return array|false  An array containing the properties for that zone
  *                      or false on failure
  */
-function MAX_Dal_Delivery_getZoneInfo($zoneid) {
+function OA_Dal_Delivery_getZoneInfo($zoneid) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    $rZoneInfo = MAX_Dal_Delivery_query("
+    $rZoneInfo = OA_Dal_Delivery_query("
     SELECT
         z.zoneid AS zone_id,
         z.affiliateid AS publisher_id,
@@ -162,7 +163,7 @@ function MAX_Dal_Delivery_getZoneInfo($zoneid) {
 
     if (empty($aZoneInfo['default_banner_url'])) {
         // Agency has no default banner, so overwrite with admin's
-        $rAdminDefault = MAX_Dal_Delivery_query("
+        $rAdminDefault = OA_Dal_Delivery_query("
         SELECT
             p.default_banner_url AS default_banner_url,
             p.default_banner_destination AS default_banner_dest
@@ -194,10 +195,10 @@ function MAX_Dal_Delivery_getZoneInfo($zoneid) {
  *                    calculated on the basis of the placement and advertisement
  *                    weight
  */
-function MAX_Dal_Delivery_getZoneLinkedAds($zoneid) {
+function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
 
     $conf = $GLOBALS['_MAX']['CONF'];
-    $aRows = MAX_Dal_Delivery_getZoneInfo($zoneid);
+    $aRows = OA_Dal_Delivery_getZoneInfo($zoneid);
 
     $aRows['xAds']  = array();
     $aRows['cAds']  = array();
@@ -275,7 +276,7 @@ function MAX_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.active = 't'
     ";
 
-    $rAds = MAX_Dal_Delivery_query($query);
+    $rAds = OA_Dal_Delivery_query($query);
 
     if (!is_resource($rAds)) {
         if (defined('CACHE_LITE_FUNCTION_ERROR')) {
@@ -351,7 +352,7 @@ function MAX_Dal_Delivery_getZoneLinkedAds($zoneid) {
  * @return array|false          The array of ads matching the search criteria
  *                              or false on failure
  */
-function MAX_Dal_Delivery_getLinkedAds($search) {
+function OA_Dal_Delivery_getLinkedAds($search) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Deal with categories
@@ -429,7 +430,7 @@ function MAX_Dal_Delivery_getLinkedAds($search) {
 
     $query = "SELECT\n    " . $columns . "\nFROM\n    " . $tables . "\nWHERE " . $where;
 
-    $rAds = MAX_Dal_Delivery_query($query);
+    $rAds = OA_Dal_Delivery_query($query);
 
     if (!is_resource($rAds)) {
         if (defined('CACHE_LITE_FUNCTION_ERROR')) {
@@ -467,7 +468,7 @@ function MAX_Dal_Delivery_getLinkedAds($search) {
  *
  * @return array|null   $ad        An array containing the ad data or null if nothing found
  */
-function MAX_Dal_Delivery_getAd($ad_id) {
+function OA_Dal_Delivery_getAd($ad_id) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
     $query = "
@@ -516,7 +517,7 @@ function MAX_Dal_Delivery_getAd($ad_id) {
         AND
         d.campaignid = c.campaignid
     ";
-    $rAd = MAX_Dal_Delivery_query($query);
+    $rAd = OA_Dal_Delivery_query($query);
     if (!is_resource($rAd)) {
         if (defined('CACHE_LITE_FUNCTION_ERROR')) {
             return CACHE_LITE_FUNCTION_ERROR;
@@ -535,10 +536,10 @@ function MAX_Dal_Delivery_getAd($ad_id) {
  *
  * @return array     $limitations  An array with the acls_plugins, and compiledlimitation
  */
-function MAX_Dal_Delivery_getChannelLimitations($channelid) {
+function OA_Dal_Delivery_getChannelLimitations($channelid) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    $rLimitation = MAX_Dal_Delivery_query("
+    $rLimitation = OA_Dal_Delivery_query("
     SELECT
             acl_plugins,compiledlimitation
     FROM
@@ -562,10 +563,10 @@ function MAX_Dal_Delivery_getChannelLimitations($channelid) {
  * @param string $filename  The filename of the creative as stored in the database
  * @return array            An array with the last-modified timestamp, and the binary contents
  */
-function MAX_Dal_Delivery_getCreative($filename)
+function OA_Dal_Delivery_getCreative($filename)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    $rCreative = MAX_Dal_Delivery_query("
+    $rCreative = OA_Dal_Delivery_query("
         SELECT
             contents,
             UNIX_TIMESTAMP(t_stamp) AS t_stamp
@@ -591,10 +592,10 @@ function MAX_Dal_Delivery_getCreative($filename)
  * @param int $trackerid    The ID of the tracker to get
  * @return array            The array of tracker properties
  */
-function MAX_Dal_Delivery_getTracker($trackerid)
+function OA_Dal_Delivery_getTracker($trackerid)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    $rTracker = MAX_Dal_Delivery_query("
+    $rTracker = OA_Dal_Delivery_query("
         SELECT
             t.clientid AS advertiser_id,
             t.trackerid AS tracker_id,
@@ -627,10 +628,10 @@ function MAX_Dal_Delivery_getTracker($trackerid)
  * @param int $trackerid    The ID of the tracker
  * @return array            An array indexed by variable_id of the variables linked to this tracker
  */
-function MAX_Dal_Delivery_getTrackerVariables($trackerid)
+function OA_Dal_Delivery_getTrackerVariables($trackerid)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    $rVariables = MAX_Dal_Delivery_query("
+    $rVariables = OA_Dal_Delivery_query("
         SELECT
             v.variableid AS variable_id,
             v.trackerid AS tracker_id,
@@ -675,7 +676,7 @@ function MAX_Dal_Delivery_getTrackerVariables($trackerid)
  * @param integer $maxHttps     An integer to store if the call to Max was
  *                              performed using HTTPS or not.
  */
-function MAX_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneId,
+function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneId,
                         $geotargeting, $zoneInfo, $userAgentInfo, $maxHttps)
 {
     // Whenever we assign a *new* viewer ID (or no viewerId was found),
@@ -687,7 +688,7 @@ function MAX_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zone
     }
     // Log the raw data
     $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
-    $result = MAX_Dal_Delivery_query("
+    $result = OA_Dal_Delivery_query("
         INSERT INTO
             $table
             (
@@ -780,7 +781,7 @@ function MAX_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zone
 
  * @return int|false            Returns the insert ID for this record or false on failure
  */
-function MAX_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
+function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
                                      $geotargeting, $zoneInfo, $userAgentInfo, $maxHttps)
 {
     // Whenever we assign a *new* viewer ID (or no viewerId was found),
@@ -792,7 +793,7 @@ function MAX_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp
     }
     // Log the raw data
     $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
-    MAX_Dal_Delivery_query("
+    OA_Dal_Delivery_query("
         INSERT INTO
             {$table}
         (
@@ -862,7 +863,7 @@ function MAX_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp
             '{$geotargeting['netspeed']}',
             '{$geotargeting['continent']}'
     )", 'rawDatabase');
-    return MAX_Dal_Delivery_insertId('rawDatabase');
+    return OA_Dal_Delivery_insertId('rawDatabase');
 }
 
 /**
@@ -873,7 +874,7 @@ function MAX_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp
  * @param string $serverRawIp                   The IP address of the raw database that logged the
  *                                              initial tracker-impression
  */
-function MAX_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressionId, $serverRawIp)
+function OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressionId, $serverRawIp)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
@@ -902,7 +903,7 @@ function MAX_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpress
             )
         VALUES " . implode(',', $aRows);
 
-    MAX_Dal_Delivery_query($query, 'rawDatabase');
+    OA_Dal_Delivery_query($query, 'rawDatabase');
 }
 
 
