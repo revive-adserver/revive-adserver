@@ -44,6 +44,7 @@ class CCConfigWriter
         $sectionDatabase->setDirective('password', $password);
         $sectionDatabase->setDirective('name', $name);
         
+        $tableType = trim($tableType);
         $sectionTable = &$configContainer->getItem('section', 'table');
         $sectionTable->setDirective('type', $tableType);
         
