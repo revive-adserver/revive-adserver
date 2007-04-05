@@ -176,11 +176,41 @@ class TestEnv
         // Destroy cached table classes
         OA_DB_Table_Core::destroy();
         // Re-parse the config file
-        $newConf = @parse_ini_file(MAX_PATH . '/var/test.conf.ini', true);
+        $newConf = TestEnv::parseConfigFile();
         foreach($newConf as $configGroup => $configGroupSettings) {
             foreach($configGroupSettings as $confName => $confValue) {
                 $GLOBALS['_MAX']['CONF'][$configGroup][$confName] = $confValue;
             }
+        }
+    }
+    
+    /**
+     * @todo The way we are importing test.conf.ini has to be rethink. Now
+     * it is included in init-parse.php file and here. It should be defined only in one place.
+     * 
+     * @return array Return parsed config ini file
+     */ 
+    function parseConfigFile()
+    {
+        if (isset($_SERVER['SERVER_NAME'])) {
+            // If test runs from web-client first check if host test config exists
+            // This could be used to have different tests for different configurations
+            if (!empty($_SERVER['HTTP_HOST'])) {
+                $host = explode(':', $_SERVER['HTTP_HOST']);
+                $host = $host[0];
+            } else {
+                $host = explode(':', $_SERVER['SERVER_NAME']);
+            	$host = $host[0];
+            }
+            $testFilePath = MAX_PATH . '/var/'.$host.'.test.conf.ini';
+            if (file_exists($testFilePath)) {
+                return @parse_ini_file($testFilePath, true);
+            }
+        }
+        // Look into default location
+        $testFilePath = MAX_PATH . '/var/test.conf.ini';
+        if (file_exists($testFilePath)) {
+            return @parse_ini_file($testFilePath, true);
         }
     }
 

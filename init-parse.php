@@ -53,19 +53,6 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true)
     if (!is_null($configFile)) {
         $configFile = '.' . $configFile;
     }
-    // Is the system running the test environment?
-    if (is_null($configFile) && defined('TEST_ENVIRONMENT_RUNNING')) {
-        // Does the test environment config exist?
-        if (file_exists($configPath . '/test.conf.ini')) {
-            return @parse_ini_file($configPath . '/test.conf.ini', $sections);
-        } else {
-            // Define a value so that we know the testing environment is not
-            // configured, so that the TestRenner class knows not to run any
-            // tests, and return an empty config
-            define('TEST_ENVIRONMENT_NO_CONFIG', true);
-            return array();
-        }
-    }
     // Is this a web, or a cli call?
     if (is_null($configFile) && !isset($_SERVER['SERVER_NAME'])) {
         if (!isset($GLOBALS['argv'][1])) {
@@ -79,6 +66,28 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true)
         } else {
             $host = explode(':', $_SERVER['SERVER_NAME']);
         	$host = $host[0];
+        }
+    }
+    // Is the system running the test environment?
+    if (is_null($configFile) && defined('TEST_ENVIRONMENT_RUNNING')) {
+        if (isset($_SERVER['SERVER_NAME'])) {
+            // If test runs from web-client first check if host test config exists
+            // This could be used to have different tests for different configurations
+            $testFilePath = $configPath . '/'.$host.'.test.conf.ini';
+            if (file_exists($testFilePath)) {
+                return @parse_ini_file($testFilePath, $sections);
+            }
+        }
+        // Does the test environment config exist?
+        $testFilePath = $configPath . '/test.conf.ini';
+        if (file_exists($testFilePath)) {
+            return @parse_ini_file($testFilePath, $sections);
+        } else {
+            // Define a value so that we know the testing environment is not
+            // configured, so that the TestRenner class knows not to run any
+            // tests, and return an empty config
+            define('TEST_ENVIRONMENT_NO_CONFIG', true);
+            return array();
         }
     }
     // Is the .ini file for the hostname being used directly accessible?
