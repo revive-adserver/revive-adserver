@@ -69,7 +69,7 @@ $$ LANGUAGE plpgsql STRICT IMMUTABLE;";
 $aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION TO_DAYS(timestamptz) RETURNS int4 AS $$
 BEGIN
- RETURN round(date_part('epoch', $1) / 86400)::int4 + 719528;
+ RETURN round(date_part('epoch', $1::date) / 86400)::int4 + 719528;
 END;
 $$ LANGUAGE plpgsql STRICT IMMUTABLE;";
 
