@@ -93,7 +93,7 @@ class DataObjects_BannersTest extends DalUnitTestCase
     {
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->acls_updated = '2007-04-03 19:28:06';
-        $bannerId = $doBanners->insert();
+        $bannerId = DataGenerator::generateOne($doBanners);
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->ad_id = $bannerId;
         $doAdZoneAssoc->zone_id = 0;
