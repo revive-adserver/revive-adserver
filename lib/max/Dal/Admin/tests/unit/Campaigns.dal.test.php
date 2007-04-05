@@ -154,7 +154,12 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         // Create a campaign
         $doCampaign = OA_Dal::factoryDO('campaigns');
         $doCampaign->campaignname = 'foo';
-        DataGenerator::generateOne($doCampaign, true);
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $dg->generate($doCampaign, 1, true);
         $agencyId = DataGenerator::getReferenceId('agency');
 
         // Search for the campaign
@@ -191,7 +196,14 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $GLOBALS['strDaysLeft'] = 'Days left';
 
         // Test an unlimited campaign with no expiration date
-        $bannerId = DataGenerator::generateOne('banners', true);
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $bannerId = $dg->generateOne($doBanners, 1, true);
         $campaignId = DataGenerator::getReferenceId('campaigns');
 
         $expected = array($GLOBALS['strExpiration'].": ".$GLOBALS['strNoExpiration'],'', '');
@@ -206,11 +218,18 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaigns->views = -1;
         $doCampaigns->clicks = -1;
         $doCampaigns->expire = date('Y-m-d', $expirationDate);
-        $campaignId = DataGenerator::generateOne($doCampaigns, true);
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+        $campaignId = $aCampaignIds[0];
 
         // Link a banner to this campaign
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $campaignId;
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
         $bannerId = DataGenerator::generateOne($doBanners);
 
         $expected = array(
@@ -226,11 +245,18 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->views = $views;
         $doCampaigns->clicks = -1;
-        $campaignId = DataGenerator::generateOne($doCampaigns, true);
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+        $campaignId = $aCampaignIds[0];
 
         // Link a banner to this campaign
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $campaignId;
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
         $bannerId = DataGenerator::generateOne($doBanners);
 
         // Insert some dsah data
@@ -259,11 +285,18 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->views = -1;
         $doCampaigns->clicks = $campaignClicks;
-        $campaignId = DataGenerator::generateOne($doCampaigns, true);
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+        $campaignId = $aCampaignIds[0];
 
         // Link a banner to this campaign
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $campaignId;
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
         $bannerId = DataGenerator::generateOne($doBanners);
 
         // Insert some dsah data
@@ -337,11 +370,21 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
 
         // Add test data (add a little bit more than required)
         $numCampaigns1 = 3;
-        $aCampaigns1 = DataGenerator::generate('campaigns', $numCampaigns1, $parents = true);
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $aCampaigns1 = $dg->generate('campaigns', $numCampaigns1, true);
         $agencyId1 = DataGenerator::getReferenceId('agency');
 
         $numCampaigns2 = 2;
-        $aCampaigns2 = DataGenerator::generate('campaigns', $numCampaigns2, $parents = true);
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $aCampaigns2 = $dg->generate('campaigns', $numCampaigns2, true);
         $agencyId2 = DataGenerator::getReferenceId('agency');
 
         // Take test data
