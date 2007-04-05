@@ -37,6 +37,7 @@ require_once MAX_PATH . '/lib/max/Dal/Admin/Acls.php';
  */
 class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
 {
+
     var $dalData_intermediate_ad;
 
     /**
@@ -59,32 +60,57 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
 
     function testGetDeliveredByCampaign()
     {
-        // Check it's empty if no data
+        // Ensure that there is no data in the data_intermediate_ad to begin with
         $rsDal = $this->dalData_intermediate_ad->getDeliveredByCampaign(123);
         $aDelievered = $rsDal->toArray();
         foreach ($aDelievered as $delivered) {
             $this->assertNull($delivered);
         }
 
-        // Add some test data
-        DataGenerator::generateOne('banners', $addParents = true); // generate some reduntand data
-        $bannerId = DataGenerator::generateOne('banners', $addParents = true);
-        $campaignId = DataGenerator::getReferenceId('campaigns');
-        $data = array(
-            // two banners $bannerId
-            'ad_id' => array($bannerId, $bannerId, 3),
-            'impressions' => array($impressions = 123),
-            'clicks' => array($clicks = 45),
-            'conversions' => array($conversions = 67),
+        // Add a banner that will not have any intermediate data
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
         );
         $dg = new DataGenerator();
-        $dg->setData('data_intermediate_ad', $data);
+        $dg->setData('clients', $aData);
+        $aBannerIds = $dg->generate($doBanners, 1, true);
+
+        // Add the test banner that will have intermediate data
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $aBannerIds = $dg->generate($doBanners, 1, true);
+        $campaignId = DataGenerator::getReferenceId('campaigns');
+
+        // Prepare the data for the data_intermediate_ad table,
+        // there are 3 records being inserted.
+        $aData = array(
+            // Use the second banners' $bannerId value for the
+            // first two records, and ID 3 (a fake ID) for the
+            // third value
+            'ad_id'          => array($aBannerIds[0], $aBannerIds[0], 3),
+            // Use the same values for all records from here on
+            'impressions'    => array($impressions = 123),
+            'clicks'         => array($clicks = 45),
+            'conversions'    => array($conversions = 67),
+            'day'            => array('2007-04-04'),
+            'interval_start' => array('2007-04-04 17:00:00'),
+            'interval_end'   => array('2007-04-04 17:59:59')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('data_intermediate_ad', $aData);
         $dg->generate('data_intermediate_ad', 3);
 
         // Test
         $rsDal = $this->dalData_intermediate_ad->getDeliveredByCampaign($campaignId);
         $aDelievered = $rsDal->toArray();
-        $howMany = 2; // two banners $bannerId
+        $howMany = 2;
         $this->assertEqual($aDelievered['impressions_delivered'], $howMany * $impressions);
         $this->assertEqual($aDelievered['clicks_delivered'], $howMany * $clicks);
         $this->assertEqual($aDelievered['conversions_delivered'], $howMany * $conversions);
@@ -92,32 +118,70 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
 
     function testAddConversion()
     {
-        // Add test data
-        DataGenerator::generateOne('banners', $addParents = true); // generate some reduntand data
-        $bannerId = DataGenerator::generateOne('banners', $addParents = true);
-        $campaignId = DataGenerator::getReferenceId('campaigns');
-        $data = array(
-            // two banners $bannerId
-            'ad_id' => array($bannerId, $bannerId, $bannerId + 4),
-            'conversions' => array($conversions = 67),
-            'total_basket_value' => array($total_basket_value = 100.00),
-            'total_num_items' => array($total_num_items = 100),
-            'creative_id' => array($creative_id = 4),
-            'zone_id' => array($zone_id = 5),
-            'day' => array($day = '2007-01-01'),
-            'hour' => array($hour = 5),
+        // Ensure that there is no data in the data_intermediate_ad to begin with
+        $rsDal = $this->dalData_intermediate_ad->getDeliveredByCampaign(123);
+        $aDelievered = $rsDal->toArray();
+        foreach ($aDelievered as $delivered) {
+            $this->assertNull($delivered);
+        }
+
+        // Add a banner that will not have any intermediate data
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
         );
         $dg = new DataGenerator();
-        $dg->setData('data_intermediate_ad', $data);
-        $data_intermediate_ad_id = $dg->generateOne('data_intermediate_ad');
+        $dg->setData('clients', $aData);
+        $aBannerIds = $dg->generate($doBanners, 1, true);
 
-        $this->dalData_intermediate_ad->addConversion('+', $basketValue = 12,
-                $numItems = 4, $bannerId, $creative_id, $zone_id, $day, $hour);
+        // Add the test banner that will have intermediate data
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $aBannerIds = $dg->generate($doBanners, 1, true);
+        $bannerId = $aBannerIds[0];
+        $campaignId = DataGenerator::getReferenceId('campaigns');
 
-	    $doData_intermediate_ad = OA_Dal::staticGetDO('data_intermediate_ad', $data_intermediate_ad_id);
+        // Prepare the data for the data_intermediate_ad table,
+        // there is one record being inserted.
+        $aData = array(
+            'ad_id'              => array($bannerId),
+            'conversions'        => array($conversions = 67),
+            'total_basket_value' => array($total_basket_value = 100.00),
+            'total_num_items'    => array($total_num_items = 100),
+            'creative_id'        => array($creative_id = 4),
+            'zone_id'            => array($zone_id = 5),
+            'day'                => array($day = '2007-04-04'),
+            'hour'               => array($hour = 17),
+            'interval_start'     => array('2007-04-04 17:00:00'),
+            'interval_end'       => array('2007-04-04 17:59:59')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('data_intermediate_ad', $aData);
+        $aDataIntermediateAdIds = $dg->generate('data_intermediate_ad', 1);
+        $dataIntermediateAdId = $aDataIntermediateAdIds[0];
 
-	    $this->assertEqual($doData_intermediate_ad->total_basket_value, $data['total_basket_value'][0]+$basketValue);
+        $this->dalData_intermediate_ad->addConversion(
+            '+',
+            $basketValue = 12,
+            $numItems = 4,
+            $bannerId,
+            $creative_id,
+            $zone_id,
+            $day,
+            $hour
+        );
+
+	    $doData_intermediate_ad = OA_Dal::staticGetDO('data_intermediate_ad', $dataIntermediateAdId);
+
+	    $this->assertEqual($doData_intermediate_ad->total_basket_value, $total_basket_value+$basketValue);
     }
 
 }
+
 ?>
