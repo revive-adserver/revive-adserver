@@ -442,4 +442,21 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         // But why this one doesn't work?
         // $this->assertReference($dbh, $dbh1);
     }
+    
+    function testAutoincrementsVsSerial()
+    {
+        $sqlInsert = 'INSERT INTO ad_category_assoc (category_id, ad_id) VALUES (1, 1)';
+        DBC::execute($sqlInsert);
+        
+        // Take generated primary key
+        $doAd_category_assoc = OA_Dal::factoryDO('ad_category_assoc');
+        $doAd_category_assoc->find($aufetch = true);
+        $id1 = $doAd_category_assoc->ad_category_assoc_id;
+        
+        // Now lets generate new record using DataGenerator
+        $id2 = DataGenerator::generateOne('ad_category_assoc');
+        
+        // Not only above code should work but also id2 should be equal id1+1
+        $this->assertEqual($id2, $id1+1);
+    }
 }
