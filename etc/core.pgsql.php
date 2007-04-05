@@ -67,23 +67,13 @@ END;
 $$ LANGUAGE plpgsql STRICT IMMUTABLE;";
 
 $aCustomFunctions[] = "
-CREATE OR REPLACE FUNCTION TO_DAYS(timestamptz) RETURNS int AS $$
-BEGIN
- IF ($1 = NULL) THEN
-  RETURN NULL;
- END IF;
- RETURN floor(UNIX_TIMESTAMP($1)/86400)::int;
-END;
-$$ LANGUAGE plpgsql STRICT IMMUTABLE;";
+CREATE OR REPLACE FUNCTION TO_DAYS(timestamptz) RETURNS int4 AS $$
+SELECT round(date_part('epoch', $1) / 86400)::int4 + 719528
+$$ LANGUAGE sql STRICT IMMUTABLE;";
 
 $aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION UNIX_TIMESTAMP(timestamptz) RETURNS int AS $$
-BEGIN
- IF ($1 = NULL) THEN
-  RETURN 0;
- END IF;
- RETURN date_part('epoch', $1)::int;
-END;
-$$ LANGUAGE plpgsql STRICT IMMUTABLE;";
+SELECT date_part('epoch', $1)::int
+$$ LANGUAGE sql STRICT IMMUTABLE;";
 
 ?>
