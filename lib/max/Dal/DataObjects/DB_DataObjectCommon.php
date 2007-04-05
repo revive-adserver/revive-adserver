@@ -125,7 +125,6 @@ class DB_DataObjectCommon extends DB_DataObject
     	}
 
     	$fields = $this->table();
-    	$keys = $this->keys();
         $primaryKey = null;
     	if ($indexWithPrimaryKey) {
     	    if ($indexWithPrimaryKey === true) {
