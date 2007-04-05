@@ -34,6 +34,21 @@ $Id: Acls.dal.test.php 5552 2007-04-03 19:52:40Z andrew.hill@openads.org $
 $aCustomFunctions = array();
 
 $aCustomFunctions[] = "
+CREATE OR REPLACE FUNCTION DATE_FORMAT(timestamptz, text) RETURNS text AS $$
+DECLARE
+ f text;
+ r text[][] = ARRAY[['%Y','YYYY'],['%m','MM'],['%d','DD'],['%H','HH24'],['%i','MI'],['%S','SS']];
+ i int4;
+BEGIN
+ f := $2;
+ FOR i IN 1..array_upper(r, 1) LOOP
+   f := replace(f, r[i][1], r[i][2]);
+ END LOOP;
+ RETURN to_char($1, f);
+END;
+$$ LANGUAGE plpgsql STRICT IMMUTABLE;";
+
+$aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION FIND_IN_SET(integer, text) RETURNS integer AS $$
 DECLARE
  a varchar[];
@@ -48,6 +63,26 @@ BEGIN
    END LOOP;
  END IF;
  RETURN 0;
+END;
+$$ LANGUAGE plpgsql STRICT IMMUTABLE;";
+
+$aCustomFunctions[] = "
+CREATE OR REPLACE FUNCTION TO_DAYS(timestamptz) RETURNS int AS $$
+BEGIN
+ IF ($1 = NULL) THEN
+  RETURN NULL;
+ END IF;
+ RETURN floor(UNIX_TIMESTAMP($1)/86400)::int;
+END;
+$$ LANGUAGE plpgsql STRICT IMMUTABLE;";
+
+$aCustomFunctions[] = "
+CREATE OR REPLACE FUNCTION UNIX_TIMESTAMP(timestamptz) RETURNS int AS $$
+BEGIN
+ IF ($1 = NULL) THEN
+  RETURN 0;
+ END IF;
+ RETURN date_part('epoch', $1)::int;
 END;
 $$ LANGUAGE plpgsql STRICT IMMUTABLE;";
 
