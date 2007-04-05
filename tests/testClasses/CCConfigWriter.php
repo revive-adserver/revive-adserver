@@ -27,6 +27,10 @@ $Id: TestEnv.php 5447 2007-03-28 14:33:48Z andrew.hill@openads.org $
 
 require_once(MAX_PATH . '/lib/pear/Config.php');
 
+/**
+ * CCConfigWriter (short name for CruiseControlConfigWriter)
+ *
+ */
 class CCConfigWriter
 {
     function configureTest($type, $host, $port, $username, $password, $name, $tableType)
