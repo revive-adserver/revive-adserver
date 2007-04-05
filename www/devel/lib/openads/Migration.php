@@ -14,6 +14,8 @@ class Migration
     var $aTaskList_constructive;
     var $aTaskList_destructive;
 
+    var $oDBH;
+
     function Migration()
     {
         $this->__construct();
@@ -32,9 +34,27 @@ class Migration
 
     }
 
-    function copyData($fromTable, $fromColumn, $toTable, $toColumn)
+    function copyTableData($fromTable, $toTable, $aColumns)
     {
-        // do copy data
+        $columns = implode("','",$aColumns);
+        $query = "INSERT IGNORE INTO {$toTable} ({$columns})"
+                ." SELECT {$columns} FROM {$fromTable}";
+        $result =& $this->oDBH->exec($query);
+        if (PEAR::isError($result))
+        {
+            return $result;
+        }
+        return true;
+    }
+
+    function copyColumnData($fromTable, $fromColumn, $toTable, $toColumn)
+    {
+        $query = "UPDATE IGNORE {$toTable} SET {$toColumn} = {$fromTable}.{$fromColumn}";
+        $result =& $this->oDBH->exec($query);
+        if (PEAR::isError($result))
+        {
+            return $result;
+        }
         return true;
     }
 

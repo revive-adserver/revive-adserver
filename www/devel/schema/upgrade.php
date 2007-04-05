@@ -53,14 +53,14 @@ $upgrade = false;
 //$version = 3;
 //$timing = 'constructive';
 
-//$version = 4;
-//$timing = 'constructive';
+$version = 4;
+$timing = 'constructive';
 
 //$version = 5;
 //$timing = 'destructive';
 
-$version = 6;
-$timing = 'destructive';
+//$version = 6;
+//$timing = 'destructive';
 
 if (array_key_exists('btn_initialise', $_REQUEST))
 {
