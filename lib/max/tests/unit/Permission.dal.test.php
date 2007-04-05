@@ -90,7 +90,6 @@ class MAX_PermissionTest extends UnitTestCase
         $this->assertFalse(MAX_Permission::isUsernameAllowed('foo', 'quux'));
 
         $this->assertTrue(MAX_Permission::isUsernameAllowed('foo', 'newname'));
-
     }
 
     function testGetUniqueUserNames()
@@ -106,6 +105,7 @@ class MAX_PermissionTest extends UnitTestCase
         // Insert some users
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->clientusername = 'bar';
+        $doClients->reportlastdate = '2007-04-02 12:00:00';
         $clientId = DataGenerator::generateOne($doClients);
 
         $doAffiliates = OA_Dal::factoryDO('affiliates');
@@ -130,13 +130,23 @@ class MAX_PermissionTest extends UnitTestCase
 		    phpAds_Affiliate => 'affiliates',
 		    phpAds_Agency    => 'agency',
 		);
+
         // Test if all users have access to new objects
         foreach ($userTables as $userType => $userTable) {
             $this->assertTrue(MAX_Permission::hasAccessToObject('banners', null, $userType));
         }
         $this->assertTrue(MAX_Permission::hasAccessToObject('banners', 'booId', phpAds_Admin));
+
         // Create some record
-        $bannerId = DataGenerator::generateOne('banners', $generateParents = true);
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->acls_updated = '2007-04-05 16:18:00';
+        $aData = array(
+            'reportlastdate' => array('2007-04-05 16:18:00')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $aBannerIds = $dg->generate($doBanners, 1, true);
+        $bannerId = $aBannerIds[0];
         $clientId = DataGenerator::getReferenceId('clients');
         $affiliateId = DataGenerator::getReferenceId('affiliates');
         $agencyId = DataGenerator::getReferenceId('agency');
@@ -148,7 +158,9 @@ class MAX_PermissionTest extends UnitTestCase
         $this->assertTrue(MAX_Permission::hasAccessToObject('banners', $bannerId, phpAds_Agency, $agencyId));
 
         // Create users who don't have access
-        $clientId2 = DataGenerator::generateOne('clients');
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->reportlastdate = '2007-04-05 16:18:00';
+        $clientId2 = DataGenerator::generateOne($doClients);
         $agencyId2 = DataGenerator::generateOne('agency');
         $this->assertFalse(MAX_Permission::hasAccessToObject('banners', $bannerId, phpAds_Affiliate, $fakeId = 123));
         $this->assertFalse(MAX_Permission::hasAccessToObject('banners', $bannerId, phpAds_Client, $clientId2));
