@@ -76,10 +76,15 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         // and few additional required for testing filters
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = $campaignName = 'test name';
-        $aCampaignId = DataGenerator::generate($doCampaigns, 2, $generateParents = true);
+        $aData = array(
+            'reportlastdate' => array('2007-04-03 18:39:45')
+        );
+        $dg = new DataGenerator();
+        $dg->setData('clients', $aData);
+        $aCampaignId = $dg->generate($doCampaigns, 2, true);
         $clientId = DataGenerator::getReferenceId('clients');
 
-        $aCampaignId2 = DataGenerator::generate('campaigns', 2, $generateParents = true);
+        $aCampaignId2 = $dg->generate('campaigns', 2, true);
         $clientId2 = DataGenerator::getReferenceId('clients');
 
         // test getting all records
@@ -99,7 +104,9 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         // test indexing with primary keys
         $doCampaigns = clone($doCampaignsFilter);
         $aCheck = $doCampaigns->getAll(array(), $indexWithPrimaryKey = true);
-        $this->assertEqual($aCampaignId, array_keys($aCheck));
+        $aTest = array_keys($aCheck);
+        sort($aTest);
+        $this->assertEqual($aCampaignId, $aTest);
         foreach ($aCheck as $check) {
             $this->assertEqual($check['campaignname'], $campaignName);
         }
@@ -134,6 +141,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         // Create necessary test data
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = $agencyid;
+        $doClients->reportlastdate = '2007-04-03 18:39:45';
         $clientId = DataGenerator::generateOne($doClients);
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
@@ -142,6 +150,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $campaignId;
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
         $bannerId = DataGenerator::generateOne($doBanners);
 
         // Test dependency on one level
@@ -173,10 +182,12 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = $agencyId1;
+        $doClients->reportlastdate = '2007-04-03 18:39:45';
         $clientId1 = DataGenerator::generateOne($doClients);
 
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = $agencyId2;
+        $doClients->reportlastdate = '2007-04-03 18:39:45';
         $clientId2 = DataGenerator::generateOne($doClients);
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
@@ -324,9 +335,13 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $aAgencyId = DataGenerator::generate('agency', 3);
         $agencyId = array_pop($aAgencyId);
 
-        $aClientId1 = DataGenerator::generate('clients', 2);
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->reportlastdate = '2007-04-03 18:39:45';
+        $aClientId1 = DataGenerator::generate($doClients, 2);
+
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = $agencyId;
+        $doClients->reportlastdate = '2007-04-03 18:39:45';
         $aClientId2 = DataGenerator::generate($doClients, 2);
 
         $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
@@ -346,7 +361,9 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
     function testUpdate()
     {
-        $bannerId1 = DataGenerator::generateOne('banners');
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $bannerId1 = DataGenerator::generateOne($doBanners);
         $doBanners1 = OA_Dal::staticGetDO('banners', $bannerId1);
 
         // Update
@@ -377,7 +394,8 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $time = time();
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->comments = $comments = 'test123';
-        $bannerId = $doBanners->insert();
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $bannerId = DataGenerator::generateOne($doBanners);
 
         $doBanners = OA_Dal::staticGetDO('banners', $bannerId);
 
@@ -391,7 +409,8 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $string = "some slashes ' ' \' \\";
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->comments = $string;
-        $bannerId = $doBanners->insert();
+        $doBanners->acls_updated = '2007-04-03 18:39:45';
+        $bannerId = DataGenerator::generateOne($doBanners);
 
         $doBannersCheck = OA_Dal::staticGetDO('banners', $bannerId);
         $this->assertEqual($string, $doBannersCheck->comments);
