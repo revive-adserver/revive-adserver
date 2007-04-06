@@ -138,7 +138,7 @@ class TestEnv
                     case 'insert':
                         $oDbh = &OA_DB::singleton();
                         $res = $oDbh->query($v);
-                        if (!res || PEAR::isError($res))
+                        if (!$res || PEAR::isError($res))
                         {
                             MAX::raiseError($res);
                             return;
@@ -185,13 +185,13 @@ class TestEnv
             }
         }
     }
-    
+
     /**
      * @todo The way we are importing test.conf.ini has to be rethink. Now
      * it is included in init-parse.php file and here. It should be defined only in one place.
-     * 
+     *
      * @return array Return parsed config ini file
-     */ 
+     */
     function parseConfigFile()
     {
         if (isset($_SERVER['SERVER_NAME'])) {
