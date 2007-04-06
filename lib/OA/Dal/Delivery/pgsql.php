@@ -61,12 +61,12 @@ function OA_Dal_Delivery_connect($database = 'database') {
     $dbParams[] = 'port='.(isset($dbConf['port']) ? $dbConf['port'] : 5432);
     $dbParams[] = !empty($dbConf['socket']) ? '' : 'host='.$dbConf['host'];
     $dbParams[] = empty($dbConf['username']) ? '' : 'user='.$dbConf['username'];
-    $dbParams[] = empty($dbConf['password']) ? '' : 'user='.$dbConf['password'];
+    $dbParams[] = empty($dbConf['password']) ? '' : 'password='.$dbConf['password'];
     $dbParams[] = 'dbname='.$dbConf['name'];
     if ($dbConf['persistent']) {
-        $dbLink = @pg_pconnect(join(' ', $dbParams), PGSQL_CONNECT_FORCE_NEW);
+        $dbLink = @pg_pconnect(join(' ', $dbParams));
     } else {
-        $dbLink = @pg_connect(join(' ', $dbParams), PGSQL_CONNECT_FORCE_NEW);
+        $dbLink = @pg_connect(join(' ', $dbParams));
     }
     return $dbLink;
 }
@@ -907,14 +907,14 @@ function OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressi
                     value
                 )
             VALUES " . $sValues;
-        
+
         $res = OA_Dal_Delivery_query($query, 'rawDatabase');
 
         if (!$res) {
             return false;
         }
     }
-    
+
     return true;
 }
 
