@@ -30,20 +30,20 @@ require_once MAX_PATH . '/lib/OA/DB.php';
 require_once 'Date.php';
 
 /**
- * A class for testing the OA_DB_Table class.
+ * A class for testing the OA_DB class.
  *
  * @package    OpenadsDB
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Test_OA_DB_Table extends UnitTestCase
+class Test_OA_DB extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Test_OA_DB_Table()
+    function Test_OA_DB()
     {
         $this->UnitTestCase();
     }

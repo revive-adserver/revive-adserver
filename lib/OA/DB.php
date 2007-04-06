@@ -133,12 +133,18 @@ class OA_DB
             $oDbh->equalNoDateString    = "IS NULL";
             $oDbh->notEqualNoDateString = "IS NOT NULL";
             $oDbh->noDateValue          = null;
+            /**
+             * Removed this, as MySQL can in fact handle NULL dates if the column isn't NOT NULL
+             *
+             * @todo Proper handling?
+             *	
             if ($oDbh->dsn['phptype'] == 'mysql') {
                 $oDbh->noDateString         = "'0000-00-00'";
                 $oDbh->equalNoDateString    = "= '0000-00-00'";
                 $oDbh->notEqualNoDateString = "!= '0000-00-00'";
                 $oDbh->noDateValue          = '0000-00-00';
             }
+            **/
             // Store the database connection
             $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] = &$oDbh;
         }
