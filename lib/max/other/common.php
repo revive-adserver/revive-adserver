@@ -514,7 +514,7 @@ function MAX_commonSlashArray($a)
         reset ($a);
         return ($a);
     } else {
-        return addslashes($a);
+        return is_null($a) ? null : addslashes($a);
     }
 }
 
