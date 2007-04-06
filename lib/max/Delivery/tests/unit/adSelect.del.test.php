@@ -104,7 +104,7 @@ class test_DeliveryAdSelect extends UnitTestCase
 		require_once MAX_PATH . '/lib/max/Delivery/common.php';
         require MAX_PATH . '/lib/max/Delivery/tests/data/test_adSelectZone.php';
 
-//        require_once MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
+//        require_once MAX_PATH . '/lib/OA/Dal/Delivery/'.$GLOBALS['_MAX']['CONF']['database']['type'].'.php';
 //        OA_Dal_Delivery_connect();
 //        $aLinkedAds = (array)OA_Dal_Delivery_getZoneLinkedAds(61);
 //        $prn = var_export($aLinkedAds, TRUE);
@@ -151,17 +151,17 @@ class test_DeliveryAdSelect extends UnitTestCase
 		$this->assertIsA($ret[0], 'array');
         $this->assertEqual($ret[0]['=='], 'companionid:55');
 	}
-	
-	
+
+
 	function test_getNextZone()
 	{
 		$arrZone['chain'] = false;
-		
+
 		$this->assertEqual(10, _getNextZone(10, $arrZone));
-		
+
 		$arrZone['chain'] = 'zone:15';
 		$this->assertEqual(15, _getNextZone(10, $arrZone));
-		
+
 		$arrZone['chain'] = 'blabla:15';
 		$this->assertEqual(10, _getNextZone(10, $arrZone));
 	}
