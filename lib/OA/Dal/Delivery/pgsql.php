@@ -57,20 +57,18 @@ function OA_Dal_Delivery_connect($database = 'database') {
     } else {
         $dbConf = $conf['database'];
     }
-    $dbPort     = isset($dbConf['port']) ? $dbConf['port'] : 3306;
-    $dbHost     = $dbPort != 3306 ? $dbConf['host'].':'.$dbPort : $dbConf['host'];
-    $dbUser     = $dbConf['username'];
-    $dbPassword = $dbConf['password'];
-    $dbName     = $dbConf['name'];
+    $dbParams   = array();
+    $dbParams[] = 'port='.(isset($dbConf['port']) ? $dbConf['port'] : 5432);
+    $dbParams[] = !empty($dbConf['socket']) ? '' : 'host='.$dbConf['host'];
+    $dbParams[] = empty($dbConf['username']) ? '' : 'user='.$dbConf['username'];
+    $dbParams[] = empty($dbConf['password']) ? '' : 'user='.$dbConf['password'];
+    $dbParams[] = 'dbname='.$dbConf['name'];
     if ($dbConf['persistent']) {
-        $dbLink = @mysql_pconnect($dbHost, $dbUser, $dbPassword);
+        $dbLink = @pg_pconnect(join(' ', $dbParams), PGSQL_CONNECT_FORCE_NEW);
     } else {
-        $dbLink = @mysql_connect($dbHost, $dbUser, $dbPassword);
+        $dbLink = @pg_connect(join(' ', $dbParams), PGSQL_CONNECT_FORCE_NEW);
     }
-    if (@mysql_select_db($dbName, $dbLink)) {
-        return $dbLink;
-    }
-    return false;
+    return $dbLink;
 }
 
 /**
@@ -90,7 +88,7 @@ function OA_Dal_Delivery_query($query, $database = 'database') {
         $GLOBALS['_MAX'][$dbName] = OA_Dal_Delivery_connect($database);
     }
     if (is_resource($GLOBALS['_MAX'][$dbName])) {
-        return @mysql_query($query, $GLOBALS['_MAX'][$dbName]);
+        return @pg_query($GLOBALS['_MAX'][$dbName], $query);
     } else {
         return false;
     }
@@ -105,14 +103,17 @@ function OA_Dal_Delivery_query($query, $database = 'database') {
  * @param string $column   The name of the column we need to get the ID from
  * @return int|false       The last insert ID (zero if last query didn't generate an ID)
  *                         or false on failure
+ * @todo Fix this!
  */
 function OA_Dal_Delivery_insertId($database = 'database', $table = '', $column = '')
 {
+    $conf = $GLOBALS['_MAX']['CONF'];
+
     $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
     if (!isset($GLOBALS['_MAX'][$dbName]) || !(is_resource($GLOBALS['_MAX'][$dbName]))) {
         return false;
     }
-    return mysql_insert_id($GLOBALS['_MAX'][$dbName]);
+    return pg_fetch_result(pg_query("SELECT currval('".substr("{$conf['table']['prefix']}{$conf['table'][$table]}_{$column}", 0, 59)."_seq')"), 0, 0);
 }
 
 
@@ -161,7 +162,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
     if (!is_resource($rZoneInfo)) {
         return false;
     }
-    $aZoneInfo = mysql_fetch_assoc($rZoneInfo);
+    $aZoneInfo = pg_fetch_assoc($rZoneInfo);
 
     if (empty($aZoneInfo['default_banner_url'])) {
         // Agency has no default banner, so overwrite with admin's
@@ -174,7 +175,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
         WHERE
             p.agencyid = 0
         ");
-        $aAdminDefaultBanner = mysql_fetch_assoc($rAdminDefault);
+        $aAdminDefaultBanner = pg_fetch_assoc($rAdminDefault);
         $aZoneInfo['default_banner_url']  = $aAdminDefaultBanner['default_banner_url'];
         $aZoneInfo['default_banner_dest'] = $aAdminDefaultBanner['default_banner_dest'];
     }
@@ -287,7 +288,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             return null;
         }
     }
-    while ($aAd = mysql_fetch_assoc($rAds)) {
+    while ($aAd = pg_fetch_assoc($rAds)) {
         // Is the ad Exclusive, Low, or Normal Priority?
         if ($aAd['campaign_priority'] == -1) {
             // Ad is in an exclusive placement
@@ -441,7 +442,7 @@ function OA_Dal_Delivery_getLinkedAds($search) {
             return null;
         }
     }
-    while ($aRow = mysql_fetch_assoc($rAds)) {
+    while ($aRow = pg_fetch_assoc($rAds)) {
         $row['weight'] = (empty($aRow['weight'])) ? 1 : $aRow['weight'];
         $row['campaign_weight'] = (empty($aRow['campaign_weight'])) ? 1 : $aRow['campaign_weight'];
         $aRow['priority'] = $aRow['weight'] * $aRow['campaign_weight'];
@@ -527,7 +528,7 @@ function OA_Dal_Delivery_getAd($ad_id) {
             return null;
         }
     } else {
-        return (mysql_fetch_assoc($rAd));
+        return (pg_fetch_assoc($rAd));
     }
 }
 
@@ -555,7 +556,7 @@ function OA_Dal_Delivery_getChannelLimitations($channelid) {
             return null;
         }
     }
-    $limitations = mysql_fetch_assoc($rLimitation);
+    $limitations = pg_fetch_assoc($rLimitation);
     return $limitations;
 }
 
@@ -584,7 +585,7 @@ function OA_Dal_Delivery_getCreative($filename)
             return null;
         }
     } else {
-        return (mysql_fetch_assoc($rCreative));
+        return (pg_fetch_assoc($rCreative));
     }
 }
 
@@ -620,7 +621,7 @@ function OA_Dal_Delivery_getTracker($trackerid)
             return null;
         }
     } else {
-        return (mysql_fetch_assoc($rTracker));
+        return (pg_fetch_assoc($rTracker));
     }
 }
 
@@ -653,7 +654,7 @@ function OA_Dal_Delivery_getTrackerVariables($trackerid)
         }
     } else {
         $output = array();
-        while ($aRow = mysql_fetch_assoc($rVariables)) {
+        while ($aRow = pg_fetch_assoc($rVariables)) {
             $output[$aRow['variable_id']] = $aRow;
         }
         return $output;
@@ -737,25 +738,25 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
                 '$zoneId',
                 '".MAX_commonDecrypt($_GET['source'])."',
                 '{$zoneInfo['channel_ids']}',
-                '{$_SERVER['HTTP_ACCEPT_LANGUAGE']}',
+                '".substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 32)."',
                 '{$_SERVER['REMOTE_ADDR']}',
                 '{$_SERVER['REMOTE_HOST']}',
                 '{$geotargeting['country_code']}',
-                '{$zoneInfo['scheme']}',
+                '".intval($zoneInfo['scheme'])."',
                 '{$zoneInfo['host']}',
                 '{$zoneInfo['path']}',
                 '{$zoneInfo['query']}',
                 '{$_GET['referer']}',
                 '',
-                '{$_SERVER['HTTP_USER_AGENT']}',
+                '".substr($_SERVER['HTTP_USER_AGENT'], 0, 255)."',
                 '{$userAgentInfo['os']}',
                 '{$userAgentInfo['browser']}',
-                '$maxHttps',
+                '".intval($maxHttps)."',
                 '{$geotargeting['region']}',
                 '{$geotargeting['city']}',
                 '{$geotargeting['postal_code']}',
-                '{$geotargeting['latitude']}',
-                '{$geotargeting['longitude']}',
+                '".floatval($geotargeting['latitude'])."',
+                '".floatval($geotargeting['longitude'])."',
                 '{$geotargeting['dma_code']}',
                 '{$geotargeting['area_code']}',
                 '{$geotargeting['organisation']}',
@@ -795,7 +796,7 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
     }
     // Log the raw data
     $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
-    OA_Dal_Delivery_query("
+    $res = OA_Dal_Delivery_query("
         INSERT INTO
             {$table}
         (
@@ -840,32 +841,32 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
             '$trackerId',
             '".MAX_commonDecrypt($_GET['source'])."',
             '{$zoneInfo['channel_ids']}',
-            '{$_SERVER['HTTP_ACCEPT_LANGUAGE']}',
+            '".substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 32)."',
             '{$_SERVER['REMOTE_ADDR']}',
             '{$_SERVER['REMOTE_HOST']}',
             '{$geotargeting['country_code']}',
-            '{$zoneInfo['scheme']}',
+            '".intval($zoneInfo['scheme'])."',
             '{$zoneInfo['host']}',
             '{$zoneInfo['path']}',
             '{$zoneInfo['query']}',
             '{$_GET['referer']}',
             '',
-            '{$_SERVER['HTTP_USER_AGENT']}',
+            '".substr($_SERVER['HTTP_USER_AGENT'], 0, 255)."',
             '{$userAgentInfo['os']}',
             '{$userAgentInfo['browser']}',
-            '$maxHttps',
+            '".intval($maxHttps)."',
             '{$geotargeting['region']}',
             '{$geotargeting['city']}',
             '{$geotargeting['postal_code']}',
-            '{$geotargeting['latitude']}',
-            '{$geotargeting['longitude']}',
+            '".floatval($geotargeting['latitude'])."',
+            '".floatval($geotargeting['longitude'])."',
             '{$geotargeting['dma_code']}',
             '{$geotargeting['area_code']}',
             '{$geotargeting['organisation']}',
             '{$geotargeting['netspeed']}',
             '{$geotargeting['continent']}'
     )", 'rawDatabase');
-    return OA_Dal_Delivery_insertId('rawDatabase');
+    return $res ? OA_Dal_Delivery_insertId('rawDatabase', $table, preg_replace('/^data/', 'server', $table).'_id') : false;
 }
 
 /**
@@ -894,19 +895,27 @@ function OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressi
     if (empty($aRows)) {
         return;
     }
-    $query = "
-        INSERT INTO
-            {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}
-            (
-                tracker_variable_id,
-                server_raw_tracker_impression_id,
-                server_raw_ip,
-                date_time,
-                value
-            )
-        VALUES " . implode(',', $aRows);
+    foreach ($aRows as $sValues) {
+        $query = "
+            INSERT INTO
+                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}
+                (
+                    tracker_variable_id,
+                    server_raw_tracker_impression_id,
+                    server_raw_ip,
+                    date_time,
+                    value
+                )
+            VALUES " . $sValues;
+        
+        $res = OA_Dal_Delivery_query($query, 'rawDatabase');
 
-    return OA_Dal_Delivery_query($query, 'rawDatabase');
+        if (!$res) {
+            return false;
+        }
+    }
+    
+    return true;
 }
 
 

@@ -51,13 +51,15 @@ class TestEnv
 {
     /**
      * A method for setting up a test database.
+     *
+     * @param bool $ignore_errors True if setup errors should be ignored.
      */
-    function setupDB()
+    function setupDB($ignore_errors = false)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $result = OA_DB::dropDatabase($aConf['database']['name']);
         $result = OA_DB::createDatabase($aConf['database']['name']);
-        if (!$result) {
+        if (!$result && !$ignore_errors) {
             PEAR::raiseError("TestEnv unable to create the {$aConf['database']['name']} test database.", PEAR_LOG_ERR);
             die();
         }
@@ -254,7 +256,7 @@ class TestEnv
         $oServiceLocator = &ServiceLocator::instance();
         unset($oServiceLocator->aService);
         // Re-set up the test environment
-        TestRunner::setupEnv($GLOBALS['_MAX']['TEST']['layerEnv']);
+        TestRunner::setupEnv($GLOBALS['_MAX']['TEST']['layerEnv'], true);
     }
 
     /**

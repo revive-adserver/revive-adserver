@@ -218,8 +218,9 @@ class TestRunner
      * the layer the test/s is/are in.
      *
      * @param string $layer The layer the test/s is/are in.
+     * @param bool $ignore_errors True if setup errors should be ignored.
      */
-    function setupEnv($layer)
+    function setupEnv($layer, $ignore_errors = false)
     {
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
         $envType = $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][1];
@@ -227,12 +228,12 @@ class TestRunner
         TestEnv::restoreConfig();
         // Setup the database, if needed
         if ($envType == DB_NO_TABLES) {
-            TestEnv::setupDB();
+            TestEnv::setupDB($ignore_errors);
         } elseif ($envType == DB_WITH_TABLES) {
-            TestEnv::setupDB();
+            TestEnv::setupDB($ignore_errors);
             TestEnv::setupCoreTables();
         } elseif ($envType == DB_WITH_DATA) {
-            TestEnv::setupDB();
+            TestEnv::setupDB($ignore_errors);
             TestEnv::setupCoreTables();
             TestEnv::setupDefaultData();
         }

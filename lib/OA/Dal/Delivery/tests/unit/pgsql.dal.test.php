@@ -33,13 +33,13 @@ require_once MAX_PATH . '/tests/testClasses/SharedFixture.php';
 require_once 'Log.php';
 
 /**
- * A class for testing the MySQL version of the Delivery Engine DAL class.
+ * A class for testing the PgSQL version of the Delivery Engine DAL class.
  *
  * @package    MaxDal
  * @subpackage TestSuite
  * @author     Unknown!
  */
-class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
+class Test_OA_Dal_Delivery_pgsql extends SharedFixtureTestCase
 {
     /**
      * A private method to test if it is okay to run these tests
@@ -51,10 +51,22 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
      */
     function _testOkayToRun()
     {
-        if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql') {
+        if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'pgsql') {
             return true;
         }
         return false;
+    }
+
+    /**
+     * A private method to close delivery connection after tests are run
+     *
+     */
+    function _testCloseConnection()
+    {
+        if (!empty($GLOBALS['_MAX']['ADMIN_DB_LINK'])) {
+            pg_close($GLOBALS['_MAX']['ADMIN_DB_LINK']);
+            unset($GLOBALS['_MAX']['ADMIN_DB_LINK']);
+        }
     }
 
     function setUpFixture()
@@ -70,6 +82,7 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
         if (!$this->_testOkayToRun()) {
             return;
         }
+        $this->_testCloseConnection();
         TestEnv::restoreEnv();
     }
 
@@ -84,7 +97,7 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
         }
         $GLOBALS['_MAX']['ADMIN_DB_LINK'] = OA_Dal_Delivery_connect();
         $this->assertNoErrors('test_OA_Dal_Delivery_query');
-        $this->assertEqual(get_resource_type($GLOBALS['_MAX']['ADMIN_DB_LINK']), 'mysql link');
+        $this->assertEqual(get_resource_type($GLOBALS['_MAX']['ADMIN_DB_LINK']), 'pgsql link');
     }
 
     /**
@@ -98,7 +111,7 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
         }
         $res = OA_Dal_Delivery_query("SELECT * FROM banners limit 1");
         $this->assertTrue($res);
-        $row = @mysql_fetch_array($res);
+        $row = @pg_fetch_array($res);
         $this->assertTrue($row);
         $this->assertNoErrors('test_OA_Dal_Delivery_query');
     }
@@ -218,7 +231,7 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
 //        $this->assertIsA($aReturn, 'array');
 //        $this->assertEqual($aReturn['filename'], 'adOneTwoOneID.gif');
     }
-    
+
     /**
      * get tracker details
      *
@@ -282,7 +295,7 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
             '',
             0
         );
-        $this->assertTrue($res);
+        $this->assertEqual(get_resource_type($res), 'pgsql result');
 
         $res = OA_Dal_Delivery_logAction(
             'data_raw_ad_click',
@@ -300,7 +313,7 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
             '',
             0
         );
-        $this->assertTrue($res);
+        $this->assertEqual(get_resource_type($res), 'pgsql result');
     }
 
     /**
@@ -381,7 +394,8 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
     {
         if (!$this->_testOkayToRun()) {
             return;
-        }
+        }       
+        $this->_testCloseConnection();
         TestEnv::restoreEnv();
     }
 }

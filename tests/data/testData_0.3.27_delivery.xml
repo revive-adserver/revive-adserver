@@ -3809,7 +3809,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-03 15:45:06</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>2</bannerid>
@@ -3847,7 +3846,6 @@
         <alt_contenttype>gif</alt_contenttype>
         <comments></comments>
         <updated>2005-11-03 15:46:22</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>3</bannerid>
@@ -3885,7 +3883,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-03 15:48:33</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>4</bannerid>
@@ -3923,7 +3920,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-03 15:50:40</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>5</bannerid>
@@ -3961,7 +3957,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-03 15:51:28</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>7</bannerid>
@@ -3999,7 +3994,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-03 15:57:38</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>8</bannerid>
@@ -4037,7 +4031,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-03 15:58:19</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>9</bannerid>
@@ -4075,7 +4068,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-03 15:59:09</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>10</bannerid>
@@ -4113,7 +4105,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-10 09:21:52</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>11</bannerid>
@@ -4151,7 +4142,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-03 16:01:47</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>12</bannerid>
@@ -4189,7 +4179,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-03 16:02:53</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>13</bannerid>
@@ -4227,7 +4216,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-11 13:17:41</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>14</bannerid>
@@ -4265,7 +4253,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-03 16:23:13</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>15</bannerid>
@@ -4303,7 +4290,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-19 14:02:55</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>16</bannerid>
@@ -4341,7 +4327,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-08 10:46:33</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>17</bannerid>
@@ -4379,7 +4364,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-19 13:42:03</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>18</bannerid>
@@ -4417,7 +4401,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-14 17:13:39</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>19</bannerid>
@@ -4455,7 +4438,6 @@
         <alt_contenttype>gif</alt_contenttype>
         <comments>Comment</comments>
         <updated>2006-04-11 16:38:33</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>20</bannerid>
@@ -4493,7 +4475,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-22 21:39:17</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>21</bannerid>
@@ -4531,7 +4512,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-11 16:19:00</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>22</bannerid>
@@ -4569,7 +4549,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-14 17:22:48</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>23</bannerid>
@@ -4607,7 +4586,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-14 17:52:35</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>24</bannerid>
@@ -4645,7 +4623,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-14 17:44:13</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>25</bannerid>
@@ -4683,7 +4660,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-14 17:51:39</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>26</bannerid>
@@ -4721,7 +4697,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-14 17:54:05</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>27</bannerid>
@@ -4759,7 +4734,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-14 17:55:35</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>28</bannerid>
@@ -4797,7 +4771,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-14 17:56:39</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>29</bannerid>
@@ -4835,7 +4808,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-14 17:58:23</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>30</bannerid>
@@ -4873,7 +4845,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-01-19 13:08:39</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>31</bannerid>
@@ -4911,7 +4882,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-21 15:00:08</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>32</bannerid>
@@ -4949,7 +4919,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-28 11:55:24</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>33</bannerid>
@@ -4987,7 +4956,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-11-28 11:56:20</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>34</bannerid>
@@ -5025,7 +4993,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-12-05 12:57:25</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>36</bannerid>
@@ -5063,7 +5030,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-03 12:37:30</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>37</bannerid>
@@ -5101,7 +5067,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-03 12:37:32</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>38</bannerid>
@@ -5139,7 +5104,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-03 12:37:34</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>40</bannerid>
@@ -5177,7 +5141,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-03 12:37:25</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>41</bannerid>
@@ -5215,7 +5178,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-12-09 16:51:34</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>42</bannerid>
@@ -5253,7 +5215,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2005-12-12 16:04:56</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>43</bannerid>
@@ -5291,7 +5252,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-01-11 17:25:22</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>44</bannerid>
@@ -5329,7 +5289,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-01-11 17:14:55</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>45</bannerid>
@@ -5367,7 +5326,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-01-12 09:39:51</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>46</bannerid>
@@ -5405,7 +5363,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-01-12 09:41:37</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>47</bannerid>
@@ -5443,7 +5400,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-01-12 09:44:23</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>48</bannerid>
@@ -5481,7 +5437,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-01-13 15:06:31</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>49</bannerid>
@@ -5519,7 +5474,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-01-16 11:31:20</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>57</bannerid>
@@ -5557,7 +5511,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-01-16 13:00:09</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>76</bannerid>
@@ -5595,7 +5548,6 @@
         <alt_contenttype></alt_contenttype>
         <comments>Test HTML banner comments</comments>
         <updated>2006-01-16 18:45:52</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>79</bannerid>
@@ -5633,7 +5585,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-10 11:41:19</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>80</bannerid>
@@ -5671,7 +5622,6 @@
         <alt_contenttype></alt_contenttype>
         <comments>Test HTML banner comments</comments>
         <updated>2006-01-16 18:53:53</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>81</bannerid>
@@ -5709,7 +5659,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-01-16 18:50:49</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>82</bannerid>
@@ -5747,7 +5696,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-01-27 17:47:48</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>83</bannerid>
@@ -5785,7 +5733,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-01-23 16:03:04</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>86</bannerid>
@@ -5823,7 +5770,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-01-25 18:18:07</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>87</bannerid>
@@ -5861,7 +5807,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-02-01 13:06:52</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>88</bannerid>
@@ -5899,7 +5844,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-02-02 14:20:14</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>89</bannerid>
@@ -5937,7 +5881,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-02-02 17:41:56</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>90</bannerid>
@@ -5975,7 +5918,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-02-02 17:38:38</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>91</bannerid>
@@ -6013,7 +5955,6 @@
         <alt_contenttype>gif</alt_contenttype>
         <comments></comments>
         <updated>2006-02-08 17:33:53</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>92</bannerid>
@@ -6051,7 +5992,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-16 12:44:33</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>93</bannerid>
@@ -6089,7 +6029,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-16 12:45:20</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>94</bannerid>
@@ -6127,7 +6066,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-16 12:44:57</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>95</bannerid>
@@ -6165,7 +6103,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-16 12:45:10</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>96</bannerid>
@@ -6203,7 +6140,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-02-07 11:38:23</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>97</bannerid>
@@ -6241,7 +6177,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-02-07 11:38:24</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>98</bannerid>
@@ -6279,7 +6214,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-02-07 11:38:24</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>99</bannerid>
@@ -6317,7 +6251,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-02-07 11:38:25</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>100</bannerid>
@@ -6355,7 +6288,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-02-07 11:39:57</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>101</bannerid>
@@ -6393,7 +6325,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-02-07 11:39:57</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>102</bannerid>
@@ -6431,7 +6362,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-02-07 11:39:58</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>103</bannerid>
@@ -6469,7 +6399,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-02-07 11:39:58</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>104</bannerid>
@@ -6507,7 +6436,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-02-08 12:12:12</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>105</bannerid>
@@ -6545,7 +6473,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-02-21 16:40:11</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>106</bannerid>
@@ -6583,7 +6510,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-01 11:36:10</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>107</bannerid>
@@ -6621,7 +6547,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-02 14:43:26</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>108</bannerid>
@@ -6659,7 +6584,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-09 16:19:59</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>109</bannerid>
@@ -6697,7 +6621,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-07 16:19:14</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>110</bannerid>
@@ -6735,7 +6658,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-24 10:12:49</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>111</bannerid>
@@ -6773,7 +6695,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-14 16:58:00</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>112</bannerid>
@@ -6811,7 +6732,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-16 15:01:43</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>113</bannerid>
@@ -6849,7 +6769,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-16 12:11:07</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>114</bannerid>
@@ -6887,7 +6806,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-17 10:38:27</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>115</bannerid>
@@ -6925,7 +6843,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-17 10:38:47</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>116</bannerid>
@@ -6963,7 +6880,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-17 10:39:22</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>117</bannerid>
@@ -7001,7 +6917,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-17 10:39:41</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>118</bannerid>
@@ -7039,7 +6954,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-17 10:40:00</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>119</bannerid>
@@ -7077,7 +6991,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-17 10:40:35</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>120</bannerid>
@@ -7115,7 +7028,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-17 10:40:57</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>121</bannerid>
@@ -7153,7 +7065,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-06-30 15:40:19</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>122</bannerid>
@@ -7191,7 +7102,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-27 13:41:09</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>123</bannerid>
@@ -7229,7 +7139,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-03-30 14:32:48</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>124</bannerid>
@@ -7267,7 +7176,6 @@
         <alt_contenttype>gif</alt_contenttype>
         <comments></comments>
         <updated>2006-04-04 15:54:07</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>125</bannerid>
@@ -7305,7 +7213,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-03 13:12:10</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>126</bannerid>
@@ -7343,7 +7250,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-03 17:45:28</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>127</bannerid>
@@ -7381,7 +7287,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-07 15:14:36</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>128</bannerid>
@@ -7419,7 +7324,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-07 15:15:12</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>129</bannerid>
@@ -7457,7 +7361,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-07 15:15:48</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>130</bannerid>
@@ -7495,7 +7398,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-07 15:16:19</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>131</bannerid>
@@ -7533,7 +7435,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-11 11:26:57</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>132</bannerid>
@@ -7570,7 +7471,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-19 13:37:51</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>133</bannerid>
@@ -7607,7 +7507,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-21 10:20:17</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>134</bannerid>
@@ -7644,7 +7543,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-21 10:21:08</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>135</bannerid>
@@ -7681,7 +7579,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-21 10:47:25</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>136</bannerid>
@@ -7718,7 +7615,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-04-21 10:50:12</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>137</bannerid>
@@ -7755,7 +7651,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-15 11:21:11</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>138</bannerid>
@@ -7792,7 +7687,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-15 14:17:18</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>139</bannerid>
@@ -7829,7 +7723,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-17 11:24:12</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>140</bannerid>
@@ -7866,7 +7759,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-18 10:22:50</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>141</bannerid>
@@ -7903,7 +7795,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-18 10:24:29</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>142</bannerid>
@@ -7940,7 +7831,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 11:06:53</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>143</bannerid>
@@ -7977,7 +7867,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 11:07:40</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>144</bannerid>
@@ -8014,7 +7903,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 12:17:06</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>145</bannerid>
@@ -8051,7 +7939,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 12:17:23</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>146</bannerid>
@@ -8088,7 +7975,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 12:17:40</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>147</bannerid>
@@ -8125,7 +8011,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 12:18:00</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>148</bannerid>
@@ -8162,7 +8047,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 12:18:17</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>149</bannerid>
@@ -8199,7 +8083,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 12:18:34</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>150</bannerid>
@@ -8236,7 +8119,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 11:50:52</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>151</bannerid>
@@ -8273,7 +8155,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 12:19:22</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>152</bannerid>
@@ -8310,7 +8191,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 12:21:04</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>153</bannerid>
@@ -8347,7 +8227,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 12:21:51</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>154</bannerid>
@@ -8384,7 +8263,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 12:22:39</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>155</bannerid>
@@ -8421,7 +8299,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 12:23:20</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>156</bannerid>
@@ -8458,7 +8335,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 14:07:19</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>157</bannerid>
@@ -8495,7 +8371,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 14:18:16</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>158</bannerid>
@@ -8532,7 +8407,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 14:38:33</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>159</bannerid>
@@ -8569,7 +8443,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 14:39:11</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>160</bannerid>
@@ -8606,7 +8479,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 14:39:52</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>161</bannerid>
@@ -8643,7 +8515,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 14:40:34</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>162</bannerid>
@@ -8680,7 +8551,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 14:41:14</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>163</bannerid>
@@ -8717,7 +8587,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 14:42:05</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>164</bannerid>
@@ -8754,7 +8623,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-22 18:01:41</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>165</bannerid>
@@ -8791,7 +8659,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-25 16:33:35</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>166</bannerid>
@@ -8828,7 +8695,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-23 17:42:51</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>167</bannerid>
@@ -8865,7 +8731,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-24 16:46:06</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>168</bannerid>
@@ -8902,7 +8767,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-25 17:33:22</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>169</bannerid>
@@ -8939,7 +8803,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-26 09:40:56</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>170</bannerid>
@@ -8976,7 +8839,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-05-26 12:41:22</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>171</bannerid>
@@ -9013,7 +8875,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-06-02 14:14:09</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>172</bannerid>
@@ -9050,7 +8911,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-06-02 14:17:00</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>173</bannerid>
@@ -9087,7 +8947,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-06-05 16:37:53</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>175</bannerid>
@@ -9124,7 +8983,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-06-05 16:45:26</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>176</bannerid>
@@ -9161,7 +9019,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-06-08 11:19:16</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>177</bannerid>
@@ -9198,7 +9055,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-06-14 12:18:40</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>178</bannerid>
@@ -9235,7 +9091,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-06-15 14:22:43</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>179</bannerid>
@@ -9272,7 +9127,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-06-15 14:25:14</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>180</bannerid>
@@ -9309,7 +9163,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-06-15 14:32:00</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>181</bannerid>
@@ -9346,7 +9199,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-06-15 16:29:18</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>182</bannerid>
@@ -9383,7 +9235,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-06-15 16:44:23</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>183</bannerid>
@@ -9420,7 +9271,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-06-19 14:52:12</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>184</bannerid>
@@ -9457,7 +9307,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-06 17:30:15</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>185</bannerid>
@@ -9494,7 +9343,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-11 11:24:37</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>187</bannerid>
@@ -9532,7 +9380,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-11 12:14:49</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>188</bannerid>
@@ -9570,7 +9417,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-11 12:14:49</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>189</bannerid>
@@ -9608,7 +9454,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-11 12:14:49</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>190</bannerid>
@@ -9684,7 +9529,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-11 12:14:49</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>192</bannerid>
@@ -9722,7 +9566,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-11 12:14:49</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>193</bannerid>
@@ -9760,7 +9603,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-11 12:14:49</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>194</bannerid>
@@ -9798,7 +9640,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-11 16:44:55</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>195</bannerid>
@@ -9873,7 +9714,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-14 10:05:14</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>197</bannerid>
@@ -9910,7 +9750,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-14 10:04:14</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>198</bannerid>
@@ -10099,7 +9938,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-19 14:17:17</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>203</bannerid>
@@ -10136,7 +9974,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-27 12:38:01</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>204</bannerid>
@@ -10173,7 +10010,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-27 12:43:15</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>205</bannerid>
@@ -10210,7 +10046,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-28 15:53:21</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>206</bannerid>
@@ -10247,7 +10082,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-28 15:56:57</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1000</bannerid>
@@ -10284,7 +10118,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-07-28 17:55:20</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1001</bannerid>
@@ -10321,7 +10154,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 13:14:03</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1002</bannerid>
@@ -10358,7 +10190,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 13:14:28</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1003</bannerid>
@@ -10395,7 +10226,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 11:48:22</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1004</bannerid>
@@ -10432,7 +10262,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 11:50:07</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1005</bannerid>
@@ -10469,7 +10298,6 @@
         <alt_contenttype>gif</alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 13:14:52</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1006</bannerid>
@@ -10506,7 +10334,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 12:01:37</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1007</bannerid>
@@ -10543,7 +10370,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 12:00:59</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1008</bannerid>
@@ -10580,7 +10406,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 12:04:36</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1009</bannerid>
@@ -10617,7 +10442,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 12:05:32</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1010</bannerid>
@@ -10654,7 +10478,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 12:12:38</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1011</bannerid>
@@ -10691,7 +10514,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 12:13:44</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1012</bannerid>
@@ -10728,7 +10550,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 12:14:35</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1013</bannerid>
@@ -10765,7 +10586,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 12:15:48</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1014</bannerid>
@@ -10802,7 +10622,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 12:19:56</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1015</bannerid>
@@ -10839,7 +10658,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 12:25:34</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1016</bannerid>
@@ -10876,7 +10694,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 12:27:18</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1017</bannerid>
@@ -10913,7 +10730,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 12:38:42</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1018</bannerid>
@@ -10950,7 +10766,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 13:19:16</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1019</bannerid>
@@ -10987,7 +10802,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 13:22:18</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1020</bannerid>
@@ -11024,7 +10838,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:24:13</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1021</bannerid>
@@ -11061,7 +10874,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:24:13</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1022</bannerid>
@@ -11098,7 +10910,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:24:13</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1023</bannerid>
@@ -11135,7 +10946,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:24:13</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1024</bannerid>
@@ -11172,7 +10982,6 @@
         <alt_contenttype>gif</alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:24:13</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1025</bannerid>
@@ -11209,7 +11018,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:25:42</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1026</bannerid>
@@ -11246,7 +11054,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:25:42</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1027</bannerid>
@@ -11283,7 +11090,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:25:42</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1028</bannerid>
@@ -11320,7 +11126,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:25:42</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1029</bannerid>
@@ -11357,7 +11162,6 @@
         <alt_contenttype>gif</alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:25:42</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1030</bannerid>
@@ -11394,7 +11198,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:26:19</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1031</bannerid>
@@ -11431,7 +11234,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:26:19</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1032</bannerid>
@@ -11468,7 +11270,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:26:19</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1033</bannerid>
@@ -11505,7 +11306,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:26:19</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1034</bannerid>
@@ -11542,7 +11342,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:26:19</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1035</bannerid>
@@ -11579,7 +11378,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:26:19</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1036</bannerid>
@@ -11616,7 +11414,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:26:19</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1037</bannerid>
@@ -11653,7 +11450,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:26:19</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1038</bannerid>
@@ -11690,7 +11486,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:27:12</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1039</bannerid>
@@ -11727,7 +11522,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:27:12</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1040</bannerid>
@@ -11764,7 +11558,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:27:12</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1041</bannerid>
@@ -11801,7 +11594,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:27:12</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1042</bannerid>
@@ -11838,7 +11630,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:27:12</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1043</bannerid>
@@ -11875,7 +11666,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:27:12</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1044</bannerid>
@@ -11912,7 +11702,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:27:12</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1045</bannerid>
@@ -11949,7 +11738,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:27:12</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1046</bannerid>
@@ -11986,7 +11774,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:28:11</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1047</bannerid>
@@ -12023,7 +11810,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:28:11</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1048</bannerid>
@@ -12060,7 +11846,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:28:11</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1049</bannerid>
@@ -12097,7 +11882,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:28:11</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1050</bannerid>
@@ -12134,7 +11918,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:28:49</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1051</bannerid>
@@ -12171,7 +11954,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:28:49</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1052</bannerid>
@@ -12208,7 +11990,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:28:49</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1053</bannerid>
@@ -12245,7 +12026,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:28:49</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1054</bannerid>
@@ -12282,7 +12062,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:30:06</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1055</bannerid>
@@ -12319,7 +12098,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:30:06</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1056</bannerid>
@@ -12356,7 +12134,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:30:30</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
     <banners>
         <bannerid>1057</bannerid>
@@ -12393,7 +12170,6 @@
         <alt_contenttype></alt_contenttype>
         <comments></comments>
         <updated>2006-08-08 17:30:30</updated>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </banners>
   <!-- Table campaigns -->
     <campaigns>
@@ -12403,8 +12179,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12423,8 +12197,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12443,8 +12215,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12463,8 +12233,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12484,7 +12252,6 @@
         <clicks>-1</clicks>
         <conversions>-1</conversions>
         <expire>2005-01-01</expire>
-        <activate>0000-00-00</activate>
         <active>f</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12525,8 +12292,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12545,8 +12310,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12565,8 +12328,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12585,7 +12346,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
         <activate>2006-01-01</activate>
         <active>t</active>
         <priority>0</priority>
@@ -12607,8 +12367,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12629,8 +12387,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12651,8 +12407,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12695,8 +12449,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12717,8 +12469,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>-1</priority>
         <weight>1</weight>
@@ -12739,8 +12489,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12761,8 +12509,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12784,7 +12530,6 @@
         <clicks>-1</clicks>
         <conversions>-1</conversions>
         <expire>2007-01-01</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>5</priority>
         <weight>0</weight>
@@ -12805,8 +12550,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>-1</priority>
         <weight>1</weight>
@@ -12827,8 +12570,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12849,8 +12590,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12871,8 +12610,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12893,8 +12630,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12915,8 +12650,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12937,8 +12670,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>-1</priority>
         <weight>1</weight>
@@ -12959,8 +12690,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -12981,8 +12710,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13003,8 +12730,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13025,8 +12750,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13047,8 +12770,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13069,8 +12790,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13091,8 +12810,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13113,8 +12830,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13135,8 +12850,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13157,8 +12870,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13179,8 +12890,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13201,8 +12910,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13224,7 +12931,6 @@
         <clicks>-1</clicks>
         <conversions>-1</conversions>
         <expire>2006-07-01</expire>
-        <activate>0000-00-00</activate>
         <active>f</active>
         <priority>5</priority>
         <weight>0</weight>
@@ -13245,8 +12951,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13268,7 +12972,6 @@
         <clicks>-1</clicks>
         <conversions>-1</conversions>
         <expire>2007-01-01</expire>
-        <activate>0000-00-00</activate>
         <active>f</active>
         <priority>10</priority>
         <weight>0</weight>
@@ -13289,8 +12992,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13311,8 +13012,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13333,8 +13032,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13355,8 +13052,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13377,8 +13072,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13399,8 +13092,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13421,8 +13112,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13443,8 +13132,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13465,8 +13152,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13487,8 +13172,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13509,8 +13192,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13531,8 +13212,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13553,8 +13232,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13575,8 +13252,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13597,8 +13272,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13619,8 +13292,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13641,8 +13312,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13663,8 +13332,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13685,8 +13352,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13707,8 +13372,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13730,7 +13393,6 @@
         <clicks>-1</clicks>
         <conversions>-1</conversions>
         <expire>2006-11-01</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>10</priority>
         <weight>0</weight>
@@ -13752,7 +13414,6 @@
         <clicks>-1</clicks>
         <conversions>-1</conversions>
         <expire>2006-11-01</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>10</priority>
         <weight>0</weight>
@@ -13774,7 +13435,6 @@
         <clicks>-1</clicks>
         <conversions>-1</conversions>
         <expire>2006-09-01</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>10</priority>
         <weight>0</weight>
@@ -13795,8 +13455,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13817,8 +13475,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13839,8 +13495,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13861,8 +13515,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13883,8 +13535,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13905,8 +13555,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>0</priority>
         <weight>1</weight>
@@ -13928,7 +13576,6 @@
         <clicks>-1</clicks>
         <conversions>-1</conversions>
         <expire>2007-01-01</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>5</priority>
         <weight>0</weight>
@@ -13949,8 +13596,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>-1</priority>
         <weight>1</weight>
@@ -13972,7 +13617,6 @@
         <clicks>-1</clicks>
         <conversions>-1</conversions>
         <expire>2007-01-01</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>5</priority>
         <weight>0</weight>
@@ -13993,8 +13637,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>-1</priority>
         <weight>1</weight>
@@ -14016,7 +13658,6 @@
         <clicks>-1</clicks>
         <conversions>-1</conversions>
         <expire>2007-01-01</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>5</priority>
         <weight>0</weight>
@@ -14038,7 +13679,6 @@
         <clicks>-1</clicks>
         <conversions>-1</conversions>
         <expire>2007-01-01</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>-1</priority>
         <weight>1</weight>
@@ -14059,8 +13699,6 @@
         <views>-1</views>
         <clicks>-1</clicks>
         <conversions>-1</conversions>
-        <expire>0000-00-00</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>-1</priority>
         <weight>1</weight>
@@ -14082,7 +13720,6 @@
         <clicks>-1</clicks>
         <conversions>-1</conversions>
         <expire>2007-01-01</expire>
-        <activate>0000-00-00</activate>
         <active>t</active>
         <priority>5</priority>
         <weight>0</weight>
@@ -14107,7 +13744,6 @@
         <acl_plugins></acl_plugins>
         <active>1</active>
         <comments>Agency ACL 1</comments>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </channel>
     <channel>
         <channelid>2</channelid>
@@ -14119,7 +13755,6 @@
         <acl_plugins>Site:Pageurl</acl_plugins>
         <active>1</active>
         <comments>Publisher ACL 1</comments>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </channel>
     <channel>
         <channelid>3</channelid>
@@ -14131,7 +13766,6 @@
         <acl_plugins>Client:Domain,Client:Ip</acl_plugins>
         <active>1</active>
         <comments>Publisher ACL 2</comments>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </channel>
     <channel>
         <channelid>4</channelid>
@@ -14143,7 +13777,6 @@
         <acl_plugins></acl_plugins>
         <active>1</active>
         <comments>Publisher ACL 3</comments>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </channel>
     <channel>
         <channelid>5</channelid>
@@ -14155,7 +13788,6 @@
         <acl_plugins></acl_plugins>
         <active>1</active>
         <comments>Publisher ACL 4</comments>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </channel>
     <channel>
         <channelid>6</channelid>
@@ -14167,7 +13799,6 @@
         <acl_plugins></acl_plugins>
         <active>1</active>
         <comments>Publisher ACL 5</comments>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </channel>
     <channel>
         <channelid>7</channelid>
@@ -14179,7 +13810,6 @@
         <acl_plugins></acl_plugins>
         <active>1</active>
         <comments>Publisher ACL 6</comments>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </channel>
     <channel>
         <channelid>8</channelid>
@@ -14191,7 +13821,6 @@
         <acl_plugins></acl_plugins>
         <active>1</active>
         <comments>Agency ACL 2</comments>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </channel>
     <channel>
         <channelid>9</channelid>
@@ -14203,7 +13832,6 @@
         <acl_plugins></acl_plugins>
         <active>1</active>
         <comments></comments>
-        <acls_updated>0000-00-00 00:00:00</acls_updated>
     </channel>
     <channel>
         <channelid>10</channelid>
@@ -14217,6 +13845,21 @@
         <comments></comments>
         <acls_updated>2006-07-27 11:59:34</acls_updated>
     </channel>
+  <!-- Table trackers -->
+	<trackers>
+		<trackerid>1</trackerid>
+		<trackername>Tracker 1</trackername>
+		<description>Tracker 1</description>
+		<clientid>1</clientid>
+		<viewwindow>3600</viewwindow>
+		<clickwindow>3600</clickwindow>
+		<blockwindow>3600</blockwindow>
+		<status>4</status>
+		<linkcampaigns>0</linkcampaigns>
+		<variablemethod>js</variablemethod>
+		<appendcode></appendcode>
+		<updated>2006-07-27 11:59:34</updated>
+	</trackers>
   <!-- Table preference -->
     <preference>
         <agencyid>0</agencyid>
@@ -14284,7 +13927,6 @@
         <autotarget_factor>-1</autotarget_factor>
         <maintenance_timestamp>1156324755</maintenance_timestamp>
         <compact_stats>t</compact_stats>
-        <statslastday>0000-00-00</statslastday>
         <statslasthour>0</statslasthour>
         <default_tracker_status>1</default_tracker_status>
         <default_tracker_type>1</default_tracker_type>
@@ -14357,7 +13999,6 @@
         <gui_invocation_3rdparty_default>generic</gui_invocation_3rdparty_default>
         <qmail_patch>f</qmail_patch>
         <updates_TIMESTAMP>0</updates_TIMESTAMP>
-        <updates_last_seen></updates_last_seen>
         <allow_invocation_plain>t</allow_invocation_plain>
         <allow_invocation_plain_nocookies>t</allow_invocation_plain_nocookies>
         <allow_invocation_js>t</allow_invocation_js>
@@ -14375,7 +14016,6 @@
         <autotarget_factor>-1</autotarget_factor>
         <maintenance_timestamp>1156324755</maintenance_timestamp>
         <compact_stats>t</compact_stats>
-        <statslastday>0000-00-00</statslastday>
         <statslasthour>0</statslasthour>
         <default_tracker_status>2</default_tracker_status>
         <default_tracker_type>1</default_tracker_type>
@@ -14449,7 +14089,6 @@
         <gui_invocation_3rdparty_default>0</gui_invocation_3rdparty_default>
         <qmail_patch>f</qmail_patch>
         <updates_TIMESTAMP>0</updates_TIMESTAMP>
-        <updates_last_seen></updates_last_seen>
         <allow_invocation_plain>f</allow_invocation_plain>
         <allow_invocation_plain_nocookies>t</allow_invocation_plain_nocookies>
         <allow_invocation_js>t</allow_invocation_js>
@@ -14467,7 +14106,6 @@
         <autotarget_factor>-1</autotarget_factor>
         <maintenance_timestamp>1156324755</maintenance_timestamp>
         <compact_stats>t</compact_stats>
-        <statslastday>0000-00-00</statslastday>
         <statslasthour>0</statslasthour>
         <default_tracker_status>1</default_tracker_status>
         <default_tracker_type>1</default_tracker_type>
@@ -14540,7 +14178,6 @@
         <gui_invocation_3rdparty_default>0</gui_invocation_3rdparty_default>
         <qmail_patch>f</qmail_patch>
         <updates_TIMESTAMP>0</updates_TIMESTAMP>
-        <updates_last_seen></updates_last_seen>
         <allow_invocation_plain>t</allow_invocation_plain>
         <allow_invocation_plain_nocookies>t</allow_invocation_plain_nocookies>
         <allow_invocation_js>t</allow_invocation_js>
@@ -14558,7 +14195,6 @@
         <autotarget_factor>-1</autotarget_factor>
         <maintenance_timestamp>1156324755</maintenance_timestamp>
         <compact_stats>t</compact_stats>
-        <statslastday>0000-00-00</statslastday>
         <statslasthour>0</statslasthour>
         <default_tracker_status>1</default_tracker_status>
         <default_tracker_type>1</default_tracker_type>
@@ -14571,21 +14207,36 @@
         <publisher_help_files></publisher_help_files>
         <publisher_default_tax_id>t</publisher_default_tax_id>
         <publisher_default_approved>t</publisher_default_approved>
-        <gui_column_id>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:1;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:1;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:1;}}</gui_column_id>
-        <gui_column_requests>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:2;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:2;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:2;}}</gui_column_requests>
-        <gui_column_impressions>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:3;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:3;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:3;}}</gui_column_impressions>
-        <gui_column_clicks>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:4;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:4;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:4;}}</gui_column_clicks>
-        <gui_column_ctr>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:5;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:5;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:5;}}</gui_column_ctr>
-        <gui_column_conversions>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:6;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:6;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:6;}}</gui_column_conversions>
-        <gui_column_conversions_pending>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:7;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:7;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:7;}}</gui_column_conversions_pending>
-        <gui_column_sr_views>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:8;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:8;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:8;}}</gui_column_sr_views>
-        <gui_column_sr_clicks>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:9;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:9;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;&quot;;s:4:&quot;rank&quot;;i:9;}}</gui_column_sr_clicks>
+        <gui_column_id>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:1;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:1;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:1;}}</gui_column_id>
+        <gui_column_requests>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:2;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:2;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:2;}}</gui_column_requests>
+        <gui_column_impressions>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:3;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:3;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:3;}}</gui_column_impressions>
+        <gui_column_clicks>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:4;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:4;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:4;}}</gui_column_clicks>
+        <gui_column_ctr>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:5;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:5;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:5;}}</gui_column_ctr>
+        <gui_column_conversions>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:6;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:6;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:6;}}</gui_column_conversions>
+        <gui_column_conversions_pending>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:7;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:7;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:7;}}</gui_column_conversions_pending>
+        <gui_column_sr_views>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:8;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:8;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:8;}}</gui_column_sr_views>
+        <gui_column_sr_clicks>a:4:{i:1;a:3:{s:4:&quot;show&quot;;b:0;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:0;}i:2;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:9;}i:4;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:9;}i:8;a:3:{s:4:&quot;show&quot;;b:1;s:5:&quot;label&quot;;s:0:&quot;;s:4:&quot;rank&quot;;i:9;}}</gui_column_sr_clicks>
         <gui_column_revenue>15</gui_column_revenue>
         <gui_column_cost>15</gui_column_cost>
         <gui_column_bv>15</gui_column_bv>
         <gui_column_revcpc>15</gui_column_revcpc>
         <gui_column_costcpc>15</gui_column_costcpc>
     </preference>
+  <!-- Table variables -->
+	<variables>
+		<variableid>1</variableid>
+		<trackerid>1</trackerid>
+		<name>Variable 1</name>
+		<datatype>numeric</datatype>
+		<variablecode></variablecode>
+	</variables>
+	<variables>
+		<variableid>2</variableid>
+		<trackerid>1</trackerid>
+		<name>Variable 2</name>
+		<datatype>date</datatype>
+		<variablecode></variablecode>
+	</variables>
   <!-- Table zones -->
     <zones>
         <zoneid>1</zoneid>
@@ -14971,7 +14622,7 @@
         <comments></comments>
         <cost>0.0000</cost>
         <cost_type>0</cost_type>
-        <updated>2006-03-16 11:34:12</updated>
+        <!-- Line disabled as it is triggering a bug with PHP 4.4.6 <updated>2006-03-16 11:34:12</updated-->
     </zones>
     <zones>
         <zoneid>19</zoneid>
