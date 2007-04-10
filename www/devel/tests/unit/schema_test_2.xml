@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<database>
+
+ <name>test</name>
+ <create>true</create>
+ <overwrite>false</overwrite>
+
+ <table>
+
+  <name>table1</name>
+
+  <declaration>
+
+   <field>
+    <name>b_id_field</name>
+    <type>integer</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>c_date_field_new</name>
+    <type>openads_datetime</type>
+    <length></length>
+    <notnull></notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>index1</name>
+    <field>
+     <name>b_id_field</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>index2</name>
+    <unique>true</unique>
+    <field>
+     <name>b_id_field</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>c_date_field_new</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>table2_new</name>
+
+  <declaration>
+
+  <field>
+    <name>b_id_field_new</name>
+    <type>integer</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>a_text_field_new</name>
+    <type>text</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>index1_new</name>
+    <field>
+     <name>b_id_field_new</name>
+     <primary>true</primary>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>index2_new</name>
+    <unique>true</unique>
+    <field>
+     <name>b_id_field_new</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>a_text_field_new</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+
+  </declaration>
+
+ </table>
+
+</database>
