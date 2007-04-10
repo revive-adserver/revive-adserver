@@ -137,6 +137,77 @@ class Test_DB_Upgrade extends UnitTestCase
         }
     }
 
+    function test_verifyTasksIndexesRemove()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject(array('table1'));
+
+        $aPrev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
+        $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_indexRemove.xml');
+        $aChanges_write                  = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+
+        $this->aOptions['output']       = MAX_PATH.'/var/changes_test_indexRemove.xml';
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+
+        $this->assertTrue($oDB_Upgrade->_verifyTasksIndexesRemove(),'failed _verifyTasksIndexesRemove');
+        $aTaskList = $oDB_Upgrade->aTaskList;
+        $this->assertTrue(isset($aTaskList['indexes']['remove']),'failed creating task list: indexes remove');
+        $this->assertEqual(count($aTaskList['indexes']['remove']),1, 'incorrect elements in task list: indexes remove');
+        $this->assertEqual($aTaskList['indexes']['remove'][0]['name'], 'index2', 'wrong index name');
+        $this->assertEqual($aTaskList['indexes']['remove'][0]['table'], 'table1', 'wrong table name');
+    }
+
+    function test_verifyTasksIndexesAdd()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject(array('table1'));
+
+        $aPrev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
+        $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_indexAdd.xml');
+        $aChanges_write                  = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+
+        $this->aOptions['output']       = MAX_PATH.'/var/changes_test_indexAdd.xml';
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+
+        $this->assertTrue($oDB_Upgrade->_verifyTasksIndexesAdd(),'failed _verifyTasksIndexesAdd');
+        $aTaskList = $oDB_Upgrade->aTaskList;
+        $this->assertTrue(isset($aTaskList['indexes']['add']),'failed creating task list: indexes add');
+        $this->assertEqual(count($aTaskList['indexes']['add']),3, 'incorrect elements in task list: indexes add');
+
+        $this->assertEqual($aTaskList['indexes']['add'][0]['name'], 'primary', 'wrong index name');
+        $this->assertEqual($aTaskList['indexes']['add'][0]['table'], 'table2', 'wrong table name');
+        $this->assertEqual(count($aTaskList['indexes']['add'][0]['cargo']),1, 'incorrect number of add index tasks in task list');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']),'indexes cargo array not found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['primary']),'index definition not found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['primary']['primary']),'index primary not found in task add array');
+        $this->assertFalse(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['primary']['unique']),'index unique found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['primary']['fields']),'index fields not found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['primary']['fields']['b_id_field2']),'index field not found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['primary']['fields']['b_id_field2']['sorting']),'sorting not defined for field in task add array');
+
+        $this->assertEqual($aTaskList['indexes']['add'][1]['name'], 'index_unique', 'wrong index name');
+        $this->assertEqual($aTaskList['indexes']['add'][1]['table'], 'table2', 'wrong table name');
+        $this->assertEqual(count($aTaskList['indexes']['add'][1]['cargo']),1, 'incorrect number of add index tasks in task list');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][1]['cargo']['indexes']),'indexes cargo array not found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][1]['cargo']['indexes']['index_unique']),'index definition not found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][1]['cargo']['indexes']['index_unique']['unique']),'index unique not found in task add array');
+        $this->assertFalse(isset($aTaskList['indexes']['add'][1]['cargo']['indexes']['index_unique']['primary']),'index primary found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][1]['cargo']['indexes']['index_unique']['fields']),'index fields not found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][1]['cargo']['indexes']['index_unique']['fields']['b_id_field2']),'index field not found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][1]['cargo']['indexes']['index_unique']['fields']['b_id_field2']['sorting']),'sorting not defined for field in task add array');
+
+        $this->assertEqual($aTaskList['indexes']['add'][2]['name'], 'index_new', 'wrong index name');
+        $this->assertEqual($aTaskList['indexes']['add'][2]['table'], 'table2', 'wrong table name');
+        $this->assertEqual(count($aTaskList['indexes']['add'][2]['cargo']),1, 'incorrect number of add index tasks in task list');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][2]['cargo']['indexes']),'indexes cargo array not found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][2]['cargo']['indexes']['index_new']),'index definition not found in task add array');
+        $this->assertFalse(isset($aTaskList['indexes']['add'][2]['cargo']['indexes']['index_new']['unique']),'index unique found in task add array');
+        $this->assertFalse(isset($aTaskList['indexes']['add'][2]['cargo']['indexes']['index_new']['primary']),'index primary found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][2]['cargo']['indexes']['index_new']['fields']),'index fields not found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][2]['cargo']['indexes']['index_new']['fields']['b_id_field2']),'index field not found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][2]['cargo']['indexes']['index_new']['fields']['b_id_field2']['sorting']),'sorting not defined for field in task add array');
+    }
+
     function test_verifyTasksTablesAdd()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject(array('table1'));
@@ -177,7 +248,6 @@ class Test_DB_Upgrade extends UnitTestCase
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
 
-        $oDB_Upgrade->aTaskList = $aTaskList;
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesRemove(),'failed _verifyTasksTablesRemove');
         $aTaskList = $oDB_Upgrade->aTaskList;
         $this->assertTrue(isset($aTaskList['tables']['remove']),'failed creating task list: tables remove');

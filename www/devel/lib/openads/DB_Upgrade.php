@@ -501,7 +501,7 @@ class OA_DB_Upgrade
         }
         if ($this->continue)
         {
-            $this->_verifyTasksIndexesDrop();
+            $this->_verifyTasksIndexesRemove();
         }
         if ($this->continue)
         {
@@ -537,7 +537,7 @@ class OA_DB_Upgrade
         }
         if ($this->continue)
         {
-            $this->_executeTasksIndexesDrop();
+            $this->_executeTasksIndexesRemove();
         }
         if ($this->continue)
         {
@@ -805,7 +805,7 @@ class OA_DB_Upgrade
      *
      * @return boolean
      */
-    function _executeTasksIndexesDrop()
+    function _executeTasksIndexesRemove()
     {
         foreach ($this->aTaskList['indexes']['remove'] as $k => $aTask)
         {
@@ -901,7 +901,7 @@ class OA_DB_Upgrade
      *
      * @return boolean
      */
-    function _verifyTasksIndexesDrop()
+    function _verifyTasksIndexesRemove()
     {
         foreach ($this->aChanges['tasks'][$this->timingStr]['tables'] AS $table => $aTable_tasks)
         {
