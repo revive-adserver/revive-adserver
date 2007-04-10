@@ -32,7 +32,6 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/language/Invocation.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
-require_once MAX_PATH . '/lib/max/other/db_proc.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';

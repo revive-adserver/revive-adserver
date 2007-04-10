@@ -721,7 +721,6 @@ function MAX_getLinkedAdParams($zoneId)
 function MAX_removeFile($adId)
 {
     $aAd =  Admin_DA::getAd($adId);
-#    $aAd = MAX_getEntity('ad', $adId);
     _removeFile($aAd);
 }
 

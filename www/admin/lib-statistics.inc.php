@@ -277,7 +277,6 @@ function phpAds_getAffiliateName($affiliateid)
 function phpAds_buildBannerCode($bannerid, $fullpreview = false)
 {
     include_once MAX_PATH . '/lib/max/Delivery/adRender.php';
-    include_once MAX_PATH . '/lib/max/other/db_proc.php';
     $aBanner = Admin_DA::getAd($bannerid);
     $aBanner['storagetype'] = $aBanner['type'];
     $aBanner['bannerid'] = $aBanner['ad_id'];

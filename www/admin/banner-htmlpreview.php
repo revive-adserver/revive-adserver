@@ -34,7 +34,6 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/max/other/db_proc.php';
 require_once MAX_PATH . '/lib/max/Delivery/adRender.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
