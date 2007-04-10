@@ -1513,7 +1513,7 @@ class OA_DB_Upgrade
                 $engine = $this->oSchema->db->getOption('default_table_type');
                 $this->copyTableStatement  = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
                 break;
-            case 'postgres':
+            case 'pgsql':
                 $this->copyTableStatement  = "CREATE TABLE %s AS SELECT * FROM %s";
                 break;
             default:
