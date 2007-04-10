@@ -74,7 +74,8 @@ class Test_DB_Upgrade extends UnitTestCase
 
     function test_BackupAndRollback()
     {
-        $oDB_Upgrade = $this->_newDBUpgradeObject(array('table1'));
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $oDB_Upgrade->aChanges['affected_tables']['constructive'] = array('table1');
 
         $aTbl_def_orig = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1'));
 
@@ -139,11 +140,11 @@ class Test_DB_Upgrade extends UnitTestCase
 
     function test_verifyTasksIndexesRemove()
     {
-        $oDB_Upgrade = $this->_newDBUpgradeObject(array('table1'));
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
 
-        $aPrev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
+        $aPrev_definition               = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_indexRemove.xml');
-        $aChanges_write                  = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
 
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_indexRemove.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
@@ -159,7 +160,7 @@ class Test_DB_Upgrade extends UnitTestCase
 
     function test_verifyTasksIndexesAdd()
     {
-        $oDB_Upgrade = $this->_newDBUpgradeObject(array('table1'));
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
 
         $aPrev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_indexAdd.xml');
@@ -210,7 +211,7 @@ class Test_DB_Upgrade extends UnitTestCase
 
     function test_verifyTasksTablesAdd()
     {
-        $oDB_Upgrade = $this->_newDBUpgradeObject(array('table1'));
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
 
         $aPrev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAdd.xml');
@@ -238,7 +239,7 @@ class Test_DB_Upgrade extends UnitTestCase
 
     function test_verifyTasksTablesRemove()
     {
-        $oDB_Upgrade = $this->_newDBUpgradeObject(array('table1'),'destructive');
+        $oDB_Upgrade = $this->_newDBUpgradeObject('destructive');
 
         $aPrev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableRemove.xml');
@@ -257,7 +258,7 @@ class Test_DB_Upgrade extends UnitTestCase
 
     function test_verifyTasksTablesRename()
     {
-        $oDB_Upgrade = $this->_newDBUpgradeObject(array('table1'));
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
 
         $aPrev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableRename.xml');
@@ -306,7 +307,7 @@ class Test_DB_Upgrade extends UnitTestCase
 
     function test_verifyTasksTablesAlter()
     {
-        $oDB_Upgrade = $this->_newDBUpgradeObject(array('table1'));
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
 
         $aPrev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
 
@@ -413,7 +414,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertEqual($aTaskList['fields']['rename'][0]['cargo']['rename']['b_id_field']['name'],'b_id_field_renamed','b_id_field wrong value in task change array');
 
         // Test 3 : remove field
-        $oDB_Upgrade = $this->_newDBUpgradeObject(array('table1'), 'destructive');
+        $oDB_Upgrade = $this->_newDBUpgradeObject('destructive');
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter3.xml');
         $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter3.xml';
@@ -446,7 +447,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(in_array('table2', $aExistingTables), '_createTestTables');
     }
 
-    function _newDBUpgradeObject($affected_tables=array(), $timing='constructive')
+    function _newDBUpgradeObject($timing='constructive')
     {
         $oDB_Upgrade = & new OA_DB_Upgrade();
         $oDB_Upgrade->timingStr = $timing;
@@ -454,7 +455,6 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->prefix = '';
         $oDB_Upgrade->versionFrom = 1;
         $oDB_Upgrade->versionTo = 2;
-        $oDB_Upgrade->aChanges['affected_tables']['constructive'] = array('table1');
         $this->_createTestTables($oDB_Upgrade->oSchema->db);
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $oDB_Upgrade->logFile = 'DB_Upgrade.dev.test.log';
