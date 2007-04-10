@@ -512,7 +512,14 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
 
         $table = $db->quoteIdentifier($table, true);
         $db->setLimit(1);
-        $result2 = $db->query("SELECT * FROM $table");
+        if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
+            if ($db->options['field_case'] == 'CASE_LOWER') {
+                $table = strtolower($table);
+            } else if ($db->options['field_case'] == 'CASE_UPPER') {
+                $table = strtoupper($table);
+            }
+        }
+        $result2 = $db->query("SELECT * FROM \"$table\"");
         if (PEAR::isError($result2)) {
             return $result2;
         }
