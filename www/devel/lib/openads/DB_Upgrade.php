@@ -1514,7 +1514,7 @@ class OA_DB_Upgrade
                 $this->copyTableStatement  = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
                 break;
             case 'pgsql':
-                $this->copyTableStatement  = "CREATE TABLE %s AS SELECT * FROM %s";
+                $this->copyTableStatement  = 'CREATE TABLE "%s" AS SELECT * FROM %s';
                 break;
             default:
                 '';
@@ -1532,7 +1532,7 @@ class OA_DB_Upgrade
     function _listTables()
     {
         $portability = $this->oSchema->db->getOption('portability');
-        $this->oSchema->db->setOption('portability', MDB2_PORTABILITY_NONE);
+        $this->oSchema->db->setOption('portability',  MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL ^ MDB2_PORTABILITY_FIX_CASE);
         $aDBTables = $this->oSchema->db->manager->listTables();
         $this->oSchema->db->setOption('portability', $portability);
         return $aDBTables;
