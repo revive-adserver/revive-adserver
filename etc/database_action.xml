@@ -72,8 +72,8 @@
 
    <field>
     <name>schema_backup</name>
-    <type>openads_varchar</type>
-    <length>255</length>
+    <type>openads_text</type>
+    <length></length>
     <notnull>true</notnull>
     <default></default>
    </field>
