@@ -1369,37 +1369,37 @@ class StatsController
      * @param array optional params array
      * @param bool clear existing pageParams
      */
-    function loadParams($mergeArray=null, $clearParams=false)
+    function loadParams($mergeArray = null, $clearParams = false)
     {
         //list of variables to get
         $varArray = array('period_start', 'period_end', 'listorder', 'orderdirection',
                           'day', 'period_preset', 'setPerPage');
 
-        if($this->pageParams['entity'] == '') {
+        if ($this->pageParams['entity'] == '') {
             $varArray[] = 'entity';
         }
 
-        if($this->pageParams['breakdown'] == '') {
+        if ($this->pageParams['breakdown'] == '') {
             $varArray[] = 'breakdown';
         }
 
-        //clear existing params
+        // clear existing params
         if($clearParams) {
             unset($this->pageParams);
         }
 
-        //add new params from $_GET/session
+        // add new params from $_GET/session
         foreach($varArray as $k => $v) {
             $this->pageParams[$v] = MAX_getStoredValue($v, '');
         }
 
-        //special protection for setPerPage value. Gives it a default value
+        // special protection for setPerPage value. Gives it a default value
         if(empty($this->pageParams['setPerPage'])) {
             $this->pageParams['setPerPage'] = 15;
         }
 
-        //merge params with optional array
-        if(is_array($mergeArray)) {
+        // merge params with optional array
+        if (is_array($mergeArray)) {
             $this->pageParams = array_merge($this->pageParams, $mergeArray);
 
         }
