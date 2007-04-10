@@ -103,6 +103,13 @@ class OA_DB_Upgrade
     var $logFile;
 
     /**
+     * A variable to store the default value of PEAR::MDB2 protability options.
+     *
+     * @var integer
+     */
+    var $portability;
+
+    /**
      * php5 class constructor
      *
      * simpletest throws a BadGroupTest error
@@ -127,6 +134,7 @@ class OA_DB_Upgrade
         {
             $this->oSchema = $result;
             $this->_setTableCopyStatement();
+            $this->portability = $this->oSchema->db->getOption('portability');
         }
         else
         {
@@ -1531,10 +1539,9 @@ class OA_DB_Upgrade
 
     function _listTables()
     {
-        $portability = $this->oSchema->db->getOption('portability');
-        $this->oSchema->db->setOption('portability',  MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL ^ MDB2_PORTABILITY_FIX_CASE);
+        OA_DB::setCaseSensitive();
         $aDBTables = $this->oSchema->db->manager->listTables();
-        $this->oSchema->db->setOption('portability', $portability);
+        OA_DB::restoreDefaultCaseOptions();
         return $aDBTables;
     }
 
@@ -1562,6 +1569,7 @@ class OA_DB_Upgrade
         fwrite($log, "ERROR: {$message}\n");
         fclose($log);
     }
+
 }
 
 /*
