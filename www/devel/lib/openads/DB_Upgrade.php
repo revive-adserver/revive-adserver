@@ -259,13 +259,13 @@ class OA_DB_Upgrade
             $result = $this->_verifyTasks();
             if (!$this->_isPearError($result, 'TASKLIST CREATION FAILED'))
             {
-                $this->_logDatabaseAction(DB_UPGRADE_ACTION_UPGRADE_STARTED, 'UPGRADE STARTED');
+                $this->_logDatabaseAction(DB_UPGRADE_ACTION_UPGRADE_STARTED, array('info1'=>'UPGRADE STARTED'));
                 if ($this->_backup())
                 {
                     if (!$this->_executeTasks())
                     {
                         $this->_logError('UPGRADE FAILED');
-                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_UPGRADE_FAILED, 'UPGRADE FAILED', 'ROLLING BACK');
+                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_UPGRADE_FAILED, array('info1'=>'UPGRADE FAILED', 'info2'=>'ROLLING BACK'));
                         if ($this->_rollback())
                         {
                             $this->_logError('ROLLBACK SUCCEEDED');
@@ -280,7 +280,7 @@ class OA_DB_Upgrade
                     else
                     {
                         $this->_log('UPGRADE SUCCEEDED');
-                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED, 'UPGRADE SUCCEEDED');
+                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED, array('info1'=>'UPGRADE SUCCEEDED'));
                     }
                 }
                 else
@@ -323,7 +323,7 @@ class OA_DB_Upgrade
         $aTables = $this->aChanges['affected_tables'][$this->timingStr];
         if (!empty($aTables))
         {
-            $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_STARTED, 'BACKUP STARTED');
+            $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_STARTED, array('info1'=>'BACKUP STARTED'));
             foreach ($aTables AS $k => $table)
             {
                 $table = $this->prefix.$table;
@@ -339,7 +339,7 @@ class OA_DB_Upgrade
                     if ($this->_isPearError($result, 'error creating backup'))
                     {
                         $this->_halt();
-                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_FAILED, 'BACKUP FAILED', 'creating backup table'.$table_bak);
+                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_FAILED, array('info1'=>'BACKUP FAILED', 'info1'=>'creating backup table'.$table_bak));
                         return false;
                     }
                     $aBakDef = $this->oSchema->getDefinitionFromDatabase(array($table));
@@ -350,20 +350,20 @@ class OA_DB_Upgrade
                                                             'bak'=>$table_bak,
                                                             'def'=>$aBakDef
                                                          );
-                    if (!$this->_createAllIndexes($aBakDef, $table_bak))
-                    {
-                        $this->_halt();
-                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_FAILED, 'BACKUP FAILED', 'creating indexes on table '.$table_bak);
-                        return false;
-                    }
-                    $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_TABLE, $table, $table_bak);
+//                    if (!$this->_createAllIndexes($aBakDef, $table_bak))
+//                    {
+//                        $this->_halt();
+//                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_FAILED, 'BACKUP FAILED', 'creating indexes on table '.$table_bak);
+//                        return false;
+//                    }
+                    $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_TABLE, array('info1'=>'copied table', 'tablename'=>$table, 'tablename_backup'=>$table_bak, 'schema_backup'=>serialize($aBakDef)));
                 }
             }
-            $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_SUCCEEDED, 'BACKUP COMPLETE');
+            $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_SUCCEEDED, array('info1'=>'BACKUP COMPLETE'));
         }
         else
         {
-            $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_SUCCEEDED, 'BACKUP UNNECESSARY');
+            $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_SUCCEEDED, array('info1'=>'BACKUP UNNECESSARY'));
         }
         return true;
     }
@@ -385,7 +385,7 @@ class OA_DB_Upgrade
             krsort($this->aRestoreTables);
             if (!empty($this->aRestoreTables))
             {
-                $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_STARTED, 'ROLLBACK STARTED');
+                $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_STARTED, array('info1'=>'ROLLBACK STARTED'));
                 foreach ($this->aRestoreTables AS $table => $aTable_bak)
                 {
                     if (in_array($aTable_bak['bak'], $this->aDBTables))
@@ -395,24 +395,24 @@ class OA_DB_Upgrade
                         if (!$result)
                         {
                             $this->_halt();
-                            $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_FAILED, 'ROLLBACK FAILED', "failed to restore table: {$this->prefix}{$table}");
+                            $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_FAILED, array('info1'=>'ROLLBACK FAILED', 'info2'=>"failed to restore table', 'tablename'=>{$this->prefix}{$table}"));
                             return false;
                         }
-                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_TABLE, $table, $aTable_bak['bak']);
+                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_TABLE, array('info1'=>'reverted table', 'tablename'=>$table, 'tablename_backup'=>$aTable_bak['bak']));
                     }
                     else
                     {
                         $this->_halt();
                         $this->_logError("backup table not found during rollback: {$aTable_bak['bak']}");
-                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_FAILED, 'ROLLBACK FAILED', "backup table not found: {$aTable_bak['bak']}");
+                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_FAILED, array('info1'=>'ROLLBACK FAILED', 'info2'=>"backup table not found: {$aTable_bak['bak']}"));
                         return false;
                     }
                 }
-                $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_SUCCEEDED, 'ROLLBACK COMPLETE');
+                $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_SUCCEEDED, array('info1'=>'ROLLBACK COMPLETE'));
             }
             else
             {
-                $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_SUCCEEDED, 'ROLLBACK UNNECESSARY');
+                $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_SUCCEEDED, array('info1'=>'ROLLBACK UNNECESSARY'));
             }
         }
         return true;
@@ -1404,24 +1404,24 @@ class OA_DB_Upgrade
      * @param string $info2
      * @return boolean
      */
-    function _logDatabaseAction($action, $info1='', $info2='')
+    function _logDatabaseAction($action, $aParams=array())
     {
         $this->_log('_logDatabaseAction start');
-        $backup_record = array();
-        $record['version']   = $this->versionTo;
-        $record['timing']    = $this->timingInt;
-        $record['action']    = $action;
-        $record['info1']     = $info1;
-        $record['info2']     = $info2;
+//        $record = $aParams;
+        $aParams['version']   = $this->versionTo;
+        $aParams['timing']    = $this->timingInt;
+        $aParams['action']    = $action;
+//        $record['info1']     = $info1;
+//        $record['info2']     = $info2;
         //$record['updated']   = 'NOW()';
 
-        foreach ($record AS $k => $v)
+        foreach ($aParams AS $k => $v)
         {
             $this->_log($k.' : '.$v);
         }
         $this->_log('_logDatabaseAction end');
-        $columns = implode(",", array_keys($record));
-        $values  = implode("','", array_values($record));
+        $columns = implode(",", array_keys($aParams));
+        $values  = implode("','", array_values($aParams));
         //$values  = implode("','", mysql_escape_string(array_values($record)));
 
         $query = "INSERT INTO {$this->prefix}{$this->logTable} ({$columns}, updated) VALUES ('{$values}', NOW())";
