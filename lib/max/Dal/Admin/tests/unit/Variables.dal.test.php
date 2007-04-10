@@ -36,6 +36,12 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  */
 class MAX_Dal_Admin_VariablesTest extends DalUnitTestCase
 {
+
+    function tearDown()
+    {
+        DataGenerator::cleanUp();
+    }
+
     function testGetTrackerVariables()
     {
         $dalVariables = OA_Dal::factoryDAL('variables');
@@ -68,7 +74,7 @@ class MAX_Dal_Admin_VariablesTest extends DalUnitTestCase
 
         $doVariables = OA_Dal::factoryDO('variables');
         $doVariables->trackerid = $trackerId;
-        DataGenerator::generateOne($doVariables);
+        $variableId = DataGenerator::generateOne($doVariables);
 
         $doVariablePublisher = OA_Dal::factoryDO('variable_publisher');
         $doVariablePublisher->variable_id = $variableId;
@@ -79,6 +85,7 @@ class MAX_Dal_Admin_VariablesTest extends DalUnitTestCase
         $rs->reset();
         $this->assertEqual(1, $rs->getRowCount());
     }
+
 }
 
 ?>
