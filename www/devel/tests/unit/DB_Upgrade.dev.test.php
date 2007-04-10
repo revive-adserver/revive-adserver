@@ -91,6 +91,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->_createTestTable($oDB_Upgrade->oSchema->db);
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $oDB_Upgrade->logFile = 'DB_Upgrade.dev.test.log';
+        if (!in_array($oDB_Upgrade->prefix.$oDB_Upgrade->logTable, $oDB_Upgrade->aDBTables))
+        {
+            $this->assertTrue($oDB_Upgrade->_createAuditTable(),'failed to create database_action audit table');
+        }
 
         $tbl_def_orig = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1'));
 
@@ -164,6 +168,11 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->_createTestTable($oDB_Upgrade->oSchema->db);
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $oDB_Upgrade->logFile = 'DB_Upgrade.dev.test.log';
+        if (!in_array($oDB_Upgrade->prefix.$oDB_Upgrade->logTable, $oDB_Upgrade->aDBTables))
+        {
+            $this->assertTrue($oDB_Upgrade->_createAuditTable(),'failed to create database_action audit table');
+        }
+
 
         $prev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile(MAX_PATH.'/www/devel/tests/unit/schema_test_1.xml');
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile(MAX_PATH.'/www/devel/tests/unit/schema_test_2.xml');
