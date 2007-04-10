@@ -124,6 +124,7 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'mtp' => array('Maintenance Priority Engine (DB)',     DB_WITH_DATA),
         'mtf' => array('Maintenance Forecasting Engine (DB)',  DB_WITH_TABLES),
         'del' => array('Delivery Engine (DB)', DB_WITH_DATA),
+        'dev'   => array('Developer Tools',                    DB_WITH_TABLES),
     );
 
 /*
