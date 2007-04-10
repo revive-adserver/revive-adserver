@@ -1514,7 +1514,7 @@ class OA_DB_Upgrade
                 $this->copyTableStatement  = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
                 break;
             case 'pgsql':
-                $this->copyTableStatement  = 'CREATE TABLE "%s" AS SELECT * FROM %s';
+                $this->copyTableStatement  = 'CREATE TABLE "%s" AS SELECT * FROM "%s"';
                 break;
             default:
                 '';
