@@ -520,7 +520,7 @@ class SqlBuilder
         if (!empty($aParams) && is_array($aParams)) {
             $aParams = MAX_commonSlashArray($aParams);
         }
-        
+
         $aLimitations = array();
 
         if (isset($aParams['ad_width'])) SqlBuilder::_addLimitation($aLimitations, 'ad_width', 'd.width', $aParams['ad_width']);
@@ -1055,11 +1055,11 @@ class SqlBuilder
 
         $query = "INSERT INTO $table" . $names . $values;
 
-        $dbh =& OA_DB::singleton();
-        $rc = $dbh->exec($query);
+        $oDbh = &OA_DB::singleton();
+        $rc = $oDbh->exec($query);
 
         if (!(PEAR::isError($rc))) {
-            return $dbh->lastInsertID();
+            return $oDbh->lastInsertID();
         }
         return $rc;
     }
@@ -1181,8 +1181,8 @@ class SqlBuilder
             return false;
         }
     }
-    
-    
+
+
     /**
      * Performs an SQL update.
      *
