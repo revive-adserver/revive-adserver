@@ -18,16 +18,17 @@ class Migration
 
     function Migration()
     {
-        $this->__construct();
+        $this->aObjectMap = array();
+        //$this->__construct();
     }
 
-    function __construct()
-    {
-		$this->aObjectMap = array();
-		//$this->aObjectMap['totablename'] = array('fromTable'=>'fromtablename');
-		//or
-	    //$this->aObjectMap['totablename']['tofieldname'] = array('fromTable'=>'fromtablename', 'fromField'=>'fromfieldname');
-    }
+//    function __construct()
+//    {
+//		$this->aObjectMap = array();
+//		//$this->aObjectMap['totablename'] = array('fromTable'=>'fromtablename');
+//		//or
+//	    //$this->aObjectMap['totablename']['tofieldname'] = array('fromTable'=>'fromtablename', 'fromField'=>'fromfieldname');
+//    }
 
     function logEvent($event, $params=array())
     {

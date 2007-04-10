@@ -30,6 +30,7 @@ require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH.'/lib/OA/DB/Table.php';
 
 require_once MAX_PATH.'/www/devel/lib/openads/DB_Upgrade.php';
+require_once MAX_PATH.'/www/devel/lib/openads/Migration.php';
 
 
 /**
@@ -434,6 +435,45 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(isset($aTaskList['fields']['remove'][0]['cargo']['remove']['a_text_field']),'a_text_field field not found in task change array');
 
     }
+
+
+    function test_executeTasksTablesAdd()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $oDB_Upgrade->aChanges['affected_tables']['constructive'] = array('table2');
+
+        $aPrev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
+        $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAdd.xml');
+        $aChanges_write                  = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+
+        $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAdd.xml';
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+        $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAdd(),'failed _verifyTasksTablesAdd');
+
+        Mock::generatePartial(
+            'Migration',
+            $mockMigrator = 'Migration_'.rand(),
+            array('beforeAddTable__table_new', 'afterAddTable__table_new')
+        );
+
+        $oDB_Upgrade->oMigrator = new $mockMigrator($this);
+        $oDB_Upgrade->oMigrator->setReturnValue('beforeAddTable__table_new', true);
+        $oDB_Upgrade->oMigrator->expectOnce('beforeAddTable__table_new');
+        $oDB_Upgrade->oMigrator->setReturnValue('afterAddTable__table_new', true);
+        $oDB_Upgrade->oMigrator->expectOnce('afterAddTable__table_new');
+
+        $this->assertTrue($oDB_Upgrade->_executeTasksTablesAdd(),'failed _executeTasksTablesAdd');
+        $oDB_Upgrade->oMigrator->tally();
+
+        $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
+        $this->assertTrue(in_array($oDB_Upgrade->prefix.'table_new', $oDB_Upgrade->aDBTables),'table_new not found');
+        $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table_new');
+        $this->assertTrue(in_array('b_id_field_new', $aDBFields),'b_id_field_new not found in table_new');
+        $this->assertTrue(in_array('a_text_field_new', $aDBFields),'a_text_field_new not found in table_new');
+
+    }
+
 
     function _createTestTables($oDbh)
     {

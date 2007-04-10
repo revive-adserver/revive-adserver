@@ -657,7 +657,7 @@ class OA_DB_Upgrade
             $table = $this->prefix.$aTask['name'];
             $this->_log($this->_formatExecuteMsg($k,  $table, 'create'));
 
-            if (!$this->_executeMigrationMethod($table, 'beforeAddTable'))
+            if (!$this->_executeMigrationMethodTable($table, 'beforeAddTable'))
             {
                 $this->_halt();
                 return false;
@@ -669,8 +669,12 @@ class OA_DB_Upgrade
                 {
                     if (isset($aTask['indexes']))
                     {
-                        $this->_log('executing tables task : '.$table.'=>'.'create index');
-                        if (!$this->_createAllIndexes($aTask, $table))
+                        foreach ($aTask['indexes'] AS $index=>$aIndex_Def)
+                        {
+                            $aDef['indexes'][$aIndex_Def['name']] = $aIndex_Def['cargo'];
+                            $this->_log('executing tables task : '.$table.'=>'.'create index');
+                        }
+                        if (!$this->_createAllIndexes($aDef, $table))
                         {
                             $this->_halt();
                             return false;
