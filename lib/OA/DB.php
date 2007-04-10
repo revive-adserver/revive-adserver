@@ -27,6 +27,8 @@ $Id$
 
 require_once 'MDB2.php';
 
+define('OA_DB_MDB2_DEFAULT_OPTIONS', MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL);
+
 /**
  * A class for creating database connections. Currently uses PEAR::MDB2.
  *
@@ -74,7 +76,7 @@ class OA_DB
             // Use 4 decimal places in DECIMAL nativetypes
             $aOptions['decimal_places'] = 4;
             // Set the portability options
-            $aOptions['portability'] = MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL;
+            $aOptions['portability'] = OA_DB_MDB2_DEFAULT_OPTIONS;
             // Set the default table type, if appropriate
             if (!empty($aConf['table']['type'])) {
                 $aOptions['default_table_type'] = $aConf['table']['type'];
@@ -203,46 +205,6 @@ class OA_DB
     }
 
     /**
-     * A method to disconnect a database connection resource.
-     *
-     * @static
-     * @param string $dsn Optional database DSN details - disconnects from the
-     *                    database defined by the configuration file otherwise.
-     *                    See {@link OA_DB::getDsn()} for format.
-     * @return void
-     */
-    function disconnect($dsn)
-    {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        // Get the DSN, if not set
-        $dsn = is_null($dsn) ? OA_DB::getDsn() : $dsn;
-        // Create an MD5 checksum of the DSN
-        $dsnMd5 = md5($dsn);
-        // Does this database connection already exist?
-        $aConnections = array_keys($GLOBALS['_OA']['CONNECTIONS']);
-        if ((count($aConnections) > 0) && (in_array($dsnMd5, $aConnections))) {
-            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->disconnect();
-            unset($GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]);
-        }
-    }
-
-    /**
-     * A method to disconnect any and all database connection resources.
-     *
-     * @static
-     * @return void
-     */
-    function disconnectAll()
-    {
-        if (is_array($GLOBALS['_OA']['CONNECTIONS'])) {
-            foreach ($GLOBALS['_OA']['CONNECTIONS'] as $key => $oDbh) {
-                $GLOBALS['_OA']['CONNECTIONS'][$key]->disconnect();
-                unset($GLOBALS['_OA']['CONNECTIONS'][$key]);
-            }
-        }
-    }
-
-    /**
      * A method for creating a database. Connects to the database server using
      * the "default" database for that database server type, creates the database,
      * and sets up any defined functions for that database type, if any exist.
@@ -317,6 +279,74 @@ class OA_DB
         $aDatabaseDSN['database']['name'] = '';
         $dsn = OA_DB::getDsn($aDatabaseDSN);
         return $dsn;
+    }
+
+    /**
+     * A method to set the PEAR::MDB2 options so that case portability
+     * is DISABLED, so that tables/columns can be created in a CaSe SeNsItIvE
+     * fashion!
+     *
+     * @static
+     * @return void
+     */
+    function setCaseSensitive()
+    {
+        $newOptionsValue = OA_DB_MDB2_DEFAULT_OPTIONS ^ MDB2_PORTABILITY_FIX_CASE;
+        $oDbh = &OA_DB::singleton();
+        $oDbh->setOption('portability',  $newOptionsValue);
+    }
+
+    /**
+     * A method to restore the PEAR::MDB2 options so that case portability
+     * is set to the default value (ie, enabled).
+     *
+     * @static
+     * @return void
+     */
+    function restoreDefaultCaseOptions()
+    {
+        $oDbh = &OA_DB::singleton();
+        $oDbh->setOption('portability',  OA_DB_MDB2_DEFAULT_OPTIONS);
+    }
+
+    /**
+     * A method to disconnect a database connection resource.
+     *
+     * @static
+     * @param string $dsn Optional database DSN details - disconnects from the
+     *                    database defined by the configuration file otherwise.
+     *                    See {@link OA_DB::getDsn()} for format.
+     * @return void
+     */
+    function disconnect($dsn)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        // Get the DSN, if not set
+        $dsn = is_null($dsn) ? OA_DB::getDsn() : $dsn;
+        // Create an MD5 checksum of the DSN
+        $dsnMd5 = md5($dsn);
+        // Does this database connection already exist?
+        $aConnections = array_keys($GLOBALS['_OA']['CONNECTIONS']);
+        if ((count($aConnections) > 0) && (in_array($dsnMd5, $aConnections))) {
+            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->disconnect();
+            unset($GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]);
+        }
+    }
+
+    /**
+     * A method to disconnect any and all database connection resources.
+     *
+     * @static
+     * @return void
+     */
+    function disconnectAll()
+    {
+        if (is_array($GLOBALS['_OA']['CONNECTIONS'])) {
+            foreach ($GLOBALS['_OA']['CONNECTIONS'] as $key => $oDbh) {
+                $GLOBALS['_OA']['CONNECTIONS'][$key]->disconnect();
+                unset($GLOBALS['_OA']['CONNECTIONS'][$key]);
+            }
+        }
     }
 
 }
