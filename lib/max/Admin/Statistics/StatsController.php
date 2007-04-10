@@ -1398,7 +1398,7 @@ class StatsController
         }
 
         //merge params with optional array
-        if(is_array($merge_array)) {
+        if(is_array($mergeArray)) {
             $this->pageParams = array_merge($this->pageParams, $mergeArray);
 
         }
