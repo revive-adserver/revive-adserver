@@ -453,6 +453,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->timingInt = ($timing ? 0 : 1);
         $oDB_Upgrade->prefix = '';
         $oDB_Upgrade->versionFrom = 1;
+        $oDB_Upgrade->versionTo = 2;
         $oDB_Upgrade->aChanges['affected_tables']['constructive'] = array('table1');
         $this->_createTestTables($oDB_Upgrade->oSchema->db);
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
