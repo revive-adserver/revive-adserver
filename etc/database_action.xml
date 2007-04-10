@@ -55,6 +55,30 @@
    </field>
 
    <field>
+    <name>tablename</name>
+    <type>openads_varchar</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>tablename_backup</name>
+    <type>openads_varchar</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>schema_backup</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
     <name>updated</name>
     <type>openads_datetime</type>
     <notnull>false</notnull>
@@ -73,14 +97,6 @@
     </field>
     <field>
      <name>action</name>
-     <sorting>ascending</sorting>
-    </field>
-    <field>
-     <name>info1</name>
-     <sorting>ascending</sorting>
-    </field>
-    <field>
-     <name>info2</name>
      <sorting>ascending</sorting>
     </field>
    </index>
