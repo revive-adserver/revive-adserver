@@ -371,7 +371,7 @@ function MAX_AclReCompileAll()
                 {$conf['table']['prefix']}{$action['table']}
             ORDER BY {$action['id_field']}, executionorder";
         $res = phpAds_dbQuery($query);
-        if (res !== false) {
+        if ($res !== false) {
             while ($row = phpAds_dbFetchArray($res)) {
                 list($package, $name) = explode(':', $row['type']);
                 $deliveryLimitationPlugin = MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
