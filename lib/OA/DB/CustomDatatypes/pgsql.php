@@ -76,12 +76,15 @@ function datatype_date_callback(&$db, $method, $aParameters)
             $name = $db->quoteIdentifier($aParameters['name'], true);
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             // For DATETIME fields, if the column is NOT NULL, but the default value is empty,
-            // do not include the default value
+            // do not include the default value and the NOT NULL clause
+			// @todo better fix this!
             if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] == '')) {
                 unset($aParameters['field']['default']);
+				$aParameters['field']['notnull'] = false;
             }
             if (isset($aParameters['field']['default']) && ($aParameters['field']['default'] == '0000-00-00')) {
                 unset($aParameters['field']['default']);
+				$aParameters['field']['notnull'] = false;
             }
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
@@ -142,12 +145,15 @@ function datatype_timestamp_callback(&$db, $method, $aParameters)
             $name = $db->quoteIdentifier($aParameters['name'], true);
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             // For DATETIME fields, if the column is NOT NULL, but the default value is empty,
-            // do not include the default value
+            // do not include the default value and the NOT NULL clause
+			// @todo better fix this!
             if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] == '')) {
                 unset($aParameters['field']['default']);
+				$aParameters['field']['notnull'] = false;
             }
             if (isset($aParameters['field']['default']) && ($aParameters['field']['default'] == '0000-00-00 00:00:00')) {
                 unset($aParameters['field']['default']);
+				$aParameters['field']['notnull'] = false;
             }
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
@@ -409,12 +415,15 @@ function datatype_openads_date_callback(&$db, $method, $aParameters)
             $name = $db->quoteIdentifier($aParameters['name'], true);
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             // For DATETIME fields, if the column is NOT NULL, but the default value is empty,
-            // do not include the default value
+            // do not include the default value and the NOT NULL clause
+			// @todo better fix this!
             if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] == '')) {
                 unset($aParameters['field']['default']);
+				$aParameters['field']['notnull'] = false;
             }
             if (isset($aParameters['field']['default']) && ($aParameters['field']['default'] == '0000-00-00')) {
                 unset($aParameters['field']['default']);
+				$aParameters['field']['notnull'] = false;
             }
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
@@ -475,12 +484,15 @@ function datatype_openads_datetime_callback(&$db, $method, $aParameters)
             $name = $db->quoteIdentifier($aParameters['name'], true);
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             // For DATETIME fields, if the column is NOT NULL, but the default value is empty,
-            // do not include the default value
+            // do not include the default value and the NOT NULL clause
+			// @todo better fix this!
             if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] == '')) {
                 unset($aParameters['field']['default']);
+				$aParameters['field']['notnull'] = false;
             }
             if (isset($aParameters['field']['default']) && ($aParameters['field']['default'] == '0000-00-00 00:00:00')) {
                 unset($aParameters['field']['default']);
+				$aParameters['field']['notnull'] = false;
             }
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;

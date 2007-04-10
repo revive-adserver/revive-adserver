@@ -13996,7 +13996,7 @@
         <gui_header_foreground_color></gui_header_foreground_color>
         <gui_header_active_tab_color></gui_header_active_tab_color>
         <gui_header_text_color></gui_header_text_color>
-        <gui_invocation_3rdparty_default>generic</gui_invocation_3rdparty_default>
+        <gui_invocation_3rdparty_default>1</gui_invocation_3rdparty_default>
         <qmail_patch>f</qmail_patch>
         <updates_TIMESTAMP>0</updates_TIMESTAMP>
         <allow_invocation_plain>t</allow_invocation_plain>
