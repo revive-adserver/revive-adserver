@@ -18,7 +18,7 @@
     <name>version</name>
     <type>openads_int</type>
     <length>11</length>
-    <notnull>false</notnull>
+    <notnull>true</notnull>
     <default></default>
    </field>
 
@@ -34,7 +34,7 @@
     <name>action</name>
     <type>openads_int</type>
     <length>2</length>
-    <notnull>false</notnull>
+    <notnull>true</notnull>
     <default></default>
    </field>
 
@@ -42,7 +42,7 @@
     <name>info1</name>
     <type>openads_varchar</type>
     <length>255</length>
-    <notnull>true</notnull>
+    <notnull>false</notnull>
     <default></default>
    </field>
 
@@ -50,7 +50,7 @@
     <name>info2</name>
     <type>openads_varchar</type>
     <length>255</length>
-    <notnull>true</notnull>
+    <notnull>false</notnull>
     <default></default>
    </field>
 
@@ -58,7 +58,7 @@
     <name>tablename</name>
     <type>openads_varchar</type>
     <length>32</length>
-    <notnull>true</notnull>
+    <notnull>false</notnull>
     <default></default>
    </field>
 
@@ -66,7 +66,7 @@
     <name>tablename_backup</name>
     <type>openads_varchar</type>
     <length>32</length>
-    <notnull>true</notnull>
+    <notnull>false</notnull>
     <default></default>
    </field>
 
@@ -74,7 +74,7 @@
     <name>schema_backup</name>
     <type>openads_text</type>
     <length></length>
-    <notnull>true</notnull>
+    <notnull>false</notnull>
     <default></default>
    </field>
 
