@@ -74,6 +74,7 @@ class MAX_Dal_Admin_VariablesTest extends DalUnitTestCase
 
         $doVariables = OA_Dal::factoryDO('variables');
         $doVariables->trackerid = $trackerId;
+        $doVariables->datatype = 'numeric';
         $variableId = DataGenerator::generateOne($doVariables);
 
         $doVariablePublisher = OA_Dal::factoryDO('variable_publisher');
