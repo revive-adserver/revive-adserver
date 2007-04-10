@@ -1430,7 +1430,6 @@ class OA_DB_Upgrade
         $this->_log('_logDatabaseAction end');
         $columns = implode(",", array_keys($aParams));
         $values  = implode("','", array_values($aParams));
-        //$values  = implode("','", mysql_escape_string(array_values($record)));
 
         $query = "INSERT INTO {$this->prefix}{$this->logTable} ({$columns}, updated) VALUES ('{$values}', NOW())";
 
