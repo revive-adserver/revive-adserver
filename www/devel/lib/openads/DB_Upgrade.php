@@ -563,7 +563,7 @@ class OA_DB_Upgrade
                 $this->_halt();
                 return false;
             }
-            $result = $this->oSchema->db->manager->alterTable($table, $aTask['task'], false);
+            $result = $this->oSchema->db->manager->alterTable($table, $aTask['cargo'], false);
             if (!$this->_isPearError($result, 'error altering table '.$table))
             {
                 $this->_log('successfully altered table '.$table);
@@ -590,7 +590,7 @@ class OA_DB_Upgrade
                 $this->_halt();
                 return false;
             }
-            $result = $this->oSchema->db->manager->alterTable($table, $aTask['task'], false);
+            $result = $this->oSchema->db->manager->alterTable($table, $aTask['cargo'], false);
             if (!$this->_isPearError($result, 'error altering table '.$table))
             {
                 $this->_log('successfully altered table '.$table);
@@ -617,7 +617,7 @@ class OA_DB_Upgrade
                 $this->_halt();
                 return false;
             }
-            $result = $this->oSchema->db->manager->alterTable($table, $aTask['task'], false);
+            $result = $this->oSchema->db->manager->alterTable($table, $aTask['cargo'], false);
             if (!$this->_isPearError($result, 'error altering table '.$table))
             {
                 $this->_log('successfully altered table '.$table);
@@ -656,7 +656,7 @@ class OA_DB_Upgrade
             }
             else
             {
-                $result = $this->oSchema->db->manager->createTable($table, $aTask['task'], array());
+                $result = $this->oSchema->db->manager->createTable($table, $aTask['cargo'], array());
                 if (!$this->_isPearError($result, 'error creating table '.$table))
                 {
                     if (isset($aTask['indexes']))
@@ -698,7 +698,7 @@ class OA_DB_Upgrade
         foreach ($this->aTaskList['tables']['rename'] as $k => $aTask)
         {
             $tbl_new = $this->prefix.$aTask['name'];
-            $tbl_old = $this->prefix.$aTask['task']['was'];
+            $tbl_old = $this->prefix.$aTask['cargo']['was'];
             $this->_log($this->_formatExecuteMsg($k,  $tbl_old, 'rename'));
             $query  = "RENAME TABLE {$tbl_old} TO {$tbl_new}";
 
@@ -788,7 +788,7 @@ class OA_DB_Upgrade
         {
             $table = $aTask['table'];
             $index = $aTask['name'];
-            $aIndex_def = $aTask['task'];
+            $aIndex_def = $aTask['cargo'];
             $result = $this->_createAllIndexes($aIndex_def, $table);
             //$result = $this->oSchema->db->manager->createConstraint($table, $index, $aIndex_def);
             if ($this->_isPearError($result, 'error adding constraint '.$index))
@@ -1197,7 +1197,7 @@ class OA_DB_Upgrade
 
         $aTable =  array(
                         'name'=>$this->prefix.$table,
-                        'task'=>$aTableDef['fields']
+                        'cargo'=>$aTableDef['fields']
                         );
 
         if (isset($aTableDef['indexes']))
@@ -1207,7 +1207,7 @@ class OA_DB_Upgrade
                 $aTable['indexes'][] = array(
                                               'table'=>$this->prefix.$table,
                                               'name'=>$index_name,
-                                              'task'=>$aIndex_def
+                                              'cargo'=>$aIndex_def
                                             );
             }
         }
@@ -1233,37 +1233,38 @@ class OA_DB_Upgrade
         $result =   array(
                           'name'=>$this->prefix.$table,
                           'field'=>$field_name,
-                          'task'=>array()
+                          'cargo'=>array()
                          );
 
-        if ($task == 'remove')
+        switch ($task)
         {
-            $result['task'] =  array(
-                                     $task=>array(
-                                                  $field_name=>array()
-                                                 )
-                                    );
-        }
-        else if ($task == 'add')
-        {
-            $aDef = $this->_getFieldDefinition($this->aDefinitionNew, $table, $field_name);
-            $result['task'] =  array(
-                                     $task=>array(
-                                                  $field_name=>$aDef
-                                                 )
-                                    );
-        }
-        else if ($task == 'rename')
-        {
-            $aDef = $this->_getFieldDefinition($this->aDefinitionNew, $table, $field_name_new);
-            $result['task'] =  array(
-                                     $task=>array(
-                                                  $field_name=>array(
-                                                                     'name'=>$field_name_new,
-                                                                     'definition'=>$aDef
-                                                                    )
-                                                 )
-                                    );
+            case 'remove':
+                $result['cargo'] =  array(
+                                         $task=>array(
+                                                      $field_name=>array()
+                                                     )
+                                        );
+                break;
+            case 'add':
+            case 'change':
+                $aDef = $this->_getFieldDefinition($this->aDefinitionNew, $table, $field_name);
+                $result['cargo'] =  array(
+                                         $task=>array(
+                                                      $field_name=>$aDef
+                                                     )
+                                        );
+                break;
+            case 'rename':
+                $aDef = $this->_getFieldDefinition($this->aDefinitionNew, $table, $field_name_new);
+                $result['cargo'] =  array(
+                                         $task=>array(
+                                                      $field_name=>array(
+                                                                         'name'=>$field_name_new,
+                                                                         'definition'=>$aDef
+                                                                        )
+                                                     )
+                                        );
+                break;
         }
         return $result;
     }
@@ -1278,21 +1279,22 @@ class OA_DB_Upgrade
      */
     function _compileTaskIndex($task, $table, $index_name)
     {
-        if ($task=='add')
+        switch($task)
         {
-            $aTableDef = $this->_getTableDefinition($this->aDefinitionNew, $table);
-            $result =   array(
-                              'table'=>$this->prefix.$table,
-                              'name'=>$index_name,
-                              'task'=>array('indexes'=>array($index_name=>$aTableDef['indexes'][$index_name]))
-                             );
-        }
-        else if ($task=='remove')
-        {
-            $result =   array(
-                              'table'=>$this->prefix.$table,
-                              'name'=>$index_name,
-                             );
+            case 'add':
+                $aTableDef = $this->_getTableDefinition($this->aDefinitionNew, $table);
+                $result =   array(
+                                  'table'=>$this->prefix.$table,
+                                  'name'=>$index_name,
+                                  'cargo'=>array('indexes'=>array($index_name=>$aTableDef['indexes'][$index_name]))
+                                 );
+                break;
+            case'remove':
+                $result =   array(
+                                  'table'=>$this->prefix.$table,
+                                  'name'=>$index_name,
+                                 );
+                break;
         }
         return $result;
     }
@@ -1308,19 +1310,19 @@ class OA_DB_Upgrade
     {
         $result =   array(
                           'name'=>$this->prefix.$table,
-                          'task'=>array()
+                          'cargo'=>array()
                          );
-        if ($task == 'rename')
+        switch($task)
         {
-            $result['task'] = array('was'=>$was);
-        }
-        else if ($task == 'remove')
-        {
-        }
-        else
-        {
-            $aTableDef = $this->_getTableDefinition($this->aDefinitionNew, $table);
-            $result['task'] = $aTableDef['fields'];
+            case 'rename':
+                $result['cargo'] = array('was'=>$was);
+                break;
+            case 'remove':
+                break;
+            default:
+                $aTableDef = $this->_getTableDefinition($this->aDefinitionNew, $table);
+                $result['cargo'] = $aTableDef['fields'];
+                break;
         }
         return $result;
     }
