@@ -68,28 +68,124 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Get the data for the tests
         include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
         // Insert ad impressions
-        $rows = $oDbh->exec(DATA_RAW_AD_IMPRESSIONS);
+        $query = "
+            INSERT INTO
+                data_raw_ad_impression
+                (
+                    ad_id,
+                    creative_id,
+                    zone_id,
+                    date_time
+                )
+            VALUES
+                (?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            0,
+            1,
+            '2004-06-06 18:22:10'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            0,
+            1,
+            '2004-05-06 12:34:56'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            0,
+            1,
+            '2004-06-06 18:22:11'
+        );
+        $rows = $st->execute($aData);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
         // Insert an hourly (only) update
-        $rows = $oDbh->exec(LMS_HOUR);
+        $query = "
+            INSERT INTO
+                log_maintenance_statistics
+                (
+                    start_run,
+                    end_run,
+                    duration,
+                    adserver_run_type,
+                    updated_to
+                )
+            VALUES
+                (?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '2004-05-05 12:00:00',
+            '2004-05-05 12:00:05',
+            5,
+            1,
+            '2004-05-05 12:00:00'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06 10:15:00',
+            '2004-06-06 10:16:15',
+            75,
+            1,
+            '2004-06-06 10:15:00'
+        );
+        $rows = $st->execute($aData);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert an operation interval (only) update
-        $rows = $oDbh->exec(LMS_OI);
+        $aData = array(
+
+            '2004-05-05 12:00:00',
+            '2004-05-05 12:00:05',
+            5,
+            0,
+            '2004-05-05 12:00:00'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06 10:16:00',
+            '2004-06-06 10:16:15',
+            15,
+            0,
+            '2004-06-06 10:16:00'
+        );
+        $rows = $st->execute($aData);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-06 10:16:00'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert a dual interval update
-        $rows = $oDbh->exec(LMS_DUAL);
+        $aData = array(
+            '2004-06-07 01:15:00',
+            '2004-06-07 01:16:15',
+            75,
+            2,
+            '2004-06-07 01:15:00'
+        );
+        $rows = $st->execute($aData);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
@@ -100,15 +196,68 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
     }
 
     /**
+     * A private method to insert test requests, impressions or clicks
+     * for testing the summarisation of these via the _summariseData()
+     * method.
+     *
+     * @param string $table The table name to insert into (ie. one of
+     *                      "data_raw_ad_request", "data_raw_ad_impression"
+     *                      or "data_raw_ad_click".
+     */
+    function _insertTestSummariseData($table)
+    {
+        $oDbh = &OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                $table
+                (
+                    ad_id,
+                    creative_id,
+                    zone_id,
+                    date_time
+                )
+            VALUES
+                (?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            0,
+            1,
+            '2004-06-06 18:22:10'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            0,
+            1,
+            '2004-05-06 12:34:56'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            0,
+            1,
+            '2004-06-06 18:22:11'
+        );
+        $rows = $st->execute($aData);
+    }
+
+    /**
      * Tests the _summariseData() method.
      */
     function test_summariseData()
     {
-        // types to be tested
+        // Types to be tested
         $aType = array(
-            'request'    => SUMMARISE_AD_REQUESTS,
-            'click'      => SUMMARISE_AD_CLICKS,
-            'impression' => SUMMARISE_AD_IMPRESSIONS,
+            'request'    => 'data_raw_ad_request',
+            'impression' => 'data_raw_ad_impression',
+            'click'      => 'data_raw_ad_click',
         );
 
         $conf = &$GLOBALS['_MAX']['CONF'];
@@ -119,7 +268,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
 
-        foreach ($aType as $type => $sqlData) {
+        foreach ($aType as $type => $table) {
             $returnColumnName = $type . 's';
             // Test with no data
             $start = new Date('2004-06-06 12:00:00');
@@ -133,12 +282,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                     tmp_ad_{$type}";
             $aRow = $oDbh->queryRow($query);
             $this->assertEqual($aRow['number'], 0);
-            TestEnv::startTransaction();
-            // Get the data for the tests
-            include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
-            // Insert 3 ad requests
-            $rows = $oDbh->exec($sqlData);
-            // Summarise where requests don't exist
+            //TestEnv::startTransaction();
+            // Insert 3 ad requests/impressions/clicks
+            $this->_insertTestSummariseData($table);
+            // Summarise where requests/impressions/clicks don't exist
             $start = new Date('2004-05-06 12:00:00');
             $end = new Date('2004-05-06 12:29:59');
             $rows = $dsa->_summariseData($start, $end, $type);
@@ -150,7 +297,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                     tmp_ad_{$type}";
             $aRow = $oDbh->queryRow($query);
             $this->assertEqual($aRow['number'], 0);
-            // Summarise where one requests exists
+            // Summarise where one request/impression/click exists
             $start = new Date('2004-05-06 12:30:00');
             $end = new Date('2004-05-06 12:59:59');
             $rows = $dsa->_summariseData($start, $end, $type);
@@ -162,7 +309,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                     tmp_ad_{$type}";
             $aRow = $oDbh->queryRow($query);
             $this->assertEqual($aRow['number'], 1);
-            // Summarise where the other two requests exists
+            // Summarise where the other two requests/impressions/clicks exist
             $start = new Date('2004-06-06 18:00:00');
             $end = new Date('2004-06-06 18:29:59');
             $rows = $dsa->_summariseData($start, $end, $type);

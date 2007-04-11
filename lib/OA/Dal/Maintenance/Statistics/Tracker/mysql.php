@@ -41,7 +41,6 @@ require_once 'Date.php';
  */
 class OA_Dal_Maintenance_Statistics_Tracker_mysql extends OA_Dal_Maintenance_Statistics_Common
 {
-    var $oDbh;
 
     /**
      * The constructor method.
@@ -51,7 +50,6 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysql extends OA_Dal_Maintenance_Sta
     function OA_Dal_Maintenance_Statistics_Tracker_mysql()
     {
         parent::OA_Dal_Maintenance_Statistics_Common();
-        $this->oDbh = &OA_DB::singleton();
     }
 
     /**

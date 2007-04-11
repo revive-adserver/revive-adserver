@@ -43,7 +43,14 @@ require_once 'Date.php';
  */
 class OA_Dal_Maintenance_Statistics_AdServer_mysql extends OA_Dal_Maintenance_Statistics_Common
 {
-    var $oDbh;
+
+    /**
+     * A local store for keeping the default MySQL sort_buffer_size
+     * session variable value, so that it can be restored after
+     * changing it to another value.
+     *
+     * @var integer
+     */
     var $sortBufferSize;
 
     /**
@@ -54,7 +61,6 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysql extends OA_Dal_Maintenance_St
     function OA_Dal_Maintenance_Statistics_AdServer_mysql()
     {
         parent::OA_Dal_Maintenance_Statistics_Common();
-        $this->oDbh = &OA_DB::singleton();
         // Store the original MySQL sort_buffer_size value
         $query = "SHOW SESSION VARIABLES like 'sort_buffer_size'";
         $rc = $this->oDbh->query($query);

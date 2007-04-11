@@ -43,7 +43,6 @@ require_once 'Date.php';
  */
 class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_Statistics_Common
 {
-    var $oDbh;
 
     /**
      * The constructor method.
@@ -53,7 +52,8 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
     function OA_Dal_Maintenance_Statistics_AdServer_pgsql()
     {
         parent::OA_Dal_Maintenance_Statistics_Common();
-        $this->oDbh = &OA_DB::singleton();
+        $this->dateCastString = '::date';
+        $this->hourCastString  = '::integer';
     }
 
     /**

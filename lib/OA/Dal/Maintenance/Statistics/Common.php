@@ -34,6 +34,7 @@ $Id$
 require_once MAX_PATH . '/lib/max/Maintenance.php';
 
 require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics.php';
@@ -53,9 +54,59 @@ define('DAL_STATISTICS_COMMON_UPDATE_BOTH', 2);
  */
 class OA_Dal_Maintenance_Statistics_Common
 {
+
+    /**
+     * Local copy of the MDB2_Driver_Common connection to the database.
+     *
+     * @var MDB2_Driver_Common
+     */
+    var $oDbh;
+
     var $tables;
     var $tempTables;
     var $oDalMaintenanceStatistics;
+
+    /**
+     * A sting that can be used in SQL to cast a value into a date.
+     *
+     * For example, if the SQL DATE_FORMAT() function returns a result of
+     * type text, this may need to be cast into the "date" type to be
+     * inserted into a "date" column.
+     *
+     *  INSERT INTO
+     *      table_name
+     *      (
+     *          date_column
+     *      )
+     *  VALUES
+     *      (
+     *          DATE_FORMAT('2007-04-11 13:49:18', '%Y-%m-%d'){$this->dateCastString}
+     *      );
+     *
+     * @var string
+     */
+    var $dateCastString;
+
+    /**
+     * A sting that can be used in SQL to cast a value into an hour.
+     *
+     * For example, if the SQL DATE_FORMAT() function returns a result of
+     * type text, this may need to be cast into the "hour" type to be
+     * inserted into a "hour" column.
+     *
+     *  INSERT INTO
+     *      table_name
+     *      (
+     *          hour_column
+     *      )
+     *  VALUES
+     *      (
+     *          DATE_FORMAT('2007-04-11 13:49:18', '%k'){$this->dayCastString}
+     *      );
+     *
+     * @var string
+     */
+    var $hourCastSting;
 
     /**
      * The constructor method.
@@ -64,6 +115,7 @@ class OA_Dal_Maintenance_Statistics_Common
      */
     function OA_Dal_Maintenance_Statistics_Common()
     {
+        $this->oDbh = &OA_DB::singleton();
         $this->tables = &OA_DB_Table_Core::singleton();
         $this->tempTables = &OA_DB_Table_Statistics::singleton();
         $this->oDalMaintenanceStatistics = new OA_Dal_Maintenance_Statistics();
@@ -100,7 +152,7 @@ class OA_Dal_Maintenance_Statistics_Common
 
 
     /**
-     * A private function to do the job of implementations of 
+     * A private function to do the job of implementations of
      * {@link OA_Dal_Maintenance_Statistics_Common::getMaintenanceStatisticsLastRunInfo()},
      * but with an extra parameter to specify the raw table to look in, in
      * the case of maintenance statistics not having been run before.
@@ -131,13 +183,13 @@ class OA_Dal_Maintenance_Statistics_Common
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($module == 'AdServer') {
-            $column = 'adserver_run_type';    
+            $column = 'adserver_run_type';
         } elseif ($module == 'Tracker') {
             $column = 'tracker_run_type';
         } else {
             OA::debug('Invalid module type value ' . $module, PEAR_LOG_ERR);
             OA::debug('Aborting script execution', PEAR_LOG_ERR);
-            exit();            
+            exit();
         }
         if ($type == DAL_STATISTICS_COMMON_UPDATE_OI) {
             $whereClause = "WHERE ($column = " . DAL_STATISTICS_COMMON_UPDATE_OI .
@@ -190,7 +242,7 @@ class OA_Dal_Maintenance_Statistics_Common
         // No raw data was found
         return null;
     }
-    
+
     /**
      * A method for summarising impressions into a temporary table.
      *
@@ -202,7 +254,7 @@ class OA_Dal_Maintenance_Statistics_Common
     function summariseImpressions($start, $end)
     {
         OA::debug("Base class cannot be called directly", PEAR_LOG_ERR);
-        return false;        
+        return false;
     }
 
     /**
@@ -216,7 +268,7 @@ class OA_Dal_Maintenance_Statistics_Common
     function summariseClicks($start, $end)
     {
         OA::debug("Base class cannot be called directly", PEAR_LOG_ERR);
-        return false;        
+        return false;
     }
 
     /**
@@ -286,8 +338,8 @@ class OA_Dal_Maintenance_Statistics_Common
                         $countColumnName
                     )
                 SELECT
-                    DATE_FORMAT(drad.date_time, '%Y-%m-%d') AS day,
-                    DATE_FORMAT(drad.date_time, '%k') AS hour,
+                    DATE_FORMAT(drad.date_time, '%Y-%m-%d'){$this->dateCastString} AS day,
+                    DATE_FORMAT(drad.date_time, '%k'){$this->hourCastString} AS hour,
                     {$aConf['maintenance']['operationInterval']} AS operation_interval,
                     $operationIntervalID AS operation_interval_id,
                     '".$aDates['start']->format('%Y-%m-%d %H:%M:%S')."' AS interval_start,
@@ -317,7 +369,7 @@ class OA_Dal_Maintenance_Statistics_Common
         }
         return $returnRows;
     }
-    
+
     /**
      * A method for summarising connections into a temporary table.
      *
@@ -329,7 +381,7 @@ class OA_Dal_Maintenance_Statistics_Common
     function summariseConnections($start, $end)
     {
         OA::debug("Base class cannot be called directly", PEAR_LOG_ERR);
-        return false;        
+        return false;
     }
 
     /**
@@ -369,7 +421,7 @@ class OA_Dal_Maintenance_Statistics_Common
     function saveIntermediate($oStart, $oEnd, $aTypes, $intermediateTable, $saveConnections = true)
     {
         OA::debug("Base class cannot be called directly", PEAR_LOG_ERR);
-        return false;        
+        return false;
     }
 
     /**
@@ -405,7 +457,7 @@ class OA_Dal_Maintenance_Statistics_Common
     function saveSummary($oStartDate, $oEndDate, $aTypes, $fromTable, $toTable)
     {
         OA::debug("Base class cannot be called directly", PEAR_LOG_ERR);
-        return false;        
+        return false;
     }
 
     /**
@@ -421,7 +473,7 @@ class OA_Dal_Maintenance_Statistics_Common
     function deleteOldData($summarisedTo)
     {
         OA::debug("Base class cannot be called directly", PEAR_LOG_ERR);
-        return false;        
+        return false;
     }
 
 }
