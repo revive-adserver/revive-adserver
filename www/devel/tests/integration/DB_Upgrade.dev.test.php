@@ -91,9 +91,9 @@ class Test_DB_Upgrade extends UnitTestCase
         $table_bak = $oDB_Upgrade->aRestoreTables['table1']['bak'];
         $this->assertTrue(in_array($table_bak, $oDB_Upgrade->aDBTables), 'backup table not found in database');
 
-        OA_DB::setCaseSensitive();
+        OA_DB::setQuoteIdentifier();
         $aTbl_def_bak = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($table_bak));
-        OA_DB::restoreDefaultCaseOptions();
+        OA_DB::disabledQuoteIdentifier();
 
         $aTbl_def_orig = $aTbl_def_orig['tables']['table1'];
         $aTbl_def_bak  = $aTbl_def_bak['tables'][$table_bak];

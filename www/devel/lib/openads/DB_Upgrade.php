@@ -1544,7 +1544,7 @@ class OA_DB_Upgrade
     {
         OA_DB::setCaseSensitive();
         $aDBTables = $this->oSchema->db->manager->listTables();
-        OA_DB::restoreDefaultCaseOptions();
+        OA_DB::disableCaseSensitive();
         return $aDBTables;
     }
 

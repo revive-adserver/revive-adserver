@@ -282,9 +282,9 @@ class OA_DB
     }
 
     /**
-     * A method to set the PEAR::MDB2 options so that case portability
-     * is DISABLED, so that tables/columns can be created in a CaSe SeNsItIvE
-     * fashion!
+     * A method to restore the PEAR::MDB2 options so that case portability
+     * is disabled, so tables names will be extracted from the database
+     * in a case sensitive fashion.
      *
      * @static
      * @return void
@@ -298,15 +298,47 @@ class OA_DB
 
     /**
      * A method to restore the PEAR::MDB2 options so that case portability
-     * is set to the default value (ie, enabled).
+     * is enabled, so tables names will be extracted from the database
+     * in a case insensitive fashion.
      *
      * @static
      * @return void
      */
-    function restoreDefaultCaseOptions()
+    function disableCaseSensitive()
     {
         $oDbh = &OA_DB::singleton();
         $oDbh->setOption('portability',  OA_DB_MDB2_DEFAULT_OPTIONS);
+    }
+
+    /**
+     * A method to set the PEAR::MDB2 quote_identifier option so that table/column
+     * names will be quoted, so that tables definitions can be obtained in a case
+     * sensitive fashion.
+     *
+     * @static
+     * @return void
+     */
+    function setQuoteIdentifier()
+    {
+        $oDbh = &OA_DB::singleton();
+        $quote = false;
+        if ($oDbh->dsn['phptype'] == 'pgsql') {
+            $quote = '"';
+        }
+        $oDbh->setOption('quote_identifier', $quote);
+    }
+
+    /**
+     * A method to restore the PEAR::MDB2 quote_identifier so that tables definitions
+     * are obtained in the defailt case insensitive fashion.
+     *
+     * @static
+     * @return void
+     */
+    function disabledQuoteIdentifier()
+    {
+        $oDbh = &OA_DB::singleton();
+        $oDbh->setOption('quote_identifier', false);
     }
 
     /**
