@@ -47,6 +47,187 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
     }
 
     /**
+     * A private method to insert test impressions for testing the
+     * deleteOldData method.
+     *
+     * @access private
+     */
+    function _insertTestDeleteImpressions()
+    {
+        $oDbh = &OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                data_raw_tracker_impression
+                (
+                    server_raw_tracker_impression_id,
+                    tracker_id,
+                    date_time
+                )
+            VALUES
+                (?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            1,
+            '2004-06-06 18:00:00'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            1,
+            '2004-06-06 17:59:59'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            1,
+            '2004-06-06 17:00:00'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4,
+            1,
+            '2004-06-06 16:59:59'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            5,
+            1,
+            '2004-06-06 16:00:00'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            6,
+            1,
+            '2004-06-06 15:59:59'
+        );
+        $rows = $st->execute($aData);
+    }
+
+    /**
+     * A private method to insert test clicks for testing the
+     * deleteOldData method.
+     *
+     * @access private
+     */
+    function _insertTestDeleteClicks()
+    {
+        $oDbh = &OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                data_raw_tracker_click
+                (
+                    tracker_id,
+                    date_time
+                )
+            VALUES
+                (?, ?)";
+        $aTypes = array(
+            'integer',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            '2004-06-06 18:00:00'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            '2004-06-06 17:59:59'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            '2004-06-06 17:00:00'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            '2004-06-06 16:59:59'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            '2004-06-06 16:00:00'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            '2004-06-06 15:59:59'
+        );
+        $rows = $st->execute($aData);
+    }
+
+    /**
+     * A private method to insert test impressions for testing the
+     * deleteOldData method.
+     *
+     * @access private
+     */
+    function _insertTestDeleteVariableValues()
+    {
+        $oDbh = &OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                data_raw_tracker_variable_value
+                (
+                    server_raw_tracker_impression_id,
+                    tracker_variable_id,
+                    date_time
+                )
+            VALUES
+                (?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            1,
+            '2004-06-06 18:00:00'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            1,
+            '2004-06-06 17:59:59'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            1,
+            '2004-06-06 17:00:00'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4,
+            1,
+            '2004-06-06 16:59:59'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            5,
+            1,
+            '2004-06-06 16:00:00'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            6,
+            1,
+            '2004-06-06 15:59:59'
+        );
+        $rows = $st->execute($aData);
+    }
+
+    /**
      * Tests that the singleton() method only ever returns one class instance.
      */
     function testSingleton()
@@ -72,31 +253,114 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertNull($date);
         TestEnv::startTransaction();
-        // Get the data for the tests
-        include_once MAX_PATH. '/lib/max/Dal/data/TestOfStatisticsTrackermysql.php';
         // Insert tracker impressions
-        $aRow = $oDbh->exec(TOT_DATA_RAW_TRACKER_IMPRESSIONS);
+        $query = "
+            INSERT INTO
+                data_raw_tracker_impression
+                (
+                    tracker_id,
+                    date_time
+                )
+            VALUES
+                (?, ?)";
+        $aTypes = array(
+            'integer',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            '2004-06-06 18:22:10'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            '2004-05-06 12:34:56'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            '2004-06-06 18:22:11'
+        );
+        $rows = $st->execute($aData);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
         // Insert an hourly (only) update
-        $aRow = $oDbh->exec(TOT_LMS_HOUR);
+        $query = "
+            INSERT INTO
+                log_maintenance_statistics
+                (
+                    start_run,
+                    end_run,
+                    duration,
+                    tracker_run_type,
+                    updated_to
+                )
+            VALUES
+                (?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '2004-05-05 12:00:00',
+            '2004-05-05 12:00:05',
+            5,
+            1,
+            '2004-05-05 12:00:00'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06 10:15:00',
+            '2004-06-06 10:16:15',
+            75,
+            1,
+            '2004-06-06 10:15:00'
+        );
+        $rows = $st->execute($aData);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert an operation interval (only) update
-        $aRow = $oDbh->exec(TOT_LMS_OI);
+        $aData = array(
+            '2004-05-05 12:00:00',
+            '2004-05-05 12:00:05',
+            5,
+            0,
+            '2004-05-05 12:00:00'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06 10:16:00',
+            '2004-06-06 10:16:15',
+            15,
+            0,
+            '2004-06-06 10:16:00'
+        );
+        $rows = $st->execute($aData);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-06 10:16:00'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert a dual interval update
-        $aRow = $oDbh->exec(TOT_LMS_DUAL);
+        $aData = array(
+            '2004-06-07 01:15:00',
+            '2004-06-07 01:16:15',
+            75,
+            2,
+            '2004-06-07 01:15:00'
+        );
+        $rows = $st->execute($aData);
         // Test
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
@@ -115,12 +379,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         $conf['maintenance']['compactStatsGrace'] = 0;
         $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
         TestEnv::startTransaction();
-        // Get the data for the tests
-        include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsTrackermysql.php';
         // Insert the test data
-        $aRow = $oDbh->exec(TOT_DELETE_OLD_DATA_TRACKER_CLICKS);
-        $aRow = $oDbh->exec(TOT_DELETE_OLD_DATA_TRACKER_IMPRESSIONS);
-        $aRow = $oDbh->exec(TOT_DELETE_OLD_DATA_TRACKER_VARIABLE_VALUES);
+        $this->_insertTestDeleteClicks();
+        $this->_insertTestDeleteImpressions();
+        $this->_insertTestDeleteVariableValues();
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -151,9 +413,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
         TestEnv::startTransaction();
         // Insert the test data
-        $aRow = $oDbh->exec(TOT_DELETE_OLD_DATA_TRACKER_CLICKS);
-        $aRow = $oDbh->exec(TOT_DELETE_OLD_DATA_TRACKER_IMPRESSIONS);
-        $aRow = $oDbh->exec(TOT_DELETE_OLD_DATA_TRACKER_VARIABLE_VALUES);
+        $this->_insertTestDeleteClicks();
+        $this->_insertTestDeleteImpressions();
+        $this->_insertTestDeleteVariableValues();
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
