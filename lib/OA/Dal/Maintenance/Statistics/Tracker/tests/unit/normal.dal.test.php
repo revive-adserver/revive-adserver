@@ -380,9 +380,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
         TestEnv::startTransaction();
         // Insert the test data
-        $this->_insertTestDeleteClicks();
         $this->_insertTestDeleteImpressions();
         $this->_insertTestDeleteVariableValues();
+        $this->_insertTestDeleteClicks();
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -413,9 +413,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
         TestEnv::startTransaction();
         // Insert the test data
-        $this->_insertTestDeleteClicks();
         $this->_insertTestDeleteImpressions();
         $this->_insertTestDeleteVariableValues();
+        $this->_insertTestDeleteClicks();
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
