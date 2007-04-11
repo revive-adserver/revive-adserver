@@ -9,6 +9,7 @@ $db = array(
         'username' => '%db.username%',
         'password' => '%db.password%',
         'hostspec' => '%db.host%',
+        'port' => %db.port%
     ),
     %options%
 );

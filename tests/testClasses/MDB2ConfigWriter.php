@@ -50,15 +50,12 @@ class MDB2ConfigWriter
     function configureTestFile($fTestConfigSource, $fTestConfigDestination,
         $type, $host, $port, $username, $password, $name, $tableType)
     {
-        if (!empty($port)) {
-            $host .= ":$port";
-        }
-        
         $sConfig = file_get_contents($fTestConfigSource);
         $sConfig = str_replace('%db.type%', $type, $sConfig);
         $sConfig = str_replace('%db.username%', $username, $sConfig);
         $sConfig = str_replace('%db.password%', $password, $sConfig);
         $sConfig = str_replace('%db.host%', $host, $sConfig);
+        $sConfig = str_replace('%db.port%', $port, $sConfig);
         
         $sOptions = '';
         if ('mysql' == $type) {
