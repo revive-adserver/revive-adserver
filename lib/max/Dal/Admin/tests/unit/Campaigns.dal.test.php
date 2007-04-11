@@ -390,7 +390,10 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         // Take test data
         $aCampaigns = $this->dalCampaigns->getAllCampaignsUnderAgency($agencyId2,'name','up');
         $this->assertEqual(count($aCampaigns), $numCampaigns2);
-        $this->assertEqual(array_keys($aCampaigns), $aCampaigns2);
+        // Make sure that both arrays have the same sorting
+        ksort($aCampaigns);
+        sort($aCampaigns2);
+        $this->assertEqual(array_keys($aCampaigns), array_values($aCampaigns2));
     }
 
 
