@@ -165,9 +165,9 @@ class Test_DB_Upgrade extends UnitTestCase
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
 
-        $aPrev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
+        $aPrev_definition               = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_indexAdd.xml');
-        $aChanges_write                  = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
 
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_indexAdd.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
@@ -178,16 +178,16 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(isset($aTaskList['indexes']['add']),'failed creating task list: indexes add');
         $this->assertEqual(count($aTaskList['indexes']['add']),3, 'incorrect elements in task list: indexes add');
 
-        $this->assertEqual($aTaskList['indexes']['add'][0]['name'], 'primary', 'wrong index name');
+        $this->assertEqual($aTaskList['indexes']['add'][0]['name'], 'table2_pkey', 'wrong index name');
         $this->assertEqual($aTaskList['indexes']['add'][0]['table'], 'table2', 'wrong table name');
         $this->assertEqual(count($aTaskList['indexes']['add'][0]['cargo']),1, 'incorrect number of add index tasks in task list');
         $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']),'indexes cargo array not found in task add array');
-        $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['primary']),'index definition not found in task add array');
-        $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['primary']['primary']),'index primary not found in task add array');
-        $this->assertFalse(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['primary']['unique']),'index unique found in task add array');
-        $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['primary']['fields']),'index fields not found in task add array');
-        $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['primary']['fields']['b_id_field2']),'index field not found in task add array');
-        $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['primary']['fields']['b_id_field2']['sorting']),'sorting not defined for field in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['table2_pkey']),'index definition not found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['table2_pkey']['primary']),'index primary not found in task add array');
+        $this->assertFalse(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['table2_pkey']['unique']),'index unique found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['table2_pkey']['fields']),'index fields not found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['table2_pkey']['fields']['b_id_field2']),'index field not found in task add array');
+        $this->assertTrue(isset($aTaskList['indexes']['add'][0]['cargo']['indexes']['table2_pkey']['fields']['b_id_field2']['sorting']),'sorting not defined for field in task add array');
 
         $this->assertEqual($aTaskList['indexes']['add'][1]['name'], 'index_unique', 'wrong index name');
         $this->assertEqual($aTaskList['indexes']['add'][1]['table'], 'table2', 'wrong table name');
@@ -216,9 +216,9 @@ class Test_DB_Upgrade extends UnitTestCase
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
 
-        $aPrev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
+        $aPrev_definition               = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAdd.xml');
-        $aChanges_write                  = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
 
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAdd.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
@@ -233,7 +233,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(isset($aTaskList['tables']['add'][0]['cargo']['a_text_field_new']),'a_text_field_new field not found in task add array');
         $this->assertTrue(isset($aTaskList['tables']['add'][0]['cargo']['b_id_field_new']),'b_id_field_new field not found in task add array');
         $this->assertEqual(count($aTaskList['tables']['add'][0]['indexes']),2, 'incorrect number of add table indexes in task list');
-        $this->assertEqual($aTaskList['tables']['add'][0]['indexes'][0]['name'],'index1_new','index1_new not found in task index array');
+        $this->assertEqual($aTaskList['tables']['add'][0]['indexes'][0]['name'],'table_new_pkey','index1_new not found in task index array');
         $this->assertEqual($aTaskList['tables']['add'][0]['indexes'][0]['table'],'table_new','wrong table in task index array');
         $this->assertEqual($aTaskList['tables']['add'][0]['indexes'][1]['name'],'index2_new','index2_new not found in task index array');
         $this->assertEqual($aTaskList['tables']['add'][0]['indexes'][1]['table'],'table_new','wrong table in task index array');
@@ -244,9 +244,9 @@ class Test_DB_Upgrade extends UnitTestCase
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject('destructive');
 
-        $aPrev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
+        $aPrev_definition               = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableRemove.xml');
-        $aChanges_write                  = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
 
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableRemove.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
@@ -263,34 +263,15 @@ class Test_DB_Upgrade extends UnitTestCase
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
 
-        $aPrev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
+        $aPrev_definition               = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableRename.xml');
-        $aChanges_write                  = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
 
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableRename.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
 
-        // this bit copies work done by oSchema that modifies changeset array for renaming tables
-        $table_name = 'table1_rename';
-        $table_name_was = 'table1';
-        if (isset($oDB_Upgrade->aChanges['constructive']['tables']['add'][$table_name]))
-        {
-            unset($oDB_Upgrade->aChanges['constructive']['tables']['add'][$table_name]);
-            if (empty($oDB_Upgrade->aChanges['constructive']['tables']['add']))
-            {
-                unset($oDB_Upgrade->aChanges['constructive']['tables']['add']);
-            }
-            $oDB_Upgrade->aChanges['constructive']['tables']['rename'][$table_name]['was'] = $table_name_was;
-            if (isset($oDB_Upgrade->aChanges['destructive']['tables']['remove'][$table_name_was]))
-            {
-                unset($oDB_Upgrade->aChanges['destructive']['tables']['remove'][$table_name_was]);
-                if (empty($oDB_Upgrade->aChanges['destructive']['tables']['remove']))
-                {
-                    unset($oDB_Upgrade->aChanges['destructive']['tables']['remove']);
-                }
-            }
-        }
+        $this->_editChangesetTableRename($oDB_Upgrade, 'table1_rename', 'table1');
 
         $this->aOptions['split']        = false; // this is a rewrite of a previously split changeset, don't split it again
         $this->aOptions['rewrite']      = true; // this is a rewrite of a previously split changeset, don't split it again
@@ -312,11 +293,11 @@ class Test_DB_Upgrade extends UnitTestCase
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
 
-        $aPrev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
+        $aPrev_definition               = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
 
         // Test 1 : add field
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter1.xml');
-        $aChanges_write                  = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter1.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
@@ -344,60 +325,40 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(isset($aTaskList['fields']['change']),'failed creating task list: fields change');
         $this->assertEqual(count($aTaskList['fields']['change']),1, 'incorrect elements in task list: fields change');
         $this->assertEqual($aTaskList['fields']['change'][0]['name'], 'table1', 'wrong table name');
+        $this->assertEqual($aTaskList['fields']['change'][0]['field'], 'a_text_field', 'wrong field name');
+        $this->assertEqual(count($aTaskList['fields']['change'][0]['cargo']),1, 'incorrect number of change fields tasks in task list');
+        $this->assertTrue(isset($aTaskList['fields']['change'][0]['cargo']['change']['a_text_field']),'a_text_field field not found in task change array');
+        $this->assertEqual($aTaskList['fields']['change'][0]['cargo']['change']['a_text_field']['definition']['default'],'foo','a_text_field default property not set in task change array');
+        $this->assertEqual($aTaskList['fields']['change'][0]['cargo']['change']['a_text_field']['definition']['length'],64,'a_text_field length property not set in task change array');
+
+        // Test 5 : change primary key field
+        $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter5.xml');
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+        $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter5.xml';
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+
+        $oDB_Upgrade->aTaskList = array();
+        $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: change field');
+        $aTaskList = $oDB_Upgrade->aTaskList;
+        $this->assertTrue(isset($aTaskList['fields']['change']),'failed creating task list: fields change');
+        $this->assertEqual(count($aTaskList['fields']['change']),1, 'incorrect elements in task list: fields change');
+        $this->assertEqual($aTaskList['fields']['change'][0]['name'], 'table1', 'wrong table name');
         $this->assertEqual($aTaskList['fields']['change'][0]['field'], 'b_id_field', 'wrong field name');
         $this->assertEqual(count($aTaskList['fields']['change'][0]['cargo']),1, 'incorrect number of change fields tasks in task list');
         $this->assertTrue(isset($aTaskList['fields']['change'][0]['cargo']['change']['b_id_field']),'b_id_field field not found in task change array');
-        $this->assertTrue($aTaskList['fields']['change'][0]['cargo']['change']['b_id_field']['autoincrement'],'b_id_field autoincrement property not set in task change array');
-        $this->assertEqual($aTaskList['fields']['change'][0]['cargo']['change']['b_id_field']['length'],11,'b_id_field length property not set in task change array');
+        $this->assertTrue($aTaskList['fields']['change'][0]['cargo']['change']['b_id_field']['definition']['autoincrement'],'b_id_field autoincrement property not set in task change array');
+        $this->assertEqual($aTaskList['fields']['change'][0]['cargo']['change']['b_id_field']['definition']['length'],11,'b_id_field length property not set in task change array');
 
         // Test 4 : rename field
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter4.xml');
-        $aChanges_write                  = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter4.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
 
-        // this bit copies work done by oSchema that modifies changeset array for renaming fields
-        $table_name = 'table1';
-        $field_name = 'b_id_field_renamed';
-        $field_name_was = 'b_id_field';
-        $oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]['rename']['fields'][$field_name]['was'] = $field_name_was;
-        if (isset($oDB_Upgrade->aChanges['destructive']['tables']['change'][$table_name]['remove'][$field_name_was]))
-        {
-            unset($oDB_Upgrade->aChanges['destructive']['tables']['change'][$table_name]['remove'][$field_name_was]);
-            if (empty($oDB_Upgrade->aChanges['destructive']['tables']['change'][$table_name]['remove']))
-            {
-                unset($oDB_Upgrade->aChanges['destructive']['tables']['change'][$table_name]['remove']);
-            }
-            if (empty($oDB_Upgrade->aChanges['destructive']['tables']['change'][$table_name]))
-            {
-                unset($oDB_Upgrade->aChanges['destructive']['tables']['change'][$table_name]);
-            }
-            if (empty($oDB_Upgrade->aChanges['destructive']['tables']['change']))
-            {
-                unset($oDB_Upgrade->aChanges['destructive']['tables']['change']);
-            }
-        }
-        if (isset($oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]['add']['fields'][$field_name]))
-        {
-            unset($oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]['add']['fields'][$field_name]);
-            if (empty($oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]['add']['fields']))
-            {
-                unset($oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]['add']['fields']);
-            }
-            if (empty($oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]['add']))
-            {
-                unset($oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]['add']);
-            }
-            if (empty($oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]))
-            {
-                unset($oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]);
-            }
-            if (empty($oDB_Upgrade->aChanges['constructive']['tables']['change']))
-            {
-                unset($oDB_Upgrade->aChanges['constructive']['tables']['change']);
-            }
-        }
+        $this->_editChangesetFieldRename($oDB_Upgrade, 'table1', 'b_id_field_renamed', 'b_id_field');
+
         $this->aOptions['split']        = false; // this is a rewrite of a previously split changeset, don't split it again
         $this->aOptions['rewrite']      = true; // this is a rewrite of a previously split changeset, don't split it again
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($oDB_Upgrade->aChanges, $this->aOptions);
@@ -436,15 +397,70 @@ class Test_DB_Upgrade extends UnitTestCase
 
     }
 
+    function test_executeTasksIndexesRemove()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+
+        $aPrev_definition               = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
+        $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_indexRemove.xml');
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+
+        $this->aOptions['output']       = MAX_PATH.'/var/changes_test_indexRemove.xml';
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+
+        $this->assertTrue($oDB_Upgrade->_verifyTasksIndexesRemove(),'failed _verifyTasksIndexesRemove');
+
+        // no migration callbacks on index events
+
+        $aConstraints = $oDB_Upgrade->oSchema->db->manager->listTableConstraints('table1');
+        $this->assertTrue(in_array('index2', $aConstraints),'index2 not found');
+
+        $this->assertTrue($oDB_Upgrade->_executeTasksIndexesRemove(),'failed _executeTasksIndexesRemove');
+
+        $aConstraints = $oDB_Upgrade->oSchema->db->manager->listTableConstraints('table1');
+        $this->assertFalse(in_array('index2', $aConstraints),'index2 found');
+    }
+
+    function test_executeTasksIndexesAdd()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+
+        $aPrev_definition               = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
+        $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_indexAdd.xml');
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+
+        $this->aOptions['output']       = MAX_PATH.'/var/changes_test_indexAdd.xml';
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+
+        $this->assertTrue($oDB_Upgrade->_verifyTasksIndexesAdd(),'failed _verifyTasksIndexesAdd');
+
+        // no migration callbacks on index events
+
+        $aConstraints   = $oDB_Upgrade->oSchema->db->manager->listTableConstraints('table2');
+        $this->assertFalse(in_array('table2_pkey', $aConstraints),'table2_pkey found');
+        $this->assertFalse(in_array('index_unique', $aConstraints),'index_unique found');
+        $aIndexes       = $oDB_Upgrade->oSchema->db->manager->listTableIndexes('table2');
+        $this->assertFalse(in_array('index_new', $aIndexes),'index_new found');
+
+        $this->assertTrue($oDB_Upgrade->_executeTasksIndexesAdd(),'failed _executeTasksIndexesAdd');
+
+        $aConstraints   = $oDB_Upgrade->oSchema->db->manager->listTableConstraints('table2');
+        $this->assertTrue(in_array('table2_pkey', $aConstraints),'table2_pkey not found');
+        $this->assertTrue(in_array('index_unique', $aConstraints),'index_unique not found');
+        $aIndexes       = $oDB_Upgrade->oSchema->db->manager->listTableIndexes('table2');
+        $this->assertTrue(in_array('index_new', $aIndexes),'index_new not found');
+    }
 
     function test_executeTasksTablesAdd()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
         $oDB_Upgrade->aChanges['affected_tables']['constructive'] = array('table2');
 
-        $aPrev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
+        $aPrev_definition               = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAdd.xml');
-        $aChanges_write                  = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
 
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAdd.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
@@ -471,9 +487,273 @@ class Test_DB_Upgrade extends UnitTestCase
         $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table_new');
         $this->assertTrue(in_array('b_id_field_new', $aDBFields),'b_id_field_new not found in table_new');
         $this->assertTrue(in_array('a_text_field_new', $aDBFields),'a_text_field_new not found in table_new');
-
     }
 
+    function test_executeTasksTablesRemove()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject('destructive');
+
+        $aPrev_definition               = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
+        $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableRemove.xml');
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+
+        $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableRemove.xml';
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+
+        $this->assertTrue($oDB_Upgrade->_verifyTasksTablesRemove(),'failed _verifyTasksTablesRemove');
+
+        Mock::generatePartial(
+            'Migration',
+            $mockMigrator = 'Migration_'.rand(),
+            array('beforeRemoveTable__table2', 'afterRemoveTable__table2')
+        );
+
+        $oDB_Upgrade->oMigrator = new $mockMigrator($this);
+        $oDB_Upgrade->oMigrator->setReturnValue('beforeRemoveTable__table2', true);
+        $oDB_Upgrade->oMigrator->expectOnce('beforeRemoveTable__table2');
+        $oDB_Upgrade->oMigrator->setReturnValue('afterRemoveTable__table2', true);
+        $oDB_Upgrade->oMigrator->expectOnce('afterRemoveTable__table2');
+
+        $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
+        $this->assertTrue(in_array($oDB_Upgrade->prefix.'table2', $oDB_Upgrade->aDBTables),'table2 not found');
+
+        $this->assertTrue($oDB_Upgrade->_executeTasksTablesRemove(),'failed _executeTasksTablesRemove');
+        $oDB_Upgrade->oMigrator->tally();
+
+        $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
+        $this->assertFalse(in_array($oDB_Upgrade->prefix.'table2', $oDB_Upgrade->aDBTables),'table2 found');
+    }
+
+    function test_executeTasksTablesRename()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+
+        $aPrev_definition               = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
+        $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableRename.xml');
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+
+        $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableRename.xml';
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+
+        $this->_editChangesetTableRename($oDB_Upgrade, 'table1_rename', 'table1');
+
+        $this->aOptions['split']        = false; // this is a rewrite of a previously split changeset, don't split it again
+        $this->aOptions['rewrite']      = true; // this is a rewrite of a previously split changeset, don't split it again
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($oDB_Upgrade->aChanges, $this->aOptions);
+        $this->aOptions['rewrite']      = false; // reset this var
+        $this->aOptions['split']        = true; // reset this var
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+
+        $oDB_Upgrade->aTaskList         = $aTaskList;
+        $this->assertTrue($oDB_Upgrade->_verifyTasksTablesRename(),'failed test_verifyTasksTablesRename');
+
+        $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
+        $this->assertFalse(in_array($oDB_Upgrade->prefix.'table1_rename', $oDB_Upgrade->aDBTables),'table1_rename found');
+        $this->assertTrue(in_array($oDB_Upgrade->prefix.'table1', $oDB_Upgrade->aDBTables),'table1 not found');
+
+        Mock::generatePartial(
+            'Migration',
+            $mockMigrator = 'Migration_'.rand(),
+            array('beforeRenameTable__table1_rename', 'afterRenameTable__table1_rename')
+        );
+
+        $oDB_Upgrade->oMigrator = new $mockMigrator($this);
+        $oDB_Upgrade->oMigrator->setReturnValue('beforeRenameTable__table1_rename', true);
+        $oDB_Upgrade->oMigrator->expectOnce('beforeRenameTable__table1_rename');
+        $oDB_Upgrade->oMigrator->setReturnValue('afterRenameTable__table1_rename', true);
+        $oDB_Upgrade->oMigrator->expectOnce('afterRenameTable__table1_rename');
+
+        $this->assertTrue($oDB_Upgrade->_executeTasksTablesRename(),'failed _executeTasksTablesRename');
+        $oDB_Upgrade->oMigrator->tally();
+
+        $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
+        $this->assertTrue(in_array($oDB_Upgrade->prefix.'table1_rename', $oDB_Upgrade->aDBTables),'table1_rename not found');
+        $this->assertFalse(in_array($oDB_Upgrade->prefix.'table1', $oDB_Upgrade->aDBTables),'table1 found');
+    }
+
+    function test_executeTasksTablesAlter()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+
+        $aPrev_definition                = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_original.xml');
+
+        // Test 1 : add field
+        $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter1.xml');
+        $aChanges_write                  = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+        $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter1.xml';
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+
+        $oDB_Upgrade->aTaskList = array();
+        $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: add field');
+
+        $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
+        $this->assertTrue(in_array($oDB_Upgrade->prefix.'table1', $oDB_Upgrade->aDBTables),'table1 not found');
+        $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table1');
+        $this->assertFalse(in_array('c_date_field_new', $aDBFields),'c_date_field_new found in table1');
+
+        Mock::generatePartial(
+            'Migration',
+            $mockMigrator = 'Migration_'.rand(),
+            array('beforeAddField__table1__c_date_field_new', 'afterAddField__table1__c_date_field_new')
+        );
+
+        $oDB_Upgrade->oMigrator = new $mockMigrator($this);
+        $oDB_Upgrade->oMigrator->setReturnValue('beforeAddField__table1__c_date_field_new', true);
+        $oDB_Upgrade->oMigrator->expectOnce('beforeAddField__table1__c_date_field_new');
+        $oDB_Upgrade->oMigrator->setReturnValue('afterAddField__table1__c_date_field_new', true);
+        $oDB_Upgrade->oMigrator->expectOnce('afterAddField__table1__c_date_field_new');
+
+        $this->assertTrue($oDB_Upgrade->_executeTasksTablesAlter(),'failed _executeTasksTablesAlter: add field');
+        $oDB_Upgrade->oMigrator->tally();
+
+        $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
+        $this->assertTrue(in_array($oDB_Upgrade->prefix.'table1', $oDB_Upgrade->aDBTables),'table1 not found');
+        $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table1');
+        $this->assertTrue(in_array('c_date_field_new', $aDBFields),'c_date_field_new not found in table1');
+
+        // Test 2 : change field
+        $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter2.xml');
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+        $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter2.xml';
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+
+        $oDB_Upgrade->aTaskList = array();
+        $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: change field');
+
+        $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1'));
+        $this->assertEqual($aDef['tables']['table1']['fields']['a_text_field']['default'],'','wrong original default value');
+        $this->assertEqual($aDef['tables']['table1']['fields']['a_text_field']['length'],32,'wrong original length value');
+
+        Mock::generatePartial(
+            'Migration',
+            $mockMigrator = 'Migration_'.rand(),
+            array('beforeAlterField__table1__a_text_field', 'afterAlterField__table1__a_text_field')
+        );
+
+        $oDB_Upgrade->oMigrator = new $mockMigrator($this);
+        $oDB_Upgrade->oMigrator->setReturnValue('beforeAlterField__table1__a_text_field', true);
+        $oDB_Upgrade->oMigrator->expectOnce('beforeAlterField__table1__a_text_field');
+        $oDB_Upgrade->oMigrator->setReturnValue('afterAlterField__table1__a_text_field', true);
+        $oDB_Upgrade->oMigrator->expectOnce('afterAlterField__table1__a_text_field');
+
+        $this->assertTrue($oDB_Upgrade->_executeTasksTablesAlter(),'failed _executeTasksTablesAlter: change field');
+        $oDB_Upgrade->oMigrator->tally();
+        $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1'));
+        $this->assertEqual($aDef['tables']['table1']['fields']['a_text_field']['default'],'foo','wrong assigned default value');
+        $this->assertEqual($aDef['tables']['table1']['fields']['a_text_field']['length'],64,'wrong assigned length value');
+
+// OWING TO A BUG IN MDB2 manager mysql driver this will fail (wrong query declaration)
+/*        // Test 5 : change primary key field
+        $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter5.xml');
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+        $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter5.xml';
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+
+        $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1'));
+        $this->assertFalse($aDef['tables']['table1']['fields']['b_id_field']['autoincrement'],'','wrong original autoincrement value');
+        $this->assertEqual($aDef['tables']['table1']['fields']['b_id_field']['length'],9,'wrong original length value');
+
+        Mock::generatePartial(
+            'Migration',
+            $mockMigrator = 'Migration_'.rand(),
+            array('beforeAlterField__table1__b_id_field', 'afterAlterField__table1__b_id_field')
+        );
+
+        $oDB_Upgrade->oMigrator = new $mockMigrator($this);
+        $oDB_Upgrade->oMigrator->setReturnValue('beforeAlterField__table1__b_id_field', true);
+        $oDB_Upgrade->oMigrator->expectOnce('beforeAlterField__table1__b_id_field');
+        $oDB_Upgrade->oMigrator->setReturnValue('afterAlterField__table1__b_id_field', true);
+        $oDB_Upgrade->oMigrator->expectOnce('afterAlterField__table1__b_id_field');
+
+        $this->assertTrue($oDB_Upgrade->_executeTasksTablesAlter(),'failed _executeTasksTablesAlter: change field');
+        $oDB_Upgrade->oMigrator->tally();
+        $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1'));
+        $this->assertTrue($aDef['tables']['table1']['fields']['b_id_field']['autoincrement'],'wrong assigned autoincrement value');
+        $this->assertEqual($aDef['tables']['table1']['fields']['b_id_field']['length'],11,'wrong assigned length value');
+*/
+        // Test 4 : rename field
+        $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter4.xml');
+        $aChanges_write                  = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+        $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter4.xml';
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+
+        $this->_editChangesetFieldRename($oDB_Upgrade, 'table1', 'b_id_field_renamed', 'b_id_field');
+
+        $this->aOptions['split']        = false; // this is a rewrite of a previously split changeset, don't split it again
+        $this->aOptions['rewrite']      = true; // this is a rewrite of a previously split changeset, don't split it again
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($oDB_Upgrade->aChanges, $this->aOptions);
+        $this->aOptions['rewrite']      = false; // reset this var
+        $this->aOptions['split']        = true; // reset this var
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+
+        $oDB_Upgrade->aTaskList = array();
+        $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: rename field');
+
+        $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
+        $this->assertTrue(in_array($oDB_Upgrade->prefix.'table1', $oDB_Upgrade->aDBTables),'table1 not found');
+        $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table1');
+        $this->assertTrue(in_array('b_id_field', $aDBFields),'b_id_field not found in table1');
+        $this->assertFalse(in_array('b_id_field_renamed', $aDBFields),'b_id_field_renamed found in table1');
+
+        Mock::generatePartial(
+            'Migration',
+            $mockMigrator = 'Migration_'.rand(),
+            array('beforeRenameField__table1__b_id_field_renamed', 'afterRenameField__table1__b_id_field_renamed')
+        );
+
+        $oDB_Upgrade->oMigrator = new $mockMigrator($this);
+        $oDB_Upgrade->oMigrator->setReturnValue('beforeRenameField__table1__b_id_field_renamed', true);
+        $oDB_Upgrade->oMigrator->expectOnce('beforeRenameField__table1__b_id_field_renamed');
+        $oDB_Upgrade->oMigrator->setReturnValue('afterRenameField__table1__b_id_field_renamed', true);
+        $oDB_Upgrade->oMigrator->expectOnce('afterRenameField__table1__b_id_field_renamed');
+
+        $this->assertTrue($oDB_Upgrade->_executeTasksTablesAlter(),'failed _executeTasksTablesAlter: rename field');
+        $oDB_Upgrade->oMigrator->tally();
+
+        $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
+        $this->assertTrue(in_array($oDB_Upgrade->prefix.'table1', $oDB_Upgrade->aDBTables),'table1 not found');
+        $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table1');
+        $this->assertFalse(in_array('b_id_field', $aDBFields),'b_id_field found in table1');
+        $this->assertTrue(in_array('b_id_field_renamed', $aDBFields),'b_id_field_renamed not found in table1');
+
+        // Test 3 : remove field
+        $oDB_Upgrade = $this->_newDBUpgradeObject('destructive');
+        $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter3.xml');
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+        $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter3.xml';
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+
+        $oDB_Upgrade->aTaskList = array();
+        $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: remove field');
+
+        $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table1');
+        $this->assertTrue(in_array('a_text_field', $aDBFields),'a_text_field not found in table1');
+
+        Mock::generatePartial(
+            'Migration',
+            $mockMigrator = 'Migration_'.rand(),
+            array('beforeRemoveField__table1__a_text_field', 'afterRemoveField__table1__a_text_field')
+        );
+
+        $oDB_Upgrade->oMigrator = new $mockMigrator($this);
+        $oDB_Upgrade->oMigrator->setReturnValue('beforeRemoveField__table1__a_text_field', true);
+        $oDB_Upgrade->oMigrator->expectOnce('beforeRemoveField__table1__a_text_field');
+        $oDB_Upgrade->oMigrator->setReturnValue('afterRemoveField__table1__a_text_field', true);
+        $oDB_Upgrade->oMigrator->expectOnce('afterRemoveField__table1__a_text_field');
+
+        $this->assertTrue($oDB_Upgrade->_executeTasksTablesAlter(),'failed _executeTasksTablesAlter: remove field');
+        $oDB_Upgrade->oMigrator->tally();
+
+        $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table1');
+        $this->assertFalse(in_array('a_text_field', $aDBFields),'a_text_field found in table1');
+    }
 
     function _createTestTables($oDbh)
     {
@@ -482,8 +762,8 @@ class Test_DB_Upgrade extends UnitTestCase
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $oTable->init($this->path.'schema_test_original.xml');
-        $oTable->createTable('table1');
-        $oTable->createTable('table2');
+        $this->assertTrue($oTable->createTable('table1'),'error creating test table1');
+        $this->assertTrue($oTable->createTable('table2'),'error creating test table2');
         $aExistingTables = $oDbh->manager->listTables();
         $this->assertTrue(in_array('table1', $aExistingTables), '_createTestTables');
         $this->assertTrue(in_array('table2', $aExistingTables), '_createTestTables');
@@ -505,6 +785,76 @@ class Test_DB_Upgrade extends UnitTestCase
             $this->assertTrue($oDB_Upgrade->_createAuditTable(),'failed to create database_action audit table');
         }
         return $oDB_Upgrade;
+    }
+
+
+
+    /**
+     * emulates work done by oSchema when dev edits a changest
+     * this modifies a changeset array for renaming tables
+     *
+     */
+    function _editChangesetTableRename(&$oDB_Upgrade, $table_name, $table_name_was)
+    {
+        if (isset($oDB_Upgrade->aChanges['constructive']['tables']['add'][$table_name]))
+        {
+            unset($oDB_Upgrade->aChanges['constructive']['tables']['add'][$table_name]);
+            if (empty($oDB_Upgrade->aChanges['constructive']['tables']['add']))
+            {
+                unset($oDB_Upgrade->aChanges['constructive']['tables']['add']);
+            }
+            $oDB_Upgrade->aChanges['constructive']['tables']['rename'][$table_name]['was'] = $table_name_was;
+            if (isset($oDB_Upgrade->aChanges['destructive']['tables']['remove'][$table_name_was]))
+            {
+                unset($oDB_Upgrade->aChanges['destructive']['tables']['remove'][$table_name_was]);
+                if (empty($oDB_Upgrade->aChanges['destructive']['tables']['remove']))
+                {
+                    unset($oDB_Upgrade->aChanges['destructive']['tables']['remove']);
+                }
+            }
+        }
+    }
+
+    function _editChangesetFieldRename(&$oDB_Upgrade, $table_name, $field_name, $field_name_was)
+    {
+        $oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]['rename']['fields'][$field_name]['was'] = $field_name_was;
+        if (isset($oDB_Upgrade->aChanges['destructive']['tables']['change'][$table_name]['remove'][$field_name_was]))
+        {
+            unset($oDB_Upgrade->aChanges['destructive']['tables']['change'][$table_name]['remove'][$field_name_was]);
+            if (empty($oDB_Upgrade->aChanges['destructive']['tables']['change'][$table_name]['remove']))
+            {
+                unset($oDB_Upgrade->aChanges['destructive']['tables']['change'][$table_name]['remove']);
+            }
+            if (empty($oDB_Upgrade->aChanges['destructive']['tables']['change'][$table_name]))
+            {
+                unset($oDB_Upgrade->aChanges['destructive']['tables']['change'][$table_name]);
+            }
+            if (empty($oDB_Upgrade->aChanges['destructive']['tables']['change']))
+            {
+                unset($oDB_Upgrade->aChanges['destructive']['tables']['change']);
+            }
+        }
+        if (isset($oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]['add']['fields'][$field_name]))
+        {
+            unset($oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]['add']['fields'][$field_name]);
+            if (empty($oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]['add']['fields']))
+            {
+                unset($oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]['add']['fields']);
+            }
+            if (empty($oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]['add']))
+            {
+                unset($oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]['add']);
+            }
+            if (empty($oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]))
+            {
+                unset($oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]);
+            }
+            if (empty($oDB_Upgrade->aChanges['constructive']['tables']['change']))
+            {
+                unset($oDB_Upgrade->aChanges['constructive']['tables']['change']);
+            }
+        }
+
     }
 
 }

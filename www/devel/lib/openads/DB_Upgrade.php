@@ -561,85 +561,126 @@ class OA_DB_Upgrade
      */
     function _executeTasksTablesAlter()
     {
-        foreach ($this->aTaskList['fields']['add'] as $k => $aTask)
+        if (isset($this->aTaskList['fields']['add']))
         {
-            $table = $this->prefix.$aTask['name'];
-            $this->_log($this->_formatExecuteMsg($k,  $table, 'alter'));
-            $result = $this->_executeMigrationMethodField($aTask['name'], $aTask['field'], 'beforeAddField');
-            if ($this->_isPearError($result, "data migration error beforeAddField: {$aTask['name']}.{$aTask['field']}"))
+            foreach ($this->aTaskList['fields']['add'] as $k => $aTask)
             {
-                $this->_halt();
-                return false;
-            }
-            $result = $this->oSchema->db->manager->alterTable($table, $aTask['cargo'], false);
-            if (!$this->_isPearError($result, 'error altering table '.$table))
-            {
-                $this->_log('successfully altered table '.$table);
-            }
-            else
-            {
-                $this->_halt();
-                return false;
-            }
-            $result = $this->_executeMigrationMethodField($aTask['name'], $aTask['field'], 'afterAddField');
-            if ($this->_isPearError($result, "data migration error afterAddField: {$aTask['name']}.{$aTask['field']}"))
-            {
-                $this->_halt();
-                return false;
+                $table = $this->prefix.$aTask['name'];
+                $this->_log($this->_formatExecuteMsg($k,  $table, 'alter'));
+                $result = $this->_executeMigrationMethodField($aTask['name'], $aTask['field'], 'beforeAddField');
+                if ($this->_isPearError($result, "data migration error beforeAddField: {$aTask['name']}.{$aTask['field']}"))
+                {
+                    $this->_halt();
+                    return false;
+                }
+                $result = $this->oSchema->db->manager->alterTable($table, $aTask['cargo'], false);
+                if (!$this->_isPearError($result, 'error altering table '.$table))
+                {
+                    $this->_log('successfully altered table '.$table);
+                }
+                else
+                {
+                    $this->_halt();
+                    return false;
+                }
+                $result = $this->_executeMigrationMethodField($aTask['name'], $aTask['field'], 'afterAddField');
+                if ($this->_isPearError($result, "data migration error afterAddField: {$aTask['name']}.{$aTask['field']}"))
+                {
+                    $this->_halt();
+                    return false;
+                }
             }
         }
-        foreach ($this->aTaskList['fields']['remove'] as $k => $aTask)
+        if (isset($this->aTaskList['fields']['remove']))
         {
-            $table = $this->prefix.$aTask['name'];
-            $this->_log($this->_formatExecuteMsg($k,  $table, 'alter'));
-            $result = $this->_executeMigrationMethodField($aTask['name'], $aTask['field'], 'beforeRemoveField');
-            if ($this->_isPearError($result, "data migration error beforeRemoveField: {$aTask['name']}.{$aTask['field']}"))
+            foreach ($this->aTaskList['fields']['remove'] as $k => $aTask)
             {
-                $this->_halt();
-                return false;
-            }
-            $result = $this->oSchema->db->manager->alterTable($table, $aTask['cargo'], false);
-            if (!$this->_isPearError($result, 'error altering table '.$table))
-            {
-                $this->_log('successfully altered table '.$table);
-            }
-            else
-            {
-                $this->_halt();
-                return false;
-            }
-            $result = $this->_executeMigrationMethodField($aTask['name'], $aTask['field'], 'afterRemoveField');
-            if ($this->_isPearError($result, "data migration error afterRemoveField: {$aTask['name']}.{$aTask['field']}"))
-            {
-                $this->_halt();
-                return false;
+                $table = $this->prefix.$aTask['name'];
+                $this->_log($this->_formatExecuteMsg($k,  $table, 'alter'));
+                $result = $this->_executeMigrationMethodField($aTask['name'], $aTask['field'], 'beforeRemoveField');
+                if ($this->_isPearError($result, "data migration error beforeRemoveField: {$aTask['name']}.{$aTask['field']}"))
+                {
+                    $this->_halt();
+                    return false;
+                }
+                $result = $this->oSchema->db->manager->alterTable($table, $aTask['cargo'], false);
+                if (!$this->_isPearError($result, 'error altering table '.$table))
+                {
+                    $this->_log('successfully altered table '.$table);
+                }
+                else
+                {
+                    $this->_halt();
+                    return false;
+                }
+                $result = $this->_executeMigrationMethodField($aTask['name'], $aTask['field'], 'afterRemoveField');
+                if ($this->_isPearError($result, "data migration error afterRemoveField: {$aTask['name']}.{$aTask['field']}"))
+                {
+                    $this->_halt();
+                    return false;
+                }
             }
         }
-        foreach ($this->aTaskList['fields']['change'] as $k => $aTask)
+        if (isset($this->aTaskList['fields']['change']))
         {
-            $table = $this->prefix.$aTask['name'];
-            $this->_log($this->_formatExecuteMsg($k,  $table, 'alter'));
-            $result = $this->_executeMigrationMethodField($aTask['name'], $aTask['field'], 'beforeAlterField');
-            if ($this->_isPearError($result, "data migration error beforeAlterField: {$aTask['name']}.{$aTask['field']}"))
+
+            foreach ($this->aTaskList['fields']['change'] as $k => $aTask)
             {
-                $this->_halt();
-                return false;
+                $table = $this->prefix.$aTask['name'];
+                $this->_log($this->_formatExecuteMsg($k,  $table, 'alter'));
+                $result = $this->_executeMigrationMethodField($aTask['name'], $aTask['field'], 'beforeAlterField');
+                if ($this->_isPearError($result, "data migration error beforeAlterField: {$aTask['name']}.{$aTask['field']}"))
+                {
+                    $this->_halt();
+                    return false;
+                }
+                $result = $this->oSchema->db->manager->alterTable($table, $aTask['cargo'], false);
+                if (!$this->_isPearError($result, 'error altering table '.$table))
+                {
+                    $this->_log('successfully altered table '.$table);
+                }
+                else
+                {
+                    $this->_halt();
+                    return false;
+                }
+                $result = $this->_executeMigrationMethodField($aTask['name'], $aTask['field'], 'afterAlterField');
+                if ($this->_isPearError($result, "data migration error afterAlterField: {$aTask['name']}.{$aTask['field']}"))
+                {
+                    $this->_halt();
+                    return false;
+                }
             }
-            $result = $this->oSchema->db->manager->alterTable($table, $aTask['cargo'], false);
-            if (!$this->_isPearError($result, 'error altering table '.$table))
+        }
+        if (isset($this->aTaskList['fields']['rename']))
+        {
+
+            foreach ($this->aTaskList['fields']['rename'] as $k => $aTask)
             {
-                $this->_log('successfully altered table '.$table);
-            }
-            else
-            {
-                $this->_halt();
-                return false;
-            }
-            $result = $this->_executeMigrationMethodField($aTask['name'], $aTask['field'], 'afterAlterField');
-            if ($this->_isPearError($result, "data migration error afterAlterField: {$aTask['name']}.{$aTask['field']}"))
-            {
-                $this->_halt();
-                return false;
+                $table = $this->prefix.$aTask['name'];
+                $this->_log($this->_formatExecuteMsg($k,  $table, 'alter'));
+                $result = $this->_executeMigrationMethodField($aTask['name'], $aTask['was'], 'beforeRenameField');
+                if ($this->_isPearError($result, "data migration error beforeRenameField: {$aTask['name']}.{$aTask['was']}"))
+                {
+                    $this->_halt();
+                    return false;
+                }
+                $result = $this->oSchema->db->manager->alterTable($table, $aTask['cargo'], false);
+                if (!$this->_isPearError($result, 'error altering table '.$table))
+                {
+                    $this->_log('successfully altered table '.$table);
+                }
+                else
+                {
+                    $this->_halt();
+                    return false;
+                }
+                $result = $this->_executeMigrationMethodField($aTask['name'], $aTask['was'], 'afterRenameField');
+                if ($this->_isPearError($result, "data migration error afterRenameField: {$aTask['name']}.{$aTask['was']}"))
+                {
+                    $this->_halt();
+                    return false;
+                }
             }
         }
         return true;
@@ -652,48 +693,51 @@ class OA_DB_Upgrade
      */
     function _executeTasksTablesAdd()
     {
-        foreach ($this->aTaskList['tables']['add'] as $k => $aTask)
+        if (isset($this->aTaskList['tables']['add']))
         {
-            $table = $this->prefix.$aTask['name'];
-            $this->_log($this->_formatExecuteMsg($k,  $table, 'create'));
+            foreach ($this->aTaskList['tables']['add'] as $k => $aTask)
+            {
+                $table = $this->prefix.$aTask['name'];
+                $this->_log($this->_formatExecuteMsg($k,  $table, 'create'));
 
-            if (!$this->_executeMigrationMethodTable($table, 'beforeAddTable'))
-            {
-                $this->_halt();
-                return false;
-            }
-            else
-            {
-                $result = $this->oSchema->db->manager->createTable($table, $aTask['cargo'], array());
-                if (!$this->_isPearError($result, 'error creating table '.$table))
+                if (!$this->_executeMigrationMethodTable($table, 'beforeAddTable'))
                 {
-                    if (isset($aTask['indexes']))
+                    $this->_halt();
+                    return false;
+                }
+                else
+                {
+                    $result = $this->oSchema->db->manager->createTable($table, $aTask['cargo'], array());
+                    if (!$this->_isPearError($result, 'error creating table '.$table))
                     {
-                        foreach ($aTask['indexes'] AS $index=>$aIndex_Def)
+                        if (isset($aTask['indexes']))
                         {
-                            $aDef['indexes'][$aIndex_Def['name']] = $aIndex_Def['cargo'];
-                            $this->_log('executing tables task : '.$table.'=>'.'create index');
+                            foreach ($aTask['indexes'] AS $index=>$aIndex_Def)
+                            {
+                                $aDef['indexes'][$aIndex_Def['name']] = $aIndex_Def['cargo'];
+                                $this->_log('executing tables task : '.$table.'=>'.'create index');
+                            }
+                            if (!$this->_createAllIndexes($aDef, $table))
+                            {
+                                $this->_halt();
+                                return false;
+                            }
                         }
-                        if (!$this->_createAllIndexes($aDef, $table))
+                        if (!$this->_executeMigrationMethodTable($table, 'afterAddTable'))
                         {
                             $this->_halt();
                             return false;
                         }
+                        else
+                        {
+                            $this->_log('successfully created table '.$table);
+                        }
                     }
-                    if (!$this->_executeMigrationMethodTable($table, 'afterAddTable'))
+                    else
                     {
                         $this->_halt();
                         return false;
                     }
-                    else
-                    {
-                        $this->_log('successfully created table '.$table);
-                    }
-                }
-                else
-                {
-                    $this->_halt();
-                    return false;
                 }
             }
         }
@@ -707,38 +751,40 @@ class OA_DB_Upgrade
      */
     function _executeTasksTablesRename()
     {
-        foreach ($this->aTaskList['tables']['rename'] as $k => $aTask)
+        if (isset($this->aTaskList['tables']['rename']))
         {
-            $tbl_new = $this->prefix.$aTask['name'];
-            $tbl_old = $this->prefix.$aTask['cargo']['was'];
-            $this->_log($this->_formatExecuteMsg($k,  $tbl_old, 'rename'));
-            $query  = "RENAME TABLE {$tbl_old} TO {$tbl_new}";
+            foreach ($this->aTaskList['tables']['rename'] as $k => $aTask)
+            {
+                $tbl_new = $this->prefix.$aTask['name'];
+                $tbl_old = $this->prefix.$aTask['cargo']['was'];
+                $this->_log($this->_formatExecuteMsg($k,  $tbl_old, 'rename'));
+                $query  = "RENAME TABLE {$tbl_old} TO {$tbl_new}";
 
-            if (!$this->_executeMigrationMethodTable($tbl_new, 'beforeRenameTable'))
-            {
-                $this->_halt();
-                return false;
-            }
-            else
-            {
-                $result = $this->oSchema->db->exec($query);
-                if (!$this->_isPearError($result, 'error renaming table '.$tbl_old.' to '.$tbl_new))
+                if (!$this->_executeMigrationMethodTable($tbl_new, 'beforeRenameTable'))
                 {
-                    $result = call_user_func(array($this->oMigrator, $funcAfter));
-                    if (!$this->_executeMigrationMethodTable($tbl_new, 'afterRenameTable'))
+                    $this->_halt();
+                    return false;
+                }
+                else
+                {
+                    $result = $this->oSchema->db->exec($query);
+                    if (!$this->_isPearError($result, 'error renaming table '.$tbl_old.' to '.$tbl_new))
+                    {
+                        if (!$this->_executeMigrationMethodTable($tbl_new, 'afterRenameTable'))
+                        {
+                            $this->_halt();
+                            return false;
+                        }
+                        else
+                        {
+                            $this->_log('successfully renamed table '.$tbl_old.' to '.$tbl_new);
+                        }
+                    }
+                    else
                     {
                         $this->_halt();
                         return false;
                     }
-                    else
-                    {
-                        $this->_log('successfully renamed table '.$tbl_old.' to '.$tbl_new);
-                    }
-                }
-                else
-                {
-                    $this->_halt();
-                    return false;
                 }
             }
         }
@@ -752,35 +798,38 @@ class OA_DB_Upgrade
      */
     function _executeTasksTablesRemove()
     {
-        foreach ($this->aTaskList['tables']['remove'] as $k => $aTask)
+        if (isset($this->aTaskList['tables']['remove']))
         {
-            $table = $this->prefix.$aTask['name'];
-            $this->_log($this->_formatExecuteMsg($k,  $table, 'remove'));
-            if (!$this->_executeMigrationMethodTable($table, 'beforeRemoveTable'))
+            foreach ($this->aTaskList['tables']['remove'] as $k => $aTask)
             {
-                $this->_halt();
-                return false;
-            }
-            else
-            {
-                $query  = "DROP TABLE {$table}";
-                $result = $this->oSchema->db->exec($query);
-                if (!$this->_isPearError($result, 'error removing table '.$table))
+                $table = $this->prefix.$aTask['name'];
+                $this->_log($this->_formatExecuteMsg($k,  $table, 'remove'));
+                if (!$this->_executeMigrationMethodTable($table, 'beforeRemoveTable'))
                 {
-                    if (!$this->_executeMigrationMethodTable($table, 'afterRemoveTable'))
+                    $this->_halt();
+                    return false;
+                }
+                else
+                {
+                    $query  = "DROP TABLE {$table}";
+                    $result = $this->oSchema->db->exec($query);
+                    if (!$this->_isPearError($result, 'error removing table '.$table))
+                    {
+                        if (!$this->_executeMigrationMethodTable($table, 'afterRemoveTable'))
+                        {
+                            $this->_halt();
+                            return false;
+                        }
+                        else
+                        {
+                            $this->_log('successfully removed table '.$table);
+                        }
+                    }
+                    else
                     {
                         $this->_halt();
                         return false;
                     }
-                    else
-                    {
-                        $this->_log('successfully removed table '.$table);
-                    }
-                }
-                else
-                {
-                    $this->_halt();
-                    return false;
                 }
             }
         }
@@ -796,17 +845,20 @@ class OA_DB_Upgrade
      */
     function _executeTasksIndexesAdd()
     {
-        foreach ($this->aTaskList['indexes']['add'] as $k => $aTask)
+        if (isset($this->aTaskList['indexes']['add']))
         {
-            $table = $aTask['table'];
-            $index = $aTask['name'];
-            $aIndex_def = $aTask['cargo'];
-            $result = $this->_createAllIndexes($aIndex_def, $table);
-            //$result = $this->oSchema->db->manager->createConstraint($table, $index, $aIndex_def);
-            if ($this->_isPearError($result, 'error adding constraint '.$index))
+            foreach ($this->aTaskList['indexes']['add'] as $k => $aTask)
             {
-                $this->_halt();
-                return false;
+                $table = $aTask['table'];
+                $index = $aTask['name'];
+                $aIndex_def = $aTask['cargo'];
+                $result = $this->_createAllIndexes($aIndex_def, $table);
+                //$result = $this->oSchema->db->manager->createConstraint($table, $index, $aIndex_def);
+                if ($this->_isPearError($result, 'error adding constraint '.$index))
+                {
+                    $this->_halt();
+                    return false;
+                }
             }
         }
         return true;
@@ -819,15 +871,18 @@ class OA_DB_Upgrade
      */
     function _executeTasksIndexesRemove()
     {
-        foreach ($this->aTaskList['indexes']['remove'] as $k => $aTask)
+        if (isset($this->aTaskList['indexes']['remove']))
         {
-            $index = $aTask['name'];
-            $table = $aTask['table'];
-            $result = $this->oSchema->db->manager->dropConstraint($table, $index);
-            if ($this->_isPearError($result, 'error dropping constraint '.$index))
+            foreach ($this->aTaskList['indexes']['remove'] as $k => $aTask)
             {
-                $this->_halt();
-                return false;
+                $index = $aTask['name'];
+                $table = $aTask['table'];
+                $result = $this->oSchema->db->manager->dropConstraint($table, $index);
+                if ($this->_isPearError($result, 'error dropping constraint '.$index))
+                {
+                    $this->_halt();
+                    return false;
+                }
             }
         }
         return true;
@@ -1258,8 +1313,15 @@ class OA_DB_Upgrade
                                         );
                 break;
             case 'add':
-            case 'change':
                 $aDef = $this->_getFieldDefinition($this->aDefinitionNew, $table, $field_name);
+                $result['cargo'] =  array(
+                                         $task=>array(
+                                                      $field_name=>$aDef
+                                                     )
+                                        );
+                break;
+            case 'change':
+                $aDef['definition'] = $this->_getFieldDefinition($this->aDefinitionNew, $table, $field_name);
                 $result['cargo'] =  array(
                                          $task=>array(
                                                       $field_name=>$aDef
@@ -1268,6 +1330,7 @@ class OA_DB_Upgrade
                 break;
             case 'rename':
                 $aDef = $this->_getFieldDefinition($this->aDefinitionNew, $table, $field_name_new);
+                $result['was'] = $field_name_new;
                 $result['cargo'] =  array(
                                          $task=>array(
                                                       $field_name=>array(

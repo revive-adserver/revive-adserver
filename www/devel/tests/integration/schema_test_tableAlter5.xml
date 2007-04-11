@@ -6,19 +6,21 @@
  <create>true</create>
  <overwrite>true</overwrite>
 
+ <comments>change the auto-increment definition of a primary key field</comments>
+
  <table>
 
-  <name>table1_rename</name>
+  <name>table1</name>
 
   <declaration>
 
    <field>
     <name>b_id_field</name>
     <type>integer</type>
-    <length>9</length>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
-    <autoincrement></autoincrement>
+    <autoincrement>1</autoincrement>
    </field>
 
    <field>
@@ -51,7 +53,7 @@
 
  </table>
 
-  <table>
+ <table>
 
   <name>table2</name>
 
