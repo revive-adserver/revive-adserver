@@ -351,8 +351,8 @@ class OA_Dal_Maintenance_Statistics_Common
                 FROM
                     $baseTable AS drad
                 WHERE
-                    drad.date_time >= ".$oStart->format('%Y%m%d%H%M%S')."
-                    AND drad.date_time <= ".$oEnd->format('%Y%m%d%H%M%S')."
+                    drad.date_time >= '".$oStart->format('%Y-%m-%d %H:%M:%S')."'
+                    AND drad.date_time <= '".$oEnd->format('%Y-%m-%d %H:%M:%S')."'
                 GROUP BY
                     day, hour, ad_id, creative_id, zone_id";
             OA::debug("Summarising ad $type" . "s from the $baseTable table.", PEAR_LOG_DEBUG);

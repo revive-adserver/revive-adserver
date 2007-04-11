@@ -282,7 +282,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                     tmp_ad_{$type}";
             $aRow = $oDbh->queryRow($query);
             $this->assertEqual($aRow['number'], 0);
-            //TestEnv::startTransaction();
+            TestEnv::startTransaction();
             // Insert 3 ad requests/impressions/clicks
             $this->_insertTestSummariseData($table);
             // Summarise where requests/impressions/clicks don't exist
