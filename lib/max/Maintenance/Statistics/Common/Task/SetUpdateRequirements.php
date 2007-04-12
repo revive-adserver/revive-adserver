@@ -87,7 +87,7 @@ class MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends MAX_M
         // Determine when the last intermediate table update happened
         if ($oLastUpdatedDate === false) {
             $this->oController->lastDateIntermediate =
-                $oDal->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI, $oNowDate);
+                $oDal->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI, $oNowDate);
         } else {
             $this->oController->lastDateIntermediate = $oLastUpdatedDate;
         }
@@ -128,7 +128,7 @@ class MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends MAX_M
         // Determine when the last final table update happened
         if ($oLastUpdatedDate === false) {
             $this->oController->lastDateFinal =
-                $oDal->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR, $oNowDate);
+                $oDal->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR, $oNowDate);
         } else {
             $this->oController->lastDateFinal = $oLastUpdatedDate;
         }

@@ -76,7 +76,7 @@ class MAX_Maintenance_Statistics_Common_Task_LogCompletion extends MAX_Maintenan
                 $oEndDate,
                 $this->oController->updateIntermediateToDate,
                 $runTypeField,
-                DAL_STATISTICS_COMMON_UPDATE_BOTH
+                OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH
             );
         } elseif ($this->oController->updateFinal) {
             $oDal->setMaintenanceStatisticsLastRunInfo(
@@ -84,7 +84,7 @@ class MAX_Maintenance_Statistics_Common_Task_LogCompletion extends MAX_Maintenan
                 $oEndDate,
                 $this->oController->updateFinalToDate,
                 $runTypeField,
-                DAL_STATISTICS_COMMON_UPDATE_HOUR
+                OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR
             );
         } elseif ($this->oController->updateIntermediate) {
             $oDal->setMaintenanceStatisticsLastRunInfo(
@@ -92,7 +92,7 @@ class MAX_Maintenance_Statistics_Common_Task_LogCompletion extends MAX_Maintenan
                 $oEndDate,
                 $this->oController->updateIntermediateToDate,
                 $runTypeField,
-                DAL_STATISTICS_COMMON_UPDATE_OI
+                OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI
             );
         } else {
             MAX::debug(

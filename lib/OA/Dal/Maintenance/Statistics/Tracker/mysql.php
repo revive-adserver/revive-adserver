@@ -56,11 +56,11 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysql extends OA_Dal_Maintenance_Sta
      * A method to find the last time that maintenance statistics was run.
      *
      * @param integer $type The update type that occurred - that is,
-     *                      DAL_STATISTICS_COMMON_UPDATE_OI if the update was
+     *                      OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI if the update was
      *                      done on the basis of the operation interval,
-     *                      DAL_STATISTICS_COMMON_UPDATE_HOUR if the update
+     *                      OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR if the update
      *                      was done on the basis of the hour, or
-     *                      DAL_STATISTICS_COMMON_UPDATE_BOTH if the update
+     *                      OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH if the update
      *                      was done on the basis of both the operation
      *                      interval and the hour.
      * @param Date $oNow An optional Date, used to specify the "current time", and

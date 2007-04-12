@@ -3001,7 +3001,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $aOiDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $report = null;
         $endDate = new Date('2005-07-01 12:01:00');
-        $oMSC->logCompletion($startDate, $endDate, DAL_STATISTICS_COMMON_UPDATE_BOTH,
+        $oMSC->logCompletion($startDate, $endDate, OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH,
                              $aOiDates['end'], $report);
 
         // Run the prioritisation engine for the initial run
@@ -3177,7 +3177,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $aOiDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $report = null;
         $endDate = new Date('2005-07-01 13:01:00');
-        $oMSC->logCompletion($startDate, $endDate, DAL_STATISTICS_COMMON_UPDATE_BOTH,
+        $oMSC->logCompletion($startDate, $endDate, OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH,
                              $aOiDates['end'], $report);
 
         // Re-run the prioritisation engine with the statistics present
@@ -3496,7 +3496,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $aOiDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $report = null;
         $endDate = new Date('2005-07-01 14:01:00');
-        $oMSC->logCompletion($startDate, $endDate, DAL_STATISTICS_COMMON_UPDATE_BOTH,
+        $oMSC->logCompletion($startDate, $endDate, OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH,
                              $aOiDates['end'], $report);
 
         // Re-run the prioritisation engine with the statistics present

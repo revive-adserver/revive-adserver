@@ -42,9 +42,9 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics.php';
 /**
  * Definitions of class constants.
  */
-define('DAL_STATISTICS_COMMON_UPDATE_OI',   0);
-define('DAL_STATISTICS_COMMON_UPDATE_HOUR', 1);
-define('DAL_STATISTICS_COMMON_UPDATE_BOTH', 2);
+define('OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI',   0);
+define('OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR', 1);
+define('OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH', 2);
 
 /**
  * Definition of the default connection window (different to the conversion
@@ -132,11 +132,11 @@ class OA_Dal_Maintenance_Statistics_Common
      *
      * @abstract
      * @param integer $type The update type that occurred - that is,
-     *                      DAL_STATISTICS_COMMON_UPDATE_OI if the update was
+     *                      OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI if the update was
      *                      done on the basis of the operation interval,
-     *                      DAL_STATISTICS_COMMON_UPDATE_HOUR if the update
+     *                      OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR if the update
      *                      was done on the basis of the hour, or
-     *                      DAL_STATISTICS_COMMON_UPDATE_BOTH if the update
+     *                      OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH if the update
      *                      was done on the basis of both the operation
      *                      interval and the hour.
      * @param Date $now An optional Date, used to specify the "current time", and
@@ -165,11 +165,11 @@ class OA_Dal_Maintenance_Statistics_Common
      *
      * @access private
      * @param integer $type The update type that occurred - that is,
-     *                      DAL_STATISTICS_COMMON_UPDATE_OI if the update was
+     *                      OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI if the update was
      *                      done on the basis of the operation interval,
-     *                      DAL_STATISTICS_COMMON_UPDATE_HOUR if the update
+     *                      OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR if the update
      *                      was done on the basis of the hour, or
-     *                      DAL_STATISTICS_COMMON_UPDATE_BOTH if the update
+     *                      OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH if the update
      *                      was done on the basis of both the operation
      *                      interval and the hour.
      * @param string $module One of "AdServer" or "Tracker".
@@ -197,16 +197,16 @@ class OA_Dal_Maintenance_Statistics_Common
             OA::debug('Aborting script execution', PEAR_LOG_ERR);
             exit();
         }
-        if ($type == DAL_STATISTICS_COMMON_UPDATE_OI) {
-            $whereClause = "WHERE ($column = " . DAL_STATISTICS_COMMON_UPDATE_OI .
-                           " OR $column = " . DAL_STATISTICS_COMMON_UPDATE_BOTH. ')';
+        if ($type == OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI) {
+            $whereClause = "WHERE ($column = " . OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI .
+                           " OR $column = " . OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH. ')';
             $rawType = 'oi';
-        } elseif ($type == DAL_STATISTICS_COMMON_UPDATE_HOUR) {
-            $whereClause = "WHERE ($column = " . DAL_STATISTICS_COMMON_UPDATE_HOUR .
-                           " OR $column = " . DAL_STATISTICS_COMMON_UPDATE_BOTH . ')';
+        } elseif ($type == OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR) {
+            $whereClause = "WHERE ($column = " . OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR .
+                           " OR $column = " . OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH . ')';
            $rawType = 'hour';
-        } elseif ($type == DAL_STATISTICS_COMMON_UPDATE_BOTH) {
-            $whereClause = "WHERE ($column = " . DAL_STATISTICS_COMMON_UPDATE_BOTH . ')';
+        } elseif ($type == OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH) {
+            $whereClause = "WHERE ($column = " . OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH . ')';
             $rawType = 'hour';
         } else {
             OA::debug('Invalid update type value ' . $type, PEAR_LOG_ERR);
@@ -219,11 +219,11 @@ class OA_Dal_Maintenance_Statistics_Common
         }
         $message = "Getting the details of when maintenance statistics last ran for the $module module " .
                    'on the basis of the ';
-        if ($type == DAL_STATISTICS_COMMON_UPDATE_OI) {
+        if ($type == OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI) {
             $message .= 'operation interval';
-        } elseif ($type == DAL_STATISTICS_COMMON_UPDATE_HOUR) {
+        } elseif ($type == OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR) {
             $message .= 'hour';
-        } elseif ($type == DAL_STATISTICS_COMMON_UPDATE_BOTH) {
+        } elseif ($type == OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH) {
             $message .= 'both the opertaion interval and hour';
         }
         OA::debug($message, PEAR_LOG_DEBUG);
@@ -664,7 +664,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 tt.connection_action AS connection_action,
                                 tt.connection_window AS connection_window,
                                 tt.connection_status AS connection_status,
-                                IF(tt.date_time < DATE_ADD(drad.date_time, INTERVAL tt.connection_window SECOND), 1, 0) AS inside_window
+                                IF(tt.date_time < DATE_ADD(drad.date_time, " . OA_Dal::quoteInterval('tt.connection_window', 'SECOND') . "), 1, 0) AS inside_window
                             FROM
                                 $tempTable AS tt,
                                 $adTable AS drad,
@@ -690,7 +690,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 AND
                                 tt.campaign_id = ct.campaignid
                                 AND
-                                tt.date_time < DATE_ADD(drad.date_time, INTERVAL " . OA_DAL_MAINTENANCE_STATISTICS_CONNECTION_WINDOW_DAYS . " DAY)
+                                tt.date_time < DATE_ADD(drad.date_time, " . OA_Dal::quoteInterval(OA_DAL_MAINTENANCE_STATISTICS_CONNECTION_WINDOW_DAYS, 'DAY') . ")
                                 AND
                                 tt.date_time >= drad.date_time";
                         OA::debug('Connecting tracker impressions with ad ' . $action . 's, where possible.', PEAR_LOG_DEBUG);

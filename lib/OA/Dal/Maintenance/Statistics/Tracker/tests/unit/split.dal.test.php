@@ -254,9 +254,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $now = new Date();
         $dsa->tables->createTable('data_raw_tracker_impression', $now);
         // Test with no data
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI);
         $this->assertNull($date);
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertNull($date);
         TestEnv::startTransaction();
         // Insert ad impressions
@@ -312,9 +312,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $now->setMinute(59);
         $now->setSecond(59);
         // Test
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI);
         $this->assertEqual($date, $now);
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertEqual($date, $now);
         // Insert an hourly (only) update
         $query = "
@@ -354,9 +354,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         );
         $rows = $st->execute($aData);
         // Test
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI);
         $this->assertEqual($date, $now);
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert an operation interval (only) update
         $aData = array(
@@ -376,9 +376,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         );
         $rows = $st->execute($aData);
         // Test
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-06 10:16:00'));
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert a dual interval update
         $aData = array(
@@ -390,9 +390,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         );
         $rows = $st->execute($aData);
         // Test
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
         TestEnv::rollbackTransaction();
     }

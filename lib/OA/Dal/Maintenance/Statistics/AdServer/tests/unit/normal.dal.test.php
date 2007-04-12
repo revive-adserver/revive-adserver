@@ -60,13 +60,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa = $oMDMSF->factory("AdServer");
 
         // Test with no data
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI);
         $this->assertNull($date);
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertNull($date);
         TestEnv::startTransaction();
-        // Get the data for the tests
-        include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
         // Insert ad impressions
         $query = "
             INSERT INTO
@@ -108,9 +106,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         );
         $rows = $st->execute($aData);
         // Test
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
         // Insert an hourly (only) update
         $query = "
@@ -150,13 +148,12 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         );
         $rows = $st->execute($aData);
         // Test
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-05-06 11:59:59'));
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert an operation interval (only) update
         $aData = array(
-
             '2004-05-05 12:00:00',
             '2004-05-05 12:00:05',
             5,
@@ -173,9 +170,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         );
         $rows = $st->execute($aData);
         // Test
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-06 10:16:00'));
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-06 10:15:00'));
         // Insert a dual interval update
         $aData = array(
@@ -187,9 +184,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         );
         $rows = $st->execute($aData);
         // Test
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI);
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
-        $date = $dsa->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR);
+        $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
         TestEnv::rollbackTransaction();
         TestEnv::restoreConfig();
