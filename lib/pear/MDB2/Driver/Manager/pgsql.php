@@ -238,7 +238,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
         if (!empty($changes['change']) && is_array($changes['change'])) {
             foreach ($changes['change'] as $field_name => $field) {
                 $field_name = $db->quoteIdentifier($field_name, true);
-                if (!empty($field['type'])) {
+                if (!empty($field['definition']['type'])) {
                     $server_info = $db->getServerVersion();
                     if (PEAR::isError($server_info)) {
                         return $server_info;
