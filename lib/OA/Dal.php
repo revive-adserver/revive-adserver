@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/DB.php';
 require_once 'DB/DataObject.php';
 
 /**
@@ -132,6 +133,31 @@ class OA_Dal
             'debug'                 => 0,
             'production'            => 0,
         );
+    }
+
+    /**
+     * A method to return the SQL required to obtain an INTERVAL
+     * value, depending on the datbase type in use.
+     *
+     * For example, in MySQL:
+     *  INTERVAL 30 DAY;
+     *
+     * For example, in PostgreSQL:
+     *  (30 DAY)::interval
+     *
+     * @static
+     * @param string $interval The INTERVAL field or integer value. For example,
+     *                         "30", or "table.column".
+     * @param string $type     The INTERVAL length. For example, "DAY".
+     * @return string The SQL code required to obtain the INTERVAL value.
+     */
+    function quoteInterval($interval, $type)
+    {
+        $oDbh = &OA_DB::singleton();
+        if ($oDbh->dsn['phptype'] == 'pgsql') {
+            return "($interval || ' $type')::interval";
+        }
+        return "INTERVAL $interval $type";
     }
 
 }
