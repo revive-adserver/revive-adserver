@@ -657,6 +657,9 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertTrue(in_array($oDB_Upgrade->prefix.'table1_rename', $oDB_Upgrade->aDBTables),'table1_rename not found');
         $this->assertFalse(in_array($oDB_Upgrade->prefix.'table1', $oDB_Upgrade->aDBTables),'table1 found');
+
+        $oTable = new OA_DB_Table();
+        $this->assertTrue($oTable->dropTable('table1_rename'),'error dropping table1_rename');
     }
 
     /**
