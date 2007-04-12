@@ -21,7 +21,9 @@
     <exclude name="docs/developer/**"/>
     <include name="etc/**"/>
     <exclude name="etc/*.properties*"/>
+    <exclude name="etc/test.conf.ini"/>
     <include name="lib/**"/>
+    <exclude name="lib/simpletest/**"/>
     <include name="plugins/**"/>
     <include name="scripts/maintenance/**"/>
     <include name="scripts/.htaccess"/>
@@ -47,6 +49,8 @@
     <include name="docs/CODING_STANDARDS.txt"/>
     <include name="docs/developer/**"/>
     <include name="etc/*.properties*"/>
+    <include name="etc/test.conf.ini"/>
+    <include name="lib/simpletest/**"/>
     <include name="scripts/db_dataobject/**"/>
     <include name="scripts/updateDocs.sh"/>
     <include name="tutorials/**"/>
