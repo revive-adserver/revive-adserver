@@ -182,7 +182,7 @@ class TestRunner
         // Tear down the environment for the test
         TestRunner::teardownEnv($layer);
     }
-    
+
     /**
      * A private method to create the test name for display.
      *
@@ -195,9 +195,8 @@ class TestRunner
     function _testName($layer, $folder = null, $file = null)
     {
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
-        $name = ''.
-        $name .= strtoupper($type) . ': ';
-        $unitname .= $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][0];
+        $name = strtoupper($type) . ': ';
+        $unitname = $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][0];
         if (preg_match('/\(DB\)/', $unitname)) {
             $oDbh = &OA_DB::singleton();
             $unitname = preg_replace('/\(DB\)/', '(DB -> ' . $oDbh->dsn['phptype'] . ')', $unitname);
