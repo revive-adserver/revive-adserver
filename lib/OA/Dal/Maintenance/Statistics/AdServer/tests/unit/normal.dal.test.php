@@ -4682,14 +4682,438 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
     }
 
     /**
-     * A method to perform basic testing of the _dedupConversions() method,
-     * where de-duplication IS expected to occur.
+     * A private method to insert request test data for the saveIntermediate() test.
      *
-     * @TODO Not implemented...
+     * @access private
      */
-    function test_dedupConversionsBasicDuplciates()
+    function _insertTestSaveIntermediateRequestData()
     {
+        $oDbh = &OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                tmp_ad_request
+                (
+                    day,
+                    hour,
+                    operation_interval,
+                    operation_interval_id,
+                    interval_start,
+                    interval_end,
+                    ad_id,
+                    creative_id,
+                    zone_id,
+                    requests
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'date',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '2004-06-06',
+            18,
+            30,
+            36,
+            '2004-06-06 18:00:00',
+            '2004-06-06 18:29:59',
+            1,
+            1,
+            1,
+            1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06',
+            18,
+            30,
+            36,
+            '2004-06-06 18:00:00',
+            '2004-06-06 18:29:59',
+            2,
+            2,
+            2,
+            2
+        );
+        $rows = $st->execute($aData);
+    }
 
+    /**
+     * A private method to insert impression test data for the saveIntermediate() test.
+     *
+     * @access private
+     */
+    function _insertTestSaveIntermediateImpressionData()
+    {
+        $oDbh = &OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                tmp_ad_impression
+                (
+                    day,
+                    hour,
+                    operation_interval,
+                    operation_interval_id,
+                    interval_start,
+                    interval_end,
+                    ad_id,
+                    creative_id,
+                    zone_id,
+                    impressions
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'date',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '2004-06-06',
+            18,
+            30,
+            36,
+            '2004-06-06 18:00:00',
+            '2004-06-06 18:29:59',
+            1,
+            1,
+            1,
+            1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06',
+            18,
+            30,
+            36,
+            '2004-06-06 18:00:00',
+            '2004-06-06 18:29:59',
+            2,
+            2,
+            2,
+            2
+        );
+        $rows = $st->execute($aData);
+    }
+
+    /**
+     * A private method to insert click test data for the saveIntermediate() test.
+     *
+     * @access private
+     */
+    function _insertTestSaveIntermediateClickData()
+    {
+        $oDbh = &OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                tmp_ad_click
+                (
+                    day,
+                    hour,
+                    operation_interval,
+                    operation_interval_id,
+                    interval_start,
+                    interval_end,
+                    ad_id,
+                    creative_id,
+                    zone_id,
+                    clicks
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'date',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '2004-06-06',
+            18,
+            30,
+            36,
+            '2004-06-06 18:00:00',
+            '2004-06-06 18:29:59',
+            1,
+            1,
+            1,
+            1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06',
+            18,
+            30,
+            36,
+            '2004-06-06 18:00:00',
+            '2004-06-06 18:29:59',
+            2,
+            2,
+            2,
+            2
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06',
+            18,
+            30,
+            36,
+            '2004-06-06 18:00:00',
+            '2004-06-06 18:29:59',
+            3,
+            3,
+            3,
+            1
+        );
+        $rows = $st->execute($aData);
+    }
+
+    /**
+     * A private method to insert two tracker impressions and a temporary ad
+     * connection as test data for the saveIntermediate() test.
+     *
+     * @access private
+     */
+    function _insertTestSaveIntermediateTrackerImpressionAndTmpAdConnection()
+    {
+        $oDbh = &OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                data_raw_tracker_impression
+                (
+                    server_raw_tracker_impression_id,
+                    server_raw_ip,
+                    viewer_id,
+                    viewer_session_id,
+                    date_time,
+                    tracker_id,
+                    channel,
+                    language,
+                    ip_address,
+                    host_name,
+                    country,
+                    https,
+                    domain,
+                    page,
+                    query,
+                    referer,
+                    search_term,
+                    user_agent,
+                    os,
+                    browser
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'text',
+            'integer',
+            'timestamp',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            '127.0.0.1',
+            'aa',
+            1,
+            '2004-06-06 18:10:15',
+            1,
+            'tchan1',
+            'ten1',
+            't127.0.0.1',
+            'thost1',
+            'T1',
+            1,
+            'tdomain1',
+            'tpage1',
+            'tquery1',
+            'tref1',
+            'tterm1',
+            'tagent1',
+            'tlinux1',
+            'tmozilla1'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            '127.0.0.1',
+            'aa',
+            1,
+            '2004-06-06 18:10:30',
+            1,
+            'tchan1',
+            'ten1',
+            't127.0.0.1',
+            'thost1',
+            'T1',
+            1,
+            'tdomain1',
+            'tpage1',
+            'tquery1',
+            'tref1',
+            'tterm1',
+            'tagent1',
+            'tlinux1',
+            'tmozilla1'
+        );
+        $rows = $st->execute($aData);
+        $query = "
+            INSERT INTO
+                tmp_ad_connection
+                (
+                    server_raw_tracker_impression_id, server_raw_ip, date_time, operation_interval,
+                    operation_interval_id, interval_start, interval_end, connection_viewer_id,
+                    connection_viewer_session_id, connection_date_time, connection_ad_id,
+                    connection_creative_id, connection_zone_id, connection_channel, connection_language,
+                    connection_ip_address, connection_host_name, connection_country, connection_https,
+                    connection_domain, connection_page, connection_query, connection_referer,
+                    connection_search_term, connection_user_agent, connection_os, connection_browser,
+                    connection_action, connection_window, connection_status, inside_window, latest
+                )
+            VALUES
+                (
+                    2, '127.0.0.1', '2004-06-06 18:10:30', 30, 36, '2004-06-06 18:00:00',
+                    '2004-06-06 18:29:59',  'aa', 1, '2004-06-06 18:00:00', 1, 1, 1, 'chan1', 'en1',
+                    '127.0.0.1', 'host1', 'U1', 0, 'domain1', 'page1', 'query1', 'ref1',
+                    'term1', 'agent1', 'linux1', 'mozilla1', 1, 259200,
+                    " . MAX_CONNECTION_STATUS_APPROVED . ", 1, 0
+                )";
+        $rows = $oDbh->exec($query);
+    }
+
+    /**
+     * A private method to insert a variable as test data for the saveIntermediate() test.
+     *
+     * @access private
+     */
+    function _insertTestSaveIntermedaiteVariable()
+    {
+        $oDbh = &OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                variables
+                (
+                    variableid,
+                    trackerid
+                )
+            VALUES
+                (
+                    1,
+                    1
+                )";
+        $rows = $oDbh->exec($query);
+    }
+
+    /**
+     * A private method to insert a variable as test data for the saveIntermediate() test.
+     *
+     * @access private
+     */
+    function _insertTestSaveIntermedaiteVariableAsBasket()
+    {
+        $oDbh = &OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                variables
+                (
+                    variableid,
+                    trackerid,
+                    purpose
+                )
+            VALUES
+                (
+                    1,
+                    1,
+                    'basket_value'
+                )";
+        $rows = $oDbh->exec($query);
+    }
+
+    /**
+     * A private method to insert two variable values as test data for the
+     * saveIntermediate() test.
+     *
+     * @access private
+     */
+    function _insertTestSaveIntermedaiteVariableValue()
+    {
+        $oDbh = &OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                data_raw_tracker_variable_value
+                (
+                    server_raw_tracker_impression_id,
+                    server_raw_ip,
+                    tracker_variable_id,
+                    date_time,
+                    value
+                )
+            VALUES
+                (?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'integer',
+            'timestamp',
+            'text'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            '127.0.0.1',
+            1,
+            '2004-06-06 18:10:16',
+            '1'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            '127.0.0.1',
+            1,
+            '2004-06-06 18:10:31',
+            '2'
+        );
+        $rows = $st->execute($aData);
     }
 
     /**
@@ -4722,7 +5146,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
     function testSaveIntermediate()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
 
         // Test 1
         $conf['maintenance']['operationInterval'] = 30;
@@ -4738,7 +5161,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_connection');
         $start = new Date('2004-06-06 12:00:00');
         $end = new Date('2004-06-06 12:29:59');
-        $aTypes = array(
+        $aActionTypes = array(
             'types' => array(
                 0 => 'request',
                 1 => 'impression',
@@ -4749,7 +5172,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 2 => MAX_CONNECTION_AD_CLICK
             )
         );
-        $dsa->saveIntermediate($start, $end, $aTypes);
+        $dsa->saveIntermediate($start, $end, $aActionTypes);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -4784,10 +5207,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_REQUESTS);
+        $this->_insertTestSaveIntermediateRequestData();
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $dsa->saveIntermediate($start, $end, $aTypes);
+        $dsa->saveIntermediate($start, $end, $aActionTypes);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -4864,10 +5287,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_IMPRESSIONS);
+        $this->_insertTestSaveIntermediateImpressionData();
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $dsa->saveIntermediate($start, $end, $aTypes);
+        $dsa->saveIntermediate($start, $end, $aActionTypes);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -4944,10 +5367,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_CLICKS);
+        $this->_insertTestSaveIntermediateClickData();
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $dsa->saveIntermediate($start, $end, $aTypes);
+        $dsa->saveIntermediate($start, $end, $aActionTypes);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -5046,12 +5469,12 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_REQUESTS);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_IMPRESSIONS);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_CLICKS);
+        $this->_insertTestSaveIntermediateRequestData();
+        $this->_insertTestSaveIntermediateImpressionData();
+        $this->_insertTestSaveIntermediateClickData();
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $dsa->saveIntermediate($start, $end, $aTypes);
+        $dsa->saveIntermediate($start, $end, $aActionTypes);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -5150,11 +5573,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_6);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_6);
+        $this->_insertTestSaveIntermediateTrackerImpressionAndTmpAdConnection();
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $dsa->saveIntermediate($start, $end, $aTypes);
+        $dsa->saveIntermediate($start, $end, $aActionTypes);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -5259,12 +5681,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_7);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_7);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_7);
+        $this->_insertTestSaveIntermedaiteVariable();
+        $this->_insertTestSaveIntermediateTrackerImpressionAndTmpAdConnection();
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $dsa->saveIntermediate($start, $end, $aTypes);
+        $dsa->saveIntermediate($start, $end, $aActionTypes);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -5369,13 +5790,12 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_8);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_8);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TEST_8);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_8);
+        $this->_insertTestSaveIntermedaiteVariable();
+        $this->_insertTestSaveIntermediateTrackerImpressionAndTmpAdConnection();
+        $this->_insertTestSaveIntermedaiteVariableValue();
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $dsa->saveIntermediate($start, $end, $aTypes);
+        $dsa->saveIntermediate($start, $end, $aActionTypes);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -5489,12 +5909,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_9);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_9);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_9);
+        $this->_insertTestSaveIntermedaiteVariableAsBasket();
+        $this->_insertTestSaveIntermediateTrackerImpressionAndTmpAdConnection();
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $dsa->saveIntermediate($start, $end, $aTypes);
+        $dsa->saveIntermediate($start, $end, $aActionTypes);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -5599,13 +6018,12 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_10);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_10);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TEST_10);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_10);
+        $this->_insertTestSaveIntermedaiteVariableAsBasket();
+        $this->_insertTestSaveIntermediateTrackerImpressionAndTmpAdConnection();
+        $this->_insertTestSaveIntermedaiteVariableValue();
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $dsa->saveIntermediate($start, $end, $aTypes);
+        $dsa->saveIntermediate($start, $end, $aActionTypes);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -5719,16 +6137,16 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_click');
         $dsa->tempTables->createTable('tmp_ad_connection');
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_REQUESTS);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_IMPRESSIONS);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_AD_CLICKS);
+        $this->_insertTestSaveIntermediateRequestData();
+        $this->_insertTestSaveIntermediateImpressionData();
+        $this->_insertTestSaveIntermediateClickData();
         $rows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_11);
         $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_11);
         $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TEST_11);
         $rows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_11);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $dsa->saveIntermediate($start, $end, $aTypes);
+        $dsa->saveIntermediate($start, $end, $aActionTypes);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -6536,7 +6954,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Test 1
         $start = new Date('2004-06-06 12:00:00');
         $end   = new Date('2004-06-06 12:29:59');
-        $aTypes = array(
+        $aActionTypes = array(
             'types' => array(
                 0 => 'request',
                 1 => 'impression',
@@ -6547,7 +6965,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 2 => MAX_CONNECTION_AD_CLICK
             )
         );
-        $dsa->saveSummary($start, $end, $aTypes, 'data_intermediate_ad', 'data_summary_ad_hourly');
+        $dsa->saveSummary($start, $end, $aActionTypes, 'data_intermediate_ad', 'data_summary_ad_hourly');
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -6569,7 +6987,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Test
         $start = new Date('2004-06-06 18:00:00');
         $end   = new Date('2004-06-06 18:29:59');
-        $dsa->saveSummary($start, $end, $aTypes, 'data_intermediate_ad', 'data_summary_ad_hourly');
+        $dsa->saveSummary($start, $end, $aActionTypes, 'data_intermediate_ad', 'data_summary_ad_hourly');
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -6720,7 +7138,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Test
         $start = new Date('2004-06-06 18:00:00');
         $end   = new Date('2004-06-08 18:29:59');
-        $dsa->saveSummary($start, $end, $aTypes, 'data_intermediate_ad', 'data_summary_ad_hourly');
+        $dsa->saveSummary($start, $end, $aActionTypes, 'data_intermediate_ad', 'data_summary_ad_hourly');
         $query = "
             SELECT
                 COUNT(*) AS number
