@@ -286,9 +286,21 @@ class Admin_DA
     function _updateEntities($entity, $aParams, $aVariables)
     {
         Admin_DA::_updateEntityTimestamp($entity, $aVariables);
-        $aTable = SqlBuilder::_getPrimaryTable($entity);
+        $aTable = $this->_getPrimaryTablePrefixed($entity);
         $aLimitations = SqlBuilder::_getLimitations($entity, $aParams);
         SqlBuilder::_update($aTable, $aVariables, $aLimitations);
+    }
+    
+    
+    function _getPrimaryTablePrefixed($entity)
+    {
+        $aTable = SqlBuilder::_getPrimaryTable($entity);
+        reset($aTable);
+        $tableName = key($aTable);
+        $tableNamePrefixed = $conf = $GLOBALS['_MAX']['CONF'] . $tableName;
+        $aTable[$tableNamePrefixed] = $aTable[$tableName];
+        unset($aTable[$tableName]);
+        return $aTable;
     }
 
     //  MAX_removeEntity
@@ -315,7 +327,7 @@ class Admin_DA
      */
     function _deleteEntities($entity, $aParams)
     {
-        $aTable = SqlBuilder::_getPrimaryTable($entity);
+        $aTable = $this->_getPrimaryTablePrefixed($entity);
         $aOtherTables = SqlBuilder::_getTables($entity, $aParams);
         $aLimitations = array_merge(SqlBuilder::_getLimitations($entity, $aParams),
             SqlBuilder::_getTableLimitations($aOtherTables));
