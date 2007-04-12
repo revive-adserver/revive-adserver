@@ -942,7 +942,7 @@ class Admin_DA
      */
     function addAdvertiser($aVariables)
     {
-        return Admin_DA::_addEntity('advertiser', $aVariables);
+        return Admin_DA::_addEntity('clients', $aVariables);
     }
 
     // +---------------------------------------+
@@ -1374,7 +1374,7 @@ class Admin_DA
      */
     function addPublisher($aVariables)
     {
-        return Admin_DA::_addEntity('publisher', $aVariables);
+        return Admin_DA::_addEntity('affiliates', $aVariables);
     }
 
     // +---------------------------------------+
