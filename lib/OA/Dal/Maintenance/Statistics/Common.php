@@ -53,10 +53,10 @@ define('OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH', 2);
 define('OA_DAL_MAINTENANCE_STATISTICS_CONNECTION_WINDOW_DAYS', 30);
 
 /**
- * An abstract class that defines the interface and some common methods for the data
- * access layer code for summarising raw data into statistics, for all Max modules.
+ * An class that defines a number of abstract methods to define an interface for all drivers
+ * that summarising raw data into statistics.
  *
- * @abstract
+ * Also provides some common private methods for children classes.
  */
 class OA_Dal_Maintenance_Statistics_Common
 {
@@ -734,6 +734,7 @@ class OA_Dal_Maintenance_Statistics_Common
     /**
      * A method to update the intermediate tables with summarised data.
      *
+     * @abstract
      * @param PEAR::Date $oStart The start date/time to save from.
      * @param PEAR::Date $oEnd The end date/time to save to.
      * @param array $aTypes An array of data types to summarise. Contains
@@ -774,6 +775,7 @@ class OA_Dal_Maintenance_Statistics_Common
     /**
      * A method to update the summary table from the intermediate tables.
      *
+     * @abstract
      * @param PEAR::Date $oStartDate The start date/time to update from.
      * @param PEAR::Date $oEndDate The end date/time to update to.
      * @param array $aTypes An array of data types to summarise. Contains
