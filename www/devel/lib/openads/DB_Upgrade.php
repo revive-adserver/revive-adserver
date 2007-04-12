@@ -26,18 +26,9 @@
  *
  * @author Monique Szpak <monique.szpak@openads.org>
  *
- * $Id $
+ * $Id$
  *
  */
-
-//require_once MAX_DEV.'/lib/pear.inc.php';
-//require_once 'MDB2.php';
-//require_once 'MDB2/Schema.php';
-//require_once 'Config.php';
-//
-//require_once MAX_PATH.'/lib/OA/DB.php';
-//require_once MAX_PATH.'/lib/OA/DB/Table.php';
-//require_once MAX_PATH.'/lib/OA/Dal/Links.php';
 
 define('DB_UPGRADE_TIMING_CONSTRUCTIVE_DEFAULT',                   0);
 define('DB_UPGRADE_TIMING_DESTRUCTIVE_DEFAULT',                    1);
@@ -96,11 +87,12 @@ class OA_DB_Upgrade
 
     var $continue = true;
 
-    var $copyTableStatement = '';
+    var $aSQLStatements = array();
 
     var $executeMsg = 'executing task %s : %s => %s';
 
     var $logFile;
+    var $recoveryFile;
 
     /**
      * A variable to store the default value of PEAR::MDB2 protability options.
@@ -128,12 +120,15 @@ class OA_DB_Upgrade
     function OA_DB_Upgrade()
     {
         //this->__construct();
+        $timestamp          = date('Y_m_d_h_i_s');
+        $this->logFile      = MAX_PATH . "/var/upgrade_{$this->versionTo}_{$timestamp}.log";
+        $this->recoveryFile = MAX_PATH.'/var/recover.log';
 
         $result  = & MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()));
         if (!$this->_isPearError($result, 'failed to instantiate MDB2_Schema'))
         {
             $this->oSchema = $result;
-            $this->_setTableCopyStatement();
+            $this->_setupSQLStatements();
             $this->portability = $this->oSchema->db->getOption('portability');
         }
         else
@@ -147,10 +142,6 @@ class OA_DB_Upgrade
         $this->versionFrom  = ($versionFrom ? $versionFrom : 1);
         $this->versionTo    = $versionTo;
         $this->_setTiming($timing);
-//        $this->timingStr    = $timing;
-//        $this->timingInt    = (($timing=='constructive') ? DB_UPGRADE_TIMING_CONSTRUCTIVE_DEFAULT : DB_UPGRADE_TIMING_DESTRUCTIVE_DEFAULT );
-        $timestamp          = date('Y_m_d_h_i_s');
-        $this->logFile = MAX_PATH . "/var/upgrade_{$this->versionTo}_{$timestamp}.log";
 
         $this->_log('from version: '.$this->versionFrom);
         $this->_log('to version: '.$this->versionTo);
@@ -345,7 +336,8 @@ class OA_DB_Upgrade
                     $table_bak  ="{$this->prefix}zzz_{$hash}";
                     $this->aMessages[]  = "backing up table {$table} to table {$table_bak} ";
 
-                    $query      = sprintf($this->copyTableStatement, $table_bak, $table);
+                    $statement = $this->aSQLStatements['table_copy'];
+                    $query      = sprintf($statement, $table_bak, $table);
                     $result     = $this->oSchema->db->exec($query);
                     if ($this->_isPearError($result, 'error creating backup'))
                     {
@@ -355,18 +347,10 @@ class OA_DB_Upgrade
                     }
                     $aBakDef = $this->oSchema->getDefinitionFromDatabase(array($table));
                     $aBakDef = $aBakDef['tables'][$table];
-                    // error: index fields are being re-ordered alphabetically
-                    // but now have an 'order' value in the def
                     $this->aRestoreTables[$table] = array(
                                                             'bak'=>$table_bak,
                                                             'def'=>$aBakDef
                                                          );
-//                    if (!$this->_createAllIndexes($aBakDef, $table_bak))
-//                    {
-//                        $this->_halt();
-//                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_FAILED, 'BACKUP FAILED', 'creating indexes on table '.$table_bak);
-//                        return false;
-//                    }
                     $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_TABLE, array('info1'=>'copied table', 'tablename'=>$table, 'tablename_backup'=>$table_bak, 'schema_backup'=>serialize($aBakDef)));
                 }
             }
@@ -426,6 +410,7 @@ class OA_DB_Upgrade
                 $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_SUCCEEDED, array('info1'=>'ROLLBACK UNNECESSARY'));
             }
         }
+        $this->_pickupRecoveryFile();
         return true;
     }
 
@@ -451,7 +436,8 @@ class OA_DB_Upgrade
                 return false;
             }
         }
-        $query  = sprintf($this->copyTableStatement, $table, $table_bak);
+        $statement = $this->aSQLStatements['table_copy'];
+        $query  = sprintf($statement, $table, $table_bak);
         $result = $this->oSchema->db->exec($query);
         if ($this->_isPearError($result, 'error creating table during rollback'))
         {
@@ -479,7 +465,6 @@ class OA_DB_Upgrade
         $aRecovery = $this->_seekRecoveryFile();
         if ($aRecovery)
         {
-            //$this->timingInt = $aRecovery['timingInt'];
             $this->_setTiming('', $aRecovery['timingInt']);
             $this->versionTo = $aRecovery['versionTo'];
 
@@ -487,9 +472,6 @@ class OA_DB_Upgrade
                       WHERE version={$this->versionTo}
                       AND timing={$this->timingInt}
                       AND updated>='{$aRecovery['updated']}'";
-                      //ORDER BY `updated` DESC";
-                      //LIMIT 1";
-            //$result = $this->oSchema->db->queryRow($query);
             $aResult = $this->oSchema->db->queryAll($query);
 
             if ($this->_isPearError($result, "error querying recovery info in database audit table"))
@@ -812,13 +794,8 @@ class OA_DB_Upgrade
                 $tbl_old = $this->prefix.$aTask['cargo']['was'];
                 $this->_log($this->_formatExecuteMsg($k,  $tbl_old, 'rename'));
 
-                // Tailor query to fit the database syntax
-                $aDsn = $this->oSchema->db->getDsn('array');
-                if ($aDsn['phptype'] == 'pgsql') {
-                    $query  = "ALTER TABLE {$tbl_old} RENAME TO {$tbl_new}";
-                } else {
-                    $query  = "RENAME TABLE {$tbl_old} TO {$tbl_new}";
-                }
+                $statement = $this->aSQLStatements['table_rename'];
+                $query     = sprintf($statement, $tbl_old, $tbl_new);
 
                 if (!$this->_executeMigrationMethodTable($tbl_new, 'beforeRenameTable'))
                 {
@@ -913,7 +890,6 @@ class OA_DB_Upgrade
                 $index = $aTask['name'];
                 $aIndex_def = $aTask['cargo'];
                 $result = $this->_createAllIndexes($aIndex_def, $table);
-                //$result = $this->oSchema->db->manager->createConstraint($table, $index, $aIndex_def);
                 if ($this->_isPearError($result, 'error adding constraint '.$index))
                 {
                     $this->_halt();
@@ -1583,6 +1559,13 @@ class OA_DB_Upgrade
         return true;
     }
 
+    /**
+     * the database_action table must exist for all upgrade events
+     * currently the schema is stored in a separate xml file which is not part of an upgrade pkg
+     * eventually this table schema should be merged into the core tables schema
+     *
+     * @return boolean
+     */
     function _createAuditTable()
     {
         $xmlfile = MAX_PATH.'/etc/database_action.xml';
@@ -1669,20 +1652,21 @@ class OA_DB_Upgrade
     }
 
     /**
-     * construct the *create table select from* statement
-     * dbms independent
+     * construct dbms independent sql statements
      *
      */
-    function _setTableCopyStatement()
+    function _setupSQLStatements()
     {
         switch ($this->oSchema->db->dbsyntax)
         {
             case 'mysql':
                 $engine = $this->oSchema->db->getOption('default_table_type');
-                $this->copyTableStatement  = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
+                $this->aSQLStatements['table_copy']     = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
+                $this->aSQLStatements['table_rename']   = "RENAME TABLE %s TO %s";
                 break;
             case 'pgsql':
-                $this->copyTableStatement  = 'CREATE TABLE "%s" AS SELECT * FROM "%s"';
+                $this->aSQLStatements['table_copy']     = 'CREATE TABLE "%s" AS SELECT * FROM "%s"';
+                $this->aSQLStatements['table_rename']   = 'ALTER TABLE "%s" RENAME TO "%s"';
                 break;
             default:
                 '';
@@ -1712,6 +1696,11 @@ class OA_DB_Upgrade
         $this->continue = false;
     }
 
+    /**
+     * write a message to the logfile
+     *
+     * @param string $message
+     */
     function _log($message)
     {
         $this->aMessages[] = $message;
@@ -1720,6 +1709,11 @@ class OA_DB_Upgrade
         fclose($log);
     }
 
+    /**
+     * write an error to the log file
+     *
+     * @param string $message
+     */
     function _logError($message)
     {
         $this->aErrors[] = $message;
@@ -1728,21 +1722,29 @@ class OA_DB_Upgrade
         fclose($log);
     }
 
+    /**
+     * write the version, timing and timestamp to a small temp file in the var folder
+     * this will be written when an upgrade starts and deleted when it ends
+     * if this file is present outside of the upgrade process it indicates that
+     * the upgrade was interrupted
+     *
+     * @return boolean
+     */
     function _dropRecoveryFile()
     {
         //$this->_pickupRecoveryFile();
-        $log = fopen(MAX_PATH.'/var/recover.log', 'w');
+        $log = fopen($this->recoveryFile, 'w');
         $date = date('Y-m-d h:i:s');
         fwrite($log, "{$this->versionTo};{$this->timingInt};{$date}");
         fclose($log);
-        return file_exists(MAX_PATH.'/var/recover.log');
+        return file_exists($this->recoveryFile);
     }
 
     function _pickupRecoveryFile()
     {
-        if (file_exists(MAX_PATH.'/var/recover.log'))
+        if (file_exists($this->recoveryFile))
         {
-            unlink(MAX_PATH.'/var/recover.log');
+            unlink($this->recoveryFile);
             return true;
         }
         return true;
@@ -1750,9 +1752,9 @@ class OA_DB_Upgrade
 
     function _seekRecoveryFile()
     {
-        if (file_exists(MAX_PATH.'/var/recover.log'))
+        if (file_exists($this->recoveryFile))
         {
-            $contents               = file_get_contents(MAX_PATH.'/var/recover.log');
+            $contents               = file_get_contents($this->recoveryFile);
             $aVars                  = explode(';', $contents);
             $aResult['versionTo']   = $aVars[0];
             $aResult['timingInt']   = $aVars[1];

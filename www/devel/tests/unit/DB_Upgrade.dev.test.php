@@ -123,7 +123,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->prefix = '';
         $oDB_Upgrade->versionFrom = 1;
         $oDB_Upgrade->versionTo = 2;
-        $oDB_Upgrade->logFile = 'DB_Upgrade.dev.test.log';
+        $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.dev.test.log";
         return $oDB_Upgrade;
     }
 

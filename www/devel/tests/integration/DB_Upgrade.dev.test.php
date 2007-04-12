@@ -78,12 +78,17 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade = $this->_newDBUpgradeObject();
 
         // emulate a partial upgrade...
-        $oDB_Upgrade->_dropRecoveryFile();
+        $this->assertTrue($oDB_Upgrade->_dropRecoveryFile(),'failed to write recovery file');
         $oDB_Upgrade->aChanges['affected_tables']['constructive'] = array('table1','table2');
-        $oDB_Upgrade->_dropRecoveryFile();
         $oDB_Upgrade->_logDatabaseAction(DB_UPGRADE_ACTION_UPGRADE_STARTED, array('info1'=>'UPGRADE STARTED'));
         $this->assertTrue($oDB_Upgrade->_backup(),'_backup failed');
         // ...which has stopped for some reason
+        // check that a recovery file was dropped and returns an array of info
+        $aRecovery = $oDB_Upgrade->_seekRecoveryFile();
+        $this->assertIsA($aRecovery,'array','recovery file not found');
+        $this->assertEqual($aRecovery['timingInt'],$oDB_Upgrade->timingInt,'wrong recovery timing');
+        $this->assertEqual($aRecovery['versionTo'],$oDB_Upgrade->versionTo,'wrong recovery version');
+        $this->assertTrue($aRecovery['updated'],$oDB_Upgrade->versionTo,'recovery timestamp error');
         // save the in-memory restore array for comparison
         $aRestoreTables = $oDB_Upgrade->aRestoreTables;
         // remove it from memory
@@ -94,22 +99,25 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['table1']),'table1 not found in restore array');
         $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['table2']),'table2 not found in restore array');
         // save the old definitions for comparison
-        $aTblDefsOrig = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1','table2'));
+        $aTblDefsOriginal = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1','table2'));
         $oTable = new OA_DB_Table();
         // these actually get dropped by the _rollback method but still....
         $this->assertTrue($oTable->dropTable('table1'),'error dropping table1');
         $this->assertTrue($oTable->dropTable('table2'),'error dropping table2');
         // now restore those tables
         $this->assertTrue($oDB_Upgrade->_rollback(), 'rollback failed');
+        // the recovery file should have been deleted
+        $this->assertFalse($oDB_Upgrade->_seekRecoveryFile(),'recovery file not deleted');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertTrue(in_array('table1',$oDB_Upgrade->aDBTables), 'table1 was not restored');
         $this->assertTrue(in_array('table2',$oDB_Upgrade->aDBTables), 'table2 was not restored');
         // get the new definitions
-        $aTblDefsRest = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1','table2'));
+        $aTblDefsRestored = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1','table2'));
 
         // now test the comparisons....
-        // TODO
+        $aDiff = $oDB_Upgrade->oSchema->compareDefinitions($aTblDefsRestored, $aTblDefsOriginal);
+        $this->assertEqual(count($aDiff['tables']),0, 'table definitions mismatch');
 
         // drop the backup tables
         OA_DB::setQuoteIdentifier();
@@ -824,7 +832,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->versionTo = 2;
         $this->_createTestTables($oDB_Upgrade->oSchema->db);
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $oDB_Upgrade->logFile = 'DB_Upgrade.dev.test.log';
+        $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.dev.test.log";
         if (!in_array($oDB_Upgrade->prefix.$oDB_Upgrade->logTable, $oDB_Upgrade->aDBTables))
         {
             $this->assertTrue($oDB_Upgrade->_createAuditTable(),'failed to create database_action audit table');
@@ -901,7 +909,6 @@ class Test_DB_Upgrade extends UnitTestCase
         }
 
     }
-
 }
 
 ?>
