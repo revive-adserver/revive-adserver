@@ -210,7 +210,7 @@ class SqlBuilder
 
         case 'tracker' :
             $aColumns += array('t.clientid' => 'advertiser_id', 't.trackerid' => 'tracker_id', 't.trackername' => 'name');
-            if ($allFields) $aColumns += array('t.description' => 'description', 't.viewwindow' => 'viewwindow', 't.clickwindow' => 'clickwindow', 't.blockwindow' => 'blockwindow', 't.variablemethod' => 'variablemethod');
+            if ($allFields) $aColumns += array('t.description' => 'description', 't.viewwindow' => 'viewwindow', 't.clickwindow' => 'clickwindow', 't.blockwindow' => 'blockwindow', 't.variablemethod' => 'variablemethod', 't.appendcode' => 'appendcode');
             break;
 
         case 'variable' :
@@ -222,7 +222,7 @@ class SqlBuilder
 
         case 'zone' :
             $aColumns += array('z.zoneid' => 'zone_id', 'z.affiliateid' => 'publisher_id', 'z.zonename' => 'name', 'z.delivery' => 'type');
-            if ($allFields) $aColumns += array('z.description' => 'description', 'z.width' => 'width', 'z.height' => 'height', 'z.chain' => 'chain', 'z.prepend' => 'prepend', 'z.append' => 'append', 'z.appendtype' => 'appendtype', 'z.forceappend' => 'forceappend', 'z.inventory_forecast_type' => 'inventory_forecast_type', 'z.comments' => 'comments', 'z.cost' => 'cost', 'z.cost_type' => 'cost_type', 'z.cost_variable_id' => 'cost_variable_id', 'z.technology_cost' => 'technology_cost', 'z.technology_cost_type' => 'technology_cost_type', 'z.block' => 'block', 'z.capping' => 'capping', 'z.session_capping' => 'session_capping');
+            if ($allFields) $aColumns += array('z.description' => 'description', 'z.width' => 'width', 'z.height' => 'height', 'z.chain' => 'chain', 'z.prepend' => 'prepend', 'z.append' => 'append', 'z.appendtype' => 'appendtype', 'z.forceappend' => 'forceappend', 'z.inventory_forecast_type' => 'inventory_forecast_type', 'z.comments' => 'comments', 'z.cost' => 'cost', 'z.cost_type' => 'cost_type', 'z.cost_variable_id' => 'cost_variable_id', 'z.technology_cost' => 'technology_cost', 'z.technology_cost_type' => 'technology_cost_type', 'z.block' => 'block', 'z.capping' => 'capping', 'z.session_capping' => 'session_capping', 'z.category' => 'category', 'z.ad_selection' => 'ad_selection');
             break;
 
         case 'placement_zone_assoc' :
@@ -476,18 +476,18 @@ class SqlBuilder
         $aTable = '';
         switch ($entity) {
 
-        case 'ad' :                     $aTable = array($conf['table']['prefix'].$conf['table']['banners'] => 'd'); break;
-        case 'advertiser' :             $aTable = array($conf['table']['prefix'].$conf['table']['clients'] => 'a'); break;
-        case 'ad_category_assoc' :      $aTable = array($conf['table']['prefix'].$conf['table']['ad_category_assoc'] => 'ac'); break;
-        case 'ad_zone_assoc' :          $aTable = array($conf['table']['prefix'].$conf['table']['ad_zone_assoc'] => 'az'); break;
-        case 'agency' :                 $aTable = array($conf['table']['prefix'].$conf['table']['agency'] => 'g'); break;
-        case 'category' :               $aTable = array($conf['table']['prefix'].$conf['table']['category'] => 'cat'); break;
-        case 'image' :                  $aTable = array($conf['table']['prefix'].$conf['table']['images'] => 'i'); break;
-        case 'limitation' :             $aTable = array($conf['table']['prefix'].$conf['table']['acls'] => 'l'); break;
-        case 'placement' :              $aTable = array($conf['table']['prefix'].$conf['table']['campaigns'] => 'm'); break;
-        case 'placement_tracker' :      $aTable = array($conf['table']['prefix'].$conf['table']['campaigns_trackers'] => 'mt'); break;
-        case 'placement_zone_assoc' :   $aTable = array($conf['table']['prefix'].$conf['table']['placement_zone_assoc'] => 'pz'); break;
-        case 'publisher' :              $aTable = array($conf['table']['prefix'].$conf['table']['affiliates'] => 'p'); break;
+        case 'ad' :                     $aTable = array($conf['table']['banners'] => 'd'); break;
+        case 'advertiser' :             $aTable = array($conf['table']['clients'] => 'a'); break;
+        case 'ad_category_assoc' :      $aTable = array($conf['table']['ad_category_assoc'] => 'ac'); break;
+        case 'ad_zone_assoc' :          $aTable = array($conf['table']['ad_zone_assoc'] => 'az'); break;
+        case 'agency' :                 $aTable = array($conf['table']['agency'] => 'g'); break;
+        case 'category' :               $aTable = array($conf['table']['category'] => 'cat'); break;
+        case 'image' :                  $aTable = array($conf['table']['images'] => 'i'); break;
+        case 'limitation' :             $aTable = array($conf['table']['acls'] => 'l'); break;
+        case 'placement' :              $aTable = array($conf['table']['campaigns'] => 'm'); break;
+        case 'placement_tracker' :      $aTable = array($conf['table']['campaigns_trackers'] => 'mt'); break;
+        case 'placement_zone_assoc' :   $aTable = array($conf['table']['placement_zone_assoc'] => 'pz'); break;
+        case 'publisher' :              $aTable = array($conf['table']['affiliates'] => 'p'); break;
         case 'history_span' :
         case 'history_day' :
         case 'history_month' :
@@ -495,15 +495,11 @@ class SqlBuilder
         case 'history_hour' :
         case 'stats_by_entity' :
         case 'stats' :
-                                        if (isset($aParams['custom_table'])) {
-                                            $aTable = array($conf['table']['prefix'].$conf['table'][$aParams['custom_table']] => 's');
-                                        } else {
-                                            $aTable = array($conf['table']['prefix'].$conf['table']['data_summary_ad_hourly'] => 's');
-                                        }
+                                        $aTable = array($conf['table']['data_summary_ad_hourly'] => 's');
                                         break;
-        case 'tracker' :                $aTable = array($conf['table']['prefix'].$conf['table']['trackers'] => 't'); break;
-        case 'variable' :               $aTable = array($conf['table']['prefix'].$conf['table']['variables'] => 'v'); break;
-        case 'zone' :                   $aTable = array($conf['table']['prefix'].$conf['table']['zones'] => 'z'); break;
+        case 'tracker' :                $aTable = array($conf['table']['trackers'] => 't'); break;
+        case 'variable' :               $aTable = array($conf['table']['variables'] => 'v'); break;
+        case 'zone' :                   $aTable = array($conf['table']['zones'] => 'z'); break;
         }
         return $aTable;
     }
@@ -1022,46 +1018,41 @@ class SqlBuilder
         }
     }
 
+    
     /**
      * Performs an SQL insert.
      *
-     * @param array $aTable
-     * @param array $aVariables
-     * @return integer  The number of rows affected by the insert
+     * @param array $table Table name.
+     * @param array $aVariables Map of column to value for the created row.
+     * @return integer The newly inserted row id if the table has any
+     * autoincrement field defined. Otherwise, true on success and false
+     * on failure.
      */
-    function _insert($aTable, $aVariables)
+    function _insert($table, $aVariables)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $table = '';
-        if (is_array($aTable)) {
-            foreach ($aTable as $tableName => $alias) {
-                $table = $tableName;
+        $do = OA_Dal::factoryDO($table);
+        if ($do === false) {
+            return false;
+        }
+        $success = $do->setFrom($aVariables);
+        if (!$success === true) {
+            return false;
+        }
+        return $do->insert();
+    }
+    
+    
+    function _getFieldIdName($table)
+    {
+        $dbh = &OA_DB::singleton();
+        $schema = MDB2_Schema::factory($dbh);
+        $definition = $schema->getDefinitionFromDatabase(array($table));
+        foreach ($definition['tables'][$table]['fields'] as $fieldname => $dataField) {
+            if (isset($dataField['autoincrement']) && 1 == $dataField['autoincrement']) {
+                return $fieldname;
             }
         }
-        //  check for prefix
-        if (!empty($conf['table']['prefix']) && stristr($table, $conf['table']['prefix']) === false) {
-            $table = $conf['table']['prefix'] . $table;
-        }
-
-        $names = '';
-        $values = '';
-        foreach ($aVariables as $name => $value) {
-            $value = is_null($value) ? 'NULL' : "'".addslashes($value)."'";
-            $names .= ($names == '') ? " ($name" : ",$name";
-            $values .= ($values == '') ? " VALUES ($value" : ",$value";
-        }
-        if (!empty($names)) $names .= ')';
-        if (!empty($values)) $values .= ')';
-
-        $query = "INSERT INTO $table" . $names . $values;
-
-        $oDbh = &OA_DB::singleton();
-        $rc = $oDbh->exec($query);
-
-        if (!(PEAR::isError($rc))) {
-            return $oDbh->lastInsertID();
-        }
-        return $rc;
+        return null;
     }
 
     /**

@@ -53,13 +53,14 @@ $GLOBALS['_MAX']['Admin_DA']['cacheGroups'] = array(
  * Tables which have to update they "updated" timestamp
  */
 $GLOBALS['_MAX']['Admin_DA']['updateEntities'] = array(
-    'ad',
-    'advertiser',
+    'banners',
+    'clients',
     'agency',
-    'publisher',
-    'tracker',
-    'variable',
-    'zone',
+    'campaigns',
+    'affiliates',
+    'trackers',
+    'variables',
+    'zones',
 );
 
 class Admin_DA
@@ -70,19 +71,82 @@ class Admin_DA
     // | private methods for entity            |
     // | manipulation                          |
     // +---------------------------------------+
+    
+    /**
+     * Retrieves the data from the database table $table using a set of
+     * conditions provided in $aConditions. The method uses
+     * DataObject::getAll() method to perform its task.
+     *
+     * @param string $table
+     * @param array $aConditions Map column => value.
+     * @return array
+     */
+    function getADataRows($table, $aConditions)
+    {
+        $do = OA_Dal::factoryDO($table);
+        if ($do === false) {
+            return false;
+        }
+        foreach($aConditions as $column => $value) {
+            if (!$do->fromValue($column, $value)) {
+                return false;
+            }
+        }
+        $success = $do->find();
+        if (!is_int($success) && !$success) {
+            return false;
+        }
+        return $do->getAll(array(), true, false);
+    }
+    
+    
+    /**
+     * Retrieves the data from the database about a particular row selected
+     * with $aConditions.
+     *
+     * @param string $table
+     * @param array $aConditions
+     * @return array An array object with column => value entries for
+     * the matching selected data row.
+     */
+    function getDataRow($table, $aConditions)
+    {
+        $aDataRows = Admin_DA::getADataRows($table, $aConditions);
+        if ($aDataRows === false || empty($aDataRows)) {
+            return false;
+        }
+        foreach($aDataRows as $dataRow) {
+            return $dataRow;
+        }
+    }
+    
+    
+    /**
+     * Retrieves a single row data from the $table table using $column column
+     * with a $id value.
+     *
+     * @param string $table
+     * @param string $column
+     * @param string $id
+     * @return array
+     */
+    function _getDataRowFromId($table, $column, $id)
+    {
+        $aDataRows = Admin_DA::_getEntities($table, array($column => $id), true);
+        return $aDataRows[$id];
+    }
 
     /**
-     * Adds an entity.
+     * Creates a new data row in the database.
      *
-     * @param string $entity
-     * @param array  $aVariables
+     * @param string $table Name of the table.
+     * @param array  $aVariables Map of column name to value.
      * @return integer The inserted entity's ID.
      */
-    function _addEntity($entity, $aVariables)
+    function _addEntity($table, $aVariables)
     {
-        Admin_DA::_updateEntityTimestamp($entity, $aVariables);
-        $aTable = SqlBuilder::_getPrimaryTable($entity);
-        return SqlBuilder::_insert($aTable, $aVariables);
+        Admin_DA::_updateEntityTimestamp($table, $aVariables);
+        return SqlBuilder::_insert($table, $aVariables);
     }
 
     /**
@@ -120,12 +184,13 @@ class Admin_DA
         }
         return $aRow;
     }
-
+    
+    
     /**
      * Returns an array of entity arrays, where the keys are the entity IDs.
      *
      * @param string  $entity The name of the entities to get (e.g. "agency").
-     * @param array   $aParams
+     * @param array   $aParams Map column => value.
      * @param boolean $allFields Return *all* fields the entity has, or just the default fields?
      * @param string  $key The primary key field name.
      * @return array  An array of entity records.
@@ -178,6 +243,7 @@ class Admin_DA
 
         case 'placement' : $aTables[$conf['table']['prefix'].$conf['table']['banners']] = 'd';
             $aGroupBy = $aColumns;
+            $aGroupBy['m.active'] = 'm.active'; // Hack to allow this to work with Postgres
             $aColumns['COUNT(d.bannerid)'] = 'num_children';
             break;
 
@@ -274,7 +340,15 @@ class Admin_DA
         $aTables = SqlBuilder::_getTables($entity, $aParams, true);
         $aLimitations = array_merge(SqlBuilder::_getStatsLimitations($entity, $aParams),
             SqlBuilder::_getTableLimitations($aTables));
-        $aGroups = array("{$entity}_id");
+        
+        // An ugly hack to get the alias used for the entity table so
+        // the query works with Postgres.
+        end($aColumns);
+        $groupByColumn = key($aColumns);
+        reset($aColumns);
+        
+        $aGroups = array($groupByColumn);
+        
         return SqlBuilder::_select($aColumns, $aTables, $aLimitations, $aGroups, $key);
     }
 
@@ -410,6 +484,14 @@ class Admin_DA
         return $ret;
     }
 
+    /**
+     * Reads the zone data and returns an information about the zone.
+     * You have to look into the method to see what it actually
+     * returns and when.
+     *
+     * @param integer $zoneId
+     * @return array
+     */
     function getLinkedAdParams($zoneId)
     {
         $aParams = array();
@@ -740,24 +822,21 @@ class Admin_DA
     // +---------------------------------------+
     function addAdZone($aVariables)
     {
+        $result = false;
         PEAR::pushErrorHandling(null);
         $canAddAdZone = Admin_DA::_isValidAdZoneAssoc($aVariables);
         if (PEAR::isError($canAddAdZone)) {
-            return $canAddAdZone;
+            $result = $canAddAdZone;
         } else {
             // Add the banner
             if ($aVariables['zone_id'] === 0) {
-                $ret = Admin_DA::_addEntity('ad_zone_assoc', array('ad_id' => $aVariables['ad_id'], 'zone_id' => $aVariables['zone_id'], 'link_type' => MAX_AD_ZONE_LINK_DIRECT));
+                $result = Admin_DA::_addEntity('ad_zone_assoc', array('ad_id' => $aVariables['ad_id'], 'zone_id' => $aVariables['zone_id'], 'link_type' => MAX_AD_ZONE_LINK_DIRECT));
             } else {
-                $ret = Admin_DA::_addEntity('ad_zone_assoc', array('ad_id' => $aVariables['ad_id'], 'zone_id' => $aVariables['zone_id']));
-            }
-            if ($ret) {
-                return $ret;
-            } else {
-                return false;
+                $result = Admin_DA::_addEntity('ad_zone_assoc', array('ad_id' => $aVariables['ad_id'], 'zone_id' => $aVariables['zone_id']));
             }
         }
         PEAR::popErrorHandling();
+        return $result;
     }
 
 
@@ -872,7 +951,7 @@ class Admin_DA
 
     function getAd($adId)
     {
-        return Admin_DA::_getEntity('ad', $adId);
+        return Admin_DA::_getDataRowFromId('ad', 'bannerid', $adId);
     }
 
     function getAds($aParams, $allFields = false)
@@ -916,7 +995,7 @@ class Admin_DA
 
     function addAd($aParams)
     {
-        return Admin_DA::_addEntity('ad', $aParams);
+        return Admin_DA::_addEntity('banners', $aParams);
     }
 
     function duplicateAd($adId)
@@ -1026,6 +1105,9 @@ class Admin_DA
     */
     function _updateAgencyActiveStatus($id, $active)
     {
+        // XXX The error returning behaviour when $result == 0 is only possible
+        // in mysql. In other databases exec() returns the number of updated
+        // rows, not of the affected
         if (!empty($id) && is_bool($active)) {
             $status = ($active === true) ? 1 : 0;
             $dbh =& OA_DB::singleton();
@@ -1135,7 +1217,7 @@ class Admin_DA
                         OR (data_summary_ad_hourly.day > \'' . $oStart->format('%Y-%m-%e')  . '\'
                             AND data_summary_ad_hourly.day < \'' . $oEnd->format('%Y-%m-%e')  .'\')
                     )
-            GROUP BY campaignid, day, hour';
+            GROUP BY clients.agencyid, clients.clientid, campaigns.campaignid, data_summary_ad_hourly.day, data_summary_ad_hourly.hour';
             $aCampaigns = $db->queryAll($query);
             if (PEAR::isError($aCampaigns)) {
                 return $aCampaigns;
@@ -1156,12 +1238,12 @@ class Admin_DA
     // +---------------------------------------+
     function addPlacement($aParams)
     {
-        return Admin_DA::_addEntity('placement', $aParams);
+        return Admin_DA::_addEntity('campaigns', $aParams);
     }
 
     function getPlacement($placementId)
     {
-        return Admin_DA::_getEntity('placement', $placementId);
+        return Admin_DA::_getDataRowFromId('placement', 'campaignid', $placementId);
     }
 
     function getPlacements($aParams, $allFields = false, $key = null)
@@ -1229,7 +1311,12 @@ class Admin_DA
 
     function addPlacementZone($aVariables)
     {
-        if (!($pzaId = Admin_DA::_addEntity('placement_zone_assoc', $aVariables))) { return false; }
+        if (!($pzaId = Admin_DA::_addEntity('placement_zone_assoc', $aVariables))) {
+            return false;
+        }
+        
+        // Selects ads which belongs to the campaign (placement) and fit into
+        // the zone. Then links all those ads to the zone if they are not linked already.
         $azParams = Admin_DA::getLinkedAdParams($aVariables['zone_id']);
         $azParams['placement_id'] = $aVariables['placement_id'];
         $azAds = Admin_DA::getAds($azParams);
@@ -1293,10 +1380,20 @@ class Admin_DA
     // +---------------------------------------+
     // | trackers                              |
     // +---------------------------------------+
+    
+    
+    /**
+     * Returns an array of column => value for the tracker identified by
+     * $trackerId.
+     *
+     * @param string $trackerId
+     * @return array with the data or false on failure.
+     */
     function getTracker($trackerId)
     {
-        return Admin_DA::_getEntity('tracker', $trackerId);
+        return Admin_DA::_getDataRowFromId('tracker', 'trackerid', $trackerId);
     }
+    
 
     function getTrackers($aParams, $allFields = false, $key = null)
     {
@@ -1309,9 +1406,16 @@ class Admin_DA
         return Admin_DA::_duplicateTracker($aTracker, true);
     }
 
+    /**
+     * Inserts a row into 'trackers' table using values provided as an
+     * argument to the method.
+     *
+     * @param array $aParams Map column => value.
+     * @return integer ID of the created tracker.
+     */
     function addTracker($aParams)
     {
-        return Admin_DA::_addEntity('tracker', $aParams);
+        return Admin_DA::_addEntity('trackers', $aParams);
     }
 
     function _duplicateTracker($aTracker, $checkUniqueNames = false)
@@ -1347,7 +1451,7 @@ class Admin_DA
     // +---------------------------------------+
     function getZone($zoneId)
     {
-        return Admin_DA::_getEntity('zone', $zoneId);
+        return Admin_DA::_getDataRowFromId('zone', 'zoneid', $zoneId);
     }
 
     function getZones($aParams, $allFields = false)
@@ -1367,7 +1471,7 @@ class Admin_DA
         Admin_DA::_switch($aVariables, 'publisher_id', 'affiliateid');
         Admin_DA::_switch($aVariables, 'name', 'zonename');
         Admin_DA::_switch($aVariables, 'type', 'delivery');
-        return Admin_DA::_addEntity('zone', $aVariables);
+        return Admin_DA::_addEntity('zones', $aVariables);
     }
 
     function duplicateZone($zoneId)
@@ -1421,12 +1525,12 @@ class Admin_DA
     // +---------------------------------------+
     function getVariables($aParams, $allFields = false)
     {
-        return Admin_DA::_getEntities('variable', $aParams, $allFields);
+        return Admin_DA::getADataRows('variables', $aParams);
     }
 
     function addVariable($aVariable)
     {
-        return Admin_DA::_addEntity('variable', $aVariable);
+        return Admin_DA::_addEntity('variables', $aVariable);
     }
 
     function duplicateVariable($aVariable)

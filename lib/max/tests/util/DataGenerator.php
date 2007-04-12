@@ -27,6 +27,7 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Dal.php';
 
 define('MAX_DATAGENERATOR_DEFAULT_VALUE', 1);
+define('MAX_DATAGENERATOR_DEFAULT_DATE_VALUE', date('Y-m-d'));
 
 /**
  * A DataGenerator class for easy data generation
@@ -309,6 +310,9 @@ class DataGenerator
     function getDefaultValueByType($fieldType)
     {
         if ($fieldType & DB_DATAOBJECT_DATE) {
+            if ($fieldType & DB_DATAOBJECT_NOTNULL) {
+                return MAX_DATAGENERATOR_DEFAULT_DATE_VALUE;
+            }
             // According to https://developer.openads.org/wiki/DatabasePractices#UsingPEAR::MDB2
             $dbh = &OA_DB::singleton();
             return $dbh->noDateValue;
@@ -355,6 +359,15 @@ class DataGenerator
      * For example if we will generate 10 records with data defined in example
      * five records will consist 'value for first record' and five
      * 'value for second record'.
+     * Example:
+     * $data = array(
+     *   'fieldName' => array('value 1', 'value 2'),
+     *   'agency_id' => array(1),
+     * );
+     * $dg = new DataGenerator();
+     * $dg->setData('tableName', $data);
+     * $dg->generate('tableName', 3);
+     * 
      *
      * @param string $table  Table name
      * @param array $data    Save prepared data in data container
@@ -367,6 +380,27 @@ class DataGenerator
             $this->data = array();
         }
         $this->data[$table] = $data;
+    }
+    
+    
+    /**
+     * Performs the same operation as #setData($table,$data), but the
+     * $data must contain only a single value for a column instead of
+     * an array of values.
+     * 
+     * Example:
+     * $data = array('clientsid' => 1, 'name' => 'Mega Pack');
+     *
+     * @param string $table
+     * @param array $data
+     */
+    function setDataOne($table = null, $data = array())
+    {
+        $convertedData = array();
+        foreach($data as $column => $value) {
+            $convertedData[$column] = array($value);
+        }
+        $this->setData($table, $convertedData);
     }
 }
 

@@ -150,7 +150,8 @@
                   't.viewwindow' => 'viewwindow',
                   't.clickwindow' => 'clickwindow',
                   't.blockwindow' => 'blockwindow',
-                  't.variablemethod' => 'variablemethod'
+                  't.variablemethod' => 'variablemethod',
+                  't.appendcode' => 'appendcode'
                 ),
          'variable' => array (
                   'v.variableid' => 'variable_id',
@@ -182,7 +183,9 @@
                   'z.technology_cost_type' => 'technology_cost_type',
                   'z.block' => 'block',
                   'z.capping' => 'capping',
-                  'z.session_capping' => 'session_capping'
+                  'z.session_capping' => 'session_capping',
+                  'z.category' => 'category',
+                  'z.ad_selection' => 'ad_selection'
                 )
          );
 

@@ -457,19 +457,16 @@ class SimulationScenario
        }
 
        $table = $GLOBALS['_MAX']['CONF']['table']['data_raw_ad_impression'];
+       $dbh = OA_DB::singleton();
        foreach($this->aDelivered[$interval] as $bannerId => $aZones)
        {
                foreach($aZones as $zoneId => $count)
             {
                 for ($i = 0; $i < $count; $i++)
                 {
-                    $aValues = array(
-                                      'date_time' => $date,
-                                      'ad_id' => $bannerId,
-                                      'zone_id' => $zoneId
-                                    );
-                    $aTable = array($table=>$table);
-                    $result = SqlBuilder::_insert($aTable, $aValues);
+                    $dbh->exec("
+                        INSERT INTO $table (date_time, ad_id, zone_id)
+                        VALUES ('$date', $bannerId, $zoneId)");
                 }
             }
        }
