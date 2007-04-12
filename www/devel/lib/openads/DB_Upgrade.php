@@ -1663,7 +1663,6 @@ class OA_DB_Upgrade
             case 'mysql':
                 $engine = $this->oSchema->db->getOption('default_table_type');
                 $this->aSQLStatements['table_copy']     = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
-                $this->aSQLStatements['table_copy']     = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
                 $this->aSQLStatements['table_rename']   = "RENAME TABLE %s TO %s";
                 break;
             case 'pgsql':
