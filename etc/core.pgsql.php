@@ -74,6 +74,16 @@ END;
 $$ LANGUAGE plpgsql STRICT IMMUTABLE;";
 
 $aCustomFunctions[] = "
+CREATE OR REPLACE FUNCTION IF(boolean, integer, integer) RETURNS integer AS $$
+BEGIN
+ IF ($1) THEN
+  RETURN $2;
+ END IF;
+ RETURN $3;
+END;
+$$ LANGUAGE plpgsql STRICT IMMUTABLE;";
+
+$aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION TO_DAYS(timestamptz) RETURNS int4 AS $$
 BEGIN
  RETURN round(date_part('epoch', $1::date) / 86400)::int4 + 719528;
