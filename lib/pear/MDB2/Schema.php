@@ -1227,7 +1227,18 @@ class MDB2_Schema extends PEAR
 
         if (is_array($current_definition)) {
             foreach ($current_definition as $field_name => $field) {
-                $was_field_name = $field['was'];
+                // OPENADS:
+                // this check allows comparison of two definitions
+                // that were reverse-engineered
+                // the 'was' field will not exist in such definitions
+                if (isset($field['was']))
+                {
+                    $was_field_name = $field['was'];
+                }
+                else
+                {
+                    $was_field_name = $field_name;
+                }
                 if (!empty($previous_definition[$field_name])
                     && isset($previous_definition[$field_name]['was'])
                     && $previous_definition[$field_name]['was'] == $was_field_name
@@ -1291,7 +1302,18 @@ class MDB2_Schema extends PEAR
 
         if (is_array($current_definition)) {
             foreach ($current_definition as $index_name => $index) {
-                $was_index_name = $index['was'];
+                // OPENADS:
+                // this check allows comparison of two definitions
+                // that were reverse-engineered
+                // the 'was' field will not exist in such definitions
+                if (isset($index['was']))
+                {
+                    $was_index_name = $index['was'];
+                }
+                else
+                {
+                    $was_index_name = $index_name;
+                }
                 if (!empty($previous_definition[$index_name])
                     && isset($previous_definition[$index_name]['was'])
                     && $previous_definition[$index_name]['was'] == $was_index_name
