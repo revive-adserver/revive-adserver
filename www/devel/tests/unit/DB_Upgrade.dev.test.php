@@ -79,6 +79,13 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue($oDB_Upgrade->_pickupRecoveryFile(),'failed to remove recovery file');
     }
 
+    /**
+     * a problem with mdb2_schema is that field definitions are held in arrays that are not ordered
+     * this is a problem when it comes to creating a multi-key index that must be ordered properly
+     * mdb2_schema will be patched to define an 'order' key for an index field definition
+     * this method sorts the fields into the right order
+     *
+     */
     function test_sortIndexFields()
     {
         $fields = 'B_field1, E_field2, A_field3, D_field4, C_field5';

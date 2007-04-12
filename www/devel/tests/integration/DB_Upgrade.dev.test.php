@@ -73,6 +73,11 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertIsA($oDB_Upgrade->oSchema->db, 'MDB2_Driver_Common', 'MDB2_Driver_Common not instantiated');
     }
 
+    /**
+     * this test fakes an upgrade that is interrupted
+     * then recovered in a separate session
+     *
+     */
     function test_Recover()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
@@ -126,6 +131,11 @@ class Test_DB_Upgrade extends UnitTestCase
         OA_DB::disabledQuoteIdentifier();
     }
 
+    /**
+     * this test calls backup method then immediately rollsback
+     * emulating an upgrade error without interrupt (can recover in same session)
+     *
+     */
     function test_BackupAndRollback()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
@@ -194,6 +204,12 @@ class Test_DB_Upgrade extends UnitTestCase
         }
     }
 
+    /**
+     * _verify methods look at the changeset and compile a tasklist
+     * some verification of the tasks take place, eg, checking for existence of objects to be changed
+     *
+     */
+
     function test_verifyTasksIndexesRemove()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
@@ -214,6 +230,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertEqual($aTaskList['indexes']['remove'][0]['table'], 'table1', 'wrong table name');
     }
 
+    /**
+     * tests verification of adding an index as well as a primary and unique constraint
+     *
+     */
     function test_verifyTasksIndexesAdd()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
@@ -342,6 +362,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertEqual($aTaskList['tables']['rename'][0]['cargo']['was'], 'table1', 'wrong old table name');
     }
 
+    /**
+     * tests the verification of a variety of possible table alterations
+     *
+     */
     function test_verifyTasksTablesAlter()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
@@ -450,6 +474,11 @@ class Test_DB_Upgrade extends UnitTestCase
 
     }
 
+    /**
+     * _execute methods look items in the tasklist and execute them
+     * the external migration calls are mocked
+     *
+     */
     function test_executeTasksIndexesRemove()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
@@ -475,6 +504,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertFalse(in_array('index2', $aConstraints),'index2 found');
     }
 
+    /**
+     * tests execution of adding an index as well as a primary and unique constraint
+     *
+     */
     function test_executeTasksIndexesAdd()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
@@ -626,6 +659,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertFalse(in_array($oDB_Upgrade->prefix.'table1', $oDB_Upgrade->aDBTables),'table1 found');
     }
 
+    /**
+     * test the execution of a variety of table alterations
+     *
+     */
     function test_executeTasksTablesAlter()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
@@ -808,8 +845,14 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertFalse(in_array('a_text_field', $aDBFields),'a_text_field found in table1');
     }
 
+    /**
+     * internal function to set up some test tables
+     *
+     * @param mdb2 connection $oDbh
+     */
     function _createTestTables($oDbh)
     {
+        $this->_dropTestTables($oDbh);
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
@@ -822,6 +865,33 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(in_array('table2', $aExistingTables), '_createTestTables');
     }
 
+    function _dropTestTables($oDbh)
+    {
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf['table']['prefix'] = '';
+        $conf['table']['split'] = false;
+        $oTable = new OA_DB_Table();
+        $oTable->init($this->path.'schema_test_original.xml');
+        $aExistingTables = $oDbh->manager->listTables();
+        if (in_array('table1', $aExistingTables))
+        {
+            $this->assertTrue($oTable->dropTable('table1'),'error dropping test table1');
+        }
+        if (in_array('table2', $aExistingTables))
+        {
+            $this->assertTrue($oTable->dropTable('table2'),'error dropping test table2');
+        }
+        $aExistingTables = $oDbh->manager->listTables();
+        $this->assertFalse(in_array('table1', $aExistingTables), '_dropTestTables');
+        $this->assertFalse(in_array('table2', $aExistingTables), '_dropTestTables');
+    }
+
+    /**
+     * internal function to return an initialised db_upgrade object for testing
+     *
+     * @param string $timing
+     * @return object
+     */
     function _newDBUpgradeObject($timing='constructive')
     {
         $oDB_Upgrade = & new OA_DB_Upgrade();
@@ -840,12 +910,10 @@ class Test_DB_Upgrade extends UnitTestCase
         return $oDB_Upgrade;
     }
 
-
-
     /**
+     * internal
      * emulates work done by oSchema when dev edits a changest
      * this modifies a changeset array for renaming tables
-     *
      */
     function _editChangesetTableRename(&$oDB_Upgrade, $table_name, $table_name_was)
     {
@@ -868,6 +936,11 @@ class Test_DB_Upgrade extends UnitTestCase
         }
     }
 
+    /**
+     * internal
+     * emulates work done by oSchema when dev edits a changest
+     * this modifies a changeset array for renaming fields
+     */
     function _editChangesetFieldRename(&$oDB_Upgrade, $table_name, $field_name, $field_name_was)
     {
         $oDB_Upgrade->aChanges['constructive']['tables']['change'][$table_name]['rename']['fields'][$field_name]['was'] = $field_name_was;
