@@ -34,6 +34,13 @@ $Id: Acls.dal.test.php 5552 2007-04-03 19:52:40Z andrew.hill@openads.org $
 $aCustomFunctions = array();
 
 $aCustomFunctions[] = "
+CREATE OR REPLACE FUNCTION DATE_ADD(timestamptz, interval) RETURNS timestamptz AS $$
+BEGIN
+ RETURN $1 + $2;
+END;
+$$ LANGUAGE plpgsql IMMUTABLE STRICT;";
+
+$aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION DATE_FORMAT(timestamptz, text) RETURNS text AS $$
 DECLARE
  f text;

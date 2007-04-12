@@ -47,6 +47,12 @@ define('DAL_STATISTICS_COMMON_UPDATE_HOUR', 1);
 define('DAL_STATISTICS_COMMON_UPDATE_BOTH', 2);
 
 /**
+ * Definition of the default connection window (different to the conversion
+ * window, which is specific to individual trackers.)
+ */
+define('OA_DAL_MAINTENANCE_STATISTICS_CONNECTION_WINDOW_DAYS', 30);
+
+/**
  * An abstract class that defines the interface and some common methods for the data
  * access layer code for summarising raw data into statistics, for all Max modules.
  *
@@ -312,14 +318,14 @@ class OA_Dal_Maintenance_Statistics_Common
         $this->tempTables->createTable($tmpTableName);
         // Summarise the data
         $returnRows = 0;
-        $currentDate = new Date();
-        $currentDate->copy($aDates['start']);
+        $oCurrentDate = new Date();
+        $oCurrentDate->copy($aDates['start']);
         for ($counter = 0; $counter <= $days; $counter++) {
             // Set the appropriate raw data table table
             $baseTable = $aConf['table']['prefix'] .
                          $aConf['table']['data_raw_ad_' . $type];
             if ($split) {
-                $baseTable .= '_' . $currentDate->format('%Y%m%d');
+                $baseTable .= '_' . $oCurrentDate->format('%Y%m%d');
             }
             // Summarise the data
             $query = "
@@ -356,16 +362,31 @@ class OA_Dal_Maintenance_Statistics_Common
                 GROUP BY
                     day, hour, ad_id, creative_id, zone_id";
             OA::debug("Summarising ad $type" . "s from the $baseTable table.", PEAR_LOG_DEBUG);
-            PEAR::pushErrorHandling(null);
+            OA::disableErrorHandling();
             $rows = $this->oDbh->exec($query);
-            PEAR::popErrorHandling();
-            if (!PEAR::isError($rows)) {
+            OA::enableErrorHandling();
+            // Deal with the result from the SQL query
+            if (PEAR::isError($rows)) {
+                // Can the error be ignored?
+                $ignore = true;
+                if (!$split) {
+                    // Not running in split mode, cannot ignore errors
+                    $ignore = false;
+                } else {
+                    if (!PEAR::isError($rows, DB_ERROR_NOSUCHTABLE)) {
+                        // Can't ignore the error in this case either
+                        $ignore = false;
+                    }
+                }
+                if (!$ignore) {
+                    MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                }
+            } else {
+                // Query ran okay, count the rows
                 $returnRows += $rows;
-            } elseif (!PEAR::isError($rows, DB_ERROR_NOSUCHTABLE)) {
-                MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             }
-            // Update the split table day being used
-            $currentDate = $currentDate->getNextDay();
+            // Progress to the next day, so looping will work if needed
+            $oCurrentDate = $oCurrentDate->getNextDay();
         }
         return $returnRows;
     }
@@ -382,6 +403,332 @@ class OA_Dal_Maintenance_Statistics_Common
     {
         OA::debug("Base class cannot be called directly", PEAR_LOG_ERR);
         return false;
+    }
+
+    /**
+     * A private method to summarise connections (based on impression
+     * or click data) to a temporary table.
+     *
+     * @access private
+     * @param PEAR::Date $oStart     The start date/time to summarise from.
+     * @param PEAR::Date $oEnd       The end date/time to summarise to.
+     * @param string     $action     Type of action to summarise. Either "impression", or "click".
+     * @param integer    $connection Action The defined connection action integer that
+     *                               matches the $action. Either MAX_CONNECTION_AD_IMPRESSION,
+     *                               or MAX_CONNECTION_AD_CLICK.
+     * @param boolean    $split      Optional flag, when true, tables are split.
+     * @return integer The number of connection rows summarised.
+     *
+     * Note: The method tests to see if $GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']
+     *       is set to true, and if so, performs cookieless conversion summarisation.
+     */
+    function _summariseConnections($oStart, $oEnd, $action, $connectionAction, $split = false)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        // If the tracker module is not installed, don't summarise connections
+        if (!$aConf['modules']['Tracker']) {
+            return 0;
+        }
+        // Check the start and end dates
+        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $aConf['maintenance']['operationInterval'])) {
+            return 0;
+        }
+        // Get the start and end dates of the operation interval ID
+        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart);
+        // How many days does the operation interval span, if using split tables?
+        $days = 0;
+        if ($split) {
+            $days = Date_Calc::dateDiff($aDates['start']->getDay(),
+                                        $aDates['start']->getMonth(),
+                                        $aDates['start']->getYear(),
+                                        $aDates['end']->getDay(),
+                                        $aDates['end']->getMonth(),
+                                        $aDates['end']->getYear());
+        }
+        // Get the operation interval ID
+        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        // Ensure the temporary table for storing connections is created
+        $this->tempTables->createTable('tmp_ad_connection');
+        // Summarise the connections
+        $returnRows = 0;
+        $oCurrentDate = new Date();
+        $oCurrentDate->copy($aDates['start']);
+        for ($counter = 0; $counter <= $days; $counter++) {
+            // Create the temporary table for these connection type
+            if ($GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) {
+                // Create the cookieless conversion temporary table
+                $tempTable = 'tmp_tracker_impression_ad_' . $action . '_connection_cookieless';
+            } else {
+                // Create the normal conversion temporary table
+                $tempTable = 'tmp_tracker_impression_ad_' . $action . '_connection';
+            }
+            $this->tempTables->createTable($tempTable);
+            // Prepare the window type name for the SQL - use
+            // "viewwindow" for the impression action, otherwise
+            // "clickwindow" for the click action.
+            if ($action == 'impression') {
+                $windowName = 'viewwindow';
+            } else {
+                $windowName = $action . 'window';
+            }
+            // Set the appropriate data_raw_tracker_impressions table
+            $trackerImpressionTable = $aConf['table']['prefix'] .
+                                      $aConf['table']['data_raw_tracker_impression'];
+            if ($split) {
+                $trackerImpressionTable .= '_' . $oCurrentDate->format('%Y%m%d');
+            }
+            // Prepare the SQL to insert tracker impressions that may result in
+            // connections into the temporary table for this connection action type
+            $query = "
+                INSERT INTO
+                    $tempTable
+                    (
+                        server_raw_tracker_impression_id,
+                        server_raw_ip,
+                        tracker_id,
+                        campaign_id,
+                        operation_interval,
+                        operation_interval_id,
+                        interval_start,
+                        interval_end,";
+            if ($GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) {
+                $query .= "
+                        ip_address,
+                        user_agent,";
+            } else {
+                $query .= "
+                        viewer_id,";
+            }
+            $query .= "
+                        date_time,
+                        connection_action,
+                        connection_window,
+                        connection_status
+                    )
+                SELECT
+                    drti.server_raw_tracker_impression_id AS server_raw_tracker_impression_id,
+                    drti.server_raw_ip AS server_raw_ip,
+                    drti.tracker_id AS tracker_id,
+                    ct.campaignid AS campaign_id,
+                    {$aConf['maintenance']['operationInterval']} AS operation_interval,
+                    $operationIntervalID AS operation_interval_id,
+                    '".$aDates['start']->format('%Y-%m-%d %H:%M:%S')."' AS interval_start,
+                    '".$aDates['end']->format('%Y-%m-%d %H:%M:%S')."' AS interval_end,";
+            if ($GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) {
+                $query .= "
+                    drti.ip_address AS ip_address,
+                    drti.user_agent AS user_agent,";
+            } else {
+                $query .= "
+                    drti.viewer_id AS viewer_id,";
+            }
+            $query .= "
+                    drti.date_time AS date_time,
+                    '$connectionAction' AS connection_action,
+                    ct.$windowName AS connection_window,
+                    ct.status AS connection_status
+                FROM
+                    $trackerImpressionTable AS drti,
+                    {$aConf['table']['prefix']}{$aConf['table']['campaigns_trackers']} AS ct
+                WHERE
+                    drti.tracker_id = ct.trackerid";
+            if ($GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) {
+                $query .= "
+                    AND
+                    drti.ip_address != ''
+                    AND
+                    drti.user_agent != ''";
+            } else {
+                $query .= "
+                    AND
+                    drti.viewer_id != ''";
+            }
+            $query .= "
+                    AND
+                    drti.date_time >= '".$oStart->format('%Y-%m-%d %H:%M:%S')."'
+                    AND
+                    drti.date_time <= '".$oEnd->format('%Y-%m-%d %H:%M:%S') . "'";
+            // Execute the SQL to insert tracker impressions that may result in
+            // connections into the temporary table for this connection action type
+            OA::debug('Selecting tracker impressions that may connect to ad ' .
+                      $action . 's into the ' . $tempTable . ' temporary table.', PEAR_LOG_DEBUG);
+            OA::disableErrorHandling();
+            $trackerImpressionRows = $this->oDbh->exec($query);
+            OA::enableErrorHandling();
+            // Deal with the result from the SQL query
+            if (PEAR::isError($trackerImpressionRows)) {
+                // Can the error be ignored?
+                $ignore = true;
+                if (!$split) {
+                    // Not running in split mode, cannot ignore errors
+                    $ignore = false;
+                } else {
+                    if (!PEAR::isError($trackerImpressionRows, DB_ERROR_NOSUCHTABLE)) {
+                        // Can't ignore the error in this case either
+                        $ignore = false;
+                    }
+                }
+                if (!$ignore) {
+                    MAX::raiseError($trackerImpressionRows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                }
+            } else {
+                // Query ran okay
+                OA::debug('Selected ' . $trackerImpressionRows . ' tracker impressions that may connect to ad ' .
+                           $type . 's into the ' . $tempTable . ' temporary table.', PEAR_LOG_DEBUG);
+                if ($trackerImpressionRows > 0) {
+                    // Connect the tracker impressions with raw connection types, where possible,
+                    // by looking over the necessary past raw tables, given the maximum connection
+                    // window for this type
+                    $connectionDays = 0;
+                    $oCurrentConnectionDate = new Date();
+                    $oCurrentConnectionDate->copy($oCurrentDate);
+                    if ($split) {
+                        $connectionDays = OA_DAL_MAINTENANCE_STATISTICS_CONNECTION_WINDOW_DAYS;
+                        $oCurrentConnectionDate->subtractSeconds($connectionDays * SECONDS_PER_DAY);
+                    }
+                    for ($connectionCounter = 0; $connectionCounter <= $connectionDays; $connectionCounter++) {
+                        // Set the appropriate data_raw_ad_* table
+                        $adTable = $aConf['table']['prefix'] .
+                                   $aConf['table']['data_raw_ad_' . $action];
+                        if ($split) {
+                            $adTable .= '_' . $oCurrentConnectionDate->format('%Y%m%d');
+                        }
+                        // Prepare the SQL to connect the tracker impressions with raw connection types
+                        // (ie. raw ad impressions, or raw ad clicks, depending on $action), where possible
+                        $query = "
+                            INSERT INTO
+                                tmp_ad_connection
+                                (
+                                    server_raw_tracker_impression_id,
+                                    server_raw_ip,
+                                    date_time,
+                                    operation_interval,
+                                    operation_interval_id,
+                                    interval_start,
+                                    interval_end,
+                                    connection_viewer_id,
+                                    connection_viewer_session_id,
+                                    connection_date_time,
+                                    connection_ad_id,
+                                    connection_creative_id,
+                                    connection_zone_id,
+                                    connection_channel,
+                                    connection_channel_ids,
+                                    connection_language,
+                                    connection_ip_address,
+                                    connection_host_name,
+                                    connection_country,
+                                    connection_https,
+                                    connection_domain,
+                                    connection_page,
+                                    connection_query,
+                                    connection_referer,
+                                    connection_search_term,
+                                    connection_user_agent,
+                                    connection_os,
+                                    connection_browser,
+                                    connection_action,
+                                    connection_window,
+                                    connection_status,
+                                    inside_window
+                                )
+                            SELECT DISTINCT
+                                tt.server_raw_tracker_impression_id AS server_raw_tracker_impression_id,
+                                tt.server_raw_ip AS server_raw_ip,
+                                tt.date_time AS date_time,
+                                tt.operation_interval AS operation_interval,
+                                tt.operation_interval_id AS operation_interval_id,
+                                tt.interval_start AS interval_start,
+                                tt.interval_end AS interval_end,
+                                drad.viewer_id AS connection_viewer_id,
+                                drad.viewer_session_id AS connection_viewer_session_id,
+                                drad.date_time AS connection_date_time,
+                                drad.ad_id AS connection_ad_id,
+                                drad.creative_id AS connection_creative_id,
+                                drad.zone_id AS connection_zone_id,
+                                drad.channel AS connection_channel,
+                                drad.channel_ids AS connection_channel_ids,
+                                drad.language AS connection_language,
+                                drad.ip_address AS connection_ip_address,
+                                drad.host_name AS connection_host_name,
+                                drad.country AS connection_country,
+                                drad.https AS connection_https,
+                                drad.domain AS connection_domain,
+                                drad.page AS connection_page,
+                                drad.query AS connection_query,
+                                drad.referer AS connection_referer,
+                                drad.search_term AS connection_search_term,
+                                drad.user_agent AS connection_user_agent,
+                                drad.os AS connection_os,
+                                drad.browser AS connection_browser,
+                                tt.connection_action AS connection_action,
+                                tt.connection_window AS connection_window,
+                                tt.connection_status AS connection_status,
+                                IF(tt.date_time < DATE_ADD(drad.date_time, INTERVAL tt.connection_window SECOND), 1, 0) AS inside_window
+                            FROM
+                                $tempTable AS tt,
+                                $adTable AS drad,
+                                {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
+                                {$aConf['table']['prefix']}{$aConf['table']['campaigns_trackers']} AS ct
+                            WHERE";
+                            if ($GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) {
+                                $query .= "
+                                tt.ip_address = drad.ip_address
+                                AND
+                                tt.user_agent = drad.user_agent";
+                            } else {
+                                $query .= "
+                                tt.viewer_id = drad.viewer_id";
+                            }
+                            $query .= "
+                                AND
+                                drad.ad_id = b.bannerid
+                                AND
+                                b.campaignid = ct.campaignid
+                                AND
+                                ct.trackerid = tt.tracker_id
+                                AND
+                                tt.campaign_id = ct.campaignid
+                                AND
+                                tt.date_time < DATE_ADD(drad.date_time, INTERVAL " . OA_DAL_MAINTENANCE_STATISTICS_CONNECTION_WINDOW_DAYS . " DAY)
+                                AND
+                                tt.date_time >= drad.date_time";
+                        OA::debug('Connecting tracker impressions with ad ' . $action . 's, where possible.', PEAR_LOG_DEBUG);
+                        OA::disableErrorHandling();
+                        $rows = $this->oDbh->exec($query);
+                        OA::enableErrorHandling();
+                        // Deal with the result from the SQL query
+                        if (PEAR::isError($rows)) {
+                            // Can the error be ignored?
+                            $ignore = true;
+                            if (!$split) {
+                                // Not running in split mode, cannot ignore errors
+                                $ignore = false;
+                            } else {
+                                if (!PEAR::isError($rows, DB_ERROR_NOSUCHTABLE)) {
+                                    // Can't ignore the error in this case either
+                                    $ignore = false;
+                                }
+                            }
+                            if (!$ignore) {
+                                MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                            }
+                        } else {
+                            // Query ran okay
+                            $returnRows += $rows;
+                        }
+                        // Progress to the next day, so looping will work if needed
+                        $oCurrentConnectionDate = $oCurrentConnectionDate->getNextDay();
+                    }
+                }
+            }
+            // Drop the temporary table
+            $this->tempTables->dropTable($tempTable);
+            // Progress to the next day, so looping will work if needed
+            $oCurrentDate = $oCurrentDate->getNextDay();
+        }
+        // Return the summarised connection rows
+        return $returnRows;
     }
 
     /**

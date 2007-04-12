@@ -125,6 +125,24 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
         return $this->_summariseData($oStart, $oEnd, 'click');
     }
 
+    /**
+     * A method for summarising connections into a temporary table.
+     *
+     * @param PEAR::Date $oStart The start date/time to summarise from.
+     * @param PEAR::Date $oEnd The end date/time to summarise to.
+     * @return integer The number of connection rows summarised.
+     */
+    function summariseConnections($oStart, $oEnd)
+    {
+        $rows = 0;
+        // Summarise connections based on ad impressions
+        $rows += $this->_summariseConnections($oStart, $oEnd, 'impression', MAX_CONNECTION_AD_IMPRESSION);
+        // Summarise connections based on ad clicks
+        $rows += $this->_summariseConnections($oStart, $oEnd, 'click', MAX_CONNECTION_AD_CLICK);
+        // Return the total summarised connections
+        return $rows;
+    }
+
 }
 
 ?>

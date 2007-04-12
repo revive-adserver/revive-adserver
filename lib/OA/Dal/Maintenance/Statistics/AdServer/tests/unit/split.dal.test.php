@@ -449,11 +449,12 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $dsa->tables->createTable('data_raw_ad_click', $now);
         $dsa->tables->createTable('data_raw_ad_impression', $now);
         $dsa->tables->createTable('data_raw_tracker_impression', $now);
+
         // Test with no data
         $start = new Date('2004-06-06 12:00:00');
         $end = new Date('2004-06-06 12:29:59');
-        $aRow = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($aRow, 0);
+        $rows = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($rows, 0);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -461,23 +462,458 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
                 tmp_ad_connection";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
-        // Get the data for the tests
-        include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysqlSplit.php';
+
         // Insert some ads (banners), campaign trackers, ad
         // impressions, ad clicks, and tracker impressions
-        $aRow = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_BANNERS);
-        $aRow = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_CAMPAIGNS_TRACKERS);
-        $aRow = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_AD_IMPRESSIONS_ONE);
-        $aRow = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_AD_IMPRESSIONS_TWO);
-        $aRow = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_AD_CLICKS_ONE);
-        $aRow = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_AD_CLICKS_TWO);
-        $aRow = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_TRACKER_IMPRESSIONS_ONE);
-        $aRow = $oDbh->exec(SPLIT_SUMMARISE_CONVERSIONS_TRACKER_IMPRESSIONS_TWO);
+        $query = "
+            INSERT INTO
+                banners
+                (
+                    bannerid,
+                    description,
+                    campaignid,
+                    htmltemplate,
+                    htmlcache,
+                    url,
+                    bannertext,
+                    compiledlimitation,
+                    append
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            'Banner 1 - Campaign 1',
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            ''
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            'Banner 2 - Campaign 1',
+            1,
+            '',
+            '',
+            '',
+            '',
+            '',
+            ''
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            'Banner 3 - Campaign 2',
+            2,
+            '',
+            '',
+            '',
+            '',
+            '',
+            ''
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4,
+            'Banner 4 - Campaign 2',
+            2,
+            '',
+            '',
+            '',
+            '',
+            '',
+            ''
+        );
+        $rows = $st->execute($aData);
+        $query = "
+            INSERT INTO
+                campaigns_trackers
+                (
+                    campaignid,
+                    trackerid,
+                    status,
+                    viewwindow,
+                    clickwindow
+                )
+            VALUES
+                (?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            1,
+            0,
+            0,
+            0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1,
+            2,
+            0,
+            2592000,
+            2592000
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            3,
+            4,
+            2592000,
+            2592000
+        );
+        $rows = $st->execute($aData);
+        $queryImpressions = "
+            INSERT INTO
+                data_raw_ad_impression_20040606
+                (
+                    viewer_id,
+                    viewer_session_id,
+                    date_time,
+                    ad_id,
+                    creative_id,
+                    zone_id,
+                    channel,
+                    language,
+                    ip_address,
+                    host_name,
+                    country,
+                    https,
+                    domain,
+                    page,
+                    query,
+                    referer,
+                    search_term,
+                    user_agent,
+                    os,
+                    browser
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $queryClicks = "
+            INSERT INTO
+                data_raw_ad_click_20040606
+                (
+                    viewer_id,
+                    viewer_session_id,
+                    date_time,
+                    ad_id,
+                    creative_id,
+                    zone_id,
+                    channel,
+                    language,
+                    ip_address,
+                    host_name,
+                    country,
+                    https,
+                    domain,
+                    page,
+                    query,
+                    referer,
+                    search_term,
+                    user_agent,
+                    os,
+                    browser
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'text',
+            'integer',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text'
+        );
+        $stImpressions = $oDbh->prepare($queryImpressions, $aTypes, MDB2_PREPARE_MANIP);
+        $stClicks = $oDbh->prepare($queryClicks, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            'aa',
+            0,
+            '2004-06-06 18:22:10',
+            1,
+            0,
+            0,
+            'chan1',
+            'en1',
+            '127.0.0.1',
+            'localhost1',
+            'U1',
+            0,
+            'domain1',
+            'page1',
+            'query1',
+            'referer1',
+            'term1',
+            'agent1',
+            'linux1',
+            'mozilla1'
+        );
+        $rows = $stImpressions->execute($aData);
+        $rows = $stClicks->execute($aData);
+        $aData = array(
+            'aa',
+            0,
+            '2004-06-06 18:22:11',
+            3,
+            0,
+            0,
+            'chan3',
+            'en3',
+            '127.0.0.3',
+            'localhost3',
+            'U3',
+            0,
+            'domain3',
+            'page3',
+            'query3',
+            'referer3',
+            'term3',
+            'agent3',
+            'linux3',
+            'mozilla3'
+        );
+        $rows = $stImpressions->execute($aData);
+        $rows = $stClicks->execute($aData);
+        $aData = array(
+            'aa',
+            0,
+            '2004-06-06 18:22:12',
+            4,
+            0,
+            0,
+            'chan4',
+            'en4',
+            '127.0.0.4',
+            'localhost4',
+            'U4',
+            0,
+            'domain4',
+            'page4',
+            'query4',
+            'referer4',
+            'term4',
+            'agent4',
+            'linux4',
+            'mozilla4'
+        );
+        $rows = $stImpressions->execute($aData);
+        $rows = $stClicks->execute($aData);
+        $queryImpressions = "
+            INSERT INTO
+                data_raw_ad_impression_20040506
+                (
+                    viewer_id,
+                    viewer_session_id,
+                    date_time,
+                    ad_id,
+                    creative_id,
+                    zone_id,
+                    channel,
+                    language,
+                    ip_address,
+                    host_name,
+                    country,
+                    https,
+                    domain,
+                    page,
+                    query,
+                    referer,
+                    search_term,
+                    user_agent,
+                    os,
+                    browser
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $queryClicks = "
+            INSERT INTO
+                data_raw_ad_click_20040506
+                (
+                    viewer_id,
+                    viewer_session_id,
+                    date_time,
+                    ad_id,
+                    creative_id,
+                    zone_id,
+                    channel,
+                    language,
+                    ip_address,
+                    host_name,
+                    country,
+                    https,
+                    domain,
+                    page,
+                    query,
+                    referer,
+                    search_term,
+                    user_agent,
+                    os,
+                    browser
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'text',
+            'integer',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text'
+        );
+        $stImpressions = $oDbh->prepare($queryImpressions, $aTypes, MDB2_PREPARE_MANIP);
+        $stClicks = $oDbh->prepare($queryClicks, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            'aa',
+            0,
+            '2004-05-06 12:34:56',
+            2,
+            0,
+            0,
+            'chan2',
+            'en2',
+            '127.0.0.2',
+            'localhost2',
+            'U2',
+            0,
+            'domain2',
+            'page2',
+            'query2',
+            'referer2',
+            'term2',
+            'agent2',
+            'linux2',
+            'mozilla2'
+        );
+        $rows = $stImpressions->execute($aData);
+        $rows = $stClicks->execute($aData);
+        $query = "
+            INSERT INTO
+                data_raw_tracker_impression_20040606
+                (
+                    server_raw_tracker_impression_id,
+                    server_raw_ip,
+                    viewer_id,
+                    date_time,
+                    tracker_id
+                )
+            VALUES
+                (?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'text',
+            'timestamp',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            'singleDB',
+            'aa',
+            '2004-06-06 18:22:15',
+            1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            'singleDB',
+            'aa',
+            '2004-06-06 18:22:15',
+            3
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4,
+            'singleDB',
+            'aa',
+            '2004-06-06 18:22:15',
+            4
+        );
+        $rows = $st->execute($aData);
+        $query = "
+            INSERT INTO
+                data_raw_tracker_impression_20040506
+                (
+                    server_raw_tracker_impression_id,
+                    server_raw_ip,
+                    viewer_id,
+                    date_time,
+                    tracker_id
+                )
+            VALUES
+                (?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'text',
+            'timestamp',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            2,
+            'singleDB',
+            'aa',
+            '2004-05-06 12:35:00',
+            2
+        );
+        $rows = $st->execute($aData);
         // Summarise where tracker impressions don't exist
         $start = new Date('2004-05-06 12:00:00');
         $end = new Date('2004-05-06 12:29:59');
-        $aRow = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($aRow, 0);
+        $rows = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($rows, 0);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -488,8 +924,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // Summarise where just one tracker impression exists
         $start = new Date('2004-05-06 12:30:00');
         $end = new Date('2004-05-06 12:59:59');
-        $aRow = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($aRow, 2);
+        $rows = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($rows, 2);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -570,13 +1006,22 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // Summarise where the other connections are
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $aRow = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($aRow, 4);
+        $rows = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($rows, 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 tmp_ad_connection";
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 6);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                tmp_ad_connection
+            WHERE
+                inside_window = 1";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 4);
         $query = "
@@ -649,13 +1094,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $this->assertEqual($aRow['inside_window'], 1);
         $this->assertEqual($aRow['latest'], 0);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                tmp_ad_connection";
-        $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['number'], 4);
         $query = "
             SELECT
                 *
@@ -734,8 +1172,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // Summarise where the other connections are
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $aRow = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($aRow, 0);
+        $rows = $dsa->summariseConnections($start, $end);
+        $this->assertEqual($rows, 0);
         TestEnv::restoreEnv();
     }
 
