@@ -1543,6 +1543,7 @@ class OA_DB_Upgrade
         foreach ($aParams AS $k => $v)
         {
             $this->_log($k.' : '.$v);
+            $aParams[$k] = $this->oSchema->db->escape($v);
         }
         $this->_log('_logDatabaseAction end');
         $columns = implode(",", array_keys($aParams));
@@ -1662,10 +1663,11 @@ class OA_DB_Upgrade
             case 'mysql':
                 $engine = $this->oSchema->db->getOption('default_table_type');
                 $this->aSQLStatements['table_copy']     = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
+                $this->aSQLStatements['table_copy']     = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
                 $this->aSQLStatements['table_rename']   = "RENAME TABLE %s TO %s";
                 break;
             case 'pgsql':
-                $this->aSQLStatements['table_copy']     = 'CREATE TABLE "%s" AS SELECT * FROM "%s"';
+                $this->aSQLStatements['table_copy']     = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s"';
                 $this->aSQLStatements['table_rename']   = 'ALTER TABLE "%s" RENAME TO "%s"';
                 break;
             default:
