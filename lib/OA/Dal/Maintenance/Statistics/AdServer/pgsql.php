@@ -143,6 +143,78 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
         return $rows;
     }
 
+    /**
+     * A private method to dedup conversions which have associated unique variables.
+     * The method check connections from last interval (between $oStart and $oEnd) and
+     * deduplicate them between those dates.
+     *
+     * @access private
+     * @param PEAR::Date $oStart The start date/time of current interval
+     * @param PEAR::Date $oEnd   The end date/time of current interval
+     */
+    function _dedupConversions($oStart, $oEnd)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $query = "
+            UPDATE
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
+            SET
+                connection_status = ". MAX_CONNECTION_STATUS_DUPLICATE .",
+                updated = '". date('Y-m-d H:i:s') ."',
+                comments = 'Duplicate of connection ID ' || diac2.data_intermediate_ad_connection_id
+            FROM
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} AS diac
+            JOIN
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv
+            ON
+                (
+                    diac.data_intermediate_ad_connection_id = diavv.data_intermediate_ad_connection_id
+                    AND
+                    diac.inside_window = 1
+                    AND
+                    diac.tracker_date_time >= '" . $oStart->format('%Y-%m-%d %H:%M:%S') . "'
+                    AND
+                    diac.tracker_date_time <= '" . $oEnd->format('%Y-%m-%d %H:%M:%S') . "'
+                )
+            JOIN
+                {$aConf['table']['prefix']}{$aConf['table']['variables']} AS v
+            ON
+                (
+                    diavv.tracker_variable_id = v.variableid
+                    AND
+                    v.is_unique = 1
+                )
+            JOIN
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} AS diac2
+            ON
+                (
+                    v.trackerid = diac2.tracker_id
+                    AND
+                    diac.inside_window = 1
+                    AND
+                    UNIX_TIMESTAMP(diac.tracker_date_time) - UNIX_TIMESTAMP(diac2.tracker_date_time) < v.unique_window
+                    AND
+                    UNIX_TIMESTAMP(diac.tracker_date_time) - UNIX_TIMESTAMP(diac2.tracker_date_time) > 0
+                )
+            JOIN
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv2
+            ON
+                (
+                    diac2.data_intermediate_ad_connection_id = diavv2.data_intermediate_ad_connection_id
+                    AND
+                    diavv2.tracker_variable_id = diavv.tracker_variable_id
+                    AND
+                    diavv2.value = diavv.value
+                )";
+        $message = 'Deduplicating conversions between "' . $oStart->format('%Y-%m-%d %H:%M:%S') . '"' .
+                   ' and "' . $oEnd->format('%Y-%m-%d %H:%M:%S') . '"';
+        MAX::debug($message, PEAR_LOG_DEBUG);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        }
+    }
+
 }
 
 ?>
