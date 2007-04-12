@@ -114,6 +114,9 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
             $default = $column['default'];#substr($column['adsrc'], 1, -1);
             if (is_null($default) && $notnull) {
                 $default = '';
+            } elseif (preg_match("/^'(.*)'::(?:character varying)$/", $default, $m)) {
+                // Make sure that casted expressions are correcty handled
+                $default = $m[1];
             }
         }
         $autoincrement = false;
