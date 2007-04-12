@@ -811,7 +811,14 @@ class OA_DB_Upgrade
                 $tbl_new = $this->prefix.$aTask['name'];
                 $tbl_old = $this->prefix.$aTask['cargo']['was'];
                 $this->_log($this->_formatExecuteMsg($k,  $tbl_old, 'rename'));
-                $query  = "RENAME TABLE {$tbl_old} TO {$tbl_new}";
+
+                // Tailor query to fit the database syntax
+                $aDsn = $this->oSchema->db->getDsn('array');
+                if ($aDsn['phptype'] == 'pgsql') {
+                    $query  = "ALTER TABLE {$tbl_old} RENAME TO {$tbl_new}";
+                } else {
+                    $query  = "RENAME TABLE {$tbl_old} TO {$tbl_new}";
+                }
 
                 if (!$this->_executeMigrationMethodTable($tbl_new, 'beforeRenameTable'))
                 {
