@@ -814,7 +814,7 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysql extends OA_Dal_Maintenance_St
                 diac.connection_status = ". MAX_CONNECTION_STATUS_DUPLICATE .",
                 diac.updated = '". date('Y-m-d H:i:s') ."',
                 diac.comments = CONCAT('Duplicate of connection ID ', diac2.data_intermediate_ad_connection_id)";
-        $message = 'Deduping conversions between "' . $oStart->format('%Y-%m-%d %H:%M:%S') . '"' .
+        $message = 'Deduplicating conversions between "' . $oStart->format('%Y-%m-%d %H:%M:%S') . '"' .
                    ' and "' . $oEnd->format('%Y-%m-%d %H:%M:%S') . '"';
         MAX::debug($message, PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
