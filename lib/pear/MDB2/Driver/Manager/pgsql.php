@@ -254,14 +254,14 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
                         return $result;
                     }
                 }
-                if (array_key_exists('default', $field)) {
+                if (array_key_exists('default', $field['definition'])) {
                     $query = "ALTER $field_name SET DEFAULT ".$db->quote($field['definition']['default'], $field['definition']['type']);
                     $result = $db->exec("ALTER TABLE $name $query");
                     if (PEAR::isError($result)) {
                         return $result;
                     }
                 }
-                if (!empty($field['notnull'])) {
+                if (!empty($field['definition']['notnull'])) {
                     $query = "ALTER $field_name ".($field['definition']['notnull'] ? "SET" : "DROP").' NOT NULL';
                     $result = $db->exec("ALTER TABLE $name $query");
                     if (PEAR::isError($result)) {
