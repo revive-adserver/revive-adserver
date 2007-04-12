@@ -77,9 +77,6 @@ class LibAclTest extends DalUnitTestCase
 
     function test_MAX_AclSave()
     {
-//        $this->assertTrue(set_magic_quotes_runtime(0));
-        // array('comparison', 'data', 'executionorder', 'logical', 'type');
-
         $doChannel = OA_Dal::factoryDO('channel');
         $channelId = DataGenerator::generateOne($doChannel, false);
 
@@ -127,6 +124,38 @@ class LibAclTest extends DalUnitTestCase
 
         $doAclsChannel = OA_Dal::factoryDO('acls_channel');
         $this->assertEqual(0, $doAclsChannel->count());
+    }
+    
+    
+    function test_MAX_AclCopy()
+    {
+        $block = 125;
+        
+        $dg = new DataGenerator();
+        $dg->setDataOne('banners', array('block' => $block));
+        $bannerId = $dg->generateOne('banners');
+        
+        $cAcls = 5;
+        $aDataAcls = array('bannerid' => array($bannerId), 'executionorder' => array());
+        for($idxAcl = 1; $idxAcl <= 5; $idxAcl++) {
+            $aDataAcls['executionorder'][] = $idxAcl;
+        }
+        $dg->setData('acls', $aDataAcls);
+        $dg->generate('acls', 5);
+        
+        $dg->setDataOne('banners', array('data' => ''));
+        $bannerIdNew = $dg->generateOne('banners');
+        MAX_AclCopy('', $bannerId, $bannerIdNew);
+        
+        $doBanners = OA_DAL::staticGetDO('banners', $bannerIdNew);
+        $this->assertEqual($block, $doBanners->block);
+        
+        $o = new DB_DataObjectCommon();
+        $doAcls = OA_DAL::staticGetDO('acls', 'bannerid', $bannerId);
+        $aDataAcls = $doAcls->getAll(array('logical', 'type', 'comparison', 'data', 'executionorder'));
+        $doAcls = OA_DAL::staticGetDO('acls', 'bannerid', $bannerIdNew);
+        $aDataAclsNew = $doAcls->getAll(array('logical', 'type', 'comparison', 'data', 'executionorder'));
+        $this->assertEqual($aDataAcls, $aDataAclsNew);
     }
 }
 ?>

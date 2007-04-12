@@ -69,6 +69,7 @@ class DataObjects_BannersTest extends DalUnitTestCase
         );
         $doMockBanners = new $mockBanners($this);
         $doMockBanners->setFrom($doBanners);
+        $doMockBanners->bannerid = $doBanners->bannerid; // setFrom() doesn't copy primary key
         $doMockBanners->setReturnValue('_imageDuplicate', $filename);
         // make sure image was duplicated as well
         $doMockBanners->expectOnce('_imageDuplicate');

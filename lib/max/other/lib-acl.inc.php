@@ -319,22 +319,14 @@ function MAX_AclCopy($page, $from, $to) {
             ");
 
             // Copy compiledlimitation
-            $res = phpAds_dbQuery("
-                UPDATE
-                    {$conf['table']['prefix']}{$conf['table']['banners']} AS table_from,
-                    {$conf['table']['prefix']}{$conf['table']['banners']} AS table_to
-                SET
-                    table_to.compiledlimitation = table_from.compiledlimitation,
-                    table_to.acl_plugins = table_from.acl_plugins,
-                    table_to.block = table_from.block,
-                    table_to.capping = table_from.capping,
-                    table_to.session_capping = table_from.session_capping
-                WHERE
-                    table_to.bannerid={$to}
-                  AND table_from.bannerid={$from}
-            ");
-            return true;
-            break;
+            $doBannersFrom = OA_Dal::staticGetDO('banners', $from);
+            $doBannersTo = OA_DAL::staticGetDO('banners', $to);
+            $doBannersTo->compiledlimitation = $doBannersFrom->compiledlimitation;
+            $doBannersTo->acl_plugins = $doBannersFrom->acl_plugins;
+            $doBannersTo->block = $doBannersFrom->block;
+            $doBannersTo->capping = $doBannersFrom->capping;
+            $doBannersTo->session_capping = $doBannersFrom->session_capping;
+            return $doBannersTo->update();
     }
 }
 
