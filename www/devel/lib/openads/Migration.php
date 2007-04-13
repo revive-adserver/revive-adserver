@@ -64,7 +64,7 @@ class Migration
         if ($this->aObjectMap[$table])
         {
             $fromTable = $this->aObjectMap[$table]['fromTable'];
-            return $this->copyData($fromTable, '', $table, '');
+            return $this->copyTableData($fromTable, '', $table, '');
         }
         return true;
     }
@@ -85,7 +85,7 @@ class Migration
         {
             $fromTable = $this->aObjectMap[$table][$field]['fromTable'];
             $fromField = $this->aObjectMap[$table][$field]['fromField'];
-            return $this->copyData($fromTable, $fromField, $table, $field);
+            return $this->copyColumnData($fromTable, $fromField, $table, $field);
         }
         return true;
     }
