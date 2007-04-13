@@ -6140,10 +6140,368 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->_insertTestSaveIntermediateRequestData();
         $this->_insertTestSaveIntermediateImpressionData();
         $this->_insertTestSaveIntermediateClickData();
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_VARIABLES_TEST_11);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS_TEST_11);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TEST_11);
-        $rows = $oDbh->exec(SAVE_INTERMEDIATE_CONNECTIONS_TEST_11);
+        $query = "
+            INSERT INTO
+                variables
+                (
+                    variableid,
+                    trackerid,
+                    purpose
+                )
+            VALUES
+                (?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'text'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,
+            1,
+            NULL
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,
+            2,
+            'basket_value'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,
+            3,
+            NULL
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4,
+            3,
+            NULL
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            5,
+            4,
+            NULL
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            6,
+            4,
+            'basket_value'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            7,
+            5,
+            'basket_value'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            8,
+            5,
+            'basket_value'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            9,
+            6,
+            'basket_value'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            10,
+            6,
+            'num_items'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            11,
+            7,
+            'num_items'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            12,
+            7,
+            'num_items'
+        );
+        $rows = $st->execute($aData);
+        $query = "
+            INSERT INTO
+                data_raw_tracker_impression
+                (
+                    server_raw_tracker_impression_id, server_raw_ip, viewer_id, viewer_session_id,
+                    date_time, tracker_id, channel, language, ip_address, host_name, country,
+                    https, domain, page, query, referer, search_term, user_agent, os, browser
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'text',
+            'integer',
+            'timestamp',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1, '127.0.0.1', 'aa', 1, '2004-06-06 18:10:15', 20, 'tchan1', 'ten1',
+            't127.0.0.1', 'thost1', 'T1', 1, 'tdomain1', 'tpage1', 'tquery1',
+            'tref1', 'tterm1', 'tagent1', 'tlinux1', 'tmozilla1'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2, '127.0.0.1', 'aa', 1, '2004-06-06 18:10:30', 20, 'tchan1', 'ten1',
+            't127.0.0.1', 'thost1', 'T1', 1, 'tdomain1', 'tpage1', 'tquery1',
+            'tref1', 'tterm1', 'tagent1', 'tlinux1', 'tmozilla1'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3, '127.0.0.3', 'cc', 3, '2004-06-06 18:10:33', 1, 'tchan3', 'ten3',
+            't127.0.0.3', 'thost3', 'T3', 1, 'tdomain3', 'tpage3', 'tquery3',
+            'tref3', 'tterm3', 'tagent3', 'tlinux3', 'tmozilla3'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4, '127.0.0.3', 'cc', 3, '2004-06-06 18:10:33', 2, 'tchan3', 'ten3',
+            't127.0.0.3', 'thost3', 'T3', 1, 'tdomain3', 'tpage3', 'tquery3',
+            'tref3', 'tterm3', 'tagent3', 'tlinux3', 'tmozilla3'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            5, '127.0.0.3', 'cc', 3, '2004-06-06 18:10:33', 2, 'tchan3', 'ten3',
+            't127.0.0.3', 'thost3', 'T3', 1, 'tdomain3', 'tpage3', 'tquery3',
+            'tref3', 'tterm3', 'tagent3', 'tlinux3', 'tmozilla3'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            6, '127.0.0.6', 'ff', 6, '2004-06-06 18:10:36', 3, 'tchan6', 'ten6',
+            't127.0.0.6', 'thost6', 'T6', 1, 'tdomain6', 'tpage6', 'tquery6',
+            'tref6', 'tterm6', 'tagent6', 'tlinux6', 'tmozilla6'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            7, '127.0.0.6', 'ff', 6, '2004-06-06 18:10:36', 4, 'tchan6', 'ten6',
+            't127.0.0.6', 'thost6', 'T6', 1, 'tdomain6', 'tpage6', 'tquery6',
+            'tref6', 'tterm6', 'tagent6', 'tlinux6', 'tmozilla6'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            8, '127.0.0.8', 'gg', 8, '2004-06-06 18:10:38', 5, 'tchan8', 'ten8',
+            't127.0.0.8', 'thost8', 'T8', 1, 'tdomain8', 'tpage8', 'tquery8',
+            'tref8', 'tterm8', 'tagent8', 'tlinux8', 'tmozilla8'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            9, '127.0.0.9', 'hh', 9, '2004-06-06 18:10:39', 6, 'tchan9', 'ten9',
+            't127.0.0.9', 'thost9', 'T9', 1, 'tdomain9', 'tpage9', 'tquery9',
+            'tref9', 'tterm9', 'tagent9', 'tlinux9', 'tmozilla9'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            10, '127.0.0.10', 'ii', 10, '2004-06-06 18:10:40', 7, 'tchan10', 'ten10',
+            't127.0.0.10', 'thost10', 'T1', 1, 'tdomain10', 'tpage10', 'tquery10',
+            'tref10', 'tterm10', 'tagent10', 'tlinux10', 'tmozilla10'
+        );
+        $rows = $st->execute($aData);
+        $query = "
+            INSERT INTO
+                tmp_ad_connection
+                (
+                    server_raw_tracker_impression_id, server_raw_ip, date_time, operation_interval,
+                    operation_interval_id, interval_start, interval_end, connection_viewer_id,
+                    connection_viewer_session_id, connection_date_time, connection_ad_id,
+                    connection_creative_id, connection_zone_id, connection_channel, connection_language,
+                    connection_ip_address, connection_host_name, connection_country, connection_https,
+                    connection_domain, connection_page, connection_query, connection_referer,
+                    connection_search_term, connection_user_agent, connection_os, connection_browser,
+                    connection_action, connection_window, connection_status, inside_window, latest
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'timestamp',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'text',
+            'integer',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            2, '127.0.0.1', '2004-06-06 18:10:30', 30, 36, '2004-06-06 18:00:00',
+            '2004-06-06 18:29:59',  'aa', 1, '2004-06-06 18:00:00', 1, 1, 1, 'chan1', 'en1',
+            '127.0.0.1', 'host1', 'U1', 0, 'domain1', 'page1', 'query1', 'ref1',
+            'term1', 'agent1', 'linux1', 'mozilla1', 1, 259200, MAX_CONNECTION_STATUS_APPROVED, 1, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3, '127.0.0.3', '2004-06-06 18:10:33', 30, 36, '2004-06-06 18:00:00',
+            '2004-06-06 18:29:59',  'cc', 3, '2004-06-06 18:00:34', 2, 2, 2, 'chan3', 'en3',
+            '127.0.0.3', 'host3', 'U3', 0, 'domain3', 'page3', 'query3', 'ref3',
+            'term3', 'agent3', 'linux3', 'mozilla3', 1, 259200, MAX_CONNECTION_STATUS_APPROVED, 1, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4, '127.0.0.3', '2004-06-06 18:10:33', 30, 36, '2004-06-06 18:00:00',
+            '2004-06-06 18:29:59',  'cc', 3, '2004-06-06 18:00:34', 2, 2, 2, 'chan3', 'en3',
+            '127.0.0.3', 'host3', 'U3', 0, 'domain3', 'page3', 'query3', 'ref3',
+            'term3', 'agent3', 'linux3', 'mozilla3', 1, 259200, MAX_CONNECTION_STATUS_APPROVED, 1, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            5, '127.0.0.3', '2004-06-06 18:10:33', 30, 36, '2004-06-06 18:00:00',
+            '2004-06-06 18:29:59',  'cc', 3, '2004-06-06 18:00:34', 2, 2, 2, 'chan3', 'en3',
+            '127.0.0.3', 'host3', 'U3', 0, 'domain3', 'page3', 'query3', 'ref3',
+            'term3', 'agent3', 'linux3', 'mozilla3', 1, 259200, MAX_CONNECTION_STATUS_APPROVED, 1, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            6, '127.0.0.6', '2004-06-06 18:10:36', 30, 36, '2004-06-06 18:00:00',
+            '2004-06-06 18:29:59',  'ff', 6, '2004-06-06 18:00:36', 3, 3, 3, 'chan6', 'en6',
+            '127.0.0.6', 'host6', 'U6', 0, 'domain6', 'page6', 'query6', 'ref6',
+            'term6', 'agent6', 'linux6', 'mozilla6', 1, 259200, MAX_CONNECTION_STATUS_APPROVED, 1, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            7, '127.0.0.6', '2004-06-06 18:10:36', 30, 36, '2004-06-06 18:00:00',
+            '2004-06-06 18:29:59',  'ff', 6, '2004-06-06 18:00:36', 3, 3, 3, 'chan6', 'en6',
+            '127.0.0.6', 'host6', 'U6', 0, 'domain6', 'page6', 'query6', 'ref6',
+            'term6', 'agent6', 'linux6', 'mozilla6', 1, 259200, MAX_CONNECTION_STATUS_APPROVED, 1, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            8, '127.0.0.8', '2004-06-06 18:10:38', 30, 36, '2004-06-06 18:00:00',
+            '2004-06-06 18:29:59',  'gg', 8, '2004-06-06 18:00:38', 1, 1, 1, 'chan8', 'en8',
+            '127.0.0.8', 'host8', 'U8', 0, 'domain8', 'page8', 'query8', 'ref8',
+            'term8', 'agent8', 'linux8', 'mozilla8', 1, 259200, MAX_CONNECTION_STATUS_APPROVED, 1, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            9, '127.0.0.9', '2004-06-06 18:10:39', 30, 36, '2004-06-06 18:00:00',
+            '2004-06-06 18:29:59',  'hh', 9, '2004-06-06 18:00:39', 1, 1, 1, 'chan9', 'en9',
+            '127.0.0.9', 'host9', 'U9', 0, 'domain9', 'page9', 'query9', 'ref9',
+            'term9', 'agent9', 'linux9', 'mozilla9', 1, 259200, MAX_CONNECTION_STATUS_APPROVED, 1, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            10, '127.0.0.10', '2004-06-06 18:10:40', 30, 36, '2004-06-06 18:00:00',
+            '2004-06-06 18:29:59',  'ii', 10, '2004-06-06 18:00:40', 1, 1, 1, 'chan10', 'en10',
+            '127.0.0.10', 'host10', 'U1', 0, 'domain10', 'page10', 'query10', 'ref10',
+            'term10', 'agent10', 'linux10', 'mozilla10', 1, 259200, MAX_CONNECTION_STATUS_APPROVED, 1, 0
+        );
+        $rows = $st->execute($aData);
+        $query = "
+            INSERT INTO
+                data_raw_tracker_variable_value
+                (
+                    server_raw_tracker_impression_id,
+                    server_raw_ip,
+                    tracker_variable_id,
+                    date_time,
+                    value
+                )
+            VALUES
+                (?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'integer',
+            'timestamp',
+            'text'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            3, '127.0.0.3', 1, '2004-06-06 18:10:34', '37'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4, '127.0.0.3', 2, '2004-06-06 18:10:34', '8'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            6, '127.0.0.6', 3, '2004-06-06 18:10:37', '10'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            6, '127.0.0.6', 4, '2004-06-06 18:10:37', '11'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            7, '127.0.0.6', 5, '2004-06-06 18:10:37', '10'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            7, '127.0.0.6', 6, '2004-06-06 18:10:37', '11'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            8, '127.0.0.8', 7, '2004-06-06 18:10:39', '1'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            8, '127.0.0.8', 8, '2004-06-06 18:10:39', '2'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            9, '127.0.0.9', 9, '2004-06-06 18:10:39', '10'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            9, '127.0.0.9', 10, '2004-06-06 18:10:39', '2'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            10, '127.0.0.10', 11, '2004-06-06 18:10:40', '5'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            10, '127.0.0.10', 12, '2004-06-06 18:10:40', '2'
+        );
+        $rows = $st->execute($aData);
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
         $dsa->saveIntermediate($start, $end, $aActionTypes);
