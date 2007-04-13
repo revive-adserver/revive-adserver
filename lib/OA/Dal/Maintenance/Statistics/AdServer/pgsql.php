@@ -201,6 +201,10 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
             CREATE TEMPORARY TABLE
                 tmp_union
             AS";
+        $query = "
+            CREATE TABLE
+                tmp_union
+            AS";
         return $query;
     }
 

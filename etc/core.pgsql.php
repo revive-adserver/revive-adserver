@@ -93,6 +93,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql STRICT IMMUTABLE;";
 
+// IFNULL is not STRICT as the $1 parameter may be NULL.
+$aCustomFunctions[] = "
+CREATE OR REPLACE FUNCTION IFNULL(numeric, integer) RETURNS integer AS $$
+BEGIN
+ IF ($1 IS NULL) THEN
+  RETURN $2;
+ END IF;
+ RETURN $1::integer;
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;";
+
 $aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION TO_DAYS(timestamptz) RETURNS int4 AS $$
 BEGIN
