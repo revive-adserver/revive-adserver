@@ -1,8 +1,6 @@
 <?php
 
-define('MAX_VAR', MAX_PATH.'/var');
-
-require_once('lib/pear.inc.php');
+require_once(MAX_DEV.'/schema/util/lib/pear.inc.php');
 require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
 

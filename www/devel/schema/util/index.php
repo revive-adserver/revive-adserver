@@ -1,9 +1,11 @@
 <?php
 
-require_once '../../../../init.php';
-define('MAX_DEV', MAX_PATH.'/www/devel');
+require_once 'init.php';
 
-require_once(MAX_DEV.'/schema/utils/lib/error.inc.php');
+//require_once '../../../../init.php';
+//define('MAX_DEV', MAX_PATH.'/www/devel');
+
+
 
 $htmlfile = 'index.html';
 
@@ -35,7 +37,7 @@ if (array_key_exists('dump', $_POST) ||
                             'output_mode'   =>    'file',
                             'output'        =>    MAX_VAR.'/mdbs_'.$dumpfile_mdbs.'.xml',
                             'end_of_line'   =>    "\n",
-                            'xsl_file'      =>    "/devel/schema/utils/xsl/mdb2_schema.xsl",
+                            'xsl_file'      =>    "/devel/schema/util/xsl/mdb2_schema.xsl",
                             'custom_tags'   => array('version'=>'0', 'status'=>'transitional')
                           );
         $dump = $schema->dumpDatabase($def, $options, MDB2_SCHEMA_DUMP_STRUCTURE, false);

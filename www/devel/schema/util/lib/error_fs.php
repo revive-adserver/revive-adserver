@@ -1,6 +1,6 @@
 <?php
 
-require_once('error.inc.php');
+require_once('init.php');
 
 $htmlfile = 'error_fs.html';
 

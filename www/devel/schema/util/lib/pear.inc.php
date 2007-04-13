@@ -17,7 +17,8 @@ $error_levels = array(  E_USER_NOTICE  => 'NOTICE',
 
 // our very own pear class
 // empty, but allows us to slot an alternative error handler if we want to
-require_once 'lib/oaclass.error.php';
+require_once(MAX_DEV.'/schema/util/lib/oaclass.error.php');
+
 
 // set up logging to file
 require_once 'Log.php';
