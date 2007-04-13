@@ -11,25 +11,22 @@ class DataObjects_Affiliates extends DataObjects_AbstractUser
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'affiliates';                      // table name
-    var $affiliateid;                     // int(9)  not_null primary_key auto_increment
-    var $agencyid;                        // int(9)  not_null multiple_key
-    var $name;                            // string(255)  not_null
-    var $mnemonic;                        // string(5)  not_null
-    var $comments;                        // blob(65535)  blob
-    var $contact;                         // string(255)  
-    var $email;                           // string(64)  not_null
-    var $website;                         // string(255)  
-    var $username;                        // string(64)  
-    var $password;                        // string(64)  
-    var $permissions;                     // int(9)  
-    var $language;                        // string(64)  
-    var $publiczones;                     // string(1)  not_null enum
-    var $last_accepted_agency_agreement;    // datetime(19)  binary
-    var $updated;                         // datetime(19)  not_null binary
-
-    /* ZE2 compatibility trick*/
-    function __clone() { return $this;}
+    public $__table = 'affiliates';                      // table name
+    public $affiliateid;                     // int(9)  not_null primary_key auto_increment
+    public $agencyid;                        // int(9)  not_null multiple_key
+    public $name;                            // string(255)  not_null
+    public $mnemonic;                        // string(5)  not_null
+    public $comments;                        // blob(65535)  blob
+    public $contact;                         // string(255)  
+    public $email;                           // string(64)  not_null
+    public $website;                         // string(255)  
+    public $username;                        // string(64)  
+    public $password;                        // string(64)  
+    public $permissions;                     // int(9)  
+    public $language;                        // string(64)  
+    public $publiczones;                     // string(1)  not_null enum
+    public $last_accepted_agency_agreement;    // datetime(19)  binary
+    public $updated;                         // datetime(19)  not_null binary
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Affiliates',$k,$v); }

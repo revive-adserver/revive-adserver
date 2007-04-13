@@ -9,13 +9,11 @@ class DataObjects_Images extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'images';                          // table name
-    var $filename;                        // string(128)  not_null primary_key
-    var $contents;                        // blob(16777215)  not_null blob binary
-    var $t_stamp;                         // timestamp(19)  not_null unsigned zerofill binary timestamp
-
-    /* ZE2 compatibility trick*/
-    function __clone() { return $this;}
+    public $__table = 'images';                          // table name
+    public $image_id;                        // int(11)  not_null primary_key auto_increment
+    public $filename;                        // string(128)  not_null
+    public $contents;                        // blob(-1)  not_null blob binary
+    public $t_stamp;                         // datetime(19)  binary
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Images',$k,$v); }
@@ -50,5 +48,15 @@ class DataObjects_Images extends DB_DataObjectCommon
             $i++;
         }
         return $base . '_' . $i . '.' . $extension;
+    }
+    
+    /**
+     * Overrides _refreshUpdated() because the updated field is called t_stamp.
+     * This method is called on insert() and update().
+     *
+     */
+    function _refreshUpdated()
+    {
+        $this->t_stamp = date('Y-m-d H:i:s');
     }
 }
