@@ -7,7 +7,7 @@ class Migration_/*version*/ extends Migration
 
     function Migration_/*version*/()
     {
-        $this->__construct();
+        //$this->__construct();
 /*tasklist*/
 
 /*objectmap*/
