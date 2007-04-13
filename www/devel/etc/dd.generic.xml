@@ -61,6 +61,7 @@
 	<field>
 		<name>openads_comments</name>
 		<type>openads_varchar</type>
+        <length>255</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
@@ -107,12 +108,14 @@
 	<field>
 		<name>openads_language</name>
 		<type>openads_varchar</type>
+        <length>32</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
 		<name>openads_boolean_old</name>
 		<type>openads_varchar</type>
+        <length>1</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
