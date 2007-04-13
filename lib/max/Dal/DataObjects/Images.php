@@ -9,11 +9,11 @@ class DataObjects_Images extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    public $__table = 'images';                          // table name
-    public $image_id;                        // int(11)  not_null primary_key auto_increment
-    public $filename;                        // string(128)  not_null
-    public $contents;                        // blob(-1)  not_null blob binary
-    public $t_stamp;                         // datetime(19)  binary
+    var $__table = 'images';                          // table name
+    var $image_id;                        // int(11)  not_null primary_key auto_increment
+    var $filename;                        // string(128)  not_null
+    var $contents;                        // blob(-1)  not_null blob binary
+    var $t_stamp;                         // datetime(19)  binary
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Images',$k,$v); }
