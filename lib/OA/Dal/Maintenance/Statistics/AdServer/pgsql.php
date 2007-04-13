@@ -221,21 +221,27 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
             UPDATE
                 {$diac}
             SET
-                {$diac}.connection_status = ". MAX_CONNECTION_STATUS_DISAPPROVED .",
-                {$diac}.updated = '". date('Y-m-d H:i:s') ."',
-                {$diac}.comments = 'Rejected because ' || COALESCE(NULLIF(v.description, ''), v.name) || ' is empty'
+                connection_status = ". MAX_CONNECTION_STATUS_DISAPPROVED .",
+                updated = '". date('Y-m-d H:i:s') ."',
+                comments = 'Rejected because ' || COALESCE(NULLIF(v.description, ''), v.name) || ' is empty'
             FROM
+                {$diac} AS diac2
+            JOIN
                 {$aConf['table']['prefix']}{$aConf['table']['variables']} AS v
+            ON
+                (
+                    diac2.tracker_id = v.trackerid
+                )
             LEFT JOIN
                 {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv
             ON
                 (
-                    diac.data_intermediate_ad_connection_id = diavv.data_intermediate_ad_connection_id
+                    diac2.data_intermediate_ad_connection_id = diavv.data_intermediate_ad_connection_id
                     AND
                     v.variableid = diavv.tracker_variable_id
                 )
             WHERE
-                {$diac}.tracker_id = v.trackerid
+                {$diac}.data_intermediate_ad_connection_id = diac2.data_intermediate_ad_connection_id
                 AND
                 {$diac}.tracker_date_time >= '" . $oStart->format('%Y-%m-%d %H:%M:%S') . "'
                 AND
