@@ -35,11 +35,27 @@ class Migration
 
     }
 
-    function copyTableData($fromTable, $toTable, $aColumns)
+    /**
+     * this method is not finished yet
+     *
+     * @param string $fromTable
+     * @param string $toTable
+     * @param array $aColumns
+     * @return boolean
+     */
+    function copyTableData($fromTable, $toTable, $aColumns='')
     {
-        $columns = implode("','",$aColumns);
-        $query = "INSERT IGNORE INTO {$toTable} ({$columns})"
-                ." SELECT {$columns} FROM {$fromTable}";
+        if (!$aColumns)
+        {
+            $query = "INSERT IGNORE INTO {$toTable}"
+                    ." SELECT * FROM {$fromTable}";
+        }
+        else
+        {
+            $columns = implode("','",$aColumns);
+            $query = "INSERT IGNORE INTO {$toTable} ({$columns})"
+                    ." SELECT {$columns} FROM {$fromTable}";
+        }
         $result =& $this->oDBH->exec($query);
         if (PEAR::isError($result))
         {
@@ -48,6 +64,15 @@ class Migration
         return true;
     }
 
+    /**
+     * * this method is not finished yet
+     *
+     * @param string $fromTable
+     * @param string $fromColumn
+     * @param string $toTable
+     * @param string $toColumn
+     * @return boolean
+     */
     function copyColumnData($fromTable, $fromColumn, $toTable, $toColumn)
     {
         $query = "UPDATE IGNORE {$toTable} SET {$toColumn} = {$fromTable}.{$fromColumn}";
@@ -64,7 +89,7 @@ class Migration
         if ($this->aObjectMap[$table])
         {
             $fromTable = $this->aObjectMap[$table]['fromTable'];
-            return $this->copyTableData($fromTable, '', $table, '');
+            return $this->copyTableData($fromTable, $table);
         }
         return true;
     }
