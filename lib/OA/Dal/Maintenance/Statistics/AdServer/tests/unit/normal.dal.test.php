@@ -7180,10 +7180,48 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         TestEnv::startTransaction();
-        // Get the data for the tests
-        include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
         // Insert the test data
-        $rows = $oDbh->exec(SAVE_HISTORY_INTERMEDIATE_AD);
+        $query = "
+            INSERT INTO
+                data_intermediate_ad
+                (
+                    day, hour, operation_interval, operation_interval_id, interval_start, interval_end,
+                    ad_id, creative_id, zone_id, impressions, clicks, conversions, total_basket_value
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'date',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'text'
+        );
+        $stDIA = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 1, 1, 1, 1, 1, 1
+        );
+        $rows = $stDIA->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 2, 1, 1, 1, 1, 1
+        );
+        $rows = $stDIA->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 2, 1, 1, 1, 1, 1
+        );
+        $rows = $stDIA->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 2, 1, 1, 1, 1, 0, 0
+        );
+        $rows = $stDIA->execute($aData);
         // Test
         $start = new Date('2004-06-06 18:00:00');
         $end   = new Date('2004-06-06 18:29:59');
@@ -7209,7 +7247,22 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertNull($aRow['forecast_impressions']); // Default value in table
         $this->assertEqual($aRow['actual_impressions'], 4);
         // Insert more test data
-        $rows = $oDbh->exec(SAVE_HISTORY_INTERMEDIATE_AD_NEXT);
+        $aData = array(
+            '2004-06-06', 18, 30, 37, '2004-06-06 18:30:00', '2004-06-06 18:59:59', 1, 1, 1, 1, 1, 1, 1
+        );
+        $rows = $stDIA->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 37, '2004-06-06 18:30:00', '2004-06-06 18:59:59', 1, 2, 1, 1, 1, 1, 1
+        );
+        $rows = $stDIA->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 37, '2004-06-06 18:30:00', '2004-06-06 18:59:59', 1, 2, 1, 1, 1, 1, 1
+        );
+        $rows = $stDIA->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 37, '2004-06-06 18:30:00', '2004-06-06 18:59:59', 2, 1, 1, 1, 1, 0, 0
+        );
+        $rows = $stDIA->execute($aData);
         // Test
         $start = new Date('2004-06-06 18:30:00');
         $end   = new Date('2004-06-06 18:59:59');
@@ -7237,7 +7290,27 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertNull($aRow['forecast_impressions']); // Default value in table
         $this->assertEqual($aRow['actual_impressions'], 4);
         // Insert some predicted values into the data_summary_zone_impression_history table
-        $rows = $oDbh->exec(SAVE_HISTORY_INTERMEDIATE_HISTORY_DUPES);
+        $query = "
+            INSERT INTO
+                data_summary_zone_impression_history
+                (
+                    operation_interval, operation_interval_id, interval_start, interval_end, zone_id, actual_impressions
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            30, 38, '2004-06-06 19:00:00', '2004-06-06 19:29:59', 1, 0
+        );
+        $rows = $st->execute($aData);
         // Test
         $query = "
             SELECT
@@ -7262,7 +7335,22 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertNull($aRow['forecast_impressions']); // Default value in table
         $this->assertEqual($aRow['actual_impressions'], 0);
         // Insert more test data
-        $rows = $oDbh->exec(SAVE_HISTORY_INTERMEDIATE_AD_DUPES);
+        $aData = array(
+            '2004-06-06', 18, 30, 38, '2004-06-06 19:00:00', '2004-06-06 19:29:59', 1, 1, 1, 1, 1, 1, 1
+        );
+        $rows = $stDIA->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 38, '2004-06-06 19:00:00', '2004-06-06 19:29:59', 1, 2, 1, 1, 1, 1, 1
+        );
+        $rows = $stDIA->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 38, '2004-06-06 19:00:00', '2004-06-06 19:29:59', 1, 2, 1, 1, 1, 1, 1
+        );
+        $rows = $stDIA->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 38, '2004-06-06 19:00:00', '2004-06-06 19:29:59', 2, 1, 1, 1, 1, 0, 0
+        );
+        $rows = $stDIA->execute($aData);
         // Test
         $start = new Date('2004-06-06 19:00:00');
         $end   = new Date('2004-06-06 19:29:59');
@@ -7291,6 +7379,135 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['actual_impressions'], 4);
         TestEnv::rollbackTransaction();
         TestEnv::restoreConfig();
+    }
+
+    /**
+     * A private method to insert placements as test data for the
+     * saveSummary() test.
+     *
+     * @access private
+     */
+    function _insertTestSaveSummaryPlacement()
+    {
+        $oDbh = & OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                campaigns
+                (
+                    campaignid,
+                    revenue,
+                    revenue_type
+                )
+            VALUES
+                (?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1, 5000, MAX_FINANCE_CPM
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2, 2, MAX_FINANCE_CPC
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3, 4, MAX_FINANCE_CPA
+        );
+        $rows = $st->execute($aData);
+    }
+
+    /**
+     * A private method to insert ads as test data for the
+     * saveSummary() test.
+     *
+     * @access private
+     */
+    function _insertTestSaveSummaryAd()
+    {
+        $oDbh = & OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                banners
+                (
+                    bannerid,
+                    campaignid
+                )
+            VALUES
+                (?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1, 1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2, 2
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3, 3
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4, 3
+        );
+        $rows = $st->execute($aData);
+    }
+
+    /**
+     * A private method to insert zones as test data for the
+     * saveSummary() test.
+     *
+     * @access private
+     */
+    function _insertTestSaveSummaryZone()
+    {
+        $oDbh = & OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                zones
+                (
+                    zoneid, cost, cost_type
+                )
+            VALUES
+                (?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'float',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1, 20, MAX_FINANCE_CPM
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2, 1, MAX_FINANCE_CPC
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3, 2, MAX_FINANCE_CPA
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4, 50, MAX_FINANCE_RS
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            5, 5, MAX_FINANCE_BV
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            6, 0.5, MAX_FINANCE_AI
+        );
+        $rows = $st->execute($aData);
     }
 
     /**
@@ -7332,16 +7549,74 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
 
-        // Get the data for the tests
-        include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
-
         // Test 2
         TestEnv::startTransaction();
         // Insert the test data
-        $rows = $oDbh->exec(SAVE_SUMMARY_PLACEMENT);
-        $rows = $oDbh->exec(SAVE_SUMMARY_AD);
-        $rows = $oDbh->exec(SAVE_SUMMARY_ZONE);
-        $rows = $oDbh->exec(SAVE_SUMMARY_INTERMEDIATE_AD);
+        $this->_insertTestSaveSummaryPlacement();
+        $this->_insertTestSaveSummaryAd();
+        $this->_insertTestSaveSummaryZone();
+        $query = "
+            INSERT INTO
+                data_intermediate_ad
+                (
+                    day, hour, operation_interval, operation_interval_id, interval_start, interval_end,
+                    ad_id, creative_id, zone_id, impressions, clicks, conversions, total_basket_value, total_num_items
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'date',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 1, 1, 1, 1, 1, 1, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 2, 1, 1, 1, 1, 1, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 2, 1, 1, 1, 1, 1, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 2, 1, 1, 1, 1, 0, 0, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 3, 1, 2, 1, 1, 0, 0, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 4, 1, 3, 1, 1, 5, 0, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 4, 1, 4, 1, 1, 5, 0, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 4, 1, 5, 1, 1, 5, 100, 1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 4, 1, 6, 1, 1, 5, 100, 3
+        );
+        $rows = $st->execute($aData);
         // Test
         $start = new Date('2004-06-06 18:00:00');
         $end   = new Date('2004-06-06 18:29:59');
@@ -7489,10 +7764,25 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Test 3
         TestEnv::startTransaction();
         // Insert the test data
-        $rows = $oDbh->exec(SAVE_SUMMARY_PLACEMENT);
-        $rows = $oDbh->exec(SAVE_SUMMARY_AD);
-        $rows = $oDbh->exec(SAVE_SUMMARY_ZONE);
-        $rows = $oDbh->exec(SAVE_SUMMARY_INTERMEDIATE_AD_MULTIDAY);
+        $this->_insertTestSaveSummaryPlacement();
+        $this->_insertTestSaveSummaryAd();
+        $this->_insertTestSaveSummaryZone();
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 1, 1, 1, 1, 1, 1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-07', 18, 30, 36, '2004-06-07 18:00:00', '2004-06-07 18:29:59', 1, 2, 1, 1, 1, 1, 1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-07', 18, 30, 36, '2004-06-07 18:00:00', '2004-06-07 18:29:59', 1, 2, 1, 1, 1, 1, 1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-08', 18, 30, 36, '2004-06-08 18:00:00', '2004-06-08 18:29:59', 2, 1, 1, 1, 1, 0, 0
+        );
+        $rows = $st->execute($aData);
         // Test
         $start = new Date('2004-06-06 18:00:00');
         $end   = new Date('2004-06-08 18:29:59');
@@ -7576,12 +7866,115 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
 
         $oDate = new Date();
         TestEnv::startTransaction();
-        // Get the data for the tests
-        include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
         // Insert the base test data
-        $rows = $oDbh->exec(MANAGE_CAMPAIGNS_CAMPAIGNS);
-        $rows = $oDbh->exec(MANAGE_CAMPAIGNS_CLIENTS);
-        $rows = $oDbh->exec(MANAGE_CAMPAIGNS_BANNERS);
+        $query = "
+            INSERT INTO
+                campaigns
+                (
+                    campaignid, campaignname, clientid, views, clicks, conversions, expire, activate, active
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'text'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1, 'Test Campaign 1', 1, -1, -1, -1, '0000-00-00', '0000-00-00', 't'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2, 'Test Campaign 2', 1, 10, -1, -1, '0000-00-00', '0000-00-00', 't'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3, 'Test Campaign 3', 1, -1, 10, -1, '0000-00-00', '0000-00-00', 't'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4, 'Test Campaign 4', 1, -1, -1, 10, '0000-00-00', '0000-00-00', 't'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            5, 'Test Campaign 5', 1, 10, 10, 10, '0000-00-00', '0000-00-00', 't'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            6, 'Test Campaign 6', 1, -1, -1, -1, '2004-06-06', '0000-00-00', 't'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            7, 'Test Campaign 7', 1, -1, -1, -1, '0000-00-00', '2004-06-06', 'f'
+        );
+        $rows = $st->execute($aData);
+        $query = "
+            INSERT INTO
+                clients
+                (
+                    clientid, contact, email
+                )
+            VALUES
+                (
+                    1, 'Test Contact', 'postmaster@localhost'
+                )";
+        $rows = $oDbh->exec($query);
+        $query = "
+            INSERT INTO
+                banners
+                (
+                    bannerid, campaignid
+                )
+            VALUES
+                (?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1, 1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2, 2
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3, 2
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4, 2
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            5, 3
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            6, 4
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            7, 5
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            8, 6
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            9, 7
+        );
+        $rows = $st->execute($aData);
         // Test with no summarised data
         $report = $dsa->manageCampaigns($oDate);
         $query = "
@@ -7683,7 +8076,55 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['activate'], '2004-06-06');
         $this->assertEqual($aRow['active'], 't');
         // Insert the summary test data - Part 1
-        $rows = $oDbh->exec(MANAGE_CAMPAIGNS_INTERMEDIATE_AD);
+        $query = "
+            INSERT INTO
+                data_intermediate_ad
+                (
+                    interval_start, interval_end, ad_id, impressions, clicks, conversions
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '2004-06-06 17:00:00', '2004-06-06 17:59:59', 1, 1, 1, 1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06 17:00:00', '2004-06-06 17:59:59', 2, 1, 1, 1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06 17:00:00', '2004-06-06 17:59:59', 3, 1, 0, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06 17:00:00', '2004-06-06 17:59:59', 4, 8, 0, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06 17:00:00', '2004-06-06 17:59:59', 5, 1000, 5, 1000
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06 17:00:00', '2004-06-06 17:59:59', 6, 1000, 1000, 1000
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06 17:00:00', '2004-06-06 17:59:59', 7, 2, 4, 6
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06 17:00:00', '2004-06-06 17:59:59', 8, 2, 4, 6
+        );
+        $rows = $st->execute($aData);
         // Test with summarised data
         $report = $dsa->manageCampaigns($oDate);
         $query = "
@@ -7885,6 +8326,88 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
     }
 
     /**
+     * A private method to insert campaign trackers links as test data for the
+     * deleteOldData() test.
+     *
+     * @access private
+     */
+    function _insertTestDeleteOldDataCampaignsTrackers()
+    {
+        $oDbh = & OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                campaigns_trackers
+                (
+                    viewwindow,
+                    clickwindow
+                )
+            VALUES
+                (?, ?)";
+
+
+        $aTypes = array(
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            0, 60
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            0, 3600
+        );
+        $rows = $st->execute($aData);
+    }
+
+    /**
+     * A private method to insert ad requests/impressions/clicks as test
+     * data for the deleteOldData() test.
+     *
+     * @access private
+     */
+    function _insertTestDeleteOldDataAdItems($table)
+    {
+        $oDbh = & OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                $table
+                (
+                    date_time
+                )
+            VALUES
+                (?)";
+        $aTypes = array(
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '2004-06-06 18:00:00'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06 17:59:59'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06 17:00:00'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06 16:59:59'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06 16:00:00'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06 15:59:59'
+        );
+        $rows = $st->execute($aData);
+    }
+
+    /**
      * Tests the deleteOldData() method.
      */
     function testDeleteOldData()
@@ -7899,13 +8422,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa = $oMDMSF->factory("AdServer");
 
         TestEnv::startTransaction();
-        // Get the data for the tests
-        include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysql.php';
         // Insert the test data
-        $rows = $oDbh->exec(DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
-        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
-        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_REQUESTS);
+        $this->_insertTestDeleteOldDataCampaignsTrackers();
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_request');
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_impression');
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_click');
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -7936,9 +8457,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa = $oMDMSF->factory("AdServer");
         TestEnv::startTransaction();
         // Insert the test data
-        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
-        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_REQUESTS);
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_request');
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_impression');
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_click');
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -7971,10 +8492,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa = $oMDMSF->factory("AdServer");
         TestEnv::startTransaction();
         // Insert the test data
-        $rows = $oDbh->exec(DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
-        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
-        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_REQUESTS);
+        $this->_insertTestDeleteOldDataCampaignsTrackers();
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_request');
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_impression');
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_click');
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -8005,9 +8526,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa = $oMDMSF->factory("AdServer");
         TestEnv::startTransaction();
         // Insert the test data
-        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_CLICKS);
-        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $rows = $oDbh->exec(DELETE_OLD_DATA_AD_REQUESTS);
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_request');
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_impression');
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_click');
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
