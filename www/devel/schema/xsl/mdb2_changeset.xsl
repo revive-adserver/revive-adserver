@@ -457,7 +457,7 @@
 
         <input type="submit" id="btn_table_save_{$fieldname}" name="btn_table_save" style="display:none" value="save"/>
 
-        <input type="submit" id="btn_exit_{$fieldname}" name="btn_exit_name" onclick="xajax_exitTableProperty(xajax.getFormValues('{$form_name}'),'{$table}');" style="display:none" value="exit"/>
+        <input type="submit" id="btn_table_exit_{$fieldname}" name="btn_exit_name" onclick="xajax_exitTableProperty(xajax.getFormValues('{$form_name}'),'{$table}');" style="display:none" value="exit"/>
 
         <input type="hidden" name="tbl_old_name" value="{$field}"/>
         <!--input type="hidden" name="table_name" value="{$table}"/-->
@@ -465,32 +465,9 @@
     </form>
 </xsl:template>
 
-<xsl:template name="showwasfield">
-    <xsl:param name="table">unkown</xsl:param>
-    <xsl:variable name="field"><xsl:value-of select="name"/></xsl:variable>
-    <xsl:variable name="fieldname"><xsl:value-of select="$table"/>_<xsl:value-of select="$field"/></xsl:variable>
-    <xsl:variable name="value"><xsl:value-of select="was"/></xsl:variable>
-    <xsl:variable name="form_name"><xsl:text>frm_</xsl:text><xsl:value-of select="$value"/></xsl:variable>
-
-    <form id="{$form_name}" method="POST" action="archive.php">
-
-        <span class="titlemini" id="fld_old_{$fieldname}" name="fld_old_name" style="cursor: pointer;display:inline;" ondblclick="xajax_editFieldProperty(xajax.getFormValues('{$form_name}'),'{$table}','{$field}');" ><xsl:value-of select="$value"/></span>
-
-        <input type="text" id="fld_new_{$fieldname}" name="fld_new_name" ondblclick="xajax_editFieldProperty(xajax.getFormValues('{$form_name}','{$table}','{$field}')" style="display:none" value="{$value}"/>
-
-        <input type="submit" id="btn_field_save_{$fieldname}" name="btn_field_save" style="display:none" value="save"/>
-
-        <input type="submit" id="btn_exit_{$fieldname}" name="btn_exit_name" onclick="xajax_exitFieldProperty(xajax.getFormValues('{$form_name}'),'{$table}','{$field}');" style="display:none" value="exit"/>
-
-        <input type="hidden" name="fld_old_name" value="{$field}"/>
-        <input type="hidden" name="table_name" value="{$table}"/>
-
-    </form>
-</xsl:template>
-
-<xsl:template name="showhalt">
+<xsl:template name="showchangesetcomments">
     <xsl:param name="comments"> </xsl:param>
-    <div id="halt_show" style="display:inline;">
+    <div id="comments_show" style="display:inline;">
         <span class="titlemini">
             <xsl:value-of select="$comments"/>
         </span>
