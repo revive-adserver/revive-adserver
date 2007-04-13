@@ -5501,7 +5501,7 @@
    <field>
     <name>t_stamp</name>
     <type>openads_timestamp</type>
-    <notnull>false</notnull>
+    <notnull>true</notnull>
     <default></default>
    </field>
 
@@ -7070,7 +7070,7 @@
    <field>
     <name>lastused</name>
     <type>openads_timestamp</type>
-    <notnull>false</notnull>
+    <notnull>true</notnull>
     <default></default>
    </field>
 
