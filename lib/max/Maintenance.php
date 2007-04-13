@@ -50,10 +50,7 @@ class MAX_Maintenance
     var $conf;
     var $pref;
 
-    /**
-     * PHP5 constructor
-     */
-    function __construct()
+    function MAX_Maintenance()
     {
         $this->conf =& $GLOBALS['_MAX']['CONF'];
         $this->pref =& $GLOBALS['_MAX']['PREF'];
@@ -64,15 +61,6 @@ class MAX_Maintenance
             // Unable to continue!
             MAX::raiseError($this->oDbh, null, PEAR_ERROR_DIE);
         }
-    }
-
-    /**
-     * PHP4 constructor
-     */
-
-    function MAX_Maintenance()
-    {
-       $this->__construct();
     }
 
     /**
