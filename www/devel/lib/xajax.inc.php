@@ -144,7 +144,7 @@ function editTableProperty($form, $elementId)
 	$objResponse->addAssign('tbl_old_'.$id,"style.display", 'none');
     $objResponse->addAssign('tbl_new_'.$id,"style.display", 'inline');
     $objResponse->addAssign('btn_table_save_'.$id,"style.display", 'inline');
-    $objResponse->addAssign('btn_exit_'.$id,"style.display", 'inline');
+    $objResponse->addAssign('btn_table_exit_'.$id,"style.display", 'inline');
 	return $objResponse;
 }
 
@@ -156,7 +156,7 @@ function exitTableProperty($form, $elementId)
 	$objResponse->addAssign('tbl_old_'.$id,"style.display", 'inline');
     $objResponse->addAssign('tbl_new_'.$id,"style.display", 'none');
     $objResponse->addAssign('btn_table_save_'.$id,"style.display", 'none');
-    $objResponse->addAssign('btn_exit_'.$id,"style.display", 'none');
+    $objResponse->addAssign('btn_table_exit_'.$id,"style.display", 'none');
 	return $objResponse;
 }
 

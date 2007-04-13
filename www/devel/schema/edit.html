@@ -50,9 +50,11 @@
 
                             <input type="text" id="tbl_new_name" name="tbl_new_name" ondblclick="xajax_editTableProperty(xajax.getFormValues('frm_table'),'name'); return false" style="display:none" value="<?php echo $table; ?>"/>
 
-                            <input type="submit" id="btn_tbl_save_name" name="btn_table_save" style="display:none" value="save"/>
+                            <!--input type="submit" id="btn_tbl_save_name" name="btn_table_save" style="display:none" value="save"/-->
+                            <button type="submit" id="btn_table_save_name" name="btn_table_save" style="display:none">save</button>
 
-                            <input type="submit" id="btn_tbl_exit_name" name="btn_table_exit" onclick="xajax_exitTableProperty(xajax.getFormValues('frm_table'),'name'); return false" style="display:none" value="exit"/>
+                            <!--input type="submit" id="btn_table_exit_name" name="btn_table_exit" onclick="xajax_exitTableProperty(xajax.getFormValues('frm_table'),'name'); return false" style="display:none" value="exit"/-->
+                            <button type="submit" id="btn_table_exit_name" name="btn_table_exit" onclick="xajax_exitTableProperty(xajax.getFormValues('frm_table'),'name'); return false" style="display:none">exit</button>
 
                     </td>
                     <td class="tableheader" style="text-align:center;width:20%;">
