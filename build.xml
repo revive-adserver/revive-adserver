@@ -55,8 +55,9 @@
     <include name="scripts/updateDocs.sh"/>
     <include name="tutorials/**"/>
     <include name="simulation/**"/>
-    <include name="var/test.conf.ini"/>
+    <include name="var/*.conf.ini*"/>
     <include name="var/changes_test*.xml"/>
+    <include name="var/INSTALLED"/>
     <include name="var/cache/cache_*"/><!-- Cache files -->
     <include name="www/devel/**"/>
 
