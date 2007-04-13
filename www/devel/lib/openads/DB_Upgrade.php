@@ -455,7 +455,7 @@ class OA_DB_Upgrade
     /**
      * seek a recovery file
      * look at the the last upgrade actions performed
-     * execute rollback if necessary
+     * recompile the array of tables to restore
      *
      *
      * @return boolean
@@ -465,8 +465,12 @@ class OA_DB_Upgrade
         $aRecovery = $this->_seekRecoveryFile();
         if ($aRecovery)
         {
+            $this->aDBTables = $this->_listTables();
+
             $this->_setTiming('', $aRecovery['timingInt']);
             $this->versionTo = $aRecovery['versionTo'];
+            $this->_log("Detected interruption while upgrading to version {$this->versionTo} ({$this->timingStr})");
+            $this->_log('Attempting to compile details and recovery information...');
 
             $query = "SELECT * FROM {$this->prefix}{$this->logTable}
                       WHERE version={$this->versionTo}
@@ -482,6 +486,7 @@ class OA_DB_Upgrade
             {
                 foreach ($aResult AS $k=>$aAction)
                 {
+                    $this->_log("Action found: {$aAction['updated']} : {$aAction['info1']}");
                     if ($aAction['action']==DB_UPGRADE_ACTION_BACKUP_TABLE)
                     {
                         $table = $aAction['tablename'];
@@ -491,6 +496,15 @@ class OA_DB_Upgrade
                                                                 'bak'=>$table_bak,
                                                                 'def'=>$aBakDef
                                                              );
+                        $this->_log("Require backup table {$table_bak} to restore table: {$table}");
+                        if (in_array($table_bak, $this->aDBTables))
+                        {
+                            $this->_log("Backup table {$table_bak} found in database");
+                        }
+                        else
+                        {
+                            $this->_logError("Backup table {$table_bak} not found in database");
+                        }
                     }
                 }
             }
@@ -1608,15 +1622,15 @@ class OA_DB_Upgrade
      */
     function _setTiming($timingStr='', $timingInt=0)
     {
-        if ($timingInt)
-        {
-            $this->timingStr    = ($timingInt==DB_UPGRADE_TIMING_CONSTRUCTIVE_DEFAULT ? 'constructive' : 'destructive' );
-            $this->timingInt    = $timingInt;
-        }
         if ($timingStr)
         {
             $this->timingStr    = $timingStr;
             $this->timingInt    = ($timingStr=='constructive' ? DB_UPGRADE_TIMING_CONSTRUCTIVE_DEFAULT : DB_UPGRADE_TIMING_DESTRUCTIVE_DEFAULT );
+        }
+        else
+        {
+            $this->timingStr    = ($timingInt==DB_UPGRADE_TIMING_CONSTRUCTIVE_DEFAULT ? 'constructive' : 'destructive' );
+            $this->timingInt    = $timingInt;
         }
     }
 
