@@ -43,6 +43,7 @@ function loadChangeset()
     $objResponse = new xajaxResponse();
     $changefile = $_COOKIE['changesetFile'];
     $opts = '';
+    $aFiles = array();
     $dh = opendir(MAX_PATH.'/etc/changes');
     if ($dh) {
         $opts = '<option value="" selected="selected"></option>';
@@ -86,6 +87,7 @@ function loadChangeset()
         else
         {
             $objResponse->addAssign('trans_changeset',"style.display", 'none');
+            $objResponse->addAssign('btn_migration_create',"style.display", 'inline');
         }
     }
 	return $objResponse;

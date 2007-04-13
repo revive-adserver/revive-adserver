@@ -28,7 +28,7 @@
                 </td>
                 <td class="tableheader" style="text-align:right;">
                     <form name="frm_test" method="POST" action="archive.php">
-                        <button name="btn_migration_create" type="submit">create a migration class</button>
+                        <button id="btn_migration_create" name="btn_migration_create" type="submit" style="display:none;">create a migration class</button>
                     </form>
                 </td>
                 <td class="tableheader" style="text-align:right;">
