@@ -91,7 +91,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 4);
+        $this->assertEqual($aRow['number'], 7); // 4 proper associations + 3 default with zone 0
         $query = "
             SELECT
                 count(*) AS number
@@ -209,7 +209,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 4);
+        $this->assertEqual($aRow['number'], 7);
         $query = "
             SELECT
                 count(*) AS number
@@ -570,7 +570,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 4);
+        $this->assertEqual($aRow['number'], 7);
         $query = "
             SELECT
                 count(*) AS number
@@ -1176,7 +1176,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 4);
+        $this->assertEqual($aRow['number'], 7);
         $query = "
             SELECT
                 count(*) AS number
@@ -1737,7 +1737,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 4);
+        $this->assertEqual($aRow['number'], 7);
         $query = "
             SELECT
                 count(*) AS number
@@ -1839,7 +1839,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 4);
+        $this->assertEqual($aRow['number'], 7);
         $query = "
             SELECT
                 count(*) AS number
@@ -2140,7 +2140,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 4);
+        $this->assertEqual($aRow['number'], 7);
         $query = "
             SELECT
                 count(*) AS number
@@ -2630,7 +2630,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 4);
+        $this->assertEqual($aRow['number'], 7);
         $query = "
             SELECT
                 count(*) AS number
