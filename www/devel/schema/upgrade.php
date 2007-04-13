@@ -62,9 +62,15 @@ $timing = 'constructive';
 //$version = 6;
 //$timing = 'destructive';
 
-if (array_key_exists('btn_initialise', $_REQUEST))
+$oUpgrade = new OA_DB_Upgrade();
+
+if ($oUpgrade->_seekRecoveryFile())
 {
-    $oUpgrade = new OA_DB_Upgrade();
+    $oUpgrade->_prepRecovery();
+    include 'tpl/upgrade.html';
+}
+else if (array_key_exists('btn_initialise', $_REQUEST))
+{
     $oUpgrade->init($timing, $version);
 //    $backup = true;
     $upgrade = true;
@@ -72,7 +78,6 @@ if (array_key_exists('btn_initialise', $_REQUEST))
 }
 else if (array_key_exists('btn_backup', $_REQUEST))
 {
-    $oUpgrade = new OA_DB_Upgrade();
     $oUpgrade->init($timing, $version);
     $oUpgrade->backup();
     $upgrade = true;
@@ -80,7 +85,6 @@ else if (array_key_exists('btn_backup', $_REQUEST))
 }
 else if (array_key_exists('btn_upgrade', $_POST))
 {
-    $oUpgrade = new OA_DB_Upgrade();
     if ($oUpgrade->init($timing, $version))
     {
         $oUpgrade->upgrade();
