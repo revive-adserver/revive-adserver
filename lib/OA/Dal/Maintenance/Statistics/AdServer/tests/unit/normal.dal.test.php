@@ -1018,7 +1018,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
     }
 
     /**
-     * A method to perform testing of the _dedupConversions() method.
+     * A method to perform testing of the _saveIntermediateDeduplicateConversions() method.
      *
      * Test 0:  Test with no conversions.
      *
@@ -1085,7 +1085,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      *              (only), and outside of the unique window.
      *
      */
-    function test_dedupConversions()
+    function test_saveIntermediateDeduplicateConversions()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
@@ -1098,7 +1098,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
 
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -1150,7 +1150,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -1248,7 +1248,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -1348,7 +1348,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -1448,7 +1448,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -1548,7 +1548,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -1702,7 +1702,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -1856,7 +1856,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -2010,7 +2010,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -2164,7 +2164,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -2318,7 +2318,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -2472,7 +2472,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -2572,7 +2572,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -2672,7 +2672,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -2772,7 +2772,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -2926,7 +2926,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -3080,7 +3080,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -3234,7 +3234,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -3392,7 +3392,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -3586,7 +3586,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -3744,7 +3744,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -3902,7 +3902,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         $query = "
             SELECT
                 COUNT(*) AS rows
@@ -4154,7 +4154,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         // Ensure that both conversions have NOT been deduped
         $query = "
             SELECT
@@ -4352,7 +4352,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $oStartDate = new Date('2005-09-05 13:00:00');
         $oEndDate   = new Date('2005-09-07 13:29:59');
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         // Ensure that both only the correct conversions has been deduped
         $query = "
             SELECT
@@ -4569,7 +4569,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $oStartDate = new Date('2005-09-05 14:00:00');
         $oEndDate   = new Date('2005-09-07 14:29:59');
         $dsa = $oMDMSF->factory("AdServer");
-        $dsa->_dedupConversions($oStartDate, $oEndDate);
+        $dsa->_saveIntermediateDeduplicateConversions($oStartDate, $oEndDate);
         // Ensure that both only the correct conversions has been deduped
         $query = "
             SELECT

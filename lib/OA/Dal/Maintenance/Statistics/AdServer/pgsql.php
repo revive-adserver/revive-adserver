@@ -90,7 +90,7 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
      * A method for summarising requests into a temporary table.
      *
      * @param PEAR::Date $oStart The start date/time to summarise from.
-     * @param PEAR::Date $oEnd The end date/time to summarise to.
+     * @param PEAR::Date $oEnd   The end date/time to summarise to.
      * @return integer The number of request rows summarised.
      */
     function summariseRequests($oStart, $oEnd)
@@ -103,7 +103,7 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
      * A method for summarising impressions into a temporary table.
      *
      * @param PEAR::Date $oStart The start date/time to summarise from.
-     * @param PEAR::Date $oEnd The end date/time to summarise to.
+     * @param PEAR::Date $oEnd   The end date/time to summarise to.
      * @return integer The number of impression rows summarised.
      */
     function summariseImpressions($oStart, $oEnd)
@@ -116,7 +116,7 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
      * A method for summarising clicks into a temporary table.
      *
      * @param PEAR::Date $oStart The start date/time to summarise from.
-     * @param PEAR::Date $oEnd The end date/time to summarise to.
+     * @param PEAR::Date $oEnd   The end date/time to summarise to.
      * @return integer The number of click rows summarised.
      */
     function summariseClicks($oStart, $oEnd)
@@ -126,21 +126,134 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
     }
 
     /**
-     * A method for summarising connections into a temporary table.
+     * A private method to mark those connections in the tmp_ad_connection
+     * temporary table that are the "latest" connections, in the even that
+     * there are duplicate connections per tracker impression.
      *
-     * @param PEAR::Date $oStart The start date/time to summarise from.
-     * @param PEAR::Date $oEnd The end date/time to summarise to.
-     * @return integer The number of connection rows summarised.
+     * @access private
+     * @param PEAR::Date $oStart The start date/time to mark from.
+     * @param PEAR::Date $oEnd   The end date/time to mark to.
+     * @return integer Returns the number of connections marked as "latest"
+     *                 in the tmp_ad_connection table.
      */
-    function summariseConnections($oStart, $oEnd)
+    function _saveIntermediateMarkLatestConnections($oStart, $oEnd)
     {
-        $rows = 0;
-        // Summarise connections based on ad impressions
-        $rows += $this->_summariseConnections($oStart, $oEnd, 'impression', MAX_CONNECTION_AD_IMPRESSION);
-        // Summarise connections based on ad clicks
-        $rows += $this->_summariseConnections($oStart, $oEnd, 'click', MAX_CONNECTION_AD_CLICK);
-        // Return the total summarised connections
-        return $rows;
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        // Select the possible connections that are the most recent connections,
+        // in the case of duplicate connections per tracker impression, and put
+        // them into the tmp_connection_latest table
+        $query = "
+            CREATE TEMPORARY TABLE
+                tmp_connection_latest
+            AS SELECT
+                tac.server_raw_tracker_impression_id AS server_raw_tracker_impression_id,
+                tac.server_raw_ip AS server_raw_ip,
+                MAX(tac.connection_date_time) AS connection_date_time
+            FROM
+                tmp_ad_connection AS tac
+            WHERE
+                tac.date_time >= '" . $oStart->format('%Y-%m-%d %H:%M:%S') . "'
+                AND tac.date_time <= '" . $oEnd->format('%Y-%m-%d %H:%M:%S') . "'
+            GROUP BY
+                tac.server_raw_tracker_impression_id, tac.server_raw_ip";
+        MAX::debug('Selecting the possible connections that are the most recent connections ' .
+                   '(ie. they have the most recent connection_date_time field).', PEAR_LOG_DEBUG);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        }
+        // Mark these "latest" connections in the tmp_ad_connection table
+        $tac = 'tmp_ad_connection';
+        $query = "
+            UPDATE
+                {$tac}
+            SET
+                latest = 1
+            FROM
+                tmp_connection_latest AS tcl
+            WHERE
+                {$tac}.server_raw_tracker_impression_id = tcl.server_raw_tracker_impression_id
+                AND {$tac}.server_raw_ip = tcl.server_raw_ip
+                AND {$tac}.connection_date_time = tcl.connection_date_time";
+        MAX::debug('Setting the \'latest connection\' flag in the temporary tmp_connection table.',
+                   PEAR_LOG_DEBUG);
+        $connectionRows = $this->oDbh->exec($query);
+        if (PEAR::isError($connectionRows)) {
+            return MAX::raiseError($connectionRows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        }
+        // Drop the tmp_connection_latest table
+        $this->tempTables->dropTable('tmp_connection_latest');
+        return $connectionRows;
+    }
+
+    /**
+     * A private method to return the required SQL string to create the temporary
+     * "tmp_union" table, which will be prepended to a SELECT statement to fill
+     * the table.
+     *
+     * @abstract
+     * @access private
+     * @return string The required SQL code.
+     */
+    function _saveIntermediateCreateUnionGetSql()
+    {
+        $query = "
+            CREATE TEMPORARY TABLE
+                tmp_union
+            AS";
+        return $query;
+    }
+
+    /**
+     * A private method to reject conversions which have empty required variables.
+     * The method check connections from last interval (between $start and $end) and
+     * marks as disapproved those  them
+     * between those dates.
+     *
+     * @param PEAR::Date $oStart The start date/time of current interval
+     * @param PEAR::Date $oEnd   The end date/time of current interval
+     */
+    function _saveIntermediateRejectEmptyVarConversions($oStart, $oEnd)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $diac = $aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'];
+        $query = "
+            UPDATE
+                {$diac}
+            SET
+                {$diac}.connection_status = ". MAX_CONNECTION_STATUS_DISAPPROVED .",
+                {$diac}.updated = '". date('Y-m-d H:i:s') ."',
+                {$diac}.comments = 'Rejected because ' || COALESCE(NULLIF(v.description, ''), v.name) || ' is empty'
+            FROM
+                {$aConf['table']['prefix']}{$aConf['table']['variables']} AS v
+            LEFT JOIN
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv
+            ON
+                (
+                    diac.data_intermediate_ad_connection_id = diavv.data_intermediate_ad_connection_id
+                    AND
+                    v.variableid = diavv.tracker_variable_id
+                )
+            WHERE
+                {$diac}.tracker_id = v.trackerid
+                AND
+                {$diac}.tracker_date_time >= '" . $oStart->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                {$diac}.tracker_date_time <= '" . $oEnd->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                {$diac}.inside_window = 1
+                AND
+                v.reject_if_empty = 1
+                AND
+                (diavv.value IS NULL OR diavv.value = '')
+            ";
+        $message = 'Rejecting conversions with empty required variables between "' . $oStart->format('%Y-%m-%d %H:%M:%S') . '"' .
+                   ' and "' . $oEnd->format('%Y-%m-%d %H:%M:%S') . '"';
+        MAX::debug($message, PEAR_LOG_DEBUG);
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
+            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        }
     }
 
     /**
@@ -149,10 +262,10 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
      * deduplicate them between those dates.
      *
      * @access private
-     * @param PEAR::Date $oStart The start date/time of current interval
-     * @param PEAR::Date $oEnd   The end date/time of current interval
+     * @param PEAR::Date $oStart The start date/time of current interval.
+     * @param PEAR::Date $oEnd   The end date/time of current interval.
      */
-    function _dedupConversions($oStart, $oEnd)
+    function _saveIntermediateDeduplicateConversions($oStart, $oEnd)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $diac = $aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'];

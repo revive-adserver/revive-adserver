@@ -123,7 +123,7 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends OA_Dal_Maintenan
      * @param Date $start The start date/time to save from.
      * @param Date $end The end date/time to save to.
      */
-    function _saveConnectionsAndVariableValues($start, $end)
+    function _saveIntermediateSaveConnectionsAndVariableValues($start, $end)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         // How many days does the operation interval span?
@@ -293,9 +293,9 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends OA_Dal_Maintenan
             $outerDate = $outerDate->getNextDay();
         }
         // Reject connections with empty required variables
-        $this->_rejectEmptyVarConversions($start, $end);
+        $this->_saveIntermediateRejectEmptyVarConversions($start, $end);
         // Remove from diac all duplicates
-        $this->_dedupConversions($start, $end);
+        $this->_saveIntermediateDeduplicateConversions($start, $end);
     }
 
     /**
