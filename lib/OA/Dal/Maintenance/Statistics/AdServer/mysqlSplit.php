@@ -114,188 +114,42 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends OA_Dal_Maintenan
     }
 
     /**
-     * A private method to save the tacker impression/ad impression and
-     * tracker impression/ad click connections that have been marked as
-     * "latest", and also save the associated tracker impression
-     * variable values.
+     * A method to update the intermediate tables with summarised data.
      *
-     * @access private
-     * @param Date $start The start date/time to save from.
-     * @param Date $end The end date/time to save to.
+     * @param PEAR::Date $oStart The start date/time to save from.
+     * @param PEAR::Date $oEnd The end date/time to save to.
+     * @param array $aActions An array of action types to summarise. Contains
+     *                        two array, the first containing the data types,
+     *                        and the second containing the connection type
+     *                        values associated with those data types, if
+     *                        appropriate. For example:
+     *          array(
+     *              'types'       => array(
+     *                                  0 => 'request',
+     *                                  1 => 'impression',
+     *                                  2 => 'click'
+     *                               ),
+     *              'connections' => array(
+     *                                  1 => MAX_CONNECTION_AD_IMPRESSION,
+     *                                  2 => MAX_CONNECTION_AD_CLICK
+     *                               )
+     *          )
+     *                      Note that the order of the items must match
+     *                      the order of the items in the database tables
+     *                      (e.g. in data_intermediate_ad and
+     *                      data_summary_ad_hourly for the above example).
+     * @param string $intermediateTable Optional name of the main intermediate table (i.e.
+     *                                  non-connections tables) to save the intermediate
+     *                                  stats into. Default is 'data_intermediate_ad'.
+     * @param boolean $saveConnections When false, connections will NOT be saved to the
+     *                                 intermediate table. Allows maintenance plugins to
+     *                                 save their data to the intermediate tables WITHOUT
+     *                                 trying to re-save the connections, should they need
+     *                                 to do so.
      */
-    function _saveIntermediateSaveConnectionsAndVariableValues($start, $end)
+    function saveIntermediate($oStart, $oEnd, $aActions, $intermediateTable = 'data_intermediate_ad', $saveConnections = true)
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        // How many days does the operation interval span?
-        $days = Date_Calc::dateDiff($start->getDay(), $start->getMonth(), $start->getYear(),
-                                    $end->getDay(),   $end->getMonth(),   $end->getYear());
-        $outerTable = $aConf['table']['prefix'] .
-                      $aConf['table']['data_intermediate_ad_connection'];
-        $innerTable = $aConf['table']['prefix'] .
-                      $aConf['table']['data_intermediate_ad_variable_value'];
-        // Save the connections
-        $outerDate = &new Date();
-        $outerDate->copy($start);
-        for ($counter = 0; $counter <= $days; $counter++) {
-            // Set the appropriate data_raw_tracker_impression table
-            $trackerImpressionTable = $aConf['table']['prefix'] .
-                                      $aConf['table']['data_raw_tracker_impression'] . '_' .
-                                      $outerDate->format('%Y%m%d');
-            $query = "
-                INSERT INTO
-                    $outerTable
-                    (
-                        server_raw_tracker_impression_id,
-                        server_raw_ip,
-                        viewer_id,
-                        viewer_session_id,
-                        tracker_date_time,
-                        connection_date_time,
-                        tracker_id,
-                        ad_id,
-                        creative_id,
-                        zone_id,
-                        tracker_channel,
-                        connection_channel,
-                        tracker_language,
-                        connection_language,
-                        tracker_ip_address,
-                        connection_ip_address,
-                        tracker_host_name,
-                        connection_host_name,
-                        tracker_country,
-                        connection_country,
-                        tracker_https,
-                        connection_https,
-                        tracker_domain,
-                        connection_domain,
-                        tracker_page,
-                        connection_page,
-                        tracker_query,
-                        connection_query,
-                        tracker_referer,
-                        connection_referer,
-                        tracker_search_term,
-                        connection_search_term,
-                        tracker_user_agent,
-                        connection_user_agent,
-                        tracker_os,
-                        connection_os,
-                        tracker_browser,
-                        connection_browser,
-                        connection_action,
-                        connection_window,
-                        connection_status,
-                        inside_window,
-                        updated
-                    )
-                SELECT
-                    drti.server_raw_tracker_impression_id AS server_raw_tracker_impression_id,
-                    drti.server_raw_ip AS server_raw_ip,
-                    drti.viewer_id AS viewer_id,
-                    drti.viewer_session_id AS viewer_session_id,
-                    drti.date_time AS tracker_date_time,
-                    tac.connection_date_time AS connection_date_time,
-                    drti.tracker_id AS tracker_id,
-                    tac.connection_ad_id AS ad_id,
-                    tac.connection_creative_id AS creative_id,
-                    tac.connection_zone_id AS zone_id,
-                    drti.channel AS tracker_channel,
-                    tac.connection_channel AS connection_channel,
-                    drti.language AS tracker_language,
-                    tac.connection_language AS connection_language,
-                    drti.ip_address AS tracker_ip_address,
-                    tac.connection_ip_address AS connection_ip_address,
-                    drti.host_name AS tracker_host_name,
-                    tac.connection_host_name AS connection_host_name,
-                    drti.country AS tracker_country,
-                    tac.connection_country AS connection_country,
-                    drti.https AS tracker_https,
-                    tac.connection_https AS connection_https,
-                    drti.domain AS tracker_domain,
-                    tac.connection_domain AS connection_domain,
-                    drti.page AS tracker_page,
-                    tac.connection_page AS connection_page,
-                    drti.query AS tracker_query,
-                    tac.connection_query AS connection_query,
-                    drti.referer AS tracker_referer,
-                    tac.connection_referer AS connection_referer,
-                    drti.search_term AS tracker_search_term,
-                    tac.connection_search_term AS connection_search_term,
-                    drti.user_agent AS tracker_user_agent,
-                    tac.connection_user_agent AS connection_user_agent,
-                    drti.os AS tracker_os,
-                    tac.connection_os AS connection_os,
-                    drti.browser AS tracker_browser,
-                    tac.connection_browser AS connection_browser,
-                    tac.connection_action AS connection_action,
-                    tac.connection_window AS connection_window,
-                    tac.connection_status AS connection_status,
-                    tac.inside_window AS inside_window,
-                    '".date('Y-m-d H:i:s')."'
-                FROM
-                    tmp_ad_connection AS tac,
-                    $trackerImpressionTable AS drti
-                WHERE
-                    tac.server_raw_tracker_impression_id = drti.server_raw_tracker_impression_id
-                    AND tac.server_raw_ip = drti.server_raw_ip
-                    AND tac.latest = 1";
-            MAX::debug("Inserting the connections into the $outerTable table", PEAR_LOG_DEBUG);
-            PEAR::pushErrorHandling(null);
-            $rows = $this->oDbh->exec($query);
-            PEAR::popErrorHandling();
-            if (PEAR::isError($rows) && (!PEAR::isError($result, DB_ERROR_NOSUCHTABLE))) {
-                MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-            }
-            // Save any variable values associated with the above connections
-            $innerDate = &new Date();
-            $innerDate->copy($outerDate);
-            for ($innerCounter = 0; $innterCounter < 2; $innterCounter++) {
-                // Set the appropriate data_raw_tracker_variable_value table
-                $trackerVariableValueTable = $aConf['table']['prefix'] .
-                                             $aConf['table']['data_raw_tracker_variable_value'] . '_' .
-                                             $innerDate->format('%Y%m%d');
-                $query = "
-                    INSERT INTO
-                        $innerTable
-                        (
-                            data_intermediate_ad_connection_id,
-                            tracker_variable_id,
-                            value
-                        )
-                    SELECT
-                        diac.data_intermediate_ad_connection_id AS data_intermediate_ad_connection_id,
-                        drtvv.tracker_variable_id AS tracker_variable_id,
-                        drtvv.value AS value
-                    FROM
-                        {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} AS diac,
-                        $trackerVariableValueTable AS drtvv,
-                        $trackerImpressionTable AS drti
-                    WHERE
-                        diac.server_raw_tracker_impression_id = drti.server_raw_tracker_impression_id
-                        AND diac.server_raw_ip = drti.server_raw_ip
-                        AND drti.server_raw_tracker_impression_id = drtvv.server_raw_tracker_impression_id
-                        AND drti.server_raw_ip = drtvv.server_raw_ip
-                        AND diac.tracker_date_time >= '" . $start->format('%Y-%m-%d %H:%M:%S') . "'
-                        AND diac.tracker_date_time <= '" . $end->format('%Y-%m-%d %H:%M:%S') . "'";
-                MAX::debug("Saving the tracker impression variable values from the $innerTable table",
-                           PEAR_LOG_DEBUG);
-                PEAR::pushErrorHandling(null);
-                $rows = $this->oDbh->exec($query);
-                PEAR::popErrorHandling();
-                if (PEAR::isError($rows) && (!PEAR::isError($result, DB_ERROR_NOSUCHTABLE))) {
-                    MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-                }
-                // Update the split data_raw_tracker_variable_value table being used
-                $innerDate = $innerDate->getNextDay();
-            }
-            // Update the split data_raw_tracker_impression table being used
-            $outerDate = $outerDate->getNextDay();
-        }
-        // Reject connections with empty required variables
-        $this->_saveIntermediateRejectEmptyVarConversions($start, $end);
-        // Remove from diac all duplicates
-        $this->_saveIntermediateDeduplicateConversions($start, $end);
+        $this->_saveIntermediate($oStart, $oEnd, $aActions, $intermediateTable = 'data_intermediate_ad', $saveConnections, true);
     }
 
     /**
