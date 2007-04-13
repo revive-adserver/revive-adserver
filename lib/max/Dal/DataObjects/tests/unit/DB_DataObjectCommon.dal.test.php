@@ -322,7 +322,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         // Try to delete non-existing one
         $doAgency = OA_Dal::factoryDO('agency');
         $ret = $doAgency->deleteById(null);
-        $this->assertEqual($ret, 0);
+        $this->assertFalse($ret);
     }
 
     /**
