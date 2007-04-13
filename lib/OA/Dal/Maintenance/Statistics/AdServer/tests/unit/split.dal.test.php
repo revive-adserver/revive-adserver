@@ -1410,6 +1410,129 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
     }
 
     /**
+     * A private method to insert variables as test data for the
+     * saveIntermediate() test.
+     *
+     * @access private
+     */
+    function _insertTestSaveIntermedaiteVariable()
+    {
+        $oDbh = &OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                variables
+                (
+                    variableid, trackerid, purpose
+                )
+            VALUES
+                (?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'text'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1, 1, NULL
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2, 1, 'basket_value'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3, 2, NULL
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4, 2, 'basket_value'
+        );
+        $rows = $st->execute($aData);
+    }
+
+    /**
+     * A private method to insert temporary ad impressions as test data
+     * for the saveIntermediate() test.
+     *
+     * @access private
+     */
+    function _insertTestSaveIntermedaiteAdImpression()
+    {
+        $oDbh = &OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                tmp_ad_impression
+                (
+                    day, hour, operation_interval, operation_interval_id, interval_start,
+                    interval_end, ad_id, creative_id, zone_id, impressions
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'date',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 1, 1, 1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 2, 2, 2, 2
+        );
+        $rows = $st->execute($aData);
+    }
+
+    /**
+     * A private method to insert temporary ad clicks as test data
+     * for the saveIntermediate() test.
+     *
+     * @access private
+     */
+    function _insertTestSaveIntermedaiteAdClick()
+    {
+        $oDbh = &OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                tmp_ad_click
+                (
+                    day, hour, operation_interval, operation_interval_id, interval_start,
+                    interval_end, ad_id, creative_id, zone_id, clicks
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'date',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 1, 1, 1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 2, 2, 2, 2
+        );
+        $rows = $st->execute($aData);
+    }
+
+    /**
      * Tests the saveIntermediate() method.
      */
     function testSaveIntermediate()
@@ -1436,7 +1559,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // Test with no data
         $start = new Date('2004-06-06 12:00:00');
         $end = new Date('2004-06-06 12:29:59');
-        $aTypes = array(
+        $aActionTypes = array(
             'types' => array(
                 0 => 'request',
                 1 => 'impression',
@@ -1447,7 +1570,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
                 2 => MAX_CONNECTION_AD_CLICK
             )
         );
-        $dsa->saveIntermediate($start, $end, $aTypes);
+        $dsa->saveIntermediate($start, $end, $aActionTypes);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -1474,20 +1597,178 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $dsa->tempTables->createTable('tmp_ad_connection');
         $dsa->tempTables->createTable('tmp_ad_impression');
         $dsa->tempTables->createTable('tmp_ad_request');
-        // Get the data for the tests
-        include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysqlSplit.php';
         // Insert the test data
-        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_VARIABLES);
-        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_AD_CLICKS);
-        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_AD_IMPRESSIONS);
-        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_TRACKER_IMPRESSIONS);
-        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_ONE);
-        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_TRACKER_VARIABLE_VALUES_TWO);
-        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_CONNECTIONS);
+        $this->_insertTestSaveIntermedaiteVariable();
+        $this->_insertTestSaveIntermedaiteAdImpression();
+        $this->_insertTestSaveIntermedaiteAdClick();
+        $query = "
+            INSERT INTO
+                data_raw_tracker_impression_20040606
+                (
+                    server_raw_tracker_impression_id, server_raw_ip, viewer_id, viewer_session_id,
+                    date_time, tracker_id, channel, language, ip_address, host_name, country,
+                    https, domain, page, query, referer, search_term, user_agent, os, browser
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'text',
+            'integer',
+            'timestamp',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1, '127.0.0.1', 'aa', 1, '2004-06-06 18:10:15', 1, 'tchan1', 'ten1',
+            't127.0.0.1', 'thost1', 'T1', 1, 'tdomain1', 'tpage1', 'tquery1',
+            'tref1', 'tterm1', 'tagent1', 'tlinux1', 'tmozilla1'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2, '127.0.0.2', 'bb', 2, '2004-06-06 18:22:10', 2, 'tchan2', 'ten2',
+            't127.0.0.2', 'thost2', 'T2', 1, 'tdomain2', 'tpage2', 'tquery2',
+            'tref2', 'tterm2', 'tagent2', 'tlinux2', 'tmozilla2'
+        );
+        $rows = $st->execute($aData);
+        $query = "
+            INSERT INTO
+                data_raw_tracker_variable_value_20040606
+                (
+                    server_raw_tracker_impression_id, server_raw_ip, tracker_variable_id, date_time, value
+                )
+            VALUES
+                (?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'integer',
+            'timestamp',
+            'float'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1, '127.0.0.1', 1, '2004-06-06 18:10:16', '1'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            1, '127.0.0.1', 2, '2004-06-06 18:10:17', '2'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2, '127.0.0.2', 3, '2004-06-06 18:22:11', NULL
+        );
+        $rows = $st->execute($aData);
+        $query = "
+            INSERT INTO
+                data_raw_tracker_variable_value_20040607
+                (
+                    server_raw_tracker_impression_id, server_raw_ip, tracker_variable_id, date_time, value
+                )
+            VALUES
+                (?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'integer',
+            'timestamp',
+            'float'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            2, '127.0.0.2', 4, '2004-06-07 18:22:12', '3'
+        );
+        $rows = $st->execute($aData);
+        $query = "
+            INSERT INTO
+                tmp_ad_connection
+                (
+                    server_raw_tracker_impression_id, server_raw_ip, date_time, operation_interval,
+                    operation_interval_id, interval_start, interval_end, connection_viewer_id,
+                    connection_viewer_session_id, connection_date_time, connection_ad_id,
+                    connection_creative_id, connection_zone_id, connection_channel, connection_language,
+                    connection_ip_address, connection_host_name, connection_country, connection_https,
+                    connection_domain, connection_page, connection_query, connection_referer,
+                    connection_search_term, connection_user_agent, connection_os, connection_browser,
+                    connection_action, connection_window, connection_status, inside_window, latest
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'timestamp',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'text',
+            'integer',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1, '127.0.0.1', '2004-06-06 18:10:15', 30, 36, '2004-06-06 18:00:00',
+             '2004-06-06 18:29:59',  'aa', 1, '2004-06-06 18:00:00', 1, 1, 1, 'chan1', 'en1',
+             '127.0.0.1', 'host1', 'U1', 0, 'domain1', 'page1', 'query1', 'ref1',
+             'term1', 'agent1', 'linux1', 'mozilla1', 1, 259200, 0, 1, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2, '127.0.0.2', '2004-06-06 18:22:10', 30, 36, '2004-06-06 18:00:00',
+             '2004-06-06 18:29:59',  'bb', 2, '2004-06-05 09:00:00', 2, 2, 2, 'chan2', 'en2',
+             '127.0.0.2', 'host2', 'U2', 0, 'domain2', 'page2', 'query2', 'ref2',
+             'term2', 'agent2', 'linux2', 'mozilla2', 1, 4320, 4, 1, 0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2, '127.0.0.2', '2004-06-06 18:22:10', 30, 36, '2004-06-06 18:00:00',
+             '2004-06-06 18:29:59',  'bb', 2, '2004-06-05 10:00:00', 2, 2, 2, 'chan2', 'en2',
+             '127.0.0.2', 'host2', 'U2', 0, 'domain2', 'page2', 'query2', 'ref2',
+             'term2', 'agent2', 'linux2', 'mozilla2', 1, 4320, 4, 1, 0
+        );
+        $rows = $st->execute($aData);
         // Test
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $dsa->saveIntermediate($start, $end, $aTypes);
+        $dsa->saveIntermediate($start, $end, $aActionTypes);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -1725,7 +2006,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // Test with no data
         $start = new Date('2004-06-06 12:00:00');
         $end = new Date('2004-06-06 12:29:59');
-        $dsa->saveIntermediate($start, $end, $aTypes);
+        $dsa->saveIntermediate($start, $end, $aActionTypes);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -1743,13 +2024,13 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $now = new Date('2004-06-07');
         $dsa->tables->createTable('data_raw_tracker_variable_value', $now);
         // Insert the test data
-        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_VARIABLES);
-        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_AD_CLICKS);
-        $aRow = $oDbh->exec(SPLIT_SAVE_INTERMEDIATE_AD_IMPRESSIONS);
+        $this->_insertTestSaveIntermedaiteVariable();
+        $this->_insertTestSaveIntermedaiteAdImpression();
+        $this->_insertTestSaveIntermedaiteAdClick();
         // Test
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
-        $dsa->saveIntermediate($start, $end, $aTypes);
+        $dsa->saveIntermediate($start, $end, $aActionTypes);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -1798,6 +2079,68 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         TestEnv::restoreEnv();
     }
 
+
+
+    /**
+     * A private method to insert ad requests/impressions/clicks as test
+     * data for the deleteOldData() test.
+     *
+     * @access private
+     */
+    function _insertTestDeleteOldDataAdItems()
+    {
+        $oDbh = & OA_DB::singleton();
+        $aTables = array(
+            'request',
+            'impression',
+            'click'
+        );
+        $aDates = array(
+            '20040605' => '2004-06-05',
+            '20040606' => '2004-06-06'
+        );
+        foreach ($aTables AS $table) {
+            foreach ($aDates AS $tableDate => $date) {
+                $query = "
+                    INSERT INTO
+                        data_raw_ad_{$table}_{$tableDate}
+                        (
+                            date_time
+                        )
+                    VALUES
+                        (?)";
+                $aTypes = array(
+                    'timestamp'
+                );
+                $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+                $aData = array(
+                    "$date 18:00:00"
+                );
+                $rows = $st->execute($aData);
+                $aData = array(
+                    "$date 17:59:59"
+                );
+                $rows = $st->execute($aData);
+                $aData = array(
+                    "$date 17:00:00"
+                );
+                $rows = $st->execute($aData);
+                $aData = array(
+                    "$date 16:59:59"
+                );
+                $rows = $st->execute($aData);
+                $aData = array(
+                    "$date 16:00:00"
+                );
+                $rows = $st->execute($aData);
+                $aData = array(
+                    "$date 15:59:59"
+                );
+                $rows = $st->execute($aData);
+            }
+        }
+    }
+
     /**
      * Tests the deleteOldData() method.
      */
@@ -1821,16 +2164,29 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $dsa->tables->createTable('data_raw_ad_click', $now);
         $dsa->tables->createTable('data_raw_ad_impression', $now);
         $dsa->tables->createTable('data_raw_ad_request', $now);
-        // Get the data for the tests
-        include_once MAX_PATH . '/lib/max/Dal/data/TestOfStatisticsAdServermysqlSplit.php';
         // Insert the test data
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
+        $query = "
+            INSERT INTO
+                campaigns_trackers
+                (
+                    viewwindow, clickwindow
+                )
+            VALUES
+                (?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            0, 60
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            0, 3600
+        );
+        $rows = $st->execute($aData);
+        $this->_insertTestDeleteOldDataAdItems();
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -1906,12 +2262,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $dsa->tables->createTable('data_raw_ad_impression', $now);
         $dsa->tables->createTable('data_raw_ad_request', $now);
         // Insert the test data
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
+        $this->_insertTestDeleteOldDataAdItems();
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -1987,12 +2338,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $dsa->tables->createTable('data_raw_ad_impression', $now);
         $dsa->tables->createTable('data_raw_ad_request', $now);
         // Insert the test data
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
+        $this->_insertTestDeleteOldDataAdItems();
         // Test
         $summarisedTo = new Date('2004-06-06 18:00:00');
         $dsa->deleteOldData($summarisedTo);
@@ -2075,12 +2421,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $dsa->tables->createTable('data_raw_ad_impression', $now);
         $dsa->tables->createTable('data_raw_ad_request', $now);
         // Insert the test data
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
+        $this->_insertTestDeleteOldDataAdItems();
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -2157,12 +2498,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $dsa->tables->createTable('data_raw_ad_impression', $now);
         $dsa->tables->createTable('data_raw_ad_request', $now);
         // Insert the test data
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
+        $this->_insertTestDeleteOldDataAdItems();
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -2239,12 +2575,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $dsa->tables->createTable('data_raw_ad_impression', $now);
         $dsa->tables->createTable('data_raw_ad_request', $now);
         // Insert the test data
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_CLICKS_TWO);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_IMPRESSIONS_TWO);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_ONE);
-        $aRow = $oDbh->exec(SPLIT_DELETE_OLD_DATA_AD_REQUESTS_TWO);
+        $this->_insertTestDeleteOldDataAdItems();
         // Test
         $summarisedTo = new Date('2004-06-06 18:00:00');
         $dsa->deleteOldData($summarisedTo);
