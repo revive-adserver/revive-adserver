@@ -11,7 +11,7 @@
      */
     require_once(dirname(__FILE__) . '/scorer.php');
     /**#@-*/
-    
+
     /**
      *    Sample minimal test displayer. Generates only
      *    failure messages and a pass count.
@@ -20,7 +20,7 @@
      */
     class HtmlReporter extends SimpleReporter {
         var $_character_set;
-        
+
         /**
          *    Does nothing yet. The first output will
          *    be sent on the first test start. For use
@@ -31,7 +31,7 @@
             $this->SimpleReporter();
             $this->_character_set = $character_set;
         }
-        
+
         /**
          *    Paints the top of the web page setting the
          *    title to the name of the starting test.
@@ -47,10 +47,11 @@
             print $this->_getCss() . "\n";
             print "</style>\n";
             print "</head>\n<body>\n";
+            print "<h2>{$GLOBALS['_MAX']['CONF']['database']['host']} :: {$GLOBALS['_MAX']['CONF']['database']['type']} {$GLOBALS['_MAX']['CONF']['database']['version']}</h2>";
             print "<h1>$test_name</h1>\n";
             flush();
         }
-        
+
         /**
          *    Send the headers necessary to ensure the page is
          *    reloaded on every request. Otherwise you could be
@@ -67,7 +68,7 @@
                 header("Pragma: no-cache");
             }
         }
-        
+
         /**
          *    Paints the CSS. Add additional styles here.
          *    @return string            CSS code as text.
@@ -76,7 +77,7 @@
         function _getCss() {
             return ".fail { color: red; } pre { background-color: lightgray; }";
         }
-        
+
         /**
          *    Paints the end of the test with a summary of
          *    the passes and failures.
@@ -96,7 +97,7 @@
             print "</div>\n";
             print "</body>\n</html>\n";
         }
-        
+
         /**
          *    Paints the test failure with a breadcrumbs
          *    trail of the nesting test suites below the
@@ -113,7 +114,7 @@
             print implode(" -&gt; ", $breadcrumb);
             print " -&gt; " . $this->_htmlEntities($message) . "<br />\n";
         }
-        
+
         /**
          *    Paints a PHP error or exception.
          *    @param string $message        Message is ignored.
@@ -128,7 +129,7 @@
             print implode(" -&gt; ", $breadcrumb);
             print " -&gt; <strong>" . $this->_htmlEntities($message) . "</strong><br />\n";
         }
-        
+
         /**
          *    Paints formatted text such as dumped variables.
          *    @param string $message        Text to show.
@@ -137,7 +138,7 @@
         function paintFormattedMessage($message) {
             print '<pre>' . $this->_htmlEntities($message) . '</pre>';
         }
-        
+
         /**
          *    Character set adjusted entity conversion.
          *    @param string $message    Plain text or Unicode message.
@@ -148,7 +149,7 @@
             return htmlentities($message, ENT_COMPAT, $this->_character_set);
         }
     }
-    
+
     /**
      *    Sample minimal test displayer. Generates only
      *    failure messages and a pass count. For command
@@ -159,7 +160,7 @@
 	 *	  @subpackage UnitTester
      */
     class TextReporter extends SimpleReporter {
-        
+
         /**
          *    Does nothing yet. The first output will
          *    be sent on the first test start.
@@ -168,7 +169,7 @@
         function TextReporter() {
             $this->SimpleReporter();
         }
-        
+
         /**
          *    Paints the title only.
          *    @param string $test_name        Name class of test.
@@ -181,7 +182,7 @@
             print "$test_name\n";
             flush();
         }
-        
+
         /**
          *    Paints the end of the test with a summary of
          *    the passes and failures.
@@ -199,9 +200,9 @@
                     ", Passes: " . $this->getPassCount() .
                     ", Failures: " . $this->getFailCount() .
                     ", Exceptions: " . $this->getExceptionCount() . "\n";
-                    
+
         }
-        
+
         /**
          *    Paints the test failure as a stack trace.
          *    @param string $message        Failure message displayed in
@@ -216,7 +217,7 @@
             print "\tin " . implode("\n\tin ", array_reverse($breadcrumb));
             print "\n";
         }
-        
+
         /**
          *    Paints a PHP error or exception.
          *    @param string $message        Message is ignored.
@@ -227,7 +228,7 @@
             parent::paintException($message);
             print "Exception " . $this->getExceptionCount() . "!\n$message\n";
         }
-        
+
         /**
          *    Paints formatted text such as dumped variables.
          *    @param string $message        Text to show.
