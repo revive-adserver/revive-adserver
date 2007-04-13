@@ -5,15 +5,15 @@
 
 	<field>
 		<name>openads_generic_id</name>
-		<type>openads_int</type>
-		<length>11</length>
+		<type>openads_mediumint</type>
+		<length>9</length>
 		<notnull>true</notnull>
 		<default></default>
 	</field>
 	<field>
 		<name>openads_generic_id_inc</name>
-		<type>openads_int</type>
-		<length>11</length>
+		<type>openads_mediumint</type>
+		<length>9</length>
 		<notnull>true</notnull>
 		<default></default>
 		<autoincrement>1</autoincrement>
@@ -60,8 +60,7 @@
 	</field>
 	<field>
 		<name>openads_comments</name>
-		<type>openads_varchar</type>
-        <length>255</length>
+		<type>openads_text</type>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
@@ -100,7 +99,7 @@
 	</field>
 	<field>
 		<name>openads_permission_bitfield</name>
-		<type>openads_int</type>
+		<type>openads_mediumint</type>
 		<length>11</length>
 		<notnull>true</notnull>
 		<default>0</default>
@@ -108,21 +107,21 @@
 	<field>
 		<name>openads_language</name>
 		<type>openads_varchar</type>
-        <length>32</length>
+        <length>64</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
 		<name>openads_boolean_old</name>
-		<type>openads_varchar</type>
-        <length>1</length>
+		<type>openads_enum</type>
+        <length>'t','f'</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
 		<name>openads_boolean</name>
-		<type>openads_int</type>
-		<length>11</length>
+		<type>openads_tinyint</type>
+		<length>1</length>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
@@ -134,8 +133,7 @@
 	</field>
 	<field>
 		<name>openads_address</name>
-        <type>openads_varchar</type>
-        <length>255</length>
+        <type>openads_text</type>
 		<notnull>false</notnull>
 		<default></default>
 	</field>
