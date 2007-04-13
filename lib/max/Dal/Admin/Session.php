@@ -23,20 +23,14 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
      */
     function getSerializedSession($session_id)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $session_table_name = $conf['table']['prefix'] . $conf['table']['session'];
-        $query = "
-            SELECT
-                sessiondata
-            FROM
-                $session_table_name
-            WHERE
-                sessionid = ?
-                AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(lastused) < 3600
-            ";
-        $query_params = array($session_id);
-        $serialized_session_data = $this->oDbh->extended->getOne($query, null, $query_params);
-        return $serialized_session_data;
+        $doSession = OA_Dal::staticGetDO('session', $session_id);
+        if ($doSession) {
+            $timeLastUsed = strtotime($doSession->lastused);
+            if (time() - $timeLastUsed < 3600) {
+                return $doSession->sessiondata;
+            }
+        }
+        return false;
     }
 
     /**
@@ -70,16 +64,17 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
      */
     function storeSerializedSession($serialized_session_data, $session_id)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $session_table_name = $conf['table']['prefix'] . $conf['table']['session'];
-        $query = "
-            REPLACE INTO $session_table_name
-                (sessionid, sessiondata)
-            VALUES
-                (?, ?)
-            ";
-        $query_params = array($session_id, $serialized_session_data);
-        $this->oDbh->extended->execParam($query, $query_params);
+        $doSession = OA_Dal::staticGetDO('session', $session_id);
+        if ($doSession) {
+            $doSession->sessiondata = $serialized_session_data;
+            $doSession->update();
+        }
+        else {
+            $doSession = OA_Dal::factoryDO('session');
+            $doSession->sessionid = $session_id;
+            $doSession->sessiondata = $serialized_session_data;
+            $doSession->insert();
+        }
     }
 
     /**

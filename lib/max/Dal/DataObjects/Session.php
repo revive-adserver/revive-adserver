@@ -29,4 +29,15 @@ class DataObjects_Session extends DB_DataObjectCommon
     function sequenceKey() {
         return array(false, false, false);
     }
+    
+
+    /**
+     * Overrides _refreshUpdated() because the updated field is called 'lastused'.
+     * This method is called on insert() and update().
+     *
+     */
+    function _refreshUpdated()
+    {
+        $this->lastused = date('Y-m-d H:i:s');
+    }
 }
