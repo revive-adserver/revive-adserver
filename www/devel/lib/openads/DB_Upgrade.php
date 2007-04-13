@@ -120,8 +120,6 @@ class OA_DB_Upgrade
     function OA_DB_Upgrade()
     {
         //this->__construct();
-        $timestamp          = date('Y_m_d_h_i_s');
-        $this->logFile      = MAX_PATH . "/var/upgrade_{$this->versionTo}_{$timestamp}.log";
         $this->recoveryFile = MAX_PATH.'/var/recover.log';
 
         $result  = & MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()));
@@ -146,6 +144,10 @@ class OA_DB_Upgrade
         $this->_log('from version: '.$this->versionFrom);
         $this->_log('to version: '.$this->versionTo);
         $this->_log('timing: '.$this->timingStr);
+
+        $timestamp          = date('Y_m_d_h_i_s');
+        $this->logFile      = MAX_PATH . "/var/upgrade_{$this->versionTo}_{$timestamp}.log";
+        $this->_log('logfile: '.$this->logFile);
 
         $this->path_changes = MAX_PATH.'/etc/changes/';
         $this->file_schema  = $this->path_changes.'schema_'.$this->versionTo.'.xml';
