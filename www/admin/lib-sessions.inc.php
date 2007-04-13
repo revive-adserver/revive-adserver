@@ -104,7 +104,9 @@ function phpAds_SessionDataRegister($key, $value='')
 	} else {
 		$session[$key] = $value;
 	}
-	phpAds_SessionDataStore();
+	if ($conf['max']['installed']) {
+	   phpAds_SessionDataStore();
+	}
 }
 
 /**

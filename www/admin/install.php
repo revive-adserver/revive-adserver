@@ -153,6 +153,14 @@ if (phpAds_isUser(phpAds_Admin)) {
             $GLOBALS['_MAX']['CONF']['database']['username']  = $database_username;
             $GLOBALS['_MAX']['CONF']['database']['password']  = $database_password;
             $GLOBALS['_MAX']['CONF']['database']['name']      = $database_name;
+            
+            $table_type = trim($table_type);
+            if (empty($table_type)) {
+                unset($GLOBALS['_MAX']['CONF']['table']['type']);
+            }
+            else {
+                $GLOBALS['_MAX']['CONF']['table']['type'] = $table_type;
+            }
             $oDbh = &OA_DB::singleton();
             if (PEAR::isError($oDBH)) {
                 $errormessage[0][] = $strCouldNotConnectToDB;
@@ -160,11 +168,16 @@ if (phpAds_isUser(phpAds_Admin)) {
                 // Don't use a PEAR_Error handler
                 PEAR::pushErrorHandling(null);
                 // Get the database version number
-                $row = $oDbh->queryRow('SELECT VERSION() AS version');
-                if (PEAR::isError($row)) {
+                $version = $oDbh->queryOne('SELECT VERSION() AS version');
+                
+                if ($database_type == 'pgsql') {
+                    $version = substr($version, 11);
+                }
+                
+                if (PEAR::isError($version)) {
                     $errormessage[0][] = $strNoVersionInfo;
                 } else {
-                    if (!preg_match('/^\d+/', $row['version'], $matches)) {
+                    if (!preg_match('/^\d+/', $version, $matches)) {
                         $errormessage[0][] = $strInvalidVersionInfo;
                     } else {
                         if ($matches[0] < 4) {
@@ -182,8 +195,8 @@ if (phpAds_isUser(phpAds_Admin)) {
                             } else {
                                 $errormessage[0][] = $strCreateTableTestFailed;
                             }
-                            // Check table type
-                            if (!Max_Admin_DB::tableTypeIsSupported($table_type)) {
+                            // Check table type for mysql
+                            if ($database_type == 'mysql' && !Max_Admin_DB::tableTypeIsSupported($table_type)) {
                                 $errormessage[0][] = $strTableWrongType;
                             }
                         }

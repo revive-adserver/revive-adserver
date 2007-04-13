@@ -74,6 +74,7 @@ class Max_Admin_DB
         $types['BDB'] = 'Berkeley DB';
         $types['GEMINI'] = 'NuSphere Gemini';
         $types['INNODB'] = 'InnoDB';
+        $types[' '] = 'PostgreSQL';
         return $types;
     }
 
@@ -87,6 +88,7 @@ class Max_Admin_DB
         // These values must be the same as used for the
         // data access layer file names!
         $types['mysql'] = 'mysql';
+        $types['pgsql'] = 'pgsql';
         return $types;
     }
 

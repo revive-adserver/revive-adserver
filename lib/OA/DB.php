@@ -61,6 +61,14 @@ class OA_DB
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Get the DSN, if not set
         $dsn = is_null($dsn) ? OA_DB::getDsn() : $dsn;
+        
+        // A hack to allow for installation on pgsql
+        // If the configuration hasn't been defined prevent
+        // loading mysql MDB2 driver.
+        if (strpos($dsn, '//:@') !== false) {
+            return false;
+        }
+        
         // Create an MD5 checksum of the DSN
         $dsnMd5 = md5($dsn);
         // Does this database connection already exist?
