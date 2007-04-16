@@ -229,6 +229,15 @@ if (isset($submit))
         if ($cost_type == MAX_FINANCE_ANYVAR || $cost_type == MAX_FINANCE_VARSUM) {
             $doZones->cost_variable_id = $cost_variable_id;
         }
+        
+        // The following fields are NOT NULL but do not get values set in the form.
+        // Should these fields be changed to NULL in the schema or should they have a default value?
+        $doZones->category = '';
+        $doZones->ad_selection = '';
+        $doZones->chain = '';
+        $doZones->prepend = '';
+        $doZones->append = '';
+        
         $zoneid = $doZones->insert();
     }
 
