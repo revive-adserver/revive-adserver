@@ -321,7 +321,9 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
         // Try to delete non-existing one
         $doAgency = OA_Dal::factoryDO('agency');
+        PEAR::pushErrorHandling(null); // The operation would generate error message otherwise
         $ret = $doAgency->deleteById(null);
+        PEAR::popErrorHandling();
         $this->assertFalse($ret);
     }
 
