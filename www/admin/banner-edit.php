@@ -160,6 +160,9 @@ if (isset($submit)) {
             $aVariables['height']        = $aFile['height'];
             $aVariables['pluginversion'] = $aFile['pluginversion'];
             $editSwf                     = $aFile['editswf'];
+            
+            $aVariables['compiledlimitation'] = '';
+            $aVariables['append'] = '';
         }
     }
     if (!empty($_FILES['uploadalt']) && $replacealtimage == 't') {
