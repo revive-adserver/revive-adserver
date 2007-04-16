@@ -50,6 +50,37 @@ class OA_Dal_Maintenance_Statistics_Tracker_pgsqlSplit extends OA_Dal_Maintenanc
         parent::OA_Dal_Maintenance_Statistics_Tracker_pgsql();
     }
 
+    /**
+     * A method to find the last time that maintenance statistics was run.
+     *
+     * @param integer $type The update type that occurred - that is,
+     *                      OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI if the update was
+     *                      done on the basis of the operation interval,
+     *                      OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR if the update
+     *                      was done on the basis of the hour, or
+     *                      OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH if the update
+     *                      was done on the basis of both the operation
+     *                      interval and the hour.
+     * @param Date $oNow An optional Date, used to specify the "current time", and
+     *                   to limit the method to only look for past maintenance
+     *                   statistics runs before this date. Normally only used
+     *                   to assist with re-generation of statistics in the event
+     *                   of faulty raw tables.
+     * @return Date A Date representing the date up to which the statistics
+     *              have been summarised, for the specified update type, or
+     *              the appropriate date based on raw data if maintenance
+     *              statistics has never been run for the Max module before.
+     *              Returns null if no raw data is available.
+     */
+    function getMaintenanceStatisticsLastRunInfo($type, $oNow = null)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $table = $aConf['table']['prefix'] .
+                 $aConf['table']['data_raw_tracker_impression'] . '_' .
+                 date('Ymd');
+        return $this->_getMaintenanceStatisticsLastRunInfo($type, "Tracker", $table, $oNow);
+    }
+
 }
 
 ?>
