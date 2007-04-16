@@ -112,6 +112,7 @@ $doZones = OA_Dal::factoryDO('zones');
 $doZones->addListOrderBy($listorder, $orderdirection);
 
 $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
+$doAdZoneAssoc->selectAdd();
 $doAdZoneAssoc->selectAdd('zone_id');
 $doAdZoneAssoc->selectAdd('COUNT(*) AS num_ads');
 $doAdZoneAssoc->groupBy('zone_id');
