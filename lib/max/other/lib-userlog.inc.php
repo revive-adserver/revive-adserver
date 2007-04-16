@@ -67,17 +67,27 @@ function phpAds_userlogAdd($action, $object, $details = '')
 		$usertype = phpAds_userAdministrator;
 		$userid   = 0;
 	}
-	$res = phpAds_dbQuery("
-		INSERT INTO
-			".$conf['table']['prefix'].$conf['table']['userlog']."
-		SET
-			timestamp = ".time().",
-			usertype = '".$usertype."',
-			userid = '".$userid."',
-			action = '".$action."',
-			object = '".$object."',
-			details = '".addslashes($details)."'
-	");
+    $query = "
+        INSERT INTO
+            {$conf['table']['prefix']}{$conf['table']['userlog']}
+            (
+                timestamp,
+                usertype,
+                userid,
+                action,
+                object,
+                details
+            )
+        VALUES
+            (
+                " . time() . ",
+                '$usertype',
+                '$userid',
+                '$action',
+                '$object',
+                '" . addslashes($details) . "'
+            )";
+    $res = phpAds_dbQuery($query);
 }
 
 function phpAds_userlogSetUser ($usertype)
