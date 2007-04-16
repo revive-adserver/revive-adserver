@@ -113,6 +113,45 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsqlSplit extends OA_Dal_Maintenan
         return $rows;
     }
 
+    /**
+     * A method to update the intermediate tables with summarised data.
+     *
+     * @param PEAR::Date $oStart The start date/time to save from.
+     * @param PEAR::Date $oEnd The end date/time to save to.
+     * @param array $aActions An array of action types to summarise. Contains
+     *                        two array, the first containing the data types,
+     *                        and the second containing the connection type
+     *                        values associated with those data types, if
+     *                        appropriate. For example:
+     *          array(
+     *              'types'       => array(
+     *                                  0 => 'request',
+     *                                  1 => 'impression',
+     *                                  2 => 'click'
+     *                               ),
+     *              'connections' => array(
+     *                                  1 => MAX_CONNECTION_AD_IMPRESSION,
+     *                                  2 => MAX_CONNECTION_AD_CLICK
+     *                               )
+     *          )
+     *                      Note that the order of the items must match
+     *                      the order of the items in the database tables
+     *                      (e.g. in data_intermediate_ad and
+     *                      data_summary_ad_hourly for the above example).
+     * @param string $intermediateTable Optional name of the main intermediate table (i.e.
+     *                                  non-connections tables) to save the intermediate
+     *                                  stats into. Default is 'data_intermediate_ad'.
+     * @param boolean $saveConnections When false, connections will NOT be saved to the
+     *                                 intermediate table. Allows maintenance plugins to
+     *                                 save their data to the intermediate tables WITHOUT
+     *                                 trying to re-save the connections, should they need
+     *                                 to do so.
+     */
+    function saveIntermediate($oStart, $oEnd, $aActions, $intermediateTable = 'data_intermediate_ad', $saveConnections = true)
+    {
+        $this->_saveIntermediate($oStart, $oEnd, $aActions, $intermediateTable = 'data_intermediate_ad', $saveConnections, true);
+    }
+
 }
 
 ?>
