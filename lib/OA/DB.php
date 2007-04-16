@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once 'MDB2.php';
+require_once MAX_PATH . '/lib/Max.php';
 
 define('OA_DB_MDB2_DEFAULT_OPTIONS', MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL);
 
@@ -62,6 +63,11 @@ class OA_DB
         // Get the DSN, if not set
         $dsn = is_null($dsn) ? OA_DB::getDsn() : $dsn;
         
+        // Check that the parameter is a string, not an array
+        if (is_array($dsn)) {
+            return Max::raiseError('Bad argument: DSN should be a string', MAX_ERROR_INVALIDARGS);
+        }
+
         // A hack to allow for installation on pgsql
         // If the configuration hasn't been defined prevent
         // loading mysql MDB2 driver.
