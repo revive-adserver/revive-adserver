@@ -33,10 +33,16 @@ require_once 'Date.php';
 /**
  * A class for performing integration testing the MAX_Maintenance_Statistics_AdServer class.
  *
+ * Currently plugins such as arrivals are not tested at all. This test will fail if arrivals
+ * are installed as stats will need arrival tables along with changes to core tables. It is
+ * possible to create the arrivals tables but it is not possible to update the core tables yet.
+ * The solution at the moment is to remove the plugins/maintenance/arrivals folder and ignore
+ * the testing of arrivals.
+ *
  * @package    MaxMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
- * @TODO Update to use a mocked DAL, instead of a real database.
+ * @author     Andrew Hill <andrew.hill@openads.org>
+ * @TODO Update to use a mocked DAL, instead of a real database?
  */
 class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 {
@@ -83,33 +89,947 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
         $oTable->createTable('channel');
         $oTable->createTable('acls');
         $oTable->createTable('acls_channel');
-/*
-currently plugins such as arrivals are not tested at all
-this test will fail if arrivals are installed
-as stats will need arrival tables along with changes to core tables
-it is possible to create the arrivals tables
-but it is not possible to update the core tables yet
-the solution at the moment is to remove the plugins/maintenance/arrivals folder and ignore the testing of arrivals
-        $tables->init(MAX_PATH . '/etc/tables_core_arrivals.' . $conf['database']['type'] . '.sql');
-        $tables->createTable('data_raw_ad_arrival'); // in case arrivals is installed
-*/
 
-        // Get the data for the tests
-        include_once MAX_PATH . '/lib/max/Maintenance/data/TestOfMaintenanceStatisticsAdServer.php';
         // Insert the test data
-        $rows = $oDbh->exec(ADSERVER_FULL_TEST_BANNERS);
-        $rows = $oDbh->exec(ADSERVER_FULL_TEST_CAMPAIGNS);
-        $rows = $oDbh->exec(ADSERVER_FULL_TEST_CAMPAIGNS_TRACKERS);
-        $rows = $oDbh->exec(ADSERVER_FULL_TEST_CLIENTS);
-        $rows = $oDbh->exec(ADSERVER_FULL_TEST_AD_IMPRESSIONS);
-        $rows = $oDbh->exec(ADSERVER_FULL_TEST_AD_REQUESTS);
-        $rows = $oDbh->exec(ADSERVER_FULL_TEST_TRACKER_IMPRESSIONS);
-        $rows = $oDbh->exec(ADSERVER_FULL_TEST_TRACKERS);
-        $rows = $oDbh->exec(ADSERVER_FULL_TEST_ZONES);
-        $rows = $oDbh->exec(ADSERVER_FULL_TEST_CHANNELS);
-        $rows = $oDbh->exec(ADSERVER_FULL_TEST_CHANNELS_ACLS);
-        $rows = $oDbh->exec(ADSERVER_FULL_TEST_CHANNELS_ACLS_CHANNEL);
-        $rows = $oDbh->exec(ADSERVER_FULL_TEST_CHANNELS_BANNER);
+        $query = "
+            INSERT INTO
+                max_banners
+                (
+                    bannerid,
+                    campaignid,
+                    active,
+                    contenttype,
+                    pluginversion,
+                    storagetype,
+                    filename,
+                    imageurl,
+                    htmltemplate,
+                    htmlcache,
+                    width,
+                    height,
+                    weight,
+                    seq,
+                    target,
+                    url,
+                    alt,
+                    status,
+                    bannertext,
+                    description,
+                    autohtml,
+                    adserver,
+                    block,
+                    capping,
+                    session_capping,
+                    compiledlimitation,
+                    append,
+                    appendtype,
+                    bannertype,
+                    alt_filename,
+                    alt_imageurl,
+                    alt_contenttype
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,1,'t','',0,'html','','','<h3>Test Banner 1</h3>','<h3>Test Banner 1</h3>',0,0,1,0,'',
+            'http://example.com/','','','','Banner 1','t','',0,0,0,'','',0,0,'','',''
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,2,'t','',0,'html','','','<h3>Test Banner 2</h3>','<h3>Test Banner 2</h3>',0,0,1,0,'',
+            'http://example.com/','','','','Banner 2','t','',0,0,0,'','',0,0,'','',''
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,3,'t','',0,'html','','','<h3>Test Banner 3</h3>','<h3>Test Banner 3</h3>',0,0,1,0,'',
+            'http://example.com/','','','','Banner 3','t','',0,0,0,'','',0,0,'','',''
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4,4,'t','',0,'html','','','<h3>Test Banner 4</h3>','<h3>Test Banner 4</h3>',0,0,1,0,'',
+            'http://example.com/','','','','Banner 4','t','',0,0,0,'','',0,0,'','',''
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            5,5,'t','',0,'html','','','<h3>Test Banner 5</h3>','<h3>Test Banner 5</h3>',0,0,1,0,'',
+            'http://example.com/','','','','Banner 5','t','',0,0,0,'','',0,0,'','',''
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            6,6,'t','',0,'html','','','<h3>Test Banner 6</h3>','<h3>Test Banner 6</h3>',0,0,1,0,'',
+            'http://example.com/','','','','Banner 6','t','',0,0,0,'','',0,0,'','',''
+        );
+        $rows = $st->execute($aData);
+
+        $query = "
+            INSERT INTO
+                max_campaigns
+                (
+                    campaignid,
+                    campaignname,
+                    clientid,
+                    views,
+                    clicks,
+                    conversions,
+                    expire,
+                    activate,
+                    active,
+                    priority,
+                    weight,
+                    target_impression,
+                    target_click,
+                    target_conversion,
+                    anonymous,
+                    companion
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'text',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'text',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,'Test Advertiser 1 - Default Campaign 1',1,-1,-1,-1,$oDbh->noDateValue,$oDbh->noDateValue,'t','l',1,0,0,0,'f',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,'Test Advertiser 1 - Default Campaign 2',1,-1,-1,-1,$oDbh->noDateValue,$oDbh->noDateValue,'t','l',1,0,0,0,'f',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,'Test Advertiser 1 - Default Campaign 3',1,-1,-1,-1,$oDbh->noDateValue,$oDbh->noDateValue,'t','l',1,0,0,0,'f',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            4,'Test Advertiser 2 - Default Campaign 1',2,-1,-1,-1,$oDbh->noDateValue,$oDbh->noDateValue,'t','l',1,0,0,0,'f',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            5,'Test Advertiser 2 - Default Campaign 2',2,-1,-1,-1,$oDbh->noDateValue,$oDbh->noDateValue,'t','l',1,0,0,0,'f',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            6,'Test Advertiser 2 - Default Campaign 3',2,-1,-1,-1,$oDbh->noDateValue,$oDbh->noDateValue,'t','l',1,0,0,0,'f',0
+        );
+        $rows = $st->execute($aData);
+
+        $query = "
+            INSERT INTO
+                max_campaigns_trackers
+            VALUES
+                (?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,1,1,86400,0,1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,2,1,86400,0,1
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            3,3,1,86400,0,4
+        );
+        $rows = $st->execute($aData);
+
+        $query = "
+            INSERT INTO
+            max_clients
+            (
+                clientid,
+                agencyid,
+                clientname,
+                contact,
+                email,
+                clientusername,
+                clientpassword,
+                permissions,
+                language,
+                report,
+                reportinterval,
+                reportlastdate,
+                reportdeactivate
+            )
+        VALUES
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'integer',
+            'timestamp',
+            'text'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,0,'Test Advertiser 1','Test Contact 1','test1@example.com','','',0,'','t',7,'2004-11-26','t'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,0,'Test Advertiser 2','Test Contact 2','test2@example.com','','',0,'','t',7,'2004-11-26','t'
+        );
+        $rows = $st->execute($aData);
+
+        $query = "
+            INSERT INTO
+                max_data_raw_ad_request
+                (
+                    viewer_id,
+                    viewer_session_id,
+                    date_time,
+                    ad_id,
+                    creative_id,
+                    zone_id,
+                    channel,
+                    channel_ids,
+                    language,
+                    ip_address,
+                    host_name,
+                    country,
+                    https,
+                    domain,
+                    page,
+                    query,
+                    referer,
+                    search_term,
+                    user_agent,
+                    os,
+                    browser,
+                    max_https
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'text',
+            'integer',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',2,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',4,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:51',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:51',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',2,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',4,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',4,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+
+        $query = "
+            INSERT INTO
+                max_data_raw_ad_impression
+                (
+                    viewer_id,
+                    viewer_session_id,
+                    date_time,
+                    ad_id,
+                    creative_id,
+                    zone_id,
+                    channel,
+                    channel_ids,
+                    language,
+                    ip_address,
+                    host_name,
+                    country,
+                    https,
+                    domain,
+                    page,
+                    query,
+                    referer,
+                    search_term,
+                    user_agent,
+                    os,
+                    browser,
+                    max_https
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'text',
+            'integer',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',2,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',4,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:51',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',2,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',4,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',4,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $rows = $st->execute($aData);
+
+        $query = "
+            INSERT INTO
+                max_data_raw_tracker_impression
+                (
+                    server_raw_tracker_impression_id,
+                    server_raw_ip,
+                    viewer_id,
+                    viewer_session_id,
+                    date_time,
+                    tracker_id,
+                    channel,
+                    channel_ids,
+                    language,
+                    ip_address,
+                    host_name,
+                    country,
+                    https,
+                    domain,
+                    page,
+                    query,
+                    referer,
+                    search_term,
+                    user_agent,
+                    os,
+                    browser,
+                    max_https
+                )
+            VALUES
+                (
+                    1,
+                    'singleDB',
+                    '7030ec9e03911a66006cba951848e454',
+                    '',
+                    '2004-11-26 12:10:42',
+                    1,
+                    NULL,
+                    '|3|4|',
+                    'en-us,en',
+                    '127.0.0.1',
+                    '',
+                    '',
+                    0,
+                    'localhost',
+                    '/test.html',
+                    '',
+                    '',
+                    '',
+                    'Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1',
+                    'Linux',
+                    'Firefox',
+                    0
+                )";
+        $rows = $oDbh->exec($query);
+
+        $query = "
+            INSERT INTO
+                max_trackers
+                (
+                    trackerid,
+                    trackername,
+                    description,
+                    clientid,
+                    viewwindow,
+                    clickwindow,
+                    blockwindow,
+                    appendcode
+                )
+            VALUES
+                (
+                    1,
+                    'Test Advertiser 1 - Default Tracker',
+                    '',
+                    1,
+                    86400,
+                    0,
+                    0,
+                    ''
+                )";
+        $rows = $oDbh->exec($query);
+
+        $query = "
+            INSERT INTO
+                max_zones
+                (
+                    zoneid,
+                    affiliateid,
+                    zonename,
+                    description,
+                    delivery,
+                    zonetype,
+                    category,
+                    width,
+                    height,
+                    ad_selection,
+                    chain,
+                    prepend,
+                    append,
+                    appendtype,
+                    forceappend,
+                    inventory_forecast_type
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'integer',
+            'integer',
+            'text',
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,1,'Test Publisher 1 - Default','',0,3,'',-1,-1,'','','','',0,'f',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,2,'Test Publisher 2 - Default','',0,3,'',-1,-1,'','','','',0,'f',0
+        );
+        $rows = $st->execute($aData);
+
+        $query = "
+            INSERT INTO
+                max_channel
+                (
+                    channelid,
+                    agencyid,
+                    affiliateid,
+                    name,
+                    description,
+                    compiledlimitation,
+                    acl_plugins,
+                    active,
+                    comments,
+                    updated,
+                    acls_updated
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'timestamp',
+            'timestamp'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,0,1,'Test Channel - Page Url','','MAX_checkSite_Pageurl(\'example\', \'=~\')','Site:Pageurl',1,'',$oDbh->noDateValue,'2007-01-08 12:09:17'
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,0,1,'Test Channel - Referrer','Test Channel - referrer = www.referrer.com','MAX_checkSite_Referingpage(\'refer.com\', \'=~\')','Site:Referingpage',1,'',$oDbh->noDateValue,'2007-01-08 12:32:27'
+        );
+        $rows = $st->execute($aData);
+
+        $query = "
+            INSERT INTO
+                max_acls
+                (
+                    bannerid,
+                    logical,
+                    type,
+                    comparison,
+                    data,
+                    executionorder
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            7,'and','Site:Channel','==','1',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            7,'and','Site:Channel','==','2',1
+        );
+        $rows = $st->execute($aData);
+
+        $query = "
+            INSERT INTO
+                max_acls_channel
+                (
+                    channelid,
+                    logical,
+                    type,
+                    comparison,
+                    data,
+                    executionorder
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            1,'and','Site:Pageurl','=~','example',0
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            2,'and','Site:Referingpage','=~','refer.com',0
+        );
+        $rows = $st->execute($aData);
+
+        $query = "
+            INSERT INTO
+                max_banners
+                (
+                    bannerid,
+                    campaignid,
+                    active,
+                    contenttype,
+                    pluginversion,
+                    storagetype,
+                    filename,
+                    imageurl,
+                    htmltemplate,
+                    htmlcache,
+                    width,
+                    height,
+                    weight,
+                    seq,
+                    target,
+                    url,
+                    alt,
+                    status,
+                    bannertext,
+                    description,
+                    autohtml,
+                    adserver,
+                    block,
+                    capping,
+                    session_capping,
+                    compiledlimitation,
+                    acl_plugins,
+                    append,
+                    appendtype,
+                    bannertype,
+                    alt_filename,
+                    alt_imageurl,
+                    alt_contenttype
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            7,
+            6,
+            't',
+            '',
+            0,
+            'html',
+            '',
+            '',
+            '<h3>Test Banner 7</h3>',
+            '<h3>Test Banner 7</h3>',
+            0,
+            0,
+            1,
+            0,
+            '',
+            'http://example.com/',
+            '',
+            '',
+            '',
+            'Banner 7',
+            't',
+            '',
+            0,
+            0,
+            0,
+            '(MAX_checkSite_Channel(\'1\', \'==\')) and (MAX_checkSite_Channel(\'2\', \'==\'))',
+            'Site:Channel',
+            '',
+            0,
+            0,
+            '',
+            '',
+            ''
+        );
+        $rows = $st->execute($aData);
+
         // Set up the config as desired for testing
         $conf['maintenance']['operationInterval'] = 60;
         $conf['maintenance']['compactStats'] = false;
