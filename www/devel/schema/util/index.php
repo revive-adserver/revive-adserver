@@ -1,13 +1,10 @@
 <?php
 
-require_once 'init.php';
-
-//require_once '../../../../init.php';
-//define('MAX_DEV', MAX_PATH.'/www/devel');
+require_once './init.php';
 
 
 
-$htmlfile = 'index.html';
+$htmlfile = './tpl/index.html';
 
 if (array_key_exists('dump', $_POST) ||
     array_key_exists('diff', $_POST) ||
@@ -22,7 +19,12 @@ if (array_key_exists('dump', $_POST) ||
                      );
 
     $GLOBALS['_MAX']['CONF']['database']['type'] = $dsn['phptype'];
-    $mdb = &OA_DB::singleton($dsn);
+	
+	// Use a conf-like array to genarate a string DSN
+	$aConf = array('database' => $dsn);
+	$aConf['database']['type'] = $aConf['database']['phptype'];
+	
+    $mdb = &OA_DB::singleton(OA_DB::getDsn($aConf));
 
     $options = array(   'force_defaults'=>false,
                      );
