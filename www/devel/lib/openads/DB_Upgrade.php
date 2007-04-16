@@ -135,7 +135,20 @@ class OA_DB_Upgrade
         }
     }
 
-    function init($timing='constructive', $versionTo, $versionFrom='')
+    /**
+     * initialises the class     *
+     * configures filenames
+     * checks that files exist
+     * checks that files can be parsed
+     * creates the audit table if not found
+     *
+     * @param string $timing : 'constructive', 'destructive', other...
+     * @param string $schema : 'tables_core'...
+     * @param string $versionTo
+     * @param string $versionFrom
+     * @return boolean
+     */
+    function init($timing='constructive', $schema, $versionTo, $versionFrom='')
     {
         $this->versionFrom  = ($versionFrom ? $versionFrom : 1);
         $this->versionTo    = $versionTo;
@@ -150,9 +163,9 @@ class OA_DB_Upgrade
         $this->_log('logfile: '.$this->logFile);
 
         $this->path_changes = MAX_PATH.'/etc/changes/';
-        $this->file_schema  = $this->path_changes.'schema_'.$this->versionTo.'.xml';
-        $this->file_changes = $this->path_changes.'changes_'.$this->versionTo.'.xml';
-        $this->file_migrate = $this->path_changes.'migration_'.$this->versionTo.'.php';
+        $this->file_schema  = "{$this->path_changes}schema_{$schema}_{$this->versionTo}.xml";
+        $this->file_changes  = "{$this->path_changes}changes_{$schema}_{$this->versionTo}.xml";
+        $this->file_migrate  = "{$this->path_changes}migration_{$schema}_{$this->versionTo}.php";
 
         if (!file_exists($this->file_schema))
         {
@@ -252,7 +265,6 @@ class OA_DB_Upgrade
      */
     function upgrade()
     {
-        //$this->aDefinitionOld = $this->oSchema->getDefinitionFromDatabase();
         $this->_log('verifying '.$timing.' changes');
         $result = $this->oSchema->verifyAlterDatabase($this->aChanges[$this->timingStr]);
         if (!$this->_isPearError($result, 'VERIFICATION FAILED'))

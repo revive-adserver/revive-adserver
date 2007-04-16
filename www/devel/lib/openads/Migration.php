@@ -1,4 +1,34 @@
 <?php
+/*
++---------------------------------------------------------------------------+
+| Max Media Manager v0.3                                                    |
+| =================                                                         |
+|                                                                           |
+| Copyright (c) 2003-2006 m3 Media Services Limited                         |
+| For contact details, see: http://www.m3.net/                              |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+/**
+ * Openads Schema Management Utility
+ *
+ * @author Monique Szpak <monique.szpak@openads.org>
+ *
+ * $Id$
+ *
+ */
 
 require_once('MDB2.php');
 
@@ -13,6 +43,8 @@ class Migration
 
     var $aTaskList_constructive;
     var $aTaskList_destructive;
+
+    var $aSQLStatements = array();
 
     var $oDBH;
 
@@ -33,6 +65,25 @@ class Migration
     function logEvent($event, $params=array())
     {
 
+    }
+
+    function _setupSQLStatements()
+    {
+        switch ($this->oSchema->db->dbsyntax)
+        {
+            case 'mysql':
+                $engine = $this->oSchema->db->getOption('default_table_type');
+                $this->aSQLStatements['table_copy']     = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
+                $this->aSQLStatements['table_rename']   = "RENAME TABLE %s TO %s";
+                break;
+            case 'pgsql':
+                $this->aSQLStatements['table_copy']     = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s"';
+                $this->aSQLStatements['table_rename']   = 'ALTER TABLE "%s" RENAME TO "%s"';
+                break;
+            default:
+                '';
+                break;
+        }
     }
 
     /**
@@ -188,6 +239,7 @@ class Migration
     {
         return true;
     }
+
 }
 
 ?>

@@ -33,6 +33,12 @@
 require_once '../../../init.php';
 define('MAX_DEV', MAX_PATH.'/www/devel');
 
+if (array_key_exists('btn_changeset_archive', $_POST))
+{
+    header('Location: archive.php');
+    exit;
+}
+
 require_once 'oaSchema.php';
 
 if ( array_key_exists('xml_file', $_POST) && (!empty($_POST['xml_file'])) )
@@ -66,12 +72,7 @@ if (($aErrs = $oaSchema->checkPermissions()) !== true) {
 
 require_once MAX_DEV.'/lib/xajax.inc.php';
 
-if (array_key_exists('btn_changeset_archive', $_POST))
-{
-    header('Location: archive.php');
-    exit;
-}
-else if (array_key_exists('btn_copy_final', $_POST))
+if (array_key_exists('btn_copy_final', $_POST))
 {
     $oaSchema->createTransitional();
 }

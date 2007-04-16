@@ -282,21 +282,23 @@ class Openads_Schema_Manager
 
             $this->parseWorkingDefinitionFile();
             $this->version =  ($version ? $version : $this->version);
+            $basename = $this->_getBasename();
             $this->aDB_definition['version'] =  $this->version;
             if ($result)
             {
                 $this->aDump_options['custom_tags']['status']='final';
-
-                $this->changes_final = $this->path_changes_final.'changes_'.$this->version.'.xml';
+                $this->changes_final = $this->path_changes_final.'changes_'.$basename.'.xml';
                 $result = $this->createChangeset($this->changes_final, $comments, $version);
                 if ($result)
                 {
                     if ($result)
                     {
-                        $this->_generateDataObjects($this->changes_final);
+                        $this->_generateDataObjects($this->changes_final, $basename);
                         $result = $this->writeWorkingDefinitionFile($this->schema_final);
-                        $schema = $this->path_changes_final.'schema_'.$this->version.'.xml';
+                        $schema = $this->path_changes_final.'schema_'.$basename.'.xml';
                         $result = $this->writeWorkingDefinitionFile($schema);
+//                        copy($schema, $this->path_changes_final.basename($schema));
+//                        unlink($schema);
                     }
                 }
                 if ($result && $this->use_links)
@@ -314,6 +316,23 @@ class Openads_Schema_Manager
             $this->deleteTransitional();
         }
         return $result;
+    }
+
+    /**
+     * take the name of the final schema
+     * insert the version number
+     * return the basename
+     *
+     * this is used as the basis of all output files
+     *
+     * note: schema_final should never point to a *copy* of the final file
+     * i.e. should be tables_core.xml NOT tables_core_2.xml
+     *
+     * @return string
+     */
+    function _getBasename()
+    {
+        return basename(str_replace('.xml', '_'.$this->version,$this->schema_final));
     }
 
     /**
@@ -1202,12 +1221,14 @@ class Openads_Schema_Manager
         $buffer = str_replace('/*tasklist*/', $task_buffer, $buffer);
         $buffer = str_replace('/*objectmap*/', $map_buffer, $buffer);
 
-        $file = "migration_{$aChanges['version']}.php";
-        if (!$output_path)
-        {
-            $output_path = $this->path_changes_trans;
-        }
-        $fp = fopen($output_path.$file, 'w');
+        //$file = "migration_{$aChanges['version']}.php";
+        $file = str_replace('changes_','migration_',$file_changes);
+        $file = str_replace('xml','php',$file);
+//        if (!$output_path)
+//        {
+//            $output_path = $this->path_changes_trans;
+//        }
+        $fp = fopen($file, 'w');
         if ($fp === false)
         {
             return PEAR::raiseError(MDB2_SCHEMA_ERROR_WRITER, null, null,
@@ -1366,7 +1387,7 @@ class Openads_Schema_Manager
      * rebuild the db_DataObject classes
      *
      */
-    function _generateDataObjects($changes_file)
+    function _generateDataObjects($changes_file, $basename)
     {
         $aChanges = $this->oSchema->parseChangesetDefinitionFile($changes_file);
 
@@ -1394,8 +1415,8 @@ class Openads_Schema_Manager
             }
             $include.= $table;
         }
-
-        $path_dbo =  $this->path_dbo.$this->version;
+        //$path_dbo = $this->path_dbo.str_replace('.xml', '_'.$this->version,basename($this->schema_final));
+        $path_dbo =  $this->path_dbo.$basename;
 
         if (!dir($path_dbo))
         {

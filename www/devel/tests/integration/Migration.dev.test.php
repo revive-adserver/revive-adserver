@@ -1,4 +1,5 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
 | Max Media Manager v0.3                                                    |
@@ -21,87 +22,57 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id $
 */
 
+
+//require_once MAX_PATH.'/lib/OA/DB.php';
+//require_once MAX_PATH.'/lib/OA/DB/Table.php';
+//
+//require_once MAX_PATH.'/www/devel/lib/openads/DB_Upgrade.php';
+require_once MAX_PATH.'/www/devel/lib/openads/Migration.php';
+
+
 /**
- * A quick and dirty script
- * to execute incremental upgrades from within a browser
- * using the /lib/max/Admin/Upgrade.php class
- * Doesn't look pretty!
- * but it does output error messages
- * and updates the schema version variable
- * as it goes along
- * Uses a crude "template" system
+ * A class for testing the Openads_DB_Upgrade class.
+ *
+ * @package    Openads Upgrade
+ * @subpackage TestSuite
+ * @author     Monique Szpak <monique.szpak@openads.org>
  */
-
-require_once '../../../init.php';
-define('MAX_DEV', MAX_PATH.'/www/devel');
-
-// Required files
-require_once MAX_DEV.'/lib/pear.inc.php';
-require_once 'MDB2.php';
-require_once 'MDB2/Schema.php';
-require_once 'Config.php';
-require_once MAX_PATH.'/lib/OA/DB.php';
-require_once MAX_DEV.'/lib/openads/DB_Upgrade.php';
-
-$welcome = false;
-$backup  = false;
-$upgrade = false;
-
-$version = 2;
-$timing = 'constructive';
-$schema = 'tables_core';
-
-//$version = 3;
-//$timing = 'constructive';
-
-//$version = 4;
-//$timing = 'constructive';
-
-//$version = 5;
-//$timing = 'destructive';
-
-//$version = 6;
-//$timing = 'destructive';
-
-$oUpgrade = new OA_DB_Upgrade();
-
-if ($oUpgrade->_seekRecoveryFile())
+class Test_Migration extends UnitTestCase
 {
-    $oUpgrade->_prepRecovery();
-    include 'tpl/upgrade.html';
-}
-else if (array_key_exists('btn_initialise', $_REQUEST))
-{
-    $oUpgrade->init($timing, $schema, $version);
-//    $backup = true;
-    $upgrade = true;
-    include 'tpl/upgrade.html';
-}
-else if (array_key_exists('btn_backup', $_REQUEST))
-{
-    $oUpgrade->init($timing, $schema, $version);
-    $oUpgrade->backup();
-    $upgrade = true;
-    include 'tpl/upgrade.html';
-}
-else if (array_key_exists('btn_upgrade', $_POST))
-{
-    if ($oUpgrade->init($timing, $schema, $version))
+
+    var $path;
+
+    var $aChangesVars;
+    var $aOptions;
+
+    /**
+     * The constructor method.
+     */
+    function Test_Migration()
     {
-        $oUpgrade->upgrade();
-    }
-    include 'tpl/upgrade.html';
-}
-else
-{
-    $welcome = true;
-    include 'tpl/upgrade.html';
-}
+        $this->UnitTestCase();
 
+        $this->aChangesVars['version']       = '2';
+        $this->aChangesVars['name']          = 'changes_test';
+        $this->aChangesVars['comments']      = '';
+        $this->aOptions['split']             = true;
+        $this->aOptions['output']            = MAX_PATH.'/var/changes_test.xml';
+        $this->aOptions['xsl_file']          = "";
+        $this->aOptions['output_mode']       = 'file';
+    }
+
+    function test_copyColumnData()
+    {
+        $oMigration = new Migration();
+    }
+
+    function test_copyTableData()
+    {
+        $oMigration = new Migration();
+    }
+}
 
 ?>
-
-

@@ -49,8 +49,7 @@ function loadChangeset()
         $opts = '<option value="" selected="selected"></option>';
         while (false !== ($file = readdir($dh)))
         {
-            //if (strpos($file, '.xml')>0)
-            if (preg_match('/changes_[\d]+\.xml/', $file, $aMatches))
+            if (preg_match('/changes_[\w\W]+_[\d]+\.xml/', $file, $aMatches))
             {
                 $aFiles[$file] = '';
             }

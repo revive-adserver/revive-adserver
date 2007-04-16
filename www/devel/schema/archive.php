@@ -32,26 +32,34 @@
 
 function getLastChangeset()
 {
-    $opts = '';
     $dh = opendir(MAX_CHG);
     if ($dh) {
         while (false !== ($file = readdir($dh)))
         {
-            //if (strpos($file, '.xml')>0)
-            if (preg_match('/changes_[\d]+\.xml/', $file, $aMatches))
+            $aMatches = array();
+            if (preg_match('/changes_[\w\W]+_[\d]+\.xml/', $file, $aMatches))
             {
-                return $file;
+                $aFiles[] = $file;
             }
         }
-        closedir($dh);
+        krsort($aFiles);
+        if (count($aFiles)>0)
+        {
+            $result = $aFiles[0];
+        }
+        else
+        {
+            $result = false;
+        }
     }
-    return false;
+    closedir($dh);
+    return $result;
 }
 
 function getChangesFile()
 {
     $changesFile = $_COOKIE['changesetFile'];
-    if (!$changesFile)
+    if ((!$changesFile) || (!file_exists(MAX_CHG.$changesFile)))
     {
         $changesFile = MAX_PATH.'/var/changes_tables_core.xml';
     }
@@ -162,7 +170,9 @@ else if (array_key_exists('btn_table_save', $_POST))
     }
     else
     {
-        $schemaFile = 'changes/'.str_replace('changes_', 'schema_', $changesFile);
+        //$schemaFile = MAX_CHG.str_replace('changes_', 'schema_', $changesFile);
+//        $schemaFile = MAX_PATH.'/etc/'.$schemaFile;
+//        $schemaFile = MAX_PATH.'/etc/'.$schemaFile;
     }
 
     require_once 'oaSchema.php';
@@ -177,7 +187,7 @@ else if (array_key_exists('btn_table_save', $_POST))
     $table_name_was = $_POST['tbl_new_name'];
     $oaSchema->tableWasSave(MAX_CHG.$changesFile, $table_name, $table_name_was);
 
-    $file = $schemaFile;
+    $file = MAX_CHG.$changesFile;
 }
 else
 {
@@ -199,9 +209,9 @@ if ($file && file_exists($file))
 }
 else
 {
-    //    echo 'Error reading file: '.MAX_CHG.$file;
-    header('Location: index.php');
-    exit;
-
+    echo 'archive.php: error reading '.$file;
+//    header('Location: index.php');
+//    exit;
 }
+
 ?>
