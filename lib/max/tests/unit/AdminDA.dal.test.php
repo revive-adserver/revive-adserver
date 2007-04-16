@@ -1050,6 +1050,13 @@ class Admin_DaTest extends DalUnitTestCase
         */
         $this->assertTrue(is_array($aZone2[$ret]));
         $this->assertEqual($aZone1, $aZone2[$ret]);
+        
+        $zoneId = $this->newZone();
+        $doZones = OA_DAL::staticGetDO('zones', $zoneId);
+        $doZones->inventory_forecast_type = 5;
+        $doZones->update();
+        $aZone = Admin_DA::getZones(array('zone_inventory_forecast_type' => 1));
+        $this->assertTrue($aZone); // The returned zone isn't null or false or empty.
     }
 
     function testDuplicateZone()

@@ -731,7 +731,7 @@ class SqlBuilder
                 $aLimitations[] = "$columnName != $value";
                 break;
             case MAX_LIMITATION_BITWISE:
-                $aLimitations[] = "$columnName & $value";
+                $aLimitations[] = "($columnName & $value > 0)";
                 break;
             default:
                 $aLimitations[] = "$columnName = $value";
