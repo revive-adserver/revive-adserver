@@ -7203,7 +7203,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             'integer',
             'integer',
             'integer',
-            'text'
+            'float'
         );
         $stDIA = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
@@ -7434,29 +7434,41 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 banners
                 (
                     bannerid,
-                    campaignid
+                    campaignid,
+                    htmltemplate,
+                    htmlcache,
+                    url,
+                    bannertext,
+                    compiledlimitation,
+                    append
                 )
             VALUES
-                (?, ?)";
+                (?, ?, ?, ?, ?, ?, ?, ?)";
         $aTypes = array(
             'integer',
-            'integer'
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text'
         );
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            1, 1
+            1, 1, '', '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            2, 2
+            2, 2, '', '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            3, 3
+            3, 3, '', '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            4, 3
+            4, 3, '', '', '', '', '', ''
         );
         $rows = $st->execute($aData);
     }
@@ -7474,38 +7486,50 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             INSERT INTO
                 zones
                 (
-                    zoneid, cost, cost_type
+                    zoneid,
+                    cost,
+                    cost_type,
+                    category,
+                    ad_selection,
+                    chain,
+                    prepend,
+                    append
                 )
             VALUES
-                (?, ?, ?)";
+                (?, ?, ?, ?, ?, ?, ?, ?)";
         $aTypes = array(
             'integer',
             'float',
-            'integer'
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text'
         );
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            1, 20, MAX_FINANCE_CPM
+            1, 20, MAX_FINANCE_CPM, '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            2, 1, MAX_FINANCE_CPC
+            2, 1, MAX_FINANCE_CPC, '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            3, 2, MAX_FINANCE_CPA
+            3, 2, MAX_FINANCE_CPA, '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            4, 50, MAX_FINANCE_RS
+            4, 50, MAX_FINANCE_RS, '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            5, 5, MAX_FINANCE_BV
+            5, 5, MAX_FINANCE_BV, '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            6, 0.5, MAX_FINANCE_AI
+            6, 0.5, MAX_FINANCE_AI, '', '', '', '', ''
         );
         $rows = $st->execute($aData);
     }
@@ -7888,91 +7912,108 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         );
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            1, 'Test Campaign 1', 1, -1, -1, -1, '0000-00-00', '0000-00-00', 't'
+            1, 'Test Campaign 1', 1, -1, -1, -1, $oDbh->noDateValue, $oDbh->noDateValue, 't'
         );
         $rows = $st->execute($aData);
         $aData = array(
-            2, 'Test Campaign 2', 1, 10, -1, -1, '0000-00-00', '0000-00-00', 't'
+            2, 'Test Campaign 2', 1, 10, -1, -1, $oDbh->noDateValue, $oDbh->noDateValue, 't'
         );
         $rows = $st->execute($aData);
         $aData = array(
-            3, 'Test Campaign 3', 1, -1, 10, -1, '0000-00-00', '0000-00-00', 't'
+            3, 'Test Campaign 3', 1, -1, 10, -1, $oDbh->noDateValue, $oDbh->noDateValue, 't'
         );
         $rows = $st->execute($aData);
         $aData = array(
-            4, 'Test Campaign 4', 1, -1, -1, 10, '0000-00-00', '0000-00-00', 't'
+            4, 'Test Campaign 4', 1, -1, -1, 10, $oDbh->noDateValue, $oDbh->noDateValue, 't'
         );
         $rows = $st->execute($aData);
         $aData = array(
-            5, 'Test Campaign 5', 1, 10, 10, 10, '0000-00-00', '0000-00-00', 't'
+            5, 'Test Campaign 5', 1, 10, 10, 10, $oDbh->noDateValue, $oDbh->noDateValue, 't'
         );
         $rows = $st->execute($aData);
         $aData = array(
-            6, 'Test Campaign 6', 1, -1, -1, -1, '2004-06-06', '0000-00-00', 't'
+            6, 'Test Campaign 6', 1, -1, -1, -1, '2004-06-06', $oDbh->noDateValue, 't'
         );
         $rows = $st->execute($aData);
         $aData = array(
-            7, 'Test Campaign 7', 1, -1, -1, -1, '0000-00-00', '2004-06-06', 'f'
+            7, 'Test Campaign 7', 1, -1, -1, -1, $oDbh->noDateValue, '2004-06-06', 'f'
         );
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
                 clients
                 (
-                    clientid, contact, email
+                    clientid,
+                    contact,
+                    email
                 )
             VALUES
                 (
-                    1, 'Test Contact', 'postmaster@localhost'
+                    1,
+                    'Test Contact',
+                    'postmaster@localhost'
                 )";
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 banners
                 (
-                    bannerid, campaignid
+                    bannerid,
+                    campaignid,
+                    htmltemplate,
+                    htmlcache,
+                    url,
+                    bannertext,
+                    compiledlimitation,
+                    append
                 )
             VALUES
-                (?, ?)";
+                (?, ?, ?, ?, ?, ?, ?, ?)";
         $aTypes = array(
             'integer',
-            'integer'
+            'integer',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text',
+            'text'
         );
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            1, 1
+            1, 1, '', '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            2, 2
+            2, 2, '', '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            3, 2
+            3, 2, '', '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            4, 2
+            4, 2, '', '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            5, 3
+            5, 3, '', '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            6, 4
+            6, 4, '', '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            7, 5
+            7, 5, '', '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            8, 6
+            8, 6, '', '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            9, 7
+            9, 7, '', '', '', '', '', ''
         );
         $rows = $st->execute($aData);
         // Test with no summarised data
@@ -7988,8 +8029,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], -1);
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], -1);
-        $this->assertEqual($aRow['expire'], '0000-00-00');
-        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
         $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
@@ -8002,8 +8043,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], 10);
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], -1);
-        $this->assertEqual($aRow['expire'], '0000-00-00');
-        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
         $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
@@ -8016,8 +8057,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], -1);
         $this->assertEqual($aRow['clicks'], 10);
         $this->assertEqual($aRow['conversions'], -1);
-        $this->assertEqual($aRow['expire'], '0000-00-00');
-        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
         $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
@@ -8030,8 +8071,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], -1);
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], 10);
-        $this->assertEqual($aRow['expire'], '0000-00-00');
-        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
         $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
@@ -8044,8 +8085,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], 10);
         $this->assertEqual($aRow['clicks'], 10);
         $this->assertEqual($aRow['conversions'], 10);
-        $this->assertEqual($aRow['expire'], '0000-00-00');
-        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
         $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
@@ -8059,7 +8100,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], -1);
         $this->assertEqual($aRow['expire'], '2004-06-06');
-        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
         $this->assertEqual($aRow['active'], 'f');
         $query = "
             SELECT
@@ -8072,7 +8113,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], -1);
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], -1);
-        $this->assertEqual($aRow['expire'], '0000-00-00');
+        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
         $this->assertEqual($aRow['activate'], '2004-06-06');
         $this->assertEqual($aRow['active'], 't');
         // Insert the summary test data - Part 1
@@ -8080,13 +8121,28 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             INSERT INTO
                 data_intermediate_ad
                 (
-                    interval_start, interval_end, ad_id, impressions, clicks, conversions
+                    operation_interval,
+                    operation_interval_id,
+                    interval_start,
+                    interval_end,
+                    hour,
+                    ad_id,
+                    creative_id,
+                    zone_id,
+                    impressions,
+                    clicks,
+                    conversions
                 )
             VALUES
-                (?, ?, ?, ?, ?, ?)";
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $aTypes = array(
+            'integer',
+            'integer',
             'timestamp',
             'timestamp',
+            'integer',
+            'integer',
+            'integer',
             'integer',
             'integer',
             'integer',
@@ -8094,35 +8150,35 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         );
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            '2004-06-06 17:00:00', '2004-06-06 17:59:59', 1, 1, 1, 1
+            60, 17, '2004-06-06 17:00:00', '2004-06-06 17:59:59', 17, 1, 0, 0, 1, 1, 1
         );
         $rows = $st->execute($aData);
         $aData = array(
-            '2004-06-06 17:00:00', '2004-06-06 17:59:59', 2, 1, 1, 1
+            60, 17, '2004-06-06 17:00:00', '2004-06-06 17:59:59', 17, 2, 0, 0, 1, 1, 1
         );
         $rows = $st->execute($aData);
         $aData = array(
-            '2004-06-06 17:00:00', '2004-06-06 17:59:59', 3, 1, 0, 0
+            60, 17, '2004-06-06 17:00:00', '2004-06-06 17:59:59', 17, 3, 0, 0, 1, 0, 0
         );
         $rows = $st->execute($aData);
         $aData = array(
-            '2004-06-06 17:00:00', '2004-06-06 17:59:59', 4, 8, 0, 0
+            60, 17, '2004-06-06 17:00:00', '2004-06-06 17:59:59', 17, 4, 0, 0, 8, 0, 0
         );
         $rows = $st->execute($aData);
         $aData = array(
-            '2004-06-06 17:00:00', '2004-06-06 17:59:59', 5, 1000, 5, 1000
+            60, 17, '2004-06-06 17:00:00', '2004-06-06 17:59:59', 17, 5, 0, 0, 1000, 5, 1000
         );
         $rows = $st->execute($aData);
         $aData = array(
-            '2004-06-06 17:00:00', '2004-06-06 17:59:59', 6, 1000, 1000, 1000
+            60, 17, '2004-06-06 17:00:00', '2004-06-06 17:59:59', 17, 6, 0, 0, 1000, 1000, 1000
         );
         $rows = $st->execute($aData);
         $aData = array(
-            '2004-06-06 17:00:00', '2004-06-06 17:59:59', 7, 2, 4, 6
+            60, 17, '2004-06-06 17:00:00', '2004-06-06 17:59:59', 17, 7, 2, 0, 0, 4, 6
         );
         $rows = $st->execute($aData);
         $aData = array(
-            '2004-06-06 17:00:00', '2004-06-06 17:59:59', 8, 2, 4, 6
+            60, 17, '2004-06-06 17:00:00', '2004-06-06 17:59:59', 17, 8, 2, 0, 0, 4, 6
         );
         $rows = $st->execute($aData);
         // Test with summarised data
@@ -8138,8 +8194,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], -1);
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], -1);
-        $this->assertEqual($aRow['expire'], '0000-00-00');
-        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
         $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
@@ -8152,8 +8208,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], 10);
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], -1);
-        $this->assertEqual($aRow['expire'], '0000-00-00');
-        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
         $this->assertEqual($aRow['active'], 'f');
         $query = "
             SELECT
@@ -8166,8 +8222,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], -1);
         $this->assertEqual($aRow['clicks'], 10);
         $this->assertEqual($aRow['conversions'], -1);
-        $this->assertEqual($aRow['expire'], '0000-00-00');
-        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
         $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
@@ -8180,8 +8236,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], -1);
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], 10);
-        $this->assertEqual($aRow['expire'], '0000-00-00');
-        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
         $this->assertEqual($aRow['active'], 'f');
         $query = "
             SELECT
@@ -8194,8 +8250,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], 10);
         $this->assertEqual($aRow['clicks'], 10);
         $this->assertEqual($aRow['conversions'], 10);
-        $this->assertEqual($aRow['expire'], '0000-00-00');
-        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
         $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
@@ -8209,7 +8265,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], -1);
         $this->assertEqual($aRow['expire'], '2004-06-06');
-        $this->assertEqual($aRow['activate'], '0000-00-00');
+        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
         $this->assertEqual($aRow['active'], 'f');
         $query = "
             SELECT
@@ -8222,7 +8278,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], -1);
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], -1);
-        $this->assertEqual($aRow['expire'], '0000-00-00');
+        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
         $this->assertEqual($aRow['activate'], '2004-06-06');
         $this->assertEqual($aRow['active'], 't');
         TestEnv::rollbackTransaction();
@@ -8276,30 +8332,52 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 banners
                     (
                         bannerid,
-                        campaignid
+                        campaignid,
+                        htmltemplate,
+                        htmlcache,
+                        url,
+                        bannertext,
+                        compiledlimitation,
+                        append
                     )
                 VALUES
                     (
                         1,
-                        1
+                        1,
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        ''
                     )";
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
                 data_intermediate_ad
                     (
+                        operation_interval,
+                        operation_interval_id,
                         interval_start,
                         interval_end,
+                        hour,
                         ad_id,
+                        creative_id,
+                        zone_id,
                         impressions,
                         clicks,
                         conversions
                     )
                 VALUES
                     (
+                        60,
+                        25,
                         '2005-12-08 00:00:00',
                         '2004-12-08 00:59:59',
+                        0,
                         1,
+                        0,
+                        0,
                         100,
                         1,
                         0
@@ -8373,35 +8451,59 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             INSERT INTO
                 $table
                 (
+                    ad_id,
+                    creative_id,
+                    zone_id,
                     date_time
                 )
             VALUES
-                (?)";
+                (?, ?, ?, ?)";
         $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
             'timestamp'
         );
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
+            0,
+            0,
+            0,
             '2004-06-06 18:00:00'
         );
         $rows = $st->execute($aData);
         $aData = array(
+            0,
+            0,
+            0,
             '2004-06-06 17:59:59'
         );
         $rows = $st->execute($aData);
         $aData = array(
+            0,
+            0,
+            0,
             '2004-06-06 17:00:00'
         );
         $rows = $st->execute($aData);
         $aData = array(
+            0,
+            0,
+            0,
             '2004-06-06 16:59:59'
         );
         $rows = $st->execute($aData);
         $aData = array(
+            0,
+            0,
+            0,
             '2004-06-06 16:00:00'
         );
         $rows = $st->execute($aData);
         $aData = array(
+            0,
+            0,
+            0,
             '2004-06-06 15:59:59'
         );
         $rows = $st->execute($aData);
