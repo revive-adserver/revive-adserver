@@ -211,48 +211,6 @@ function get_var_config_files()
     return $aFiles;
 }
 
-function db_connect($dbConf)
-{
-    $dbPort     = isset($dbConf['port']) ? $dbConf['port'] : 3306;
-    $dbHost     = $dbPort != 3306 ? $dbConf['host'].':'.$dbPort : $dbConf['host'];
-    $dbUser     = $dbConf['username'];
-    $dbPassword = $dbConf['password'];
-    $dbName     = $dbConf['name'];
-    $dbLink     = @mysql_connect($dbHost, $dbUser, $dbPassword);
-    if (@mysql_select_db($dbName, $dbLink)) {
-        return $dbLink;
-    }
-    return false;
-}
-
-//function list_tables_like($dbh, $type)
-//{
-//    $query = 'SHOW TABLES LIKE "%'.$type.'%"';
-//    $res = mysql_query($query, $dbh);
-//    while ($tbl = mysql_fetch_row($res))
-//    {
-//    	$aTables[] = $tbl[0];;
-//    }
-//    return $aTables;
-//}
-
-//function list_tables($dbh, $name)
-//{
-//    $res = mysql_list_tables($name, $dbh);
-//    while ($tbl = mysql_fetch_row($res))
-//    {
-//    	$aTables[] = $tbl[0];
-//    }
-//    return $aTables;
-//}
-
-//function list_data_log_tables($dbh, $conf)
-//{
-//    $aData  = list_tables_like($dbh, $conf['simdb']['prefix'].'data_');
-//    $aLog   = list_tables_like($dbh, $conf['simdb']['prefix'].'log_');
-//    $aTables = array_merge($aData, $aLog);
-//    return $aTables;
-//}
 
 function list_core_tables()
 {
@@ -306,13 +264,9 @@ function list_maint_tables()
 
 function get_max_version($dbh, $conf)
 {
-    $result = '';
     $query = "SELECT value FROM {$conf['table']['prefix']}application_variable WHERE name ='max_version'";
-    $res = mysql_query($query, $dbh);
-    while ($val = mysql_fetch_row($res))
-    {
-    	$result = $val[0];;
-    }
+    $result = $dbh->getOne($query);
+	
     return $result;
 }
 
@@ -411,7 +365,9 @@ function folder_is_writable($abspath)
 
 function save_scenario($basename, $conf)
 {
-    $dbh = db_connect($conf['database']);
+	$dsn = OA_DB::getDsn($conf);
+    $dbh = &OA_DB::singleton($dsn);
+    
     $conf['simdb']['version'] = get_max_version($dbh, $conf);
 
     $versname = $conf['simdb']['version'].'_'.$basename;

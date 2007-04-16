@@ -71,6 +71,7 @@ class SimulationScenario
 
     var $adSelectCallback;
     var $aVarDump;
+	
 
     /**
      * The constructor method.
@@ -104,8 +105,11 @@ class SimulationScenario
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = '';
         $_COOKIE = $HTTP_COOKIE_VARS = array();
 
+		// get service locator instance
+		$this->oServiceLocator = &ServiceLocator::instance();
+
         // start with a clean set of tables
-        Openads_Table_Core::destroy();
+        OA_DB_Table_Core::destroy();
         $this->oCoreTables = &OA_DB_Table_Core::singleton();
 
         // get the database handler
@@ -493,9 +497,9 @@ class SimulationScenario
         // Hack! The TestEnv class doesn't always drop temp tables for some
         // reason, so drop them "by hand", just in case.
         $dbType = strtolower($GLOBALS['_MAX']['CONF']['database']['type']);
-        $oTable = &Openads_Table_Priority::singleton();
-        $oTable->dropTempTable("tmp_ad_required_impression");
-        $oTable->dropTempTable("tmp_ad_zone_impression");
+        $oTable = &OA_DB_Table_Priority::singleton();
+        $oTable->dropTable("tmp_ad_required_impression");
+        $oTable->dropTable("tmp_ad_zone_impression");
     }
 
     /**
@@ -721,7 +725,7 @@ class SimulationScenario
         foreach ($aQueries as $k => $query)
         {
             $rows = $this->oDbh->exec($query);
-            if (!$rows)
+            if (PEAR::isError($rows))
             {
                 $this->reportResult($rows, 'execution failed', $query);
                 exit();

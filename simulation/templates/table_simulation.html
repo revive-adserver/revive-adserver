@@ -1,7 +1,7 @@
 <h5><?php echo $title; ?><h5>
 <table style="border: 1px solid;">
 <?php
-    while ($tmp = mysql_fetch_assoc($dbRes->result))
+    while ($tmp = $dbRes->fetchRow())
     {
         $style=($i ? "background-color: #FFFFFF;" : "background-color: #EEE;");
         if ($printth)

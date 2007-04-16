@@ -14,7 +14,7 @@ $oRequest->referer  = '';
 $oRequest->requests = 99;
 
 if (version_compare(phpversion(), '5.0.0', '>='))
-	$oRequest2 = $oRequest->__clone();
+	$oRequest2 = clone $oRequest;
 else
 	$oRequest2 = $oRequest;
 
