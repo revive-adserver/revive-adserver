@@ -160,6 +160,77 @@ class OA_Dal
         return "INTERVAL $interval $type";
     }
 
+    
+    /**
+     * Returns a valid SQL-formatted date for a current database.
+     * Examples:
+     * sqlDate(true, 2007, 2, 3) returns '2007-02-03'.
+     * sqlDate(false, 2007, 2, 3) returns $dbh->noDateValue.
+     * sqlDate(true, 2007, '-', 3) returns $dbh->noDateValue.
+     *
+     * @param boolean $validDate If true, the function will try to generate
+     * a valid date. Otherwise, it will ignore other arguments and just return
+     * an 'empty' date for this database.
+     * @param integer $year
+     * @param integer $month Month number from 1 to 12
+     * @param integer $day Day number from 1 to 28/29/30/31
+     * @return string If $validDate is true and all other parameters are valid
+     * integers, constructs a proper sql date string. If any of the $year,
+     * $month, $day is '-' or $validDate is false, returns a valid 'empty'
+     * date string for the database.
+     */
+    function sqlDate($validDate, $year, $month, $day)
+    {
+        if (!$validDate || $year == '-' || $month == '-' || $day == '-') {
+            $dbh = OA_DB::singleton();
+            return $dbh->noDateValue;
+        }
+        $month = OA_Dal::to2digitFormat($month);
+        $day = OA_Dal::to2digitFormat($day);
+        return "$year-$month-$day";
+    }
+    
+    
+    /**
+     * If the number is less < 10 returns the number prefixed with '0',
+     * for example '02' for '2'. Otherwise, returns number as it is.
+     *
+     * @param integer $value
+     * @return string
+     */
+    function to2digitFormat($value)
+    {
+        if ($value < 10) {
+            return "0$value";
+        }
+        return $value;
+    }
+
+    
+    /**
+     * Returns true if $sqlDate is not an 'empty' date, false otherwise.
+     *
+     * @param string $sqlDate
+     */
+    function isValidDate($sqlDate)
+    {
+        $dbh = OA_DB::singleton();
+        return preg_match('#\d\d\d\d-\d\d-\d\d#', $sqlDate) && $sqlDate != $dbh->noDateValue;
+    }
+    
+    
+    /**
+     * Returns true if the $sqlDate represents 'empty' Openads date,
+     * false otherwise.
+     *
+     * @param string $sqlDate
+     */
+    function isNullDate($sqlDate)
+    {
+        return !OA_Dal::isValidDate($sqlDate);
+    }
+    
+    
 }
 
 ?>

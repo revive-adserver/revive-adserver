@@ -86,28 +86,9 @@ MAX_Permission::checkAccessToObject('clients', $clientid);
 /*-------------------------------------------------------*/
 
 if (isset($submit)) {
-    if ($expireSet == 't') {
-        $expireDay = ($expireDay < 10 && $expireDay != '-') ? '0'.$expireDay : $expireDay;
-        $expireMonth = ($expireMonth < 10 && $expireMonth != '-') ? '0'.$expireMonth : $expireMonth;
-        if ($expireDay != '-' && $expireMonth != '-' && $expireYear != '-') {
-            $expire = $expireYear."-".$expireMonth."-".$expireDay;
-        } else {
-            $expire = "0000-00-00";
-        }
-    } else {
-        $expire = "0000-00-00";
-    }
-    if ($activateSet == 't') {
-        $activateDay = ($activateDay < 10 && $activateDay != '-') ? '0'.$activateDay : $activateDay;
-        $activateMonth = ($activateMonth < 10 && $activateMonth != '-') ? '0'.$activateMonth : $activateMonth;
-        if ($activateDay != '-' && $activateMonth != '-' && $activateYear != '-') {
-            $activate = $activateYear."-".$activateMonth."-".$activateDay;
-        } else {
-            $activate = "0000-00-00";
-        }
-    } else {
-        $activate = "0000-00-00";
-    }
+    $expire = OA_Dal::sqlDate($expireSet == 't', $expireYear, $expireMonth, $expireDay);
+    $activate = OA_Dal::sqlDate($activateSet == 't', $activateYear, $activateMonth, $activateDay);
+    
     // If ID is not set, it should be a null-value for the auto_increment
     if (empty($campaignid)) {
         $campaignid = "null";
@@ -203,7 +184,7 @@ if (isset($submit)) {
             }
         }
         // Set campaign inactive if weight and target are both null and autotargeting is disabled
-        if ($active == 't' && !(($target_impression > 0 || $target_click > 0 || $target_conversion > 0) || $weight > 0 || ($expire != '0000-00-00' && ($impressions > 0 || $clicks > 0 || $conversions > 0)))) {
+        if ($active == 't' && !(($target_impression > 0 || $target_click > 0 || $target_conversion > 0) || $weight > 0 || (OA_Dal::isValidDate($expire) && ($impressions > 0 || $clicks > 0 || $conversions > 0)))) {
             $active = 'f';
         }
         if ($anonymous != 't') {
@@ -370,7 +351,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row['clicks']              = $data['clicks'];
     $row['conversions']         = $data['conversions'];
     $row['expire']              = $data['expire'];
-    if ($data['expire'] != '0000-00-00') {
+    if (OA_Dal::isValidDate($data['expire'])) {
         $oExpireDate                = &new Date($data['expire']);
         $row['expire_f']            = $oExpireDate->format($date_format);
         $row['expire_dayofmonth']   = $oExpireDate->format('%d');
@@ -378,7 +359,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
         $row['expire_year']         = $oExpireDate->format('%Y');
     }
     $row['active']              = $data['active'];
-    if ($data['activate'] != '0000-00-00') {
+    if (OA_Dal::isValidDate($data['activate'])) {
         $oActivateDate              = &new Date($data['activate']);
         $row['activate_f']          = $oActivateDate->format($date_format);
         $row['activate_dayofmonth'] = $oActivateDate->format('%d');
@@ -524,7 +505,7 @@ if (!isset($row['conversions']) || (isset($row['conversions']) && $row['conversi
 if (!isset($row['priority']) || (isset($row['priority']) && $row['priority'] == ""))
     $row["priority"] = 5;
 
-if ($row['active'] == 't' && $row['expire'] != '0000-00-00' && $row['impressions'] > 0)
+if ($row['active'] == 't' && OA_Dal::isValidDate($row['expire']) && $row['impressions'] > 0)
     $delivery = 'auto';
 elseif ($row['target'] > 0)
     $delivery = 'manual';
