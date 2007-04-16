@@ -121,9 +121,10 @@ class Test_OA_Dal extends UnitTestCase
     
     function testIsValidDate()
     {
+        $dbh = OA_DB::singleton();
         $this->assertTrue(OA_Dal::isValidDate('2007-03-01'));
         $this->assertFalse(OA_Dal::isValidDate('0'));
-        $this->assertFalse(OA_Dal::isValidDate('0000-00-00'));
+        $this->assertFalse(OA_Dal::isValidDate($dbh->noDateValue));
         $this->assertFalse(OA_Dal::isValidDate(null));
     }
 }
