@@ -231,6 +231,18 @@ class OA_DB
         if (PEAR::isError($result)) {
             return false;
         }
+        return OA_DB::createFunctions();
+    }
+    
+    
+    /**
+     * This sets up all the required PL/SQL functions for the database.
+     *
+     * @return boolean True on success, false otherwise.
+     */
+    function createFunctions()
+    {
+        $oDbh = &OA_DB::singleton($dsn);
         $functionsFile = MAX_PATH . '/etc/core.' . $oDbh->dsn['phptype'] . '.php';
         if (is_readable($functionsFile)) {
             include $functionsFile;
@@ -245,6 +257,7 @@ class OA_DB
         }
         return true;
     }
+    
 
     /**
      * A method for dropping a database. Connects to the database server using

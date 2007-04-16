@@ -425,7 +425,7 @@ echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspac
 // Mnemonic
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strMnemonic."</td><td>";
 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-    echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='mnemonic' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate['mnemonic'])."' tabindex='".($tabindex++)."'>";
+    echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='mnemonic' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate['mnemonic'])."' tabindex='".($tabindex++)."' maxlength='5'>";
 } else {
     echo (isset($affiliate['mnemonic']) ? $affiliate['mnemonic'] : '');
 }

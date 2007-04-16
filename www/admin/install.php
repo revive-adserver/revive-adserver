@@ -391,7 +391,7 @@ if (phpAds_isUser(phpAds_Admin)) {
                         // Is this an installation, or an upgrade?
                         if ((!isset($installvars['dbUpgrade'])) || (!$installvars['dbUpgrade'])) {
                             $tables = &OA_DB_Table_Core::singleton();
-                            if (!$tables->createAllTables()) {
+                            if (!$tables->createAllTables() || !OA_DB::createFunctions()) {
                                 $fatal[] = $strErrorInstallDatabase;
                             }
                         }
