@@ -27,6 +27,8 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
+require_once MAX_PATH . '/lib/OA/DB.php';
+
 /**
  * The default data set class to be used for integration-style cross-unit
  * testing.
@@ -82,6 +84,7 @@ class DefaultData
      */
     function insertDefaultData()
     {
+        $oDbh = &OA_DB::singleton();
         // Add a default agency
         $agencyID = Admin_DA::addAgency(
             array(
@@ -119,8 +122,8 @@ class DefaultData
                 'views'             => -1,
                 'clicks'            => -1,
                 'conversions'       => -1,
-                'expire'            => '0000-00-00',
-                'activate'          => '0000-00-00',
+                'expire'            => $oDbh->noDateValue,
+                'activate'          => $oDbh->noDateValue,
                 'active'            => 't',
                 'priority'          => 2,
                 'target_impression' => 120,
@@ -130,10 +133,15 @@ class DefaultData
         );
         $adOneOneOneID = Admin_DA::addAd(
             array(
-                'campaignid'  => $campaignOneOneID,
-                'description' => 'Advertisement 111',
-                'active'      => 't',
-                'weight'      => 1
+                'campaignid'         => $campaignOneOneID,
+                'description'        => 'Advertisement 111',
+                'active'             => 't',
+                'weight'             => 1,
+                'htmltemplate'       => '',
+                'url'                => '',
+                'bannertext'         => '',
+                'compiledlimitation' => '',
+                'append'             => ''
             )
         );
         $campaignOneTwoID = Admin_DA::addPlacement(
@@ -154,18 +162,28 @@ class DefaultData
         );
         $adOneTwoOneID = Admin_DA::addAd(
             array(
-                'campaignid'  => $campaignOneTwoID,
-                'description' => 'Advertisement 121',
-                'active'      => 't',
-                'weight'      => 2
+                'campaignid'         => $campaignOneTwoID,
+                'description'        => 'Advertisement 121',
+                'active'             => 't',
+                'weight'             => 2,
+                'htmltemplate'       => '',
+                'url'                => '',
+                'bannertext'         => '',
+                'compiledlimitation' => '',
+                'append'             => ''
             )
         );
         $adOneTwoTwoID = Admin_DA::addAd(
             array(
-                'campaignid'  => $campaignOneTwoID,
-                'description' => 'Advertisement 122',
-                'active'      => 't',
-                'weight'      => 1
+                'campaignid'         => $campaignOneTwoID,
+                'description'        => 'Advertisement 122',
+                'active'             => 't',
+                'weight'             => 1,
+                'htmltemplate'       => '',
+                'url'                => '',
+                'bannertext'         => '',
+                'compiledlimitation' => '',
+                'append'             => ''
             )
         );
 
@@ -191,30 +209,50 @@ class DefaultData
         // Add the publisher's zones
         $zoneOneOneID = Admin_DA::addZone(
             array(
-                'affiliateid' => $publisherOneID,
-                'zonename'    => 'Zone 11',
-                'type'        => 0
+                'affiliateid'  => $publisherOneID,
+                'zonename'     => 'Zone 11',
+                'type'         => 0,
+                'category'     => '',
+                'ad_selection' => '',
+                'chain'        => '',
+                'prepend'      => '',
+                'append'       => ''
             )
         );
         $zoneOneTwoID = Admin_DA::addZone(
             array(
-                'affiliateid' => $publisherOneID,
-                'zonename'    => 'Zone 12',
-                'type'        => 0
+                'affiliateid'  => $publisherOneID,
+                'zonename'     => 'Zone 12',
+                'type'         => 0,
+                'category'     => '',
+                'ad_selection' => '',
+                'chain'        => '',
+                'prepend'      => '',
+                'append'       => ''
             )
         );
         $zoneTwoOneID = Admin_DA::addZone(
             array(
-                'affiliateid' => $publisherOneID,
-                'zonename'    => 'Zone 21',
-                'type'        => 0
+                'affiliateid'  => $publisherOneID,
+                'zonename'     => 'Zone 21',
+                'type'         => 0,
+                'category'     => '',
+                'ad_selection' => '',
+                'chain'        => '',
+                'prepend'      => '',
+                'append'       => ''
             )
         );
         $zoneTwoTwoID = Admin_DA::addZone(
             array(
-                'affiliateid' => $publisherOneID,
-                'zonename'    => 'Zone 22',
-                'type'        => 0
+                'affiliateid'  => $publisherOneID,
+                'zonename'     => 'Zone 22',
+                'type'         => 0,
+                'category'     => '',
+                'ad_selection' => '',
+                'chain'        => '',
+                'prepend'      => '',
+                'append'       => ''
             )
         );
         // Link the ads to the zones
