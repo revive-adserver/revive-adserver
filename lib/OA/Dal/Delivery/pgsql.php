@@ -585,7 +585,9 @@ function OA_Dal_Delivery_getCreative($filename)
             return null;
         }
     } else {
-        return (pg_fetch_assoc($rCreative));
+        $aResult = pg_fetch_assoc($rCreative);
+        $aResult['contents'] = pg_unescape_bytea($aResult['contents']);
+        return $aResult;
     }
 }
 

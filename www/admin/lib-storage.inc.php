@@ -29,6 +29,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once 'DB/DataObject/Cast.php';
 
 // Include FTP emulation library if extension is not present
 if (!function_exists("ftp_connect")) {
@@ -75,11 +76,11 @@ function phpAds_ImageStore($type, $name, $buffer, $overwrite = false)
 		}
 	}
 	if ($type == 'sql') {
-
+	    
 	    // Look for existing image.
 	    $doImages = OA_Dal::staticGetDO('images', $name);
 	    if ($doImages) {
-   			$doImages->contents = $buffer;
+   			$doImages->contents = DB_DataObject_Cast::blob($buffer);
 	        if ($overwrite == false) {
                 $name = $doImages->getUniqueFileNameForDuplication();
     			$doImages->filename = $name;
@@ -91,7 +92,7 @@ function phpAds_ImageStore($type, $name, $buffer, $overwrite = false)
 	    } else {
 	        $doImages = OA_Dal::factoryDO('images');
     	    $doImages->filename = $name;
-    		$doImages->contents = $buffer;
+   			$doImages->contents = DB_DataObject_Cast::blob($buffer);
     		$doImages->insert();
 	    }
 	}
