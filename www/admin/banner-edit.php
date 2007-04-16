@@ -140,6 +140,8 @@ if (isset($submit)) {
     $aVariables['alt_filename']    = !empty($aBanner['alt_filename']) ? $aBanner['alt_filename'] : '';
     $aVariables['alt_contenttype'] = !empty($aBanner['alt_contenttype']) ? $aBanner['alt_contenttype'] : '';
     $aVariables['comments']        = $comments;
+    $aVariables['compiledlimitation'] = '';
+    $aVariables['append'] = '';
 
     $editSwf = false;
 
@@ -160,9 +162,6 @@ if (isset($submit)) {
             $aVariables['height']        = $aFile['height'];
             $aVariables['pluginversion'] = $aFile['pluginversion'];
             $editSwf                     = $aFile['editswf'];
-            
-            $aVariables['compiledlimitation'] = '';
-            $aVariables['append'] = '';
         }
     }
     if (!empty($_FILES['uploadalt']) && $replacealtimage == 't') {
