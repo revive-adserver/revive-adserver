@@ -2079,8 +2079,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         TestEnv::restoreEnv();
     }
 
-
-
     /**
      * A private method to insert ad requests/impressions/clicks as test
      * data for the deleteOldData() test.
@@ -2105,35 +2103,59 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
                     INSERT INTO
                         data_raw_ad_{$table}_{$tableDate}
                         (
+                            ad_id,
+                            creative_id,
+                            zone_id,
                             date_time
                         )
                     VALUES
-                        (?)";
+                        (?, ?, ?, ?)";
                 $aTypes = array(
+                    'integer',
+                    'integer',
+                    'integer',
                     'timestamp'
                 );
                 $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
                 $aData = array(
+                    0,
+                    0,
+                    0,
                     "$date 18:00:00"
                 );
                 $rows = $st->execute($aData);
                 $aData = array(
+                    0,
+                    0,
+                    0,
                     "$date 17:59:59"
                 );
                 $rows = $st->execute($aData);
                 $aData = array(
+                    0,
+                    0,
+                    0,
                     "$date 17:00:00"
                 );
                 $rows = $st->execute($aData);
                 $aData = array(
+                    0,
+                    0,
+                    0,
                     "$date 16:59:59"
                 );
                 $rows = $st->execute($aData);
                 $aData = array(
+                    0,
+                    0,
+                    0,
                     "$date 16:00:00"
                 );
                 $rows = $st->execute($aData);
                 $aData = array(
+                    0,
+                    0,
+                    0,
                     "$date 15:59:59"
                 );
                 $rows = $st->execute($aData);
