@@ -92,6 +92,7 @@ class OA_DB_Upgrade
     var $executeMsg = 'executing task %s : %s => %s';
 
     var $logFile;
+    var $logBuffer = array();
     var $recoveryFile;
 
     /**
@@ -494,7 +495,7 @@ class OA_DB_Upgrade
                       AND updated>='{$aRecovery['updated']}'";
             $aResult = $this->oSchema->db->queryAll($query);
 
-            if ($this->_isPearError($result, "error querying recovery info in database audit table"))
+            if ($this->_isPearError($aResult, "error querying recovery info in database audit table"))
             {
                 return false;
             }
@@ -1735,9 +1736,7 @@ class OA_DB_Upgrade
     function _log($message)
     {
         $this->aMessages[] = $message;
-        $log = fopen($this->logFile, 'a');
-        fwrite($log, "{$message}\n");
-        fclose($log);
+        $this->_logWrite($message);
     }
 
     /**
@@ -1748,11 +1747,24 @@ class OA_DB_Upgrade
     function _logError($message)
     {
         $this->aErrors[] = $message;
-        $log = fopen($this->logFile, 'a');
-        fwrite($log, "ERROR: {$message}\n");
-        fclose($log);
+        $this->_logWrite("ERROR: {$message}");
     }
 
+    
+    function _logWrite($message)
+    {
+        if (empty($this->logFile)) {
+            $this->logBuffer[] = $message;
+        } else {
+            $log = fopen($this->logFile, 'a');
+            if (count($this->logBuffer)) {
+                $message = join("\n", $this->logBuffer);
+                $this->logBuffer = array();
+            }
+            fwrite($log, "{$message}\n");
+            fclose($log);
+        }
+    }
     /**
      * write the version, timing and timestamp to a small temp file in the var folder
      * this will be written when an upgrade starts and deleted when it ends
