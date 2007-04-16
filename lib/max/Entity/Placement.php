@@ -30,6 +30,7 @@ require_once MAX_PATH . '/lib/max/Entity/Ad.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/Entities.php';
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 /**
@@ -233,13 +234,13 @@ class MAX_Entity_Placement extends MAX_Entity
         if (!$valid) {
             $this->_abort();
         }
+
         // Store the required supplied values
         $this->id                         = (int)$aParams['placement_id'];
-        // Store the optional required values
 
-		$oDbh =& MDB2::singleton();
-        $this->activate                   = !empty($aParams['activate']) ? $aParams['activate'] : $oDbh->noDateValue;
-        $this->expire                     = !empty($aParams['expire']) ? $aParams['expire'] : $oDbh->noDateValue;
+        // Store the optional required values
+        $this->activate                   = !empty($aParams['activate']) ? $aParams['activate'] : OA_Dal::noDateValue();
+        $this->expire                     = !empty($aParams['expire']) ? $aParams['expire'] : OA_Dal::noDateValue();
         $this->impressionTargetTotal      = isset($aParams['impression_target_total']) ? (int)$aParams['impression_target_total'] : 0;
         $this->clickTargetTotal           = isset($aParams['click_target_total']) ? (int)$aParams['click_target_total'] : 0;
         $this->conversionTargetTotal      = isset($aParams['conversion_target_total']) ? (int)$aParams['conversion_target_total'] : 0;
@@ -247,6 +248,7 @@ class MAX_Entity_Placement extends MAX_Entity
         $this->clickTargetDaily           = isset($aParams['click_target_daily']) ? (int)$aParams['click_target_daily'] : 0;
         $this->conversionTargetDaily      = isset($aParams['conversion_target_daily']) ? (int)$aParams['conversion_target_daily'] : 0;
         $this->priority                   = isset($aParams['priority']) ? (int)$aParams['priority'] : 0;
+
         // Set the object's data access layer objects
         $this->oMaxDalEntities            = &$this->_getMAX_Dal_Entities();
         $this->oMaxDalMaintenancePriority = &$this->_getOA_Dal_Maintenance_Priority();

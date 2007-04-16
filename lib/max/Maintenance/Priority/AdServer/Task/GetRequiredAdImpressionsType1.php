@@ -26,6 +26,8 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressions.php';
+
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once 'Date.php';
 
 /**
@@ -104,14 +106,13 @@ class GetRequiredAdImpressionsType1 extends MAX_Maintenance_Priority_AdServer_Ta
      */
     function _getValidPlacements()
     {
-        $dbh = OA_DB::singleton();
         $conf = $GLOBALS['_MAX']['CONF'];
         // Get current date
         $oDate = $this->_getDate();
         $dateYMD = $oDate->format('%Y-%m-%d');
         $table = $conf['table']['prefix'] . $conf['table']['campaigns'];
         $aWheres = array(
-            array("($table.activate " . $dbh->equalNoDateString . " OR $table.activate <= '$dateYMD')", 'AND'),
+            array("($table.activate " . OA_Dal::equalNoDateString() . " OR $table.activate <= '$dateYMD')", 'AND'),
             array("$table.expire >= '$dateYMD'", 'AND'),
             array("$table.priority >= 1", 'AND'),
             array("$table.active = 't'", 'AND'),

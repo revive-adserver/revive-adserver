@@ -62,7 +62,7 @@ class OA_DB
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Get the DSN, if not set
         $dsn = is_null($dsn) ? OA_DB::getDsn() : $dsn;
-        
+
         // Check that the parameter is a string, not an array
         if (is_array($dsn)) {
             return Max::raiseError('Bad argument: DSN should be a string', MAX_ERROR_INVALIDARGS);
@@ -74,7 +74,7 @@ class OA_DB
         if (strpos($dsn, '//:@') !== false) {
             return false;
         }
-        
+
         // Create an MD5 checksum of the DSN
         $dsnMd5 = md5($dsn);
         // Does this database connection already exist?
@@ -144,17 +144,6 @@ class OA_DB
             $oDbh->loadModule('Extended');
             $oDbh->loadModule('Datatype');
             $oDbh->loadModule('Manager');
-            // Prepare the format of the quoted "NO DATE" string
-            $oDbh->noDateString         = "NULL";
-            $oDbh->equalNoDateString    = "IS NULL";
-            $oDbh->notEqualNoDateString = "IS NOT NULL";
-            $oDbh->noDateValue          = null;
-            if ($oDbh->dsn['phptype'] == 'mysql') {
-                $oDbh->noDateString         = "'0000-00-00'";
-                $oDbh->equalNoDateString    = "= '0000-00-00'";
-                $oDbh->notEqualNoDateString = "!= '0000-00-00'";
-                $oDbh->noDateValue          = '0000-00-00';
-            }
             // Store the database connection
             $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] = &$oDbh;
         }
@@ -239,8 +228,8 @@ class OA_DB
         }
         return OA_DB::createFunctions();
     }
-    
-    
+
+
     /**
      * This sets up all the required PL/SQL functions for the database.
      *
@@ -263,7 +252,7 @@ class OA_DB
         }
         return true;
     }
-    
+
 
     /**
      * A method for dropping a database. Connects to the database server using

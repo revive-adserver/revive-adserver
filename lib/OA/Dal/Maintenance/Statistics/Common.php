@@ -37,6 +37,7 @@ require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics.php';
 
 /**
@@ -2461,7 +2462,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     }
                 }
                 // Does the campaign need to be disabled due to the date?
-                if ($campaignRow['end'] != $this->oDbh->noDateValue) {
+                if ($campaignRow['end'] != OA_Dal::noDateValue()) {
                     $end = new Date($campaignRow['end'] . ' 23:59:59');  // Convert day to end of day Date
                     if (($end->format('%Y-%m-%d %H:%M:%S') != '0000-00-00 23:59:59') && ($oDate->after($end))) {
                         $disableReason |= MAX_PLACEMENT_DISABLED_DATE;
@@ -2520,12 +2521,12 @@ class OA_Dal_Maintenance_Statistics_Common
                 // The campaign is not active - does it need to be enabled,
                 // based on the campaign starting date?
                 $start = new Date($campaignRow['start'] . ' 00:00:00');  // Convert day to start of date Date
-                if ($campaignRow['end'] != $this->oDbh->noDateValue) {
+                if ($campaignRow['end'] != OA_Dal::noDateValue()) {
                     $end   = new Date($campaignRow['end']   . ' 23:59:59');  // Convert day to end of day Date
                 } else {
                     $end = null;
                 }
-                if (($start->format('%Y-%m-%d') != $this->oDbh->noDateValue) && ($oDate->after($start))) {
+                if (($start->format('%Y-%m-%d') != OA_Dal::noDateValue()) && ($oDate->after($start))) {
                     // There is an activation date, which has been passed. Find out if
                     // there are any impression, click or conversion targets for the
                     // placement (i.e. if the target values are > 0)
@@ -2566,7 +2567,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     if ((($campaignRow['targetimpressions'] <= 0) || (($campaignRow['targetimpressions'] > 0) && ($remainingImpressions > 0))) &&
                         (($campaignRow['targetclicks']      <= 0) || (($campaignRow['targetclicks']      > 0) && ($remainingClicks      > 0))) &&
                         (($campaignRow['targetconversions'] <= 0) || (($campaignRow['targetconversions'] > 0) && ($remainingConversions > 0))) &&
-                        (is_null($end) || (($end->format('%Y-%m-%d') != $this->oDbh->noDateValue) && (Date::compare($oDate, $end) < 0)))) {
+                        (is_null($end) || (($end->format('%Y-%m-%d') != OA_Dal::noDateValue()) && (Date::compare($oDate, $end) < 0)))) {
                         $query = "
                             UPDATE
                                 {$aConf['table']['prefix']}{$aConf['table']['campaigns']}

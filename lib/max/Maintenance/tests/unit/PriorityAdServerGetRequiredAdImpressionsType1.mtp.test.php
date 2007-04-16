@@ -28,6 +28,8 @@ $Id$
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsType1.php';
+
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once 'Date.php';
 
 /**
@@ -197,8 +199,8 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
      */
     function test_getValidPlacements()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['campaigns'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $table = $aConf['table']['prefix'] . $aConf['table']['campaigns'];
         $oGetRequiredAdImpressionsType1 = &$this->_getCurrentTask();
 
         // Test 1
@@ -211,7 +213,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
             array(
                 array(),
                 array(
-                    array("($table.activate = '0000-00-00' OR $table.activate <= '" . $oDate->format('%Y-%m-%d') . "')", 'AND'),
+                    array("($table.activate " . OA_Dal::equalNoDateString() . " OR $table.activate <= '" . $oDate->format('%Y-%m-%d') . "')", 'AND'),
                     array("$table.expire >= '" . $oDate->format('%Y-%m-%d') . "'", 'AND'),
                     array("$table.priority >= 1", 'AND'),
                     array("$table.active = 't'", 'AND'),
@@ -443,8 +445,8 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
      */
     function testDistributePlacementImpressionsByZonePattern()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['maintenance']['operationInterval'] = 60;
+        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf['maintenance']['operationInterval'] = 60;
 
         $oGetRequiredAdImpressionsType1 = &$this->_getCurrentTask();
         $aPlacements = array();
@@ -573,8 +575,8 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
      */
     function test_getAdImpressionsByZonePattern()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['maintenance']['operationInterval'] = 60;
+        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf['maintenance']['operationInterval'] = 60;
 
         Mock::generatePartial(
             'MAX_Entity_Ad',
@@ -857,8 +859,8 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
      */
     function test_getCumulativeZoneForecast()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['maintenance']['operationInterval'] = 60;
+        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf['maintenance']['operationInterval'] = 60;
 
         // Test 1
         $oGetRequiredAdImpressionsType1 = &$this->_getCurrentTask();

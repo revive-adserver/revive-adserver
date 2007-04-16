@@ -28,6 +28,7 @@ $Id$
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
 require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
 
 /**
  * The default data set class to be used for integration-style cross-unit
@@ -122,8 +123,8 @@ class DefaultData
                 'views'             => -1,
                 'clicks'            => -1,
                 'conversions'       => -1,
-                'expire'            => $oDbh->noDateValue,
-                'activate'          => $oDbh->noDateValue,
+                'expire'            => OA_Dal::noDateValue(),
+                'activate'          => OA_Dal::noDateValue(),
                 'active'            => 't',
                 'priority'          => 2,
                 'target_impression' => 120,

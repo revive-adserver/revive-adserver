@@ -28,6 +28,8 @@ $Id$
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
+
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once 'Date.php';
 
 /**
@@ -238,27 +240,27 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
         );
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            1,'Test Advertiser 1 - Default Campaign 1',1,-1,-1,-1,$oDbh->noDateValue,$oDbh->noDateValue,'t','l',1,0,0,0,'f',0
+            1,'Test Advertiser 1 - Default Campaign 1',1,-1,-1,-1,OA_Dal::noDateValue(),OA_Dal::noDateValue(),'t','l',1,0,0,0,'f',0
         );
         $rows = $st->execute($aData);
         $aData = array(
-            2,'Test Advertiser 1 - Default Campaign 2',1,-1,-1,-1,$oDbh->noDateValue,$oDbh->noDateValue,'t','l',1,0,0,0,'f',0
+            2,'Test Advertiser 1 - Default Campaign 2',1,-1,-1,-1,OA_Dal::noDateValue(),OA_Dal::noDateValue(),'t','l',1,0,0,0,'f',0
         );
         $rows = $st->execute($aData);
         $aData = array(
-            3,'Test Advertiser 1 - Default Campaign 3',1,-1,-1,-1,$oDbh->noDateValue,$oDbh->noDateValue,'t','l',1,0,0,0,'f',0
+            3,'Test Advertiser 1 - Default Campaign 3',1,-1,-1,-1,OA_Dal::noDateValue(),OA_Dal::noDateValue(),'t','l',1,0,0,0,'f',0
         );
         $rows = $st->execute($aData);
         $aData = array(
-            4,'Test Advertiser 2 - Default Campaign 1',2,-1,-1,-1,$oDbh->noDateValue,$oDbh->noDateValue,'t','l',1,0,0,0,'f',0
+            4,'Test Advertiser 2 - Default Campaign 1',2,-1,-1,-1,OA_Dal::noDateValue(),OA_Dal::noDateValue(),'t','l',1,0,0,0,'f',0
         );
         $rows = $st->execute($aData);
         $aData = array(
-            5,'Test Advertiser 2 - Default Campaign 2',2,-1,-1,-1,$oDbh->noDateValue,$oDbh->noDateValue,'t','l',1,0,0,0,'f',0
+            5,'Test Advertiser 2 - Default Campaign 2',2,-1,-1,-1,OA_Dal::noDateValue(),OA_Dal::noDateValue(),'t','l',1,0,0,0,'f',0
         );
         $rows = $st->execute($aData);
         $aData = array(
-            6,'Test Advertiser 2 - Default Campaign 3',2,-1,-1,-1,$oDbh->noDateValue,$oDbh->noDateValue,'t','l',1,0,0,0,'f',0
+            6,'Test Advertiser 2 - Default Campaign 3',2,-1,-1,-1,OA_Dal::noDateValue(),OA_Dal::noDateValue(),'t','l',1,0,0,0,'f',0
         );
         $rows = $st->execute($aData);
 
@@ -848,11 +850,11 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
         );
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            1,0,1,'Test Channel - Page Url','','MAX_checkSite_Pageurl(\'example\', \'=~\')','Site:Pageurl',1,'',$oDbh->noDateValue,'2007-01-08 12:09:17'
+            1,0,1,'Test Channel - Page Url','','MAX_checkSite_Pageurl(\'example\', \'=~\')','Site:Pageurl',1,'',OA_Dal::noDateValue(),'2007-01-08 12:09:17'
         );
         $rows = $st->execute($aData);
         $aData = array(
-            2,0,1,'Test Channel - Referrer','Test Channel - referrer = www.referrer.com','MAX_checkSite_Referingpage(\'refer.com\', \'=~\')','Site:Referingpage',1,'',$oDbh->noDateValue,'2007-01-08 12:32:27'
+            2,0,1,'Test Channel - Referrer','Test Channel - referrer = www.referrer.com','MAX_checkSite_Referingpage(\'refer.com\', \'=~\')','Site:Referingpage',1,'',OA_Dal::noDateValue(),'2007-01-08 12:32:27'
         );
         $rows = $st->execute($aData);
 

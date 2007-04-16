@@ -31,7 +31,7 @@ define('MAX_DATAGENERATOR_DEFAULT_DATE_VALUE', date('Y-m-d'));
 
 /**
  * A DataGenerator class for easy data generation
- * 
+ *
  * Online manual: https://developer.openads.org/wiki/DataGenerator
  *
  * @package    MaxDal
@@ -44,7 +44,7 @@ class DataGenerator
      * Data conteiner
      * Use this data to populate any new records
      * @see getFieldValueFromDataContainer()
-     * 
+     *
      * @var array
      */
     var $data;
@@ -70,14 +70,14 @@ class DataGenerator
      * Generate records (populate them with either prepared or default values) and insert into database.
      * This method could create parent records (we call "parent" all records in tables where generated
      * record has foreign keys linked to).
-     * 
+     *
      * Returns array ids of created records.
-     * 
+     *
      * Examples:
-     * 
+     *
      * // Lazy generate 7 records
      * $aMytableIds = DataGenerator::generate('mytable', 7);
-     * 
+     *
      * // Create dataobject and pass it into generator
      * $doMyTable = OA_Dal::factoryDO('mytable');
      * $doMyTable->column1 = 'some value';
@@ -151,7 +151,7 @@ class DataGenerator
     /**
      * This method allows to store and retreive any primary key's ids which were created
      * for ancestors records
-     * 
+     *
      * Example of use:
      * // Assume following line will create 'subtable' table and it's parent 'table' record
      * $subtableId = DataGenerator::generate('subtable', 1, $generateParents = true);
@@ -203,9 +203,9 @@ class DataGenerator
 
     /**
      * Method adds related "parent/ancestor" records recursively.
-     * 
+     *
      * It should be used only to create records which have only one primary key.
-     * 
+     *
      * Note: in theory it should work for ancestor records with multiple primary keys
      * but this behaviour is undefined.
      *
@@ -238,7 +238,7 @@ class DataGenerator
     /**
      * This method checks if there is any data prepared for record or it uses
      * default data based on type of the field.
-     * 
+     *
      * It looks for data for each field in record in following order:
      * 1. Checks if data is set in DataObject
      * 2. Checks data from data container (@see setData())
@@ -248,7 +248,7 @@ class DataGenerator
      * It populates primary keys fields only if data for key field was specifically
      * set using any of methods defined in 1, 2 or 3 (it doesn't
      * populate it with default data based on field type)
-     * 
+     *
      * @param DataObject $do    DataObject to populate data in
      * @param int $counter      Used to generate a key for data container array to retreive data
      * @access package private
@@ -300,7 +300,7 @@ class DataGenerator
 
     /**
      * Return default field value based on field type
-     * 
+     *
      * @todo This could be refactored if we will decide to add more types here
      *
      * @param string $fieldType
@@ -314,8 +314,7 @@ class DataGenerator
                 return MAX_DATAGENERATOR_DEFAULT_DATE_VALUE;
             }
             // According to https://developer.openads.org/wiki/DatabasePractices#UsingPEAR::MDB2
-            $dbh = &OA_DB::singleton();
-            return $dbh->noDateValue;
+            return OA_Dal::noDateValue();
         }
         return MAX_DATAGENERATOR_DEFAULT_VALUE;
     }
@@ -327,7 +326,7 @@ class DataGenerator
      * %DATE_TIME% is replaced with date('Y-m-d H:i:s')
      *
      * @todo This should be refactored if we will decide to add more templates
-     * 
+     *
      * @param string $val  Template variable
      * @return string
      * @static
@@ -344,7 +343,7 @@ class DataGenerator
 
     /**
      * This method sets data in data container which is used by DataGenerator to populate records
-     * 
+     *
      * Format of data to use. Example:
      * $data = array(
      *   'column1' => array('value for first record', 'value for second record'),
@@ -353,7 +352,7 @@ class DataGenerator
      * $dg = new DataGenerator();
      * $dg->setData('mytable', $data);
      * $dg->generateOne('mytable');
-     * 
+     *
      * Generator use data set in data container to populate fields for new
      * records. It loops over columns arrays and reuse data for few records.
      * For example if we will generate 10 records with data defined in example
@@ -367,7 +366,7 @@ class DataGenerator
      * $dg = new DataGenerator();
      * $dg->setData('tableName', $data);
      * $dg->generate('tableName', 3);
-     * 
+     *
      *
      * @param string $table  Table name
      * @param array $data    Save prepared data in data container
@@ -381,13 +380,13 @@ class DataGenerator
         }
         $this->data[$table] = $data;
     }
-    
-    
+
+
     /**
      * Performs the same operation as #setData($table,$data), but the
      * $data must contain only a single value for a column instead of
      * an array of values.
-     * 
+     *
      * Example:
      * $data = array('clientsid' => 1, 'name' => 'Mega Pack');
      *

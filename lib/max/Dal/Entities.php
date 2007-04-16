@@ -24,7 +24,9 @@
 $Id$
 */
 
-require_once MAX_PATH.'/lib/max/Dal/Common.php';
+require_once MAX_PATH . '/lib/max/Dal/Common.php';
+
+require_once MAX_PATH . '/lib/OA/Dal.php';
 
 /**
  * The non-DB specific Common Data Access Layer (DAL) class for getting
@@ -533,13 +535,13 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 a.bannerid IN (" . implode(', ', $aAdIds) . ")
                 AND
                 (
-                    (p.active = 't' AND p.expire {$this->oDbh->equalNoDateString})
+                    (p.active = 't' AND p.expire " . OA_Dal::equalNoDateString()  . "
                     OR
-                    (p.active = 't' AND p.expire {$this->oDbh->notEqualNoDateString} AND p.expire >= '" . $aPeriod['start']->format('%Y-%m-%d') . "')
+                    (p.active = 't' AND p.expire " . OA_Dal::notEqualNoDateString() . " AND p.expire >= '" . $aPeriod['start']->format('%Y-%m-%d') . "')
                     OR
-                    (p.active = 'f' AND p.activate {$this->oDbh->notEqualNoDateString} AND p.activate <= '" . $aPeriod['end']->format('%Y-%m-%d') . "' AND p.expire {$this->oDbh->equalNoDateString})
+                    (p.active = 'f' AND p.activate " . OA_Dal::notEqualNoDateString() . " AND p.activate <= '" . $aPeriod['end']->format('%Y-%m-%d') . "' AND p.expire " . OA_Dal::equalNoDateString() . ")
                     OR
-                    (p.active = 'f' AND p.activate {$this->oDbh->notEqualNoDateString} AND p.activate <= '" . $aPeriod['end']->format('%Y-%m-%d') . "' AND p.expire {$this->oDbh->notEqualNoDateString} AND p.expire >= '" . $aPeriod['start']->format('%Y-%m-%d') . "')
+                    (p.active = 'f' AND p.activate " . OA_Dal::notEqualNoDateString() . " AND p.activate <= '" . $aPeriod['end']->format('%Y-%m-%d') . "' AND p.expire " . OA_Dal::notEqualNoDateString() . " AND p.expire >= '" . $aPeriod['start']->format('%Y-%m-%d') . "')
                 )
         ";
         $rc = $this->oDbh->query($query);

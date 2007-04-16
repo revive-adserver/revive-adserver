@@ -30,6 +30,7 @@ require_once MAX_PATH . '/lib/max/Entity/Ad.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
 
 require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 require_once 'Date.php';
 require_once 'DB/QueryTool.php';
@@ -4564,7 +4565,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                     400,
                     0,
                     '" . $expiryDate1 . "',
-                    $oDbh->noDateString,
+                    " . OA_Dal::noDateString() . ",
                     't',
                     '3',
                     1,
@@ -4601,8 +4602,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                     0,
                     0,
                     400,
-                    $oDbh->noDateString,
-                    $oDbh->noDateString,
+                    " . OA_Dal::noDateString() . ",
+                    " . OA_Dal::noDateString() . ",
                     't',
                     '2',
                     1,
@@ -4640,7 +4641,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                     0,
                     0,
                     '" . $expiryDate2 . "',
-                    $oDbh->noDateString,
+                    " . OA_Dal::noDateString() . ",
                     't',
                     '3',
                     1,
@@ -4677,8 +4678,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                     500,
                     0,
                     401,
-                    $oDbh->noDateString,
-                    $oDbh->noDateString,
+                    " . OA_Dal::noDateString() . ",
+                    " . OA_Dal::noDateString() . ",
                     't',
                     '4',
                     2,
@@ -4715,8 +4716,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                     500,
                     0,
                     401,
-                    $oDbh->noDateString,
-                    $oDbh->noDateString,
+                    " . OA_Dal::noDateString() . ",
+                    " . OA_Dal::noDateString() . ",
                     't',
                     '3',
                     2,
@@ -4898,8 +4899,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                     500,
                     0,
                     401,
-                    {$oDbh->noDateString},
-                    {$oDbh->noDateString},
+                    " . OA_Dal::noDateString() . ",
+                    " . OA_Dal::noDateString() . ",
                     't',
                     '4',
                     2,

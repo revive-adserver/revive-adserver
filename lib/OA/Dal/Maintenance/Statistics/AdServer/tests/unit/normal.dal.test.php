@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Factory.php';
 
 /**
@@ -7912,31 +7913,31 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         );
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            1, 'Test Campaign 1', 1, -1, -1, -1, $oDbh->noDateValue, $oDbh->noDateValue, 't'
+            1, 'Test Campaign 1', 1, -1, -1, -1, OA_Dal::noDateValue(), OA_Dal::noDateValue(), 't'
         );
         $rows = $st->execute($aData);
         $aData = array(
-            2, 'Test Campaign 2', 1, 10, -1, -1, $oDbh->noDateValue, $oDbh->noDateValue, 't'
+            2, 'Test Campaign 2', 1, 10, -1, -1, OA_Dal::noDateValue(), OA_Dal::noDateValue(), 't'
         );
         $rows = $st->execute($aData);
         $aData = array(
-            3, 'Test Campaign 3', 1, -1, 10, -1, $oDbh->noDateValue, $oDbh->noDateValue, 't'
+            3, 'Test Campaign 3', 1, -1, 10, -1, OA_Dal::noDateValue(), OA_Dal::noDateValue(), 't'
         );
         $rows = $st->execute($aData);
         $aData = array(
-            4, 'Test Campaign 4', 1, -1, -1, 10, $oDbh->noDateValue, $oDbh->noDateValue, 't'
+            4, 'Test Campaign 4', 1, -1, -1, 10, OA_Dal::noDateValue(), OA_Dal::noDateValue(), 't'
         );
         $rows = $st->execute($aData);
         $aData = array(
-            5, 'Test Campaign 5', 1, 10, 10, 10, $oDbh->noDateValue, $oDbh->noDateValue, 't'
+            5, 'Test Campaign 5', 1, 10, 10, 10, OA_Dal::noDateValue(), OA_Dal::noDateValue(), 't'
         );
         $rows = $st->execute($aData);
         $aData = array(
-            6, 'Test Campaign 6', 1, -1, -1, -1, '2004-06-06', $oDbh->noDateValue, 't'
+            6, 'Test Campaign 6', 1, -1, -1, -1, '2004-06-06', OA_Dal::noDateValue(), 't'
         );
         $rows = $st->execute($aData);
         $aData = array(
-            7, 'Test Campaign 7', 1, -1, -1, -1, $oDbh->noDateValue, '2004-06-06', 'f'
+            7, 'Test Campaign 7', 1, -1, -1, -1, OA_Dal::noDateValue(), '2004-06-06', 'f'
         );
         $rows = $st->execute($aData);
         $query = "
@@ -8029,8 +8030,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], -1);
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], -1);
-        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
-        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['expire'], OA_Dal::noDateValue());
+        $this->assertEqual($aRow['activate'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
@@ -8043,8 +8044,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], 10);
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], -1);
-        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
-        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['expire'], OA_Dal::noDateValue());
+        $this->assertEqual($aRow['activate'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
@@ -8057,8 +8058,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], -1);
         $this->assertEqual($aRow['clicks'], 10);
         $this->assertEqual($aRow['conversions'], -1);
-        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
-        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['expire'], OA_Dal::noDateValue());
+        $this->assertEqual($aRow['activate'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
@@ -8071,8 +8072,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], -1);
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], 10);
-        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
-        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['expire'], OA_Dal::noDateValue());
+        $this->assertEqual($aRow['activate'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
@@ -8085,8 +8086,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], 10);
         $this->assertEqual($aRow['clicks'], 10);
         $this->assertEqual($aRow['conversions'], 10);
-        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
-        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['expire'], OA_Dal::noDateValue());
+        $this->assertEqual($aRow['activate'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
@@ -8100,7 +8101,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], -1);
         $this->assertEqual($aRow['expire'], '2004-06-06');
-        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['activate'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['active'], 'f');
         $query = "
             SELECT
@@ -8113,7 +8114,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], -1);
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], -1);
-        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['expire'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['activate'], '2004-06-06');
         $this->assertEqual($aRow['active'], 't');
         // Insert the summary test data - Part 1
@@ -8194,8 +8195,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], -1);
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], -1);
-        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
-        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['expire'], OA_Dal::noDateValue());
+        $this->assertEqual($aRow['activate'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
@@ -8208,8 +8209,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], 10);
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], -1);
-        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
-        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['expire'], OA_Dal::noDateValue());
+        $this->assertEqual($aRow['activate'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['active'], 'f');
         $query = "
             SELECT
@@ -8222,8 +8223,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], -1);
         $this->assertEqual($aRow['clicks'], 10);
         $this->assertEqual($aRow['conversions'], -1);
-        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
-        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['expire'], OA_Dal::noDateValue());
+        $this->assertEqual($aRow['activate'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
@@ -8236,8 +8237,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], -1);
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], 10);
-        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
-        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['expire'], OA_Dal::noDateValue());
+        $this->assertEqual($aRow['activate'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['active'], 'f');
         $query = "
             SELECT
@@ -8250,8 +8251,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], 10);
         $this->assertEqual($aRow['clicks'], 10);
         $this->assertEqual($aRow['conversions'], 10);
-        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
-        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['expire'], OA_Dal::noDateValue());
+        $this->assertEqual($aRow['activate'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['active'], 't');
         $query = "
             SELECT
@@ -8265,7 +8266,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], -1);
         $this->assertEqual($aRow['expire'], '2004-06-06');
-        $this->assertEqual($aRow['activate'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['activate'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['active'], 'f');
         $query = "
             SELECT
@@ -8278,7 +8279,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['views'], -1);
         $this->assertEqual($aRow['clicks'], -1);
         $this->assertEqual($aRow['conversions'], -1);
-        $this->assertEqual($aRow['expire'], $oDbh->noDateValue);
+        $this->assertEqual($aRow['expire'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['activate'], '2004-06-06');
         $this->assertEqual($aRow['active'], 't');
         TestEnv::rollbackTransaction();

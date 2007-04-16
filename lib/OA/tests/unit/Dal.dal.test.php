@@ -108,23 +108,21 @@ class Test_OA_Dal extends UnitTestCase
 
         $this->assertFalse($dalBanners);
     }
-    
-    
+
+
     function testSqlDate()
     {
-        $dbh = OA_DB::singleton();
         $this->assertEqual('2007-03-12', OA_Dal::sqlDate(true, 2007, 3, 12));
-        $this->assertEqual($dbh->noDateValue, OA_Dal::sqlDate(true, 2007, 3, '-'));
-        $this->assertEqual($dbh->noDateValue, OA_Dal::sqlDate(false, 2007, 3, 12));
+        $this->assertEqual(OA_Dal::noDateValue(), OA_Dal::sqlDate(true, 2007, 3, '-'));
+        $this->assertEqual(OA_Dal::noDateValue(), OA_Dal::sqlDate(false, 2007, 3, 12));
     }
-    
-    
+
+
     function testIsValidDate()
     {
-        $dbh = OA_DB::singleton();
         $this->assertTrue(OA_Dal::isValidDate('2007-03-01'));
         $this->assertFalse(OA_Dal::isValidDate('0'));
-        $this->assertFalse(OA_Dal::isValidDate($dbh->noDateValue));
+        $this->assertFalse(OA_Dal::isValidDate(OA_Dal::noDateValue()));
         $this->assertFalse(OA_Dal::isValidDate(null));
     }
 }

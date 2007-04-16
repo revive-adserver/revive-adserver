@@ -32,6 +32,7 @@ require_once MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
 
 require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once 'Date.php';
 
 /**
@@ -328,9 +329,9 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                 $oPlacementExpiryDate = new Date($oDate->format('%Y-%m-%d') . ' 23:59:59');
             } else if (
                    (
-                       ($oPlacement->activate != '0000-00-00')
+                       ($oPlacement->activate != OA_Dal::noDateValue())
                        &&
-                       ($oPlacement->expire != '0000-00-00')
+                       ($oPlacement->expire != OA_Dal::noDateValue())
                    )
                    &&
                    (
@@ -510,9 +511,9 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                 $oPlacementExpiryDate = new Date($oDate->format('%Y-%m-%d') . ' 23:59:59');
             } else if (
                    (
-                       ($oPlacement->activate != '0000-00-00')
+                       ($oPlacement->activate != OA_Dal::noDateValue())
                        &&
-                       ($oPlacement->expire != '0000-00-00')
+                       ($oPlacement->expire != OA_Dal::noDateValue())
                    )
                    &&
                    (
