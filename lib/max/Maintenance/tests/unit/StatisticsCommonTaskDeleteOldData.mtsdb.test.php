@@ -57,6 +57,84 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
     }
 
     /**
+     * A private method to insert test run data.
+     *
+     * @access private
+     */
+    function _insertTestRunData()
+    {
+        $oDbh = &OA_DB::singleton();
+        $aTables = array(
+            'max_data_raw_ad_request',
+            'max_data_raw_ad_impression',
+            'max_data_raw_ad_click'
+
+        );
+        foreach ($aTables as $table) {
+            $query = "
+                INSERT INTO
+                    $table
+                    (
+                        ad_id,
+                        creative_id,
+                        zone_id,
+                        date_time
+                    )
+                VALUES
+                    (?, ?, ?, ?)";
+            $aTypes = array(
+                'integer',
+                'integer',
+                'integer',
+                'timestamp'
+            );
+            $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+            $aData = array(
+                0,
+                0,
+                0,
+                '2004-06-06 18:00:00'
+            );
+            $rows = $st->execute($aData);
+            $aData = array(
+                0,
+                0,
+                0,
+                '2004-06-06 17:59:59'
+            );
+            $rows = $st->execute($aData);
+            $aData = array(
+                0,
+                0,
+                0,
+                '2004-06-06 17:00:00'
+            );
+            $rows = $st->execute($aData);
+            $aData = array(
+                0,
+                0,
+                0,
+                '2004-06-06 16:59:59'
+            );
+            $rows = $st->execute($aData);
+            $aData = array(
+                0,
+                0,
+                0,
+                '2004-06-06 16:00:00'
+            );
+            $rows = $st->execute($aData);
+            $aData = array(
+                0,
+                0,
+                0,
+                '2004-06-06 15:59:59'
+            );
+            $rows = $st->execute($aData);
+        }
+    }
+
+    /**
      * A method to test the run() method.
      */
     function testRun()
@@ -74,17 +152,36 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
         $tables->createTable('data_raw_ad_impression');
         $tables->createTable('data_raw_ad_request');
         $tables->createTable('log_maintenance_statistics');
-        // Get the data for the tests
-        include_once MAX_PATH . '/lib/max/Maintenance/data/TestOfMaintenanceStatisticsCommon.php';
         // Insert the test data
-        $rows = $oDbh->exec(COMMON_DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
-        $rows = $oDbh->exec(COMMON_DELETE_OLD_DATA_AD_CLICKS);
-        $rows = $oDbh->exec(COMMON_DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $rows = $oDbh->exec(COMMON_DELETE_OLD_DATA_AD_REQUESTS);
+        $query = "
+            INSERT INTO
+                max_campaigns_trackers
+                (
+                    viewwindow,
+                    clickwindow
+                )
+            VALUES
+                (?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            0,
+            60
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            0,
+            3600
+        );
+        $rows = $st->execute($aData);
+        $this->_insertTestRunData();
         // Set compact_stats to false
         $conf['maintenance']['compactStats'] = false;
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_DeleteOldData object
         $oDeleteOldData = new MAX_Maintenance_Statistics_Common_Task_DeleteOldData();
@@ -121,7 +218,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
         // Disable the tracker
         $conf['modules']['Tracker'] = false;
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateFinal = false;
         $oMaintenanceStatistics->updateIntermediate = false;
         $oMaintenanceStatistics->updateUsingOI = false;
@@ -155,7 +252,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 6);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateFinal = true;
         $oMaintenanceStatistics->updateIntermediate = false;
         $oMaintenanceStatistics->updateUsingOI = false;
@@ -189,7 +286,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 6);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateFinal = false;
         $oMaintenanceStatistics->updateIntermediate = true;
         $oMaintenanceStatistics->updateUsingOI = true;
@@ -223,7 +320,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 6);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateFinal = true;
         $oMaintenanceStatistics->updateIntermediate = false;
         $oMaintenanceStatistics->updateUsingOI = true;
@@ -267,11 +364,9 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
         $tables->createTable('data_raw_ad_request');
         $tables->createTable('log_maintenance_statistics');
         // Re-insert the test data
-        $rows = $oDbh->exec(COMMON_DELETE_OLD_DATA_AD_CLICKS);
-        $rows = $oDbh->exec(COMMON_DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $rows = $oDbh->exec(COMMON_DELETE_OLD_DATA_AD_REQUESTS);
+        $this->_insertTestRunData();
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateFinal = false;
         $oMaintenanceStatistics->updateIntermediate = true;
         $oMaintenanceStatistics->updateUsingOI = false;
