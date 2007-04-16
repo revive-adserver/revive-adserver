@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
+require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Common.php';
 require_once 'Date.php';
