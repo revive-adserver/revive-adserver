@@ -1418,10 +1418,10 @@ class Openads_Schema_Manager
         //$path_dbo = $this->path_dbo.str_replace('.xml', '_'.$this->version,basename($this->schema_final));
         $path_dbo =  $this->path_dbo.$basename;
 
-        if (!dir($path_dbo))
+        if (!file_exists($path_dbo))
         {
             mkdir($path_dbo);
-            if (!dir($path_dbo))
+            if (!file_exists($path_dbo))
             {
                 die("Error: could not create the data_objects directory {$path_dbo} \n");
             }
