@@ -194,11 +194,12 @@ class OA_DB_Upgrade
             $this->_log('file found: '.$this->file_migrate);
             require_once($this->file_migrate);
             $classname = 'Migration_'.$this->versionTo;
-            $this->oMigrator = & new $classname;
+            $this->oMigrator = & new $classname($this->oSchema->db, $this->logFile);
             if ($this->oMigrator)
             {
                 $this->_log('migration class '.$classname.' instantiated');
-                $this->oMigrator->oDBH = $this->oSchema->db;
+                $this->oMigrator->aMessages = $this->aMessages;
+                $this->oMigrator->aErrors = $this->aErrors;
             }
             else
             {
@@ -211,6 +212,7 @@ class OA_DB_Upgrade
         if (!$this->_isPearError($result, 'failed to parse new schema ('.$this->file_schema.')'))
         {
             $this->aDefinitionNew = $result;
+            //$this->oMigrator->aDefinition = $this->aDefinitionNew;
             $this->_log('successfully parsed the schema');
             $this->_log('schema name: '.$this->aDefinitionNew['name']);
             $this->_log('schema version: '.$this->aDefinitionNew['version']);

@@ -26,10 +26,6 @@ $Id $
 */
 
 
-//require_once MAX_PATH.'/lib/OA/DB.php';
-//require_once MAX_PATH.'/lib/OA/DB/Table.php';
-//
-//require_once MAX_PATH.'/www/devel/lib/openads/DB_Upgrade.php';
 require_once MAX_PATH.'/www/devel/lib/openads/Migration.php';
 
 
@@ -48,30 +44,131 @@ class Test_Migration extends UnitTestCase
     var $aChangesVars;
     var $aOptions;
 
+    var $aDefinition;
+    var $oDbh;
+    var $oTable;
+
+    var $test_schema_file;
+
     /**
      * The constructor method.
      */
     function Test_Migration()
     {
         $this->UnitTestCase();
-
-        $this->aChangesVars['version']       = '2';
-        $this->aChangesVars['name']          = 'changes_test';
-        $this->aChangesVars['comments']      = '';
-        $this->aOptions['split']             = true;
-        $this->aOptions['output']            = MAX_PATH.'/var/changes_test.xml';
-        $this->aOptions['xsl_file']          = "";
-        $this->aOptions['output_mode']       = 'file';
     }
 
-    function test_copyColumnData()
+    function setUp()
     {
-        $oMigration = new Migration();
+        $this->oDbh = OA_DB::singleton(OA_DB::getDsn());
+        $this->oTable = new OA_DB_Table();
+        $this->oTable->init(MAX_PATH.'/www/devel/tests/integration/migration_test_1.xml');
+        $this->aDefinition = $this->oTable->aDefinition;
     }
 
-    function test_copyTableData()
+    function test_replaceColumns()
     {
-        $oMigration = new Migration();
+        $this->_createTestTables();
+        $this->_insertTestData(array(1=>'1st text field'));
+        $this->_insertTestData(array(2=>'2nd text field'));
+        $this->_insertTestData(array(3=>'3rd text field'));
+        $oMigration = new Migration($this->oDbh);
+        $oMigration->aDefinition = $this->aDefinition;
+        $toTable    = 'table1';
+        $toField    = 'a_text_field_new';
+        $fromTable  = 'table1';
+        $fromField  = 'a_text_field';
+        $oMigration->updateColumn($fromTable, $fromField, $toTable, $toField);
+        $this->assertEqual(count($oMigration->aErrors),0,$oMigration->aErrors[0]);
+        $this->assertEqual($oMigration->affectedRows, 3, 'wrong number of rows inserted');
+        $this->_dropTestTables();
+    }
+
+    function test_afterAddField()
+    {
+        $this->_createTestTables();
+        $this->_insertTestData(array(1=>'1st text field'));
+        $this->_insertTestData(array(2=>'2nd text field'));
+        $this->_insertTestData(array(3=>'3rd text field'));
+        $oMigration = new Migration($this->oDbh);
+        $oMigration->aDefinition = $this->aDefinition;
+        $oMigration->aObjectMap['table1']['a_text_field_new'] = array('fromTable'=>'table1', 'fromField'=>'a_text_field');
+        $oMigration->afterAddField('table1', 'a_text_field_new');
+        $this->assertEqual(count($oMigration->aErrors),0,$oMigration->aErrors[0]);
+        $this->assertEqual($oMigration->affectedRows, 3, 'wrong number of rows inserted');
+        $this->_dropTestTables();
+    }
+
+//    function test_insertColumnData()
+//    {
+//        $this->_createTestTables();
+//        $this->_insertTestData(array(1=>'first text field'));
+//        $oMigration = new Migration($this->oDbh);
+//        $oMigration->insertColumnData('table1', 'b_id_field', 'table2', 'b_id_field2');
+//        $this->assertEqual($oMigration->affectedRows, 1, 'wrong number of rows inserted');
+//        $this->_dropTestTables();
+//    }
+//
+//    function test_copyTableData()
+//    {
+//        $this->_createTestTables();
+//        $this->_insertTestData(array(1=>'1st text field'));
+//        $this->_insertTestData(array(2=>'2nd text field'));
+//        $this->_insertTestData(array(3=>'3rd text field'));
+//        $oMigration = new Migration($this->oDbh);
+//        $oMigration->copyTableData('table1', 'table2');
+//        $this->assertEqual($oMigration->affectedRows, 3, 'wrong number of rows inserted');
+//        $this->_dropTestTables();
+//    }
+
+    /**
+     * internal function to set up some test tables
+     *
+     * @param mdb2 connection $oDbh
+     */
+    function _createTestTables()
+    {
+        $this->_dropTestTables();
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf['table']['prefix'] = '';
+        $conf['table']['split'] = false;
+        $this->assertTrue($this->oTable->createTable('table1'),'error creating test table1');
+        $this->assertTrue($this->oTable->createTable('table2'),'error creating test table2');
+        $aExistingTables = $this->oDbh->manager->listTables();
+        $this->assertTrue(in_array('table1', $aExistingTables), '_createTestTables');
+        $this->assertTrue(in_array('table2', $aExistingTables), '_createTestTables');
+    }
+
+    function _insertTestData($aData)
+    {
+        $aDef = $this->aDefinition['tables']['table1']['fields'];
+        $aDef['b_id_field']['key'] = true;
+        $expect = count($aData);
+        foreach ($aData as $k=>$v)
+        {
+            $aDef['b_id_field']['value'] = $k;
+            $aDef['a_text_field']['value'] = $v;
+            $this->assertEqual($this->oDbh->replace('table1', $aDef),1,'error inserting test data');
+        }
+    }
+
+    function _dropTestTables()
+    {
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf['table']['prefix'] = '';
+        $conf['table']['split'] = false;
+        $aExistingTables = $this->oDbh->manager->listTables();
+        if (in_array('table1', $aExistingTables))
+        {
+            $this->assertTrue($this->oTable->dropTable('table1'),'error dropping test table1');
+        }
+        if (in_array('table2', $aExistingTables))
+        {
+            $this->assertTrue($this->oTable->dropTable('table2'),'error dropping test table2');
+        }
+        $aExistingTables = $this->oDbh->manager->listTables();
+        $this->assertFalse(in_array('table1', $aExistingTables), '_dropTestTables');
+        $this->assertFalse(in_array('table2', $aExistingTables), '_dropTestTables');
     }
 }
 

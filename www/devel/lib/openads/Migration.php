@@ -39,46 +39,84 @@ require_once('MDB2.php');
 
 class Migration
 {
-    var $aObjectMap;
+    var $aObjectMap = array();
+	//$this->aObjectMap['totablename'] = array('fromTable'=>'fromtablename');
+	//or
+    //$this->aObjectMap['totablename']['tofieldname'] = array('fromTable'=>'fromtablename', 'fromField'=>'fromfieldname');
 
     var $aTaskList_constructive;
     var $aTaskList_destructive;
 
+    var $aErrors    = array();
+    var $aMessages  = array();
+    var $logFile = '';
+
     var $aSQLStatements = array();
+
+    var $aDefinition = array();
+
+    var $affectedRows = 0;
 
     var $oDBH;
 
-    function Migration()
+    function Migration($oDbh, $logfile='')
     {
-        $this->aObjectMap = array();
+        $this->oDBH = $oDbh;
+        if ($logfile)
+        {
+            $this->logFile = $logfile;
+        }
+        else
+        {
+            $this->logFile = MAX_PATH.'/var/migration.log';
+        }
+        $this->_setupSQLStatements();
         //$this->__construct();
     }
 
 //    function __construct()
 //    {
-//		$this->aObjectMap = array();
-//		//$this->aObjectMap['totablename'] = array('fromTable'=>'fromtablename');
-//		//or
-//	    //$this->aObjectMap['totablename']['tofieldname'] = array('fromTable'=>'fromtablename', 'fromField'=>'fromfieldname');
 //    }
 
-    function logEvent($event, $params=array())
+    /**
+     * write a message to the logfile
+     *
+     * @param string $message
+     */
+    function _log($message)
     {
+        $this->aMessages[] = $message;
+        $log = fopen($this->logFile, 'a');
+        fwrite($log, "{$message}\n");
+        fclose($log);
+    }
 
+    /**
+     * write an error to the log file
+     *
+     * @param string $message
+     */
+    function _logError($message)
+    {
+        $this->aErrors[] = $message;
+        $log = fopen($this->logFile, 'a');
+        fwrite($log, "ERROR: {$message}\n");
+        fclose($log);
     }
 
     function _setupSQLStatements()
     {
-        switch ($this->oSchema->db->dbsyntax)
+        switch ($this->oDBH->dbsyntax)
         {
             case 'mysql':
-                $engine = $this->oSchema->db->getOption('default_table_type');
-                $this->aSQLStatements['table_copy']     = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
-                $this->aSQLStatements['table_rename']   = "RENAME TABLE %s TO %s";
+                $engine = $this->oDBH->getOption('default_table_type');
+                $this->aSQLStatements['table_copy_all'] = "INSERT IGNORE INTO %s SELECT * FROM %s";
+                //$this->aSQLStatements['table_copy_cols'] = "INSERT IGNORE INTO (%s %s) VALUES (SELECT %s FROM %s)";
+                $this->aSQLStatements['table_update_col'] = "UPDATE IGNORE %s SET %s = %s.%s";
                 break;
             case 'pgsql':
-                $this->aSQLStatements['table_copy']     = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s"';
-                $this->aSQLStatements['table_rename']   = 'ALTER TABLE "%s" RENAME TO "%s"';
+                $this->aSQLStatements['table_copy_all'] = "INSERT INTO %s SELECT * FROM %s";
+                $this->aSQLStatements['table_update_col'] = "UPDATE %s SET %s = %s.%s";
                 break;
             default:
                 '';
@@ -86,32 +124,66 @@ class Migration
         }
     }
 
+//    /**
+//     * not finished
+//     * copy all data from one table to another
+//     * incomplete
+//     * expand
+//     *
+//     * @param string $fromTable
+//     * @param string $toTable
+//     * @param array $aColumns
+//     * @return boolean
+//     */
+//    function copyTableData($fromTable, $toTable)
+//    {
+//        $statement  = $this->aSQLStatements['table_copy_all'];
+//        $query      = sprintf($statement, $toTable, $fromTable);
+//        $this->_log('select query prepared: '.$query);
+//        $result     = & $this->oDBH->exec($query);
+//        if (PEAR::isError($result))
+//        {
+//            $this->_logError('error executing query: '.$result->getUserInfo());
+//            return false;
+//        }
+//        $this->affectedRows = $result;
+//        return true;
+//    }
+
     /**
      * this method is not finished yet
+     * expand for array of columns
      *
      * @param string $fromTable
+     * @param string $fromColumn
      * @param string $toTable
-     * @param array $aColumns
+     * @param string $toColumn
      * @return boolean
      */
-    function copyTableData($fromTable, $toTable, $aColumns='')
+    function insertColumnData($fromTable, $fromColumn, $toTable, $toColumn)
     {
-        if (!$aColumns)
+        $query  = "SELECT {$fromColumn} FROM {$fromTable}";
+        $this->_log('select query prepared: '.$query);
+        $aData  = $this->oDBH->queryCol($query);
+
+        $query  = "INSERT INTO {$toTable} ({$toColumn}) VALUES (:data)";
+        $stmt   = & $this->oDBH->prepare($query, array(), MDB2_PREPARE_MANIP);
+        if (PEAR::isError($stmt))
         {
-            $query = "INSERT IGNORE INTO {$toTable}"
-                    ." SELECT * FROM {$fromTable}";
+            $this->_logError('error preparing statement: '.$stmt->getUserInfo());
+            return false;
         }
-        else
+        $this->_log('statement prepared '.$query);
+        foreach ($aData AS $k=>$v)
         {
-            $columns = implode("','",$aColumns);
-            $query = "INSERT IGNORE INTO {$toTable} ({$columns})"
-                    ." SELECT {$columns} FROM {$fromTable}";
+            $result = $stmt->execute(array('data' => $v));
+            if (PEAR::isError($result)) {
+                $this->_logError('error executing statement: '.$stmt->getUserInfo());
+                return false;
+            }
+            $this->affectedRows++;
         }
-        $result =& $this->oDBH->exec($query);
-        if (PEAR::isError($result))
-        {
-            return $result;
-        }
+        $stmt->free();
         return true;
     }
 
@@ -124,29 +196,33 @@ class Migration
      * @param string $toColumn
      * @return boolean
      */
-    function copyColumnData($fromTable, $fromColumn, $toTable, $toColumn)
+    function updateColumn($fromTable, $fromColumn, $toTable, $toColumn)
     {
-        $query = "UPDATE IGNORE {$toTable} SET {$toColumn} = {$fromTable}.{$fromColumn}";
-        $result =& $this->oDBH->exec($query);
-        if (PEAR::isError($result))
-        {
-            return $result;
+        $statement  = $this->aSQLStatements['table_update_col'];
+        $query      = sprintf($statement, $toTable, $toColumn, $fromTable, $fromColumn);
+        $this->_log('select query prepared: '.$query);
+        $result     = & $this->oDBH->exec($query);
+        if (PEAR::isError($result)) {
+            $this->_logError('error executing statement: '.$result->getUserInfo());
+            return false;
         }
+        $this->affectedRows = $result;
+        $this->_log('update complete: '.$this->affectedRows.' affected');
         return true;
     }
 
     function beforeAddTable($table)
     {
-        if ($this->aObjectMap[$table])
-        {
-            $fromTable = $this->aObjectMap[$table]['fromTable'];
-            return $this->copyTableData($fromTable, $table);
-        }
         return true;
     }
 
     function afterAddTable($table)
     {
+        if ($this->aObjectMap[$table])
+        {
+//            $fromTable = $this->aObjectMap[$table]['fromTable'];
+//            return $this->copyTableData($fromTable, $table);
+        }
         return true;
     }
 
@@ -161,7 +237,7 @@ class Migration
         {
             $fromTable = $this->aObjectMap[$table][$field]['fromTable'];
             $fromField = $this->aObjectMap[$table][$field]['fromField'];
-            return $this->copyColumnData($fromTable, $fromField, $table, $field);
+            return $this->updateColumn($fromTable, $fromField, $table, $field);
         }
         return true;
     }
