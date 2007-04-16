@@ -81,6 +81,9 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
      */
     function testRun()
     {
+        // Reset the testing environment
+        TestEnv::restoreEnv();
+
         // Use a reference to $GLOBALS['_MAX']['CONF'] so that the configuration
         // options can be changed while the test is running
         $conf = &$GLOBALS['_MAX']['CONF'];
