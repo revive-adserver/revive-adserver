@@ -52,7 +52,16 @@ INSERT INTO acls_channel (channelid, logical, type, comparison, data, executiono
 
 
 TRUNCATE TABLE ad_zone_assoc;
-INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (1, 0, 1, 0, 0), (2, 0, 2, 0, 0), (3, 1, 2, 0, 1), (4, 1, 1, 0, 1), (5, 0, 3, 0, 0), (6, 1, 3, 0, 1), (7, 0, 4, 0, 0), (8, 1, 4, 0, 1), (9, 0, 5, 0, 0), (10, 1, 5, 0, 1);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (1, 0, 1, 0, 0);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (2, 0, 2, 0, 0);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (3, 1, 2, 0, 1);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (4, 1, 1, 0, 1);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (5, 0, 3, 0, 0);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (6, 1, 3, 0, 1);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (7, 0, 4, 0, 0);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (8, 1, 4, 0, 1);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (9, 0, 5, 0, 0);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (10, 1, 5, 0, 1);
 
 
 TRUNCATE TABLE affiliates;

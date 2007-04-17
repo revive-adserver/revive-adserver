@@ -48,7 +48,10 @@ TRUNCATE TABLE log_maintenance_statistics;
 INSERT INTO log_maintenance_statistics (log_maintenance_statistics_id, start_run, end_run, duration, adserver_run_type, search_run_type, tracker_run_type, updated_to) VALUES (1, '2000-01-01 01:01:00', '2000-01-01 01:00:00', 0, 2, NULL, NULL, '2000-01-01 01:00:00');
 
 TRUNCATE TABLE ad_zone_assoc;
-INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (1, 0, 1, 0, 0),(2, 0, 2, 0, 0),(3, 1, 2, 0, 1),(4, 1, 1, 0, 1);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (1, 0, 1, 0, 0);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (2, 0, 2, 0, 0);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (3, 1, 2, 0, 1);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (4, 1, 1, 0, 1);
 
 TRUNCATE TABLE affiliates;
 INSERT INTO affiliates (affiliateid, agencyid, name, mnemonic, comments, contact, email, website, username, password, permissions, language, publiczones, last_accepted_agency_agreement, updated) VALUES (1, 0, 'Test Publisher', 'Test', '', 'Monique Szpak', 'monique@m3.net', 'http://www.m3.net', NULL, '', 0, '', 'f', NULL, '2006-11-06 11:49:36');

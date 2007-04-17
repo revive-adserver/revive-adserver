@@ -48,7 +48,8 @@ TRUNCATE TABLE  acls_channel;
 INSERT INTO acls_channel (channelid, logical, type, comparison, data, executionorder) VALUES (2, 'and', 'Site:Pageurl', '=~', 'www.example.com', 0);
 
 TRUNCATE TABLE ad_zone_assoc;
-INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (3, 0, 2, 0, 0),  (4, 1, 2, 0, 1);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (3, 0, 2, 0, 0);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (4, 1, 2, 0, 1);
 
 TRUNCATE TABLE affiliates;
 INSERT INTO affiliates (affiliateid, agencyid, name, mnemonic, comments, contact, email, website, username, password, permissions, language, publiczones, last_accepted_agency_agreement, updated) VALUES (1, 0, 'ChannelTarget_Publisher', 'ChT', '', 'Monique Szpak', 'monique@m3.net', 'http://www.m3.net', 'publisher', '52aded165360352a0f5857571d96d68f', 383, '', 'f', '2000-01-01 00:00:00', '1999-12-31 11:15:51');

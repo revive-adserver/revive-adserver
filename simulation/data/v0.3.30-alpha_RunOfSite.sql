@@ -42,7 +42,8 @@ TRUNCATE TABLE log_maintenance_statistics;
 INSERT INTO log_maintenance_statistics (log_maintenance_statistics_id, start_run, end_run, duration, adserver_run_type, search_run_type, tracker_run_type, updated_to) VALUES (1, '2000-01-01 01:01:00', '2000-01-01 01:00:00', 0, 2, NULL, NULL, '2000-01-01 01:00:00');
 
 TRUNCATE TABLE ad_zone_assoc;
-INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (1, 0, 1, 0, 0),(2, 1, 1, 0.8, 1);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (1, 0, 1, 0, 0);
+INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (2, 1, 1, 0.8, 1);
 TRUNCATE TABLE affiliates;
 INSERT INTO affiliates (affiliateid, agencyid, name, mnemonic, comments, contact, email, website, username, password, permissions, language, publiczones, last_accepted_agency_agreement, updated) VALUES (1, 0, 'RunOfSite_Publisher', 'ROS', '', 'Monique Szpak', 'monique@m3.net', 'http://www.m3.net', NULL, '', 0, '', 'f', NULL, '2006-11-06 11:49:36');
 TRUNCATE TABLE  affiliates_extra;
@@ -54,6 +55,9 @@ INSERT INTO campaigns (campaignid, campaignname, clientid, views, clicks, conver
 TRUNCATE TABLE  clients;
 INSERT INTO clients (clientid, agencyid, clientname, contact, email, clientusername, clientpassword, permissions, language, report, reportinterval, reportlastdate, reportdeactivate, comments, updated) VALUES (1, 0, 'ROS Test Advertiser', 'Monique Szpak', 'monique@m3.net', '', '', 0, '', 'f', 7, '2006-11-06', 't', '', '2006-11-06 11:54:51');
 TRUNCATE TABLE log_maintenance_priority;
-INSERT INTO log_maintenance_priority (log_maintenance_priority_id, start_run, end_run, operation_interval, duration, run_type, updated_to) VALUES (1, '2006-11-06 12:00:21', '2006-11-06 12:00:21', 60, 0, 0, '2006-11-06 12:59:59'),(2, '2006-11-06 12:00:21', '2006-11-06 12:00:21', 60, 0, 1, NULL),(3, '2006-11-06 12:00:55', '2006-11-06 12:00:56', 60, 1, 0, '2006-11-06 12:59:59'),(4, '2006-11-06 12:00:56', '2006-11-06 12:00:56', 60, 0, 1, NULL);
+INSERT INTO log_maintenance_priority (log_maintenance_priority_id, start_run, end_run, operation_interval, duration, run_type, updated_to) VALUES (1, '2006-11-06 12:00:21', '2006-11-06 12:00:21', 60, 0, 0, '2006-11-06 12:59:59');
+INSERT INTO log_maintenance_priority (log_maintenance_priority_id, start_run, end_run, operation_interval, duration, run_type, updated_to) VALUES (2, '2006-11-06 12:00:21', '2006-11-06 12:00:21', 60, 0, 1, NULL);
+INSERT INTO log_maintenance_priority (log_maintenance_priority_id, start_run, end_run, operation_interval, duration, run_type, updated_to) VALUES (3, '2006-11-06 12:00:55', '2006-11-06 12:00:56', 60, 1, 0, '2006-11-06 12:59:59');
+INSERT INTO log_maintenance_priority (log_maintenance_priority_id, start_run, end_run, operation_interval, duration, run_type, updated_to) VALUES (4, '2006-11-06 12:00:56', '2006-11-06 12:00:56', 60, 0, 1, NULL);
 TRUNCATE TABLE zones;
 INSERT INTO zones (zoneid, affiliateid, zonename, description, delivery, zonetype, category, width, height, ad_selection, chain, prepend, append, appendtype, forceappend, inventory_forecast_type, comments, cost, cost_type, cost_variable_id, technology_cost, technology_cost_type, updated, block, capping, session_capping) VALUES (1, 1, 'RunOfSite_Publisher - 468 x 60', 'RoS Banner', 0, 3, '', 468, 60, '', '', '', '', 0, 'f', 0, '', 0.0000, 0, NULL, NULL, NULL, '2006-11-06 11:51:49', 0, 0, 0);
