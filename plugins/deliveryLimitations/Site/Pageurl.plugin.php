@@ -47,7 +47,13 @@ class Plugins_DeliveryLimitations_Site_Pageurl extends Plugins_DeliveryLimitatio
     function Plugins_DeliveryLimitations_Site_Pageurl()
     {
         $this->Plugins_DeliveryLimitations();
-        $this->columnName = 'CONCAT(IF(https=1, \'https://\', \'http://\'), domain, page, IF(query<>\'\', \'?\', \'\'),query)';
+
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        if ($aConf['database']['type'] == 'mysql') {
+            $this->columnName = 'CONCAT(IF(https=1, \'https://\', \'http://\'), domain, page, IF(query<>\'\', \'?\', \'\'),query)';
+        } else {
+            $this->columnName = 'IF(https=1, \'https://\', \'http://\') || domain || page || IF(query<>\'\', \'?\', \'\') || query';
+        }
     }
 
     /**
