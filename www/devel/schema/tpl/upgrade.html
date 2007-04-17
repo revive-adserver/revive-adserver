@@ -8,30 +8,27 @@
 if ($welcome)
 {
 ?>
-<div style="background-color:yellow;text-align:center;">
+<div class="tablediv">
+    <h2>Openads Database Upgrade Demonstration</h2>
     <form name="frmUpgrade" method="POST" action="upgrade.php">
         <!--button name="btn_initialise">hey! i see you need an upgrade, would you like me to help you with that?</button-->
         <button name="btn_view_available">view a list of available database upgrades</button>
         <button name="btn_view_logs">view a list of database upgrade log files</button>
-        <button name="btn_view_audit">view a the database audit trail upgrades</button>
+        <button name="btn_view_audit">view the database upgrade audit trail</button>
     </form>
 </div>
 <?php
 }
-?>
-<?php
 if ($backup)
 {
 ?>
-<div style="background-color:yellow;text-align:center;">
+<div class="tablediv">
     <form name="frmUpgrade" method="POST" action="upgrade.php">
         <button name="btn_backup">i guess you should backup your database, yeah?</button>
     </form>
 </div>
 <?php
 }
-?>
-<?php
 if (count($oUpgrade->aErrors)>0)
 {
 ?>
@@ -82,8 +79,6 @@ if (count($aLogfiles)>0)
 </div>
 <?php
 }
-?>
-<?php
 if (count($aChangesetsAvail)>0)
 {
 ?>
@@ -112,14 +107,12 @@ if (count($aChangesetsAvail)>0)
 </div>
 <?php
 }
-?>
-<?php
 if (count($aAudit)>0)
 {
 ?>
 <div class="tablediv">
     <table class="tablemain">
-    <tr><th class="tableheader" colspan="4">database action table</th></tr>
+    <tr><th class="tableheader" colspan="8">database action table</th></tr>
     <tr>
         <th class="tableheader">version</th>
         <th class="tableheader">timing</th>
@@ -152,8 +145,6 @@ if (count($aAudit)>0)
 </div>
 <?php
 }
-?>
-<?php
 if ($upgrade)
 {
 ?>
@@ -164,9 +155,6 @@ if ($upgrade)
 </div>
 <?php
 }
-?>
-
-<?php
 if (isset($logcontent))
 {
 ?>
