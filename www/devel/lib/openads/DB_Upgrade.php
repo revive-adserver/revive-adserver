@@ -1829,6 +1829,18 @@ class OA_DB_Upgrade
         }
         return false;
     }
+
+    function _queryAllLogTable()
+    {
+        $query = "SELECT * FROM {$this->prefix}{$this->logTable}";
+        $aResult = $this->oSchema->db->queryAll($query);
+        if ($this->_isPearError($aResult, "error querying database audit table"))
+        {
+            return false;
+        }
+        return $aResult;
+    }
+
 }
 
 /*

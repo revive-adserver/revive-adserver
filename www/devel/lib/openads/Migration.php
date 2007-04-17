@@ -209,12 +209,13 @@ class Migration
         $query      = sprintf($statement, $toTable, $toColumn, $fromTable, $fromColumn);
         $this->_log('select query prepared: '.$query);
         $result     = & $this->oDBH->exec($query);
-        if (PEAR::isError($result)) {
+        if (PEAR::isError($result))
+        {
             $this->_logError('error executing statement: '.$result->getUserInfo());
             return false;
         }
         $this->affectedRows = $result;
-        $this->_log('update complete: '.$this->affectedRows.' affected');
+        $this->_log('update complete: '.$this->affectedRows.' rows affected');
         return true;
     }
 
