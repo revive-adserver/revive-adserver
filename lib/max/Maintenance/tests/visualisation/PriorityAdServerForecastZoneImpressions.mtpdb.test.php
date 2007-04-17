@@ -89,13 +89,23 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                 (
                     zoneid,
                     zonename,
-                    zonetype
+                    zonetype,
+                    category,
+                    ad_selection,
+                    chain,
+                    prepend,
+                    append
                 )
             VALUES
                 (
                     760,
                     'Sample Real Zone',
-                    0
+                    0,
+                    '',
+                    '',
+                    '',
+                    '',
+                    ''
                 )";
         $oDbh->exec($query);
         $query = "
@@ -103,12 +113,24 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['banners']}
                 (
                     bannerid,
-                    active
+                    active,
+                    htmltemplate,
+                    htmlcache,
+                    url,
+                    compiledlimitation,
+                    append,
+                    bannertext
                 )
             VALUES
                 (
                     1,
-                    't'
+                    't',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    ''
                 )";
         $oDbh->exec($query);
         $query = "
@@ -124,15 +146,29 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                     1
                 )";
         $oDbh->exec($query);
-        $query = "
-            LOAD DATA INFILE
-                '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
-            INTO TABLE
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
-            FIELDS TERMINATED BY
-                '\\t'
-            LINES TERMINATED BY
-                '\\n'";
+        
+        switch ($conf['database']['type']) {
+            case 'pgsql':
+                $query = "
+                    COPY
+                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    FROM
+                        '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
+                    WITH DELIMITER  
+                        '\t'";
+                break;
+            case 'mysql':
+                $query = "
+                    LOAD DATA INFILE
+                        '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
+                    INTO TABLE
+                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    FIELDS TERMINATED BY
+                        '\\t'
+                    LINES TERMINATED BY
+                        '\\n'";
+                break;
+        }
         $oDbh->exec($query);
         $query = "
             UPDATE
@@ -299,32 +335,61 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         $oForecastZoneImpressions->setReturnValue('_init', true);
         $oForecastZoneImpressions->ForecastZoneImpressions();
         // Prepare the test data required for the test
+        // Empty the table because of postgres/php5 connection closing bug.
+        $query = "TRUNCATE TABLE {$conf['table']['prefix']}{$conf['table']['zones']}";
+        $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
                 (
                     zoneid,
                     zonename,
-                    zonetype
+                    zonetype,
+                    category,
+                    ad_selection,
+                    chain,
+                    prepend,
+                    append
                 )
             VALUES
                 (
                     760,
                     'Sample Real Zone',
-                    0
+                    0,
+                    '',
+                    '',
+                    '',
+                    '',
+                    ''
                 )";
+        $oDbh->exec($query);
+        
+         // Empty the table because of postgres/php5 connection closing bug.
+        $query = "TRUNCATE TABLE {$conf['table']['prefix']}{$conf['table']['banners']}";
         $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['banners']}
                 (
                     bannerid,
-                    active
+                    active,
+                    htmltemplate,
+                    htmlcache,
+                    url,
+                    bannertext,
+                    compiledlimitation,
+                    append
                 )
             VALUES
                 (
                     1,
-                    't'
+                    't',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    ''
                 )";
         $oDbh->exec($query);
         $query = "
@@ -340,15 +405,32 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                     1
                 )";
         $oDbh->exec($query);
-        $query = "
-            LOAD DATA INFILE
-                '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
-            INTO TABLE
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
-            FIELDS TERMINATED BY
-                '\\t'
-            LINES TERMINATED BY
-                '\\n'";
+        
+        switch ($conf['database']['type']) {
+            case "mysql":
+                $query = "
+                    LOAD DATA INFILE
+                        '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
+                    INTO TABLE
+                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    FIELDS TERMINATED BY
+                        '\\t'
+                    LINES TERMINATED BY
+                        '\\n'";
+                break;
+            case "pgsql":
+                 // Empty the table because of postgres/php5 connection closing bug.
+                $query = "TRUNCATE TABLE {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
+                $oDbh->exec($query);
+                $query = "
+                    COPY
+                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    FROM
+                        '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
+                    WITH DELIMITER  
+                        '\t'";
+                break;
+        }
         $oDbh->exec($query);
         $query = "
             UPDATE
@@ -520,19 +602,40 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         $oForecastZoneImpressions->setReturnValue('_init', true);
         $oForecastZoneImpressions->ForecastZoneImpressions();
         // Prepare the test data required for the test
+        
+        // Workaround for postgresql/php5 open connection bug
+        $query = "
+            TRUNCATE TABLE 
+                {$conf['table']['zones']},
+                {$conf['table']['banners']},
+                {$conf['table']['ad_zone_assoc']},
+                {$conf['table']['data_summary_zone_impression_history']}
+            ";
+        $oDbh->exec($query);
+        
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
                 (
                     zoneid,
                     zonename,
-                    zonetype
+                    zonetype,
+                    category,
+                    ad_selection,
+                    chain,
+                    prepend,
+                    append
                 )
             VALUES
                 (
                     760,
                     'Sample Real Zone',
-                    0
+                    0,
+                    '',
+                    '',
+                    '',
+                    '',
+                    ''
                 )";
         $oDbh->exec($query);
         $query = "
@@ -540,12 +643,24 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['banners']}
                 (
                     bannerid,
-                    active
+                    active,
+                    htmltemplate,
+                    htmlcache,
+                    url,
+                    bannertext,
+                    compiledlimitation,
+                    append
                 )
             VALUES
                 (
                     1,
-                    't'
+                    't',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    ''
                 )";
         $oDbh->exec($query);
         $query = "
@@ -561,15 +676,29 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                     1
                 )";
         $oDbh->exec($query);
-        $query = "
-            LOAD DATA INFILE
-                '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
-            INTO TABLE
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
-            FIELDS TERMINATED BY
-                '\\t'
-            LINES TERMINATED BY
-                '\\n'";
+        
+        switch ($conf['database']['type']) {
+            case 'mysql':
+                $query = "
+                    LOAD DATA INFILE
+                        '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
+                    INTO TABLE
+                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    FIELDS TERMINATED BY
+                        '\\t'
+                    LINES TERMINATED BY
+                        '\\n'";
+                break;
+            case 'pgsql':
+                $query = "
+                    COPY
+                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    FROM
+                        '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
+                    WITH DELIMITER  
+                        '\t'";
+                break;
+        }
         $oDbh->exec($query);
         $query = "
             UPDATE
