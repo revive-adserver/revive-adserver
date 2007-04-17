@@ -214,7 +214,7 @@ class OA_DB
      *
      * @static
      * @param string $name The name of the database to create.
-     * @return boolean True if the database was created correctly, false otherwise.
+     * @return mixed True if the database was created correctly, PEAR_Error otherwise.
      */
     function createDatabase($name)
     {
@@ -224,7 +224,7 @@ class OA_DB
         $result = $oDbh->manager->createDatabase($name);
         OA::enableErrorHandling();
         if (PEAR::isError($result)) {
-            return false;
+            return $result;
         }
         return OA_DB::createFunctions();
     }
