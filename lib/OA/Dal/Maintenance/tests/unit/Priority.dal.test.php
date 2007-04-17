@@ -262,12 +262,13 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
      */
     function testGetPlacementDeliveryToDate()
     {
-        TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         $oNow = new Date();
+
+        TestEnv::startTransaction();
 
         // Test 1
         $result = $oMaxDalMaintenance->getPlacementDeliveryToDate(1);
@@ -494,7 +495,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual(count($result), 0);
 
         // Test 2
-    	TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 tmp_ad_zone_impression
