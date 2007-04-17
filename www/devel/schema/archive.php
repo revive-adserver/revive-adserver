@@ -130,7 +130,8 @@ else if (array_key_exists('btn_field_save', $_POST))
     $schemaFile = $_COOKIE['schemaFile'];
     if (!$schemaFile)
     {
-        $schemaFile = MAX_PATH.'/etc/tables_core.xml';
+        $schemaFile = 'tables_core.xml';
+        $file = MAX_PATH.'/etc/tables_core.xml';
     }
     $changesFile = $_COOKIE['changesetFile'];
     if (!$changesFile)
@@ -139,7 +140,9 @@ else if (array_key_exists('btn_field_save', $_POST))
     }
     else
     {
-        $schemaFile = 'changes/'.str_replace('changes_', 'schema_', $changesFile);
+        $schemaFile = str_replace('changes_', 'schema_', $changesFile);
+        $file = MAX_CHG.$schemaFile;
+        $schemaFile = 'changes/'.$schemaFile;
     }
 
     require_once 'oaSchema.php';
@@ -153,8 +156,6 @@ else if (array_key_exists('btn_field_save', $_POST))
     $field_name = $_POST['fld_old_name'];
     $field_name_was = $_POST['fld_new_name'];
     $oaSchema->fieldWasSave(MAX_CHG.$changesFile, $table_name, $field_name, $field_name_was);
-
-    $file = $schemaFile;
 }
 else if (array_key_exists('btn_table_save', $_POST))
 {
