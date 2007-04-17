@@ -400,7 +400,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
 
-        TestEnv::startTransaction();
         // Insert some ads (banners), campaign trackers, ad
         // impressions, ad clicks, and tracker impressions
         $query = "
