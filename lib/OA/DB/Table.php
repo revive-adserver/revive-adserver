@@ -303,7 +303,7 @@ class OA_DB_Table
         }
         return $allTablesDropped;
     }
-    
+
     /**
      * A method to TRUNCATE a table.  If the DB is mysql it also sets autoincrement to 1.
      *
@@ -314,27 +314,28 @@ class OA_DB_Table
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         MAX::debug('Truncating table ' . $table, PEAR_LOG_DEBUG);
-        PEAR::pushErrorHandling(null);
+        OA::disableErrorHandling();
         $query = "TRUNCATE TABLE $table";
         $result = $this->oDbh->exec($query);
-        PEAR::popErrorHandling();
+        OA::enableErrorHandling();
         if (PEAR::isError($result)) {
             MAX::debug('Unable to truncate table ' . $table, PEAR_LOG_ERROR);
             return false;
         }
-        
+
         if ($aConf['database']['type'] == 'mysql') {
+            OA::disableErrorHandling();
             $result = $this->oDbh->exec("ALTER TABLE $table AUTO_INCREMENT = 1" );
-            PEAR::popErrorHandling();
+            OA::enableErrorHandling();
             if (PEAR::isError($result)) {
                 MAX::debug('Unable to set mysql auto_increment to 1', PEAR_LOG_ERROR);
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
     /**
      * A method for truncating all tables from the currently parsed database XML schema file.
      * Does not truncate any tables that are set up to be "split", if split tables is enabled.
@@ -362,7 +363,7 @@ class OA_DB_Table
         }
         return $allTablesTruncated;
     }
-    
+
     /**
      * Resets a (postgresql) sequence to 1
      *
@@ -374,7 +375,7 @@ class OA_DB_Table
         $aConf = $GLOBALS['_MAX']['CONF'];
         MAX::debug('Resetting sequence ' . $sequence, PEAR_LOG_DEBUG);
         PEAR::pushErrorHandling(null);
-        
+
         if ($aConf['database']['type'] == 'pgsql') {
             $result = $this->oDbh->exec("SELECT setval('$sequence', 1, false)");
             PEAR::popErrorHandling();
@@ -385,7 +386,7 @@ class OA_DB_Table
         }
         return true;
     }
-    
+
     /**
      * Resets all sequences
      *
@@ -394,11 +395,9 @@ class OA_DB_Table
     function resetAllSequences()
     {
         $allSequencesReset = true;
-        $aSequences = $this->oDbh->listSequences();
-        
+        $aSequences = $this->oDbh->manager->listSequences();
         if (is_array($aSequences)) {
             foreach ($aSequences as $sequence) {
-                
                 // listSequences returns sequence names without trailing '_seq'
                 $sequence .= '_seq';
                 MAX::debug('Resetting the ' . $sequence . ' sequence', PEAR_LOG_DEBUG);
@@ -410,7 +409,7 @@ class OA_DB_Table
         }
         return $allSequencesReset;
     }
-    
+
     /**
      * A method to get all the required tables to create another table.
      *
