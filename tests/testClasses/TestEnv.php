@@ -25,9 +25,6 @@
 $Id$
 */
 
-/**
- */
-
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
@@ -222,44 +219,28 @@ class TestEnv
      * DROP TEMPORARY TABLE (for example) is used during testing,
      * causing any transaction to be committed. In this case, this
      * method is needed to re-set the testing database.
+     *
+     * @TODO Ensure any existing transactions are rolled back at
+     *       the start of this method.
      */
     function restoreEnv()
     {
-        // Disable transactions, so that setting up the test environment works
-        $oDbh = &OA_DB::singleton();
-        $query = 'SET AUTOCOMMIT=1';
-        $result = $oDbh->exec($query);
-        // Drop all known temporary tables
+        // Truncate & drop all known temporary tables
         $oTable = &OA_DB_Table_Priority::singleton();
         foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
+            $oTable->truncateTable($tableName);
             $oTable->dropTable($tableName);
         }
         $oTable = &OA_DB_Table_Statistics::singleton();
         foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
+            $oTable->truncateTable($tableName);
             $oTable->dropTable($tableName);
         }
-
-                // The old way. Is not Don. Is not good.
-                //
-                //         Drop all database connections
-                //        OA_DB::disconnectAll();
-                //         Destroy any DataObject connection
-                //        DB_DataObjectCommon::disconnect();
-                //         Destroy any DAL connection
-                //        DBC::disconnect();
-                //         Destroy any Delivery Engine database connections
-                //        unset($GLOBALS['_MAX']['ADMIN_DB_LINK']);
-                //        unset($GLOBALS['_MAX']['RAW_DB_LINK']);
-                //         Destroy any cached table classes
-                //        OA_DB_Table_Core::destroy();
-                //        OA_DB_Table_Priority::destroy();
-                //        OA_DB_Table_Statistics::destroy();
-
-        // Truncate all known tables and reset the sequences
+        // Truncate all core tables
         $oTable = &OA_DB_Table_Core::singleton();
         $oTable->truncateAllTables();
+        // Reset all sequences
         $oTable->resetAllSequences();
-
         // Destroy the service locator
         $oServiceLocator = &ServiceLocator::instance();
         unset($oServiceLocator->aService);
