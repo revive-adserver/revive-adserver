@@ -308,7 +308,7 @@ class OA_DB_Table
      * A method to TRUNCATE a table.  If the DB is mysql it also sets autoincrement to 1.
      *
      * @param string $table the name of the table to truncate
-     * @return boolean true if table truncated, false otherwise
+     * @return boolean True if table truncated, false otherwise
      */
     function truncateTable($table)
     {
@@ -335,9 +335,11 @@ class OA_DB_Table
     }
 
     /**
-     * A method for truncating all tables from the currently parsed database XML schema file.
+     * A method for truncating all tables from the currently parsed database XML
+     * schema file, including any split versions of these tables, if they exist
+     * in the database.
      *
-     * @return boolean true if all tables truncated successfuly, false otherwise.
+     * @return boolean True if all tables truncated successfuly, false otherwise.
      */
     function truncateAllTables()
     {
