@@ -59,7 +59,17 @@ class Migration
 
     var $oDBH;
 
-    function Migration($oDbh, $logfile='')
+    function Migration()
+    {
+        $this->_setupSQLStatements();
+        //$this->__construct();
+    }
+
+//    function __construct()
+//    {
+//    }
+
+    function init($oDbh, $logfile='')
     {
         $this->oDBH = $oDbh;
         if ($logfile)
@@ -71,12 +81,7 @@ class Migration
             $this->logFile = MAX_PATH.'/var/migration.log';
         }
         $this->_setupSQLStatements();
-        //$this->__construct();
     }
-
-//    function __construct()
-//    {
-//    }
 
     /**
      * write a message to the logfile
@@ -198,6 +203,8 @@ class Migration
      */
     function updateColumn($fromTable, $fromColumn, $toTable, $toColumn)
     {
+        // ERROR: $this not initialised
+
         $statement  = $this->aSQLStatements['table_update_col'];
         $query      = sprintf($statement, $toTable, $toColumn, $fromTable, $fromColumn);
         $this->_log('select query prepared: '.$query);

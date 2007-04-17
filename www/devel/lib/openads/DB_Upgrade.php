@@ -198,6 +198,7 @@ class OA_DB_Upgrade
             $this->oMigrator = & new $classname($this->oSchema->db, $this->logFile);
             if ($this->oMigrator)
             {
+                $this->oMigrator->init($this->oSchema->db, $this->logFile);
                 $this->_log('migration class '.$classname.' instantiated');
                 $this->oMigrator->aMessages = $this->aMessages;
                 $this->oMigrator->aErrors = $this->aErrors;
@@ -921,8 +922,9 @@ class OA_DB_Upgrade
                 $index = $aTask['name'];
                 $aIndex_def = $aTask['cargo'];
                 $result = $this->_createAllIndexes($aIndex_def, $table);
-                if ($this->_isPearError($result, 'error adding constraint '.$index))
+                if (!$result)
                 {
+                    $this->_logError('error adding constraint '.$index);
                     $this->_halt();
                     return false;
                 }
@@ -1529,15 +1531,27 @@ class OA_DB_Upgrade
     {
         if (isset($aDef['indexes']))
         {
+            $aDBIndexes = $this->_listIndexes($table_name);
+            $aDBConstraints = $this->_listConstraints($table_name);
+            //$aDBIndexConstraints = array_merge($aDBConstraints, $aDBIndexes);
             foreach ($aDef['indexes'] as $index => $aIndex_def)
             {
                 $aIndex_def = $this->_sortIndexFields($aIndex_def);
                 if (array_key_exists('primary', $aIndex_def) || array_key_exists('unique', $aIndex_def))
                 {
+                    $primary = array_key_exists('primary', $aIndex_def);
+                    if (in_array($index, $aDBConstraints))
+                    {
+                        $result = $this->oSchema->db->manager->dropConstraint($table_name, $index, $primary);
+                    }
                     $result = $this->oSchema->db->manager->createConstraint($table_name, $index, $aIndex_def);
                 }
                 else
                 {
+                    if (in_array($index, $aDBIndexes))
+                    {
+                        $result = $this->oSchema->db->manager->dropIndex($table_name, $index);
+                    }
                     $result = $this->oSchema->db->manager->createIndex($table_name, $index, $aIndex_def);
                 }
                 if (!$this->_isPearError($result, "error creating index {$index} on table {$table_name}"))
@@ -1719,6 +1733,15 @@ class OA_DB_Upgrade
         return $aDBTables;
     }
 
+    function _listConstraints($table_name)
+    {
+        return $this->oSchema->db->manager->listTableConstraints($table_name);
+    }
+
+    function _listIndexes($table_name)
+    {
+        return $this->oSchema->db->manager->listTableIndexes($table_name);
+    }
     /**
      * set the continue flag to false
      *
@@ -1750,7 +1773,7 @@ class OA_DB_Upgrade
         $this->_logWrite("ERROR: {$message}");
     }
 
-    
+
     function _logWrite($message)
     {
         if (empty($this->logFile)) {
