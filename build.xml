@@ -1,5 +1,4 @@
-<project name="openads" default="simpletest" basedir=".">
-  <target name="simpletest" depends="clean, checkconsistency, init, test-all, release" />
+<project name="openads" default="release" basedir=".">
   <property name="test.conf.xml" value="devel.xml"/>
   <property name="dir.test.results" location="build/test-results"/>
   <property name="dir.test.reports" location="build/test-results"/>
@@ -71,12 +70,14 @@
   <!-- Openads Package Integrity Plugin -->
   <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
 
-  <target name="clean">
+  <target name="clean" description="Cleans all the files generated during the build.">
     <delete file="var/test.log" />
     <delete dir="build" />
+    <delete file="tests.xml" />
   </target>
 
-  <target name="checkconsistency">
+  <target name="checkconsistency"
+    description="Checks whether all the files in the working directory are specified in the included or excluded lists of files.">
     <checkdistribution>
       <includeset dir="${basedir}">
         <patternset refid="dist.included"/>
@@ -114,10 +115,18 @@
     <ant antfile="tests.xml"/>
   </target>
 
-  <target name="release" depends="init-release">
+  <target name="release" depends="init-release" description="Creates a release packages in tar.bz2, tar.gz and zip formats.">
     <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="." compression="bzip2" longfile="gnu">
       <patternset refid="dist.included"/>
     </tar>
+    <tar destfile="${dir.test.results}/${release}.tar.gz" basedir="." compression="gzip" longfile="gnu">
+      <patternset refid="dist.included"/>
+    </tar>
+    <zip destfile="${dir.test.results}/${release}.zip" basedir=".">
+      <patternset refid="dist.included"/>
+    </zip>
   </target>
+
+  <target name="simpletest" depends="clean, checkconsistency, init, test-all, release" />
 
 </project>
