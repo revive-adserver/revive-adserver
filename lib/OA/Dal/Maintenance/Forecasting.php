@@ -125,9 +125,10 @@ class OA_Dal_Maintenance_Forecasting extends OA_Dal_Maintenance_Common
             while ($aRow = $rc->fetchRow()) {
                 $aResult[$aRow['zone_id']] = $aRow['count'];
             }
+            $result = $rc->free();
             return $aResult;
-        } elseif (!PEAR::isError($rResult, DB_ERROR_NOSUCHTABLE)) {
-            MAX::raiseError($rResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+        } elseif (!PEAR::isError($rc, DB_ERROR_NOSUCHTABLE)) {
+            MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         } else {
             return array();
         }
