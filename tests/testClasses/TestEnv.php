@@ -284,6 +284,20 @@ class TestEnv
         $oDbh = &OA_DB::singleton();
         $oDbh->rollback();
     }
+    
+    /**
+     * Empties all tables and resets all sequences.
+     * Note: this method is not transaction safe - it is conceiveable another process could
+     * insert data into the tables after they have been truncated but before the sequence is reset.
+     *
+     */
+    function truncateAllTables()
+    {
+        $oTable = &OA_DB_Table_Core::singleton();
+        $oTable->truncateAllTables();
+        $oTable->resetAllSequences();
+        
+    }
 
 }
 
