@@ -56,12 +56,14 @@ class TestEnv
      */
     function setupDB($ignore_errors = false)
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        $result = OA_DB::dropDatabase($aConf['database']['name']);
-        $result = OA_DB::createDatabase($aConf['database']['name']);
-        if (!$result && !$ignore_errors) {
-            PEAR::raiseError("TestEnv unable to create the {$aConf['database']['name']} test database.", PEAR_LOG_ERR);
-            die();
+        $oDbh = &OA_DB::singleton();
+        if (PEAR::isError($oDbh)) {
+            $aConf = $GLOBALS['_MAX']['CONF'];
+            $result = OA_DB::createDatabase($aConf['database']['name']);
+            if (PEAR::isError($result) && !$ignore_errors) {
+                PEAR::raiseError("TestEnv unable to create the {$aConf['database']['name']} test database.", PEAR_LOG_ERR);
+                die();
+            }
         }
     }
 
@@ -162,10 +164,7 @@ class TestEnv
     function teardownDB()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
-        OA::disableErrorHandling();
-        $result = $oDbh->manager->dropDatabase($aConf['database']['name']);
-        OA::enableErrorHandling();
+        $result = OA_DB::dropDatabase($aConf['database']['name']);
     }
 
     /**
@@ -239,19 +238,28 @@ class TestEnv
         foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
             $oTable->dropTable($tableName);
         }
-        // Drop all database connections
-        OA_DB::disconnectAll();
-        // Destroy any DataObject connection
-        DB_DataObjectCommon::disconnect();
-        // Destroy any DAL connection
-        DBC::disconnect();
-        // Destroy any Delivery Engine database connections
-        unset($GLOBALS['_MAX']['ADMIN_DB_LINK']);
-        unset($GLOBALS['_MAX']['RAW_DB_LINK']);
-        // Destroy any cached table classes
-        OA_DB_Table_Core::destroy();
-        OA_DB_Table_Priority::destroy();
-        OA_DB_Table_Statistics::destroy();
+
+                // The old way. Is not Don. Is not good.
+                //
+                //         Drop all database connections
+                //        OA_DB::disconnectAll();
+                //         Destroy any DataObject connection
+                //        DB_DataObjectCommon::disconnect();
+                //         Destroy any DAL connection
+                //        DBC::disconnect();
+                //         Destroy any Delivery Engine database connections
+                //        unset($GLOBALS['_MAX']['ADMIN_DB_LINK']);
+                //        unset($GLOBALS['_MAX']['RAW_DB_LINK']);
+                //         Destroy any cached table classes
+                //        OA_DB_Table_Core::destroy();
+                //        OA_DB_Table_Priority::destroy();
+                //        OA_DB_Table_Statistics::destroy();
+
+        // Truncate all known tables and reset the sequences
+        $oTable = &OA_DB_Table_Core::singleton();
+        $oTable->truncateAllTables();
+        $oTable->resetAllSequences();
+
         // Destroy the service locator
         $oServiceLocator = &ServiceLocator::instance();
         unset($oServiceLocator->aService);
@@ -284,7 +292,7 @@ class TestEnv
         $oDbh = &OA_DB::singleton();
         $oDbh->rollback();
     }
-    
+
     /**
      * Empties all tables and resets all sequences.
      * Note: this method is not transaction safe - it is conceiveable another process could
@@ -296,7 +304,7 @@ class TestEnv
         $oTable = &OA_DB_Table_Core::singleton();
         $oTable->truncateAllTables();
         $oTable->resetAllSequences();
-        
+
     }
 
 }
