@@ -322,7 +322,6 @@ class OA_DB_Table
             MAX::debug('Unable to truncate table ' . $table, PEAR_LOG_ERROR);
             return false;
         }
-
         if ($aConf['database']['type'] == 'mysql') {
             OA::disableErrorHandling();
             $result = $this->oDbh->exec("ALTER TABLE $table AUTO_INCREMENT = 1" );
@@ -332,13 +331,11 @@ class OA_DB_Table
                 return false;
             }
         }
-
         return true;
     }
 
     /**
      * A method for truncating all tables from the currently parsed database XML schema file.
-     * Does not truncate any tables that are set up to be "split", if split tables is enabled.
      *
      * @return boolean true if all tables truncated successfuly, false otherwise.
      */
@@ -349,15 +346,29 @@ class OA_DB_Table
             return false;
         }
         $allTablesTruncated = true;
+        // Do we need to truncate split tables?
+        if ($aConf['table']['split']) {
+            $aTables = $this->oDbh->manager->listTables();
+        }
+        // Iterate over each known table, and truncate
         foreach ($this->aDefinition['tables'] as $tableName => $aTable) {
             if (($aConf['table']['split']) && ($aConf['splitTables'][$tableName])) {
-                // Don't drop
-                continue;
+                // Find all split instances of this table
+                foreach ($aTables as $realTable) {
+                    if (preg_match("/^" . $aConf['table']['prefix'] . $tableName . '$/', $realTable)) {
+                        MAX::debug('Truncating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
+                        $result = $this->truncateTable($realTable);
+                    } else if (preg_match("/^" . $aConf['table']['prefix'] . $tableName . '_[0-9]{8}/', $realTable)) {
+                        MAX::debug('Truncating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
+                        $result = $this->truncateTable($realTable);
+                    }
+                }
+            } else {
+                MAX::debug('Truncating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
+                $result = $this->truncateTable($aConf['table']['prefix'].$tableName);
             }
-            MAX::debug('Truncating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
-            $result = $this->truncateTable($aConf['table']['prefix'].$tableName);
             if (PEAR::isError($result)) {
-                MAX::debug('Unable to truncate the table ' . $table, PEAR_LOG_ERROR);
+                MAX::debug('Unable to truncate the table ' . $tableName, PEAR_LOG_ERROR);
                 $allTablesTruncated = false;
             }
         }
