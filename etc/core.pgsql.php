@@ -56,6 +56,16 @@ END;
 $$ LANGUAGE plpgsql STRICT IMMUTABLE;";
 
 $aCustomFunctions[] = "
+CREATE OR REPLACE FUNCTION DAYOFWEEK(timestamptz) RETURNS integer AS $$
+DECLARE
+ i int4;
+BEGIN
+ i = date_part('dow', $1);
+ RETURN i + 1;
+END;
+$$ LANGUAGE plpgsql STRICT IMMUTABLE;";
+
+$aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION FIND_IN_SET(integer, text) RETURNS integer AS $$
 DECLARE
  a varchar[];
@@ -113,6 +123,15 @@ BEGIN
  RETURN $1::integer;
 END;
 $$ LANGUAGE plpgsql IMMUTABLE;";
+
+$aCustomFunctions[] = "
+CREATE OR REPLACE FUNCTION HOUR(timestamptz) RETURNS integer AS $$
+DECLARE
+ i int4;
+BEGIN
+ i = date_part('hour', $1);
+END;
+$$ LANGUAGE plpgsql STRICT IMMUTABLE;";
 
 $aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION TO_DAYS(timestamptz) RETURNS int4 AS $$
