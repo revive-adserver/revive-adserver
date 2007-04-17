@@ -71,7 +71,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
     {
         // Restore the test environment - tests rely on the fact that the
         // clients generated will start with client ID 1
-        TestEnv::restoreEnv();
+        TestEnv::truncateAllTables();
 
         // Test 1
         $rsClients = $this->dalClients->getClientByKeyword('foo');
@@ -144,7 +144,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertEqual($aRow['clientid'], 1);
         $this->assertEqual($aRow['clientname'], 'Advertiser 1');
 
-        TestEnv::restoreEnv();
+        TestEnv::truncateAllTables();
     }
 
     /**
@@ -195,7 +195,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertTrue(array_key_exists('reportlastdate', $aClients));
         $this->assertTrue(array_key_exists('updated', $aClients));
 
-        TestEnv::restoreEnv();
+        TestEnv::truncateAllTables();
     }
 
     /**
@@ -287,7 +287,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertEqual(count($aClients[1]), 1);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
 
-        TestEnv::restoreEnv();
+        TestEnv::truncateAllTables();
     }
 
     /**
@@ -313,7 +313,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertEqual(count($aClients[1]), 1);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
 
-        TestEnv::restoreEnv();
+        TestEnv::truncateAllTables();
     }
 
 }

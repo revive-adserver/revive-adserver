@@ -303,7 +303,114 @@ class OA_DB_Table
         }
         return $allTablesDropped;
     }
-
+    
+    /**
+     * A method to TRUNCATE a table.  If the DB is mysql it also sets autoincrement to 1.
+     *
+     * @param string $table the name of the table to truncate
+     * @return boolean true if table truncated, false otherwise
+     */
+    function truncateTable($table)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        MAX::debug('Truncating table ' . $table, PEAR_LOG_DEBUG);
+        PEAR::pushErrorHandling(null);
+        $query = "TRUNCATE TABLE $table";
+        $result = $this->oDbh->exec($query);
+        PEAR::popErrorHandling();
+        if (PEAR::isError($result)) {
+            MAX::debug('Unable to truncate table ' . $table, PEAR_LOG_ERROR);
+            return false;
+        }
+        
+        if ($aConf['database']['type'] == 'mysql') {
+            $result = $this->oDbh->exec("ALTER TABLE $table AUTO_INCREMENT = 1" );
+            PEAR::popErrorHandling();
+            if (PEAR::isError($result)) {
+                MAX::debug('Unable to set mysql auto_increment to 1', PEAR_LOG_ERROR);
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * A method for truncating all tables from the currently parsed database XML schema file.
+     * Does not truncate any tables that are set up to be "split", if split tables is enabled.
+     *
+     * @return boolean true if all tables truncated successfuly, false otherwise.
+     */
+    function truncateAllTables()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        if (!$this->_checkInit()) {
+            return false;
+        }
+        $allTablesTruncated = true;
+        foreach ($this->aDefinition['tables'] as $tableName => $aTable) {
+            if (($aConf['table']['split']) && ($aConf['splitTables'][$tableName])) {
+                // Don't drop
+                continue;
+            }
+            MAX::debug('Truncating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
+            $result = $this->truncateTable($aConf['table']['prefix'].$tableName);
+            if (PEAR::isError($result)) {
+                MAX::debug('Unable to truncate the table ' . $table, PEAR_LOG_ERROR);
+                $allTablesTruncated = false;
+            }
+        }
+        return $allTablesTruncated;
+    }
+    
+    /**
+     * Resets a (postgresql) sequence to 1
+     *
+     * @param string $sequence the name of the sequence to reset
+     * @return boolean true on success, false otherwise
+     */
+    function resetSequence($sequence)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        MAX::debug('Resetting sequence ' . $sequence, PEAR_LOG_DEBUG);
+        PEAR::pushErrorHandling(null);
+        
+        if ($aConf['database']['type'] == 'pgsql') {
+            $result = $this->oDbh->exec("SELECT setval('$sequence', 1, false)");
+            PEAR::popErrorHandling();
+            if (PEAR::isError($result)) {
+                MAX::debug('Unable to truncate table ' . $table, PEAR_LOG_ERROR);
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Resets all sequences
+     *
+     * @return boolean true on success, false otherwise
+     */
+    function resetAllSequences()
+    {
+        $allSequencesReset = true;
+        $aSequences = $this->oDbh->listSequences();
+        
+        if (is_array($aSequences)) {
+            foreach ($aSequences as $sequence) {
+                
+                // listSequences returns sequence names without trailing '_seq'
+                $sequence .= '_seq';
+                MAX::debug('Resetting the ' . $sequence . ' sequence', PEAR_LOG_DEBUG);
+            	if (!$this->resetSequence($sequence)) {
+            	    MAX::debug('Unable to reset the sequence ' . $sequence, PEAR_LOG_ERROR);
+            	    $allSequencesReset = false;
+            	}
+            }
+        }
+        return $allSequencesReset;
+    }
+    
     /**
      * A method to get all the required tables to create another table.
      *
