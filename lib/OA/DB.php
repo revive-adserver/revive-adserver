@@ -130,7 +130,9 @@ class OA_DB
                 }
             }
             // Create the new database connection
+            OA::disableErrorHandling();
             $oDbh = &MDB2::singleton($dsn, $aOptions);
+            OA::enableErrorHandling();
             if (PEAR::isError($oDbh)) {
                 return $oDbh;
             }
