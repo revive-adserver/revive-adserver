@@ -237,7 +237,7 @@ class OA_DB
      */
     function createFunctions()
     {
-        $oDbh = &OA_DB::singleton($dsn);
+        $oDbh = &OA_DB::singleton();
         $functionsFile = MAX_PATH . '/etc/core.' . $oDbh->dsn['phptype'] . '.php';
         if (is_readable($functionsFile)) {
             include $functionsFile;
