@@ -219,12 +219,15 @@ class TestEnv
      * DROP TEMPORARY TABLE (for example) is used during testing,
      * causing any transaction to be committed. In this case, this
      * method is needed to re-set the testing database.
-     *
-     * @TODO Ensure any existing transactions are rolled back at
-     *       the start of this method.
      */
     function restoreEnv()
     {
+        // Rollback any transactions that have not been closed
+        // (Naughty, naughty test!)
+        $oDbh = &OA_DB::singleton();
+        while ($oDbh->inTransaction(true) || $oDbh->inTransaction()) {
+            TestEnv::rollbackTransaction();
+        }
         // Truncate & drop all known temporary tables
         $oTable = &OA_DB_Table_Priority::singleton();
         foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
@@ -236,24 +239,16 @@ class TestEnv
             $oTable->truncateTable($tableName);
             $oTable->dropTable($tableName);
         }
-        // Truncate all core tables
+        // Truncate all known core tables
         $oTable = &OA_DB_Table_Core::singleton();
         $oTable->truncateAllTables();
-        // Reset all sequences
+        // Reset all database sequences
         $oTable->resetAllSequences();
         // Destroy the service locator
         $oServiceLocator = &ServiceLocator::instance();
         unset($oServiceLocator->aService);
         // Re-set up the test environment
         TestRunner::setupEnv($GLOBALS['_MAX']['TEST']['layerEnv'], true);
-    }
-
-    /**
-     * A method for rebuilding the database sequences.
-     */
-    function rebuildSequences()
-    {
-
     }
 
     /**
