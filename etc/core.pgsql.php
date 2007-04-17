@@ -93,6 +93,16 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql STRICT IMMUTABLE;";
 
+$aCustomFunctions[] = "
+CREATE OR REPLACE FUNCTION IF(boolean, character varying, character varying) RETURNS character varying AS $$
+BEGIN
+ IF ($1) THEN
+  RETURN $2;
+ END IF;
+ RETURN $3;
+END;
+$$ LANGUAGE plpgsql STRICT IMMUTABLE;";
+
 // IFNULL is not STRICT as the $1 parameter may be NULL.
 $aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION IFNULL(numeric, integer) RETURNS integer AS $$
