@@ -136,7 +136,9 @@ class OA_DB
             if (PEAR::isError($oDbh)) {
                 return $oDbh;
             }
+            OA::disableErrorHandling();
             $success = $oDbh->connect();
+            OA::enableErrorHandling();
             if (PEAR::isError($success)) {
                 return $success;
             }
