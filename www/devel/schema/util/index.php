@@ -19,11 +19,11 @@ if (array_key_exists('dump', $_POST) ||
                      );
 
     $GLOBALS['_MAX']['CONF']['database']['type'] = $dsn['phptype'];
-	
+
 	// Use a conf-like array to genarate a string DSN
 	$aConf = array('database' => $dsn);
 	$aConf['database']['type'] = $aConf['database']['phptype'];
-	
+
     $mdb = &OA_DB::singleton(OA_DB::getDsn($aConf));
 
     $options = array(   'force_defaults'=>false,
@@ -76,9 +76,25 @@ if (array_key_exists('dump', $_POST) ||
     }
     else if (array_key_exists('create', $_POST))
     {
-        $def = $schema->parseDatabaseDefinitionFile(MAX_VAR.'/'.$_POST['filecreate']);
+        $aDef = $schema->parseDatabaseDefinitionFile(MAX_VAR.'/'.$_POST['filecreate']);
+        //require_once MAX_PATH.'/lib/OA/DB.php';
         //$def['name'] = $dsn['database'];
-        $schema->createDatabase($def);
+        //$schema->createDatabase($def);
+
+        //$result = $mdb->manager->listDatabases();
+        if (in_array(strtolower($aDef['name']), array_map('strtolower', $mdb->manager->listDatabases())))
+        {
+            $mdb->manager->dropDatabase($aDef['name']);
+        }
+        if ($mdb->manager->createDatabase($aDef['name']))
+        {
+            $schema->db = OA_DB::changeDatabase($aDef['name']);
+            require_once MAX_PATH.'/lib/OA/DB/Table.php';
+            $oTable = new OA_DB_Table();
+            $oTable->oSchema = $schema;
+            $oTable->aDefinition = $aDef;
+            $oTable->createAllTables();
+        }
     }
     else if (array_key_exists('show', $_POST))
     {

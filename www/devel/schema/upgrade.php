@@ -37,6 +37,8 @@ $Id$
 
 require_once '../../../init.php';
 define('MAX_DEV', MAX_PATH.'/www/devel');
+define('MAX_CHG', MAX_PATH.'/etc/changes/');
+define('MAX_VAR', MAX_PATH.'/var/');
 
 // Required files
 require_once MAX_DEV.'/lib/pear.inc.php';
@@ -46,61 +48,103 @@ require_once 'Config.php';
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_DEV.'/lib/openads/DB_Upgrade.php';
 
-$welcome = false;
+$welcome = true;
 $backup  = false;
 $upgrade = false;
-
-$version = 2;
-$timing = 'constructive';
-$schema = 'tables_core';
-
-//$version = 3;
-//$timing = 'constructive';
-
-//$version = 4;
-//$timing = 'constructive';
-
-//$version = 5;
-//$timing = 'destructive';
-
-//$version = 6;
-//$timing = 'destructive';
 
 $oUpgrade = new OA_DB_Upgrade();
 
 if ($oUpgrade->_seekRecoveryFile())
 {
     $oUpgrade->_prepRecovery();
-    include 'tpl/upgrade.html';
+}
+else if (array_key_exists('btn_view_available', $_REQUEST))
+{
+    $aChangesetsAvail = getChangesetList();
+}
+else if (array_key_exists('btn_view_logs', $_REQUEST))
+{
+    $aLogfiles = getLogfilesList();
+}
+else if (array_key_exists('btn_logfile', $_REQUEST))
+{
+    $logfile = $_POST['btn_logfile'];
+    $logcontent = file_get_contents(MAX_VAR.$logfile);
+}
+else if (array_key_exists('btn_view_audit', $_REQUEST))
+{
+    $aAudit = getAuditRecords($oUpgrade);
 }
 else if (array_key_exists('btn_initialise', $_REQUEST))
 {
     $oUpgrade->init($timing, $schema, $version);
-//    $backup = true;
     $upgrade = true;
-    include 'tpl/upgrade.html';
-}
-else if (array_key_exists('btn_backup', $_REQUEST))
-{
-    $oUpgrade->init($timing, $schema, $version);
-    $oUpgrade->backup();
-    $upgrade = true;
-    include 'tpl/upgrade.html';
 }
 else if (array_key_exists('btn_upgrade', $_POST))
 {
+    $version = $_POST['btn_upgrade'];
+    $timing = 'constructive';
+    $schema = 'tables_core';
     if ($oUpgrade->init($timing, $schema, $version))
     {
         $oUpgrade->upgrade();
     }
-    include 'tpl/upgrade.html';
 }
-else
+include 'tpl/upgrade.html';
+
+
+function getChangesetList()
 {
-    $welcome = true;
-    include 'tpl/upgrade.html';
+    $aFiles = array();
+    $dh = opendir(MAX_CHG);
+    if ($dh) {
+        while (false !== ($file = readdir($dh)))
+        {
+            $aMatches = array();
+            if (preg_match('/schema_[\w\W]+_[\d]+\.xml/', $file, $aMatches))
+            {
+                $fileSchema = basename($file);
+                $aFiles[$fileSchema] = array();
+                $fileChanges = str_replace('schema', 'changes', $fileSchema);
+                $fileMigrate = str_replace('schema', 'migration', $fileSchema);
+                $fileMigrate = str_replace('xml', 'php', $fileMigrate);
+                if (file_exists(MAX_CHG.$fileChanges))
+                {
+                    $aFiles[$file]['changeset'] = $fileChanges;
+                }
+                if (file_exists(MAX_CHG.$fileMigrate))
+                {
+                    $aFiles[$file]['migration'] = $fileMigrate;
+                }
+            }
+        }
+    }
+    closedir($dh);
+    return $aFiles;
 }
 
+function getLogfilesList()
+{
+    $aFiles = array();
+    $dh = opendir(MAX_VAR);
+    if ($dh) {
+        while (false !== ($file = readdir($dh)))
+        {
+            $aMatches = array();
+            if (preg_match('/upgrade_[\d_]+\.log/', $file, $aMatches))
+            {
+                $aFiles[] = basename($file);
+            }
+        }
+    }
+    closedir($dh);
+    return $aFiles;
+}
+
+function getAuditRecords($oDBUpgrade)
+{
+    return $oDBUpgrade->_queryAllLogTable();
+}
 
 ?>
 
