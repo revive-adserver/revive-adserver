@@ -210,7 +210,15 @@ if ($file && file_exists($file))
 }
 else
 {
-    echo 'archive.php: error reading '.$file;
+    if ($file)
+    {
+        echo 'archive.php: error reading '.$file;
+    }
+    else
+    {
+        echo '<h2 style="font-family: Arial, Helvetica, sans-serif;text-align:center;">no changesets in archive</h2>';
+    }
+
 //    header('Location: index.php');
 //    exit;
 }

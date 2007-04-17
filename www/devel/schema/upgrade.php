@@ -25,14 +25,7 @@ $Id$
 */
 
 /**
- * A quick and dirty script
- * to execute incremental upgrades from within a browser
- * using the /lib/max/Admin/Upgrade.php class
- * Doesn't look pretty!
- * but it does output error messages
- * and updates the schema version variable
- * as it goes along
- * Uses a crude "template" system
+ * db upgrade class demonstration script
  */
 
 require_once '../../../init.php';
@@ -101,21 +94,24 @@ function getChangesetList()
         while (false !== ($file = readdir($dh)))
         {
             $aMatches = array();
-            if (preg_match('/schema_[\w\W]+_[\d]+\.xml/', $file, $aMatches))
+            if (preg_match('/schema_[\w\W]+_([\d])+\.xml/', $file, $aMatches))
             {
                 $fileSchema = basename($file);
                 $aFiles[$fileSchema] = array();
                 $fileChanges = str_replace('schema', 'changes', $fileSchema);
                 $fileMigrate = str_replace('schema', 'migration', $fileSchema);
                 $fileMigrate = str_replace('xml', 'php', $fileMigrate);
-                if (file_exists(MAX_CHG.$fileChanges))
+                if (!file_exists(MAX_CHG.$fileChanges))
                 {
-                    $aFiles[$file]['changeset'] = $fileChanges;
+                    $fileChanges = 'not found';
                 }
-                if (file_exists(MAX_CHG.$fileMigrate))
+                $aFiles[$file]['changeset'] = $fileChanges;
+                if (!file_exists(MAX_CHG.$fileMigrate))
                 {
-                    $aFiles[$file]['migration'] = $fileMigrate;
+                    $fileMigrate = 'not found';
                 }
+                $aFiles[$file]['migration'] = $fileMigrate;
+                $aFiles[$file]['version'] = $aMatches[1];
             }
         }
     }
