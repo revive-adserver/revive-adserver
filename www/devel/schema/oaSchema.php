@@ -97,11 +97,12 @@ class Openads_Schema_Manager
         $this->path_changes_final = MAX_PATH.'/etc/changes/';
         $this->path_changes_trans = MAX_PATH.'/var/';
 
-        //$this->path_links_final = MAX_PATH.'/lib/max/Dal/DataObjects/';
-        $this->path_links_final = MAX_PATH.'/etc/';
-        $this->path_links_trans = MAX_PATH.'/var/';
+        //$this->path_dbo = $this->path_changes_final.'DataObjects_';
+        $this->path_dbo = MAX_PATH.'/lib/max/Dal/DataObjects/';
 
-        $this->path_dbo = $this->path_changes_final.'DataObjects_';
+        //$this->path_links_final = MAX_PATH.'/lib/max/Dal/DataObjects/';
+        $this->path_links_final = $this->path_dbo;
+        $this->path_links_trans = MAX_PATH.'/var/';
 
         $file_changes   = ($file_changes ? $file_changes : 'changes_'.$file_schema);
         $file_links     = 'db_schema.links.ini';
@@ -291,15 +292,10 @@ class Openads_Schema_Manager
                 $result = $this->createChangeset($this->changes_final, $comments, $version);
                 if ($result)
                 {
-                    if ($result)
-                    {
-                        $this->_generateDataObjects($this->changes_final, $basename);
-                        $result = $this->writeWorkingDefinitionFile($this->schema_final);
-                        $schema = $this->path_changes_final.'schema_'.$basename.'.xml';
-                        $result = $this->writeWorkingDefinitionFile($schema);
-//                        copy($schema, $this->path_changes_final.basename($schema));
-//                        unlink($schema);
-                    }
+                    $this->_generateDataObjects($this->changes_final, $basename);
+                    $result = $this->writeWorkingDefinitionFile($this->schema_final);
+                    $schema = $this->path_changes_final.'schema_'.$basename.'.xml';
+                    $result = $this->writeWorkingDefinitionFile($schema);
                 }
                 if ($result && $this->use_links)
                 {
@@ -1389,43 +1385,45 @@ class Openads_Schema_Manager
      */
     function _generateDataObjects($changes_file, $basename)
     {
-        $aChanges = $this->oSchema->parseChangesetDefinitionFile($changes_file);
+// compile the list of changed tables to generate dataobject classes for
+//        $aChanges = $this->oSchema->parseChangesetDefinitionFile($changes_file);
+//
+//        $aTables = array();
+//        if (isset($aChanges['constructive']['tables']['change']))
+//        {
+//            $aTables = array_merge($aTables, array_keys($aChanges['constructive']['tables']['change']));
+//        }
+//        if (isset($aChanges['constructive']['tables']['add']))
+//        {
+//            $aTables = array_merge($aTables, array_keys($aChanges['constructive']['tables']['add']));
+//        }
+//        if (isset($aChanges['constructive']['tables']['remove']))
+//        {
+//            $aTables = array_merge($aTables, array_keys($aChanges['destructive']['tables']['remove']));
+//        }
+//        // compile a list of changed tables
+//        // generate dataobjects only for the changed tables
+//        $include = '';
+//        foreach ($aTables AS $k => $table)
+//        {
+//            if (!empty($include))
+//            {
+//                $include.= '|';
+//            }
+//            $include.= $table;
+//        }
+// output the dataobjects to a holding folder
+//        $path_dbo =  $this->path_dbo.$basename;
+//
+//        if (!file_exists($path_dbo))
+//        {
+//            mkdir($path_dbo);
+//            if (!file_exists($path_dbo))
+//            {
+//                die("Error: could not create the data_objects directory {$path_dbo} \n");
+//            }
+//        }
 
-        $aTables = array();
-        if (isset($aChanges['constructive']['tables']['change']))
-        {
-            $aTables = array_merge($aTables, array_keys($aChanges['constructive']['tables']['change']));
-        }
-        if (isset($aChanges['constructive']['tables']['add']))
-        {
-            $aTables = array_merge($aTables, array_keys($aChanges['constructive']['tables']['add']));
-        }
-        if (isset($aChanges['constructive']['tables']['remove']))
-        {
-            $aTables = array_merge($aTables, array_keys($aChanges['destructive']['tables']['remove']));
-        }
-        // compile a list of changed tables
-        // generate dataobjects only for the changed tables
-        $include = '';
-        foreach ($aTables AS $k => $table)
-        {
-            if (!empty($include))
-            {
-                $include.= '|';
-            }
-            $include.= $table;
-        }
-        //$path_dbo = $this->path_dbo.str_replace('.xml', '_'.$this->version,basename($this->schema_final));
-        $path_dbo =  $this->path_dbo.$basename;
-
-        if (!file_exists($path_dbo))
-        {
-            mkdir($path_dbo);
-            if (!file_exists($path_dbo))
-            {
-                die("Error: could not create the data_objects directory {$path_dbo} \n");
-            }
-        }
         //create the temporary database
         $database_name = $this->aDB_definition['name'];
         $this->aDB_definition['name'] = $this->dbo_name;
@@ -1446,9 +1444,9 @@ class Openads_Schema_Manager
         $options = &PEAR::getStaticProperty('DB_DataObject', 'options');
         $options = array(
             'database'              => OA_DB::getDsn(),
-            'schema_location'       => $path_dbo,
-            'class_location'        => $path_dbo,
-            'require_prefix'        => $path_dbo . '/',
+            'schema_location'       => $this->path_dbo,
+            'class_location'        => $this->path_dbo,
+            'require_prefix'        => $this->path_dbo,
             'class_prefix'          => 'DataObjects_',
             'debug'                 => 0,
             'extends'               => 'DB_DataObjectCommon',
@@ -1456,13 +1454,15 @@ class Openads_Schema_Manager
             'production'            => 0,
             'ignore_sequence_keys'  => 'ALL',
             'generator_strip_schema'=> 1,
-            'generator_include_regex' => "/({$include})/",
+            //'generator_include_regex' => "/({$include})/",
             'generator_exclude_regex' => '/(data_raw_.*|data_summary_channel_.*|data_summary_zone_.*)/'
         );
 
         require_once 'DB/DataObject/Generator.php';
+        // the generated schema will be named after the database used
+        $dbo_schemaFileTmp = $this->path_dbo.$this->dbo_name.'.ini';
         // remove original dbdo keys file as it is unable to update an existing file
-        $dbo_schemaFile = $path_dbo . '/'.$this->dbo_name.'.ini';
+        $dbo_schemaFile = $this->path_dbo.'db_schema.ini';
         if (is_file($dbo_schemaFile))
         {
             unlink($dbo_schemaFile);
@@ -1472,8 +1472,7 @@ class Openads_Schema_Manager
         $generator->start();
 
         // rename schema ini file
-        $dbo_schemaFileNew = $path_dbo . '/db_schema.ini';
-        rename($dbo_schemaFile, $dbo_schemaFileNew);
+        rename($dbo_schemaFileTmp, $dbo_schemaFile);
 
         // reset the dsn and definition
         $this->aDB_definition['name'] = $database_name;
