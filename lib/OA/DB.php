@@ -27,6 +27,7 @@ $Id$
 
 require_once 'MDB2.php';
 require_once MAX_PATH . '/lib/Max.php';
+require_once MAX_PATH . '/lib/OA.php';
 
 define('OA_DB_MDB2_DEFAULT_OPTIONS', MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL);
 
