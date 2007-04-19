@@ -92,6 +92,8 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         $conf['table']['split'] = false;
         $conf['table']['prefix'] = '';
         $oDbh = &OA_DB::singleton();
+        $oTable = &OA_DB_Table_Core::singleton();
+        $oTable->dropAllTables();
         $aExistingTables = $oDbh->manager->listTables();
         if (PEAR::isError($aExistingTables)) {
             // Can't talk to database, test fails!
@@ -108,7 +110,13 @@ class Test_OA_DB_Table_Core extends UnitTestCase
             // Test that the tables exists
             $this->assertTrue(in_array($tableName, $aExistingTables));
         }
-        TestEnv::restoreEnv();
+        $oTable->dropAllTables();
+        $aExistingTables = $oDbh->manager->listTables();
+        if (PEAR::isError($aExistingTables)) {
+            // Can't talk to database, test fails!
+            $this->assertTrue(false);
+        }
+        $this->assertEqual(count($aExistingTables), 0);
 
         // Ensure the singleton is destroyed
         $oTable->destroy();
@@ -118,14 +126,15 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         $conf['table']['split'] = true;
         $conf['table']['prefix'] = '';
         $oDbh = &OA_DB::singleton();
+        $oTable = &OA_DB_Table_Core::singleton();
+        $oTable->dropAllTables();
         $aExistingTables = $oDbh->manager->listTables();
         if (PEAR::isError($aExistingTables)) {
             // Can't talk to database, test fails!
             $this->assertTrue(false);
         }
         $this->assertEqual(count($aExistingTables), 0);
-        $oTable = &OA_DB_Table_Core::singleton();
-        $oDate = new Date();
+        $oDate = new Date('2007-04-19');
         $oTable->createAllTables($oDate);
         $aExistingTables = $oDbh->manager->listTables();
         foreach ($conf['table'] as $key => $tableName) {
@@ -140,7 +149,24 @@ class Test_OA_DB_Table_Core extends UnitTestCase
                 $this->assertTrue(in_array($tableName, $aExistingTables));
             }
         }
-        TestEnv::restoreEnv();
+        $oTable->dropAllTables();
+        $splitTableCount = count($conf['splitTables']);
+        $aExistingTables = $oDbh->manager->listTables();
+        if (PEAR::isError($aExistingTables)) {
+            // Can't talk to database, test fails!
+            $this->assertTrue(false);
+        }
+        $this->assertEqual(count($aExistingTables), $splitTableCount);
+        foreach ($conf['splitTables'] as $splitTableName => $value) {
+            $dropSplitTableName = $conf['table']['prefix'] . $splitTableName . '_' . $oDate->format('%Y%m%d');
+            $oTable->dropTable($dropSplitTableName);
+        }
+        $aExistingTables = $oDbh->manager->listTables();
+        if (PEAR::isError($aExistingTables)) {
+            // Can't talk to database, test fails!
+            $this->assertTrue(false);
+        }
+        $this->assertEqual(count($aExistingTables), 0);
 
         // Ensure the singleton is destroyed
         $oTable->destroy();
