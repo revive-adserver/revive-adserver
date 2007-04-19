@@ -78,7 +78,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         // Partially mock the ForecastZoneImpressions class, and set
         // the mocked _getDal() method to return the partially mocked DAL,
         // and the mocked _init() method (simply returns true)
-        $oForecastZoneImpressions = &new PartialMockForecastZoneImpressions($this);
+        $oForecastZoneImpressions = new PartialMockForecastZoneImpressions($this);
         $oForecastZoneImpressions->setReturnReference('_getDal', $oDal);
         $oForecastZoneImpressions->setReturnValue('_init', true);
         $oForecastZoneImpressions->ForecastZoneImpressions();
@@ -146,7 +146,6 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                     1
                 )";
         $oDbh->exec($query);
-        
         switch ($conf['database']['type']) {
             case 'pgsql':
                 $query = "
@@ -154,7 +153,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                         {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
                     FROM
                         '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
-                    WITH DELIMITER  
+                    WITH DELIMITER
                         '\t'";
                 break;
             case 'mysql':
@@ -198,12 +197,12 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                 $oForecastZoneImpressions->oDateNow
             );
             $oForecastZoneImpressions->oUpdateToDate = $aDates['end'];
-            $oMtceStatsLastRun = &new MockMtceStatsLastRun($this);
+            $oMtceStatsLastRun = new MockMtceStatsLastRun($this);
             $oMtceStatsLastRun->oUpdatedToDate = new Date();
             $oMtceStatsLastRun->oUpdatedToDate->copy($oDate);
             $oMtceStatsLastRun->oUpdatedToDate->subtractSeconds(8); // Take back to end of previous hour
             $oForecastZoneImpressions->mtceStatsLastRun = $oMtceStatsLastRun;
-            $oMtcePriorityLastRun = &new MockMtcePriorityLastRun($this);
+            $oMtcePriorityLastRun = new MockMtcePriorityLastRun($this);
             $oMtcePriorityLastRun->oUpdatedToDate = new Date();
             $oMtcePriorityLastRun->oUpdatedToDate->copy($oDate);
             $oMtcePriorityLastRun->oUpdatedToDate->subtractSeconds(3608); // Take back to end of previous hour - 1 hour
@@ -326,18 +325,15 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         $initialRun = 2 * 7 * 24;
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oDal = &new MAX_Dal_Maintenance_TestOfForecastZoneImpressions($this);
+        $oDal = new MAX_Dal_Maintenance_TestOfForecastZoneImpressions($this);
         // Partially mock the ForecastZoneImpressions class, and set
         // the mocked _getDal() method to return the partially mocked DAL,
         // and the mociked _init() method to always return true
-        $oForecastZoneImpressions = &new PartialMockForecastZoneImpressions($this);
+        $oForecastZoneImpressions = new PartialMockForecastZoneImpressions($this);
         $oForecastZoneImpressions->setReturnReference('_getDal', $oDal);
         $oForecastZoneImpressions->setReturnValue('_init', true);
         $oForecastZoneImpressions->ForecastZoneImpressions();
         // Prepare the test data required for the test
-        // Empty the table because of postgres/php5 connection closing bug.
-        $query = "TRUNCATE TABLE {$conf['table']['prefix']}{$conf['table']['zones']}";
-        $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -362,10 +358,6 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                     '',
                     ''
                 )";
-        $oDbh->exec($query);
-        
-         // Empty the table because of postgres/php5 connection closing bug.
-        $query = "TRUNCATE TABLE {$conf['table']['prefix']}{$conf['table']['banners']}";
         $oDbh->exec($query);
         $query = "
             INSERT INTO
@@ -405,7 +397,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                     1
                 )";
         $oDbh->exec($query);
-        
+
         switch ($conf['database']['type']) {
             case "mysql":
                 $query = "
@@ -419,15 +411,12 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                         '\\n'";
                 break;
             case "pgsql":
-                 // Empty the table because of postgres/php5 connection closing bug.
-                $query = "TRUNCATE TABLE {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
-                $oDbh->exec($query);
                 $query = "
                     COPY
                         {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
                     FROM
                         '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
-                    WITH DELIMITER  
+                    WITH DELIMITER
                         '\t'";
                 break;
         }
@@ -460,12 +449,12 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                 $oForecastZoneImpressions->oDateNow
             );
             $oForecastZoneImpressions->oUpdateToDate = $aDates['end'];
-            $oMtceStatsLastRun = &new MockMtceStatsLastRun($this);
+            $oMtceStatsLastRun = new MockMtceStatsLastRun($this);
             $oMtceStatsLastRun->oUpdatedToDate = new Date();
             $oMtceStatsLastRun->oUpdatedToDate->copy($oDate);
             $oMtceStatsLastRun->oUpdatedToDate->subtractSeconds(8); // Take back to end of previous hour
             $oForecastZoneImpressions->mtceStatsLastRun = $oMtceStatsLastRun;
-            $oMtcePriorityLastRun = &new MockMtcePriorityLastRun($this);
+            $oMtcePriorityLastRun = new MockMtcePriorityLastRun($this);
             $oMtcePriorityLastRun->oUpdatedToDate = new Date();
             $oMtcePriorityLastRun->oUpdatedToDate->copy($oDate);
             $oMtcePriorityLastRun->oUpdatedToDate->subtractSeconds(3608); // Take back to end of previous hour - 1 hour
@@ -593,26 +582,15 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oDal = &new MAX_Dal_Maintenance_TestOfForecastZoneImpressions($this);
+        $oDal = new MAX_Dal_Maintenance_TestOfForecastZoneImpressions($this);
         // Partially mock the ForecastZoneImpressions class, and set
         // the mocked _getDal() method to return the partially mocked DAL,
         // and the mociked _init() method to always return true
-        $oForecastZoneImpressions = &new PartialMockForecastZoneImpressions($this);
+        $oForecastZoneImpressions = new PartialMockForecastZoneImpressions($this);
         $oForecastZoneImpressions->setReturnReference('_getDal', $oDal);
         $oForecastZoneImpressions->setReturnValue('_init', true);
         $oForecastZoneImpressions->ForecastZoneImpressions();
         // Prepare the test data required for the test
-        
-        // Workaround for postgresql/php5 open connection bug
-        $query = "
-            TRUNCATE TABLE 
-                {$conf['table']['zones']},
-                {$conf['table']['banners']},
-                {$conf['table']['ad_zone_assoc']},
-                {$conf['table']['data_summary_zone_impression_history']}
-            ";
-        $oDbh->exec($query);
-        
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['zones']}
@@ -676,7 +654,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                     1
                 )";
         $oDbh->exec($query);
-        
+
         switch ($conf['database']['type']) {
             case 'mysql':
                 $query = "
@@ -695,7 +673,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                         {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
                     FROM
                         '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
-                    WITH DELIMITER  
+                    WITH DELIMITER
                         '\t'";
                 break;
         }
@@ -737,12 +715,12 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                 $oForecastZoneImpressions->oDateNow
             );
             $oForecastZoneImpressions->oUpdateToDate = $aDates['end'];
-            $oMtceStatsLastRun = &new MockMtceStatsLastRun($this);
+            $oMtceStatsLastRun = new MockMtceStatsLastRun($this);
             $oMtceStatsLastRun->oUpdatedToDate = new Date();
             $oMtceStatsLastRun->oUpdatedToDate->copy($oDate);
             $oMtceStatsLastRun->oUpdatedToDate->subtractSeconds(8); // Take back to end of previous hour
             $oForecastZoneImpressions->mtceStatsLastRun = $oMtceStatsLastRun;
-            $oMtcePriorityLastRun = &new MockMtcePriorityLastRun($this);
+            $oMtcePriorityLastRun = new MockMtcePriorityLastRun($this);
             $oMtcePriorityLastRun->oUpdatedToDate = new Date();
             $oMtcePriorityLastRun->oUpdatedToDate->copy($oDate);
             $oMtcePriorityLastRun->oUpdatedToDate->subtractSeconds(3608); // Take back to end of previous hour - 1 hour
