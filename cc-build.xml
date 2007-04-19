@@ -29,11 +29,11 @@
 		<ant antfile="build.xml" dir="${basedir}" output="build.log" target="simpletest" />
 	</target>
 
-	<target name="release">
+	<target name="make-release">
 		<ant antfile="build.xml" dir="${basedir}" output="build.log" target="release" />
 	</target>
 
 	<target name="cruise" depends="init, clean, update, build"/>
 
-  <target name="release" depends="init,clean,update,release"/>
+  <target name="release" depends="init,clean,update,make-release"/>
 </project>
