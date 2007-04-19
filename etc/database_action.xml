@@ -15,6 +15,14 @@
   <declaration>
 
    <field>
+    <name>schema_name</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
     <name>version</name>
     <type>openads_int</type>
     <length>11</length>
@@ -71,7 +79,7 @@
    </field>
 
    <field>
-    <name>schema_backup</name>
+    <name>table_backup_schema</name>
     <type>openads_text</type>
     <length></length>
     <notnull>false</notnull>
@@ -86,7 +94,11 @@
    </field>
 
    <index>
-    <name>version_timing_action</name>
+    <name>schema_version_timing_action</name>
+    <field>
+     <name>schema_name</name>
+     <sorting>descending</sorting>
+    </field>
     <field>
      <name>version</name>
      <sorting>descending</sorting>
