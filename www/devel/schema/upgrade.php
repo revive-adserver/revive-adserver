@@ -39,8 +39,8 @@ require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
 require_once 'Config.php';
 require_once MAX_PATH.'/lib/OA/DB.php';
-require_once MAX_DEV.'/lib/openads/DB_Upgrade.php';
-require_once MAX_DEV.'/lib/openads/DB_Upgrade_Manager.php';
+require_once MAX_DEV.'/lib/OA/Upgrade/DB_Upgrade.php';
+require_once MAX_DEV.'/lib/OA/Upgrade/DB_Upgrade_Manager.php';
 
 $welcome = true;
 $backup  = false;
