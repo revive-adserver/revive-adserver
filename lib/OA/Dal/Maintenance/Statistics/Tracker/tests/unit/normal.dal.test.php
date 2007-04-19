@@ -252,7 +252,6 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         $this->assertNull($date);
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertNull($date);
-        TestEnv::startTransaction();
         // Insert tracker impressions
         $query = "
             INSERT INTO
@@ -366,7 +365,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -378,7 +377,6 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $conf['maintenance']['compactStatsGrace'] = 0;
         $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
-        TestEnv::startTransaction();
         // Insert the test data
         $this->_insertTestDeleteImpressions();
         $this->_insertTestDeleteVariableValues();
@@ -407,11 +405,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
         // Set a compact_stats_grace window
         $conf['maintenance']['compactStatsGrace'] = 3600;
         $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
-        TestEnv::startTransaction();
         // Insert the test data
         $this->_insertTestDeleteImpressions();
         $this->_insertTestDeleteVariableValues();
@@ -440,7 +437,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreConfig();
     }
 
 }
