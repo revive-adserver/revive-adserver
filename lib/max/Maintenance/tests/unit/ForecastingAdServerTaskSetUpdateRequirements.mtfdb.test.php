@@ -114,7 +114,6 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertNull($oSetUpdateRequirements->oController->oUpdateToDate);
 
         // Test 2
-        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
@@ -141,10 +140,12 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertEqual($oSetUpdateRequirements->oController->oLastUpdateDate, new Date('2006-10-11 23:59:59'));
         $this->assertFalse($oSetUpdateRequirements->oController->update);
         $this->assertNull($oSetUpdateRequirements->oController->oUpdateToDate);
-        TestEnv::rollbackTransaction();
+
+        TestEnv::restoreEnv();
+        // Use non-split tables
+        $conf['table']['split'] = false;
 
         // Test 3
-        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
@@ -169,10 +170,12 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertEqual($oSetUpdateRequirements->oController->oLastUpdateDate, new Date('2006-10-12 11:59:59'));
         $this->assertFalse($oSetUpdateRequirements->oController->update);
         $this->assertNull($oSetUpdateRequirements->oController->oUpdateToDate);
-        TestEnv::rollbackTransaction();
+
+        TestEnv::restoreEnv();
+        // Use non-split tables
+        $conf['table']['split'] = false;
 
         // Test 4
-        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
@@ -199,10 +202,12 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertEqual($oSetUpdateRequirements->oController->oLastUpdateDate, new Date('2006-10-11 10:59:59'));
         $this->assertFalse($oSetUpdateRequirements->oController->update);
         $this->assertNull($oSetUpdateRequirements->oController->oUpdateToDate);
-        TestEnv::rollbackTransaction();
+
+        TestEnv::restoreEnv();
+        // Use non-split tables
+        $conf['table']['split'] = false;
 
         // Test 5
-        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
@@ -227,10 +232,12 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertEqual($oSetUpdateRequirements->oController->oLastUpdateDate, new Date('2006-10-10 23:59:59'));
         $this->assertFalse($oSetUpdateRequirements->oController->update);
         $this->assertNull($oSetUpdateRequirements->oController->oUpdateToDate);
-        TestEnv::rollbackTransaction();
+
+        TestEnv::restoreEnv();
+        // Use non-split tables
+        $conf['table']['split'] = false;
 
         // Test 6
-        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
@@ -257,10 +264,12 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertEqual($oSetUpdateRequirements->oController->oLastUpdateDate, new Date('2006-10-09 23:59:59'));
         $this->assertTrue($oSetUpdateRequirements->oController->update);
         $this->assertEqual($oSetUpdateRequirements->oController->oUpdateToDate, new Date('2006-10-10 23:59:59'));
-        TestEnv::rollbackTransaction();
+
+        TestEnv::restoreEnv();
+        // Use non-split tables
+        $conf['table']['split'] = false;
 
         // Test 7
-        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
@@ -287,10 +296,12 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertEqual($oSetUpdateRequirements->oController->oLastUpdateDate, new Date('2006-10-08 23:59:59'));
         $this->assertTrue($oSetUpdateRequirements->oController->update);
         $this->assertEqual($oSetUpdateRequirements->oController->oUpdateToDate, new Date('2006-10-10 23:59:59'));
-        TestEnv::rollbackTransaction();
+
+        TestEnv::restoreEnv();
+        // Use non-split tables
+        $conf['table']['split'] = false;
 
         // Test 8
-        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
@@ -315,11 +326,8 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertEqual($oSetUpdateRequirements->oController->oLastUpdateDate, new Date('2006-10-09 23:59:59'));
         $this->assertTrue($oSetUpdateRequirements->oController->update);
         $this->assertEqual($oSetUpdateRequirements->oController->oUpdateToDate, new Date('2006-10-10 23:59:59'));
-        TestEnv::rollbackTransaction();
 
-        // Reset the testing environment
         TestEnv::restoreEnv();
-
         // Use non-split tables
         $conf['table']['split'] = true;
 
@@ -337,7 +345,6 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $oTables->createTable('log_maintenance_forecasting');
 
         // Test 9
-        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061031
@@ -362,9 +369,11 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertNull($oSetUpdateRequirements->oController->oLastUpdateDate);
         $this->assertFalse($oSetUpdateRequirements->oController->update);
         $this->assertNull($oSetUpdateRequirements->oController->oUpdateToDate);
-        TestEnv::rollbackTransaction();
 
-        TestEnv::startTransaction();
+        TestEnv::restoreEnv();
+        // Use non-split tables
+        $conf['table']['split'] = true;
+
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061031
@@ -389,9 +398,11 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertNull($oSetUpdateRequirements->oController->oLastUpdateDate);
         $this->assertFalse($oSetUpdateRequirements->oController->update);
         $this->assertNull($oSetUpdateRequirements->oController->oUpdateToDate);
-        TestEnv::rollbackTransaction();
 
-        TestEnv::startTransaction();
+        TestEnv::restoreEnv();
+        // Use non-split tables
+        $conf['table']['split'] = true;
+
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061031
@@ -416,10 +427,12 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertNull($oSetUpdateRequirements->oController->oLastUpdateDate);
         $this->assertFalse($oSetUpdateRequirements->oController->update);
         $this->assertNull($oSetUpdateRequirements->oController->oUpdateToDate);
-        TestEnv::rollbackTransaction();
+
+        TestEnv::restoreEnv();
+        // Use non-split tables
+        $conf['table']['split'] = true;
 
         // Test 10
-        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061101
@@ -444,9 +457,11 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertEqual($oSetUpdateRequirements->oController->oLastUpdateDate, new Date('2006-10-31 23:59:59'));
         $this->assertTrue($oSetUpdateRequirements->oController->update);
         $this->assertEqual($oSetUpdateRequirements->oController->oUpdateToDate, new Date('2006-11-01 23:59:59'));
-        TestEnv::rollbackTransaction();
 
-        TestEnv::startTransaction();
+        TestEnv::restoreEnv();
+        // Use non-split tables
+        $conf['table']['split'] = true;
+
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061101
@@ -471,9 +486,11 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertEqual($oSetUpdateRequirements->oController->oLastUpdateDate, new Date('2006-10-31 23:59:59'));
         $this->assertTrue($oSetUpdateRequirements->oController->update);
         $this->assertEqual($oSetUpdateRequirements->oController->oUpdateToDate, new Date('2006-11-01 23:59:59'));
-        TestEnv::rollbackTransaction();
 
-        TestEnv::startTransaction();
+        TestEnv::restoreEnv();
+        // Use non-split tables
+        $conf['table']['split'] = true;
+
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061101
@@ -498,10 +515,12 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertEqual($oSetUpdateRequirements->oController->oLastUpdateDate, new Date('2006-10-31 23:59:59'));
         $this->assertTrue($oSetUpdateRequirements->oController->update);
         $this->assertEqual($oSetUpdateRequirements->oController->oUpdateToDate, new Date('2006-11-01 23:59:59'));
-        TestEnv::rollbackTransaction();
+
+        TestEnv::restoreEnv();
+        // Use non-split tables
+        $conf['table']['split'] = true;
 
         // Test 11
-        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061102
@@ -526,9 +545,11 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertNull($oSetUpdateRequirements->oController->oLastUpdateDate);
         $this->assertFalse($oSetUpdateRequirements->oController->update);
         $this->assertNull($oSetUpdateRequirements->oController->oUpdateToDate);
-        TestEnv::rollbackTransaction();
 
-        TestEnv::startTransaction();
+        TestEnv::restoreEnv();
+        // Use non-split tables
+        $conf['table']['split'] = true;
+
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061102
@@ -553,9 +574,11 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertNull($oSetUpdateRequirements->oController->oLastUpdateDate);
         $this->assertFalse($oSetUpdateRequirements->oController->update);
         $this->assertNull($oSetUpdateRequirements->oController->oUpdateToDate);
-        TestEnv::rollbackTransaction();
 
-        TestEnv::startTransaction();
+        TestEnv::restoreEnv();
+        // Use non-split tables
+        $conf['table']['split'] = true;
+
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061102
@@ -580,9 +603,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $this->assertNull($oSetUpdateRequirements->oController->oLastUpdateDate);
         $this->assertFalse($oSetUpdateRequirements->oController->update);
         $this->assertNull($oSetUpdateRequirements->oController->oUpdateToDate);
-        TestEnv::rollbackTransaction();
 
-        // Reset the testing environment
         TestEnv::restoreEnv();
     }
 
