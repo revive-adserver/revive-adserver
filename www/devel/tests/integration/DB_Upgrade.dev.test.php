@@ -860,7 +860,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
-        $oTable->init($this->path.'schema_test_original.xml');
+        $oTable->init($this->path.'schema_test_original.xml', 'tables_core');
         $this->assertTrue($oTable->createTable('table1'),'error creating test table1');
         $this->assertTrue($oTable->createTable('table2'),'error creating test table2');
         $aExistingTables = $oDbh->manager->listTables();
@@ -874,7 +874,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
-        $oTable->init($this->path.'schema_test_original.xml');
+        $oTable->init($this->path.'schema_test_original.xml', 'tables_core');
         $aExistingTables = $oDbh->manager->listTables();
         if (in_array('table1', $aExistingTables))
         {

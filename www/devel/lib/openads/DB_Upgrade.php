@@ -130,6 +130,9 @@ class OA_DB_Upgrade
             $this->oSchema = $result;
             $this->_setupSQLStatements();
             $this->portability = $this->oSchema->db->getOption('portability');
+
+            $this->schema = 'tables_core';
+            $this->_setTiming('constructive');
         }
         else
         {
@@ -150,9 +153,9 @@ class OA_DB_Upgrade
      * @param string $versionFrom
      * @return boolean
      */
-    function init($timing='constructive', $schema, $versionTo, $versionFrom='')
+    function init($timing='constructive', $schema, $versionTo, $versionFrom=0)
     {
-        $this->versionFrom  = ($versionFrom ? $versionFrom : 1);
+        $this->versionFrom  = $versionFrom;
         $this->versionTo    = $versionTo;
         $this->schema       = $schema;
         $this->_setTiming($timing);
@@ -489,12 +492,12 @@ class OA_DB_Upgrade
 
             $this->_setTiming('', $aRecovery['timingInt']);
             $this->versionTo    = $aRecovery['versionTo'];
-            $this->schema       = $aRecovery['schema'];
+            $this->schema       = $aRecovery['schema_name'];
             $this->_log("Detected interruption while upgrading to {$this->schema} version {$this->versionTo} ({$this->timingStr})");
             $this->_log('Attempting to compile details and recovery information...');
 
             $query = "SELECT * FROM {$this->prefix}{$this->logTable}
-                      WHERE schema = {$this->schema}
+                      WHERE schema_name = '{$this->schema}'
                       AND version={$this->versionTo}
                       AND timing={$this->timingInt}
                       AND updated>='{$aRecovery['updated']}'";
@@ -1585,10 +1588,10 @@ class OA_DB_Upgrade
     {
         $this->_log('_logDatabaseAction start');
 
-        $aParams['schema']    = $this->schema;
-        $aParams['version']   = $this->versionTo;
-        $aParams['timing']    = $this->timingInt;
-        $aParams['action']    = $action;
+        $aParams['schema_name'] = $this->schema;
+        $aParams['version']     = $this->versionTo;
+        $aParams['timing']      = $this->timingInt;
+        $aParams['action']      = $action;
 
         foreach ($aParams AS $k => $v)
         {
@@ -1827,7 +1830,7 @@ class OA_DB_Upgrade
         {
             $contents               = file_get_contents($this->recoveryFile);
             $aVars                  = explode(';', $contents);
-            $aResult['schema']      = $aVars[0];
+            $aResult['schema_name'] = $aVars[0];
             $aResult['versionTo']   = $aVars[1];
             $aResult['timingInt']   = $aVars[2];
             $aResult['updated']     = $aVars[3];
