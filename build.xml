@@ -112,9 +112,6 @@
       <entry key="openads.version.${line}.minor" type="int" operation="+" value="1"/>
     </propertyfile>
     <property file="etc/version.properties"/>
-    <condition property="linetag" value="" else="-${line}">
-      <equals arg1="stable" arg2="${line}"/>
-    </condition>
     <condition property="minor" value="${openads.version.alpha.minor}">
       <equals arg1="alpha" arg2="${line}"/>
     </condition>
@@ -124,7 +121,10 @@
     <condition property="minor" value="${openads.version.stable.minor}">
       <equals arg1="stable" arg2="${line}"/>
     </condition>
-    <property name="version" value="${openads.version.major}.${minor}${linetag}"/>
+    <condition property="linetag" value=".${minor}" else="-${line}${minor}">
+      <equals arg1="stable" arg2="${line}"/>
+    </condition>
+    <property name="version" value="${openads.version.major}${linetag}"/>
   </target>
 
   <target name="init-version" unless="version" depends="prepare-line-info,init-timestamp,init-label">
@@ -157,10 +157,10 @@
 
   <target name="tag" depends="init-release">
     <exec dir="${basedir}" executable="svn" failonerror="true">
-      <arg line="commit --non-interactive -q etc/version.properties"/>
+      <arg line="commit --non-interactive -q -m 'Updated ${line} minor version number to ${minor}.' etc/version.properties"/>
     </exec>
     <exec dir="${basedir}" executable="svn" failonerror="true">
-      <arg line="copy --non-interactive -q . https://svn.openads.org/openads/tags/max/${release}"/>
+      <arg line="copy --non-interactive -q . -m 'Tagged release ${release}.' https://svn.openads.org/openads/tags/max/${release}"/>
     </exec>
   </target>
 
