@@ -92,9 +92,14 @@ class OA_DB
             $aOptions['decimal_places'] = 4;
             // Set the portability options
             $aOptions['portability'] = OA_DB_MDB2_DEFAULT_OPTIONS;
-            // Set the default table type, if appropriate
-            if (!empty($aConf['table']['type'])) {
+            // Set the default table type for MySQL, if appropriate
+            if (strcasecmp($aConf['database']['type'], 'mysql') === 0 && !empty($aConf['table']['type'])) {
                 $aOptions['default_table_type'] = $aConf['table']['type'];
+                // Enable transaction support when using InnoDB tables
+                if (strcasecmp($aOptions['default_table_type'], 'innodb') === 0) {
+                    // Enable transaction support
+                    $aOptions['use_transactions'] = true;
+                }
             }
             // Set any custom MDB2 datatypes & nativetype mappings
             $customTypesInfoFile = MAX_PATH . '/lib/OA/DB/CustomDatatypes/' .
