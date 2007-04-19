@@ -47,7 +47,7 @@ $GLOBALS['_MAX']['TEST']['directories'] =
         'lib/OA',
         'plugins',
         'tests',
-        'www/devel'
+        //'www/devel'
     );
 
 // Project path - helpful for testing external projects
@@ -97,8 +97,9 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'plg'   => array('Plugins',                             DB_WITH_TABLES), // Required for Site:Channel plugin test, because the DAL is being used and it currently can not be mocked.
         'admin' => array('Administrative Interface',            NO_DB),
         'sdh'   => array('Simple Data Handling',                NO_DB),
-        'dev'   => array('Developer Tools',                     DB_WITH_TABLES),
-        'mol'   => array('Max Other Libraries',                 DB_WITH_TABLES)
+        //'dev'   => array('Developer Tools',                     DB_WITH_TABLES),
+        'mol'   => array('Max Other Libraries',                 DB_WITH_TABLES),
+        'up'    => array('Upgrade Classes',                     DB_WITH_TABLES),
     );
 
 /*
@@ -123,8 +124,9 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'mts' => array('Maintenance Statistics Engine (DB)',   DB_NO_TABLES),
         'mtp' => array('Maintenance Priority Engine (DB)',     DB_WITH_DATA),
         'mtf' => array('Maintenance Forecasting Engine (DB)',  DB_WITH_TABLES),
-        'del' => array('Delivery Engine (DB)', DB_WITH_DATA),
-        'dev'   => array('Developer Tools',                    DB_WITH_TABLES),
+        'del' => array('Delivery Engine (DB)',                 DB_WITH_DATA),
+        'up'  => array('Upgrade Classes',                     DB_WITH_TABLES),
+        //'dev' => array('Developer Tools',                      DB_WITH_TABLES),
     );
 
 /*
