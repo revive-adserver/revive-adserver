@@ -535,7 +535,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 a.bannerid IN (" . implode(', ', $aAdIds) . ")
                 AND
                 (
-                    (p.active = 't' AND p.expire " . OA_Dal::equalNoDateString()  . "
+                    (p.active = 't' AND p.expire " . OA_Dal::equalNoDateString()  . ")
                     OR
                     (p.active = 't' AND p.expire " . OA_Dal::notEqualNoDateString() . " AND p.expire >= '" . $aPeriod['start']->format('%Y-%m-%d') . "')
                     OR
