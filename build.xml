@@ -107,8 +107,32 @@
     <property name="label" value="trunk"/>
   </target>
 
-  <target name="init-release" unless="release" depends="checkconsistency, init, init-timestamp,init-label">
-    <property name="release" value="openads-${label}-${cctimestamp}"/>
+  <target name="prepare-line-info" if="line">
+    <propertyfile file="etc/version.properties">
+      <entry key="openads.version.${line}.minor" type="int" operation="+" value="1"/>
+    </propertyfile>
+    <property file="etc/version.properties"/>
+    <condition property="linetag" value="" else="-${line}">
+      <equals arg1="stable" arg2="${line}"/>
+    </condition>
+    <condition property="minor" value="${openads.version.alpha.minor}">
+      <equals arg1="alpha" arg2="${line}"/>
+    </condition>
+    <condition property="minor" value="${openads.version.beta.minor}">
+      <equals arg1="beta" arg2="${line}"/>
+    </condition>
+    <condition property="minor" value="${openads.version.stable.minor}">
+      <equals arg1="stable" arg2="${line}"/>
+    </condition>
+    <property name="version" value="${openads.version.major}.${minor}${linetag}"/>
+  </target>
+
+  <target name="init-version" unless="version" depends="prepare-line-info,init-timestamp,init-label">
+    <property name="version" value="${label}-${cctimestamp}"/>
+  </target>
+
+  <target name="init-release" unless="release" depends="checkconsistency,init,init-version">
+    <property name="release" value="openads-${version}"/>
   </target>
 
   <target name="test-prepare">
@@ -119,7 +143,7 @@
     <ant antfile="tests.xml"/>
   </target>
 
-  <target name="release" depends="init-release" description="Creates a release packages in tar.bz2, tar.gz and zip formats.">
+  <target name="package" depends="init-release">
     <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="." compression="bzip2" longfile="gnu">
       <patternset refid="dist.included"/>
     </tar>
@@ -131,6 +155,25 @@
     </zip>
   </target>
 
-  <target name="simpletest" depends="clean, checkconsistency, init, test-all, release" />
+  <target name="tag" depends="init-release">
+    <exec dir="${basedir}" executable="svn" failonerror="true">
+      <arg line="commit --non-interactive -q etc/version.properties"/>
+    </exec>
+    <exec dir="${basedir}" executable="svn" failonerror="true">
+      <arg line="copy --non-interactive -q . https://svn.openads.org/openads/tags/max/${release}"/>
+    </exec>
+  </target>
+
+  <target name="release" depends="package,tag" description="Creates a release packages in tar.bz2, tar.gz and zip formats.">
+  </target>
+
+  <target name="simpletest" depends="clean, checkconsistency, init, test-all, package" />
+
+  <target name="prepare-version-info" if="version">
+    <replaceregexp file="constants.php"
+      match="^.*MAX_VERSION_READABLE.*$"
+      replace="${version}"
+      byline="true"/>
+  </target>
 
 </project>
