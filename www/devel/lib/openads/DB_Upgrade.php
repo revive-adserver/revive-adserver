@@ -54,6 +54,7 @@ define('DB_UPGRADE_ACTION_IGNORE_OUTSTANDING_DROP_BACKUP',         170);
 
 class OA_DB_Upgrade
 {
+    var $schema;
     var $versionFrom;
     var $versionTo;
 
@@ -153,6 +154,7 @@ class OA_DB_Upgrade
     {
         $this->versionFrom  = ($versionFrom ? $versionFrom : 1);
         $this->versionTo    = $versionTo;
+        $this->schema       = $schema;
         $this->_setTiming($timing);
 
         $this->_log('from version: '.$this->versionFrom);
@@ -369,7 +371,7 @@ class OA_DB_Upgrade
                                                             'bak'=>$table_bak,
                                                             'def'=>$aBakDef
                                                          );
-                    $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_TABLE, array('info1'=>'copied table', 'tablename'=>$table, 'tablename_backup'=>$table_bak, 'schema_backup'=>serialize($aBakDef)));
+                    $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_TABLE, array('info1'=>'copied table', 'tablename'=>$table, 'tablename_backup'=>$table_bak, 'table_backup_schema'=>serialize($aBakDef)));
                 }
             }
             $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_SUCCEEDED, array('info1'=>'BACKUP COMPLETE'));
@@ -486,12 +488,14 @@ class OA_DB_Upgrade
             $this->aDBTables = $this->_listTables();
 
             $this->_setTiming('', $aRecovery['timingInt']);
-            $this->versionTo = $aRecovery['versionTo'];
-            $this->_log("Detected interruption while upgrading to version {$this->versionTo} ({$this->timingStr})");
+            $this->versionTo    = $aRecovery['versionTo'];
+            $this->schema       = $aRecovery['schema'];
+            $this->_log("Detected interruption while upgrading to {$this->schema} version {$this->versionTo} ({$this->timingStr})");
             $this->_log('Attempting to compile details and recovery information...');
 
             $query = "SELECT * FROM {$this->prefix}{$this->logTable}
-                      WHERE version={$this->versionTo}
+                      WHERE schema = {$this->schema}
+                      AND version={$this->versionTo}
                       AND timing={$this->timingInt}
                       AND updated>='{$aRecovery['updated']}'";
             $aResult = $this->oSchema->db->queryAll($query);
@@ -509,7 +513,7 @@ class OA_DB_Upgrade
                     {
                         $table = $aAction['tablename'];
                         $table_bak = $aAction['tablename_backup'];
-                        $aBakDef = unserialize($aAction['schema_backup']);
+                        $aBakDef = unserialize($aAction['table_backup_schema']);
                         $this->aRestoreTables[$table] = array(
                                                                 'bak'=>$table_bak,
                                                                 'def'=>$aBakDef
@@ -1581,6 +1585,7 @@ class OA_DB_Upgrade
     {
         $this->_log('_logDatabaseAction start');
 
+        $aParams['schema']    = $this->schema;
         $aParams['version']   = $this->versionTo;
         $aParams['timing']    = $this->timingInt;
         $aParams['action']    = $action;
@@ -1801,7 +1806,7 @@ class OA_DB_Upgrade
         //$this->_pickupRecoveryFile();
         $log = fopen($this->recoveryFile, 'w');
         $date = date('Y-m-d h:i:s');
-        fwrite($log, "{$this->versionTo};{$this->timingInt};{$date}");
+        fwrite($log, "{$this->schema};{$this->versionTo};{$this->timingInt};{$date}");
         fclose($log);
         return file_exists($this->recoveryFile);
     }
@@ -1822,9 +1827,10 @@ class OA_DB_Upgrade
         {
             $contents               = file_get_contents($this->recoveryFile);
             $aVars                  = explode(';', $contents);
-            $aResult['versionTo']   = $aVars[0];
-            $aResult['timingInt']   = $aVars[1];
-            $aResult['updated']     = $aVars[2];
+            $aResult['schema']      = $aVars[0];
+            $aResult['versionTo']   = $aVars[1];
+            $aResult['timingInt']   = $aVars[2];
+            $aResult['updated']     = $aVars[3];
             return $aResult;
         }
         return false;
@@ -1842,19 +1848,5 @@ class OA_DB_Upgrade
     }
 
 }
-
-/*
- CREATE  TABLE  `database_action` (  `version` int( 11  )  NOT  NULL ,
- `timing` int( 2  )  NOT  NULL ,
- `action` int( 2  )  NOT  NULL ,
- `info1` varchar( 255  ) default NULL ,
- `info2` varchar( 255  ) default NULL ,
- `tablename` varchar( 32  ) default NULL ,
- `tablename_backup` varchar( 32  ) default NULL ,
- `schema_backup` text,
- `updated` datetime default NULL ,
- KEY  `version_timing_action` (  `version` ,  `timing` ,  `action`  ) ,
- KEY  `updated` (  `updated`  )  ) ENGINE  = InnoDB DEFAULT CHARSET  = latin1;
-*/
 
 ?>

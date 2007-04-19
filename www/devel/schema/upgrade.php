@@ -40,6 +40,7 @@ require_once 'MDB2/Schema.php';
 require_once 'Config.php';
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_DEV.'/lib/openads/DB_Upgrade.php';
+require_once MAX_DEV.'/lib/openads/DB_Upgrade_Manager.php';
 
 $welcome = true;
 $backup  = false;
@@ -54,6 +55,12 @@ if ($oUpgrade->_seekRecoveryFile())
 else if (array_key_exists('btn_view_available', $_REQUEST))
 {
     $aChangesetsAvail = getChangesetList();
+}
+else if (array_key_exists('btn_view_changesets', $_REQUEST))
+{
+    $oChangeMgr = new OA_DB_Upgrade_Manager('tables_core');
+    $aChangesetInfo = $oChangeMgr->_checkChangesetAudit();
+    //$aChangesetInfo = $oChangeMgr->_compileChangesetInfo();
 }
 else if (array_key_exists('btn_view_logs', $_REQUEST))
 {

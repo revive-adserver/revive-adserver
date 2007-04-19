@@ -13,6 +13,7 @@ if ($welcome)
     <form name="frmUpgrade" method="POST" action="upgrade.php">
         <!--button name="btn_initialise">hey! i see you need an upgrade, would you like me to help you with that?</button-->
         <button name="btn_view_available">view a list of available database upgrades</button>
+        <button name="btn_view_changesets">view previous database upgrades</button>
         <button name="btn_view_logs">view a list of database upgrade log files</button>
         <button name="btn_view_audit">view the database upgrade audit trail</button>
     </form>
@@ -37,6 +38,19 @@ if (count($oUpgrade->aErrors)>0)
         foreach ($oUpgrade->aErrors AS $k => $err)
         {
             echo $err.'<br />';
+        }
+    ?>
+</div>
+<?php
+}
+if (count($oChangeMgr->aMessages)>0)
+{
+?>
+<div class="tablediv">
+    <?php
+        foreach ($oChangeMgr->aMessages AS $k => $msg)
+        {
+            echo $msg.'<br />';
         }
     ?>
 </div>
