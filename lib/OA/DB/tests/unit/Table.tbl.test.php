@@ -207,7 +207,7 @@ class Test_OA_DB_Table extends UnitTestCase
         $oTable->createTable('test_table');
         $aExistingTables = $oDbh->manager->listTables();
         $this->assertEqual($aExistingTables[0], 'test_table');
-        TestEnv::restoreEnv();
+        $oTable->dropTable('test_table');
 
         // Test 2
         $conf = &$GLOBALS['_MAX']['CONF'];
@@ -223,7 +223,7 @@ class Test_OA_DB_Table extends UnitTestCase
         $aExistingTables = $oDbh->manager->listTables();
         $this->assertEqual($aExistingTables[0], 'test_table_' . $oDate->format('%Y%m%d'));
         unlink(MAX_PATH . '/var/test.xml');
-        TestEnv::restoreEnv();
+        $oTable->dropTable('test_table_' . $oDate->format('%Y%m%d'));
     }
 
     /**
@@ -246,7 +246,7 @@ class Test_OA_DB_Table extends UnitTestCase
         $oTable->createAllTables();
         $aExistingTables = $oDbh->manager->listTables();
         $this->assertEqual($aExistingTables[0], 'test_table');
-        TestEnv::restoreEnv();
+        $oTable->dropTable('test_table');
 
         // Test 2
         $conf = &$GLOBALS['_MAX']['CONF'];
@@ -263,7 +263,8 @@ class Test_OA_DB_Table extends UnitTestCase
         $this->assertEqual($aExistingTables[0], 'test_table_' . $oDate->format('%Y%m%d'));
         $this->assertEqual($aExistingTables[1], 'the_second_table');
         unlink(MAX_PATH . '/var/test.xml');
-        TestEnv::restoreEnv();
+        $oTable->dropTable('test_table_' . $oDate->format('%Y%m%d'));
+        $oTable->dropTable('the_second_table');
     }
 
     /**
@@ -285,7 +286,10 @@ class Test_OA_DB_Table extends UnitTestCase
         $this->assertEqual($aExistingTables[1], 'banners');
         $this->assertEqual($aExistingTables[2], 'campaigns');
         $this->assertEqual($aExistingTables[3], 'clients');
-        TestEnv::restoreEnv();
+        $oTable->dropTable('agency');
+        $oTable->dropTable('banners');
+        $oTable->dropTable('campaigns');
+        $oTable->dropTable('clients');
     }
 
     /**
