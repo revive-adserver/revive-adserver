@@ -258,7 +258,6 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $this->assertNull($date);
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertNull($date);
-        TestEnv::startTransaction();
         // Insert ad impressions
         $now->setHour(18);
         $now->setMinute(22);
@@ -394,7 +393,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -482,8 +481,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
-        // Restore the testing environment
+
         TestEnv::restoreEnv();
+
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $conf['table']['split'] = true;
@@ -565,6 +565,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
                 {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
+
         TestEnv::restoreEnv();
     }
 
