@@ -5,7 +5,7 @@
  <name>openads</name>
  <create>true</create>
  <overwrite>false</overwrite>
- <version>1</version>
+ <version>500</version>
  <status>final</status>
 
  <table>
@@ -5483,7 +5483,7 @@
   <name>images</name>
 
   <declaration>
-  
+
    <field>
     <name>image_id</name>
     <type>openads_int</type>
@@ -5513,7 +5513,7 @@
     <notnull>false</notnull>
     <default></default>
    </field>
-   
+
    <index>
     <name>images_pkey</name>
     <primary>true</primary>
