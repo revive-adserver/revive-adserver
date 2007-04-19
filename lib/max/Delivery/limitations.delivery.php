@@ -376,7 +376,7 @@ function _getWhereComponent($sqlOp, $sData, $columnName)
  */
 function MAX_limitationsGetSqlForString($op, $sData, $columnName)
 {
-    $aConf = $GLOBALS['MAX']['_CONF'];
+    $aConf = $GLOBALS['_MAX']['CONF'];
     if (empty($sData)) {
         return !MAX_limitationsIsOperatorPositive($op);
     }
