@@ -311,7 +311,6 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         OA::enableErrorHandling();
 
         // Test 4
-        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 $data_raw_ad_impression
@@ -429,10 +428,9 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult['updated_to'], '2006-10-06 08:29:59');
         TestEnv::restoreConfig();
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 5
-        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 $log_maintenance_priority
@@ -535,7 +533,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual($aResult['updated_to'], '2006-10-06 20:59:59');
         $this->assertEqual($aResult['operation_interval'], 60);
         $this->assertEqual($aResult['run_type'], 0);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -581,7 +579,6 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $aResult = $oDalMaintenanceCommon->getAllDeliveryLimitationsByTypeId(1, 'channel');
         $this->assertNull($aResult);
 
-        TestEnv::startTransaction();
         $table = $conf['table']['prefix'] . $conf['table']['acls'];
         $query = "
             INSERT INTO
@@ -655,9 +652,8 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual($aResult[1]['data'], 'GB');
         $this->assertEqual($aResult[1]['executionorder'], 1);
 
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
-        TestEnv::startTransaction();
         $table = $conf['table']['prefix'] . $conf['table']['acls_channel'];
         $query = "
             INSERT INTO
@@ -731,7 +727,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual($aResult[1]['data'], 'GB');
         $this->assertEqual($aResult[1]['executionorder'], 1);
 
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -757,8 +753,6 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual($max, 0);
         $max = $oDalMaintenanceCommon->maxConnectionWindow('click');
         $this->assertEqual($max, 0);
-
-        TestEnv::startTransaction();
 
         // Test 2
         $query = "
@@ -817,7 +811,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $max = $oDalMaintenanceCommon->maxConnectionWindow('click');
         $this->assertEqual($max, 70);
 
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -834,8 +828,6 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         list($impression, $click) = $oDalMaintenanceCommon->maxConnectionWindows();
         $this->assertEqual($impression, 0);
         $this->assertEqual($click, 0);
-
-        TestEnv::startTransaction();
 
         // Test 2
         $query = "
@@ -891,7 +883,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual($impression, 180);
         $this->assertEqual($click, 70);
 
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
 }

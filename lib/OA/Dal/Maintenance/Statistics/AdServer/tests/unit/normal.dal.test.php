@@ -65,7 +65,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertNull($date);
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertNull($date);
-        TestEnv::startTransaction();
         // Insert ad impressions
         $query = "
             INSERT INTO
@@ -189,7 +188,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertEqual($date, new Date('2004-06-07 01:15:00'));
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
         TestEnv::restoreConfig();
     }
 
@@ -260,13 +259,15 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
 
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['table']['split'] = false;
-        $conf['maintenance']['operationInterval'] = 30;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
 
         foreach ($aType as $type => $table) {
+
+            $conf['table']['split'] = false;
+            $conf['maintenance']['operationInterval'] = 30;
+
             $returnColumnName = $type . 's';
             // Test with no data
             $start = new Date('2004-06-06 12:00:00');
@@ -280,7 +281,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                     tmp_ad_{$type}";
             $aRow = $oDbh->queryRow($query);
             $this->assertEqual($aRow['number'], 0);
-            TestEnv::startTransaction();
             // Insert 3 ad requests/impressions/clicks
             $this->_insertTestSummariseData($table);
             // Summarise where requests/impressions/clicks don't exist
@@ -339,9 +339,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                     day = '2004-06-06'";
             $aRow = $oDbh->queryRow($query);
             $this->assertEqual($aRow[$returnColumnName], 2);
-            TestEnv::rollbackTransaction();
+            TestEnv::restoreEnv();
         }
-        TestEnv::restoreConfig();
     }
 
     /**
@@ -1093,7 +1092,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Test 0
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -1107,12 +1105,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 0);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 1
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -1169,12 +1166,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 2
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
@@ -1267,12 +1263,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 3
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -1367,12 +1362,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 4
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -1467,12 +1461,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 5
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -1567,12 +1560,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 6
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -1721,12 +1713,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 7
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -1875,12 +1866,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 8
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -2029,12 +2019,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 9
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -2183,12 +2172,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 10
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -2337,12 +2325,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 11
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -2491,12 +2478,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 12
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -2591,12 +2577,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 13
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -2691,12 +2676,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 14
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -2791,12 +2775,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 15
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -2945,12 +2928,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 16
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -3099,12 +3081,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 17
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -3253,12 +3234,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 18
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -3447,12 +3427,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_DUPLICATE);
         $this->assertEqual($aRow['comments'], 'Duplicate of connection ID 1');
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 19
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -3605,12 +3584,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 20
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -3763,12 +3741,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 21
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
-        TestEnv::startTransaction();
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
@@ -3957,10 +3934,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual(count($aRow), 2);
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_DUPLICATE);
         $this->assertEqual($aRow['comments'], 'Duplicate of connection ID 1');
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 22
-        TestEnv::startTransaction();
         // Prepare the variable values for the tracker
         $query = "
             INSERT INTO
@@ -4678,7 +4654,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['connection_status'], MAX_CONNECTION_STATUS_APPROVED);
         $this->assertEqual($aRow['comments'], '');
 
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -7179,7 +7155,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
-        TestEnv::startTransaction();
         // Insert the test data
         $query = "
             INSERT INTO
@@ -7377,7 +7352,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['zone_id'], 1);
         $this->assertNull($aRow['forecast_impressions']); // Default value in table
         $this->assertEqual($aRow['actual_impressions'], 4);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
         TestEnv::restoreConfig();
     }
 
@@ -7574,7 +7549,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['number'], 0);
 
         // Test 2
-        TestEnv::startTransaction();
         // Insert the test data
         $this->_insertTestSaveSummaryPlacement();
         $this->_insertTestSaveSummaryAd();
@@ -7783,10 +7757,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['total_basket_value'], 100);
         $this->assertEqual($aRow['total_revenue'], 20);
         $this->assertEqual($aRow['total_cost'], 1.5);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 3
-        TestEnv::startTransaction();
         // Insert the test data
         $this->_insertTestSaveSummaryPlacement();
         $this->_insertTestSaveSummaryAd();
@@ -7872,7 +7845,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['total_basket_value'], 0);
         $this->assertEqual($aRow['total_revenue'], 2);
         $this->assertEqual($aRow['total_cost'], 0.02);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
         TestEnv::restoreConfig();
     }
 
@@ -7889,7 +7862,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $dsa = $oMDMSF->factory("AdServer");
 
         $oDate = new Date();
-        TestEnv::startTransaction();
         // Insert the base test data
         $query = "
             INSERT INTO
@@ -8281,10 +8253,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['expire'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['activate'], '2004-06-06');
         $this->assertEqual($aRow['active'], 't');
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
         // Final test to ensure that placements expired as a result of limitations met are
         // not re-activated in the event that their expiration date has not yet been reached
-        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 campaigns
@@ -8399,7 +8370,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->assertEqual($aRow['expire'], '2005-12-09');
         $this->assertEqual($aRow['activate'], '2005-12-07');
         $this->assertEqual($aRow['active'], 'f');
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
         TestEnv::restoreConfig();
     }
 
@@ -8516,83 +8487,82 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['maintenance']['compactStatsGrace'] = 0;
-        // Enable the tracker
-        $conf['modules']['Tracker'] = true;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
 
-        TestEnv::startTransaction();
-        // Insert the test data
-        $this->_insertTestDeleteOldDataCampaignsTrackers();
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_request');
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_impression');
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_click');
-        // Test
-        $summarisedTo = new Date('2004-06-06 17:59:59');
-        $dsa->deleteOldData($summarisedTo);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['number'], 3);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['number'], 3);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['number'], 1);
-        TestEnv::rollbackTransaction();
-        // Disable the tracker
-        $conf['modules']['Tracker'] = false;
-        $dsa = $oMDMSF->factory("AdServer");
-        TestEnv::startTransaction();
-        // Insert the test data
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_request');
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_impression');
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_click');
-        // Test
-        $summarisedTo = new Date('2004-06-06 17:59:59');
-        $dsa->deleteOldData($summarisedTo);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['number'], 1);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['number'], 1);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $aRow = $oDbh->queryRow($query);
-        $this->assertEqual($aRow['number'], 1);
-        TestEnv::rollbackTransaction();
-        // Set a compact_stats_grace window
-        $conf['maintenance']['compactStatsGrace'] = 3600;
         // Enable the tracker
         $conf['modules']['Tracker'] = true;
+        $conf['maintenance']['compactStatsGrace'] = 0;
+        // Insert the test data
+        $this->_insertTestDeleteOldDataCampaignsTrackers();
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_request');
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_impression');
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_click');
+        // Test
+        $summarisedTo = new Date('2004-06-06 17:59:59');
+        $dsa->deleteOldData($summarisedTo);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 3);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
+        TestEnv::restoreEnv();
+
+        // Disable the tracker
+        $conf['modules']['Tracker'] = false;
+        $conf['maintenance']['compactStatsGrace'] = 0;
         $dsa = $oMDMSF->factory("AdServer");
-        TestEnv::startTransaction();
+        // Insert the test data
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_request');
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_impression');
+        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_click');
+        // Test
+        $summarisedTo = new Date('2004-06-06 17:59:59');
+        $dsa->deleteOldData($summarisedTo);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
+        $aRow = $oDbh->queryRow($query);
+        $this->assertEqual($aRow['number'], 1);
+        TestEnv::restoreEnv();
+
+        // Enable the tracker
+        $conf['modules']['Tracker'] = true;
+        $conf['maintenance']['compactStatsGrace'] = 3600;
+        $dsa = $oMDMSF->factory("AdServer");
         // Insert the test data
         $this->_insertTestDeleteOldDataCampaignsTrackers();
         $this->_insertTestDeleteOldDataAdItems('data_raw_ad_request');
@@ -8622,11 +8592,12 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
+
         // Disable the tracker
         $conf['modules']['Tracker'] = false;
+        $conf['maintenance']['compactStatsGrace'] = 3600;
         $dsa = $oMDMSF->factory("AdServer");
-        TestEnv::startTransaction();
         // Insert the test data
         $this->_insertTestDeleteOldDataAdItems('data_raw_ad_request');
         $this->_insertTestDeleteOldDataAdItems('data_raw_ad_impression');
@@ -8655,8 +8626,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
-        TestEnv::rollbackTransaction();
-        TestEnv::restoreConfig();
+        TestEnv::restoreEnv();
     }
 
 }

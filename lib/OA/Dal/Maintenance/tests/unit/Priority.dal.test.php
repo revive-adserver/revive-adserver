@@ -67,7 +67,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         // Test relies on transaction numbers, so ensure fresh database used
         TestEnv::restoreEnv();
 
-        TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
@@ -146,7 +145,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($aRow['run_type'], DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION);
         $this->assertEqual($aRow['updated_to'], '2005-06-21 16:59:59');
 
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -160,7 +159,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
      */
     function testGetMaintenancePriorityLastRunInfo()
     {
-        TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
@@ -201,7 +199,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $result = $oMaxDalMaintenance->getMaintenancePriorityLastRunInfo(DAL_PRIORITY_UPDATE_PRIORITY_COMPENSATION);
         $this->assertFalse($result);
 
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -210,7 +208,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
     function testGetPlacements()
     {
         $da = new OA_Dal_Maintenance_Priority();
-        TestEnv::startTransaction();
         $this->_generateStatsOne();
         $ret = $da->getPlacements();
 
@@ -227,7 +224,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertTrue(array_key_exists('target_click', $campaign));
         $this->assertTrue(array_key_exists('target_conversion', $campaign));
         $this->assertTrue(array_key_exists('priority', $campaign));
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -236,7 +233,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
     function testGetPlacementData()
     {
         $da = new OA_Dal_Maintenance_Priority();
-        TestEnv::startTransaction();
         $this->_generateStatsOne();
         $ret = $da->getPlacementData(1);
         $this->assertTrue(is_array($ret));
@@ -247,7 +243,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertTrue(array_key_exists('name', $campaign));
         $this->assertTrue(array_key_exists('active', $campaign));
         $this->assertTrue(array_key_exists('num_children', $campaign));
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -267,8 +263,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         $oNow = new Date();
-
-        TestEnv::startTransaction();
 
         // Test 1
         $result = $oMaxDalMaintenance->getPlacementDeliveryToDate(1);
@@ -436,7 +430,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result['operation_interval'], $conf['maintenance']['operationInterval']);
         */
 
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -454,7 +448,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
     function testGetPlacementStats()
     {
         $da = new OA_Dal_Maintenance_Priority();
-        TestEnv::startTransaction();
         $this->_generateStatsOne();
         $ret = $da->getPlacementStats(1);
 
@@ -470,7 +463,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertTrue(array_key_exists('sum_views', $ret));
         $this->assertTrue(array_key_exists('sum_clicks', $ret));
         $this->assertTrue(array_key_exists('sum_conversions', $ret));
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -595,7 +588,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual(count($result), 0);
 
         // Test 3
-        TestEnv::startTransaction();
         $oDate = &$oServiceLocator->get('now');
         $oNewDate = new Date();
         $oNewDate->copy($oDate);
@@ -651,10 +643,13 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $rows = $oDbh->exec($query);
         $result = &$oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertEqual(count($result), 0);
-        TestEnv::rollbackTransaction();
+
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 4
-        TestEnv::startTransaction();
         $oDate = &$oServiceLocator->get('now');
         $currentOpIntID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
@@ -814,10 +809,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[2]['zone_id'], 2);
         $this->assertEqual($result[2]['forecast_impressions'], 1);
         $this->assertEqual($result[2]['actual_impressions'], 4);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 5
-        TestEnv::startTransaction();
         $oDate = &$oServiceLocator->get('now');
         $currentOpIntID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
@@ -1035,7 +1032,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[3]['zone_id'], 3);
         $this->assertEqual($result[3]['forecast_impressions'], $conf['priority']['defaultZoneForecastImpressions']);
         $this->assertEqual($result[3]['actual_impressions'], 0);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -1084,7 +1081,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual(count($aResult), 0);
 
         // Test 3
-        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['campaigns']}
@@ -1156,10 +1152,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $aResult = &$oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 4
-        TestEnv::startTransaction();
         $aData = array(
             1,
             't',
@@ -1184,10 +1179,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[1], '2006-10-04 11:15:00');
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 5
-        TestEnv::startTransaction();
         $aData = array(
             1,
             't',
@@ -1212,10 +1206,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[1], '2006-10-04 12:15:00');
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 6
-        TestEnv::startTransaction();
         $aData = array(
             1,
             'f',
@@ -1239,10 +1232,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $aResult = &$oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 7
-        TestEnv::startTransaction();
         $aData = array(
             1,
             'f',
@@ -1266,10 +1258,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $aResult = &$oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 8
-        TestEnv::startTransaction();
         $aData = array(
             1,
             'f',
@@ -1293,10 +1284,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $aResult = &$oMaxDalMaintenance->getAllDeliveryLimitationChangedAds($aLastRun);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 9
-        TestEnv::startTransaction();
         $aData = array(
             1,
             't',
@@ -1404,7 +1394,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult[1], '2006-10-04 11:30:00');
         $this->assertEqual($aResult[4], '2006-10-04 12:15:00');
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -1519,7 +1509,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual(count($result), 0);
 
         // Test 3
-        TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $oNow = new Date();
@@ -1571,10 +1560,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $rows = $stDia->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 4
-        TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
@@ -1601,10 +1592,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertNull($result[1][1]['priority_factor']);
         $this->assertNull($result[1][1]['past_zone_traffic_fraction']);
         $this->assertEqual($result[1][1]['impressions'], 1);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 5, 5a
-        TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
@@ -1628,10 +1621,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual(count($result), 0);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 0);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 6
-        TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $query = "
@@ -1688,10 +1683,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $rows = $stDsaza->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 7
-        TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
@@ -1720,10 +1717,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[1][1]['priority_factor'], 0.5);
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertNull($result[1][1]['impressions']);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 8, 8a
-        TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
@@ -1756,10 +1755,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[1][1]['priority_factor'], 0.5);
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertNull($result[1][1]['impressions']);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 9
-        TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $aData = array(
@@ -1796,10 +1797,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $rows = $stDsaza->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 10
-        TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $aData = array(
@@ -1844,10 +1847,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[1][1]['priority_factor'], 0.5);
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertNull($result[1][1]['impressions']);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 11, 11a
-        TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $aData = array(
@@ -1896,10 +1901,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[1][1]['priority_factor'], 0.5);
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertNull($result[1][1]['impressions']);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 12
-        TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
@@ -1939,10 +1946,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $rows = $stDsaza->execute($aData);
         $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 13
-        TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
@@ -1990,10 +1999,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[1][1]['priority_factor'], 0.5);
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertNull($result[1][1]['impressions']);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 14, 14a
-        TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
@@ -2045,10 +2056,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[1][1]['priority_factor'], 0.5);
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertEqual($result[1][1]['impressions'], 1);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 15
-        TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
@@ -2093,10 +2106,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertNull($result[1][1]['priority_factor']);
         $this->assertNull($result[1][1]['past_zone_traffic_fraction']);
         $this->assertEqual($result[1][1]['impressions'], 1);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 16
-        TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
@@ -2142,10 +2157,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[1][1]['priority_factor'], 0.5);
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertEqual($result[1][1]['impressions'], 1);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 17, 17a
-        TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
@@ -2202,10 +2219,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[1][1]['priority_factor'], 0.5);
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertEqual($result[1][1]['impressions'], 1);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 18
-        TestEnv::startTransaction();
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
         $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
@@ -2600,10 +2619,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[9][9]['priority_factor'], 95);
         $this->assertEqual($result[9][9]['past_zone_traffic_fraction'], 0.995);
         $this->assertNull($result[9][9]['impressions']);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 18a
-        TestEnv::startTransaction();
         $oZone = new Zone(array('zoneid' => 4));
         $aAdParams = array(
             'ad_id'  => 10,
@@ -3068,7 +3089,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[10][4]['priority_factor'], 1);
         $this->assertEqual($result[10][4]['past_zone_traffic_fraction'], 0.9);
         $this->assertEqual($result[10][4]['impressions'], 1000);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -3398,7 +3419,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
      */
     function testGetZonesImpressionAverageByRange()
     {
-        TestEnv::startTransaction();
         $oDbh = &OA_DB::singleton();
         // Set up test test data
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -3496,7 +3516,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[1][1]['operation_interval_id'], 1);
         $this->assertEqual($result[1][1]['average_impressions'], 600);
 
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -3506,7 +3526,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
      */
     function testGetZonesImpressionHistoryByRange()
     {
-        TestEnv::startTransaction();
         $oDbh = &OA_DB::singleton();
         // set up test test data
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -3638,7 +3657,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[1][4]['forecast_impressions'], 500);
         $this->assertEqual($result[1][4]['actual_impressions'], 600);
 
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -3646,7 +3665,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
      */
     function testSaveZoneImpressionForecasts()
     {
-        TestEnv::startTransaction();
         $oDbh = &OA_DB::singleton();
         // Test data
         $aForecasts = array(
@@ -3687,7 +3705,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             // Bit funny way to test value, done so I can test in loop
             $this->assertEqual($aValues['forecast_impressions'], (($aValues['operation_interval_id'] + 1) * ($aValues['zone_id'] * 100)));
         }
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -3696,7 +3714,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
     function testGetActiveZones()
     {
         $da = new OA_Dal_Maintenance_Priority();
-        TestEnv::startTransaction();
         $this->_generateStatsTwo();
         $ret = $da->getActiveZones();
 
@@ -3706,7 +3723,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertTrue(array_key_exists('zoneid', $zone));
         $this->assertTrue(array_key_exists('zonename', $zone));
         $this->assertTrue(array_key_exists('zonetype', $zone));
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -3806,7 +3823,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual(count($result), 0);
 
         // Test 3
-        TestEnv::startTransaction();
         $oNow = new Date();
         $query = "
             INSERT INTO
@@ -3865,10 +3881,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual(count($result), 2);
         $this->assertEqual($result[1], $conf['priority']['defaultZoneForecastImpressions']);
         $this->assertEqual($result[2], $conf['priority']['defaultZoneForecastImpressions']);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 4
-        TestEnv::startTransaction();
         $aData = array(
             1,
             1,
@@ -3942,10 +3960,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual(count($result), 2);
         $this->assertEqual($result[1], $conf['priority']['defaultZoneForecastImpressions'] + 20);
         $this->assertEqual($result[2], $conf['priority']['defaultZoneForecastImpressions'] + 40);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 5
-        TestEnv::startTransaction();
         $aData = array(
             1,
             1,
@@ -4019,10 +4039,12 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual(count($result), 2);
         $this->assertEqual($result[1], $conf['priority']['defaultZoneForecastImpressions']);
         $this->assertEqual($result[2], $conf['priority']['defaultZoneForecastImpressions'] + 40);
-        TestEnv::rollbackTransaction();
+
+        $oDate = &$oServiceLocator->get('now');
+        TestEnv::restoreEnv();
+        $oServiceLocator->register('now', $oDate);
 
         // Test 6
-        TestEnv::startTransaction();
         $aData = array(
             1,
             1,
@@ -4153,7 +4175,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[1], $conf['priority']['defaultZoneForecastImpressions']);
         $this->assertEqual($result[2], $conf['priority']['defaultZoneForecastImpressions'] + 40);
         $this->assertEqual($result[5], $conf['priority']['defaultZoneForecastImpressions']);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -4182,7 +4204,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual(count($result), 0);
 
         // Test 3
-        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
@@ -4215,10 +4236,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual(count($result[1][0]), 1);
         $this->assertTrue(isset($result[1][0]['zone_id']));
         $this->assertEqual($result[1][0]['zone_id'], 1);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 4
-        TestEnv::startTransaction();
         $aData = array(
             1,
             1,
@@ -4295,7 +4315,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual(count($result[3][1]), 1);
         $this->assertTrue(isset($result[3][1]['zone_id']));
         $this->assertEqual($result[3][1]['zone_id'], 9);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -4392,7 +4412,6 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         }
 
         // Test 4
-        TestEnv::startTransaction();
         // Insert forcast for this operation interval
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $firstIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
@@ -4485,7 +4504,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             }
             $this->assertEqual($result[$i]['operation_interval_id'], $i);
         }
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**

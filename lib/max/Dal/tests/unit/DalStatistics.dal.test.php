@@ -83,8 +83,6 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         $this->assertTrue($oBeforeDate->before($oResult));
         $this->assertTrue($oAfterDate->after($oResult));
 
-        TestEnv::startTransaction();
-
         // Test 3
         $oNow = new Date();
         $query = "
@@ -247,7 +245,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         $oExpectedDate = new Date('2006-10-27 12:00:00');
         $this->assertEqual($oResult, $oExpectedDate);
 
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -395,8 +393,6 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         );
         $this->assertEqual($aResult, $aResultShouldBe);
 
-        TestEnv::startTransaction();
-
         // Test 7:
         $query = "
             INSERT INTO
@@ -530,7 +526,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         );
         $this->assertEqual($aResult, $aResultShouldBe);
 
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
         TestEnv::restoreConfig();
     }
 
@@ -581,7 +577,6 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         $this->assertNull($aResult);
 
         // Test 4
-        TestEnv::startTransaction();
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
@@ -619,10 +614,9 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
             1 => 500
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 5
-        TestEnv::startTransaction();
         $aData = array(
             60,
             '',
@@ -657,7 +651,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
             2 => 500
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         TestEnv::restoreConfig();
     }

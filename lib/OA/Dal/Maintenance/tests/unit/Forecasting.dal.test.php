@@ -59,7 +59,6 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         // Test relies on transaction numbers, so ensure fresh database used
         TestEnv::restoreEnv();
 
-        TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Forecasting();
@@ -132,7 +131,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $this->assertEqual($aRow['duration'], 65);
         $this->assertEqual($aRow['updated_to'], '2005-06-21 16:59:59');
 
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -145,7 +144,6 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
      */
     function testGetMaintenanceForecastingLastRunInfo()
     {
-        TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
         $table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
         $oDbh = &OA_DB::singleton();
@@ -183,7 +181,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $this->assertEqual($result['updated_to'], '2005-06-21 16:59:59');
         $this->assertEqual($result['operation_interval'], $conf['maintenance']['operationInterval']);
 
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -408,7 +406,6 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $this->assertEqual(count($aResult), 0);
 
         // Test 3
-        TestEnv::startTransaction();
         $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
         $query = "
             INSERT INTO
@@ -475,10 +472,9 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
         // Test 4
-        TestEnv::startTransaction();
         $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
         $query = "
             INSERT INTO
@@ -554,9 +550,8 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[7], 1);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
 
-        TestEnv::startTransaction();
         $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
         $query = "
             INSERT INTO
@@ -738,7 +733,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
 
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -757,7 +752,6 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $table = $conf['table']['prefix'] . $conf['table']['data_summary_channel_daily'];
 
         // Test 1
-        TestEnv::startTransaction();
         $oDate = new Date('2006-10-12 12:00:00');
         $channelId = 7;
         $aCount = array(
@@ -834,7 +828,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['actual_impressions'], 0);
-        TestEnv::rollbackTransaction();
+        TestEnv::restoreEnv();
     }
 
 }
