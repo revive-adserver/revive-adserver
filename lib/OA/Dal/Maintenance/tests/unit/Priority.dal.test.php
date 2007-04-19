@@ -3089,6 +3089,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual($result[10][4]['priority_factor'], 1);
         $this->assertEqual($result[10][4]['past_zone_traffic_fraction'], 0.9);
         $this->assertEqual($result[10][4]['impressions'], 1000);
+
         TestEnv::restoreEnv();
     }
 
