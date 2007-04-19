@@ -59,7 +59,6 @@ class Test_OA_Dal_Maintenance_Statistics extends UnitTestCase
      */
     function testSetMaintenanceStatisticsRunReport()
     {
-        TestEnv::startTransaction();
         require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -114,7 +113,8 @@ class Test_OA_Dal_Maintenance_Statistics extends UnitTestCase
         $this->assertEqual($aRow['action'], phpAds_actionBatchStatistics);
         $this->assertEqual($aRow['object'], '0');
         $this->assertEqual($aRow['details'], $report);
-        TestEnv::rollbackTransaction();
+
+        TestEnv::restoreEnv();
     }
 
     /**
@@ -127,7 +127,6 @@ class Test_OA_Dal_Maintenance_Statistics extends UnitTestCase
      */
     function testSetMaintenanceStatisticsLastRunInfo()
     {
-        TestEnv::startTransaction();
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Statistics();
@@ -202,7 +201,7 @@ class Test_OA_Dal_Maintenance_Statistics extends UnitTestCase
         $this->assertEqual($aRow['duration'], 65);
         $this->assertEqual($aRow['updated_to'], '2005-06-21 16:59:59');
 
-        // Test 3:
+        // Test 3
         $oStartDate = new Date('2005-06-21 16:00:01');
         $oEndDate   = new Date('2005-06-21 16:02:07');
         $oUpdatedTo = new Date('2005-06-21 16:59:59');
@@ -227,7 +226,8 @@ class Test_OA_Dal_Maintenance_Statistics extends UnitTestCase
         $this->assertEqual($aRow[$runTypeField], $type);
         $this->assertEqual($aRow['duration'], 126);
         $this->assertEqual($aRow['updated_to'], '2005-06-21 16:59:59');
-        TestEnv::rollbackTransaction();
+
+        TestEnv::restoreEnv();
     }
 
 }
