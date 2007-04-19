@@ -281,18 +281,22 @@
      */
     class GroupTest {
         var $_label;
+        var $_secondaryLabel;
         var $_test_cases;
         var $_old_track_errors;
         var $_xdebug_is_enabled;
 
         /**
          *    Sets the name of the test suite.
-         *    @param string $label    Name sent at the start and end
-         *                            of the test.
+         *    @param string $label          Name sent at the start and end
+         *                                  of the test.
+         *    @param string $secondaryLabel Optional secondary name sent at the
+         *                                  start of the test.
          *    @access public
          */
-        function GroupTest($label) {
+        function GroupTest($label, $secondaryLabel = null) {
             $this->_label = $label;
+            $this->_secondaryLabel = $secondaryLabel;
             $this->_test_cases = array();
             $this->_old_track_errors = ini_get('track_errors');
             $this->_xdebug_is_enabled = function_exists('xdebug_is_enabled') ?
@@ -306,6 +310,15 @@
          */
         function getLabel() {
             return $this->_label;
+        }
+
+        /**
+         *    Accessor for the test name for subclasses.
+         *    @return string           Name of the test.
+         *    @access public
+         */
+        function getSecondaryLabel() {
+            return $this->_secondaryLabel;
         }
 
         /**
@@ -473,7 +486,7 @@
          *    @access public
          */
         function run(&$reporter) {
-            $reporter->paintGroupStart($this->getLabel(), $this->getSize());
+            $reporter->paintGroupStart($this->getLabel(), $this->getSize(), $this->getSecondaryLabel());
             for ($i = 0, $count = count($this->_test_cases); $i < $count; $i++) {
                 if (is_string($this->_test_cases[$i])) {
                     $class = $this->_test_cases[$i];

@@ -36,9 +36,10 @@
          *    Paints the top of the web page setting the
          *    title to the name of the starting test.
          *    @param string $test_name      Name class of test.
+         *    @param string $secondary_name Optional secondary test title info.
          *    @access public
          */
-        function paintHeader($test_name) {
+        function paintHeader($test_name, $secondary_name = null) {
             $this->sendNoCacheHeaders();
             print "<html>\n<head>\n<title>$test_name</title>\n";
             print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" .
@@ -47,8 +48,10 @@
             print $this->_getCss() . "\n";
             print "</style>\n";
             print "</head>\n<body>\n";
-            print "<h2>{$GLOBALS['_MAX']['CONF']['database']['host']} :: {$GLOBALS['_MAX']['CONF']['database']['type']} {$GLOBALS['_MAX']['CONF']['database']['version']}</h2>";
             print "<h1>$test_name</h1>\n";
+            if (!is_null($secondary_name)) {
+                print "<h2>$secondary_name</h2>\n";
+            }
             flush();
         }
 

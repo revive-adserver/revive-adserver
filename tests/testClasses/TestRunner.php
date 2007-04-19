@@ -32,6 +32,8 @@ require_once MAX_PATH . '/lib/simpletest/mock_objects.php';
 require_once MAX_PATH . '/lib/simpletest/reporter.php';
 require_once MAX_PATH . '/lib/simpletest/web_tester.php';
 require_once MAX_PATH . '/lib/simpletest/xml.php';
+
+require_once MAX_PATH . '/lib/OA/DB.php';
 require_once 'Console/Getopt.php';
 
 /**
@@ -120,7 +122,8 @@ class TestRunner
         $tests = TestFiles::getLayerTestFiles($type, $layer);
         // Add the test files to a SimpleTest group
         $testName = $this->_testName($layer);
-        $test = new GroupTest($testName);
+        $secondaryName = $this->_secondaryTestName($layer);
+        $test = new GroupTest($testName, $secondaryName);
         foreach ($tests as $layerCode => $folders) {
             foreach ($folders as $folder => $files) {
                 foreach ($files as $index => $file) {
@@ -150,7 +153,8 @@ class TestRunner
         $tests = TestFiles::getTestFiles($type, $layer, MAX_PROJECT_PATH . '/' . $folder, false);
         // Add the test files to a SimpleTest group
         $testName = $this->_testName($layer, $folder);
-        $test = new GroupTest($testName);
+        $secondaryName = $this->_secondaryTestName($layer);
+        $test = new GroupTest($testName, $secondaryName);
         foreach ($tests as $folder => $data) {
             foreach ($data as $index => $file) {
                 $testFile = MAX_PROJECT_PATH . '/' . $folder . '/' . constant($type . '_TEST_STORE') . '/' . $file;
@@ -175,7 +179,8 @@ class TestRunner
         TestRunner::setupEnv($layer);
         // Add the test file to a SimpleTest group
         $testName = $this->_testName($layer, $folder, $file);
-        $test = new GroupTest($testName);
+        $secondaryName = $this->_secondaryTestName($layer);
+        $test = new GroupTest($testName, $secondaryName);
         $testFile = MAX_PROJECT_PATH . '/' . $folder . '/' . constant($type . '_TEST_STORE') . '/' . $file;
         $test->addTestFile($testFile);
         $this->runCase($test);
@@ -196,12 +201,7 @@ class TestRunner
     {
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
         $name = strtoupper($type) . ': ';
-        $unitname = $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][0];
-        if (preg_match('/\(DB\)/', $unitname)) {
-            $oDbh = &OA_DB::singleton();
-            $unitname = preg_replace('/\(DB\)/', '(DB -> ' . $oDbh->dsn['phptype'] . ')', $unitname);
-        }
-        $name .= $unitname;
+        $name .= $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][0];
         if (is_null($folder) && is_null($file)) {
             $name .= ' Tests';
         } else if (!is_null($folder) && is_null($file)) {
@@ -210,6 +210,38 @@ class TestRunner
             $name .= ': ' . $folder . '/' . $file;
         }
         return $name;
+    }
+
+    /**
+     * A private method to determine if a secondary test name for
+     * the tests is needed.
+     *
+     * @access private
+     * @param string $layer  The name of a layer group to run.
+     * @return string The secondary display string for the test.
+     */
+    function _secondaryTestName($layer)
+    {
+        $type = $GLOBALS['_MAX']['TEST']['test_type'];
+        $runType = $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][1];
+        if ($runType !== NO_DB) {
+            $aConf = $GLOBALS['_MAX']['CONF'];
+            $oDbh = &OA_DB::singleton();
+            $query = "SELECT VERSION() AS version";
+            $aRow = $oDbh->queryRow($query);
+            $version = 'UNKNOWN!';
+            if (!PEAR::isError($aRow)) {
+                if (preg_match('/(\S*( ([0-9]|\.)*)?)/ ', $aRow['version'], $aMatches)) {
+                    $version = $aMatches[0];
+                }
+                if ($aConf['database']['type'] == 'mysql') {
+                    $version .= ' using ' . $aConf['table']['type'];
+                }
+            }
+            return 'Database: ' . $aConf['database']['type'] . ' (' . $version . ') on  ' . $aConf['database']['host'];
+        } else {
+            return '';
+        }
     }
 
     /**
