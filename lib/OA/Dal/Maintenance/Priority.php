@@ -1182,19 +1182,19 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function updatePriorities(&$aData)
     {
-        OA::debug('Saving calculated priorities.', PEAR_LOG_DEBUG);
+        OA::debug('Updating priorities.', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator = &ServiceLocator::instance();
         $oDate = &$oServiceLocator->get('now');
         if (!$oDate) {
+            OA::debug(' - Date not found in service locator.', PEAR_LOG_DEBUG);
             return false;
         }
         $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        // Start a transaction
-        $this->oDbh->beginTransaction();
         // Delete all category-based (ie. link_type = MAX_AD_ZONE_LINK_CATEGORY) priorities
         // from ad_zone_assoc
+        OA::debug(' - Zeroing category-based priorities.', PEAR_LOG_DEBUG);
         $query = "
             DELETE FROM
                 {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
@@ -1202,48 +1202,163 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 link_type = " . MAX_AD_ZONE_LINK_CATEGORY;
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
-            $this->oDbh->rollback();
+            OA::debug(' - Error zeroing category-based priorities.', PEAR_LOG_DEBUG);
             return false;
         }
-        // Set all remaining normal (ie. link_type = MAX_AD_ZONE_LINK_NORMAL) priorities to zero
-        $query = "
-            UPDATE
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            SET
-                priority = 0
-            WHERE
-                link_type = " . MAX_AD_ZONE_LINK_NORMAL;
-        $rows = $this->oDbh->exec($query);
-        if (PEAR::isError($rows)) {
-            $this->oDbh->rollback();
-            return false;
-        }
-        // Update the static priority values
-        if (is_array($aData) && (count($aData) > 0)) {
-            foreach ($aData as $aZoneData) {
-                if (is_array($aZoneData['ads']) && (count($aZoneData['ads']) > 0)) {
-                    foreach ($aZoneData['ads'] as $aAdZonePriority) {
-                        $query = "
-                            UPDATE
-                                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-                            SET
-                                priority = {$aAdZonePriority['priority']}
-                            WHERE
-                                ad_id = {$aAdZonePriority['ad_id']}
-                                AND zone_id = {$aAdZonePriority['zone_id']}
-                                AND link_type = " . MAX_AD_ZONE_LINK_NORMAL;
-                        $rows = $this->oDbh->exec($query);
-                        if (PEAR::isError($rows)) {
-                            $this->oDbh->rollback();
-                            return false;
+        // Does the database in use support transactions?
+        if (
+               strcasecmp($aConf['database']['type'], 'mysql') === 0
+               &&
+               strcasecmp($aConf['table']['type'], 'myisam') === 0
+           )
+        {
+            // Oh noz! No transaction support? How tragic!
+            OA::debug(' - Saving calculated priorities WITHOUT transaction support.', PEAR_LOG_DEBUG);
+            // Obtain the list of all existing normal (ie. link_type = MAX_AD_ZONE_LINK_NORMAL)
+            // ad/zone pairs that are in the ad_zone_assoc table
+            OA::debug('   - Getting all existing ad/zone pairs with priorities.', PEAR_LOG_DEBUG);
+            $query = "
+                SELECT
+                    ad_id,
+                    zone_id
+                FROM
+                    {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                WHERE
+                    link_type = " . MAX_AD_ZONE_LINK_CATEGORY;
+            $aRows = $this->oDbh->queryAll($query);
+            if (PEAR::isError($aRows)) {
+                OA::debug(' - Error getting all existing ad/zone pairs with priorities.', PEAR_LOG_DEBUG);
+                return false;
+            }
+            // Iterate over the old ad/zone pair priorities, and mark any
+            // that do NOT have new values (and will therefore have to be
+            // set to zero)
+            OA::debug('   - Calculating which existing ad/zone pair priorities need to be zeroed.', PEAR_LOG_DEBUG);
+            $aSetToZero = array();
+            reset($aRows);
+            while (list(,$aRow) = each($aRows)) {
+                if (is_null($aData[$aRow['zone_id']][$aRow['ad_id']])) {
+                    // There is no new priority value for this existing ad/zone pair
+                    $aSetToZero[$aRow['zone_id']][$aRow['ad_id']] = true;
+                }
+            }
+            // Set all required normal (ie. link_type = MAX_AD_ZONE_LINK_NORMAL) priorities to zero
+            OA::debug('   - Zeroing required existing ad/zone pair priorities.', PEAR_LOG_DEBUG);
+            reset($aSetToZero);
+            while (list($zoneId, $aAds) = each($aSetToZero)) {
+                reset($aAds);
+                while (list($adId,) = each($aAds)) {
+                    OA::debug("   - Zeroing ad ID $adId, zone ID $zoneID pair priority.", PEAR_LOG_DEBUG);
+                    $query = "
+                        UPDATE
+                            {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                        SET
+                            priority = 0
+                        WHERE
+                            ad_id = $adId
+                            AND
+                            zone_id = $zoneId
+                            AND
+                            link_type = " . MAX_AD_ZONE_LINK_NORMAL;
+                    $rows = $this->oDbh->exec($query);
+                    if (PEAR::isError($rows)) {
+                        OA::debug(" - Error zeroing ad ID $adId, zone ID $zoneID pair priority.", PEAR_LOG_DEBUG);
+                        return false;
+                    }
+                }
+            }
+            // Update the required normal (ie. link_type = MAX_AD_ZONE_LINK_NORMAL) priorities
+            OA::debug('   - Updating required existing ad/zone pair priorities.', PEAR_LOG_DEBUG);
+            if (is_array($aData) && (count($aData) > 0)) {
+                reset($aData);
+                while (list(,$aZoneData)  = each($aData)) {
+                    if (is_array($aZoneData['ads']) && (count($aZoneData['ads']) > 0)) {
+                        foreach ($aZoneData['ads'] as $aAdZonePriority) {
+                            $query = "
+                                UPDATE
+                                    {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                                SET
+                                    priority = {$aAdZonePriority['priority']}
+                                WHERE
+                                    ad_id = {$aAdZonePriority['ad_id']}
+                                    AND
+                                    zone_id = {$aAdZonePriority['zone_id']}
+                                    AND
+                                    link_type = " . MAX_AD_ZONE_LINK_NORMAL;
+                            $rows = $this->oDbh->exec($query);
+                            if (PEAR::isError($rows)) {
+                                OA::debug(" - Error updating ad ID {$aAdZonePriority['ad_id']}, zone ID {$aAdZonePriority['zone_id']} pair priority to {$aAdZonePriority['priority']}.", PEAR_LOG_DEBUG);
+                                return false;
+                            }
                         }
                     }
                 }
             }
         }
-        // Insert the non-static priority values
-
+        else
+        {
+            // Oh yeah, baby, none of that ACID-less MyISAM for me!
+            OA::debug(' - Saving calculated priorities WITH transaction support.', PEAR_LOG_DEBUG);
+            // Start a transaction
+            OA::debug('   - Starting transaction.', PEAR_LOG_DEBUG);
+            $oRes = $this->oDbh->beginTransaction();
+            if (PEAR::isError($oRes)) {
+                // Cannot start transaction
+                OA::debug('   - Error: Could not start transaction.', PEAR_LOG_DEBUG);
+                return $oRes;
+            }
+            // Set all normal (ie. link_type = MAX_AD_ZONE_LINK_NORMAL) priorities to zero
+            OA::debug('   - Zeroing all existing ad/zone pair priorities.', PEAR_LOG_DEBUG);
+            $query = "
+                UPDATE
+                    {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                SET
+                    priority = 0
+                WHERE
+                    link_type = " . MAX_AD_ZONE_LINK_NORMAL;
+            $rows = $this->oDbh->exec($query);
+            if (PEAR::isError($rows)) {
+                OA::debug('   - Error: Rolling back transaction.', PEAR_LOG_DEBUG);
+                $this->oDbh->rollback();
+                return false;
+            }
+            // Update the required normal (ie. link_type = MAX_AD_ZONE_LINK_NORMAL) priorities
+            OA::debug('   - Updating required existing ad/zone pair priorities.', PEAR_LOG_DEBUG);
+            if (is_array($aData) && (count($aData) > 0)) {
+                reset($aData);
+                while (list(,$aZoneData)  = each($aData)) {
+                    if (is_array($aZoneData['ads']) && (count($aZoneData['ads']) > 0)) {
+                        foreach ($aZoneData['ads'] as $aAdZonePriority) {
+                            $query = "
+                                UPDATE
+                                    {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                                SET
+                                    priority = {$aAdZonePriority['priority']}
+                                WHERE
+                                    ad_id = {$aAdZonePriority['ad_id']}
+                                    AND
+                                    zone_id = {$aAdZonePriority['zone_id']}
+                                    AND
+                                    link_type = " . MAX_AD_ZONE_LINK_NORMAL;
+                            $rows = $this->oDbh->exec($query);
+                            if (PEAR::isError($rows)) {
+                                OA::debug('   - Error: Rolling back transaction.', PEAR_LOG_DEBUG);
+                                $this->oDbh->rollback();
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            // Commit the transaction
+            $oRes = $this->oDbh->commit();
+            if (PEAR::isError($oRes)) {
+                OA::debug('   - Error: Could not commit the transaction.', PEAR_LOG_DEBUG);
+                return $oRes;
+            }
+        }
         // Expire the old priority values in data_summary_ad_zone_assoc
+        OA::debug(" - Epiring old priority values in {$aConf['table']['data_summary_ad_zone_assoc']}.", PEAR_LOG_DEBUG);
         $query = "
             UPDATE
                 {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
@@ -1254,13 +1369,14 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 expired IS NULL";
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
-            $this->oDbh->rollback();
             return false;
         }
         // Add the new priority values to data_summary_ad_zone_assoc
+        OA::debug(" - Adding new priority values to {$aConf['table']['data_summary_ad_zone_assoc']}.", PEAR_LOG_DEBUG);
         if (is_array($aData) && !empty($aData)) {
             $aValues = array();
-            foreach ($aData as $aZoneData) {
+            reset($aData);
+            while (list(,$aZoneData) = each($aData)) {
                 if (is_array($aZoneData['ads']) && !empty($aZoneData['ads'])) {
                     foreach ($aZoneData['ads'] as $aAdZonePriority) {
                         $aValues[] = array(
@@ -1321,19 +1437,17 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             );
             $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
             if (is_array($aValues) && !empty($aValues)) {
-                foreach ($aValues as $aInsertValues) {
+                reset($aValues);
+                while (list(,$aInsertValues) = each($aValues)) {
                     if (is_array($aInsertValues) && !empty($aInsertValues)) {
                         $rows = $st->execute($aInsertValues);
                         if (PEAR::isError($rows)) {
-                            $this->oDbh->rollback();
                             return false;
                         }
                     }
                 }
             }
         }
-        // Commit the transaction
-        $this->oDbh->commit();
         return true;
     }
 
@@ -1512,10 +1626,12 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      *                         "operation_interval" => The operation interval in use when
      *                         the forecast was made.
      */
-    function saveZoneImpressionForecasts( $aForecasts )
+    function saveZoneImpressionForecasts($aForecasts)
     {
+        OA::debug('Saving zone impression forecasts.', PEAR_LOG_DEBUG);
         // Check the parameter
         if (!is_array($aForecasts) || !count($aForecasts)) {
+            OA::debug(' - No forecasts to save.', PEAR_LOG_DEBUG);
             return;
         }
         $aConf = $GLOBALS['_MAX']['CONF'];
@@ -1531,8 +1647,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         );
         $aIntervalEnd = array();
         // Loop through forecasts array to find min/max start/end intervals
+        OA::debug(' - Locating the min/max start/end interval values in the forecasts.', PEAR_LOG_DEBUG);
         reset($aForecasts);
-        while (list( ,$aOperationIntervals) = each($aForecasts)) {
+        while (list(,$aOperationIntervals) = each($aForecasts)) {
             reset($aOperationIntervals);
             while (list( ,$aValues) = each($aOperationIntervals)) {
                 // Convert the start of the interval to a number, and compare
@@ -1567,13 +1684,18 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         // Return if at least one of endpoints for dates hasn't been set
         if (
-            !$aIntervalStartCompare['min'] ||
-            !$aIntervalStartCompare['max'] ||
-            !$aIntervalEndCompare['min'] ||
-            !$aIntervalEndCompare['max']
-        ) {
+               !$aIntervalStartCompare['min'] ||
+               !$aIntervalStartCompare['max'] ||
+               !$aIntervalEndCompare['min'] ||
+               !$aIntervalEndCompare['max']
+            )
+        {
+            OA::debug(' - Unable to locate all four min/max start/end interval values in the forecasts.', PEAR_LOG_DEBUG);
             return;
         }
+        // Obtain past zone impression forecasts, so that they can be updated with the
+        // actual impressions that happened, if possible
+        OA::debug(' - Getting past zone impression forecast rows so actual impressions and past forecasts can be looked at.', PEAR_LOG_DEBUG);
         $sSelectQuery = "
 	        SELECT
 	            zone_id,
@@ -1592,6 +1714,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                	AND interval_end >= '{$aIntervalEnd['min']}' AND interval_end <= '{$aIntervalEnd['max']}'";
         $rc = $this->oDbh->query($sSelectQuery);
         if (PEAR::isError($rc)) {
+            OA::debug(' - Error getting past zone impression forecast rows.', PEAR_LOG_DEBUG);
             return $rc;
         }
         if ($rc->numRows() > 0) {
@@ -1609,7 +1732,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
 	                {
 	                    $aForecasts[$row['zone_id']][$row['operation_interval_id']]['actual_impressions'] = $row['actual_impressions'];
 	                }
-	                // Save forecast_impressions only if there is no newer value in the array already
+	                // Save forecast_impressions from the database only if there is no newer value in the parameter array already
 	                if (empty($aForecasts[$row['zone_id']][$row['operation_interval_id']]['forecast_impressions']))
 	                {
 	                    $aForecasts[$row['zone_id']][$row['operation_interval_id']]['forecast_impressions'] = $row['forecast_impressions'];
@@ -1618,29 +1741,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             }
         }
         $rc->free();
-        // Run query and check for results
-        $oRes = $this->oDbh->beginTransaction();
-        if (PEAR::isError($oRes)) {
-            // Cannot start transaction
-            return $oRes;
-        }
-        $sDeleteQuery =  "
-            DELETE FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
-            WHERE
-            	zone_id IN (" . join( ',', array_keys( $aForecasts ) ) . ")
-            	AND interval_start >= '{$aIntervalStart['min']}' AND interval_start <= '{$aIntervalStart['max']}'
-            	AND interval_end >= '{$aIntervalEnd['min']}' AND interval_end <= '{$aIntervalEnd['max']}'
-            	AND operation_interval = {$aConf['maintenance']['operationInterval']}";
-        // Run query and check for results
-        $rc = $this->oDbh->query($sDeleteQuery);
-        if (PEAR::isError($rc)) {
-            // Rollback
-            $this->oDbh->rollback();
-            // Return error object
-            return $rc;
-        }
-        // Append all values to the multiple insert stmt
+        // Prepare SQL statement for use later
         $sInsertQuery = "
             INSERT INTO
                 {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
@@ -1662,32 +1763,137 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             'timestamp',
             'integer'
         );
-        $st = $this->oDbh->prepare($sInsertQuery, $aTypes, MDB2_PREPARE_MANIP);
-        // For each forecast in the array
-        foreach ($aForecasts as $zoneId => $aOperationIntervals) {
-            foreach ($aOperationIntervals as $id => $aValues) {
-                // Insert the forecast
-                $aData = array(
-            		$zoneId,
-            		$aConf['maintenance']['operationInterval'],
-            		$id,
-            		$aValues['interval_start'],
-            		$aValues['interval_end'],
-            		$aValues['forecast_impressions']
-        		);
-        		$rows = $st->execute($aData);
-                if (PEAR::isError($rows)) {
-                    // Rollback
-                    $this->oDbh->rollback();
-                    // Return error object
-                    return $rows;
+        $stInsert = $this->oDbh->prepare($sInsertQuery, $aTypes, MDB2_PREPARE_MANIP);
+        // Does the database in use support transactions?
+        if (
+               strcasecmp($aConf['database']['type'], 'mysql') === 0
+               &&
+               strcasecmp($aConf['table']['type'], 'myisam') === 0
+           )
+        {
+            // Oh noz! No transaction support? How tragic!
+            OA::debug(' - Saving zone impression forecasts WITHOUT transaction support.', PEAR_LOG_DEBUG);
+            // Prepare SQL statement for use later
+            $sUpdateQuery = "
+                UPDATE
+                    {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                SET
+                    forecast_impressions = ?
+                WHERE
+                    zone_id = ?
+                    AND
+                    operation_interval = ?
+                    AND
+                    operation_interval_id = ?
+                    AND
+                    interval_start = '?'
+                    AND
+                    interval_end = '?'";
+            $aTypes = array(
+                'integer',
+                'integer',
+                'integer',
+                'integer',
+                'timestamp',
+                'timestamp'
+            );
+            $stUpdate = $this->oDbh->prepare($sUpdateQuery, $aTypes, MDB2_PREPARE_MANIP);
+            // Try to insert the new zone impression forecasts
+            OA::debug('   - Inserting new zone impression forecasts.', PEAR_LOG_DEBUG);
+            // For each forecast in the array
+            reset($aForecasts);
+            while (list($zoneId, $aOperationIntervals) = each($aForecasts)) {
+                reset($aOperationIntervals);
+                while (list($id, $aValues) = each($aOperationIntervals)) {
+                    // Insert the forecast
+                    $aData = array(
+                		$zoneId,
+                		$aConf['maintenance']['operationInterval'],
+                		$id,
+                		$aValues['interval_start'],
+                		$aValues['interval_end'],
+                		$aValues['forecast_impressions']
+            		);
+            		$rows = $stInsert->execute($aData);
+                    if (PEAR::isError($rows)) {
+                        // Cannot insert! Try update
+                        $aData = array(
+                    		$aValues['forecast_impressions'],
+                    		$zoneId,
+                    		$aConf['maintenance']['operationInterval'],
+                    		$id,
+                    		$aValues['interval_start'],
+                    		$aValues['interval_end']
+                		);
+                		$rows = $stUpdate->execute($aData);
+                        if (PEAR::isError($rows)) {
+                            OA::debug('   - Error trying to update existing forecast.', PEAR_LOG_DEBUG);
+                            return;
+                        }
+                    }
                 }
             }
+
         }
-        // Commit the data
-        $oRes = $this->oDbh->commit();
-        if (PEAR::isError($oRes)) {
-            return $oRes;
+        else
+        {
+            // Oh yeah, baby, none of that ACID-less MyISAM for me!
+            OA::debug(' - Saving zone impression forecasts WITH transaction support.', PEAR_LOG_DEBUG);
+            // Start a transaction
+            OA::debug('   - Starting transaction.', PEAR_LOG_DEBUG);
+            $oRes = $this->oDbh->beginTransaction();
+            if (PEAR::isError($oRes)) {
+                // Cannot start transaction
+                OA::debug('   - Error: Could not start transaction.', PEAR_LOG_DEBUG);
+                return $oRes;
+            }
+            // Delete all the past zone impression forecast records
+            OA::debug('   - Deleting past zone impression forecasts.', PEAR_LOG_DEBUG);
+            $sDeleteQuery =  "
+                DELETE FROM
+                    {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                WHERE
+                	zone_id IN (" . join( ',', array_keys( $aForecasts ) ) . ")
+                	AND interval_start >= '{$aIntervalStart['min']}' AND interval_start <= '{$aIntervalStart['max']}'
+                	AND interval_end >= '{$aIntervalEnd['min']}' AND interval_end <= '{$aIntervalEnd['max']}'
+                	AND operation_interval = {$aConf['maintenance']['operationInterval']}";
+            // Run query and check for results
+            $rc = $this->oDbh->query($sDeleteQuery);
+            if (PEAR::isError($rc)) {
+                OA::debug('   - Error: Rolling back transaction.', PEAR_LOG_DEBUG);
+                $this->oDbh->rollback();
+                return $rc;
+            }
+            // Insert the new zone impression forecasts
+            OA::debug('   - Inserting new zone impression forecasts.', PEAR_LOG_DEBUG);
+            // For each forecast in the array
+            reset($aForecasts);
+            while (list($zoneId, $aOperationIntervals) = each($aForecasts)) {
+                reset($aOperationIntervals);
+                while (list($id, $aValues) = each($aOperationIntervals)) {
+                    // Insert the forecast
+                    $aData = array(
+                		$zoneId,
+                		$aConf['maintenance']['operationInterval'],
+                		$id,
+                		$aValues['interval_start'],
+                		$aValues['interval_end'],
+                		$aValues['forecast_impressions']
+            		);
+            		$rows = $stInsert->execute($aData);
+                    if (PEAR::isError($rows)) {
+                        OA::debug('   - Error: Rolling back transaction.', PEAR_LOG_DEBUG);
+                        $this->oDbh->rollback();
+                        return $rows;
+                    }
+                }
+            }
+            // Commit the transaction
+            $oRes = $this->oDbh->commit();
+            if (PEAR::isError($oRes)) {
+                OA::debug('   - Error: Could not commit the transaction.', PEAR_LOG_DEBUG);
+                return $oRes;
+            }
         }
     }
 
@@ -1751,18 +1957,15 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 'integer'
             );
             $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-            $this->oDbh->beginTransaction();
             foreach ($aData as $aValues) {
                 $aData = array();
                 $aData[0] = $aValues['ad_id'];
                 $aData[1] = $aValues['required_impressions'];
                 $rows = $st->execute($aData);
                 if (PEAR::isError($rows)) {
-                    $this->oDbh->rollback();
                     return $rows;
                 }
             }
-            $this->oDbh->commit();
         }
     }
 
@@ -1948,7 +2151,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 'integer'
             );
             $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-            $this->oDbh->beginTransaction();
             foreach ($aData as $aValues) {
                 $aData = array();
                 $aData[0] = $aValues['ad_id'];
@@ -1957,11 +2159,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 $aData[3] = $aValues['requested_impressions'];
                 $rows = $st->execute($aData);
                 if (PEAR::isError($rows)) {
-                    $this->oDbh->rollback();
                     return $rows;
                 }
             }
-            $this->oDbh->commit();
         }
     }
 
