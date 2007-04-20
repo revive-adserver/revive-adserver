@@ -126,10 +126,8 @@ $$ LANGUAGE plpgsql IMMUTABLE;";
 
 $aCustomFunctions[] = "
 CREATE OR REPLACE FUNCTION HOUR(timestamptz) RETURNS integer AS $$
-DECLARE
- i int4;
 BEGIN
- i = date_part('hour', $1);
+ RETURN date_part('hour', $1)::integer;
 END;
 $$ LANGUAGE plpgsql STRICT IMMUTABLE;";
 
