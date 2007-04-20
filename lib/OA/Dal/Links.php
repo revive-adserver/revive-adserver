@@ -27,8 +27,6 @@ $Id$
 
 require_once 'Config.php';
 
-
-
 /**
  * A class to deal with DataObjects .links.ini files.
  */
@@ -138,6 +136,7 @@ class Openads_Links
         $links->parseConfig($root, 'phparray');
         return $links->writeConfig($file_links, 'inifile');
     }
+
 }
 
 ?>
