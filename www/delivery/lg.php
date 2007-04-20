@@ -63,11 +63,13 @@ $aCapZone['block']               = MAX_Delivery_log_getArrRequestVariable('block
 $aCapZone['capping']             = MAX_Delivery_log_getArrRequestVariable('capZone');
 $aCapZone['session_capping']     = MAX_Delivery_log_getArrRequestVariable('sessionCapZone');
 
-$GLOBALS['_MAX']['CHANNELS'] = str_replace(
-    $GLOBALS['_MAX']['CONF']['delivery']['chDelimiter'],
-    MAX_DELIVERY_MULTIPLE_DELIMITER,
-    $_REQUEST['channel_ids']
-);
+if (isset($_REQUEST['channel_ids'])) {
+    $GLOBALS['_MAX']['CHANNELS'] = str_replace(
+        $GLOBALS['_MAX']['CONF']['delivery']['chDelimiter'],
+        MAX_DELIVERY_MULTIPLE_DELIMITER,
+        $_REQUEST['channel_ids']
+    );
+}
 
 // Loop over the ads to be logged (there may be more than one due to internal re-directs)
 // and log each ad, and then set any capping cookies required

@@ -689,7 +689,7 @@ function MAX_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zone
     }
     // Log the raw data
     $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
-    $result = MAX_Dal_Delivery_query("
+    $query = "
         INSERT INTO
             $table
             (
@@ -698,33 +698,99 @@ function MAX_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zone
                 date_time,
                 ad_id,
                 creative_id,
-                zone_id,
-                channel,
-                channel_ids,
+                zone_id,";
+    if (isset($_GET['source'])) {
+        $query .= "
+                channel,";
+    }
+    if (isset($zoneInfo['channel_ids'])) {
+        $query .= "
+                channel_ids,";
+    }
+    $query .= "
                 language,
                 ip_address,
-                host_name,
-                country,
-                https,
-                domain,
-                page,
-                query,
-                referer,
+                host_name,";
+    if (isset($geotargeting['country_code'])) {
+        $query .= "
+                country,";
+    }
+    if (isset($zoneInfo['scheme'])) {
+        $query .= "
+                https,";
+    }
+    if (isset($zoneInfo['host'])) {
+        $query .= "
+                domain,";
+    }
+    if (isset($zoneInfo['path'])) {
+        $query .= "
+                page,";
+    }
+    if (isset($zoneInfo['query'])) {
+        $query .= "
+                query,";
+    }
+    if (isset($_GET['referer'])) {
+        $query .= "
+                referer,";
+    }
+    $query .= "
                 search_term,
-                user_agent,
-                os,
-                browser,
-                max_https,
-                geo_region,
-                geo_city,
-                geo_postal_code,
-                geo_latitude,
-                geo_longitude,
-                geo_dma_code,
-                geo_area_code,
-                geo_organisation,
-                geo_netspeed,
-                geo_continent
+                user_agent,";
+    if (isset($userAgentInfo['os'])) {
+        $query .= "
+                os,";
+    }
+    if (isset($userAgentInfo['browser'])) {
+        $query .= "
+                browser,";
+    }
+    $query .= "
+                max_https,";
+    if (isset($geotargeting['geo_region'])) {
+        $query .= "
+                geo_region,";
+    }
+    if (isset($geotargeting['geo_city'])) {
+        $query .= "
+                geo_city,";
+    }
+    if (isset($geotargeting['geo_postal_code'])) {
+        $query .= "
+                geo_postal_code,";
+    }
+    if (isset($geotargeting['geo_latitude'])) {
+        $query .= "
+                geo_latitude,";
+    }
+    if (isset($geotargeting['geo_longitude'])) {
+        $query .= "
+                geo_longitude,";
+    }
+    if (isset($geotargeting['geo_dma_code'])) {
+        $query .= "
+                geo_dma_code,";
+    }
+    if (isset($geotargeting['geo_area_code'])) {
+        $query .= "
+                geo_area_code,";
+    }
+    if (isset($geotargeting['geo_organisation'])) {
+        $query .= "
+                geo_organisation,";
+    }
+    if (isset($geotargeting['geo_netspeed'])) {
+        $query .= "
+                geo_netspeed,";
+    }
+    if (isset($geotargeting['geo_continent'])) {
+        $query .= "
+                geo_continent,";
+    }
+    // Strip end comma!
+    $query = substr_replace($query, '', strlen($query) - 1);
+    $query .= "
             )
         VALUES
             (
@@ -733,34 +799,104 @@ function MAX_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zone
                 '".$dateFunc('Y-m-d H:i:s')."',
                 '$adId',
                 '$creativeId',
-                '$zoneId',
-                '".MAX_commonDecrypt($_GET['source'])."',
-                '{$zoneInfo['channel_ids']}',
+                '$zoneId',";
+    if (isset($_GET['source'])) {
+        $query .= "
+                '".MAX_commonDecrypt($_GET['source'])."',";
+    }
+    if (isset($zoneInfo['channel_ids'])) {
+        $query .= "
+                '{$zoneInfo['channel_ids']}',";
+    }
+    $query .= "
                 '{$_SERVER['HTTP_ACCEPT_LANGUAGE']}',
                 '{$_SERVER['REMOTE_ADDR']}',
-                '{$_SERVER['REMOTE_HOST']}',
-                '{$geotargeting['country_code']}',
-                '{$zoneInfo['scheme']}',
-                '{$zoneInfo['host']}',
-                '{$zoneInfo['path']}',
-                '{$zoneInfo['query']}',
-                '{$_GET['referer']}',
+                '{$_SERVER['REMOTE_HOST']}',";
+    if (isset($geotargeting['country_code'])) {
+        $query .= "
+                '{$geotargeting['country_code']}',";
+    }
+    if (isset($zoneInfo['scheme'])) {
+        $query .= "
+                '{$zoneInfo['scheme']}',";
+    }
+    if (isset($zoneInfo['host'])) {
+        $query .= "
+                '{$zoneInfo['host']}',";
+    }
+    if (isset($zoneInfo['path'])) {
+        $query .= "
+                '{$zoneInfo['path']}',";
+    }
+    if (isset($zoneInfo['query'])) {
+        $query .= "
+                '{$zoneInfo['query']}',";
+    }
+    if (isset($_GET['referer'])) {
+        $query .= "
+                '{$_GET['referer']}',";
+    }
+    $query .= "
                 '',
-                '{$_SERVER['HTTP_USER_AGENT']}',
-                '{$userAgentInfo['os']}',
-                '{$userAgentInfo['browser']}',
-                '$maxHttps',
-                '{$geotargeting['region']}',
-                '{$geotargeting['city']}',
-                '{$geotargeting['postal_code']}',
-                '{$geotargeting['latitude']}',
-                '{$geotargeting['longitude']}',
-                '{$geotargeting['dma_code']}',
-                '{$geotargeting['area_code']}',
-                '{$geotargeting['organisation']}',
-                '{$geotargeting['netspeed']}',
-                '{$geotargeting['continent']}'
-    )", 'rawDatabase');
+                '{$_SERVER['HTTP_USER_AGENT']}',";
+    if (isset($userAgentInfo['os'])) {
+        $query .= "
+                '{$userAgentInfo['os']}',";
+    }
+    if (isset($userAgentInfo['browser'])) {
+        $query .= "
+                '{$userAgentInfo['browser']}',";
+    }
+    $query .= "
+                '$maxHttps',";
+    if (isset($geotargeting['region'])) {
+        $query .= "
+                '{$geotargeting['region']}',";
+    }
+    if (isset($geotargeting['city'])) {
+        $query .= "
+                '{$geotargeting['city']}',";
+    }
+    if (isset($geotargeting['postal_code'])) {
+        $query .= "
+                '{$geotargeting['postal_code']}',";
+    }
+    if (isset($geotargeting['latitude'])) {
+        $query .= "
+                '{$geotargeting['latitude']}',";
+    }
+    if (isset($geotargeting['longitude'])) {
+        $query .= "
+                '{$geotargeting['longitude']}',";
+    }
+    if (isset($geotargeting['dma_code'])) {
+        $query .= "
+                '{$geotargeting['dma_code']}',";
+    }
+    if (isset($geotargeting['area_code'])) {
+        $query .= "
+                '{$geotargeting['area_code']}',";
+    }
+    if (isset($geotargeting['organisation'])) {
+        $query .= "
+                '{$geotargeting['organisation']}',";
+    }
+    if (isset($geotargeting['netspeed'])) {
+        $query .= "
+                '{$geotargeting['netspeed']}',";
+    }
+    if (isset($geotargeting['continent'])) {
+        $query .= "
+                '{$geotargeting['continent']}',";
+    }
+    // Strip end comma!
+    $query = substr_replace($query, '', strlen($query) - 1);
+    $query .= "
+            )";
+    $result = MAX_Dal_Delivery_query(
+        $query,
+        'rawDatabase'
+    );
     return $result;
 }
 

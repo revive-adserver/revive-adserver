@@ -228,7 +228,9 @@ function _limitationsIsBlocked($type, $id, $block)
     $conf = $GLOBALS['_MAX']['CONF'];
     $cookieName = $conf['var']['block' . $type];
     // When was the item last seen by the viewer?
-    $timeLastSeen = $_COOKIE[$cookieName][$id];
+    if (isset($_COOKIE[$cookieName][$id])) {
+        $timeLastSeen = $_COOKIE[$cookieName][$id];
+    }
     // Return if the item is blocked, or not
     return ($block > 0) && isset($timeLastSeen) && (($timeLastSeen + $block) > MAX_commonGetTimeNow());
 }
@@ -256,12 +258,16 @@ function _limitationsIsCapped($type, $id, $cap, $sessionCap)
     $conf = $GLOBALS['_MAX']['CONF'];
     $cookieName = $conf['var']['cap' . $type];
     // How many times (total) has the item been by the viewer?
-    $totalImpressions = $_COOKIE[$cookieName][$id];
+    if (isset($_COOKIE[$cookieName][$id])) {
+        $totalImpressions = $_COOKIE[$cookieName][$id];
+    }
     // Get the session capping cookie name from the configuration file
     $conf = $GLOBALS['_MAX']['CONF'];
     $cookieName = $conf['var']['sessionCap' . $type];
     // How many times (session) has the item been by the viewer?
-    $sessionImpressions = $_COOKIE[$cookieName][$id];
+    if (isset($_COOKIE[$cookieName][$id])) {
+        $sessionImpressions = $_COOKIE[$cookieName][$id];
+    }
     // Return if the item is capped, or not
     return ((($cap > 0) && isset($totalImpressions) && ($totalImpressions >= $cap)) ||
         (($sessionCap > 0) && isset($sessionImpressions) && ($sessionImpressions >= $sessionCap)));

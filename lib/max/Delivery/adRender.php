@@ -610,7 +610,9 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
     $url .= $amp . "campaignid=" . $aBanner['placement_id'];
     $url .= $amp . "zoneid=" . $zoneId;
     if (!empty($source)) $url .= $amp . "source=" . $source;
-    $url .= $amp . "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER,$conf['delivery']['chDelimiter'],$GLOBALS['_MAX']['CHANNELS']);
+    if (isset($GLOBALS['_MAX']['CHANNELS'])) {
+        $url .= $amp . "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER, $conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['CHANNELS']);
+    }
     if (!empty($aBanner['block_ad'])) $url .= $amp . $conf['var']['blockAd'] . "=" . $aBanner['block_ad'];
     if (!empty($aBanner['cap_ad'])) $url .= $amp . $conf['var']['capAd'] . "=" . $aBanner['cap_ad'];
     if (!empty($aBanner['session_cap_ad'])) $url .= $amp . $conf['var']['sessionCapAd'] . "=" . $aBanner['session_cap_ad'];
@@ -702,7 +704,11 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
         // If the passed in a ct0= value that is not a valid URL (simple checking), then ignore it
         $ct0 = (empty($ct0) || strtolower(substr($ct0, 0, 4)) != 'http') ? '' : $ct0;
         $aBanner['contenttype'] == "swf" ? $maxdest = '' : $maxdest = "{$del}maxdest={$ct0}{$dest}";
-        $channelIds .= ($GLOBALS['_MAX']['CHANNELS'] ? $del. "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER,$conf['delivery']['chDelimiter'],$GLOBALS['_MAX']['CHANNELS']) :'');
+        if (isset($GLOBALS['_MAX']['CHANNELS'])) {
+            $channelIds = $del. "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER, $conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['CHANNELS']);
+        } else {
+            $channelIds = '';
+        }
         $maxparams = "{$delnum}{$bannerId}{$del}zoneid={$zoneId}{$channelIds}{$source}{$log}{$random}{$maxdest}";
 // hmmm... 2__bannerid=1__zoneid=1__cb={random}__maxdest=__channel_ids=__1__1__
     }
