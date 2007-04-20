@@ -33,9 +33,40 @@ require_once 'DB/DataObject.php';
  *
  * @package    OpenadsDal
  * @author     Radek Maciaszek <radek.maciaszek@openads.org>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class OA_Dal
 {
+
+    /**
+     * A local instance of the OA_DB created database handler.
+     *
+     * @var MDB2_Driver_Common
+     */
+    var $oDbh;
+
+    /**
+     * The constructor method.
+     */
+    function OA_Dal()
+    {
+        $this->oDbh =& $this->_getDbh();
+    }
+
+    /**
+     * A private method to return the database handler from
+     * OA_DB.
+     *
+     * This private method allows the database handler to be
+     * mocked during unit tests.
+     *
+     * @return MDB2_Driver_Common An MDB2 connection resource, or PEAR_Error
+     *                            on failure to connect.
+     */
+    function &_getDbh()
+    {
+        return OA_DB::singleton();
+    }
 
     /**
      * A factory method to obtain the appropriate DB_DataObject for a given
