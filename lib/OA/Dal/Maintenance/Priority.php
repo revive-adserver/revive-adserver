@@ -58,6 +58,13 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
 {
 
     /**
+     * Local locking object for ensuring MPE only runs once.
+     *
+     * @var OA_DB_AdvisoryLock
+     */
+    var $oLock;
+
+    /**
      * The class constructor method.
      */
     function OA_Dal_Maintenance_Priority()
@@ -2259,7 +2266,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function obtainPriorityLock()
     {
-        return parent::obtainLock('mpe');
+        $this->oLock =& OA_DB_AdvisoryLock::factory();
+        return $oLock->get('mpe', 1);
     }
 
     /**
@@ -2269,7 +2277,14 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function releasePriorityLock()
     {
-        return parent::releaseLock('mpe');
+        if (empty($this->oLock)) {
+            MAX::debug('Lock wasn\'t acquired by the same DB connection', PEAR_LOG_ERR);
+            return false;
+        } elseif (!$this->oLock->hasSameId('mpe')) {
+            MAX::debug('Lock names to not match', PEAR_LOG_ERR);
+            return false;
+        }
+        return $this->oLock->release();
     }
 
 }

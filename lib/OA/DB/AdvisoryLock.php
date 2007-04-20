@@ -83,7 +83,7 @@ class OA_DB_AdvisoryLock
      * A factory method which returns the currently supported best advisory lock
      * instance.
      *
-     * @return object Reference to an OA_DB_AdvisoryLock object.
+     * @return OA_DB_AdvisoryLock Reference to an OA_DB_AdvisoryLock object.
      */
     function &factory($sType = null)
     {

@@ -174,7 +174,7 @@ class Plugins_Reports_Standard_InventoryReport extends Plugins_ExcelReports
         //validate impressions input
         $this->_thresholdValidate();
 
-        if (!$this->dal->obtainLock('InventoryReport')) {
+        if (!$this->dal->obtainReportLock('InventoryReport')) {
             echo '
             <script language="javascript">
             alert("This report is currently locked by another user. Please try again later.");
@@ -209,7 +209,7 @@ class Plugins_Reports_Standard_InventoryReport extends Plugins_ExcelReports
         }
 
         $this->closeExcelReport();
-        $this->dal->releaseLock('InventoryReport');
+        $this->dal->releaseReportLock('InventoryReport');
     }
 
     /**

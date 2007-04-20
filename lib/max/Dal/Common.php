@@ -276,42 +276,6 @@ class MAX_Dal_Common
         return $result;
     }
 
-    /**
-     * A method to obtain a database-level lock.
-     *
-     * @param string $lockName Name of the lock to obtain.
-     * @return boolean Returns true if lock was obtained, false otherwise.
-     *
-     * @TODO DEPRECATED! Use the OA_DB_AdvisoryLock class instead.
-     */
-    function obtainLock($lockName)
-    {
-        $this->oLock =& OA_DB_AdvisoryLock::factory();
-
-        return $this->oLock->get($lockName, 1);
-    }
-
-    /**
-     * A method to release a database-level lock.
-     *
-     * @param string $lockName Name of the lock to release.
-     * @return boolean Returns true if lock was released, false otherwise.
-     *
-     * @TODO DEPRECATED! Use the OA_DB_AdvisoryLock class instead.
-     */
-    function releaseLock($lockName)
-    {
-        if (empty($this->oLock)) {
-            MAX::debug('Lock wasn\'t acquired by the same db connection', PEAR_LOG_ERR);
-            return false;
-        } elseif (!$this->oLock->hasSameId($lockName)) {
-            MAX::debug('Lock names to not match', PEAR_LOG_ERR);
-            return false;
-        }
-
-        return $this->oLock->release();
-    }
-
     // Get any generic list order...
     function getSqlListOrder($listOrder, $orderDirection)
     {
