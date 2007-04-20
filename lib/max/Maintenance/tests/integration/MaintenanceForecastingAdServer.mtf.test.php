@@ -201,6 +201,62 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
     }
 
     /**
+     * A private method to insert the standard test impressions
+     * for the Time_Hour limitation test.
+     *
+     * @access private
+     */
+    function _insertTimeHourImpressions()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $oDbh = OA_DB::singleton();
+        $query = "
+            INSERT INTO
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}
+                (
+                    viewer_id,
+                    date_time,
+                    ad_id,
+                    creative_id,
+                    zone_id
+                )
+            VALUES
+                (?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'text',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            '900b330941c4d3450c3332e6917a16e2',
+            '2006-06-14 11:00:04',
+            5,
+            0,
+            2
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '900b330941c4d3450c3332e6917a16e2',
+            '2006-06-14 12:00:04',
+            5,
+            0,
+            2
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            '900b330941c4d3450c3332e6917a16e2',
+            '2006-06-14 13:00:04',
+            5,
+            0,
+            2
+        );
+        $rows = $st->execute($aData);
+    }
+
+    /**
      * A method to perform basic end-to-end integration testing of the Maintenance
      * Forecasting Engine classes for the Ad Server.
      *
@@ -9428,7 +9484,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
-        $this->_insertImpressions();
+        $this->_insertTimeHourImpressions();
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
@@ -9573,7 +9629,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
         $this->assertEqual($aRow['number'], 0);
 
         // Add data to be summarised
-        $this->_insertImpressions();
+        $this->_insertTimeHourImpressions();
 
         // Test that, after running the MFE, the correct data has been summarised
         $oDate = new Date('2006-06-15 13:01:01');
