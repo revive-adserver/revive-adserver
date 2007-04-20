@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads_2_0_12</name>
+  <version>112</version>
+  <comments>Added plugins_* tables to 2.0 schema</comments>
+  <constructive>
+    <changeset>
+      <name>openads_2_0_12</name>
+      <version>112</version>
+      <add>
+        <table>
+        <name>plugins_channel_delivery_assoc</name>
+        <was>plugins_channel_delivery_assoc</was>
+      </table>
+        <table>
+        <name>plugins_channel_delivery_domains</name>
+        <was>plugins_channel_delivery_domains</was>
+      </table>
+        <table>
+        <name>plugins_channel_delivery_rules</name>
+        <was>plugins_channel_delivery_rules</was>
+      </table>
+    </add>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads_2_0_12</name>
+    <version>112</version>
+  </changeset>
+</destructive>
+</instructionset>
