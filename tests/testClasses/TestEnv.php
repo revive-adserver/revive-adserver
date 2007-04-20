@@ -253,20 +253,20 @@ class TestEnv
 
     /**
      * A method for starting a transaction when testing database code.
+     *
+     * DEPRECATED! DO NOT USE.
      */
     function startTransaction()
     {
-        $oDbh = &OA_DB::singleton();
-        $oDbh->beginTransaction();
     }
 
     /**
      * A method for ending a transaction when testing database code.
+     *
+     * DEPRECATED! DO NOT USE.
      */
     function rollbackTransaction()
     {
-        $oDbh = &OA_DB::singleton();
-        $oDbh->rollback();
     }
 
     /**
