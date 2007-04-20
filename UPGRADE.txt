@@ -1,9 +1,9 @@
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
+| Openads v2.3                                                              |
 | =================                                                         |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Ltd                                       |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -67,7 +67,7 @@ Upgrade Process
     example, if Max was installed in "/var/www/html/max", move that folder to
     something like "/var/www/html/max-backup".)
 
-7)  Download the Max Media Manager archive file from http://max.awarez.net/.
+7)  Download the Openads archive file from http://www.openads.org/.
 
 8)  Extract the Max archive into the same location that your old Max or phpAdsNew
     installation used to be. (For example, if Max used to be installed in

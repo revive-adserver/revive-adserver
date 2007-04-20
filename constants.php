@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
+| Openads v2.3                                                              |
 | =================                                                         |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Ltd                                       |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -37,11 +37,11 @@ $Id$
  */
 function setupConstants()
 {
-    // Define this version of Max's constants
-    define('MAX_VERSION',           '0.3');
-    define('MAX_VERSION_READABLE',  'v0.3.32-alpha');
-    define('MAX_PRODUCT_NAME',      'Max Media Manager');
-    define('MAX_PRODUCT_URL',       'max.m3.net');
+    // Define this version of Openads's constants
+    define('MAX_VERSION',           '2.3');
+    define('MAX_VERSION_READABLE',  'v2.3.1-alpha');
+    define('MAX_PRODUCT_NAME',      'Openads');
+    define('MAX_PRODUCT_URL',       'www.openads.org');
 
     // This old PAN constant is used in a couple places but could well conflict with the configured DB
     // TODO: find any uses of this constant and re-think their place.

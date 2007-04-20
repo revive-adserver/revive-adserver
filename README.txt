@@ -1,5 +1,5 @@
 
-    Max Media Manager - Open Source Ad Server
+    Openads - Open Source Ad Server
     ------------------------------------------------------------------------
     Max is a set of tools which enable online marketing campaigns.
     Primarily, Max is written in PHP, and is loosely based on phpAdsNew.
@@ -16,7 +16,7 @@
     IN A PRODUCTION ENVIRONMENT. THE USE OF THIS SOFTWARE IS
     COMPLETELY AT YOUR OWN RISK!
 
-    Copyright (c) 2003-2006 m3 Media Services Limited
+    Copyright (c) 2003-2007 Openads Ltd
 
 	Based on phpAdsNew Copyright (c) 2000-2003 phpAdsNew developers:
     	Niels Leenheer <niels@creatype.nl>
@@ -78,8 +78,8 @@
 
     Support:
     ------------------------------------------------------------------------
-    Questions about Max Media Manager should be directed to the mailing
-    lists. More information about it can be found on the Max Media Manager
+    Questions about Openads should be directed to the mailing
+    lists. More information about it can be found on the Openads
     homepage. Bug reports and questions related to the development of Max
     are also welcome on the site.
 

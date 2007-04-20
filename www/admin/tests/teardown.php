@@ -11,9 +11,9 @@ phpAds_SessionDataDestroy();
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-    <title>Max Media Manager post-test environment tear-down</title>
+    <title>Openads post-test environment tear-down</title>
 </head>
 <body>
-<p>Max state has been tidied up. You can continue to the Max Media Manager <a href="/">admin interface</a>.</p>
+<p>Openads state has been tidied up. You can continue to the Openads <a href="/">admin interface</a>.</p>
 </body>
 </html>

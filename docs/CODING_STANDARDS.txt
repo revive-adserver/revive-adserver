@@ -1,9 +1,9 @@
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
+| Openads v2.3                                                              |
 | =================                                                         |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Ltd                                       |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -22,12 +22,12 @@
 
 
 
-Max Media Manager Coding Standards
+Openads Coding Standards
 ----------------------------------
 
 Original source: The Horde project
 Authors:         Jon Parise, Chuck Hagenbuch
-Modified for Seagull, Adapted for Max Media Manager
+Modified for Seagull, Adapted for Openads
 
 
 

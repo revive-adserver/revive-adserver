@@ -1,6 +1,6 @@
 <?php
 /**
- * Organisation selection field tests for Max Media Manager
+ * Organisation selection field tests for Openads
  *
  * @since 0.3.22 - Apr 5, 2006
  * @copyright 2006 M3 Media Services

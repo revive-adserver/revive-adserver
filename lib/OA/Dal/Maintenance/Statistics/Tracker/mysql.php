@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
+| Openads v2.3                                                              |
 | =================                                                         |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Ltd                                       |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -71,7 +71,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysql extends OA_Dal_Maintenance_Sta
      * @return Date A Date representing the date up to which the statistics
      *              have been summarised, for the specified update type, or
      *              the appropriate date based on raw data if maintenance
-     *              statistics has never been run for the Max module before.
+     *              statistics has never been run for the Openads module before.
      *              Returns null if no raw data is available.
      */
     function getMaintenanceStatisticsLastRunInfo($type, $oNow = null)

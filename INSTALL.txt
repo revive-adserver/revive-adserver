@@ -1,9 +1,9 @@
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
+| Openads v2.3                                                              |
 | =================                                                         |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Ltd                                       |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -40,7 +40,7 @@ PHP (version 4.3.6 or later, including PHP5)
 Installation - Single Host
 ==========================
 
-Max Media Manager can be set up in one of two different ways. If you have a single
+Openads can be set up in one of two different ways. If you have a single
 web site (e.g. http://www.example.com/) and want to run the Max User Interface and
 deliver advertisements from this address (or from a sub-solder,
 e.g. http://www.example.com/max/), then a "Single Host" installation is for you.
@@ -58,7 +58,7 @@ e.g. http://www.example.com/max/), then a "Single Host" installation is for you.
     document root has the "AllowOverride Limit" option set. (See
     http://httpd.apache.org/docs/mod/core.html#allowoverride for more information.)
 
-4)  Download the Max Media Manager archive file from http://max.awarez.net/.
+4)  Download the Openads archive file from http://max.awarez.net/.
 
 5)  Extract the Max archive file into the appropriate directory in your web server
     root. For example, if your web server's root is "/var/www/html/" you may choose
@@ -106,7 +106,7 @@ e.g. http://www.example.com/max/), then a "Single Host" installation is for you.
 Installation - Multiple Hosts
 =============================
 
-Max Media Manager can be set up in one of two different ways. If you have a multiple
+Openads can be set up in one of two different ways. If you have a multiple
 web sites (e.g. http://admin.example.com/, http://delivery.example.com/ and
 http://images.example.com/) and want to run the Max User Interface using one host,
 deliver advertisements from another, and deliver advertisement images from the final
@@ -117,7 +117,7 @@ host, then a "Multiple Hosts" installation is for you.
 2)  Create a new MySQL user with access to the database you created above, for Max to
     use to access the database. Consult the MySQL documentation on how to do this.
 
-3)  Download the Max Media Manager archive file from http://max.awarez.net/.
+3)  Download the Openads archive file from http://max.awarez.net/.
 
 4)  Extract the Max archive into your desired installation directory, for example,
     "/var/www/html/max".
@@ -169,7 +169,7 @@ host, then a "Multiple Hosts" installation is for you.
 Maintenance
 ===========
 
-With Max Media Manager it is necessary to set up a cronjob on the webserver
+With Openads it is necessary to set up a cronjob on the webserver
 to run the maintenance scripts.
 
  -  Under unix-like systems, create a cronjob similar to the following (you may
@@ -216,7 +216,7 @@ Multi-Installations
 ===================
 
 Tired of having to upgrade 6 different installations of your adserver every time
-Max Media Manager is released? Problem solved! Max supports running multiple
+Openads is released? Problem solved! Max supports running multiple
 installations from one web directory.
 
  - Install Max just as you would for a single installation as described above,

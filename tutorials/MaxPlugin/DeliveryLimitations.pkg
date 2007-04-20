@@ -4,8 +4,8 @@
   <refpurpose>Describes how the Delivery Limitations Plugins work</refpurpose>
  </refnamediv>
  <para>
-  This is the documentation for the Max Media Manager Delivery Limitation Plugin API.
-  If you're interested writing a delivery limitation plugin for Max, this document will
+  This is the documentation for the Openads Delivery Limitation Plugin API.
+  If you're interested writing a delivery limitation plugin for Openads, this document will
   explain how to do it!
  </para>
  <para>

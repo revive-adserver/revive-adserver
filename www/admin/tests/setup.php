@@ -3,7 +3,7 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-    <title>Max Media Manager pre-test environment set-up</title>
+    <title>Openads pre-test environment set-up</title>
 </head>
 <body>
 <?php
@@ -66,6 +66,6 @@ if ($scenario_name == 'two_of_each') {
 }
 _printHtmlForVariableArray($output_variables);
 ?>
-<p>Max state has been configured. You can continue to the Max Media Manager <a href="/">admin interface</a>.</p>
+<p>Max state has been configured. You can continue to the Openads <a href="/">admin interface</a>.</p>
 </body>
 </html>

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
+| Openads v2.3                                                              |
 | =================                                                         |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Ltd                                       |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -34,11 +34,11 @@ $words = array(
 -->",
 
     'Publisher JS Channel Script Comment 1' => "
-<!-- Max Media Manager Channel Script
+<!-- Openads Channel Script
 --
 -- Generated with Max " . MAX_VERSION_READABLE . "
 --
--- Include this script directly ABOVE the Max Media Manager Header Script
+-- Include this script directly ABOVE the Openads Header Script
 -- (defined below), in the <head> tag.
 --
 -- The script below should define a variable, az_channel. This variable
@@ -56,11 +56,11 @@ $words = array(
 -->",
 
     'Publisher JS Header Script Comment' => "
-<!-- Max Media Manager Header Script
+<!-- Openads Header Script
 --
 -- Generated with Max " . MAX_VERSION_READABLE . "
 --
--- Include this script below the Max Media Manager Channel Scipt (but still
+-- Include this script below the Openads Channel Scipt (but still
 -- in the <head> tag) of every page on your site.
 --
 -- NOTE: This script does not change for any page on your site, so it may be
@@ -73,7 +73,7 @@ $words = array(
 -->",
 
     'Publisher JS Ad Tag Script(s) Comment' => "
-<!-- Max Media Manager Ad Tag Script(s)
+<!-- Openads Ad Tag Script(s)
 --
 -- Generated with Max " . MAX_VERSION_READABLE . "
 --

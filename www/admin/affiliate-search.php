@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
+| Openads v2.3                                                              |
 | =================                                                         |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Ltd                                       |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -71,7 +71,7 @@ if (!isset($keyword))
     <head>
         <title><?php echo strip_tags($strSearch); ?></title>
         <meta http-equiv='Content-Type' content='text/html<?php echo isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : "" ?>'>
-        <meta name='author' content='Max Media Manager - http://sourceforge.net/projects/max'>
+        <meta name='author' content='Openads - http://sourceforge.net/projects/max'>
         <link rel='stylesheet' href='images/<?php echo $phpAds_TextDirection; ?>/interface.css'>
         <script language='JavaScript' src='interface.js'></script>
         <script language='JavaScript'>
