@@ -10,11 +10,11 @@
  <refsect1 id="{@id terminology}">
   <title>Terminology</title>
   <para>
-   Plugins in Max are grouped together in modules, where each module is group
+   Plugins in Openads are grouped together in modules, where each module is group
    containing related plugins. Within a plugin module, plugins are grouped into
    packages. A package may contain one or more plugins. As an example, the
    "3rdPartyServers" module contains plugins relating to 3rd Party Ad Server
-   Services that Max can interface with. Within this module, there is a package
+   Services that Openads can interface with. Within this module, there is a package
    for each 3rd Party Ad Server Service (e.g. Atlas, DoubleClick, etc.). Each
    package contains one plugin. As another example, the "deliveryLimitations"
    module contains plugins relating to -- obviously -- delivery limitations.
@@ -62,7 +62,7 @@
    It is possible to write
    {@tutorial MaxPlugins.pkg#module new plugin modules}, if you have a need
    for a plugin that does not fit into the above categories; however, this
-   generally requires substantial changes to Max itself, and is not an easy
+   generally requires substantial changes to Openads itself, and is not an easy
    task. Writing a {@tutorial MaxPlugins.pkg#plugin new plugin for an existing
    module/package} is far easier.
   </para>
@@ -134,7 +134,7 @@
    If you're just writing a new plugin in a module that's already supported by
    Max, you generally won't need to know about this -- simply write your plugin,
    and it will work. However, if you're writing a plugin in a new module, you
-   will need to modify Max so that it can use your plugin. How to modify Max for
+   will need to modify Openads so that it can use your plugin. How to modify Openads for
    this is beyond the scope of this tutorial, however, the following information
    should help.
   </para>
@@ -155,7 +155,7 @@
     be used to easily include and instantiate a plugin, in the case where
     a plugin module has a number of packages, but only one package is used
     at a time, and this package is defined in the module's configuration
-    file. The Geotargeting plugins are an example of this - Max comes with
+    file. The Geotargeting plugins are an example of this - Openads comes with
     two {@link http://www.maxmind.com/ MaxMind} geotargeting plugins (one
     for obtaining the MaxMind data from withing PHP, the other for when the
     MaxMind Apache module is used), however, only one geotargeting plugin

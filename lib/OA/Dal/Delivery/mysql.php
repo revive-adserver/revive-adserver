@@ -675,7 +675,7 @@ function OA_Dal_Delivery_getTrackerVariables($trackerid)
  *                              the viewer used to access the page containing the zone.
  * @param array   $userAgentInfo An array to store information about the
  *                               viewer's web browser and operating system.
- * @param integer $maxHttps     An integer to store if the call to Max was
+ * @param integer $maxHttps     An integer to store if the call to Openads was
  *                              performed using HTTPS or not.
  */
 function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneId,
@@ -778,7 +778,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
  *                              the viewer used to access the page containing the zone.
  * @param array   $userAgentInfo An array to store information about the
  *                               viewer's web browser and operating system.
- * @param integer $maxHttps     An integer to store if the call to Max was
+ * @param integer $maxHttps     An integer to store if the call to Openads was
  *                              performed using HTTPS or not.
 
  * @return int|false            Returns the insert ID for this record or false on failure

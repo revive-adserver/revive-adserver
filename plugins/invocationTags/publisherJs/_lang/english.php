@@ -36,7 +36,7 @@ $words = array(
     'Publisher JS Channel Script Comment 1' => "
 <!-- Openads Channel Script
 --
--- Generated with Max " . MAX_VERSION_READABLE . "
+-- Generated with Openads " . MAX_VERSION_READABLE . "
 --
 -- Include this script directly ABOVE the Openads Header Script
 -- (defined below), in the <head> tag.
@@ -58,7 +58,7 @@ $words = array(
     'Publisher JS Header Script Comment' => "
 <!-- Openads Header Script
 --
--- Generated with Max " . MAX_VERSION_READABLE . "
+-- Generated with Openads " . MAX_VERSION_READABLE . "
 --
 -- Include this script below the Openads Channel Scipt (but still
 -- in the <head> tag) of every page on your site.
@@ -75,7 +75,7 @@ $words = array(
     'Publisher JS Ad Tag Script(s) Comment' => "
 <!-- Openads Ad Tag Script(s)
 --
--- Generated with Max " . MAX_VERSION_READABLE . "
+-- Generated with Openads " . MAX_VERSION_READABLE . "
 --
 -- The following are the script(s) for each ad tag. There are a couple of items to watch out for:
 --

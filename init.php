@@ -29,14 +29,14 @@ $Id$
  * @package    Max
  * @author     Andrew Hill <andrew@m3.net>
  *
- * A file to set up the environment for the Max administration interface.
+ * A file to set up the environment for the Openads administration interface.
  */
 
 require_once 'init-parse.php';
 require_once 'constants.php';
 
 /**
- * The environment initialisation function for the Max administration interface.
+ * The environment initialisation function for the Openads administration interface.
  *
  * @TODO Should move the user authentication, loading of preferences into this
  *       file, and out of the /www/admin/config.php file.

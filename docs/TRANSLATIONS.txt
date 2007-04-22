@@ -97,7 +97,7 @@ Remember, the language files in /lib/max/language/YOUR_LANGUAGE/ need to have
 the same file name as those in the /lib/max/language/english/ directory.
 
 If there is no directory for your language, simply create it, put in the
-required translations files with the new translations, and Max should
+required translations files with the new translations, and Openads should
 automatically recognise your new language.
 
 
@@ -126,8 +126,8 @@ Testing translations
 --------------------
 
 Once you have updated the translation file(s), and ensured that they are upload
-to your Max installation, check that you have set your native language as the
-default language for Max in the settings. You should see the new translations
+to your Openads installation, check that you have set your native language as the
+default language for Openads in the settings. You should see the new translations
 immediately after reloading the relevant page(s).
 
 

@@ -1,9 +1,9 @@
 
     Openads - Open Source Ad Server
     ------------------------------------------------------------------------
-    Max is a set of tools which enable online marketing campaigns.
-    Primarily, Max is written in PHP, and is loosely based on phpAdsNew.
-    The core modules of Max include:
+    Openads is a set of tools which enable online marketing campaigns.
+    Primarily, Openads is written in PHP, and is loosely based on phpAdsNew.
+    The core modules of Openads include:
     . Ad Server
     . Search Engine Tools
     . Email Marketing Tools
@@ -92,7 +92,7 @@
     Credits:
     ------------------------------------------------------------------------
     Thanks to Marcus Baker for allowing m3 Media Services Limited to
-      distribute Simple Test for PHP along with Max. Simple Test is
+      distribute Simple Test for PHP along with Openads. Simple Test is
       distributed under the Open Group Test Suite License. Please see the
       Simple Test LICENSE file in the lib/simpletest/ directory for details.
 

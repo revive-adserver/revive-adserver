@@ -283,11 +283,11 @@ EOF;
     }
 
     /**
-     * A method to construct URLs based on the Max installation details.
+     * A method to construct URLs based on the Openads installation details.
      *
      * @param integer $type The URL type. One of:
      *                  - MAX_URL_ADMIN for admin pages;
-     *                  - MAX_URL_IMAGE for Max images (i.e. in /admin/images).
+     *                  - MAX_URL_IMAGE for Openads images (i.e. in /admin/images).
      * @param string $file An optional file name.
      * @return string The URL to the file.
      */

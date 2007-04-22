@@ -64,7 +64,7 @@ function phpAds_Start()
     $conf = $GLOBALS['_MAX']['CONF'];
     global $session;
 
-    // XXX: Why not try loading session data when Max is not installed?
+    // XXX: Why not try loading session data when Openads is not installed?
     if ($conf['max']['installed']) {
         phpAds_SessionDataFetch();
     }

@@ -31,7 +31,7 @@
    <emphasis>more</emphasis> often than once an hour.
   </para>
   <para>
-   The <emphasis>operation interval</emphasis> of Max is the measure of how often
+   The <emphasis>operation interval</emphasis> of Openads is the measure of how often
    the Maintenance process is (or, rather, is supposed to be) run. For most users, the
    operation interval will be 60 minutes. However, some users may choose to run
    the Maintenance process more, or less, often. However, the operation interval
@@ -42,12 +42,12 @@
   </para>
   <para>
    If the operation interval is 60 minutes, then each time the Maintenance Engine 
-   process is run, the hourly statistics in the Max user interface will be updated,
+   process is run, the hourly statistics in the Openads user interface will be updated,
    as will the advertisement priorities.
   </para>
   <para>
    Similarly, if the operation interval is more than 60 minutes, then each time the
-   Maintenance Engine process is run, the hourly statistics in the Max user interface
+   Maintenance Engine process is run, the hourly statistics in the Openads user interface
    will be updated, as will the advertisement priorities. Obviously, though, because
    the Maintenance Engine process is not being run each hour, then the hourly
    statistics and advertisement priorities are <emphasis>not</emphasis> updated each
@@ -56,7 +56,7 @@
   <para>
    If the operation interval is less than 60 minutes, then each time the Maintenance
    Engine process is run, the advertisement priorities will be updated. However, the
-   hourly statistics in the Max user interface will <emphasis>not</emphasis> be updated
+   hourly statistics in the Openads user interface will <emphasis>not</emphasis> be updated
    each time - they will only be updated at the end of the hour.
   </para>
   <para>

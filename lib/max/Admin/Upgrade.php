@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 
 /**
  * A class to perform upgrades from phpAdsNew 2.0 or greater, and from previous
- * version of Max.
+ * version of Openads.
  *
  * @package    Max
  * @author     Andrew Hill <andrew@m3.net>
@@ -79,11 +79,11 @@ class MAX_Admin_Upgrade
     }
 
     /**
-     * A method to determine if an older version of Max (or phpAdsNew)
+     * A method to determine if an older version of Openads (or phpAdsNew)
      * is currently installed.
      *
-     * @param string $version The version of Max currently being installed.
-     * @return boolean True if a previous version of Max is installed,
+     * @param string $version The version of Openads currently being installed.
+     * @return boolean True if a previous version of Openads is installed,
      *                 false otherwise.
      */
     function previousVersionExists($version)
@@ -99,7 +99,7 @@ class MAX_Admin_Upgrade
             // so definately need to upgrade
             return true;
         } else {
-            // What is the current version of Max that is installed?
+            // What is the current version of Openads that is installed?
             $query = "
                 SELECT
                     value AS max_version
@@ -130,7 +130,7 @@ class MAX_Admin_Upgrade
         $this->errors = array();
         // Is the upgrageFrom variable defined?
         if (isset($this->upgradeFrom)) {
-            // We are upgrading from Max after v0.1.16-beta,
+            // We are upgrading from Openads after v0.1.16-beta,
             // so just do the required upgrade actions
             if ($this->_compareVersions('v0.2.0-alpha', $this->upgradeFrom)) {
                 // Upgrade to v0.2.0-alpha
@@ -1733,7 +1733,7 @@ class MAX_Admin_Upgrade
                 parent > 0
         ";
         // There may be an error copying the data from the old phpAdsNew
-        // clients table into the new Max campaigns table, because this
+        // clients table into the new Openads campaigns table, because this
         // might be an upgrade from an early version of Max, in which case
         // the data has already been copied. So, don't use a PEAR_Error
         // handler at all for this query.

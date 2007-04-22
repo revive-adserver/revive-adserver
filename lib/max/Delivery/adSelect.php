@@ -176,7 +176,7 @@ function MAX_adSelect($what, $target = '', $source = '', $withtext = 0, $context
                 MAX_Delivery_log_logAdRequest($userid, $row['bannerid'], null, $row['zoneid']);
             }
             if ($row['adserver'] == 'max' && preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], $conf['file']['popup'])) {
-                // The ad selected was a Max HTML ad on the same server... do internal redirecty stuff
+                // The ad selected was a Openads HTML ad on the same server... do internal redirecty stuff
                 $GLOBALS['_MAX']['adChain'][] = $row;
                 $found = false;
                 $what = "zone:{$matches[1]}";

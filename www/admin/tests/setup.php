@@ -66,6 +66,6 @@ if ($scenario_name == 'two_of_each') {
 }
 _printHtmlForVariableArray($output_variables);
 ?>
-<p>Max state has been configured. You can continue to the Openads <a href="/">admin interface</a>.</p>
+<p>Openads state has been configured. You can continue to the Openads <a href="/">admin interface</a>.</p>
 </body>
 </html>

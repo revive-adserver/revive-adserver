@@ -26,7 +26,7 @@ have been found.
 
 +---------------------------------------------------------------------------+
 
-- Max v0.3 is undergoing major surgery to keywords. If you use keywords,
+- Openads v2.3 is undergoing major surgery to keywords. If you use keywords,
   it is NOT advisable to use this build, as support is incomplete.
 
   (Basically, keywords are becoming categories, which will have
@@ -54,20 +54,20 @@ have been found.
   preference, they agency should get the new admin preference. They
   dont.)
 
-- The version of PEAR::Config used in Max has been patched, but the
+- The version of PEAR::Config used in Openads has been patched, but the
   patch has not yet been accepted by the maintainers yet. As a result,
   the version of PEAR::Config should not be updated.
 
-- The version of PEAR::Cache_Lite used in Max has been patched, but the
+- The version of PEAR::Cache_Lite used in Openads has been patched, but the
   patch has not yet been accepted by the maintainers yet. As a result,
   the version of PEAR::Cache_Lite should not be updated.
 
-- The version of PEAR::DB used in Max has been patched, but the
+- The version of PEAR::DB used in Openads has been patched, but the
   patch has not yet been accepted by the maintainers yet. As a result,
   updates to PEAR::DB could be unstable, although the issue has only
   been replicated in a development environment.
 
-- The version of PEAR::Date used in Max has been patched. See
+- The version of PEAR::Date used in Openads has been patched. See
   http://pear.php.net/bugs/bug.php?id=2338.
 
 - The test suite won't completely work in PHP 5, due to the way mock

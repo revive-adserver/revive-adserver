@@ -44,7 +44,7 @@ class Menu
 
     /**
      * A method to return the HTML code needed to display a tree-based
-     * menu of all the Max simulations.
+     * menu of all the Openads simulations.
      *
      * @return string A string containing the HTML code needed to display
      *                the tests in a tree-based menu.

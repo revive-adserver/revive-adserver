@@ -735,7 +735,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
      *
      * @TODO Eventually, the inventory_forecast_type field should be
      *       changed to "forecast", once channel forecasting is changed
-     *       to be the ONLY forecasting type in Max.
+     *       to be the ONLY forecasting type in Openads.
      */
     function getAllChannelForecastZonesIdsByPublisherId($publisherId)
     {

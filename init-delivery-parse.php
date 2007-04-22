@@ -81,11 +81,11 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true)
         }
     }
     
-    // Check to ensure Max hasn't been installed
+    // Check to ensure Openads hasn't been installed
     if (file_exists(MAX_PATH . '/var/INSTALLED')) {
         exit(MAX_PRODUCT_NAME . " has been installed, but no configuration file was found.\n");
     }
-    // Max hasn't been installed, so delivery engine can't run
+    // Openads hasn't been installed, so delivery engine can't run
     exit(MAX_PRODUCT_NAME . " has not been installed yet -- please read the INSTALL.txt file.\n");
 }
 

@@ -1183,7 +1183,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      *                                                      interval.
      * @return boolean True on success, false on failure.
      *
-     * @TODO Update the "created_by", "expired_by" fields once Max has a role-based
+     * @TODO Update the "created_by", "expired_by" fields once Openads has a role-based
      *       permissions system in place.
      * @TODO Write the code that inserts non-static priorities.
      */

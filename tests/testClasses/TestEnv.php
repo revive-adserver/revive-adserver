@@ -65,7 +65,7 @@ class TestEnv
     }
 
     /**
-     * A method for setting up the core Max tables in the test database.
+     * A method for setting up the core Openads tables in the test database.
      */
     function setupCoreTables()
     {

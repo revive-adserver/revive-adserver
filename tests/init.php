@@ -38,7 +38,7 @@ setupConstants();
 require_once 'PEAR.php';
 
 /**
- * The environment initialisation function for the Max testing environment.
+ * The environment initialisation function for the Openads testing environment.
  */
 function init()
 {

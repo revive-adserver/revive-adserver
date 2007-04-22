@@ -73,7 +73,7 @@ class Benchmark_Timer extends PEAR {
     var $auto = FALSE;
 
     /**
-     * Max marker name length for non-html output.
+     * Openads marker name length for non-html output.
      *
      * @var    integer
      * @access private

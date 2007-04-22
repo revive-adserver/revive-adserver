@@ -36,7 +36,7 @@ $words = array(
     'Publisher JS Channel Script Comment 1' => "
 <!-- Openads Channel Script
   --
-  -- Erstellt mit Max " . MAX_VERSION_READABLE . "
+  -- Erstellt mit Openads " . MAX_VERSION_READABLE . "
   --
   -- Fuegen Sie dieses Script unmittelbar UEBER dem Openads Header Script
   -- (wie unten definiert) in den <head>-Tag Ihrer Site ein.
@@ -58,7 +58,7 @@ $words = array(
     'Publisher JS Header Script Comment' => "
 <!-- Openads Header Script
   --
-  -- Erstellt mit Max " . MAX_VERSION_READABLE . "
+  -- Erstellt mit Openads " . MAX_VERSION_READABLE . "
   --
   -- Fuegen Sie dieses Script UNTERHALB des Openads Channel Scipts (aber dennoch
   -- innerhalb des <head>-Tags Ihrer Site ein). Jede Seite Ihrer Web-Site, auf der Sie
@@ -76,7 +76,7 @@ $words = array(
     'Publisher JS Ad Tag Script(s) Comment' => "
 <!-- Openads Ad Tag Script(s)
   --
-  -- Erstellt mit Max " . MAX_VERSION_READABLE . "
+  -- Erstellt mit Openads " . MAX_VERSION_READABLE . "
   --
   -- Im folgenden finden Sie die Script(e) fuer jede Zone(n).
   -- Bitte beachten Sie die folgenden Dinge:

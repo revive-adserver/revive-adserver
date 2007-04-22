@@ -30,7 +30,7 @@ $Id$
  * @author     Scott Switzer <scott@switzer.org>
  * @author     Andrew Hill <andrew@m3.net>
  *
- * A file to set up the environment for the Max delivery engine.
+ * A file to set up the environment for the Openads delivery engine.
  */
 
 require_once 'init-delivery-parse.php';

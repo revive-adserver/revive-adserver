@@ -123,7 +123,7 @@ class ReportScope
         } elseif ($scope_specifier == 'all') {
             $this->useAllAvailableData();
         }else {
-            trigger_error("Max was asked to limit scope for something to an enity that it didn't recognize.");
+            trigger_error("Openads was asked to limit scope for something to an enity that it didn't recognize.");
         }
     }
 }

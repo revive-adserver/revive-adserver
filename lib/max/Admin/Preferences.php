@@ -30,7 +30,7 @@ require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 
 /**
- * A preferences management class for the Max administration interface.
+ * A preferences management class for the Openads administration interface.
  *
  * @package    Max
  * @author     Andrew Hill <andrew@m3.net>

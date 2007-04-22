@@ -185,7 +185,7 @@ if (phpAds_isUser(phpAds_Admin)) {
                         } else {
                             // Drop test table if one exists
                             $result = $oDbh->exec('DROP TABLE max_tmp_dbpriviligecheck');
-                            // Check if Max can create tables
+                            // Check if Openads can create tables
                             $result = $oDbh->exec('CREATE TABLE max_tmp_dbpriviligecheck (tmp int)');
                             $data = $oDbh->manager->listTableFields('max_tmp_dbpriviligecheck');
                             // Resore the PEAR_Error handler
@@ -422,7 +422,7 @@ if (phpAds_isUser(phpAds_Admin)) {
                     }
                 }
                 if (count($fatal) == 0) {
-                    // Upgrade the Max version in the database
+                    // Upgrade the Openads version in the database
                     if ((!isset($installvars['dbUpgrade'])) || (!$installvars['dbUpgrade'])) {
                         $upgrade = new MAX_Admin_Upgrade($installvars['table_prefix']);
                         if (!$upgrade->setInstalledVersion()) {

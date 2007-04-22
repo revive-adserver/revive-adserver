@@ -224,11 +224,11 @@ Use "example.com" for all example URLs, per RFC 2606.
 php.ini settings
 ----------------
 
-All Max code should work with "register_globals" disabled.  This means
+All Openads code should work with "register_globals" disabled.  This means
 using "$COOKIE", "$SESSION", "$SERVER" and "$ENV" to access all cookie,
 session, server and environment data, respectively.
 
-All Max code should work with "errorreporting" = E_ALL. Failure to do so
+All Openads code should work with "errorreporting" = E_ALL. Failure to do so
 would result in ugly output, error logs getting filled with lots of warning
 messages, or even downright broken scripts.
 
@@ -298,7 +298,7 @@ All images must have an "alt" attribute:
 Database Naming Conventions
 ---------------------------
 
-All database tables used by Max need to make sure that their table and field
+All database tables used by Openads need to make sure that their table and field
 names work in all databases.  Many databases reserve words like 'uid',
 'user', etc. for internal use, and forbid words that are SQL keywords (select,
 where, etc.).  Also, all names should be lowercase, with underscores ('_')

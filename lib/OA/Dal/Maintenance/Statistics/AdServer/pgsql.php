@@ -75,7 +75,7 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
      * @return Date A Date representing the date up to which the statistics
      *              have been summarised, for the specified update type, or
      *              the appropriate date based on raw data if maintenance
-     *              statistics has never been run for the Max module before.
+     *              statistics has never been run for the Openads module before.
      *              Returns null if no raw data is available.
      */
     function getMaintenanceStatisticsLastRunInfo($type, $oNow = null)

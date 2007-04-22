@@ -69,7 +69,7 @@ class TestRunner
     var $test_level_name = 'sdh';
 
     /**
-     * @var string A folder (relative to the Max root) containing tests to run.
+     * @var string A folder (relative to the Openads root) containing tests to run.
      *
      * It should not include a leading '/'.
      */
@@ -97,7 +97,7 @@ class TestRunner
     }
 
     /**
-     * A method to run all the tests in the Max project.
+     * A method to run all the tests in the Openads project.
      */
     function runAll()
     {

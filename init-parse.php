@@ -114,11 +114,11 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true)
             exit(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
         }
     }
-    // Check to ensure Max hasn't been installed
+    // Check to ensure Openads hasn't been installed
     if (file_exists(MAX_PATH . '/var/INSTALLED')) {
         exit(MAX_PRODUCT_NAME . " has been installed, but no configuration file ".$configPath . '/' . $host . $configFile . '.conf.ini'."was found.\n");
     }
-    // Max hasn't been installed, so use the distribution .ini file
+    // Openads hasn't been installed, so use the distribution .ini file
     return @parse_ini_file(MAX_PATH . '/etc/dist.conf.ini', $sections);
 }
 

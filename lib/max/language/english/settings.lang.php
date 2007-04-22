@@ -96,7 +96,7 @@ $GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PROD
 $GLOBALS['strErrorOccured']                 = "The following error occured:";
 $GLOBALS['strErrorInstallDatabase']         = "The database structure could not be created.";
 $GLOBALS['strErrorInstallPrefs']            = "The administrator user preferences could not be written to the database.";
-$GLOBALS['strErrorInstallVersion']          = "The Max version number could not be written to the database.";
+$GLOBALS['strErrorInstallVersion']          = "The Openads version number could not be written to the database.";
 $GLOBALS['strErrorUpgrade']                 = 'The existing installation\'s database could not be upgraded.';
 $GLOBALS['strErrorInstallDbConnect']        = "It was not possible to open a connection to the database.";
 

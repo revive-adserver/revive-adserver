@@ -93,11 +93,11 @@ class TestFiles
     }
 
     /**
-     * A method to get all test files in the Max project.
+     * A method to get all test files in the Openads project.
      *
      * @param string $type The type of test being run (eg. "unit").
      * @return array An array containing the details of all the test files
-     *               in the Max project.
+     *               in the Openads project.
      */
     function getAllTestFiles($type)
     {
@@ -114,12 +114,12 @@ class TestFiles
     }
 
     /**
-     * A method to get all test files in the Max project for a specified layer.
+     * A method to get all test files in the Openads project for a specified layer.
      *
      * @param string $type The type of test being run (eg. "unit").
      * @param $layer string The layer code.
      * @return mixed An array containing the details of all the test files
-     *               in the Max project for the specified layer.
+     *               in the Openads project for the specified layer.
      */
     function getLayerTestFiles($type, $layer)
     {

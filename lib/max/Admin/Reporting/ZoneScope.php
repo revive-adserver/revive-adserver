@@ -62,7 +62,7 @@ class ZoneScope
         if ($this->_is_zone_specified) {
             return $this->_zone_id;
         }
-        trigger_error('Programmer failure: Max was asked to provide a single zone ID to represent all zones.');
+        trigger_error('Programmer failure: Openads was asked to provide a single zone ID to represent all zones.');
     }
 
     function useZoneId($zone_id)

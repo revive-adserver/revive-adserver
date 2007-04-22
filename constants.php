@@ -29,11 +29,11 @@ $Id$
  * @package    Max
  * @author     Andrew Hill <andrew@m3.net>
  *
- * A file to set up the environment constants for Max.
+ * A file to set up the environment constants for Openads.
  */
 
 /**
- * The environmental constants initialisation function for Max.
+ * The environmental constants initialisation function for Openads.
  */
 function setupConstants()
 {
@@ -201,7 +201,7 @@ function setupConstants()
 
     // Ensure that the initialisation has not been run before
     if (!(isset($GLOBALS['_MAX']['CONF']))) {
-        // Define the Max installation base path if not defined
+        // Define the Openads installation base path if not defined
         // since Local mode will pre-define this value
         if (!defined('MAX_PATH')) {
             define('MAX_PATH', dirname(__FILE__));
@@ -223,15 +223,15 @@ function setupConstants()
             $diff = date('O') / 100;
             putenv('TZ=GMT'.($diff > 0 ? '-' : '+').abs($diff));
         }
-        // Parse the Max configuration file
+        // Parse the Openads configuration file
         $GLOBALS['_MAX']['CONF'] = parseIniFile();
-        // Define the Max Cache File location path (required trailing slash)
+        // Define the Openads Cache File location path (required trailing slash)
         if (empty($GLOBALS['_MAX']['CONF']['delivery']['cachePath'])) {
             define('MAX_CACHE', MAX_PATH . '/var/cache/');
         } else {
             define('MAX_CACHE', $GLOBALS['_MAX']['CONF']['delivery']['cachePath']);
         }
-        // Define the Max Plugins Cache File location path (required trailing slash)
+        // Define the Openads Plugins Cache File location path (required trailing slash)
         if (empty($GLOBALS['_MAX']['CONF']['delivery']['pluginsCachePath'])) {
             define('MAX_PLUGINS_CACHE', MAX_PATH . '/var/plugins/');
         } else {

@@ -38,7 +38,7 @@ class MAX_Admin_Redirect
 {
 
     /**
-     * A method to perform redirects. Only suitable for use once Max is installed,
+     * A method to perform redirects. Only suitable for use once Openads is installed,
      * as it required the max.conf.ini file to be correctly set up.
      *
      * @param string $adminPage The administration interface page to redirect to

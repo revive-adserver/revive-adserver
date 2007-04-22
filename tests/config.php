@@ -51,7 +51,7 @@ $GLOBALS['_MAX']['TEST']['directories'] =
     );
 
 // Project path - helpful for testing external projects
-// which integrate with Max code
+// which integrate with Openads code
 define('MAX_PROJECT_PATH', MAX_PATH);
 
 // Define the available root-level test groups
@@ -98,7 +98,7 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'admin' => array('Administrative Interface',            NO_DB),
         'sdh'   => array('Simple Data Handling',                NO_DB),
         //'dev'   => array('Developer Tools',                     DB_WITH_TABLES),
-        'mol'   => array('Max Other Libraries',                 DB_WITH_TABLES),
+        'mol'   => array('Openads Other Libraries',             DB_WITH_TABLES),
         'up'    => array('Upgrade Classes',                     DB_WITH_TABLES),
     );
 

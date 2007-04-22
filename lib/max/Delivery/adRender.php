@@ -589,7 +589,7 @@ function _adRenderBuildImageUrlPrefix()
 function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '', $amp = '&amp;')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    // If there is a Max->Max internal redirect, log both zones information
+    // If there is a Openads->Openads internal redirect, log both zones information
     if (!empty($GLOBALS['_MAX']['adChain'])) {
         foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
             $aBanner['ad_id'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['ad_id'];
@@ -681,7 +681,7 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
 
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    // If there is a Max->Max internal redirect, log both zones information
+    // If there is a Openads->Openads internal redirect, log both zones information
     if (!empty($GLOBALS['_MAX']['adChain'])) {
         foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
             $aBanner['bannerid'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['bannerid'];

@@ -42,7 +42,7 @@ class Menu
 {
     /**
      * A method to return the HTML code needed to display a tree-based
-     * menu of all the Max tests.
+     * menu of all the Openads tests.
      *
      * @return string A string containing the HTML code needed to display
      *                the tests in a tree-based menu.

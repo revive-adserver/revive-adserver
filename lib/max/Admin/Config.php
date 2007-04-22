@@ -28,7 +28,7 @@ $Id$
 require_once 'Config.php';
 
 /**
- * A configuration management class for the Max administration interface.
+ * A configuration management class for the Openads administration interface.
  *
  * @package    Max
  * @author     Andrew Hill <andrew@m3.net>
@@ -51,7 +51,7 @@ class MAX_Admin_Config
     }
 
     /**
-     * A method for defining required changes to the Max configuration .ini
+     * A method for defining required changes to the Openads configuration .ini
      * file.
      *
      * @param string $levelKey The top level of the item in the .ini file.
@@ -65,7 +65,7 @@ class MAX_Admin_Config
     }
 
     /**
-     * A method for defining bulk required changes to the Max configuration
+     * A method for defining bulk required changes to the Openads configuration
      * .ini file.
      *
      * @param string $levelKey The top level of the item in the .ini file.
@@ -77,9 +77,9 @@ class MAX_Admin_Config
     }
 
     /**
-     * A method for writing out required changes to Max configuration .ini
+     * A method for writing out required changes to Openads configuration .ini
      * files. Configuration files are prefixed with the host name being
-     * used to access Max, so that multiple Max installations can be run
+     * used to access Max, so that multiple Openads installations can be run
      * from a single code base, if the correct virtual hosts are configured.
      *
      * @param string $configPath The directory to save the config file(s) in.
@@ -191,7 +191,7 @@ class MAX_Admin_Config
     }
 
     /**
-     * A method to test if the Max configuration .ini file is writable by
+     * A method to test if the Openads configuration .ini file is writable by
      * the web server process.
      *
      * @static
@@ -210,7 +210,7 @@ class MAX_Admin_Config
         if (file_exists($configFile)) {
             return is_writable($configFile);
         } elseif ($checkDir) {
-            // Max has not been installed yet (or plugin config file doesn't exists)
+            // Openads has not been installed yet (or plugin config file doesn't exists)
             // so need to test if the web
             // server can write to the config file directory
             $configDir = substr($configFile, 0, strrpos($configFile, '/'));

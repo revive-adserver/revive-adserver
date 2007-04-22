@@ -128,7 +128,7 @@ function MAX_Delivery_log_logAdClick($viewerId, $adId, $creativeId, $zoneId)
  * A function to log a tracker impression.
  *
  * Note that the $conf['rawDatabase'] variables will only be defined
- * in the event that Max is configured for multiple databases. Normally,
+ * in the event that Openads is configured for multiple databases. Normally,
  * this will not be the case, so the server_ip field will be 'singleDB'.
  *
  * @param integer $viewerId The viewer ID (was userid).
@@ -171,14 +171,14 @@ function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
  * A function to log tracker impression variable values.
  *
  * Note that the $conf['rawDatabase'] variables will only be defined
- * in the event that Max is configured for multiple databases. Normally,
+ * in the event that Openads is configured for multiple databases. Normally,
  * this will not be the case, so the server_ip field will be 'singleDB'.
  *
  * @param integer $trackerId The tracker ID.
  * @param integer $serverRawTrackerImpressionId The unique tracker impression
  *                                              id on the raw database server.
  * @param string $serverRawIp The IP address of the raw database server, or null
- *                            if Max is not running in multiple database server
+ *                            if Openads is not running in multiple database server
  *                            mode.
  */
 function MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp)
@@ -285,7 +285,7 @@ function _viewersHostOkayToLog()
  *                     to access the page containing the zone.
  *                  2: An array of information about the viewer's web browser
  *                     and operating system.
- *                  3: An integer to store if the call to Max was performed
+ *                  3: An integer to store if the call to Openads was performed
  *                     using HTTPS (1) or not (0).
  */
 function _prepareLogInfo()
@@ -318,7 +318,7 @@ function _prepareLogInfo()
     } else {
         $userAgentInfo = array();
     }
-    // Determine if the access to Max was made using HTTPS
+    // Determine if the access to Openads was made using HTTPS
     $maxHttps = 0;  // https is false
     if ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) {
         $maxHttps = 1;   // https is true

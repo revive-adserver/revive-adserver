@@ -108,7 +108,7 @@ class Test_OA_DB extends UnitTestCase
     }
 
     /**
-     * Tests that the Max table prefix is setup in the config .ini file.
+     * Tests that the Openads table prefix is setup in the config .ini file.
      */
     function testDbPrefixDefined()
     {
