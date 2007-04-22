@@ -54,7 +54,7 @@ INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type
 INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (4, 1, 1, 0, 1);
 
 TRUNCATE TABLE affiliates;
-INSERT INTO affiliates (affiliateid, agencyid, name, mnemonic, comments, contact, email, website, username, password, permissions, language, publiczones, last_accepted_agency_agreement, updated) VALUES (1, 0, 'Test Publisher', 'Test', '', 'Monique Szpak', 'monique@m3.net', 'http://www.m3.net', NULL, '', 0, '', 'f', NULL, '2006-11-06 11:49:36');
+INSERT INTO affiliates (affiliateid, agencyid, name, mnemonic, comments, contact, email, website, username, password, permissions, language, publiczones, last_accepted_agency_agreement, updated) VALUES (1, 0, 'Test Publisher', 'Test', '', 'Monique Szpak', 'monique@m3.net', 'http://www.openads.org', NULL, '', 0, '', 'f', NULL, '2006-11-06 11:49:36');
 
 TRUNCATE TABLE affiliates_extra;
 INSERT INTO affiliates_extra (affiliateid, address, city, postcode, country, phone, fax, account_contact, payee_name, tax_id, mode_of_payment, currency, unique_users, unique_views, page_rank, category, help_file) VALUES (1, '', '', '', '', '', '', '', '', '', 'Cheque by post', 'GBP', 0, 0, 0, '', '');
@@ -64,8 +64,8 @@ TRUNCATE TABLE application_variable;
 INSERT INTO application_variable (name, value) VALUES ('max_version', 'v0.3.30-alpha');
 
 TRUNCATE TABLE banners;
-INSERT INTO banners (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannertext, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, acl_plugins, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype, comments, updated, acls_updated) VALUES (1, 1, 't', 'gif', 0, 'html', '', '', 'test 1', 'test 1', 468, 60, 1, 0, '_blank', 'http://www.m3.net', '', '', '', 'exclusive & capped', 't', '', 0, 10, 0, 'true', '', '', 0, 0, '', '', 'gif', '', '2006-11-27 13:50:22', '2006-11-27 13:50:22'),
-(2, 2, 't', 'gif', 0, 'html', '', '', 'test2', 'test2', 468, 60, 1, 0, '_blank', 'http://www.m3.net', '', '', '', 'low priority not capped', 't', '', 0, 0, 0, 'true', '', '', 0, 0, '', '', 'gif', '', '2006-11-27 13:51:46', '2006-11-27 13:51:52');
+INSERT INTO banners (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannertext, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, acl_plugins, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype, comments, updated, acls_updated) VALUES (1, 1, 't', 'gif', 0, 'html', '', '', 'test 1', 'test 1', 468, 60, 1, 0, '_blank', 'http://www.openads.org', '', '', '', 'exclusive & capped', 't', '', 0, 10, 0, 'true', '', '', 0, 0, '', '', 'gif', '', '2006-11-27 13:50:22', '2006-11-27 13:50:22'),
+(2, 2, 't', 'gif', 0, 'html', '', '', 'test2', 'test2', 468, 60, 1, 0, '_blank', 'http://www.openads.org', '', '', '', 'low priority not capped', 't', '', 0, 0, 0, 'true', '', '', 0, 0, '', '', 'gif', '', '2006-11-27 13:51:46', '2006-11-27 13:51:52');
 
 TRUNCATE TABLE campaigns;
 INSERT INTO campaigns (campaignid, campaignname, clientid, views, clicks, conversions, expire, activate, active, priority, weight, target_impression, target_click, target_conversion, anonymous, companion, comments, revenue, revenue_type, updated) VALUES (1, 'Test Advertiser - Default Campaign', 1, 20000, -1, -1, NULL, NULL, 't', -1, 1, 0, 0, 0, 'f', 0, '', 0.0000, 0, '2006-11-27 13:47:27'),

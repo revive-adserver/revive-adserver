@@ -1734,7 +1734,7 @@ class MAX_Admin_Upgrade
         ";
         // There may be an error copying the data from the old phpAdsNew
         // clients table into the new Openads campaigns table, because this
-        // might be an upgrade from an early version of Max, in which case
+        // might be an upgrade from an early version of Openads, in which case
         // the data has already been copied. So, don't use a PEAR_Error
         // handler at all for this query.
         PEAR::pushErrorHandling(null);

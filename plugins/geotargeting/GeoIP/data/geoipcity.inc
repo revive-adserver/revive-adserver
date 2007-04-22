@@ -28,7 +28,7 @@
 /*
  * Changelog:
  *
- * 2005-01-13   Andrew Hill, m3 Media Services Limited (http://www.m3.net)
+ * 2005-01-13   Andrew Hill, Openads Ltd (http://www.openads.org)
  *              Formatted file according to PEAR library standards.
  *              Changed inclusion of geoip.inc file to require_once, so that
  *                  this library can be used in the same script as geoip.inc.

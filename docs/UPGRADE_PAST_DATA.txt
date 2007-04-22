@@ -25,12 +25,12 @@
 Upgrading Past Data from Max v0.1 or phpAdsNew
 ==============================================
 
-When upgrading from phpAdsNew or Max v0.1 to Max v0.3, the database structure
+When upgrading from phpAdsNew or Max v0.1 to Openads v2.3, the database structure
 is signigicantly different from before. The changes take far too long for even
 a moderate-sized database to convert. As a result, you will not have any past
-data after upgrading to Max v0.3. (Note that if you are upgrading from Max
+data after upgrading to Openads v2.3. (Note that if you are upgrading from Max
 v0.2, you will not need to upgrade your past data.) If you would like to
-import your past data into your Max v0.3 installation, please run the
+import your past data into your Openads v2.3 installation, please run the
 following SQL code in your Max database using the MySQL client. Note that you
 may need to chage the table prefixes from "max_" to suit your installation.
 
@@ -135,5 +135,5 @@ FROM
 
 
 Once you have run the above SQL code, and confirmed that all your old data is
-safely in your Max v0.3 installation, you can safely drop the adviews,
+safely in your Openads v2.3 installation, you can safely drop the adviews,
 adclicks, adconversions and adstats tables.

@@ -159,7 +159,7 @@
           <listitem>If you find that a method does not exist in the above classes for
                     your data access needs, make sure you look further "down" the DAL stack
                     (ie. in the more specific purpose classes). It could be that a method
-                    exists that was intented to be used by just one area of Max, but which
+                    exists that was intented to be used by just one area of Openads, but which
                     could be used elsewhere - if so, consider moving the method "up" the
                     stack.
           </listitem>

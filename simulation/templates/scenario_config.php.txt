@@ -23,7 +23,7 @@ for($i=2;$i<($iterations+1);$i++)
 $precis=    '<pre>'.conf[scenario][precis].'</pre>';
 
 $precis.=    '-- from database: '.conf[database][name].'<br />'
-            .'-- max version: '.conf[simdb][version].'<br />'
+            .'-- openads version: '.conf[simdb][version].'<br />'
             .'-- iterations: '.$iterations.'<br />'
             .'-- startdate: '.conf[scenario][startdate].'<br />'
             .print_r($oRequest, true);

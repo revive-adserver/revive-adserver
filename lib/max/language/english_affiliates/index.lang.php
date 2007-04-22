@@ -37,7 +37,7 @@ $Id$
 
 // Meta information
 $translation_readable   = "English (Affiliate jargon)";
-$translation_maintainer	= "m3 Media Services Limited";
+$translation_maintainer	= "Openads Ltd";
 $translation_contact	= "damon@m3.net";
 
 ?>

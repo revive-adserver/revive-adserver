@@ -91,7 +91,7 @@
 
     Credits:
     ------------------------------------------------------------------------
-    Thanks to Marcus Baker for allowing m3 Media Services Limited to
+    Thanks to Marcus Baker for allowing Openads Ltd to
       distribute Simple Test for PHP along with Openads. Simple Test is
       distributed under the Open Group Test Suite License. Please see the
       Simple Test LICENSE file in the lib/simpletest/ directory for details.

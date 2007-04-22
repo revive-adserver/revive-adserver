@@ -6746,7 +6746,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
             5,
             0,
             2,
-            'm3 Media Services Limited'
+            'Openads Ltd'
         );
         $rows = $st->execute($aData);
 

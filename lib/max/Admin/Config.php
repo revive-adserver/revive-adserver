@@ -79,7 +79,7 @@ class MAX_Admin_Config
     /**
      * A method for writing out required changes to Openads configuration .ini
      * files. Configuration files are prefixed with the host name being
-     * used to access Max, so that multiple Openads installations can be run
+     * used to access Openads, so that multiple Openads installations can be run
      * from a single code base, if the correct virtual hosts are configured.
      *
      * @param string $configPath The directory to save the config file(s) in.

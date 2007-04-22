@@ -32,7 +32,7 @@ Campaigns:
 ".'</pre>';
 
 $precis.=    '-- from database: '."max_adsel".'<br />'
-            .'-- max version: '."v0.3.32-alpha".'<br />'
+            .'-- openads version: '."v2.3.1-alpha".'<br />'
             .'-- iterations: '.$iterations.'<br />'
             .'-- startdate: '."2000-01-01 00:00:00".'<br />'
             .print_r($oRequest, true);

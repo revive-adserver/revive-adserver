@@ -65,7 +65,7 @@ INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type
 
 
 TRUNCATE TABLE affiliates;
-INSERT INTO affiliates (affiliateid, agencyid, name, mnemonic, comments, contact, email, website, username, password, permissions, language, publiczones, last_accepted_agency_agreement, updated) VALUES (1, 0, 'Test Publisher', 'Test', '', 'Monique Szpak', 'monique@m3.net', 'http://www.m3.net', NULL, '', 0, '', 'f', NULL, '2006-11-06 11:49:36');
+INSERT INTO affiliates (affiliateid, agencyid, name, mnemonic, comments, contact, email, website, username, password, permissions, language, publiczones, last_accepted_agency_agreement, updated) VALUES (1, 0, 'Test Publisher', 'Test', '', 'Monique Szpak', 'monique@m3.net', 'http://www.openads.org', NULL, '', 0, '', 'f', NULL, '2006-11-06 11:49:36');
 
 
 TRUNCATE TABLE affiliates_extra;
@@ -78,8 +78,8 @@ INSERT INTO application_variable (name, value) VALUES ('max_version', 'v0.3.30-a
 
 
 TRUNCATE TABLE banners;
-INSERT INTO banners (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannertext, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, acl_plugins, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype, comments, updated, acls_updated) VALUES (1, 1, 't', '', 0, 'html', '', '', 'test 1', 'test 1', 468, 60, 1, 0, '_blank', 'http://www.m3.net', '', '', '', 'targeted 100000 ', 't', '', 0, 0, 0, '(MAX_checkSite_Channel(''1'', ''=~''))', 'Site:Channel', '', 0, 0, '', '', '', '', '2006-12-04 15:13:43', '2006-12-04 14:40:11'),
-(2, 2, 't', '', 0, 'html', '', '', 'test2', 'test2', 468, 60, 1, 0, '_blank', 'http://www.m3.net', '', '', '', 'targeted 1000 ', 't', '', 0, 0, 0, '(MAX_checkSite_Channel(''1'', ''=~''))', 'Site:Channel', '', 0, 0, '', '', '', '', '2006-12-04 15:13:07', '2006-12-04 14:40:29'),
+INSERT INTO banners (bannerid, campaignid, active, contenttype, pluginversion, storagetype, filename, imageurl, htmltemplate, htmlcache, width, height, weight, seq, target, url, alt, status, bannertext, description, autohtml, adserver, block, capping, session_capping, compiledlimitation, acl_plugins, append, appendtype, bannertype, alt_filename, alt_imageurl, alt_contenttype, comments, updated, acls_updated) VALUES (1, 1, 't', '', 0, 'html', '', '', 'test 1', 'test 1', 468, 60, 1, 0, '_blank', 'http://www.openads.org', '', '', '', 'targeted 100000 ', 't', '', 0, 0, 0, '(MAX_checkSite_Channel(''1'', ''=~''))', 'Site:Channel', '', 0, 0, '', '', '', '', '2006-12-04 15:13:43', '2006-12-04 14:40:11'),
+(2, 2, 't', '', 0, 'html', '', '', 'test2', 'test2', 468, 60, 1, 0, '_blank', 'http://www.openads.org', '', '', '', 'targeted 1000 ', 't', '', 0, 0, 0, '(MAX_checkSite_Channel(''1'', ''=~''))', 'Site:Channel', '', 0, 0, '', '', '', '', '2006-12-04 15:13:07', '2006-12-04 14:40:29'),
 (3, 3, 't', '', 0, 'html', '', '', 'test3', 'test3', 468, 60, 1, 0, '', '', '', '', '', 'targeted 1,000,000 to channel', 't', '', 0, 0, 0, '(MAX_checkSite_Channel(''1'', ''=~''))', 'Site:Channel', '', 0, 0, '', '', '', '', '2006-12-04 15:12:38', '2006-12-04 14:43:44'),
 (4, 4, 't', '', 0, 'html', '', '', 'test4ros', 'test4ros', 468, 60, 1, 0, '', '', '', '', '', 'ros 5 priority', 't', '', 0, 0, 0, '', NULL, '', 0, 0, '', '', '', '', '2006-12-04 15:12:05', '2000-01-01 00:00:00'),
 (5, 5, 't', '', 0, 'html', '', '', 'lp1', 'lp1', 468, 60, 1, 0, '', '', '', '', '', 'low priority house', 't', '', 0, 0, 0, '', NULL, '', 0, 0, '', '', '', '', '2006-12-04 15:11:45', '2000-01-01 00:00:00');

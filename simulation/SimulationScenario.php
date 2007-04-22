@@ -71,7 +71,7 @@ class SimulationScenario
 
     var $adSelectCallback;
     var $aVarDump;
-	
+
 
     /**
      * The constructor method.
@@ -120,9 +120,8 @@ class SimulationScenario
     }
 
     /**
-     * create a new set of max tables
-     * this is called by the child class
-     * it might not want them!
+     * create a new set of openads tables this is called by the child class it
+     * might not want them!
      *
      */
     function newTables()

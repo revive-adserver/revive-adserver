@@ -27,7 +27,7 @@ $precis=    '<pre>'."Two Channel Limitations:
 2=PageReferer".'</pre>';
 
 $precis.=    '-- from database: '."max03trunk".'<br />'
-            .'-- max version: '."v0.3.31-alpha".'<br />'
+            .'-- openads version: '."v2.3.1-alpha".'<br />'
             .'-- iterations: '.$iterations.'<br />'
             .'-- startdate: '."2007-01-09 13:00:00".'<br />'
             .print_r($oRequest, true);

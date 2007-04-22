@@ -92,7 +92,7 @@ class MAX_Plugin_Translation
         }
         if (is_readable($path)) {
             include $path;
-            //  If current module is not the default max module
+            //  If current module is not the default openads module
             if (isset($words)) {
                 if ($package === null) {
                     $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module] = $words;

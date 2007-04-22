@@ -58,7 +58,7 @@ e.g. http://www.example.com/max/), then a "Single Host" installation is for you.
     document root has the "AllowOverride Limit" option set. (See
     http://httpd.apache.org/docs/mod/core.html#allowoverride for more information.)
 
-4)  Download the Openads archive file from http://max.awarez.net/.
+4)  Download the Openads archive file from http://www.openads.org/.
 
 5)  Extract the Openads archive file into the appropriate directory in your web server
     root. For example, if your web server's root is "/var/www/html/" you may choose
@@ -117,7 +117,7 @@ host, then a "Multiple Hosts" installation is for you.
 2)  Create a new MySQL user with access to the database you created above, for Openads to
     use to access the database. Consult the MySQL documentation on how to do this.
 
-3)  Download the Openads archive file from http://max.awarez.net/.
+3)  Download the Openads archive file from http://www.openads.org/.
 
 4)  Extract the Openads archive into your desired installation directory, for example,
     "/var/www/html/max".
@@ -261,4 +261,4 @@ can affect write permissions.
 
 
 
-For more info please see the Openads site: http://max.awarez.net/.
+For more info please see the Openads site: http://www.openads.org/.

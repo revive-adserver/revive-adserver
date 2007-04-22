@@ -74,7 +74,7 @@ if ($_POST['submitted']) {
     }
 }
 
-// max init and html framework
+// openads init and html framework
 require_once MAX_PATH . '/www/admin/config.php';
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate);
 phpAds_PageHeader(1);

@@ -52,7 +52,7 @@ INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type
 INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (4, 1, 2, 0, 1);
 
 TRUNCATE TABLE affiliates;
-INSERT INTO affiliates (affiliateid, agencyid, name, mnemonic, comments, contact, email, website, username, password, permissions, language, publiczones, last_accepted_agency_agreement, updated) VALUES (1, 0, 'ChannelTarget_Publisher', 'ChT', '', 'Monique Szpak', 'monique@m3.net', 'http://www.m3.net', 'publisher', '52aded165360352a0f5857571d96d68f', 383, '', 'f', '2000-01-01 00:00:00', '1999-12-31 11:15:51');
+INSERT INTO affiliates (affiliateid, agencyid, name, mnemonic, comments, contact, email, website, username, password, permissions, language, publiczones, last_accepted_agency_agreement, updated) VALUES (1, 0, 'ChannelTarget_Publisher', 'ChT', '', 'Monique Szpak', 'monique@m3.net', 'http://www.openads.org', 'publisher', '52aded165360352a0f5857571d96d68f', 383, '', 'f', '2000-01-01 00:00:00', '1999-12-31 11:15:51');
 
 TRUNCATE TABLE affiliates_extra;
 INSERT INTO affiliates_extra (affiliateid, address, city, postcode, country, phone, fax, account_contact, payee_name, tax_id, mode_of_payment, currency, unique_users, unique_views, page_rank, category, help_file) VALUES (1, '', '', '', '', '', '', '', '', '', 'Cheque by post', 'GBP', 0, 0, 0, '', '');

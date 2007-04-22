@@ -21,7 +21,7 @@
 +---------------------------------------------------------------------------+
 
 Please see http://trac.openads.org/ for the latest known bugs. The following
-is a list of the major features that aren't in Max, as opposed to bugs that
+is a list of the major features that aren't in Openads, as opposed to bugs that
 have been found.
 
 +---------------------------------------------------------------------------+

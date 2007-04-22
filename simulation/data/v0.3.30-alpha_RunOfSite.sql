@@ -45,7 +45,7 @@ TRUNCATE TABLE ad_zone_assoc;
 INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (1, 0, 1, 0, 0);
 INSERT INTO ad_zone_assoc (ad_zone_assoc_id, zone_id, ad_id, priority, link_type) VALUES (2, 1, 1, 0.8, 1);
 TRUNCATE TABLE affiliates;
-INSERT INTO affiliates (affiliateid, agencyid, name, mnemonic, comments, contact, email, website, username, password, permissions, language, publiczones, last_accepted_agency_agreement, updated) VALUES (1, 0, 'RunOfSite_Publisher', 'ROS', '', 'Monique Szpak', 'monique@m3.net', 'http://www.m3.net', NULL, '', 0, '', 'f', NULL, '2006-11-06 11:49:36');
+INSERT INTO affiliates (affiliateid, agencyid, name, mnemonic, comments, contact, email, website, username, password, permissions, language, publiczones, last_accepted_agency_agreement, updated) VALUES (1, 0, 'RunOfSite_Publisher', 'ROS', '', 'Monique Szpak', 'monique@m3.net', 'http://www.openads.org', NULL, '', 0, '', 'f', NULL, '2006-11-06 11:49:36');
 TRUNCATE TABLE  affiliates_extra;
 INSERT INTO affiliates_extra (affiliateid, address, city, postcode, country, phone, fax, account_contact, payee_name, tax_id, mode_of_payment, currency, unique_users, unique_views, page_rank, category, help_file) VALUES (1, '', '', '', '', '', '', '', '', '', 'Cheque by post', 'GBP', 0, 0, 0, '', '');
 TRUNCATE TABLE  banners;
