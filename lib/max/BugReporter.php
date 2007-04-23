@@ -101,7 +101,7 @@ class MAX_BugReporter
             'fromEmail'     => $report->getEmail(),
             'fromRealName'  => $report->getName(),
             'replyTo'       => 'admin@m3.net',
-            'subject'       => 'Bug report',
+            'subject'       => 'Bug report: ' . $report->getSummary(),
             'body'          => $report->toString(),
             'template'      => MAX_PATH . '/lib/max/resources/emailBugReport.php',
             'username'      => '',
