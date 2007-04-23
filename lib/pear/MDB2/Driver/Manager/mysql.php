@@ -425,10 +425,11 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
      * list all tables in the current database
      *
      * @param string database, the current is default
+     * @param OPENADS:: string prefix : allow a LIKE comparison search for table prefixes
      * @return mixed data array on success, a MDB2 error on failure
      * @access public
      */
-    function listTables($database = null)
+    function listTables($database = null, $prefix='')
     {
         $db =& $this->getDBInstance();
         if (PEAR::isError($db)) {
@@ -440,6 +441,10 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
             $query .= " FROM $database";
         }
         $query.= "/*!50002  WHERE Table_type = 'BASE TABLE'*/";
+
+        if ($prefix) {
+            $query .= " LIKE '{$prefix}%'";
+        }
 
         $table_names = $db->queryAll($query, null, MDB2_FETCHMODE_ORDERED);
         if (PEAR::isError($table_names)) {
