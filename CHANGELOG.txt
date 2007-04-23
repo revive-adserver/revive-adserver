@@ -27,6 +27,8 @@
 | Release Max v0.3.32-alpha |
 +---------------------------+
 
+2007-03-23  Delivery    Bug         Fixed #311 - Loading OA tags into 3rd party server breaks swf
+                                    clickthroughs (Chris)
 2007-03-23  Delivery    Feature     Fixed #310 - Added {width} and {height} replacement macros (Chris)
 2007-03-23  Delivery    Bug         Fixed #309 - Infinite loop in delivery when no ads to deliver (Chris)
 2007-03-23  Admin       Bug         Fixed #308 - Some stats screens show error: Missing argument 2 for 

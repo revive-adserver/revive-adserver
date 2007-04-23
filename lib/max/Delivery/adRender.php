@@ -703,7 +703,7 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
         $dest = !empty($aBanner['url']) ? $aBanner['url'] : '';
         // If the passed in a ct0= value that is not a valid URL (simple checking), then ignore it
         $ct0 = (empty($ct0) || strtolower(substr($ct0, 0, 4)) != 'http') ? '' : $ct0;
-        $aBanner['contenttype'] == "swf" ? $maxdest = '' : $maxdest = "{$del}maxdest={$ct0}{$dest}";
+        $aBanner['contenttype'] == "swf" ? $maxdest = "{$del}maxdest=" . urlencode($ct0 . $dest) : $maxdest = "{$del}maxdest={$ct0}{$dest}";
         if (isset($GLOBALS['_MAX']['CHANNELS'])) {
             $channelIds = $del. "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER, $conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['CHANNELS']);
         } else {
