@@ -40,20 +40,20 @@ $GLOBALS['_MAX']['PAN'] = array();
 function phpAds_dbAvailable()
 {
     _raise_deprecated_db_api_warning();
-    
+
 	return (function_exists('mysql_connect'));
 }
 
 /**
  * Open a connection to the database.
- * 
+ *
  * @return True if connection was successful, false otherwise.
  * @deprecated 0.3.30 - 15-Nov-2006
  */
 function phpAds_dbConnect()
 {
     _raise_deprecated_db_api_warning();
-    
+
     $GLOBALS['_MAX']['PAN']['DB'] = &OA_DB::singleton();
     return !PEAR::isError($GLOBALS['_MAX']['PAN']['DB']);
 }
@@ -61,18 +61,18 @@ function phpAds_dbConnect()
 
 /**
  * Execute a query against the configured database.
- * 
+ *
  * This function doesn't require an active connection to be present;
  * it will create a connection if none are available.
- * 
+ *
  * @param string  $query   An SQL query.
  * @param enum    $db      (Deprecated.)
- * @deprecated v0.3.30 - 15-Nov-2006 - Use MAX DB calls (from a DAL!) instead.  
+ * @deprecated v0.3.30 - 15-Nov-2006 - Use MAX DB calls (from a DAL!) instead.
  */
 function phpAds_dbQuery($query)
 {
     _raise_deprecated_db_api_warning();
-    
+
     $query = trim($query);
     $queryType = strtoupper(substr($query, 0, 6));
     if ("SELECT" == $queryType) {
@@ -96,7 +96,7 @@ function phpAds_dbQuery($query)
 
 /**
  * Get the number of rows returned.
- * 
+ *
  * @param resource $res A MySQL result resource.
  * @return int
  * @deprecated 0.3.30 - 15-Nov-2006
@@ -104,7 +104,7 @@ function phpAds_dbQuery($query)
 function phpAds_dbNumRows($res)
 {
     _raise_deprecated_db_api_warning();
-    
+
     if (PEAR::isError($GLOBALS['_MAX']['PAN']['DB'])) {
         return false;
     }
@@ -165,22 +165,38 @@ function phpAds_dbInsertID($db = phpAds_adminDb)
 
 /**
  * Get the error message if something went wrong
+ *
+ * @todo Used a hack, it's deprecated, I reckon it doesn't need to be properly handled
  */
 function phpAds_dbError ($db = phpAds_adminDb)
 {
     _raise_deprecated_db_api_warning();
-    return $GLOBALS['_MAX']['PAN']['DB']->getMessage();
+    $dbConn = $GLOBALS['_MAX']['PAN']['DB']->getConnection();
+    if (isset($GLOBALS['_MAX']['PAN']['DB']['connected_dsn']['phptype']) == 'pgsql') {
+        return pg_errormessage($dbConn);
+    }
+    return mysql_error($dbConn);
 }
 
+/**
+ * Get the error code if something went wrong
+ *
+ * @todo Used a hack, it's deprecated, I reckon it doesn't need to be properly handled
+ */
 function phpAds_dbErrorNo ($db = phpAds_adminDb)
 {
     _raise_deprecated_db_api_warning();
-	return $GLOBALS['_MAX']['PAN']['DB']->getCode();
+    $dbConn = $GLOBALS['_MAX']['PAN']['DB']->getConnection();
+    $dbConn = $GLOBALS['_MAX']['PAN']['DB']->getConnection();
+    if (isset($GLOBALS['_MAX']['PAN']['DB']['connected_dsn']['phptype']) == 'pgsql') {
+        return -1;
+    }
+    return mysql_errno($dbConn);
 }
 
 /**
  * Raise a warning to help us find and remove code which still uses this API.
- * 
+ *
  * @return void
  * @private
  */
