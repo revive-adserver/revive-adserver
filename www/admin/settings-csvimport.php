@@ -1185,7 +1185,8 @@ if(count($trackers)==0) {
                     'name'  => 'campaigns',
                     'text'  => $strChooseCampaign,
                     'items' => $campaigns,
-                    'visible' => $admin_settings
+                    'visible' => $admin_settings,
+                    'reload'  => 'yes'
                 ),                
                 array (
                     'type'  => 'break',
@@ -1196,7 +1197,8 @@ if(count($trackers)==0) {
                     'name'  => 'banners',
                     'text'  => $strChooseCampaignBanner,
                     'items' => $banners,
-                    'visible' => $admin_settings
+                    'visible' => $admin_settings,
+                    'reload'  => 'yes'
                 ),                
                 array (
                     'type'  => 'break',
