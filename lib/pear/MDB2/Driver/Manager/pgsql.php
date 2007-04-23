@@ -453,10 +453,12 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
     /**
      * list all tables in the current database
      *
+     * @param OPENADS:: string database, ignored in the pgsql driver
+     * @param OPENADS:: string prefix : allow a LIKE comparison search for table prefixes
      * @return mixed data array on success, a MDB2 error on failure
      * @access public
      **/
-    function listTables()
+    function listTables($database = null, $prefix='')
     {
         $db =& $this->getDBInstance();
         if (PEAR::isError($db)) {
@@ -468,6 +470,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             . ' FROM pg_class c, pg_user u'
             . ' WHERE c.relowner = u.usesysid'
             . " AND c.relkind = 'r'"
+            . (!empty($prefix) ? 'AND c.relname ILIKE '.$db->quote($prefix.'%', 'text') : '')
             . ' AND NOT EXISTS'
             . ' (SELECT 1 FROM pg_views'
             . '  WHERE viewname = c.relname)'
@@ -482,7 +485,8 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             . ' AND NOT EXISTS'
             . ' (SELECT 1 FROM pg_user'
             . '  WHERE usesysid = c.relowner)'
-            . " AND c.relname !~ '^pg_'";
+            . " AND c.relname !~ '^pg_'"
+            . (!empty($prefix) ? 'AND c.relname ILIKE '.$db->quote($prefix.'%', 'text') : '');
         $result = $db->queryCol($query);
         if (PEAR::isError($result)) {
             return $result;
