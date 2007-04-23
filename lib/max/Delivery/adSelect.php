@@ -376,7 +376,7 @@ function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = t
 					return ($aLinkedAd);
 		    	}
 			}
-			$zoneId = _getNextZone($zoneid, $aZoneLinkedAds);
+			$zoneId = _getNextZone($zoneId, $aZoneLinkedAds);
 		}
 	}
 	if (!empty($aZoneLinkedAds['default_banner_url'])) {
