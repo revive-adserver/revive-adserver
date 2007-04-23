@@ -6654,7 +6654,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
             0,
             0,
             'Channel',
-            'MAX_checkGeo_Organisation(\'m3\', \'=~\')',
+            'MAX_checkGeo_Organisation(\'Openads\', \'=~\')',
             'Geo:Organisation',
             1
         );
@@ -6665,7 +6665,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
             'and',
             'Geo:Organisation',
             '=~',
-            'm3',
+            'Openads',
             0
         );
         $rows = $this->stAclsChannel->execute($aData);
