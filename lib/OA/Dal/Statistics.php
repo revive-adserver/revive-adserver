@@ -25,9 +25,11 @@
 $Id$
 */
 
-require_once MAX_PATH.'/lib/Max.php';
-require_once MAX_PATH.'/lib/max/Dal/Common.php';
-require_once MAX_PATH.'/lib/max/OperationInterval.php';
+require_once MAX_PATH . '/lib/Max.php';
+require_once MAX_PATH . '/lib/max/Dal/Common.php';
+require_once MAX_PATH . '/lib/max/OperationInterval.php';
+
+require_once MAX_PATH . '/lib/OA.php';
 require_once 'Date.php';
 
 /**
@@ -201,11 +203,106 @@ class OA_Dal_Statistics extends OA_Dal
      */
     function getZoneTargetingStatistics($zoneId, $oStartDate, $oEndDate)
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         if (!$this->_testParameters($zoneId, $oStartDate, $oEndDate)) {
             return false;
         }
-        // Okay!
-        return true;
+        // Extract the required data for the operation interval
+        $query = "
+            SELECT
+                dsaza.interval_start AS interval_start,
+                dsaza.interval_end AS interval_end,
+                dsaza.ad_id AS ad_id,
+                dsaza.required_impressions AS ad_required_impressions,
+                dsaza.requested_impressions AS ad_requested_impressions,
+                dsaza.priority AS ad_priority,
+                dsaza.priority_factor AS ad_priority_factor,
+                dsaza.priority_factor_limited AS ad_priority_factor_limited,
+                dsaza.past_zone_traffic_fraction AS ad_past_zone_traffic_fraction,
+                dsaza.created AS created,
+                dsaza.expired AS expired,
+                dia.impressions AS ad_actual_impressions,
+                dszih.forecast_impressions AS zone_forecast_impressions,
+                dszih.actual_impressions AS zone_actual_impression
+            FROM
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']} AS dsaza
+            LEFT JOIN
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']} AS dia
+            ON
+                dsaza.operation_interval = dia.operation_interval
+                AND
+                dsaza.interval_start = dia.interval_start
+                AND
+                dsaza.interval_end = dia.interval_end
+                AND
+                dsaza.ad_id = dia.ad_id
+                AND
+                dsaza.zone_id = dia.zone_id
+            LEFT JOIN
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']} AS dszih
+            ON
+                dsaza.operation_interval = dszih.operation_interval
+                AND
+                dsaza.interval_start = dszih.interval_start
+                AND
+                dsaza.interval_end = dszih.interval_end
+                AND
+                dsaza.zone_id = dszih.zone_id
+            WHERE
+                dsaza.operation_interval = {$aConf['maintenance']['operationInterval']}
+                AND
+                dsaza.interval_start = '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                dsaza.interval_end = '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                dsaza.zone_id = $zoneId
+                AND
+                dsaza.required_impressions > 0
+            ORDER BY
+                dsaza.ad_id";
+        $message = "Getting the targeting statistcs for zone ID $zoneId for OI starting " .
+                   $oStartDate->format('%Y-%m-%d %H:%M:%S');
+        OA::debug($message, PEAR_LOG_DEBUG);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            $message = "Error getting the targeting statistcs for zone ID $zoneId for OI starting " .
+                       $oStartDate->format('%Y-%m-%d %H:%M:%S');
+            return false;
+        }
+        $averagesExist = false;
+        $aResult = array();
+        $aAverageValues = array();
+        while ($aRow = $rc->fetchRow()) {
+            $adId = $aRow['ad_id'];
+            unset($aRow['ad_id']);
+            if (!isset($aResult[$adId])) {
+                // First time this value has been seen, so okay to set it
+                $aResult[$adId] = $aRow;
+            } else {
+                if ($aResult[$adId] != 'average') {
+                    // Store the old value
+                    $aAverageValues[$adId][] = $aResult[$adId];
+                }
+                // Store this value as part of an average value
+                $averagesExist = true;
+                $aResult[$adId] = 'average';
+                $aAverageValues[$adId][] = $aRow;
+            }
+        }
+        // Do average values need to be calculated?
+        reset($aResult);
+        while (list($adId, $value) = each($aResult)) {
+            if ($averagesExist) {
+                if ($value == 'average') {
+                    // Calculate the average values for this ad
+                    $aResult[$adId] = $this->_calculateAverages($aAverageValues[$adId], $oEndDate);
+                }
+            } else {
+                unset($aResult[$adId]['created']);
+                unset($aResult[$adId]['expired']);
+            }
+        }
+        return $aResult;
     }
 
     /**
@@ -234,6 +331,59 @@ class OA_Dal_Statistics extends OA_Dal
             return false;
         }
         return true;
+    }
+
+    function _calculateAverages($aValues, $oEndDate)
+    {
+        if (!is_array($aValues) || empty($aValues)) {
+            return array();
+        }
+        $counter = 0;
+        $totalSeconds = 0;
+        $aResult = array(
+            'ad_required_impressions'       => 0,
+            'ad_requested_impressions'      => 0,
+            'ad_priority'                   => 0,
+            'ad_priority_factor'            => 0,
+            'ad_priority_factor_limited'    => 0,
+            'ad_past_zone_traffic_fraction' => 0
+        );
+        reset($aValues);
+        while (list(,$aAdValues) = each($aValues)) {
+            if ($counter == 0) {
+                $aResult['interval_start']            = $aAdValues['interval_start'];
+                $aResult['interval_end']              = $aAdValues['interval_end'];
+                $aResult['ad_actual_impressions']     = $aAdValues['ad_actual_impressions'];
+                $aResult['zone_forecast_impressions'] = $aAdValues['zone_forecast_impressions'];
+                $aResult['zone_actual_impression']    = $aAdValues['zone_actual_impression'];
+            }
+            $oCreatedDate = new Date($aAdValues['created']);
+            if (is_null($aAdValues['expired'])) {
+                $oExpiredDate = new Date();
+                $oExpiredDate->copy($oEndDate);
+            } else {
+                $oExpiredDate = new Date($aAdValues['expired']);
+            }
+            $oSpan = new Date_Span();
+            $oSpan->setFromDateDiff($oCreatedDate, $oExpiredDate);
+            $seconds = $oSpan->toSeconds();
+            $aResult['ad_required_impressions']       += $aAdValues['ad_required_impressions']       * $seconds;
+            $aResult['ad_requested_impressions']      += $aAdValues['ad_requested_impressions']      * $seconds;
+            $aResult['ad_priority']                   += $aAdValues['ad_priority']                   * $seconds;
+            $aResult['ad_priority_factor']            += $aAdValues['ad_priority_factor']            * $seconds;
+            $aResult['ad_past_zone_traffic_fraction'] += $aAdValues['ad_past_zone_traffic_fraction'] * $seconds;
+            if ($aAdValues['ad_priority_factor_limited'] == 1) {
+                $aResult['ad_priority_factor_limited'] = 1;
+            }
+            $counter++;
+            $totalSeconds += $seconds;
+        }
+        $aResult['ad_required_impressions']       /= $totalSeconds;
+        $aResult['ad_requested_impressions']      /= $totalSeconds;
+        $aResult['ad_priority']                   /= $totalSeconds;
+        $aResult['ad_priority_factor']            /= $totalSeconds;
+        $aResult['ad_past_zone_traffic_fraction'] /= $totalSeconds;
+        return $aResult;
     }
 
 }
