@@ -2267,7 +2267,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     function obtainPriorityLock()
     {
         $this->oLock =& OA_DB_AdvisoryLock::factory();
-        return $oLock->get('mpe', 1);
+        return $this->oLock->get('mpe', 1);
     }
 
     /**
