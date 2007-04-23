@@ -39,6 +39,27 @@
         <default></default>
 	</field>
 	<field>
+		<name>openads_generic_varchar_255</name>
+        <type>openads_varchar</type>
+        <length>255</length>
+        <notnull>true</notnull>
+        <default></default>
+	</field>
+	<field>
+		<name>openads_generic_varchar_64</name>
+        <type>openads_varchar</type>
+        <length>64</length>
+        <notnull>true</notnull>
+        <default></default>
+	</field>
+	<field>
+		<name>openads_generic_varchar_32</name>
+        <type>openads_varchar</type>
+        <length>32</length>
+        <notnull>true</notnull>
+        <default></default>
+	</field>
+	<field>
 		<name>openads_generic_text</name>
 		<type>openads_text</type>
 		<notnull>true</notnull>
