@@ -92,10 +92,13 @@ class OA_Dal_Statistics extends OA_Dal
      *               an array of arrays:
      * array(
      *     [$operationIntervalId] => array(
-     *                                   ['interval_start']        => PEAR::Date
-     *                                   ['interval_end']          => PEAR::Date
-     *                                   ['impressions_requested'] => integer
-     *                                   ['actual_impressions']    => integer
+     *                                  ['interval_start']                  => PEAR::Date
+     *                                  ['interval_end']                    => PEAR::Date
+     *                                  ['placement_required_impressions']  => integer
+     *                                  ['placement_requested_impressions'] => integer
+     *                                  ['placement_actual_impressions']    => integer
+     *                                  ['zones_forecast_impressions']      => integer
+     *                                  ['zones_actual_impression']         => integer
      *                               )
      *      .
      *      .
@@ -118,6 +121,149 @@ class OA_Dal_Statistics extends OA_Dal
      */
     function getPlacementDailyTargetingStatistics($placementId, $oDate)
     {
+        // Ensure the parameters are valid
+        if (empty($placementId) || !is_int($placementId)) {
+            return false;
+        }
+        if (empty($oDate) || !is_a($oDate, 'Date')) {
+            return false;
+        }
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        // Get all ads in the placement
+        $aAdIds = array();
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $placementId;
+        $doBanners->find();
+        while ($doBanners->fetch()) {
+            $aAdIds[] = (int) $doBanners->bannerid;
+        }
+        if (empty($aAdIds)) {
+            return false;
+        }
+        // Prepare the results array
+        $aResult = array();
+        // Get a date for the start of the day
+        $oStartDate = new Date();
+        $oStartDate->copy($oDate);
+        $oStartDate->setHour(0);
+        $oStartDate->setMinute(0);
+        $oStartDate->setSecond(0);
+        // Get a date for the end of the day
+        $oEndOfDayDate = new Date();
+        $oEndOfDayDate->copy($oDate);
+        $oEndOfDayDate->setHour(23);
+        $oEndOfDayDate->setMinute(59);
+        $oEndOfDayDate->setSecond(59);
+        // Get the first operation interval of the day
+        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
+        // Get dates to be used in date comparisons
+        $oCompareDate = new Date();
+        $oCompareDate->copy($aDates['start']);
+        $oCompareEndDate = new Date();
+        $oCompareEndDate->copy($oEndOfDayDate);
+        while ($oCompareDate->before($oEndOfDayDate)) {
+            // Get the operation interval ID
+            $operationIntervalId = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+            // Get the results for this operation interval
+            $aResult[$operationIntervalId] = $this->_getPlacementDailyTargetingStatistics($aAdIds, $aDates['start'], $aDates['end']);
+            if ($aResult[$operationIntervalId] === false) {
+                return false;
+            }
+            // Get the next operation interval dates
+            $aDates = MAX_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($aDates['start']);
+            // Update the comparison dates
+            $oCompareDate = new Date();
+            $oCompareDate->copy($aDates['start']);
+            $oCompareEndDate = new Date();
+            $oCompareEndDate->copy($oEndOfDayDate);
+        }
+        return $aResult;
+    }
+
+    /**
+     * A private method for obtaining the information required for one operation interval
+     * of the placement daily level targeting statistics screen.
+     *
+     * @access private
+     * @param array      $aAdIds     An array of ad IDs.
+     * @param PEAR::Date $oStartDate The start date of the operation interval.
+     * @param PEAR::Date $oEndDate   The end date of the operation interval.
+     *
+     * @return mixed Returns false in the event of incorrect input, or in the case
+     *               of being unable to connect to the database, otherwise, returns
+     *               an array:
+     * array(
+     *      ['interval_start']                  => PEAR::Date
+     *      ['interval_end']                    => PEAR::Date
+     *      ['placement_required_impressions']  => integer
+     *      ['placement_requested_impressions'] => integer
+     *      ['placement_actual_impressions']    => integer
+     *      ['zones_forecast_impressions']      => integer
+     *      ['zones_actual_impression']         => integer
+     *  )
+     *
+     * For the placement and operation interval specified, returns an array,
+     * consisting of the operation interval start and end dates, and the total
+     * number of impressions requested by all ads in the placement (for all
+     * zones the ads are linked to), as well as the total number of impressions
+     * actually delivered by all ads in the placement (for all zones the ads
+     * are linked to).
+     *
+     * The individual ad/zone impressions requested values may need to be
+     * calculated as an "averge" value, in the event that there are multiple,
+     * differing values for an ad in a zone for an operation interval -- in
+     * much the same way as is done in
+     * OA_Dal_Maintenance_Priority::getPreviousAdDeliveryInfo() -- before
+     * the total impressions requested value can be calculated.
+     */
+    function _getPlacementDailyTargetingStatistics($aAdIds, $oStartDate, $oEndDate)
+    {
+        // Ensure the parameters are valid
+        if (!is_array($aAdIds) || empty($aAdIds)) {
+            return false;
+        }
+        reset($aAdIds);
+        while (list(,$adId) = each($aAdIds)) {
+            if (!is_int($adId)) {
+                return false;
+            }
+        }
+        if (empty($oStartDate) || !is_a($oStartDate, 'Date')) {
+            return false;
+        }
+        if (empty($oEndDate) || !is_a($oEndDate, 'Date')) {
+            return false;
+        }
+        // Ensure that the date range specified is indeed an operation interval
+        if (!MAX_OperationInterval::checkIntervalDates($oStartDate, $oEndDate)) {
+            return false;
+        }
+        // Obtain the placement level targeting statistcs for this operation interval
+        $aResult = array(
+            'interval_start'                  => $oStartDate,
+            'interval_end'                    => $oEndDate,
+            'placement_required_impressions'  => 0,
+            'placement_requested_impressions' => 0,
+            'placement_actual_impressions'    => 0,
+            'zones_forecast_impressions'      => 0,
+            'zones_actual_impression'         => 0
+        );
+        reset($aAdIds);
+        while (list(,$adId) = each($aAdIds)) {
+            $aAdStats = $this->getAdTargetingStatistics($adId, $oStartDate, $oEndDate);
+            if ($aAdStats === false) {
+                return $false;
+            }
+            reset($aAdStats);
+            while (list(,$aValues) = each($aAdStats)) {
+                $aResult['placement_required_impressions']  += $aValues['ad_required_impressions'];
+                $aResult['placement_requested_impressions'] += $aValues['ad_requested_impressions'];
+                $aResult['placement_actual_impressions']    += $aValues['ad_actual_impressions'];
+                $aResult['zones_forecast_impressions']      += $aValues['zone_forecast_impressions'];
+                $aResult['zones_actual_impression']         += $aValues['zone_actual_impression'];
+            }
+        }
+        return $aResult;
     }
 
     /**
@@ -133,10 +279,17 @@ class OA_Dal_Statistics extends OA_Dal
      *               an array of arrays:
      * array(
      *     [$zoneId] => array(
-     *                      ['impressions_requested'] => integer
-     *                      ['priority']              => double
-     *                      ['priority_factor']       => double
-     *                      ['actual_impressions']    => integer
+     *                    ['interval_start']                => PEAR::Date
+     *                    ['interval_end']                  => PEAR::Date
+     *                    ['ad_required_impressions']       => integer
+     *                    ['ad_requested_impressions']      => integer
+     *                    ['ad_priority']                   => double
+     *                    ['ad_priority_factor']            => double
+     *                    ['ad_priority_factor_limited']    => integer
+     *                    ['ad_past_zone_traffic_fraction'] => double
+     *                    ['ad_actual_impressions']         => integer
+     *                    ['zone_forecast_impressions']     => integer
+     *                    ['zone_actual_impression']        => integer
      *                  )
      *         .
      *         .
@@ -161,8 +314,105 @@ class OA_Dal_Statistics extends OA_Dal
         if (!$this->_testParameters($adId, $oStartDate, $oEndDate)) {
             return false;
         }
-        // Okay!
-        return true;
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        // Extract the required data for the operation interval
+        $query = "
+            SELECT
+                dsaza.interval_start AS interval_start,
+                dsaza.interval_end AS interval_end,
+                dsaza.zone_id AS zone_id,
+                dsaza.required_impressions AS ad_required_impressions,
+                dsaza.requested_impressions AS ad_requested_impressions,
+                dsaza.priority AS ad_priority,
+                dsaza.priority_factor AS ad_priority_factor,
+                dsaza.priority_factor_limited AS ad_priority_factor_limited,
+                dsaza.past_zone_traffic_fraction AS ad_past_zone_traffic_fraction,
+                dsaza.created AS created,
+                dsaza.expired AS expired,
+                dia.impressions AS ad_actual_impressions,
+                dszih.forecast_impressions AS zone_forecast_impressions,
+                dszih.actual_impressions AS zone_actual_impression
+            FROM
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']} AS dsaza
+            LEFT JOIN
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']} AS dia
+            ON
+                dsaza.operation_interval = dia.operation_interval
+                AND
+                dsaza.interval_start = dia.interval_start
+                AND
+                dsaza.interval_end = dia.interval_end
+                AND
+                dsaza.ad_id = dia.ad_id
+                AND
+                dsaza.zone_id = dia.zone_id
+            LEFT JOIN
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']} AS dszih
+            ON
+                dsaza.operation_interval = dszih.operation_interval
+                AND
+                dsaza.interval_start = dszih.interval_start
+                AND
+                dsaza.interval_end = dszih.interval_end
+                AND
+                dsaza.zone_id = dszih.zone_id
+            WHERE
+                dsaza.operation_interval = {$aConf['maintenance']['operationInterval']}
+                AND
+                dsaza.interval_start = '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                dsaza.interval_end = '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'
+                AND
+                dsaza.ad_id = $adId
+                AND
+                dsaza.required_impressions > 0
+            ORDER BY
+                dsaza.ad_id";
+        $message = "Getting the targeting statistcs for ad ID $adId for OI starting " .
+                   $oStartDate->format('%Y-%m-%d %H:%M:%S');
+        OA::debug($message, PEAR_LOG_DEBUG);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            $message = "Error getting the targeting statistcs for ad ID $adId for OI starting " .
+                       $oStartDate->format('%Y-%m-%d %H:%M:%S');
+            return false;
+        }
+        $averagesExist = false;
+        $aResult = array();
+        $aAverageValues = array();
+        while ($aRow = $rc->fetchRow()) {
+            $zoneId = $aRow['zone_id'];
+            unset($aRow['zone_id']);
+            $aRow['interval_start'] = new Date($aRow['interval_start']);
+            $aRow['interval_end']   = new Date($aRow['interval_end']);
+            if (!isset($aResult[$zoneId])) {
+                // First time this value has been seen, so okay to set it
+                $aResult[$zoneId] = $aRow;
+            } else {
+                if ($aResult[$zoneId] != 'average') {
+                    // Store the old value
+                    $aAverageValues[$zoneId][] = $aResult[$zoneId];
+                }
+                // Store this value as part of an average value
+                $averagesExist = true;
+                $aResult[$zoneId] = 'average';
+                $aAverageValues[$zoneId][] = $aRow;
+            }
+        }
+        // Do average values need to be calculated?
+        reset($aResult);
+        while (list($zoneId, $value) = each($aResult)) {
+            if ($averagesExist) {
+                if ($value == 'average') {
+                    // Calculate the average values for this ad
+                    $aResult[$zoneId] = $this->_calculateAverages($aAverageValues[$zoneId], $oEndDate);
+                }
+            } else {
+                unset($aResult[$zoneId]['created']);
+                unset($aResult[$zoneId]['expired']);
+            }
+        }
+        return $aResult;
     }
 
     /**
@@ -178,10 +428,17 @@ class OA_Dal_Statistics extends OA_Dal
      *               an array of arrays:
      * array(
      *     [$adId] => array(
-     *                    ['impressions_requested'] => integer
-     *                    ['priority']              => double
-     *                    ['priority_factor']       => double
-     *                    ['actual_impressions']    => integer
+     *                    ['interval_start']                => PEAR::Date
+     *                    ['interval_end']                  => PEAR::Date
+     *                    ['ad_required_impressions']       => integer
+     *                    ['ad_requested_impressions']      => integer
+     *                    ['ad_priority']                   => double
+     *                    ['ad_priority_factor']            => double
+     *                    ['ad_priority_factor_limited']    => integer
+     *                    ['ad_past_zone_traffic_fraction'] => double
+     *                    ['ad_actual_impressions']         => integer
+     *                    ['zone_forecast_impressions']     => integer
+     *                    ['zone_actual_impression']        => integer
      *                )
      *        .
      *        .
@@ -203,10 +460,10 @@ class OA_Dal_Statistics extends OA_Dal
      */
     function getZoneTargetingStatistics($zoneId, $oStartDate, $oEndDate)
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
         if (!$this->_testParameters($zoneId, $oStartDate, $oEndDate)) {
             return false;
         }
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Extract the required data for the operation interval
         $query = "
             SELECT
@@ -275,6 +532,8 @@ class OA_Dal_Statistics extends OA_Dal
         while ($aRow = $rc->fetchRow()) {
             $adId = $aRow['ad_id'];
             unset($aRow['ad_id']);
+            $aRow['interval_start'] = new Date($aRow['interval_start']);
+            $aRow['interval_end']   = new Date($aRow['interval_end']);
             if (!isset($aResult[$adId])) {
                 // First time this value has been seen, so okay to set it
                 $aResult[$adId] = $aRow;
