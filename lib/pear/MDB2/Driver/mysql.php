@@ -389,6 +389,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
         if (is_resource($this->connection)) {
             if (count(array_diff($this->connected_dsn, $this->dsn)) == 0
                 && $this->opened_persistent == $this->options['persistent']
+                && $this->connected_database_name == $this->database_name
             ) {
                 return MDB2_OK;
             }
@@ -808,7 +809,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
             if (is_null($placeholder_type)) {
                 $placeholder_type_guess = $query[$p_position];
             }
-            
+
             $new_pos = $this->_skipDelimitedStrings($query, $position, $p_position);
             if (PEAR::isError($new_pos)) {
                 return $new_pos;
@@ -817,7 +818,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
                 $position = $new_pos;
                 continue; //evaluate again starting from the new position
             }
-            
+
             if ($query[$position] == $placeholder_type_guess) {
                 if (is_null($placeholder_type)) {
                     $placeholder_type = $query[$p_position];
