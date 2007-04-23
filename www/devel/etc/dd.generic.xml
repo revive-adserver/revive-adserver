@@ -112,18 +112,32 @@
 		<default></default>
 	</field>
 	<field>
-		<name>openads_boolean_old</name>
+		<name>openads_boolean_enum_true</name>
 		<type>openads_enum</type>
         <length>'t','f'</length>
 		<notnull>false</notnull>
-		<default></default>
+		<default>t</default>
 	</field>
 	<field>
-		<name>openads_boolean</name>
+		<name>openads_boolean_enum_false</name>
+		<type>openads_enum</type>
+        <length>'t','f'</length>
+		<notnull>false</notnull>
+		<default>f</default>
+	</field>
+	<field>
+		<name>openads_boolean_true</name>
 		<type>openads_tinyint</type>
 		<length>1</length>
-		<notnull>false</notnull>
-		<default></default>
+		<notnull>true</notnull>
+		<default>1</default>
+	</field>
+	<field>
+		<name>openads_boolean_false</name>
+		<type>openads_tinyint</type>
+		<length>1</length>
+		<notnull>true</notnull>
+		<default>0</default>
 	</field>
 	<field>
 		<name>openads_updated</name>
