@@ -168,8 +168,8 @@ function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $wit
         $maxparams = _adRenderBuildParams($aBanner, $zoneId, $source, urlencode($ct0), $logClick, true);
         $code = str_replace('{clickurlparams}', $maxparams, $code);  // This step needs to be done separately because {clickurlparams} does contain {random}...
     }
-    $search = array('{timestamp}','{random}','{target}','{url_prefix}','{bannerid}','{zoneid}','{source}', '{pageurl}');
-    $replace = array($time, $random, $target, $urlPrefix, $aBanner['bannerid'], $zoneId, $source, urlencode($GLOBALS['loc']));
+    $search = array('{timestamp}','{random}','{target}','{url_prefix}','{bannerid}','{zoneid}','{source}', '{pageurl}', '{width}', '{height}');
+    $replace = array($time, $random, $target, $urlPrefix, $aBanner['bannerid'], $zoneId, $source, urlencode($GLOBALS['loc']), $aBanner['width'], $aBanner['height']);
 
     // Arrival URLs
     if (preg_match('#^\?(m3_data=[a-z0-9]+)#i', $logClick, $arrivalClick)) {
