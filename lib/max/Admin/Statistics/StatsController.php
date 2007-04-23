@@ -1452,7 +1452,7 @@ class StatsController
         );
     }
 
-    function removeDuplicateParams($link, $params)
+    function removeDuplicateParams($link, $params = null)
     {
         if (is_null($params)) {
             $params = $this->pageParams;

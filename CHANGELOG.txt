@@ -27,6 +27,8 @@
 | Release Max v0.3.32-alpha |
 +---------------------------+
 
+2007-03-23  Admin       Bug         Fixed #308 - Some stats screens show error: Missing argument 2 for 
+                                    removeduplicateparams() (Chris)
 2007-03-13  Delivery    Feature     Fixed #62 - Added XHTML compliance to delivery scripts (Marek)
 2007-03-12  Maintenance Bug         Fixed #206 - Ensured that high-priority campaigns with daily targets are
                                     correctly handled, regardless of the status of the start and end dates;
