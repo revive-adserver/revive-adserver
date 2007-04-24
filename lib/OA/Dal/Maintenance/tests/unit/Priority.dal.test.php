@@ -5168,7 +5168,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
 
         // Add ad_zone_assoc record
         $zonesAssocTable = $conf['table']['prefix'] . 'ad_zone_assoc';
-        $sql = "INSERT INTO $zonesAssocTable VALUES (1, 1, 1, '0', 1)";
+        $sql = "INSERT INTO $zonesAssocTable VALUES (1, 1, 1, '0', NULL, 1, 1)";
         $rows = $oDbh->exec($sql);
     }
 

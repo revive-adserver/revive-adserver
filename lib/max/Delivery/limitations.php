@@ -81,19 +81,19 @@ function MAX_limitationsCheckAcl($row, $source = '')
  * Always returns true if the viewer does not allow cookies to be set, so that
  * blocking and capping cannot be circumvented by disabling cookies.
  *
- * @param integer $adId The ID of the ad to check.
- * @param integer $campaignId The ID of the campaign to check.
- * @param array $aCapping An array with the values of 'block_ad', 'cap_ad',
- *                        'session_cap_ad', 'block_campaign', 'cap_campaign' and
- *                        'session_cap_campaign' defined.
+ * @param array $aAd An array with the values of 'block_ad', 'cap_ad',
+ *                   'session_cap_ad', 'block_campaign', 'cap_campaign' and
+ *                   'session_cap_campaign' defined.
  * @return boolean True if the ad is blocked or capped, false otherwise.
  */
-function MAX_limitationsIsAdForbidden($adId, $campaignId, $aCapping)
+function MAX_limitationsIsAdForbidden($aAd)
 {
-	return (_limitationsIsAdBlocked($adId, $aCapping['block_ad']) ||
-	   _limitationsIsAdCapped($adId, $aCapping['cap_ad'], $aCapping['session_cap_ad']) ||
-	   _limitationsIsCampaignBlocked($campaignId, $aCapping['block_campaign']) ||
-	   _limitationsIsCampaignCapped($campaignId, $aCapping['cap_campaign'], $aCapping['session_cap_campaign']));
+    $adId = $aAd['ad_id'];
+    $campaignId = $aAd['placement_id'];
+	return (_limitationsIsAdBlocked($adId, $aAd['block_ad']) ||
+	   _limitationsIsAdCapped($adId, $aAd['cap_ad'], $aAd['session_cap_ad']) ||
+	   _limitationsIsCampaignBlocked($campaignId, $aAd['block_campaign']) ||
+	   _limitationsIsCampaignCapped($campaignId, $aAd['cap_campaign'], $aAd['session_cap_campaign']));
 }
 
 /**
@@ -228,7 +228,9 @@ function _limitationsIsBlocked($type, $id, $block)
     $conf = $GLOBALS['_MAX']['CONF'];
     $cookieName = $conf['var']['block' . $type];
     // When was the item last seen by the viewer?
-    $timeLastSeen = $_COOKIE[$cookieName][$id];
+    if (isset($_COOKIE[$cookieName][$id])) {
+        $timeLastSeen = $_COOKIE[$cookieName][$id];
+    }
     // Return if the item is blocked, or not
     return ($block > 0) && isset($timeLastSeen) && (($timeLastSeen + $block) > MAX_commonGetTimeNow());
 }
@@ -256,12 +258,16 @@ function _limitationsIsCapped($type, $id, $cap, $sessionCap)
     $conf = $GLOBALS['_MAX']['CONF'];
     $cookieName = $conf['var']['cap' . $type];
     // How many times (total) has the item been by the viewer?
-    $totalImpressions = $_COOKIE[$cookieName][$id];
+    if (isset($_COOKIE[$cookieName][$id])) {
+        $totalImpressions = $_COOKIE[$cookieName][$id];
+    }
     // Get the session capping cookie name from the configuration file
     $conf = $GLOBALS['_MAX']['CONF'];
     $cookieName = $conf['var']['sessionCap' . $type];
     // How many times (session) has the item been by the viewer?
-    $sessionImpressions = $_COOKIE[$cookieName][$id];
+    if (isset($_COOKIE[$cookieName][$id])) {
+        $sessionImpressions = $_COOKIE[$cookieName][$id];
+    }
     // Return if the item is capped, or not
     return ((($cap > 0) && isset($totalImpressions) && ($totalImpressions >= $cap)) ||
         (($sessionCap > 0) && isset($sessionImpressions) && ($sessionImpressions >= $sessionCap)));

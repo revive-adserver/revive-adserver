@@ -328,11 +328,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                 // Get the end of the day from this date
                 $oPlacementExpiryDate = new Date($oDate->format('%Y-%m-%d') . ' 23:59:59');
             } else if (
-                   (
-                       ($oPlacement->activate != OA_Dal::noDateValue())
-                       &&
-                       ($oPlacement->expire != OA_Dal::noDateValue())
-                   )
+                   ($oPlacement->expire != OA_Dal::noDateValue())
                    &&
                    (
                        ($oPlacement->impressionTargetTotal > 0)
@@ -342,9 +338,9 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                        ($oPlacement->conversionTargetTotal > 0)
                    )
                ) {
-                // The placement has an activation and an expiration date, and
-                // has some kind of (total) inventory requirement, so treat the
-                // placement as if it expires at the end of that end date
+                // The placement has an expiration date, and has some kind of
+                // (total) inventory requirement, so treat the placement as if
+                // it expires at the end of the expiration date
                 $oPlacementExpiryDate = &$this->_getDate($oPlacement->expire);
                 // Placement expires at end of expiry date, so add one day less one
                 // second, so we have a date with time portion 23:59:59
@@ -510,11 +506,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                 // Get the end of the day from this date
                 $oPlacementExpiryDate = new Date($oDate->format('%Y-%m-%d') . ' 23:59:59');
             } else if (
-                   (
-                       ($oPlacement->activate != OA_Dal::noDateValue())
-                       &&
-                       ($oPlacement->expire != OA_Dal::noDateValue())
-                   )
+                   ($oPlacement->expire != OA_Dal::noDateValue())
                    &&
                    (
                        ($oPlacement->impressionTargetTotal > 0)
@@ -524,9 +516,9 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                        ($oPlacement->conversionTargetTotal > 0)
                    )
                ) {
-                // The placement has an activation and an expiration date, and
-                // has some kind of (total) inventory requirement, so treat the
-                // placement as if it expires at the end of that end date
+                // The placement has an expiration date, and has some kind of
+                // (total) inventory requirement, so treat the placement as if
+                // it expires at the end of the expiration date
                 $oPlacementExpiryDate = &$this->_getDate($oPlacement->expire);
                 // Placement expires at end of expiry date, so add one day less one
                 // second, so we have a date with time portion 23:59:59

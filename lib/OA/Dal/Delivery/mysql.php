@@ -260,6 +260,9 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.priority AS campaign_priority,
             c.weight AS campaign_weight,
             c.companion AS campaign_companion,
+            az.priority AS priority,
+            az.priority_factor AS priority_factor,
+            az.to_be_delivered AS to_be_delivered,
             c.block AS block_campaign,
             c.capping AS cap_campaign,
             c.session_capping AS session_cap_campaign
@@ -304,7 +307,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             $totals['lAds'] += $aAd['priority'];
         } else {
             // Ad is in a paid placement
-            $aRows['ads'][$aAd['ad_id']] = $aAd;
+            $aRows['ads'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
             $aRows['count_active']++;
         }
         // Also store Companion ads in additional array
@@ -322,21 +325,19 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
 
         }
     }
-    // If there are paid ads, sort by priority, and set the total to 1,
-    // to ensure blank ads are selected (when required)
+    // If there are paid ads, prepare array of priority totals
+    // to allow delivery to do the scaling work later
     if (is_array($aRows['ads'])) {
-        uasort($aRows['ads'], '_mysqlSortArrayPriority');
-        $totals['ads'] = 1;
+        $totals['ads'] = _mysqlGetTotalPrioritiesByCP($aRows['ads']);
     }
     // If there are low priority ads, sort by priority
     if (is_array($aRows['lAds'])) {
         uasort($aRows['lAds'], '_mysqlSortArrayPriority');
     }
-    // If there are paid companion ads, sort by priority, and set the
-    // total to 1, to ensure blank ads are selected (when required)
+    // If there are paid companion ads, prepare array of priority totals
+    // to allow delivery to do the scaling work later
     if (is_array($aRows['cAds'])) {
-        uasort($aRows['cAds'], '_mysqlSortArrayPriority');
-        $totals['cAds'] = 1;
+        $totals['cAds'] = _mysqlGetTotalPrioritiesByCP($aRows['ads']);
     }
     // If there are low priority companion ads, sort by priority
     if (is_array($aRows['clAds'])) {
@@ -406,6 +407,8 @@ function OA_Dal_Delivery_getLinkedAds($search) {
         'az.priority AS priority',
         'm.campaignid AS campaign_id',
         'm.weight AS campaign_weight',
+        'az.priority AS priority',
+        'az.priority_factor AS priority_factor',
         'm.block AS block_campaign',
         'm.capping AS cap_campaign',
         'm.session_capping AS session_cap_campaign'
@@ -475,7 +478,7 @@ function OA_Dal_Delivery_getLinkedAds($search) {
 function OA_Dal_Delivery_getAd($ad_id) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    $query = "
+    $rAd = MAX_Dal_Delivery_query("
         SELECT
         d.bannerid AS ad_id,
         d.campaignid AS placement_id,
@@ -521,8 +524,7 @@ function OA_Dal_Delivery_getAd($ad_id) {
         d.bannerid={$ad_id}
         AND
         d.campaignid = c.campaignid
-    ";
-    $rAd = OA_Dal_Delivery_query($query);
+    ");
     if (!is_resource($rAd)) {
         if (defined('CACHE_LITE_FUNCTION_ERROR')) {
             return CACHE_LITE_FUNCTION_ERROR;
@@ -693,7 +695,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
     }
     // Log the raw data
     $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
-    $result = OA_Dal_Delivery_query("
+    $query = "
         INSERT INTO
             $table
             (
@@ -702,33 +704,99 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
                 date_time,
                 ad_id,
                 creative_id,
-                zone_id,
-                channel,
-                channel_ids,
+                zone_id,";
+    if (isset($_GET['source'])) {
+        $query .= "
+                channel,";
+    }
+    if (isset($zoneInfo['channel_ids'])) {
+        $query .= "
+                channel_ids,";
+    }
+    $query .= "
                 language,
                 ip_address,
-                host_name,
-                country,
-                https,
-                domain,
-                page,
-                query,
-                referer,
+                host_name,";
+    if (isset($geotargeting['country_code'])) {
+        $query .= "
+                country,";
+    }
+    if (isset($zoneInfo['scheme'])) {
+        $query .= "
+                https,";
+    }
+    if (isset($zoneInfo['host'])) {
+        $query .= "
+                domain,";
+    }
+    if (isset($zoneInfo['path'])) {
+        $query .= "
+                page,";
+    }
+    if (isset($zoneInfo['query'])) {
+        $query .= "
+                query,";
+    }
+    if (isset($_GET['referer'])) {
+        $query .= "
+                referer,";
+    }
+    $query .= "
                 search_term,
-                user_agent,
-                os,
-                browser,
-                max_https,
-                geo_region,
-                geo_city,
-                geo_postal_code,
-                geo_latitude,
-                geo_longitude,
-                geo_dma_code,
-                geo_area_code,
-                geo_organisation,
-                geo_netspeed,
-                geo_continent
+                user_agent,";
+    if (isset($userAgentInfo['os'])) {
+        $query .= "
+                os,";
+    }
+    if (isset($userAgentInfo['browser'])) {
+        $query .= "
+                browser,";
+    }
+    $query .= "
+                max_https,";
+    if (isset($geotargeting['geo_region'])) {
+        $query .= "
+                geo_region,";
+    }
+    if (isset($geotargeting['geo_city'])) {
+        $query .= "
+                geo_city,";
+    }
+    if (isset($geotargeting['geo_postal_code'])) {
+        $query .= "
+                geo_postal_code,";
+    }
+    if (isset($geotargeting['geo_latitude'])) {
+        $query .= "
+                geo_latitude,";
+    }
+    if (isset($geotargeting['geo_longitude'])) {
+        $query .= "
+                geo_longitude,";
+    }
+    if (isset($geotargeting['geo_dma_code'])) {
+        $query .= "
+                geo_dma_code,";
+    }
+    if (isset($geotargeting['geo_area_code'])) {
+        $query .= "
+                geo_area_code,";
+    }
+    if (isset($geotargeting['geo_organisation'])) {
+        $query .= "
+                geo_organisation,";
+    }
+    if (isset($geotargeting['geo_netspeed'])) {
+        $query .= "
+                geo_netspeed,";
+    }
+    if (isset($geotargeting['geo_continent'])) {
+        $query .= "
+                geo_continent,";
+    }
+    // Strip end comma!
+    $query = substr_replace($query, '', strlen($query) - 1);
+    $query .= "
             )
         VALUES
             (
@@ -737,34 +805,104 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
                 '".$dateFunc('Y-m-d H:i:s')."',
                 '$adId',
                 '$creativeId',
-                '$zoneId',
-                '".MAX_commonDecrypt($_GET['source'])."',
-                '{$zoneInfo['channel_ids']}',
+                '$zoneId',";
+    if (isset($_GET['source'])) {
+        $query .= "
+                '".MAX_commonDecrypt($_GET['source'])."',";
+    }
+    if (isset($zoneInfo['channel_ids'])) {
+        $query .= "
+                '{$zoneInfo['channel_ids']}',";
+    }
+    $query .= "
                 '{$_SERVER['HTTP_ACCEPT_LANGUAGE']}',
                 '{$_SERVER['REMOTE_ADDR']}',
-                '{$_SERVER['REMOTE_HOST']}',
-                '{$geotargeting['country_code']}',
-                '{$zoneInfo['scheme']}',
-                '{$zoneInfo['host']}',
-                '{$zoneInfo['path']}',
-                '{$zoneInfo['query']}',
-                '{$_GET['referer']}',
+                '{$_SERVER['REMOTE_HOST']}',";
+    if (isset($geotargeting['country_code'])) {
+        $query .= "
+                '{$geotargeting['country_code']}',";
+    }
+    if (isset($zoneInfo['scheme'])) {
+        $query .= "
+                '{$zoneInfo['scheme']}',";
+    }
+    if (isset($zoneInfo['host'])) {
+        $query .= "
+                '{$zoneInfo['host']}',";
+    }
+    if (isset($zoneInfo['path'])) {
+        $query .= "
+                '{$zoneInfo['path']}',";
+    }
+    if (isset($zoneInfo['query'])) {
+        $query .= "
+                '{$zoneInfo['query']}',";
+    }
+    if (isset($_GET['referer'])) {
+        $query .= "
+                '{$_GET['referer']}',";
+    }
+    $query .= "
                 '',
-                '{$_SERVER['HTTP_USER_AGENT']}',
-                '{$userAgentInfo['os']}',
-                '{$userAgentInfo['browser']}',
-                '$maxHttps',
-                '{$geotargeting['region']}',
-                '{$geotargeting['city']}',
-                '{$geotargeting['postal_code']}',
-                '{$geotargeting['latitude']}',
-                '{$geotargeting['longitude']}',
-                '{$geotargeting['dma_code']}',
-                '{$geotargeting['area_code']}',
-                '{$geotargeting['organisation']}',
-                '{$geotargeting['netspeed']}',
-                '{$geotargeting['continent']}'
-    )", 'rawDatabase');
+                '{$_SERVER['HTTP_USER_AGENT']}',";
+    if (isset($userAgentInfo['os'])) {
+        $query .= "
+                '{$userAgentInfo['os']}',";
+    }
+    if (isset($userAgentInfo['browser'])) {
+        $query .= "
+                '{$userAgentInfo['browser']}',";
+    }
+    $query .= "
+                '$maxHttps',";
+    if (isset($geotargeting['region'])) {
+        $query .= "
+                '{$geotargeting['region']}',";
+    }
+    if (isset($geotargeting['city'])) {
+        $query .= "
+                '{$geotargeting['city']}',";
+    }
+    if (isset($geotargeting['postal_code'])) {
+        $query .= "
+                '{$geotargeting['postal_code']}',";
+    }
+    if (isset($geotargeting['latitude'])) {
+        $query .= "
+                '{$geotargeting['latitude']}',";
+    }
+    if (isset($geotargeting['longitude'])) {
+        $query .= "
+                '{$geotargeting['longitude']}',";
+    }
+    if (isset($geotargeting['dma_code'])) {
+        $query .= "
+                '{$geotargeting['dma_code']}',";
+    }
+    if (isset($geotargeting['area_code'])) {
+        $query .= "
+                '{$geotargeting['area_code']}',";
+    }
+    if (isset($geotargeting['organisation'])) {
+        $query .= "
+                '{$geotargeting['organisation']}',";
+    }
+    if (isset($geotargeting['netspeed'])) {
+        $query .= "
+                '{$geotargeting['netspeed']}',";
+    }
+    if (isset($geotargeting['continent'])) {
+        $query .= "
+                '{$geotargeting['continent']}',";
+    }
+    // Strip end comma!
+    $query = substr_replace($query, '', strlen($query) - 1);
+    $query .= "
+            )";
+    $result = MAX_Dal_Delivery_query(
+        $query,
+        'rawDatabase'
+    );
     return $result;
 }
 
@@ -925,6 +1063,54 @@ function _mysqlSortArrayPriority($a, $b)
 {
     $compare = ($a['priority'] > $b['priority']) ? -1 : 1;
     return $compare;
+}
+
+
+/**
+ * A private method to calculate total expected priority values
+ * for each campaign priority. The values are used later during
+ * delivery to scale priorities to 1
+ *
+ * @param  array    $aAdsByCP   Ads array grouped by CP
+ *
+ * @return array    Array of total priorities by campaign priority
+ */
+
+function _mysqlGetTotalPrioritiesByCP($aAdsByCP)
+{
+    $totals = array();
+
+    $blank_priority = 1;
+    $total_priority_cp = array();
+
+    foreach ($aAdsByCP as $campaign_priority => $aAds) {
+        $total_priority_cp[$campaign_priority] = 0;
+        foreach ($aAds as $key => $aAd) {
+            $blank_priority -= (double)$aAd['priority'];
+            if ($aAd['to_be_delivered']) {
+                $priority = $aAd['priority'] * $aAd['priority_factor'];
+            } else {
+                $priority = 0.00001;
+            }
+            $total_priority_cp[$campaign_priority] += $priority;
+            $aAdsByCP[$campaign_priority][$key]['priority'] = $priority;
+        }
+    }
+
+    // Sort by ascending CP
+    ksort($total_priority_cp);
+
+    // Store blank priority, ensuring that small rounding errors are
+    // not taken into account
+    $total_priority = $blank_priority <= 1e-15 ? 0 : $blank_priority;
+
+    // Calculate totals for each campaign priority
+    foreach($total_priority_cp as $campaign_priority => $priority) {
+        $total_priority += $priority;
+        $totals[$campaign_priority] = $priority / $total_priority;
+    }
+
+    return $totals;
 }
 
 ?>

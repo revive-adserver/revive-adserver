@@ -164,6 +164,8 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                 $oAd->requiredImpressions = $aZoneImpAlloc['required_impressions'];
                 // Assign the requested impressions for this ad/zone
                 $oAd->requestedImpressions = $aZoneImpAlloc['requested_impressions'];
+                // Mark the ad as to be delivered or not
+                $oAd->toBeDelivered = $aZoneImpAlloc['to_be_delivered'];
                 // Set a flag for any ads where the delivery limitations have changed
                 if (isset($aDeliveryLimitationChangedAds[$aZoneImpAlloc['ad_id']]) &&
                     $aDeliveryLimitationChangedAds[$aZoneImpAlloc['ad_id']] != '0000-00-00 00:00:00') {
@@ -192,6 +194,8 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                             = $aPastDetail['required_impressions'];
                         $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastRequestedImpressions
                             = $aPastDetail['requested_impressions'];
+                        $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastToBeDelivered
+                            = $aPastDetail['to_be_delivered'];
                         $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastActualImpressions
                             = $aPastDetail['impressions'];
                         $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastAdZonePriorityFactor
@@ -279,7 +283,9 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                     'priority'              => 0,
                     'priority_factor'       => 1,
                     'required_impressions'  => $oAdvert->requiredImpressions,
-                    'requested_impressions' => $oAdvert->requestedImpressions
+                    'requested_impressions' => $oAdvert->requestedImpressions,
+                    'to_be_delivered'       => $oAdvert->toBeDelivered,
+                    'campaign_priority'     => $oAdvert->campaignPriority
                 );
             }
             $result['blank'] = 1;
@@ -299,7 +305,9 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                                            / $oZone->availableImpressions,
                 'priority_factor'       => 1,
                 'required_impressions'  => $oAdvert->requiredImpressions,
-                'requested_impressions' => $oAdvert->requestedImpressions
+                'requested_impressions' => $oAdvert->requestedImpressions,
+                'to_be_delivered'       => $oAdvert->toBeDelivered,
+                'campaign_priority'     => $oAdvert->campaignPriority
             );
             $usedImpressions += $oAdvert->requestedImpressions;
         }
@@ -346,12 +354,12 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
         // Adjust each ad's priority value based on past data
         foreach ($oZone->aAdverts as $oAdvert) {
             // Calculate the ad's priority adjustment factor
-            list($factor, $limited, $fraction) =
+            list($factor, $limited, $fraction, $to_be_delivered) =
                 $this->_getPriorityAdjustment($oAdvert,
                                               $oZone->pastActualImpressions,
                                               $oZone->id);
-            // Adjust the ad's priority
-            $result['ads'][$oAdvert->id]['priority'] *= $factor;
+            // Store if the ad is meant to be delivered, or not
+            $result['ads'][$oAdvert->id]['to_be_delivered'] = $to_be_delivered;
             // Store the ad's priority adjustment factor
             $result['ads'][$oAdvert->id]['priority_factor'] = $factor;
             // Store if the ad's priority adjustment factor was limited, or not
@@ -360,8 +368,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
             // the previous operation interval
             $result['ads'][$oAdvert->id]['past_zone_traffic_fraction'] = $fraction;
         }
-        // Re-scale the priority values
-        $this->scalePriorities($result);
+        // Do not scale the priority values, scaling will be done during delivery
         return $result;
     }
 
@@ -381,6 +388,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
      *                               false otherwise.
      *                  - A double, being the fraction of the zone's impressions given
      *                    to the ad in the previous operation interval.
+     *                  - A boolean, true if the ad is supposed to be delivered
      */
     function _getPriorityAdjustment($oAdvert, $zoneImpressions, $zoneId)
     {
@@ -389,9 +397,16 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
             $message  = sprintf('    Ad ID %5d in zone ID %5d ', $oAdvert->id, $zoneId);
             $message .= 'has had its delivery limitations changed - Using priority factor of 1';
             $this->globalMessage .= $message . "\n";
-            return array(1, false, null);
+            return array(1, false, null, 1);
         }
-        if (!is_null($oAdvert->pastRequiredImpressions) && ($oAdvert->pastRequiredImpressions != 0) &&
+        if (isset($oAdvert->toBeDelivered) && $oAdvert->toBeDelivered == false) {
+            // This ad is not meant to be delivered, so ignore history
+            $message  = sprintf('    Ad ID %5d in zone ID %5d ', $oAdvert->id, $zoneId);
+            $message .= 'is not meant to be delivered because of higher CP - Using priority factor of 1';
+            $this->globalMessage .= $message . "\n";
+            return array(1, false, null, 0);
+        }
+        if (!is_null($oAdvert->pastRequestedImpressions) && ($oAdvert->pastRequestedImpressions != 0) &&
             !is_null($oAdvert->pastActualImpressions) && ($oAdvert->pastActualImpressions != 0)) {
             // Calculate the fraction of the zone traffic that was seen
             // by the advertisement in the past interval
@@ -415,10 +430,10 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                     list($factor, $limited) = $this->_calculateFactor($oAdvert->id,
                                                                       $zoneId,
                                                                       $oAdvert->pastAdZonePriorityFactor,
-                                                                      $oAdvert->pastRequiredImpressions,
+                                                                      $oAdvert->pastRequestedImpressions,
                                                                       $oAdvert->pastActualImpressions,
                                                                       false);
-                    return array($factor, $limited, $fraction);
+                    return array($factor, $limited, $fraction, 1);
                 }
             }
             // Any previous priority compensation had an affect, do we want to
@@ -427,26 +442,30 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                 list($factor, $limited) = $this->_calculateFactor($oAdvert->id,
                                                                   $zoneId,
                                                                   $oAdvert->pastAdZonePriorityFactor,
-                                                                  $oAdvert->pastRequiredImpressions,
+                                                                  $oAdvert->pastRequestedImpressions,
                                                                   $oAdvert->pastActualImpressions,
                                                                   true);
-                return array($factor, $limited, $fraction);
+                return array($factor, $limited, $fraction, 1);
             }
             // We can't adjust the priority any more, or no previous adjustment,
             // so perform basic adjustment based on the past operation interval's
             // performance
-            $factor = $oAdvert->pastRequiredImpressions / $oAdvert->pastActualImpressions;
+            $factor = $oAdvert->pastRequestedImpressions / $oAdvert->pastActualImpressions;
             return array($factor, false, $fraction);
-        } elseif (!is_null($oAdvert->pastRequiredImpressions) && ($oAdvert->pastRequiredImpressions != 0) &&
+        } elseif (!is_null($oAdvert->pastRequestedImpressions) && ($oAdvert->pastRequestedImpressions != 0) &&
                   (is_null($oAdvert->pastActualImpressions) || ($oAdvert->pastActualImpressions == 0))) {
             // It is not possible to calculate the fraction of the zone traffic that
             // was seen by the advertisement in the past interval, as no impressions
             // were actually delivered, despite the fact that impressions were
-            // required. As a result, bump the priority up by 10, unless the past
-            // ad zone priority factor is already >= mt_getrandmax().
+            // required. As a result, bump the priority up by 10, unless it was not meant
+            // to be delivered or the past ad zone priority factor is already >= mt_getrandmax().
             $message  = sprintf('    Ad ID %5d in zone ID %5d ', $oAdvert->id, $zoneId);
             $message .= 'had required impressions, but no delivered impressions: ';
-            if (is_null($oAdvert->pastAdZonePriorityFactor)) {
+            if ($oAdvert->pastToBeDelivered == 0) {
+                $message .= 'CORRECT! Ad was not meant to be delivered!';
+                $this->globalMessage .= $message . "\n";
+                MAX::debug($message, PEAR_LOG_DEBUG);
+            } elseif (is_null($oAdvert->pastAdZonePriorityFactor)) {
                 $message .= 'WARNING! Ad has a null past zone priority factor!';
                 $this->globalMessage .= $message . "\n";
                 OA::debug($message, PEAR_LOG_DEBUG);
@@ -459,7 +478,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                         $message .= sprintf('%26.5f.', $newFactor);
                         $this->globalMessage .= $message . "\n";
                         OA::debug($message, PEAR_LOG_DEBUG);
-                        return array($newFactor, false, 0);
+                        return array($newFactor, false, 0, 1);
                     } else {
                         // Use the past ad zone priority factor
                         $newFactor = $oAdvert->pastAdZonePriorityFactor;
@@ -474,7 +493,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                             $this->globalMessage .= $message . "\n";
                             OA::debug($message, PEAR_LOG_DEBUG);
                         }
-                        return array($newFactor, true, 0);
+                        return array($newFactor, true, 0, 1);
                     }
                 } else {
                     // Use a new base factor
@@ -483,12 +502,12 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                     $message .= sprintf('%26.5f.', $newFactor);
                     $this->globalMessage .= $message . "\n";
                     OA::debug($message, PEAR_LOG_DEBUG);
-                    return array($newFactor, false, 0);
+                    return array($newFactor, false, 0, 1);
                 }
             }
         }
         // No past information, so use a factor of 1
-        return array(1, false, null);
+        return array(1, false, null, 1);
     }
 
     /**

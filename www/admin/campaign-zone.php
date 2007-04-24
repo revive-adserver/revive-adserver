@@ -239,7 +239,7 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
     echo "
 <br /><br />
-<input type='submit' name='submit' value='{$GLOBALS['strSaveChanges']}' tabindex='$tabindex' onClick='return showMessage(\"$strConfirmOverwrite\")'>";
+<input type='submit' name='submit' value='{$GLOBALS['strSaveChanges']}' tabindex='$tabindex'>";
     $tabindex++;
 
     echo "

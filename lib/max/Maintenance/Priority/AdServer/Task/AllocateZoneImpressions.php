@@ -86,9 +86,9 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
         $this->_calculateOverSubscribedZoneInformation();
         // Set the requested impressions for each ad/zone pair
         $this->_allocateRequestedImpressions();
-    	// Save the ad/zone impression allocations to the database
+        // Save the ad/zone impression allocations to the database
         $this->table->createTable('tmp_ad_zone_impression');
-    	$this->oDal->saveAllocatedImpressions($this->aAdZoneImpressionAllocations);
+        $this->oDal->saveAllocatedImpressions($this->aAdZoneImpressionAllocations);
     }
 
     /**
@@ -216,7 +216,7 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
         $this->aAdZoneAssociations = array();
         if (is_array($this->aPlacements) && !empty($this->aPlacements)) {
             foreach ($this->aPlacements as $k => $oPlacement) {
-            	if (is_array($oPlacement->aAds) && !empty($oPlacement->aAds)) {
+                if (is_array($oPlacement->aAds) && !empty($oPlacement->aAds)) {
                     $aAdvertIds = array();
                     reset($oPlacement->aAds);
                     while (list($key, $oAd) = each($oPlacement->aAds)) {
@@ -226,7 +226,7 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                     if (is_array($aResult) && (count($aResult) > 0)) {
                         $this->aAdZoneAssociations[$oPlacement->id] = $aResult;
                     }
-            	}
+                }
             }
         }
     }
@@ -277,10 +277,15 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                                     $this->aAdZoneImpressionAllocations[] = array(
                                         'ad_id'       => $oAd->id,
                                         'zone_id'     => $zone['zone_id'],
-                                        'required_impressions' => $requiredImpressions
+                                        'required_impressions' => $requiredImpressions,
+                                        'campaign_priority'    => $oPlacement->priority
                                     );
                                     $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressions'] +=
                                         $requiredImpressions;
+                                    if ($oPlacement->priority > 0) {
+                                        $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressionsByCP'][$oPlacement->priority] +=
+                                            $requiredImpressions;
+                                    }
                                 }
                             }
                         }
@@ -311,8 +316,33 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                     // The zone was over-subscribed, set the flag, and calculate
                     // the factor that is needed to be adjusted by
                     $this->aOverSubscribedZones[$zoneId]['oversubscribed'] = true;
-                    $this->aOverSubscribedZones[$zoneId]['adjustmentFactor'] =
-                        $aZoneInfo['availableImpressions'] / $aZoneInfo['desiredImpressions'];
+                    // Calculate available impressions for each campaign priority
+                    $total_impressions = 0;
+                    $available_impressions = $aZoneInfo['availableImpressions'];
+                    krsort($aZoneInfo['desiredImpressionsByCP']);
+                    foreach ($aZoneInfo['desiredImpressionsByCP'] as $campaign_priority => $desired_impressions) {
+                        // Cycle through decreasing camapaign priority
+                        if ($desired_impressions > $available_impressions) {
+                            if ($available_impressions <= 0) {
+                                // No impressions available, ads are not meant to be delivered
+                                $this->aOverSubscribedZones[$zoneId]['adjustmentFactorByCP'][$campaign_priority] = -1;
+                            } else {
+                                // Ads with this campaign priority aren't going to get enough impressions
+                                $this->aOverSubscribedZones[$zoneId]['adjustmentFactorByCP'][$campaign_priority] =
+                                    $available_impressions / $desired_impressions;
+                                $total_impressions += $available_impressions;
+                            }
+                        } else {
+                            // There are enough impressions for ads with this campaign priority
+                            $this->aOverSubscribedZones[$zoneId]['adjustmentFactorByCP'][$campaign_priority] = 1;
+                            $total_impressions += $desired_impressions;
+                        }
+
+                        $available_impressions -= $desired_impressions;
+                        if ($available_impressions < 0) {
+                            $available_impressions = 0;
+                        }
+                   }
                 } else {
                     // Zone is not over-subscribed
                     $this->aOverSubscribedZones[$zoneId]['oversubscribed'] = false;
@@ -337,13 +367,23 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
         if (is_array($this->aAdZoneImpressionAllocations) && !empty($this->aAdZoneImpressionAllocations)) {
             // Iterate over all of the previous ad/zone required impression allocations
             foreach ($this->aAdZoneImpressionAllocations as $key => $aRequiredAllocation) {
+                // Mark as meant to be delivered
+                $this->aAdZoneImpressionAllocations[$key]['to_be_delivered'] = true;
                 // Is the required allocation in an over-subscribed zone?
-                if ($this->aOverSubscribedZones[$aRequiredAllocation['zone_id']]['oversubscribed']) {
-                    // Scale the requested impressions as required to calculated the
-                    // required impressions
-                    $this->aAdZoneImpressionAllocations[$key]['requested_impressions'] =
-                        round($aRequiredAllocation['required_impressions'] *
-                              $this->aOverSubscribedZones[$aRequiredAllocation['zone_id']]['adjustmentFactor']);
+                if ($this->aOverSubscribedZones[$aRequiredAllocation['zone_id']]['oversubscribed'] && $aRequiredAllocation['required_impressions']) {
+                    $adjustmentFactor = $this->aOverSubscribedZones[$aRequiredAllocation['zone_id']]['adjustmentFactorByCP'][$aRequiredAllocation['campaign_priority']];
+                    if ($adjustmentFactor == -1) {
+                        // Simply set the requested impressions as the required impressions
+                        $this->aAdZoneImpressionAllocations[$key]['requested_impressions'] =
+                            $aRequiredAllocation['required_impressions'];
+                        // Mark as not meant to be delivered
+                        $this->aAdZoneImpressionAllocations[$key]['to_be_delivered'] = false;
+                    } else {
+                        // Scale the requested impressions as required to calculated the
+                        // required impressions
+                        $this->aAdZoneImpressionAllocations[$key]['requested_impressions'] =
+                            round($aRequiredAllocation['required_impressions'] * $adjustmentFactor);
+                    }
                 } else {
                     // Simply set the requested impressions as the required impressions
                     $this->aAdZoneImpressionAllocations[$key]['requested_impressions'] =

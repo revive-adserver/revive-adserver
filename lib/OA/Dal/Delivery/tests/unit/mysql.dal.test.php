@@ -144,9 +144,9 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
         $this->assertIsA($aReturn['zone_companion'], 'boolean');
         $this->assertIsA($aReturn['priority'], 'array');
         $this->assertIsA($aReturn['priority']['xAds']   , 'integer');
-        $this->assertIsA($aReturn['priority']['cAds']   , 'integer');
+        $this->assertIsA($aReturn['priority']['cAds']   , 'array');
         $this->assertIsA($aReturn['priority']['clAds']  , 'integer');
-        $this->assertIsA($aReturn['priority']['ads']    , 'integer');
+        $this->assertIsA($aReturn['priority']['ads']    , 'array');
         $this->assertIsA($aReturn['priority']['lAds']   , 'integer');
     }
 

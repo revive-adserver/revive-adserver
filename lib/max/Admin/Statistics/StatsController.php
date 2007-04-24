@@ -1401,7 +1401,6 @@ class StatsController
         // merge params with optional array
         if (is_array($mergeArray)) {
             $this->pageParams = array_merge($this->pageParams, $mergeArray);
-
         }
 
 
@@ -1453,7 +1452,7 @@ class StatsController
         );
     }
 
-    function removeDuplicateParams($link, $params)
+    function removeDuplicateParams($link, $params = null)
     {
         if (is_null($params)) {
             $params = $this->pageParams;

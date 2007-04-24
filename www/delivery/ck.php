@@ -63,13 +63,18 @@ if (empty($adId) && !empty($zoneId)) {
         $creativeId[$index] = 0;
     }
 }
-for ($i=0;$i<count($adId);$i++) {
+for ($i = 0; $i < count($adId); $i++) {
     $adId[$i] = intval($adId[$i]);
     $zoneId[$i] = intval($zoneId[$i]);
-    $creativeId[$i] = intval($creativeId[$i]);
-
+    if (isset($creativeId[$i])) {
+        $creativeId[$i] = intval($creativeId[$i]);
+    } else {
+        $creativeId[$i] = 0;
+    }
     if (($adId[$i] > 0) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
-        $GLOBALS['_MAX']['CHANNELS'] = str_replace($conf['delivery']['chDelimiter'],MAX_DELIVERY_MULTIPLE_DELIMITER,$_REQUEST['channel_ids']);
+        if (isset($_REQUEST['channel_ids'])) {
+            $GLOBALS['_MAX']['CHANNELS'] = str_replace($conf['delivery']['chDelimiter'], MAX_DELIVERY_MULTIPLE_DELIMITER, $_REQUEST['channel_ids']);
+        }
         MAX_Delivery_log_logAdClick($viewerId, $adId[$i], $creativeId[$i], $zoneId[$i]);
     }
 }

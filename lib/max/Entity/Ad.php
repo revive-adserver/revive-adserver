@@ -72,11 +72,15 @@ class MAX_Entity_Ad extends MAX_Entity
 
     var $requiredImpressions;
     var $requestedImpressions;
+    var $toBeDelivered;
+
     var $zones = array();
+
     var $pastRequiredImpressions;
     var $pastActualImpressions;
     var $pastAdZonePriorityFactor;
     var $pastZoneTrafficFraction;
+    var $pastToBeDelivered;
 
     /**
      * A local instance of the OA_Dal_Maintenance_Priority class.

@@ -293,7 +293,7 @@ function _prepareLogInfo()
     $conf = $GLOBALS['_MAX']['CONF'];
     // Get the Geotargeting information, if required
     $geotargeting = array();
-    if ($conf['geotargeting']['saveStats'] && !empty($GLOBALS['_MAX']['CLIENT_GEO'])) {
+    if (isset($conf['geotargeting']['saveStats']) && $conf['geotargeting']['saveStats'] && !empty($GLOBALS['_MAX']['CLIENT_GEO'])) {
         $geotargeting = $GLOBALS['_MAX']['CLIENT_GEO'];
     }
     // Get the zone location information, if possible
@@ -307,7 +307,9 @@ function _prepareLogInfo()
     if (!empty($zoneInfo['scheme'])) {
         $zoneInfo['scheme'] = ($zoneInfo['scheme'] == 'https') ? 1 : 0;
     }
-    $zoneInfo['channel_ids'] = $GLOBALS['_MAX']['CHANNELS'];
+    if (isset($GLOBALS['_MAX']['CHANNELS'])) {
+        $zoneInfo['channel_ids'] = $GLOBALS['_MAX']['CHANNELS'];
+    }
     // Get the operating system and browser type, if required
     if ($conf['logging']['sniff'] && isset($GLOBALS['_MAX']['CLIENT'])) {
         $userAgentInfo = array(
