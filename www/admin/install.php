@@ -162,7 +162,7 @@ if (phpAds_isUser(phpAds_Admin)) {
                 $GLOBALS['_MAX']['CONF']['table']['type'] = $table_type;
             }
             $oDbh = &OA_DB::singleton();
-            if (PEAR::isError($oDBH)) {
+            if (PEAR::isError($oDbh)) {
                 $errormessage[0][] = $strCouldNotConnectToDB;
             } else {
                 // Don't use a PEAR_Error handler
