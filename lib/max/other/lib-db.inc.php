@@ -172,7 +172,7 @@ function phpAds_dbError ($db = phpAds_adminDb)
 {
     _raise_deprecated_db_api_warning();
     $dbConn = $GLOBALS['_MAX']['PAN']['DB']->getConnection();
-    if (isset($GLOBALS['_MAX']['PAN']['DB']['connected_dsn']['phptype']) && $GLOBALS['_MAX']['PAN']['DB']['connected_dsn']['phptype'] == 'pgsql') {
+    if ($GLOBALS['_MAX']['PAN']['DB']->connected_dsn['phptype'] == 'pgsql') {
         return pg_errormessage($dbConn);
     }
     return mysql_error($dbConn);
@@ -187,7 +187,7 @@ function phpAds_dbErrorNo ($db = phpAds_adminDb)
 {
     _raise_deprecated_db_api_warning();
     $dbConn = $GLOBALS['_MAX']['PAN']['DB']->getConnection();
-    if (isset($GLOBALS['_MAX']['PAN']['DB']['connected_dsn']['phptype']) && $GLOBALS['_MAX']['PAN']['DB']['connected_dsn']['phptype'] == 'pgsql') {
+    if ($GLOBALS['_MAX']['PAN']['DB']->connected_dsn['phptype'] == 'pgsql') {
         return -1;
     }
     return mysql_errno($dbConn);
