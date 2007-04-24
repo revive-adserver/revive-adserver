@@ -5,7 +5,7 @@
  <name>openads</name>
  <create>true</create>
  <overwrite>false</overwrite>
- <version>500</version>
+ <version>510</version>
  <status>final</status>
 
  <table>
@@ -1005,6 +1005,22 @@
     <default>0000-00-00 00:00:00</default>
    </field>
 
+   <field>
+    <name>keyword</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>transparent</name>
+    <type>openads_tinyint</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
    <index>
     <name>banners_campaignid</name>
     <field>
@@ -1581,6 +1597,14 @@
     <type>openads_datetime</type>
     <notnull>true</notnull>
     <default></default>
+   </field>
+
+   <field>
+    <name>lb_reporting</name>
+    <type>openads_tinyint</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>0</default>
    </field>
 
    <index>
@@ -5529,6 +5553,24 @@
 
  <table>
 
+  <name>lb_local</name>
+
+  <declaration>
+
+   <field>
+    <name>last_run</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
   <name>log_maintenance_forecasting</name>
 
   <declaration>
@@ -6959,6 +7001,14 @@
     <default></default>
    </field>
 
+   <field>
+    <name>maintenance_cron_timestamp</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
    <index>
     <name>preference_pkey</name>
     <primary>true</primary>
@@ -7826,6 +7876,13 @@
     <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
+   </field>
+
+   <field>
+    <name>what</name>
+    <type>openads_text</type>
+    <notnull>true</notnull>
+    <default></default>
    </field>
 
    <index>
