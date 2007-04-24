@@ -30,32 +30,9 @@
  *
  */
 
-define('DB_UPGRADE_TIMING_CONSTRUCTIVE_DEFAULT',                   0);
-define('DB_UPGRADE_TIMING_DESTRUCTIVE_DEFAULT',                    1);
-
-define('DB_UPGRADE_ACTION_UPGRADE_STARTED',                        10);
-define('DB_UPGRADE_ACTION_BACKUP_STARTED',                         20);
-define('DB_UPGRADE_ACTION_BACKUP_TABLE',                           30);
-define('DB_UPGRADE_ACTION_BACKUP_SUCCEEDED',                       40);
-define('DB_UPGRADE_ACTION_BACKUP_FAILED',                          50);
-define('DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED',                      60);
-define('DB_UPGRADE_ACTION_UPGRADE_FAILED',                         70);
-define('DB_UPGRADE_ACTION_ROLLBACK_STARTED',                       80);
-define('DB_UPGRADE_ACTION_ROLLBACK_TABLE',                         90);
-define('DB_UPGRADE_ACTION_ROLLBACK_SUCCEEDED',                     100);
-define('DB_UPGRADE_ACTION_ROLLBACK_FAILED',                        110);
-define('DB_UPGRADE_ACTION_OUTSTANDING_UPGRADE',                    120);
-define('DB_UPGRADE_ACTION_IGNORE_OUTSTANDING_UPGRADE_UNTIL',       130);
-define('DB_UPGRADE_ACTION_IGNORE_OUTSTANDING_UPGRADE',             140);
-define('DB_UPGRADE_ACTION_OUTSTANDING_DROP_BACKUP',                150);
-define('DB_UPGRADE_ACTION_IGNORE_OUTSTANDING_DROP_BACKUP_UNTIL',   160);
-define('DB_UPGRADE_ACTION_IGNORE_OUTSTANDING_DROP_BACKUP',         170);
-
-
 class OA_DB_Upgrade
 {
     var $schema;
-    var $versionFrom;
     var $versionTo;
 
     var $path_changes;
@@ -65,6 +42,8 @@ class OA_DB_Upgrade
 
     var $oSchema;
     var $oMigrator;
+    var $oLogger;
+    var $oAuditor;
 
     var $aDefinitionNew;
     var $aDefinitionOld;
@@ -119,10 +98,17 @@ class OA_DB_Upgrade
      * php4 class constructor
      *
      */
-    function OA_DB_Upgrade()
+    function OA_DB_Upgrade(&$oLogger='')
     {
         //this->__construct();
         $this->recoveryFile = MAX_PATH.'/var/recover.log';
+
+        // so that this class can log to the caller's log
+        // and write it's own log if necessary (testing)
+        if ($oLogger)
+        {
+            $this->oLogger = $oLogger;
+        }
 
         $result  = & MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()));
         if (!$this->_isPearError($result, 'failed to instantiate MDB2_Schema'))
@@ -150,25 +136,22 @@ class OA_DB_Upgrade
      * @param string $timing : 'constructive', 'destructive', other...
      * @param string $schema : 'tables_core'...
      * @param string $versionTo
-     * @param string $versionFrom
      * @return boolean
      */
-    function init($timing='constructive', $schema, $versionTo, $versionFrom=0)
+    function init($timing='constructive', $schema, $versionTo)
     {
-        $this->versionFrom  = $versionFrom;
         $this->versionTo    = $versionTo;
         $this->schema       = $schema;
         $this->_setTiming($timing);
-
-        $this->_log('from version: '.$this->versionFrom);
+        $this->oAuditor->setKeyParams(array('schema_name'=>$this->schema,
+                                            'version'=>$this->versionTo,
+                                            'timing'=>$this->timingInt
+                                            ));
         $this->_log('to version: '.$this->versionTo);
         $this->_log('timing: '.$this->timingStr);
 
-        $timestamp          = date('Y_m_d_h_i_s');
-        $this->logFile      = MAX_PATH . "/var/upgrade_{$this->versionTo}_{$timestamp}.log";
-        $this->_log('logfile: '.$this->logFile);
-
-        $this->path_changes = MAX_PATH.'/etc/changes/';
+        //$this->path_changes = MAX_PATH.'/etc/changes/';
+        $this->path_changes = MAX_PATH.'/var/upgrade/';
         $this->file_schema  = "{$this->path_changes}schema_{$schema}_{$this->versionTo}.xml";
         $this->file_changes  = "{$this->path_changes}changes_{$schema}_{$this->versionTo}.xml";
         $this->file_migrate  = "{$this->path_changes}migration_{$schema}_{$this->versionTo}.php";
@@ -197,7 +180,7 @@ class OA_DB_Upgrade
         }
         else
         {
-            $this->_log('file found: '.$this->file_migrate);
+            $this->_log('migration file found: '.$this->file_migrate);
             require_once($this->file_migrate);
             $classname = 'Migration_'.$this->versionTo;
             $this->oMigrator = & new $classname($this->oSchema->db, $this->logFile);
@@ -252,16 +235,6 @@ class OA_DB_Upgrade
         $this->_log('target database: '.$this->database);
         $this->_log('table prefix: '.$this->prefix);
 
-        $this->aDBTables = $this->_listTables();
-        if (!in_array($this->prefix.$this->logTable, $this->aDBTables))
-        {
-            $this->_log('creating database_action audit table');
-            if (!$this->_createAuditTable())
-            {
-                $this->_log('failed to create database_action audit table');
-                return false;
-            }
-        }
         $this->_log('successfully initialised DB Upgrade');
         return true;
     }
@@ -274,22 +247,30 @@ class OA_DB_Upgrade
      */
     function upgrade()
     {
-        $this->_log('verifying '.$timing.' changes');
+        $this->_log('verifying '.$this->timingStr.' changes');
         $result = $this->oSchema->verifyAlterDatabase($this->aChanges[$this->timingStr]);
         if (!$this->_isPearError($result, 'VERIFICATION FAILED'))
         {
+            $this->aDBTables = $this->_listTables();
             $this->_log(' verified OK');
             $result = $this->_verifyTasks();
-            if (!$this->_isPearError($result, 'TASKLIST CREATION FAILED'))
+            if ($result)
             {
                 $this->_dropRecoveryFile();
-                $this->_logDatabaseAction(DB_UPGRADE_ACTION_UPGRADE_STARTED, array('info1'=>'UPGRADE STARTED'));
+                $this->oAuditor->logDatabaseAction(array('info1'=>'UPGRADE STARTED',
+                                                         'action'=>DB_UPGRADE_ACTION_UPGRADE_STARTED,
+                                                        )
+                                                  );
                 if ($this->_backup())
                 {
                     if (!$this->_executeTasks())
                     {
                         $this->_logError('UPGRADE FAILED');
-                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_UPGRADE_FAILED, array('info1'=>'UPGRADE FAILED', 'info2'=>'ROLLING BACK'));
+                        $this->oAuditor->logDatabaseAction(array('info1'=>'UPGRADE FAILED',
+                                                                 'info2'=>'ROLLING BACK',
+                                                                 'action'=>DB_UPGRADE_ACTION_UPGRADE_FAILED,
+                                                                )
+                                                          );
                         if ($this->_rollback())
                         {
                             $this->_logError('ROLLBACK SUCCEEDED');
@@ -304,7 +285,10 @@ class OA_DB_Upgrade
                     else
                     {
                         $this->_log('UPGRADE SUCCEEDED');
-                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED, array('info1'=>'UPGRADE SUCCEEDED'));
+                        $this->oAuditor->logDatabaseAction(array('info1'=>'UPGRADE SUCCEEDED',
+                                                                 'action'=>DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                                                                 )
+                                                          );
                     }
                 }
                 else
@@ -316,6 +300,7 @@ class OA_DB_Upgrade
             }
             else
             {
+                $this->_logError('TASKLIST CREATION FAILED');
                 return false;
             }
         }
@@ -346,17 +331,21 @@ class OA_DB_Upgrade
     function _backup()
     {
         $aTables = $this->aChanges['affected_tables'][$this->timingStr];
+        $this->aDBTables = $this->_listTables();
         if (!empty($aTables))
         {
-            $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_STARTED, array('info1'=>'BACKUP STARTED'));
+            $this->oAuditor->logDatabaseAction(array('info1'=>'BACKUP STARTED',
+                                                     'action'=>DB_UPGRADE_ACTION_BACKUP_STARTED,
+                                                     )
+                                              );
             foreach ($aTables AS $k => $table)
             {
                 $table = $this->prefix.$table;
                 if (in_array($table, $this->aDBTables))
                 {
-                    $string     = $this->versionFrom.$this->timingStr.$this->database.$table.date('Y-m-d h:i:s');
+                    $string     = $this->versionTo.$this->timingStr.$this->database.$table.date('Y-m-d h:i:s');
                     $hash       = str_replace(array('+','/','='),array('_','_',''),base64_encode(pack("H*",md5($string)))); // packs down to 22 chars and removes illegal chars
-                    $table_bak  ="{$this->prefix}zzz_{$hash}";
+                    $table_bak  ="{$this->prefix}z_{$hash}";
                     $this->aMessages[]  = "backing up table {$table} to table {$table_bak} ";
 
                     $statement = $this->aSQLStatements['table_copy'];
@@ -365,7 +354,11 @@ class OA_DB_Upgrade
                     if ($this->_isPearError($result, 'error creating backup'))
                     {
                         $this->_halt();
-                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_FAILED, array('info1'=>'BACKUP FAILED', 'info1'=>'creating backup table'.$table_bak));
+                        $this->oAuditor->logDatabaseAction(array('info1'=>'BACKUP FAILED',
+                                                                 'info2'=>'creating backup table'.$table_bak,
+                                                                 'action'=>DB_UPGRADE_ACTION_BACKUP_FAILED,
+                                                                 )
+                                                          );
                         return false;
                     }
                     $aBakDef = $this->oSchema->getDefinitionFromDatabase(array($table));
@@ -374,14 +367,26 @@ class OA_DB_Upgrade
                                                             'bak'=>$table_bak,
                                                             'def'=>$aBakDef
                                                          );
-                    $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_TABLE, array('info1'=>'copied table', 'tablename'=>$table, 'tablename_backup'=>$table_bak, 'table_backup_schema'=>serialize($aBakDef)));
+                    $this->oAuditor->logDatabaseAction(array('info1'=>'copied table',
+                                                             'tablename'=>$table,
+                                                             'tablename_backup'=>$table_bak,
+                                                             'table_backup_schema'=>serialize($aBakDef),
+                                                             'action'=>DB_UPGRADE_ACTION_BACKUP_TABLE,
+                                                             )
+                                                      );
                 }
             }
-            $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_SUCCEEDED, array('info1'=>'BACKUP COMPLETE'));
+            $this->oAuditor->logDatabaseAction(array('info1'=>'BACKUP COMPLETE',
+                                                     'action'=>DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
+                                                     )
+                                              );
         }
         else
         {
-            $this->_logDatabaseAction(DB_UPGRADE_ACTION_BACKUP_SUCCEEDED, array('info1'=>'BACKUP UNNECESSARY'));
+            $this->oAuditor->logDatabaseAction(array('info1'=>'BACKUP UNNECESSARY',
+                                                     'action'=>DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
+                                                     )
+                                              );
         }
         return true;
     }
@@ -403,7 +408,10 @@ class OA_DB_Upgrade
             krsort($this->aRestoreTables);
             if (!empty($this->aRestoreTables))
             {
-                $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_STARTED, array('info1'=>'ROLLBACK STARTED'));
+                $this->oAuditor->logDatabaseAction(array('info1'=>'ROLLBACK STARTED',
+                                                         'action'=>DB_UPGRADE_ACTION_ROLLBACK_STARTED,
+                                                         )
+                                                  );
                 foreach ($this->aRestoreTables AS $table => $aTable_bak)
                 {
                     if (in_array($aTable_bak['bak'], $this->aDBTables))
@@ -413,24 +421,44 @@ class OA_DB_Upgrade
                         if (!$result)
                         {
                             $this->_halt();
-                            $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_FAILED, array('info1'=>'ROLLBACK FAILED', 'info2'=>"failed to restore table', 'tablename'=>{$this->prefix}{$table}"));
+                            $this->oAuditor->logDatabaseAction(array('info1'=>'ROLLBACK FAILED',
+                                                                     'info2'=>'failed to restore table',
+                                                                     'tablename'=>$this->prefix.$table,
+                                                                     'action'=>DB_UPGRADE_ACTION_ROLLBACK_FAILED,
+                                                                     )
+                                                              );
                             return false;
                         }
-                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_TABLE, array('info1'=>'reverted table', 'tablename'=>$table, 'tablename_backup'=>$aTable_bak['bak']));
+                        $this->oAuditor->logDatabaseAction(array('info1'=>'reverted table',
+                                                                 'tablename'=>$this->prefix.$table,
+                                                                 'tablename_backup'=>$aTable_bak['bak'],
+                                                                 'action'=>DB_UPGRADE_ACTION_ROLLBACK_TABLE,
+                                                                 )
+                                                          );
                     }
                     else
                     {
                         $this->_halt();
                         $this->_logError("backup table not found during rollback: {$aTable_bak['bak']}");
-                        $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_FAILED, array('info1'=>'ROLLBACK FAILED', 'info2'=>"backup table not found: {$aTable_bak['bak']}"));
+                        $this->oAuditor->logDatabaseAction(array('info1'=>'ROLLBACK FAILED',
+                                                                 'info2'=>"backup table not found: {$aTable_bak['bak']}",
+                                                                 'action'=>DB_UPGRADE_ACTION_ROLLBACK_FAILED,
+                                                                 )
+                                                          );
                         return false;
                     }
                 }
-                $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_SUCCEEDED, array('info1'=>'ROLLBACK COMPLETE'));
+                $this->oAuditor->logDatabaseAction(array('info1'=>'ROLLBACK COMPLETE',
+                                                         'action'=>DB_UPGRADE_ACTION_ROLLBACK_SUCCEEDED,
+                                                         )
+                                                  );
             }
             else
             {
-                $this->_logDatabaseAction(DB_UPGRADE_ACTION_ROLLBACK_SUCCEEDED, array('info1'=>'ROLLBACK UNNECESSARY'));
+                $this->oAuditor->logDatabaseAction(array('info1'=>'ROLLBACK UNNECESSARY',
+                                                         'action'=>DB_UPGRADE_ACTION_ROLLBACK_SUCCEEDED,
+                                                         )
+                                                  );
             }
         }
         $this->_pickupRecoveryFile();
@@ -483,9 +511,9 @@ class OA_DB_Upgrade
      *
      * @return boolean
      */
-    function _prepRecovery()
+    function prepRecovery()
     {
-        $aRecovery = $this->_seekRecoveryFile();
+        $aRecovery = $this->seekRecoveryFile();
         if ($aRecovery)
         {
             $this->aDBTables = $this->_listTables();
@@ -1540,7 +1568,6 @@ class OA_DB_Upgrade
         {
             $aDBIndexes = $this->_listIndexes($table_name);
             $aDBConstraints = $this->_listConstraints($table_name);
-            //$aDBIndexConstraints = array_merge($aDBConstraints, $aDBIndexes);
             foreach ($aDef['indexes'] as $index => $aIndex_def)
             {
                 $aIndex_def = $this->_sortIndexFields($aIndex_def);
@@ -1575,83 +1602,6 @@ class OA_DB_Upgrade
     }
 
     // misc methods
-
-    /**
-     * audit actions taken
-     *
-     * @param integer $action
-     * @param string $info1
-     * @param string $info2
-     * @return boolean
-     */
-    function _logDatabaseAction($action, $aParams=array())
-    {
-        $this->_log('_logDatabaseAction start');
-
-        $aParams['schema_name'] = $this->schema;
-        $aParams['version']     = $this->versionTo;
-        $aParams['timing']      = $this->timingInt;
-        $aParams['action']      = $action;
-
-        foreach ($aParams AS $k => $v)
-        {
-            $this->_log($k.' : '.$v);
-            $aParams[$k] = $this->oSchema->db->escape($v);
-        }
-        $this->_log('_logDatabaseAction end');
-        $columns = implode(",", array_keys($aParams));
-        $values  = implode("','", array_values($aParams));
-
-        $query = "INSERT INTO {$this->prefix}{$this->logTable} ({$columns}, updated) VALUES ('{$values}', NOW())";
-
-        $result = $this->oSchema->db->exec($query);
-
-        if ($this->_isPearError($result, "error updating {$this->prefix}{$this->logTables}"))
-        {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * the database_action table must exist for all upgrade events
-     * currently the schema is stored in a separate xml file which is not part of an upgrade pkg
-     * eventually this table schema should be merged into the core tables schema
-     *
-     * @return boolean
-     */
-    function _createAuditTable()
-    {
-        $xmlfile = MAX_PATH.'/etc/database_action.xml';
-
-        $result = $this->oSchema->parseDatabaseDefinitionFile($xmlfile);
-
-        if (!$this->_isPearError($result, 'error parsing definition file: '.$xmlfile))
-        {
-            $aDef = $result['tables'][$this->logTable];
-            $result = $this->oSchema->db->manager->createTable($this->logTable, $aDef['fields'], array());
-            if (!$this->_isPearError($result, 'error creating table: '.$this->logTable))
-            {
-                if (isset($aDef['indexes']))
-                {
-                    $this->_log('creating indexes on : '.$this->logTable);
-                    if (!$this->_createAllIndexes($aDef, $this->logTable))
-                    {
-                        return false;
-                    }
-                }
-            }
-            else
-            {
-                $this->_log('successfully created table '.$this->logTable);
-            }
-        }
-        else
-        {
-            return false;
-        }
-        return true;
-    }
 
     /**
      * set the timing vars if you have only one or the other (str or int)
@@ -1730,15 +1680,36 @@ class OA_DB_Upgrade
 
     /**
      * retrieve an array of table names from currently connected database
+     * uses the conf table prefix to search only for tables from the openads schema
+     *
+     *
+     * @param string : any additional (post-prefix) string to search for
+     * @return array
+     */
+    function _listTables($prefix='')
+    {
+        OA_DB::setCaseSensitive();
+        $aDBTables = $this->oSchema->db->manager->listTables(null, $this->prefix.$prefix);
+        OA_DB::disableCaseSensitive();
+        return $aDBTables;
+    }
+
+    /**
+     * retrieve an array of table names from currently connected database
      *
      * @return array
      */
-    function _listTables()
+    function _listBackups()
     {
-        OA_DB::setCaseSensitive();
-        $aDBTables = $this->oSchema->db->manager->listTables();
-        OA_DB::disableCaseSensitive();
-        return $aDBTables;
+        $aBakTables = $this->_listTables('z\_');
+        foreach ($aBakTables AS $k => $name)
+        {
+            $aInfo = $this->oAuditor->queryAuditForABackup($name);
+            $aResult[$k]['backup_table'] = $name;
+            $aResult[$k]['copied_table'] = $aInfo[0]['tablename'];
+            $aResult[$k]['copied_date']  = $aInfo[0]['updated'];
+        }
+        return $aResult;
     }
 
     function _listConstraints($table_name)
@@ -1766,8 +1737,15 @@ class OA_DB_Upgrade
      */
     function _log($message)
     {
-        $this->aMessages[] = $message;
-        $this->_logWrite($message);
+        if ($this->oLogger)
+        {
+            $this->oLogger->log($message);
+        }
+        else
+        {
+            $this->aMessages[] = $message;
+            $this->_logWrite($message);
+        }
     }
 
     /**
@@ -1777,10 +1755,16 @@ class OA_DB_Upgrade
      */
     function _logError($message)
     {
-        $this->aErrors[] = $message;
-        $this->_logWrite("ERROR: {$message}");
+        if ($this->oLogger)
+        {
+            $this->oLogger->logError($message);
+        }
+        else
+        {
+            $this->aErrors[] = $message;
+            $this->_logWrite("ERROR: {$message}");
+        }
     }
-
 
     function _logWrite($message)
     {
@@ -1824,7 +1808,7 @@ class OA_DB_Upgrade
         return true;
     }
 
-    function _seekRecoveryFile()
+    function seekRecoveryFile()
     {
         if (file_exists($this->recoveryFile))
         {
@@ -1839,15 +1823,24 @@ class OA_DB_Upgrade
         return false;
     }
 
-    function _queryAllLogTable()
+    function dropBackupTable($table)
     {
-        $query = "SELECT * FROM {$this->prefix}{$this->logTable}";
-        $aResult = $this->oSchema->db->queryAll($query);
-        if ($this->_isPearError($aResult, "error querying database audit table"))
+        if (!$this->dropTable($table))
         {
             return false;
         }
-        return $aResult;
+        $this->oAuditor->updateDatabaseActionBackupDropped($table);
+        return true;
+    }
+
+    function dropTable($table)
+    {
+        $result = $this->oSchema->db->manager->dropTable($table);
+        if ($this->_isPearError($result, 'error dropping '.$table))
+        {
+            return false;
+        }
+        return true;
     }
 
 }

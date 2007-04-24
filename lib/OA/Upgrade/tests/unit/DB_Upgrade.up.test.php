@@ -65,8 +65,9 @@ class Test_DB_Upgrade extends UnitTestCase
     function test_seekRecoveryFile()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
-        $aResult = $oDB_Upgrade->_seekRecoveryFile();
+        $aResult = $oDB_Upgrade->seekRecoveryFile();
         $this->assertIsA($aResult,'array','failed to find recovery file');
+        $this->assertEqual($aResult['schema_name'],'tables_core','error in recovery array: schema');
         $this->assertEqual($aResult['timingInt'],0,'error in recovery array: timingStr');
         $this->assertEqual($aResult['versionTo'],2,'error in recovery array: versionTo');
         $this->assertTrue(isset($aResult['updated']),'error in recovery array: updated');
@@ -126,6 +127,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade = & new OA_DB_Upgrade();
         $oDB_Upgrade->timingStr = $timing;
         $oDB_Upgrade->timingInt = ($timing ? 0 : 1);
+        $oDB_Upgrade->schema = 'tables_core';
         $oDB_Upgrade->prefix = '';
         $oDB_Upgrade->versionFrom = 1;
         $oDB_Upgrade->versionTo = 2;

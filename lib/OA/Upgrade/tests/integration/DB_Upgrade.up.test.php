@@ -28,7 +28,7 @@ $Id $
 
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH.'/lib/OA/DB/Table.php';
-
+require_once(MAX_PATH.'/lib/OA/Upgrade/DB_UpgradeAuditor.php');
 require_once MAX_PATH.'/lib/OA/Upgrade/DB_Upgrade.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Migration.php';
 
@@ -85,12 +85,16 @@ class Test_DB_Upgrade extends UnitTestCase
         // emulate a partial upgrade...
         $this->assertTrue($oDB_Upgrade->_dropRecoveryFile(),'failed to write recovery file');
         $oDB_Upgrade->aChanges['affected_tables']['constructive'] = array('table1','table2');
-        $oDB_Upgrade->_logDatabaseAction(DB_UPGRADE_ACTION_UPGRADE_STARTED, array('info1'=>'UPGRADE STARTED'));
+        $oDB_Upgrade->oAuditor->logDatabaseAction(array('info1'=>'UPGRADE STARTED',
+                                                          'action'=>DB_UPGRADE_ACTION_UPGRADE_STARTED,
+                                                         )
+                                                   );
         $this->assertTrue($oDB_Upgrade->_backup(),'_backup failed');
         // ...which has stopped for some reason
         // check that a recovery file was dropped and returns an array of info
-        $aRecovery = $oDB_Upgrade->_seekRecoveryFile();
+        $aRecovery = $oDB_Upgrade->seekRecoveryFile();
         $this->assertIsA($aRecovery,'array','recovery file not found');
+        $this->assertEqual($aRecovery['schema_name'],$oDB_Upgrade->schema,'wrong recovery schema_name');
         $this->assertEqual($aRecovery['timingInt'],$oDB_Upgrade->timingInt,'wrong recovery timing');
         $this->assertEqual($aRecovery['versionTo'],$oDB_Upgrade->versionTo,'wrong recovery version');
         $this->assertTrue($aRecovery['updated'],$oDB_Upgrade->versionTo,'recovery timestamp error');
@@ -99,7 +103,7 @@ class Test_DB_Upgrade extends UnitTestCase
         // remove it from memory
         $oDB_Upgrade->aRestoreTables = array();
         // prepare the recovery data....
-        $this->assertTrue($oDB_Upgrade->_prepRecovery(),'recovery preparation failed');
+        $this->assertTrue($oDB_Upgrade->prepRecovery(),'recovery preparation failed');
         $this->assertEqual(count($oDB_Upgrade->aRestoreTables),2,'wrong number of tables to restore');
         $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['table1']),'table1 not found in restore array');
         $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['table2']),'table2 not found in restore array');
@@ -112,7 +116,7 @@ class Test_DB_Upgrade extends UnitTestCase
         // now restore those tables
         $this->assertTrue($oDB_Upgrade->_rollback(), 'rollback failed');
         // the recovery file should have been deleted
-        $this->assertFalse($oDB_Upgrade->_seekRecoveryFile(),'recovery file not deleted');
+        $this->assertFalse($oDB_Upgrade->seekRecoveryFile(),'recovery file not deleted');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertTrue(in_array('table1',$oDB_Upgrade->aDBTables), 'table1 was not restored');
@@ -221,7 +225,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_indexRemove.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $this->assertTrue($oDB_Upgrade->_verifyTasksIndexesRemove(),'failed _verifyTasksIndexesRemove');
         $aTaskList = $oDB_Upgrade->aTaskList;
         $this->assertTrue(isset($aTaskList['indexes']['remove']),'failed creating task list: indexes remove');
@@ -245,7 +249,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_indexAdd.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $this->assertTrue($oDB_Upgrade->_verifyTasksIndexesAdd(),'failed _verifyTasksIndexesAdd');
         $aTaskList = $oDB_Upgrade->aTaskList;
         $this->assertTrue(isset($aTaskList['indexes']['add']),'failed creating task list: indexes add');
@@ -296,7 +300,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAdd.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAdd(),'failed _verifyTasksTablesAdd');
         $aTaskList = $oDB_Upgrade->aTaskList;
         $this->assertTrue(isset($aTaskList['tables']['add']),'failed creating task list: tables add');
@@ -324,9 +328,9 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableRemove.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesRemove(),'failed _verifyTasksTablesRemove');
-        $aTaskList = $oDB_Upgrade->aTaskList;
+        $aTaskList                      = $oDB_Upgrade->aTaskList;
         $this->assertTrue(isset($aTaskList['tables']['remove']),'failed creating task list: tables remove');
         $this->assertEqual(count($aTaskList['tables']['remove']),1, 'incorrect elements in task list: tables remove');
         $this->assertEqual($aTaskList['tables']['remove'][0]['name'], 'table2', 'wrong table name');
@@ -352,7 +356,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['rewrite']      = false; // reset this var
         $this->aOptions['split']        = true; // reset this var
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $oDB_Upgrade->aTaskList         = $aTaskList;
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesRename(),'failed test_verifyTasksTablesRename');
         $aTaskList = $oDB_Upgrade->aTaskList;
@@ -378,7 +382,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter1.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $oDB_Upgrade->aTaskList = array();
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: add field');
         $aTaskList = $oDB_Upgrade->aTaskList;
@@ -395,7 +399,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter2.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $oDB_Upgrade->aTaskList = array();
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: change field');
         $aTaskList = $oDB_Upgrade->aTaskList;
@@ -414,7 +418,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter5.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $oDB_Upgrade->aTaskList = array();
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: change field');
         $aTaskList = $oDB_Upgrade->aTaskList;
@@ -442,7 +446,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['rewrite']      = false; // reset this var
         $this->aOptions['split']        = true; // reset this var
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $oDB_Upgrade->aTaskList = array();
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: rename field');
         $aTaskList = $oDB_Upgrade->aTaskList;
@@ -461,7 +465,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter3.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $oDB_Upgrade->aTaskList = array();
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: remove field');
         $aTaskList = $oDB_Upgrade->aTaskList;
@@ -490,7 +494,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_indexRemove.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $this->assertTrue($oDB_Upgrade->_verifyTasksIndexesRemove(),'failed _verifyTasksIndexesRemove');
 
         // no migration callbacks on index events
@@ -519,7 +523,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_indexAdd.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $this->assertTrue($oDB_Upgrade->_verifyTasksIndexesAdd(),'failed _verifyTasksIndexesAdd');
 
         // no migration callbacks on index events
@@ -551,6 +555,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAdd.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAdd(),'failed _verifyTasksTablesAdd');
 
         Mock::generatePartial(
@@ -586,7 +591,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableRemove.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesRemove(),'failed _verifyTasksTablesRemove');
 
         Mock::generatePartial(
@@ -631,7 +636,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['rewrite']      = false; // reset this var
         $this->aOptions['split']        = true; // reset this var
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $oDB_Upgrade->aTaskList         = $aTaskList;
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesRename(),'failed test_verifyTasksTablesRename');
 
@@ -678,7 +683,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter1.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $oDB_Upgrade->aTaskList = array();
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: add field');
 
@@ -713,7 +718,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter2.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $oDB_Upgrade->aTaskList = array();
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: change field');
 
@@ -784,7 +789,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['rewrite']      = false; // reset this var
         $this->aOptions['split']        = true; // reset this var
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $oDB_Upgrade->aTaskList = array();
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: rename field');
 
@@ -822,7 +827,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter3.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
-
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
         $oDB_Upgrade->aTaskList = array();
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: remove field');
 
@@ -860,7 +865,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
-        $oTable->init($this->path.'schema_test_original.xml', 'tables_core');
+        $oTable->init($this->path.'schema_test_original.xml');
         $this->assertTrue($oTable->createTable('table1'),'error creating test table1');
         $this->assertTrue($oTable->createTable('table2'),'error creating test table2');
         $aExistingTables = $oDbh->manager->listTables();
@@ -874,7 +879,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
-        $oTable->init($this->path.'schema_test_original.xml', 'tables_core');
+        $oTable->init($this->path.'schema_test_original.xml');
         $aExistingTables = $oDbh->manager->listTables();
         if (in_array('table1', $aExistingTables))
         {
@@ -901,15 +906,31 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->timingStr = $timing;
         $oDB_Upgrade->timingInt = ($timing ? 0 : 1);
         $oDB_Upgrade->prefix = '';
+        $oDB_Upgrade->schema = 'tables_core';
         $oDB_Upgrade->versionFrom = 1;
         $oDB_Upgrade->versionTo = 2;
         $this->_createTestTables($oDB_Upgrade->oSchema->db);
-        $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.dev.test.log";
-        if (!in_array($oDB_Upgrade->prefix.$oDB_Upgrade->logTable, $oDB_Upgrade->aDBTables))
-        {
-            $this->assertTrue($oDB_Upgrade->_createAuditTable(),'failed to create database_action audit table');
-        }
+
+        $oDBAuditor   = new OA_DB_UpgradeAuditor();
+        $this->assertTrue($oDBAuditor->init($oDB_Upgrade->oSchema->db), 'error initialising upgrade auditor, probable error creating database action table');
+        $oDBAuditor->setKeyParams(array('schema_name'=>$oDB_Upgrade->schema,
+                                        'version'=>$oDB_Upgrade->versionTo,
+                                        'timing'=>$oDB_Upgrade->timingInt
+                                        ));
+
+//        Mock::generatePartial(
+//            'OA_DB_UpgradeAuditor',
+//            $mockAuditor = 'OA_DB_UpgradeAuditor'.rand(),
+//            array('beforeAddTable__table_new', 'afterAddTable__table_new')
+//        );
+//
+//        $oDBAuditor = new $mockAuditor($this);
+//        $oDBAuditor->setReturnValue('logDatabaseAction', true);
+//        $oDBAuditor->expectOnce('logDatabaseAction');
+
+        $oDB_Upgrade->oAuditor = &$oDBAuditor;
+
         return $oDB_Upgrade;
     }
 
