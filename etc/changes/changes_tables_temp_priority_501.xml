@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>tables_temp_priority</name>
+  <version>501</version>
+  <comments>added new field tmp_ad_zone_impression.to_be_delivered</comments>
+  <constructive>
+    <changeset>
+      <name>tables_temp_priority</name>
+      <version>501</version>
+      <change>
+        <table>
+          <name>tmp_ad_zone_impression</name>
+          <add>
+            <field>
+              <name>to_be_delivered</name>
+              <type>openads_tinyint</type>
+              <length>1</length>
+              <notnull>1</notnull>
+              <default>0</default>
+              <was>to_be_delivered</was>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>tables_temp_priority</name>
+      <version>501</version>
+    </changeset>
+  </destructive>
+</instructionset>
