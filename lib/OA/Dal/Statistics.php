@@ -34,7 +34,8 @@ require_once 'Date.php';
 
 /**
  * The Data Abstraction Layer (DAL) class for obtaining statistics for
- * display in the UI.
+ * display in the UI, for cases where the statistcs are too complicated
+ * to be obtained via the appropriate DB_DataObject.
  *
  * @package    OpenadsDal
  * @author     Andrew Hill <andrew.hill@openads.org>
@@ -54,13 +55,16 @@ class OA_Dal_Statistics extends OA_Dal
      *               of being unable to connect to the database, otherwise, returns
      *               an array of arrays:
      * array(
-     *     [$oDate] => array(
-     *                     ['impressions_requested'] => integer
-     *                     ['actual_impressions']    => integer
-     *                 )
-     *      .
-     *      .
-     *      .
+     *     ['2007-04-20'] => array(
+     *                          ['placement_required_impressions']  => integer
+     *                          ['placement_requested_impressions'] => integer
+     *                          ['placement_actual_impressions']    => integer
+     *                          ['zones_forecast_impressions']      => integer
+     *                          ['zones_actual_impressions']        => integer
+     *                       )
+     *          .
+     *          .
+     *          .
      * )
      *
      * For the placement and date range specified, returns an array for each day
@@ -78,6 +82,114 @@ class OA_Dal_Statistics extends OA_Dal
      */
     function getPlacementOverviewTargetingStatistics($placementId, $oStartDate, $oEndDate)
     {
+        // Ensure the parameters are valid
+        if (empty($placementId) || !is_int($placementId)) {
+            return false;
+        }
+        if (empty($oStartDate) || !is_a($oStartDate, 'Date')) {
+            return false;
+        }
+        if (empty($oEndDate) || !is_a($oEndDate, 'Date')) {
+            return false;
+        }
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        // Get all ads in the placement
+        $aAdIds = array();
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $placementId;
+        $doBanners->find();
+        while ($doBanners->fetch()) {
+            $aAdIds[] = (int) $doBanners->bannerid;
+        }
+        if (empty($aAdIds)) {
+            return false;
+        }
+        // Prepare the temporary results array
+        $aResult = array();
+        // How many days in the span?
+        $oStartDateCopy = new Date();
+        $oStartDateCopy->copy($oStartDate);
+        $oStartDateCopy->setHour(0);
+        $oStartDateCopy->setMinute(0);
+        $oStartDateCopy->setSecond(0);
+        $oEndDateCopy = new Date();
+        $oEndDateCopy->copy($oEndDate);
+        $oEndDateCopy->setHour(0);
+        $oEndDateCopy->setMinute(0);
+        $oEndDateCopy->setSecond(0);
+        $oSpan = new Date_Span();
+        $oSpan->setFromDateDiff($oStartDateCopy, $oEndDateCopy);
+        $days = $oSpan->toDays();
+        for ($counter = 0; $counter <= $days; $counter++) {
+            $aTemp = $this->getPlacementDailyTargetingStatistics($placementId, $oStartDateCopy);
+            $aResult[$oStartDateCopy->format('%Y-%m-%d')] = $this->_getPlacementOverviewTargetingStatistics($aTemp);
+            $oStartDateCopy->addSeconds(SECONDS_PER_DAY);
+        }
+        return $aResult;
+    }
+
+    /**
+     * A private method to sum the operatin interval level results from the
+     * getPlacementDailyTargetingStatistics() method in order to obtain the
+     * information required for one day of the the placement overview level
+     * targeting statistics screen.
+     *
+     * @access private
+     * @param array $aValues An array of the output from the
+     *                       getPlacementDailyTargetingStatistics() method.
+     *
+     * @return mixed Returns false in the event of incorrect input, otherwise,
+     *               returns an array:
+     * array(
+     *    ['placement_required_impressions']  => integer
+     *    ['placement_requested_impressions'] => integer
+     *    ['placement_actual_impressions']    => integer
+     *    ['zones_forecast_impressions']      => integer
+     *    ['zones_actual_impressions']        => integer
+     * )
+     *
+     * For the placement and date range specified, returns an array for each day
+     * in the date range, consisting of the total number of impressions requested
+     * by all ads in the placement (for all zones the ads are linked to), as well
+     * as the total number of impressions actually delivered by all ads in the
+     * placement (for all zones the ads are linked to).
+     *
+     * The individual ad/zone impressions requested values may need to be
+     * calculated as an "averge" value, in the event that there are multiple,
+     * differing values for an ad in a zone for an operation interval -- in
+     * much the same way as is done in
+     * OA_Dal_Maintenance_Priority::getPreviousAdDeliveryInfo() -- before
+     * the total impressions requested value can be calculated.
+     */
+    function _getPlacementOverviewTargetingStatistics($aValues)
+    {
+        // Ensure the parameters are valid
+        if (!is_array($aValues) || empty($aValues)) {
+            return false;
+        }
+        reset($aValues);
+        while (list(,$aValue) = each($aValues)) {
+            if (!is_array($aValue) || empty($aValue) || count($aValue) != 7) {
+                return false;
+            }
+        }
+        // Sum the values
+        $aResult = array(
+            'placement_required_impressions'  => 0,
+            'placement_requested_impressions' => 0,
+            'placement_actual_impressions'    => 0,
+            'zones_forecast_impressions'      => 0,
+            'zones_actual_impressions'        => 0
+        );
+        reset($aValues);
+        while (list(,$aValue) = each($aValues)) {
+            $aResult['placement_required_impressions']  += $aValue['placement_required_impressions'];
+            $aResult['placement_requested_impressions'] += $aValue['placement_requested_impressions'];
+            $aResult['placement_actual_impressions']    += $aValue['placement_actual_impressions'];
+            $aResult['zones_forecast_impressions']      += $aValue['zones_forecast_impressions'];
+            $aResult['zones_actual_impressions']        += $aValue['zones_actual_impressions'];
+        }
+        return $aResult;
     }
 
     /**
@@ -98,7 +210,7 @@ class OA_Dal_Statistics extends OA_Dal
      *                                  ['placement_requested_impressions'] => integer
      *                                  ['placement_actual_impressions']    => integer
      *                                  ['zones_forecast_impressions']      => integer
-     *                                  ['zones_actual_impression']         => integer
+     *                                  ['zones_actual_impressions']        => integer
      *                               )
      *      .
      *      .
@@ -199,7 +311,7 @@ class OA_Dal_Statistics extends OA_Dal
      *      ['placement_requested_impressions'] => integer
      *      ['placement_actual_impressions']    => integer
      *      ['zones_forecast_impressions']      => integer
-     *      ['zones_actual_impression']         => integer
+     *      ['zones_actual_impressions']        => integer
      *  )
      *
      * For the placement and operation interval specified, returns an array,
@@ -246,7 +358,7 @@ class OA_Dal_Statistics extends OA_Dal
             'placement_requested_impressions' => 0,
             'placement_actual_impressions'    => 0,
             'zones_forecast_impressions'      => 0,
-            'zones_actual_impression'         => 0
+            'zones_actual_impressions'        => 0
         );
         $aZoneIds = array();
         reset($aAdIds);
@@ -263,7 +375,7 @@ class OA_Dal_Statistics extends OA_Dal
                 if (!in_array($zoneId, $aZoneIds)) {
                     $aZoneIds[] = $zoneId;
                     $aResult['zones_forecast_impressions']      += $aValues['zone_forecast_impressions'];
-                    $aResult['zones_actual_impression']         += $aValues['zone_actual_impression'];
+                    $aResult['zones_actual_impressions']        += $aValues['zone_actual_impressions'];
                 }
             }
         }
@@ -293,7 +405,7 @@ class OA_Dal_Statistics extends OA_Dal
      *                    ['ad_past_zone_traffic_fraction'] => double
      *                    ['ad_actual_impressions']         => integer
      *                    ['zone_forecast_impressions']     => integer
-     *                    ['zone_actual_impression']        => integer
+     *                    ['zone_actual_impressions']       => integer
      *                  )
      *         .
      *         .
@@ -335,7 +447,7 @@ class OA_Dal_Statistics extends OA_Dal
                 dsaza.expired AS expired,
                 dia.impressions AS ad_actual_impressions,
                 dszih.forecast_impressions AS zone_forecast_impressions,
-                dszih.actual_impressions AS zone_actual_impression
+                dszih.actual_impressions AS zone_actual_impressions
             FROM
                 {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']} AS dsaza
             LEFT JOIN
@@ -442,7 +554,7 @@ class OA_Dal_Statistics extends OA_Dal
      *                    ['ad_past_zone_traffic_fraction'] => double
      *                    ['ad_actual_impressions']         => integer
      *                    ['zone_forecast_impressions']     => integer
-     *                    ['zone_actual_impression']        => integer
+     *                    ['zone_actual_impressions']       => integer
      *                )
      *        .
      *        .
@@ -484,7 +596,7 @@ class OA_Dal_Statistics extends OA_Dal
                 dsaza.expired AS expired,
                 dia.impressions AS ad_actual_impressions,
                 dszih.forecast_impressions AS zone_forecast_impressions,
-                dszih.actual_impressions AS zone_actual_impression
+                dszih.actual_impressions AS zone_actual_impressions
             FROM
                 {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']} AS dsaza
             LEFT JOIN
@@ -618,7 +730,7 @@ class OA_Dal_Statistics extends OA_Dal
                 $aResult['interval_end']              = $aAdValues['interval_end'];
                 $aResult['ad_actual_impressions']     = $aAdValues['ad_actual_impressions'];
                 $aResult['zone_forecast_impressions'] = $aAdValues['zone_forecast_impressions'];
-                $aResult['zone_actual_impression']    = $aAdValues['zone_actual_impression'];
+                $aResult['zone_actual_impressions']   = $aAdValues['zone_actual_impressions'];
             }
             $oCreatedDate = new Date($aAdValues['created']);
             if (is_null($aAdValues['expired'])) {
