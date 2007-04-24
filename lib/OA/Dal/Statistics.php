@@ -248,6 +248,7 @@ class OA_Dal_Statistics extends OA_Dal
             'zones_forecast_impressions'      => 0,
             'zones_actual_impression'         => 0
         );
+        $aZoneIds = array();
         reset($aAdIds);
         while (list(,$adId) = each($aAdIds)) {
             $aAdStats = $this->getAdTargetingStatistics($adId, $oStartDate, $oEndDate);
@@ -255,12 +256,15 @@ class OA_Dal_Statistics extends OA_Dal
                 return $false;
             }
             reset($aAdStats);
-            while (list(,$aValues) = each($aAdStats)) {
+            while (list($zoneId,$aValues) = each($aAdStats)) {
                 $aResult['placement_required_impressions']  += $aValues['ad_required_impressions'];
                 $aResult['placement_requested_impressions'] += $aValues['ad_requested_impressions'];
                 $aResult['placement_actual_impressions']    += $aValues['ad_actual_impressions'];
-                $aResult['zones_forecast_impressions']      += $aValues['zone_forecast_impressions'];
-                $aResult['zones_actual_impression']         += $aValues['zone_actual_impression'];
+                if (!in_array($zoneId, $aZoneIds)) {
+                    $aZoneIds[] = $zoneId;
+                    $aResult['zones_forecast_impressions']      += $aValues['zone_forecast_impressions'];
+                    $aResult['zones_actual_impression']         += $aValues['zone_actual_impression'];
+                }
             }
         }
         return $aResult;

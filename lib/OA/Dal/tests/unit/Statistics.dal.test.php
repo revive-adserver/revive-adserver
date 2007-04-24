@@ -70,6 +70,10 @@ class Test_OA_Dal_Statistics extends UnitTestCase
      * Test 7: Test as for Test 6, but now with ad impressions in the wrong day
      * Test 8: Test as for Test 6, but now with ad impressions in the wrong OI
      * Test 9: Test as for Test 6, but now with ad impressions in the right OI
+     * Test 10: Test as for Test 9, but now with zone data in the wrong day
+     * Test 11: Test as for Test 9, but now with zone data in the wrong OI
+     * Test 12: Test as for Test 9, but now with zone data in the right OI
+     * Test 13: Test with multiple OIs, multiple ads
      */
     function testGetPlacementDailyTargetingStatistics()
     {
@@ -101,27 +105,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $aRows = $dg->generate($doBanners, 1);
 
         $aResult = $oDal->getPlacementDailyTargetingStatistics($validPlacementId, $oValidDate);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 24);
-        $counter = 0;
-        for ($intervalId = 120; $intervalId < 144; $intervalId++) {
-            $oDate = new Date('2007-04-20');
-            $oDate->setHour($counter);
-            $oDate->setMinute(0);
-            $oDate->setSecond(0);
-            $this->assertEqual($aResult[$intervalId]['interval_start'], $oDate);
-            $oDate = new Date('2007-04-20');
-            $oDate->setHour($counter);
-            $oDate->setMinute(59);
-            $oDate->setSecond(59);
-            $this->assertEqual($aResult[$intervalId]['interval_end'], $oDate);
-            $this->assertEqual($aResult[$intervalId]['placement_required_impressions'], 0);
-            $this->assertEqual($aResult[$intervalId]['placement_requested_impressions'], 0);
-            $this->assertEqual($aResult[$intervalId]['placement_actual_impressions'], 0);
-            $this->assertEqual($aResult[$intervalId]['zones_forecast_impressions'], 0);
-            $this->assertEqual($aResult[$intervalId]['zones_actual_impression'], 0);
-            $counter++;
-        }
+        $this->_testGetPlacementDailyTargetingStatistics($aResult);
 
         // Test 4: Test with one ad in the placement, partial data in the wrong day
         $doDataSummaryAdZoneAssoc = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
@@ -141,27 +125,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $aRowIds = $dg->generate($doDataSummaryAdZoneAssoc, 1);
 
         $aResult = $oDal->getPlacementDailyTargetingStatistics($validPlacementId, $oValidDate);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 24);
-        $counter = 0;
-        for ($intervalId = 120; $intervalId < 144; $intervalId++) {
-            $oDate = new Date('2007-04-20');
-            $oDate->setHour($counter);
-            $oDate->setMinute(0);
-            $oDate->setSecond(0);
-            $this->assertEqual($aResult[$intervalId]['interval_start'], $oDate);
-            $oDate = new Date('2007-04-20');
-            $oDate->setHour($counter);
-            $oDate->setMinute(59);
-            $oDate->setSecond(59);
-            $this->assertEqual($aResult[$intervalId]['interval_end'], $oDate);
-            $this->assertEqual($aResult[$intervalId]['placement_required_impressions'], 0);
-            $this->assertEqual($aResult[$intervalId]['placement_requested_impressions'], 0);
-            $this->assertEqual($aResult[$intervalId]['placement_actual_impressions'], 0);
-            $this->assertEqual($aResult[$intervalId]['zones_forecast_impressions'], 0);
-            $this->assertEqual($aResult[$intervalId]['zones_actual_impression'], 0);
-            $counter++;
-        }
+        $this->_testGetPlacementDailyTargetingStatistics($aResult);
 
         // Test 5: Test with one ad in the placement, partial data in the right day
         $doDataSummaryAdZoneAssoc = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
@@ -181,35 +145,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $aRowIds = $dg->generate($doDataSummaryAdZoneAssoc, 1);
 
         $aResult = $oDal->getPlacementDailyTargetingStatistics($validPlacementId, $oValidDate);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 24);
-        $counter = 0;
-        for ($intervalId = 120; $intervalId < 144; $intervalId++) {
-            $oDate = new Date('2007-04-20');
-            $oDate->setHour($counter);
-            $oDate->setMinute(0);
-            $oDate->setSecond(0);
-            $this->assertEqual($aResult[$intervalId]['interval_start'], $oDate);
-            $oDate = new Date('2007-04-20');
-            $oDate->setHour($counter);
-            $oDate->setMinute(59);
-            $oDate->setSecond(59);
-            $this->assertEqual($aResult[$intervalId]['interval_end'], $oDate);
-            if ($intervalId == 132) {
-                $this->assertEqual($aResult[$intervalId]['placement_required_impressions'], 5432);
-                $this->assertEqual($aResult[$intervalId]['placement_requested_impressions'], 5432);
-                $this->assertEqual($aResult[$intervalId]['placement_actual_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_forecast_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_actual_impression'], 0);
-            } else {
-                $this->assertEqual($aResult[$intervalId]['placement_required_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['placement_requested_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['placement_actual_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_forecast_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_actual_impression'], 0);
-            }
-            $counter++;
-        }
+        $this->_testGetPlacementDailyTargetingStatistics($aResult, 5432, 5432);
 
         // Test 6: Test with one ad in the placement, dual partial data in the right day
         $doDataSummaryAdZoneAssoc = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
@@ -229,35 +165,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $aRowIds = $dg->generate($doDataSummaryAdZoneAssoc, 1);
 
         $aResult = $oDal->getPlacementDailyTargetingStatistics($validPlacementId, $oValidDate);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 24);
-        $counter = 0;
-        for ($intervalId = 120; $intervalId < 144; $intervalId++) {
-            $oDate = new Date('2007-04-20');
-            $oDate->setHour($counter);
-            $oDate->setMinute(0);
-            $oDate->setSecond(0);
-            $this->assertEqual($aResult[$intervalId]['interval_start'], $oDate);
-            $oDate = new Date('2007-04-20');
-            $oDate->setHour($counter);
-            $oDate->setMinute(59);
-            $oDate->setSecond(59);
-            $this->assertEqual($aResult[$intervalId]['interval_end'], $oDate);
-            if ($intervalId == 132) {
-                $this->assertEqual($aResult[$intervalId]['placement_required_impressions'], 2932);
-                $this->assertEqual($aResult[$intervalId]['placement_requested_impressions'], 2932);
-                $this->assertEqual($aResult[$intervalId]['placement_actual_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_forecast_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_actual_impression'], 0);
-            } else {
-                $this->assertEqual($aResult[$intervalId]['placement_required_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['placement_requested_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['placement_actual_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_forecast_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_actual_impression'], 0);
-            }
-            $counter++;
-        }
+        $this->_testGetPlacementDailyTargetingStatistics($aResult, 2932, 2932);
 
         // Test 7: Test as for Test 6, but now with ad impressions in the wrong day
         $doDataIntermediateAd = OA_Dal::factoryDO('data_intermediate_ad');
@@ -273,35 +181,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $aRowIds = $dg->generate($doDataIntermediateAd, 1);
 
         $aResult = $oDal->getPlacementDailyTargetingStatistics($validPlacementId, $oValidDate);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 24);
-        $counter = 0;
-        for ($intervalId = 120; $intervalId < 144; $intervalId++) {
-            $oDate = new Date('2007-04-20');
-            $oDate->setHour($counter);
-            $oDate->setMinute(0);
-            $oDate->setSecond(0);
-            $this->assertEqual($aResult[$intervalId]['interval_start'], $oDate);
-            $oDate = new Date('2007-04-20');
-            $oDate->setHour($counter);
-            $oDate->setMinute(59);
-            $oDate->setSecond(59);
-            $this->assertEqual($aResult[$intervalId]['interval_end'], $oDate);
-            if ($intervalId == 132) {
-                $this->assertEqual($aResult[$intervalId]['placement_required_impressions'], 2932);
-                $this->assertEqual($aResult[$intervalId]['placement_requested_impressions'], 2932);
-                $this->assertEqual($aResult[$intervalId]['placement_actual_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_forecast_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_actual_impression'], 0);
-            } else {
-                $this->assertEqual($aResult[$intervalId]['placement_required_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['placement_requested_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['placement_actual_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_forecast_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_actual_impression'], 0);
-            }
-            $counter++;
-        }
+        $this->_testGetPlacementDailyTargetingStatistics($aResult, 2932, 2932);
 
         // Test 8: Test as for Test 6, but now with ad impressions in the wrong OI
         $doDataIntermediateAd = OA_Dal::factoryDO('data_intermediate_ad');
@@ -317,35 +197,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $aRowIds = $dg->generate($doDataIntermediateAd, 1);
 
         $aResult = $oDal->getPlacementDailyTargetingStatistics($validPlacementId, $oValidDate);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 24);
-        $counter = 0;
-        for ($intervalId = 120; $intervalId < 144; $intervalId++) {
-            $oDate = new Date('2007-04-20');
-            $oDate->setHour($counter);
-            $oDate->setMinute(0);
-            $oDate->setSecond(0);
-            $this->assertEqual($aResult[$intervalId]['interval_start'], $oDate);
-            $oDate = new Date('2007-04-20');
-            $oDate->setHour($counter);
-            $oDate->setMinute(59);
-            $oDate->setSecond(59);
-            $this->assertEqual($aResult[$intervalId]['interval_end'], $oDate);
-            if ($intervalId == 132) {
-                $this->assertEqual($aResult[$intervalId]['placement_required_impressions'], 2932);
-                $this->assertEqual($aResult[$intervalId]['placement_requested_impressions'], 2932);
-                $this->assertEqual($aResult[$intervalId]['placement_actual_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_forecast_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_actual_impression'], 0);
-            } else {
-                $this->assertEqual($aResult[$intervalId]['placement_required_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['placement_requested_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['placement_actual_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_forecast_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_actual_impression'], 0);
-            }
-            $counter++;
-        }
+        $this->_testGetPlacementDailyTargetingStatistics($aResult, 2932, 2932);
 
         // Test 9: Test as for Test 6, but now with ad impressions in the right OI
         $doDataIntermediateAd = OA_Dal::factoryDO('data_intermediate_ad');
@@ -361,26 +213,182 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $aRowIds = $dg->generate($doDataIntermediateAd, 1);
 
         $aResult = $oDal->getPlacementDailyTargetingStatistics($validPlacementId, $oValidDate);
+        $this->_testGetPlacementDailyTargetingStatistics($aResult, 2932, 2932, 100);
+
+        // Test 10: Test as for Test 9, but now with zone data in the wrong day
+        $doDataSummaryZoneImpressionHistory = OA_Dal::factoryDO('data_summary_zone_impression_history');
+        $doDataSummaryZoneImpressionHistory->operation_interval   = 60;
+        $doDataSummaryZoneImpressionHistory->interval_start       = '2007-04-19 12:00:00';
+        $doDataSummaryZoneImpressionHistory->interval_end         = '2007-04-19 12:59:59';
+        $doDataSummaryZoneImpressionHistory->zone_id              = 1;
+        $doDataSummaryZoneImpressionHistory->forecast_impressions = 222;
+        $doDataSummaryZoneImpressionHistory->actual_impressions   = 333;
+        $aRowIds = $dg->generate($doDataSummaryZoneImpressionHistory, 1);
+
+        $aResult = $oDal->getPlacementDailyTargetingStatistics($validPlacementId, $oValidDate);
+        $this->_testGetPlacementDailyTargetingStatistics($aResult, 2932, 2932, 100);
+
+        // Test 11: Test as for Test 9, but now with zone data in the wrong OI
+        $doDataSummaryZoneImpressionHistory = OA_Dal::factoryDO('data_summary_zone_impression_history');
+        $doDataSummaryZoneImpressionHistory->operation_interval   = 60;
+        $doDataSummaryZoneImpressionHistory->interval_start       = '2007-04-20 11:00:00';
+        $doDataSummaryZoneImpressionHistory->interval_end         = '2007-04-20 11:59:59';
+        $doDataSummaryZoneImpressionHistory->zone_id              = 1;
+        $doDataSummaryZoneImpressionHistory->forecast_impressions = 444;
+        $doDataSummaryZoneImpressionHistory->actual_impressions   = 555;
+        $aRowIds = $dg->generate($doDataSummaryZoneImpressionHistory, 1);
+
+        $aResult = $oDal->getPlacementDailyTargetingStatistics($validPlacementId, $oValidDate);
+        $this->_testGetPlacementDailyTargetingStatistics($aResult, 2932, 2932, 100);
+
+        // Test 12: Test as for Test 9, but now with zone data in the right OI
+        $doDataSummaryZoneImpressionHistory = OA_Dal::factoryDO('data_summary_zone_impression_history');
+        $doDataSummaryZoneImpressionHistory->operation_interval   = 60;
+        $doDataSummaryZoneImpressionHistory->interval_start       = '2007-04-20 12:00:00';
+        $doDataSummaryZoneImpressionHistory->interval_end         = '2007-04-20 12:59:59';
+        $doDataSummaryZoneImpressionHistory->zone_id              = 1;
+        $doDataSummaryZoneImpressionHistory->forecast_impressions = 666;
+        $doDataSummaryZoneImpressionHistory->actual_impressions   = 777;
+        $aRowIds = $dg->generate($doDataSummaryZoneImpressionHistory, 1);
+
+        $aResult = $oDal->getPlacementDailyTargetingStatistics($validPlacementId, $oValidDate);
+        $this->_testGetPlacementDailyTargetingStatistics($aResult, 2932, 2932, 100, 666, 777);
+
+        // Test 13: Test with multiple OIs, multiple ads
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->bannerid = 2;
+        $doBanners->campaignid = 1;
+        $aRows = $dg->generate($doBanners, 1);
+
+        $doDataSummaryAdZoneAssoc = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
+        $doDataSummaryAdZoneAssoc->operation_interval         = 60;
+        $doDataSummaryAdZoneAssoc->interval_start             = '2007-04-20 11:00:00';
+        $doDataSummaryAdZoneAssoc->interval_end               = '2007-04-20 11:59:59';
+        $doDataSummaryAdZoneAssoc->ad_id                      = 2;
+        $doDataSummaryAdZoneAssoc->zone_id                    = 1;
+        $doDataSummaryAdZoneAssoc->required_impressions       = 20;
+        $doDataSummaryAdZoneAssoc->requested_impressions      = 15;
+        $doDataSummaryAdZoneAssoc->priority                   = 0.1;
+        $doDataSummaryAdZoneAssoc->priority_factor            = 1;
+        $doDataSummaryAdZoneAssoc->priority_factor_limited    = 0;
+        $doDataSummaryAdZoneAssoc->past_zone_traffic_fraction = 0.1;
+        $doDataSummaryAdZoneAssoc->created                    = '2007-04-20 11:00:00';
+        $doDataSummaryAdZoneAssoc->expired                    = '2007-04-20 11:59:59';
+        $aRowIds = $dg->generate($doDataSummaryAdZoneAssoc, 1);
+
+        $doDataIntermediateAd = OA_Dal::factoryDO('data_intermediate_ad');
+        $doDataIntermediateAd->day                = '2006-04-20';
+        $doDataIntermediateAd->hour               = 11;
+        $doDataIntermediateAd->operation_interval = 60;
+        $doDataIntermediateAd->interval_start     = '2007-04-20 11:00:00';
+        $doDataIntermediateAd->interval_end       = '2007-04-20 11:59:59';
+        $doDataIntermediateAd->ad_id              = 2;
+        $doDataIntermediateAd->creative_id        = 0;
+        $doDataIntermediateAd->zone_id            = 1;
+        $doDataIntermediateAd->impressions        = 15;
+        $aRowIds = $dg->generate($doDataIntermediateAd, 1);
+
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->bannerid = 3;
+        $doBanners->campaignid = 1;
+        $aRows = $dg->generate($doBanners, 1);
+
+        $doDataSummaryAdZoneAssoc = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
+        $doDataSummaryAdZoneAssoc->operation_interval         = 60;
+        $doDataSummaryAdZoneAssoc->interval_start             = '2007-04-20 11:00:00';
+        $doDataSummaryAdZoneAssoc->interval_end               = '2007-04-20 11:59:59';
+        $doDataSummaryAdZoneAssoc->ad_id                      = 3;
+        $doDataSummaryAdZoneAssoc->zone_id                    = 2;
+        $doDataSummaryAdZoneAssoc->required_impressions       = 50;
+        $doDataSummaryAdZoneAssoc->requested_impressions      = 40;
+        $doDataSummaryAdZoneAssoc->priority                   = 0.1;
+        $doDataSummaryAdZoneAssoc->priority_factor            = 1;
+        $doDataSummaryAdZoneAssoc->priority_factor_limited    = 0;
+        $doDataSummaryAdZoneAssoc->past_zone_traffic_fraction = 0.1;
+        $doDataSummaryAdZoneAssoc->created                    = '2007-04-20 11:00:00';
+        $doDataSummaryAdZoneAssoc->expired                    = '2007-04-20 11:59:59';
+        $aRowIds = $dg->generate($doDataSummaryAdZoneAssoc, 1);
+
+        $doDataIntermediateAd = OA_Dal::factoryDO('data_intermediate_ad');
+        $doDataIntermediateAd->day                = '2006-04-20';
+        $doDataIntermediateAd->hour               = 11;
+        $doDataIntermediateAd->operation_interval = 60;
+        $doDataIntermediateAd->interval_start     = '2007-04-20 11:00:00';
+        $doDataIntermediateAd->interval_end       = '2007-04-20 11:59:59';
+        $doDataIntermediateAd->ad_id              = 3;
+        $doDataIntermediateAd->creative_id        = 0;
+        $doDataIntermediateAd->zone_id            = 2;
+        $doDataIntermediateAd->impressions        = 45;
+        $aRowIds = $dg->generate($doDataIntermediateAd, 1);
+
+        $doDataSummaryZoneImpressionHistory = OA_Dal::factoryDO('data_summary_zone_impression_history');
+        $doDataSummaryZoneImpressionHistory->operation_interval   = 60;
+        $doDataSummaryZoneImpressionHistory->interval_start       = '2007-04-20 11:00:00';
+        $doDataSummaryZoneImpressionHistory->interval_end         = '2007-04-20 11:59:59';
+        $doDataSummaryZoneImpressionHistory->zone_id              = 2;
+        $doDataSummaryZoneImpressionHistory->forecast_impressions = 15;
+        $doDataSummaryZoneImpressionHistory->actual_impressions   = 20;
+        $aRowIds = $dg->generate($doDataSummaryZoneImpressionHistory, 1);
+
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->bannerid = 4;
+        $doBanners->campaignid = 1;
+        $aRows = $dg->generate($doBanners, 1);
+
+        $doDataSummaryAdZoneAssoc = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
+        $doDataSummaryAdZoneAssoc->operation_interval         = 60;
+        $doDataSummaryAdZoneAssoc->interval_start             = '2007-04-20 11:00:00';
+        $doDataSummaryAdZoneAssoc->interval_end               = '2007-04-20 11:59:59';
+        $doDataSummaryAdZoneAssoc->ad_id                      = 4;
+        $doDataSummaryAdZoneAssoc->zone_id                    = 1;
+        $doDataSummaryAdZoneAssoc->required_impressions       = 10;
+        $doDataSummaryAdZoneAssoc->requested_impressions      = 10;
+        $doDataSummaryAdZoneAssoc->priority                   = 0.1;
+        $doDataSummaryAdZoneAssoc->priority_factor            = 1;
+        $doDataSummaryAdZoneAssoc->priority_factor_limited    = 0;
+        $doDataSummaryAdZoneAssoc->past_zone_traffic_fraction = 0.1;
+        $doDataSummaryAdZoneAssoc->created                    = '2007-04-20 11:00:00';
+        $doDataSummaryAdZoneAssoc->expired                    = '2007-04-20 11:59:59';
+        $aRowIds = $dg->generate($doDataSummaryAdZoneAssoc, 1);
+
+        $doDataIntermediateAd = OA_Dal::factoryDO('data_intermediate_ad');
+        $doDataIntermediateAd->day                = '2006-04-20';
+        $doDataIntermediateAd->hour               = 11;
+        $doDataIntermediateAd->operation_interval = 60;
+        $doDataIntermediateAd->interval_start     = '2007-04-20 11:00:00';
+        $doDataIntermediateAd->interval_end       = '2007-04-20 11:59:59';
+        $doDataIntermediateAd->ad_id              = 4;
+        $doDataIntermediateAd->creative_id        = 0;
+        $doDataIntermediateAd->zone_id            = 1;
+        $doDataIntermediateAd->impressions        = 9;
+        $aRowIds = $dg->generate($doDataIntermediateAd, 1);
+
+        $aResult = $oDal->getPlacementDailyTargetingStatistics($validPlacementId, $oValidDate);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 24);
-        $counter = 0;
         for ($intervalId = 120; $intervalId < 144; $intervalId++) {
             $oDate = new Date('2007-04-20');
-            $oDate->setHour($counter);
+            $oDate->setHour($intervalId - 120);
             $oDate->setMinute(0);
             $oDate->setSecond(0);
             $this->assertEqual($aResult[$intervalId]['interval_start'], $oDate);
             $oDate = new Date('2007-04-20');
-            $oDate->setHour($counter);
+            $oDate->setHour($intervalId - 120);
             $oDate->setMinute(59);
             $oDate->setSecond(59);
             $this->assertEqual($aResult[$intervalId]['interval_end'], $oDate);
-            if ($intervalId == 132) {
+            if ($intervalId == 131) {
+                $this->assertEqual($aResult[$intervalId]['placement_required_impressions'], 20 + 50 + 10);
+                $this->assertEqual($aResult[$intervalId]['placement_requested_impressions'], 15 + 40 + 10);
+                $this->assertEqual($aResult[$intervalId]['placement_actual_impressions'], 15 + 45 + 9);
+                $this->assertEqual($aResult[$intervalId]['zones_forecast_impressions'], 444 + 15);
+                $this->assertEqual($aResult[$intervalId]['zones_actual_impression'], 555 + 20);
+            } else if ($intervalId == 132) {
                 $this->assertEqual($aResult[$intervalId]['placement_required_impressions'], 2932);
                 $this->assertEqual($aResult[$intervalId]['placement_requested_impressions'], 2932);
                 $this->assertEqual($aResult[$intervalId]['placement_actual_impressions'], 100);
-                $this->assertEqual($aResult[$intervalId]['zones_forecast_impressions'], 0);
-                $this->assertEqual($aResult[$intervalId]['zones_actual_impression'], 0);
+                $this->assertEqual($aResult[$intervalId]['zones_forecast_impressions'], 666);
+                $this->assertEqual($aResult[$intervalId]['zones_actual_impression'], 777);
             } else {
                 $this->assertEqual($aResult[$intervalId]['placement_required_impressions'], 0);
                 $this->assertEqual($aResult[$intervalId]['placement_requested_impressions'], 0);
@@ -388,10 +396,61 @@ class Test_OA_Dal_Statistics extends UnitTestCase
                 $this->assertEqual($aResult[$intervalId]['zones_forecast_impressions'], 0);
                 $this->assertEqual($aResult[$intervalId]['zones_actual_impression'], 0);
             }
-            $counter++;
         }
 
         TestEnv::restoreEnv();
+    }
+
+    /**
+     * A private method to test the result array of a call to the
+     * testGetPlacementDailyTargetingStatistics() method.
+     *
+     * @access private
+     * @param array $aResult      The result array returned from a call to the
+     *                            testGetPlacementDailyTargetingStatistics() method.
+     * @param integer $required   The required number of ad impressions expected for the OI of
+     *                            2007-04-20 12:00:00 to 2007-04-20 12:59:59.
+     * @param integer $requested  The requested number of ad impressions expected for the OI of
+     *                            2007-04-20 12:00:00 to 2007-04-20 12:59:59.
+     * @param integer $actual     The actual number of ad impressions expected for the OI of
+     *                            2007-04-20 12:00:00 to 2007-04-20 12:59:59.
+     * @param integer $z_forecast The forecast number of zone impressions expected for the OI of
+     *                            2007-04-20 12:00:00 to 2007-04-20 12:59:59.
+     * @param integer $z_actual   The actual number of zone impressions expected for the OI of
+     *                            2007-04-20 12:00:00 to 2007-04-20 12:59:59.
+     */
+    function _testGetPlacementDailyTargetingStatistics(
+        $aResult, $required = 0, $requested = 0,
+        $actual = 0, $z_forecast = 0, $z_actual = 0
+    )
+    {
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 24);
+        for ($intervalId = 120; $intervalId < 144; $intervalId++) {
+            $oDate = new Date('2007-04-20');
+            $oDate->setHour($intervalId - 120);
+            $oDate->setMinute(0);
+            $oDate->setSecond(0);
+            $this->assertEqual($aResult[$intervalId]['interval_start'], $oDate);
+            $oDate = new Date('2007-04-20');
+            $oDate->setHour($intervalId - 120);
+            $oDate->setMinute(59);
+            $oDate->setSecond(59);
+            $this->assertEqual($aResult[$intervalId]['interval_end'], $oDate);
+            if ($intervalId == 132) {
+                $this->assertEqual($aResult[$intervalId]['placement_required_impressions'], $required);
+                $this->assertEqual($aResult[$intervalId]['placement_requested_impressions'], $requested);
+                $this->assertEqual($aResult[$intervalId]['placement_actual_impressions'], $actual);
+                $this->assertEqual($aResult[$intervalId]['zones_forecast_impressions'], $z_forecast);
+                $this->assertEqual($aResult[$intervalId]['zones_actual_impression'], $z_actual);
+            } else {
+                $this->assertEqual($aResult[$intervalId]['placement_required_impressions'], 0);
+                $this->assertEqual($aResult[$intervalId]['placement_requested_impressions'], 0);
+                $this->assertEqual($aResult[$intervalId]['placement_actual_impressions'], 0);
+                $this->assertEqual($aResult[$intervalId]['zones_forecast_impressions'], 0);
+                $this->assertEqual($aResult[$intervalId]['zones_actual_impression'], 0);
+            }
+        }
     }
 
     /**
@@ -479,23 +538,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $aRowIds = $dg->generate($doDataSummaryAdZoneAssoc, 1);
 
         $aResult = $oDal->getAdTargetingStatistics($validAdId, $oValidStartDate, $oValidEndDate);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 1);
-        $this->assertTrue(is_array($aResult[1]));
-        $this->assertEqual(count($aResult[1]), 11);
-        $oDate = new Date('2007-04-20 12:00:00');
-        $this->assertEqual($aResult[1]['interval_start'], $oDate);
-        $oDate = new Date('2007-04-20 12:59:59');
-        $this->assertEqual($aResult[1]['interval_end'], $oDate);
-        $this->assertEqual($aResult[1]['ad_required_impressions'], 5432);
-        $this->assertEqual($aResult[1]['ad_requested_impressions'], 5432);
-        $this->assertEqual((string) $aResult[1]['ad_priority'], (string) 0.1);
-        $this->assertEqual($aResult[1]['ad_priority_factor'], 1);
-        $this->assertEqual($aResult[1]['ad_priority_factor_limited'], 0);
-        $this->assertEqual((string) $aResult[1]['ad_past_zone_traffic_fraction'], (string) 0.1);
-        $this->assertNull($aResult[1]['ad_actual_impressions']);
-        $this->assertNull($aResult[1]['zone_forecast_impressions']);
-        $this->assertNull($aResult[1]['zone_actual_impression']);
+        $this->_testGetAdOrZoneTargetingStatistics($aResult, 1, 5432, 5432, 0.1, 1, 0, 0.1);
 
         TestEnv::restoreEnv();
 
@@ -533,23 +576,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $aRowIds = $dg->generate($doDataSummaryAdZoneAssoc, 1);
 
         $aResult = $oDal->getAdTargetingStatistics($validAdId, $oValidStartDate, $oValidEndDate);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 1);
-        $this->assertTrue(is_array($aResult[1]));
-        $this->assertEqual(count($aResult[1]), 11);
-        $oDate = new Date('2007-04-20 12:00:00');
-        $this->assertEqual($aResult[1]['interval_start'], $oDate);
-        $oDate = new Date('2007-04-20 12:59:59');
-        $this->assertEqual($aResult[1]['interval_end'], $oDate);
-        $this->assertEqual($aResult[1]['ad_required_impressions'], 2932);
-        $this->assertEqual($aResult[1]['ad_requested_impressions'], 2932);
-        $this->assertEqual((string) $aResult[1]['ad_priority'], (string) 0.2);
-        $this->assertEqual($aResult[1]['ad_priority_factor'], 2);
-        $this->assertEqual($aResult[1]['ad_priority_factor_limited'], 1);
-        $this->assertEqual((string) $aResult[1]['ad_past_zone_traffic_fraction'], (string) 0.4);
-        $this->assertNull($aResult[1]['ad_actual_impressions']);
-        $this->assertNull($aResult[1]['zone_forecast_impressions']);
-        $this->assertNull($aResult[1]['zone_actual_impression']);
+        $this->_testGetAdOrZoneTargetingStatistics($aResult, 1, 2932, 2932, 0.2, 2, 1, 0.4);
 
         // Test 6: Test as for Test 5, but now with ad impressions in the wrong OI
         $doDataIntermediateAd = OA_Dal::factoryDO('data_intermediate_ad');
@@ -565,23 +592,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $aRowIds = $dg->generate($doDataIntermediateAd, 1);
 
         $aResult = $oDal->getAdTargetingStatistics($validAdId, $oValidStartDate, $oValidEndDate);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 1);
-        $this->assertTrue(is_array($aResult[1]));
-        $this->assertEqual(count($aResult[1]), 11);
-        $oDate = new Date('2007-04-20 12:00:00');
-        $this->assertEqual($aResult[1]['interval_start'], $oDate);
-        $oDate = new Date('2007-04-20 12:59:59');
-        $this->assertEqual($aResult[1]['interval_end'], $oDate);
-        $this->assertEqual($aResult[1]['ad_required_impressions'], 2932);
-        $this->assertEqual($aResult[1]['ad_requested_impressions'], 2932);
-        $this->assertEqual((string) $aResult[1]['ad_priority'], (string) 0.2);
-        $this->assertEqual($aResult[1]['ad_priority_factor'], 2);
-        $this->assertEqual($aResult[1]['ad_priority_factor_limited'], 1);
-        $this->assertEqual((string) $aResult[1]['ad_past_zone_traffic_fraction'], (string) 0.4);
-        $this->assertNull($aResult[1]['ad_actual_impressions']);
-        $this->assertNull($aResult[1]['zone_forecast_impressions']);
-        $this->assertNull($aResult[1]['zone_actual_impression']);
+        $this->_testGetAdOrZoneTargetingStatistics($aResult, 1, 2932, 2932, 0.2, 2, 1, 0.4);
 
         // Test 7: Test as for Test 5, but now with ad impressions in the right OI
         $doDataIntermediateAd = OA_Dal::factoryDO('data_intermediate_ad');
@@ -597,81 +608,33 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $aRowIds = $dg->generate($doDataIntermediateAd, 1);
 
         $aResult = $oDal->getAdTargetingStatistics($validAdId, $oValidStartDate, $oValidEndDate);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 1);
-        $this->assertTrue(is_array($aResult[1]));
-        $this->assertEqual(count($aResult[1]), 11);
-        $oDate = new Date('2007-04-20 12:00:00');
-        $this->assertEqual($aResult[1]['interval_start'], $oDate);
-        $oDate = new Date('2007-04-20 12:59:59');
-        $this->assertEqual($aResult[1]['interval_end'], $oDate);
-        $this->assertEqual($aResult[1]['ad_required_impressions'], 2932);
-        $this->assertEqual($aResult[1]['ad_requested_impressions'], 2932);
-        $this->assertEqual((string) $aResult[1]['ad_priority'], (string) 0.2);
-        $this->assertEqual($aResult[1]['ad_priority_factor'], 2);
-        $this->assertEqual($aResult[1]['ad_priority_factor_limited'], 1);
-        $this->assertEqual((string) $aResult[1]['ad_past_zone_traffic_fraction'], (string) 0.4);
-        $this->assertEqual($aResult[1]['ad_actual_impressions'], 150);
-        $this->assertNull($aResult[1]['zone_forecast_impressions']);
-        $this->assertNull($aResult[1]['zone_actual_impression']);
+        $this->_testGetAdOrZoneTargetingStatistics($aResult, 1, 2932, 2932, 0.2, 2, 1, 0.4, 150);
 
         // Test 8: Test as for Test 7, but now with zone data in the wrong OI
-//        $doDataSummaryZoneImpressionHistory = OA_Dal::factoryDO('data_summary_zone_impression_history');
-//        $doDataSummaryZoneImpressionHistory->operation_interval   = 60;
-//        $doDataSummaryZoneImpressionHistory->interval_start       = '2007-04-20 11:00:00';
-//        $doDataSummaryZoneImpressionHistory->interval_end         = '2007-04-20 11:59:59';
-//        $doDataSummaryZoneImpressionHistory->zone_id              = 1;
-//        $doDataSummaryZoneImpressionHistory->forecast_impressions = 222;
-//        $doDataSummaryZoneImpressionHistory->actual_impressions   = 333;
-//        $aRowIds = $dg->generate($doDataSummaryZoneImpressionHistory, 1);
-//
-//        $aResult = $oDal->getAdTargetingStatistics($validAdId, $oValidStartDate, $oValidEndDate);
-//        $this->assertTrue(is_array($aResult));
-//        $this->assertEqual(count($aResult), 1);
-//        $this->assertTrue(is_array($aResult[1]));
-//        $this->assertEqual(count($aResult[1]), 11);
-//        $oDate = new Date('2007-04-20 12:00:00');
-//        $this->assertEqual($aResult[1]['interval_start'], $oDate);
-//        $oDate = new Date('2007-04-20 12:59:59');
-//        $this->assertEqual($aResult[1]['interval_end'], $oDate);
-//        $this->assertEqual($aResult[1]['ad_required_impressions'], 2932);
-//        $this->assertEqual($aResult[1]['ad_requested_impressions'], 2932);
-//        $this->assertEqual((string) $aResult[1]['ad_priority'], (string) 0.2);
-//        $this->assertEqual($aResult[1]['ad_priority_factor'], 2);
-//        $this->assertEqual($aResult[1]['ad_priority_factor_limited'], 1);
-//        $this->assertEqual((string) $aResult[1]['ad_past_zone_traffic_fraction'], (string) 0.4);
-//        $this->assertEqual($aResult[1]['ad_actual_impressions'], 150);
-//        $this->assertNull($aResult[1]['zone_forecast_impressions']);
-//        $this->assertNull($aResult[1]['zone_actual_impression']);
+        $doDataSummaryZoneImpressionHistory = OA_Dal::factoryDO('data_summary_zone_impression_history');
+        $doDataSummaryZoneImpressionHistory->operation_interval   = 60;
+        $doDataSummaryZoneImpressionHistory->interval_start       = '2007-04-20 11:00:00';
+        $doDataSummaryZoneImpressionHistory->interval_end         = '2007-04-20 11:59:59';
+        $doDataSummaryZoneImpressionHistory->zone_id              = 1;
+        $doDataSummaryZoneImpressionHistory->forecast_impressions = 222;
+        $doDataSummaryZoneImpressionHistory->actual_impressions   = 333;
+        $aRowIds = $dg->generate($doDataSummaryZoneImpressionHistory, 1);
+
+        $aResult = $oDal->getAdTargetingStatistics($validAdId, $oValidStartDate, $oValidEndDate);
+        $this->_testGetAdOrZoneTargetingStatistics($aResult, 1, 2932, 2932, 0.2, 2, 1, 0.4, 150);
 
         // Test 9: Test as for Test 7, but now with zone data in the right OI
-//        $doDataSummaryZoneImpressionHistory = OA_Dal::factoryDO('data_summary_zone_impression_history');
-//        $doDataSummaryZoneImpressionHistory->operation_interval   = 60;
-//        $doDataSummaryZoneImpressionHistory->interval_start       = '2007-04-20 12:00:00';
-//        $doDataSummaryZoneImpressionHistory->interval_end         = '2007-04-20 12:59:59';
-//        $doDataSummaryZoneImpressionHistory->zone_id              = 1;
-//        $doDataSummaryZoneImpressionHistory->forecast_impressions = 444;
-//        $doDataSummaryZoneImpressionHistory->actual_impressions   = 555;
-//        $aRowIds = $dg->generate($doDataSummaryZoneImpressionHistory, 1);
-//
-//        $aResult = $oDal->getAdTargetingStatistics($validAdId, $oValidStartDate, $oValidEndDate);
-//        $this->assertTrue(is_array($aResult));
-//        $this->assertEqual(count($aResult), 1);
-//        $this->assertTrue(is_array($aResult[1]));
-//        $this->assertEqual(count($aResult[1]), 11);
-//        $oDate = new Date('2007-04-20 12:00:00');
-//        $this->assertEqual($aResult[1]['interval_start'], $oDate);
-//        $oDate = new Date('2007-04-20 12:59:59');
-//        $this->assertEqual($aResult[1]['interval_end'], $oDate);
-//        $this->assertEqual($aResult[1]['ad_required_impressions'], 2932);
-//        $this->assertEqual($aResult[1]['ad_requested_impressions'], 2932);
-//        $this->assertEqual((string) $aResult[1]['ad_priority'], (string) 0.2);
-//        $this->assertEqual($aResult[1]['ad_priority_factor'], 2);
-//        $this->assertEqual($aResult[1]['ad_priority_factor_limited'], 1);
-//        $this->assertEqual((string) $aResult[1]['ad_past_zone_traffic_fraction'], (string) 0.4);
-//        $this->assertEqual($aResult[1]['ad_actual_impressions'], 150);
-//        $this->assertEqual($aResult[1]['zone_forecast_impressions'], 444);
-//        $this->assertEqual($aResult[1]['zone_actual_impression'], 555);
+        $doDataSummaryZoneImpressionHistory = OA_Dal::factoryDO('data_summary_zone_impression_history');
+        $doDataSummaryZoneImpressionHistory->operation_interval   = 60;
+        $doDataSummaryZoneImpressionHistory->interval_start       = '2007-04-20 12:00:00';
+        $doDataSummaryZoneImpressionHistory->interval_end         = '2007-04-20 12:59:59';
+        $doDataSummaryZoneImpressionHistory->zone_id              = 1;
+        $doDataSummaryZoneImpressionHistory->forecast_impressions = 444;
+        $doDataSummaryZoneImpressionHistory->actual_impressions   = 555;
+        $aRowIds = $dg->generate($doDataSummaryZoneImpressionHistory, 1);
+
+        $aResult = $oDal->getAdTargetingStatistics($validAdId, $oValidStartDate, $oValidEndDate);
+        $this->_testGetAdOrZoneTargetingStatistics($aResult, 1, 2932, 2932, 0.2, 2, 1, 0.4, 150, 444, 555);
 
         TestEnv::restoreEnv();
     }
@@ -757,23 +720,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $aRowIds = $dg->generate($doDataSummaryAdZoneAssoc, 1);
 
         $aResult = $oDal->getZoneTargetingStatistics($validZoneId, $oValidStartDate, $oValidEndDate);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 1);
-        $this->assertTrue(is_array($aResult[1]));
-        $this->assertEqual(count($aResult[1]), 11);
-        $oDate = new Date('2007-04-20 12:00:00');
-        $this->assertEqual($aResult[1]['interval_start'], $oDate);
-        $oDate = new Date('2007-04-20 12:59:59');
-        $this->assertEqual($aResult[1]['interval_end'], $oDate);
-        $this->assertEqual($aResult[1]['ad_required_impressions'], 5432);
-        $this->assertEqual($aResult[1]['ad_requested_impressions'], 5432);
-        $this->assertEqual((string) $aResult[1]['ad_priority'], (string) 0.1);
-        $this->assertEqual($aResult[1]['ad_priority_factor'], 1);
-        $this->assertEqual($aResult[1]['ad_priority_factor_limited'], 0);
-        $this->assertEqual((string) $aResult[1]['ad_past_zone_traffic_fraction'], (string) 0.1);
-        $this->assertNull($aResult[1]['ad_actual_impressions']);
-        $this->assertNull($aResult[1]['zone_forecast_impressions']);
-        $this->assertNull($aResult[1]['zone_actual_impression']);
+        $this->_testGetAdOrZoneTargetingStatistics($aResult, 1, 5432, 5432, 0.1, 1, 0, 0.1);
 
         TestEnv::restoreEnv();
 
@@ -811,23 +758,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $aRowIds = $dg->generate($doDataSummaryAdZoneAssoc, 1);
 
         $aResult = $oDal->getZoneTargetingStatistics($validZoneId, $oValidStartDate, $oValidEndDate);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 1);
-        $this->assertTrue(is_array($aResult[1]));
-        $this->assertEqual(count($aResult[1]), 11);
-        $oDate = new Date('2007-04-20 12:00:00');
-        $this->assertEqual($aResult[1]['interval_start'], $oDate);
-        $oDate = new Date('2007-04-20 12:59:59');
-        $this->assertEqual($aResult[1]['interval_end'], $oDate);
-        $this->assertEqual($aResult[1]['ad_required_impressions'], 2932);
-        $this->assertEqual($aResult[1]['ad_requested_impressions'], 2932);
-        $this->assertEqual((string) $aResult[1]['ad_priority'], (string) 0.2);
-        $this->assertEqual($aResult[1]['ad_priority_factor'], 2);
-        $this->assertEqual($aResult[1]['ad_priority_factor_limited'], 1);
-        $this->assertEqual((string) $aResult[1]['ad_past_zone_traffic_fraction'], (string) 0.4);
-        $this->assertNull($aResult[1]['ad_actual_impressions']);
-        $this->assertNull($aResult[1]['zone_forecast_impressions']);
-        $this->assertNull($aResult[1]['zone_actual_impression']);
+        $this->_testGetAdOrZoneTargetingStatistics($aResult, 1, 2932, 2932, 0.2, 2, 1, 0.4);
 
         // Test 6: Test as for Test 5, but now with ad impressions in the wrong OI
         $doDataIntermediateAd = OA_Dal::factoryDO('data_intermediate_ad');
@@ -843,23 +774,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $aRowIds = $dg->generate($doDataIntermediateAd, 1);
 
         $aResult = $oDal->getZoneTargetingStatistics($validZoneId, $oValidStartDate, $oValidEndDate);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 1);
-        $this->assertTrue(is_array($aResult[1]));
-        $this->assertEqual(count($aResult[1]), 11);
-        $oDate = new Date('2007-04-20 12:00:00');
-        $this->assertEqual($aResult[1]['interval_start'], $oDate);
-        $oDate = new Date('2007-04-20 12:59:59');
-        $this->assertEqual($aResult[1]['interval_end'], $oDate);
-        $this->assertEqual($aResult[1]['ad_required_impressions'], 2932);
-        $this->assertEqual($aResult[1]['ad_requested_impressions'], 2932);
-        $this->assertEqual((string) $aResult[1]['ad_priority'], (string) 0.2);
-        $this->assertEqual($aResult[1]['ad_priority_factor'], 2);
-        $this->assertEqual($aResult[1]['ad_priority_factor_limited'], 1);
-        $this->assertEqual((string) $aResult[1]['ad_past_zone_traffic_fraction'], (string) 0.4);
-        $this->assertNull($aResult[1]['ad_actual_impressions']);
-        $this->assertNull($aResult[1]['zone_forecast_impressions']);
-        $this->assertNull($aResult[1]['zone_actual_impression']);
+        $this->_testGetAdOrZoneTargetingStatistics($aResult, 1, 2932, 2932, 0.2, 2, 1, 0.4);
 
         // Test 7: Test as for Test 5, but now with ad impressions in the right OI
         $doDataIntermediateAd = OA_Dal::factoryDO('data_intermediate_ad');
@@ -875,83 +790,87 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $aRowIds = $dg->generate($doDataIntermediateAd, 1);
 
         $aResult = $oDal->getZoneTargetingStatistics($validZoneId, $oValidStartDate, $oValidEndDate);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 1);
-        $this->assertTrue(is_array($aResult[1]));
-        $this->assertEqual(count($aResult[1]), 11);
-        $oDate = new Date('2007-04-20 12:00:00');
-        $this->assertEqual($aResult[1]['interval_start'], $oDate);
-        $oDate = new Date('2007-04-20 12:59:59');
-        $this->assertEqual($aResult[1]['interval_end'], $oDate);
-        $this->assertEqual($aResult[1]['ad_required_impressions'], 2932);
-        $this->assertEqual($aResult[1]['ad_requested_impressions'], 2932);
-        $this->assertEqual((string) $aResult[1]['ad_priority'], (string) 0.2);
-        $this->assertEqual($aResult[1]['ad_priority_factor'], 2);
-        $this->assertEqual($aResult[1]['ad_priority_factor_limited'], 1);
-        $this->assertEqual((string) $aResult[1]['ad_past_zone_traffic_fraction'], (string) 0.4);
-        $this->assertEqual($aResult[1]['ad_actual_impressions'], 150);
-        $this->assertNull($aResult[1]['zone_forecast_impressions']);
-        $this->assertNull($aResult[1]['zone_actual_impression']);
+        $this->_testGetAdOrZoneTargetingStatistics($aResult, 1, 2932, 2932, 0.2, 2, 1, 0.4, 150);
 
         // Test 8: Test as for Test 7, but now with zone data in the wrong OI
-//        $doDataSummaryZoneImpressionHistory = OA_Dal::factoryDO('data_summary_zone_impression_history');
-//        $doDataSummaryZoneImpressionHistory->operation_interval   = 60;
-//        $doDataSummaryZoneImpressionHistory->interval_start       = '2007-04-20 11:00:00';
-//        $doDataSummaryZoneImpressionHistory->interval_end         = '2007-04-20 11:59:59';
-//        $doDataSummaryZoneImpressionHistory->zone_id              = 1;
-//        $doDataSummaryZoneImpressionHistory->forecast_impressions = 222;
-//        $doDataSummaryZoneImpressionHistory->actual_impressions   = 333;
-//        $aRowIds = $dg->generate($doDataSummaryZoneImpressionHistory, 1);
-//
-//        $aResult = $oDal->getZoneTargetingStatistics($validZoneId, $oValidStartDate, $oValidEndDate);
-//        $this->assertTrue(is_array($aResult));
-//        $this->assertEqual(count($aResult), 1);
-//        $this->assertTrue(is_array($aResult[1]));
-//        $this->assertEqual(count($aResult[1]), 11);
-//        $oDate = new Date('2007-04-20 12:00:00');
-//        $this->assertEqual($aResult[1]['interval_start'], $oDate);
-//        $oDate = new Date('2007-04-20 12:59:59');
-//        $this->assertEqual($aResult[1]['interval_end'], $oDate);
-//        $this->assertEqual($aResult[1]['ad_required_impressions'], 2932);
-//        $this->assertEqual($aResult[1]['ad_requested_impressions'], 2932);
-//        $this->assertEqual((string) $aResult[1]['ad_priority'], (string) 0.2);
-//        $this->assertEqual($aResult[1]['ad_priority_factor'], 2);
-//        $this->assertEqual($aResult[1]['ad_priority_factor_limited'], 1);
-//        $this->assertEqual((string) $aResult[1]['ad_past_zone_traffic_fraction'], (string) 0.4);
-//        $this->assertEqual($aResult[1]['ad_actual_impressions'], 150);
-//        $this->assertNull($aResult[1]['zone_forecast_impressions']);
-//        $this->assertNull($aResult[1]['zone_actual_impression']);
+        $doDataSummaryZoneImpressionHistory = OA_Dal::factoryDO('data_summary_zone_impression_history');
+        $doDataSummaryZoneImpressionHistory->operation_interval   = 60;
+        $doDataSummaryZoneImpressionHistory->interval_start       = '2007-04-20 11:00:00';
+        $doDataSummaryZoneImpressionHistory->interval_end         = '2007-04-20 11:59:59';
+        $doDataSummaryZoneImpressionHistory->zone_id              = 1;
+        $doDataSummaryZoneImpressionHistory->forecast_impressions = 222;
+        $doDataSummaryZoneImpressionHistory->actual_impressions   = 333;
+        $aRowIds = $dg->generate($doDataSummaryZoneImpressionHistory, 1);
+
+        $aResult = $oDal->getZoneTargetingStatistics($validZoneId, $oValidStartDate, $oValidEndDate);
+        $this->_testGetAdOrZoneTargetingStatistics($aResult, 1, 2932, 2932, 0.2, 2, 1, 0.4, 150);
 
         // Test 9: Test as for Test 7, but now with zone data in the right OI
-//        $doDataSummaryZoneImpressionHistory = OA_Dal::factoryDO('data_summary_zone_impression_history');
-//        $doDataSummaryZoneImpressionHistory->operation_interval   = 60;
-//        $doDataSummaryZoneImpressionHistory->interval_start       = '2007-04-20 12:00:00';
-//        $doDataSummaryZoneImpressionHistory->interval_end         = '2007-04-20 12:59:59';
-//        $doDataSummaryZoneImpressionHistory->zone_id              = 1;
-//        $doDataSummaryZoneImpressionHistory->forecast_impressions = 444;
-//        $doDataSummaryZoneImpressionHistory->actual_impressions   = 555;
-//        $aRowIds = $dg->generate($doDataSummaryZoneImpressionHistory, 1);
-//
-//        $aResult = $oDal->getZoneTargetingStatistics($validZoneId, $oValidStartDate, $oValidEndDate);
-//        $this->assertTrue(is_array($aResult));
-//        $this->assertEqual(count($aResult), 1);
-//        $this->assertTrue(is_array($aResult[1]));
-//        $this->assertEqual(count($aResult[1]), 11);
-//        $oDate = new Date('2007-04-20 12:00:00');
-//        $this->assertEqual($aResult[1]['interval_start'], $oDate);
-//        $oDate = new Date('2007-04-20 12:59:59');
-//        $this->assertEqual($aResult[1]['interval_end'], $oDate);
-//        $this->assertEqual($aResult[1]['ad_required_impressions'], 2932);
-//        $this->assertEqual($aResult[1]['ad_requested_impressions'], 2932);
-//        $this->assertEqual((string) $aResult[1]['ad_priority'], (string) 0.2);
-//        $this->assertEqual($aResult[1]['ad_priority_factor'], 2);
-//        $this->assertEqual($aResult[1]['ad_priority_factor_limited'], 1);
-//        $this->assertEqual((string) $aResult[1]['ad_past_zone_traffic_fraction'], (string) 0.4);
-//        $this->assertEqual($aResult[1]['ad_actual_impressions'], 150);
-//        $this->assertEqual($aResult[1]['zone_forecast_impressions'], 444);
-//        $this->assertEqual($aResult[1]['zone_actual_impression'], 555);
+        $doDataSummaryZoneImpressionHistory = OA_Dal::factoryDO('data_summary_zone_impression_history');
+        $doDataSummaryZoneImpressionHistory->operation_interval   = 60;
+        $doDataSummaryZoneImpressionHistory->interval_start       = '2007-04-20 12:00:00';
+        $doDataSummaryZoneImpressionHistory->interval_end         = '2007-04-20 12:59:59';
+        $doDataSummaryZoneImpressionHistory->zone_id              = 1;
+        $doDataSummaryZoneImpressionHistory->forecast_impressions = 444;
+        $doDataSummaryZoneImpressionHistory->actual_impressions   = 555;
+        $aRowIds = $dg->generate($doDataSummaryZoneImpressionHistory, 1);
+
+        $aResult = $oDal->getZoneTargetingStatistics($validZoneId, $oValidStartDate, $oValidEndDate);
+        $this->_testGetAdOrZoneTargetingStatistics($aResult, 1, 2932, 2932, 0.2, 2, 1, 0.4, 150, 444, 555);
 
         TestEnv::restoreEnv();
+    }
+
+    /**
+     * A private method to test the result array of a call to the
+     * getAdTargetingStatistics() or getZoneTargetingStatistics() methods.
+     *
+     * @access private
+     * @param array   $aResult    The result array returned from a call to the
+     *                            testGetPlacementDailyTargetingStatistics() method.
+     * @param integer $id         The ID of the ad, or zone, expected.
+     * @param integer $required   The required number of ad impressions expected for the OI of
+     *                            2007-04-20 12:00:00 to 2007-04-20 12:59:59.
+     * @param integer $requested  The requested number of ad impressions expected for the OI of
+     *                            2007-04-20 12:00:00 to 2007-04-20 12:59:59.
+     * @param integer $priority   The ad priority expected for the OI of
+     *                            2007-04-20 12:00:00 to 2007-04-20 12:59:59.
+     * @param integer $priority_f The ad priority factor expected for the OI of
+     *                            2007-04-20 12:00:00 to 2007-04-20 12:59:59.
+     * @param integer $priority_l The ad priority factor limited expected for the OI of
+     *                            2007-04-20 12:00:00 to 2007-04-20 12:59:59.
+     * @param integer $past_frac  The ad zone past fraction expected for the OI of
+     *                            2007-04-20 12:00:00 to 2007-04-20 12:59:59.
+     * @param integer $actual     The actual number of ad impressions expected for the OI of
+     *                            2007-04-20 12:00:00 to 2007-04-20 12:59:59.
+     * @param integer $z_forecast The forecast number of zone impressions expected for the OI of
+     *                            2007-04-20 12:00:00 to 2007-04-20 12:59:59.
+     * @param integer $z_actual   The actual number of zone impressions expected for the OI of
+     *                            2007-04-20 12:00:00 to 2007-04-20 12:59:59.
+     */
+    function _testGetAdOrZoneTargetingStatistics(
+        $aResult, $id, $required = 0, $requested = 0,
+        $priority = 0, $priority_f = 0, $priority_l = 0, $past_frac = 0,
+        $actual = 0, $z_forecast = 0, $z_actual = 0
+    )
+    {
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 1);
+        $this->assertTrue(is_array($aResult[$id]));
+        $this->assertEqual(count($aResult[$id]), 11);
+        $oDate = new Date('2007-04-20 12:00:00');
+        $this->assertEqual($aResult[$id]['interval_start'], $oDate);
+        $oDate = new Date('2007-04-20 12:59:59');
+        $this->assertEqual($aResult[$id]['interval_end'], $oDate);
+        $this->assertEqual($aResult[$id]['ad_required_impressions'], $required);
+        $this->assertEqual($aResult[$id]['ad_requested_impressions'], $requested);
+        $this->assertEqual((string) $aResult[$id]['ad_priority'], (string) $priority);
+        $this->assertEqual($aResult[$id]['ad_priority_factor'], $priority_f);
+        $this->assertEqual($aResult[$id]['ad_priority_factor_limited'], $priority_l);
+        $this->assertEqual((string) $aResult[$id]['ad_past_zone_traffic_fraction'], (string) $past_frac);
+        $this->assertEqual($aResult[$id]['ad_actual_impressions'], $actual);
+        $this->assertEqual($aResult[$id]['zone_forecast_impressions'], $z_forecast);
+        $this->assertEqual($aResult[$id]['zone_actual_impression'], $z_actual);
     }
 
 }
