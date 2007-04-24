@@ -101,7 +101,40 @@ class test_DeliveryAdRender extends UnitTestCase
    		$i	= preg_match_all('/'.$aPattern['stru'].'/U', $return, $aMatch);
 		$this->assertTrue($i,'structure');
 
-	}
+
+		// Test a converted SWF banner
+        $aBanner['parameters'] = serialize(array(
+            'swf' => array(
+                '1' => array(
+                    'link' => 'http://www.example.com',
+                    'tar'  => '_blank'
+                )
+            )
+		));
+
+	    $return		= _adRenderFlash($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
+
+		$flags		= null;
+		$offset		= null;
+        // is prepended stuff returned?
+        if (array_key_exists('prepend', $aBanner) && (!empty($aBanner['prepend'])))
+        {
+    		$i	= preg_match('/'.$aPattern['pre'].'/', $return, $aMatch);
+    		$this->assertTrue($i,'prepend');
+        }
+        // is appended stuff returned?
+        if (array_key_exists('append', $aBanner) && (!empty($aBanner['append'])))
+        {
+    		$i	= preg_match('/'.$aPattern['app'].'/', $return, $aMatch);
+    		$this->assertTrue($i,'append');
+        }
+        // break known structure into array of individual elements
+   		$i	= preg_match_all('/'.$aPattern['stru'].'/U', $return, $aMatch);
+		$this->assertTrue($i,'structure');
+
+		// Check for converded link
+		$this->assertTrue(preg_match('/alink1=.*example.*&atar1=_blank/', $aMatch['script_content'][0]));
+}
 
 	/**
 	 * NOTE: probably deprecated

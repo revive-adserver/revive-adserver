@@ -106,10 +106,14 @@ if (isset($convert)) {
                         if (isset($overwrite_source) && $overwrite_source[$val] != '') {
                             $overwrite_link[$val] .= '|source:'.$overwrite_source[$val];
                         }
-                        $parameters_complete[] = 'alink'.$key.'={targeturl:'.$overwrite_link[$val].'}&atar'.$key.'='.$overwrite_target[$val];
+                        $parameters_complete[$key] = array(
+                            'link' => $overwrite_link[$val],
+                            'tar'  => $overwrite_target[$val]
+                        );
                     }
-                    $parameter = implode ('&', $parameters_complete);
-                    $row['htmltemplate'] = str_replace ('{swf_param}', $parameter, $row['htmltemplate']);
+                    $parameters = array('swf' => $parameters_complete);
+                } else {
+                    $parameters = '';
                 }
 
                 $row['pluginversion'] = phpAds_SWFVersion($result);
@@ -122,6 +126,7 @@ if (isset($convert)) {
                 $doBanners->target = $row['target'];
                 $doBanners->pluginversion = $row['pluginversion'];
                 $doBanners->htmltemplate = $row['htmltemplate'];
+                $doBanners->parameters = empty($parameters) ? null : serialize($parameters);
                 $doBanners->update();
 
                 // Store the banner
@@ -244,7 +249,7 @@ if ($result) {
 
     $i=0;
     while (list($key, $val) = each($result)) {
-        list ($offset, $url, $target) = $val;
+        list ($url, $target) = $val;
 
         if ($i > 0) {
             echo "<tr><td height='20' colspan='4'>&nbsp;</td></tr>";
@@ -252,19 +257,9 @@ if ($result) {
             echo "<tr><td height='10' colspan='4'>&nbsp;</td></tr>";
         }
 
-        $editDisable = false;
-        if(strlen($url) < 23 ) {
-            $editDisable = true;
-            echo "<tr><td colspan = '3'>";
-            echo '<table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td valign="top" width="22"><img src="images/error.gif" height="16" width="16">&nbsp;&nbsp;</td><td valign="top"><font color="#aa0000"><b>'.$strLinkToShort.'</b></font></td></tr></tbody></table>';
-            echo "</td></tr>";
-        }
         echo "<tr><td width='30'>&nbsp;</td><td width='30'><input type='checkbox' name='convert_links[]' value='".$key."' checked></td>";
         echo "<td width='200'>".$strURL."</td>";
         echo "<td><input class='flat' size='35' type='text' name='overwrite_link[".$key."]' style='width:300px;' dir='ltr' ";
-        if($editDisable) {
-            echo " disabled ";
-        }
         echo " value='".phpAds_htmlQuotes($url)."'>";
         echo "<input type='radio' name='chosen_link' value='".$key."'".($i == 0 ? ' checked' : '')."></td></tr>";
 
@@ -274,9 +269,6 @@ if ($result) {
         echo "<tr><td width='30'>&nbsp;</td><td width='30'>&nbsp;</td>";
         echo "<td width='200'>".$strTarget."</td>";
         echo "<td><input class='flat' size='16' type='text' name='overwrite_target[".$key."]' style='width:150px;' dir='ltr' ";
-        if($editDisable) {
-            echo " disabled ";
-        }
         echo " value='".phpAds_htmlQuotes($target)."'>";
         echo "</td></tr>";
 

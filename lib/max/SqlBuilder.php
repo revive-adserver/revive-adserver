@@ -62,7 +62,7 @@ class SqlBuilder
         switch ($entity) {
 
         case 'ad' :
-            $aColumns += array('d.bannerid' => 'ad_id', 'd.campaignid' => 'placement_id', 'd.active' => 'active', 'd.description' => 'name', 'd.storagetype' => 'type');
+            $aColumns += array('d.bannerid' => 'ad_id', 'd.campaignid' => 'placement_id', 'd.active' => 'active', 'd.description' => 'name', 'd.storagetype' => 'type', 'd.parameters' => 'parameters');
             if ($allFields) $aColumns += array('d.contenttype' => 'contenttype', 'd.pluginversion' => 'pluginversion', 'd.filename' => 'filename', 'd.imageurl' => 'imageurl', 'd.htmltemplate' => 'htmltemplate', 'd.htmlcache' => 'htmlcache', 'd.width' => 'width', 'd.height' => 'height', 'd.weight' => 'weight', 'd.seq' => 'seq', 'd.target' => 'target', 'd.url' => 'url', 'd.alt' => 'alt', 'd.status' => 'status', 'd.bannertext' => 'bannertext', 'd.autohtml' => 'autohtml', 'd.adserver' => 'adserver', 'd.block' => 'block', 'd.capping' => 'capping', 'd.session_capping' => 'session_capping', 'd.compiledlimitation' => 'compiledlimitation', 'd.append' => 'append', 'd.appendtype' => 'appendtype', 'd.bannertype' => 'bannertype', 'd.alt_filename' => 'alt_filename', 'd.alt_imageurl' => 'alt_imageurl', 'd.alt_contenttype' => 'alt_contenttype', 'd.comments' => 'comments');
             break;
 
@@ -1018,7 +1018,7 @@ class SqlBuilder
         }
     }
 
-    
+
     /**
      * Performs an SQL insert.
      *
@@ -1040,8 +1040,8 @@ class SqlBuilder
         }
         return $do->insert();
     }
-    
-    
+
+
     function _getFieldIdName($table)
     {
         $dbh = &OA_DB::singleton();

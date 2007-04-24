@@ -117,7 +117,9 @@ function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $wit
         case 'swf'  :
             if ($richMedia) {
                 $code = _adRenderFlash($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $loc, $referer);
-            } else { $code = _adRenderImage($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, true, $richMedia, $loc, $referer); }
+            } else {
+                $code = _adRenderImage($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, true, $richMedia, $loc, $referer);
+            }
             break;
         case 'txt'  :
             $code = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $loc, $referer);
@@ -288,6 +290,22 @@ function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
         $swfParams = '';
         $clickTag = '';
         $clickTagEnd = '';
+    }
+    if (!empty($aBanner['parameters'])) {
+        $aAdParams = unserialize($aBanner['parameters']);
+        if (isset($aAdParams['swf']) && is_array($aAdParams['swf'])) {
+            // Converted SWF file, use paramters content
+            $swfParams = array();
+            $aBannerSwf = $aBanner;
+            // Set the flag to let _adRenderBuildClickUrl know that we're not using clickTAG
+            $aBannerSwf['noClickTag'] = true;
+            foreach ($aAdParams['swf'] as $iKey => $aSwf) {
+                $aBannerSwf['url'] = $aSwf['link'];
+                $swfParams[] = "alink{$iKey}=".urlencode(_adRenderBuildClickUrl($aBannerSwf, $zoneId, $source, $ct0, $logClick));
+                $swfParams[] = "atar{$iKey}=".urlencode($aSwf['tar']);
+            }
+            $swfParams = join('&', $swfParams);
+        }
     }
     $fileUrl = _adRenderBuildFileUrl($aBanner, false, $swfParams);
     $protocol = ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) ? "https" : "http";
@@ -704,7 +722,12 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
         $dest = !empty($aBanner['url']) ? $aBanner['url'] : '';
         // If the passed in a ct0= value that is not a valid URL (simple checking), then ignore it
         $ct0 = (empty($ct0) || strtolower(substr($ct0, 0, 4)) != 'http') ? '' : $ct0;
-        $aBanner['contenttype'] == "swf" ? $maxdest = '' : $maxdest = "{$del}maxdest={$ct0}{$dest}";
+        if ($aBanner['contenttype'] == "swf" && empty($aBanner['noClickTag'])) {
+            // Strip maxdest with SWF banners using clickTAG
+            $maxdest = '';
+        } else {
+            $maxdest = "{$del}maxdest={$ct0}{$dest}";
+        }
         $channelIds .= (!empty($GLOBALS['_MAX']['CHANNELS']) ? $del. "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER,$conf['delivery']['chDelimiter'],$GLOBALS['_MAX']['CHANNELS']) :'');
         $maxparams = "{$delnum}{$bannerId}{$del}zoneid={$zoneId}{$channelIds}{$source}{$log}{$random}{$maxdest}";
 // hmmm... 2__bannerid=1__zoneid=1__cb={random}__maxdest=__channel_ids=__1__1__
