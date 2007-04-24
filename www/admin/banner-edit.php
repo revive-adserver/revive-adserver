@@ -143,6 +143,45 @@ if (isset($submit)) {
     $aVariables['compiledlimitation'] = '';
     $aVariables['append'] = '';
 
+    // Update existing hard-coded links
+    if ($aVariables['contenttype'] == 'swf' && isset($alink) && is_array($alink) && count($alink)) {
+        // Prepare the parameters
+        $parameters_complete = array();
+
+        // Prepare targets
+        if (!isset($atar) || !is_array($atar)) {
+            $atar = array();
+        }
+
+        while (list ($key, $val) = each ($alink)) {
+            if (substr($val, 0, 7) == 'http://' && strlen($val) > 7) {
+                if (!isset($atar[$key])) {
+                    $atar[$key] = '';
+                }
+
+                if (isset($alink_chosen) && $alink_chosen == $key) {
+                    $final['url'] = $val;
+                    $final['target'] = $atar[$key];
+                }
+/*
+                if (isset($asource[$key]) && $asource[$key] != '') {
+                    $val .= '|source:'.$asource[$key];
+                }
+*/
+                $parameters_complete[$key] = array(
+                    'link' => $val,
+                    'tar'  => $atar[$key]
+                );
+            }
+        }
+
+        $parameters = array('swf' => $parameters_complete);
+    } else {
+        $parameters = null;
+    }
+
+    $aVariables['parameters'] = serialize($parameters);
+
     $editSwf = false;
 
     // Add variables from plugins
@@ -242,6 +281,18 @@ if ($bannerid != '') {
     $hardcoded_links   = array();
     $hardcoded_targets = array();
     $hardcoded_sources = array();
+
+    // Check for hard-coded links
+    if (!empty($row['parameters'])) {
+        $aSwfParams = unserialize($row['parameters']);
+        if (!empty($aSwfParams['swf'])) {
+            foreach ($aSwfParams['swf'] as $iKey => $aSwf) {
+                $hardcoded_links[$iKey]   = $aSwf['link'];
+                $hardcoded_targets[$iKey] = $aSwf['tar'];
+                $hardcoded_sources[$iKey] = '';
+            }
+        }
+    }
 } else {
     // Set default values for new banner
     $row['alt']          = '';
