@@ -1455,7 +1455,7 @@ class Openads_Schema_Manager
             'ignore_sequence_keys'  => 'ALL',
             'generator_strip_schema'=> 1,
             //'generator_include_regex' => "/({$include})/",
-            'generator_exclude_regex' => '/(data_raw_.*|data_summary_channel_.*|data_summary_zone_.*)/'
+            'generator_exclude_regex' => '/(data_raw_.*|data_summary_channel_.*|data_summary_zone_country.*|data_summary_zone_domain.*|data_summary_zone_site.*|data_summary_zone_source.*)/'
         );
 
         require_once 'DB/DataObject/Generator.php';
