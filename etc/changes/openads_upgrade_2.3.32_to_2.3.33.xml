@@ -22,11 +22,11 @@
             <file>migration_tables_core_510.php</file>
         </package>
         <package>
-            <version>510</version>
+            <version>511</version>
             <schema>tables_core</schema>
-            <file>schema_tables_core_510.xml</file>
-            <file>changes_tables_core_510.xml</file>
-            <file>migration_tables_core_510.php</file>
+            <file>schema_tables_core_511.xml</file>
+            <file>changes_tables_core_511.xml</file>
+            <file>migration_tables_core_511.php</file>
         </package>
     </database>
 
