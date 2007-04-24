@@ -16,6 +16,7 @@ if ($welcome)
         <button name="btn_view_changesets">view previous database upgrades</button>
         <button name="btn_view_logs">view a list of database upgrade log files</button>
         <button name="btn_view_audit">view the database upgrade audit trail</button>
+        <button name="btn_view_backups">view a list of backup tables</button>
     </form>
 </div>
 <?php
@@ -30,12 +31,13 @@ if ($backup)
 </div>
 <?php
 }
-if (count($oUpgrade->aErrors)>0)
+$aErrors = $oUpgrader->getErrors();
+if (count($aErrors)>0)
 {
 ?>
 <div class="tablediv" style="background-color:pink;">
     <?php
-        foreach ($oUpgrade->aErrors AS $k => $err)
+        foreach ($aErrors AS $k => $err)
         {
             echo $err.'<br />';
         }
@@ -43,25 +45,13 @@ if (count($oUpgrade->aErrors)>0)
 </div>
 <?php
 }
-if (count($oChangeMgr->aMessages)>0)
+$aMessages = $oUpgrader->getMessages();
+if (count($aMessages)>0)
 {
 ?>
 <div class="tablediv">
     <?php
-        foreach ($oChangeMgr->aMessages AS $k => $msg)
-        {
-            echo $msg.'<br />';
-        }
-    ?>
-</div>
-<?php
-}
-if (count($oUpgrade->aMessages)>0)
-{
-?>
-<div class="tablediv">
-    <?php
-        foreach ($oUpgrade->aMessages AS $k => $msg)
+        foreach ($aMessages AS $k => $msg)
         {
             echo $msg.'<br />';
         }
@@ -77,14 +67,15 @@ if (count($aLogfiles)>0)
     <table class="tablemain">
     <tr>
         <th class="tableheader">upgrade log files in /var folder</th>
-        <th class="tableheader">gwan</th>
+        <th class="tableheader" colspan="2">gwan</th>
     </tr>
     <?php
         foreach ($aLogfiles AS $k => $v)
         {
             echo "<tr>
                       <td class=\"tablebody\">{$v}</td>
-                      <td class=\"tablebody\"><button name=\"btn_logfile\" value=\"{$v}\">have a gander</button></td>
+                      <td class=\"tablebody\"><button name=\"btn_logfile_view\" value=\"{$v}\">open</button></td>
+                      <td class=\"tablebody\"><button name=\"btn_logfile_drop\" value=\"{$v}\">remove</button></td>
                   </tr>";
         }
     ?>
@@ -93,27 +84,99 @@ if (count($aLogfiles)>0)
 </div>
 <?php
 }
-if (count($aChangesetsAvail)>0)
+if (count($aBackups)>0)
 {
 ?>
 <div class="tablediv">
     <form name="frmUpgrade" method="POST" action="upgrade.php">
     <table class="tablemain">
-    <tr><th class="tableheader" colspan="4">available schema changeset packages</th></tr>
-    <tr><th class="tableheader">schema</th>
-        <th class="tableheader">changeset</th>
-        <th class="tableheader">migration class</th>
+    <tr>
+        <th class="tableheader" colspan="4">backup tables in database</th>
+    </tr>
+    <tr>
+        <th class="tableheader">backup table</th>
+        <th class="tableheader">copied from</th>
+        <th class="tableheader">date</th>
+        <th class="tableheader">remove the backup table</th>
+    </tr>
+    <?php
+        foreach ($aBackups AS $k => $v)
+        {
+            echo "<tr>
+                      <td class=\"tablebody\">{$v['backup_table']}</td>
+                      <td class=\"tablebody\">{$v['copied_table']}</td>
+                      <td class=\"tablebody\">{$v['copied_date']}</td>
+                      <td class=\"tablebody\"><button name=\"btn_backup_drop\" value=\"{$v['backup_table']}\">drop</button></td>
+                  </tr>";
+        }
+    ?>
+    </table>
+    </form>
+</div>
+<?php
+}
+if (count($aPackagesAvail)>0)
+{
+?>
+<div class="tablediv">
+    <form name="frmUpgrade" method="POST" action="upgrade.php">
+    <table class="tablemain">
+    <tr><th class="tableheader" colspan="4">available upgrade packages</th></tr>
+    <tr><th class="tableheader">package name</th>
         <th class="tableheader">gwan</th>
     </tr>
     <?php
-        foreach ($aChangesetsAvail AS $k => $v)
+        foreach ($aPackagesAvail AS $k => $v)
         {
             echo "<tr>
-                      <td class=\"tablebody\">{$k}</td>
-                      <td class=\"tablebody\">{$v['changeset']}</td>
-                      <td class=\"tablebody\">{$v['migration']}</td>
-                      <td class=\"tablebody\"><button name=\"btn_upgrade\" value=\"{$v['version']}\">upgrade me baby i dare ya!</button></td>
+                      <td class=\"tablebody\">{$v}</td>
+                      <td class=\"tablebody\"><button name=\"btn_parse_pkg\" value=\"{$v}\">parse me baby i dare ya!</button></td>
                   </tr>";
+        }
+    ?>
+    </table>
+    </form>
+</div>
+<?php
+}
+if (count($aPkgParsed)>0)
+{
+?>
+<div class="tablediv">
+    <form name="frmUpgrade" method="POST" action="upgrade.php">
+    <button name="btn_upgrade" value="<?php echo $input_file; ?>">upgrade me baby i dare ya!</button>
+    <table class="tablemain">
+    <tr>
+        <th class="tableheader" colspan="2"><?php echo $input_file; ?></th>
+    <tr>
+    <tr>
+        <th class="tableheader">variable</th>
+        <th class="tableheader">value</th>
+    </tr>
+    <?php
+        foreach ($aPkgParsed AS $k => $v)
+        {
+            if (!is_array($v))
+            {
+                echo "<tr>
+                          <td class=\"tablebody\">{$k}</td>
+                          <td class=\"tablebody\">{$v}</td>
+                      </tr>";
+            }
+        }
+        foreach ($aPkgParsed['db_pkgs'] AS $k => $v)
+        {
+            echo "<tr>
+                      <td class=\"tablebody\">db upgrade pkg</td>
+                      <td class=\"tablebody\">{$v['version']}</td>
+                  </tr>";
+            foreach ($v['files'] AS $k1 => $v1)
+            {
+                echo "<tr>
+                          <td class=\"tablebody\">{$k1}</td>
+                          <td class=\"tablebody\">{$v1}</td>
+                      </tr>";
+            }
         }
     ?>
     </table>
