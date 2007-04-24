@@ -53,16 +53,17 @@ class OA_UpgradePackageParser extends XML_Parser
     var $count      = 0;
     var $error;
 
-    function __construct()
-    {
-        // force ISO-8859-1 due to different defaults for PHP4 and PHP5
-        // todo: this probably needs to be investigated some more andcleaned up
-        parent::XML_Parser('ISO-8859-1');
-    }
+//    function __construct()
+//    {
+//        // force ISO-8859-1 due to different defaults for PHP4 and PHP5
+//        // todo: this probably needs to be investigated some more andcleaned up
+//        parent::XML_Parser('ISO-8859-1');
+//    }
 
     function OA_UpgradePackageParser()
     {
-        $this->__construct();
+        parent::XML_Parser('ISO-8859-1');
+        //$this->__construct();
     }
 
     function startHandler($xp, $element, $attribs)

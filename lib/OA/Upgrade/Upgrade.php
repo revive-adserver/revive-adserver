@@ -54,7 +54,7 @@ class OA_Upgrade
     var $aDBPackages = array();
 
     var $versionInitialApplication;
-    var $versionInitialSchema;
+    var $versionInitialSchema = array();
 
     function OA_Upgrade()
     {
@@ -79,44 +79,53 @@ class OA_Upgrade
         $this->aPackage     = $this->_parseUpgradePackageFile($this->upgradePath.$input_file);
         $this->aDBPackages  = $this->aPackage['db_pkgs'];
 
-        $this->versionInitialApplication = $this->oVersioner->selectApplicationVersion();
-        $this->versionInitialSchema      = $this->oVersioner->selectSchemaVersion($this->aPackage['schema']);
+        $this->versionInitialApplication = $this->oVersioner->getApplicationVersion();
     }
 
-    function upgradeSchema()
+    function upgradeSchemas()
     {
         foreach ($this->aDBPackages as $k=>$aPkg)
         {
+            if (!array_key_exists($aPkg['schema'],$this->versionInitialSchema))
+            {
+                $this->versionInitialSchema[$aPkg['schema']] = $this->oVersioner->getSchemaVersion($aPkg['schema']);
+            }
             if ($this->oDBUpgrader->init($timing, $aPkg['schema'], $aPkg['version']))
             {
                 if ($this->oDBUpgrader->upgrade())
                 {
-                    $this->oVersioner->updateSchemaVersion($aPkg['schema'], $aPkg['version']);
+                    $this->oVersioner->putSchemaVersion($aPkg['schema'], $aPkg['version']);
                 }
                 else
                 {
-                    $this->rollbackSchemaToStart();
-                    break;
+                    $this->rollbackSchemas();
+                    return false;
                 }
             }
         }
+        return true;
     }
 
-    function rollbackSchemaToStart()
+    function rollbackSchemas()
     {
-
-        $versionCurrentSchema = $this->oVersioner->selectSchemaVersion($this->aPackage['schema']);
-        if ($this->versionInitialSchema != $versionCurrentSchema)
+        foreach ($this->versionInitialSchema AS $schema => $version)
         {
-            $aPkg = $this->aDBPackages[0];
-            if ($this->oDBUpgrader->init($timing, $aPkg['schema'], $aPkg['version']))
+            if ($this->oVersioner->getSchemaVersion($schema) != $version)
             {
-                if ($this->oDBUpgrader->rollback())
+                if ($this->oDBUpgrader->init($timing, $schema, $version))
                 {
-                    $this->oVersioner->updateSchemaVersion($aPkg['schema'], $this->versionInitialSchema);
+                    if ($this->oDBUpgrader->rollback())
+                    {
+                        $this->oVersioner->putSchemaVersion($schema, $version);
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
         }
+        return true;
     }
 
     function _parseUpgradePackageFile($input_file)
