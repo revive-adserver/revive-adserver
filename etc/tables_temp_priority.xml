@@ -5,9 +5,8 @@
  <name>tables_temp_priority</name>
  <create>true</create>
  <overwrite>false</overwrite>
- <version>500</version>
+ <version>501</version>
  <status>final</status>
-
 
  <table>
 
@@ -18,8 +17,8 @@
    <field>
     <name>ad_id</name>
     <type>integer</type>
-    <length>4</length>
     <unsigned>true</unsigned>
+    <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -27,8 +26,8 @@
    <field>
     <name>required_impressions</name>
     <type>integer</type>
-    <length>4</length>
     <unsigned>true</unsigned>
+    <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -54,8 +53,8 @@
    <field>
     <name>ad_id</name>
     <type>integer</type>
-    <length>4</length>
     <unsigned>true</unsigned>
+    <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -63,8 +62,8 @@
    <field>
     <name>zone_id</name>
     <type>integer</type>
-    <length>4</length>
     <unsigned>true</unsigned>
+    <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -72,8 +71,8 @@
    <field>
     <name>required_impressions</name>
     <type>integer</type>
-    <length>4</length>
     <unsigned>true</unsigned>
+    <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -81,8 +80,16 @@
    <field>
     <name>requested_impressions</name>
     <type>integer</type>
-    <length>4</length>
     <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>to_be_delivered</name>
+    <type>openads_tinyint</type>
+    <length>1</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
