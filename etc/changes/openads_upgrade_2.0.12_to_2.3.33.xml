@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>Openads</name>
+    <creationDate>2007-04-19</creationDate>
+    <author>Monique Szpak</author>
+    <authorEmail>support@openads.org</authorEmail>
+    <authorUrl>http://www.openads.org</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Openads Upgrade 2.0.12 to 2.3.33</description>
+    <versionFrom>2.0.12</versionFrom>
+    <versionTo>2.3.33</versionTo>
+
+    <!-- Database Packages -->
+    <database>
+        <package>
+            <version>110</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_110.xml</file>
+            <file>changes_tables_core_110.xml</file>
+            <file>migration_tables_core_110.php</file>
+        </package>
+        <package>
+            <version>111</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_111.xml</file>
+            <file>changes_tables_core_111.xml</file>
+            <file>migration_tables_core_111.php</file>
+        </package>
+        <package>
+            <version>112</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_112.xml</file>
+            <file>changes_tables_core_112.xml</file>
+            <file>migration_tables_core_112.php</file>
+        </package>
+        <package>
+            <version>113</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_113.xml</file>
+            <file>changes_tables_core_113.xml</file>
+            <file>migration_tables_core_113.php</file>
+        </package>
+        <package>
+            <version>114</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_114.xml</file>
+            <file>changes_tables_core_114.xml</file>
+            <file>migration_tables_core_114.php</file>
+        </package>
+        <package>
+            <version>115</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_115.xml</file>
+            <file>changes_tables_core_115.xml</file>
+            <file>migration_tables_core_115.php</file>
+        </package>
+        <package>
+            <version>116</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_116.xml</file>
+            <file>changes_tables_core_116.xml</file>
+            <file>migration_tables_core_116.php</file>
+        </package>
+        <package>
+            <version>117</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_117.xml</file>
+            <file>changes_tables_core_117.xml</file>
+            <file>migration_tables_core_117.php</file>
+        </package>
+        <package>
+            <version>118</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_118.xml</file>
+            <file>changes_tables_core_118.xml</file>
+            <file>migration_tables_core_118.php</file>
+        </package>
+        <package>
+            <version>119</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_119.xml</file>
+            <file>changes_tables_core_119.xml</file>
+            <file>migration_tables_core_119.php</file>
+        </package>
+        <package>
+            <version>120</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_120.xml</file>
+            <file>changes_tables_core_120.xml</file>
+            <file>migration_tables_core_120.php</file>
+        </package>
+        <package>
+            <version>510</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_510.xml</file>
+            <file>changes_tables_core_510.xml</file>
+            <file>migration_tables_core_510.php</file>
+        </package>
+    </database>
+
+    <!-- Custom Install Scripts to execute -->
+    <preinstallfile>do_this_first.php</preinstallfile>
+    <postinstallfile>do_this_last.php</postinstallfile>
+
+
+</upgrade>
