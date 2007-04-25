@@ -1854,7 +1854,7 @@ class OA_DB_Upgrade
         {
             return false;
         }
-        $this->oAuditor->updateDatabaseActionBackupDropped($table);
+        $this->oAuditor->updateAuditBackupDropped($table);
         return true;
     }
 
