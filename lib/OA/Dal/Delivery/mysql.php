@@ -478,7 +478,7 @@ function OA_Dal_Delivery_getLinkedAds($search) {
 function OA_Dal_Delivery_getAd($ad_id) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    $rAd = MAX_Dal_Delivery_query("
+    $query = "
         SELECT
         d.bannerid AS ad_id,
         d.campaignid AS placement_id,
@@ -524,7 +524,8 @@ function OA_Dal_Delivery_getAd($ad_id) {
         d.bannerid={$ad_id}
         AND
         d.campaignid = c.campaignid
-    ");
+    ";
+    $rAd = OA_Dal_Delivery_query($query);
     if (!is_resource($rAd)) {
         if (defined('CACHE_LITE_FUNCTION_ERROR')) {
             return CACHE_LITE_FUNCTION_ERROR;
@@ -899,7 +900,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
     $query = substr_replace($query, '', strlen($query) - 1);
     $query .= "
             )";
-    $result = MAX_Dal_Delivery_query(
+    $result = OA_Dal_Delivery_query(
         $query,
         'rawDatabase'
     );

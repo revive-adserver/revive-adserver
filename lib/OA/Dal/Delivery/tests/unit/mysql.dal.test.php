@@ -218,7 +218,7 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
 //        $this->assertIsA($aReturn, 'array');
 //        $this->assertEqual($aReturn['filename'], 'adOneTwoOneID.gif');
     }
-    
+
     /**
      * get tracker details
      *
