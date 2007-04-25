@@ -28,7 +28,7 @@ $Id:advertisingAnalysisReport.plugin.php 114 2006-03-03 14:32:10Z roh@m3.net $
 /**
  * Advertising Analysis report plug-in for Openads
  *
- * @since Openads v2.3.19-alpah - Feb 20, 2006
+ * @since Openads v2.3.19-alpha - Feb 20, 2006
  * @copyright 2003-2007 Openads Ltd
  * @version $Id:advertisingAnalysisReport.plugin.php 65 2006-02-24 16:51:48Z roh@m3.net $
  */

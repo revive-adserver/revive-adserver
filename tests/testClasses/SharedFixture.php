@@ -1,7 +1,7 @@
 <?php
 /**
  * Unit test support for sharing a fixture across a whole testcase.
- * @since Openads v2.3.30-alpah
+ * @since Openads v2.3.30-alpha
  */
 require_once MAX_PATH . '/lib/simpletest/runner.php';
 require_once MAX_PATH . '/lib/simpletest/unit_tester.php';

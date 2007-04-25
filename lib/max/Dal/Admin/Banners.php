@@ -1,6 +1,6 @@
 <?php
 /**
- * @since Openads v2.3.30-alpah - 21-Nov-2006
+ * @since Openads v2.3.30-alpha - 21-Nov-2006
  */
 
 require_once MAX_PATH . '/lib/max/Dal/Common.php';

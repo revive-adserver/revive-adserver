@@ -30,7 +30,7 @@ $Id$
  *
  * @todo Pull up common methods into this class
  *
- * @since Openads v2.3.19-alpah - Feb 28, 2006
+ * @since Openads v2.3.19-alpha - Feb 28, 2006
  * @copyright 2003-2007 Openads Ltd
  * @version $Id$
  */

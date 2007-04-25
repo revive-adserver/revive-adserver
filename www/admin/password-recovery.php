@@ -2,7 +2,7 @@
 /**
  * ... for Openads
  *
- * @since Openads v2.3.22-alpah - Apr 11, 2006
+ * @since Openads v2.3.22-alpha - Apr 11, 2006
  * @copyright 2003-2007 Openads Ltd
  * @version $Id$
  */

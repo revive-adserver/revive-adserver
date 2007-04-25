@@ -30,7 +30,7 @@ require_once MAX_PATH.'/lib/max/Dal/Common.php';
  * Trackers DAL for Openads
  *
  * @package MaxDal
- * @since Openads v2.3.22-alpah - Apr 13, 2006
+ * @since Openads v2.3.22-alpha - Apr 13, 2006
  * @copyright 2003-2007 Openads Ltd
  * @version $Id$
  */
