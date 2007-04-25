@@ -39,7 +39,7 @@ function setupConstants()
 {
     // Define this version of Openads's constants
     define('MAX_VERSION',           '2.3');
-    define('MAX_VERSION_READABLE',  'v2.3.1-alpha');
+    define('MAX_VERSION_READABLE',  'v2.3.32-beta');
     define('MAX_PRODUCT_NAME',      'Openads');
     define('MAX_PRODUCT_URL',       'www.openads.org');
 

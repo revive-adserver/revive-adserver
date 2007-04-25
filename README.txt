@@ -10,7 +10,7 @@
     . Conversion Tracking Tools
 
 
-    Version 0.3.32-alpha
+    Version 0.3.32-beta
     ------------------------------------------------------------------------
     THIS IS ALPHA SOFTWARE AND MAY NOT BE STABLE ENOUGH FOR USE
     IN A PRODUCTION ENVIRONMENT. THE USE OF THIS SOFTWARE IS
