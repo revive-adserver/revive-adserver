@@ -9,8 +9,11 @@ class DataObjects_Lb_local extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    public $__table = 'lb_local';                        // table name
-    public $last_run;                        // int(11)  
+    var $__table = 'lb_local';                        // table name
+    var $last_run;                        // int(11)  not_null
+
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Lb_local',$k,$v); }

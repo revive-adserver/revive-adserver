@@ -11,30 +11,30 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    public $__table = 'campaigns';                       // table name
-    public $campaignid;                      // int(9)  not_null primary_key auto_increment
-    public $campaignname;                    // string(255)  not_null
-    public $clientid;                        // int(9)  not_null multiple_key
-    public $views;                           // int(11)  
-    public $clicks;                          // int(11)  
-    public $conversions;                     // int(11)  
-    public $expire;                          // date(10)  binary
-    public $activate;                        // date(10)  binary
-    public $active;                          // string(1)  not_null enum
-    public $priority;                        // int(11)  not_null
-    public $weight;                          // int(4)  not_null
-    public $target_impression;               // int(11)  not_null
-    public $target_click;                    // int(11)  not_null
-    public $target_conversion;               // int(11)  not_null
-    public $anonymous;                       // string(1)  not_null enum
-    public $companion;                       // int(1)  
-    public $comments;                        // blob(65535)  blob
-    public $revenue;                         // real(12)  
-    public $revenue_type;                    // int(6)  
-    public $updated;                         // datetime(19)  not_null binary
-    public $block;                           // int(11)  not_null
-    public $capping;                         // int(11)  not_null
-    public $session_capping;                 // int(11)  not_null
+    var $__table = 'campaigns';                       // table name
+    var $campaignid;                      // int(9)  not_null primary_key auto_increment
+    var $campaignname;                    // string(255)  not_null
+    var $clientid;                        // int(9)  not_null multiple_key
+    var $views;                           // int(11)  
+    var $clicks;                          // int(11)  
+    var $conversions;                     // int(11)  
+    var $expire;                          // date(10)  binary
+    var $activate;                        // date(10)  binary
+    var $active;                          // string(1)  not_null enum
+    var $priority;                        // int(11)  not_null
+    var $weight;                          // int(4)  not_null
+    var $target_impression;               // int(11)  not_null
+    var $target_click;                    // int(11)  not_null
+    var $target_conversion;               // int(11)  not_null
+    var $anonymous;                       // string(1)  not_null enum
+    var $companion;                       // int(1)  
+    var $comments;                        // blob(65535)  blob
+    var $revenue;                         // real(12)  
+    var $revenue_type;                    // int(6)  
+    var $updated;                         // datetime(19)  not_null binary
+    var $block;                           // int(11)  not_null
+    var $capping;                         // int(11)  not_null
+    var $session_capping;                 // int(11)  not_null
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Campaigns',$k,$v); }
