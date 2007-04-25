@@ -11,18 +11,18 @@ class DataObjects_Agency extends DataObjects_AbstractUser
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'agency';                          // table name
-    var $agencyid;                        // int(9)  not_null primary_key auto_increment
-    var $name;                            // string(255)  not_null
-    var $contact;                         // string(255)  
-    var $email;                           // string(64)  not_null
-    var $username;                        // string(64)  
-    var $password;                        // string(64)  
-    var $permissions;                     // int(9)  
-    var $language;                        // string(64)  
-    var $logout_url;                      // string(255)  
-    var $active;                          // int(1)  
-    var $updated;                         // datetime(19)  not_null binary
+    public $__table = 'agency';                          // table name
+    public $agencyid;                        // int(9)  not_null primary_key auto_increment
+    public $name;                            // string(255)  not_null
+    public $contact;                         // string(255)  
+    public $email;                           // string(64)  not_null
+    public $username;                        // string(64)  
+    public $password;                        // string(64)  
+    public $permissions;                     // int(9)  
+    public $language;                        // string(64)  
+    public $logout_url;                      // string(255)  
+    public $active;                          // int(1)  
+    public $updated;                         // datetime(19)  not_null binary
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Agency',$k,$v); }

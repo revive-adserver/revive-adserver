@@ -9,10 +9,10 @@ class DataObjects_Preference_advertiser extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'preference_advertiser';           // table name
-    var $advertiser_id;                   // int(11)  not_null primary_key
-    var $preference;                      // string(255)  not_null primary_key
-    var $value;                           // blob(65535)  not_null blob
+    public $__table = 'preference_advertiser';           // table name
+    public $advertiser_id;                   // int(11)  not_null primary_key
+    public $preference;                      // string(255)  not_null primary_key
+    public $value;                           // blob(65535)  not_null blob
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Preference_advertiser',$k,$v); }

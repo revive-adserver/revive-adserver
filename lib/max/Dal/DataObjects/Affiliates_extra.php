@@ -9,24 +9,24 @@ class DataObjects_Affiliates_extra extends DB_DataObjectCommon
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'affiliates_extra';                // table name
-    var $affiliateid;                     // int(9)  not_null primary_key
-    var $address;                         // blob(65535)  blob
-    var $city;                            // string(255)  
-    var $postcode;                        // string(64)  
-    var $country;                         // string(255)  
-    var $phone;                           // string(64)  
-    var $fax;                             // string(64)  
-    var $account_contact;                 // string(255)  
-    var $payee_name;                      // string(255)  
-    var $tax_id;                          // string(64)  
-    var $mode_of_payment;                 // string(64)  
-    var $currency;                        // string(64)  
-    var $unique_users;                    // int(11)  
-    var $unique_views;                    // int(11)  
-    var $page_rank;                       // int(11)  
-    var $category;                        // string(255)  
-    var $help_file;                       // string(255)  
+    public $__table = 'affiliates_extra';                // table name
+    public $affiliateid;                     // int(9)  not_null primary_key
+    public $address;                         // blob(65535)  blob
+    public $city;                            // string(255)  
+    public $postcode;                        // string(64)  
+    public $country;                         // string(255)  
+    public $phone;                           // string(64)  
+    public $fax;                             // string(64)  
+    public $account_contact;                 // string(255)  
+    public $payee_name;                      // string(255)  
+    public $tax_id;                          // string(64)  
+    public $mode_of_payment;                 // string(64)  
+    public $currency;                        // string(64)  
+    public $unique_users;                    // int(11)  
+    public $unique_views;                    // int(11)  
+    public $page_rank;                       // int(11)  
+    public $category;                        // string(255)  
+    public $help_file;                       // string(255)  
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Affiliates_extra',$k,$v); }
