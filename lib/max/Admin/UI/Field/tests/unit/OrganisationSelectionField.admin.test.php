@@ -2,8 +2,8 @@
 /**
  * Organisation selection field tests for Openads
  *
- * @since 0.3.22 - Apr 5, 2006
- * @copyright 2003-2006 Openads Ltd
+ * @since Openads v2.3.22-alpah - Apr 5, 2006
+ * @copyright 2003-2007 Openads Ltd
  * @version $Id$
  */
 

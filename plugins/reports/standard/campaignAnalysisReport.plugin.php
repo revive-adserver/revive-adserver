@@ -28,8 +28,8 @@ $Id$
 /**
  * Campaign Analysis report for Openads
  *
- * @since 0.3.19 - Mar 3, 2006
- * @copyright 2003-2006 Openads Ltd
+ * @since Openads v2.3.19-alpah - Mar 3, 2006
+ * @copyright 2003-2007 Openads Ltd
  * @version $Id$
  */
 

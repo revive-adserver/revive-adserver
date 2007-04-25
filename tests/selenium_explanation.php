@@ -7,7 +7,7 @@
 <body>
 <?php
 /**
- * @since 0.3.31 - 11-Dec-2006
+ * @since Openads 2.3.31-alpha - 11-Dec-2006
  */
 
 require_once 'init.php';

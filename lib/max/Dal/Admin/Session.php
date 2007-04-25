@@ -1,6 +1,6 @@
 <?php
 /**
- * @since Max v0.3.30 - 16-Nov-2006
+ * @since Openads v2.3.30-alpah - 16-Nov-2006
  */
 
 
