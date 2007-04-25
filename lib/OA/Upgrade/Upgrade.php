@@ -38,6 +38,7 @@ require_once(MAX_PATH.'/lib/OA/Upgrade/DB_Upgrade.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/DB_UpgradeAuditor.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradePackageParser.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/VersionController.php');
+require_once MAX_PATH.'/lib/OA/Upgrade/EnvironmentManager.php';
 
 class OA_Upgrade
 {
@@ -48,6 +49,7 @@ class OA_Upgrade
     var $oDBUpgrader;
     var $oVersioner;
     var $oDBAuditor;
+    var $oSystemMgr;
     var $oDbh;
 
     var $aPackage    = array();
@@ -69,6 +71,7 @@ class OA_Upgrade
         $this->oVersioner->init($this->oDbh);
         $this->oDBAuditor->init($this->oDbh, $this->oLogger);
         $this->oDBUpgrader->oAuditor = &$this->oDBAuditor;
+        $this->oSystemMgr   = new OA_Environment_Manager();
     }
 
     function init($input_file, $timing='constructive')
