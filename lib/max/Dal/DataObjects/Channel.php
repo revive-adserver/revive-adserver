@@ -25,6 +25,9 @@ class DataObjects_Channel extends DB_DataObjectCommon
     var $updated;                         // datetime(19)  not_null binary
     var $acls_updated;                    // datetime(19)  not_null binary
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Channel',$k,$v); }
 

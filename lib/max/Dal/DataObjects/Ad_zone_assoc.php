@@ -15,6 +15,11 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
     var $ad_id;                           // int(9)  multiple_key
     var $priority;                        // real(22)  
     var $link_type;                       // int(6)  not_null
+    var $priority_factor;                 // real(22)  
+    var $to_be_delivered;                 // int(1)  not_null
+
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Ad_zone_assoc',$k,$v); }

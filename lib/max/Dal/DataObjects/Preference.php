@@ -11,7 +11,7 @@ class DataObjects_Preference extends DB_DataObjectCommon
 
     var $__table = 'preference';                      // table name
     var $agencyid;                        // int(9)  not_null primary_key
-    var $config_version;                  // real(9)  not_null
+    var $config_version;                  // unknown(9)  not_null
     var $my_header;                       // string(255)  
     var $my_footer;                       // string(255)  
     var $my_logo;                         // string(255)  
@@ -66,7 +66,7 @@ class DataObjects_Preference extends DB_DataObjectCommon
     var $updates_enabled;                 // string(1)  enum
     var $updates_cache;                   // blob(65535)  blob
     var $updates_timestamp;               // int(11)  
-    var $updates_last_seen;               // real(9)  
+    var $updates_last_seen;               // unknown(9)  
     var $allow_invocation_plain;          // string(1)  enum
     var $allow_invocation_plain_nocookies;    // string(1)  enum
     var $allow_invocation_js;             // string(1)  enum
@@ -129,6 +129,10 @@ class DataObjects_Preference extends DB_DataObjectCommon
     var $gui_column_ecps;                 // blob(65535)  blob
     var $gui_column_epps;                 // blob(65535)  blob
     var $instance_id;                     // string(64)  
+    var $maintenance_cron_timestamp;      // int(11)  
+
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Preference',$k,$v); }

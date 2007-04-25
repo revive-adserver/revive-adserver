@@ -18,6 +18,9 @@ class DataObjects_Log_maintenance_priority extends DB_DataObjectCommon
     var $run_type;                        // int(3)  not_null unsigned
     var $updated_to;                      // datetime(19)  binary
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Log_maintenance_priority',$k,$v); }
 

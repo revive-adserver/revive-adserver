@@ -10,7 +10,7 @@ class DataObjects_Lb_local extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     var $__table = 'lb_local';                        // table name
-    var $last_run;                        // int(11)  not_null
+    var $last_run;                        // int(11)  
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}

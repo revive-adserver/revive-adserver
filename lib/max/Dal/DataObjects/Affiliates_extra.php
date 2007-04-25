@@ -28,6 +28,9 @@ class DataObjects_Affiliates_extra extends DB_DataObjectCommon
     var $category;                        // string(255)  
     var $help_file;                       // string(255)  
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Affiliates_extra',$k,$v); }
 

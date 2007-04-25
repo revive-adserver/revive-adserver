@@ -14,6 +14,9 @@ class DataObjects_Placement_zone_assoc extends DB_DataObjectCommon
     var $zone_id;                         // int(9)  multiple_key
     var $placement_id;                    // int(9)  multiple_key
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Placement_zone_assoc',$k,$v); }
 

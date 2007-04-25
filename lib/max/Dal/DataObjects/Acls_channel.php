@@ -17,6 +17,9 @@ class DataObjects_Acls_channel extends DB_DataObjectCommon
     var $data;                            // blob(65535)  not_null blob
     var $executionorder;                  // int(10)  not_null primary_key unsigned
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Acls_channel',$k,$v); }
 

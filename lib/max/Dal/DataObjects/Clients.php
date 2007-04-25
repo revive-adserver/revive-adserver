@@ -29,6 +29,10 @@ class DataObjects_Clients extends DataObjects_AbstractUser
     var $reportdeactivate;                // string(1)  not_null enum
     var $comments;                        // blob(65535)  blob
     var $updated;                         // datetime(19)  not_null binary
+    var $lb_reporting;                    // int(1)  not_null
+
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Clients',$k,$v); }

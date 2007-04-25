@@ -15,6 +15,9 @@ class DataObjects_Plugins_channel_delivery_rules extends DB_DataObjectCommon
     var $client;                          // string(100)  not_null
     var $rule;                            // blob(65535)  not_null blob
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Plugins_channel_delivery_rules',$k,$v); }
 

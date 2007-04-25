@@ -15,6 +15,9 @@ class DataObjects_Data_intermediate_ad_variable_value extends DB_DataObjectCommo
     var $tracker_variable_id;             // int(11)  not_null multiple_key
     var $value;                           // string(50)  multiple_key
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_intermediate_ad_variable_value',$k,$v); }
 

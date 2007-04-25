@@ -29,12 +29,15 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     var $anonymous;                       // string(1)  not_null enum
     var $companion;                       // int(1)  
     var $comments;                        // blob(65535)  blob
-    var $revenue;                         // real(12)  
+    var $revenue;                         // unknown(12)  
     var $revenue_type;                    // int(6)  
     var $updated;                         // datetime(19)  not_null binary
     var $block;                           // int(11)  not_null
     var $capping;                         // int(11)  not_null
     var $session_capping;                 // int(11)  not_null
+
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Campaigns',$k,$v); }

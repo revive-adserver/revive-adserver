@@ -17,6 +17,9 @@ class DataObjects_Tracker_append extends DB_DataObjectCommon
     var $paused;                          // string(1)  not_null enum
     var $autotrack;                       // string(1)  not_null enum
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Tracker_append',$k,$v); }
 

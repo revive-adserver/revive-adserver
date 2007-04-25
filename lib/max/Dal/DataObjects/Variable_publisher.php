@@ -14,6 +14,9 @@ class DataObjects_Variable_publisher extends DB_DataObjectCommon
     var $publisher_id;                    // int(11)  not_null primary_key
     var $visible;                         // int(1)  not_null
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Variable_publisher',$k,$v); }
 

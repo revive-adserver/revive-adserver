@@ -27,6 +27,10 @@ class DataObjects_Data_summary_ad_zone_assoc extends DB_DataObjectCommon
     var $created_by;                      // int(10)  not_null unsigned
     var $expired;                         // datetime(19)  multiple_key binary
     var $expired_by;                      // int(10)  unsigned
+    var $to_be_delivered;                 // int(1)  not_null
+
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_summary_ad_zone_assoc',$k,$v); }

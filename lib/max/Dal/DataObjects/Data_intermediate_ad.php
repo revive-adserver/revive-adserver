@@ -24,9 +24,12 @@ class DataObjects_Data_intermediate_ad extends DB_DataObjectCommon
     var $impressions;                     // int(10)  not_null unsigned
     var $clicks;                          // int(10)  not_null unsigned
     var $conversions;                     // int(10)  not_null unsigned
-    var $total_basket_value;              // real(12)  not_null
+    var $total_basket_value;              // unknown(12)  not_null
     var $total_num_items;                 // int(11)  not_null
     var $updated;                         // datetime(19)  not_null binary
+
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_intermediate_ad',$k,$v); }

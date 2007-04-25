@@ -14,6 +14,9 @@ class DataObjects_Ad_category_assoc extends DB_DataObjectCommon
     var $category_id;                     // int(10)  not_null unsigned
     var $ad_id;                           // int(10)  not_null unsigned
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Ad_category_assoc',$k,$v); }
 

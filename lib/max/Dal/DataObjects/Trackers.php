@@ -26,6 +26,9 @@ class DataObjects_Trackers extends DB_DataObjectCommon
     var $appendcode;                      // blob(65535)  not_null blob
     var $updated;                         // datetime(19)  not_null binary
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Trackers',$k,$v); }
 

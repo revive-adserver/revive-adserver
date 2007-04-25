@@ -15,6 +15,9 @@ class DataObjects_Session extends DB_DataObjectCommon
     var $sessiondata;                     // blob(65535)  not_null blob
     var $lastused;                        // datetime(19)  binary
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Session',$k,$v); }
 

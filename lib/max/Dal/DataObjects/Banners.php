@@ -50,6 +50,12 @@ class DataObjects_Banners extends DB_DataObjectCommon
     var $comments;                        // blob(65535)  blob
     var $updated;                         // datetime(19)  not_null binary
     var $acls_updated;                    // datetime(19)  not_null binary
+    var $keyword;                         // string(255)  not_null
+    var $transparent;                     // int(1)  not_null
+    var $parameters;                      // blob(65535)  blob
+
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Banners',$k,$v); }

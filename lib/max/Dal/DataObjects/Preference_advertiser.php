@@ -14,6 +14,9 @@ class DataObjects_Preference_advertiser extends DB_DataObjectCommon
     var $preference;                      // string(255)  not_null primary_key
     var $value;                           // blob(65535)  not_null blob
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Preference_advertiser',$k,$v); }
 

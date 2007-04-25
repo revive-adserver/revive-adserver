@@ -17,6 +17,9 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
     var $clickwindow;                     // int(9)  not_null
     var $status;                          // int(1)  not_null unsigned
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Campaigns_trackers',$k,$v); }
 

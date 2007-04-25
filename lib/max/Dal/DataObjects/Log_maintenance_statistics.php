@@ -19,6 +19,9 @@ class DataObjects_Log_maintenance_statistics extends DB_DataObjectCommon
     var $tracker_run_type;                // int(2)  
     var $updated_to;                      // datetime(19)  binary
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Log_maintenance_statistics',$k,$v); }
 

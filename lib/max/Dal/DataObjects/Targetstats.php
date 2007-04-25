@@ -16,6 +16,9 @@ class DataObjects_Targetstats extends DB_DataObjectCommon
     var $views;                           // int(11)  not_null
     var $modified;                        // int(4)  not_null
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Targetstats',$k,$v); }
 

@@ -14,6 +14,9 @@ class DataObjects_Plugins_channel_delivery_assoc extends DB_DataObjectCommon
     var $domain_id;                       // int(10)  not_null primary_key multiple_key unsigned
     var $rule_order;                      // int(4)  not_null multiple_key
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Plugins_channel_delivery_assoc',$k,$v); }
 

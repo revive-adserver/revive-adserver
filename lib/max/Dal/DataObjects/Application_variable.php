@@ -13,6 +13,9 @@ class DataObjects_Application_variable extends DB_DataObjectCommon
     var $name;                            // string(255)  not_null
     var $value;                           // string(255)  not_null
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Application_variable',$k,$v); }
 

@@ -18,6 +18,9 @@ class DataObjects_Userlog extends DB_DataObjectCommon
     var $object;                          // int(9)  
     var $details;                         // blob(16777215)  blob
 
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Userlog',$k,$v); }
 
