@@ -75,7 +75,7 @@ class Test_DB_Upgrade extends UnitTestCase
 /*
 seems to be a problem with LIKE in an MDB2 query
 works in phpMyAdmin on MySQL 5.0.22 but not via this routine
-
+*/
     function test_listBackups()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
@@ -93,7 +93,7 @@ works in phpMyAdmin on MySQL 5.0.22 but not via this routine
         $this->assertIsA($aBackupTables,'array','backup array not an array');
         $this->assertEqual(count($aBackupTables),3,'wrong number of backups found in database: expected 3 got '.count($aBackupTables));
     }
-*/
+
     /**
      * this test fakes an upgrade that is interrupted
      * then recovered in a separate session

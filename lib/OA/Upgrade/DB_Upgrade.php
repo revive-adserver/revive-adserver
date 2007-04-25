@@ -1724,15 +1724,19 @@ class OA_DB_Upgrade
     {
         $aResult = array();
         $aBakTables = $this->_listTables('z\_');
+        $prefix = $this->prefix.'z_';
+        $prelen = strlen($prefix);
+        krsort($aBakTables);
         foreach ($aBakTables AS $k => $name)
         {
-//            if (strpos($name,$this->prefix.'z_')>0)
-//            {
+            // workaround for mdb2 problem "show table like"
+            if (substr($name,0,$prelen)==$prefix)
+            {
                 $aInfo = $this->oAuditor->queryAuditForABackup($name);
                 $aResult[$k]['backup_table'] = $name;
                 $aResult[$k]['copied_table'] = $aInfo[0]['tablename'];
                 $aResult[$k]['copied_date']  = $aInfo[0]['updated'];
-//            }
+            }
         }
         return $aResult;
     }
