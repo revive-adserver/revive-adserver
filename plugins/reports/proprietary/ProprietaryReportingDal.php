@@ -3,7 +3,7 @@
 /*
 +---------------------------------------------------------------------------+
 | Openads v2.3                                                              |
-| =================                                                         |
+| =============                                                             |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Ltd                                       |
 | For contact details, see: http://www.openads.org/                         |
@@ -1753,7 +1753,7 @@ ORDER BY
         ";
         $result = $this->dbh->getRow($query, array($campaign_id));
         if (PEAR::isError($result)) {
-            MAX::raiseError('A Openads report asked for the name matching a campaign ID number, but the database had no record of that number.');
+            MAX::raiseError('An Openads report asked for the name matching a campaign ID number, but the database had no record of that number.');
         }
         return $result;
     }
@@ -1785,7 +1785,7 @@ ORDER BY
         $query = "SELECT advertiser.clientname AS advertiser_name FROM $advertiser_table AS advertiser WHERE advertiser.clientid = $advertiser_id";
         $result = $this->dbh->getOne($query);
         if (PEAR::isError($result)) {
-            MAX::raiseError('A Openads report asked for the name matching an advertiser ID number, but the had no record of that number.');
+            MAX::raiseError('An Openads report asked for the name matching an advertiser ID number, but the had no record of that number.');
         }
         $advertiser_name = $result;
         return $advertiser_name;

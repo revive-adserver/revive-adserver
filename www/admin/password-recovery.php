@@ -3,7 +3,7 @@
  * ... for Openads
  *
  * @since 0.3.22 - Apr 11, 2006
- * @copyright 2006 M3 Media Services
+ * @copyright 2003-2006 Openads Ltd
  * @version $Id$
  */
 

@@ -2,7 +2,7 @@
 /*
 +---------------------------------------------------------------------------+
 | Openads v2.3                                                              |
-| =================                                                         |
+| =============                                                             |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Ltd                                       |
 | For contact details, see: http://www.openads.org/                         |
@@ -31,7 +31,7 @@ require_once MAX_PATH.'/lib/max/Dal/Common.php';
  *
  * @package MaxDal
  * @since 0.3.22 - Apr 13, 2006
- * @copyright 2006 M3 Media Services
+ * @copyright 2003-2006 Openads Ltd
  * @version $Id$
  */
 

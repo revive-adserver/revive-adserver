@@ -3,7 +3,7 @@
 /*
 +---------------------------------------------------------------------------+
 | Openads v2.3                                                              |
-| =================                                                         |
+| =============                                                             |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Ltd                                       |
 | For contact details, see: http://www.openads.org/                         |
@@ -29,7 +29,7 @@ $Id$
  * Campaign Analysis report for Openads
  *
  * @since 0.3.19 - Mar 3, 2006
- * @copyright 2006 M3 Media Services
+ * @copyright 2003-2006 Openads Ltd
  * @version $Id$
  */
 
