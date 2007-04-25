@@ -201,7 +201,7 @@ class Delivery_TestOfLog extends UnitTestCase
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
         $this->assertEqual(count($geotargeting), 0);
-        $this->assertEqual(count($zoneInfo), 1);
+        $this->assertEqual(count($zoneInfo), 0);
         $this->assertEqual(count($userAgentInfo), 0);
         $this->assertEqual($maxHttps, 0);
         // Enable reverse lookups
@@ -221,7 +221,7 @@ class Delivery_TestOfLog extends UnitTestCase
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $this->assertEqual($_SERVER['REMOTE_HOST'], gethostbyaddr($_SERVER['REMOTE_ADDR']));
         $this->assertEqual(count($geotargeting), 0);
-        $this->assertEqual(count($zoneInfo), 1);
+        $this->assertEqual(count($zoneInfo), 0);
         $this->assertEqual(count($userAgentInfo), 0);
         $this->assertEqual($maxHttps, 0);
         // Enable geotargeting
@@ -258,7 +258,7 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertEqual($geotargeting['organisation'], 'Foo');
         $this->assertEqual($geotargeting['isp'], 'Bar');
         $this->assertEqual($geotargeting['netspeed'], 'Unknown');
-        $this->assertEqual(count($zoneInfo), 1);
+        $this->assertEqual(count($zoneInfo), 0);
         $this->assertEqual(count($userAgentInfo), 0);
         $this->assertEqual($maxHttps, 0);
         // Set a passed in referer location

@@ -297,12 +297,11 @@ function _prepareLogInfo()
         $geotargeting = $GLOBALS['_MAX']['CLIENT_GEO'];
     }
     // Get the zone location information, if possible
+    $zoneInfo = array();
     if (!empty($_GET['loc'])) {
         $zoneInfo = parse_url($_GET['loc']);
     } elseif (!empty($_SERVER['HTTP_REFERER'])) {
         $zoneInfo = parse_url($_SERVER['HTTP_REFERER']);
-    } else {
-        $zoneInfo = array();
     }
     if (!empty($zoneInfo['scheme'])) {
         $zoneInfo['scheme'] = ($zoneInfo['scheme'] == 'https') ? 1 : 0;
