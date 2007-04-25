@@ -58,6 +58,10 @@ else if (array_key_exists('btn_view_logs', $_REQUEST))
 {
     $aLogfiles = $oUpgrader->oLogger->getLogfilesList();
 }
+else if (array_key_exists('btn_view_environment', $_REQUEST))
+{
+    $aSysInfo = $oUpgrader->oSystemMgr->getAllInfo();
+}
 else if (array_key_exists('btn_view_backups', $_REQUEST))
 {
     $aBackups = $oUpgrader->oDBUpgrader->_listBackups();

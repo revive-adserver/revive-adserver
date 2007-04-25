@@ -17,6 +17,7 @@ if ($welcome)
         <button name="btn_view_logs">view a list of database upgrade log files</button>
         <button name="btn_view_audit">view the database upgrade audit trail</button>
         <button name="btn_view_backups">view a list of backup tables</button>
+        <button name="btn_view_environment">view system info</button>
     </form>
 </div>
 <?php
@@ -178,6 +179,53 @@ if (count($aPkgParsed)>0)
                       </tr>";
             }
         }
+    ?>
+    </table>
+    </form>
+</div>
+<?php
+}
+if (count($aSysInfo)>0)
+{
+?>
+<div class="tablediv">
+    <form name="frmUpgrade" method="POST" action="upgrade.php">
+    <table class="tablemain">
+    <tr>
+        <th class="tableheader" colspan="2">System Info</th>
+    <tr>
+    <?php
+        $sysinfoarray = $aSysInfo['PHP'];
+        $sysinfoheading = 'PHP';
+        include 'tpl/sysinfosection.html';
+
+        $sysinfoarray = $aSysInfo['DB'];
+        $sysinfoheading = 'Database';
+        include 'tpl/sysinfosection.html';
+
+        $sysinfoarray = $aSysInfo['PERMS'];
+        $sysinfoheading = 'Permission Errors';
+        include 'tpl/sysinfosection.html';
+
+        $sysinfoarray = $aSysInfo['FILES'];
+        $sysinfoheading = 'File Integrity Problems';
+        include 'tpl/sysinfosection.html';
+
+        $sysinfoarray = $aSysInfo['PAN'];
+        $sysinfoheading = 'PAN not detected';
+        if ($sysinfoarray && is_array($sysinfoarray) && (count($sysinfoarray)>0))
+        {
+            $sysinfoheading = "PAN version {$aSysInfo['PAN']['version']} detected";
+        }
+        include 'tpl/sysinfosection.html';
+
+        $sysinfoarray = $aSysInfo['MAX'];
+        $sysinfoheading = 'MAX not detected';
+        if ($sysinfoarray && is_array($sysinfoarray) && (count($sysinfoarray)>0))
+        {
+            $sysinfoheading = "MAX version {$aSysInfo['MAX']['version']} detected";
+        }
+        include 'tpl/sysinfosection.html';
     ?>
     </table>
     </form>

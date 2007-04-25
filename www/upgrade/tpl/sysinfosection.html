@@ -1,0 +1,24 @@
+    <tr>
+        <th class="tableheader" colspan="2"><?php echo $sysinfoheading ?></th>
+    <tr>
+    <?php
+        if ($sysinfoarray && is_array($sysinfoarray) && (count($sysinfoarray)>0))
+        {
+            foreach ($sysinfoarray AS $k => $v)
+            {
+                if (!is_array($v))
+                {
+                    echo "<tr>
+                              <td class=\"tablebody\">{$k}</td>
+                              <td class=\"tablebody\">{$v}</td>
+                          </tr>";
+                }
+            }
+        }
+        else
+        {
+            echo "<tr>
+                      <td class=\"tablebody\" colspan=\"2\">nothing to report</td>
+                  </tr>";
+        }
+    ?>
