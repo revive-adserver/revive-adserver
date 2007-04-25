@@ -86,7 +86,7 @@ class OA_DB_UpgradeAuditor
         //this->__construct();
     }
 
-    function init(&$oDbh, &$oLogger='')
+    function init(&$oDbh, $oLogger='')
     {
         $this->oDbh = $oDbh;
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];

@@ -98,7 +98,7 @@ class OA_DB_Upgrade
      * php4 class constructor
      *
      */
-    function OA_DB_Upgrade(&$oLogger='')
+    function OA_DB_Upgrade($oLogger='')
     {
         //this->__construct();
         $this->recoveryFile = MAX_PATH.'/var/recover.log';
