@@ -6,6 +6,7 @@
                   'd.active' => 'active',
                   'd.description' => 'name',
                   'd.storagetype' => 'type',
+                  'd.parameters' => 'parameters',
                   'd.contenttype' => 'contenttype',
                   'd.pluginversion' => 'pluginversion',
                   'd.filename' => 'filename',
