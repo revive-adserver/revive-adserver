@@ -443,7 +443,7 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
         $query.= "/*!50002  WHERE Table_type = 'BASE TABLE'*/";
 
         if ($prefix) {
-            $query .= " LIKE ".$db->quote($prefix.'%', 'text');
+            $query .= " LIKE '{$prefix}%'";
         }
 
         $table_names = $db->queryAll($query, null, MDB2_FETCHMODE_ORDERED);

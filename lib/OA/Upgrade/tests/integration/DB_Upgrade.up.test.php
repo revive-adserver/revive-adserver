@@ -72,7 +72,28 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertIsA($oDB_Upgrade->oSchema, 'MDB2_Schema', 'MDB2_Schema not instantiated');
         $this->assertIsA($oDB_Upgrade->oSchema->db, 'MDB2_Driver_Common', 'MDB2_Driver_Common not instantiated');
     }
+/*
+seems to be a problem with LIKE in an MDB2 query
+works in phpMyAdmin on MySQL 5.0.22 but not via this routine
 
+    function test_listBackups()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $oTable = new OA_DB_Table();
+        $oTable->init($this->path.'schema_test_backups.xml');
+        $this->assertTrue($oTable->createTable('z_test1'),'error creating test backup z_test1');
+        $this->assertTrue($oTable->createTable('z_test2'),'error creating test backup z_test2');
+        $this->assertTrue($oTable->createTable('z_test3'),'error creating test backup z_test3');
+        $aExistingTables = $oTable->oDbh->manager->listTables();
+        $this->assertTrue(in_array('z_test1', $aExistingTables), '_createTestTables');
+        $this->assertTrue(in_array('z_test2', $aExistingTables), '_createTestTables');
+        $this->assertTrue(in_array('z_test3', $aExistingTables), '_createTestTables');
+
+        $aBackupTables = $oDB_Upgrade->_listBackups();
+        $this->assertIsA($aBackupTables,'array','backup array not an array');
+        $this->assertEqual(count($aBackupTables),3,'wrong number of backups found in database: expected 3 got '.count($aBackupTables));
+    }
+*/
     /**
      * this test fakes an upgrade that is interrupted
      * then recovered in a separate session

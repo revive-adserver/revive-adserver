@@ -140,6 +140,12 @@ class OA_DB_Upgrade
      */
     function init($timing='constructive', $schema, $versionTo)
     {
+        $this->aChanges = array();
+        $this->aTaskList = array();
+        $this->aDBTables = array();
+        $this->aRestoreTables = array();
+        $this->aDefinitionNew = array();
+
         $this->versionTo    = $versionTo;
         $this->schema       = $schema;
         $this->_setTiming($timing);
@@ -289,6 +295,7 @@ class OA_DB_Upgrade
                                                                  'action'=>DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                                  )
                                                           );
+                        $this->_scheduleDestructive();
                     }
                 }
                 else
@@ -307,6 +314,18 @@ class OA_DB_Upgrade
         else
         {
             return false;
+        }
+        return true;
+    }
+
+    function _scheduleDestructive()
+    {
+        if (count($this->aChanges['affected_tables']['destructive'])>0)
+        {
+            $this->oAuditor->logDatabaseAction(array('info1'=>'DESTRUCTIVE OUTSTANDING',
+                                                     'action'=>DB_UPGRADE_ACTION_OUTSTANDING_UPGRADE,
+                                                    )
+                                              );
         }
         return true;
     }
@@ -1125,10 +1144,10 @@ class OA_DB_Upgrade
                             $this->_log('checking field: '.$field);
                             if (!in_array($field, $aDBFields))
                             {
-                                $this->_log('task found: '.$method);
-
                                 if (array_key_exists('rename', $aField_tasks))
                                 {
+                                    $method -= $aField_tasks['rename'];
+                                    $this->_log('task found: '.$method);
                                     $was = $this->_getPreviousFieldname($table, $field);
                                     if ($was)
                                     {
@@ -1144,6 +1163,8 @@ class OA_DB_Upgrade
                                 }
                                 else if (array_key_exists('add', $aField_tasks))
                                 {
+                                    $method = $aField_tasks['add'];
+                                    $this->_log('task found: '.$method);
                                     $this->aTaskList['fields']['add'][] = $this->_compileTaskField('add', $table, $field, $field);
                                 }
                                 else
@@ -1701,13 +1722,17 @@ class OA_DB_Upgrade
      */
     function _listBackups()
     {
+        $aResult = array();
         $aBakTables = $this->_listTables('z\_');
         foreach ($aBakTables AS $k => $name)
         {
-            $aInfo = $this->oAuditor->queryAuditForABackup($name);
-            $aResult[$k]['backup_table'] = $name;
-            $aResult[$k]['copied_table'] = $aInfo[0]['tablename'];
-            $aResult[$k]['copied_date']  = $aInfo[0]['updated'];
+//            if (strpos($name,$this->prefix.'z_')>0)
+//            {
+                $aInfo = $this->oAuditor->queryAuditForABackup($name);
+                $aResult[$k]['backup_table'] = $name;
+                $aResult[$k]['copied_table'] = $aInfo[0]['tablename'];
+                $aResult[$k]['copied_date']  = $aInfo[0]['updated'];
+//            }
         }
         return $aResult;
     }
