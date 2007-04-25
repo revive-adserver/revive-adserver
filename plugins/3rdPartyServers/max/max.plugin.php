@@ -56,7 +56,7 @@ class Plugins_3rdPartyServers_max_max extends Plugins_3rdPartyServers
         include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
         MAX_Plugin_Translation::init($this->module, $this->package);
 
-        return MAX_Plugin_Translation::translate('Rich Media - m3 Max Media Manager', $this->module, $this->package);
+        return MAX_Plugin_Translation::translate('Rich Media - Openads', $this->module, $this->package);
     }
 
     /**

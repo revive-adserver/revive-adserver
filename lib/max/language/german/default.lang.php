@@ -461,7 +461,7 @@ $GLOBALS['strBannerWeight']			= "Bannergewichtung";
 //neu in MMM 0.3
 $GLOBALS['strBannerType']           = "Werbemitteltyp";
 $GLOBALS['strAdserverTypeGeneric']  = "Standard HTML-Banner";
-$GLOBALS['strAdserverTypeMax']      = "Rich Media - m3 Max Media Manager";
+$GLOBALS['strAdserverTypeMax']      = "Rich Media - Openads";
 $GLOBALS['strAdserverTypeAtlas']    = "Rich Media - Atlas";
 $GLOBALS['strAdserverTypeBluestreak']   = "Rich Media - Bluestreak";
 $GLOBALS['strAdserverTypeDoubleclick']  = "Rich Media - DoubleClick";

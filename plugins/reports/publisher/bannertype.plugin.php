@@ -332,31 +332,31 @@ class Plugins_Reports_Publisher_Bannertype extends Plugins_Reports {
 
                     switch ($adserver) {
                         case "max":
-                            $adtype .= "Max Media Manager Rich Media";
+                            $adtype .= "Rich Media - Openads";
                             break;
                         case "atlas":
-                            $adtype .= "Atlas Rich Media";
+                            $adtype .= "Rich Media - Atlas";
                             break;
                         case "bluestreak":
-                            $adtype .= "Bluestreak Rich Media";
+                            $adtype .= "Rich Media - Bluestreak";
                             break;
                         case "doubleclick":
-                            $adtype .= "Doubleclick Rich Media";
+                            $adtype .= "Rich Media - Doubleclick";
                             break;
                         case "eyeblaster":
-                            $adtype .= "Eyeblaster Rich Media";
+                            $adtype .= "Rich Media - Eyeblaster";
                             break;
                         case "falk":
-                            $adtype .= "Falk Rich Media";
+                            $adtype .= "Rich Media - Falk";
                             break;
                         case "mediaplex":
-                            $adtype .= "Mediaplex Rich Media";
+                            $adtype .= "Rich Media - Mediaplex";
                             break;
                         case "tangozebra":
-                            $adtype .= "Tangozebra Rich Media";
+                            $adtype .= "Rich Media - Tangozebra";
                             break;
                         default:
-                            $adtype .= "Generic Rich Media";
+                            $adtype .= "Rich Media - Generic";
                             break;
                     }
 
