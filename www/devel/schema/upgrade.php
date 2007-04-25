@@ -90,7 +90,7 @@ else if (array_key_exists('btn_initialise', $_REQUEST))
 else if (array_key_exists('btn_upgrade', $_POST))
 {
     $oUpgrader->init($_POST['btn_upgrade']);
-    $oUpgrader->upgradeSchema();
+    $oUpgrader->upgradeSchemas();
 }
 include 'tpl/upgrade.html';
 
