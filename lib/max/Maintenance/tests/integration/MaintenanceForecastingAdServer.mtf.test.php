@@ -3,9 +3,9 @@
 /*
 +---------------------------------------------------------------------------+
 | Openads v2.3                                                              |
-| =============                                                             |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Ltd                                       |
+| Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -6746,7 +6746,7 @@ class Maintenance_TestOfMaintenanceForecastingAdServer extends UnitTestCase
             5,
             0,
             2,
-            'Openads Ltd'
+            'Openads Limited'
         );
         $rows = $st->execute($aData);
 

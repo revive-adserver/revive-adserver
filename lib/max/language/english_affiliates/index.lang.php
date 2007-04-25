@@ -3,9 +3,9 @@
 /*
 +---------------------------------------------------------------------------+
 | Openads v2.3                                                              |
-| =============                                                             |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Ltd                                       |
+| Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
@@ -37,7 +37,7 @@ $Id$
 
 // Meta information
 $translation_readable   = "English (Affiliate jargon)";
-$translation_maintainer	= "Openads Ltd";
+$translation_maintainer	= "Openads Limited";
 $translation_contact	= "damon@m3.net";
 
 ?>

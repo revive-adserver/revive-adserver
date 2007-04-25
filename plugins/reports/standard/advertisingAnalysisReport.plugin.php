@@ -3,9 +3,9 @@
 /*
 +---------------------------------------------------------------------------+
 | Openads v2.3                                                              |
-| =============                                                             |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Ltd                                       |
+| Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -29,7 +29,7 @@ $Id:advertisingAnalysisReport.plugin.php 114 2006-03-03 14:32:10Z roh@m3.net $
  * Advertising Analysis report plug-in for Openads
  *
  * @since Openads v2.3.19-alpha - Feb 20, 2006
- * @copyright 2003-2007 Openads Ltd
+ * @copyright 2003-2007 Openads Limited
  * @version $Id:advertisingAnalysisReport.plugin.php 65 2006-02-24 16:51:48Z roh@m3.net $
  */
 

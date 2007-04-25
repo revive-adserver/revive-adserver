@@ -3,9 +3,9 @@
 /*
 +---------------------------------------------------------------------------+
 | Openads v2.3                                                              |
-| =============                                                             |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Ltd                                       |
+| Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
