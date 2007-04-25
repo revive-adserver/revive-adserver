@@ -28,6 +28,13 @@
             <file>changes_tables_core_511.xml</file>
             <file>migration_tables_core_511.php</file>
         </package>
+        <package>
+            <version>512</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_512.xml</file>
+            <file>changes_tables_core_512.xml</file>
+            <file>migration_tables_core_512.php</file>
+        </package>
     </database>
 
     <!-- Custom Install Scripts to execute -->
