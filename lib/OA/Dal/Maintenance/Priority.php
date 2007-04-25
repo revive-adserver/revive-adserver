@@ -1438,12 +1438,13 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                         created_by
                     )
                  VALUES
-                    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $aTypes = array(
                 'integer',
                 'integer',
                 'timestamp',
                 'timestamp',
+                'integer',
                 'integer',
                 'integer',
                 'integer',

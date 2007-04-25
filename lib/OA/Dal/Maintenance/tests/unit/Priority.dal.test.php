@@ -5167,9 +5167,27 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $rows = $oDbh->exec($sql);
 
         // Add ad_zone_assoc record
-        $zonesAssocTable = $conf['table']['prefix'] . 'ad_zone_assoc';
-        $sql = "INSERT INTO $zonesAssocTable VALUES (1, 1, 1, '0', NULL, 1, 1)";
-        $rows = $oDbh->exec($sql);
+        $query = "
+            INSERT INTO
+                {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
+                (
+                    ad_id,
+                    zone_id,
+                    priority,
+                    link_type,
+                    priority_factor,
+                    to_be_delivered
+                )
+            VALUES
+                (
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1
+                )";
+        $rows = $oDbh->exec($query);
     }
 
 }
