@@ -121,6 +121,10 @@ class Test_OA_Upgrade extends UnitTestCase
         $logpattern = '/openads_upgrade_1_to_2_constructive_[\d]{4}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}\.log/';
         $this->assertWantedPattern($logpattern, basename($oUpgrade->oLogger->logFile), '');
 
+        if (file_exists($testpath.$testfile))
+        {
+            unlink($testpath.$testfile);
+        }
     }
 
     function _createTestAppVarRecord($name, $value)
