@@ -80,6 +80,7 @@ phpAds_registerGlobalUnslashed(
     ,'type'
     ,'submit'
     ,'target'
+    ,'transparent'
     ,'upload'
     ,'url'
     ,'weight'
@@ -142,6 +143,11 @@ if (isset($submit)) {
     $aVariables['comments']        = $comments;
     $aVariables['compiledlimitation'] = '';
     $aVariables['append'] = '';
+
+    // Handle SWF transparency
+    if ($aVariables['contenttype'] == 'swf') {
+        $aVariables['transparent'] = isset($transparent) && $transparent ? 1 : 0;
+    }
 
     // Update existing hard-coded links
     if ($aVariables['contenttype'] == 'swf' && isset($alink) && is_array($alink) && count($alink)) {
@@ -296,18 +302,19 @@ if ($bannerid != '') {
 } else {
     // Set default values for new banner
     $row['alt']          = '';
-    $row['status']          = '';
-    $row['bannertext']      = '';
+    $row['status']       = '';
+    $row['bannertext']   = '';
     $row['url']          = "http://";
-    $row['target']          = '';
-    $row['imageurl']      = "http://";
-    $row['width']          = '';
-    $row['height']          = '';
+    $row['target']       = '';
+    $row['imageurl']     = "http://";
+    $row['width']        = '';
+    $row['height']       = '';
     $row['htmltemplate'] = '';
     $row['description']  = '';
-    $row['comments'] = '';
-    $row['contenttype'] = '';
-    $row["adserver"] = '';
+    $row['comments']     = '';
+    $row['contenttype']  = '';
+    $row['adserver']     = '';
+    $row['transparent']  = 0;
 
     $hardcoded_links = array();
     $hardcoded_targets = array();
@@ -573,6 +580,18 @@ if ($type == 'sql') {
         echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
     }
 
+    if (!isset($row['contenttype']) || $row['contenttype'] == 'swf')
+    {
+        echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+        echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+        echo "<tr><td width='30'>&nbsp;</td>";
+        echo "<td width='200'>".$strSwfTransparency."</td>";
+        echo "<td><select name='transparent' tabindex='".($tabindex++)."'>";
+            echo "<option value='1'".($row['transparent'] == 1 ? ' selected' : '').">".$strYes."</option>";
+            echo "<option value='0'".($row['transparent'] != 1 ? ' selected' : '').">".$strNo."</option>";
+        echo "</select></td></tr>";
+    }
+
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
     echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
     echo "</table>";
@@ -758,6 +777,18 @@ if ($type == 'web') {
         echo "<td width='200'>".$strSize."</td>";
         echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
         echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
+    }
+
+    if (!isset($row['contenttype']) || $row['contenttype'] == 'swf')
+    {
+        echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+        echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+        echo "<tr><td width='30'>&nbsp;</td>";
+        echo "<td width='200'>".$strSwfTransparency."</td>";
+        echo "<td><select name='transparent' tabindex='".($tabindex++)."'>";
+            echo "<option value='1'".($row['transparent'] == 1 ? ' selected' : '').">".$strYes."</option>";
+            echo "<option value='0'".($row['transparent'] != 1 ? ' selected' : '').">".$strNo."</option>";
+        echo "</select></td></tr>";
     }
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";

@@ -317,9 +317,15 @@ function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
     $code = "
 <div id='m3_$rnd' style='display: inline;'>$altImageAdCode</div>
 <script type='text/javascript'>
-	<!--// <![CDATA[
-   var fo = new FlashObject('$fileUrl', 'mymovie', '$width', '$height', '$pluginVersion');
-   //fo.addParam('wmode','transparent');
+   <!--// <![CDATA[
+   var fo = new FlashObject('$fileUrl', 'mymovie', '$width', '$height', '$pluginVersion');";
+
+    if (!empty($aBanner['transparent'])) {
+        $code .= "
+   fo.addParam('wmode','transparent');";
+    }
+
+    $code .= "
    fo.write('m3_$rnd');
    // ]]> -->
 </script>";
