@@ -85,9 +85,9 @@ works in phpMyAdmin on MySQL 5.0.22 but not via this routine
         $this->assertTrue($oTable->createTable('z_test2'),'error creating test backup z_test2');
         $this->assertTrue($oTable->createTable('z_test3'),'error creating test backup z_test3');
         $aExistingTables = $oTable->oDbh->manager->listTables();
-        $this->assertTrue(in_array('z_test1', $aExistingTables), '_createTestTables');
-        $this->assertTrue(in_array('z_test2', $aExistingTables), '_createTestTables');
-        $this->assertTrue(in_array('z_test3', $aExistingTables), '_createTestTables');
+        $this->assertTrue(in_array('z_test1', $aExistingTables), '_listBackups');
+        $this->assertTrue(in_array('z_test2', $aExistingTables), '_listBackups');
+        $this->assertTrue(in_array('z_test3', $aExistingTables), '_listBackups');
 
         $aBackupTables = $oDB_Upgrade->_listBackups();
         $this->assertIsA($aBackupTables,'array','backup array not an array');
@@ -227,6 +227,63 @@ works in phpMyAdmin on MySQL 5.0.22 but not via this routine
                 $this->assertTrue(array_key_exists($field, $aTbl_def_rest['indexes'][$index]['fields']), 'index field missing from restored table');
             }
         }
+    }
+
+    /**
+     * this test calls backup method then immediately rollsback
+     * emulating an upgrade error without interrupt (can recover in same session)
+     *
+     */
+    function test_BackupAndRollback_restoreAutoIncrement()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+
+        $this->_createTestTableAutoInc($oDB_Upgrade->oSchema->db);
+
+        $oDB_Upgrade->aChanges['affected_tables']['constructive'] = array('table1_autoinc');
+
+        $aTbl_def_orig = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1_autoinc'));
+        $this->assertTrue($oDB_Upgrade->_backup(),'_backup failed');
+        $this->assertIsA($oDB_Upgrade->aRestoreTables, 'array', 'aRestoreTables not an array');
+        $this->assertTrue(array_key_exists('table1_autoinc', $oDB_Upgrade->aRestoreTables), 'table not found in aRestoreTables');
+        $this->assertTrue(array_key_exists('bak', $oDB_Upgrade->aRestoreTables['table1_autoinc']), 'backup table name not found for table table1');
+        $this->assertTrue(array_key_exists('def', $oDB_Upgrade->aRestoreTables['table1_autoinc']), 'definition array not found for table table1');
+
+        $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
+
+        $table_bak = $oDB_Upgrade->aRestoreTables['table1_autoinc']['bak'];
+        $this->assertTrue(in_array($table_bak, $oDB_Upgrade->aDBTables), 'backup table not found in database');
+
+        OA_DB::setQuoteIdentifier();
+        $aTbl_def_bak = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($table_bak));
+        OA_DB::disabledQuoteIdentifier();
+
+        $aTbl_def_orig = $aTbl_def_orig['tables']['table1_autoinc'];
+        $aTbl_def_bak  = $aTbl_def_bak['tables'][$table_bak];
+
+        foreach ($aTbl_def_orig['fields'] AS $name=>$aType)
+        {
+            $this->assertTrue(array_key_exists($name, $aTbl_def_bak['fields']), 'field missing from backup table');
+        }
+
+        $oDB_Upgrade->oSchema->db->manager->dropTable('table1_autoinc');
+
+        $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
+        $this->assertFalse(in_array('table1_autoinc', $oDB_Upgrade->aDBTables), 'could not drop test table');
+
+        $this->assertTrue($oDB_Upgrade->_rollback(), 'rollback failed');
+
+        $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
+        $this->assertTrue(in_array('table1_autoinc',$oDB_Upgrade->aDBTables), 'test table was not restored');
+
+        $aTbl_def_rest = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1_autoinc'));
+        $aTbl_def_rest = $aTbl_def_rest['tables']['table1_autoinc'];
+
+        // also test field definition properties?
+
+        $aDiffs       = $oDB_Upgrade->oSchema->compareDefinitions($aTbl_def_orig, $aTbl_def_rest);
+        $this->assertEqual(count($aDiffs)==0,'differences found in restored table');
+
     }
 
     /**
@@ -915,6 +972,39 @@ works in phpMyAdmin on MySQL 5.0.22 but not via this routine
         $this->assertFalse(in_array('table2', $aExistingTables), '_dropTestTables');
     }
 
+    /**
+     * internal function to set up some a test table with an autoincrement field
+     *
+     * @param mdb2 connection $oDbh
+     */
+    function _createTestTableAutoInc($oDbh)
+    {
+        $this->_dropTestTables($oDbh);
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf['table']['prefix'] = '';
+        $conf['table']['split'] = false;
+        $oTable = new OA_DB_Table();
+        $oTable->init($this->path.'schema_test_autoinc.xml');
+        $this->assertTrue($oTable->createTable('table1_autoinc'),'error creating test table1_autoinc');
+        $aExistingTables = $oDbh->manager->listTables();
+        $this->assertTrue(in_array('table1_autoinc', $aExistingTables), '_createTestTableAutoInc');
+    }
+
+    function _dropTestTableAutoInc($oDbh)
+    {
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf['table']['prefix'] = '';
+        $conf['table']['split'] = false;
+        $oTable = new OA_DB_Table();
+        $oTable->init($this->path.'schema_test_autoinc.xml');
+        $aExistingTables = $oDbh->manager->listTables();
+        if (in_array('table1_autoinc', $aExistingTables))
+        {
+            $this->assertTrue($oTable->dropTable('table1_autoinc'),'error dropping test table1_autoinc');
+        }
+        $aExistingTables = $oDbh->manager->listTables();
+        $this->assertFalse(in_array('table1_autoinc', $aExistingTables), '_dropTestTableAutoInc');
+    }
     /**
      * internal function to return an initialised db_upgrade object for testing
      *

@@ -519,6 +519,50 @@ class OA_DB_Upgrade
             $this->_halt();
             return false;
         }
+
+        // compare the original and the restored definitions
+        $aRestoredDef = $this->oSchema->getDefinitionFromDatabase(array($table));
+        $aPreviousDef = array('tables'=>array($table=>$aDef_bak));
+        $aDiffs       = $this->oSchema->compareDefinitions($aPreviousDef, $aRestoredDef);
+        // not expecting any diffs other than autoincrement property
+        if (count($aDiffs)>0)
+        {
+            if ($aDiffs['tables']['change'][$table]['change'])
+            {
+                foreach ($aDiffs['tables']['change'][$table]['change'] AS $field_name => $aFldDiff)
+                {
+                    if (array_key_exists('autoincrement',$aFldDiff))
+                    {
+                        if (!$this->_restoreAutoIncrement($table, $field_name, $aFldDiff))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * (mysql) backups do not keep the autoincrement flag
+     * this method will restore that flag
+     *
+     * @param array $aDiffs
+     */
+    function _restoreAutoIncrement($table_name, $field_name, $aFldDiff)
+    {
+        $aTask['cargo'] =  array(
+                                 'change'=>array(
+                                                  $field_name=>$aFldDiff
+                                                )
+                                );
+        $result = $this->oSchema->db->manager->alterTable($table_name, $aTask['cargo'], false);
+        if ($this->_isPearError($result, 'error restoring autoincrement field during rollback: '.$table_name.'.'.$field_name))
+        {
+            $this->_halt();
+            return false;
+        }
         return true;
     }
 

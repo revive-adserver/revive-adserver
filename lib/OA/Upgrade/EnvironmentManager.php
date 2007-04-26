@@ -136,6 +136,15 @@ class OA_Environment_Manager
     function getPHPInfo()
     {
         $aResult['version'] = phpversion();
+        $aResult['memory_limit'] = ini_get('memory_limit');
+        $aResult['magic_quotes_runtime'] = get_magic_quotes_runtime();
+        $aResult['magic_quotes_gpc'] = get_magic_quotes_gpc();
+        $aResult['register_globals'] = ini_get('register_globals');
+
+        $aResult['extensions'] = get_loaded_extensions();
+//mmturck, eaccelerator, apc, xcache, zendplatfor
+
+        //$aResult = ini_get_all();
         return $aResult;
     }
 
