@@ -216,12 +216,23 @@ function setupConstants()
         // Define the week to start on Sunday (0) so that the PEAR::Date and
         // PEAR::Date_Calc classes agree on what day is the start of the week
         define('DATE_CALC_BEGIN_WEEKDAY', 0);
-        // Set the TZ environment variable, so that PEAR::Date class knows
-        // which timezone we are in, and doesn't screw up the dates after using
-        // the PEAR::compare() method
-        if (getenv('TZ') === false) {
-            $diff = date('O') / 100;
-            putenv('TZ=GMT'.($diff > 0 ? '-' : '+').abs($diff));
+        // Ensure that the TZ environment variable is set for PHP < 5.1.0, so
+        // that PEAR::Date class knows which timezone we are in, and doesn't
+        // screw up the dates after using the PEAR::compare() method -  also,
+        // ensure that an appropriate timezone is set, if required, to allow
+        // the time zone to be other than the time zone of the server
+        if (version_compare(phpversion(), '5.1.0', '<')) {
+            if (getenv('TZ') === false) {
+                $diff = date('O') / 100;
+                putenv('TZ=GMT'.($diff > 0 ? '-' : '+').abs($diff));
+            }
+        }
+        if (isset($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
+            // Set new time zone
+            if (version_compare(phpversion(), '5.1.0', '>=')) {
+            date_default_timezone_set($GLOBALS['_MAX']['CONF']['timezone']['location']);
+        } else {
+            putenv("TZ={$GLOBALS['_MAX']['CONF']['timezone']['location']}");
         }
         // Parse the Openads configuration file
         $GLOBALS['_MAX']['CONF'] = parseIniFile();

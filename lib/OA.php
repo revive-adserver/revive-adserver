@@ -117,6 +117,24 @@ class OA
     }
 
     /**
+     * A method to obtain the current date/time, offset if required by the
+     * user configured timezone.
+     *
+     * @static
+     * @param string $format A PHP date() compatible formatting string, if
+     *                       required. Default is "Y-m-d H:j:s".
+     * @return string An appropriately formatted date/time string, representing
+     *                the "current" date/time, offset if required.
+     */
+    function getNow($format = null)
+    {
+        if (is_null($format)) {
+            $format = 'Y-m-d H:j:s';
+        }
+        return date('Y-m-d H:j:s', time());
+    }
+
+    /**
      * A method to temporarily disable PEAR error handling by
      * pushing a null error handler onto the top of the stack.
      *
