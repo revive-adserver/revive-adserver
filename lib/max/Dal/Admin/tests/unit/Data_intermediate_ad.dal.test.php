@@ -163,8 +163,7 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
         );
         $dg = new DataGenerator();
         $dg->setData('data_intermediate_ad', $aData);
-        $aDataIntermediateAdIds = $dg->generate('data_intermediate_ad', 1);
-        $dataIntermediateAdId = $aDataIntermediateAdIds[0];
+        $dataIntermediateAdId = $dg->generateOne('data_intermediate_ad');
 
         $this->dalData_intermediate_ad->addConversion(
             '+',

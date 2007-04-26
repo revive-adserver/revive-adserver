@@ -35,16 +35,5 @@ class DataObjects_Data_intermediate_ad extends DB_DataObjectCommon
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_intermediate_ad',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
-    ###END_AUTOCODE
-    
-    function table()
-    {
-        $fields = parent::table();
-        if (isset($fields['total_basket_value'])) {
-            // decimal() somehow is interpreted by DataObjects as DB_DATAOBJECT_MYSQLTIMESTAMP
-            // @fixme
-            $fields['total_basket_value'] = 1;
-        }
-        return $fields;
-    }
+    ###END_AUTOCODE    
 }
