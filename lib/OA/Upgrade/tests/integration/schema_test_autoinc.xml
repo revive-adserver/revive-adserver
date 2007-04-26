@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<database>
+
+ <name>test</name>
+ <create>true</create>
+ <overwrite>true</overwrite>
+
+ <table>
+
+  <name>table1_autoinc</name>
+
+  <declaration>
+
+   <field>
+    <name>b_id_field</name>
+    <type>integer</type>
+    <length>9</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>a_text_field</name>
+    <type>text</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+</database>
