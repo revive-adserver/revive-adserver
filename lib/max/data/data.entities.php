@@ -6,7 +6,6 @@
                   'd.active' => 'active',
                   'd.description' => 'name',
                   'd.storagetype' => 'type',
-                  'd.parameters' => 'parameters',
                   'd.contenttype' => 'contenttype',
                   'd.pluginversion' => 'pluginversion',
                   'd.filename' => 'filename',
@@ -34,7 +33,9 @@
                   'd.alt_filename' => 'alt_filename',
                   'd.alt_imageurl' => 'alt_imageurl',
                   'd.alt_contenttype' => 'alt_contenttype',
-                  'd.comments' => 'comments'
+                  'd.comments' => 'comments',
+                  'd.transparent' => 'transparent',
+                  'd.parameters' => 'parameters'
                 ),
          'advertiser' => array (
                   'a.clientid' => 'advertiser_id',
