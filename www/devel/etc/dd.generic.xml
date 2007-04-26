@@ -4,11 +4,25 @@
 <dictionary>
 
 	<field>
+		<name>openads_acls_type</name>
+        <type>openads_varchar</type>
+        <length>32</length>
+        <notnull>true</notnull>
+        <default></default>
+	</field>
+	<field>
 		<name>openads_generic_id</name>
 		<type>openads_mediumint</type>
 		<length>9</length>
 		<notnull>true</notnull>
 		<default></default>
+	</field>
+	<field>
+		<name>openads_generic_id_default0</name>
+		<type>openads_mediumint</type>
+		<length>9</length>
+		<notnull>true</notnull>
+		<default>0</default>
 	</field>
 	<field>
 		<name>openads_generic_id_inc</name>
@@ -24,6 +38,20 @@
 		<length>11</length>
 		<notnull>false</notnull>
 		<default></default>
+	</field>
+	<field>
+		<name>openads_generic_smallint</name>
+		<type>openads_smallint</type>
+		<length>6</length>
+		<notnull>false</notnull>
+		<default></default>
+	</field>
+	<field>
+		<name>openads_generic_smallint_notnull</name>
+		<type>openads_smallint</type>
+		<length>6</length>
+		<notnull>true</notnull>
+		<default>0</default>
 	</field>
 	<field>
 		<name>openads_generic_timestamp</name>
@@ -53,9 +81,23 @@
         <default></default>
 	</field>
 	<field>
+		<name>openads_generic_varchar_50</name>
+    <type>openads_varchar</type>
+    <length>50</length>
+    <notnull>true</notnull>
+    <default></default>
+  </field>
+  <field>
 		<name>openads_generic_varchar_32</name>
         <type>openads_varchar</type>
         <length>32</length>
+        <notnull>true</notnull>
+        <default></default>
+	</field>
+  <field>
+		<name>openads_generic_varchar_16</name>
+        <type>openads_varchar</type>
+        <length>16</length>
         <notnull>true</notnull>
         <default></default>
 	</field>
@@ -63,6 +105,27 @@
 		<name>openads_generic_text</name>
 		<type>openads_text</type>
 		<notnull>true</notnull>
+		<default></default>
+	</field>
+	<field>
+		<name>openads_capping</name>
+		<type>openads_int</type>
+		<length>11</length>
+		<notnull>true</notnull>
+		<default>0</default>
+	</field>
+	<field>
+		<name>openads_contenttype</name>
+		<type>openads_enum</type>
+        <length>'gif','jpg','png'</length>
+		<notnull>true</notnull>
+		<default>gif</default>
+	</field>
+	<field>
+		<name>openads_cost</name>
+		<type>openads_decimal</type>
+		<length>10,4</length>
+		<notnull>false</notnull>
 		<default></default>
 	</field>
 	<field>
