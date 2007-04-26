@@ -60,7 +60,10 @@ else if (array_key_exists('btn_view_logs', $_REQUEST))
 }
 else if (array_key_exists('btn_view_environment', $_REQUEST))
 {
-    $aSysInfo = $oUpgrader->oSystemMgr->getAllInfo();
+    $oUpgrader->oSystemMgr->getAllInfo();
+    $oUpgrader->oSystemMgr->checkCritical();
+    $aSysInfo = $oUpgrader->oSystemMgr->aInfo;
+    $oUpgrader->detectOpenads();
 }
 else if (array_key_exists('btn_view_backups', $_REQUEST))
 {

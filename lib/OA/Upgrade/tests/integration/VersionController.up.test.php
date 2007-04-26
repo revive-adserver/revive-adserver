@@ -88,7 +88,7 @@ class Test_VersionController extends UnitTestCase
         $oVerCtrl->init(OA_DB::singleton(OA_DB::getDsn()));
         $this->assertEqual($oVerCtrl->putApplicationVersion(1001),1001,'error inserting application version');
         $this->assertEqual($oVerCtrl->putApplicationVersion(1002),1002,'error updating application version');
-        $this->assertNotEqual($oVerCtrl->getApplicationVersion(1001),'wrong application version retrieved');
+        $this->assertNotEqual($oVerCtrl->getApplicationVersion(),1001,'wrong application version retrieved');
         $this->_deleteTestRecord('max_version', 1001);
         $this->_deleteTestRecord('max_version', 1002);
     }

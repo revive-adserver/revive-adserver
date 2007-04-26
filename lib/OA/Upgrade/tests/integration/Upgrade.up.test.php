@@ -72,17 +72,12 @@ class Test_OA_Upgrade extends UnitTestCase
         $testid    = 'openads_upgrade_1_to_2';
         $testfile  = $testid.'.xml';
         $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/integration/';
-        if (!file_exists($testpath))
-        {
-            mkdir($testpath);
-        }
         if (file_exists($testpath.$testfile))
         {
             $this->assertTrue(copy($testpath.$testfile, $oUpgrade->upgradePath.$testfile));
         }
         $this->assertTrue(file_exists($oUpgrade->upgradePath.$testfile));
 
-        $this->_createTestAppVarRecord('max_version','1');
         $oUpgrade->init($testfile);
         $this->assertIsA($oUpgrade->aPackage,'array','problem with package array');
         $this->assertTrue(array_key_exists('db_pkgs',$oUpgrade->aPackage),'problem with package array: no db_pkgs element');
@@ -114,17 +109,28 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->aDBPackages[0]['files'][1],'changes_tables_core_2.xml','');
         $this->assertEqual($oUpgrade->aDBPackages[0]['files'][2],'migration_tables_core_2.php','');
 
-
-        $this->assertEqual($oUpgrade->versionInitialApplication,1,'wrong initial application version');
-        $this->_deleteTestAppVarRecord('max_version','1');
-
         $logpattern = '/openads_upgrade_1_to_2_constructive_[\d]{4}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}\.log/';
         $this->assertWantedPattern($logpattern, basename($oUpgrade->oLogger->logFile), '');
 
-        if (file_exists($testpath.$testfile))
+        if (file_exists($oUpgrade->upgradePath.$testfile))
         {
-            unlink($testpath.$testfile);
+            unlink($oUpgrade->upgradePath.$testfile);
         }
+    }
+
+    function test_detectOpenads()
+    {
+        $oUpgrade  = new OA_Upgrade();
+
+        $this->_createTestAppVarRecord('max_version','1');
+
+        $oUpgrade->detectOpenads();
+        $this->assertEqual($oUpgrade->versionInitialApplication,1,'wrong initial application version');
+
+        $this->_deleteTestAppVarRecord('max_version','1');
+        $oUpgrade->detectOpenads();
+        $this->assertEqual($oUpgrade->versionInitialApplication,0,'wrong initial application version');
+
     }
 
     function _createTestAppVarRecord($name, $value)

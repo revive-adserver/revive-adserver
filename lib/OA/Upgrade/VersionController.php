@@ -96,7 +96,7 @@ class OA_Version_Controller
         return false;
     }
 
-    function getApplicationVersion()
+    function getApplicationVersion($pan=false)
     {
         return $this->_runQuery($this->_getQuerySelect('max_version'));
     }
@@ -105,7 +105,7 @@ class OA_Version_Controller
     {
         if ($this->_execQuery($this->_getQueryInsert('max_version', $version)))
         {
-            return $this->getApplicationVersion('max_version');
+            return $this->getApplicationVersion();
         }
         return false;
     }
@@ -114,14 +114,14 @@ class OA_Version_Controller
     {
         if ($this->_execQuery($this->_getQueryUpdate('max_version', $version)))
         {
-            return $this->getApplicationVersion('max_version');
+            return $this->getApplicationVersion();
         }
         return false;
     }
 
     function putApplicationVersion($version)
     {
-        if ($this->getApplicationVersion($version))
+        if ($this->getApplicationVersion())
         {
             return $this->_updateApplicationVersion($version);
         }

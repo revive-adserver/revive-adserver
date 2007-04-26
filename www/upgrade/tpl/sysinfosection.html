@@ -4,13 +4,22 @@
     <?php
         if ($sysinfoarray && is_array($sysinfoarray) && (count($sysinfoarray)>0))
         {
-            foreach ($sysinfoarray AS $k => $v)
+            foreach ($sysinfoarray['actual'] AS $k => $v)
             {
                 if (!is_array($v))
                 {
                     echo "<tr>
                               <td class=\"tablebody\">{$k}</td>
                               <td class=\"tablebody\">{$v}</td>
+                          </tr>";
+                }
+            }
+            foreach ($sysinfoarray['error'] AS $k => $v)
+            {
+                if (!is_array($v))
+                {
+                    echo "<tr>
+                              <td class=\"tablebody\" colspan=\"2\">{$v}</td>
                           </tr>";
                 }
             }

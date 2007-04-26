@@ -39,6 +39,7 @@ require_once(MAX_PATH.'/lib/OA/Upgrade/DB_UpgradeAuditor.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradePackageParser.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/VersionController.php');
 require_once MAX_PATH.'/lib/OA/Upgrade/EnvironmentManager.php';
+require_once MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php';
 
 class OA_Upgrade
 {
@@ -81,8 +82,11 @@ class OA_Upgrade
 
         $this->aPackage     = $this->_parseUpgradePackageFile($this->upgradePath.$input_file);
         $this->aDBPackages  = $this->aPackage['db_pkgs'];
+    }
 
-        $this->versionInitialApplication = $this->oVersioner->getApplicationVersion();
+    function checkEnvironment()
+    {
+        $this->oSystemMgr->getAllInfo();
     }
 
     function upgradeSchemas()
@@ -211,6 +215,31 @@ class OA_Upgrade
             }
         }
         return true;
+    }
+
+    function detectOpenads()
+    {
+        $oPAN = new OA_phpAdsNew();
+        $oPAN->init();
+        if ($oPAN->detected)
+        {
+            $this->versionInitialApplication = $oPAN->getPANversion();
+            $this->oLogger->log('phpAdsNew '.$this->versionInitialApplication).' detected';
+        }
+        else
+        {
+            $versionMax = $this->oVersioner->getApplicationVersion();
+            if ($versionMax)
+            {
+                $this->versionInitialApplication = $versionMax;
+                $this->oLogger->log('Max Media Manager '.$this->versionInitialApplication).' detected';
+            }
+            else
+            {
+                $this->versionInitialApplication = '0';
+                $this->oLogger->log('Openads not detected');
+            }
+        }
     }
 
     function getMessages()

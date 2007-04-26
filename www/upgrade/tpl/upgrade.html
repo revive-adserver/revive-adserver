@@ -199,32 +199,12 @@ if (count($aSysInfo)>0)
         $sysinfoheading = 'PHP';
         include 'tpl/sysinfosection.html';
 
-        $sysinfoarray = $aSysInfo['DB'];
-        $sysinfoheading = 'Database';
-        include 'tpl/sysinfosection.html';
-
         $sysinfoarray = $aSysInfo['PERMS'];
         $sysinfoheading = 'Permission Errors';
         include 'tpl/sysinfosection.html';
 
         $sysinfoarray = $aSysInfo['FILES'];
         $sysinfoheading = 'File Integrity Problems';
-        include 'tpl/sysinfosection.html';
-
-        $sysinfoarray = $aSysInfo['PAN'];
-        $sysinfoheading = 'PAN not detected';
-        if ($sysinfoarray && is_array($sysinfoarray) && (count($sysinfoarray)>0))
-        {
-            $sysinfoheading = "PAN version {$aSysInfo['PAN']['version']} detected";
-        }
-        include 'tpl/sysinfosection.html';
-
-        $sysinfoarray = $aSysInfo['MAX'];
-        $sysinfoheading = 'MAX not detected';
-        if ($sysinfoarray && is_array($sysinfoarray) && (count($sysinfoarray)>0))
-        {
-            $sysinfoheading = "MAX version {$aSysInfo['MAX']['version']} detected";
-        }
         include 'tpl/sysinfosection.html';
     ?>
     </table>
