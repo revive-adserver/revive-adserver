@@ -40,14 +40,13 @@ class OA_Environment_Manager
 
     function OA_Environment_Manager()
     {
-
+        $this->aFilePermissions = array(
+                                        MAX_PATH.'/var/'
+                                       );
     }
 
     function init()
     {
-        $this->aFilePermissions = array(
-                                        MAX_PATH.'/var/'
-                                       );
     }
 
     function getAllInfo($dbh='')
@@ -161,13 +160,14 @@ class OA_Environment_Manager
             {
                 continue;
             }
+            $aErrors[$file] = 'OK';
             if (!file_exists($file))
             {
-                $aErrors[] = $file;
+                $aErrors[$file] = 'NOT writeable';
             }
             elseif (!is_writable($file))
             {
-                $aErrors[] = $file;
+                $aErrors[$file] = 'NOT writeable';
             }
         }
 

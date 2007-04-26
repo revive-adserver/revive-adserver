@@ -49,11 +49,12 @@ class Test_OA_Environment_Manager extends UnitTestCase
     function test_getFilePermissionErrors()
     {
         $oEnvMgr = & $this->_getEnvMgrObj();
+        $file = '/root';
         $oEnvMgr->aFilePermissions = array(
-                                            MAX_PATH.'/www/'
+                                            $file
                                            );
         $aResult  = $oEnvMgr->getFilePermissionErrors();
-        $this->assertTrue($aResult,'should have returned a permission error (unless www is writable that is ;)');
+        $this->assertTrue($aResult,"should have returned a permission error (unless {$file} is writable that is ;)");
     }
 
     function test_getPANInfo()
