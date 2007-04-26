@@ -1087,6 +1087,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                         'zone_id'                       => $aRow['zone_id'],
                         'required_impressions'          => $aRow['required_impressions'],
                         'requested_impressions'         => $aRow['requested_impressions'],
+                        'to_be_delivered'               => $aRow['to_be_delivered'],
                         'priority_factor'               => $aRow['priority_factor'],
                         'past_zone_traffic_fraction'    => $aRow['past_zone_traffic_fraction']
                     );
@@ -1111,6 +1112,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                      (!$aPastDeliveryResult[$aRow['ad_id']][$aRow['zone_id']]['pastPriorityFound'])) {
                     $aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']]['required_impressions'] = 0;
                     $aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']]['requested_impressions'] = 0;
+                    $aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']]['to_be_delivered'] = 0;
                     $aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']]['priority_factor'] = 0;
                     $aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']]['average'] = true;
                     unset($aPastPriorityResult[$aRow['ad_id']][$aRow['zone_id']]['pastPriorityFound']);
