@@ -138,7 +138,7 @@ if (isset($bannerid) && $bannerid != '')
 		phpAds_cacheDelete();
 		
 		// Prevent HTTP response splitting
-		if (strpos($returnurl, "\r\n") === false)
+		if (!preg_match('/[\r\n]/', $returnurl))
 		{
 			$url = stripslashes($returnurl);
 		
@@ -258,7 +258,7 @@ if (isset($bannerid) && $bannerid != '')
 		phpAds_cacheDelete();
 		
 		// Prevent HTTP response splitting
-		if (strpos($returnurl, "\r\n") === false)
+		if (!preg_match('/[\r\n]/', $returnurl))
 		{
 			$url = stripslashes($returnurl);
 		
@@ -268,7 +268,7 @@ if (isset($bannerid) && $bannerid != '')
 	else
 	{
 		// Prevent HTTP response splitting
-		if (strpos($returnurl, "\r\n") === false)
+		if (!preg_match('/[\r\n]/', $returnurl))
 		{
 			$url = stripslashes($returnurl);
 			

@@ -31,7 +31,7 @@ if (!$phpAds_config['compact_stats'])
 	// NOTE: None of this works for the compact database 
 	// format since hours are not tracked
 	
-    $where   = urldecode($where); 
+    $where   = addslashes(urldecode($where)); 
     $query	 = "SELECT COUNT(*), DATE_FORMAT(t_stamp, '%k') AS hour FROM ".$phpAds_config['tbl_adviews']." WHERE ($where) GROUP BY hour";
     $query2  = "SELECT COUNT(*), DATE_FORMAT(t_stamp, '%k') AS hour FROM ".$phpAds_config['tbl_adclicks']." WHERE ($where) GROUP BY hour";
     $result  = phpAds_dbQuery($query);

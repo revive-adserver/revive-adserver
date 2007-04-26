@@ -130,7 +130,7 @@ if (!isset($returnurl) && $returnurl == '')
 	$returnurl = 'client-campaigns.php';
 
 // Prevent HTTP response splitting
-if (strpos($returnurl, "\r\n") === false)
+if (!preg_match('/[\r\n]/', $returnurl))
 {
 	$url = stripslashes($returnurl);
 

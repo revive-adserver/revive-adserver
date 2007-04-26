@@ -416,6 +416,21 @@ $GLOBALS['aHelpPages']['elements']['display_using_direct_selection']['elements']
     ),
 );
 
+$GLOBALS['aHelpPages']['elements']['maintenance'] = array(
+    'link' => 'maintenance.html',
+    'name' => 'Automatic maintenance',
+    'anchors' => array(
+    	'Built-in Automatic Maintenance',
+    	'Scheduled Maintenance',
+    	'Scheduling tasks on Linux and UNIX based servers',
+    	'Using cPanel to schedule maintenance tasks on Linux and UNIX based servers',
+    	'Scheduling tasks on Windows 2000 and XP servers',
+    	'Creating the scheduled task',
+    	'Using an external cron server',
+    ),
+    'elements' => array(),
+);
+
 $GLOBALS['aHelpPages']['elements']['configuration'] = array(
     'link' => 'introduction.html',
     'name' => 'Configuration',
@@ -452,6 +467,18 @@ $GLOBALS['aHelpPages']['elements']['configuration']['elements']['invocation_and_
         'P3P Compact Policy',
         'P3P Policy Location',
         'Pack cookies to avoid cookie overpopulations',
+    ),
+);
+
+$GLOBALS['aHelpPages']['elements']['configuration']['elements']['host_info_and_geotargeting'] = array(
+    'link' => 'host-info-and-geotargeting.html',
+    'name' => 'Host info and geotargeting',
+    'anchors' => array(
+    	'Try to determine the hostname of the visitor...',
+    	'Try to determine the real IP address of the visitor...',
+    	'Type of geotargeting database',
+    	'Geotargeting database location',
+    	'Store the result in a cookie for future reference',
     ),
 );
 
@@ -505,6 +532,38 @@ $GLOBALS['aHelpPages']['elements']['configuration']['elements']['banners'] = arr
         'Log all outgoing email messages',
         'Log hourly priority calculations',
         'Log automatic cleaning of database',
+    ),    
+);
+
+$GLOBALS['aHelpPages']['elements']['configuration']['elements']['admin'] = array(
+    'link' => 'administrator-settings.html',
+    'name' => 'Administrator settings',
+    'anchors' => array(
+        'Administrator settings',
+        'Admin\'s username',
+        'Password',
+        'Admin\'s full name',
+        'Admin\'s email address',
+        'Company Name',
+        'Language',
+        'Check for updates',
+        'Prompt for newly released development versions',
+        'Admin\'s delete actions need confirmation for safety',
+        'Log all outgoing email messages',
+        'Log hourly priority calculations',
+        'Log automatic cleaning of database',
+    ),    
+);
+
+$GLOBALS['aHelpPages']['elements']['configuration']['elements']['user_interface'] = array(
+    'link' => 'user-interface.html',
+    'name' => 'User interface',
+    'anchors' => array(
+        'Application Name',
+        'My header and My Footer',
+        'Use GZIP content compression',
+        'Enable advertiser welcome message',
+        'Welcome text',
     ),    
 );
 
@@ -632,8 +691,69 @@ $GLOBALS['aHelpPages']['elements']['invocation_generation']['elements']['local_m
     ),
 );
 
+$GLOBALS['aHelpPages']['elements']['statistics_and_reports'] = array(
+    'link' => 'statistics-overview.html',
+    'name' => 'Statistics Overview',
+    'anchors' => array(
+        'Viewing statistics',
+        'Advertisers & Campaigns tab',
+        'Advertiser history',
+        'Daily History',
+        'Publishers & Zones tab',
+        'Publisher history',
+        'Zone history page',
+        'Global history',
+        'Miscellaneous',
+        'Distribution by size',
+    ),
+    'elements' => array(),
+);
+
+$GLOBALS['aHelpPages']['elements']['statistics_and_reports']['elements']['statistics_overview'] = array(
+    'link' => 'statistics-overview.html',
+    'name' => 'Statistics Overview',
+    'anchors' => array(
+        'Viewing statistics',
+        'Advertisers & Campaigns tab',
+        'Advertiser history',
+        'Daily History',
+        'Publishers & Zones tab',
+        'Publisher history',
+        'Zone history page',
+        'Global history',
+        'Miscellaneous',
+        'Distribution by size',
+    ),
+    'elements' => array(),
+);
+
+$GLOBALS['aHelpPages']['elements']['statistics_and_reports']['elements']['reports_overview'] = array(
+    'link' => 'reports-overview.html',
+    'name' => 'Reports Overview',
+    'anchors' => array(
+        'Creating reports',
+        'Data Source',
+        'Delimiter',
+        'Use quotes',
+        'Generating the report',
+    ),
+    'elements' => array(),
+);
+
 $GLOBALS['navi2help'] = array(    
-    "admin"    => array (
+	"admin"    => array (
+		"2"                     => array( 'statistics_and_reports' ),
+          "2.1"                 => array( 'statistics_and_reports' ),
+            "2.1.1"             => array( 'statistics_and_reports' ),
+              "2.1.2"           => array( 'display_using_zones.zones' ),
+            "2.1.3"             => array( 'display_using_zones.zones', 9 ),
+            "2.1.4"             => array( 'display_using_zones.zones', 11 ),
+            "2.1.5"             => array( 'invocation_generation' ),
+              "2.1.6"           => array( 'display_using_zones.zones' ),
+          "2.2"                 => array( 'statistics_and_reports.statistics_overview' ),
+          "2.4"                 => array( 'statistics_and_reports.statistics_overview' ),
+          "2.5"                 => array( 'statistics_and_reports.statistics_overview' ),
+		"3"						=> array( 'statistics_and_reports.reports_overview' ),
         "4"                     => array( 'inventory' ),
           "4.1"                 => array( 'inventory' ),
             "4.1.1"             => array( 'inventory.advertisers' ),
@@ -652,36 +772,49 @@ $GLOBALS['navi2help'] = array(
           "4.2"                 => array( 'display_using_zones.publishers' ),
             "4.2.1"             => array( 'display_using_zones.publishers' ),
             "4.2.2"             => array( 'display_using_zones.publishers' ),
-            "4.2.3"             => array(), // array( "affiliate-zones.php?affiliateid=$affiliateid" => $strZoneOverview ),
+            "4.2.3"             => array( 'display_using_zones.zones'),
               "4.2.3.1"         => array( 'display_using_zones.zones' ), 
                 "4.2.3.2"       => array( 'display_using_zones.zones' ),
               "4.2.3.3"         => array( 'display_using_zones.zones', 9 ),
               "4.2.3.4"         => array( 'display_using_zones.zones', 11 ),
-              "4.2.3.5"         => array( 'invocation' ),
-                "4.2.3.6"       => array(), // array( "zone-advanced.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strAdvanced ),
+              "4.2.3.5"         => array( 'invocation_generation' ),
+                "4.2.3.6"       => array( 'display_using_zones.zones' ),
           "4.3"                 => array( 'display_using_zones' ),
-        "5"                     => array( 'configuration.db_settings' ),
-          "5.1"                 => array( 'configuration.db_settings' ),
-          "5.3"                 => array(), // array("maintenance-index.php" => $strMaintenance),
+        "5"                     => array( 'configuration.invocation_and_delivery' ),
+          "5.1"                 => array( 'configuration.db_settings',
+          							'use_file' => array(
+          								'settings-db.php' 			=> array( 'configuration.db_settings' ),
+          								'settings-invocation.php' 	=> array( 'configuration.invocation_and_delivery' ),
+          								'settings-host.php'			=> array( 'configuration.host_info_and_geotargeting' ),
+          								'settings-stats.php'		=> array( 'configuration.statistics' ),
+          								'settings-banner.php'		=> array( 'configuration.banners' ),
+          								'settings-admin.php'		=> array( 'configuration.admin' ),
+          								'settings-interface.php'	=> array( 'configuration.user_interface' ),
+          								'settings-defaults.php'		=> array( 'configuration.interface_defaults' ),
+          							)
+          						),
+          "5.3"                 => array( 'maintenance' ),
           "5.2"                 => array(), // array("userlog-index.php" => $strUserLog),
               "5.2.1"           => array(), // array("userlog-details.php?userlogid=$userlogid" => $strUserLogDetails),
           "5.4"                 => array(), // array("maintenance-updates.php" => $strProductUpdates)
     ),
 
     "client" => array (
+		"3"						=> array( 'statistics_and_reports.reports_overview' ),
               "1.2.2.2"         => array( 'inventory.banners' ),
               "1.2.2.3"         => array( 'inventory.flash_banners' ),
     ),
 
     "affiliate" => array (
+		"3"						=> array( 'statistics_and_reports.reports_overview' ),
         "2"                     => array( 'display_using_zones.publishers' ),
           "2.1"                 => array( 'display_using_zones.publishers' ),
             "2.1.1"             => array( 'display_using_zones.zones' ),
               "2.1.2"           => array( 'display_using_zones.zones' ),
             "2.1.3"             => array( 'display_using_zones.zones', 9 ),
             "2.1.4"             => array( 'display_using_zones.zones', 11 ),
-            "2.1.5"             => array( 'invocation' ),
-              "2.1.6"           => array(), // array("zone-advanced.php?affiliateid=$affiliateid&zoneid=$zoneid" => $strChains),
+            "2.1.5"             => array( 'invocation_generation' ),
+              "2.1.6"           => array( 'display_using_zones.zones' ),
           "2.2"                 => array( 'display_using_zones.publishers' )
     )
 );

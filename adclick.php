@@ -105,8 +105,8 @@ if (phpAds_dbConnect())
 		// url from database
 		if (isset($dest) && $dest != '')
 		{
-			// Prevent HTTP header injection, suggested by Tem
-			if (preg_match('#^https?://#', $dest) && strpos($dest, "\r\n") === false)
+			// Prevent HTTP response splitting
+			if (preg_match('#^https?://#', $dest) && !preg_match('/[\r\n]/', $dest))
 				$url = stripslashes($dest);
 		}
 		
@@ -218,7 +218,7 @@ if ($phpAds_config['default_banner_target'] != '')
 else
 {
 	// No URL found, redirect to the original page, preventing HTTP response splitting
-	if (isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], "\r\n") === false)
+	if (isset($_SERVER['HTTP_REFERER']) && !preg_match('/[\r\n]/', $_SERVER['HTTP_REFERER']))
 		header ("Location: ".$_SERVER['HTTP_REFERER']);
 }
 

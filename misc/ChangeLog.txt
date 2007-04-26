@@ -1,7 +1,7 @@
 Openads 2.0 - ChangeLog
 
 
-Openads 2.0.12-rc1
+Openads 2.0.12-rc2
 			+ Misc changes
 			  - 2007-01-26:  Fixed #17  - Remove deprecated fakecron script, automaintenance should be used instead  (Matteo)
 			  - 2007-01-26:  Fixed #55  - Add delivery limitation by page URL  (Matteo)
@@ -21,6 +21,11 @@ Openads 2.0.12-rc1
 			  - 2007-03-23:  Fixed #170 - Enabling zlib.output_compression may break delivery scripts  (Marek)
 			  - 2007-03-23:  Fixed #207 - PHP error in stats-client-daily-hosts.php  (Marek)
 			  - 2007-03-28:  Fixed #211 - Updates available pop-up is shown even when updates check is disabled (Marek)
+
+
+Openads 2.0.11-pr1
+			+ Misc bugfixes
+			  - 2007-04-11:  Fixed #283 - HTTP response splitting vulnerability in adclick.php (Matteo)
 
 
 Openads 2.0.11

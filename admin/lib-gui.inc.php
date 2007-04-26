@@ -333,51 +333,16 @@ function phpAds_PageHeader($ID, $extra="")
  	echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
 	echo "<tr>";
 	
-	// Remote logo
-	$logo_url = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://';
-	$logo_url .= 'media.openads.org/logo/';
-	$logo_url .= str_replace(' ', '_', $GLOBALS['phpAds_productname']);
-	$logo_url .= '-'.$GLOBALS['phpAds_version_readable'];
-	
 	if (isset($phpAds_config['name']) && $phpAds_config['name'] != '')
 	{
-		// Show remote logo only to admin and if updates are enabled
-		if (!phpAds_isUser(phpAds_Admin) || !$phpAds_config['updates_enabled'])
-			$logo_url = '';
-		else
-			$logo_url .= '-c';
-		
 		echo "<td height='48' bgcolor='#000063' valign='middle'>";
-		echo "<div id='logo_local'>";
 		echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='images/logo-s.gif' align='top'>";
 		echo "<span class='phpAdsNew'>".$phpAds_config['name']."</span>";
-		echo "</div>";
-		if ($logo_url)
-		{
-			// Make sure that remote logo isn't displayed if not correctly loaded
-			echo "<div id='logo_remote' style='display: none'>";
-			echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='{$logo_url}.gif' align='top' onload='swapLogos()'>";
-			echo "<span class='phpAdsNew'>".$phpAds_config['name']."</span>";
-			echo "</div>";
-		}
 	}
 	else
 	{
-		// Show remote logo only to admin and if updates are enabled
-		if (!phpAds_isUser(phpAds_Admin) || !$phpAds_config['updates_enabled'])
-			$logo_url = '';
-		
 		echo "<td height='48' bgcolor='#000063' valign='bottom'>";
-		echo "<div id='logo_local'>";
 		echo "<img src='images/logo.gif'>";
-		echo "</div>";
-		if ($logo_url)
-		{
-			// Make sure that remote logo isn't displayed if not correctly loaded
-			echo "<div id='logo_remote' style='display: none'>";
-			echo "<img src='{$logo_url}.gif' onload='swapLogos()'>";
-			echo "</div>";
-		}
 	}
 	
 	echo "</td><td bgcolor='#000063' valign='top' align='".$phpAds_TextAlignRight."'>";
@@ -770,7 +735,7 @@ function phpAds_getDocPageUrl( $sDocumentationPath, $anchor = -1, $aVarRotate = 
     }
     
     $sLink = $aSelectedElement['link'];
-    
+        
     if( !is_null( $aVarRotate ) ) {
 	   while( list( $sVarName, $sVarValue ) = each( $aVarRotate ) ) { 
             if( !empty( $aSelectedElement['rotate']['_' . $sVarName] ) && isset( $aSelectedElement['rotate']['_' . $sVarName][$sVarValue] ) ) {
@@ -788,7 +753,7 @@ function phpAds_getDocPageUrl( $sDocumentationPath, $anchor = -1, $aVarRotate = 
            $sLink .= $anchor;
        }
     }
-    
+
     $sDocsRoot = preg_replace( '#/$#', '', $GLOBALS['docs_url'] );
     
     $sLink = $sDocsRoot . '/' .  $sLink;
@@ -819,10 +784,15 @@ function phpAds_getDocLinkFromPhpAdsNavId( $sNavId )
 		$navi2help  = $GLOBALS['navi2help']['affiliate'];
 	else
 		$navi2help  = array();
-		
+
     if( !empty( $navi2help[ $sNavId ] ) ) {
         $aElem = $navi2help[ $sNavId ];
-        $sLink = phpAds_getDocPageUrl( $aElem[0], empty( $aElem[1] ) ? -1 : $aElem[1] );
+        $sFile = basename($_SERVER['REQUEST_URI']);
+        if (!empty($aElem['use_file']) && !empty($aElem['use_file'][$sFile]))
+			$aElem = $aElem['use_file'][$sFile];
+		
+       	$sLink = phpAds_getDocPageUrl( $aElem[0], empty( $aElem[1] ) ? -1 : $aElem[1] );
+            	
     }
     else {
 	    $sDocsRoot = preg_replace( '#/$#', '', $GLOBALS['docs_url'] );

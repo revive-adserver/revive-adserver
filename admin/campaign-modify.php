@@ -49,7 +49,7 @@ if (isset($campaignid) && $campaignid != '')
 }
 
 // Prevent HTTP response splitting
-if (strpos($returnurl, "\r\n") === false)
+if (!preg_match('/[\r\n]/', $returnurl))
 {
 	$url = stripslashes($returnurl);
 

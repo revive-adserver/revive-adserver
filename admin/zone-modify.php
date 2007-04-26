@@ -41,7 +41,7 @@ if (isset($zoneid) && $zoneid != '')
 		$res = phpAds_dbQuery("UPDATE ".$phpAds_config['tbl_zones']." SET affiliateid = '".$moveto."' WHERE zoneid = '".$zoneid."'") or phpAds_sqlDie();
 
 		// Prevent HTTP response splitting
-		if (strpos($returnurl, "\r\n") === false)
+		if (!preg_match('/[\r\n]/', $returnurl))
 		{
 			$url = stripslashes($returnurl);
 		
@@ -117,7 +117,7 @@ if (isset($zoneid) && $zoneid != '')
 }
 
 // Prevent HTTP response splitting
-if (strpos($returnurl, "\r\n") === false)
+if (!preg_match('/[\r\n]/', $returnurl))
 {
 	$url = stripslashes($returnurl);
 

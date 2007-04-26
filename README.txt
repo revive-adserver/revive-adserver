@@ -1,5 +1,5 @@
 
-    Openads 2.0.12-rc1
+    Openads 2.0.12-rc2
     ------------------------------------------------------------------------
 
     Openads is an open-source ad server, with an integrated banner management 
