@@ -221,18 +221,22 @@ function setupConstants()
         // screw up the dates after using the PEAR::compare() method -  also,
         // ensure that an appropriate timezone is set, if required, to allow
         // the time zone to be other than the time zone of the server
-        if (version_compare(phpversion(), '5.1.0', '<')) {
-            if (getenv('TZ') === false) {
-                $diff = date('O') / 100;
-                putenv('TZ=GMT'.($diff > 0 ? '-' : '+').abs($diff));
+        if (version_compare(phpversion(), '5.1.0', '>=')) {
+            if (isset($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
+                // Set new time zone
+                date_default_timezone_set($GLOBALS['_MAX']['CONF']['timezone']['location']);
             }
-        }
-        if (isset($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
-            // Set new time zone
-            if (version_compare(phpversion(), '5.1.0', '>=')) {
-            date_default_timezone_set($GLOBALS['_MAX']['CONF']['timezone']['location']);
         } else {
-            putenv("TZ={$GLOBALS['_MAX']['CONF']['timezone']['location']}");
+            if (isset($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
+                // Set new time zone
+                putenv("TZ={$GLOBALS['_MAX']['CONF']['timezone']['location']}");
+            } else {
+                // Ensure that at TZ variable is set, regardless
+                if (getenv('TZ') === false) {
+                    $diff = date('O') / 100;
+                    putenv('TZ=GMT'.($diff > 0 ? '-' : '+').abs($diff));
+                }
+            }
         }
         // Parse the Openads configuration file
         $GLOBALS['_MAX']['CONF'] = parseIniFile();
