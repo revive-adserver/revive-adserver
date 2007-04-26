@@ -819,7 +819,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
                 '{$zoneInfo['channel_ids']}',";
     }
     $query .= "
-                '{$_SERVER['HTTP_ACCEPT_LANGUAGE']}',
+                '".substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 32)."',
                 '{$_SERVER['REMOTE_ADDR']}',
                 '{$_SERVER['REMOTE_HOST']}',";
     if (isset($geotargeting['country_code'])) {
@@ -848,7 +848,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
     }
     $query .= "
                 '',
-                '{$_SERVER['HTTP_USER_AGENT']}',";
+                '".substr($_SERVER['HTTP_USER_AGENT'], 0, 255)."',";
     if (isset($userAgentInfo['os'])) {
         $query .= "
                 '{$userAgentInfo['os']}',";
