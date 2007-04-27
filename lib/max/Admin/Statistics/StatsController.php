@@ -1454,18 +1454,18 @@ class StatsController
 
     function removeDuplicateParams($link, $params = null)
     {
+        $newParams = array();
+        if (empty($link)) {
+            return $newParams;
+        }
         if (is_null($params)) {
             $params = $this->pageParams;
         }
-
-        $newParams = array();
-
         foreach ($params as $key => $value) {
             if (!strstr($link, $value) && $key != "entity" && $key != "day") {
                 $newParams[$key] = $value;
             }
         }
-
         return $newParams;
     }
 
