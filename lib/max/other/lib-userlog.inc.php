@@ -50,7 +50,7 @@ define ("phpAds_actionActiveCampaign", 21);
 define ("phpAds_actionAutoClean", 30);
 define ("phpAds_actionBatchStatistics", 40);
 
-$GLOBAL['phpAds_Usertype'] = 0;
+$GLOBALS['phpAds_Usertype'] = 0;
 
 /*-------------------------------------------------------*/
 /* Add an entry to the userlog                           */
