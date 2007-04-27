@@ -131,7 +131,7 @@ class OA
         if (is_null($format)) {
             $format = 'Y-m-d H:j:s';
         }
-        return date('Y-m-d H:j:s', time());
+        return date($format, time());
     }
 
     /**

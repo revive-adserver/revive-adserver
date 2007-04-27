@@ -106,8 +106,20 @@ phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
 phpAds_SettingsSelection("admin");
 
 $unique_users   = MAX_Permission::getUniqueUserNames($pref['admin']);
-$timezones      = MAX_Admin_Timezones::AvailableTimezones();
-var_dump($timezones[$GLOBALS['_MAX']['CONF']['timezone']['location']]);
+
+//  find time zone if config is empty
+if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
+    $timezones  = MAX_Admin_Timezones::AvailableTimezones();
+    $timezone   = $timezones[$GLOBALS['_MAX']['CONF']['timezone']['location']];
+} else {
+    if (getenv('TZ') === false) {
+        $diff = date('O') / 100;
+        $timezone = 'GMT'.($diff > 0 ? '-' : '+').abs($diff);
+    } else {
+        $timezone = getenv('TZ');
+    }
+}
+
 $settings = array (
     array (
         'text'  => $strLoginCredentials,
@@ -219,7 +231,7 @@ $settings = array (
             array (
                 'type'    => 'plaintext',
                 'name'    => 'timezone',
-                'text'    => $timezones[$GLOBALS['_MAX']['CONF']['timezone']['location']]
+                'text'    => $timezone
             )
         )
     )
