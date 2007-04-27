@@ -27,7 +27,7 @@ $Id$
 /**
  * Password recovery DAL for Openads
  *
- * @package MaxDal
+ * @package OpenadsDal
  */
 
 require_once MAX_PATH.'/lib/max/Dal/Common.php';

@@ -36,7 +36,7 @@ $Id$
  * just comment out the if wrapper
  *
  * @author Monique Szpak
- * @package Max
+ * @package Openads
  *
  */
 global $is_simulation;

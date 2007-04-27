@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package MaxDelivery
+ * @package OpenadsDelivery
  * @subpackage Javascript
  * @author chris@m3.net
  * 

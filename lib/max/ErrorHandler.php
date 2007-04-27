@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/Max.php';
 /**
  * Global error handler class, modifies behaviour for PHP errors, not PEAR.
  *
- * @package Max
+ * @package Openads
  * @author  Peter James <petej@shaman.ca>
  * @author  Demian Turner <demian@phpkitchen.com>
  */
