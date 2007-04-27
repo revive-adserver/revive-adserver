@@ -71,7 +71,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade  = new OA_Upgrade();
         $testid    = 'openads_upgrade_1_to_2';
         $testfile  = $testid.'.xml';
-        $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/integration/';
+        $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/unit/';
         if (file_exists($testpath.$testfile))
         {
             $this->assertTrue(copy($testpath.$testfile, $oUpgrade->upgradePath.$testfile));
@@ -122,12 +122,12 @@ class Test_OA_Upgrade extends UnitTestCase
     {
         $oUpgrade  = new OA_Upgrade();
 
-        $this->_createTestAppVarRecord('max_version','1');
+        $this->_createTestAppVarRecord('oa_version','1');
 
         $oUpgrade->detectOpenads();
         $this->assertEqual($oUpgrade->versionInitialApplication,1,'wrong initial application version');
 
-        $this->_deleteTestAppVarRecord('max_version','1');
+        $this->_deleteTestAppVarRecord('oa_version','1');
         $oUpgrade->detectOpenads();
         $this->assertEqual($oUpgrade->versionInitialApplication,0,'wrong initial application version');
 

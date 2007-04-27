@@ -55,9 +55,12 @@ class OA_Upgrade
 
     var $aPackage    = array();
     var $aDBPackages = array();
+    var $aDsn = array();
 
     var $versionInitialApplication;
     var $versionInitialSchema = array();
+
+    var $package_file = '';
 
     function OA_Upgrade()
     {
@@ -73,6 +76,18 @@ class OA_Upgrade
         $this->oDBAuditor->init($this->oDbh, $this->oLogger);
         $this->oDBUpgrader->oAuditor = &$this->oDBAuditor;
         $this->oSystemMgr   = new OA_Environment_Manager();
+
+        $this->aDsn['database'] = array();
+        $this->aDsn['table']    = array();
+        $this->aDsn['database']['type']     = 'mysql';
+        $this->aDsn['database']['host']     = 'localhost';
+        $this->aDsn['database']['port']     = '3306';
+        $this->aDsn['database']['username'] = '';
+        $this->aDsn['database']['passowrd'] = '';
+        $this->aDsn['database']['name']     = '';
+        $this->aDsn['table']['type']        = 'INNODB';
+        $this->aDsn['table']['prefix']      = 'oa_';
+
     }
 
     function init($input_file, $timing='constructive')
@@ -87,6 +102,20 @@ class OA_Upgrade
     function checkEnvironment()
     {
         $this->oSystemMgr->getAllInfo();
+    }
+
+    function upgrade()
+    {
+        if ($this->upgradeSchemas())
+        {
+            if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
+            {
+                return false;
+            }
+            $this->oLogger->log('Application version updated to '. OA_VERSION);
+            return true;
+        }
+        return false;
     }
 
     function upgradeSchemas()
@@ -224,22 +253,50 @@ class OA_Upgrade
         if ($oPAN->detected)
         {
             $this->versionInitialApplication = $oPAN->getPANversion();
-            $this->oLogger->log('phpAdsNew '.$this->versionInitialApplication).' detected';
+            if ($this->versionInitialApplication) // its PAN
+            {
+                $valid = (version_compare($this->versionInitialApplication,'200.312')>=0);
+                if ($valid)
+                {
+                    $this->package_file = 'openads_upgrade_2.0.12_to_2.3.32_beta.xml';
+                    $this->aDsn         = $oPAN->aDsn;
+                }
+                $this->oLogger->log('phpAdsNew '.$this->versionInitialApplication).' detected';
+                return true;
+            }
         }
-        else
+        if (file_exists(MAX_PATH . '/var/INSTALLED'))
         {
-            $versionMax = $this->oVersioner->getApplicationVersion();
-            if ($versionMax)
+            $this->versionInitialApplication = $this->oVersioner->getApplicationVersion('max');
+            if ($this->versionInitialApplication) // its MAX
             {
-                $this->versionInitialApplication = $versionMax;
-                $this->oLogger->log('Max Media Manager '.$this->versionInitialApplication).' detected';
-            }
-            else
-            {
-                $this->versionInitialApplication = '0';
-                $this->oLogger->log('Openads not detected');
+                $valid = (version_compare($this->versionInitialApplication,'v0.3.31-alpha')>=0);
+                if ($valid)
+                {
+                    $this->package_file     = 'openads_upgrade_2.3.31_to_2.3.32_beta.xml';
+                    $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
+                    $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
+                }
+                $this->oLogger->log('Max Media Manager '.$this->versionInitialApplication.' detected');
+                return true;
             }
         }
+        $this->versionInitialApplication = $this->oVersioner->getApplicationVersion();
+        if ($this->versionInitialApplication) // its openads
+        {
+            $valid = (version_compare($this->versionInitialApplication,OA_VERSION)>=0);
+            if ($valid)
+            {
+                $this->package_file     = 'openads_upgrade_2.3.32_to_2.3.33_beta.xml';
+                $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
+                $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
+            }
+            $this->oLogger->log('Openads '.$this->versionInitialApplication.' detected');
+            return true;
+        }
+        $this->versionInitialApplication = '0';
+        $this->oLogger->log('Openads not detected');
+        return false;
     }
 
     function getMessages()

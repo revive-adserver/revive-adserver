@@ -74,23 +74,33 @@ class Test_VersionController extends UnitTestCase
 
     function test_getApplicationVersion()
     {
+        $this->_createTestRecord('oa_version', 1001);
+        $oVerCtrl = new OA_Version_Controller();
+        $oVerCtrl->init(OA_DB::singleton(OA_DB::getDsn()));
+        $this->assertEqual($oVerCtrl->getApplicationVersion(),1001,'wrong application version retrieved');
+        $this->_deleteTestRecord('oa_version', 1001);
+    }
+
+    function test_getApplicationVersionMax()
+    {
         $this->_createTestRecord('max_version', 1001);
         $oVerCtrl = new OA_Version_Controller();
         $oVerCtrl->init(OA_DB::singleton(OA_DB::getDsn()));
-        $this->assertEqual($oVerCtrl->getSchemaVersion('max_version'),1001,'wrong application version retrieved');
+        $this->assertEqual($oVerCtrl->getApplicationVersion('max'),1001,'wrong application version retrieved');
+        $this->_deleteTestRecord('max_version', 1001);
     }
 
     function test_putApplicationVersion()
     {
-        $this->_deleteTestRecord('max_version', 1001);
-        $this->_deleteTestRecord('max_version', 1002);
+        $this->_deleteTestRecord('oa_version', 1001);
+        $this->_deleteTestRecord('oa_version', 1002);
         $oVerCtrl = new OA_Version_Controller();
         $oVerCtrl->init(OA_DB::singleton(OA_DB::getDsn()));
         $this->assertEqual($oVerCtrl->putApplicationVersion(1001),1001,'error inserting application version');
         $this->assertEqual($oVerCtrl->putApplicationVersion(1002),1002,'error updating application version');
         $this->assertNotEqual($oVerCtrl->getApplicationVersion(),1001,'wrong application version retrieved');
-        $this->_deleteTestRecord('max_version', 1001);
-        $this->_deleteTestRecord('max_version', 1002);
+        $this->_deleteTestRecord('oa_version', 1001);
+        $this->_deleteTestRecord('oa_version', 1002);
     }
 
     function test_getPluginVersion()
