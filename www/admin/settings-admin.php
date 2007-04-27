@@ -1,3 +1,4 @@
+
 <?php
 
 /*
@@ -35,6 +36,7 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/max/Admin/Timezones.php';
 require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 
 // Security check
@@ -103,14 +105,15 @@ phpAds_PageHeader("5.1");
 phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
 phpAds_SettingsSelection("admin");
 
-$unique_users = MAX_Permission::getUniqueUserNames($pref['admin']);
-
+$unique_users   = MAX_Permission::getUniqueUserNames($pref['admin']);
+$timezones      = MAX_Admin_Timezones::AvailableTimezones();
+var_dump($timezones[$GLOBALS['_MAX']['CONF']['timezone']['location']]);
 $settings = array (
     array (
         'text'  => $strLoginCredentials,
         'items' => array (
             array (
-                'type'    => 'text', 
+                'type'    => 'text',
                 'name'    => 'admin',
                 'text'    => $strAdminUsername,
                 'check'   => 'unique',
@@ -120,7 +123,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'password', 
+                'type'    => 'password',
                 'name'    => 'pwold',
                 'text'    => $strOldPassword
             ),
@@ -128,7 +131,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'password', 
+                'type'    => 'password',
                 'name'    => 'pw',
                 'text'    => $strNewPassword,
                 'depends' => 'pwold!=""'
@@ -137,7 +140,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'password', 
+                'type'    => 'password',
                 'name'    => 'pw2',
                 'text'    => $strRepeatPassword,
                 'depends' => 'pwold!=""',
@@ -149,7 +152,7 @@ $settings = array (
         'text'  => $strBasicInformation,
         'items' => array (
             array (
-                'type'    => 'text', 
+                'type'    => 'text',
                 'name'    => 'admin_fullname',
                 'text'    => $strAdminFullName,
                 'size'    => 35
@@ -158,7 +161,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'text', 
+                'type'    => 'text',
                 'name'    => 'admin_email',
                 'text'    => $strAdminEmail,
                 'size'    => 35,
@@ -168,7 +171,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'text', 
+                'type'    => 'text',
                 'name'    => 'company_name',
                 'text'    => $strCompanyName,
                 'size'    => 35
@@ -179,7 +182,7 @@ $settings = array (
         'text'  => $strPreferences,
         'items' => array (
             array (
-                'type'    => 'select', 
+                'type'    => 'select',
                 'name'    => 'language',
                 'text'    => $strLanguage,
                 'items'   => MAX_Admin_Languages::AvailableLanguages()
@@ -188,7 +191,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'checkbox', 
+                'type'    => 'checkbox',
                 'name'    => 'updates_enabled',
                 'text'    => $strAdminCheckUpdates
             ),
@@ -207,7 +210,17 @@ $settings = array (
                 'type'    => 'checkbox',
                 'name'    => 'userlog_email',
                 'text'    => $strUserlogEmail
-            )            
+            )
+        )
+    ),
+    array (
+        'text'  => $strTimezone,
+        'items' => array (
+            array (
+                'type'    => 'plaintext',
+                'name'    => 'timezone',
+                'text'    => $timezones[$GLOBALS['_MAX']['CONF']['timezone']['location']]
+            )
         )
     )
 );

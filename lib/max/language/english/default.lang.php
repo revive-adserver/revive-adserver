@@ -878,6 +878,7 @@ $GLOBALS['strSettings']             = "Settings";
 $GLOBALS['strGeneralSettings']        = "General Settings";
 $GLOBALS['strMainSettings']            = "Main Settings";
 $GLOBALS['strAdminSettings']        = "Administration Settings";
+$GLOBALS['strTimezone']             = "Timezone";
 
 // Product Updates
 $GLOBALS['strProductUpdates']          = "Product Updates";
