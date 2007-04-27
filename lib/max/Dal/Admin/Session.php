@@ -47,7 +47,7 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
                     UPDATE
                         $session_table_name
                     SET
-                        lastused = NOW()
+                        lastused = '". OA::getNow() ."'
                     WHERE
                         sessionid = ?
                     ";
@@ -89,7 +89,7 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
         $query = "
                 DELETE FROM $session_table_name
                 WHERE
-                    UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(lastused) > 43200
+                    UNIX_TIMESTAMP('". OA::getNow() ."') - UNIX_TIMESTAMP(lastused) > 43200
                 ";
         $this->oDbh->query($query);
     }

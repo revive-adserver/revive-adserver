@@ -118,7 +118,7 @@ class OA_DB_UpgradeAuditor
         $columns = implode(",", array_keys($this->aParams)).','.implode(",", array_keys($aParams));
         $values  = implode(",", array_values($this->aParams)).','.implode(",", array_values($aParams));
 
-        $query = "INSERT INTO {$this->prefix}{$this->logTable} ({$columns}, updated) VALUES ({$values}, NOW())";
+        $query = "INSERT INTO {$this->prefix}{$this->logTable} ({$columns}, updated) VALUES ({$values}, '". OA::getNow() ."')";
         $result = $this->oDbh->exec($query);
 
         if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTable}"))
@@ -252,7 +252,7 @@ class OA_DB_UpgradeAuditor
 
     function updateAuditBackupDropped($tablename_backup)
     {
-        $query = "UPDATE {$this->prefix}{$this->logTable} SET tablename_backup='dropped by user', updated=NOW() WHERE tablename_backup='{$tablename_backup}'";
+        $query = "UPDATE {$this->prefix}{$this->logTable} SET tablename_backup='dropped by user', updated='". OA::getNow() ."' WHERE tablename_backup='{$tablename_backup}'";
 
         $result = $this->oDbh->exec($query);
 

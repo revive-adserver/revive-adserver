@@ -88,7 +88,7 @@ MAX_Permission::checkAccessToObject('clients', $clientid);
 if (isset($submit)) {
     $expire = OA_Dal::sqlDate($expireSet == 't', $expireYear, $expireMonth, $expireDay);
     $activate = OA_Dal::sqlDate($activateSet == 't', $activateYear, $activateMonth, $activateDay);
-    
+
     // If ID is not set, it should be a null-value for the auto_increment
     if (empty($campaignid)) {
         $campaignid = "null";
@@ -226,6 +226,7 @@ if (isset($submit)) {
         $doCampaigns->block = $block;
         $doCampaigns->capping = $cap;
         $doCampaigns->session_capping = $session_capping;
+        $doCampaigns->updated = OA::getNow();
 
         if (!empty($campaignid) && $campaignid != "null") {
             $doCampaigns->campaignid = $campaignid;

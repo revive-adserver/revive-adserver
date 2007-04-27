@@ -266,7 +266,7 @@ function phpAds_SendMaintenanceReport($advertiserId, $first_unixtimestamp, $last
                         UPDATE
                             {$conf['table']['prefix']}{$conf['table']['clients']}
                         SET
-                            reportlastdate = NOW()
+                            reportlastdate = '". OA::getNow() ."'
                         WHERE
                             clientid = {$aAdvertiserDetails['clientid']}";
                     MAX::debug('    Updating the date the report was last sent for advertiser ID ' . $aAdvertiserDetails['clientid'] . '.', PEAR_LOG_DEBUG);

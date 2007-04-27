@@ -363,7 +363,7 @@ class MAX_Maintenance
             UPDATE
                 {$this->conf['table']['prefix']}{$this->conf['table']['preference']}
             SET
-                {$sField} = UNIX_TIMESTAMP(NOW())";
+                {$sField} = UNIX_TIMESTAMP('". OA::getNow() ."')";
         $rows = $this->oDbh->exec($query);
     }
 }

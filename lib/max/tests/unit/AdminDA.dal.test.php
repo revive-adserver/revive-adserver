@@ -1445,7 +1445,7 @@ class Admin_DaTest extends DalUnitTestCase
                     total_basket_value
                 )
                 VALUES(
-                NOW(),
+                '". OA::getNow() ."',
                 $hour,
                 $this->bannerId,
                 ".rand(1, 999).",

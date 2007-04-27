@@ -1882,7 +1882,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_revenue = {$aAdFinanceMappings[MAX_FINANCE_CPM]} * {$aInfo['revenue']} / 1000,
-                                updated = NOW()
+                                updated = '". OA::getNow() ."'
                             WHERE
                                 ad_id = {$aInfo['ad_id']}
                                 AND day >= '".$oStartDate->format('%Y-%m-%d')."'
@@ -1896,7 +1896,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_revenue = {$aAdFinanceMappings[MAX_FINANCE_CPC]} * {$aInfo['revenue']},
-                                updated = NOW()
+                                updated = '". OA::getNow() ."'
                             WHERE
                                 ad_id = {$aInfo['ad_id']}
                                 AND day >= '".$oStartDate->format('%Y-%m-%d')."'
@@ -1910,7 +1910,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_revenue = {$aAdFinanceMappings[MAX_FINANCE_CPA]} * {$aInfo['revenue']},
-                                updated = NOW()
+                                updated = '". OA::getNow() ."'
                             WHERE
                                 ad_id = {$aInfo['ad_id']}
                                 AND day >= '".$oStartDate->format('%Y-%m-%d')."'
@@ -2065,7 +2065,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_CPM]} * {$aInfo['cost']} / 1000,
-                                updated = NOW()
+                                updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
                                 AND day >= '".$oStartDate->format('%Y-%m-%d')."'
@@ -2079,7 +2079,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_CPC]} * {$aInfo['cost']},
-                                updated = NOW()
+                                updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
                                 AND day >= '".$oStartDate->format('%Y-%m-%d')."'
@@ -2093,7 +2093,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_CPA]} * {$aInfo['cost']},
-                                updated = NOW()
+                                updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
                                 AND day >= '".$oStartDate->format('%Y-%m-%d')."'
@@ -2107,7 +2107,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_RS]} * {$aInfo['cost']} / 100,
-                                updated = NOW()
+                                updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
                                 AND day >= '".$oStartDate->format('%Y-%m-%d')."'
@@ -2121,7 +2121,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_BV]} * {$aInfo['cost']} / 100,
-                                updated = NOW()
+                                updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
                                 AND day >= '".$oStartDate->format('%Y-%m-%d')."'
@@ -2135,7 +2135,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_AI]} * {$aInfo['cost']},
-                                updated = NOW()
+                                updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
                                 AND day >= '".$oStartDate->format('%Y-%m-%d')."'
@@ -2152,7 +2152,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                     {$aConf['table']['prefix']}{$aConf['table'][$table]}
                                 SET
                                     total_cost = 0,
-                                    updated = NOW()
+                                    updated = '". OA::getNow() ."'
                                 WHERE
                                     zone_id = {$aInfo['zone_id']}
                                     AND day >= '".$oStartDate->format('%Y-%m-%d')."'
@@ -2194,7 +2194,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                         {$aConf['table']['prefix']}{$aConf['table'][$table]}
                                     SET
                                         total_cost = '".$row['total_cost']."',
-                                        updated = NOW()
+                                        updated = '". OA::getNow() ."'
                                     WHERE
                                         zone_id = {$aInfo['zone_id']}
                                         AND day = '".$row['day']."'
@@ -2215,7 +2215,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                     {$aConf['table']['prefix']}{$aConf['table'][$table]}
                                 SET
                                     total_cost = 0,
-                                    updated = NOW()
+                                    updated = '". OA::getNow() ."'
                                 WHERE
                                     zone_id = {$aInfo['zone_id']}
                                     AND day >= '".$oStartDate->format('%Y-%m-%d')."'
@@ -2257,7 +2257,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                         {$aConf['table']['prefix']}{$aConf['table'][$table]}
                                     SET
                                         total_cost = '".$row['total_cost']."',
-                                        updated = NOW()
+                                        updated = '". OA::getNow() ."'
                                     WHERE
                                         zone_id = {$aInfo['zone_id']}
                                         AND day = '".$row['day']."'
@@ -2301,7 +2301,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_techcost = ({$aZoneFinanceMappings[MAX_FINANCE_CPM]} / 1000) * {$aInfo['technology_cost']},
-                                updated = NOW()
+                                updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
                                 AND day >= '".$oStartDate->format('%Y-%m-%d')."'
@@ -2315,7 +2315,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_techcost = {$aZoneFinanceMappings[MAX_FINANCE_CPC]} * {$aInfo['technology_cost']},
-                                updated = NOW()
+                                updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
                                 AND day >= '".$oStartDate->format('%Y-%m-%d')."'
@@ -2329,7 +2329,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_techcost = {$aZoneFinanceMappings[MAX_FINANCE_RS]} * {$aInfo['technology_cost']} / 100,
-                                updated = NOW()
+                                updated = '". OA::getNow() ."')
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
                                 AND day >= '".$oStartDate->format('%Y-%m-%d')."'
@@ -2371,7 +2371,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 ca.active AS active,
                 ca.activate AS start,
                 ca.expire AS end,
-                NOW() AS now
+                '". OA::getNow() ."' AS now
             FROM
                 {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS ca,
                 {$aConf['table']['prefix']}{$aConf['table']['clients']} AS cl
