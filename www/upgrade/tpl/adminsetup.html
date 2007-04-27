@@ -1,0 +1,41 @@
+<form name="frmOpenads" method="POST" action="index.php">
+    <table>
+        <tr>
+            <td class="label">
+                Admin Username
+            </td>
+            <td>
+                <input class="input" name="admin[username]" value="<?php echo $aAdmin['admin']['username']; ?>" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                Admin Password
+            </td>
+            <td>
+                <input type="password" class="input" name="admin[password]" value="<?php echo $aAdmin['admin']['password']; ?>" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                Confirm Password
+            </td>
+            <td>
+                <input type="password" class="input" name="admin[password2]" value="<?php echo $aAdmin['admin']['password']; ?>" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                Admin Email
+            </td>
+            <td>
+                <input class="input" name="admin[email]" value="<?php echo $aAdmin['admin']['email']; ?>" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button class="button" name="btn_idsetup">continue</button>
+            </td>
+        </tr>
+    </table>
+</form>

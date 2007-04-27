@@ -1,0 +1,49 @@
+<div class="tablediv">
+    <form name="frmOpenads" method="POST" action="index.php">
+    <table class="tablemain">
+        <tr>
+            <th colspan="2">System Checks</th>
+        </tr>
+        <tr>
+        <?php
+            $halt = false;
+
+            $sysinfoarray = $aSysInfo['PHP'];
+            $halt = (($halt) && (!$sysinfoarray['error']));
+            $sysinfoheading = 'PHP - '.(!$sysinfoarray['error']? 'no errors' : 'errors detected');
+            include 'tpl/sysinfosection.html';
+
+            $sysinfoarray = $aSysInfo['PERMS'];
+            $halt = (($halt) && (!$sysinfoarray['error']));
+            $sysinfoheading = 'File Permissions - '.(!$sysinfoarray['error']? 'no errors' : 'errors detected');
+            include 'tpl/sysinfosection.html';
+
+            $sysinfoarray = $aSysInfo['FILES'];
+            $halt = (($halt) && (!$sysinfoarray['error']));
+            $sysinfoheading = 'File Integrity - '.(!$sysinfoarray['error']? 'no errors' : 'errors detected');
+            include 'tpl/sysinfosection.html';
+        ?>
+        </tr>
+        <tr>
+            <td>
+                <?php
+                    if (!$halt)
+                    {
+                ?>
+                        <button class="button" name="btn_appcheck">continue</button>
+                <?php
+                    }
+                    else
+                    {
+                ?>
+                        <button class="button" name="btn_syscheck">retry</button>                                <?php
+                    }
+                ?>
+            </td>
+            <td>
+                <button class="button" name="btn_terms">go back</button>
+            </td>
+        </tr>
+    </table>
+    </form>
+</div>

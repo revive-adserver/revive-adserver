@@ -1,5 +1,5 @@
     <tr>
-        <th class="tableheader" colspan="2"><?php echo $sysinfoheading ?></th>
+        <th class="tableheader" colspan="2"><?php echo $sysinfoheading; ?></th>
     <tr>
     <?php
         if ($sysinfoarray && is_array($sysinfoarray) && (count($sysinfoarray)>0))
@@ -14,12 +14,12 @@
                           </tr>";
                 }
             }
-            foreach ($sysinfoarray['error'] AS $k => $v)
+            if ($sysinfoarray['error'])
             {
-                if (!is_array($v))
+                foreach ($sysinfoarray['error'] AS $k => $v)
                 {
                     echo "<tr>
-                              <td class=\"tablebody\" colspan=\"2\">{$v}</td>
+                              <td colspan=\"2\" style=\"background-color:pink;\">{$v}</td>
                           </tr>";
                 }
             }

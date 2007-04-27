@@ -1,0 +1,71 @@
+<?php
+if (count($aPackagesAvail)>0)
+{
+?>
+<div class="tablediv">
+    <form name="frmUpgrade" method="POST" action="upgrade.php">
+    <table class="tablemain">
+    <tr><th class="tableheader" colspan="4">available upgrade packages</th></tr>
+    <tr><th class="tableheader">package name</th>
+        <th class="tableheader">gwan</th>
+    </tr>
+    <?php
+        foreach ($aPackagesAvail AS $k => $v)
+        {
+            echo "<tr>
+                      <td class=\"tablebody\">{$v}</td>
+                      <td class=\"tablebody\"><button name=\"btn_parse_pkg\" value=\"{$v}\">parse me baby i dare ya!</button></td>
+                  </tr>";
+        }
+    ?>
+    </table>
+    </form>
+</div>
+<?php
+}
+if (count($aPkgParsed)>0)
+{
+?>
+<div class="tablediv">
+    <form name="frmUpgrade" method="POST" action="upgrade.php">
+    <button name="btn_upgrade" value="<?php echo $input_file; ?>">upgrade me baby i dare ya!</button>
+    <table class="tablemain">
+    <tr>
+        <th class="tableheader" colspan="2"><?php echo $input_file; ?></th>
+    <tr>
+    <tr>
+        <th class="tableheader">variable</th>
+        <th class="tableheader">value</th>
+    </tr>
+    <?php
+        foreach ($aPkgParsed AS $k => $v)
+        {
+            if (!is_array($v))
+            {
+                echo "<tr>
+                          <td class=\"tablebody\">{$k}</td>
+                          <td class=\"tablebody\">{$v}</td>
+                      </tr>";
+            }
+        }
+        foreach ($aPkgParsed['db_pkgs'] AS $k => $v)
+        {
+            echo "<tr>
+                      <td class=\"tablebody\">db upgrade pkg</td>
+                      <td class=\"tablebody\">{$v['version']}</td>
+                  </tr>";
+            foreach ($v['files'] AS $k1 => $v1)
+            {
+                echo "<tr>
+                          <td class=\"tablebody\">{$k1}</td>
+                          <td class=\"tablebody\">{$v1}</td>
+                      </tr>";
+            }
+        }
+    ?>
+    </table>
+    </form>
+</div>
+<?php
+}
+?>

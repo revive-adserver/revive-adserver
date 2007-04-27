@@ -1,0 +1,76 @@
+<form name="frmOpenads" method="POST" action="index.php">
+    <table>
+        <tr>
+            <td class="label">
+                Database Type
+            </td>
+            <td>
+                <input class="input" name="database[type]" value="<?php echo $aDatabase['database']['type']; ?>" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                Database Hostname
+            </td>
+            <td>
+                <input class="input" name="database[host]" value="<?php echo $aDatabase['database']['host']; ?>" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                Database Port
+            </td>
+            <td>
+                <input class="input" name="database[port]" value="<?php echo $aDatabase['database']['port']; ?>" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                Database Username
+            </td>
+            <td>
+                <input class="input" name="database[username]" value="<?php echo $aDatabase['database']['username']; ?>" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                Database Password
+            </td>
+            <td>
+                <input type="password" class="input" name="database[password]" value="<?php echo $aDatabase['database']['password']; ?>" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                Database Name
+            </td>
+            <td>
+                <input class="input" name="database[name]" value="<?php echo $aDatabase['database']['name']; ?>" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                Table Type
+            </td>
+            <td>
+                <input class="input" name="database[table_type]" value="<?php echo $aDatabase['table']['type']; ?>" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                Table Prefix
+            </td>
+            <td>
+                <input class="input" name="database[table_prefix]" value="<?php echo $aDatabase['table']['prefix']; ?>" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button class="button" name="btn_upgrade">continue</button>
+            </td>
+            <td>
+                <button class="button" name="btn_appcheck">go back</button>
+            </td>
+        </tr>
+    </table>
+</form>

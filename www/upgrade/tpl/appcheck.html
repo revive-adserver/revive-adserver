@@ -1,0 +1,33 @@
+<div>
+    <form name="frmOpenads" method="POST" action="index.php">
+    <table class="tablemain">
+        <tr>
+            <th colspan="2">Application Checks</th>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <?php include 'tpl/errors_and_messages.html';  ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <?php
+                    if (!$halt)
+                    {
+                ?>
+                        <button class="button" name="btn_dbsetup">continue</button>                                <?php
+                    }
+                    else
+                    {
+                ?>
+                        <button class="button" name="btn_appcheck">retry</button>                                   <?php
+                    }
+                ?>
+            </td>
+            <td>
+                <button class="button" name="btn_syscheck">go back</button>
+            </td>
+        </tr>
+    </table>
+    </form>
+</div>

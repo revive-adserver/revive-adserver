@@ -1,0 +1,16 @@
+<?php
+$aErrors = $oUpgrader->getErrors();
+if (count($aErrors)>0)
+{
+?>
+<div class="tablediv" style="background-color:pink;">
+    <?php
+        foreach ($aErrors AS $k => $err)
+        {
+            echo $err.'<br />';
+        }
+    ?>
+</div>
+<?php
+}
+?>

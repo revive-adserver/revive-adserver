@@ -1,0 +1,109 @@
+<html>
+<head>
+    <title>Openads DB Installer</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+</head>
+<body>
+<table>
+<tr>
+    <td>
+        <h3>Openads</h3>
+    </td>
+    <td>
+        <h4>2.3 Installer</h4>
+    </td>
+    <td style="width:10%;">
+        <form name="frmOpenads" method="POST" action="index.php">
+            <button class="smallbutton" name="btn_help">Installer Help</button>
+            <br />
+            <button class="smallbutton" name="btn_welcome">Start Over</button>
+        </form>
+    </td>
+</tr>
+<tr>
+    <td class="navcol">
+        <form name="frmOpenads" method="POST" action="index.php">
+            <table>
+                <tr>
+                    <?php $class = ($action == OA_UPGRADE_WELCOME ? 'active' : ''); ?>
+                    <td class="<?php echo $class; ?>">
+                        Welcome
+                    </td>
+                </tr>
+                <tr>
+                    <?php $class = ($action == OA_UPGRADE_TERMS ? 'active' : ''); ?>
+                    <td class="<?php echo $class; ?>">
+                        Terms & Conditions
+                    </td>
+                </tr>
+                <tr>
+                    <?php $class = ($action == OA_UPGRADE_SYSCHECK ? 'active' : ''); ?>
+                    <td class="<?php echo $class; ?>">
+                        System Check
+                    </td>
+                </tr>
+                <tr>
+                    <?php $class = ($action == OA_UPGRADE_APPCHECK ? 'active' : ''); ?>
+                    <td class="<?php echo $class; ?>">
+                        Application Check
+                    </td>
+                </tr>
+                <tr>
+                    <?php $class = ($action == OA_UPGRADE_DBSETUP ? 'active' : ''); ?>
+                    <td class="<?php echo $class; ?>">
+                        Database Setup
+                    </td>
+                </tr>
+                <tr>
+                    <?php $class = ($action == OA_UPGRADE_ADMINSETUP ? 'active' : ''); ?>
+                    <td class="<?php echo $class; ?>">
+                        Admin Setup
+                    </td>
+                </tr>
+                <tr>
+                    <?php $class = ($action == OA_UPGRADE_IDSETUP ? 'active' : ''); ?>
+                    <td class="<?php echo $class; ?>">
+                        Openads ID Setup
+                    </td>
+                </tr>
+                <tr>
+                    <?php $class = ($action == OA_UPGRADE_DATASETUP ? 'active' : ''); ?>
+                    <td class="<?php echo $class; ?>">
+                        Data Setup
+                    </td>
+                </tr>
+                <tr>
+                    <?php $class = ($action == OA_UPGRADE_FINISH ? 'active' : ''); ?>
+                    <td class="<?php echo $class; ?>">
+                        Finish
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </td>
+    <td class="bodycol" colspan="2">
+        <?php
+            switch ($action)
+            {
+                case OA_UPGRADE_ERROR       : include 'tpl/error.html'; break;
+                case OA_UPGRADE_RECOVERY    : include 'tpl/recovery.html'; break;
+                case OA_UPGRADE_SYSCHECK    : include 'tpl/syscheck.html'; break;
+                case OA_UPGRADE_APPCHECK    : include 'tpl/appcheck.html'; break;
+                case OA_UPGRADE_DBSETUP     : include 'tpl/dbsetup.html'; break;
+                case OA_UPGRADE_UPGRADE     : include 'tpl/success.html'; break;
+                case OA_UPGRADE_INSTALL     : include 'tpl/success.html'; break;
+                case OA_UPGRADE_TERMS       : include 'tpl/terms.html'; break;
+                case OA_UPGRADE_ADMINSETUP  : include 'tpl/adminsetup.html'; break;
+                case OA_UPGRADE_DATASETUP   : include 'tpl/datasetup.html'; break;
+                case OA_UPGRADE_IDSETUP     : include 'tpl/datasetup.html'; break;
+                case OA_UPGRADE_FINISH      : include 'tpl/finish.html'; break;
+                default:  include 'tpl/welcome.html'; break;
+            }
+        ?>
+    </td>
+</tr>
+</table>
+
+</body>
+</html>
+
