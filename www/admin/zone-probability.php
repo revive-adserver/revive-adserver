@@ -184,13 +184,8 @@ function phpAds_showZoneBanners ($zoneId)
             echo "<tr><td colspan='6'><br /><br /></td></tr>";
         }
         // High-Priority Advertisements
-        /**
-         * @todo This screen needs to be updated to group high priority campaigns by campaign_priority
-         */
-        
         if (!empty($aZoneLinkedAds['ads'])) {
-<<<<<<< .working
-            echo "<tr height='25'><th align='$phpAds_TextAlignLeft' colspan='6'><strong>$strHighAds:</strong></th></tr>";
+            echo "<tr height='25'><th align='$phpAds_TextAlignLeft' colspan='6'><strong>$strHighAds</strong></th></tr>";
             echo "<tr height='25'>";
             echo "<td height='25' width='40%'><b>&nbsp;&nbsp;".$strName."</b></td>";
             echo "<td height='25'><b>".$strID."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>";
@@ -200,9 +195,9 @@ function phpAds_showZoneBanners ($zoneId)
             echo "<td height='25' align='".$phpAds_TextAlignRight."'>&nbsp;</td>";
             echo "</tr>";
             echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-            $i = -1;
-            foreach($aZoneLinkedAds['ads'] as $adId => $aLinkedAd) {
-                $i++;
+            for ($i=10;$i>0;$i--) {
+                if (empty($aZoneLinkedAds['ads'][$i])) { continue; }
+                foreach($aZoneLinkedAds['ads'][$i] as $adId => $aLinkedAd) {
                 $name = phpAds_getBannerName ($adId, 60, false);
                 echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
                 echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
@@ -230,59 +225,8 @@ function phpAds_showZoneBanners ($zoneId)
                 $probability = $aLinkedAd['priority'] * 100;
                 $usedHighProbability += $aLinkedAd['priority'];
                 $exactProbability = ($probability == 0) ? '0.00' : sprintf('%0.64f', $probability);
-                echo "<td height='25'><acronym title='{$exactProbability}%'>".number_format($probability, $pref['percentage_decimals'])."%</acronym></td>";
-
-=======
-                echo "<tr height='25'><th align='$phpAds_TextAlignLeft' colspan='6'><strong>$strHighAds</strong></th></tr>";
-                echo "<tr height='25'>";
-                echo "<td height='25' width='40%'><b>&nbsp;&nbsp;".$strName."</b></td>";
-                echo "<td height='25'><b>".$strID."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></td>";
-                echo "<td height='25'><b>".$strProbability."</b></td>";
-                echo "<td height='25'><b>$strPriority</b></td>";
-                echo "<td height='25'><b>$strLimitations</b></td>";
-                echo "<td height='25' align='".$phpAds_TextAlignRight."'>&nbsp;</td>";
-                echo "</tr>";
-                echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-                for ($i=10;$i>0;$i--) {
-                    if (empty($aZoneLinkedAds['ads'][$i])) { continue; }
-                    foreach($aZoneLinkedAds['ads'][$i] as $adId => $aLinkedAd) {
-                    $name = phpAds_getBannerName ($adId, 60, false);
-                    echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
-                    echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-                    echo "<td height='25'>";
-                    echo "&nbsp;&nbsp;";
-                    // Banner icon
-                    if ($aLinkedAd['type'] == 'html') {
-                        echo "<img src='images/icon-banner-html.gif' align='absmiddle'>&nbsp;";
-                    } elseif ($aLinkedAd['type'] == 'txt') {
-                        echo "<img src='images/icon-banner-text.gif' align='absmiddle'>&nbsp;";
-                    } elseif ($aLinkedAd['type'] == 'url') {
-                        echo "<img src='images/icon-banner-url.gif' align='absmiddle'>&nbsp;";
-                    } else {
-                        echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
-                    }
-                    // Name
-                    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-                        echo "<a href='banner-edit.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid=".$aLinkedAd['placement_id']."&bannerid=".$adId."'>".$name."</a>";
-                    } else {
-                        echo $name;
-                    }
-                    echo "</td>";
-                    echo "<td height='25'>".$adId."</td>";
-                    // Probability
-                    $probability = $aLinkedAd['priority'] * 100;
-                    $usedHighProbability += $aLinkedAd['priority'];
-                    $exactProbability = ($probability == 0) ? '0.00' : sprintf('%0.64f', $probability);
-                    echo "<td height='25'><acronym title='{$exactProbability}%'>".number_format($probability, $pref['percentage_decimals'])."%</acronym></td>";        
-                    
-                    // Priority
-                    echo "<td height='25'>{$aLinkedAd['campaign_priority']}/10</td>";
-    
-                    $capping = _isAdCapped($aLinkedAd);
-                    $limitations = _isAdLimited($aLinkedAd);
+                echo "<td height='25'><acronym title='{$exactProbability}%'>".number_format($probability, $pref['percentage_decimals'])."%</acronym></td>";        
                 
->>>>>>> .merge-right.r5975
-<<<<<<< .working
                 // Priority
                 echo "<td height='25'>{$aLinkedAd['campaign_priority']}/10</td>";
 
@@ -295,45 +239,8 @@ function phpAds_showZoneBanners ($zoneId)
                 } elseif (phpAds_isUser(phpAds_Affiliate)) {
                     $linkStart = '';
                     $linkEnd = '';
-=======
-                    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-                        $linkStart = "<a href='banner-acl.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid={$aLinkedAd['placement_id']}&bannerid={$aLinkedAd['ad_id']}'>";
-                        $linkEnd = "</a>";
-                    } elseif (phpAds_isUser(phpAds_Affiliate)) {
-                        $linkStart = '';
-                        $linkEnd = '';
-                    }
-                    
-                    echo "<td height='25'>";
-                    if (!$capping && !$limitations) {
-                        echo "{$linkStart}<img src='images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;$strNoLimitations{$linkEnd}";
-                    } elseif ($limitations && $capping) {
-                        echo "{$linkStart}<img src='images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;$strLimitations &amp; $strCapping{$linkEnd}";
-                    } elseif ($limitations) {
-                        echo "{$linkStart}<img src='images/icon-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;$strLimitations{$linkEnd}";
-                    } elseif ($capping) {
-                        echo "{$linkStart}<img src='images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;$strCapping{$linkEnd}";
-                    }
-                    echo "</td>";
-                    
-                    // Show banner
-                    if ($aLinkedAd['type'] == 'txt') {
-                        $width    = 300;
-                        $height = 200;
-                    } else {
-                        $width  = $aLinkedAd['width'] + 64;
-                        $height = $aLinkedAd['bannertext'] ? $aLinkedAd['height'] + 90 : $aLinkedAd['height'] + 64;
-                    }
-                    echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-                    echo "<a href='banner-htmlpreview.php?bannerid=".$adId."' target='_new' ";
-                    echo "onClick=\"return openWindow('banner-htmlpreview.php?bannerid=".$adId."', '', 'status=no,scrollbars=no,resizable=no,width=".$width.",height=".$height."');\">";
-                    echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;";
-                    echo "</td>";
-                    echo "</tr>";
->>>>>>> .merge-right.r5975
                 }
-<<<<<<< .working
-
+                
                 echo "<td height='25'>";
                 if (!$capping && !$limitations) {
                     echo "{$linkStart}<img src='images/icon-no-acl.gif' alt='Limitations' align='middle' border='0'>&nbsp;$strNoLimitations{$linkEnd}";
@@ -345,7 +252,7 @@ function phpAds_showZoneBanners ($zoneId)
                     echo "{$linkStart}<img src='images/icon-acl.gif' alt='Capping' align='middle' border='0'>&nbsp;$strCapping{$linkEnd}";
                 }
                 echo "</td>";
-
+                
                 // Show banner
                 if ($aLinkedAd['type'] == 'txt') {
                     $width    = 300;
@@ -360,8 +267,7 @@ function phpAds_showZoneBanners ($zoneId)
                 echo "<img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;".$strShowBanner."</a>&nbsp;&nbsp;";
                 echo "</td>";
                 echo "</tr>";
-=======
->>>>>>> .merge-right.r5975
+                }
             }
             echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
             echo "<tr><td colspan='6'><br /><br /></td></tr>";
