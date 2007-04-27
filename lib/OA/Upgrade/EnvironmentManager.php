@@ -75,6 +75,13 @@ class OA_Environment_Manager
         return $this->aInfo;
     }
 
+    function checkSystem()
+    {
+        $this->getAllInfo();
+        $this->checkCritical();
+        return $this->aInfo;
+    }
+
     function getAllInfo()
     {
         $this->aInfo['PHP']['actual']     = $this->getPHPInfo();
@@ -146,6 +153,7 @@ class OA_Environment_Manager
         $this->_checkCriticalPHP();
         $this->_checkCriticalPermissions();
         $this->_checkCriticalFiles();
+        return $this->aInfo;
     }
 
     function _checkCriticalPHP()
@@ -153,8 +161,15 @@ class OA_Environment_Manager
         $result = version_compare($this->aInfo['PHP']['actual']['version'],
                                   $this->aInfo['PHP']['expected']['version']
                                  );
-        $this->aInfo['PHP']['error'][] = ($result<0 ? "Version {$this->aInfo['PHP']['actual']['version']} is below the minimum supported version {$this->aInfo['PHP']['expected']['version']}" : 'OK');
         $result = ($result<0 ? false : true);
+        if (!$result)
+        {
+            $this->aInfo['PHP']['error'][] = "Version {$this->aInfo['PHP']['actual']['version']} is below the minimum supported version {$this->aInfo['PHP']['expected']['version']}";
+        }
+        else
+        {
+            $this->aInfo['PHP']['error'] = false;
+        }
 
         $memlim = $this->aInfo['PHP']['actual']['memory_limit'];
         if (($memlim > 0) && ($memlim < $this->aInfo['PHP']['expected']['memory_limit']))
@@ -190,14 +205,14 @@ class OA_Environment_Manager
                 return false;
             }
         }
-        $this->aInfo['PERMS']['error'][] = 'OK';
+        $this->aInfo['PERMS']['error'] = false;
         return true;
     }
 
     function _checkCriticalFiles()
     {
         //$this->aInfo['FILES']['actual'];
-        $this->aInfo['FILES']['error'][] = 'OK';
+        $this->aInfo['FILES']['error'] = false;
         return true;
     }
 /*

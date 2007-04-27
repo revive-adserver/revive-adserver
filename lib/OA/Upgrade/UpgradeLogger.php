@@ -77,7 +77,7 @@ class OA_UpgradeLogger
     {
         if (PEAR::isError($result))
         {
-            $this->_logError($message.' '. $result->getUserInfo());
+            $this->logError($message.' '. $result->getUserInfo());
             return true;
         }
         return false;

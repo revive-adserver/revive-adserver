@@ -45,6 +45,8 @@ class OA_Upgrade
 {
     var $upgradePath = '';
 
+    var $message = '';
+
     var $oLogger;
     var $oParser;
     var $oDBUpgrader;
@@ -62,6 +64,8 @@ class OA_Upgrade
 
     var $package_file = '';
 
+    var $remove_max_version = false;
+
     function OA_Upgrade()
     {
         $this->upgradePath  = MAX_PATH.'/var/upgrade/';
@@ -69,13 +73,10 @@ class OA_Upgrade
         $this->oLogger      = new OA_UpgradeLogger();
         $this->oParser      = new OA_UpgradePackageParser();
         $this->oDBUpgrader  = new OA_DB_Upgrade($this->oLogger);
-        $this->oDbh         = $this->oDBUpgrader->oSchema->db;
         $this->oDBAuditor   = new OA_DB_UpgradeAuditor();
         $this->oVersioner   = new OA_Version_Controller();
-        $this->oVersioner->init($this->oDbh);
-        $this->oDBAuditor->init($this->oDbh, $this->oLogger);
-        $this->oDBUpgrader->oAuditor = &$this->oDBAuditor;
         $this->oSystemMgr   = new OA_Environment_Manager();
+        $this->oSystemMgr->init();
 
         $this->aDsn['database'] = array();
         $this->aDsn['table']    = array();
@@ -87,7 +88,16 @@ class OA_Upgrade
         $this->aDsn['database']['name']     = '';
         $this->aDsn['table']['type']        = 'INNODB';
         $this->aDsn['table']['prefix']      = 'oa_';
+    }
 
+    function initDatabaseConnection()
+    {
+        //$this->oDbh = OA_DB::singleton();
+        $this->oDBUpgrader->initMDB2Schema();
+        $this->oDbh         = $this->oDBUpgrader->oSchema->db;
+        $this->oVersioner->init($this->oDbh);
+        $this->oDBAuditor->init($this->oDbh, $this->oLogger);
+        $this->oDBUpgrader->oAuditor = &$this->oDBAuditor;
     }
 
     function init($input_file, $timing='constructive')
@@ -101,21 +111,81 @@ class OA_Upgrade
 
     function checkEnvironment()
     {
-        $this->oSystemMgr->getAllInfo();
+        //$this->detectOpenads();
+        //$this->canUpgrade();
+        return $this->oSystemMgr->checkSystem();
+    }
+
+    function install()
+    {
+        $this->oLogger-log('installation not implemented yet');
+        $this->message('installation not implemented yet');
+        return true;
     }
 
     function upgrade()
     {
+        if (is_null($this->oDbh))
+        {
+            $this->initDatabaseConnection();
+        }
         if ($this->upgradeSchemas())
         {
             if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
             {
+                $this->oLogger->log('Failed to update application version to '.OA_VERSION);
+                $this->message = 'Failed to update application version to '.OA_VERSION;
                 return false;
             }
             $this->oLogger->log('Application version updated to '. OA_VERSION);
+            if ($this->remove_max_version)
+            {
+                if (!$this->oVersioner->removeMaxVersion())
+                {
+                    $this->oLogger->log('Failed to remove MAX application version');
+                    $this->message = 'Failed to update application version to '.OA_VERSION;
+                    return false;
+                }
+                $this->oLogger->log('Removed MAX application version');
+            }
             return true;
         }
         return false;
+    }
+
+    function getAdmin()
+    {
+        require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+        $preferences = new MAX_Admin_Preferences();
+        $preferences->loadPrefs();
+    }
+
+    function putAdmin($aData)
+    {
+        require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+        // Insert basic preferences into database
+        $preferences = new MAX_Admin_Preferences();
+
+        // Load preferences, needed below to check instance_id existance
+        $preferences->loadPrefs();
+
+        $preferences->setPrefChange('config_version', OA_VERSION);
+        if ((!isset($installvars['dbUpgrade'])) || (!$installvars['dbUpgrade'])) {
+            $preferences->setPrefChange('admin',        $admin);
+            $preferences->setPrefChange('admin_pw',     md5($admin_pw));
+        }
+
+        // Generate a new instance ID if empty
+        if (empty($GLOBALS['_MAX']['PREF']['instance_id'])) {
+            $preferences->setPrefChange('instance_id',  sha1(uniqid('', true)));
+        }
+
+        if (!$preferences->writePrefChange())
+        {
+            $this->oLogger->log('error writing admin preference record');
+            return false;
+        }
+        return true;
     }
 
     function upgradeSchemas()
@@ -248,6 +318,10 @@ class OA_Upgrade
 
     function detectOpenads()
     {
+        if (is_null($this->oDbh))
+        {
+            $this->initDatabaseConnection();
+        }
         $oPAN = new OA_phpAdsNew();
         $oPAN->init();
         if ($oPAN->detected)
@@ -265,7 +339,8 @@ class OA_Upgrade
                 return true;
             }
         }
-        if (file_exists(MAX_PATH . '/var/INSTALLED'))
+        //if (file_exists(MAX_PATH . '/var/INSTALLED'))
+        if ($GLOBALS['_MAX']['CONF']['max']['installed']) // file_exists(MAX_PATH . '/var/INSTALLED'))
         {
             $this->versionInitialApplication = $this->oVersioner->getApplicationVersion('max');
             if ($this->versionInitialApplication) // its MAX
@@ -273,6 +348,7 @@ class OA_Upgrade
                 $valid = (version_compare($this->versionInitialApplication,'v0.3.31-alpha')>=0);
                 if ($valid)
                 {
+                    $this->remove_max_version = true;
                     $this->package_file     = 'openads_upgrade_2.3.31_to_2.3.32_beta.xml';
                     $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
                     $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
@@ -297,6 +373,32 @@ class OA_Upgrade
         $this->versionInitialApplication = '0';
         $this->oLogger->log('Openads not detected');
         return false;
+    }
+
+    function canUpgrade()
+    {
+        if ($this->versionInitialApplication)
+        {
+            if ($this->package_file)
+            {
+                $this->oLogger->log('Upgrade package required '.$this->package_file);
+                if (!file_exists(MAX_PATH.'/var/upgrade/'.$this->package_file))
+                {
+                    $this->oLogger->logError('Upgrade package file '.$this->package_file.' NOT found');
+                    return false;
+                }
+            }
+            else
+            {
+                $this->oLogger->logError('It is not possible to upgrade this version');
+                return false;
+            }
+        }
+        else
+        {
+            $this->oLogger->log('Openads not detected - new installation required');
+        }
+        return true;
     }
 
     function getMessages()

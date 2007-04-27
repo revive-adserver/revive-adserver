@@ -48,14 +48,6 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->UnitTestCase();
     }
 
-    function test_constructor()
-    {
-        $oDB_Upgrade = & new OA_DB_Upgrade();
-        $this->assertIsA($oDB_Upgrade, 'OA_DB_Upgrade', 'OA_DB_Upgrade not instantiated');
-        $this->assertIsA($oDB_Upgrade->oSchema, 'MDB2_Schema', 'MDB2_Schema not instantiated');
-        $this->assertIsA($oDB_Upgrade->oSchema->db, 'MDB2_Driver_Common', 'MDB2_Driver_Common not instantiated');
-    }
-
     function test_dropRecoveryFile()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
@@ -125,6 +117,7 @@ class Test_DB_Upgrade extends UnitTestCase
     function _newDBUpgradeObject($timing='constructive')
     {
         $oDB_Upgrade = & new OA_DB_Upgrade();
+        $oDB_Upgrade->initMDB2Schema();
         $oDB_Upgrade->timingStr = $timing;
         $oDB_Upgrade->timingInt = ($timing ? 0 : 1);
         $oDB_Upgrade->schema = 'tables_core';

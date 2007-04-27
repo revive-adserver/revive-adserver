@@ -208,6 +208,14 @@ class OA_Version_Controller
         }
         return $result;
     }
+
+    function removeMaxVersion()
+    {
+        $query = "DELETE FROM {$GLOBALS['_MAX']['CONF']['table']['prefix']}application_variable WHERE name = 'max_version'";
+        return $this->_execQuery($query);
+    }
+
+
 }
 
 ?>

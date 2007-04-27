@@ -69,9 +69,17 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/integration/';
         $oDB_Upgrade = & new OA_DB_Upgrade();
         $this->assertIsA($oDB_Upgrade, 'OA_DB_Upgrade', 'OA_DB_Upgrade not instantiated');
-        $this->assertIsA($oDB_Upgrade->oSchema, 'MDB2_Schema', 'MDB2_Schema not instantiated');
-        $this->assertIsA($oDB_Upgrade->oSchema->db, 'MDB2_Driver_Common', 'MDB2_Driver_Common not instantiated');
     }
+
+    function test_initMDB2Schema()
+    {
+        $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/integration/';
+        $oDB_Upgrade = & new OA_DB_Upgrade();
+        $oDB_Upgrade->initMDB2Schema();
+        $this->assertIsA($oDB_Upgrade->oSchema, 'MDB2_Schema', 'MDB2 Schema not instantiated');
+        $this->assertIsA($oDB_Upgrade->oSchema->db, 'MDB2_Driver_Common', 'MDB2 Driver not instantiated');
+    }
+
 /*
 seems to be a problem with LIKE in an MDB2 query
 works in phpMyAdmin on MySQL 5.0.22 but not via this routine
@@ -1014,6 +1022,7 @@ works in phpMyAdmin on MySQL 5.0.22 but not via this routine
     function _newDBUpgradeObject($timing='constructive')
     {
         $oDB_Upgrade = & new OA_DB_Upgrade();
+        $oDB_Upgrade->initMDB2Schema();
         $oDB_Upgrade->timingStr = $timing;
         $oDB_Upgrade->timingInt = ($timing ? 0 : 1);
         $oDB_Upgrade->prefix = '';
