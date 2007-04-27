@@ -818,7 +818,7 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
             comments,
             revenue,
             revenue_type,
-            '".date('Y-m-d H:i:s')."'
+            '". OA::getNow() ."'
           FROM {$conf['table']['prefix']}{$conf['table']['campaigns']}
           WHERE
             campaignid = {$placementId}
@@ -888,7 +888,7 @@ function MAX_duplicateAd($adId, $placementId) {
         $values_fields = '';
         $values = '';
 
-        $row['updated'] = date('Y-m-d H:i:s');
+        $row['updated'] = OA::getNow();
         $row['campaignid'] = $placementId;
 
         while (list($name, $value) = each($row)) {

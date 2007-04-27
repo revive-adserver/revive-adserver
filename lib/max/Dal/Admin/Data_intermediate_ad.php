@@ -6,7 +6,7 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
 class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
 {
     var $table = 'data_intermediate_ad';
-	
+
     /**
      * @param int $campaignId
      * @return MDB2Record
@@ -30,7 +30,7 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
 
         return DBC::FindRecord($query);
     }
-    
+
     /**
      * TODO: Should we refactor this method in more general one?
      * (maybe by creating common abstract class for all summary tables?)
@@ -59,10 +59,10 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
 
         $query = '
             UPDATE '.$prefix.$table
-                .' SET conversions=conversions'.$operation.'1 
+                .' SET conversions=conversions'.$operation.'1
                     , total_basket_value=total_basket_value'.$operation.DBC::makeLiteral($basketValue).'
                     , total_num_items=total_num_items'.$operation.DBC::makeLiteral($numItems).'
-                    , updated = \''.date('Y-m-d H:i:s').'\'
+                    , updated = \''. OA::getNow() .'\'
                 WHERE
                        ad_id       = '.DBC::makeLiteral($ad_id).'
                    AND creative_id = '.DBC::makeLiteral($creative_id).'

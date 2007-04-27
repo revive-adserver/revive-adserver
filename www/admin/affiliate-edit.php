@@ -215,7 +215,7 @@ if (isset($submit)) {
         if (empty($affiliateid)) {
             $doAffiliates = OA_Dal::factoryDO('affiliates');
             $doAffiliates->setFrom($affiliate);
-            $doAffiliates->updated = date('Y-m-d H:i:s');
+            $doAffiliates->updated = OA::getNow();
             $affiliateid = $doAffiliates->insert();
 
             // Go to next page

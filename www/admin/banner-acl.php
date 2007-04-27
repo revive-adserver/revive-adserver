@@ -65,7 +65,7 @@ if (!empty($action)) {
 
     $values = array();
     $acls_updated = false;
-    $now = date('Y-m-d H:i:s');
+    $now = OA::getNow();
 
     if ($aBannerPrev['block_ad'] <> $block) {
         $values['block'] = $block;

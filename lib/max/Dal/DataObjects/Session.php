@@ -4,7 +4,7 @@
  */
 require_once 'DB_DataObjectCommon.php';
 
-class DataObjects_Session extends DB_DataObjectCommon 
+class DataObjects_Session extends DB_DataObjectCommon
 {
     var $dalModelName = 'Session';
     ###START_AUTOCODE
@@ -23,7 +23,7 @@ class DataObjects_Session extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-    
+
     /**
      * Table has no autoincrement/sequence so we override sequenceKey().
      *
@@ -32,7 +32,7 @@ class DataObjects_Session extends DB_DataObjectCommon
     function sequenceKey() {
         return array(false, false, false);
     }
-    
+
 
     /**
      * Overrides _refreshUpdated() because the updated field is called 'lastused'.
@@ -41,6 +41,6 @@ class DataObjects_Session extends DB_DataObjectCommon
      */
     function _refreshUpdated()
     {
-        $this->lastused = date('Y-m-d H:i:s');
+        $this->lastused = OA::getNow();
     }
 }

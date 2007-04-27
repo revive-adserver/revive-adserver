@@ -982,7 +982,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     SUM(tu.conversions) AS conversions,
                     IFNULL(SUM(tu.total_basket_value), 0) AS total_basket_value,
                     IFNULL(SUM(tu.total_num_items), 0) AS total_num_items,
-                    '".date('Y-m-d H:i:s')."' AS updated
+                    '".OA::getNow()."' AS updated
                 FROM
                     tmp_union AS tu
                 GROUP BY
@@ -1303,7 +1303,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     tac.connection_window AS connection_window,
                     tac.connection_status AS connection_status,
                     tac.inside_window AS inside_window,
-                    '".date('Y-m-d H:i:s')."'
+                    '".OA::getNow()."'
                 FROM
                     tmp_ad_connection AS tac,
                     $trackerImpressionTable AS drti

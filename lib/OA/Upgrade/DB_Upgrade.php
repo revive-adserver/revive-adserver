@@ -362,7 +362,7 @@ class OA_DB_Upgrade
                 $table = $this->prefix.$table;
                 if (in_array($table, $this->aDBTables))
                 {
-                    $string     = $this->versionTo.$this->timingStr.$this->database.$table.date('Y-m-d h:i:s');
+                    $string     = $this->versionTo.$this->timingStr.$this->database.$table.OA::getNow();
                     $hash       = str_replace(array('+','/','='),array('_','_',''),base64_encode(pack("H*",md5($string)))); // packs down to 22 chars and removes illegal chars
                     $table_bak  ="{$this->prefix}z_{$hash}";
                     $this->aMessages[]  = "backing up table {$table} to table {$table_bak} ";

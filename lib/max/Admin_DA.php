@@ -71,7 +71,7 @@ class Admin_DA
     // | private methods for entity            |
     // | manipulation                          |
     // +---------------------------------------+
-    
+
     /**
      * Retrieves the data from the database table $table using a set of
      * conditions provided in $aConditions. The method uses
@@ -98,8 +98,8 @@ class Admin_DA
         }
         return $do->getAll(array(), true, false);
     }
-    
-    
+
+
     /**
      * Retrieves the data from the database about a particular row selected
      * with $aConditions.
@@ -119,8 +119,8 @@ class Admin_DA
             return $dataRow;
         }
     }
-    
-    
+
+
     /**
      * Retrieves a single row data from the $table table using $column column
      * with a $id value.
@@ -158,7 +158,7 @@ class Admin_DA
     function _updateEntityTimestamp($entity, &$aVariables)
     {
         if(in_array($entity, $GLOBALS['_MAX']['Admin_DA']['updateEntities'])) {
-            $aVariables['updated'] = date('Y-m-d H:i:s');
+            $aVariables['updated'] = OA::getNow();
         }
     }
 
@@ -184,8 +184,8 @@ class Admin_DA
         }
         return $aRow;
     }
-    
-    
+
+
     /**
      * Returns an array of entity arrays, where the keys are the entity IDs.
      *
@@ -290,8 +290,8 @@ class Admin_DA
         $aLimitations = SqlBuilder::_getLimitations($entity, $aParams);
         SqlBuilder::_update($aTable, $aVariables, $aLimitations);
     }
-    
-    
+
+
     function _getPrimaryTablePrefixed($entity)
     {
         $aTable = SqlBuilder::_getPrimaryTable($entity);
@@ -352,15 +352,15 @@ class Admin_DA
         $aTables = SqlBuilder::_getTables($entity, $aParams, true);
         $aLimitations = array_merge(SqlBuilder::_getStatsLimitations($entity, $aParams),
             SqlBuilder::_getTableLimitations($aTables));
-        
+
         // An ugly hack to get the alias used for the entity table so
         // the query works with Postgres.
         end($aColumns);
         $groupByColumn = key($aColumns);
         reset($aColumns);
-        
+
         $aGroups = array($groupByColumn);
-        
+
         return SqlBuilder::_select($aColumns, $aTables, $aLimitations, $aGroups, $key);
     }
 
@@ -1326,7 +1326,7 @@ class Admin_DA
         if (!($pzaId = Admin_DA::_addEntity('placement_zone_assoc', $aVariables))) {
             return false;
         }
-        
+
         // Selects ads which belongs to the campaign (placement) and fit into
         // the zone. Then links all those ads to the zone if they are not linked already.
         $azParams = Admin_DA::getLinkedAdParams($aVariables['zone_id']);
@@ -1392,8 +1392,8 @@ class Admin_DA
     // +---------------------------------------+
     // | trackers                              |
     // +---------------------------------------+
-    
-    
+
+
     /**
      * Returns an array of column => value for the tracker identified by
      * $trackerId.
@@ -1405,7 +1405,7 @@ class Admin_DA
     {
         return Admin_DA::_getDataRowFromId('tracker', 'trackerid', $trackerId);
     }
-    
+
 
     function getTrackers($aParams, $allFields = false, $key = null)
     {

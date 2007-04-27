@@ -222,7 +222,7 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
                 {$diac}
             SET
                 connection_status = ". MAX_CONNECTION_STATUS_DISAPPROVED .",
-                updated = '". date('Y-m-d H:i:s') ."',
+                updated = '". OA::getNow() ."',
                 comments = 'Rejected because ' || COALESCE(NULLIF(v.description, ''), v.name) || ' is empty'
             FROM
                 {$diac} AS diac2
@@ -280,7 +280,7 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
                 {$diac}
             SET
                 connection_status = ". MAX_CONNECTION_STATUS_DUPLICATE .",
-                updated = '". date('Y-m-d H:i:s') ."',
+                updated = '". OA::getNow() ."',
                 comments = 'Duplicate of connection ID ' || diac2.data_intermediate_ad_connection_id
             FROM
                 {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv

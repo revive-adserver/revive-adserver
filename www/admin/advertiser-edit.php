@@ -151,7 +151,7 @@ if (isset($submit)) {
 		if (empty($clientid)) {
             $doClients = OA_Dal::factoryDO('clients');
             $doClients->setFrom($client);
-            $doClients->updated = date('Y-m-d H:i:s');
+            $doClients->updated = OA::getNow();
 
 			// Insert
 			$clientid = $doClients->insert();
@@ -162,7 +162,7 @@ if (isset($submit)) {
             $doClients = OA_Dal::factoryDO('clients');
             $doClients->get($clientid);
             $doClients->setFrom($client);
-            $doClients->updated = date('Y-m-d H:i:s');
+            $doClients->updated = OA::getNow();
 
 			// Update
 			$doClients->update();

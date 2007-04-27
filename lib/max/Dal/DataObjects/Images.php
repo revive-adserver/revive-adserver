@@ -4,7 +4,7 @@
  */
 require_once 'DB_DataObjectCommon.php';
 
-class DataObjects_Images extends DB_DataObjectCommon 
+class DataObjects_Images extends DB_DataObjectCommon
 {
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
@@ -23,7 +23,7 @@ class DataObjects_Images extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-    
+
     /**
      * Table has no autoincrement/sequence so we override sequenceKey().
      *
@@ -32,17 +32,17 @@ class DataObjects_Images extends DB_DataObjectCommon
     function sequenceKey() {
         return array(false, false, false);
     }
-    
+
     function getUniqueFileNameForDuplication()
     {
         $extension = substr($this->filename, strrpos($this->filename, ".") + 1);
 	    $base	   = substr($this->filename, 0, strrpos($this->filename, "."));
-        
+
         if (eregi("^(.*)_([0-9]+)$", $base, $matches)) {
 			$base = $matches[1];
 			$i = $matches[2];
-        } 
-        
+        }
+
         $doCheck = $this->factory($this->_tableName);
         $names = $doCheck->getUniqueValuesFromColumn('filename');
         // Get unique name
@@ -52,7 +52,7 @@ class DataObjects_Images extends DB_DataObjectCommon
         }
         return $base . '_' . $i . '.' . $extension;
     }
-    
+
     /**
      * Overrides _refreshUpdated() because the updated field is called t_stamp.
      * This method is called on insert() and update().
@@ -60,6 +60,6 @@ class DataObjects_Images extends DB_DataObjectCommon
      */
     function _refreshUpdated()
     {
-        $this->t_stamp = date('Y-m-d H:i:s');
+        $this->t_stamp = OA::getNow();
     }
 }

@@ -176,7 +176,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     $doObject = OA_Dal::factoryDO($table);
     $doObject->$fieldId = $aclsObjectId;
     $doObject->acl_plugins = MAX_AclGetPlugins($acls, $page);
-    $doObject->acls_updated = $now = date('Y-m-d H:i:s');
+    $doObject->acls_updated = $now = OA::getNow();
     $doObject->compiledlimitation = $sLimitation;
     $doObject->update();
 

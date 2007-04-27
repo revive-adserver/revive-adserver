@@ -308,7 +308,7 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysql extends OA_Dal_Maintenance_St
                 )
             SET
                 diac.connection_status = ". MAX_CONNECTION_STATUS_DISAPPROVED .",
-                diac.updated = '". date('Y-m-d H:i:s') ."',
+                diac.updated = '". OA::getNow() ."',
                 diac.comments = CONCAT('Rejected because ', COALESCE(NULLIF(v.description, ''), v.name), ' is empty')
             WHERE
                 diac.tracker_date_time >= '" . $oStart->format('%Y-%m-%d %H:%M:%S') . "'
@@ -388,7 +388,7 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysql extends OA_Dal_Maintenance_St
                 )
             SET
                 diac.connection_status = ". MAX_CONNECTION_STATUS_DUPLICATE .",
-                diac.updated = '". date('Y-m-d H:i:s') ."',
+                diac.updated = '". OA::getNow() ."',
                 diac.comments = CONCAT('Duplicate of connection ID ', diac2.data_intermediate_ad_connection_id)";
         $message = 'Deduplicating conversions between "' . $oStart->format('%Y-%m-%d %H:%M:%S') . '"' .
                    ' and "' . $oEnd->format('%Y-%m-%d %H:%M:%S') . '"';
