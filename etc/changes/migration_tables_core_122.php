@@ -68,6 +68,7 @@ class Migration_122 extends Migration
 	function afterAddField__clients__updated()
 	{
 		return $this->afterAddField('clients', 'updated');
+		$this->migrateData();
 	}
 
 	function beforeRemoveField__clients__views()
@@ -148,6 +149,40 @@ class Migration_122 extends Migration
 	function afterRemoveField__clients__parent()
 	{
 		return $this->afterRemoveField('clients', 'parent');
+	}
+	 
+	function migrateData()
+	{
+	    $conf = $GLOBALS['_MAX']['CONF'];
+        $sql = "INSERT INTO
+            {$conf['table']['prefix']}campaigns
+        SELECT
+            clientid AS campaignid,
+            clientname AS campaignname,
+            parent AS clientid,
+            views AS views,
+            clicks AS clicks,
+            '-1' AS conversions,
+            expire AS expire,
+            activate AS activate,
+            active AS active,
+            if (target > 0, 5, 0) AS priority,
+            weight AS weight,
+            target AS target_impression,
+            0 AS target_click,
+            0 AS target_conversion,
+            'f' AS anonymous,
+            0 AS companion
+        FROM
+            {$conf['table']['prefix']}clients
+        WHERE
+            parent > 0";
+        $result = $this->oDBH->exec($sql);
+        if (PEAR::isError($result)) {
+            $this->_logError($result);
+            return false;
+        }
+        return true;
 	}
 
 }
