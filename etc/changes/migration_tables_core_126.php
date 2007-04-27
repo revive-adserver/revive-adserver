@@ -64,6 +64,14 @@ class Migration_126 extends Migration
 		return $this->afterRemoveField('targetstats', 'clientid');
 	}
 
+	function migrateData()
+	{
+	    $conf = $GLOBALS['_MAX']['CONF'];
+	    $query = "
+	       UPDATE {$conf['table']['prefix']}targetstats
+	       set campaignid = clientid";
+	    $this->oDBH->exec($query);
+	}
 }
 
 ?>

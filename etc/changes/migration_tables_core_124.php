@@ -183,8 +183,9 @@ class Migration_124 extends Migration
 
 	function migrateData()
 	{
+	    $conf = $GLOBALS['_MAX']['CONF'];
 	    $query = "
-	       UPDATE banners
+	       UPDATE {$conf['table']['prefix']}banners
 	       set campaignid = clientid";
 	    $this->oDBH->exec($query);
 	}
