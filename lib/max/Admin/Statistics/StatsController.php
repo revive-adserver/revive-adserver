@@ -1462,8 +1462,10 @@ class StatsController
             $params = $this->pageParams;
         }
         foreach ($params as $key => $value) {
-            if (!strstr($link, $value) && $key != "entity" && $key != "day") {
-                $newParams[$key] = $value;
+            if (!empty($value)) {
+                if (!strstr($link, $value) && $key != "entity" && $key != "day") {
+                    $newParams[$key] = $value;
+                }
             }
         }
         return $newParams;
