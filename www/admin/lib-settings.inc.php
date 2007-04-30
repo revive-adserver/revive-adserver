@@ -74,11 +74,11 @@ function phpAds_UsertypeChange(o)
     var v = 0;
     var base_name = o.name.replace(/_\d+$/, '');
     var l;
-    
+
     for (var i = 1; i <= 8; i <<= 1) {
         if (o = findObj(base_name + '_' + i)) {
             v += o.checked ? i : 0
-            
+
             if (l = findObj(base_name + '_label[' + i +']')) {
                 l.disabled = !o.checked;
             }
@@ -87,7 +87,7 @@ function phpAds_UsertypeChange(o)
             }
         }
     }
-    
+
     if (o = findObj(base_name))
         o.value = v;
 }
@@ -110,7 +110,7 @@ function phpAds_UsertypeChange(o)
         'stats'         => array('name' => $GLOBALS['strStatisticsSettings'],       'perm' => phpAds_Admin),
         'interface'     => array('name' => $GLOBALS['strGuiSettings'],              'perm' => phpAds_Admin + phpAds_Agency)
     );
-    
+
 
     echo "<td><form name='settings_selection'><td height='35'><b>";
     echo $GLOBALS['strChooseSection'].":&nbsp;</b>";
@@ -176,8 +176,8 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0)
     $checkbuffer    = '';
     $usertypebuffer = '';
     $helpbuffer     = '';
-    $i = 0; 
-    while (list(,$section) = each ($data)) { 
+    $i = 0;
+    while (list(,$section) = each ($data)) {
         if (!isset($section['visible']) || $section['visible']) {
             if (isset($errors[$i])) {
                 phpAds_ShowSettings_StartSection($section['text'], $errors[$i], $disableSubmit);
@@ -202,7 +202,7 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0)
                             }
                         }
                     } else {
-                        // Get the values from the config file 
+                        // Get the values from the config file
                         $value = '';
                         if (isset($item['name'])) {
                             // Split into config sections
@@ -238,7 +238,7 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0)
                         case 'select':    phpAds_ShowSettings_Select($item, $value, $disableSubmit); break;
                         case 'usertype_textboxes':
                             phpAds_ShowSettings_UsertypeTextboxes($item, $value);
-                            break;                        
+                            break;
                         case 'usertype_checkboxes':
                             phpAds_ShowSettings_UsertypeCheckboxes($item, $value);
                             $usertypebuffer .= "phpAds_UsertypeChange(findObj('".$item['name']."'));\n";
@@ -283,7 +283,7 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0)
             echo' <input type="hidden" name="start_upload" value="0" />';
             echo ' <input type="hidden" name="field_changed" value="none" />';
             echo' Choose a file to upload: (Max size: '. _bytes_to_display($max_file_size) . ') <input name="uploadedfile" type="file" /><br />';
-            echo' <input type="submit" name="uploadFile" onClick=\'setUploadConversionValues();\''; 
+            echo' <input type="submit" name="uploadFile" onClick=\'setUploadConversionValues();\'';
             if ($errors[0] == MAX_ERROR_YOU_HAVE_NO_TRACKERS || $errors[0] == MAX_ERROR_YOU_HAVE_NO_CAMPAIGNS)
                 echo ' disabled ';
             echo ' value="Upload File" />';
@@ -296,7 +296,7 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0)
                   document.settingsform.submit();
               }";
     echo "//-->\n</script>";
-    
+
     echo "<script language='JavaScript'>\n<!--\n\n";
     echo $dependbuffer."}\n\nphpAds_refreshEnabled();\n\n";
     echo $checkbuffer."\n";
@@ -497,11 +497,23 @@ function phpAds_ShowSettings_Password($item, $value)
     if (!isset($item['size'])) {
         $item['size'] = 25;
     }
+
+    //  if config file is not writeable do not display password
+    $hidePassword = false;
+    $writeable = MAX_Admin_Config::isConfigWritable();
+    if ($item['name'] == 'database_password' && !$writeable) {
+        $value = 'password';
+        $hidePassword = true;
+    }
+
     // Hide value
     //$value = str_repeat('*', strlen($value));
     echo "<tr onMouseOver=\"setHelp('".$item['name']."')\"><td>&nbsp;</td>\n";
     echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."' valign='top'>".$item['text']."</td>\n";
     echo "<td width='100%' valign='top'>\n";
+    if ($hidePassword) {
+        echo "<!-- password is set to password for security reasons -->";
+    }
     echo "<input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='password' name='".$item['name']."'".($item['enabled'] ? ' disabled' : '')." ";
     echo "value='".$value."' size='".$item['size']."' onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>";
     echo "</td><td>".phpAds_ShowSettings_PadLock($item)."</td></tr>\n";
@@ -549,18 +561,18 @@ function phpAds_ShowSettings_UsertypeCheckboxes($item, $value)
         echo "<td width='100'><b>".$GLOBALS["strAffiliate"]."</b></td>";
         echo "</tr></table>";
         echo "</td></tr>";
-        
+
     }
-    
+
     $value = $value ? (int)$value : 0;
-    
+
     echo "<tr onMouseOver=\"setHelp('".$item['name']."')\"><td>&nbsp;</td>\n";
     echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."'>".$item['text']."</td>\n";
     echo "<td width='100%'>\n";
     echo "<input type='hidden' name='".$item['name']."' value='".htmlspecialchars($value)."'>\n";
 
     echo "<table border='0' cellpadding='2' cellspacing='0'><tr align='center'>\n";
-        
+
     if (phpAds_isUser(phpAds_Admin)) {
         echo "<td width='100'><input type='checkbox' name='".$item['name']."_".phpAds_Admin."' value='true'";
         echo ($value & phpAds_Admin ? ' checked' : '').($item['enabled'] ? ' disabled' : '');
@@ -603,17 +615,17 @@ function phpAds_ShowSettings_UsertypeTextboxes($item, $value)
         echo "<td width='100'><b>".$GLOBALS["strAffiliate"]."</b></td>";
         echo "</tr></table>";
         echo "</td></tr>";
-        
+
     }
 
     $value = unserialize($value);
-    
+
     echo "<tr onMouseOver=\"setHelp('".$item['name']."')\"><td>&nbsp;</td>\n";
     echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."'>".$item['text']."</td>\n";
     echo "<td width='100%'>\n";
 
     echo "<table border='0' cellpadding='2' cellspacing='0'><tr align='center'>\n";
-        
+
     if (phpAds_isUser(phpAds_Admin)) {
         echo "<td width='100'><input type='text' size='10' name='".$item['name']."[".phpAds_Admin."]'";
         echo " value='".(isset($value[phpAds_Admin]) ? htmlspecialchars($value[phpAds_Admin]) : '')."'";
