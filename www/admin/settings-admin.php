@@ -107,17 +107,13 @@ phpAds_SettingsSelection("admin");
 
 $unique_users   = MAX_Permission::getUniqueUserNames($pref['admin']);
 
-//  find time zone if config is empty
 if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
     $timezones  = MAX_Admin_Timezones::AvailableTimezones();
     $timezone   = $timezones[$GLOBALS['_MAX']['CONF']['timezone']['location']];
+
+//  find time zone if config is empty
 } else {
-    if (getenv('TZ') === false) {
-        $diff = date('O') / 100;
-        $timezone = 'GMT'.($diff > 0 ? '-' : '+').abs($diff);
-    } else {
-        $timezone = getenv('TZ');
-    }
+    $timezone   = MAX_Admin_Timezones::getTimezone();
 }
 
 $settings = array (

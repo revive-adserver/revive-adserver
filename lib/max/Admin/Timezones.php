@@ -53,4 +53,21 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
             }
         }
     }
- }
+
+    function getTimezone()
+    {
+        if (version_compare(phpversion(), '5.1.0', '>=')) {
+            $tz = date_default_timezone_get();
+        } elseif (getenv('TZ') === false) {
+            $tz = getenv('TZ');
+        }
+
+        //  get timezone from date if not set
+        if (empty($tz)) {
+                $diff = date('O') / 100;
+                $tz = 'GMT'.($diff > 0 ? '-' : '+').abs($diff);
+        }
+
+        return (!empty($tz)) ? $tz : false;
+    }
+}
