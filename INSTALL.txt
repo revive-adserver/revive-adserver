@@ -87,16 +87,16 @@ e.g. http://www.example.com/max/), then a "Single Host" installation is for you.
 9)  After the installation is complete, you will be asked to log in using the admin
     username and password you set up during the installation. You will then be taken
     to the Openads "Settings" screen. Once you have made any changes you want, please
-    "lock" the www.example.com.conf.ini file, so that configuration changes cannot
+    "lock" the www.example.com.conf.php file, so that configuration changes cannot
     be accidentally or maliciously made. If you are running a unix-like operating
     system, change to the directory you extracted the Openads archive into, and remove
     write access with the command (as root):
 
-      chmod a-w var/www.example.com.conf.ini
+      chmod a-w var/www.example.com.conf.php
 
-    If you are running Openads on Windows, right click on the www.example.com.conf.ini
+    If you are running Openads on Windows, right click on the www.example.com.conf.php
     file in Windows Explorer, select "Properties" and ensure that the file IS marked
-    as "Read-only". You can find the www.example.com.conf.ini file in the "var"
+    as "Read-only". You can find the www.example.com.conf.php file in the "var"
     directory of your Openads installation directory.
 
 10)  Enjoy!
@@ -150,16 +150,16 @@ host, then a "Multiple Hosts" installation is for you.
 8)  After the installation is complete, you will be asked to log in using the admin
     username and password you set up during the installation. You will then be taken
     to the Openads "Settings" screen. Once you have made any changes you want, please
-    "lock" the www.example.com.conf.ini file, so that configuration changes cannot
+    "lock" the www.example.com.conf.php file, so that configuration changes cannot
     be accidentally or maliciously made. If you are running a unix-like operating
     system, change to the directory you extracted the Openads archive into, and remove
     write access with the command (as root):
 
-      chmod a-w var/www.example.com.conf.ini
+      chmod a-w var/www.example.com.conf.php
 
-    If you are running Openads on Windows, right click on the www.example.com.conf.ini
+    If you are running Openads on Windows, right click on the www.example.com.conf.php
     file in Windows Explorer, select "Properties" and ensure that the file IS marked
-    as "Read-only". You can find the www.example.com.conf.ini file in the "var"
+    as "Read-only". You can find the www.example.com.conf.php file in the "var"
     directory of your Openads installation directory.
 
 9)  Enjoy!

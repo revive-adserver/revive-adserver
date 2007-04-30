@@ -14,9 +14,9 @@ function check_environment()
     }
     else
     {
-        if (!file_exists(MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.ini"))
+        if (!file_exists(MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.php"))
         {
-            copy(MAX_PATH.'/etc/sim.conf.ini', MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.ini");
+            copy(MAX_PATH.'/etc/sim.conf.php', MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.php");
         }
     }
     if (!folder_is_writable(SIM_PATH.'/'.FOLDER_DATA))
@@ -39,11 +39,11 @@ function get_conf()
     {
         define('TEST_ENVIRONMENT_RUNNING', true);
     }
-    if (!file_exists(MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.ini"))
+    if (!file_exists(MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.php"))
     {
         if (folder_is_writable(MAX_PATH.'/var'))
         {
-            copy(MAX_PATH.'/etc/sim.conf.ini', MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.ini");
+            copy(MAX_PATH.'/etc/sim.conf.php', MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.php");
         }
     }
     require_once MAX_PATH.'/init-delivery-parse.php';
@@ -117,7 +117,7 @@ function write_sim_ini_file($confAll)
     require_once MAX_PATH.'/lib/max/Delivery/common.php';
     $conf = MAX_commonSlashArray($conf);
     $content = parse_conf_for_ini_file($conf, $content, true);
-    if ($handle = fopen(MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.ini", 'w'))
+    if ($handle = fopen(MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.php", 'w'))
     {
        fwrite($handle, $content);
        fclose($handle);
@@ -202,7 +202,7 @@ function get_var_config_files()
     $rDIR = opendir(MAX_PATH.'/var/');
     while ($file = readdir($rDIR))
     {
-        $i = strpos($file,'.conf.ini');
+        $i = strpos($file,'.conf.php');
         if ($i && ($i+9==strlen($file)))
         {
             $aFiles[] = substr($file,0,$i);

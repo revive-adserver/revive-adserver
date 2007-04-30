@@ -46,7 +46,7 @@ class MAX_Plugin_Common
      *
      * @param bool $processSections        If true the configuration data is returned
      *                                     as one dimension array
-     * @param bool $commonPackageConfig    If true read the global plugin.conf.ini file
+     * @param bool $commonPackageConfig    If true read the global plugin.conf.php file
      *                                     for specific package
      *
      * @return array                       Configuration array
@@ -61,7 +61,7 @@ class MAX_Plugin_Common
     /**
      * Method return the string containing package or plugin config name
      *
-     * @param bool $commonPackageConfig    If true read the global plugin.conf.ini file
+     * @param bool $commonPackageConfig    If true read the global plugin.conf.php file
      *                                     for specific package
      *
      * @return string  Config file name

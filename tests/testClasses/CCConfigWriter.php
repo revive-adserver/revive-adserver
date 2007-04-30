@@ -35,8 +35,8 @@ class CCConfigWriter
 {
     function configureTest($type, $host, $port, $username, $password, $name, $tableType)
     {
-        $fTestConfigSource = MAX_PATH . '/etc/test.conf.ini';
-        $fTestConfigDestination = MAX_PATH . '/var/test.conf.ini';
+        $fTestConfigSource = MAX_PATH . '/etc/test.conf.php';
+        $fTestConfigDestination = MAX_PATH . '/var/test.conf.php';
         $config = new Config();
         $configContainer = &$config->parseConfig($fTestConfigSource, 'inifile');
 

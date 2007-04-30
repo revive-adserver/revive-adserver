@@ -46,7 +46,7 @@
 
     <!-- Configuration Settings -->
     <!-- Settings stored in an ini file -->
-    <configuration destination="/var/{site}.conf.ini">
+    <configuration destination="/var/{site}.conf.php">
         <add>
            <section destination="delivery">
                <option type="boolean" name="chDelimiter" default=","></option>

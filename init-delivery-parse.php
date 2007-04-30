@@ -57,23 +57,23 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true)
     }
     
     // Is the .ini file for the hostname being used directly accessible?
-    if (file_exists($configPath . '/' . $host . $configFile . '.conf.ini')) {
+    if (file_exists($configPath . '/' . $host . $configFile . '.conf.php')) {
         // Parse the configuration file
-        $conf = @parse_ini_file($configPath . '/' . $host . $configFile . '.conf.ini', true);
+        $conf = @parse_ini_file($configPath . '/' . $host . $configFile . '.conf.php', true);
         // Is this a real config file?
         if (!isset($conf['realConfig'])) {
             // Yes, return the parsed configuration file
             return $conf;
         }
         // Parse and return the real configuration .ini file
-        if (file_exists($configPath . '/' . $conf['realConfig'] . $configFile . '.conf.ini')) {
-            $realConfig = @parse_ini_file($configPath . '/' . $conf['realConfig'] . $configFile . '.conf.ini', true);
+        if (file_exists($configPath . '/' . $conf['realConfig'] . $configFile . '.conf.php')) {
+            $realConfig = @parse_ini_file($configPath . '/' . $conf['realConfig'] . $configFile . '.conf.php', true);
             return mergeConfigFiles($realConfig, $conf);
         }
     } elseif ($configFile === '.plugin') {
         // For plugins, if no configuration file is found, return the sane default values
         $pluginType = basename($configPath);
-        $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.ini';
+        $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
         if (file_exists($defaultConfig)) {
             return parse_ini_file($defaultConfig, $sections);
         } else {

@@ -6,7 +6,7 @@ require_once MAX_PATH . '/lib/pear/XML/Parser.php';
 /**
  * Parser for phpMyAdmin-style XML data dumps.
  * 
- * Only configured tables (conf.ini) will be recognised.
+ * Only configured tables (conf.php) will be recognised.
  * If the data dump contains entries for other tables,
  * there is no guarantee what will happen.
  * 

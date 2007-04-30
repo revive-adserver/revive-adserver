@@ -104,7 +104,7 @@ Upgrade Process
     phpAdsNew, please select your original table type. However, if you want to obtain
     the speed benefits of using InnoDB tables, please read the information at:
       http://dev.mysql.com/doc/mysql/en/Converting_tables_to_InnoDB.html
-    Don't forget to change your www.example.com.conf.ini file's table type to "INNODB"
+    Don't forget to change your www.example.com.conf.php file's table type to "INNODB"
     afterwards!
 
     NOTE: Depending on the version of Max or phpAdsNew you are upgrading from, the
@@ -132,16 +132,16 @@ Upgrade Process
     new local storage location (see the "Delivery Settings"), or configure the local
     storage directory to the appropriate location.
 
-    Once you have made any changes you want, please "lock" the www.example.com.conf.ini
+    Once you have made any changes you want, please "lock" the www.example.com.conf.php
     file, so that configuration changes cannot be accidentally or maliciously made. If
     you are running a unix-like operating system, change to the directory you extracted
     the Max archive into, and remove write access with the command (as root):
 
-      chmod a-w var/www.example.com.conf.ini
+      chmod a-w var/www.example.com.conf.php
 
-    If you are running Max on Windows, right click on the www.example.com.conf.ini file
+    If you are running Max on Windows, right click on the www.example.com.conf.php file
     in Windows Explorer, select "Properties" and ensure that the file IS marked as
-    "Read-only". You can find the www.example.com.conf.ini file in the "var" directory
+    "Read-only". You can find the www.example.com.conf.php file in the "var" directory
     of your Max installation directory.
 
 14) If you are upgrading from Openads, re-enable your maintenance script cronjob/schtask.

@@ -1701,7 +1701,7 @@ ORDER BY
     /**
      * Find the full SQL table name to use for a given internal name.
      *
-     * This method handles prefixes and aliasing, based on settings in conf.ini
+     * This method handles prefixes and aliasing, based on settings in conf.php
      *
      * @return string The fully-qualified table name, ready for use in an SQL FROM clause
      * @todo Pull up this method to the common DAL

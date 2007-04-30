@@ -25,7 +25,7 @@ if (strlen($admin_host) > 0) {
       such as <code class="host"><em>www-tests</em>.openads.local</code> with its own database.
     </p>
     <p>
-      Once you have that, make sure your <code class="filename">test.conf.ini</code> has a
+      Once you have that, make sure your <code class="filename">test.conf.php</code> has a
       section like the following:
     </p>
     <pre>

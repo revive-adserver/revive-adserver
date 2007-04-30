@@ -58,7 +58,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true)
         if (!isset($GLOBALS['argv'][1])) {
             exit(MAX_PRODUCT_NAME . " was called via the command line, but had no host as a parameter.\n");
         }
-        $host = trim($GLOBALS['argv'][1]);       
+        $host = trim($GLOBALS['argv'][1]);
     } else {
         if (!empty($_SERVER['HTTP_HOST'])) {
             $host = explode(':', $_SERVER['HTTP_HOST']);
@@ -73,13 +73,13 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true)
         if (isset($_SERVER['SERVER_NAME'])) {
             // If test runs from web-client first check if host test config exists
             // This could be used to have different tests for different configurations
-            $testFilePath = $configPath . '/'.$host.'.test.conf.ini';
+            $testFilePath = $configPath . '/'.$host.'.test.conf.php';
             if (file_exists($testFilePath)) {
                 return @parse_ini_file($testFilePath, $sections);
             }
         }
         // Does the test environment config exist?
-        $testFilePath = $configPath . '/test.conf.ini';
+        $testFilePath = $configPath . '/test.conf.php';
         if (file_exists($testFilePath)) {
             return @parse_ini_file($testFilePath, $sections);
         } else {
@@ -91,23 +91,23 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true)
         }
     }
     // Is the .ini file for the hostname being used directly accessible?
-    if (file_exists($configPath . '/' . $host . $configFile . '.conf.ini')) {
+    if (file_exists($configPath . '/' . $host . $configFile . '.conf.php')) {
         // Parse the configuration file
-        $conf = @parse_ini_file($configPath . '/' . $host . $configFile . '.conf.ini', $sections);
+        $conf = @parse_ini_file($configPath . '/' . $host . $configFile . '.conf.php', $sections);
         // Is this a real config file?
         if (!isset($conf['realConfig'])) {
             // Yes, return the parsed configuration file
             return $conf;
         }
         // Parse and return the real configuration .ini file
-        if (file_exists($configPath . '/' . $conf['realConfig'] . $configFile . '.conf.ini')) {
-            $realConfig = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf.ini', true);
+        if (file_exists($configPath . '/' . $conf['realConfig'] . $configFile . '.conf.php')) {
+            $realConfig = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf.php', true);
             return mergeConfigFiles($realConfig, $conf);
         }
     } elseif ($configFile === '.plugin') {
         // For plugins, if no configuration file is found, return the sane default values
         $pluginType = basename($configPath);
-        $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.ini';
+        $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
         if (file_exists($defaultConfig)) {
             return parse_ini_file($defaultConfig, $sections);
         } else {
@@ -116,10 +116,10 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true)
     }
     // Check to ensure Openads hasn't been installed
     if (file_exists(MAX_PATH . '/var/INSTALLED')) {
-        exit(MAX_PRODUCT_NAME . " has been installed, but no configuration file ".$configPath . '/' . $host . $configFile . '.conf.ini'."was found.\n");
+        exit(MAX_PRODUCT_NAME . " has been installed, but no configuration file ".$configPath . '/' . $host . $configFile . '.conf.php'." was found.\n");
     }
     // Openads hasn't been installed, so use the distribution .ini file
-    return @parse_ini_file(MAX_PATH . '/etc/dist.conf.ini', $sections);
+    return @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', $sections);
 }
 
 ?>

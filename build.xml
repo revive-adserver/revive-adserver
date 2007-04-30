@@ -20,7 +20,7 @@
     <exclude name="docs/developer/**"/>
     <include name="etc/**"/>
     <exclude name="etc/*.properties*"/>
-    <exclude name="etc/test.conf.ini"/>
+    <exclude name="etc/test.conf.php"/>
     <include name="lib/**"/>
     <exclude name="lib/simpletest/**"/>
     <include name="plugins/**"/>
@@ -50,13 +50,13 @@
     <include name="docs/CODING_STANDARDS.txt"/>
     <include name="docs/developer/**"/>
     <include name="etc/*.properties*"/>
-    <include name="etc/test.conf.ini"/>
+    <include name="etc/test.conf.php"/>
     <include name="lib/simpletest/**"/>
     <include name="scripts/db_dataobject/**"/>
     <include name="scripts/updateDocs.sh"/>
     <include name="tutorials/**"/>
     <include name="simulation/**"/>
-    <include name="var/*.conf.ini*"/>
+    <include name="var/*.conf.php*"/>
     <include name="var/changes_test*.xml"/>
     <include name="var/INSTALLED"/>
     <include name="var/cache/cache_*"/><!-- Cache files -->

@@ -496,7 +496,7 @@ class MAX_Plugin
             }
             $startPath  = MAX_PLUGINS_VAR . '/config/';
         }
-        $configName = $host.'.plugin.conf.ini';
+        $configName = $host.'.plugin.conf.php';
         if ($package === null) {
             $configPath = $module . '/';
         } elseif ($name === null) {

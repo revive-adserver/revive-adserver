@@ -34,7 +34,7 @@
         <ul>
         <li>The Simulation Suite attempts to recreate a live ad delivery and prioritisation  situation.</li>
         <li>It does this by filling a database with core zone & campaign data which is set up by a user and saved as sql commands in a .sql file. All tables in the target database are dropped and recreated using /etc/tables_core.mysql.sql</li>
-        <li>While creating a scenario the sims.<host>.conf.ini is used, when running a scenario the &laquo;host&raquo;.conf.ini file is used.</li>
+        <li>While creating a scenario the sims.<host>.conf.php is used, when running a scenario the &laquo;host&raquo;.conf.php file is used.</li>
         <li>Initialisation takes place before each request: global variables declared, global (fake) datetime is set, Openads cookies are unpacked, counters (for capping etc.) are incremented using MAX_cookieUnpackCapping() and the cookie cache is emptied</li>
         <li>Delivery engine output, including cookies and headers, are stopped during simulation. Cookies are 'faked' by manipulating the global cookie array.</li>
         <li>Each request is mimicked by calling the MAX_adSelect() function with user-defined parameters which have been stored in a .php file.  Currently, only a single type of request is used throughout the simulation.</li>

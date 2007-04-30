@@ -70,7 +70,7 @@ $GLOBALS['strWarningMagicQuotesRuntime']    = "The PHP configuration variable ma
 $GLOBALS['strWarningFileUploads']           = "The PHP configuration variable file_uploads needs to be turned on.";
 $GLOBALS['strWarningTrackVars']             = "The PHP configuration variable track_vars needs to be turned on.";
 $GLOBALS['strWarningPREG']                  = "The version of PHP you are using doesn't have support for PERL compatible regular expressions. You need to enable the PREG extension before you can proceed.";
-$GLOBALS['strConfigLockedDetected']         = MAX_PRODUCT_NAME." has detected that the <b>max.conf.ini</b> file cannot be written by the web server. You can't proceed until you make the 'var' directory writable by the web server. Read the supplied documentation if you don't know how to do that.";
+$GLOBALS['strConfigLockedDetected']         = MAX_PRODUCT_NAME." has detected that the <b>max.conf.php</b> file cannot be written by the web server. You can't proceed until you make the 'var' directory writable by the web server. Read the supplied documentation if you don't know how to do that.";
 $GLOBALS['strCantUpdateDB']                 = "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and advertisers will be deleted.";
 $GLOBALS['strIgnoreErrors']                 = "Ignore errors";
 $GLOBALS['strRetryUpdate']                  = "Retry updating";
@@ -83,7 +83,7 @@ $GLOBALS['strInstallMessage']               = "Before you can use ".MAX_PRODUCT_
 $GLOBALS['strInstallSuccess']               = "<b>The installation of ".MAX_PRODUCT_NAME." is now complete.</b><br /><br />In order for ".MAX_PRODUCT_NAME." to function correctly you also need
                                                 to make sure the maintenance file is run every hour. More information about this subject can be found in the documentation.
                                                 <br /><br />Click <b>Proceed</b> to go the configuration page, where you can
-                                                modify more settings. Please do not forget to lock the max.conf.ini file when you are finished to prevent security
+                                                modify more settings. Please do not forget to lock the max.conf.php file when you are finished to prevent security
                                                 breaches, ie, make it read-only by the webserver.";
 $GLOBALS['strUpdateSuccess']                = "<b>The upgrade of ".MAX_PRODUCT_NAME." was succesful.</b><br /><br />In order for ".MAX_PRODUCT_NAME." to function correctly you also need
                                                 to make sure the maintenance file is run every hour (previously this was every day). More information about this subject can be found in the documentation.

@@ -183,7 +183,7 @@ class TestEnv
     }
 
     /**
-     * @todo The way we are importing test.conf.ini has to be rethink. Now
+     * @todo The way we are importing test.conf.php has to be rethink. Now
      * it is included in init-parse.php file and here. It should be defined only in one place.
      *
      * @return array Return parsed config ini file
@@ -200,13 +200,13 @@ class TestEnv
                 $host = explode(':', $_SERVER['SERVER_NAME']);
             	$host = $host[0];
             }
-            $testFilePath = MAX_PATH . '/var/'.$host.'.test.conf.ini';
+            $testFilePath = MAX_PATH . '/var/'.$host.'.test.conf.php';
             if (file_exists($testFilePath)) {
                 return @parse_ini_file($testFilePath, true);
             }
         }
         // Look into default location
-        $testFilePath = MAX_PATH . '/var/test.conf.ini';
+        $testFilePath = MAX_PATH . '/var/test.conf.php';
         if (file_exists($testFilePath)) {
             return @parse_ini_file($testFilePath, true);
         }

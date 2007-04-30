@@ -117,7 +117,7 @@ class MAX_Admin_Config
         $url = @parse_url('http://' . $this->conf['webpath']['deliverySSL']);
         $newDeliverySslHost = $url['host'];
         // Write out the new main configuration file
-        $mainConfigFile = $configPath . '/' . $newDeliveryHost . $configFile . '.conf.ini';
+        $mainConfigFile = $configPath . '/' . $newDeliveryHost . $configFile . '.conf.php';
         if (!MAX_Admin_Config::isConfigWritable($mainConfigFile)) {
             return false;
         }
@@ -129,7 +129,7 @@ class MAX_Admin_Config
         // Check if a different host name is used for the admin
         if ($newAdminHost != $newDeliveryHost) {
             // Write out the new "fake" configuration file
-            $file = $configPath . '/' . $newAdminHost . $configFile . '.conf.ini';
+            $file = $configPath . '/' . $newAdminHost . $configFile . '.conf.php';
             if (!MAX_Admin_Config::isConfigWritable($file)) {
                 return false;
             }
@@ -143,7 +143,7 @@ class MAX_Admin_Config
         // Check if a different host name is used for the delivery SSL
         if ($newDeliverySslHost != $newDeliveryHost) {
             // Write out the new "fake" configuration file
-            $file = $configPath . '/' . $newDeliverySslHost . $configFile . '.conf.ini';
+            $file = $configPath . '/' . $newDeliverySslHost . $configFile . '.conf.php';
             if (!MAX_Admin_Config::isConfigWritable($file)) {
                 return false;
             }
@@ -160,26 +160,26 @@ class MAX_Admin_Config
         }
         // Do any old configuration files need to be deleted?
         if ($newAdminHost != $oldAdminHost) {
-            $file = $configPath . '/' . $oldAdminHost . $configFile . '.conf.ini';
+            $file = $configPath . '/' . $oldAdminHost . $configFile . '.conf.php';
             if($file != $mainConfigFile) {
                 @unlink($file);
             }
         }
         if ($newDeliveryHost != $oldDeliveryHost) {
-            $file = $configPath . '/' . $oldDeliveryHost . $configFile . '.conf.ini';
+            $file = $configPath . '/' . $oldDeliveryHost . $configFile . '.conf.php';
             if($file != $mainConfigFile) {
                 @unlink($file);
             }
         }
         if ($newDeliverySslHost != $oldDeliverySslHost) {
-            $file = $configPath . '/' . $oldDeliverySslHost . $configFile . '.conf.ini';
+            $file = $configPath . '/' . $oldDeliverySslHost . $configFile . '.conf.php';
             if($file != $mainConfigFile) {
                 @unlink($file);
             }
         }
         // Re-parse the config file?
         if ($reParse) {
-            $file = $configPath . '/' . $newDeliveryHost . $configFile . '.conf.ini';
+            $file = $configPath . '/' . $newDeliveryHost . $configFile . '.conf.php';
             $GLOBALS['_MAX']['CONF'] = @parse_ini_file($file, true);
             $this->conf = $GLOBALS['_MAX']['CONF'];
             // Set the global $conf value -- normally set by the init
@@ -205,7 +205,7 @@ class MAX_Admin_Config
         if (!$configFile) {
             $conf = $GLOBALS['_MAX']['CONF'];
             $url = @parse_url('http://' . $conf['webpath']['delivery']);
-            $configFile = MAX_PATH . '/var/' . $url['host'] . '.conf.ini';
+            $configFile = MAX_PATH . '/var/' . $url['host'] . '.conf.php';
         }
         if (file_exists($configFile)) {
             return is_writable($configFile);

@@ -39,7 +39,7 @@ class MAX_Admin_Redirect
 
     /**
      * A method to perform redirects. Only suitable for use once Openads is installed,
-     * as it required the max.conf.ini file to be correctly set up.
+     * as it required the max.conf.php file to be correctly set up.
      *
      * @param string $adminPage The administration interface page to redirect to
      *                          (excluding a leading slash ("/")). Default is the
@@ -50,12 +50,12 @@ class MAX_Admin_Redirect
         header('Location: ' . MAX::constructURL(MAX_URL_ADMIN, $adminPage));
         exit;
     }
-    
+
     function redirectIfNecessary($adminPage)
     {
         $oDesiredUrl = new MAX_Url();
         $oCurrentUrl = new MAX_Url();
-        
+
         $full_desired_url_string = MAX::constructURL(MAX_URL_ADMIN, $adminPage);
         $oDesiredUrl->useValuesFromString($full_desired_url_string);
         $oCurrentUrl->useValuesFromServerVariableArray($_SERVER);
@@ -64,7 +64,7 @@ class MAX_Admin_Redirect
         }
         $this->redirect($adminPage);
     }
-    
+
 }
 
 ?>

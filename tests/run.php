@@ -56,7 +56,7 @@ if ($runner->output_format_name == 'html') {
 /* TODO: Consider a non-Web environment */
 if (defined('TEST_ENVIRONMENT_NO_CONFIG')) {
     echo "<h1>Cannot Run Tests</h1>\n";
-    echo "<p>You have not copied the the test.conf.ini file in the\n";
+    echo "<p>You have not copied the the test.conf.php file in the\n";
     echo "/etc directory into the /var directory, and edited the file,\n";
     echo "so that it contains your database server details.</p>\n";
     exit();

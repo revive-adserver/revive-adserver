@@ -39,7 +39,7 @@ selenium_server.lib_path=/usr/local/share/java
 ##
 # The host against which Selenium tests will be run.
 #
-# @todo Can this be generated or inferred from var/tests.conf.ini?
+# @todo Can this be generated or inferred from var/tests.conf.php?
 #
 #max.test_admin_host=www-tests.trunk.openads.local
 

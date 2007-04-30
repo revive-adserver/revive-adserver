@@ -157,7 +157,7 @@ class Plugins_ChannelDerivation extends MAX_Plugin_Common
      *
      * @param boolean $processSections      If true the configuration data is returned
      *                                      as one dimension array
-     * @param boolean $commonPackageConfig  If true read the global plugin.conf.ini file
+     * @param boolean $commonPackageConfig  If true read the global plugin.conf.php file
      *                                      for specific package
      *
      * @return object                       Plugin object or false if any error occured
