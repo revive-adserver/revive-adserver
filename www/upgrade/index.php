@@ -55,8 +55,11 @@ else if (array_key_exists('btn_syscheck', $_REQUEST))
 }
 else if (array_key_exists('btn_appcheck', $_REQUEST))
 {
-    $oUpgrader->detectOpenads();
     $halt = !$oUpgrader->canUpgrade();
+    if (!$halt)
+    {
+        $halt = !$oUpgrader->checkUpgradePackage();
+    }
     $action = OA_UPGRADE_APPCHECK;
 }
 else if (array_key_exists('btn_dbsetup', $_REQUEST))

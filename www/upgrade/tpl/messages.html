@@ -1,0 +1,26 @@
+                <?php
+                $aMessages = $oUpgrader->getMessages();
+                if (count($aMessages)>0)
+                {
+                ?>
+                <div>
+                    <?php
+                        foreach ($aMessages AS $k => $msg)
+                        {
+                            $c = '#! ';
+                            if (substr($msg,0,3)==$c)
+                            {
+                                $msg = str_replace($c, '', $msg);
+                                echo '<span style="background-color:pink;">'.$msg.'</span><br />';
+
+                            }
+                            else
+                            {
+                                echo '<span>'.$msg.'</span><br />';
+                            }
+                        }
+                    ?>
+                </div>
+                <?php
+                }
+                ?>

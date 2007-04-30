@@ -9,6 +9,9 @@
             $halt = false;
 
             $sysinfoarray = $aSysInfo['PHP'];
+            $sysinfoarray['actual']['memory_limit'] = ($sysinfoarray['actual']['memory_limit']!='' ? $sysinfoarray['actual']['memory_limit'] : 'Not Set');
+            $sysinfoarray['actual']['safe_mode'] = ($sysinfoarray['actual']['safe_mode']==0 ? 'OFF' : 'ON');
+            $sysinfoarray['actual']['magic_quotes_runtime'] = ($sysinfoarray['actual']['magic_quotes_runtime']==0 ? 'OFF' : 'ON');
             $halt = (($halt) && (!$sysinfoarray['error']));
             $sysinfoheading = 'PHP - '.(!$sysinfoarray['error']? 'no errors' : 'errors detected');
             include 'tpl/sysinfosection.html';

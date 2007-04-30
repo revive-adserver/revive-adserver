@@ -101,8 +101,8 @@ class OA_UpgradeLogger
      */
     function logError($message)
     {
-        $this->aErrors[] = $message;
-        $this->_logWrite("ERROR: {$message}");
+        $this->aMessages[] = "#! {$message}";
+        $this->_logWrite("#! {$message}");
     }
 
 

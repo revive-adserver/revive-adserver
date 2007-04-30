@@ -29,6 +29,21 @@
  * $Id $
  *
  */
+
+define('OA_STATUS_NOT_INSTALLED',          -1);
+define('OA_STATUS_CURRENT_VERSION',         0);
+define('OA_STATUS_PAN_CONFIG_DETECTED',     1);
+define('OA_STATUS_PAN_DBCONNECT_FAILED',    2);
+define('OA_STATUS_PAN_VERSION_FAILED',      3);
+define('OA_STATUS_MAX_CONFIG_DETECTED',     1);
+define('OA_STATUS_MAX_DBCONNECT_FAILED',    2);
+define('OA_STATUS_MAX_VERSION_FAILED',      3);
+define('OA_STATUS_OAD_CONFIG_DETECTED',     1);
+define('OA_STATUS_OAD_DBCONNECT_FAILED',    2);
+define('OA_STATUS_OAD_VERSION_FAILED',      3);
+define('OA_STATUS_CAN_UPGRADE',            10);
+
+
 require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
 
@@ -54,6 +69,7 @@ class OA_Upgrade
     var $oDBAuditor;
     var $oSystemMgr;
     var $oDbh;
+    var $oPAN;
 
     var $aPackage    = array();
     var $aDBPackages = array();
@@ -66,6 +82,8 @@ class OA_Upgrade
 
     var $remove_max_version = false;
 
+    var $existing_installation_status = -1;
+
     function OA_Upgrade()
     {
         $this->upgradePath  = MAX_PATH.'/var/upgrade/';
@@ -75,6 +93,7 @@ class OA_Upgrade
         $this->oDBUpgrader  = new OA_DB_Upgrade($this->oLogger);
         $this->oDBAuditor   = new OA_DB_UpgradeAuditor();
         $this->oVersioner   = new OA_Version_Controller();
+        $this->oPAN         = new OA_phpAdsNew();
         $this->oSystemMgr   = new OA_Environment_Manager();
         $this->oSystemMgr->init();
 
@@ -90,14 +109,28 @@ class OA_Upgrade
         $this->aDsn['table']['prefix']      = 'oa_';
     }
 
-    function initDatabaseConnection()
+    function initDatabaseConnection($dsn=null)
     {
-        //$this->oDbh = OA_DB::singleton();
-        $this->oDBUpgrader->initMDB2Schema();
-        $this->oDbh         = $this->oDBUpgrader->oSchema->db;
-        $this->oVersioner->init($this->oDbh);
-        $this->oDBAuditor->init($this->oDbh, $this->oLogger);
-        $this->oDBUpgrader->oAuditor = &$this->oDBAuditor;
+        if (is_null($this->oDbh))
+        {
+            $this->oDbh = OA_DB::singleton($dsn);
+            if (!PEAR::isError($this->oDbh))
+            {
+                $this->oDBUpgrader->initMDB2Schema();
+                //$this->oDbh         = $this->oDBUpgrader->oSchema->db;
+                $this->oVersioner->init($this->oDbh);
+                $this->oDBAuditor->init($this->oDbh, $this->oLogger);
+                $this->oDBUpgrader->oAuditor = &$this->oDBAuditor;
+                return true;
+            }
+            else
+            {
+                //$this->oLogger->log($this->oDbh->getUserInfo());
+                $this->oDbh = null;
+                return false;
+            }
+        }
+        return true;
     }
 
     function init($input_file, $timing='constructive')
@@ -111,9 +144,210 @@ class OA_Upgrade
 
     function checkEnvironment()
     {
-        //$this->detectOpenads();
-        //$this->canUpgrade();
         return $this->oSystemMgr->checkSystem();
+    }
+
+    function canUpgrade()
+    {
+        $strDetected    = ' configuration file detected';
+        $strCanUpgrade  = 'This version can be upgraded';
+        $strNoConnect   = 'Could not connect to the database';
+        $strConnected   = 'Connected to the database ok';
+        $strNoUpgrade   = 'This version cannot be upgraded';
+
+        $database = '';
+        $this->detectPAN(&$database);
+        switch ($this->existing_installation_status)
+        {
+            case OA_STATUS_CAN_UPGRADE:
+                $this->oLogger->log('phpAdsNew '.$this->versionInitialApplication.' detected');
+                $this->oLogger->log($strCanUpgrade);
+                return true;
+            case OA_STATUS_PAN_CONFIG_DETECTED:
+                $this->oLogger->logError('phpAdsNew'.$strDetected);
+                break;
+            case OA_STATUS_PAN_DBCONNECT_FAILED:
+                $this->oLogger->logError('phpAdsNew'.$strDetected);
+                $this->oLogger->logError($strNoConnect.' : '.$database);
+                //return false;
+                break;
+            case OA_STATUS_PAN_VERSION_FAILED:
+                $this->oLogger->log('phpAdsNew '.$this->versionInitialApplication.' detected');
+                $this->oLogger->log($strConnected.' : '.$database);
+                $this->oLogger->logError($strNoUpgrade);
+                //return false;
+                break;
+        }
+
+        $database = '';
+        $this->detectMAX(&$database);
+        switch ($this->existing_installation_status)
+        {
+            case OA_STATUS_CAN_UPGRADE:
+                $this->oLogger->log('Max Media Manager '.$this->versionInitialApplication.' detected');
+                $this->oLogger->log($strCanUpgrade);
+                return true;
+            case OA_STATUS_MAX_CONFIG_DETECTED:
+                $this->oLogger->logError('Max Media Manager'.$strDetected);
+                break;
+            case OA_STATUS_MAX_DBCONNECT_FAILED:
+                $this->oLogger->logError('Max Media Manager'.$strDetected);
+                $this->oLogger->logError($strNoConnect.' : '.$database);
+                //return false;
+                break;
+            case OA_STATUS_MAX_VERSION_FAILED:
+                $this->oLogger->logError('Max Media Manager '.$this->versionInitialApplication.' detected');
+                $this->oLogger->logError($strConnected.' : '.$database);
+                $this->oLogger->logError($strNoUpgrade);
+                //return false;
+                break;
+        }
+
+        $database = '';
+        $this->detectOpenads(&$database);
+        switch ($this->existing_installation_status)
+        {
+            case OA_STATUS_CAN_UPGRADE:
+                $this->oLogger->log('Openads '.$this->versionInitialApplication.' detected');
+                $this->oLogger->log($strCanUpgrade);
+                return true;
+            case OA_STATUS_OAD_CONFIG_DETECTED:
+                $this->oLogger->logError('Openads'.$strDetected);
+                break;
+            case OA_STATUS_OAD_DBCONNECT_FAILED:
+                $this->oLogger->logError('Openads'.$strDetected);
+                $this->oLogger->logError($strNoConnect.' : '.$database);
+                return false;
+            case OA_STATUS_OAD_VERSION_FAILED:
+                $this->oLogger->logError('Openads '.$this->versionInitialApplication.' detected');
+                $this->oLogger->logError($strConnected.' : '.$database);
+                $this->oLogger->logError($strNoUpgrade);
+                return false;
+            case OA_STATUS_CURRENT_VERSION:
+                $this->oLogger->log('Openads '.$this->versionInitialApplication.' detected');
+                $this->oLogger->log('This version is up to date.');
+                return false;
+            case OA_STATUS_NOT_INSTALLED:
+                $this->oLogger->log('Openads installation not detected');
+                return true;
+        }
+        $this->oLogger->logError('Unknown Openads installation status');
+        return false;
+    }
+
+    function checkUpgradePackage()
+    {
+        if ($this->package_file)
+        {
+            if (!file_exists(MAX_PATH.'/var/upgrade/'.$this->package_file))
+            {
+                $this->oLogger->logError('Upgrade package file '.$this->package_file.' NOT found');
+                return false;
+            }
+            return true;
+        }
+        $this->oLogger->logError('No upgrade package file specified');
+        return false;
+    }
+
+    function detectPAN($database='')
+    {
+        $this->oPAN->init();
+        if ($this->oPAN->detected)
+        {
+            $database = $this->oPAN->aDsn['database']['name'];
+            $this->existing_installation_status = OA_STATUS_PAN_CONFIG_DETECTED;
+            if (PEAR::isError($this->oPAN->oDbh))
+            {
+                $this->existing_installation_status = OA_STATUS_PAN_DBCONNECT_FAILED;
+                //$this->oLogger->log($oPAN->oDbh->getUserInfo());
+                return false;
+            }
+            $this->versionInitialApplication = $this->oPAN->getPANversion();
+            if ($this->versionInitialApplication) // its PAN
+            {
+                $valid = (version_compare($this->versionInitialApplication,'200.312')>=0);
+                if ($valid)
+                {
+                    $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
+                    $this->package_file = 'openads_upgrade_2.0.12_to_2.3.32_beta.xml';
+                    $this->aDsn         = $this->oPAN->aDsn;
+                    return true;
+                }
+            }
+            $this->existing_installation_status = OA_STATUS_PAN_VERSION_FAILED;
+        }
+        return false;
+    }
+
+    function detectMAX($database='')
+    {
+        if ($GLOBALS['_MAX']['CONF']['max']['installed'])
+        {
+            $this->existing_installation_status = OA_STATUS_MAX_CONFIG_DETECTED;
+            $database = $GLOBALS['_MAX']['CONF']['database']['name'];
+            if (!$this->initDatabaseConnection())
+            {
+                $this->existing_installation_status = OA_STATUS_MAX_DBCONNECT_FAILED;
+                return false;
+            }
+            $this->versionInitialApplication = $this->oVersioner->getApplicationVersion('max');
+            if ($this->versionInitialApplication) // its MAX
+            {
+                $valid = (version_compare($this->versionInitialApplication,'v0.3.31-alpha')>=0);
+                if ($valid)
+                {
+                    $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
+                    $this->remove_max_version = true;
+                    $this->package_file     = 'openads_upgrade_2.3.31_to_2.3.32_beta.xml';
+                    $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
+                    $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
+                    return true;
+                }
+            }
+            $this->existing_installation_status = OA_STATUS_MAX_VERSION_FAILED;
+        }
+        return false;
+    }
+
+    function detectOpenads($database='')
+    {
+        if ($GLOBALS['_MAX']['CONF']['max']['installed'])
+        {
+            $this->existing_installation_status = OA_STATUS_CONFIG_FOUND;
+            $database = $GLOBALS['_MAX']['CONF']['database']['name'];
+            if (!$this->initDatabaseConnection())
+            {
+                $this->existing_installation_status = OA_STATUS_MAX_DBCONNECT_FAILED;
+                return false;
+            }
+            $this->versionInitialApplication = $this->oVersioner->getApplicationVersion();
+            if ($this->versionInitialApplication) // its openads
+            {
+                $current = (version_compare($this->versionInitialApplication,OA_VERSION)==0);
+                $valid   = (version_compare($this->versionInitialApplication,OA_VERSION)<0);
+                if ($valid)
+                {
+//                    there are no openads upgrade packages yet
+//                    the first will probably be openads_upgrade_2.3.32_to_2.3.33_beta
+//                    by the time the first package is ready
+//                    we will be looking at working out incremental upgrades
+                    $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
+                    $this->package_file     = 'openads_upgrade_2.3.32_to_2.3.33_beta.xml';
+                    $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
+                    $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
+                    return true;
+                }
+                else if ($current)
+                {
+                    $this->existing_installation_status = OA_STATUS_CURRENT_VERSION;
+                    $this->package_file = '';
+                    return true;
+                }
+            }
+            $this->existing_installation_status = OA_STATUS_OAD_VERSION_FAILED;
+        }
+        return false;
     }
 
     function install()
@@ -312,91 +546,6 @@ class OA_Upgrade
             {
                 $this->oLogger->log($v['schema_name'].' upgraded to version '.$v['version'].' on '.$v['updated']);
             }
-        }
-        return true;
-    }
-
-    function detectOpenads()
-    {
-        if (is_null($this->oDbh))
-        {
-            $this->initDatabaseConnection();
-        }
-        $oPAN = new OA_phpAdsNew();
-        $oPAN->init();
-        if ($oPAN->detected)
-        {
-            $this->versionInitialApplication = $oPAN->getPANversion();
-            if ($this->versionInitialApplication) // its PAN
-            {
-                $valid = (version_compare($this->versionInitialApplication,'200.312')>=0);
-                if ($valid)
-                {
-                    $this->package_file = 'openads_upgrade_2.0.12_to_2.3.32_beta.xml';
-                    $this->aDsn         = $oPAN->aDsn;
-                }
-                $this->oLogger->log('phpAdsNew '.$this->versionInitialApplication).' detected';
-                return true;
-            }
-        }
-        //if (file_exists(MAX_PATH . '/var/INSTALLED'))
-        if ($GLOBALS['_MAX']['CONF']['max']['installed']) // file_exists(MAX_PATH . '/var/INSTALLED'))
-        {
-            $this->versionInitialApplication = $this->oVersioner->getApplicationVersion('max');
-            if ($this->versionInitialApplication) // its MAX
-            {
-                $valid = (version_compare($this->versionInitialApplication,'v0.3.31-alpha')>=0);
-                if ($valid)
-                {
-                    $this->remove_max_version = true;
-                    $this->package_file     = 'openads_upgrade_2.3.31_to_2.3.32_beta.xml';
-                    $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
-                    $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
-                }
-                $this->oLogger->log('Max Media Manager '.$this->versionInitialApplication.' detected');
-                return true;
-            }
-        }
-        $this->versionInitialApplication = $this->oVersioner->getApplicationVersion();
-        if ($this->versionInitialApplication) // its openads
-        {
-            $valid = (version_compare($this->versionInitialApplication,OA_VERSION)>=0);
-            if ($valid)
-            {
-                $this->package_file     = 'openads_upgrade_2.3.32_to_2.3.33_beta.xml';
-                $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
-                $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
-            }
-            $this->oLogger->log('Openads '.$this->versionInitialApplication.' detected');
-            return true;
-        }
-        $this->versionInitialApplication = '0';
-        $this->oLogger->log('Openads not detected');
-        return false;
-    }
-
-    function canUpgrade()
-    {
-        if ($this->versionInitialApplication)
-        {
-            if ($this->package_file)
-            {
-                $this->oLogger->log('Upgrade package required '.$this->package_file);
-                if (!file_exists(MAX_PATH.'/var/upgrade/'.$this->package_file))
-                {
-                    $this->oLogger->logError('Upgrade package file '.$this->package_file.' NOT found');
-                    return false;
-                }
-            }
-            else
-            {
-                $this->oLogger->logError('It is not possible to upgrade this version');
-                return false;
-            }
-        }
-        else
-        {
-            $this->oLogger->log('Openads not detected - new installation required');
         }
         return true;
     }

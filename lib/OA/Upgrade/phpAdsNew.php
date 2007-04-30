@@ -56,9 +56,9 @@ class OA_phpAdsNew
         if ($this->detected)
         {
             $this->aDsn     = $this->_getPANdsn($this->aConfig);
-            $this->oDbh     = OA_DB::singleton(OA_DB::getDsn($this->aDsn));
             $this->prefix   = $this->aConfig['table_prefix'];
             $this->engine   = $this->aConfig['table_type'];
+            $this->oDbh     = OA_DB::singleton(OA_DB::getDsn($this->aDsn));
         }
     }
 
