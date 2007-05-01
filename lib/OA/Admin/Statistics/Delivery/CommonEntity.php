@@ -215,15 +215,15 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         {
             // Get plugin aParams
             $pluginParams = array();
-            foreach ($this->aPlugins as $plugin) {
-                $plugin->addQueryParams($pluginParams);
+            foreach ($this->aPlugins as $oPlugin) {
+                $oPlugin->addQueryParams($pluginParams);
             }
 
             $aRows = Admin_DA::fromCache('getEntitiesStats', $aParams + $this->aDates + $pluginParams);
 
             // Merge plugin additional data
-            foreach ($this->aPlugins as $plugin) {
-                $plugin->mergeData($aRows, $this->aEmptyRow, 'getEntitiesStats', $aParams + $this->aDates);
+            foreach ($this->aPlugins as $oPlugin) {
+                $oPlugin->mergeData($aRows, $this->aEmptyRow, 'getEntitiesStats', $aParams + $this->aDates);
             }
 
             $this->data = array(

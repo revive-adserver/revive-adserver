@@ -185,12 +185,33 @@ class Plugins_StatsFields extends MAX_Plugin_Common
     {
     }
 
+    /**
+     * A method that returns an array of parameters representing custom columns
+     * to use to determine the span of history when displaying delivery statistics.
+     *
+     * That is, either an empty array if the delivery statistics plugin does not
+     * need to alter the stanard span of delivery statistics, or, an array of two
+     * elements:
+     *
+     *      'custom_table'   => The name of the table to look for data in to
+     *                          determine if the span of the data to be shown needs
+     *                          to be extended beyond the default; and
+     *      'custom_columns' => An array of one element, "start_date", which is
+     *                          indexed by SQL code that can be run to determine the
+     *                          starting date in the span.
+     *
+     * For example, if you have a custom data table "foo", and the earliest date
+     * in this table can be found by using the SQL "SELECT DATE_FORMAT(MIN(bar), '%Y-%m-%d')",
+     * then the array to return would be:
+     *
+     * array(
+     *      'custom_table'   => 'foo',
+     *      'custom_columns' => array("DATE_FORMAT(MIN(bar), '%Y-%m-%d')" => 'start_date')
+     * );
+     *
+     * @return array As described above.
+     */
     function getHistorySpanParams()
-    {
-        return array();
-    }
-
-    function getTargetingSpanParams()
     {
         return array();
     }

@@ -140,41 +140,6 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
 
     }
 
-
-    /**
-     * Fetch the available span for the stats using the specified parameters
-     *
-     * @param array Query parameters
-     */
-    function getHistorySpan($aParams)
-    {
-        global $conf;
-
-        $start_date = & new Date(date('Y-m-d'));
-
-        // Check span using all plugins
-        foreach ($this->aPlugins as $plugin) {
-            $pluginParams = $plugin->getHistorySpanParams();
-
-            $span = Admin_DA::fromCache('getHistorySpan', $aParams + $pluginParams);
-
-            if (!empty($span['start_date'])) {
-                $oDate = & new Date($span['start_date']);
-                if ($oDate->before($start_date)) {
-                    $start_date = & new Date($oDate);
-                }
-            }
-        }
-
-        $now  = & new Date();
-        $span = & new Date_Span($start_date, new Date(date('Y-m-d')));
-
-        $this->startDate  = $start_date;
-        $this->spanDays   = (int)ceil($span->toDays());
-        $this->spanWeeks  = (int)ceil($span_days / 7) + ($span_days % 7 ? 1 : 0);
-        $this->spanMonths = (($now->getYear() - $start_date->getYear()) * 12) + ($now->getMonth() - $start_date->getMonth()) + 1;
-    }
-
     /**
      * Fetch and decorates the history stats using the specified parameters
      *
@@ -183,7 +148,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
      */
     function prepareHistory($aParams, $link = '')
     {
-        $this->getHistorySpan($aParams);
+        $this->getSpan($aParams);
 
         $stats = $this->getHistory($aParams, $link);
 
@@ -309,15 +274,15 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
 
         // Add plugin aParams
         $pluginParams = array();
-        foreach ($this->aPlugins as $plugin) {
-                $plugin->addQueryParams($pluginParams);
+        foreach ($this->aPlugins as $oPlugin) {
+                $oPlugin->addQueryParams($pluginParams);
         }
 
         $stats = Admin_DA::fromCache($method, $aParams + $this->aDates + $pluginParams);
 
-        // Merge plugin additional data
+        // Merge plugin additional $oPlugin
         foreach ($this->aPlugins as $plugin) {
-            $plugin->mergeData($stats, $this->aEmptyRow, $method, $aParams + $this->aDates);
+            $oPlugin->mergeData($stats, $this->aEmptyRow, $method, $aParams + $this->aDates);
         }
 
         if (count($stats)) {
@@ -451,7 +416,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
      */
     function getDatesArray()
     {
-        return $this->_getDatesArray($this->statsBreakdown, $this->aDates, $this->startDate);
+        return $this->_getDatesArray($this->statsBreakdown, $this->aDates, $this->oStartDate);
     }
 
     /**

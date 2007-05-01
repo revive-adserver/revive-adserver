@@ -240,15 +240,15 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
 
         // Get plugin aParams
         $pluginParams = array();
-        foreach ($this->aPlugins as $plugin) {
-            $plugin->addQueryParams($pluginParams);
+        foreach ($this->aPlugins as $oPlugin) {
+            $oPlugin->addQueryParams($pluginParams);
         }
 
         $aDirectSelection = Admin_DA::fromCache('getEntitiesStats', $aParams + $this->aDates);
 
         // Merge plugin additional data
-        foreach ($this->aPlugins as $plugin) {
-            $plugin->mergeData($aDirectSelection, $this->aEmptyRow, 'getEntitiesStats', $aParams + $this->aDates);
+        foreach ($this->aPlugins as $oPlugin) {
+            $oPlugin->mergeData($aDirectSelection, $this->aEmptyRow, 'getEntitiesStats', $aParams + $this->aDates);
         }
 
         if (count($aDirectSelection)) {

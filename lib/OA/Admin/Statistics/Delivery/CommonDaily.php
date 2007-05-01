@@ -90,7 +90,7 @@ class OA_Admin_Statistics_Delivery_CommonDaily extends OA_Admin_Statistics_Deliv
                 'day_begin' => MAX_getStoredValue('period_start', date('Y-m-d')),
                 'day_end'   => MAX_getStoredValue('period_end', date('Y-m-d')),
             );
-            $dates = array_reverse($this->_getDatesArray('day', $aDates, $this->startDate));
+            $dates = array_reverse($this->_getDatesArray('day', $aDates, $this->oStartDate));
             foreach ($dates as $day  => $date_f) {
                 phpAds_PageContext (
                     $date_f,

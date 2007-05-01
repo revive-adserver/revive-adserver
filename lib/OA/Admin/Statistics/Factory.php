@@ -78,7 +78,11 @@ class OA_Admin_Statistics_Factory
             $file .= $string;
         }
         $file .= '.php';
-        $class = 'OA_Admin_Statistics_Delivery_Controller_';
+        if ($aSecondary[0] == 'Targeting') {
+            $class = 'OA_Admin_Statistics_Targeting_Controller_';
+        } else {
+            $class = 'OA_Admin_Statistics_Delivery_Controller_';
+        }
         $class .= $primary;
         foreach ($aSecondary as $string) {
             $class .= $string;

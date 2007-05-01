@@ -176,8 +176,8 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
      */
     function _hasActiveStats($row)
     {
-        foreach ($this->aPlugins as $plugin) {
-            if ($plugin->isRowActive($row)) {
+        foreach ($this->aPlugins as $oPlugin) {
+            if ($oPlugin->isRowActive($row)) {
                 return true;
             }
         }
@@ -503,8 +503,8 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
         }
 
         $average = array();
-        foreach ($this->aPlugins as $plugin) {
-            $average += $plugin->summarizeAverage($total, $count);
+        foreach ($this->aPlugins as $oPlugin) {
+            $average += $oPlugin->summarizeAverage($total, $count);
         }
 
         $this->_summarizeStats($average);
@@ -601,8 +601,8 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
         $data    = array();
 
         $tmp_formats = array();
-        foreach ($this->aPlugins as $plugin) {
-            $tmp_formats += $plugin->getFormats();
+        foreach ($this->aPlugins as $oPlugin) {
+            $tmp_formats += $oPlugin->getFormats();
         }
 
         foreach ($this->aColumns as $ck => $cv) {

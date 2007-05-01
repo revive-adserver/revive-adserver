@@ -25,9 +25,18 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Admin/Targeting/Controller.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/CommonPlacement.php';
 
-class OA_Admin_Targeting_Controller_CampaignTargeting extends OA_Admin_Targeting_Controller
+/**
+ * The class to display the targeting statistcs for the page:
+ *
+ * Statistics -> Advertisers & Campaigns -> Campaign Overview -> Targeting Statistics
+ *
+ * @package    OpenadsAdmin
+ * @subpackage StatisticsTargeting
+ * @author     Andrew Hill <andrew.hill@openads.org>
+ */
+class OA_Admin_Statistics_Targeting_Controller_CampaignTargeting extends OA_Admin_Statistics_Targeting_CommonPlacement
 {
 
     /**
@@ -57,7 +66,7 @@ class OA_Admin_Targeting_Controller_CampaignTargeting extends OA_Admin_Targeting
      *                       $aParams = array('foo' => 'bar')
      *                       would result in $this->foo = bar.
      */
-    function OA_Admin_Targeting_Controller_CampaignTargeting($aParams)
+    function OA_Admin_Statistics_Targeting_Controller_CampaignTargeting($aParams)
     {
         $this->__construct($aParams);
     }

@@ -58,8 +58,8 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
 
         // Get stats publisher list
         $aStatsPublishers = array();
-        foreach ($this->aPlugins as $plugin) {
-            $pluginParams = $plugin->getHistorySpanParams();
+        foreach ($this->aPlugins as $oPlugin) {
+            $pluginParams = $oPlugin->getHistorySpanParams();
 
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
@@ -110,8 +110,8 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
 
         // Get stats zone list
         $aStatsZones = array();
-        foreach ($this->aPlugins as $plugin) {
-            $pluginParams = $plugin->getHistorySpanParams();
+        foreach ($this->aPlugins as $oPlugin) {
+            $pluginParams = $oPlugin->getHistorySpanParams();
 
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
@@ -161,8 +161,8 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
 
         // Get stats publisher list
         $aStatsPublishers = array();
-        foreach ($this->aPlugins as $plugin) {
-            $pluginParams = $plugin->getHistorySpanParams();
+        foreach ($this->aPlugins as $oPlugin) {
+            $pluginParams = $oPlugin->getHistorySpanParams();
 
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
@@ -213,8 +213,8 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
 
         // Get stats zone list
         $aStatsZones = array();
-        foreach ($this->aPlugins as $plugin) {
-            $pluginParams = $plugin->getHistorySpanParams();
+        foreach ($this->aPlugins as $oPlugin) {
+            $pluginParams = $oPlugin->getHistorySpanParams();
 
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
@@ -264,8 +264,8 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
 
         // Get stats publisher list
         $aStatsPublishers = array();
-        foreach ($this->aPlugins as $plugin) {
-            $pluginParams = $plugin->getHistorySpanParams();
+        foreach ($this->aPlugins as $oPlugin) {
+            $pluginParams = $oPlugin->getHistorySpanParams();
 
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
@@ -316,8 +316,8 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
 
         // Get stats zone list
         $aStatsZones = array();
-        foreach ($this->aPlugins as $plugin) {
-            $pluginParams = $plugin->getHistorySpanParams();
+        foreach ($this->aPlugins as $oPlugin) {
+            $pluginParams = $oPlugin->getHistorySpanParams();
 
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
@@ -360,8 +360,8 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
 
         // Get stats campaign list
         $aStatsPlacements = array();
-        foreach ($this->aPlugins as $plugin) {
-            $pluginParams = $plugin->getHistorySpanParams();
+        foreach ($this->aPlugins as $oPlugin) {
+            $pluginParams = $oPlugin->getHistorySpanParams();
 
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
@@ -398,8 +398,8 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
 
         // Get stats banner list
         $aStatsAds = array();
-        foreach ($this->aPlugins as $plugin) {
-            $pluginParams = $plugin->getHistorySpanParams();
+        foreach ($this->aPlugins as $oPlugin) {
+            $pluginParams = $oPlugin->getHistorySpanParams();
 
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
@@ -442,8 +442,8 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
 
         // Get stats campaign list
         $aStatsPlacements = array();
-        foreach ($this->aPlugins as $plugin) {
-            $pluginParams = $plugin->getHistorySpanParams();
+        foreach ($this->aPlugins as $oPlugin) {
+            $pluginParams = $oPlugin->getHistorySpanParams();
 
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
@@ -480,8 +480,8 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
 
         // Get stats banner list
         $aStatsAds = array();
-        foreach ($this->aPlugins as $plugin) {
-            $pluginParams = $plugin->getHistorySpanParams();
+        foreach ($this->aPlugins as $oPlugin) {
+            $pluginParams = $oPlugin->getHistorySpanParams();
 
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);

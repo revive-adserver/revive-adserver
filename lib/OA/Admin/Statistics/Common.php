@@ -182,6 +182,34 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     var $pageURI;
 
     /**
+     * The starting day of the page's report span.
+     *
+     * @var PEAR::Date
+     */
+    var $oStartDate;
+
+    /**
+     * The number of days that the page's report spans.
+     *
+     * @var integer
+     */
+    var $spanDays;
+
+    /**
+     * The number of weeks that the page's report spans.
+     *
+     * @var integer
+     */
+    var $spanWeeks;
+
+    /**
+     * The number of months that the page's report spans.
+     *
+     * @var integer
+     */
+    var $spanMonths;
+
+    /**
      * A PHP5-style constructor that can be used to perform common
      * class instantiation by children classes.
      *
@@ -472,6 +500,45 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $this->aGlobalPrefs['period_preset'] = $this->oDaySpanSelector->_fieldSelectionValue;
         $this->aGlobalPrefs['period_start']  = $this->aDates['day_begin'];
         $this->aGlobalPrefs['period_end']    = $this->aDates['day_end'];
+    }
+
+    /**
+     * A method that can be inherited and used by children classes to get the
+     * required date span of a statistics page.
+     *
+     * @param array  $aParams      An array of query parameters for
+     *                             {@link Admin_DA::fromCache()}.
+     * @param string $type         The name of the method to pass to the
+     *                             {@link Admin_DA::fromCache()} method.
+     *                             Default is the name required for delivery
+     *                             statistics.
+     * @param string $pluginMethod The name of the method to call on the
+     *                             display plugins to determine if there
+     *                             are any custom parameters to pass to the
+     *                             {@link Admin_DA::fromCache()} method.
+     *                             Default is the name of the method for
+     *                             delivery statistics.
+     */
+    function getSpan($aParams, $type = 'getHistorySpan', $pluginMethod = 'getHistorySpanParams')
+    {
+        $oStartDate = new Date(date('Y-m-d'));
+        // Check span using all plugins
+        foreach ($this->aPlugins as $oPlugin) {
+            $aPluginParams = call_user_func(array($oPlugin, $pluginMethod));
+            $aSpan = Admin_DA::fromCache($type, $aParams + $aPluginParams);
+            if (!empty($aSpan['start_date'])) {
+                $oDate = new Date($aSpan['start_date']);
+                if ($oDate->before($oStartDate)) {
+                    $oStartDate = new Date($oDate);
+                }
+            }
+        }
+        $oNow  = new Date();
+        $oSpan = new Date_Span($oStartDate, new Date(date('Y-m-d')));
+        $this->oStartDate = $oStartDate;
+        $this->spanDays   = (int)ceil($oSpan->toDays());
+        $this->spanWeeks  = (int)ceil($this->spanDays / 7) + ($this->spanDays % 7 ? 1 : 0);
+        $this->spanMonths = (($oNow->getYear() - $oStartDate->getYear()) * 12) + ($oNow->getMonth() - $oStartDate->getMonth()) + 1;
     }
 
     /**
