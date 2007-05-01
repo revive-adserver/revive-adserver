@@ -540,24 +540,21 @@ $GLOBALS['strReferer']                     = "Referring page";
 $GLOBALS['strDeliveryLimitations']        = "Delivery Limitations";
 
 $GLOBALS['strDeliveryCapping']            = "Delivery Capping";
+$GLOBALS['strDeliveryCappingReset']       = "Reset view counters after:";
+$GLOBALS['strDeliveryCappingTotal']       = "in total";
+$GLOBALS['strDeliveryCappingSession']     = "per session";
 
 $GLOBALS['strCappingBanner'] = array();
 $GLOBALS['strCappingBanner']['title'] = $GLOBALS['strDeliveryCapping'];
-$GLOBALS['strCappingBanner']['time'] = "Once this banner has been delivered, don't show this banner again to the same user for:";
-$GLOBALS['strCappingBanner']['user'] = "Do not show this banner to the same user more than:";
-$GLOBALS['strCappingBanner']['session'] = "Do not show this banner during the same session more than:";
+$GLOBALS['strCappingBanner']['limit'] = 'Limit banner views to:';
 
 $GLOBALS['strCappingCampaign'] = array();
 $GLOBALS['strCappingCampaign']['title'] = $GLOBALS['strDeliveryCapping'];
-$GLOBALS['strCappingCampaign']['time'] = "Once a banner from this campaign has been delivered, don't any banner from this campaign again to the same user for:";
-$GLOBALS['strCappingCampaign']['user'] = "Do not show a banner from this campaign to the same user more than:";
-$GLOBALS['strCappingCampaign']['session'] = "Do not show a banner from this campaign during the same session more than:";
+$GLOBALS['strCappingCampaign']['limit'] = 'Limit campaign views to:';
 
 $GLOBALS['strCappingZone'] = array();
 $GLOBALS['strCappingZone']['title'] = $GLOBALS['strDeliveryCapping'];
-$GLOBALS['strCappingZone']['time'] = "Once a banner from this zone has been delivered, don't show any banner from this zone again to the same user for:";
-$GLOBALS['strCappingZone']['user'] = "Do not show a banner from this zone to the same user more than:";
-$GLOBALS['strCappingZone']['session'] = "Do not show a banner from this zone during the same session more than:";
+$GLOBALS['strCappingZone']['limit'] = 'Limit zone views to:';
 
 // Publisher
 $GLOBALS['strAffiliate']                = "Publisher";

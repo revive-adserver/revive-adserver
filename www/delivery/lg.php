@@ -47,21 +47,21 @@ MAX_commonRemoveSpecialChars($_REQUEST);
 // Get the viewer ID, and the ad, campaign, creative and zone variables to be logged
 // from the request variables
 $viewerId     = MAX_cookieGetUniqueViewerID();
-$aAdIds       = MAX_Delivery_log_getArrRequestVariable('adId');
-$aCampaignIds = MAX_Delivery_log_getArrRequestVariable('campaignId');
-$aCreativeIds = MAX_Delivery_log_getArrRequestVariable('creativeId');
-$aZoneIds     = MAX_Delivery_log_getArrRequestVariable('zoneId');
+$aAdIds       = MAX_Delivery_log_getArrGetVariable('adId');
+$aCampaignIds = MAX_Delivery_log_getArrGetVariable('campaignId');
+$aCreativeIds = MAX_Delivery_log_getArrGetVariable('creativeId');
+$aZoneIds     = MAX_Delivery_log_getArrGetVariable('zoneId');
 
 // Get any ad, campaign and zone capping information from the request variables
-$aCapAd['block']                 = MAX_Delivery_log_getArrRequestVariable('blockAd');
-$aCapAd['capping']               = MAX_Delivery_log_getArrRequestVariable('capAd');
-$aCapAd['session_capping']       = MAX_Delivery_log_getArrRequestVariable('sessionCapAd');
-$aCapCampaign['block']           = MAX_Delivery_log_getArrRequestVariable('blockCampaign');
-$aCapCampaign['capping']         = MAX_Delivery_log_getArrRequestVariable('capCampaign');
-$aCapCampaign['session_capping'] = MAX_Delivery_log_getArrRequestVariable('sessionCapCampaign');
-$aCapZone['block']               = MAX_Delivery_log_getArrRequestVariable('blockZone');
-$aCapZone['capping']             = MAX_Delivery_log_getArrRequestVariable('capZone');
-$aCapZone['session_capping']     = MAX_Delivery_log_getArrRequestVariable('sessionCapZone');
+$aCapAd['block']                 = MAX_Delivery_log_getArrGetVariable('blockAd');
+$aCapAd['capping']               = MAX_Delivery_log_getArrGetVariable('capAd');
+$aCapAd['session_capping']       = MAX_Delivery_log_getArrGetVariable('sessionCapAd');
+$aCapCampaign['block']           = MAX_Delivery_log_getArrGetVariable('blockCampaign');
+$aCapCampaign['capping']         = MAX_Delivery_log_getArrGetVariable('capCampaign');
+$aCapCampaign['session_capping'] = MAX_Delivery_log_getArrGetVariable('sessionCapCampaign');
+$aCapZone['block']               = MAX_Delivery_log_getArrGetVariable('blockZone');
+$aCapZone['capping']             = MAX_Delivery_log_getArrGetVariable('capZone');
+$aCapZone['session_capping']     = MAX_Delivery_log_getArrGetVariable('sessionCapZone');
 
 if (isset($_REQUEST['channel_ids'])) {
     $GLOBALS['_MAX']['CHANNELS'] = str_replace(

@@ -417,7 +417,7 @@ class Delivery_TestOfLog extends UnitTestCase
     }
 
     /**
-     * A method to test the MAX_Delivery_log_getArrRequestVariable() function.
+     * A method to test the MAX_Delivery_log_getArrGetVariable() function.
      *
      * Requirements:
      * Test 1: Test with a bad config name, and ensure an empty array is returned.
@@ -428,26 +428,26 @@ class Delivery_TestOfLog extends UnitTestCase
      * Test 4: Test with a "multiple item" request value defined, and ensure an
      *         array of the values is returned.
      */
-    function test_MAX_Delivery_log_getArrRequestVariable()
+    function test_MAX_Delivery_log_getArrGetVariable()
     {
         // Test 1
-        $aReturn = MAX_Delivery_log_getArrRequestVariable('foo');
+        $aReturn = MAX_Delivery_log_getArrGetVariable('foo');
         $this->assertTrue(is_array($aReturn));
         $this->assertTrue(empty($aReturn));
 
         // Test 2
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['var']['viewerId'] = 'MAXID';
-        unset($_REQUEST['MAXID']);
-        $aReturn = MAX_Delivery_log_getArrRequestVariable('viewerId');
+        $conf['var']['blockAd'] = 'MAXBLOCK';
+        unset($_GET['MAXBLOCK']);
+        $aReturn = MAX_Delivery_log_getArrGetVariable('blockAd');
         $this->assertTrue(is_array($aReturn));
         $this->assertTrue(empty($aReturn));
 
         // Test 3
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['var']['viewerId'] = 'MAXID';
-        $_REQUEST['MAXID'] = 1;
-        $aReturn = MAX_Delivery_log_getArrRequestVariable('viewerId');
+        $conf['var']['blockAd'] = 'MAXBLOCK';
+        $_GET['MAXBLOCK'] = 1;
+        $aReturn = MAX_Delivery_log_getArrGetVariable('blockAd');
         $this->assertTrue(is_array($aReturn));
         $this->assertFalse(empty($aReturn));
         $this->assertEqual(count($aReturn), 1);
@@ -455,9 +455,9 @@ class Delivery_TestOfLog extends UnitTestCase
 
         // Test 3
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['var']['viewerId'] = 'MAXID';
-        $_REQUEST['MAXID'] = 1 . MAX_DELIVERY_MULTIPLE_DELIMITER . 5;
-        $aReturn = MAX_Delivery_log_getArrRequestVariable('viewerId');
+        $conf['var']['blockAd'] = 'MAXBLOCK';
+        $_GET['MAXBLOCK'] = 1 . MAX_DELIVERY_MULTIPLE_DELIMITER . 5;
+        $aReturn = MAX_Delivery_log_getArrGetVariable('blockAd');
         $this->assertTrue(is_array($aReturn));
         $this->assertFalse(empty($aReturn));
         $this->assertEqual(count($aReturn), 2);

@@ -1246,6 +1246,8 @@ _echoDeliveryCappingJs();
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
+_echoDeliveryCappingJs();
+
 phpAds_PageFooter();
 
 ?>

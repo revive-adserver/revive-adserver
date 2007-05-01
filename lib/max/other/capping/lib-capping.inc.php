@@ -197,26 +197,20 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
 
     echo "
     </tr>
-    <tr><td height='1' colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
-    <tr><td height='10' colspan='6'>&nbsp;</td></tr>
 
     <tr>
       <td width='30'>&nbsp;</td>
-      <td width='200'>{$aText['time']}</td>
+      <td width='200'>{$aText['limit']}</td>
       <td valign='top'>
-        <input id='timehour' class='flat' type='text' size='3' name='time[hour]' value='{$time['hour']}' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strHours']}&nbsp;&nbsp;
-        <input id='timeminute' class='flat' type='text' size='3' name='time[minute]' value='{$time['minute']}' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strMinutes']}&nbsp;&nbsp;
-        <input id='timesecond' class='flat' type='text' size='3' name='time[second]' value='{$time['second']}' onBlur=\"phpAds_formLimitBlur(this);\" onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strSeconds']}&nbsp;&nbsp;
+        <input class='flat' type='text' size='2' name='cap' value='{$cap}' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strDeliveryCappingTotal']}
       </td>";
 
     if ($showExtra) {
         echo "
       <td width='30'>&nbsp;</td>
-      <td width='200'>{$aExtraDisplay['aText']['time']}</td>
+      <td width='200'>{$aExtraDisplay['aText']['limit']}</td>
       <td valign='top'>
-        <input id='extratimehour' class='flat' type='text' size='3' name='extra_time[hour]' value='{$extra_time['hour']}' disabled;\"'> {$GLOBALS['strHours']}&nbsp;&nbsp;
-        <input id='extratimeminute' class='flat' type='text' size='3' name='extra_time[minute]' value='{$extra_time['minute']}' disabled;\"'> {$GLOBALS['strMinutes']}&nbsp;&nbsp;
-        <input id='extratimesecond' class='flat' type='text' size='3' name='extra_time[second]' value='{$extra_time['second']}' disabled;\";\"'> {$GLOBALS['strSeconds']}&nbsp;&nbsp;
+        <input class='flat' type='text' size='2' name='extra_cap' value='{$extra_cap}' disabled='disabled'> {$GLOBALS['strDeliveryCappingTotal']}
       </td>";
     }
 
@@ -237,17 +231,54 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
 
     <tr>
       <td width='30'>&nbsp;</td>
-      <td width='200'>{$aText['user']}</td>
+      <td width='200'>{$aText['limit']}</td>
       <td valign='top'>
-        <input class='flat' type='text' size='3' name='cap' value='{$cap}' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strTimes']}
+        <input class='flat' type='text' size='2' name='session_capping' value='{$session_capping}' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strDeliveryCappingSession']}
+      </td>
+      
+      ";
+
+    if ($showExtra) {
+        echo "
+      <td width='30'>&nbsp;</td>
+      <td width='200'>{$aExtraDisplay['aText']['limit']}</td>
+      <td valign='top'>
+        <input class='flat' type='text' size='2' name='extra_session_capping' value='{$extra_session_capping}' disabled='disabled'> {$GLOBALS['strDeliveryCappingSession']}
+      </td>";
+    }
+    if (($cap != '-' && $cap > 0) || ($session_capping != '-' && $session_capping > 0)) {
+        $timeDisabled = false; 
+    } else {
+        $timeDisabled = true;
+    }
+   echo "
+    </tr>
+    <tr><td><img src='images/spacer.gif' height='1' width='100%'></td>
+    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>";
+   if ($showExtra) {
+    echo "
+        <td><img src='images/spacer.gif' height='1' width='100%'></td>
+        <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>";
+    }
+    echo "
+    </tr>
+    <tr>
+      <td width='30'>&nbsp;</td>
+      <td width='200'>{$GLOBALS['strDeliveryCappingReset']}</td>
+      <td valign='top'>
+        <input id='timehour' class='flat' type='text' size='2' name='time[hour]' value='{$time['hour']}' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."' ".($timeDisabled ? "disabled='disabled'" : '')."> {$GLOBALS['strHours']}&nbsp;
+        <input id='timeminute' class='flat' type='text' size='2' name='time[minute]' value='{$time['minute']}' onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."' ".($timeDisabled ? "disabled='disabled'" : '')."> {$GLOBALS['strMinutes']}&nbsp;
+        <input id='timesecond' class='flat' type='text' size='2' name='time[second]' value='{$time['second']}' onBlur=\"phpAds_formLimitBlur(this);\" onKeyUp=\"phpAds_formLimitUpdate(this);\" tabindex='".($tabindex++)."' ".($timeDisabled ? "disabled='disabled'" : '')."> {$GLOBALS['strSeconds']}&nbsp;
       </td>";
 
     if ($showExtra) {
         echo "
       <td width='30'>&nbsp;</td>
-      <td width='200'>{$aText['user']}</td>
+      <td width='200'>{$GLOBALS['strDeliveryCappingReset']}</td>
       <td valign='top'>
-        <input class='flat' type='text' size='3' name='extra_cap' value='{$extra_cap}' disabled;\"'> {$GLOBALS['strTimes']}
+        <input id='extratimehour' class='flat' type='text' size='2' name='extra_time[hour]' value='{$extra_time['hour']}' disabled='disabled'> {$GLOBALS['strHours']}&nbsp;
+        <input id='extratimeminute' class='flat' type='text' size='2' name='extra_time[minute]' value='{$extra_time['minute']}' disabled='disabled'> {$GLOBALS['strMinutes']}&nbsp;
+        <input id='extratimesecond' class='flat' type='text' size='2' name='extra_time[second]' value='{$extra_time['second']}' disabled='disabled'> {$GLOBALS['strSeconds']}&nbsp;
       </td>";
     }
 
@@ -262,32 +293,7 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
     <td><img src='images/spacer.gif' height='1' width='100%'></td>
     <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>";
     }
-
-    echo "
-    </tr>
-
-    <tr>
-      <td width='30'>&nbsp;</td>
-      <td width='200'>{$aText['session']}</td>
-      <td valign='top'>
-        <input class='flat' type='text' size='3' name='session_capping' value='{$session_capping}' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strTimes']}
-      </td>";
-
-
-    if ($showExtra) {
-        echo "
-      <td width='30'>&nbsp;</td>
-      <td width='200'>{$aText['session']}</td>
-      <td valign='top'>
-        <input class='flat' type='text' size='3' name='extra_session_capping' value='{$extra_session_capping}' disabled;\"'> {$GLOBALS['strTimes']}
-      </td>";
-    }
-
-    echo "
-    </tr>
-
-    <tr><td height='10' colspan='3'>&nbsp;</td></tr>
-    ";
+    echo "<tr><td height='10' colspan='6'>&nbsp;</td></tr>";
 
     return $tabindex;
 }
@@ -300,7 +306,11 @@ echo "
 
 	function phpAds_formCapBlur (i)
 	{
-		if (i.value == '' || i.value == '0') i.value = '-'
+		if (i.value == '' || i.value == '0') {
+		  i.value = '-' 
+		} else {
+		  oa_formEnableTime(i);
+		} 
 	}
 
 	function phpAds_formLimitBlur (i)
@@ -327,7 +337,13 @@ echo "
 		if (f.timehour.value == '-' && f.timeminute.value == '0') f.timeminute.value = '-';
 		if (f.timeminute.value == '-' && f.timesecond.value == '0') f.timesecond.value = '-';
 	}
-
+    function oa_formEnableTime(i)
+    {
+        f = i.form;
+        f.timehour.disabled = false;
+        f.timeminute.disabled = false;
+        f.timesecond.disabled = false;
+    }
 // ]]> -->
 </script>";
 }
