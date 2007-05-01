@@ -29,8 +29,8 @@ require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/other/stats.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
-require_once 'HTML/Template/Flexy.php';
-require_once 'HTML/Template/Flexy/Element.php';
+
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Flexy.php';
 
 /**
  * A common class that defines a common "interface" and common methods for
@@ -41,7 +41,7 @@ require_once 'HTML/Template/Flexy/Element.php';
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Common
+class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 {
 
     /**
@@ -501,37 +501,6 @@ class OA_Admin_Statistics_Common
             return strcmp(get_class($a), get_class($b));
         }
         return $res;
-    }
-
-    /**
-     * A method to display the day span selector element.
-     *
-     * Flexy template helper - to be called from templates.
-     */
-    function showDaySpanSelector()
-    {
-        $this->oDaySpanSelector->_tabIndex = $this->tabindex;
-
-        echo "
-        <form id='period_form' name='period_form' action='{$this->pageName}'>";
-
-        // Create a temporary array and remove period_preset to prevent
-        // parameters duplicating in links
-        $aTempPageParams = $this->aPageParams;
-        unset($aTempPageParams['period_preset']);
-        unset($aTempPageParams['period_start']);
-        unset($aTempPageParams['period_end']);
-
-        _displayHiddenValues($aTempPageParams);
-
-        $this->oDaySpanSelector->display();
-
-        $this->tabindex = $this->oDaySpanSelector->_tabIndex;
-
-        echo "
-        <a href='#' onclick='return periodFormSubmit()'>
-        <img src='images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' tabindex='".$this->tabindex++."' /></a>
-        </form>";
     }
 
     /**

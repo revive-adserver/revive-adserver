@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/Flexy.php';
 
 /**
  * A common class that defines a common "interface" and common methods for
@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Targeting_Common extends OA_Admin_Statistics_Common
+class OA_Admin_Statistics_Targeting_Common extends OA_Admin_Statistics_Targeting_Flexy
 {
 
     /**

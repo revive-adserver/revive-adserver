@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/Flexy.php';
 require_once 'Image/Graph.php';
 
 /**
@@ -37,7 +37,7 @@ require_once 'Image/Graph.php';
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Common
+class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_Flexy
 {
 
     /**
@@ -512,113 +512,6 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Common
 
         return $average;
     }
-    /**
-     * Return the visibility status of a column -- helper function for Flexy
-     *
-     * @param string Column name
-     * @return boolean True if the column is vilible
-     */
-    function showColumn($column)
-    {
-        return isset($this->aColumnVisible[$column]) ? $this->aColumnVisible[$column] : true;
-    }
-
-    /**
-     * Return an array field -- helper function for Flexy
-     *
-     * @param array The array
-     * @param array Field name
-     * @return mixed Field value
-     */
-    function showValue($e, $k)
-    {
-        return $e[$k];
-    }
-
-    /**
-     * Return the link for a column -- helper function for Flexy
-     *
-     * @param array Entity array
-     * @param array Column name
-     * @return string Link associated with a column
-     */
-    function showColumnLink($entity, $column)
-    {
-        return empty($this->aColumnLinks[$column]) || empty($entity['linkparams']) ? '' : $this->aColumnLinks[$column];
-    }
-
-    /**
-     * Return a translated string
-     *
-     * @param string Name of the translation string
-     */
-    function getTranslation($str)
-    {
-        if (preg_match('/^(str|key)/', $str) && isset($GLOBALS[$str])) {
-            $str = $GLOBALS[$str];
-        }
-
-        return $str;
-    }
-
-    /**
-     * Return a translated string -- helper function for Flexy
-     *
-     * @param string Name of the translation string
-     *
-     * @see getTranslation
-     */
-    function tr($str)
-    {
-        return $this->getTranslation($str);
-    }
-
-    /**
-     * Return the link to change sorting field and order -- helper function for Flexy
-     *
-     * @param string Name of the field
-     * @param boolean Reverse default sorting
-     * @return string The href parameter
-     */
-    function listOrderHref($fieldname, $reverse = false)
-    {
-        if ($this->listOrderField == $fieldname) {
-            $orderdirection = $this->listOrderDirection == 'up' ? 'down' : 'up';
-        } else {
-            $orderdirection = $reverse ? 'down' : 'up';
-        }
-
-        return "{$this->pageURI}listorder={$fieldname}&orderdirection={$orderdirection}";
-    }
-
-    /**
-     * Return the link to change sorting field and order using reversed
-     * order by default -- helper function for Flexy
-     *
-     * @param string Name of the field
-     * @return string The href parameter
-     */
-    function listOrderHrefRev($fieldname)
-    {
-        return $this->listOrderHref($fieldname, true);
-    }
-
-    /**
-     * Return the image to show current ordering -- helper function for Flexy
-     *
-     * The function returns false if the data is not sorted by $fieldname
-     *
-     * @param string Name of the field
-     * @return mixed Image src parameter
-     */
-    function listOrderImage($fieldname)
-    {
-        if ($this->listOrderField == $fieldname) {
-            return "images/caret-".($this->listOrderDirection == 'up' ? 'u': 'ds').".gif";
-        } else {
-            return false;
-        }
-    }
 
     /**
      * Output the error string when stats are not available
@@ -628,9 +521,9 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Common
     function showNoStatsString()
     {
         if (!empty($this->aDates['day_begin']) && !empty($this->aDates['day_end'])) {
-            $startDate = & new Date($this->aDates['day_begin']);
+            $startDate = new Date($this->aDates['day_begin']);
             $startDate = $startDate->format($GLOBALS['date_format']);
-            $endDate   = & new Date($this->aDates['day_end']);
+            $endDate   = new Date($this->aDates['day_end']);
             $endDate   = $endDate->format($GLOBALS['date_format']);
             return sprintf($GLOBALS['strNoStatsForPeriod'], $startDate, $endDate);
         }
