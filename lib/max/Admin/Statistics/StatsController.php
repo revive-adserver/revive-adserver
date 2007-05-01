@@ -1188,7 +1188,7 @@ class StatsController
         global $graphFilter;
 
         $output = new HTML_Template_Flexy(array(
-            'templateDir'       => MAX_PATH . '/lib/max/Admin/Statistics/themes',
+            'templateDir'       => MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/themes',
             'compileDir'        => MAX_PATH . '/var/templates_compiled',
         ));
 
@@ -1304,7 +1304,7 @@ class StatsController
         $graphFields = array_unique($graphFields);
 
         $output = new HTML_Template_Flexy(array(
-            'templateDir'       => MAX_PATH . '/lib/max/Admin/Statistics/themes',
+            'templateDir'       => MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/themes',
             'compileDir'        => MAX_PATH . '/var/templates_compiled',
         ));
 
