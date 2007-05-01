@@ -138,8 +138,6 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends EnhancedReport //P
 
     function addDailyEffectivenessSheet()
     {
-        require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsControllerFactory.php';
-
         if (is_null($this->_daySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
@@ -165,8 +163,6 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends EnhancedReport //P
 
     function addBannerEffectivenessSheet()
     {
-        require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsControllerFactory.php';
-
         if (is_null($this->_daySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
@@ -194,8 +190,6 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends EnhancedReport //P
 
     function addZoneEffectivenessSheet()
     {
-        require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsControllerFactory.php';
-
         if (is_null($this->_daySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {

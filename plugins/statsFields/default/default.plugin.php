@@ -25,22 +25,16 @@
 $Id$
 */
 
-/**
- * @package    MaxPlugin
- * @subpackage StatsFields
- * @author     Matteo Beccati <matteo@beccati.com>
- */
-
 require_once MAX_PATH . '/plugins/statsFields/statsFields.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
- * Stats fields plugin
+ * Default statistics fields plugin.
  *
- * @package    MaxPlugin
- * @subpackage Plugins_StatsFields
- * @author     Matteo Beccati <matteo@beccati.com>
  * @abstract
+ * @package    MaxPlugin
+ * @subpackage StatsFields
+ * @author     Matteo Beccati <matteo@beccati.com>
  */
 class Plugins_StatsFields_default_default extends Plugins_StatsFields
 {

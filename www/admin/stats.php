@@ -37,10 +37,12 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 
-//No cache
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
+
+// No cache
 MAX_commonSetNoCacheHeaders();
 
-//make data loading depending only on period_start & period_end
+// Make data loading depending only on period_start & period_end
 $tempPeriodPreset = MAX_getValue('period_preset');
 $_REQUEST['period_preset'] = 'specific';
 $period_preset = 'specific';
@@ -48,9 +50,6 @@ $session['prefs']['GLOBALS']['period_preset'] = 'specific';
 $period_preset = MAX_getStoredValue('period_preset', 'today');
 $period_start = MAX_getStoredValue('period_start', date('Y-m-d'));
 $period_end = MAX_getStoredValue('period_end', date('Y-m-d'));
-
-
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsControllerFactory.php';
 
 phpAds_registerGlobal('breakdown', 'entity', 'agency_id', 'advertiser_id',
                       'clientid', 'campaignid', 'placement_id', 'ad_id',
@@ -62,15 +61,15 @@ phpAds_registerGlobal('breakdown', 'entity', 'agency_id', 'advertiser_id',
                      );
 
 
-if(isset($graphFilter) && is_array($graphFilter)) {
+if (isset($graphFilter) && is_array($graphFilter)) {
 
     //remove old filter fileds from link
     $REQUEST_URI = $_SERVER['REQUEST_URI'];
     $REQUEST_URI = preg_replace('/graphFields\[\]=(.*)$/', '', $REQUEST_URI);
 
-    $redirectUrl = 'http://' 
-                   . $_SERVER['SERVER_NAME'] 
-                   . $REQUEST_URI;  
+    $redirectUrl = 'http://'
+                   . $_SERVER['SERVER_NAME']
+                   . $REQUEST_URI;
 
     foreach($graphFilter as $k => $v) {
         $redirectUrl .= '&graphFields[]=' . $v;
@@ -84,34 +83,34 @@ if(isset($graphFilter) && is_array($graphFilter)) {
 }
 
 // handle filters
-if(!empty($advertiser_id)) {
+if (!empty($advertiser_id)) {
     $clientid = (int) $advertiser_id;
 }
 
-if(!empty($placement_id)) {
+if (!empty($placement_id)) {
     $campaignid = (int) $placement_id;
 }
 
-if(!empty($ad_id)) {
+if (!empty($ad_id)) {
     $bannerid = (int) $ad_id;
 }
 
-if(!empty($publisher_id)) {
+if (!empty($publisher_id)) {
     $affiliateid = (int) $publisher_id;
 }
 
-if(!empty($zone_id)) {
+if (!empty($zone_id)) {
       $zoneid = (int) $zone_id;
 }
 
-if(!isset($entity)) {
+if (!isset($entity)) {
     $entity = 'global';
 }
-if(!isset($breakdown)) {
+if (!isset($breakdown)) {
     $breakdown = 'advertiser';
 }
 
-//add all manipulated values to globals
+// Add all manipulated values to globals
 $_REQUEST['zoneid']      = $zoneid;
 $_REQUEST['affiliateid'] = $affiliateid;
 $_REQUEST['bannerid']    = $bannerid;
@@ -119,29 +118,29 @@ $_REQUEST['campaignid']  = $campaignid;
 $_REQUEST['clientid']    = $clientid;
 
 // Display stats
-
-if($entity == 'conversions') {
+if ($entity == 'conversions') {
     include_once MAX_PATH . '/www/admin/stats-conversions.php';
     exit;
 }
 
-$stats = &StatsControllerFactory::newStatsController($entity . "-" . $breakdown);
+$oStats = &OA_Admin_Statistics_Factory::getController($entity . "-" . $breakdown);
+$oStats->start();
 
-//create Excel stats report
-if(isset($plugin) && $plugin != '') {
+// Create Excel stats report
+if (isset($plugin) && $plugin != '') {
     include_once MAX_PATH . '/www/admin/stats-report-execute.php';
 }
 
 //output html code
-$stats->output();
+$oStats->output();
 
 //erase stats graph file
-if(isset($GraphFile) && $GraphFile != '') {
+if (isset($GraphFile) && $GraphFile != '') {
 
-    $dirObject = dir( $conf['store']['webDir'] . '/temp');    
+    $dirObject = dir($conf['store']['webDir'] . '/temp');
     while (false !== ($entry = $dirObject->read())) {
 
-        if( filemtime($conf['store']['webDir'] . '/temp/' . $entry) + 60 < time()) {
+        if (filemtime($conf['store']['webDir'] . '/temp/' . $entry) + 60 < time()) {
             unlink($conf['store']['webDir'] . '/temp/' . $entry);
         }
     }

@@ -321,8 +321,8 @@ class Plugins_Reports_Advertiser_Campaignhistory extends EnhancedReport {
      */
     function getStatsController($controller_type)
     {
-        require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsControllerFactory.php';
-        return StatsControllerFactory::newStatsController($controller_type, array(
+        require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
+        return OA_Admin_Statistics_Factory::getController($controller_type, array(
             'skipFormatting' => true,
             'disablePager'   => true
         ));

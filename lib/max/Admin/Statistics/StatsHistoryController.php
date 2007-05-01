@@ -28,8 +28,6 @@ $Id$
 require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsController.php';
 require_once 'Pager/Pager.php';
 
-
-
 /**
  * Controller class for displaying history type statistics screens
  *
@@ -139,7 +137,7 @@ class StatsHistoryController extends StatsController
         }
 
         if($graph_mode) {
-             parent::outputGraph($elements);        
+             parent::outputGraph($elements);
         } else {
              parent::output($elements);
         }
@@ -203,7 +201,7 @@ class StatsHistoryController extends StatsController
         } else {
             $this->statsIcon = 'images/icon-date.gif';
         }
-        
+
         if ($this->disablePager) {
             $use_pager = false;
         } elseif ($this->statsBreakdown == 'week') {
@@ -558,9 +556,9 @@ class StatsHistoryController extends StatsController
             case 'day' :
                 $stats[$key]['day']  = $key;
                 $stats[$key]['link'] = $this->uriAddParams($link).'day='.str_replace('-', '', $key);
-                $params = $this->removeDuplicateParams($link);             
+                $params = $this->removeDuplicateParams($link);
                 $stats[$key]['linkparams'] = substr($this->uriAddParams('', $params).
-                    'day='.str_replace('-', '', $key), 1);     
+                    'day='.str_replace('-', '', $key), 1);
                 $stats[$key]['convlinkparams'] = substr($this->uriAddParams('', $params).
                     'day='.str_replace('-', '', $key), 1);
                 break;
@@ -570,7 +568,7 @@ class StatsHistoryController extends StatsController
                 $month_end = & new Date($month_start);
                 $month_end->setDay($month_end->getDaysInMonth());
                 $stats[$key]['month']      = $key;
-                $params = $this->removeDuplicateParams($link);   
+                $params = $this->removeDuplicateParams($link);
                 $stats[$key]['linkparams'] = substr($this->uriAddParams('', $params).
                     'period_preset=specific&'.
                     'period_start='.$month_start->format('%Y-%m-%d').'&'.
@@ -617,7 +615,7 @@ class StatsHistoryController extends StatsController
 
         return true;
     }
-    
+
     /**
      * Exports stats data to an array
      *
@@ -637,7 +635,7 @@ class StatsHistoryController extends StatsController
     function exportArray()
     {
         $parent = parent::exportArray();
-                
+
         switch ($this->statsBreakdown) {
             case 'day':
                 $key_format = 'date';
@@ -649,13 +647,13 @@ class StatsHistoryController extends StatsController
                 $key_format = 'text';
                 break;
         }
-        
+
         $headers = array_merge(array($this->statsKey), $parent['headers']);
         $formats = array_merge(array($key_format), $parent['formats']);
         $data    = array();
-        
+
         $headers[] = $this->statsKey;
-        
+
         foreach ($this->history as $h) {
             $row = array();
             $row[] = $h['date_f'];
@@ -664,10 +662,10 @@ class StatsHistoryController extends StatsController
                     $row[] = $h[$ck];
                 }
             }
-            
+
             $data[] = $row;
         }
-        
+
         return array(
             'headers' => $headers,
             'formats' => $formats,

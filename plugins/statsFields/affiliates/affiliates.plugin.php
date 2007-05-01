@@ -25,12 +25,6 @@
 $Id$
 */
 
-/**
- * @package    MaxPlugin
- * @subpackage StatsFields
- * @author     Matteo Beccati <matteo@beccati.com>
- */
-
 require_once MAX_PATH . '/plugins/statsFields/statsFields.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
@@ -38,7 +32,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * Stats fields plugin
  *
  * @package    MaxPlugin
- * @subpackage Plugins_StatsFields
+ * @subpackage StatsFields
  * @author     Matteo Beccati <matteo@beccati.com>
  * @abstract
  */
@@ -51,11 +45,11 @@ class Plugins_StatsFields_affiliates_affiliates extends Plugins_StatsFields
     {
         // Set ordering to a high value to move columns to the right
         $this->displayOrder = 10;
-        
+
         // Set module and package because they aren't set when running the constructor method
         $this->module  = 'statsFields';
         $this->package = 'affiliates';
-        
+
         $this->_fields = array(
             'sum_revenue'               => array('name'   => MAX_Plugin_Translation::translate('_Revenue', $this->module, $this->package),
                                                  'short'  => MAX_Plugin_Translation::translate('Revenue', $this->module, $this->package),
@@ -87,7 +81,7 @@ class Plugins_StatsFields_affiliates_affiliates extends Plugins_StatsFields
                                                 'pref'   => 'gui_column_technology_cost',
                                                 'format' => 'currency'),
             'sum_income'                => array('name'   => MAX_Plugin_Translation::translate('_Income', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('Income', $this->module, $this->package), 
+                                                'short'  => MAX_Plugin_Translation::translate('Income', $this->module, $this->package),
                                                 'pref'   => 'gui_column_income',
                                                 'format' => 'currency'),
             'sum_income_margin'         => array('name'   => MAX_Plugin_Translation::translate('_Income Margin', $this->module, $this->package),
@@ -169,7 +163,7 @@ class Plugins_StatsFields_affiliates_affiliates extends Plugins_StatsFields
         $aParams = array();
         $aParams['custom_table']   = 'data_intermediate_ad_connection';
         $aParams['custom_columns'] = array("DATE_FORMAT(MIN(tracker_date_time), '%Y-%m-%d')" => 'start_date');
-        
+
         return $aParams;
     }
 
@@ -209,9 +203,9 @@ class Plugins_StatsFields_affiliates_affiliates extends Plugins_StatsFields
         $row['sum_eppm']            = $row['sum_views'] ? $row['sum_profit'] / $row['sum_views'] * 1000 : 0;
         $row['sum_eppc']            = $row['sum_clicks'] ? $row['sum_profit'] / $row['sum_clicks']: 0;
         $row['sum_epps']            = $row['sum_conversions'] ? $row['sum_profit'] / $row['sum_conversions']: 0;
-        
-        
-        
+
+
+
     }
 }
 

@@ -37,16 +37,14 @@ require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 
-//make data loading depending only on period_start & period_end
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
+
+// Make data loading depending only on period_start & period_end
 $tempPeriodPreset = $_REQUEST['period_preset'];
 $_REQUEST['period_preset'] = 'specific';
 $period_preset = 'specific';
 $session['prefs']['GLOBALS']['period_preset'] = 'specific';
 $period_preset = MAX_getStoredValue('period_preset', 'today');
-
-
-
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsControllerFactory.php';
 
 phpAds_registerGlobal('breakdown', 'entity', 'agency_id', 'advertiser_id',
                       'clientid', 'campaignid', 'placement_id', 'ad_id',
@@ -57,43 +55,39 @@ phpAds_registerGlobal('breakdown', 'entity', 'agency_id', 'advertiser_id',
                       'listorder'
                      );
 
+if (!isset($listorder)) {
+    $prm['listorder'] = MAX_getStoredValue('listorder', null, 'stats.php');
+}
 
-
-    if(!isset($listorder)) {
-        $prm['listorder'] = MAX_getStoredValue('listorder', null, 'stats.php');    
-    }
-
-
-
-// handle filters
-if(is_numeric($advertiser_id)) {
+// Handle filters
+if (is_numeric($advertiser_id)) {
     $clientid = $advertiser_id;
 }
 
-if(is_numeric($placement_id)) {
+if (is_numeric($placement_id)) {
     $campaignid = $placement_id;
 }
 
-if(is_numeric($ad_id)) {
+if (is_numeric($ad_id)) {
     $bannerid = $ad_id;
 }
 
-if(is_numeric($publisher_id)) {
+if (is_numeric($publisher_id)) {
     $affiliateid = $publisher_id;
 }
 
-if(is_numeric($zone_id)) {
+if (is_numeric($zone_id)) {
       $zoneid = $zone_id;
 }
 
-if(!isset($entity)) {
+if (!isset($entity)) {
     $entity = 'global';
 }
-if(!isset($breakdown)) {
+if (!isset($breakdown)) {
     $breakdown = 'advertiser';
 }
 
-//add all manipulated values to globals
+// Add all manipulated values to globals
 $_REQUEST['zoneid']      = $zoneid;
 $_REQUEST['affiliateid'] = $affiliateid;
 $_REQUEST['bannerid']    = $bannerid;
@@ -102,36 +96,32 @@ $_REQUEST['clientid']    = $clientid;
 
 // Check that the user has access to data he is asking for
 
-
 // Display stats
 
-//overwirte file name to load right session data, see MAX_getStoredValue
-$pgName = 'stats.php'; 
+// Overwirte file name to load right session data, see MAX_getStoredValue
+$pgName = 'stats.php';
 
-$stats = &StatsControllerFactory::newStatsController($entity . "-" . $breakdown);
-
-
+$stats = &OA_Admin_Statistics_Factory::getController($entity . "-" . $breakdown);
 
 //create Excel stats report
 if(isset($plugin) && $plugin != '') {
     include_once MAX_PATH . '\www\admin\stats-report-execute.php';
 }
 
-//remove comas in values greater than 1000
+// Remove comas in values greater than 1000
 foreach($stats->history as $dateKey => $dateRecord) {
     foreach($dateRecord as $k => $v) {
         $stats->history[$dateKey][$k] = ereg_replace(",", "", $v);
-    }    
+    }
 }
 
-
-//output html code
+// Output html code
 $stats->output(null, true);
 
-//erase stats graph file
+// Erase stats graph file
 if(isset($GraphFile) && $GraphFile != '') {
 
-    $dirObject = dir( $conf['store']['webDir'] . '/temp');    
+    $dirObject = dir( $conf['store']['webDir'] . '/temp');
     while (false !== ($entry = $dirObject->read())) {
 
         if( filemtime($conf['store']['webDir'] . '/temp/' . $entry) + 60 < time()) {

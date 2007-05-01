@@ -582,8 +582,6 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
         $worksheetName = MAX_Plugin_Translation::translate('Performance by Day', $this->module, $this->package);
         $this->_report_writer->createReportWorksheet($worksheetName, $this->_name, $this->getReportParametersForDisplay());
 
-        require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsControllerFactory.php';
-
         if (is_null($this->_daySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {

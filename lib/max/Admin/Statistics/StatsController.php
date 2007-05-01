@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Dal/Admin.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
@@ -171,7 +172,7 @@ class StatsController
         }
         $this->tabindex =& $GLOBALS['tabindex'];
 
-        $this->start();
+        //$this->start();
     }
 
     /**
@@ -1202,8 +1203,9 @@ class StatsController
         $this->generatePageURI();
 
         // Add context links, if any
-        if (is_array($this->pageContext))
+        if (is_array($this->pageContext)) {
             call_user_func_array(array($this, 'showContext'), $this->pageContext);
+        }
 
         // Add shortcuts, if any
         $this->showShortcuts();
@@ -1384,17 +1386,17 @@ class StatsController
         }
 
         // clear existing params
-        if($clearParams) {
+        if ($clearParams) {
             unset($this->pageParams);
         }
 
         // add new params from $_GET/session
-        foreach($varArray as $k => $v) {
+        foreach ($varArray as $k => $v) {
             $this->pageParams[$v] = MAX_getStoredValue($v, '');
         }
 
         // special protection for setPerPage value. Gives it a default value
-        if(empty($this->pageParams['setPerPage'])) {
+        if (empty($this->pageParams['setPerPage'])) {
             $this->pageParams['setPerPage'] = 15;
         }
 
@@ -1405,7 +1407,7 @@ class StatsController
 
 
         //set default order direction if not exists
-        if($this->pageParams['orderdirection'] == '') {
+        if ($this->pageParams['orderdirection'] == '') {
             $this->pageParams['orderdirection'] = 'up';
         }
 

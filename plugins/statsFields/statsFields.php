@@ -29,12 +29,12 @@ require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
- * Plugins_StatsFields is an abstract class for every Stats field plugin.
+ * Plugins_StatsFields is an abstract class for every statsistics field plugin.
  *
- * @package    MaxPlugin
- * @subpackage Plugins_StatsFields
- * @author     Matteo Beccati <matteo@beccati.com>
  * @abstract
+ * @package    MaxPlugin
+ * @subpackage StatsFields
+ * @author     Matteo Beccati <matteo@beccati.com>
  */
 class Plugins_StatsFields extends MAX_Plugin_Common
 {
@@ -186,6 +186,11 @@ class Plugins_StatsFields extends MAX_Plugin_Common
     }
 
     function getHistorySpanParams()
+    {
+        return array();
+    }
+
+    function getTargetingSpanParams()
     {
         return array();
     }
