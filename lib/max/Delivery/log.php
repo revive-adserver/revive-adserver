@@ -329,23 +329,23 @@ function _prepareLogInfo()
 }
 
 /**
- * A function to return request variables, where the request variable name is
- * extracted from the configuration file settings, and the request variable
+ * A function to return GET variables, where the GET variable name is
+ * extracted from the configuration file settings, and the GET variable
  * value is exploded into an array of items on the constant
  * MAX_DELIVERY_MULTIPLE_DELIMITER.
  *
- * Returns an empty array if there is no request variable by the specified
+ * Returns an empty array if there is no GET variable by the specified
  * name.
  *
  * @param string The name of the variable as defined in the configuration
  *               file's [var] section.
- * @return array The request variable exploded to an array, or an empty
- *               array if the request variable requested is not defined.
+ * @return array The GET variable exploded to an array, or an empty
+ *               array if the GET variable requested is not defined.
  */
-function MAX_Delivery_log_getArrRequestVariable($name)
+function MAX_Delivery_log_getArrGetVariable($name)
 {
     $varName = $GLOBALS['_MAX']['CONF']['var'][$name];
-    return isset($_REQUEST[$varName]) ? explode(MAX_DELIVERY_MULTIPLE_DELIMITER, $_REQUEST[$varName]) : array();
+    return isset($_GET[$varName]) ? explode(MAX_DELIVERY_MULTIPLE_DELIMITER, $_GET[$varName]) : array();
 }
 
 /**

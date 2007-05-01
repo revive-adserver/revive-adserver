@@ -27,6 +27,7 @@
 | Release Max v0.3.32-alpha |
 +---------------------------+
 
+2007-05-01  Delivery    Bug         Fixed #54 - Cookie deletion not working in IE (Chris)
 2007-03-23  Delivery    Bug         Fixed #311 - Loading OA tags into 3rd party server breaks swf
                                     clickthroughs (Chris)
 2007-03-23  Delivery    Feature     Fixed #310 - Added {width} and {height} replacement macros (Chris)
