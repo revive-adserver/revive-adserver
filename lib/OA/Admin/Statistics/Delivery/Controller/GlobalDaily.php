@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsDailyController.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonDaily.php';
 
 /**
  * The class to display the delivery statistcs for the page:
@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsDailyController.php';
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Controller_GlobalDaily extends StatsDailyController
+class OA_Admin_Statistics_Delivery_Controller_GlobalDaily extends OA_Admin_Statistics_Delivery_CommonDaily
 {
 
     function start()
@@ -49,16 +49,16 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalDaily extends StatsDailyCont
         $pref = $GLOBALS['_MAX']['PREF'];
 
         // Add module page parameters
-        $this->pageParams['entity'] = 'global';
-        $this->pageParams['breakdown'] = 'daily';
-        $this->pageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->pageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams['entity'] = 'global';
+        $this->aPageParams['breakdown'] = 'daily';
+        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
+        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 
-        $this->loadParams();
+        $this->_loadParams();
 
         // HTML Framework
         $this->pageId = '2.2.1';
-        $this->pageSections = array('2.1.1');
+        $this->aPageSections = array('2.1.1');
 
         $aParams = array();
         if (phpAds_isUser(phpAds_Agency)) {

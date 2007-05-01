@@ -285,7 +285,7 @@ class Plugins_TestOfPlugins_Reports_Publisher_ChannelAvailability extends UnitTe
      *
      * Requirements:
      * Test 1: Test with no active parent placements, ensure nothing set.
-     * Test 2: Test with no childred ads, ensure only placements set.
+     * Test 2: Test with no children ads, ensure only placements set.
      * Test 3: Test with active parent placements, and ensure values are set.
      */
     function test_setPlacementAds()

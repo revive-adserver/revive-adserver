@@ -25,26 +25,18 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsCrossHistoryController.php';
-
-
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossHistory.php';
 
 /**
- * Controller class for displaying daily history type statistics screens
+ * A common class that defines a common "interface" and common methods for
+ * classes that display daily delivery statistics.
  *
- * Always use the factory method to instantiate fields -- it will create
- * the right subclass for you.
- *
- * The class inherits from StatsCrossHistoryController because it can also be used
- * to display cross-entity statistics
- *
- * @package    Max
- * @subpackage Admin_Statistics
+ * @package    OpenadsAdmin
+ * @subpackage StatisticsDelivery
  * @author     Matteo Beccati <matteo@beccati.com>
- *
- * @see StatsControllerFactory
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class StatsDailyController extends StatsCrossHistoryController
+class OA_Admin_Statistics_Delivery_CommonDaily extends OA_Admin_Statistics_Delivery_CommonCrossHistory
 {
     /**
      * PHP5-style constructor
@@ -53,7 +45,7 @@ class StatsDailyController extends StatsCrossHistoryController
     {
         // Get day parameter
         $this->parseDay();
-        
+
         // Prepare context
         $this->pageContext = array('days', $this->aDates['day_begin']);
 
@@ -63,7 +55,7 @@ class StatsDailyController extends StatsCrossHistoryController
     /**
      * PHP4-style constructor
      */
-    function StatsDailyController($params)
+    function OA_Admin_Statistics_Delivery_CommonDaily($params)
     {
         $this->__construct($params);
     }
@@ -76,14 +68,14 @@ class StatsDailyController extends StatsCrossHistoryController
     {
         $oDate = new Date($this->aDates['day_begin']);
         $this->_addBreadcrumb($oDate->format($GLOBALS['date_format']), 'images/icon-date.gif');
-        
+
         if($graph_mode) {
-             parent::outputGraph($elements);        
+             parent::outputGraph($elements);
         } else {
              parent::output(false);
         }
     }
-    
+
     /**
      * Prepare context using the last settings of the statistics day-span
      * selector, falling back to the parent class function if not applicable
@@ -91,7 +83,7 @@ class StatsDailyController extends StatsCrossHistoryController
      * @param string Context type, it should be 'days' to get this method working
      * @param string Selected day, in the Y-m-d format
      */
-    function showContext($type, $current_day)
+    function _showContext($type, $current_day)
     {
         if ($type == 'days') {
             $aDates = array(
@@ -107,10 +99,10 @@ class StatsDailyController extends StatsCrossHistoryController
                 );
             }
         } else {
-            parent::showContext($type, $current_day);
+            parent::_showContext($type, $current_day);
         }
     }
-    
+
     /**
      * Parse and store the day paramer, also checking its validity
      */
@@ -121,17 +113,17 @@ class StatsDailyController extends StatsCrossHistoryController
             phpAds_PageHeader('2');
             phpAds_Die ($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
         }
-        
+
         if (!checkdate($matches[2], $matches[3], $matches[1])) {
             phpAds_PageHeader('2');
             phpAds_Die ($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
         }
-        
+
         $this->aDates = array();
         $this->aDates['day_begin'] = $this->aDates['day_end'] =
             "{$matches[1]}-{$matches[2]}-{$matches[3]}";
     }
-    
+
     /**
      * Fetch and decorates the history stats using the specified parameters
      * forcing the breakdown type to hour
@@ -141,7 +133,7 @@ class StatsDailyController extends StatsCrossHistoryController
     function prepareHistory($aParams)
     {
         $this->statsBreakdown = 'hour';
-        
+
         parent::prepareHistory($aParams);
     }
 }

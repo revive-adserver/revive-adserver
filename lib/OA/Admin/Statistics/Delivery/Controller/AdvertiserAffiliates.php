@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsCrossEntityController.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossEntity.php';
 
 /**
  * The class to display the delivery statistcs for the page:
@@ -37,8 +37,40 @@ require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsCrossEntityController.ph
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliates extends StatsCrossEntityController
+class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliates extends OA_Admin_Statistics_Delivery_CommonCrossEntity
 {
+
+    /**
+     * A PHP5-style constructor that can be used to perform common
+     * class instantiation by children classes.
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function __construct($aParams)
+    {
+        $this->showDaySpanSelector = true;
+        parent::__construct($aParams);
+    }
+
+    /**
+     * PHP4-style constructor
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliates($aParams)
+    {
+        $this->__construct($aParams);
+    }
 
     function start()
     {
@@ -61,28 +93,28 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliates extends Stats
         }
 
         // Add standard page parameters
-        $this->pageParams = array('clientid' => $advertiserId,
+        $this->aPageParams = array('clientid' => $advertiserId,
                                   'period_preset' => MAX_getStoredValue('period_preset', 'today')
                                   );
-        $this->loadParams();
+        $this->_loadParams();
 
         // HTML Framework
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
             $this->pageId = '2.1.3';
-            $this->pageSections = array('2.1.1', '2.1.2', '2.1.3');
+            $this->aPageSections = array('2.1.1', '2.1.2', '2.1.3');
         } elseif (phpAds_isUser(phpAds_Client)) {
             $this->pageId = '1.3';
-            $this->pageSections = array('1.1', '1.2', '1.3');
+            $this->aPageSections = array('1.1', '1.2', '1.3');
         }
 
-        $this->addBreadcrumbs('advertiser', $advertiserId);
+        $this->_addBreadcrumbs('advertiser', $advertiserId);
 
         // Add context
         $this->pageContext = array('advertisers', $advertiserId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Client)) {
-            $this->addShortcut(
+            $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid='.$advertiserId,
                 'images/icon-advertiser.gif'
@@ -92,9 +124,6 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliates extends Stats
         // Fix entity links
         $this->entityLinks['p'] = 'stats.php?entity=advertiser&breakdown=affiliate-history';
         $this->entityLinks['z'] = 'stats.php?entity=advertiser&breakdown=zone-history';
-
-        // Use the day span selector
-        $this->initDaySpanSelector();
 
         $this->hideInactive = MAX_getStoredValue('hideinactive', ($pref['gui_hide_inactive'] == 't'));
         $this->showHideInactive = true;
@@ -135,7 +164,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliates extends Stats
                 break;
         }
 
-        $this->summarizeTotals($this->entities);
+        $this->_summarizeTotals($this->entities);
 
         $this->showHideLevels = array();
         switch ($this->startLevel)
@@ -156,9 +185,9 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliates extends Stats
 
 
         // Save prefs
-        $this->pagePrefs['startlevel']     = $this->startLevel;
-        $this->pagePrefs['nodes']          = implode (",", $this->aNodes);
-        $this->pagePrefs['hideinactive']   = $this->hideInactive;
+        $this->aPagePrefs['startlevel']     = $this->startLevel;
+        $this->aPagePrefs['nodes']          = implode (",", $this->aNodes);
+        $this->aPagePrefs['hideinactive']   = $this->hideInactive;
     }
 
 }

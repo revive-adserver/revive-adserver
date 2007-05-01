@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsHistoryController.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
 
 /**
  * The class to display the delivery statistcs for the page:
@@ -37,8 +37,40 @@ require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsHistoryController.php';
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Controller_AdvertiserHistory extends StatsHistoryController
+class OA_Admin_Statistics_Delivery_Controller_AdvertiserHistory extends OA_Admin_Statistics_Delivery_CommonHistory
 {
+
+    /**
+     * A PHP5-style constructor that can be used to perform common
+     * class instantiation by children classes.
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function __construct($aParams)
+    {
+        $this->showDaySpanSelector = true;
+        parent::__construct($aParams);
+    }
+
+    /**
+     * PHP4-style constructor
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function OA_Admin_Statistics_Delivery_Controller_AdvertiserHistory($aParams)
+    {
+        $this->__construct($aParams);
+    }
 
     function start()
     {
@@ -61,37 +93,34 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserHistory extends StatsHis
         }
 
         // Add standard page parameters
-        $this->pageParams = array('clientid' => $advertiserId);
-        $this->pageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
-        $this->pageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams = array('clientid' => $advertiserId);
+        $this->aPageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
+        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 
-        $this->loadParams();
+        $this->_loadParams();
 
         // HTML Framework
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
             $this->pageId = '2.1.1';
-            $this->pageSections = array('2.1.1', '2.1.2', '2.1.3');
+            $this->aPageSections = array('2.1.1', '2.1.2', '2.1.3');
         } elseif (phpAds_isUser(phpAds_Client)) {
             $this->pageId = '1.1';
-            $this->pageSections = array('1.1', '1.2', '1.3');
+            $this->aPageSections = array('1.1', '1.2', '1.3');
         }
 
-        $this->addBreadcrumbs('advertiser', $advertiserId);
+        $this->_addBreadcrumbs('advertiser', $advertiserId);
 
         // Add context
         $this->pageContext = array('advertisers', $advertiserId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Client)) {
-            $this->addShortcut(
+            $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid='.$advertiserId,
                 'images/icon-advertiser.gif'
             );
         }
-
-        // Use the day span selector
-        $this->initDaySpanSelector();
 
         $aParams = array();
         $aParams['advertiser_id'] = $advertiserId;
@@ -104,13 +133,13 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserHistory extends StatsHis
         $statsBreakdown = MAX_getStoredValue('statsBreakdown', 'day');
 
         // Add module page parameters
-        $this->pageParams = array('clientid' => $advertiserId,
+        $this->aPageParams = array('clientid' => $advertiserId,
                                   'entity' => $entity, 'breakdown' => $breakdown,
                                   'period_preset' => $period_preset,
                                   'statsBreakdown' => $statsBreakdown
                                  );
 
-        $this->loadParams($this->pageParams);
+        $this->_loadParams($this->aPageParams);
 
     }
 

@@ -11,7 +11,7 @@
 	<tr>
 	<td style="background-color: #f6f6f6; padding-left: 40px; width: 100%; border-bottom: 1px solid #999999;">
 	 <br />
-	 
+
     <div flexy:if="showDaySpanSelector">
     {showDaySpanSelector()}
     </div>
@@ -19,12 +19,12 @@
     {scriptOpen:h}
 
     function getImage() {
-    
+
        var imageLinkSrc      = document.getElementById('imageLinkSrc');
        var imageLinkSrcTemp  = document.getElementById('imageLinkSrcTemp');
-        
+
        imageLinkSrc.style.display = 'none';
-       imageLinkSrcTemp.style.display = ''; 
+       imageLinkSrcTemp.style.display = '';
 
     }
 
@@ -38,7 +38,7 @@
        var graphboxes        = document.getElementById('graphboxes');
 
        if (graph.style.display == 'none') {
-      
+
             imgPath = '{statsData[tmpUrl]:h}';
 
             if(imgPath != imageLinkSrc.src) {
@@ -62,7 +62,7 @@
 
     <table width='100%' border='0' cellspacing='0' cellpadding='0'>
 	<tr>
-        {if:!disableGraph}        
+        {if:!disableGraph}
             {if:!statsData[noGraph]}
         		  <td style="padding-bottom:5px; padding-right: 30px;white-space: nowrap;">
         			  <br />
@@ -86,7 +86,7 @@
         		    <br />
         		    <span style="color: #999999;"><img id="grapharrow" src="{statsData[imgPath]}/ltr/triangle-l.gif" border="0" />{strShowGraphOfStatistics:h}</span>
         		</td>
-        
+
         		<td width='40' style="padding-right: 30px;">
         			<br />
         			<span style="color: #999999;">&nbsp;|&nbsp;</span>
@@ -100,13 +100,13 @@
     		<td width="90%">&nbsp;</td>
     	{end:}
 	</tr>
-	</table>	  
+	</table>
     {if:!statsData[noGraph]}
     <div id="statsgraph" style="text-align: center; display:none; background-color:#f9f9f9; border: 1px solid #cccccc; padding: 10px; width: 850px; margin-top: 15px; margin-bottom: 15px;">
-        <img id="imageLinkSrcTemp" src="" style="display: none;" />	    
+        <img id="imageLinkSrcTemp" src="" style="display: none;" />
 		    <img id="imageLinkSrc" src="{statsData[imgPath]}/ltr/preloader.gif" style="border: 1px solid #cccccc;padding: 5px;margin: 10px; background-color: #ffffff; text-align:center;" /><form method="post" action="{statsData[formSubmitLink]}">
 		    <div id="graphboxes" style="width: 90%; text-align: left; margin-left: auto; margin-right: auto; display: none; background-color:#eeeeee; padding: 10px; border: 1px solid #cccccc;">
-		    {foreach:columns,ck,cv}
+		    {foreach:aColumns,ck,cv}
 		    	<div style="width: 100px; float: left;"><input type="checkbox"  name="graphFilter[]" value="{ck}">&nbsp;{cv} </div>
 		    {end:}
       		<input type="Submit" value="Update" style="float: right;" />
@@ -118,7 +118,7 @@
     </td>
   </tr>
   <tr>
-	<td style="padding-left: 40px;"> 
+	<td style="padding-left: 40px;">
     {if:noStatsAvailable}
     <div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>{showNoStatsString()}</div>
     {else:}
@@ -126,7 +126,7 @@
         <thead>
             <tr>
                 <th scope="col" class="aleft"><a href="{listOrderHrefRev(statsBreakdown)}">{statsKey}<img flexy:if="listOrderImage(statsBreakdown)" src="{listOrderImage(statsBreakdown)}" border="0" /></a></th>
-                {foreach:columns,ck,cv}
+                {foreach:aColumns,ck,cv}
                 <th scope="col" class="aright" flexy:if="showColumn(ck)"><a href="{listOrderHrefRev(ck)}">{cv}<img flexy:if="listOrderImage(ck)" src="{listOrderImage(ck)}" border="0" /></a></th>
                 {end:}
             </tr>
@@ -138,7 +138,7 @@
                     <a href="{h[link]}" flexy:if="h[link]">{h[date_f]}</a>
                     <span flexy:if="!h[link]">{h[date_f]}</span>
                 </td>
-                {foreach:columns,ck,cv}
+                {foreach:aColumns,ck,cv}
                 <td class="aright {h[htmlclass]}" flexy:if="showColumn(ck)">
                     {if:showColumnLink(h,ck)}
                     <a href="{showColumnLink(h,ck)}{h[convlinkparams]}">{showValue(h,ck)}</a>
@@ -152,7 +152,7 @@
                 <td colspan="{getColSpan()}" class="nblight" style="padding-bottom: 3em">
                     <div style="float: left">
                         <form method="get">
-                            {foreach:pageParams,pk,pv}
+                            {foreach:aPageParams,pk,pv}
                             <input type="hidden" name="{pk}" value="{pv}" />
                             {end:}
                             {if:showDaySpanSelector}
@@ -176,25 +176,25 @@
             </tr>
             <tr>
                 <th scope="col" class="aleft">&nbsp;</th>
-                {foreach:columns,ck,cv}
+                {foreach:aColumns,ck,cv}
                 <th scope="col" class="aright" flexy:if="showColumn(ck)">{cv}</th>
                 {end:}
             </tr>
             <tr flexy:if="showAverage">
                 <td><b>{tr(#strTotal#)}</b></td>
-                {foreach:columns,ck,cv}
-                <td class="aright" flexy:if="showColumn(ck)">{showValue(total,ck)}</td>
+                {foreach:aColumns,ck,cv}
+                <td class="aright" flexy:if="showColumn(ck)">{showValue(aTotal,ck)}</td>
                 {end:}
             </tr>
             <tr flexy:if="!showAverage">
                 <td class="last"><b>{tr(#strTotal#)}</b></td>
-                {foreach:columns,ck,cv}
-                <td class="aright last" flexy:if="showColumn(ck)">{showValue(total,ck)}</td>
+                {foreach:aColumns,ck,cv}
+                <td class="aright last" flexy:if="showColumn(ck)">{showValue(aTotal,ck)}</td>
                 {end:}
             </tr>
             <tr flexy:if="showAverage">
                 <td class="last">{tr(#strAverage#)} ({averageSpan} {averageDesc})</td>
-                {foreach:columns,ck,cv}
+                {foreach:aColumns,ck,cv}
                 <td class="aright last" flexy:if="showColumn(ck)">{showValue(average,ck)}</td>
                 {end:}
             </tr>

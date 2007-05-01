@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsByEntityController.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonEntity.php';
 
 /**
  * The class to display the delivery statistcs for the page:
@@ -37,8 +37,40 @@ require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsByEntityController.php';
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Controller_AffiliateZones extends StatsByEntityController
+class OA_Admin_Statistics_Delivery_Controller_AffiliateZones extends OA_Admin_Statistics_Delivery_CommonEntity
 {
+
+    /**
+     * A PHP5-style constructor that can be used to perform common
+     * class instantiation by children classes.
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function __construct($aParams)
+    {
+        $this->showDaySpanSelector = true;
+        parent::__construct($aParams);
+    }
+
+    /**
+     * PHP4-style constructor
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function OA_Admin_Statistics_Delivery_Controller_AffiliateZones($aParams)
+    {
+        $this->__construct($aParams);
+    }
 
     function start()
     {
@@ -64,41 +96,38 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateZones extends StatsByEnti
         }
 
         // Add standard page parameters
-        $this->pageParams = array('affiliateid' => $publisherId);
-        $this->pageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->pageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams = array('affiliateid' => $publisherId);
+        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
+        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 
-        $this->loadParams();
+        $this->_loadParams();
 
         // HTML Framework
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
             $this->pageId = '2.4.2';
-            $this->pageSections = array('2.4.1', '2.4.2', '2.4.3');
+            $this->aPageSections = array('2.4.1', '2.4.2', '2.4.3');
         } elseif (phpAds_isUser(phpAds_Affiliate)) {
             $this->pageId = '1.2';
-            $this->pageSections[] = '1.1';
+            $this->aPageSections[] = '1.1';
             if (phpAds_isAllowed(MAX_AffiliateViewZoneStats)) {
-                $this->pageSections[] = '1.2';
+                $this->aPageSections[] = '1.2';
             }
-            $this->pageSections[] = '1.3';
+            $this->aPageSections[] = '1.3';
         }
 
-        $this->addBreadcrumbs('publisher', $publisherId);
+        $this->_addBreadcrumbs('publisher', $publisherId);
 
         // Add context
         $this->pageContext = array('publishers', $publisherId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Affiliate)) {
-            $this->addShortcut(
+            $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid='.$publisherId,
                 'images/icon-affiliate.gif'
             );
         }
-
-        // Use the day span selector
-        $this->initDaySpanSelector();
 
         $this->hideInactive = MAX_getStoredValue('hideinactive', ($pref['gui_hide_inactive'] == 't'));
         $this->showHideInactive = true;
@@ -130,15 +159,15 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateZones extends StatsByEnti
 
         $this->entities = $this->getZones($aParams, $this->startLevel, $expand);
 
-        $this->summarizeTotals($this->entities);
+        $this->_summarizeTotals($this->entities);
 
         $this->showHideLevels = array();
         $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveZonesHidden']}";
 
         // Save prefs
-        $this->pagePrefs['startlevel']     = $this->startLevel;
-        $this->pagePrefs['nodes']          = implode (",", $this->aNodes);
-        $this->pagePrefs['hideinactive']   = $this->hideInactive;
+        $this->aPagePrefs['startlevel']     = $this->startLevel;
+        $this->aPagePrefs['nodes']          = implode (",", $this->aNodes);
+        $this->aPagePrefs['hideinactive']   = $this->hideInactive;
     }
 
 }

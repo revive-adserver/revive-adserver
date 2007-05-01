@@ -21,7 +21,7 @@
         <thead>
             <tr>
                 <th scope="col" class="aleft"><a href="{listOrderHref(#name#)}">{tr(#strName#)}<img flexy:if="listOrderImage(#name#)" src="{listOrderImage(#name#)}" border="0" /></a></th>
-                {foreach:columns,ck,cv}
+                {foreach:aColumns,ck,cv}
                 <th scope="col" class="aright" flexy:if="showColumn(ck)"><a href="{listOrderHrefRev(ck)}">{cv}<img flexy:if="listOrderImage(ck)" src="{listOrderImage(ck)}" border="0" /></a></th>
                 {end:}
             </tr>
@@ -29,8 +29,8 @@
         <tbody>
             <tr flexy:if="showTotals">
                 <td class="last"><b>{tr(#strTotal#)}</b></td>
-                {foreach:columns,ck,cv}
-                <td class="aright last" flexy:if="showColumn(ck)">{showValue(total,ck)}</td>
+                {foreach:aColumns,ck,cv}
+                <td class="aright last" flexy:if="showColumn(ck)">{showValue(aTotal,ck)}</td>
                 {end:}
             </tr>
             <tr flexy:foreach="entities,e" class="{e[htmlclass]}">
@@ -46,7 +46,7 @@
                     <a flexy:if="entityLink(e[prefix])" href="{entityLink(e[prefix])}&{e[linkparams]}">{if:e[name]}{e[name]}{else:}{tr(#strUntitled#)}{end:}</a>
                     <span flexy:if="!entityLink(e[prefix])">{if:e[name]}{e[name]}{else:}{tr(#strUntitled#)}{end:}</span>
                 </td>
-                {foreach:columns,ck,cv}
+                {foreach:aColumns,ck,cv}
                 <td class="aright {e[htmlclass]}" flexy:if="showColumn(ck)">
                     {if:showColumnLink(e,ck)}
                     <a href="{showColumnLink(e,ck)}{e[linkparams]}">{showValue(e,ck)}</a>

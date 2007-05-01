@@ -25,26 +25,21 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsHistoryController.php';
-
-
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
 
 /**
- * Controller class for displaying cross-entity history type statistics screens
+ * A common class that defines a common "interface" and common methods for
+ * classes that display cross-history delivery statistics.
  *
- * Always use the factory method to instantiate fields -- it will create
- * the right subclass for you.
- *
- * @package    Max
- * @subpackage Admin_Statistics
+ * @package    OpenadsAdmin
+ * @subpackage StatisticsDelivery
  * @author     Matteo Beccati <matteo@beccati.com>
- *
- * @see StatsControllerFactory
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class StatsCrossHistoryController extends StatsHistoryController
+class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistics_Delivery_CommonHistory
 {
     var $crossEntitiesCache;
-    
+
     function getAdvertiserPublishers($advertiserId)
     {
         $aParams = array(
@@ -60,20 +55,20 @@ class StatsCrossHistoryController extends StatsHistoryController
         } else {
             $aAnonPlacements = array();
         }
-        
-        // Get stats publisher list 
+
+        // Get stats publisher list
         $aStatsPublishers = array();
-        foreach ($this->plugins as $plugin) {
+        foreach ($this->aPlugins as $plugin) {
             $pluginParams = $plugin->getHistorySpanParams();
-            
+
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
             } else {
                 $pluginParams = array();
             }
-            
+
             $aStatsPublishers += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
-            
+
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsPublishers[$v['publisher_id']] = true;
             }
@@ -81,7 +76,7 @@ class StatsCrossHistoryController extends StatsHistoryController
 
         // Get all publishers
         $aPublishers = Admin_DA::fromCache('getPublishers', array(), true);
-        
+
         // Intersect
         foreach ($aPublishers as $k => $v) {
             if (!isset($aStatsPublishers[$k])) {
@@ -91,13 +86,13 @@ class StatsCrossHistoryController extends StatsHistoryController
                 $aPublishers[$k]['anonymous'] = true;
             }
         }
-        
-        // Cache results 
+
+        // Cache results
         $this->crossEntitiesCache = $aPublishers;
-        
+
         return $aPublishers;
     }
-    
+
     function getAdvertiserZones($advertiserId)
     {
         $aParams = array(
@@ -112,18 +107,18 @@ class StatsCrossHistoryController extends StatsHistoryController
         } else {
             $aAnonPlacements = array();
         }
-        
-        // Get stats zone list 
+
+        // Get stats zone list
         $aStatsZones = array();
-        foreach ($this->plugins as $plugin) {
+        foreach ($this->aPlugins as $plugin) {
             $pluginParams = $plugin->getHistorySpanParams();
-            
+
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
             } else {
                 $pluginParams = array();
             }
-            
+
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsZones[$v['zone_id']] = true;
             }
@@ -131,7 +126,7 @@ class StatsCrossHistoryController extends StatsHistoryController
 
         // Get all zones
         $aZones = Admin_DA::fromCache('getZones', array(), true);
-        
+
         // Intersect
         foreach ($aZones as $k => $v) {
             if (!isset($aStatsZones[$k])) {
@@ -141,10 +136,10 @@ class StatsCrossHistoryController extends StatsHistoryController
                 $aZones[$k]['anonymous'] = true;
             }
         }
-        
-        // Cache results 
+
+        // Cache results
         $this->crossEntitiesCache = $aZones;
-        
+
         return $aZones;
     }
 
@@ -163,20 +158,20 @@ class StatsCrossHistoryController extends StatsHistoryController
         } else {
             $aAnonPlacements = array();
         }
-        
-        // Get stats publisher list 
+
+        // Get stats publisher list
         $aStatsPublishers = array();
-        foreach ($this->plugins as $plugin) {
+        foreach ($this->aPlugins as $plugin) {
             $pluginParams = $plugin->getHistorySpanParams();
-            
+
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
             } else {
                 $pluginParams = array();
             }
-            
+
             $aStatsPublishers += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
-            
+
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsPublishers[$v['publisher_id']] = true;
             }
@@ -184,7 +179,7 @@ class StatsCrossHistoryController extends StatsHistoryController
 
         // Get all publishers
         $aPublishers = Admin_DA::fromCache('getPublishers', array(), true);
-        
+
         // Intersect
         foreach ($aPublishers as $k => $v) {
             if (!isset($aStatsPublishers[$k])) {
@@ -194,13 +189,13 @@ class StatsCrossHistoryController extends StatsHistoryController
                 $aPublishers[$k]['anonymous'] = true;
             }
         }
-        
-        // Cache results 
+
+        // Cache results
         $this->crossEntitiesCache = $aPublishers;
-        
+
         return $aPublishers;
     }
-    
+
     function getCampaignZones($placementId)
     {
         $aParams = array(
@@ -215,18 +210,18 @@ class StatsCrossHistoryController extends StatsHistoryController
         } else {
             $aAnonPlacements = array();
         }
-        
-        // Get stats zone list 
+
+        // Get stats zone list
         $aStatsZones = array();
-        foreach ($this->plugins as $plugin) {
+        foreach ($this->aPlugins as $plugin) {
             $pluginParams = $plugin->getHistorySpanParams();
-            
+
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
             } else {
                 $pluginParams = array();
             }
-            
+
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsZones[$v['zone_id']] = true;
             }
@@ -234,7 +229,7 @@ class StatsCrossHistoryController extends StatsHistoryController
 
         // Get all zones
         $aZones = Admin_DA::fromCache('getZones', array(), true);
-        
+
         // Intersect
         foreach ($aZones as $k => $v) {
             if (!isset($aStatsZones[$k])) {
@@ -244,10 +239,10 @@ class StatsCrossHistoryController extends StatsHistoryController
                 $aZones[$k]['anonymous'] = true;
             }
         }
-        
-        // Cache results 
+
+        // Cache results
         $this->crossEntitiesCache = $aZones;
-        
+
         return $aZones;
     }
 
@@ -266,20 +261,20 @@ class StatsCrossHistoryController extends StatsHistoryController
         } else {
             $aAnonPlacements = array();
         }
-        
-        // Get stats publisher list 
+
+        // Get stats publisher list
         $aStatsPublishers = array();
-        foreach ($this->plugins as $plugin) {
+        foreach ($this->aPlugins as $plugin) {
             $pluginParams = $plugin->getHistorySpanParams();
-            
+
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
             } else {
                 $pluginParams = array();
             }
-            
+
             $aStatsPublishers += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
-            
+
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsPublishers[$v['publisher_id']] = true;
             }
@@ -287,7 +282,7 @@ class StatsCrossHistoryController extends StatsHistoryController
 
         // Get all publishers
         $aPublishers = Admin_DA::fromCache('getPublishers', array(), true);
-        
+
         // Intersect
         foreach ($aPublishers as $k => $v) {
             if (!isset($aStatsPublishers[$k])) {
@@ -297,13 +292,13 @@ class StatsCrossHistoryController extends StatsHistoryController
                 $aPublishers[$k]['anonymous'] = true;
             }
         }
-        
-        // Cache results 
+
+        // Cache results
         $this->crossEntitiesCache = $aPublishers;
-        
+
         return $aPublishers;
     }
-    
+
     function getBannerZones($adId, $placementId)
     {
         $aParams = array(
@@ -318,18 +313,18 @@ class StatsCrossHistoryController extends StatsHistoryController
         } else {
             $aAnonPlacements = array();
         }
-        
-        // Get stats zone list 
+
+        // Get stats zone list
         $aStatsZones = array();
-        foreach ($this->plugins as $plugin) {
+        foreach ($this->aPlugins as $plugin) {
             $pluginParams = $plugin->getHistorySpanParams();
-            
+
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
             } else {
                 $pluginParams = array();
             }
-            
+
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsZones[$v['zone_id']] = true;
             }
@@ -337,7 +332,7 @@ class StatsCrossHistoryController extends StatsHistoryController
 
         // Get all zones
         $aZones = Admin_DA::fromCache('getZones', array(), true);
-        
+
         // Intersect
         foreach ($aZones as $k => $v) {
             if (!isset($aStatsZones[$k])) {
@@ -347,13 +342,13 @@ class StatsCrossHistoryController extends StatsHistoryController
                 $aZones[$k]['anonymous'] = true;
             }
         }
-        
-        // Cache results 
+
+        // Cache results
         $this->crossEntitiesCache = $aZones;
-        
+
         return $aZones;
     }
-    
+
     function getPublisherCampaigns($publisherId)
     {
         $aParams = array(
@@ -363,36 +358,36 @@ class StatsCrossHistoryController extends StatsHistoryController
             'custom_columns' => array()
         );
 
-        // Get stats campaign list 
+        // Get stats campaign list
         $aStatsPlacements = array();
-        foreach ($this->plugins as $plugin) {
+        foreach ($this->aPlugins as $plugin) {
             $pluginParams = $plugin->getHistorySpanParams();
-            
+
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
             } else {
                 $pluginParams = array();
             }
-            
+
             $aStatsPlacements += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
         }
-        
+
         // Get all campaigns
         $aPlacements = Admin_DA::fromCache('getPlacements', array(), true);
-        
+
         // Intersect
         foreach ($aPlacements as $k => $v) {
             if (!isset($aStatsPlacements[$k])) {
                 unset($aPlacements[$k]);
             }
         }
-        
-        // Cache results 
+
+        // Cache results
         $this->crossEntitiesCache = $aPlacements;
-        
+
         return $aPlacements;
     }
-    
+
     function getPublisherBanners($publisherId)
     {
         $aParams = array(
@@ -403,24 +398,24 @@ class StatsCrossHistoryController extends StatsHistoryController
 
         // Get stats banner list
         $aStatsAds = array();
-        foreach ($this->plugins as $plugin) {
+        foreach ($this->aPlugins as $plugin) {
             $pluginParams = $plugin->getHistorySpanParams();
-            
+
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
             } else {
                 $pluginParams = array();
             }
-            
+
             $aStatsAds += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
         }
-        
+
         // Get all banners
         $aAds = Admin_DA::fromCache('getAds', array());
 
         // Get anonymous campaigns
         $aAnonPlacements = Admin_DA::fromCache('getPlacements', array('placement_anonymous' => 't'));
-        
+
         // Intersect
         foreach ($aAds as $k => $v) {
             if (!isset($aStatsAds[$k])) {
@@ -429,10 +424,10 @@ class StatsCrossHistoryController extends StatsHistoryController
                 $aAds[$k]['anonymous'] = isset($aAnonPlacements[$v['placement_id']]);
             }
         }
-        
-        // Cache results 
+
+        // Cache results
         $this->crossEntitiesCache = $aAds;
-        
+
         return $aAds;
     }
 
@@ -445,36 +440,36 @@ class StatsCrossHistoryController extends StatsHistoryController
             'custom_columns' => array()
         );
 
-        // Get stats campaign list 
+        // Get stats campaign list
         $aStatsPlacements = array();
-        foreach ($this->plugins as $plugin) {
+        foreach ($this->aPlugins as $plugin) {
             $pluginParams = $plugin->getHistorySpanParams();
-            
+
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
             } else {
                 $pluginParams = array();
             }
-            
+
             $aStatsPlacements += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
         }
-        
+
         // Get all campaigns
         $aPlacements = Admin_DA::fromCache('getPlacements', array(), true);
-        
+
         // Intersect
         foreach ($aPlacements as $k => $v) {
             if (!isset($aStatsPlacements[$k])) {
                 unset($aPlacements[$k]);
             }
         }
-        
-        // Cache results 
+
+        // Cache results
         $this->crossEntitiesCache = $aPlacements;
-        
+
         return $aPlacements;
     }
-    
+
     function getZoneBanners($zoneId)
     {
         $aParams = array(
@@ -485,24 +480,24 @@ class StatsCrossHistoryController extends StatsHistoryController
 
         // Get stats banner list
         $aStatsAds = array();
-        foreach ($this->plugins as $plugin) {
+        foreach ($this->aPlugins as $plugin) {
             $pluginParams = $plugin->getHistorySpanParams();
-            
+
             if (isset($pluginParams['custom_table'])) {
                 $pluginParams = array('custom_table' => $pluginParams['custom_table']);
             } else {
                 $pluginParams = array();
             }
-            
+
             $aStatsAds += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
         }
-        
+
         // Get all banners
         $aAds = Admin_DA::fromCache('getAds', array());
 
         // Get anonymous campaigns
         $aAnonPlacements = Admin_DA::fromCache('getPlacements', array('placement_anonymous' => 't'));
-        
+
         // Intersect
         foreach ($aAds as $k => $v) {
             if (!isset($aStatsAds[$k])) {
@@ -511,53 +506,53 @@ class StatsCrossHistoryController extends StatsHistoryController
                 $aAds[$k]['anonymous'] = isset($aAnonPlacements[$v['placement_id']]);
             }
         }
-        
-        // Cache results 
+
+        // Cache results
         $this->crossEntitiesCache = $aAds;
-        
+
         return $aAds;
     }
 
     function addCrossBreadCrumbs($type, $entityId, $level = 0)
     {
         $cache = $this->crossEntitiesCache;
-        
+
         switch ($type) {
-        
+
         case 'campaign':
             if ($this->noStatsAvailable) {
                 $this->_addBreadcrumb('', MAX_getEntityIcon('placement'));
             } else {
                 $this->_addBreadcrumb(phpAds_buildName($entityId, MAX_getPlacementName($cache[$entityId])), MAX_getEntityIcon('placement'));
             }
-            
+
             break;
-        
+
         case 'banner':
             if ($this->noStatsAvailable) {
                 $this->_addBreadcrumb('', MAX_getEntityIcon('ad'));
             } else {
                 $this->_addBreadcrumb(phpAds_buildName($entityId, MAX_getAdName($cache[$entityId]['name'], null, null, $cache[$entityId]['anonymous'], $entityId)), MAX_getEntityIcon('ad'));
             }
-            
+
             break;
-        
+
         case 'publisher':
             if ($this->noStatsAvailable) {
                 $this->_addBreadcrumb('', MAX_getEntityIcon('publisher'));
             } else {
                 $this->_addBreadcrumb(phpAds_buildName($entityId, MAX_getPublisherName($cache[$entityId]['name'], null, $cache[$entityId]['anonymous'], $entityId)), MAX_getEntityIcon('publisher'));
             }
-            
+
             break;
-        
+
         case 'zone':
             if ($this->noStatsAvailable) {
                 $this->_addBreadcrumb('', MAX_getEntityIcon('zone'));
             } else {
                 $this->_addBreadcrumb(phpAds_buildName($entityId, MAX_getZoneName($cache[$entityId]['name'], null, $cache[$entityId]['anonymous'], $entityId)), MAX_getEntityIcon('zone'));
             }
-            
+
             break;
         }
     }

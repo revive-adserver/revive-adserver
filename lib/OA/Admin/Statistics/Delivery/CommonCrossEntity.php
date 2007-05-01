@@ -25,27 +25,22 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsByEntityController.php';
-
-
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonEntity.php';
 
 /**
- * Controller class for displaying cross-entities type statistics screens
+ * A common class that defines a common "interface" and common methods for
+ * classes that display cross-entity delivery statistics.
  *
- * Always use the factory method to instantiate fields -- it will create
- * the right subclass for you.
- *
- * @package    Max
- * @subpackage Admin_Statistics
+ * @package    OpenadsAdmin
+ * @subpackage StatisticsDelivery
  * @author     Matteo Beccati <matteo@beccati.com>
- *
- * @see StatsControllerFactory
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class StatsCrossEntityController extends StatsByEntityController
+class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics_Delivery_CommonEntity
 {
     var $aAnonAdvertisers;
     var $aAnonPlacements;
-    
+
     /**
      * PHP5-style constructor
      */
@@ -53,18 +48,18 @@ class StatsCrossEntityController extends StatsByEntityController
     {
         // Override links
         $this->entityLinks = array();
-        
+
         parent::__construct($params);
     }
-    
+
     /**
      * PHP4-style constructor
      */
-    function StatsCrossEntityController($params)
+    function OA_Admin_Statistics_Delivery_CommonCrossEntity($params)
     {
         $this->__construct($params);
     }
-    
+
     /**
      * Merge aggregate stats with entity properties (name, children, etc)
      *
@@ -79,7 +74,7 @@ class StatsCrossEntityController extends StatsByEntityController
     function mergeData($aParams, $key)
     {
         $aEntities = parent::mergeData($aParams, $key);
-        
+
         if (phpAds_isUser(phpAds_Client) || phpAds_isUser(phpAds_Affiliate)) {
             if (is_null($this->aAnonAdvertisers)) {
                 $this->aAnonAdvertisers = array();
@@ -91,7 +86,7 @@ class StatsCrossEntityController extends StatsByEntityController
                 }
             }
         }
-        
+
         foreach (array_keys($aEntities) as $entityId) {
             if (!isset($this->data[$key][$entityId])) {
                 unset($aEntities[$entityId]);
@@ -109,10 +104,10 @@ class StatsCrossEntityController extends StatsByEntityController
                 }
             }
         }
-        
+
         return $aEntities;
     }
-    
+
     /**
      * Fixes link parameters to include cross-entities
      *
@@ -127,7 +122,7 @@ class StatsCrossEntityController extends StatsByEntityController
         }
         $linkparams = join('&', $linkparams);
     }
-    
+
     /**
      * Mask entities which have the hidden flag set
      *
@@ -137,14 +132,14 @@ class StatsCrossEntityController extends StatsByEntityController
     function maskHiddenEntities(&$aEntities, $entityType)
     {
         $this->fixLinkParams($aEntities);
-        
+
         foreach (array_keys($aEntities) as $entityId) {
             if (isset($aEntities[$entityId]['hidden']) && $aEntities[$entityId]['hidden']) {
                 switch ($entityType) {
                     case 'advertiser':
                         $aEntities[$entityId]['name'] = MAX_getAdvertiserName($aEntities[$entityId]['name'], null, true, $aEntities[$entityId]['id']);
                         break;
-                    
+
                     case 'campaign':
                         $tmp = array(
                             'placement_id'  => $aEntities[$entityId]['id'],
@@ -153,15 +148,15 @@ class StatsCrossEntityController extends StatsByEntityController
                         );
                         $aEntities[$entityId]['name'] = MAX_getPlacementName($tmp);
                         break;
-                    
+
                     case 'banner':
                         $aEntities[$entityId]['name'] = MAX_getAdName($aEntities[$entityId]['name'], null, null, true, $aEntities[$entityId]['id']);
                         break;
-                    
+
                     case 'publisher':
                         $aEntities[$entityId]['name'] = MAX_getPublisherName($aEntities[$entityId]['name'], null, true, $aEntities[$entityId]['id']);
                         break;
-                    
+
                     case 'zone':
                         $aEntities[$entityId]['name'] = MAX_getZoneName($aEntities[$entityId]['name'], null, true, $aEntities[$entityId]['id']);
                         break;
@@ -171,7 +166,7 @@ class StatsCrossEntityController extends StatsByEntityController
                 //unset($aEntities[$entityId]['subentities']);
             }
         }
-        
+
         if ($this->listOrderField == 'name' || $this->listOrderField == 'id') {
             MAX_sortArray(
                 $aEntities,
@@ -180,58 +175,58 @@ class StatsCrossEntityController extends StatsByEntityController
             );
         }
     }
-    
+
     function getAdvertisers($aParams, $level, $expand = '')
     {
         $aEntities = parent::getAdvertisers($aParams, $level, $expand);
-        
+
         $this->maskHiddenEntities($aEntities, 'advertiser');
-        
+
         return $aEntities;
     }
-    
+
     function getCampaigns($aParams, $level, $expand = '')
     {
         $aEntities = parent::getCampaigns($aParams, $level, $expand);
-        
+
         $this->maskHiddenEntities($aEntities, 'campaign');
-        
+
         return $aEntities;
     }
-    
+
     function getBanners($aParams, $level, $expand = '')
     {
         $aEntities = parent::getBanners($aParams, $level, $expand);
-        
+
         $this->maskHiddenEntities($aEntities, 'banner');
-        
+
         return $aEntities;
     }
-    
+
     function getPublishers($aParams, $level, $expand = '')
     {
         $aEntities = parent::getPublishers($aParams, $level, $expand);
-        
+
         $this->maskHiddenEntities($aEntities, 'publisher');
         if (!$level) {
             $this->addDirectSelection($aParams, $aEntities);
         }
-        
+
         return $aEntities;
     }
-    
+
     function getZones($aParams, $level, $expand = '')
     {
         $aEntities = parent::getZones($aParams, $level, $expand);
-        
+
         $this->maskHiddenEntities($aEntities, 'zone');
         if (!$level) {
             $this->addDirectSelection($aParams, $aEntities);
         }
-        
+
         return $aEntities;
     }
-    
+
     /**
      * Add direct selection stats to an entity array
      *
@@ -242,33 +237,33 @@ class StatsCrossEntityController extends StatsByEntityController
     {
         $aParams['exclude'] = array('ad_id');
         $aParams['zone_id'] = 0;
-        
+
         // Get plugin aParams
         $pluginParams = array();
-        foreach ($this->plugins as $plugin) {
+        foreach ($this->aPlugins as $plugin) {
             $plugin->addQueryParams($pluginParams);
         }
-        
+
         $aDirectSelection = Admin_DA::fromCache('getEntitiesStats', $aParams + $this->aDates);
-        
+
         // Merge plugin additional data
-        foreach ($this->plugins as $plugin) {
-            $plugin->mergeData($aDirectSelection, $this->emptyRow, 'getEntitiesStats', $aParams + $this->aDates);
+        foreach ($this->aPlugins as $plugin) {
+            $plugin->mergeData($aDirectSelection, $this->aEmptyRow, 'getEntitiesStats', $aParams + $this->aDates);
         }
-        
+
         if (count($aDirectSelection)) {
-            $zone = current($aDirectSelection) + $this->emptyRow;
-            $zone['active'] = $this->hasActiveStats($zone);
-            
+            $zone = current($aDirectSelection) + $this->aEmptyRow;
+            $zone['active'] = $this->_hasActiveStats($zone);
+
             if ($zone['active']) {
-                $this->summarizeStats($zone);
-                                
+                $this->_summarizeStats($zone);
+
                 $zone['name'] = $GLOBALS['strGenerateBannercode'];
                 $zone['prefix'] = 'x';
                 $zone['id'] = '-';
                 $zone['icon'] = 'images/icon-generatecode.gif';
                 $zone['htmlclass'] = 'last';
-                
+
                 if ($this->listOrderField != 'name' && $this->listOrderField != 'id') {
                     $aEntities[] = $zone;
                     MAX_sortArray(

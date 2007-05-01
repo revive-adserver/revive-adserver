@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsDailyController.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonDaily.php';
 
 /**
  * The class to display the delivery statistcs for the page:
@@ -41,7 +41,7 @@ require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsDailyController.php';
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends StatsDailyController
+class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends OA_Admin_Statistics_Delivery_CommonDaily
 {
 
     function start()
@@ -94,7 +94,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends StatsDailyContro
                 // Cross-entity
                 $this->pageId = empty($adId) ? '2.4.2.2.1.1' : '2.4.2.2.2.1';
             }
-            $this->pageSections = array($this->pageId);
+            $this->aPageSections = array($this->pageId);
         } elseif (phpAds_isUser(phpAds_Client)) {
             if (empty($placementId) && empty($adId)) {
                 $this->pageId = '1.2.1.1';
@@ -102,28 +102,28 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends StatsDailyContro
                 // Cross-entity
                 $this->pageId = empty($adId) ? '1.2.2.1.1' : '1.2.2.2.1';
             }
-            $this->pageSections = array($this->pageId);
+            $this->aPageSections = array($this->pageId);
         }
 
         // Add standard page parameters
-        $this->pageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId,
+        $this->aPageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId,
                                   'entity' => 'zone', 'breakdown' => 'daily',
                                   'day' => MAX_getValue('day', '')
                                  );
-        $this->pageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->pageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
+        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 
         // Cross-entity
         if (!empty($adId)) {
-            $this->pageParams['campaignid'] = $aAds[$adId]['placement_id'];
-            $this->pageParams['banner']     = $adId;
+            $this->aPageParams['campaignid'] = $aAds[$adId]['placement_id'];
+            $this->aPageParams['banner']     = $adId;
         } elseif (!empty($placementId)) {
-            $this->pageParams['campaignid'] = $placementId;
+            $this->aPageParams['campaignid'] = $placementId;
         }
 
-        $this->loadParams();
+        $this->_loadParams();
 
-        $this->addBreadcrumbs('zone', $zoneId);
+        $this->_addBreadcrumbs('zone', $zoneId);
 
         // Cross-entity
         if (!empty($adId)) {
@@ -134,14 +134,14 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends StatsDailyContro
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Affiliate)) {
-            $this->addShortcut(
+            $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid='.$publisherId,
                 'images/icon-affiliate.gif'
             );
         }
 
-        $this->addShortcut(
+        $this->_addShortcut(
             $GLOBALS['strZoneProperties'],
             'zone-edit.php?affiliateid='.$publisherId.'&zoneid='.$zoneId,
             'images/icon-zone.gif'

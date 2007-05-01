@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsHistoryController.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
 
 /**
  * The class to display the delivery statistcs for the page:
@@ -37,8 +37,40 @@ require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsHistoryController.php';
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Controller_GlobalHistory extends StatsHistoryController
+class OA_Admin_Statistics_Delivery_Controller_GlobalHistory extends OA_Admin_Statistics_Delivery_CommonHistory
 {
+
+    /**
+     * A PHP5-style constructor that can be used to perform common
+     * class instantiation by children classes.
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function __construct($aParams)
+    {
+        $this->showDaySpanSelector = true;
+        parent::__construct($aParams);
+    }
+
+    /**
+     * PHP4-style constructor
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function OA_Admin_Statistics_Delivery_Controller_GlobalHistory($aParams)
+    {
+        $this->__construct($aParams);
+    }
 
     function start()
     {
@@ -49,19 +81,16 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalHistory extends StatsHistory
         $pref = $GLOBALS['_MAX']['PREF'];
 
         // Add module page parameters
-        $this->pageParams['entity'] = 'global';
-        $this->pageParams['breakdown'] = MAX_getValue('breakdown', '');
-        $this->pageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->pageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams['entity'] = 'global';
+        $this->aPageParams['breakdown'] = MAX_getValue('breakdown', '');
+        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
+        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 
-        $this->loadParams();
+        $this->_loadParams();
 
         // HTML Framework
         $this->pageId = '2.2';
-        $this->pageSections = array('2.1', '2.4', '2.2');
-
-        // Use the day span selector
-        $this->initDaySpanSelector();
+        $this->aPageSections = array('2.1', '2.4', '2.2');
 
         $aParams = array();
         if (phpAds_isUser(phpAds_Agency)) {

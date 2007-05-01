@@ -25,22 +25,18 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsController.php';
-require_once 'Pager/Pager.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/Common.php';
 
 /**
- * Controller class for displaying history type statistics screens
+ * A common class that defines a common "interface" and common methods for
+ * classes that display history delivery statistics.
  *
- * Always use the factory method to instantiate fields -- it will create
- * the right subclass for you.
- *
- * @package    Max
- * @subpackage Admin_Statistics
+ * @package    OpenadsAdmin
+ * @subpackage StatisticsDelivery
  * @author     Matteo Beccati <matteo@beccati.com>
- *
- * @see StatsControllerFactory
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class StatsHistoryController extends StatsController
+class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Delivery_Common
 {
     var $history;
 
@@ -72,22 +68,22 @@ class StatsHistoryController extends StatsController
         parent::__construct($params);
 
         // Store the preferences
-        $this->pagePrefs['listorder']      = $this->listOrderField;
-        $this->pagePrefs['orderdirection'] = $this->listOrderDirection;
-        $this->pagePrefs['breakdown']      = $this->statsBreakdown;
+        $this->aPagePrefs['listorder']      = $this->listOrderField;
+        $this->aPagePrefs['orderdirection'] = $this->listOrderDirection;
+        $this->aPagePrefs['breakdown']      = $this->statsBreakdown;
     }
 
     /**
      * PHP4-style constructor
      */
-    function StatsHistoryController($params)
+    function OA_Admin_Statistics_Delivery_CommonHistory($params)
     {
         $this->__construct($params);
     }
 
     function getColspan()
     {
-        return count($this->columns) + 1;
+        return count($this->aColumns) + 1;
     }
 
     /**
@@ -103,7 +99,7 @@ class StatsHistoryController extends StatsController
             // Fix htmlclass to match the weekly template
             if (count($this->history)) {
                 $rows = array('date');
-                foreach (array_keys($this->columns) as $v) {
+                foreach (array_keys($this->aColumns) as $v) {
                     if ($this->showColumn($v)) {
                         $rows[] = $v;
                     }
@@ -157,7 +153,7 @@ class StatsHistoryController extends StatsController
         $start_date = & new Date(date('Y-m-d'));
 
         // Check span using all plugins
-        foreach ($this->plugins as $plugin) {
+        foreach ($this->aPlugins as $plugin) {
             $pluginParams = $plugin->getHistorySpanParams();
 
             $span = Admin_DA::fromCache('getHistorySpan', $aParams + $pluginParams);
@@ -207,7 +203,7 @@ class StatsHistoryController extends StatsController
         } elseif ($this->statsBreakdown == 'week') {
             $per_page  = 4;
             $use_pager = count($stats) > $per_page;
-        } elseif ($this->globalPrefs['period_preset'] == 'this_month' || $this->globalPrefs['period_preset'] == 'last_month') {
+        } elseif ($this->aGlobalPrefs['period_preset'] == 'this_month' || $this->aGlobalPrefs['period_preset'] == 'last_month') {
             // Do not use pager when showing last or current month
             $use_pager = false;
         } elseif ($this->statsBreakdown == 'hour' || $this->statsBreakdown == 'dow') {
@@ -248,7 +244,7 @@ class StatsHistoryController extends StatsController
             $this->pagerSelect = false;
         }
 
-        $this->pagePrefs['setPerPage'] = $params['perPage'];
+        $this->aPagePrefs['setPerPage'] = $params['perPage'];
 
         if (count($this->history)) {
             $i = 0;
@@ -313,26 +309,26 @@ class StatsHistoryController extends StatsController
 
         // Add plugin aParams
         $pluginParams = array();
-        foreach ($this->plugins as $plugin) {
+        foreach ($this->aPlugins as $plugin) {
                 $plugin->addQueryParams($pluginParams);
         }
 
         $stats = Admin_DA::fromCache($method, $aParams + $this->aDates + $pluginParams);
 
         // Merge plugin additional data
-        foreach ($this->plugins as $plugin) {
-            $plugin->mergeData($stats, $this->emptyRow, $method, $aParams + $this->aDates);
+        foreach ($this->aPlugins as $plugin) {
+            $plugin->mergeData($stats, $this->aEmptyRow, $method, $aParams + $this->aDates);
         }
 
         if (count($stats)) {
             // Fill unused plugins columns
             foreach (array_keys($stats) as $k) {
-                $stats[$k] += $this->emptyRow;
+                $stats[$k] += $this->aEmptyRow;
             }
 
             $this->fillGaps($stats, $link);
 
-            if (!in_array($this->listOrderField, array_merge(array($this->statsBreakdown), array_keys($this->columns)))) {
+            if (!in_array($this->listOrderField, array_merge(array($this->statsBreakdown), array_keys($this->aColumns)))) {
                 $this->listOrderField = $this->statsBreakdown;
                 $this->listOrderDirection = $this->statsBreakdown == 'hour' || $this->statsBreakdown == 'dow' ? 'up' : 'down';
             }
@@ -343,7 +339,7 @@ class StatsHistoryController extends StatsController
 
             MAX_sortArray($stats, $this->listOrderField, $this->listOrderDirection == 'up');
 
-            $this->summarizeTotals($stats, true);
+            $this->_summarizeTotals($stats, true);
         } else {
             $this->noStatsAvailable = true;
         }
@@ -380,14 +376,14 @@ class StatsHistoryController extends StatsController
                         'week'            => $week, //$oDate->format($GLOBALS['week_format']),
                         'data'            => array(),
                         'avg'             => array()
-                    ) + $this->emptyRow;
+                    ) + $this->aEmptyRow;
                 }
 
-                foreach (array_keys($this->columns) as $ck) {
+                foreach (array_keys($this->aColumns) as $ck) {
                     $weekstats[$week][$ck] += $v[$ck];
                 }
 
-                $this->formatStats($v);
+                $this->_formatStats($v);
                 $weekstats[$week]['data'][$k] = $v;
             }
 
@@ -398,11 +394,11 @@ class StatsHistoryController extends StatsController
                 $weekstats[$week]['avg'] = $this->summarizeAverage($weekstats[$week], $days_count, 0);
 
                 ksort($weekstats[$week]['data']);
-                $this->summarizeStats($weekstats[$week]);
+                $this->_summarizeStats($weekstats[$week]);
 
                 if ($days_count < 7) {
                     $hypenRow = array();
-                    foreach (array_keys($this->columns) as $k) {
+                    foreach (array_keys($this->aColumns) as $k) {
                         $hypenRow[$k] = '-';
                     }
 
@@ -545,21 +541,21 @@ class StatsHistoryController extends StatsController
     {
         foreach ($this->getDatesArray() as $key  => $date_f) {
             if (!isset($stats[$key])) {
-                $stats[$key] = array($this->statsBreakdown => $key) + $this->emptyRow;
+                $stats[$key] = array($this->statsBreakdown => $key) + $this->aEmptyRow;
             }
             $stats[$key]['date_f'] = $date_f;
-            $this->summarizeStats($stats[$key]);
+            $this->_summarizeStats($stats[$key]);
 
             switch ($this->statsBreakdown) {
 
             case 'week' :
             case 'day' :
                 $stats[$key]['day']  = $key;
-                $stats[$key]['link'] = $this->uriAddParams($link).'day='.str_replace('-', '', $key);
+                $stats[$key]['link'] = $this->_addPageParamsToURI($link).'day='.str_replace('-', '', $key);
                 $params = $this->removeDuplicateParams($link);
-                $stats[$key]['linkparams'] = substr($this->uriAddParams('', $params).
+                $stats[$key]['linkparams'] = substr($this->_addPageParamsToURI('', $params).
                     'day='.str_replace('-', '', $key), 1);
-                $stats[$key]['convlinkparams'] = substr($this->uriAddParams('', $params).
+                $stats[$key]['convlinkparams'] = substr($this->_addPageParamsToURI('', $params).
                     'day='.str_replace('-', '', $key), 1);
                 break;
 
@@ -569,11 +565,11 @@ class StatsHistoryController extends StatsController
                 $month_end->setDay($month_end->getDaysInMonth());
                 $stats[$key]['month']      = $key;
                 $params = $this->removeDuplicateParams($link);
-                $stats[$key]['linkparams'] = substr($this->uriAddParams('', $params).
+                $stats[$key]['linkparams'] = substr($this->_addPageParamsToURI('', $params).
                     'period_preset=specific&'.
                     'period_start='.$month_start->format('%Y-%m-%d').'&'.
                     'period_end='.$month_end->format('%Y-%m-%d'), 1);
-                $stats[$key]['convlinkparams'] = substr($this->uriAddParams('', $params).
+                $stats[$key]['convlinkparams'] = substr($this->_addPageParamsToURI('', $params).
                     'period_preset=specific&'.
                     'period_start='.$month_start->format('%Y-%m-%d').'&'.
                     'period_end='.$month_end->format('%Y-%m-%d'), 1);
@@ -587,10 +583,10 @@ class StatsHistoryController extends StatsController
                 $stats[$key]['hour'] = $key;
                 if (!empty($this->aDates['day_begin']) && $this->aDates['day_begin'] == $this->aDates['day_end']) {
                     $params = $this->removeDuplicateParams($link);
-                    $stats[$key]['linkparams'] = substr($this->uriAddParams('', $params).
+                    $stats[$key]['linkparams'] = substr($this->_addPageParamsToURI('', $params).
                         'day='.str_replace('-', '', $this->aDates['day_begin']).'&'.
                         'hour='.sprintf('%02d', $key), 1);
-                    $stats[$key]['convlinkparams'] = substr($this->uriAddParams('', $params).
+                    $stats[$key]['convlinkparams'] = substr($this->_addPageParamsToURI('', $params).
                         'day='.str_replace('-', '', $this->aDates['day_begin']).'&'.
                         'hour='.sprintf('%02d', $key), 1);
                 }
@@ -657,7 +653,7 @@ class StatsHistoryController extends StatsController
         foreach ($this->history as $h) {
             $row = array();
             $row[] = $h['date_f'];
-            foreach (array_keys($this->columns) as $ck) {
+            foreach (array_keys($this->aColumns) as $ck) {
                 if ($this->showColumn($ck)) {
                     $row[] = $h[$ck];
                 }

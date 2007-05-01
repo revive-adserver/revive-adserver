@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsHistoryController.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
 
 /**
  * The class to display the delivery statistcs for the page:
@@ -37,8 +37,40 @@ require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsHistoryController.php';
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends StatsHistoryController
+class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends OA_Admin_Statistics_Delivery_CommonHistory
 {
+
+    /**
+     * A PHP5-style constructor that can be used to perform common
+     * class instantiation by children classes.
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function __construct($aParams)
+    {
+        $this->showDaySpanSelector = true;
+        parent::__construct($aParams);
+    }
+
+    /**
+     * PHP4-style constructor
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function OA_Admin_Statistics_Delivery_Controller_AffiliateHistory($aParams)
+    {
+        $this->__construct($aParams);
+    }
 
     function start()
     {
@@ -65,7 +97,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends StatsHist
         }
 
         // Add standard page parameters
-        $this->pageParams = array('affiliateid' => $publisherId,
+        $this->aPageParams = array('affiliateid' => $publisherId,
                                   'entity'    => 'affiliate',
                                   'breakdown' => 'history',
                                   'statsBreakdown' => MAX_getStoredValue('statsBreakdown', 'history'));
@@ -73,32 +105,29 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends StatsHist
         // HTML Framework
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
             $this->pageId = '2.4.1';
-            $this->pageSections = array('2.4.1', '2.4.2', '2.4.3');
+            $this->aPageSections = array('2.4.1', '2.4.2', '2.4.3');
         } elseif (phpAds_isUser(phpAds_Affiliate)) {
             $this->pageId = '1.1';
-            $this->pageSections[] = '1.1';
+            $this->aPageSections[] = '1.1';
             if (phpAds_isAllowed(MAX_AffiliateViewZoneStats)) {
-                $this->pageSections[] = '1.2';
+                $this->aPageSections[] = '1.2';
             }
-            $this->pageSections[] = '1.3';
+            $this->aPageSections[] = '1.3';
         }
 
-        $this->addBreadcrumbs('publisher', $publisherId);
+        $this->_addBreadcrumbs('publisher', $publisherId);
 
         // Add context
         $this->pageContext = array('publishers', $publisherId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Affiliate)) {
-            $this->addShortcut(
+            $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid='.$publisherId,
                 'images/icon-affiliate.gif'
             );
         }
-
-        // Use the day span selector
-        $this->initDaySpanSelector();
 
         $aParams = array();
         $aParams['publisher_id'] = $publisherId;

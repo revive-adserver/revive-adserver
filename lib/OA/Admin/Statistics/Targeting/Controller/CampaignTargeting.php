@@ -30,6 +30,38 @@ require_once MAX_PATH . '/lib/OA/Admin/Targeting/Controller.php';
 class OA_Admin_Targeting_Controller_CampaignTargeting extends OA_Admin_Targeting_Controller
 {
 
+    /**
+     * A PHP5-style constructor that can be used to perform common
+     * class instantiation by children classes.
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function __construct($aParams)
+    {
+        $this->showDaySpanSelector = true;
+        parent::__construct($aParams);
+    }
+
+    /**
+     * PHP4-style constructor
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function OA_Admin_Targeting_Controller_CampaignTargeting($aParams)
+    {
+        $this->__construct($aParams);
+    }
+
     function start()
     {
         // Get the preferences
@@ -51,55 +83,52 @@ class OA_Admin_Targeting_Controller_CampaignTargeting extends OA_Admin_Targeting
         }
 
         // Add standard page parameters
-        $this->pageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId,
+        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId,
                                   'entity' => 'campaign', 'breakdown' => 'targeting');
 
-        $this->loadParams();
+        $this->_loadParams();
 
         // HTML Framework
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
             $this->pageId = '2.1.2.4';
-            $this->pageSections = array('2.1.2.1', '2.1.2.2', '2.1.2.3', '2.1.2.4');
+            $this->aPageSections = array('2.1.2.1', '2.1.2.2', '2.1.2.3', '2.1.2.4');
         } elseif (phpAds_isUser(phpAds_Client)) {
             $this->pageId = '1.2.1';
-            $this->pageSections = array('1.2.1', '1.2.2', '1.2.3');
+            $this->aPageSections = array('1.2.1', '1.2.2', '1.2.3');
         }
 
-        $this->addBreadcrumbs('campaign', $placementId);
+        $this->_addBreadcrumbs('campaign', $placementId);
 
         // Add context
         $this->pageContext = array('campaigns', $placementId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Client)) {
-            $this->addShortcut(
+            $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid='.$advertiserId,
                 'images/icon-advertiser.gif'
             );
         }
-        $this->addShortcut(
+        $this->_addShortcut(
             $GLOBALS['strCampaignProperties'],
             'campaign-edit.php?clientid='.$advertiserId.'&campaignid='.$placementId,
             'images/icon-campaign.gif'
         );
 
-        // Use the day span selector
-        $this->initDaySpanSelector();
-
         $aParams = array();
         $aParams['placement_id'] = $placementId;
 
-        $this->pageParams['entity']    = 'campaign';
-        $this->pageParams['breakdown'] = 'daily';
+        $this->aPageParams['entity']    = 'campaign';
+        $this->aPageParams['breakdown'] = 'daily';
 
 
         $this->prepareTargeting($aParams, 'stats.php');
 
-        $this->pageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId,
+        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId,
                                   'entity' => 'campaign', 'breakdown' => 'targeting');
 
-        $this->loadParams();
+        $this->_loadParams();
 
     }
 }

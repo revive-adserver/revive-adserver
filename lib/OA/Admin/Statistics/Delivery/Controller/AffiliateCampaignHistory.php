@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsCrossHistoryController.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossHistory.php';
 
 /**
  * The class to display the delivery statistcs for the page:
@@ -37,8 +37,40 @@ require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsCrossHistoryController.p
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends StatsCrossHistoryController
+class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends OA_Admin_Statistics_Delivery_CommonCrossHistory
 {
+
+    /**
+     * A PHP5-style constructor that can be used to perform common
+     * class instantiation by children classes.
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function __construct($aParams)
+    {
+        $this->showDaySpanSelector = true;
+        parent::__construct($aParams);
+    }
+
+    /**
+     * PHP4-style constructor
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory($aParams)
+    {
+        $this->__construct($aParams);
+    }
 
     function start()
     {
@@ -62,9 +94,6 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends S
             phpAds_Die ($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
         }
 
-        // Use the day span selector
-        $this->initDaySpanSelector();
-
         // Fetch campaigns
         $aPlacements = $this->getPublisherCampaigns($publisherId);
 
@@ -74,39 +103,39 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends S
         }
 
         // Add standard page parameters
-        $this->pageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId);
-        $this->pageParams['campaignid'] = $placementId;
-        $this->pageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
-        $this->pageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId);
+        $this->aPageParams['campaignid'] = $placementId;
+        $this->aPageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
+        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 
-        $this->loadParams();
+        $this->_loadParams();
 
         // HTML Framework
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
             $this->pageId = '2.4.3.1';
-            $this->pageSections = array($this->pageId);
+            $this->aPageSections = array($this->pageId);
         } elseif (phpAds_isUser(phpAds_Affiliate)) {
             $this->pageId = '1.3.1';
-            $this->pageSections = array($this->pageId);
+            $this->aPageSections = array($this->pageId);
         }
 
-        $this->addBreadcrumbs('publisher', $publisherId);
+        $this->_addBreadcrumbs('publisher', $publisherId);
         $this->addCrossBreadcrumbs('campaign', $placementId);
 
         // Add context
-        $params = $this->pageParams;
+        $params = $this->aPageParams;
         foreach ($aPlacements as $k => $v){
             $params['campaignid'] = $k;
             phpAds_PageContext (
                 phpAds_buildName($k, MAX_getPlacementName($v)),
-                $this->uriAddParams($this->pageName, $params, true),
+                $this->_addPageParamsToURI($this->pageName, $params, true),
                 $placementId == $k
             );
         }
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Affiliate)) {
-            $this->addShortcut(
+            $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid='.$publisherId,
                 'images/icon-affiliate.gif'

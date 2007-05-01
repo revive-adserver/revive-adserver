@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsCrossHistoryController.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossHistory.php';
 
 /**
  * The class to display the delivery statistcs for the page:
@@ -37,8 +37,41 @@ require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsCrossHistoryController.p
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends StatsCrossHistoryController
+class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends OA_Admin_Statistics_Delivery_CommonCrossHistory
 {
+
+    /**
+     * A PHP5-style constructor that can be used to perform common
+     * class instantiation by children classes.
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function __construct($aParams)
+    {
+        $this->showDaySpanSelector = true;
+        parent::__construct($aParams);
+    }
+
+    /**
+     * PHP4-style constructor
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory($aParams)
+    {
+        $this->__construct($aParams);
+    }
+
     function start()
     {
         // Get the preferences
@@ -62,9 +95,6 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends StatsCro
             phpAds_Die ($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
         }
 
-        // Use the day span selector
-        $this->initDaySpanSelector();
-
         // Fetch campaigns
         $aAds = $this->getZoneBanners($zoneId);
 
@@ -74,50 +104,50 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends StatsCro
         }
 
         // Add standard page parameters
-        $this->pageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId,
+        $this->aPageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId,
                                   'entity' => 'zone', 'breakdown' => 'banner-history'
                                  );
-        $this->pageParams['campaignid'] = $aAds[$adId]['placement_id'];
-        $this->pageParams['bannerid']   = $adId;
-        $this->pageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->pageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams['campaignid'] = $aAds[$adId]['placement_id'];
+        $this->aPageParams['bannerid']   = $adId;
+        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
+        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 
-        $this->loadParams();
+        $this->_loadParams();
 
         // HTML Framework
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
             $this->pageId = '2.4.2.2.2';
-            $this->pageSections = array($this->pageId);
+            $this->aPageSections = array($this->pageId);
         } elseif (phpAds_isUser(phpAds_Affiliate)) {
             $this->pageId = '1.2.2.2';
-            $this->pageSections = array($this->pageId);
+            $this->aPageSections = array($this->pageId);
         }
 
-        $this->addBreadcrumbs('zone', $zoneId);
+        $this->_addBreadcrumbs('zone', $zoneId);
         $this->addCrossBreadcrumbs('banner', $adId);
 
         // Add context
-        $params = $this->pageParams;
+        $params = $this->aPageParams;
         foreach ($aAds as $k => $v){
             $params['campaignid'] = $v['placement_id'];
             $params['bannerid'] = $k;
             phpAds_PageContext (
                 phpAds_buildName($k, MAX_getAdName($v['name'], null, null, $v['anonymous'], $k)),
-                $this->uriAddParams($this->pageName, $params, true),
+                $this->_addPageParamsToURI($this->pageName, $params, true),
                 $adId == $k
             );
         }
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Affiliate)) {
-            $this->addShortcut(
+            $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid='.$publisherId,
                 'images/icon-affiliate.gif'
             );
         }
 
-        $this->addShortcut(
+        $this->_addShortcut(
             $GLOBALS['strZoneProperties'],
             'zone-edit.php?affiliateid='.$publisherId.'&zoneid='.$zoneId,
             'images/icon-zone.gif'
@@ -128,11 +158,11 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends StatsCro
         $aParams['ad_id'] = $adId;
 
 
-        $this->pageParams['breakdown'] = 'daily';
+        $this->aPageParams['breakdown'] = 'daily';
 
         $this->prepareHistory($aParams, 'stats.php');
 
-        $this->pageParams['breakdown'] = 'banner-history';
+        $this->aPageParams['breakdown'] = 'banner-history';
     }
 }
 

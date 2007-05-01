@@ -25,23 +25,18 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsController.php';
-
-
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/Common.php';
 
 /**
- * Controller class for displaying entitiy type statistics screens
+ * A common class that defines a common "interface" and common methods for
+ * classes that display entity delivery statistics.
  *
- * Always use the factory method to instantiate fields -- it will create
- * the right subclass for you.
- *
- * @package    Max
- * @subpackage Admin_Statistics
+ * @package    OpenadsAdmin
+ * @subpackage StatisticsDelivery
  * @author     Matteo Beccati <matteo@beccati.com>
- *
- * @see StatsControllerFactory
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class StatsByEntityController extends StatsController
+class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Delivery_Common
 {
     /** @var boolean */
     var $showHideInactive = false;
@@ -82,14 +77,14 @@ class StatsByEntityController extends StatsController
         parent::__construct($params);
 
         // Store the preferences
-        $this->pagePrefs['listorder']      = $this->listOrderField;
-        $this->pagePrefs['orderdirection'] = $this->listOrderDirection;
+        $this->aPagePrefs['listorder']      = $this->listOrderField;
+        $this->aPagePrefs['orderdirection'] = $this->listOrderDirection;
     }
 
     /**
      * PHP4-style constructor
      */
-    function StatsByEntityController($params)
+    function OA_Admin_Statistics_Delivery_CommonEntity($params)
     {
         $this->__construct($params);
     }
@@ -98,7 +93,7 @@ class StatsByEntityController extends StatsController
      * Output the controller object using the breakdown_by_entity template
      */
     function output()
-    { 
+    {
         $this->template = 'breakdown_by_entity.html';
 
         $this->flattenEntities();
@@ -193,7 +188,7 @@ class StatsByEntityController extends StatsController
     {
         if (!isset($entity[$row[$key]])) {
             $entity[$row[$key]][$key] = $row[$key];
-            foreach (array_keys($this->columns) as $s) {
+            foreach (array_keys($this->aColumns) as $s) {
                 $entity[$row[$key]][$s] = 0;
             }
         }
@@ -220,15 +215,15 @@ class StatsByEntityController extends StatsController
         {
             // Get plugin aParams
             $pluginParams = array();
-            foreach ($this->plugins as $plugin) {
+            foreach ($this->aPlugins as $plugin) {
                 $plugin->addQueryParams($pluginParams);
             }
 
             $aRows = Admin_DA::fromCache('getEntitiesStats', $aParams + $this->aDates + $pluginParams);
 
             // Merge plugin additional data
-            foreach ($this->plugins as $plugin) {
-                $plugin->mergeData($aRows, $this->emptyRow, 'getEntitiesStats', $aParams + $this->aDates);
+            foreach ($this->aPlugins as $plugin) {
+                $plugin->mergeData($aRows, $this->aEmptyRow, 'getEntitiesStats', $aParams + $this->aDates);
             }
 
             $this->data = array(
@@ -324,7 +319,7 @@ class StatsByEntityController extends StatsController
                 if (isset($this->data[$key][$entityId])) {
                     $aEntities[$entityId] += $this->data[$key][$entityId];
                 } else {
-                    foreach (array_keys($this->columns) as $s) {
+                    foreach (array_keys($this->aColumns) as $s) {
                         $aEntities[$entityId][$s] = 0;
                     }
                 }
@@ -357,14 +352,14 @@ class StatsByEntityController extends StatsController
 
         $entities = array();
         foreach ($aAdvertisers as $advertiserId => $advertiser) {
-            $advertiser['active'] = $this->hasActiveStats($advertiser);
+            $advertiser['active'] = $this->_hasActiveStats($advertiser);
 
-            $this->summarizeStats($advertiser);
+            $this->_summarizeStats($advertiser);
 
             if ($this->startLevel > $level || !$this->hideInactive || $advertiser['active']) {
                 $advertiser['prefix'] = 'a';
                 $advertiser['id'] = $advertiserId;
-                $advertiser['linkparams'] = "clientid={$advertiserId}&";                
+                $advertiser['linkparams'] = "clientid={$advertiserId}&";
                 if (is_array($aParams) && count($aParams) > 0) {
                     foreach ($aParams as $key => $value) {
                         if ($key != "include" && $key != "exclude") {
@@ -373,10 +368,10 @@ class StatsByEntityController extends StatsController
                     }
                 } else {
                     $advertiser['linkparams'] .= "&";
-                }      
-                $advertiser['linkparams'] .= "period_preset={$period_preset}&period_start=" . MAX_getStoredValue('period_start', date('Y-m-d')) 
+                }
+                $advertiser['linkparams'] .= "period_preset={$period_preset}&period_start=" . MAX_getStoredValue('period_start', date('Y-m-d'))
                                           . "&period_end=" . MAX_getStoredValue('period_end', date('Y-m-d'));
-                
+
                 $advertiser['conversionslink'] = "stats.php?entity=conversions&clientid={$advertiserId}";
                 $advertiser['expanded'] = MAX_isExpanded($advertiserId, $expand, $this->aNodes, $advertiser['prefix']);
                 $advertiser['icon'] = MAX_getEntityIcon('advertiser', $advertiser['active']);
@@ -407,7 +402,7 @@ class StatsByEntityController extends StatsController
     {
         $aParams['include'] = array('placement_id');
         $aParams['exclude'] = array('zone_id');
-        $this->prepareData($aParams);        
+        $this->prepareData($aParams);
         $period_preset = MAX_getStoredValue('period_preset', 'today');
 
         $aPlacements = $this->mergeData($aParams, 'placement_id');
@@ -419,11 +414,11 @@ class StatsByEntityController extends StatsController
 
         $entities = array();
         foreach ($aPlacements as $campaignId => $campaign) {
-            $campaign['active'] = $this->hasActiveStats($campaign);
+            $campaign['active'] = $this->_hasActiveStats($campaign);
 
             if ($this->startLevel > $level || !$this->hideInactive || $campaign['active']) {
 
-                $this->summarizeStats($campaign);
+                $this->_summarizeStats($campaign);
                 // mask anonymous campaigns if advertiser
                 if (phpAds_isUser(phpAds_Advertiser)) {
                     // a) mask campaign name
@@ -454,8 +449,8 @@ class StatsByEntityController extends StatsController
                     }
                 } else {
                     $campaign['linkparams'] .= "&";
-                }                
-                $campaign['linkparams'] .= "period_preset={$period_preset}&period_start=" . MAX_getStoredValue('period_start', date('Y-m-d')) 
+                }
+                $campaign['linkparams'] .= "period_preset={$period_preset}&period_start=" . MAX_getStoredValue('period_start', date('Y-m-d'))
                                           . "&period_end=" . MAX_getStoredValue('period_end', date('Y-m-d'));
                 $campaign['expanded'] = MAX_isExpanded($campaignId, $expand, $this->aNodes, $campaign['prefix']);
                 $campaign['icon'] = MAX_getEntityIcon('placement', $campaign['active']);
@@ -488,7 +483,7 @@ class StatsByEntityController extends StatsController
         $aParams['exclude'] = array('zone_id');
         $this->prepareData($aParams);
         $period_preset = MAX_getStoredValue('period_preset', 'today');
-        
+
         $aAds = $this->mergeData($aParams, 'ad_id');
         MAX_sortArray(
             $aAds,
@@ -498,18 +493,18 @@ class StatsByEntityController extends StatsController
 
         $entities = array();
         foreach ($aAds as $bannerId => $banner) {
-            $banner['active'] = $this->hasActiveStats($banner);
+            $banner['active'] = $this->_hasActiveStats($banner);
 
             if ($this->startLevel > $level || !$this->hideInactive || $banner['active']) {
 
-                $this->summarizeStats($banner);
+                $this->_summarizeStats($banner);
                 // mask banner name if anonymous campaign
                 $campaign = Admin_DA::getPlacement($banner['placement_id']);
                 $campaignAnonymous = $campaign['anonymous'] == 't' ? true : false;
                 $banner['name'] = MAX_getAdName($banner['name'], null, null, $campaignAnonymous, $bannerId);
                 $banner['prefix'] = 'b';
                 $banner['id'] = $bannerId;
-                $banner['linkparams'] = "clientid={$banner['advertiser_id']}&campaignid={$banner['placement_id']}&bannerid={$bannerId}&";                        
+                $banner['linkparams'] = "clientid={$banner['advertiser_id']}&campaignid={$banner['placement_id']}&bannerid={$bannerId}&";
                 if (is_array($aParams) && count($aParams) > 0) {
                     foreach ($aParams as $key => $value) {
                         if ($key != "include" && $key != "exclude") {
@@ -518,8 +513,8 @@ class StatsByEntityController extends StatsController
                     }
                 } else {
                     $banner['linkparams'] .= "&";
-                }   
-                $banner['linkparams'] .= "period_preset={$period_preset}&period_start=" . MAX_getStoredValue('period_start', date('Y-m-d')) 
+                }
+                $banner['linkparams'] .= "period_preset={$period_preset}&period_start=" . MAX_getStoredValue('period_start', date('Y-m-d'))
                                           . "&period_end=" . MAX_getStoredValue('period_end', date('Y-m-d'));
                 $banner['expanded'] = false;
                 $banner['icon'] = MAX_getEntityIcon('ad', $banner['active'], $banner['type']);
@@ -557,9 +552,9 @@ class StatsByEntityController extends StatsController
 
         $entities = array();
         foreach ($aPublishers as $publisherId => $publisher) {
-            $publisher['active'] = $this->hasActiveStats($publisher);
+            $publisher['active'] = $this->_hasActiveStats($publisher);
 
-            $this->summarizeStats($publisher);
+            $this->_summarizeStats($publisher);
 
             if ($this->startLevel > $level || !$this->hideInactive || $publisher['active']) {
                 $publisher['prefix'] = 'p';
@@ -573,8 +568,8 @@ class StatsByEntityController extends StatsController
                     }
                 } else {
                     $publisher['linkparams'] .= "&";
-                }   
-                $publisher['linkparams'] .= "period_preset={$period_preset}&period_start=" . MAX_getStoredValue('period_start', date('Y-m-d')) 
+                }
+                $publisher['linkparams'] .= "period_preset={$period_preset}&period_start=" . MAX_getStoredValue('period_start', date('Y-m-d'))
                                           . "&period_end=" . MAX_getStoredValue('period_end', date('Y-m-d'));
                 $publisher['expanded'] = MAX_isExpanded($publisherId, $expand, $this->aNodes, $publisher['prefix']);
                 $publisher['icon'] = MAX_getEntityIcon('publisher', $publisher['active']);
@@ -606,7 +601,7 @@ class StatsByEntityController extends StatsController
         $aParams['exclude'] = array('ad_id');
         $this->prepareData($aParams);
         $period_preset = MAX_getStoredValue('period_preset', 'today');
-        
+
         $aZones = $this->mergeData($aParams, 'zone_id');
         MAX_sortArray(
             $aZones,
@@ -616,11 +611,11 @@ class StatsByEntityController extends StatsController
 
         $entities = array();
         foreach ($aZones as $zoneId => $zone) {
-            $zone['active'] = $this->hasActiveStats($zone);
+            $zone['active'] = $this->_hasActiveStats($zone);
 
             if ($this->startLevel > $level || !$this->hideInactive || $zone['active']) {
 
-                $this->summarizeStats($zone);
+                $this->_summarizeStats($zone);
 
                 $zone['prefix'] = 'z';
                 $zone['id'] = $zoneId;
@@ -633,8 +628,8 @@ class StatsByEntityController extends StatsController
                     }
                 } else {
                     $zone['linkparams'] .= "&";
-                }   
-                $zone['linkparams'] .= "period_preset={$period_preset}&period_start=" . MAX_getStoredValue('period_start', date('Y-m-d')) 
+                }
+                $zone['linkparams'] .= "period_preset={$period_preset}&period_start=" . MAX_getStoredValue('period_start', date('Y-m-d'))
                                           . "&period_end=" . MAX_getStoredValue('period_end', date('Y-m-d'));
                 $zone['expanded'] = MAX_isExpanded($zoneId, $expand, $this->aNodes, $zone['prefix']);;
                 $zone['icon'] = MAX_getEntityIcon('zone', $zone['active'], $zone['type']);
@@ -692,7 +687,7 @@ class StatsByEntityController extends StatsController
         foreach ($this->entities as $e) {
             $row = array();
             $row[] = $e['name'];
-            foreach (array_keys($this->columns) as $ck) {
+            foreach (array_keys($this->aColumns) as $ck) {
                 if ($this->showColumn($ck)) {
                     $row[] = $e[$ck];
                 }

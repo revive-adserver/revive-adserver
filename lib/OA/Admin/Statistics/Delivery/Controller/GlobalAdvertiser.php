@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsByEntityController.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonEntity.php';
 
 /**
  * The class to display the delivery statistcs for the page:
@@ -37,8 +37,40 @@ require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsByEntityController.php';
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends StatsByEntityController
+class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends OA_Admin_Statistics_Delivery_CommonEntity
 {
+
+    /**
+     * A PHP5-style constructor that can be used to perform common
+     * class instantiation by children classes.
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function __construct($aParams)
+    {
+        $this->showDaySpanSelector = true;
+        parent::__construct($aParams);
+    }
+
+    /**
+     * PHP4-style constructor
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser($aParams)
+    {
+        $this->__construct($aParams);
+    }
 
     function start()
     {
@@ -50,10 +82,7 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends StatsByEn
 
         // HTML Framework
         $this->pageId = '2.1';
-        $this->pageSections = array('2.1', '2.4', '2.2');
-
-        // Use the day span selector
-        $this->initDaySpanSelector();
+        $this->aPageSections = array('2.1', '2.4', '2.2');
 
         $this->hideInactive = MAX_getStoredValue('hideinactive', ($pref['gui_hide_inactive'] == 't'));
         $this->showHideInactive = true;
@@ -87,7 +116,7 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends StatsByEn
                 break;
         }
 
-        $this->summarizeTotals($this->entities);
+        $this->_summarizeTotals($this->entities);
 
         $this->showHideLevels = array();
         switch ($this->startLevel)
@@ -116,23 +145,23 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends StatsByEn
         }
 
         //location params
-        $this->pageParams['entity']    = 'global';
-        $this->pageParams['breakdown'] = 'advertiser';
-        $this->pageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->pageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
-        $this->pageParams['period_start'] = MAX_getStoredValue('period_start', date('Y-m-d'));
-        $this->pageParams['period_end'] = MAX_getStoredValue('period_end', date('Y-m-d'));
-        $this->loadParams();
+        $this->aPageParams['entity']    = 'global';
+        $this->aPageParams['breakdown'] = 'advertiser';
+        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
+        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams['period_start'] = MAX_getStoredValue('period_start', date('Y-m-d'));
+        $this->aPageParams['period_end'] = MAX_getStoredValue('period_end', date('Y-m-d'));
+        $this->_loadParams();
 
-        unset($this->pageParams['expand']);
-        unset($this->pageParams['clientid']);
-        unset($this->pageParams['collapse']);
+        unset($this->aPageParams['expand']);
+        unset($this->aPageParams['clientid']);
+        unset($this->aPageParams['collapse']);
 
         // Save prefs
-        $this->pagePrefs['startlevel']   = $this->startLevel;
-        $this->pagePrefs['nodes']        = implode (",", $this->aNodes);
-        $this->pagePrefs['hideinactive'] = $this->hideInactive;
-        $this->pagePrefs['startlevel']   = $this->startLevel;
+        $this->aPagePrefs['startlevel']   = $this->startLevel;
+        $this->aPagePrefs['nodes']        = implode (",", $this->aNodes);
+        $this->aPagePrefs['hideinactive'] = $this->hideInactive;
+        $this->aPagePrefs['startlevel']   = $this->startLevel;
     }
 
 }

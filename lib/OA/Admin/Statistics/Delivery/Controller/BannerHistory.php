@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsHistoryController.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
 
 /**
  * The class to display the delivery statistcs for the page:
@@ -37,8 +37,40 @@ require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsHistoryController.php';
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Controller_BannerHistory extends StatsHistoryController
+class OA_Admin_Statistics_Delivery_Controller_BannerHistory extends OA_Admin_Statistics_Delivery_CommonHistory
 {
+
+    /**
+     * A PHP5-style constructor that can be used to perform common
+     * class instantiation by children classes.
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function __construct($aParams)
+    {
+        $this->showDaySpanSelector = true;
+        parent::__construct($aParams);
+    }
+
+    /**
+     * PHP4-style constructor
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function OA_Admin_Statistics_Delivery_Controller_BannerHistory($aParams)
+    {
+        $this->__construct($aParams);
+    }
 
     function start()
     {
@@ -62,70 +94,67 @@ class OA_Admin_Statistics_Delivery_Controller_BannerHistory extends StatsHistory
         }
 
         // Add standard page parameters
-        $this->pageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId, 'bannerid' => $adId);
-        $this->pageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
-        $this->pageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId, 'bannerid' => $adId);
+        $this->aPageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
+        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 
-        $this->loadParams();
+        $this->_loadParams();
 
         // HTML Framework
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
             $this->pageId = '2.1.2.2.1';
-            $this->pageSections = array('2.1.2.2.1', '2.1.2.2.2');
+            $this->aPageSections = array('2.1.2.2.1', '2.1.2.2.2');
         } elseif (phpAds_isUser(phpAds_Client)) {
             $this->pageId = '1.2.2.1';
-            $this->pageSections[] = '1.2.2.1';
+            $this->aPageSections[] = '1.2.2.1';
             if (phpAds_isAllowed(phpAds_ModifyBanner)) {
-                $this->pageSections[] = '1.2.2.2';
+                $this->aPageSections[] = '1.2.2.2';
             }
-            $this->pageSections[] = '1.2.2.4';
+            $this->aPageSections[] = '1.2.2.4';
         }
 
-        $this->addBreadcrumbs('banner', $adId);
+        $this->_addBreadcrumbs('banner', $adId);
 
         // Add context
         $this->pageContext = array('banners', $adId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Client)) {
-            $this->addShortcut(
+            $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid='.$advertiserId,
                 'images/icon-advertiser.gif'
             );
         }
-        $this->addShortcut(
+        $this->_addShortcut(
             $GLOBALS['strCampaignProperties'],
             'campaign-edit.php?clientid='.$advertiserId.'&campaignid='.$placementId,
             'images/icon-campaign.gif'
         );
-        $this->addShortcut(
+        $this->_addShortcut(
             $GLOBALS['strBannerProperties'],
             'banner-edit.php?clientid='.$advertiserId.'&campaignid='.$placementId.'&bannerid='.$adId,
             'images/icon-banner-stored.gif'
         );
-        $this->addShortcut(
+        $this->_addShortcut(
             $GLOBALS['strModifyBannerAcl'],
             'banner-acl.php?clientid='.$advertiserId.'&campaignid='.$placementId.'&bannerid='.$adId,
             'images/icon-acl.gif'
         );
 
-        // Use the day span selector
-        $this->initDaySpanSelector();
-
         $aParams = array();
         $aParams['ad_id'] = $adId;
 
-        $this->pageParams['entity']    = 'banner';
-        $this->pageParams['breakdown'] = 'daily';
+        $this->aPageParams['entity']    = 'banner';
+        $this->aPageParams['breakdown'] = 'daily';
 
         $this->prepareHistory($aParams, 'stats.php');
 
         // Add standard page parameters
-        $this->pageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId, 'bannerid' => $adId,
+        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId, 'bannerid' => $adId,
                                   'entity' => 'banner', 'breakdown' => 'history');
-        $this->pageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->pageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
+        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 
     }
 

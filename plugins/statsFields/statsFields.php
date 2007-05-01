@@ -232,7 +232,7 @@ class Plugins_StatsFields extends MAX_Plugin_Common
      *
      * @param array Row of stats
      */
-    function formatStats(&$row, $is_total = false)
+    function _formatStats(&$row, $is_total = false)
     {
         foreach ($this->_fields as $k => $v) {
             if (array_key_exists($k, $row)) {

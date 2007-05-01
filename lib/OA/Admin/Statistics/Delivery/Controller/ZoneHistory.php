@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsHistoryController.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
 
 /**
  * The class to display the delivery statistcs for the page:
@@ -37,8 +37,40 @@ require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsHistoryController.php';
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends StatsHistoryController
+class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends OA_Admin_Statistics_Delivery_CommonHistory
 {
+
+    /**
+     * A PHP5-style constructor that can be used to perform common
+     * class instantiation by children classes.
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function __construct($aParams)
+    {
+        $this->showDaySpanSelector = true;
+        parent::__construct($aParams);
+    }
+
+    /**
+     * PHP4-style constructor
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function OA_Admin_Statistics_Delivery_Controller_ZoneHistory($aParams)
+    {
+        $this->__construct($aParams);
+    }
 
     function start()
     {
@@ -61,54 +93,51 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends StatsHistoryCo
         }
 
         // Add standard page parameters
-        $this->pageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId,
+        $this->aPageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId,
                                    'entity' => 'zone', 'breakdown' => 'history');
-        $this->pageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->pageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
+        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 
-        $this->loadParams();
+        $this->_loadParams();
 
         // HTML Framework
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
             $this->pageId = '2.4.2.1';
-            $this->pageSections = array('2.4.2.1', '2.4.2.2');
+            $this->aPageSections = array('2.4.2.1', '2.4.2.2');
         } elseif (phpAds_isUser(phpAds_Affiliate)) {
             $this->pageId = '1.2.1';
-            $this->pageSections = array('1.2.1', '1.2.2');
+            $this->aPageSections = array('1.2.1', '1.2.2');
         }
 
-        $this->addBreadcrumbs('zone', $zoneId);
+        $this->_addBreadcrumbs('zone', $zoneId);
 
         // Add context
         $this->pageContext = array('zones', $zoneId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Affiliate)) {
-            $this->addShortcut(
+            $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid='.$publisherId,
                 'images/icon-affiliate.gif'
             );
         }
 
-        $this->addShortcut(
+        $this->_addShortcut(
             $GLOBALS['strZoneProperties'],
             'zone-edit.php?affiliateid='.$publisherId.'&zoneid='.$zoneId,
             'images/icon-zone.gif'
         );
 
-        // Use the day span selector
-        $this->initDaySpanSelector();
-
         $aParams = array();
         $aParams['zone_id'] = $zoneId;
 
-        $this->pageParams['breakdown'] = 'daily';
+        $this->aPageParams['breakdown'] = 'daily';
 
         $this->prepareHistory($aParams, 'stats.php');
-        $this->pageParams['breakdown'] = 'history';
-        $this->pageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->pageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams['breakdown'] = 'history';
+        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
+        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
     }
 
 }
