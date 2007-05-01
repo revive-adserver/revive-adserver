@@ -36,13 +36,13 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * @subpackage StatisticsFields
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Plugins_StatisticsFields_Targeting_Default extends Plugins_TargetingFields
+class Plugins_statisticsFields_targeting_targeting_default extends Plugins_TargetingFields
 {
 
     /**
      * Constructor
      */
-    function Plugins_StatisticsFields_Targeting_Default()
+    function Plugins_statisticsFields_targeting_targeting_default()
     {
         // Set ordering to a low value to move columns to the left
         $this->displayOrder = -10;

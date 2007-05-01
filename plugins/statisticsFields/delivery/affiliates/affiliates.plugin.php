@@ -36,12 +36,12 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * @subpackage StatisticsFields
  * @author     Matteo Beccati <matteo@beccati.com>
  */
-class Plugins_StatisticsFields_Delivery_Affiliates extends Plugins_StatsFields
+class Plugins_statisticsFields_delivery_affiliates extends Plugins_StatsFields
 {
     /**
      * Constructor
      */
-    function Plugins_StatisticsFields_Delivery_Affiliates()
+    function Plugins_statisticsFields_delivery_affiliates()
     {
         // Set ordering to a high value to move columns to the right
         $this->displayOrder = 10;

@@ -29,7 +29,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
- * Plugins_StatisticsFields_Targeting is an abstract class for every
+ * Plugins_statisticsFields_delivery is an abstract class for every
  * delivery statistics fields plugin.
  *
  * @abstract
@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * @subpackage StatisticsFields
  * @author     Matteo Beccati <matteo@beccati.com>
  */
-class Plugins_StatisticsFields_Delivery extends MAX_Plugin_Common
+class Plugins_statisticsFields_delivery extends MAX_Plugin_Common
 {
 
     /**
