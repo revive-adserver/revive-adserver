@@ -29,15 +29,15 @@ require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
- * Plugins_statisticsFields_targeting is an abstract class for every
- * targeting statistics fields plugin.
+ * Plugins_statisticsFieldsTargeting_statisticsFieldsTargeting is an abstract
+ * class for every targeting statistics fields plugin.
  *
  * @abstract
  * @package    OpenadsPlugin
  * @subpackage StatisticsFields
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Plugins_statisticsFields_targeting extends MAX_Plugin_Common
+class Plugins_statisticsFieldsTargeting_statisticsFieldsTargeting extends MAX_Plugin_Common
 {
 
 

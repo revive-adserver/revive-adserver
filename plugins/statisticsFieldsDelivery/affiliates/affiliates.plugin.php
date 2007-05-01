@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/statisticsFields/delivery.php';
+require_once MAX_PATH . '/plugins/statisticsFieldsDelivery/statisticsFieldsDelivery.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
@@ -36,12 +36,12 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * @subpackage StatisticsFields
  * @author     Matteo Beccati <matteo@beccati.com>
  */
-class Plugins_statisticsFields_delivery_affiliates extends Plugins_StatsFields
+class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery
 {
     /**
      * Constructor
      */
-    function Plugins_statisticsFields_delivery_affiliates()
+    function Plugins_statisticsFieldsDelivery_affiliates_affiliates()
     {
         // Set ordering to a high value to move columns to the right
         $this->displayOrder = 10;
