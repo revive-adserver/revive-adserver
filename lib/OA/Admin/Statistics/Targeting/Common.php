@@ -80,7 +80,7 @@ class OA_Admin_Statistics_Targeting_Common extends OA_Admin_Statistics_Targeting
      */
     function _loadPlugins()
     {
-        $aPlugins = &MAX_Plugin::getPlugins('targetingFields');
+        $aPlugins = &MAX_Plugin::getPlugins('statisticsFields', 'targeting');
         uasort($aPlugins, array($this, '_pluginSort'));
         $this->aPlugins = $aPlugins;
     }

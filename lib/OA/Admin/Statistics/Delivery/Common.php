@@ -96,7 +96,7 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
      */
     function _loadPlugins()
     {
-        $aPlugins = &MAX_Plugin::getPlugins('statsFields');
+        $aPlugins = &MAX_Plugin::getPlugins('statisticsFields', 'delivery');
         uasort($aPlugins, array($this, '_pluginSort'));
         $this->aPlugins = $aPlugins;
     }
