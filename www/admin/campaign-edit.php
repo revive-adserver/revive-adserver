@@ -1380,6 +1380,8 @@ while ($row = phpAds_dbFetchArray($res))
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
+_echoDeliveryCappingJs();
+
 phpAds_PageFooter();
 
 ?>
