@@ -5,7 +5,7 @@
                 Database Type
             </td>
             <td>
-                <input class="input" name="database[type]" value="<?php echo $aDatabase['database']['type']; ?>" />
+                <input class="input" name="aConfig[database][type]" value="<?php echo $aDatabase['database']['type']; ?>" />
             </td>
         </tr>
         <tr>
@@ -13,7 +13,7 @@
                 Database Hostname
             </td>
             <td>
-                <input class="input" name="database[host]" value="<?php echo $aDatabase['database']['host']; ?>" />
+                <input class="input" name="aConfig[database][host]" value="<?php echo $aDatabase['database']['host']; ?>" />
             </td>
         </tr>
         <tr>
@@ -21,7 +21,7 @@
                 Database Port
             </td>
             <td>
-                <input class="input" name="database[port]" value="<?php echo $aDatabase['database']['port']; ?>" />
+                <input class="input" name="aConfig[database][port]" value="<?php echo $aDatabase['database']['port']; ?>" />
             </td>
         </tr>
         <tr>
@@ -29,7 +29,7 @@
                 Database Username
             </td>
             <td>
-                <input class="input" name="database[username]" value="<?php echo $aDatabase['database']['username']; ?>" />
+                <input class="input" name="aConfig[database][username]" value="<?php echo $aDatabase['database']['username']; ?>" />
             </td>
         </tr>
         <tr>
@@ -37,7 +37,7 @@
                 Database Password
             </td>
             <td>
-                <input type="password" class="input" name="database[password]" value="<?php echo $aDatabase['database']['password']; ?>" />
+                <input type="password" class="input" name="aConfig[database][password]" value="<?php echo $aDatabase['database']['password']; ?>" />
             </td>
         </tr>
         <tr>
@@ -45,7 +45,7 @@
                 Database Name
             </td>
             <td>
-                <input class="input" name="database[name]" value="<?php echo $aDatabase['database']['name']; ?>" />
+                <input class="input" name="aConfig[database][name]" value="<?php echo $aDatabase['database']['name']; ?>" />
             </td>
         </tr>
         <tr>
@@ -53,7 +53,7 @@
                 Table Type
             </td>
             <td>
-                <input class="input" name="database[table_type]" value="<?php echo $aDatabase['table']['type']; ?>" />
+                <input class="input" name="aConfig[table][type]" value="<?php echo $aDatabase['table']['type']; ?>" />
             </td>
         </tr>
         <tr>
@@ -61,7 +61,7 @@
                 Table Prefix
             </td>
             <td>
-                <input class="input" name="database[table_prefix]" value="<?php echo $aDatabase['table']['prefix']; ?>" />
+                <input class="input" name="aConfig[table[prefix]" value="<?php echo $aDatabase['table']['prefix']; ?>" />
             </td>
         </tr>
         <tr>
@@ -70,6 +70,7 @@
             </td>
             <td>
                 <button class="button" name="btn_appcheck">go back</button>
+                <!--a href="javascript: history.go(-1)">go back</a-->
             </td>
         </tr>
     </table>

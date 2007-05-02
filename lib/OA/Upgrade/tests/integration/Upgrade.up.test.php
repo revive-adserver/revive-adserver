@@ -63,6 +63,9 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertIsA($oUpgrade->oLogger,'OA_UpgradeLogger','class mismatch: OA_UpgradeLogger');
         $this->assertIsA($oUpgrade->oParser,'OA_UpgradePackageParser','class mismatch: OA_UpgradePackageParser');
         $this->assertIsA($oUpgrade->oVersioner,'OA_Version_Controller','class mismatch: OA_Version_Controller');
+        $this->assertIsA($oUpgrade->oPAN,'OA_phpAdsNew','class mismatch: OA_phpAdsNew');
+        $this->assertIsA($oUpgrade->oSystemMgr,'OA_Environment_Manager','class mismatch: OA_Environment_Manager');
+        $this->assertIsA($oUpgrade->oConfiguration,'OA_Upgrade_Config','class mismatch: OA_Upgrade_Config');
     }
 
     function test_initDatabaseConnection()
@@ -70,6 +73,20 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade = new OA_Upgrade();
         $oUpgrade->initDatabaseConnection();
         $this->assertIsA($oUpgrade->oDbh,'MDB2_driver_Common','class mismatch: MDB2_driver_Common');
+    }
+
+    function test_checkDBPermissions()
+    {
+        $oUpgrade = new OA_Upgrade();
+        $oUpgrade->initDatabaseConnection();
+        $this->assertIsA($oUpgrade->oDbh,'MDB2_driver_Common','class mismatch: MDB2_driver_Common');
+        $this->assertTrue($oUpgrade->checkDBPermissions(),'database permissions');
+    }
+
+    function test_createCoreTables()
+    {
+        $oUpgrade = new OA_Upgrade();
+        $this->assertTrue($oUpgrade->createCoreTables(),'createCoreTables');
     }
 
     function test_init()

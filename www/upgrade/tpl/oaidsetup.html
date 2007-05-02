@@ -2,18 +2,18 @@
     <table>
         <tr>
             <td class="label">
-                Admin Username
+                Openads Username
             </td>
             <td>
-                <input class="input" name="aAdmin[name]" value="" />
+                <input class="input" name="oaid[username]" value="<?php echo $aOaId['oaid']['username']; ?>" />
             </td>
         </tr>
         <tr>
             <td class="label">
-                Admin Password
+                Openads Password
             </td>
             <td>
-                <input type="password" class="input" name="aAdmin[pword]" value="" />
+                <input type="password" class="input" name="oaid[password]" value="<?php echo $aOaId['oaid']['password']; ?>" />
             </td>
         </tr>
         <tr>
@@ -21,20 +21,20 @@
                 Confirm Password
             </td>
             <td>
-                <input type="password" class="input" name="aAdmin[pword2]" value="" />
+                <input type="password" class="input" name="oaid[password2]" value="" />
             </td>
         </tr>
         <tr>
             <td class="label">
-                Admin Email
+                Openads Email
             </td>
             <td>
-                <input class="input" name="aAdmin[email]" value="" />
+                <input class="input" name="oaid[email]" value="<?php echo $aOaId['oaid']['email']; ?>" />
             </td>
         </tr>
         <tr>
             <td>
-                <button class="button" name="btn_oaidsetup">continue</button>
+                <button class="button" name="btn_datasetup">continue</button>
             </td>
             <td>
                 <a href="javascript: history.go(-1)">go back</a>

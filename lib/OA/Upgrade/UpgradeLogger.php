@@ -83,6 +83,11 @@ class OA_UpgradeLogger
         return false;
     }
 
+    function logClear()
+    {
+        $this->aMessages = array();
+    }
+
     /**
      * write a message to the logfile
      *

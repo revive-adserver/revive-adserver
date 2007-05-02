@@ -32,12 +32,15 @@
 
 define('OA_STATUS_NOT_INSTALLED',          -1);
 define('OA_STATUS_CURRENT_VERSION',         0);
+define('OA_STATUS_PAN_NOT_INSTALLED',      -1);
 define('OA_STATUS_PAN_CONFIG_DETECTED',     1);
 define('OA_STATUS_PAN_DBCONNECT_FAILED',    2);
 define('OA_STATUS_PAN_VERSION_FAILED',      3);
+define('OA_STATUS_MAX_NOT_INSTALLED',      -1);
 define('OA_STATUS_MAX_CONFIG_DETECTED',     1);
 define('OA_STATUS_MAX_DBCONNECT_FAILED',    2);
 define('OA_STATUS_MAX_VERSION_FAILED',      3);
+define('OA_STATUS_OAD_NOT_INSTALLED',      -1);
 define('OA_STATUS_OAD_CONFIG_DETECTED',     1);
 define('OA_STATUS_OAD_DBCONNECT_FAILED',    2);
 define('OA_STATUS_OAD_VERSION_FAILED',      3);
@@ -55,6 +58,7 @@ require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradePackageParser.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/VersionController.php');
 require_once MAX_PATH.'/lib/OA/Upgrade/EnvironmentManager.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php';
+require_once(MAX_PATH.'/lib/OA/Upgrade/Configuration.php');
 
 class OA_Upgrade
 {
@@ -70,6 +74,7 @@ class OA_Upgrade
     var $oSystemMgr;
     var $oDbh;
     var $oPAN;
+    var $oConfiguration;
 
     var $aPackage    = array();
     var $aDBPackages = array();
@@ -86,7 +91,8 @@ class OA_Upgrade
 
     function OA_Upgrade()
     {
-        $this->upgradePath  = MAX_PATH.'/var/upgrade/';
+        //$this->upgradePath  = MAX_PATH.'/var/upgrade/';
+        $this->upgradePath  = MAX_PATH.'/etc/changes/';
 
         $this->oLogger      = new OA_UpgradeLogger();
         $this->oParser      = new OA_UpgradePackageParser();
@@ -96,6 +102,7 @@ class OA_Upgrade
         $this->oPAN         = new OA_phpAdsNew();
         $this->oSystemMgr   = new OA_Environment_Manager();
         $this->oSystemMgr->init();
+        $this->oConfiguration = new OA_Upgrade_Config();
 
         $this->aDsn['database'] = array();
         $this->aDsn['table']    = array();
@@ -109,6 +116,13 @@ class OA_Upgrade
         $this->aDsn['table']['prefix']      = 'oa_';
     }
 
+    /**
+     * initialise a database connection
+     * hook up the various components with a db object
+     *
+     * @param array $dsn
+     * @return boolean
+     */
     function initDatabaseConnection($dsn=null)
     {
         if (is_null($this->oDbh))
@@ -117,7 +131,6 @@ class OA_Upgrade
             if (!PEAR::isError($this->oDbh))
             {
                 $this->oDBUpgrader->initMDB2Schema();
-                //$this->oDbh         = $this->oDBUpgrader->oSchema->db;
                 $this->oVersioner->init($this->oDbh);
                 $this->oDBAuditor->init($this->oDbh, $this->oLogger);
                 $this->oDBUpgrader->oAuditor = &$this->oDBAuditor;
@@ -125,7 +138,7 @@ class OA_Upgrade
             }
             else
             {
-                //$this->oLogger->log($this->oDbh->getUserInfo());
+                $this->oLogger->log($this->oDbh->getUserInfo());
                 $this->oDbh = null;
                 return false;
             }
@@ -133,6 +146,12 @@ class OA_Upgrade
         return true;
     }
 
+    /**
+     * initialise an upgrade
+     *
+     * @param string $input_file (upgrade package)
+     * @param string $timing
+     */
     function init($input_file, $timing='constructive')
     {
         $logFile = str_replace('.xml', '', $input_file).'_'.$timing.'_'.date('Y_m_d_h_i_s').'.log';
@@ -142,11 +161,22 @@ class OA_Upgrade
         $this->aDBPackages  = $this->aPackage['db_pkgs'];
     }
 
+    /**
+     * return an array of system environment info
+     *
+     * @return array
+     */
     function checkEnvironment()
     {
         return $this->oSystemMgr->checkSystem();
     }
 
+    /**
+     * look for existing installations (phpAdsNew, MMM, Openads)
+     * retrieve details and check for errors
+     *
+     * @return boolean
+     */
     function canUpgrade()
     {
         $strDetected    = ' configuration file detected';
@@ -155,14 +185,13 @@ class OA_Upgrade
         $strConnected   = 'Connected to the database ok';
         $strNoUpgrade   = 'This version cannot be upgraded';
 
+        $this->oLogger->logClear();
         $database = '';
         $this->detectPAN(&$database);
         switch ($this->existing_installation_status)
         {
-            case OA_STATUS_CAN_UPGRADE:
-                $this->oLogger->log('phpAdsNew '.$this->versionInitialApplication.' detected');
-                $this->oLogger->log($strCanUpgrade);
-                return true;
+            case OA_STATUS_PAN_NOT_INSTALLED:
+                break;
             case OA_STATUS_PAN_CONFIG_DETECTED:
                 $this->oLogger->logError('phpAdsNew'.$strDetected);
                 break;
@@ -177,40 +206,42 @@ class OA_Upgrade
                 $this->oLogger->logError($strNoUpgrade);
                 //return false;
                 break;
+            case OA_STATUS_CAN_UPGRADE:
+                $this->oLogger->log('phpAdsNew '.$this->versionInitialApplication.' detected');
+                $this->oLogger->log($strCanUpgrade);
+                return true;
         }
 
         $database = '';
         $this->detectMAX(&$database);
         switch ($this->existing_installation_status)
         {
-            case OA_STATUS_CAN_UPGRADE:
-                $this->oLogger->log('Max Media Manager '.$this->versionInitialApplication.' detected');
-                $this->oLogger->log($strCanUpgrade);
-                return true;
+            case OA_STATUS_MAX_NOT_INSTALLED:
+                break;
             case OA_STATUS_MAX_CONFIG_DETECTED:
                 $this->oLogger->logError('Max Media Manager'.$strDetected);
                 break;
             case OA_STATUS_MAX_DBCONNECT_FAILED:
                 $this->oLogger->logError('Max Media Manager'.$strDetected);
                 $this->oLogger->logError($strNoConnect.' : '.$database);
-                //return false;
                 break;
             case OA_STATUS_MAX_VERSION_FAILED:
                 $this->oLogger->logError('Max Media Manager '.$this->versionInitialApplication.' detected');
                 $this->oLogger->logError($strConnected.' : '.$database);
                 $this->oLogger->logError($strNoUpgrade);
-                //return false;
                 break;
+            case OA_STATUS_CAN_UPGRADE:
+                $this->oLogger->log('Max Media Manager '.$this->versionInitialApplication.' detected');
+                $this->oLogger->log($strCanUpgrade);
+                return true;
         }
 
         $database = '';
         $this->detectOpenads(&$database);
         switch ($this->existing_installation_status)
         {
-            case OA_STATUS_CAN_UPGRADE:
-                $this->oLogger->log('Openads '.$this->versionInitialApplication.' detected');
-                $this->oLogger->log($strCanUpgrade);
-                return true;
+            case OA_STATUS_OAD_NOT_INSTALLED:
+                break;
             case OA_STATUS_OAD_CONFIG_DETECTED:
                 $this->oLogger->logError('Openads'.$strDetected);
                 break;
@@ -230,11 +261,20 @@ class OA_Upgrade
             case OA_STATUS_NOT_INSTALLED:
                 $this->oLogger->log('Openads installation not detected');
                 return true;
+            case OA_STATUS_CAN_UPGRADE:
+                $this->oLogger->log('Openads '.$this->versionInitialApplication.' detected');
+                $this->oLogger->log($strCanUpgrade);
+                return true;
         }
         $this->oLogger->logError('Unknown Openads installation status');
         return false;
     }
 
+    /**
+     * check existance of upgrade package file
+     *
+     * @return boolean
+     */
     function checkUpgradePackage()
     {
         if ($this->package_file)
@@ -246,10 +286,20 @@ class OA_Upgrade
             }
             return true;
         }
+        else if ($this->existing_installation_status == OA_STATUS_NOT_INSTALLED)
+        {
+            return true;
+        }
         $this->oLogger->logError('No upgrade package file specified');
         return false;
     }
 
+    /**
+     * search for an existing phpAdsNew installation
+     *
+     * @param string $database (used for error display message)
+     * @return boolean
+     */
     function detectPAN($database='')
     {
         $this->oPAN->init();
@@ -274,12 +324,20 @@ class OA_Upgrade
                     $this->aDsn         = $this->oPAN->aDsn;
                     return true;
                 }
+                $this->existing_installation_status = OA_STATUS_PAN_VERSION_FAILED;
+                return false;
             }
-            $this->existing_installation_status = OA_STATUS_PAN_VERSION_FAILED;
         }
+        $this->existing_installation_status = OA_STATUS_PAN_NOT_INSTALLED;
         return false;
     }
 
+    /**
+     * search for an existing Max Media Manager installation
+     *
+     * @param string $database (used for error display message)
+     * @return boolean
+     */
     function detectMAX($database='')
     {
         if ($GLOBALS['_MAX']['CONF']['max']['installed'])
@@ -304,12 +362,20 @@ class OA_Upgrade
                     $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
                     return true;
                 }
+                $this->existing_installation_status = OA_STATUS_MAX_VERSION_FAILED;
+                return false;
             }
-            $this->existing_installation_status = OA_STATUS_MAX_VERSION_FAILED;
         }
+        $this->existing_installation_status = OA_STATUS_MAX_NOT_INSTALLED;
         return false;
     }
 
+    /**
+     * search for an existing Openads installation
+     *
+     * @param string $database (used for error display message)
+     * @return boolean
+     */
     function detectOpenads($database='')
     {
         if ($GLOBALS['_MAX']['CONF']['max']['installed'])
@@ -344,19 +410,121 @@ class OA_Upgrade
                     $this->package_file = '';
                     return true;
                 }
+                $this->existing_installation_status = OA_STATUS_OAD_VERSION_FAILED;
+                return false;
             }
-            $this->existing_installation_status = OA_STATUS_OAD_VERSION_FAILED;
         }
+        $this->existing_installation_status = OA_STATUS_OAD_NOT_INSTALLED;
         return false;
     }
 
+    /**
+     * execute the installation steps
+     *
+     * @return boolean
+     */
     function install()
     {
-        $this->oLogger-log('installation not implemented yet');
-        $this->message('installation not implemented yet');
-        return true;
+        if ($this->_createDatabase())
+        {
+            $this->initDatabaseConnection();
+            if ($this->createCoreTables())
+            {
+                $this->oConfiguration->setInstallOn();
+                if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
+                {
+                    $this->oLogger->log('Failed to update application version to '.OA_VERSION);
+                    $this->message = 'Failed to update application version to '.OA_VERSION;
+                    return false;
+                }
+                $this->oLogger->log('Application version updated to '. OA_VERSION);
+                $this->oLogger->log('Installation Succeeded');
+                return true;
+            }
+        }
+        $this->oLogger->log('Installation Failed');
+        return false;
     }
 
+    /**
+     * retrieve the configuration settings
+     *
+     * @return array
+     */
+    function getConfig()
+    {
+        if (!$GLOBALS['_MAX']['CONF']['max']['installed'])
+        {
+            $this->oConfiguration->getInitialConfig();
+        }
+        return $this->oConfiguration->aConfig;
+    }
+
+    /**
+     * save database configuration settings
+     *
+     * @param array $aConfig
+     * @return boolean
+     */
+    function saveConfigDB($aConfig)
+    {
+        $this->oConfiguration->setupConfigDatabase($aConfig['database']);
+        $this->oConfiguration->setupConfigTable($aConfig['table']);
+        return $this->oConfiguration->writeConfig;
+    }
+
+    /**
+     * save configuration settings
+     *
+     * @param array $aConfig
+     * @return boolean
+     */
+    function saveConfig($aConfig)
+    {
+        $this->oConfiguration->setupConfigWebPath($aConfig['webpath']);
+        $this->oConfiguration->setupConfigTimezone($aConfig['timezone']);
+        $this->oConfiguration->setupConfigStore($aConfig['store']);
+        $this->oConfiguration->setupConfigMax($aConfig['max']);
+        return $this->oConfiguration->writeConfig();
+    }
+
+    /**
+     * create the empty database
+     *
+     * @return boolean
+     */
+    function _createDatabase()
+    {
+        $aDsn = $this->aDsn['database'];
+        $aDsn['phptype'] = $aDsn['type'];
+        OA::disableErrorHandling();
+        $oDbh = &MDB2::singleton($aDsn, $aOptions);
+        OA::enableErrorHandling();
+        if (PEAR::isError($oDbh))
+        {
+            $this->oLogger->logError($oDbh->getUserInfo());
+            return false;
+        }
+        else
+        {
+            $oDbh->loadModule('Manager');
+            $oDbh->manager->dropDatabase($this->aDsn['database']['name']);
+            if ($oDbh->manager->createDatabase($this->aDsn['database']['name']))
+            {
+                $GLOBALS['_MAX']['CONF']['database'] = $aDsn;
+                $GLOBALS['_MAX']['CONF']['table']['prefix'] = $this->aDsn['table']['prefix'];
+                $GLOBALS['_MAX']['CONF']['table']['type'] = $this->aDsn['table']['type'];
+                return true;
+            }
+            return false;
+        }
+    }
+
+    /**
+     * execute the upgrade steps
+     *
+     * @return boolean
+     */
     function upgrade()
     {
         if (is_null($this->oDbh))
@@ -370,7 +538,7 @@ class OA_Upgrade
                 $this->oLogger->log('Failed to update application version to '.OA_VERSION);
                 $this->message = 'Failed to update application version to '.OA_VERSION;
                 return false;
-            }
+             }
             $this->oLogger->log('Application version updated to '. OA_VERSION);
             if ($this->remove_max_version)
             {
@@ -387,34 +555,72 @@ class OA_Upgrade
         return false;
     }
 
+    /**
+     * create the tables_core schema in the database
+     *
+     * @return boolean
+     */
+    function createCoreTables()
+    {
+        $this->oTable = new OA_DB_Table();
+        if ($this->oTable->init(MAX_PATH.'/etc/tables_core.xml'))
+        {
+            if ($this->oTable->dropAllTables())
+            {
+                $this->oTable->createAllTables();
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+/*
     function getAdmin()
     {
         require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-        $preferences = new MAX_Admin_Preferences();
-        $preferences->loadPrefs();
+        $oPrefs = new MAX_Admin_Preferences();
+        $aAdmin = $oPrefs->loadPrefs();
+        if (empty($aAdmin))
+        {
+            if ($this->putAdmin())
+            {
+                $aAdmin = $oPrefs->loadPrefs();
+            }
+        }
+        return $aAdmin;
     }
+*/
 
-    function putAdmin($aData)
+    /**
+     * insert admin record into preferences table
+     *
+     * @param array $aAdmin
+     * @return boolean
+     */
+    function putAdmin($aAdmin)
     {
         require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
         // Insert basic preferences into database
-        $preferences = new MAX_Admin_Preferences();
+        $oPrefs = new MAX_Admin_Preferences();
 
         // Load preferences, needed below to check instance_id existance
-        $preferences->loadPrefs();
+        $oPrefs->loadPrefs();
 
-        $preferences->setPrefChange('config_version', OA_VERSION);
-        if ((!isset($installvars['dbUpgrade'])) || (!$installvars['dbUpgrade'])) {
-            $preferences->setPrefChange('admin',        $admin);
-            $preferences->setPrefChange('admin_pw',     md5($admin_pw));
-        }
+        $oPrefs->setPrefChange('config_version', OA_VERSION);
+        $oPrefs->setPrefChange('admin', $aAdmin['name']);
+        $oPrefs->setPrefChange('admin_email', $aAdmin['email']);
+        $oPrefs->setPrefChange('admin_pw', $aAdmin['pword']);
 
+//        if ((!isset($aAdmin['dbUpgrade'])) || (!$aAdmin['dbUpgrade'])) {
+//            $oPrefs->setPrefChange('admin',        $admin);
+//            $oPrefs->setPrefChange('admin_pw',     md5($admin_pw));
+//        }
         // Generate a new instance ID if empty
         if (empty($GLOBALS['_MAX']['PREF']['instance_id'])) {
-            $preferences->setPrefChange('instance_id',  sha1(uniqid('', true)));
+            $oPrefs->setPrefChange('instance_id',  sha1(uniqid('', true)));
         }
 
-        if (!$preferences->writePrefChange())
+        if (!$oPrefs->writePrefChange())
         {
             $this->oLogger->log('error writing admin preference record');
             return false;
@@ -422,6 +628,36 @@ class OA_Upgrade
         return true;
     }
 
+    /**
+     * test if the database username has permissions to create tables
+     *
+     * @return boolean
+     */
+    function checkDBPermissions()
+    {
+        $aExistingTables = $this->oDbh->manager->listTables();
+        if (in_array('oa_tmp_dbpriviligecheck', $aExistingTables))
+        {
+            $result = $this->oDbh->exec('DROP TABLE oa_tmp_dbpriviligecheck');
+        }
+        $result = $this->oDbh->exec('CREATE TABLE oa_tmp_dbpriviligecheck (tmp int)');
+        $data   = $this->oDbh->manager->listTableFields('oa_tmp_dbpriviligecheck');
+        PEAR::popErrorHandling();
+        if (!PEAR::isError($data)) {
+            $result = $this->oDbh->exec('DROP TABLE max_tmp_dbpriviligecheck');
+            $this->oLogger->logError('Database permissions are OK');
+            return true;
+        } else {
+            $this->oLogger->logError('Failed to create test privileges table - check your database permissions');
+            return false;
+        }
+    }
+
+    /**
+     * execute each of the db upgrade packages
+     *
+     * @return boolean
+     */
     function upgradeSchemas()
     {
         foreach ($this->aDBPackages as $k=>$aPkg)
@@ -446,6 +682,11 @@ class OA_Upgrade
         return true;
     }
 
+    /**
+     * for each schema, replace the upgraded tables with the backup tables
+     *
+     * @return boolean
+     */
     function rollbackSchemas()
     {
         foreach ($this->versionInitialSchema AS $schema => $version)
@@ -468,6 +709,12 @@ class OA_Upgrade
         return true;
     }
 
+    /**
+     * use the xml parser to parse the upgrade package
+     *
+     * @param string $input_file
+     * @return array
+     */
     function _parseUpgradePackageFile($input_file)
     {
         $result = $this->oParser->setInputFile($input_file);
@@ -486,6 +733,12 @@ class OA_Upgrade
         return $this->oParser->aPackage;
     }
 
+    /**
+     * not used in actual upgrader
+     * retrieve a list of available upgrade packages
+     *
+     * @return array
+     */
     function _getPackageList()
     {
         $aFiles = array();
@@ -550,11 +803,22 @@ class OA_Upgrade
         return true;
     }
 
+    /**
+     * retrieve the message errary
+     *
+     * @return boolean
+     */
     function getMessages()
     {
         return $this->oLogger->aMessages;
     }
 
+    /**
+     * not used anymore i think
+     * retrieve the error array
+     *
+     * @return boolean
+     */
     function getErrors()
     {
         return $this->oLogger->aErrors;

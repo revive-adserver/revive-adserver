@@ -48,10 +48,12 @@ else if (array_key_exists('btn_view_available', $_REQUEST))
 else if (array_key_exists('btn_parse_pkg', $_REQUEST))
 {
     $input_file = $_POST['btn_parse_pkg'];
-    $aPkgParsed = $oUpgrader->_parseUpgradePackageFile(MAX_PATH.'/var/upgrade/'.$input_file);
+    //$aPkgParsed = $oUpgrader->_parseUpgradePackageFile(MAX_PATH.'/var/upgrade/'.$input_file);
+    $aPkgParsed = $oUpgrader->_parseUpgradePackageFile(MAX_PATH.'/etc/changes/'.$input_file);
 }
 else if (array_key_exists('btn_view_changesets', $_REQUEST))
 {
+    $oUpgrader->initDatabaseConnection();
     $aChangesetInfo = $oUpgrader->_checkChangesetAudit('tables_core');
 }
 else if (array_key_exists('btn_view_logs', $_REQUEST))
@@ -67,6 +69,7 @@ else if (array_key_exists('btn_view_environment', $_REQUEST))
 }
 else if (array_key_exists('btn_view_backups', $_REQUEST))
 {
+    $oUpgrader->initDatabaseConnection();
     $aBackups = $oUpgrader->oDBUpgrader->_listBackups();
 }
 else if (array_key_exists('btn_backup_drop', $_REQUEST))
@@ -87,6 +90,7 @@ else if (array_key_exists('btn_logfile_drop', $_REQUEST))
 }
 else if (array_key_exists('btn_view_audit', $_REQUEST))
 {
+    $oUpgrader->initDatabaseConnection();
     $aAudit = $oUpgrader->oDBUpgrader->oAuditor->queryAuditAll();
 }
 else if (array_key_exists('btn_initialise', $_REQUEST))
@@ -97,6 +101,7 @@ else if (array_key_exists('btn_initialise', $_REQUEST))
 else if (array_key_exists('btn_upgrade', $_POST))
 {
     $oUpgrader->init($_POST['btn_upgrade']);
+    $oUpgrader->initDatabaseConnection();
     $oUpgrader->upgradeSchemas();
 }
 include 'tpl/upgrade.html';

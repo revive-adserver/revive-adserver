@@ -33,10 +33,15 @@ define('OA_UPGRADE_APPCHECK',                  20);
 define('OA_UPGRADE_DBSETUP',                   30);
 define('OA_UPGRADE_UPGRADE',                   35);
 define('OA_UPGRADE_INSTALL',                   36);
+define('OA_UPGRADE_CONFIGSETUP',               37);
 define('OA_UPGRADE_ADMINSETUP',                40);
 define('OA_UPGRADE_IDSETUP',                   50);
 define('OA_UPGRADE_DATASETUP',                 60);
 define('OA_UPGRADE_FINISH',                    70);
+
+global $installing;
+$installing = true;
+
 
 require_once '../../init.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
@@ -51,7 +56,7 @@ if ($oUpgrader->oDBUpgrader->seekRecoveryFile())
 else if (array_key_exists('btn_syscheck', $_REQUEST))
 {
     $aSysInfo = $oUpgrader->checkEnvironment();
-    $action = OA_UPGRADE_SYSCHECK;
+    $action   = OA_UPGRADE_SYSCHECK;
 }
 else if (array_key_exists('btn_appcheck', $_REQUEST))
 {
@@ -64,42 +69,95 @@ else if (array_key_exists('btn_appcheck', $_REQUEST))
 }
 else if (array_key_exists('btn_dbsetup', $_REQUEST))
 {
-    $oUpgrader->detectOpenads();
-    $aDatabase = $oUpgrader->aDsn;
-    $action = OA_UPGRADE_DBSETUP;
+    if ($oUpgrader->canUpgrade())
+    {
+        $aDatabase = $oUpgrader->aDsn;
+        $action    = OA_UPGRADE_DBSETUP;
+    }
 }
 else if (array_key_exists('btn_upgrade', $_POST))
 {
-    $oUpgrader->detectOpenads();
-    $oUpgrader->init($oUpgrader->package_file);
-    if ($oUpgrader->upgrade())
+    $oUpgrader->saveConfigDB($aConfig);
+    if ($oUpgrader->canUpgrade())
     {
-        $message = 'Successfully upgraded Openads to version '.OA_VERSION;
-        $action = OA_UPGRADE_UPGRADE;
+        if ($oUpgrader->existing_installation_status == OA_STATUS_NOT_INSTALLED)
+        {
+            $oUpgrader->aDsn['database'] = $_POST['database'];
+            $oUpgrader->aDsn['table']    = $_POST['table'];
+            if ($oUpgrader->install())
+            {
+                $message = 'Successfully installed Openads version '.OA_VERSION;
+                $action  = OA_UPGRADE_INSTALL;
+                setcookie('oat', $action);
+            }
+        }
+        else
+        {
+            if ($oUpgrader->initDatabaseConnection())
+            {
+                if ($oUpgrader->checkDBPermissions())
+                {
+                    $oUpgrader->init($oUpgrader->package_file);
+                    if ($oUpgrader->upgrade())
+                    {
+                        $message = 'Successfully upgraded Openads to version '.OA_VERSION;
+                        $action  = OA_UPGRADE_UPGRADE;
+                        setcookie('oat', $action);
+                    }
+                }
+            }
+        }
+    }
+    if (($action != OA_UPGRADE_UPGRADE) && ($action != OA_UPGRADE_INSTALL))
+    {
+        $action = OA_UPGRADE_ERROR;
+    }
+}
+else if (array_key_exists('btn_configsetup', $_REQUEST))
+{
+    $aConfig = $oUpgrader->getConfig();
+    $action = OA_UPGRADE_CONFIGSETUP;
+}
+else if (array_key_exists('btn_adminsetup', $_REQUEST))
+{
+    if ($oUpgrader->saveConfig($_REQUEST['aConfig']))
+    {
+//        if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
+//        {
+//            $oUpgrader->getAdmin();
+            $action = OA_UPGRADE_ADMINSETUP;
+//        }
+//        else
+//        {
+//            $action = OA_UPGRADE_IDSETUP;
+//        }
     }
     else
     {
         $action = OA_UPGRADE_ERROR;
     }
 }
-else if (array_key_exists('btn_install', $_POST))
-{
-    $oUpgrader->install();
-    $message = $oUpgrader->message;
-    $action = OA_UPGRADE_INSTALL;
-}
-else if (array_key_exists('btn_adminsetup', $_REQUEST))
-{
-    $oUpgrader->getAdmin();
-    $action = OA_UPGRADE_ADMINSETUP;
-}
 else if (array_key_exists('btn_oaidsetup', $_REQUEST))
 {
+//    if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
+//    {
+        $oUpgrader->putAdmin($_REQUEST['aAdmin']);
+//    }
     $action = OA_UPGRADE_IDSETUP;
 }
 else if (array_key_exists('btn_datasetup', $_REQUEST))
 {
-    $action = OA_UPGRADE_DATASETUP;
+    // first save the openads id setup
+    if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
+    {
+        $action = OA_UPGRADE_DATASETUP;
+    }
+    else
+    {
+        setcookie('oat', false);
+        $action = OA_UPGRADE_FINISH;
+        $message = 'Congratulations you have finished upgrading Openads';
+    }
 }
 else if (array_key_exists('btn_terms', $_REQUEST))
 {
@@ -107,10 +165,20 @@ else if (array_key_exists('btn_terms', $_REQUEST))
 }
 else if (array_key_exists('btn_finish', $_REQUEST))
 {
+    if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
+    {
+        $message = 'Congratulations you have finished installing Openads';
+    }
+    else
+    {
+        $message = 'Congratulations you have finished upgrading Openads';
+    }
+    setcookie('oat', false);
     $action = OA_UPGRADE_FINISH;
 }
 else
 {
+    setcookie('oat', false);
     $action = OA_UPGRADE_WELCOME;
 }
 
@@ -118,5 +186,3 @@ include 'tpl/index.html';
 
 
 ?>
-
-

@@ -1,0 +1,74 @@
+<div class="tablediv">
+    <form name="frmOpenads" method="POST" action="index.php">
+    <table class="tablemain">
+        <?php
+            if ($aConfig && is_array($aConfig) && (count($aConfig)>0))
+            {
+                $section = 'max';
+                echo "<tr>
+                          <td class=\"section\" colspan=\"2\">**{$section}**</td>
+                      </tr>";
+                echo "<tr>
+                          <td class=\"label\"><span>language</span></td>
+                          <td class=\"input\"><input type=\"text\" name=\"aConfig[{$section}][language]\" value=\"{$aConfig[$section]['language']}\" size=\"48\" /></td>
+                      </tr>";
+                $section = 'timezone';
+                echo "<tr>
+                          <td class=\"section\" colspan=\"2\">**{$section}**</td>
+                      </tr>";
+                foreach ($aConfig[$section] AS $k => $v)
+                {
+                    echo "<tr>
+                              <td class=\"label\"><span>{$k}</span></td>
+                              <td class=\"input\"><input type=\"text\" name=\"aConfig[{$section}][{$k}]\" value=\"{$v}\"  size=\"48\"/></td>
+                          </tr>";
+                }
+                $section = 'webpath';
+                echo "<tr>
+                          <td class=\"section\" colspan=\"2\">**{$section}**</td>
+                      </tr>";
+                foreach ($aConfig[$section] AS $k => $v)
+                {
+                    echo "<tr>
+                              <td class=\"label\"><span>{$k}</span></td>
+                              <td class=\"input\"><input type=\"text\" name=\"aConfig[{$section}][{$k}]\" value=\"{$v}\" size=\"48\" /></td>
+                          </tr>";
+                }
+                $section = 'store';
+                echo "<tr>
+                          <td class=\"section\" colspan=\"2\">**{$section}**</td>
+                      </tr>";
+                foreach ($aConfig[$section] AS $k => $v)
+                {
+                    echo "<tr>
+                              <td class=\"label\"><span>{$k}</span></td>
+                              <td class=\"input\"><input type=\"text\" name=\"aConfig[{$section}][{$k}]\" value=\"{$v}\"  size=\"48\"/></td>
+                          </tr>";
+                }
+                $section = 'email';
+                echo "<tr>
+                          <td class=\"section\" colspan=\"2\">**{$section}**</td>
+                      </tr>";
+                foreach ($aConfig[$section] AS $k => $v)
+                {
+                    echo "<tr>
+                              <td class=\"label\"><span>{$k}</span></td>
+                              <td class=\"input\"><input type=\"text\" name=\"aConfig[{$section}][{$k}]\" value=\"{$v}\"  size=\"48\"/></td>
+                          </tr>";
+                }
+            }
+            else
+            {
+                echo "<tr>
+                          <td class=\"section\" colspan=\"2\">nothing to report</td>
+                      </tr>";
+            }
+        ?>
+        <tr>
+            <td colspan="2">
+                <button class="button" name="btn_adminsetup">continue</button>
+                <!-- we don't want to let them go back and execute the upgrade/install  -->
+            </td>
+        </tr>
+    </table>
+

@@ -1,17 +1,17 @@
 <html>
 <head>
-    <title>Openads DB Installer</title>
+    <title>Openads Installer</title>
     <link rel="stylesheet" type="text/css" href="css/index.css"/>
 </head>
 <body>
 <table>
 <tr>
-    <td>
+    <th class="banner" style="width:20%;">
         <h3>Openads</h3>
-    </td>
-    <td>
-        <h4>2.3 Installer</h4>
-    </td>
+    </th>
+    <th class="banner">
+        <h4>Installer</h4>
+    </th>
     <td style="width:10%;">
         <form name="frmOpenads" method="POST" action="index.php">
             <button class="smallbutton" name="btn_help">Installer Help</button>
@@ -55,6 +55,12 @@
                     </td>
                 </tr>
                 <tr>
+                    <?php $class = ($action == OA_UPGRADE_CONFIGSETUP ? 'active' : ''); ?>
+                    <td class="<?php echo $class; ?>">
+                        Configuration Setup
+                    </td>
+                </tr>
+                <tr>
                     <?php $class = ($action == OA_UPGRADE_ADMINSETUP ? 'active' : ''); ?>
                     <td class="<?php echo $class; ?>">
                         Admin Setup
@@ -85,17 +91,18 @@
         <?php
             switch ($action)
             {
-                case OA_UPGRADE_ERROR       : include 'tpl/error.html'; break;
+                case OA_UPGRADE_ERROR       : include 'tpl/messages.html'; break;
                 case OA_UPGRADE_RECOVERY    : include 'tpl/recovery.html'; break;
+                case OA_UPGRADE_TERMS       : include 'tpl/terms.html'; break;
                 case OA_UPGRADE_SYSCHECK    : include 'tpl/syscheck.html'; break;
                 case OA_UPGRADE_APPCHECK    : include 'tpl/appcheck.html'; break;
                 case OA_UPGRADE_DBSETUP     : include 'tpl/dbsetup.html'; break;
                 case OA_UPGRADE_UPGRADE     : include 'tpl/success.html'; break;
                 case OA_UPGRADE_INSTALL     : include 'tpl/success.html'; break;
-                case OA_UPGRADE_TERMS       : include 'tpl/terms.html'; break;
+                case OA_UPGRADE_CONFIGSETUP  : include 'tpl/configsetup.html'; break;
                 case OA_UPGRADE_ADMINSETUP  : include 'tpl/adminsetup.html'; break;
+                case OA_UPGRADE_IDSETUP     : include 'tpl/oaidsetup.html'; break;
                 case OA_UPGRADE_DATASETUP   : include 'tpl/datasetup.html'; break;
-                case OA_UPGRADE_IDSETUP     : include 'tpl/datasetup.html'; break;
                 case OA_UPGRADE_FINISH      : include 'tpl/finish.html'; break;
                 default:  include 'tpl/welcome.html'; break;
             }

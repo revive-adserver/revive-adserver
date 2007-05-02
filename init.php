@@ -48,29 +48,35 @@ function init()
     // generates PHP warnings in places
     error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
     // If not being called from the installation script...
-    if (basename($_SERVER['PHP_SELF']) != 'install.php' && PHP_SAPI != 'cli') {
+
+    global $installing;
+    if ((!$installing) && (PHP_SAPI != 'cli')) {
+//        if (basename($_SERVER['PHP_SELF']) != 'install.php' && PHP_SAPI != 'cli') {
         // Direct the user to the installation script if not installed
         if (!$GLOBALS['_MAX']['CONF']['max']['installed']) {
-            $path = dirname($_SERVER['PHP_SELF']);
-            if ($path == '/') {
-                $path = '';
-            }
-            if ($GLOBALS['_MAX']['ROOT_INDEX']) {
-                // The root index.php page was called to get here
+//                $path = dirname($_SERVER['PHP_SELF']);
+//                if ($path == '/') {
+//                    $path = '';
+//                }
+//                if ($GLOBALS['_MAX']['ROOT_INDEX']) {
+//                    // The root index.php page was called to get here
+//                    $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
+//                           $_SERVER['HTTP_HOST'] . $path . '/www/admin/' . 'install.php';
+//                    header($location);
+//                } elseif ($GLOBALS['_MAX']['WWW_INDEX']) {
+//                    // The index.php page in /www was called to get here
+//                    $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
+//                           $_SERVER['HTTP_HOST'] . $path . '/admin/' . 'install.php';
+//                    header($location);
+//                } else {
+//                    // The index.php page in /www/admin was called to get here
+//                    $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
+//                           $_SERVER['HTTP_HOST'] . $path . '/install.php';
+//                    header($location);
+//                }
                 $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
-                       $_SERVER['HTTP_HOST'] . $path . '/www/admin/' . 'install.php';
+                       $_SERVER['HTTP_HOST'] . '/upgrade/index.php';
                 header($location);
-            } elseif ($GLOBALS['_MAX']['WWW_INDEX']) {
-                // The index.php page in /www was called to get here
-                $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
-                       $_SERVER['HTTP_HOST'] . $path . '/admin/' . 'install.php';
-                header($location);
-            } else {
-                // The index.php page in /www/admin was called to get here
-                $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
-                       $_SERVER['HTTP_HOST'] . $path . '/install.php';
-                header($location);
-            }
             exit();
         }
     }
