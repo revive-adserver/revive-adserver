@@ -41,8 +41,7 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAffiliates extends OA_Admin_
 {
 
     /**
-     * A PHP5-style constructor that can be used to perform common
-     * class instantiation by children classes.
+     * The final "child" implementation of the PHP5-style constructor.
      *
      * @param array $aParams An array of parameters. The array should
      *                       be indexed by the name of object variables,
@@ -72,19 +71,24 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAffiliates extends OA_Admin_
         $this->__construct($aParams);
     }
 
+    /**
+     * The final "child" implementation of the parental abstract method.
+     *
+     * @see OA_Admin_Statistics_Common::start()
+     */
     function start()
     {
+        // Get the preferences
+        $aPref = $GLOBALS['_MAX']['PREF'];
+
         // Security check
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
-
-        // Get the preferences
-        $pref = $GLOBALS['_MAX']['PREF'];
 
         // HTML Framework
         $this->pageId = '2.4';
         $this->aPageSections = array('2.1', '2.4', '2.2');
 
-        $this->hideInactive = MAX_getStoredValue('hideinactive', ($pref['gui_hide_inactive'] == 't'));
+        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['gui_hide_inactive'] == 't'));
         $this->showHideInactive = true;
 
         $this->startLevel = MAX_getStoredValue('startlevel', 0);
@@ -113,15 +117,15 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAffiliates extends OA_Admin_
         switch ($this->startLevel)
         {
             case 1:
-                $this->entities = $this->getZones($aParams, $this->startLevel, $expand);
+                $this->aEntitiesData = $this->getZones($aParams, $this->startLevel, $expand);
                 break;
             default:
                 $this->startLevel = 0;
-                $this->entities = $this->getPublishers($aParams, $this->startLevel, $expand);
+                $this->aEntitiesData = $this->getPublishers($aParams, $this->startLevel, $expand);
                 break;
         }
 
-        $this->_summarizeTotals($this->entities);
+        $this->_summarizeTotals($this->aEntitiesData);
 
         $this->showHideLevels = array();
         switch ($this->startLevel)

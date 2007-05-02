@@ -41,8 +41,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerZoneHistory extends OA_Admin
 {
 
     /**
-     * A PHP5-style constructor that can be used to perform common
-     * class instantiation by children classes.
+     * The final "child" implementation of the PHP5-style constructor.
      *
      * @param array $aParams An array of parameters. The array should
      *                       be indexed by the name of object variables,
@@ -72,29 +71,22 @@ class OA_Admin_Statistics_Delivery_Controller_BannerZoneHistory extends OA_Admin
         $this->__construct($aParams);
     }
 
+    /**
+     * The final "child" implementation of the parental abstract method.
+     *
+     * @see OA_Admin_Statistics_Common::start()
+     */
     function start()
     {
-        // Get the preferences
-        $pref = $GLOBALS['_MAX']['PREF'];
-
         // Get parameters
-        if (phpAds_isUser(phpAds_Client)) {
-            $advertiserId = phpAds_getUserId();
-        } else {
-            $advertiserId = (int)MAX_getValue('clientid', '');
-        }
-        $placementId  = (int)MAX_getValue('campaignid', '');
-        $adId         = (int)MAX_getValue('bannerid', '');
-
-        // Cross-entity
-        $zoneId = (int)MAX_getValue('zoneid', '');
+        $advertiserId = $this->_getId('advertiser');
+        $placementId  = $this->_getId('placement');
+        $adId         = $this->_getId('ad');
+        $zoneId       = $this->_getId('zone');
 
         // Security check
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-        if (!MAX_checkAd($advertiserId, $placementId, $adId)) {
-            phpAds_PageHeader('2');
-            phpAds_Die ($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
-        }
+        $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId, 'ad' => $adId));
 
         // Fetch campaigns
         $aZones = $this->getBannerZones($adId, $placementId);
@@ -165,7 +157,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerZoneHistory extends OA_Admin
         $aParams['ad_id']        = $adId;
         $aParams['zone_id']      = $zoneId;
 
-        $this->prepareHistory($aParams, 'stats.php?entity=banner&breakdown=daily');
+        $this->prepare($aParams, 'stats.php?entity=banner&breakdown=daily');
     }
 
 }

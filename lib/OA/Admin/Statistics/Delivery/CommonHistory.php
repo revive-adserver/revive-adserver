@@ -38,32 +38,84 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/Common.php';
  */
 class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Delivery_Common
 {
-    var $history;
 
-    var $startDate;
+    /**
+     * The starting day of the page's report span.
+     *
+     * @var PEAR::Date
+     */
+    var $oStartDate;
+
+    /**
+     * The number of days that the page's report spans.
+     *
+     * @var integer
+     */
     var $spanDays;
+
+    /**
+     * The number of weeks that the page's report spans.
+     *
+     * @var integer
+     */
     var $spanWeeks;
+
+    /**
+     * The number of months that the page's report spans.
+     *
+     * @var integer
+     */
     var $spanMonths;
 
+    /**
+     * The type of statistics breakdown to display. One of:
+     *  - hour
+     *  - day
+     *  - week
+     *  - month
+     *  - dow (ie. Day of Week)
+     *
+     * @var string
+     */
     var $statsBreakdown;
+
+    /**
+     * Enter description here...
+     *
+     * @var unknown_type
+     */
     var $statsKey;
-    var $statsIcon;
 
-    var $grandTotal;
-    var $grandAverage;
-    var $grandAverageSpan;
-
+    /**
+     * Enter description here...
+     *
+     * @var unknown_type
+     */
     var $averageDesc;
+
+    /**
+     * The array of "history" style delivery statistics data to
+     * display in the Flexy template.
+     *
+     * @var array
+     */
+    var $aHistoryData;
 
     /**
      * PHP5-style constructor
      */
     function __construct($params)
     {
+        // Set the output type "history" style delivery statistcs
+        $this->outputType = 'deliveryHistory';
+
         // Get list order and direction
         $this->listOrderField     = MAX_getStoredValue('listorder', 'key');
         $this->listOrderDirection = MAX_getStoredValue('orderdirection', 'down');
         $this->statsBreakdown     = MAX_getStoredValue('statsBreakdown', 'day');
+
+        // Ensure the history class is prepared
+        $this->useHistoryClass = true;
 
         parent::__construct($params);
 
@@ -81,87 +133,58 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         $this->__construct($params);
     }
 
-    function getColspan()
-    {
-        return count($this->aColumns) + 1;
-    }
-
     /**
-     * Output the controller object using the breakdown_by_date template
+     * The final "child" implementation of the parental abstract method,
+     * to test if the appropriate data array is empty, or not.
      *
-     * @param boolean Show the breakdown selector
+     * @see OA_Admin_Statistics_Common::_isEmptyResultArray()
+     *
+     * @access private
+     * @return boolean True on empty, false if at least one row of data.
      */
-    function output($show_breakdown = true, $graph_mode = false)
+    function _isEmptyResultArray()
     {
-        if ($this->statsBreakdown == 'week') {
-            $this->template = 'breakdown_by_week.html';
-
-            // Fix htmlclass to match the weekly template
-            if (count($this->history)) {
-                $rows = array('date');
-                foreach (array_keys($this->aColumns) as $v) {
-                    if ($this->showColumn($v)) {
-                        $rows[] = $v;
-                    }
-                }
-                $rows = array_reverse($rows);
-                foreach(array_keys($this->history) as $k) {
-                    $htmlclass = $this->history[$k]['htmlclass'];
-                    $tmpclass  = array();
-                    foreach ($rows as $r => $v) {
-                        $tmpclass[$v] = ($r ? 'nb' : '').$htmlclass;
-                    }
-                    $this->history[$k]['htmlclass'] = $tmpclass;
-                }
+        if (!is_array($this->aHistoryData)) {
+            return true;
+        }
+        foreach($this->aHistoryData as $aRecord) {
+            if (
+                $aRecord['sum_requests'] != '-' ||
+                $aRecord['sum_views']    != '-' ||
+                $aRecord['sum_clicks']   != '-'
+            ) {
+                return false;
             }
-        } else {
-            $this->template = 'breakdown_by_date.html';
         }
-
-        $elements = array();
-        if ($show_breakdown) {
-            $elements['statsBreakdown'] = new HTML_Template_Flexy_Element;
-            $elements['statsBreakdown']->setOptions( array(
-              'day'   => $GLOBALS['strBreakdownByDay'],
-              'week'  => $GLOBALS['strBreakdownByWeek'],
-              'month' => $GLOBALS['strBreakdownByMonth'],
-              'dow'   => $GLOBALS['strBreakdownByDow'],
-              'hour'  => $GLOBALS['strBreakdownByHour']
-            ));
-            $elements['statsBreakdown']->setValue($this->statsBreakdown);
-            $elements['statsBreakdown']->setAttributes(array('onchange' => 'this.form.submit()'));
-        }
-
-        if($graph_mode) {
-             parent::outputGraph($elements);
-        } else {
-             parent::output($elements);
-        }
-
+        return true;
     }
+
+
+
+
+
+
+
 
     /**
      * Fetch and decorates the history stats using the specified parameters
      *
-     * @param array Query parameters
-     * @param string Optional link for the leftmost column content
+     * @param array  $aParams Query parameters
+     * @param string $link    Optional link for the leftmost column content
      */
-    function prepareHistory($aParams, $link = '')
+    function prepare($aParams, $link = '')
     {
-        $this->getSpan($aParams);
+        // Set the span requirements
+        $this->oHistory->getSpan($this, $aParams);
 
-        $stats = $this->getHistory($aParams, $link);
+        // Get the historical stats
+        $aStats = $this->getHistory($aParams, $link);
 
         if ($this->noStatsAvailable) {
-            $this->history = array();
+            $this->aHistoryData = array();
             return;
         }
 
-        if ($this->statsBreakdown == 'hour') {
-            $this->statsIcon = 'images/icon-time.gif';
-        } else {
-            $this->statsIcon = 'images/icon-date.gif';
-        }
 
         if ($this->disablePager) {
             $use_pager = false;
@@ -196,120 +219,88 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
                 $_REQUEST['setPerPage'] = $per_page;
             }
 
-            $pager = & Pager::factory($params);
-            $this->history = $pager->getPageData();
+            $pager =& Pager::factory($params);
+            $this->aHistoryData = $pager->getPageData();
             $this->pagerLinks = $pager->getLinks();
             $this->pagerLinks = $this->pagerLinks['all'];
 
             $this->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="this.form.submit()"$2',
                 $pager->getPerPageSelectBox($per_page, $per_page * 4, $per_page));
         } else {
-            $this->history = $stats;
+            $this->aHistoryData = $aStats;
             $this->pagerLinks = false;
             $this->pagerSelect = false;
         }
 
         $this->aPagePrefs['setPerPage'] = $params['perPage'];
 
-        if (count($this->history)) {
+        if (count($this->aHistoryData)) {
             $i = 0;
-            foreach(array_keys($this->history) as $k) {
-                $this->history[$k]['htmlclass'] = ($i++ % 2 == 0) ? 'dark' : 'light';
+            foreach(array_keys($this->aHistoryData) as $k) {
+                $this->aHistoryData[$k]['htmlclass'] = ($i++ % 2 == 0) ? 'dark' : 'light';
 
-                if ($i == count($this->history)) {
-                    $this->history[$k]['htmlclass'] .= ' last';
+                if ($i == count($this->aHistoryData)) {
+                    $this->aHistoryData[$k]['htmlclass'] .= ' last';
                 }
             }
         }
     }
 
+    function getColspan()
+    {
+        return count($this->aColumns) + 1;
+    }
+
     /**
      * Fetch the history stats using the specified parameters
      *
-     * @param array Query parameters
-     * @param string Optional link for the leftmost column content
+     * @param array  $aParams Query parameters
+     * @param string $link    Optional link for the leftmost column content
      */
     function getHistory($aParams, $link = '')
     {
-        switch ($this->statsBreakdown) {
-        case 'week':
-            $this->weekDays = array();
-            $oDaySpan = & new DaySpan('this_week');
-            $oDate    = $oDaySpan->getStartDate();
-            for ($i = 0; $i < 7; $i++) {
-                $this->weekDays[$oDate->getDayOfWeek()] = $GLOBALS['strDayShortCuts'][$oDate->getDayOfWeek()];
-                $oDate->addSpan(new Date_Span('1, 0, 0, 0'));
-            }
-
-            $this->statsKey    = $GLOBALS['strWeek'];
-            $this->averageDesc = $GLOBALS['strWeeks'];
-            $method = 'getDayHistory';
-            break;
-
-        case 'month':
-            $this->statsKey    = $GLOBALS['strSingleMonth'];
-            $this->averageDesc = $GLOBALS['strMonths'];
-            $method = 'getMonthHistory';
-            break;
-
-        case 'dow'  :
-            $this->statsKey    = $GLOBALS['strDayOfWeek'];
-            $this->averageDesc = $GLOBALS['strWeekDays'];
-            $method = 'getDayOfWeekHistory';
-            break;
-
-        case 'hour' :
-            $this->statsKey    = $GLOBALS['strHour'];
-            $this->averageDesc = $GLOBALS['strHours'];
-            $method = 'getHourHistory';
-            break;
-
-        default     :
-            $this->statsBreakdown = 'day';
-            $this->statsKey    = $GLOBALS['strDay'];
-            $this->averageDesc = $GLOBALS['strDays'];
-            $method = 'getDayHistory';
-            break;
-        }
+        $method = $this->oHistory->setBreakdownInfo($this) . 'History';
 
         // Add plugin aParams
         $pluginParams = array();
         foreach ($this->aPlugins as $oPlugin) {
-                $oPlugin->addQueryParams($pluginParams);
+            $oPlugin->addQueryParams($pluginParams);
         }
 
-        $stats = Admin_DA::fromCache($method, $aParams + $this->aDates + $pluginParams);
+        $aStats = Admin_DA::fromCache($method, $aParams + $this->aDates + $pluginParams);
 
         // Merge plugin additional $oPlugin
-        foreach ($this->aPlugins as $plugin) {
-            $oPlugin->mergeData($stats, $this->aEmptyRow, $method, $aParams + $this->aDates);
+        foreach ($this->aPlugins as $oPlugin) {
+            $oPlugin->mergeData($aStats, $this->aEmptyRow, $method, $aParams + $this->aDates);
         }
 
-        if (count($stats)) {
-            // Fill unused plugins columns
-            foreach (array_keys($stats) as $k) {
-                $stats[$k] += $this->aEmptyRow;
-            }
-
-            $this->fillGaps($stats, $link);
-
-            if (!in_array($this->listOrderField, array_merge(array($this->statsBreakdown), array_keys($this->aColumns)))) {
-                $this->listOrderField = $this->statsBreakdown;
-                $this->listOrderDirection = $this->statsBreakdown == 'hour' || $this->statsBreakdown == 'dow' ? 'up' : 'down';
-            }
-
-            if ($this->statsBreakdown == 'week') {
-                $this->prepareWeek($stats);
-            }
-
-            MAX_sortArray($stats, $this->listOrderField, $this->listOrderDirection == 'up');
-
-            $this->_summarizeTotals($stats, true);
-        } else {
+        if (count($aStats) == 0) {
             $this->noStatsAvailable = true;
+            return $aStats;
         }
 
-        return $stats;
+        // Fill unused plugins columns
+        foreach (array_keys($aStats) as $k) {
+            $aStats[$k] += $this->aEmptyRow;
+        }
+
+        $aDates = $this->oHistory->getDatesArray($this->aDates, $this->statsBreakdown, $this->oStartDate);
+        $this->oHistory->fillGapsAndLink($aStats, $aDates, $this, $link);
+
+        if (!in_array($this->listOrderField, array_merge(array($this->statsBreakdown), array_keys($this->aColumns)))) {
+            $this->listOrderField = $this->statsBreakdown;
+            $this->listOrderDirection = $this->statsBreakdown == 'hour' || $this->statsBreakdown == 'dow' ? 'up' : 'down';
+        }
+
+        if ($this->statsBreakdown == 'week') {
+            $this->prepareWeek($aStats);
+        }
+
+        MAX_sortArray($aStats, $this->listOrderField, $this->listOrderDirection == 'up');
+
+        $this->_summarizeTotals($aStats, true);
+
+        return $aStats;
     }
 
     /**
@@ -407,177 +398,6 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
     }
 
     /**
-     * Return an array which contains all the interval days, months, etc
-     *
-     * The key is uses the internal format for the date, and the value is its
-     * formatted counterpart
-     *
-     * @return array Dates array
-     */
-    function getDatesArray()
-    {
-        return $this->_getDatesArray($this->statsBreakdown, $this->aDates, $this->oStartDate);
-    }
-
-    /**
-     * Internal static function which returns an array which contains all the interval days, months, etc
-     *
-     * The key is uses the internal format for the date, and the value is its
-     * formatted counterpart
-     *
-     * @param string Breakdown type
-     * @param array Dates array
-     * @param object Date object representing the first day of statistics available
-     *
-     * @return array Dates array
-     */
-    function _getDatesArray($breakdown, $aDates, $startDate)
-    {
-        // Get start and end dates
-        if ($aDates['day_begin'] && $aDates['day_end']) {
-            $start_date = & new Date($aDates['day_begin']);
-            $end_date   = & new Date($aDates['day_end']);
-
-            // Adjust start date if no stats are available
-            if ($start_date->before($startDate)) {
-                $aDates['day_begin'] = $startDate->format('%Y-%m-%d');
-                $start_date = & new Date($aDates['day_begin']);
-            }
-
-            // Adjust end date if is future
-            if ($end_date->isFuture()) {
-                $aDates['day_end'] = date('Y-m-d');
-                $end_date = & new Date($aDates['day_end']);
-            }
-        } else {
-            // Use all available stats
-            $start_date = $startDate;
-            $end_date   = & new Date(date('Y-m-d'));
-        }
-
-        $dates = array();
-        switch ($breakdown) {
-
-        case 'week' :
-        case 'day' :
-            $one_day = &new Date_Span('1', '%d');
-            $end_date->addSpan($one_day);
-            $date = &new Date($start_date);
-            while ($date->before($end_date)) {
-                $dates[$date->format('%Y-%m-%d')] = $date->format($GLOBALS['date_format']);
-                $date->addSpan($one_day);
-            }
-            break;
-
-        case 'month' :
-            $one_month = &new Date_Span((string)($end_date->getDaysInMonth() - $end_date->getDay() + 1), '%d');
-            $end_date->addSpan($one_month);
-            $date = &new Date($start_date);
-            while ($date->before($end_date)) {
-                $dates[$date->format('%Y-%m')] = $date->format($GLOBALS['month_format']);
-                $one_month = &new Date_Span((string)($date->getDaysInMonth() - $date->getDay() + 1), '%d');
-                $date->addSpan($one_month);
-            }
-            break;
-
-        case 'dow' :
-            for ($dow = 0; $dow < 7; $dow++) {
-                $dates[$dow] = $GLOBALS['strDayFullNames'][$dow];
-            }
-            break;
-
-        case 'hour' :
-            for ($hour = 0; $hour < 24; $hour++) {
-                $dates[$hour] = sprintf('%02d:00 - %02d:59', $hour, $hour);
-            }
-            break;
-
-        }
-
-        return $dates;
-    }
-
-    /**
-     * Fills the gaps in the history stats and adds required links
-     *
-     * @param array Stats array
-     */
-    function fillGaps(&$stats, $link)
-    {
-        foreach ($this->getDatesArray() as $key  => $date_f) {
-            if (!isset($stats[$key])) {
-                $stats[$key] = array($this->statsBreakdown => $key) + $this->aEmptyRow;
-            }
-            $stats[$key]['date_f'] = $date_f;
-            $this->_summarizeStats($stats[$key]);
-
-            switch ($this->statsBreakdown) {
-
-            case 'week' :
-            case 'day' :
-                $stats[$key]['day']  = $key;
-                $stats[$key]['link'] = $this->_addPageParamsToURI($link).'day='.str_replace('-', '', $key);
-                $params = $this->removeDuplicateParams($link);
-                $stats[$key]['linkparams'] = substr($this->_addPageParamsToURI('', $params).
-                    'day='.str_replace('-', '', $key), 1);
-                $stats[$key]['convlinkparams'] = substr($this->_addPageParamsToURI('', $params).
-                    'day='.str_replace('-', '', $key), 1);
-                break;
-
-            case 'month' :
-                $month_start = & new Date(sprintf('%s-%02d', $key, 1));
-                $month_end = & new Date($month_start);
-                $month_end->setDay($month_end->getDaysInMonth());
-                $stats[$key]['month']      = $key;
-                $params = $this->removeDuplicateParams($link);
-                $stats[$key]['linkparams'] = substr($this->_addPageParamsToURI('', $params).
-                    'period_preset=specific&'.
-                    'period_start='.$month_start->format('%Y-%m-%d').'&'.
-                    'period_end='.$month_end->format('%Y-%m-%d'), 1);
-                $stats[$key]['convlinkparams'] = substr($this->_addPageParamsToURI('', $params).
-                    'period_preset=specific&'.
-                    'period_start='.$month_start->format('%Y-%m-%d').'&'.
-                    'period_end='.$month_end->format('%Y-%m-%d'), 1);
-                break;
-
-            case 'dow' :
-                $stats[$key]['dow'] = $key;
-                break;
-
-            case 'hour' :
-                $stats[$key]['hour'] = $key;
-                if (!empty($this->aDates['day_begin']) && $this->aDates['day_begin'] == $this->aDates['day_end']) {
-                    $params = $this->removeDuplicateParams($link);
-                    $stats[$key]['linkparams'] = substr($this->_addPageParamsToURI('', $params).
-                        'day='.str_replace('-', '', $this->aDates['day_begin']).'&'.
-                        'hour='.sprintf('%02d', $key), 1);
-                    $stats[$key]['convlinkparams'] = substr($this->_addPageParamsToURI('', $params).
-                        'day='.str_replace('-', '', $this->aDates['day_begin']).'&'.
-                        'hour='.sprintf('%02d', $key), 1);
-                }
-                break;
-            }
-        }
-    }
-
-    /**
-     * Return bool - checks if there are any non empty impresions in object
-     *
-     * @return bool
-     */
-    function isEmptyResultArray()
-    {
-        foreach($this->history as $record) {
-
-            if($record['sum_requests'] != '-' || $record['sum_views'] != '-' || $record['sum_clicks'] != '-') {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Exports stats data to an array
      *
      * The array will look like:
@@ -615,7 +435,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
 
         $headers[] = $this->statsKey;
 
-        foreach ($this->history as $h) {
+        foreach ($this->aHistoryData as $h) {
             $row = array();
             $row[] = $h['date_f'];
             foreach (array_keys($this->aColumns) as $ck) {

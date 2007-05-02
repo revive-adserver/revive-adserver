@@ -48,36 +48,41 @@ class Plugins_statisticsFieldsTargeting_default_default extends Plugins_statisti
         $this->displayOrder = -10;
 
         // Set module and package because they aren't set when running the constructor method
-        $this->module  = 'targetingFields';
+        $this->module  = 'statisticsFieldsDelivery';
         $this->package = 'default';
 
-        $this->_fields = array(
-            'id'               => array('name'   => MAX_Plugin_Translation::translate('_ID', $this->module, $this->package),
-                                        'short'  => MAX_Plugin_Translation::translate('ID', $this->module, $this->package),
-                                        'pref'   => 'gui_column_id',
-                                        'ctrl'     => 'StatsByEntityController',
-                                        'format' => 'id'),
-            'required'         => array('name'   => MAX_Plugin_Translation::translate('_Required', $this->module, $this->package),
-                                        'short'  => MAX_Plugin_Translation::translate('Required', $this->module, $this->package),
-                                        'pref'   => 'placement_required_impressions',
-                                        'active' => true,
-                                        'format' => 'default'),
-            'requested'        => array('name'   => MAX_Plugin_Translation::translate('_Requested', $this->module, $this->package),
-                                        'short'  => MAX_Plugin_Translation::translate('Requested', $this->module, $this->package),
-                                        'pref'   => 'placement_requested_impressions',
-                                        'active' => true,
-                                        'format' => 'default'),
-            'zone_forecast'    => array('name'   => MAX_Plugin_Translation::translate('_Zone Forecast', $this->module, $this->package),
-                                        'short'  => MAX_Plugin_Translation::translate('Zone Forecast', $this->module, $this->package),
-                                        'pref'   => 'zone_forecast_impressions',
-                                        'active' => true,
-                                        'format' => 'default'),
-            'zone_impressions' => array('name'   => MAX_Plugin_Translation::translate('_Zone Impressions', $this->module, $this->package),
-                                        'short'  => MAX_Plugin_Translation::translate('Zone Impressions', $this->module, $this->package),
-                                        'pref'   => 'zone_actual_impressions',
-                                        'format' => 'default')
-
+        $this->_aFields = array(
+            'placement_required_impressions'  => array('name'   => MAX_Plugin_Translation::translate('_Required', $this->module, $this->package),
+                                                       'short'  => MAX_Plugin_Translation::translate('Required', $this->module, $this->package),
+                                                       'format' => 'default'
+                                                      ),
+            'placement_requested_impressions' => array('name'   => MAX_Plugin_Translation::translate('_Requested', $this->module, $this->package),
+                                                       'short'  => MAX_Plugin_Translation::translate('Requested', $this->module, $this->package),
+                                                       'format' => 'default'
+                                                      ),
+            'placement_actual_impressions'    => array('name'   => MAX_Plugin_Translation::translate('_Actual', $this->module, $this->package),
+                                                       'short'  => MAX_Plugin_Translation::translate('Actual', $this->module, $this->package),
+                                                       'format' => 'default'
+                                                      ),
+            'zone_forecast_impressions'       => array('name'   => MAX_Plugin_Translation::translate('_Zone Forecast', $this->module, $this->package),
+                                                       'short'  => MAX_Plugin_Translation::translate('Zone Forecast', $this->module, $this->package),
+                                                       'format' => 'default'
+                                                      ),
+            'zone_actual_impressions'         => array('name'   => MAX_Plugin_Translation::translate('_Zone Impressions', $this->module, $this->package),
+                                                       'short'  => MAX_Plugin_Translation::translate('Zone Impressions', $this->module, $this->package),
+                                                       'format' => 'default'
+                                                      )
         );
+    }
+
+    /**
+     * A method to return the name of the plugin.
+     *
+     * @return string A string describing the plugin class.
+     */
+    function getName()
+    {
+        return 'Default targeting statistics columns plugin.';
     }
 
 }

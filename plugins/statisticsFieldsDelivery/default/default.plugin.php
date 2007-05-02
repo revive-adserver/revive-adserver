@@ -47,14 +47,14 @@ class Plugins_statisticsFieldsDelivery_default_default extends Plugins_statistic
         $this->displayOrder = -10;
 
         // Set module and package because they aren't set when running the constructor method
-        $this->module  = 'statsFields';
+        $this->module  = 'statisticsFieldsDelivery';
         $this->package = 'default';
 
-        $this->_fields = array(
+        $this->_aFields = array(
             'id'               => array('name'   => MAX_Plugin_Translation::translate('_ID', $this->module, $this->package),
                                         'short'  => MAX_Plugin_Translation::translate('ID', $this->module, $this->package),
                                         'pref'   => 'gui_column_id',
-                                        'ctrl'     => 'StatsByEntityController',
+                                        'ctrl'     => 'OA_Admin_Statistics_CommonEntity',
                                         'format' => 'id'),
             'sum_requests'     => array('name'   => MAX_Plugin_Translation::translate('_Requests', $this->module, $this->package),
                                         'short'  => MAX_Plugin_Translation::translate('Requests', $this->module, $this->package),
@@ -100,14 +100,13 @@ class Plugins_statisticsFieldsDelivery_default_default extends Plugins_statistic
     }
 
     /**
-     * Return name of plugin
+     * A method to return the name of the plugin.
      *
-     * @abstract
-     * @return string A string describing the class.
+     * @return string A string describing the plugin class.
      */
     function getName()
     {
-        return 'Default columns';
+        return 'Default delivery statistics columns plugin.';
     }
 
     function mergeData(&$aRows, $emptyRow, $method, $aParams)

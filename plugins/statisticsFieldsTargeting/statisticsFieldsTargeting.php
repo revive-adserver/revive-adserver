@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Plugin/Common.php';
+require_once MAX_PATH . '/plugins/statisticsFieldsDelivery/statisticsFieldsDelivery.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
 /**
@@ -37,8 +37,59 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * @subpackage StatisticsFields
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Plugins_statisticsFieldsTargeting_statisticsFieldsTargeting extends MAX_Plugin_Common
+class Plugins_statisticsFieldsTargeting_statisticsFieldsTargeting extends Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery
 {
+
+    /**
+     * A method to prepare the array of columns that should be displayed (ie. not hidden)
+     * by the calling OA_Admin_Statistics_Common or child class.
+     *
+     * Overrides the parent class, as targeting statistics fields cannot be enabled/disabled.
+     *
+     * @return array An array of fields, indexed by "field", giving a true
+     *               or false value for display - {@see $this->_aFields}.
+     */
+    function getVisibleColumns()
+    {
+        // Get the preferences
+        $aPref = $GLOBALS['_MAX']['PREF'];
+        $aColumns = array();
+        foreach ($this->_aFields as $k => $v) {
+            $aColumns[$k] = true;
+        }
+        return $aColumns;
+    }
+
+    /**
+     * A method that returns an array of parameters representing custom columns
+     * to use to determine the span of history when displaying targeting statistics.
+     *
+     * That is, either an empty array if the targeting statistics plugin does not
+     * need to alter the stanard span of targeting statistics, or, an array of two
+     * elements:
+     *
+     *      'custom_table'   => The name of the table to look for data in to
+     *                          determine if the span of the data to be shown needs
+     *                          to be extended beyond the default; and
+     *      'custom_columns' => An array of one element, "start_date", which is
+     *                          indexed by SQL code that can be run to determine the
+     *                          starting date in the span.
+     *
+     * For example, if you have a custom data table "foo", and the earliest date
+     * in this table can be found by using the SQL "SELECT DATE_FORMAT(MIN(bar), '%Y-%m-%d')",
+     * then the array to return would be:
+     *
+     * array(
+     *      'custom_table'   => 'foo',
+     *      'custom_columns' => array("DATE_FORMAT(MIN(bar), '%Y-%m-%d')" => 'start_date')
+     * );
+     *
+     * @return array As described above.
+     */
+    function getTargetingSpanParams()
+    {
+        return array();
+    }
 
 
 }

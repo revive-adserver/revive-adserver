@@ -40,19 +40,29 @@ class OA_Admin_Statistics_Delivery_Flexy extends OA_Admin_Statistics_Common
 {
 
     /**
-     * Return the link for a column
+     * A Flexy helper method to inspect an entity array and the
+     * current $this->aColumnLinks array, and determine if an
+     * URI link exists for the entity, and, if so, return it.
      *
-     * @param array Entity array
-     * @param array Column name
-     * @return string Link associated with a column
+     * @param array   $aEntity The entity array, possibly with the
+     *                         'linkparams' element set.
+     * @param string  $column  The name of the column to inspect
+     *                         in the $this->aColumnLinks array to
+     *                         see if a link is associated with the
+     *                         entity item.
+     * @return string The link associated with the entity/column,
+     *                if applicable.
      */
-    function showColumnLink($entity, $column)
+    function showColumnLink($aEntity, $column)
     {
-        return empty($this->aColumnLinks[$column]) || empty($entity['linkparams']) ? '' : $this->aColumnLinks[$column];
+        if (empty($this->aColumnLinks[$column]) || empty($aEntity['linkparams'])) {
+            return '';
+        }
+        return $this->aColumnLinks[$column];
     }
 
     /**
-     * Return the visibility status of a column -- helper function for Flexy
+     * Return the visibility status of a column
      *
      * @param string Column name
      * @return boolean True if the column is vilible
@@ -60,81 +70,6 @@ class OA_Admin_Statistics_Delivery_Flexy extends OA_Admin_Statistics_Common
     function showColumn($column)
     {
         return isset($this->aColumnVisible[$column]) ? $this->aColumnVisible[$column] : true;
-    }
-
-    /**
-     * Return an array field
-     *
-     * @param array The array
-     * @param array Field name
-     * @return mixed Field value
-     */
-    function showValue($e, $k)
-    {
-        return $e[$k];
-    }
-
-    /**
-     * Return a translated string
-     *
-     * @param string Name of the translation string
-     *
-     * @see getTranslation
-     */
-    function tr($str)
-    {
-        if (preg_match('/^(str|key)/', $str) && isset($GLOBALS[$str])) {
-            $str = $GLOBALS[$str];
-        }
-
-        return $str;
-    }
-
-    /**
-     * Return the link to change sorting field and order
-     *
-     * @param string Name of the field
-     * @param boolean Reverse default sorting
-     * @return string The href parameter
-     */
-    function listOrderHref($fieldname, $reverse = false)
-    {
-        if ($this->listOrderField == $fieldname) {
-            $orderdirection = $this->listOrderDirection == 'up' ? 'down' : 'up';
-        } else {
-            $orderdirection = $reverse ? 'down' : 'up';
-        }
-
-        return "{$this->pageURI}listorder={$fieldname}&orderdirection={$orderdirection}";
-    }
-
-    /**
-     * Return the link to change sorting field and order using reversed
-     * order by default -- helper function for Flexy
-     *
-     * @param string Name of the field
-     * @return string The href parameter
-     */
-    function listOrderHrefRev($fieldname)
-    {
-        return $this->listOrderHref($fieldname, true);
-    }
-
-    /**
-     * Return the image to show current ordering
-     *
-     * The function returns false if the data is not sorted by $fieldname
-     *
-     * @param string Name of the field
-     * @return mixed Image src parameter
-     */
-    function listOrderImage($fieldname)
-    {
-        if ($this->listOrderField == $fieldname) {
-            return "images/caret-".($this->listOrderDirection == 'up' ? 'u': 'ds').".gif";
-        } else {
-            return false;
-        }
     }
 
 }

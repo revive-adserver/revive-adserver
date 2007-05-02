@@ -41,8 +41,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateBannerHistory extends OA_
 {
 
     /**
-     * A PHP5-style constructor that can be used to perform common
-     * class instantiation by children classes.
+     * The final "child" implementation of the PHP5-style constructor.
      *
      * @param array $aParams An array of parameters. The array should
      *                       be indexed by the name of object variables,
@@ -72,27 +71,20 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateBannerHistory extends OA_
         $this->__construct($aParams);
     }
 
+    /**
+     * The final "child" implementation of the parental abstract method.
+     *
+     * @see OA_Admin_Statistics_Common::start()
+     */
     function start()
     {
-        // Get the preferences
-        $pref = $GLOBALS['_MAX']['PREF'];
-
         // Get parameters
-        if (phpAds_isUser(phpAds_Affiliate)) {
-            $publisherId = phpAds_getUserId();
-        } else {
-            $publisherId = (int)MAX_getValue('affiliateid', '');
-        }
-
-        // Cross-entity
-        $adId = (int)MAX_getValue('bannerid', 0);
+        $publisherId = $this->_getId('publisher');
+        $adId        = $this->_getId('ad', 0);
 
         // Security check
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-        if (!MAX_checkPublisher($publisherId)) {
-            phpAds_PageHeader('2');
-            phpAds_Die ($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
-        }
+        $this->_checkAccess(array('publisher' => $publisherId));
 
         // Fetch banners
         $aAds = $this->getPublisherBanners($publisherId);
@@ -148,7 +140,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateBannerHistory extends OA_
         $aParams['publisher_id'] = $publisherId;
         $aParams['ad_id'] = $adId;
 
-        $this->prepareHistory($aParams, 'stats.php?entity=affiliate&breakdown=daily');
+        $this->prepare($aParams, 'stats.php?entity=affiliate&breakdown=daily');
     }
 }
 

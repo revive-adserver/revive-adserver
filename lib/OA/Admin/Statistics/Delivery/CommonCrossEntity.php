@@ -38,6 +38,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonEntity.php';
  */
 class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics_Delivery_CommonEntity
 {
+
     var $aAnonAdvertisers;
     var $aAnonPlacements;
 
@@ -73,7 +74,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
      */
     function mergeData($aParams, $key)
     {
-        $aEntities = parent::mergeData($aParams, $key);
+        $aEntitiesData = parent::mergeData($aParams, $key);
 
         if (phpAds_isUser(phpAds_Client) || phpAds_isUser(phpAds_Affiliate)) {
             if (is_null($this->aAnonAdvertisers)) {
@@ -87,25 +88,25 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
             }
         }
 
-        foreach (array_keys($aEntities) as $entityId) {
+        foreach (array_keys($aEntitiesData) as $entityId) {
             if (!isset($this->data[$key][$entityId])) {
-                unset($aEntities[$entityId]);
+                unset($aEntitiesData[$entityId]);
             } elseif ($key == 'advertiser_id' && isset($this->aAnonAdvertisers[$entityId])) {
-                    $aEntities[$entityId]['hidden'] = true;
+                    $aEntitiesData[$entityId]['hidden'] = true;
             } elseif ($key == 'placement_id' && isset($this->aAnonPlacements[$entityId])) {
-                    $aEntities[$entityId]['hidden'] = true;
-            } elseif ($key == 'ad_id' && isset($this->aAnonPlacements[$aEntities[$entityId]['placement_id']])) {
-                    $aEntities[$entityId]['hidden'] = true;
+                    $aEntitiesData[$entityId]['hidden'] = true;
+            } elseif ($key == 'ad_id' && isset($this->aAnonPlacements[$aEntitiesData[$entityId]['placement_id']])) {
+                    $aEntitiesData[$entityId]['hidden'] = true;
             } elseif (phpAds_isUser(phpAds_Client)) {
                 if (isset($aParams['placement_id'])) {
-                    $aEntities[$entityId]['hidden'] = isset($this->aAnonPlacements[$aParams['placement_id']]);
+                    $aEntitiesData[$entityId]['hidden'] = isset($this->aAnonPlacements[$aParams['placement_id']]);
                 } else {
-                    $aEntities[$entityId]['hidden'] = isset($this->aAnonAdvertisers[phpAds_getUserId()]);
+                    $aEntitiesData[$entityId]['hidden'] = isset($this->aAnonAdvertisers[phpAds_getUserId()]);
                 }
             }
         }
 
-        return $aEntities;
+        return $aEntitiesData;
     }
 
     /**
@@ -113,10 +114,10 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
      *
      * @param array Entities array
      */
-    function fixLinkParams(&$aEntities)
+    function fixLinkParams(&$aEntitiesData)
     {
         $linkparams = array();
-        $params = $this->removeDuplicateParams('');
+        $params = $this->_removeDuplicateParams('');
         foreach ($params as $k => $v) {
             $linkparams[] = $k.'='.urlencode($v);
         }
@@ -129,47 +130,47 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
      * @param array Entities array
      * @param string Name which should be used for hidden entitiies
      */
-    function maskHiddenEntities(&$aEntities, $entityType)
+    function maskHiddenEntities(&$aEntitiesData, $entityType)
     {
-        $this->fixLinkParams($aEntities);
+        $this->fixLinkParams($aEntitiesData);
 
-        foreach (array_keys($aEntities) as $entityId) {
-            if (isset($aEntities[$entityId]['hidden']) && $aEntities[$entityId]['hidden']) {
+        foreach (array_keys($aEntitiesData) as $entityId) {
+            if (isset($aEntitiesData[$entityId]['hidden']) && $aEntitiesData[$entityId]['hidden']) {
                 switch ($entityType) {
                     case 'advertiser':
-                        $aEntities[$entityId]['name'] = MAX_getAdvertiserName($aEntities[$entityId]['name'], null, true, $aEntities[$entityId]['id']);
+                        $aEntitiesData[$entityId]['name'] = MAX_getAdvertiserName($aEntitiesData[$entityId]['name'], null, true, $aEntitiesData[$entityId]['id']);
                         break;
 
                     case 'campaign':
                         $tmp = array(
-                            'placement_id'  => $aEntities[$entityId]['id'],
-                            'name'          => $aEntities[$entityId]['name'],
+                            'placement_id'  => $aEntitiesData[$entityId]['id'],
+                            'name'          => $aEntitiesData[$entityId]['name'],
                             'anonymous'     => true
                         );
-                        $aEntities[$entityId]['name'] = MAX_getPlacementName($tmp);
+                        $aEntitiesData[$entityId]['name'] = MAX_getPlacementName($tmp);
                         break;
 
                     case 'banner':
-                        $aEntities[$entityId]['name'] = MAX_getAdName($aEntities[$entityId]['name'], null, null, true, $aEntities[$entityId]['id']);
+                        $aEntitiesData[$entityId]['name'] = MAX_getAdName($aEntitiesData[$entityId]['name'], null, null, true, $aEntitiesData[$entityId]['id']);
                         break;
 
                     case 'publisher':
-                        $aEntities[$entityId]['name'] = MAX_getPublisherName($aEntities[$entityId]['name'], null, true, $aEntities[$entityId]['id']);
+                        $aEntitiesData[$entityId]['name'] = MAX_getPublisherName($aEntitiesData[$entityId]['name'], null, true, $aEntitiesData[$entityId]['id']);
                         break;
 
                     case 'zone':
-                        $aEntities[$entityId]['name'] = MAX_getZoneName($aEntities[$entityId]['name'], null, true, $aEntities[$entityId]['id']);
+                        $aEntitiesData[$entityId]['name'] = MAX_getZoneName($aEntitiesData[$entityId]['name'], null, true, $aEntitiesData[$entityId]['id']);
                         break;
                 }
 
-                //$aEntities[$entityId]['num_children'] = 0;
-                //unset($aEntities[$entityId]['subentities']);
+                //$aEntitiesData[$entityId]['num_children'] = 0;
+                //unset($aEntitiesData[$entityId]['subentities']);
             }
         }
 
         if ($this->listOrderField == 'name' || $this->listOrderField == 'id') {
             MAX_sortArray(
-                $aEntities,
+                $aEntitiesData,
                 $this->listOrderField,
                 $this->listOrderDirection == 'up'
             );
@@ -178,53 +179,53 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
 
     function getAdvertisers($aParams, $level, $expand = '')
     {
-        $aEntities = parent::getAdvertisers($aParams, $level, $expand);
+        $aEntitiesData = parent::getAdvertisers($aParams, $level, $expand);
 
-        $this->maskHiddenEntities($aEntities, 'advertiser');
+        $this->maskHiddenEntities($aEntitiesData, 'advertiser');
 
-        return $aEntities;
+        return $aEntitiesData;
     }
 
     function getCampaigns($aParams, $level, $expand = '')
     {
-        $aEntities = parent::getCampaigns($aParams, $level, $expand);
+        $aEntitiesData = parent::getCampaigns($aParams, $level, $expand);
 
-        $this->maskHiddenEntities($aEntities, 'campaign');
+        $this->maskHiddenEntities($aEntitiesData, 'campaign');
 
-        return $aEntities;
+        return $aEntitiesData;
     }
 
     function getBanners($aParams, $level, $expand = '')
     {
-        $aEntities = parent::getBanners($aParams, $level, $expand);
+        $aEntitiesData = parent::getBanners($aParams, $level, $expand);
 
-        $this->maskHiddenEntities($aEntities, 'banner');
+        $this->maskHiddenEntities($aEntitiesData, 'banner');
 
-        return $aEntities;
+        return $aEntitiesData;
     }
 
     function getPublishers($aParams, $level, $expand = '')
     {
-        $aEntities = parent::getPublishers($aParams, $level, $expand);
+        $aEntitiesData = parent::getPublishers($aParams, $level, $expand);
 
-        $this->maskHiddenEntities($aEntities, 'publisher');
+        $this->maskHiddenEntities($aEntitiesData, 'publisher');
         if (!$level) {
-            $this->addDirectSelection($aParams, $aEntities);
+            $this->addDirectSelection($aParams, $aEntitiesData);
         }
 
-        return $aEntities;
+        return $aEntitiesData;
     }
 
     function getZones($aParams, $level, $expand = '')
     {
-        $aEntities = parent::getZones($aParams, $level, $expand);
+        $aEntitiesData = parent::getZones($aParams, $level, $expand);
 
-        $this->maskHiddenEntities($aEntities, 'zone');
+        $this->maskHiddenEntities($aEntitiesData, 'zone');
         if (!$level) {
-            $this->addDirectSelection($aParams, $aEntities);
+            $this->addDirectSelection($aParams, $aEntitiesData);
         }
 
-        return $aEntities;
+        return $aEntitiesData;
     }
 
     /**
@@ -233,7 +234,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
      * @param array Query parameters
      * @param array Entities array
      */
-    function addDirectSelection($aParams, &$aEntities)
+    function addDirectSelection($aParams, &$aEntitiesData)
     {
         $aParams['exclude'] = array('ad_id');
         $aParams['zone_id'] = 0;
@@ -265,20 +266,21 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
                 $zone['htmlclass'] = 'last';
 
                 if ($this->listOrderField != 'name' && $this->listOrderField != 'id') {
-                    $aEntities[] = $zone;
+                    $aEntitiesData[] = $zone;
                     MAX_sortArray(
-                        $aEntities,
+                        $aEntitiesData,
                         $this->listOrderField,
                         $this->listOrderDirection == 'up'
                     );
                 } elseif ($this->listOrderDirection == 'up') {
-                    array_push($aEntities, $zone);
+                    array_push($aEntitiesData, $zone);
                 } else {
-                    array_unshift($aEntities, $zone);
+                    array_unshift($aEntitiesData, $zone);
                 }
             }
         }
     }
+
 }
 
 ?>

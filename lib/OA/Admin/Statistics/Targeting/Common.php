@@ -40,6 +40,68 @@ class OA_Admin_Statistics_Targeting_Common extends OA_Admin_Statistics_Targeting
 {
 
     /**
+     * The starting day of the page's report span.
+     *
+     * @var PEAR::Date
+     */
+    var $oStartDate;
+
+    /**
+     * The number of days that the page's report spans.
+     *
+     * @var integer
+     */
+    var $spanDays;
+
+    /**
+     * The number of weeks that the page's report spans.
+     *
+     * @var integer
+     */
+    var $spanWeeks;
+
+    /**
+     * The number of months that the page's report spans.
+     *
+     * @var integer
+     */
+    var $spanMonths;
+
+    /**
+     * The type of statistics breakdown to display. One of:
+     *  - hour
+     *  - day
+     *  - week
+     *  - month
+     *  - dow (ie. Day of Week)
+     *
+     * @var string
+     */
+    var $statsBreakdown;
+
+    /**
+     * Enter description here...
+     *
+     * @var unknown_type
+     */
+    var $statsKey;
+
+    /**
+     * Enter description here...
+     *
+     * @var unknown_type
+     */
+    var $averageDesc;
+
+    /**
+     * The array of targeting statistics data to display in
+     * the Flexy template.
+     *
+     * @var array
+     */
+    var $aTargetingData;
+
+    /**
      * A PHP5-style constructor that can be used to perform common
      * class instantiation by children classes.
      *
@@ -52,9 +114,24 @@ class OA_Admin_Statistics_Targeting_Common extends OA_Admin_Statistics_Targeting
      */
     function __construct($aParams)
     {
-        // Set the template directory for delivery statistcs
+        // Set the output type & template directory for targeting statistcs
+        $this->outputType = 'targetingHistory';
         $this->templateDir = MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/themes/';
+
+        // Get list order and direction
+        $this->listOrderField     = MAX_getStoredValue('listorder', 'key');
+        $this->listOrderDirection = MAX_getStoredValue('orderdirection', 'down');
+        $this->statsBreakdown     = MAX_getStoredValue('statsBreakdown', 'day');
+
+        // Ensure the history class is prepared
+        $this->useHistoryClass = true;
+
         parent::__construct($aParams);
+
+        // Store the preferences
+        $this->aPagePrefs['listorder']      = $this->listOrderField;
+        $this->aPagePrefs['orderdirection'] = $this->listOrderDirection;
+        $this->aPagePrefs['breakdown']      = $this->statsBreakdown;
     }
 
     /**

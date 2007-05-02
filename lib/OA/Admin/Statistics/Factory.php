@@ -53,7 +53,7 @@ class OA_Admin_Statistics_Factory
             $aParams = array();
         }
 
-        if (empty($controllerType))
+        if (empty($controllerType) || $controllerType == '-')
         {
             $controllerType = basename($_SERVER['PHP_SELF']);
             $controllerType = preg_replace('#^(?:stats-)?(.*)\.php#', '$1', $controllerType);

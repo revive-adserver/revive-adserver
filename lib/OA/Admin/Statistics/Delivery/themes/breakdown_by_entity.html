@@ -33,7 +33,7 @@
                 <td class="aright last" flexy:if="showColumn(ck)">{showValue(aTotal,ck)}</td>
                 {end:}
             </tr>
-            <tr flexy:foreach="entities,e" class="{e[htmlclass]}">
+            <tr flexy:foreach="aEntitiesData,e" class="{e[htmlclass]}">
                 <td class="{e[nameclass]}" nowrap="nowrap">
                     <img src="images/spacer.gif" width="{e[padding]}" height="16" align="absmiddle" />
                     {if:e[num_children]}

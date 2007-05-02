@@ -32,6 +32,7 @@ $words = array(
     '_ID'                  => 'ID',
     '_Required'            => 'Required Impressions',
     '_Requested'           => 'Requested Impressions',
+    '_Actual'              => 'Actual Impressions',
     '_Zone Forecast'       => 'Zone Forecast',
     '_Zone Impressions'    => 'Zone Impressions',
 
@@ -39,6 +40,7 @@ $words = array(
     'ID'                  => 'ID',
     'Required'            => 'Required',
     'Requested'           => 'Requested',
+    'Actual'              => 'Actual',
     'Zone Forecast'       => 'Zone F\'cast',
     'Zone Impressions'    => 'Zone Imp.'
 );

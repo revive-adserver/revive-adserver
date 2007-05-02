@@ -47,10 +47,10 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
         $this->displayOrder = 10;
 
         // Set module and package because they aren't set when running the constructor method
-        $this->module  = 'statsFields';
+        $this->module  = 'statisticsFieldsDelivery';
         $this->package = 'affiliates';
 
-        $this->_fields = array(
+        $this->_aFields = array(
             'sum_revenue'               => array('name'   => MAX_Plugin_Translation::translate('_Revenue', $this->module, $this->package),
                                                  'short'  => MAX_Plugin_Translation::translate('Revenue', $this->module, $this->package),
                                                  'pref'   => 'gui_column_revenue',
@@ -148,14 +148,13 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
     }
 
     /**
-     * Return name of plugin
+     * A method to return the name of the plugin.
      *
-     * @abstract
-     * @return string A string describing the class.
+     * @return string A string describing the plugin class.
      */
     function getName()
     {
-        return 'Affiliate columns';
+        return 'Affiliate delivery statistics columns plugin.';
     }
 
     /**
@@ -228,9 +227,6 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
         $row['sum_eppm']            = $row['sum_views'] ? $row['sum_profit'] / $row['sum_views'] * 1000 : 0;
         $row['sum_eppc']            = $row['sum_clicks'] ? $row['sum_profit'] / $row['sum_clicks']: 0;
         $row['sum_epps']            = $row['sum_conversions'] ? $row['sum_profit'] / $row['sum_conversions']: 0;
-
-
-
     }
 }
 

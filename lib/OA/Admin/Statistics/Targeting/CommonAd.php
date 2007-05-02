@@ -38,6 +38,32 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/Common.php';
 class OA_Admin_Statistics_Targeting_CommonAd extends OA_Admin_Statistics_Targeting_Common
 {
 
+    /**
+     * The final "child" implementation of the parental abstract method,
+     * to test if the appropriate data array is empty, or not.
+     *
+     * @see OA_Admin_Statistics_Common::_isEmptyResultArray()
+     *
+     * @access private
+     * @return boolean True on empty, false if at least one row of data.
+     */
+    function _isEmptyResultArray()
+    {
+        if (!is_array($this->aTargetingData)) {
+            return true;
+        }
+        foreach($this->aTargetingData as $aRecord) {
+            if (
+                $aRecord['ad_required_impressions']  != '-' ||
+                $aRecord['ad_requested_impressions'] != '-' ||
+                $aRecord['ad_actual_impressions']    != '-'
+            ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
 
 ?>

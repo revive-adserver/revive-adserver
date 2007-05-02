@@ -41,8 +41,7 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends OA_Admin_
 {
 
     /**
-     * A PHP5-style constructor that can be used to perform common
-     * class instantiation by children classes.
+     * The final "child" implementation of the PHP5-style constructor.
      *
      * @param array $aParams An array of parameters. The array should
      *                       be indexed by the name of object variables,
@@ -72,19 +71,24 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends OA_Admin_
         $this->__construct($aParams);
     }
 
+    /**
+     * The final "child" implementation of the parental abstract method.
+     *
+     * @see OA_Admin_Statistics_Common::start()
+     */
     function start()
     {
+        // Get the preferences
+        $aPref = $GLOBALS['_MAX']['PREF'];
+
         // Security check
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
-
-        // Get the preferences
-        $pref = $GLOBALS['_MAX']['PREF'];
 
         // HTML Framework
         $this->pageId = '2.1';
         $this->aPageSections = array('2.1', '2.4', '2.2');
 
-        $this->hideInactive = MAX_getStoredValue('hideinactive', ($pref['gui_hide_inactive'] == 't'));
+        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['gui_hide_inactive'] == 't'));
         $this->showHideInactive = true;
 
         $this->startLevel = MAX_getStoredValue('startlevel', 0);
@@ -105,18 +109,18 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends OA_Admin_
         switch ($this->startLevel)
         {
             case 2:
-                $this->entities = $this->getBanners($aParams, $this->startLevel, $expand);
+                $this->aEntitiesData = $this->getBanners($aParams, $this->startLevel, $expand);
                 break;
             case 1:
-                $this->entities = $this->getCampaigns($aParams, $this->startLevel, $expand);
+                $this->aEntitiesData = $this->getCampaigns($aParams, $this->startLevel, $expand);
                 break;
             default:
                 $this->startLevel = 0;
-                $this->entities = $this->getAdvertisers($aParams, $this->startLevel, $expand);
+                $this->aEntitiesData = $this->getAdvertisers($aParams, $this->startLevel, $expand);
                 break;
         }
 
-        $this->_summarizeTotals($this->entities);
+        $this->_summarizeTotals($this->aEntitiesData);
 
         $this->showHideLevels = array();
         switch ($this->startLevel)
@@ -144,20 +148,20 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends OA_Admin_
                 break;
         }
 
-        //location params
-        $this->aPageParams['entity']    = 'global';
-        $this->aPageParams['breakdown'] = 'advertiser';
-        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
+        // Location params
+        $this->aPageParams['entity']         = 'global';
+        $this->aPageParams['breakdown']      = 'advertiser';
+        $this->aPageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
         $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
-        $this->aPageParams['period_start'] = MAX_getStoredValue('period_start', date('Y-m-d'));
-        $this->aPageParams['period_end'] = MAX_getStoredValue('period_end', date('Y-m-d'));
+        $this->aPageParams['period_start']   = MAX_getStoredValue('period_start', date('Y-m-d'));
+        $this->aPageParams['period_end']     = MAX_getStoredValue('period_end', date('Y-m-d'));
         $this->_loadParams();
 
         unset($this->aPageParams['expand']);
         unset($this->aPageParams['clientid']);
         unset($this->aPageParams['collapse']);
 
-        // Save prefs
+        // Save preferences
         $this->aPagePrefs['startlevel']   = $this->startLevel;
         $this->aPagePrefs['nodes']        = implode (",", $this->aNodes);
         $this->aPagePrefs['hideinactive'] = $this->hideInactive;

@@ -38,6 +38,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossHistory.ph
  */
 class OA_Admin_Statistics_Delivery_CommonDaily extends OA_Admin_Statistics_Delivery_CommonCrossHistory
 {
+
     /**
      * PHP5-style constructor
      */
@@ -90,8 +91,8 @@ class OA_Admin_Statistics_Delivery_CommonDaily extends OA_Admin_Statistics_Deliv
                 'day_begin' => MAX_getStoredValue('period_start', date('Y-m-d')),
                 'day_end'   => MAX_getStoredValue('period_end', date('Y-m-d')),
             );
-            $dates = array_reverse($this->_getDatesArray('day', $aDates, $this->oStartDate));
-            foreach ($dates as $day  => $date_f) {
+            $aDates = array_reverse($this->oHistory->getDatesArray($this->aDates, 'day', $this->oStartDate));
+            foreach ($aDates as $day  => $date_f) {
                 phpAds_PageContext (
                     $date_f,
                     $this->pageURI.'day='.str_replace('-', '', $day),
@@ -130,11 +131,11 @@ class OA_Admin_Statistics_Delivery_CommonDaily extends OA_Admin_Statistics_Deliv
      *
      * @param array Query parameters
      */
-    function prepareHistory($aParams)
+    function prepare($aParams)
     {
         $this->statsBreakdown = 'hour';
 
-        parent::prepareHistory($aParams);
+        parent::prepare($aParams);
     }
 }
 

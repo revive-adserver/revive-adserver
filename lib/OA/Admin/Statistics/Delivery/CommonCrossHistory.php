@@ -38,6 +38,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
  */
 class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistics_Delivery_CommonHistory
 {
+
     var $crossEntitiesCache;
 
     function getAdvertiserPublishers($advertiserId)
@@ -556,6 +557,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
             break;
         }
     }
+
 }
 
 ?>

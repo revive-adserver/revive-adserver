@@ -41,8 +41,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends
 {
 
     /**
-     * A PHP5-style constructor that can be used to perform common
-     * class instantiation by children classes.
+     * The final "child" implementation of the PHP5-style constructor.
      *
      * @param array $aParams An array of parameters. The array should
      *                       be indexed by the name of object variables,
@@ -72,28 +71,20 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends
         $this->__construct($aParams);
     }
 
+    /**
+     * The final "child" implementation of the parental abstract method.
+     *
+     * @see OA_Admin_Statistics_Common::start()
+     */
     function start()
     {
-        // Get the preferences
-        $pref = $GLOBALS['_MAX']['PREF'];
-
         // Get parameters
-        if (phpAds_isUser(phpAds_Client)) {
-            $advertiserId = phpAds_getUserId();
-        } else {
-            $advertiserId = (int)MAX_getValue('clientid', '');
-        }
-
-
-        // Cross-entity
-        $publisherId = (int)MAX_getValue('affiliateid', '');
+        $advertiserId = $this->_getId('advertiser');
+        $publisherId  = $this->_getId('publisher');
 
         // Security check
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-        if (!MAX_checkAdvertiser($advertiserId)) {
-            phpAds_PageHeader('2');
-            phpAds_Die ($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
-        }
+        $this->_checkAccess(array('advertiser' => $advertiserId));
 
         // Fetch campaigns
         $aPublishers = $this->getAdvertiserPublishers($advertiserId);
@@ -148,7 +139,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends
         $aParams['advertiser_id'] = $advertiserId;
         $aParams['publisher_id']  = $publisherId;
 
-        $this->prepareHistory($aParams, 'stats.php?entity=advertiser&breakdown=daily');
+        $this->prepare($aParams, 'stats.php?entity=advertiser&breakdown=daily');
     }
 
 }

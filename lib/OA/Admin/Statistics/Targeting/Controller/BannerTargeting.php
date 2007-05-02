@@ -25,23 +25,23 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossEntity.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/CommonPlacement.php';
 
 /**
- * The class to display the delivery statistcs for the page:
+ * The class to display the targeting statistcs for the page:
  *
- * Statistics -> Advertisers & Campaigns -> Campaign Overview -> Banner Overview -> Publisher Distribution
+ * Statistics -> Advertisers & Campaigns -> Banner History -> Targeting Statistics
  *
  * @package    OpenadsAdmin
- * @subpackage StatisticsDelivery
- * @author     Matteo Beccati <matteo@beccati.com>
+ * @subpackage StatisticsTargeting
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_Statistics_Delivery_CommonCrossEntity
+class OA_Admin_Statistics_Targeting_Controller_BannerTargeting extends OA_Admin_Statistics_Targeting_CommonPlacement
 {
 
     /**
-     * The final "child" implementation of the PHP5-style constructor.
+     * A PHP5-style constructor that can be used to perform common
+     * class instantiation by children classes.
      *
      * @param array $aParams An array of parameters. The array should
      *                       be indexed by the name of object variables,
@@ -66,7 +66,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
      *                       $aParams = array('foo' => 'bar')
      *                       would result in $this->foo = bar.
      */
-    function OA_Admin_Statistics_Delivery_Controller_BannerAffiliates($aParams)
+    function OA_Admin_Statistics_Targeting_Controller_BannerTargeting($aParams)
     {
         $this->__construct($aParams);
     }
@@ -78,9 +78,6 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
      */
     function start()
     {
-        // Get the preferences
-        $aPref = $GLOBALS['_MAX']['PREF'];
-
         // Get parameters
         $advertiserId = $this->_getId('advertiser');
         $placementId  = $this->_getId('placement');
@@ -92,7 +89,6 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
 
         // Add standard page parameters
         $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId, 'bannerid' => $adId);
-
         $this->aPageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
         $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 
@@ -100,10 +96,10 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
 
         // HTML Framework
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-            $this->pageId = '2.1.2.2.2';
+            $this->pageId = '2.1.2.2.3';
             $this->aPageSections = array('2.1.2.2.1', '2.1.2.2.2', '2.1.2.2.3');
         } elseif (phpAds_isUser(phpAds_Client)) {
-            $this->pageId = '1.2.2.4';
+            $this->pageId = '1.2.2.1';
             $this->aPageSections[] = '1.2.2.1';
             if (phpAds_isAllowed(phpAds_ModifyBanner)) {
                 $this->aPageSections[] = '1.2.2.2';
@@ -140,61 +136,19 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
             'images/icon-acl.gif'
         );
 
-        // Fix entity links
-        $this->entityLinks['p'] = 'stats.php?entity=banner&breakdown=affiliate-history';
-        $this->entityLinks['z'] = 'stats.php?entity=banner&breakdown=zone-history';
-
-        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['gui_hide_inactive'] == 't'));
-        $this->showHideInactive = true;
-
-        $this->startLevel = MAX_getStoredValue('startlevel', 0);
-
-        // Init nodes
-        $this->aNodes   = MAX_getStoredArray('nodes', array());
-        $expand         = MAX_getValue('expand', '');
-        $collapse       = MAX_getValue('collapse');
-
-        // Adjust which nodes are opened closed...
-        MAX_adjustNodes($this->aNodes, $expand, $collapse);
-
         $aParams = array();
-        $aParams['ad_id']  = $adId;
+        $aParams['ad_id'] = $adId;
 
-        switch ($this->startLevel)
-        {
-            case 1:
-                $this->aEntitiesData = $this->getZones($aParams, $this->startLevel, $expand, true);
-                break;
-            default:
-                $this->startLevel = 0;
-                $this->aEntitiesData = $this->getPublishers($aParams, $this->startLevel, $expand);
-                break;
-        }
+        $this->aPageParams['entity']    = 'banner';
+        $this->aPageParams['breakdown'] = 'daily';
 
-        $this->_summarizeTotals($this->aEntitiesData);
+        //$this->prepare($aParams, 'stats.php');
 
-        $this->showHideLevels = array();
-        switch ($this->startLevel)
-        {
-            case 1:
-                $this->showHideLevels = array(
-                    0 => array('text' => $GLOBALS['strShowParentAffiliates'], 'icon' => 'images/icon-affiliate.gif'),
-                );
-                $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveZonesHidden']}";
-                break;
-            case 0:
-                $this->showHideLevels = array(
-                    1 => array('text' => $GLOBALS['strHideParentAffiliates'], 'icon' => 'images/icon-affiliate-d.gif'),
-                );
-                $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveAffiliatesHidden']}";
-                break;
-        }
-
-
-        // Save prefs
-        $this->aPagePrefs['startlevel']     = $this->startLevel;
-        $this->aPagePrefs['nodes']          = implode (",", $this->aNodes);
-        $this->aPagePrefs['hideinactive']   = $this->hideInactive;
+        // Add standard page parameters
+        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId, 'bannerid' => $adId,
+                                  'entity' => 'banner', 'breakdown' => 'history');
+        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
+        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
     }
 
 }

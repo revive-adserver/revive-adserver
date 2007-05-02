@@ -25,6 +25,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal/Statistics.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/History.php';
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/Common.php';
 
 /**
@@ -37,6 +39,80 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/Common.php';
  */
 class OA_Admin_Statistics_Targeting_CommonPlacement extends OA_Admin_Statistics_Targeting_Common
 {
+
+    /**
+     * The final "child" implementation of the parental abstract method,
+     * to test if the appropriate data array is empty, or not.
+     *
+     * @see OA_Admin_Statistics_Common::_isEmptyResultArray()
+     *
+     * @access private
+     * @return boolean True on empty, false if at least one row of data.
+     */
+    function _isEmptyResultArray()
+    {
+        if (!is_array($this->aTargetingData)) {
+            return true;
+        }
+        foreach($this->aTargetingData as $aRecord) {
+            if (
+                $aRecord['placement_required_impressions']  != '-' ||
+                $aRecord['placement_requested_impressions'] != '-' ||
+                $aRecord['placement_actual_impressions']    != '-'
+            ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * A method to prepare targeting statistcs data for display by the
+     * {@link OA_Admin_Statistics_Common::output()} method.
+     *
+     * @param array $aParams An array containing the "placement_id".
+     */
+    function prepare($aParams)
+    {
+        // Set the span requirements
+        $this->oHistory->getSpan($this, $aParams);
+
+        //$oDal = new OA_Dal_Statistics();
+        //$aStats = $oDal->getPlacementOverviewTargetingStatistics($aParams['placement_id'], $this->oStartDate);
+
+        $aStats = array(
+            '2007-05-02' => array(
+                'date' => '02-05-2007',
+                'date_f' => '2007-05-02',
+                'link' => 'stats.php?clientid=1&campaignid=1&entity=campaign&breakdown=targetingDaily&period_start=1995-01-01&period_end=2007-05-02&listorder=name&orderdirection=down&day=&period_preset=specific&setPerPage=15&day=20070427',
+                'placement_required_impressions' => 50,
+                'placement_requested_impressions' => 50,
+                'placement_actual_impressions' => 45,
+                'zone_forecast_impressions' => 100,
+                'zone_actual_impressions' => 90
+            )
+        );
+
+
+        if (count($aStats) == 0) {
+            // There are no stats!
+            $this->noStatsAvailable = true;
+            $this->aTargetingData = array();
+            return;
+        }
+
+        // Pad out any missing items in the stats array,
+        // and ensure that links are correctly set
+        $aDates = $this->oHistory->getDatesArray($this->aDates, $this->statsBreakdown, $this->oStartDate);
+        $this->oHistory->fillGapsAndLink($aStats, $aDates, $this);
+
+        // Ensure the stats array for the range is filled
+        foreach (array_keys($aStats) as $k) {
+            $aStats[$k] += $this->aEmptyRow;
+        }
+
+        $this->aTargetingData = $aStats;
+    }
 
 }
 

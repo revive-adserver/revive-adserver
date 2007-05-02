@@ -44,29 +44,22 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonDaily.php';
 class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends OA_Admin_Statistics_Delivery_CommonDaily
 {
 
+    /**
+     * The final "child" implementation of the parental abstract method.
+     *
+     * @see OA_Admin_Statistics_Common::start()
+     */
     function start()
     {
-        // Get the preferences
-        $pref = $GLOBALS['_MAX']['PREF'];
-
         // Get parameters
-        if (phpAds_isUser(phpAds_Affiliate)) {
-            $publisherId = phpAds_getUserId();
-        } else {
-            $publisherId = (int)MAX_getValue('affiliateid', '');
-        }
-        $zoneId      = (int)MAX_getValue('zoneid', '');
-
-        // Cross-entity
-        $placementId = (int)MAX_getValue('campaignid', '');
-        $adId        = (int)MAX_getValue('bannerid', '');
+        $publisherId = $this->_getId('publisher');
+        $placementId = $this->_getId('placement');
+        $adId        = $this->_getId('ad');
+        $zoneId      = $this->_getId('zone');
 
         // Security check
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-        if (!MAX_checkZone($publisherId, $zoneId)) {
-            phpAds_PageHeader('2');
-            phpAds_Die ($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
-        }
+        $this->_checkAccess(array('publisher' => $publisherId, 'zone' => $zoneId));
 
         if (!empty($adId)) {
             // Fetch banners
@@ -157,7 +150,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneDaily extends OA_Admin_Statist
             $aParams['placement_id'] = $placementId;
         }
 
-        $this->prepareHistory($aParams);
+        $this->prepare($aParams);
     }
 
 }

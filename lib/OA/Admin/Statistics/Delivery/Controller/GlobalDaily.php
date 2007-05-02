@@ -40,13 +40,15 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonDaily.php';
 class OA_Admin_Statistics_Delivery_Controller_GlobalDaily extends OA_Admin_Statistics_Delivery_CommonDaily
 {
 
+    /**
+     * The final "child" implementation of the parental abstract method.
+     *
+     * @see OA_Admin_Statistics_Common::start()
+     */
     function start()
     {
         // Security check
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
-
-        // Get the preferences
-        $pref = $GLOBALS['_MAX']['PREF'];
 
         // Add module page parameters
         $this->aPageParams['entity'] = 'global';
@@ -65,7 +67,7 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalDaily extends OA_Admin_Stati
             $aParams['agency_id'] = phpAds_getAgencyID();
         }
 
-        $this->prepareHistory($aParams);
+        $this->prepare($aParams);
     }
 
 }

@@ -44,28 +44,21 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonDaily.php';
 class OA_Admin_Statistics_Delivery_Controller_AdvertiserDaily extends OA_Admin_Statistics_Delivery_CommonDaily
 {
 
+    /**
+     * The final "child" implementation of the parental abstract method.
+     *
+     * @see OA_Admin_Statistics_Common::start()
+     */
     function start()
     {
-        // Get the preferences
-        $pref = $GLOBALS['_MAX']['PREF'];
-
         // Get parameters
-        if (phpAds_isUser(phpAds_Client)) {
-            $advertiserId = phpAds_getUserId();
-        } else {
-            $advertiserId = (int)MAX_getValue('clientid', '');
-        }
-
-        // Cross-entity
-        $publisherId = (int)MAX_getValue('affiliateid', '');
-        $zoneId      = (int)MAX_getValue('zoneid', '');
+        $advertiserId = $this->_getId('advertiser');
+        $publisherId  = $this->_getId('publisher');
+        $zoneId       = $this->_getId('zone');
 
         // Security check
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-        if (!MAX_checkAdvertiser($advertiserId)) {
-            phpAds_PageHeader('2');
-            phpAds_Die ($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
-        }
+        $this->_checkAccess(array('advertiser' => $advertiserId));
 
         if (!empty($zoneId)) {
             // Fetch banners
@@ -150,7 +143,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserDaily extends OA_Admin_S
             $aParams['publisher_id'] = $publisherId;
         }
 
-        $this->prepareHistory($aParams);
+        $this->prepare($aParams);
     }
 
 }

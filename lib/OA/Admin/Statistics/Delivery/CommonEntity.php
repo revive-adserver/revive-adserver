@@ -38,10 +38,9 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/Common.php';
  */
 class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Delivery_Common
 {
+
     /** @var boolean */
     var $showHideInactive = false;
-    /** @var array */
-    var $entities;
     /** @var int */
     var $startLevel;
     /** @var boolean */
@@ -66,10 +65,21 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         );
 
     /**
+     * The array of "entity" style delivery statistics data to
+     * display in the Flexy template.
+     *
+     * @var array
+     */
+    var $aEntitiesData;
+
+    /**
      * PHP5-style constructor
      */
     function __construct($params)
     {
+        // Set the output type "entity" style delivery statistcs
+        $this->outputType = 'deliveryEntity';
+
         // Get list order and direction
         $this->listOrderField     = MAX_getStoredValue('listorder', 'name');
         $this->listOrderDirection = MAX_getStoredValue('orderdirection', 'up');
@@ -90,15 +100,48 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
     }
 
     /**
-     * Output the controller object using the breakdown_by_entity template
+     * The final "child" implementation of the parental abstract method,
+     * to test if the appropriate data array is empty, or not.
+     *
+     * @see OA_Admin_Statistics_Common::_isEmptyResultArray()
+     *
+     * @access private
+     * @return boolean True on empty, false if at least one row of data.
      */
-    function output()
+    function _isEmptyResultArray()
     {
-        $this->template = 'breakdown_by_entity.html';
+        if (!is_array($this->aEntitiesData)) {
+            return true;
+        }
+        foreach($this->aEntitiesData as $aRecord) {
+            if (
+                $aRecord['sum_requests'] != '-' ||
+                $aRecord['sum_views']    != '-' ||
+                $aRecord['sum_clicks']   != '-'
+            ) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-        $this->flattenEntities();
-
-        parent::output();
+    /**
+     * Recursively convert the tree-style entities array to a flat array
+     * suitable for displaying it in a template
+     */
+    function flattenEntities()
+    {
+        $i = 0;
+        $this->aEntitiesData = $this->_flattenEntities($this->aEntitiesData, $i);
+        if (count($this->aEntitiesData)) {
+            $this->aEntitiesData[count($this->aEntitiesData) - 1]['htmlclass'] .= ' last';
+            $this->aEntitiesData[count($this->aEntitiesData) - 1]['nameclass'] .= ' last';
+            foreach (array_keys($this->aEntitiesData) as $k) {
+                if ($k && $this->aEntitiesData[$k]['level'] != 0) {
+                    $this->aEntitiesData[$k-1]['nameclass'] = 'nb'.$this->aEntitiesData[$k-1]['nameclass'];
+                }
+            }
+        }
     }
 
     /**
@@ -110,11 +153,11 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
      *
      * @return array Flat entities array
      */
-    function _flattenEntities($entities, &$cycle_var, $parent = null)
+    function _flattenEntities($aEntitiesData, &$cycle_var, $parent = null)
     {
         $ret = array();
 
-        foreach ($entities as $e) {
+        foreach ($aEntitiesData as $e) {
             if (is_null($parent)) {
                 $e['level'] = 0;
                 $e['padding'] = 0;
@@ -145,28 +188,6 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         }
 
         return $ret;
-    }
-
-    /**
-     * Recursively convert the tree-style entities array to a flat array
-     * suitable for displaying it in a template
-     */
-    function flattenEntities()
-    {
-        $i = 0;
-        $this->entities = $this->_flattenEntities($this->entities, $i);
-
-        if (count($this->entities))
-        {
-            $this->entities[count($this->entities) - 1]['htmlclass'] .= ' last';
-            $this->entities[count($this->entities) - 1]['nameclass'] .= ' last';
-
-            foreach (array_keys($this->entities) as $k) {
-                if ($k && $this->entities[$k]['level'] != 0) {
-                    $this->entities[$k-1]['nameclass'] = 'nb'.$this->entities[$k-1]['nameclass'];
-                }
-            }
-        }
     }
 
     /**
@@ -300,33 +321,33 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
      */
     function mergeData($aParams, $key)
     {
-        $aEntities = array();
+        $aEntitiesData = array();
 
         if (isset($this->childrendata[$key])) {
             if ($key == 'placement_id' && !empty($aParams['advertiser_id']) &&
                 isset($this->childrendata['advertiser_id'][$aParams['advertiser_id']]['children'])) {
-                $aEntities = $this->childrendata['advertiser_id'][$aParams['advertiser_id']]['children'];
+                $aEntitiesData = $this->childrendata['advertiser_id'][$aParams['advertiser_id']]['children'];
             } elseif ($key == 'ad_id' && !empty($aParams['placement_id']) &&
                 isset($this->childrendata['placement_id'][$aParams['placement_id']]['children'])) {
-                $aEntities = $this->childrendata['placement_id'][$aParams['placement_id']]['children'];
+                $aEntitiesData = $this->childrendata['placement_id'][$aParams['placement_id']]['children'];
             } elseif ($key == 'zone_id' && !empty($aParams['publisher_id']) &&
                 isset($this->childrendata['publisher_id'][$aParams['publisher_id']]['children'])) {
-                $aEntities = $this->childrendata['publisher_id'][$aParams['publisher_id']]['children'];
+                $aEntitiesData = $this->childrendata['publisher_id'][$aParams['publisher_id']]['children'];
             } else {
-                $aEntities = $this->childrendata[$key];
+                $aEntitiesData = $this->childrendata[$key];
             }
-            foreach (array_keys($aEntities) as $entityId) {
+            foreach (array_keys($aEntitiesData) as $entityId) {
                 if (isset($this->data[$key][$entityId])) {
-                    $aEntities[$entityId] += $this->data[$key][$entityId];
+                    $aEntitiesData[$entityId] += $this->data[$key][$entityId];
                 } else {
                     foreach (array_keys($this->aColumns) as $s) {
-                        $aEntities[$entityId][$s] = 0;
+                        $aEntitiesData[$entityId][$s] = 0;
                     }
                 }
             }
         }
 
-        return $aEntities;
+        return $aEntitiesData;
     }
 
     /**
@@ -350,7 +371,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
             $this->listOrderDirection == 'up'
         );
 
-        $entities = array();
+        $aEntitiesData = array();
         foreach ($aAdvertisers as $advertiserId => $advertiser) {
             $advertiser['active'] = $this->_hasActiveStats($advertiser);
 
@@ -381,13 +402,13 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                     $advertiser['subentities'] = $this->getCampaigns($aParams2, $level + 1, $expand);
                 }
 
-                $entities[] = $advertiser;
+                $aEntitiesData[] = $advertiser;
             } elseif ($this->startLevel == $level) {
                 $this->hiddenEntities++;
             }
         }
 
-        return $entities;
+        return $aEntitiesData;
     }
 
     /**
@@ -412,7 +433,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
             $this->listOrderDirection == 'up'
         );
 
-        $entities = array();
+        $aEntitiesData = array();
         foreach ($aPlacements as $campaignId => $campaign) {
             $campaign['active'] = $this->_hasActiveStats($campaign);
 
@@ -460,13 +481,13 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                     $campaign['subentities'] = $this->getBanners($aParams2, $level + 1, $expand);
                 }
 
-                $entities[] = $campaign;
+                $aEntitiesData[] = $campaign;
             } elseif ($this->startLevel == $level) {
                 $this->hiddenEntities++;
             }
         }
 
-        return $entities;
+        return $aEntitiesData;
     }
 
     /**
@@ -491,7 +512,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
             $this->listOrderDirection == 'up'
         );
 
-        $entities = array();
+        $aEntitiesData = array();
         foreach ($aAds as $bannerId => $banner) {
             $banner['active'] = $this->_hasActiveStats($banner);
 
@@ -519,13 +540,13 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 $banner['expanded'] = false;
                 $banner['icon'] = MAX_getEntityIcon('ad', $banner['active'], $banner['type']);
 
-                $entities[] = $banner;
+                $aEntitiesData[] = $banner;
             } elseif ($this->startLevel == $level) {
                 $this->hiddenEntities++;
             }
         }
 
-        return $entities;
+        return $aEntitiesData;
     }
 
     /**
@@ -550,7 +571,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
             $this->listOrderDirection == 'up'
         );
 
-        $entities = array();
+        $aEntitiesData = array();
         foreach ($aPublishers as $publisherId => $publisher) {
             $publisher['active'] = $this->_hasActiveStats($publisher);
 
@@ -579,13 +600,13 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                     $publisher['subentities'] = $this->getZones($aParams2, $level + 1, $expand);
                 }
 
-                $entities[] = $publisher;
+                $aEntitiesData[] = $publisher;
             } elseif ($this->startLevel == $level) {
                 $this->hiddenEntities++;
             }
         }
 
-        return $entities;
+        return $aEntitiesData;
     }
 
     /**
@@ -609,7 +630,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
             $this->listOrderDirection == 'up'
         );
 
-        $entities = array();
+        $aEntitiesData = array();
         foreach ($aZones as $zoneId => $zone) {
             $zone['active'] = $this->_hasActiveStats($zone);
 
@@ -634,30 +655,13 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 $zone['expanded'] = MAX_isExpanded($zoneId, $expand, $this->aNodes, $zone['prefix']);;
                 $zone['icon'] = MAX_getEntityIcon('zone', $zone['active'], $zone['type']);
 
-                $entities[] = $zone;
+                $aEntitiesData[] = $zone;
             } elseif ($this->startLevel == $level) {
                 $this->hiddenEntities++;
             }
         }
 
-        return $entities;
-    }
-
-    /**
-     * Return bool - checks if there are any non empty impresions in object
-     *
-     * @return bool
-     */
-    function isEmptyResultArray()
-    {
-        foreach($this->entities as $record) {
-
-            if($record['sum_requests'] != '-' || $record['sum_views'] != '-' || $record['sum_clicks'] != '-') {
-                return false;
-            }
-        }
-
-        return true;
+        return $aEntitiesData;
     }
 
     /**
@@ -684,7 +688,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         $formats = array_merge(array('text'), $parent['formats']);
         $data    = array();
 
-        foreach ($this->entities as $e) {
+        foreach ($this->aEntitiesData as $e) {
             $row = array();
             $row[] = $e['name'];
             foreach (array_keys($this->aColumns) as $ck) {

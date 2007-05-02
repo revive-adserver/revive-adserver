@@ -71,33 +71,33 @@ class OA_Admin_Statistics_Targeting_Controller_CampaignTargeting extends OA_Admi
         $this->__construct($aParams);
     }
 
+    /**
+     * The final "child" implementation of the parental abstract method.
+     *
+     * @see OA_Admin_Statistics_Common::start()
+     */
     function start()
     {
-        // Get the preferences
-        $pref = $GLOBALS['_MAX']['PREF'];
-
         // Get parameters
-        if (phpAds_isUser(phpAds_Client)) {
-            $advertiserId = phpAds_getUserId();
-        } else {
-            $advertiserId = (int)MAX_getValue('clientid', '');
-        }
-        $placementId   = (int)MAX_getValue('campaignid', '');
+        $advertiserId = $this->_getId('advertiser');
+        $placementId  = $this->_getId('placement');
 
         // Security check
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-        if (!MAX_checkPlacement($advertiserId, $placementId)) {
-            phpAds_PageHeader('2');
-            phpAds_Die ($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
-        }
+        $this->_checkAccess(array('advertiser' => $advertiserId, 'placement'  => $placementId));
 
         // Add standard page parameters
-        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId,
-                                  'entity' => 'campaign', 'breakdown' => 'targeting');
+        $this->aPageParams = array(
+            'clientid'   => $advertiserId,
+            'campaignid' => $placementId,
+            'entity'     => 'campaign',
+            'breakdown'  => 'daily'
+        );
 
+        // Load $_GET parameters
         $this->_loadParams();
 
-        // HTML Framework
+        // Prepare HTML Framework
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
             $this->pageId = '2.1.2.4';
             $this->aPageSections = array('2.1.2.1', '2.1.2.2', '2.1.2.3', '2.1.2.4');
@@ -106,6 +106,7 @@ class OA_Admin_Statistics_Targeting_Controller_CampaignTargeting extends OA_Admi
             $this->aPageSections = array('1.2.1', '1.2.2', '1.2.3');
         }
 
+        // Add breadcrumb
         $this->_addBreadcrumbs('campaign', $placementId);
 
         // Add context
@@ -125,21 +126,13 @@ class OA_Admin_Statistics_Targeting_Controller_CampaignTargeting extends OA_Admi
             'images/icon-campaign.gif'
         );
 
-        $aParams = array();
-        $aParams['placement_id'] = $placementId;
-
-        $this->aPageParams['entity']    = 'campaign';
-        $this->aPageParams['breakdown'] = 'daily';
-
-
-        $this->prepareTargeting($aParams, 'stats.php');
-
-        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId,
-                                  'entity' => 'campaign', 'breakdown' => 'targeting');
-
-        $this->_loadParams();
-
+        // Prepare the data for display by output() method
+        $aParams = array(
+            'placement_id' => $placementId
+        );
+        $this->prepare($aParams);
     }
+
 }
 
 ?>

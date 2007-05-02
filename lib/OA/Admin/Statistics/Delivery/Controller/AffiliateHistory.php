@@ -41,8 +41,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends OA_Admin_
 {
 
     /**
-     * A PHP5-style constructor that can be used to perform common
-     * class instantiation by children classes.
+     * The final "child" implementation of the PHP5-style constructor.
      *
      * @param array $aParams An array of parameters. The array should
      *                       be indexed by the name of object variables,
@@ -72,29 +71,24 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends OA_Admin_
         $this->__construct($aParams);
     }
 
+    /**
+     * The final "child" implementation of the parental abstract method.
+     *
+     * @see OA_Admin_Statistics_Common::start()
+     */
     function start()
     {
-        // Get the preferences
-        $pref = $GLOBALS['_MAX']['PREF'];
-
         // Get parameters
-        if (phpAds_isUser(phpAds_Affiliate)) {
-            $publisherId = phpAds_getUserId();
+        $publisherId = $this->_getId('publisher');
 
-            // Entry page for publishers
-            if (!phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
-                $this->showPublisherWelcome();
-            }
-        } else {
-            $publisherId = (int)MAX_getValue('affiliateid', '');
+        // Entry page for affiliates
+        if (phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
+            $this->showPublisherWelcome();
         }
 
         // Security check
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-        if (!MAX_checkPublisher($publisherId)) {
-            phpAds_PageHeader('2');
-            phpAds_Die ($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
-        }
+        $this->_checkAccess(array('publisher' => $publisherId));
 
         // Add standard page parameters
         $this->aPageParams = array('affiliateid' => $publisherId,
@@ -138,7 +132,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends OA_Admin_
             $aParams['advertiser_id'] = $advertiserId;
         }
 
-        $this->prepareHistory($aParams, 'stats.php?entity=affiliate&breakdown=daily');
+        $this->prepare($aParams, 'stats.php?entity=affiliate&breakdown=daily');
     }
 
 }

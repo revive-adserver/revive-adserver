@@ -29,6 +29,7 @@ require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/other/stats.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
+require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Flexy.php';
 
@@ -168,11 +169,36 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     var $showDaySpanSelector = false;
 
     /**
-     * A local instance of the Admin_UI_DaySpanField object.
+     * A local instance of the Admin_UI_DaySpanField object,
+     * if required.
      *
      * @var Admin_UI_DaySpanField
      */
     var $oDaySpanSelector;
+
+    /**
+     * An array of the start and end date values used when
+     * the day span selector element is in use.
+     *
+     * @var array
+     */
+    var $aDates;
+
+    /**
+     * Is the OA_Admin_Statistics_History helper class required
+     * by the class to assist in preparing the data to display?
+     *
+     * @var boolean
+     */
+    var $useHistoryClass = false;
+
+    /**
+     * An local instance of the OA_Admin_Statistics_History
+     * ibject, if required.
+     *
+     * @var OA_Admin_Statistics_History
+     */
+    var $oHistory;
 
     /**
      * The current page URI.
@@ -182,32 +208,20 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     var $pageURI;
 
     /**
-     * The starting day of the page's report span.
+     * An array for storing information about the statistics to display
+     * for use in the Flexy template.
      *
-     * @var PEAR::Date
+     * @var array
      */
-    var $oStartDate;
+    var $aStatsData;
 
     /**
-     * The number of days that the page's report spans.
+     * A variable naming the output type. One of "deliveryHistory",
+     * "deliveryEntity" or "targetingHistory".
      *
-     * @var integer
+     * @var string
      */
-    var $spanDays;
-
-    /**
-     * The number of weeks that the page's report spans.
-     *
-     * @var integer
-     */
-    var $spanWeeks;
-
-    /**
-     * The number of months that the page's report spans.
-     *
-     * @var integer
-     */
-    var $spanMonths;
+    var $outputType;
 
     /**
      * A PHP5-style constructor that can be used to perform common
@@ -222,16 +236,13 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      */
     function __construct($aParams)
     {
-        // Get the preferences
-        $pref = $GLOBALS['_MAX']['PREF'];
-
         // Set the parameters
         foreach ($aParams as $k => $v) {
             $this->$k = $v;
         }
 
         // Prepare some basic preferences for the class
-        $this->pageName       = basename($_SERVER['PHP_SELF']);
+        $this->pageName = basename($_SERVER['PHP_SELF']);
 
         $this->aGlobalPrefs     = array();
         $this->aPagePrefs       = array();
@@ -269,6 +280,12 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         if ($this->showDaySpanSelector) {
             $this->_initDaySpanSelector();
         }
+
+        // Initialise the OA_Admin_Statistics_History class, if required
+        if ($this->useHistoryClass) {
+            require_once MAX_PATH . '/lib/OA/Admin/Statistics/History.php';
+            $this->oHistory = new OA_Admin_Statistics_History();
+        }
     }
 
     /**
@@ -286,6 +303,8 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $this->__construct($aParams);
     }
 
+    /********** METHODS THAT CHILDREN CLASS MUST OVERRRIDE **********/
+
     /**
      * An abstract method which must be overridden in the child class, to set up
      * the child class with the necessary page data so that the class is ready to
@@ -301,10 +320,126 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     }
 
     /**
+     * An abstract, private method which must be overridden in the child class,
+     * to load the required statistics fields plugins during instantiation.
+     *
+     * @abstract
+     * @access private
+     */
+    function _loadPlugins()
+    {
+        $message = 'Error: Abstract method ' . __FUNCTION__ . ' must be implemented.';
+        MAX::raiseError($message, MAX_ERROR_NOMETHOD);
+    }
+
+    /**
+     * An abstract, private method which must be overridden in the child class,
+     * to test if the appropriate data array is empty, or not.
+     *
+     * @abstract
+     * @access private
+     * @return boolean True on empty, false if at least one row of data.
+     */
+    function _isEmptyResultArray()
+    {
+        $message = 'Error: Abstract method ' . __FUNCTION__ . ' must be implemented.';
+        MAX::raiseError($message, MAX_ERROR_NOMETHOD);
+    }
+
+    /********** METHODS THAT CHILDREN CLASS WILL INHERIT AND CAN USE **********/
+
+    /**
      * A method that can be inherited and used by children classes to output the
      * required statistics to the screen, using the set Flexy template.
+     *
+     * @param boolean $showBreakdown Should the "View by:" dropdown menu, that allows
+     *                               the data to be viewed by day, week, month, day of week
+     *                               or hour be displayed?
+     * @param boolean $graphMode     Should the data be shown as a graph, rather than
+     *                               as tabular data via the Flexy template?
      */
-    function output($elements = array())
+    function output($showBreakdown = true, $graphMode = false)
+    {
+        if ($this->outputType == 'deliveryEntity') {
+
+            // Display the entity delivery stats
+            $this->template = 'breakdown_by_entity.html';
+            $this->flattenEntities();
+            $this->_output();
+
+        } else if (($this->outputType == 'deliveryHistory') || ($this->outputType == 'targetingHistory')) {
+
+            if ($this->outputType == 'deliveryHistory') {
+                $aDisplayData =& $this->aHistoryData;
+                $weekTemplate = 'breakdown_by_week.html';
+                $dateTemplate = 'breakdown_by_date.html';
+            } else if ($this->outputType == 'targetingHistory') {
+                $aDisplayData =& $this->aTargetingData;
+                $weekTemplate = 't_breakdown_by_week.html';
+                $dateTemplate = 't_breakdown_by_date.html';
+            }
+
+            // Display the delivery history or targeting history stats
+            if ($this->statsBreakdown == 'week') {
+                $this->template = $weekTemplate;
+                // Fix htmlclass to match the weekly template
+                if (count($aDisplayData)) {
+                    $rows = array('date');
+                    foreach (array_keys($this->aColumns) as $v) {
+                        if ($this->showColumn($v)) {
+                            $rows[] = $v;
+                        }
+                    }
+                    $rows = array_reverse($rows);
+                    foreach (array_keys($aDisplayData) as $k) {
+                        $htmlclass = $aDisplayData[$k]['htmlclass'];
+                        $tmpclass  = array();
+                        foreach ($rows as $r => $v) {
+                            $tmpclass[$v] = ($r ? 'nb' : '').$htmlclass;
+                        }
+                        $aDisplayData[$k]['htmlclass'] = $tmpclass;
+                    }
+                }
+            } else {
+                $this->template = $dateTemplate;
+            }
+
+            // Set the appopriate icon for the breakdown type
+            if ($this->statsBreakdown == 'hour') {
+                $this->statsIcon = 'images/icon-time.gif';
+            } else {
+                $this->statsIcon = 'images/icon-date.gif';
+            }
+
+            $aElements = array();
+            if ($showBreakdown) {
+                $aElements['statsBreakdown'] = new HTML_Template_Flexy_Element;
+                $aElements['statsBreakdown']->setOptions( array(
+                  'day'   => $GLOBALS['strBreakdownByDay'],
+                  'week'  => $GLOBALS['strBreakdownByWeek'],
+                  'month' => $GLOBALS['strBreakdownByMonth'],
+                  'dow'   => $GLOBALS['strBreakdownByDow'],
+                  'hour'  => $GLOBALS['strBreakdownByHour']
+                ));
+                $aElements['statsBreakdown']->setValue($this->statsBreakdown);
+                $aElements['statsBreakdown']->setAttributes(array('onchange' => 'this.form.submit()'));
+            }
+            if (!$graphMode) {
+                 $this->_output($aElements);
+            } else {
+                 $this->_outputGraph($aElements);
+            }
+        }
+    }
+
+    /**
+     * A private method to do part of the work of the
+     * {@link OA_Admin_Statistics_Common::output()} method.
+     *
+     * @access private
+     * @param array $aElements An optional array of output elements to display.
+     */
+    function _output($aElements = array())
     {
         global $graphFilter;
 
@@ -368,11 +503,11 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
         $imageFormat = null;
         if (!extension_loaded('gd')) {
-        	$this->statsData['noGraph'] = true;
+        	$this->aStatsData['noGraph'] = true;
 		}
 
         if (!function_exists('imagecreate')) {
-            $this->statsData['noGraph'] = $GLOBALS['strGDnotEnabled'];
+            $this->aStatsData['noGraph'] = $GLOBALS['strGDnotEnabled'];
         } else {
             $tmpUrl = 'http://'
                       . $_SERVER['SERVER_NAME']
@@ -384,10 +519,10 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
         $imgPath = 'http://' . $GLOBALS['_MAX']['CONF']['webpath']['admin'] . '/images';
 
-        $this->statsData['imgPath']         = $imgPath;
-        $this->statsData['tmpUrl']          = $tmpUrl;
-        $this->statsData['queryString']     = $_SERVER['QUERY_STRING'];
-        $this->statsData['formSubmitLink']  = $formSubmitLink;
+        $this->aStatsData['imgPath']         = $imgPath;
+        $this->aStatsData['tmpUrl']          = $tmpUrl;
+        $this->aStatsData['queryString']     = $_SERVER['QUERY_STRING'];
+        $this->aStatsData['formSubmitLink']  = $formSubmitLink;
 
         // Set the Flexy tags to open/close Javascript
         $this->scriptOpen     = "\n<script type=\"text/javascript\"> <!--\n";
@@ -398,27 +533,29 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $this->strExportStatisticsToExcel = $GLOBALS['strExportStatisticsToExcel'];
 
         // Set-up Flexy form for displaying graph
-        $elements['graphFilter[]'] = new HTML_Template_Flexy_Element;
-        $elements['graphFilter[]']->setValue($graphVals);
-        if ($this->isEmptyResultArray()) {
+        $aElements['graphFilter[]'] = new HTML_Template_Flexy_Element;
+        $aElements['graphFilter[]']->setValue($graphVals);
+        if ($this->_isEmptyResultArray()) {
             $this->disableGraph = true;
         }
 
         // Display page content
         $oOutput->compile($this->template);
-        $oOutput->outputObject($this, $elements);
+        $oOutput->outputObject($this, $aElements);
 
-        $this->savePrefs();
+        $this->_savePrefs();
 
         phpAds_PageFooter();
     }
 
-
     /**
-     * A method that can be inherited and used by children classes to output the
-     * required statistics to the screen in graph format.
+     * A private method to do part of the work of the
+     * {@link OA_Admin_Statistics_Common::output()} method.
+     *
+     * @access private
+     * @param array $aElements An optional array of output elements to display.
      */
-    function outputGraph($elements = array())
+    function _outputGraph($aElements = array())
     {
         global $graphFields;
 
@@ -467,94 +604,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     }
 
     /**
-     * A private method to initialise the day span selector element.
-     *
-     * @access pivate
-     */
-    function _initDaySpanSelector()
-    {
-        require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';
-
-        $aPeriod = array();
-        $aPeriod['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $aPeriod['period_start']  = MAX_getStoredValue('period_start',  date('Y-m-d'));
-        $aPeriod['period_end']    = MAX_getStoredValue('period_end',    date('Y-m-d'));
-
-        $this->oDaySpanSelector = &FieldFactory::newField('day-span');
-        $this->oDaySpanSelector->_name = 'period';
-        $this->oDaySpanSelector->enableAutoSubmit();
-        $this->oDaySpanSelector->setValueFromArray($aPeriod);
-
-        $this->aDates = array(
-            'day_begin' => $this->oDaySpanSelector->getStartDate(),
-            'day_end'   => $this->oDaySpanSelector->getEndDate(),
-        );
-
-        if (!is_null($this->aDates['day_begin'])) {
-            $this->aDates['day_begin'] = $this->aDates['day_begin']->format('%Y-%m-%d');
-            $this->aDates['day_end']   = $this->aDates['day_end']->format('%Y-%m-%d');
-        } else {
-            $aDates = array();
-        }
-
-        $this->aGlobalPrefs['period_preset'] = $this->oDaySpanSelector->_fieldSelectionValue;
-        $this->aGlobalPrefs['period_start']  = $this->aDates['day_begin'];
-        $this->aGlobalPrefs['period_end']    = $this->aDates['day_end'];
-    }
-
-    /**
-     * A method that can be inherited and used by children classes to get the
-     * required date span of a statistics page.
-     *
-     * @param array  $aParams      An array of query parameters for
-     *                             {@link Admin_DA::fromCache()}.
-     * @param string $type         The name of the method to pass to the
-     *                             {@link Admin_DA::fromCache()} method.
-     *                             Default is the name required for delivery
-     *                             statistics.
-     * @param string $pluginMethod The name of the method to call on the
-     *                             display plugins to determine if there
-     *                             are any custom parameters to pass to the
-     *                             {@link Admin_DA::fromCache()} method.
-     *                             Default is the name of the method for
-     *                             delivery statistics.
-     */
-    function getSpan($aParams, $type = 'getHistorySpan', $pluginMethod = 'getHistorySpanParams')
-    {
-        $oStartDate = new Date(date('Y-m-d'));
-        // Check span using all plugins
-        foreach ($this->aPlugins as $oPlugin) {
-            $aPluginParams = call_user_func(array($oPlugin, $pluginMethod));
-            $aSpan = Admin_DA::fromCache($type, $aParams + $aPluginParams);
-            if (!empty($aSpan['start_date'])) {
-                $oDate = new Date($aSpan['start_date']);
-                if ($oDate->before($oStartDate)) {
-                    $oStartDate = new Date($oDate);
-                }
-            }
-        }
-        $oNow  = new Date();
-        $oSpan = new Date_Span($oStartDate, new Date(date('Y-m-d')));
-        $this->oStartDate = $oStartDate;
-        $this->spanDays   = (int)ceil($oSpan->toDays());
-        $this->spanWeeks  = (int)ceil($this->spanDays / 7) + ($this->spanDays % 7 ? 1 : 0);
-        $this->spanMonths = (($oNow->getYear() - $oStartDate->getYear()) * 12) + ($oNow->getMonth() - $oStartDate->getMonth()) + 1;
-    }
-
-    /**
-     * An abstract, private method which must be overridden in the child class,
-     * to load the required plugins during instantiation.
-     *
-     * @abstract
-     * @access private
-     */
-    function _loadPlugins()
-    {
-        $message = 'Error: Abstract method ' . __FUNCTION__ . ' must be implemented.';
-        MAX::raiseError($message, MAX_ERROR_NOMETHOD);
-    }
-
-    /**
      * A private callback method that can be inherited and used by children
      * classes to sort an array of plugins.
      *
@@ -571,33 +620,97 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     }
 
     /**
-     * A private method that can be inherited and used by children classes to
-     * remove any hidden columns from the list to be displayed.
+     * A private method that can be inherited and used by children classes
+     * to obtain the correct ID of various entities.
      *
      * @access private
+     * @param string   $type    One of "advertiser", "publisher", "placement",
+     *                          "ad", "zone".
+     * @param ingeger  $default Optional default value.
+     * @return integer The appropriate ID field.
      */
-    function _columnsVisibilitySet()
+    function _getId($type, $default = null)
     {
-        foreach ($this->aColumns as $k => $v) {
-            $fieldName = explode('sum_', $k);
-            $sum = isset($fieldName[1]) ? $fieldName[1] : '';
-            $fieldName = 'gui_column_' . $sum . '_array';
-            if (isset($GLOBALS['_MAX']['PREF'][$fieldName]) && is_array($GLOBALS['_MAX']['PREF'][$fieldName]) && $GLOBALS['_MAX']['PREF'][$fieldName][$GLOBALS['session']['usertype']]['show'] != 1) {
-                unset($this->aColumns[$k]);
+        if ($type == 'advertiser') {
+            if (phpAds_isUser(phpAds_Client)) {
+                return phpAds_getUserId();
+            } else {
+                if (is_null($default)) {
+                    return (int) MAX_getValue('clientid', '');
+                } else {
+                    return (int) MAX_getValue('clientid', $default);
+                }
+            }
+        } else if ($type == 'publisher') {
+            if (phpAds_isUser(phpAds_Affiliate)) {
+                return phpAds_getUserId();
+            } else {
+                if (is_null($default)) {
+                    return (int) MAX_getValue('affiliateid', '');
+                } else {
+                    return (int) MAX_getValue('affiliateid', $default);
+                }
+            }
+        } else if ($type == 'placement') {
+            if (is_null($default)) {
+                return (int) MAX_getValue('campaignid', '');
+            } else {
+                return (int) MAX_getValue('campaignid', $default);
+            }
+        } else if ($type == 'ad') {
+            if (is_null($default)) {
+                return (int) MAX_getValue('bannerid', '');
+            } else {
+                return (int) MAX_getValue('bannerid', $default);
+            }
+        } else if ($type == 'zone') {
+            if (is_null($default)) {
+                return (int) MAX_getValue('zoneid', '');
+            } else {
+                return (int) MAX_getValue('zoneid', $default);
             }
         }
     }
 
     /**
-     * A private method that can be inherited and used by children classes to
-     * generate the current page URI with the correct page parameters and store
-     * it in {@link $this->pageURI} for use within templates.
+     * A private method that can be inherited and used by children classes
+     * to check if the user has the required access level to view the
+     * statistics page. If not, the method will display the error message
+     * to the user, and terminate execution of the program.
      *
-     * @access pricate
+     * @access private
+     * @param array $aParams An array, indexed by types, of the entity IDs
+     *                       the statistics page is using, that the user
+     *                       must have access to. For example:
+     *                          array(
+     *                              'advertiser' => 5,
+     *                              'placement'  => 12
+     *                          )
      */
-    function _generatePageURI()
+    function _checkAccess($aParams)
     {
-        $this->pageURI = $this->_addPageParamsToURI($this->pageName);
+        $access = false;
+        if (count($aParams) == 1) {
+            if (array_key_exists('advertiser', $aParams)) {
+                $access = MAX_checkAdvertiser($aParams['advertiser']);
+            } else if (array_key_exists('publisher', $aParams)) {
+                $access = MAX_checkPublisher($aParams['publisher']);
+            }
+        } else if (count($aParams) == 2) {
+            if (array_key_exists('advertiser', $aParams) && array_key_exists('placement', $aParams)) {
+                $access = MAX_checkPlacement($aParams['advertiser'], $aParams['placement']);
+            } else if (array_key_exists('publisher', $aParams) && array_key_exists('zone', $aParams)) {
+                $access = MAX_checkZone($aParams['publisher'], $aParams['zone']);
+            }
+        } else if (count($aParams) == 3) {
+            if (array_key_exists('advertiser', $aParams) && array_key_exists('placement', $aParams) && array_key_exists('ad', $aParams)) {
+                $access = MAX_checkAd($aParams['advertiser'], $aParams['placement'], $aParams['ad']);
+            }
+        }
+        if (!$access) {
+            phpAds_PageHeader('2');
+            phpAds_Die($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
+        }
     }
 
     /**
@@ -605,14 +718,18 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * add page paramters to a page name and a terminating ? or & character.
      *
      * @access private
-     * @param string  $pageName The page name to use.
+     * @param string  $pageName Optional The page name to use. If not used,
+     *                          returns an empty URI.
      * @param array   $aParams  An optional array of page parameters to use
      *                          instead of {@link $this->aPageParams}.
      * @param boolean $strip    Strip ending ? or & characters.
      * @return string The URI of the page with the page parameters appended.
      */
-    function _addPageParamsToURI($pageName, $aParams = null, $strip = false)
+    function _addPageParamsToURI($pageName = null, $aParams = null, $strip = false)
     {
+        if (is_null($pageName)) {
+            return '';
+        }
         if (is_null($aParams)) {
             $aParams = $this->aPageParams;
         }
@@ -647,20 +764,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
     /**
      * A private method that can be inherited and used by children classes to
-     * output the shortcuts in the left navigation bar.
-     *
-     * @access private
-     * {@uses phpAds_PageShortcut()}
-     */
-    function _showShortcuts()
-    {
-        foreach ($this->aPageShortcuts as $shortcut) {
-            phpAds_PageShortcut($shortcut['name'], $shortcut['link'], $shortcut['icon']);
-        }
-    }
-
-    /**
-     * A private method that can be inherited and used by children classes to
      * add the breadcrumbs for the current entity item, automatically adding
      * parent entities breadcrumbs if needed.
      *
@@ -683,7 +786,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     );
                 }
             }
-
             break;
 
         case 'campaign':
@@ -699,7 +801,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     MAX_getEntityIcon('placement')
                 );
             }
-
             break;
 
         case 'banner':
@@ -717,7 +818,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     MAX_getEntityIcon('ad')
                 );
             }
-
             break;
 
         case 'publisher':
@@ -731,7 +831,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     );
                 }
             }
-
             break;
 
         case 'zone':
@@ -745,13 +844,13 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     MAX_getEntityIcon('zone')
                 );
             }
-
             break;
         }
     }
 
     /**
-     * Internal function to manually add a breadcrumb
+     * A private method that can be inherited and used by children classes to
+     * add a breadcrumb to the trail.
      *
      * @param string Breadcrumb text
      * @param string Breadcrumb icon
@@ -759,28 +858,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     function _addBreadcrumb($name, $icon)
     {
         $this->aPageBreadcrumbs[] = array('name' => $name, 'icon' => $icon);
-    }
-
-    /**
-     * A private method that can be inherited and used by children classes to
-     * output the breadcrumb trail, highlighing the last item.
-     */
-    function _showBreadcrumbs()
-    {
-        if (!empty($this->aPageBreadcrumbs) && is_array($this->aPageBreadcrumbs)) {
-            foreach ($this->aPageBreadcrumbs as $k => $bc) {
-                if ($k == count($this->aPageBreadcrumbs) - 1) {
-                    $bc['name'] = '<b>'.$bc['name'].'</b>';
-                }
-                if ($k > 0) {
-                    echo "&nbsp;<img src='images/".$GLOBALS['phpAds_TextDirection']."/caret-rs.gif'>&nbsp;";
-                }
-                echo '<img src="'.$bc['icon'].'" align="absmiddle" />&nbsp;'.$bc['name'];
-            }
-            if (count($this->aPageBreadcrumbs)) {
-                echo "<br /><br /><br />";
-            }
-        }
     }
 
     /**
@@ -915,7 +992,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     }
 
     /**
-     * A private method that can be inherited and used by childred classes to
+     * A private method that can be inherited and used by children classes to
      * load all $_GET variables into the $this->aPageParams array.
      *
      * @access private
@@ -973,11 +1050,144 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     }
 
     /**
-     * A method that can be inherited and used by children classes to save the
-     * preferences previously assigned to {@link aPagePrefs} and {@link aGlobalPrefs}
-     * arrays to the user's session data store.
+     * A private method that can be inherited and used by children classes to
+     * return a sub-array of {@link $this->aPageParams}, where any duplicate
+     * parameters already in a given URI (excluding "entity" and "day" parameters)
+     * have been removed, so that parameters can be added to the URI with
+     * confidence that duplicates will not be added.
+     *
+     * @access private
+     * @param string $link The URI to be used. If null, the {@link $this->aPageParams}
+     *                     array will be returned unmodified.
+     * @return array An array of the de-duplicated parameters.
      */
-    function savePrefs()
+    function _removeDuplicateParams($link)
+    {
+        if (empty($link)) {
+            return $this->aPageParams;
+        }
+        $aNewParams = array();
+        foreach ($this->aPageParams as $key => $value) {
+            if (!empty($value)) {
+                if (!strstr($link, $value) && $key != "entity" && $key != "day") {
+                    $aNewParams[$key] = $value;
+                }
+            }
+        }
+        return $aNewParams;
+    }
+
+    /********** PRIVATE METHODS USED BY THIS CLASS ONLY **********/
+
+    /**
+     * A private method to initialise the day span selector element.
+     *
+     * @access pivate
+     */
+    function _initDaySpanSelector()
+    {
+        require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';
+
+        $aPeriod = array();
+        $aPeriod['period_preset'] = MAX_getStoredValue('period_preset', 'today');
+        $aPeriod['period_start']  = MAX_getStoredValue('period_start',  date('Y-m-d'));
+        $aPeriod['period_end']    = MAX_getStoredValue('period_end',    date('Y-m-d'));
+
+        $this->oDaySpanSelector = &FieldFactory::newField('day-span');
+        $this->oDaySpanSelector->_name = 'period';
+        $this->oDaySpanSelector->enableAutoSubmit();
+        $this->oDaySpanSelector->setValueFromArray($aPeriod);
+
+        $this->aDates = array(
+            'day_begin' => $this->oDaySpanSelector->getStartDate(),
+            'day_end'   => $this->oDaySpanSelector->getEndDate(),
+        );
+
+        if (!is_null($this->aDates['day_begin'])) {
+            $this->aDates['day_begin'] = $this->aDates['day_begin']->format('%Y-%m-%d');
+            $this->aDates['day_end']   = $this->aDates['day_end']->format('%Y-%m-%d');
+        } else {
+            $this->aDates = array();
+        }
+
+        $this->aGlobalPrefs['period_preset'] = $this->oDaySpanSelector->_fieldSelectionValue;
+        $this->aGlobalPrefs['period_start']  = $this->aDates['day_begin'];
+        $this->aGlobalPrefs['period_end']    = $this->aDates['day_end'];
+    }
+
+    /**
+     * A private method to remove any hidden columns from the list to
+     * be displayed.
+     *
+     * @access private
+     */
+    function _columnsVisibilitySet()
+    {
+        foreach ($this->aColumns as $k => $v) {
+            $fieldName = explode('sum_', $k);
+            $sum = isset($fieldName[1]) ? $fieldName[1] : '';
+            $fieldName = 'gui_column_' . $sum . '_array';
+            if (isset($GLOBALS['_MAX']['PREF'][$fieldName]) && is_array($GLOBALS['_MAX']['PREF'][$fieldName]) && $GLOBALS['_MAX']['PREF'][$fieldName][$GLOBALS['session']['usertype']]['show'] != 1) {
+                unset($this->aColumns[$k]);
+            }
+        }
+    }
+
+    /**
+     * A private method to generate the current page URI with the correct
+     * page parameters and store it in {@link $this->pageURI} for use
+     * within templates.
+     *
+     * @access private
+     */
+    function _generatePageURI()
+    {
+        $this->pageURI = $this->_addPageParamsToURI($this->pageName);
+    }
+
+    /**
+     * A private method to output the shortcuts in the left navigation bar.
+     *
+     * @access private
+     * {@uses phpAds_PageShortcut()}
+     */
+    function _showShortcuts()
+    {
+        foreach ($this->aPageShortcuts as $shortcut) {
+            phpAds_PageShortcut($shortcut['name'], $shortcut['link'], $shortcut['icon']);
+        }
+    }
+
+    /**
+     * A private method to output the breadcrumb trail, highlighing
+     * the last item.
+     */
+    function _showBreadcrumbs()
+    {
+        if (!empty($this->aPageBreadcrumbs) && is_array($this->aPageBreadcrumbs)) {
+            foreach ($this->aPageBreadcrumbs as $k => $bc) {
+                if ($k == count($this->aPageBreadcrumbs) - 1) {
+                    $bc['name'] = '<b>'.$bc['name'].'</b>';
+                }
+                if ($k > 0) {
+                    echo "&nbsp;<img src='images/".$GLOBALS['phpAds_TextDirection']."/caret-rs.gif'>&nbsp;";
+                }
+                echo '<img src="'.$bc['icon'].'" align="absmiddle" />&nbsp;'.$bc['name'];
+            }
+            if (count($this->aPageBreadcrumbs)) {
+                echo "<br /><br /><br />";
+            }
+        }
+    }
+
+    /**
+     * A private method to save the preferences previously assigned to the
+     * {@link $this->aPagePrefs} and {@link $this->aGlobalPrefs} arrays to
+     * the user's session data store.
+     *
+     * @access private
+     */
+    function _savePrefs()
     {
         foreach ($this->aPagePrefs as $k => $v) {
             $GLOBALS['session']['prefs'][$this->pageName][$k] = $v;

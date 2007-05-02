@@ -468,24 +468,22 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
 
     }
 
-    function removeDuplicateParams($link, $params = null)
-    {
-        $newParams = array();
-        if (empty($link)) {
-            return $newParams;
-        }
-        if (is_null($params)) {
-            $params = $this->aPageParams;
-        }
-        foreach ($params as $key => $value) {
-            if (!empty($value)) {
-                if (!strstr($link, $value) && $key != "entity" && $key != "day") {
-                    $newParams[$key] = $value;
-                }
-            }
-        }
-        return $newParams;
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Calculate average requests, impressions, clicks and conversions
@@ -530,19 +528,6 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
 
         return $GLOBALS['strNoStats'];
     }
-
-    /**
-     * Return bool - checks if there are any non empty impresions in object
-     *
-
-     * @return bool
-     */
-    function isEmptyResultArray()
-    {
-        return false;
-    }
-
-
 
     /**
      * Show the welcome text to publishers
