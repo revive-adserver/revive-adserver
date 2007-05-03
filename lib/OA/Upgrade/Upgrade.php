@@ -103,6 +103,7 @@ class OA_Upgrade
         $this->oSystemMgr   = new OA_Environment_Manager();
         $this->oSystemMgr->init();
         $this->oConfiguration = new OA_Upgrade_Config();
+        $this->oTable       = new OA_DB_Table();
 
         $this->aDsn['database'] = array();
         $this->aDsn['table']    = array();
@@ -128,20 +129,21 @@ class OA_Upgrade
         if (is_null($this->oDbh))
         {
             $this->oDbh = OA_DB::singleton($dsn);
-            if (!PEAR::isError($this->oDbh))
-            {
-                $this->oDBUpgrader->initMDB2Schema();
-                $this->oVersioner->init($this->oDbh);
-                $this->oDBAuditor->init($this->oDbh, $this->oLogger);
-                $this->oDBUpgrader->oAuditor = &$this->oDBAuditor;
-                return true;
-            }
-            else
-            {
-                $this->oLogger->log($this->oDbh->getUserInfo());
-                $this->oDbh = null;
-                return false;
-            }
+        }
+        if (!PEAR::isError($this->oDbh))
+        {
+            $this->oTable->oDbh = $this->oDbh;
+            $this->oDBUpgrader->initMDB2Schema();
+            $this->oVersioner->init($this->oDbh);
+            $this->oDBAuditor->init($this->oDbh, $this->oLogger);
+            $this->oDBUpgrader->oAuditor = &$this->oDBAuditor;
+            return true;
+        }
+        else
+        {
+            $this->oLogger->log($this->oDbh->getUserInfo());
+            $this->oDbh = null;
+            return false;
         }
         return true;
     }
@@ -241,7 +243,8 @@ class OA_Upgrade
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_OAD_NOT_INSTALLED:
-                break;
+                $this->oLogger->log('Openads installation not detected');
+                return true;
             case OA_STATUS_OAD_CONFIG_DETECTED:
                 $this->oLogger->logError('Openads'.$strDetected);
                 break;
@@ -258,9 +261,6 @@ class OA_Upgrade
                 $this->oLogger->log('Openads '.$this->versionInitialApplication.' detected');
                 $this->oLogger->log('This version is up to date.');
                 return false;
-            case OA_STATUS_NOT_INSTALLED:
-                $this->oLogger->log('Openads installation not detected');
-                return true;
             case OA_STATUS_CAN_UPGRADE:
                 $this->oLogger->log('Openads '.$this->versionInitialApplication.' detected');
                 $this->oLogger->log($strCanUpgrade);
@@ -423,26 +423,123 @@ class OA_Upgrade
      *
      * @return boolean
      */
-    function install()
+    function install($aConfig)
     {
-        if ($this->_createDatabase())
+        $this->aDsn['database'] = $aConfig['database'];
+        $this->aDsn['table']    = $aConfig['table'];
+
+        if (!$this->_createDatabase())
         {
-            $this->initDatabaseConnection();
-            if ($this->createCoreTables())
-            {
-                $this->oConfiguration->setInstallOn();
-                if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
-                {
-                    $this->oLogger->log('Failed to update application version to '.OA_VERSION);
-                    $this->message = 'Failed to update application version to '.OA_VERSION;
-                    return false;
-                }
-                $this->oLogger->log('Application version updated to '. OA_VERSION);
-                $this->oLogger->log('Installation Succeeded');
-                return true;
-            }
+            $this->oLogger->logError('Installation failed to create the database '.$this->aDsn['database']['name']);
+            return false;
         }
-        $this->oLogger->log('Installation Failed');
+        $this->oLogger->log('Installation created the database '.$this->aDsn['database']['name']);
+
+        if (!$this->initDatabaseConnection())
+        {
+            $this->oLogger->logError('Installation failed to connect to the database '.$this->aDsn['database']['name']);
+            $this->_dropDatabase();
+            return false;
+        }
+
+        if (!$this->createCoreTables())
+        {
+            $this->oLogger->logError('Installation failed to create the core tables');
+            $this->_dropDatabase();
+            return false;
+        }
+        $this->oLogger->logError('Installation created the core tables');
+
+        if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
+        {
+            $this->oLogger->logError('Installation failed to update the application version to '.OA_VERSION);
+            $this->_dropDatabase();
+            return false;
+        }
+        $this->oLogger->logError('Installation updated the application version to '.OA_VERSION);
+
+        if (!$this->createConfigFile())
+        {
+            $this->oLogger->logError('Installation failed to create the configuration file');
+            $this->_dropDatabase();
+            return false;
+        }
+        $this->oLogger->log('Installation created a configuration file '.$this->oConfiguration->configFile);
+
+        if (!$this->saveConfigDB($aConfig))
+        {
+            $this->oLogger->logError('Installation failed to write database details to the configuration file '.$this->oConfiguration->configFile);
+            if (file_exists($this->oConfiguration->configPath.$this->oConfiguration->configFile))
+            {
+                unlink($this->oConfiguration->configPath.$this->oConfiguration->configFile);
+                $this->oLogger->log('Installation deleted the configuration file '.$this->oConfiguration->configFile);
+            }
+            $this->_dropDatabase();
+            return false;
+        }
+
+        $this->oConfiguration->setInstalledOn();
+        $this->oLogger->log('Installation Succeeded');
+        return true;
+    }
+
+    function _dropDatabase($log = true)
+    {
+        OA_DB::dropDatabase($this->aDsn['database']['name']);
+        if ($log)
+        {
+            $this->oLogger->log('Installation dropped the database '.$this->aDsn['database']['name']);
+        }
+    }
+
+    /**
+     * create the empty database
+     *
+     * @return boolean
+     */
+    function _createDatabase()
+    {
+        $this->oDbh = &OA_DB::singleton(OA_DB::getDsn($this->aDsn));
+        if (PEAR::isError($this->oDbh))
+        {
+            $GLOBALS['_OA']['CONNECTIONS']  = array();
+            $GLOBALS['_MDB2_databases']     = array();
+
+            $GLOBALS['_MAX']['CONF']['database']          = $this->aDsn['database'];
+            $GLOBALS['_MAX']['CONF']['database']['name']  = '';
+            $GLOBALS['_MAX']['CONF']['table']['prefix']   = $this->aDsn['table']['prefix'];
+            $GLOBALS['_MAX']['CONF']['table']['type']     = $this->aDsn['table']['type'];
+
+            $result = OA_DB::createDatabase($this->aDsn['database']['name']);
+            if (PEAR::isError($result)) // && !$ignore_errors)
+            {
+                $this->oLogger->logError($result->getUserInfo());
+                return false;
+            }
+            $this->oDbh = OA_DB::changeDatabase($this->aDsn['database']['name']);
+            if (PEAR::isError($this->oDbh)) // && !$ignore_errors)
+            {
+                $this->oLogger->logError($this->oDbh->getUserInfo());
+                $this->oDbh = null;
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
+
+    /**
+     * create the tables_core schema in the database
+     *
+     * @return boolean
+     */
+    function createCoreTables()
+    {
+        if ($this->oTable->init(MAX_PATH.'/etc/tables_core.xml'))
+        {
+            $this->oTable->dropAllTables();
+            return $this->oTable->createAllTables();
+        }
         return false;
     }
 
@@ -460,6 +557,10 @@ class OA_Upgrade
         return $this->oConfiguration->aConfig;
     }
 
+    function createConfigFile()
+    {
+        return $this->oConfiguration->putNewConfigFile();
+    }
     /**
      * save database configuration settings
      *
@@ -470,7 +571,7 @@ class OA_Upgrade
     {
         $this->oConfiguration->setupConfigDatabase($aConfig['database']);
         $this->oConfiguration->setupConfigTable($aConfig['table']);
-        return $this->oConfiguration->writeConfig;
+        return $this->oConfiguration->writeConfig();
     }
 
     /**
@@ -486,38 +587,6 @@ class OA_Upgrade
         $this->oConfiguration->setupConfigStore($aConfig['store']);
         $this->oConfiguration->setupConfigMax($aConfig['max']);
         return $this->oConfiguration->writeConfig();
-    }
-
-    /**
-     * create the empty database
-     *
-     * @return boolean
-     */
-    function _createDatabase()
-    {
-        $aDsn = $this->aDsn['database'];
-        $aDsn['phptype'] = $aDsn['type'];
-        OA::disableErrorHandling();
-        $oDbh = &MDB2::singleton($aDsn, $aOptions);
-        OA::enableErrorHandling();
-        if (PEAR::isError($oDbh))
-        {
-            $this->oLogger->logError($oDbh->getUserInfo());
-            return false;
-        }
-        else
-        {
-            $oDbh->loadModule('Manager');
-            $oDbh->manager->dropDatabase($this->aDsn['database']['name']);
-            if ($oDbh->manager->createDatabase($this->aDsn['database']['name']))
-            {
-                $GLOBALS['_MAX']['CONF']['database'] = $aDsn;
-                $GLOBALS['_MAX']['CONF']['table']['prefix'] = $this->aDsn['table']['prefix'];
-                $GLOBALS['_MAX']['CONF']['table']['type'] = $this->aDsn['table']['type'];
-                return true;
-            }
-            return false;
-        }
     }
 
     /**
@@ -555,25 +624,6 @@ class OA_Upgrade
         return false;
     }
 
-    /**
-     * create the tables_core schema in the database
-     *
-     * @return boolean
-     */
-    function createCoreTables()
-    {
-        $this->oTable = new OA_DB_Table();
-        if ($this->oTable->init(MAX_PATH.'/etc/tables_core.xml'))
-        {
-            if ($this->oTable->dropAllTables())
-            {
-                $this->oTable->createAllTables();
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
 /*
     function getAdmin()
     {

@@ -7,6 +7,8 @@ class OA_Upgrade_Config
 
     var $oConfig;
     var $aConfig;
+    var $configPath;
+    var $configFile;
 
     function OA_Upgrade_Config()
     {
@@ -16,6 +18,32 @@ class OA_Upgrade_Config
         {
             return false;
         }
+    }
+
+    function getHost()
+    {
+        if (!empty($_SERVER['HTTP_HOST']))
+        {
+            $host = explode(':', $_SERVER['HTTP_HOST']);
+        } else
+        {
+            $host = explode(':', $_SERVER['SERVER_NAME']);
+        }
+        return $host[0];
+    }
+
+    function putNewConfigFile()
+    {
+        $this->getInitialConfig();
+        $host = $this->getHost();
+        $this->configPath = MAX_PATH.'/var/';
+        $this->configFile = $host.'.conf.php';
+        if (!file_exists($this->configPath.$this->configFile))
+        {
+            copy(MAX_PATH.'/etc/dist.conf.php', $this->configPath.$this->configFile);
+            return $this->writeConfig();
+        }
+        return true;
     }
 
     /**
@@ -47,13 +75,14 @@ class OA_Upgrade_Config
         {
             // User has web root configured as Max's www/admin directory,
             // so can only guess the admin location
-            $this->setValue('webpath', 'admin', $_SERVER['HTTP_HOST'] . '/');
+            $this->setValue('webpath', 'admin'   , $this->getHost().'/');
+            $this->setValue('webpath', 'delivery', $this->getHost().'/');
         }
     }
 
     function writeConfig()
     {
-        return $this->oConfig->writeConfigChange();
+        return $this->oConfig->writeConfigChange(); //$this->configPath, $this->configFile);
     }
 
     function setInstalledOn()
@@ -155,6 +184,17 @@ class OA_Upgrade_Config
     function setGetValue($section, $name)
     {
         $this->setValue($section, $name, $this->getValue($section, $name));
+    }
+
+    function setGlobals()
+    {
+        foreach ($this->aConfig AS $sectionName => $aSection)
+        {
+            foreach ($aSection as $k=>$v)
+            {
+                $GLOBALS['_MAX']['CONF'][$sectionName][$k] = $v;
+            }
+        }
     }
 }
 

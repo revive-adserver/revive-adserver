@@ -200,7 +200,7 @@ class OA_DB_Table
         PEAR::pushErrorHandling(null);
         $result = $this->oSchema->createTable($tableName, $this->aDefinition['tables'][$table], false, $aOptions);
         PEAR::popErrorHandling();
-        if (PEAR::isError($result)) {
+        if (PEAR::isError($result) || (!$result)) {
             MAX::debug('Unable to create the table ' . $table, PEAR_LOG_ERR);
             return false;
         }
@@ -221,7 +221,7 @@ class OA_DB_Table
         }
         foreach ($this->aDefinition['tables'] as $tableName => $aTable) {
             $result = $this->createTable($tableName, $oDate);
-            if (!$result) {
+            if (PEAR::isError($result) || (!$result)) {
                 return false;
             }
         }
@@ -269,7 +269,7 @@ class OA_DB_Table
         PEAR::pushErrorHandling(null);
         $result = $this->oDbh->manager->dropTable($table);
         PEAR::popErrorHandling();
-        if (PEAR::isError($result)) {
+        if (PEAR::isError($result) || (!$result)) {
             MAX::debug('Unable to drop table ' . $table, PEAR_LOG_ERROR);
             return false;
         }
@@ -296,7 +296,7 @@ class OA_DB_Table
             }
             MAX::debug('Dropping the ' . $tableName . ' table', PEAR_LOG_DEBUG);
             $result = $this->dropTable($aConf['table']['prefix'].$tableName);
-            if (PEAR::isError($result)) {
+            if (PEAR::isError($result) || (!$result)) {
                 MAX::debug('Unable to drop the table ' . $table, PEAR_LOG_ERROR);
                 $allTablesDropped = false;
             }

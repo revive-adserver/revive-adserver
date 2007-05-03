@@ -42,7 +42,6 @@ class OA_Environment_Manager
     {
         $this->aFilePermissions = array(
                                         MAX_PATH.'/var/',
-                                        MAX_PATH.'/var/upgrade/'
                                        );
         $this->aInfo['PHP']['expected']     = array();
         $this->aInfo['PERMS']['expected']   = array();

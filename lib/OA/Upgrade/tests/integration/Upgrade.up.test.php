@@ -47,14 +47,6 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->UnitTestCase();
     }
 
-//    function setUp()
-//    {
-//        $this->oDbh = OA_DB::singleton(OA_DB::getDsn());
-//        $this->oTable = new OA_DB_Table();
-//        $this->oTable->init(MAX_PATH.'/lib/OA/Upgrade/tests/integration/migration_test_1.xml');
-//        $this->aDefinition = $this->oTable->aDefinition;
-//    }
-
     function test_constructor()
     {
         $oUpgrade = new OA_Upgrade();
@@ -66,6 +58,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertIsA($oUpgrade->oPAN,'OA_phpAdsNew','class mismatch: OA_phpAdsNew');
         $this->assertIsA($oUpgrade->oSystemMgr,'OA_Environment_Manager','class mismatch: OA_Environment_Manager');
         $this->assertIsA($oUpgrade->oConfiguration,'OA_Upgrade_Config','class mismatch: OA_Upgrade_Config');
+        $this->assertIsA($oUpgrade->oTable,'OA_DB_Table','class mismatch: OA_DB_Table');
     }
 
     function test_initDatabaseConnection()
@@ -73,6 +66,26 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade = new OA_Upgrade();
         $oUpgrade->initDatabaseConnection();
         $this->assertIsA($oUpgrade->oDbh,'MDB2_driver_Common','class mismatch: MDB2_driver_Common');
+    }
+
+    function test_install()
+    {
+//        $oUpgrade = new OA_Upgrade();
+//
+//        $aDsnOld = $GLOBALS['_MAX']['CONF']['database'];
+//        $aTblOld = $GLOBALS['_MAX']['CONF']['table'];
+//
+//        $aDsn['database']           = $aDsnOld;
+//        $aDsn['table']              = $aTblOld;
+//        $aDsn['database']['name']   = 'openads_install';
+//        $aDsn['table']['prefix']    = 'oa_';
+//
+//        OA_DB::dropDatabase($aDsn['database']['name']);
+//        $oUpgrade->install($aDsn);
+//        //OA_DB::dropDatabase($aDsn['database']['name']);
+//
+//        $GLOBALS['_MAX']['CONF']['database'] = $aDsnOld;
+//        $GLOBALS['_MAX']['CONF']['table']    = $aTblOld;
     }
 
     function test_checkDBPermissions()
@@ -85,8 +98,13 @@ class Test_OA_Upgrade extends UnitTestCase
 
     function test_createCoreTables()
     {
+        OA_DB::dropDatabase('openads_install_test');
+        OA_DB::createDatabase('openads_install_test');
         $oUpgrade = new OA_Upgrade();
+        $oUpgrade->oDbh = OA_DB::changeDatabase('openads_install_test');
+        $oUpgrade->initDatabaseConnection();
         $this->assertTrue($oUpgrade->createCoreTables(),'createCoreTables');
+        $oUpgrade->oTable->dropAllTables();
     }
 
     function test_init()
