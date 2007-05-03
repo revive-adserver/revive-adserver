@@ -95,13 +95,13 @@ class MAX_Dal_PasswordRecovery extends MAX_Dal_Common
                 FROM
                     {$v['table']}
                 WHERE
-                    {$v['email']} = ?
+                    {$v['email']} = ?". $this->oDbh->quote($email, 'text') ."
                     AND COALESCE({$v['username']}, '') <> ''
                 ORDER BY
                     username
             ";
 
-            foreach ($this->dbh->getAll($query, array($email)) as $row) {
+            foreach ($this->oDbh->getAll($query) as $row) {
                 $users[] = $row;
             }
         }
@@ -123,11 +123,18 @@ class MAX_Dal_PasswordRecovery extends MAX_Dal_Common
         $recovery_id = strtoupper(md5(uniqid('', true)));
         $recovery_id = substr(chunk_split($recovery_id, 8, '-'), -23, 22);
 
-        $query = "DELETE FROM {$password_recovery_table} WHERE user_type = ? AND user_id = ?";
-        $this->dbh->query($query, array($user_type, $user_id));
+        $query = "DELETE FROM {$password_recovery_table} WHERE user_type = ". $this->oDbh->quote($user_type, 'text') ." AND user_id = ". $this->oDbh->quote($user_id, 'integer');
+        $this->oDbh->exec($query);
 
-        $query = "INSERT INTO {$password_recovery_table} (user_type, user_id, recovery_id, updated) VALUES (?, ?, ?, '". OA::getNow() ."')";
-        $this->dbh->query($query, array($user_type, $user_id, $recovery_id));
+        $query = "
+                INSERT INTO {$password_recovery_table} (
+                    user_type, user_id, recovery_id, updated
+                ) VALUES (
+                    ". $this->oDbh->quote($user_type, 'text') .",
+                    ". $this->oDbh->quote($user_id, 'integer') .",
+                    ". $this->oDbh->quote($recovery_id, 'integer') .",
+                    '". OA::getNow() ."')";
+        $this->oDbh->exec($query);
 
         return $recovery_id;
     }
@@ -142,8 +149,8 @@ class MAX_Dal_PasswordRecovery extends MAX_Dal_Common
     {
         $password_recovery_table = $this->getFullTableName('password_recovery');
 
-        $query = "SELECT COUNT(*) AS cnt FROM {$password_recovery_table} WHERE recovery_id = ?";
-        return (bool)$this->dbh->getOne($query, array($recovery_id));
+        $query = "SELECT COUNT(*) AS cnt FROM {$password_recovery_table} WHERE recovery_id = ". $this->oDbh->quote($recovery_id, 'integer');
+        return (bool)$this->oDbh->getOne($query);
     }
 
     /**
@@ -159,16 +166,16 @@ class MAX_Dal_PasswordRecovery extends MAX_Dal_Common
 
         $user_types = $this->getUserTypeMappings();
 
-        $query = "SELECT user_type, user_id FROM {$password_recovery_table} WHERE recovery_id = ?";
-        $row = $this->dbh->getRow($query, array($recovery_id));
+        $query = "SELECT user_type, user_id FROM {$password_recovery_table} WHERE recovery_id = ". $this->oDbh->quote($recovery_id, 'integer');
+        $row = $this->oDbh->getRow($query);
 
         if ($row) {
             $u = $user_types[$row['user_type']];
-            $query = "UPDATE {$u['table']} SET {$u['password']} = ? WHERE {$u['id']} = ?";
-            $res = $this->dbh->query($query, array(md5($password), $row['user_id']));
+            $query = "UPDATE {$u['table']} SET {$u['password']} = ". $this->oDbh->quote(md5($password), 'text') ." WHERE {$u['id']} = ". $this->oDbh->quote($row['user_id'], 'integer');
+            $res = $this->oDbh->exec($query);
 
-            $query = "DELETE FROM {$password_recovery_table} WHERE recovery_id = ?";
-            $this->dbh->query($query, array($recovery_id));
+            $query = "DELETE FROM {$password_recovery_table} WHERE recovery_id = ". $this->oDbh->quote($recovery_id, 'integer');
+            $this->oDbh->exec($query);
 
             return true;
         }

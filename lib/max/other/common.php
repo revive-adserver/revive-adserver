@@ -776,9 +776,10 @@ function _removeFile($aAd)
     // +---------------------------------------+
 
 function MAX_duplicatePlacement($placementId, $advertiserId) {
+    $oDbh = &OA_DB::singleton();
     $conf = $GLOBALS['_MAX']['CONF'];
     // Copy campaign details
-    $res = phpAds_dbQuery("
+    $query = "
         INSERT INTO {$conf['table']['prefix']}{$conf['table']['campaigns']} (
             campaignname,
             clientid,
@@ -801,7 +802,7 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
             updated
         ) SELECT
             CONCAT('Copy of ', campaignname),
-            $advertiserId,
+            ". $oDbh->quote($advertiserId, 'integer') .",
             views,
             clicks,
             conversions,
@@ -821,15 +822,20 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
             '". OA::getNow() ."'
           FROM {$conf['table']['prefix']}{$conf['table']['campaigns']}
           WHERE
-            campaignid = {$placementId}
-    ");
-    $newPlacementId = phpAds_dbInsertID();
+            campaignid = ". $oDbh->quote($placementId, 'integer') ."
+    ";
+    $res = $oDbh->exec($query);
+    if (PEAR::isError($res)) {
+        return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
+    }
+
+    $newPlacementId = $oDbh->lastInsertID();
 
     // Duplicate placement-zone-associations (Do this before duplicating banners to ensure an exact copy of ad-zone-assocs
     MAX_duplicatePlacementZones($placementId, $newPlacementId);
 
     // Duplicate placement-tracker-associations
-    $res = phpAds_dbQuery("
+    $query = "
         INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']}
              (campaignid,
@@ -845,12 +851,19 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
                  clickwindow
              FROM
                  {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']}
-             WHERE campaignid = {$placementId}
-    ");
+             WHERE campaignid = ". $oDbh->quote($placementId, 'integer') ."
+    ";
+    $res = $oDbh->exec($query);
+    if (PEAR::isError($res)) {
+        return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
+    }
 
     // Duplicate banners
-    $res = phpAds_dbQuery("SELECT bannerid FROM {$conf['table']['prefix']}{$conf['table']['banners']} WHERE campaignid = {$placementId}");
-    while ($row = phpAds_dbFetchArray($res)) {
+    $res = $oDbh->query("SELECT bannerid FROM {$conf['table']['prefix']}{$conf['table']['banners']} WHERE campaignid = ". $oDbh->query($placementId, 'integer'));
+    if (PEAR::isError($res)) {
+        return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
+    }
+    while ($row = $res->fetchRow()) {
         $newBannerId = MAX_duplicateAd($row['bannerid'], $newPlacementId);
     }
 
@@ -858,19 +871,23 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
 }
 
 function MAX_duplicateAd($adId, $placementId) {
+    $oDbh = &OA_DB::singleton();
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Duplicate the banner
-    $res = phpAds_dbQuery("
+    $query = "
         SELECT
             *
         FROM
             {$conf['table']['prefix']}{$conf['table']['banners']}
         WHERE
-            bannerid = '{$adId}'
-    ") or phpAds_sqlDie();
+            bannerid = ". $oDbh->qoute($adId, 'integer');
+    $res = $oDbh->query($query);
+    if (PEAR::isError($res)) {
+        return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
+    }
 
-    if ($row = phpAds_dbFetchArray($res)) {
+    if ($row = $res->fetchRow()) {
         // Remove bannerid
         unset($row['bannerid']);
         if ($row['campaignid'] == $placementId) {
@@ -893,21 +910,25 @@ function MAX_duplicateAd($adId, $placementId) {
 
         while (list($name, $value) = each($row)) {
             $values_fields .= "$name, ";
-            $values .= "'".addslashes($value)."', ";
+            $values .= "'". $oDbh->escape($value) ."', ";
         }
 
         $values_fields = ereg_replace(", $", "", $values_fields);
         $values = ereg_replace(", $", "", $values);
 
-        $res = phpAds_dbQuery("
+        $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['banners']}
                 ($values_fields)
             VALUES
                 ($values)
-       ") or phpAds_sqlDie();
+       ";
+        $res = $oDbh->exec($query);
+        if (PEAR::isError($res)) {
+            return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
+        }
 
-        $new_adId = phpAds_dbInsertID();
+        $new_adId = $oDbh->lastInsertID();
 
         // Copy ACLs and capping
         MAX_AclCopy(basename($_SERVER['PHP_SELF']), $adId, $new_adId);

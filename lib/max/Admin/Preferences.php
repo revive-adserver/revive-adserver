@@ -76,8 +76,8 @@ class MAX_Admin_Preferences
             FROM
                 {$conf['table']['prefix']}{$conf['table']['preference']}
             WHERE
-                agencyid = $agencyId
-        ";
+                agencyid = ". $oDbh->quote($agencyId, 'integer');
+
         $rc = $oDbh->query($query);
         if (PEAR::isError($rc)) {
             return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
@@ -140,8 +140,8 @@ class MAX_Admin_Preferences
             FROM
                 {$table_name}
             WHERE
-                {$table_column} = '$entityId'
-        ";
+                {$table_column} = ". $oDbh->quote($entityId, 'integer');
+
         $rc = $oDbh->query($query);
         if (PEAR::isError($rc)) {
             return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
@@ -153,6 +153,7 @@ class MAX_Admin_Preferences
             }
         }
     }
+
     /**
      * A method to write entity preference data  in the database
      * as key/value pairs
@@ -188,23 +189,22 @@ class MAX_Admin_Preferences
                 MAX::raiseError("The MAX_Admin_Preferences module discovered an entity type that it didn't know how to handle.", MAX_ERROR_INVALIDARGS);
             }
 
-            // Try to INSERT first
+            $query = "
+                INSERT INTO {$table_name} (
+                    {$table_column}, preference, value
+                ) VALUES (
+                    ?, ? ,?
+                )
+                ";
+            $types = array('integer', 'text', 'text');
+            $this->oDbh->prepare($query, $types);
             foreach ($this->prefSql as $key => $value) {
-                $query = "
-                    INSERT INTO {$table_name} (
-                        {$table_column},
-                        preference,
-                        value
-                    ) VALUES (
-                        '$entityId',
-                        '$key',
-                        '$value'
-                    )
-                    ";
+
                 // Don't use a PEAR_Error handler
                 PEAR::pushErrorHandling(null);
-                $rows = $oDbh->exec($query);
-                // Resore the PEAR_Error handler
+                // Try to INSERT first
+                $rows = $oDbh->exec(array($entityId, $key, $value));
+                // Restore the PEAR_Error handler
                 PEAR::popErrorHandling();
                 if (PEAR::isError($rows)) {
                     // Can't INSERT, try UPDATE instead
@@ -214,10 +214,11 @@ class MAX_Admin_Preferences
                         SET
                             value = '$value'
                         WHERE
-                            {$table_column} = '{$entityId}' AND
-                            preference = '{$key}'
-                        ";
-                    $rows = $oDbh->exec($query);
+                            {$table_column} = ?
+                        AND
+                            preference = ?";
+                    $this->oDbh->prepare($query, array('integer', 'text'));
+                    $rows = $oDbh->exec(array($entityId, $key));
                     if (PEAR::isError($rows)) {
                         return MAX::raiseError($rows, MAX_ERROR_DBFAILURE);
                     }
@@ -281,10 +282,10 @@ class MAX_Admin_Preferences
                     )
                 VALUES
                     (
-                    '{$agencyId}',
+                    ". $oDbh->quote($agencyId, 'integer') .",
                 ";
             foreach ($this->prefSql as $value) {
-                $query .= "'$value', ";
+                $query .= "'". $oDbh->escape($value) ."', ";
             }
             $query = preg_replace('/, $/', '', $query);
             $query .= '
@@ -293,12 +294,12 @@ class MAX_Admin_Preferences
             // Don't use a PEAR_Error handler
             PEAR::pushErrorHandling(null);
             $rows = $oDbh->exec($query);
-            // Resore the PEAR_Error handler
+            // Restore the PEAR_Error handler
             PEAR::popErrorHandling();
             if (PEAR::isError($rows)) {
                 // Can't INSERT, try UPDATE instead
                 foreach ($this->prefSql as $key => $value) {
-                    $sql[] = "$key = '$value'";
+                    $sql[] = "$key = '". $oDbh->escape($value) ."'";
                 }
                 $query = "
                     UPDATE
@@ -306,8 +307,8 @@ class MAX_Admin_Preferences
                     SET
                         " . join(', ', $sql) . "
                     WHERE
-                        agencyid = '{$agencyId}'
-                    ";
+                        agencyid = ". $oDbh->quote($agencyId, 'integer');
+
                 $rows = $oDbh->exec($query);
                 if (PEAR::isError($rows)) {
                     return MAX::raiseError($rows, MAX_ERROR_DBFAILURE);

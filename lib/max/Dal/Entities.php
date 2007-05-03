@@ -88,7 +88,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                campaignid = $placementId
+                campaignid = ". $this->dbh->quote($placementId, 'integer') ."
             ORDER BY
                 ad_id";
         $rc = $this->oDbh->query($query);
@@ -292,7 +292,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                bannerid = $adId";
+                bannerid = ". $this->oDbh->quote($adId, 'integer');
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
             return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
@@ -388,8 +388,8 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                agencyid = $agencyId
-                AND affiliateid = $publisherId
+                agencyid = ". $this->oDbh->quote($agencyId, 'integer') ."
+                AND affiliateid = ". $this->oDbh->quote($publisherId, 'integer') ."
                 AND active = 1
             ORDER BY
                 channelid";
@@ -442,7 +442,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                channelid = $channelId";
+                channelid = ". $this->oDbh->quote($channelId, 'integer');
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
             return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
@@ -537,11 +537,11 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 (
                     (p.active = 't' AND p.expire " . OA_Dal::equalNoDateString()  . ")
                     OR
-                    (p.active = 't' AND p.expire " . OA_Dal::notEqualNoDateString() . " AND p.expire >= '" . $aPeriod['start']->format('%Y-%m-%d') . "')
+                    (p.active = 't' AND p.expire " . OA_Dal::notEqualNoDateString() . " AND p.expire >= " . $this->oDbh->quote($aPeriod['start']->format('%Y-%m-%d'), 'timestamp') . ")
                     OR
-                    (p.active = 'f' AND p.activate " . OA_Dal::notEqualNoDateString() . " AND p.activate <= '" . $aPeriod['end']->format('%Y-%m-%d') . "' AND p.expire " . OA_Dal::equalNoDateString() . ")
+                    (p.active = 'f' AND p.activate " . OA_Dal::notEqualNoDateString() . " AND p.activate <= " . $this->oDbh->quote($aPeriod['end']->format('%Y-%m-%d'), 'timestamp') . " AND p.expire " . OA_Dal::equalNoDateString() . ")
                     OR
-                    (p.active = 'f' AND p.activate " . OA_Dal::notEqualNoDateString() . " AND p.activate <= '" . $aPeriod['end']->format('%Y-%m-%d') . "' AND p.expire " . OA_Dal::notEqualNoDateString() . " AND p.expire >= '" . $aPeriod['start']->format('%Y-%m-%d') . "')
+                    (p.active = 'f' AND p.activate " . OA_Dal::notEqualNoDateString() . " AND p.activate <= " . $this->oDbh->quote($aPeriod['end']->format('%Y-%m-%d'), 'timestamp') . " AND p.expire " . OA_Dal::notEqualNoDateString() . " AND p.expire >= " . $this->oDbh->quote($aPeriod['start']->format('%Y-%m-%d'), 'timestamp') . ")
                 )
         ";
         $rc = $this->oDbh->query($query);
@@ -586,7 +586,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                agencyid = $agencyId
+                agencyid = ". $this->oDbh->quote($agencyId, 'integer') ."
             ORDER BY
                 affiliateid";
         $rc = $this->oDbh->query($query);
@@ -658,7 +658,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                zoneid IN (" . implode(', ', $aZoneIds) . ")";
+                zoneid IN (" . $this->oDbh->escape(implode(', ', $aZoneIds)) . ")";
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
             return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
@@ -699,7 +699,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                affiliateid = $publisherId
+                affiliateid = ". $this->oDbh->quote($publisherId, 'integer') ."
             ORDER BY
                 zoneid";
         $rc = $this->oDbh->query($query);
@@ -752,7 +752,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                affiliateid = $publisherId
+                affiliateid = ". $this->dbh->quote($publisherId, 'integer') ."
                 AND (inventory_forecast_type & 8) != 0
             ORDER BY
                 zoneid";
@@ -800,7 +800,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                ad_id IN (" . implode(', ', $aAdIds) . ")
+                ad_id IN (" . $this->oDbh->escape(implode(', ', $aAdIds)) . ")
                 AND
                 link_type != 0
             ORDER BY
