@@ -236,7 +236,7 @@ function setupConstants()
                 if (getenv('TZ') === false) {
 
                     $diff = date('O') / 100;
-                    putenv('TZ=GMT'.($diff > 0 ? '-' : '+').abs($diff));
+                    putenv('TZ=Etc/GMT'.($diff > 0 ? '-' : '+').abs($diff));
                 }
             }
         }
