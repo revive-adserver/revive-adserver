@@ -274,7 +274,7 @@ class OA_DB_Table
         PEAR::pushErrorHandling(null);
         $result = $this->oDbh->manager->dropTable($table);
         PEAR::popErrorHandling();
-        if (PEAR::isError($result) || (!$result)) {
+        if (PEAR::isError($result)) {
             MAX::debug('Unable to drop table ' . $table, PEAR_LOG_ERROR);
             return false;
         }
