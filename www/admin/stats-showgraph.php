@@ -101,30 +101,31 @@ $_REQUEST['clientid']    = $clientid;
 // Overwirte file name to load right session data, see MAX_getStoredValue
 $pgName = 'stats.php';
 
-$stats = &OA_Admin_Statistics_Factory::getController($entity . "-" . $breakdown);
+$oStats = &OA_Admin_Statistics_Factory::getController($entity . "-" . $breakdown);
+$oStats->start();
 
-//create Excel stats report
-if(isset($plugin) && $plugin != '') {
+// Create Excel stats report
+if (isset($plugin) && $plugin != '') {
     include_once MAX_PATH . '\www\admin\stats-report-execute.php';
 }
 
 // Remove comas in values greater than 1000
-foreach($stats->history as $dateKey => $dateRecord) {
+foreach($oStats->aHistoryData as $dateKey => $dateRecord) {
     foreach($dateRecord as $k => $v) {
-        $stats->history[$dateKey][$k] = ereg_replace(",", "", $v);
+        $oStats->aHistoryData[$dateKey][$k] = ereg_replace(",", "", $v);
     }
 }
 
 // Output html code
-$stats->output(true);
+$oStats->output(true);
 
 // Erase stats graph file
-if(isset($GraphFile) && $GraphFile != '') {
+if (isset($GraphFile) && $GraphFile != '') {
 
     $dirObject = dir( $conf['store']['webDir'] . '/temp');
     while (false !== ($entry = $dirObject->read())) {
 
-        if( filemtime($conf['store']['webDir'] . '/temp/' . $entry) + 60 < time()) {
+        if (filemtime($conf['store']['webDir'] . '/temp/' . $entry) + 60 < time()) {
             unlink($conf['store']['webDir'] . '/temp/' . $entry);
         }
     }

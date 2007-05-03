@@ -380,6 +380,20 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         MAX::raiseError($message, MAX_ERROR_NOMETHOD);
     }
 
+    /**
+     * An abstract, private method which must be overridden in the child class,
+     * to produce a graph of the data.
+     *
+     * @abstract
+     * @param array $aGraphFilterArray Filter array ...?
+     * @return string Complete link ...?
+     */
+    function showGraph($aGraphFilterArray)
+    {
+        $message = 'Error: Abstract method ' . __FUNCTION__ . ' must be implemented.';
+        MAX::raiseError($message, MAX_ERROR_NOMETHOD);
+    }
+
     /********** METHODS THAT CHILDREN CLASS WILL INHERIT AND CAN USE **********/
 
     /**
@@ -636,7 +650,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $graphFilterArray = $graphFields;
 
         $imgPath = 'http://' . $GLOBALS['_MAX']['CONF']['webpath']['admin'] . '/images';
-        $tmpUrl = $this->showGraph($this, $graphFilterArray);
+        $tmpUrl = $this->showGraph($graphFilterArray);
 
         // Stop!
         die;

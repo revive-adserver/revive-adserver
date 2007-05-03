@@ -132,7 +132,229 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
         return $a - $b;
     }
 
+    /**
+     * The final "child" implementation of the parental abstract method,
+     * to produce a graph of the data for delivery statistics.
+     *
+     * @param array $aGraphFilterArray Filter array ...?
+     * @return string Complete link ...?
+     */
+    function showGraph($aGraphFilterArray)
+    {
+        global $conf, $GraphFile;
+        if (!extension_loaded('gd')) {
+            // GD isn't enabled in php install
+            return 'noGD';
+        }
+        if (isset($this->aHistoryData)) {
+            // Put sum_clicks on right axis only when there are
+            $aTempGraph = array_flip($aGraphFilterArray);
+            if (isset($aTempGraph['sum_clicks']) && !isset($aTempGraph['sum_ctr'])) {
+                $aClickKey = $aTempGraph['sum_clicks'];
+            } else {
+                $aClickKey = false;
+            }
+            /**
+             * stat display fonfiguration array to determine how the data is visually displayed on the graph
+             * field line:  if set to Image_Graph_Plot_Bar, then it will display as a Bar. Otherwise it will be a line (can be dotted, dashed or solid)
+             * field params: set the color of the line
+             * field axis:  determine whether data is connected with left-hand axis (1) or righthand-axis (2)
+             */
+            $aFieldStyle = array(
+                'sum_requests'            => array(
+                    'line'       => 'Image_Graph_Line_Solid',
+                    'params'     => array('#33cc00', 'transpartent'),
+                    'axis'       => '1',
+                ),
+                'sum_views'               => array(
+                    'line'       => 'Image_Graph_Line_Solid',
+                    'params'     => array('#006699', 'transparent'),
+                    'axis'       => '1',
+                ),
+                'sum_clicks'              => array(
+                    'line'       => 'Image_Graph_Plot_Bar',
+                    'params'     => array('#333333', 'transparent'),
+                    'axis'       => '1',
+                    'background' => 'white@0.3'
+                ),
+                'sum_ctr'                 => array(
+                    'line'       => 'Image_Graph_Line_Solid',
+                    'params'     => array('cadetblue', 'transparent'),
+                    'axis'       => '2',
+                    'background' => 'white@0.3'
+                ),
+                'sum_conversions'         => array(
+                    'line'       => 'Image_Graph_Line_Solid',
+                    'params'     => array('#hh00hh', 'transparent'),
+                    'axis'       => '1',
+                ),
+                'sum_conversions_pending' => array(
+                    'line'       => 'Image_Graph_Line_Solid',
+                    'params'     => array('#cccccc', 'transparent'),
+                    'axis'       => '1',
+                ),
+                'sum_sr_views'            => array(
+                    'line'       => 'Image_Graph_Line_Solid',
+                    'params'     => array('#0000cc', 'transparent'),
+                    'axis'       => '2',
+                    'background' => 'white@0.3'
+                ),
+                'sum_sr_clicks'           => array(
+                    'line'       => 'Image_Graph_Line_Solid',
+                    'params'     => array('#cc0000', 'transparent'),
+                    'axis'       => '2',
+                    'background' => 'white@0.3'
+                ),
+                'sum_revenue'             => array(
+                    'line'       => 'Image_Graph_Line_Solid',
+                    'params'     => array('#120024', 'transparent'),
+                    'axis'       => '1',
+                ),
+                'sum_cost'                => array(
+                    'line'       => 'Image_Graph_Line_Solid',
+                    'params'     => array('#123456', 'transparent'),
+                    'axis'       => '1',
+                ),
+                'sum_bv'                  => array(
+                    'line'       => 'Image_Graph_Line_Solid',
+                    'params'     => array('#654321', 'transparent'),
+                    'axis'       => '1',
+                ),
+                'sum_revcpc'              => array(
+                    'line'       => 'Image_Graph_Line_Solid',
+                    'params'     => array('#666666', 'transparent'),
+                    'axis'       => '1',
+                ),
+                'sum_costcpc'             => array(
+                    'line'       => 'Image_Graph_Line_Solid',
+                    'params'     => array('#343434', 'transparent'),
+                    'axis'       => '1'
+                )
+            );
+            if ($aClickKey) {
+                $aFieldStyle[$aGraphFilterArray[$aClickKey]]['axis'] = '2';
+            }
+            if (function_exists("imagejpeg")) {
+                $imageFormat = 'jpg';
+            }
+            if (function_exists("imagepng")) {
+                $imageFormat = 'png';
+            }
+            // Create the graph
+            $oCanvas =& Image_Canvas::factory(
+                $imageFormat,
+                array(
+                    'width'  => 800,
+                    'height' => 400,
+                    'usemap' => true
+                )
+            );
+            $oImagemap = $oCanvas->getImageMap();
+            $oGraph =& Image_Graph::factory('graph', $oCanvas);
+            if (function_exists('ImageTTFBBox')) {
+                // Add a TrueType font
+                $Font =& $oGraph->addNew('ttf_font', 'arial.ttf');
+                // Set the font size to 11 pixels
+                $Font->setSize(8);
+                $Font->setColor('#444444');
+                $oGraph->setFont($Font);
+            }
+            $oPlotarea =& $oGraph->addNew('plotarea');
+            // Set gradient background
+            $Fill =& Image_Graph::factory(
+                'gradient',
+                array(
+                    IMAGE_GRAPH_GRAD_VERTICAL,
+                    'lightgrey',
+                    'white'
+                )
+            );
+            $oPlotarea->setFillStyle($Fill);
+            // Aet grid for graph
+            $Grid =& $oPlotarea->addNew(
+                'bar_grid',
+                null,
+                IMAGE_GRAPH_AXIS_Y
+            );
+            $Grid->setFillColor('gray@0.2');
+            // Creat a fake object to be able to add description to second Y Axis
+            $Dataset2 =& Image_Graph::factory(
+                'random',
+                array(0, 0,100)
+            );
+            $PlotA =& $oPlotarea->addNew(
+                'Image_Graph_Plot_Area',
+                $Dataset2,
+                IMAGE_GRAPH_AXIS_Y_SECONDARY
+            );
+            $AxisY =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+            $AxisY->forceMinimum(.1);
+            $AxisYsecondary =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y_SECONDARY);
+            $AxisY->setTitle('Value #', 'vertical');
+            if ($aClickKey) {
+                $AxisYsecondary->setTitle($this->aColumns[$aGraphFilterArray[$aClickKey]], 'vertical2');
+                if (count($aTempGraph) < 3) {
+                    $AxisY->setTitle($this->aColumns[$aGraphFilterArray[0]], 'vertical');
+                }
+            } else {
+                $AxisYsecondary->setTitle('Value %', 'vertical2');
+            }
+            foreach($aGraphFilterArray as $k) {
+                $Dataset[$k] =& Image_Graph::factory('dataset');
+                foreach ($this->aHistoryData as $key => $record) {
+                    // Split the date ($key) into days and year, and place the year on the second line
+                    $patterns = array ('/(19|20)(\d{2})-(\d{1,2})-(\d{1,2})/');
+                    $replace = array ('\3-\4--\1\2');
+                    $key = preg_replace($patterns, $replace, $key);
+                    $key = preg_split('/--/', $key);
+                    if ($aFieldStyle[$k]['axis'] == 'X') {
+                        $Dataset[$k]->addPoint($key[0]."\n".$key[1], $record[$k], IMAGE_GRAPH_AXIS_X);
+                    } else {
+                        $Dataset[$k]->addPoint($key[0]."\n".$key[1], $record[$k], IMAGE_GRAPH_AXIS_Y_SECONDARY);
+                    }
+                    $Dataset[$k]->setName($this->aColumns[$k]);
+                }
+                if ($aFieldStyle[$k]['axis'] == '1') {
+                    if ($aFieldStyle[$k]['line'] == 'Image_Graph_Plot_Bar') {
+                        $Plot[$k] =& $oPlotarea->addNew('bar', array(&$Dataset[$k]) );
+                        $Plot[$k]->setFillColor($aFieldStyle[$k]['background']);
+                        $LineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', $aFieldStyle[$k]['params']);
+                        $Plot[$k]->setLineStyle($LineStyle);
+                    } else {
+                        $Plot[$k] =& $oPlotarea->addNew('smooth_line', array(&$Dataset[$k]) );
+                        $Plot[$k]->setFillColor($aFieldStyle[$k]['params'][0]."@0.1");
+                        $LineStyle =& Image_Graph::factory($aFieldStyle[$k]['line'], $aFieldStyle[$k]['params']);
+                        $Plot[$k]->setLineStyle($LineStyle);
+                    }
+                } else {
+                    $Plot[$k] =& $oPlotarea->addNew('area', array(&$Dataset[$k]), IMAGE_GRAPH_AXIS_Y_SECONDARY);
+                    $Plot[$k]->setFillColor($aFieldStyle[$k]['background']);
+                    $LineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', $aFieldStyle[$k]['params']);
+                    $Plot[$k]->setLineStyle($LineStyle);
+                    foreach($Dataset[$k] as $id => $val) {
+                        // To determine the max value of the 2nd y axis
+                        if (is_numeric($val['Y']) && (!isset($maxY2val) || $val['Y'] > $maxY2val)) {
+                            $maxY2val = $val['Y'];
+                        }
+                    }
+                }
+            }
+            $maxY2val = $maxY2val + 5;
+            $AxisYsecondary->forceMaximum($maxY2val);
+            $oLegend =& $oPlotarea->addNew('legend');
+            $oLegend->setFillColor('white@0.7');
+            $oLegend->setFontSize(8);
+            $oLegend->showShadow();
+            $AxisX =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+            $oGraph->setPadding(10);
+            $oGraph->setBackground(Image_Graph::factory('gradient', array(IMAGE_GRAPH_GRAD_VERTICAL_MIRRORED, 'white', '#eeeeee')));
+            // Output the Graph
+            $tmpGraphFile = 'cache_' . md5( microtime() . rand(1,1000) ) . '.jpg';
+            $oGraph->done();
+            return($oGraph);
+        }
 
+    }
 
 
 
@@ -271,254 +493,6 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
             }
         }
     }
-
-    /**
-     * A method that can be inherited and used by children classes to
-     * prepare the graph of delivery statistics data.
-     *
-     * @param object $this
-     * @param array Filter Array
-     * @return string Complete link
-     */
-    function showGraph($this, $graphFilterArray)
-    {
-
-        global $conf, $GraphFile;
-
-        if (!extension_loaded('gd')) {
-            // GD isn't enabled in php install
-            return 'noGD';
-        }
-
-        if (isset($this->history)) {
-
-              //put sum_clicks on right axis only when there are
-              $tempGraph = array_flip($graphFilterArray);
-
-              if(isset($tempGraph['sum_clicks']) && !isset($tempGraph['sum_ctr'])) {
-                        $clickArrayKey = $tempGraph['sum_clicks'];
-              } else {
-                    $clickArrayKey = false;
-              }
-
-
-             /**
-             * stat display fonfiguration array to determine how the data is visually displayed on the graph
-             * field line:  if set to Image_Graph_Plot_Bar, then it will display as a Bar. Otherwise it will be a line (can be dotted, dashed or solid)
-             * field params: set the color of the line
-             * field axis:  determine whether data is connected with left-hand axis (1) or righthand-axis (2)
-             */
-             $fieldStyleArray = array('sum_requests'  =>           array( 'line' => 'Image_Graph_Line_Solid',
-                                                                          'params' => array('#33cc00', 'transpartent'),
-                                                                          'axis' => '1',
-                                                                         ),
-                                      'sum_views'               => array( 'line' => 'Image_Graph_Line_Solid',
-                                                                          'params' => array('#006699', 'transparent'),
-                                                                          'axis' => '1',
-                                                                        ),
-                                      'sum_clicks'              => array( 'line' => 'Image_Graph_Plot_Bar',
-                                                                          'params' => array('#333333', 'transparent'),
-                                                                          'axis' => '1',
-                                                                          'background' => 'white@0.3'
-                                                                        ),
-                                      'sum_ctr'                 => array( 'line' => 'Image_Graph_Line_Solid',
-                                                                          'params' => array('cadetblue', 'transparent'),
-                                                                          'axis' => '2',
-                                                                          'background' => 'white@0.3'
-                                                                        ),
-                                      'sum_conversions'         => array( 'line' => 'Image_Graph_Line_Solid',
-                                                                          'params' => array('#hh00hh', 'transparent'),
-                                                                          'axis' => '1',
-                                                                        ),
-                                      'sum_conversions_pending' => array( 'line' => 'Image_Graph_Line_Solid',
-                                                                          'params' => array('#cccccc', 'transparent'),
-                                                                          'axis' => '1',
-                                                                        ),
-                                      'sum_sr_views'            => array( 'line' => 'Image_Graph_Line_Solid',
-                                                                          'params' => array('#0000cc', 'transparent'),
-                                                                          'axis' => '2',
-                                                                          'background' => 'white@0.3'
-                                                                        ),
-                                      'sum_sr_clicks'           => array( 'line' => 'Image_Graph_Line_Solid',
-                                                                          'params' => array('#cc0000', 'transparent'),
-                                                                          'axis' => '2',
-                                                                          'background' => 'white@0.3'
-                                                                        ),
-                                      'sum_revenue'             => array( 'line' => 'Image_Graph_Line_Solid',
-                                                                          'params' => array('#120024', 'transparent'),
-                                                                          'axis' => '1',
-                                                                        ),
-                                      'sum_cost'                => array( 'line' => 'Image_Graph_Line_Solid',
-                                                                          'params' => array('#123456', 'transparent'),
-                                                                          'axis' => '1',
-                                                                        ),
-                                      'sum_bv'                  => array( 'line' => 'Image_Graph_Line_Solid',
-                                                                          'params' => array('#654321', 'transparent'),
-                                                                          'axis' => '1',
-                                                                       ),
-                                      'sum_revcpc'              => array( 'line' => 'Image_Graph_Line_Solid',
-                                                                          'params' => array('#666666', 'transparent'),
-                                                                          'axis' => '1',
-                                                                       ),
-                                      'sum_costcpc'             => array( 'line' => 'Image_Graph_Line_Solid',
-                                                                          'params' => array('#343434', 'transparent'),
-                                                                          'axis' => '1'
-                                                                       )
-                                       );
-
-
-      if($clickArrayKey) {
-          $fieldStyleArray[$graphFilterArray[$clickArrayKey]]['axis'] = '2';
-            }
-
-            if (function_exists("imagejpeg")) {
-                $imageFormat = 'jpg';
-            }
-            if (function_exists("imagepng")) {
-                $imageFormat = 'png';
-            }
-
-            // create the graph
-            $Canvas =& Image_Canvas::factory($imageFormat, array('width' => 800, 'height' => 400, 'usemap' => true));
-            $Imagemap = $Canvas->getImageMap();
-            $Graph =& Image_Graph::factory('graph', $Canvas);
-
-            if (function_exists('ImageTTFBBox')) {
-                // add a TrueType font
-                $Font =& $Graph->addNew('ttf_font', 'arial.ttf');
-                // set the font size to 11 pixels
-                $Font->setSize(8);
-                $Font->setColor('#444444');
-                $Graph->setFont($Font);
-            }
-
-            $Plotarea =& $Graph->addNew('plotarea');
-
-            // set gradient background
-            $Fill =& Image_Graph::factory('gradient', array(IMAGE_GRAPH_GRAD_VERTICAL, 'lightgrey', 'white'));
-            $Plotarea->setFillStyle($Fill);
-
-            // set grid for graph
-            $Grid =& $Plotarea->addNew('bar_grid', null, IMAGE_GRAPH_AXIS_Y);
-            $Grid->setFillColor('gray@0.2');
-
-
-            // creating fake object to be able to add description to second Y Axis
-            $Dataset2 =& Image_Graph::factory('random', array(0, 0,100));
-            $PlotA =& $Plotarea->addNew(
-                                     'Image_Graph_Plot_Area',
-                                     $Dataset2,
-                                     IMAGE_GRAPH_AXIS_Y_SECONDARY
-                                    );
-
-
-            $AxisY =& $Plotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
-
-            $AxisY->forceMinimum(.1);
-
-            $AxisYsecondary =& $Plotarea->getAxis(IMAGE_GRAPH_AXIS_Y_SECONDARY);
-
-            $AxisY->setTitle('Value #', 'vertical');
-
-            if($clickArrayKey) {
-                $AxisYsecondary->setTitle($this->aColumns[$graphFilterArray[$clickArrayKey]], 'vertical2');
-
-                if(count($tempGraph) < 3) {
-                    $AxisY->setTitle($this->aColumns[$graphFilterArray[0]], 'vertical');
-                }
-            } else {
-                $AxisYsecondary->setTitle('Value %', 'vertical2');
-            }
-
-             foreach($graphFilterArray as $k) {
-
-                 $Dataset[$k] =& Image_Graph::factory('dataset');
-
-                 foreach($this->history as $key => $record) {
-
-
-                       // split the date ($key) into days and year, and place the year on the second line
-                       $patterns = array ('/(19|20)(\d{2})-(\d{1,2})-(\d{1,2})/');
-                       $replace = array ('\3-\4--\1\2');
-                       $key = preg_replace($patterns, $replace, $key);
-                       $key = preg_split('/--/', $key);
-
-                     if($fieldStyleArray[$k]['axis'] == 'X') {
-                         $Dataset[$k]->addPoint($key[0]."\n".$key[1], $record[$k], IMAGE_GRAPH_AXIS_X);
-                     } else {
-                         $Dataset[$k]->addPoint($key[0]."\n".$key[1], $record[$k], IMAGE_GRAPH_AXIS_Y_SECONDARY);
-                     }
-
-                     $Dataset[$k]->setName($this->aColumns[$k]);
-
-                 }
-
-                 if($fieldStyleArray[$k]['axis'] == '1') {
-                     if ($fieldStyleArray[$k]['line'] == 'Image_Graph_Plot_Bar') {
-                         $Plot[$k] =& $Plotarea->addNew('bar', array(&$Dataset[$k]) );
-                         $Plot[$k]->setFillColor($fieldStyleArray[$k]['background']);
-                         $LineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', $fieldStyleArray[$k]['params']);
-                         $Plot[$k]->setLineStyle($LineStyle);
-                     } else {
-                         $Plot[$k] =& $Plotarea->addNew('smooth_line', array(&$Dataset[$k]) );
-                         $Plot[$k]->setFillColor($fieldStyleArray[$k]['params'][0]."@0.1");
-                         $LineStyle =& Image_Graph::factory($fieldStyleArray[$k]['line'], $fieldStyleArray[$k]['params']);
-                         $Plot[$k]->setLineStyle($LineStyle);
-                     }
-                 } else {
-                     $Plot[$k] =& $Plotarea->addNew('area', array(&$Dataset[$k]), IMAGE_GRAPH_AXIS_Y_SECONDARY);
-                     $Plot[$k]->setFillColor($fieldStyleArray[$k]['background']);
-                     $LineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', $fieldStyleArray[$k]['params']);
-                     $Plot[$k]->setLineStyle($LineStyle);
-
-                     foreach($Dataset[$k] as $id => $val) {
-                         // to determine the max value of the 2nd y axis
-                         if (is_numeric($val['Y']) && (!isset($maxY2val) || $val['Y'] > $maxY2val)) {
-                             $maxY2val = $val['Y'];
-                         }
-                     }
-                 }
-             }
-
-             $maxY2val = $maxY2val + 5;
-             $AxisYsecondary->forceMaximum($maxY2val);
-
-             $Legend =& $Plotarea->addNew('legend');
-             $Legend->setFillColor('white@0.7');
-             $Legend->setFontSize(8);
-             $Legend->showShadow();
-
-             $AxisX =& $Plotarea->getAxis(IMAGE_GRAPH_AXIS_X);
-             $Graph->setPadding(10);
-             $Graph->setBackground(Image_Graph::factory('gradient', array(IMAGE_GRAPH_GRAD_VERTICAL_MIRRORED, 'white', '#eeeeee')));
-
-             // output the Graph
-             $tmpGraphFile = 'cache_' . md5( microtime() . rand(1,1000) ) . '.jpg';
-
-             $Graph->done($param);
-
-             return($Graph);
-
-        }
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * Calculate average requests, impressions, clicks and conversions
