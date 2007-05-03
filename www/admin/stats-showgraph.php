@@ -116,7 +116,7 @@ foreach($stats->history as $dateKey => $dateRecord) {
 }
 
 // Output html code
-$stats->output(null, true);
+$stats->output(true);
 
 // Erase stats graph file
 if(isset($GraphFile) && $GraphFile != '') {

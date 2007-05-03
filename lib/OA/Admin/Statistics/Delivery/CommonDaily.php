@@ -62,22 +62,6 @@ class OA_Admin_Statistics_Delivery_CommonDaily extends OA_Admin_Statistics_Deliv
     }
 
     /**
-     * Output the controller object using the breakdown_by_date template
-     * and hiding the breakdown selector
-     */
-    function output($null, $graph_mode = false)
-    {
-        $oDate = new Date($this->aDates['day_begin']);
-        $this->_addBreadcrumb($oDate->format($GLOBALS['date_format']), 'images/icon-date.gif');
-
-        if($graph_mode) {
-             parent::outputGraph($elements);
-        } else {
-             parent::output(false);
-        }
-    }
-
-    /**
      * Prepare context using the last settings of the statistics day-span
      * selector, falling back to the parent class function if not applicable
      *

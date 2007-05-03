@@ -386,13 +386,10 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * A method that can be inherited and used by children classes to output the
      * required statistics to the screen, using the set Flexy template.
      *
-     * @param boolean $showBreakdown Should the "View by:" dropdown menu, that allows
-     *                               the data to be viewed by day, week, month, day of week
-     *                               or hour be displayed?
      * @param boolean $graphMode     Should the data be shown as a graph, rather than
      *                               as tabular data via the Flexy template?
      */
-    function output($showBreakdown = true, $graphMode = false)
+    function output($graphMode = false)
     {
         if ($this->outputType == 'deliveryEntity') {
 
@@ -411,6 +408,12 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 $aDisplayData =& $this->aTargetingData;
                 $weekTemplate = 't_breakdown_by_week.html';
                 $dateTemplate = 't_breakdown_by_date.html';
+            }
+
+            // Add the day as a breadcrumb trail if looking at a day breakdown
+            if (preg_match('/daily$/', $this->breakdown)) {
+                $oDate = new Date($this->aDates['day_begin']);
+                $this->_addBreadcrumb($oDate->format($GLOBALS['date_format']), 'images/icon-date.gif');
             }
 
             // Display the delivery history or targeting history stats
@@ -446,7 +449,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             }
 
             $aElements = array();
-            if ($showBreakdown) {
+            if (!$graphMode) {
                 $aElements['statsBreakdown'] = new HTML_Template_Flexy_Element;
                 $aElements['statsBreakdown']->setOptions( array(
                   'day'   => $GLOBALS['strBreakdownByDay'],
@@ -457,8 +460,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 ));
                 $aElements['statsBreakdown']->setValue($this->statsBreakdown);
                 $aElements['statsBreakdown']->setAttributes(array('onchange' => 'this.form.submit()'));
-            }
-            if (!$graphMode) {
                  $this->_output($aElements);
             } else {
                  $this->_outputGraph($aElements);
