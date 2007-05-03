@@ -515,7 +515,6 @@ class OA_Upgrade
             $GLOBALS['_MDB2_databases']     = array();
 
             $GLOBALS['_MAX']['CONF']['database']          = $this->aDsn['database'];
-            $GLOBALS['_MAX']['CONF']['database']['name']  = '';
             $GLOBALS['_MAX']['CONF']['table']['prefix']   = $this->aDsn['table']['prefix'];
             $GLOBALS['_MAX']['CONF']['table']['type']     = $this->aDsn['table']['type'];
 
