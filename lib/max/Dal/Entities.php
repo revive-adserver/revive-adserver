@@ -143,7 +143,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 AND
                 aza.link_type != 0
                 AND
-                aza.zone_id IN (" . implode(', ', $aZoneIds) . ")
+                aza.zone_id IN (" . $this->oDbh->esacpe(implode(', ', $aZoneIds)) . ")
             ORDER BY
                 ad_id";
         $rc = $this->oDbh->query($query);
@@ -223,7 +223,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                     a.bannerid = dl.bannerid
                 )
             WHERE
-                a.campaignid IN (" . implode(', ', $aPlacementIds) . ")
+                a.campaignid IN (" . $this->oDbh->escape(implode(', ', $aPlacementIds)) . ")
                 AND
                 a.active = 't'";
         $rc = $this->oDbh->query($query);
@@ -537,11 +537,11 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 (
                     (p.active = 't' AND p.expire " . OA_Dal::equalNoDateString()  . ")
                     OR
-                    (p.active = 't' AND p.expire " . OA_Dal::notEqualNoDateString() . " AND p.expire >= " . $this->oDbh->quote($aPeriod['start']->format('%Y-%m-%d'), 'timestamp') . ")
+                    (p.active = 't' AND p.expire " . OA_Dal::notEqualNoDateString() . " AND p.expire >= " . $this->oDbh->quote($aPeriod['start']->format('%Y-%m-%d'), 'date') . ")
                     OR
-                    (p.active = 'f' AND p.activate " . OA_Dal::notEqualNoDateString() . " AND p.activate <= " . $this->oDbh->quote($aPeriod['end']->format('%Y-%m-%d'), 'timestamp') . " AND p.expire " . OA_Dal::equalNoDateString() . ")
+                    (p.active = 'f' AND p.activate " . OA_Dal::notEqualNoDateString() . " AND p.activate <= " . $this->oDbh->quote($aPeriod['end']->format('%Y-%m-%d'), 'date') . " AND p.expire " . OA_Dal::equalNoDateString() . ")
                     OR
-                    (p.active = 'f' AND p.activate " . OA_Dal::notEqualNoDateString() . " AND p.activate <= " . $this->oDbh->quote($aPeriod['end']->format('%Y-%m-%d'), 'timestamp') . " AND p.expire " . OA_Dal::notEqualNoDateString() . " AND p.expire >= " . $this->oDbh->quote($aPeriod['start']->format('%Y-%m-%d'), 'timestamp') . ")
+                    (p.active = 'f' AND p.activate " . OA_Dal::notEqualNoDateString() . " AND p.activate <= " . $this->oDbh->quote($aPeriod['end']->format('%Y-%m-%d'), 'date') . " AND p.expire " . OA_Dal::notEqualNoDateString() . " AND p.expire >= " . $this->oDbh->quote($aPeriod['start']->format('%Y-%m-%d'), 'date') . ")
                 )
         ";
         $rc = $this->oDbh->query($query);

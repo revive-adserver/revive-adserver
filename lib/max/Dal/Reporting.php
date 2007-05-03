@@ -48,8 +48,8 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
 
         $adminConstraint = $agencyId > 0 ? "AND a.agencyid=". $this->oDbh->quote($agencyId, 'integer') : '';
         $affiliateConstraint = $publisherId > 0 ? "AND z.affiliateid=". $this->oDbh->quote($publisherId, 'integer') : '';
-        $statsStartConstraint = !empty($statsStartDate) ? "AND dsah.day>=". $this->oDbh->quote($statsStartDate, 'timestamp') : '';
-        $statsEndConstraint = !empty($statsEndDate) ? "AND dsah.day<=". $this->oDbh->quote($statsEndDate, 'timestamp') : '';
+        $statsStartConstraint = !empty($statsStartDate) ? "AND dsah.day>=". $this->oDbh->quote($statsStartDate, 'date') : '';
+        $statsEndConstraint = !empty($statsEndDate) ? "AND dsah.day<=". $this->oDbh->quote($statsEndDate, 'date') : '';
 
         $aAdvertiserDailyStatsData = array();
 
@@ -97,10 +97,10 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
 
         $adminConstraint = $agencyId > 0 ? "AND a.agencyid=". $this->oDbh->quote($agencyId, 'integer') : '';
         $affiliateConstraint = $publisherId > 0 ? "AND z.affiliateid=". $this->oDbh->quote($publisherId, 'integer') : '';
-        $campaignStartConstraint = !empty($campaignStartDate) ? "AND (c.expire>=". $this->oDbh->quote($campaignStartDate, 'timestamp') ." OR c.expire='0000-00-00')" : '';
-        $campaignEndConstraint = !empty($campaignEndDate) ? "AND (c.activate<=". $this->oDbh->quote($campaignEndDate, 'timestamp') ." OR c.activate='0000-00-00')" : '';
-        $statsStartConstraint = !empty($statsStartDate) ? "AND dsah.day>=". $this->oDbh->quote($statsStartDate, 'timestamp') : '';
-        $statsEndConstraint = !empty($statsEndDate) ? "AND dsah.day<=". $this->oDbh->quote($statsEndDate, 'timestamp') : '';
+        $campaignStartConstraint = !empty($campaignStartDate) ? "AND (c.expire>=". $this->oDbh->quote($campaignStartDate, 'date') ." OR c.expire='0000-00-00')" : '';
+        $campaignEndConstraint = !empty($campaignEndDate) ? "AND (c.activate<=". $this->oDbh->quote($campaignEndDate, 'date') ." OR c.activate='0000-00-00')" : '';
+        $statsStartConstraint = !empty($statsStartDate) ? "AND dsah.day>=". $this->oDbh->quote($statsStartDate, 'date') : '';
+        $statsEndConstraint = !empty($statsEndDate) ? "AND dsah.day<=". $this->oDbh->quote($statsEndDate, 'date') : '';
 
         $aCampaignData = array();
 

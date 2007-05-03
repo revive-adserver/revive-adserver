@@ -95,7 +95,7 @@ class MAX_Dal_PasswordRecovery extends MAX_Dal_Common
                 FROM
                     {$v['table']}
                 WHERE
-                    {$v['email']} = ?". $this->oDbh->quote($email, 'text') ."
+                    {$v['email']} = ". $this->oDbh->quote($email, 'text') ."
                     AND COALESCE({$v['username']}, '') <> ''
                 ORDER BY
                     username

@@ -75,7 +75,7 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
             ) VALUES (
                 ?, ?, ?, ?, ?
             )";
-        $types = array('integer', 'text', 'text', 'text', 'integer');
+        $types = array('integer', 'text', 'boolean', 'boolean', 'integer');
         $this->oDbh->prepare($query, $types);
 
         foreach ($codes as $v) {

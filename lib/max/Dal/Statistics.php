@@ -76,7 +76,7 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
                 $adTable AS a,
                 $dsahTable AS dsah
             WHERE
-                a.campaignid = $placementId
+                a.campaignid = ". $this->oDbh->quote($placementId, 'integer') ."
                 AND
                 a.bannerid = dsah.ad_id
             ORDER BY
@@ -177,11 +177,11 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
             WHERE
                 channel_id = $channelId
                 AND
-                zone_id IN (" . implode(', ', $aZoneIds) . ")
+                zone_id IN (" . $this->oDbh->escape(implode(', ', $aZoneIds)) . ")
                 AND
-                day >= '" . $aPeriod['start']->format('%Y-%m-%d') . "'
+                day >= ". $this->oDbh->quote($aPeriod['start']->format('%Y-%m-%d'), 'date') . "'
                 AND
-                day <= '" . $aPeriod['end']->format('%Y-%m-%d') . "'
+                day <= ". $this->oDbh->quote($aPeriod['end']->format('%Y-%m-%d'), 'date') . "'
             GROUP BY
                 zone_id, day";
         $message = 'Finding all channel/zone forecast inventory data for channel ID ' . $channelId .
@@ -227,9 +227,9 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
                     FROM
                         $table
                     WHERE
-                        channel_id = $channelId
+                        channel_id = ". $this->oDbh->quote($channelId, 'integer') ."
                         AND
-                        zone_id = $zoneId
+                        zone_id = ". $this->oDbh->quote($zoneId, 'integer') ."
                     ORDER BY
                         day DESC
                     LIMIT 7";
@@ -307,7 +307,7 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
                 FROM
                     $table
                 WHERE
-                    zone_id = $zoneId
+                    zone_id = ". $this->oDbh->quote($zoneId, 'integer') ."
                 LIMIT
                     " . MAX_OperationInterval::operationIntervalsPerWeek();
             $rc = $this->oDbh->query($query);
