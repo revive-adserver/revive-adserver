@@ -77,14 +77,11 @@ else if (array_key_exists('btn_dbsetup', $_REQUEST))
 }
 else if (array_key_exists('btn_upgrade', $_POST))
 {
-    $oUpgrader->saveConfigDB($aConfig);
     if ($oUpgrader->canUpgrade())
     {
         if ($oUpgrader->existing_installation_status == OA_STATUS_NOT_INSTALLED)
         {
-            $oUpgrader->aDsn['database'] = $_POST['database'];
-            $oUpgrader->aDsn['table']    = $_POST['table'];
-            if ($oUpgrader->install())
+            if ($oUpgrader->install($_REQUEST['aConfig']))
             {
                 $message = 'Successfully installed Openads version '.OA_VERSION;
                 $action  = OA_UPGRADE_INSTALL;
@@ -122,15 +119,15 @@ else if (array_key_exists('btn_adminsetup', $_REQUEST))
 {
     if ($oUpgrader->saveConfig($_REQUEST['aConfig']))
     {
-//        if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
-//        {
-//            $oUpgrader->getAdmin();
+        if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
+        {
+            $oUpgrader->getAdmin();
             $action = OA_UPGRADE_ADMINSETUP;
-//        }
-//        else
-//        {
-//            $action = OA_UPGRADE_IDSETUP;
-//        }
+        }
+        else
+        {
+            $action = OA_UPGRADE_IDSETUP;
+        }
     }
     else
     {
@@ -139,10 +136,10 @@ else if (array_key_exists('btn_adminsetup', $_REQUEST))
 }
 else if (array_key_exists('btn_oaidsetup', $_REQUEST))
 {
-//    if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
-//    {
+    if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
+    {
         $oUpgrader->putAdmin($_REQUEST['aAdmin']);
-//    }
+    }
     $action = OA_UPGRADE_IDSETUP;
 }
 else if (array_key_exists('btn_datasetup', $_REQUEST))
