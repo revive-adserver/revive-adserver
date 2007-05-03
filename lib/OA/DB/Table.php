@@ -163,15 +163,19 @@ class OA_DB_Table
         }
         $tableName = $table;
         // Does a table prefix need to be added to the table name?
+        $prefixed = false;
         if ($aConf['table']['prefix'] && !$this->temporary) {
             $tableName = $aConf['table']['prefix'] . $tableName;
+            $prefixed = true;
         }
         // Are split tables in operation, and is the table designed to be split?
+        $split = false;
         if (($aConf['table']['split']) && ($aConf['splitTables'][$table])) {
             if ($oDate == NULL) {
                 $oDate = new Date();
             }
             $tableName = $tableName . '_' . $oDate->format('%Y%m%d');
+            $split = true;
         }
         // Prepare the options array
         $aOptions = array();
@@ -185,8 +189,9 @@ class OA_DB_Table
                 foreach ($this->aDefinition['tables'][$table]['indexes'] as $key => $aIndex) {
                     if (isset($aIndex['primary']) && $aIndex['primary']) {
                         $aOptions['primary'] = $aIndex['fields'];
-                        // Does the primary key name need to be udpated to match the table?
-                        if (($aConf['table']['split']) && ($aConf['splitTables'][$table])) {
+                        // Does the primary key name need to be udpated to match either
+                        // the prefixed table name, or the the split table name?
+                        if ($prefixed || $split) {
                             $this->aDefinition['tables'][$table]['indexes'][$tableName . '_pkey']
                                 = $this->aDefinition['tables'][$table]['indexes'][$key];
                             unset($this->aDefinition['tables'][$table]['indexes'][$key]);
