@@ -425,6 +425,7 @@ class OA_Upgrade
      */
     function install($aConfig)
     {
+        $this->oLogger->setLogFile('install.log');
         $this->aDsn['database'] = $aConfig['database'];
         $this->aDsn['table']    = $aConfig['table'];
 
@@ -448,7 +449,15 @@ class OA_Upgrade
             $this->_dropDatabase();
             return false;
         }
-        $this->oLogger->logError('Installation created the core tables');
+        $this->oLogger->log('Installation created the core tables');
+
+        if (!$this->oVersioner->putSchemaVersion('tables_core', $this->oTable->aDefinition['version']))
+        {
+            $this->oLogger->logError('Installation failed to update the schema version to '.$oTable->aDefinition['version']);
+            $this->_dropDatabase();
+            return false;
+        }
+        $this->oLogger->log('Installation updated the schema version to '.$this->oTable->aDefinition['version']);
 
         if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
         {
@@ -456,7 +465,7 @@ class OA_Upgrade
             $this->_dropDatabase();
             return false;
         }
-        $this->oLogger->logError('Installation updated the application version to '.OA_VERSION);
+        $this->oLogger->log('Installation updated the application version to '.OA_VERSION);
 
         if (!$this->createConfigFile())
         {
@@ -695,7 +704,7 @@ class OA_Upgrade
         PEAR::popErrorHandling();
         if (!PEAR::isError($data)) {
             $result = $this->oDbh->exec('DROP TABLE max_tmp_dbpriviligecheck');
-            $this->oLogger->logError('Database permissions are OK');
+            $this->oLogger->log('Database permissions are OK');
             return true;
         } else {
             $this->oLogger->logError('Failed to create test privileges table - check your database permissions');

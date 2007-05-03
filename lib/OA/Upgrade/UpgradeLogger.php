@@ -56,12 +56,17 @@ class OA_UpgradeLogger
     function OA_UpgradeLogger()
     {
         //this->__construct();
-        $this->logFile = MAX_PATH."/var/upgrade.log";
+        $this->logFile = MAX_PATH."/var/install.log";
     }
 
     function setLogFile($logfile)
     {
         $this->logFile = MAX_PATH."/var/{$logfile}";
+        if (file_exists($this->logFile))
+        {
+            unlink($this->logFile);
+        }
+        $this->_logWrite(date('Y-m-d h:i:s'));
     }
 
     /**
@@ -113,11 +118,14 @@ class OA_UpgradeLogger
 
     function _logWrite($message)
     {
-        if (empty($this->logFile)) {
+        if (empty($this->logFile))
+        {
             $this->logBuffer[] = $message;
-        } else {
+        } else
+        {
             $log = fopen($this->logFile, 'a');
-            if (count($this->logBuffer)) {
+            if (count($this->logBuffer))
+            {
                 $message = join("\n", $this->logBuffer);
                 $this->logBuffer = array();
             }
