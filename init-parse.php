@@ -39,11 +39,13 @@ $Id$
  *                           Default is no name (ie. the main Max
  *                           configuration file).
  * @param boolean $sections  Process sections, as per parse_ini_file().
+ * @param string  $type      The config file type value (eg. ".php"). Allows BC
+ *                           support for old ".ini" files.
  *
  * @return mixed The array resulting from the call to parse_ini_file(), with
- *               the appropriate .ini file for the installation.
+ *               the appropriate .php file for the installation.
  */
-function parseIniFile($configPath = null, $configFile = null, $sections = true)
+function parseIniFile($configPath = null, $configFile = null, $sections = true, $type = '.php')
 {
     // Set up the configuration .ini file path location
     if (is_null($configPath)) {
@@ -73,13 +75,13 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true)
         if (isset($_SERVER['SERVER_NAME'])) {
             // If test runs from web-client first check if host test config exists
             // This could be used to have different tests for different configurations
-            $testFilePath = $configPath . '/'.$host.'.test.conf.php';
+            $testFilePath = $configPath . '/'.$host.'.test.conf' . $type;
             if (file_exists($testFilePath)) {
                 return @parse_ini_file($testFilePath, $sections);
             }
         }
         // Does the test environment config exist?
-        $testFilePath = $configPath . '/test.conf.php';
+        $testFilePath = $configPath . '/test.conf' . $type;
         if (file_exists($testFilePath)) {
             return @parse_ini_file($testFilePath, $sections);
         } else {
@@ -91,28 +93,35 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true)
         }
     }
     // Is the .ini file for the hostname being used directly accessible?
-    if (file_exists($configPath . '/' . $host . $configFile . '.conf.php')) {
+    if (file_exists($configPath . '/' . $host . $configFile . '.conf' . $type)) {
         // Parse the configuration file
-        $conf = @parse_ini_file($configPath . '/' . $host . $configFile . '.conf.php', $sections);
+        $conf = @parse_ini_file($configPath . '/' . $host . $configFile . '.conf' . $type, $sections);
         // Is this a real config file?
         if (!isset($conf['realConfig'])) {
             // Yes, return the parsed configuration file
             return $conf;
         }
         // Parse and return the real configuration .ini file
-        if (file_exists($configPath . '/' . $conf['realConfig'] . $configFile . '.conf.php')) {
-            $realConfig = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf.php', true);
+        if (file_exists($configPath . '/' . $conf['realConfig'] . $configFile . '.conf' . $type)) {
+            $realConfig = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf' . $type, true);
             return mergeConfigFiles($realConfig, $conf);
         }
     } elseif ($configFile === '.plugin') {
         // For plugins, if no configuration file is found, return the sane default values
         $pluginType = basename($configPath);
-        $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
+        $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf' . $type;
         if (file_exists($defaultConfig)) {
             return parse_ini_file($defaultConfig, $sections);
         } else {
             exit(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
         }
+    }
+    // Got all this way, and no configuration file yet found - maybe
+    // the user is upgrading from an old version where the config
+    // files have a .ini prefix instead of .php...
+    global $installing;
+    if ($installing) {
+        return parseIniFile($configPath, $configFile, $sections, '.ini');
     }
     // Check to ensure Openads hasn't been installed
     if (file_exists(MAX_PATH . '/var/INSTALLED')) {
