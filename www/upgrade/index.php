@@ -90,18 +90,11 @@ else if (array_key_exists('btn_upgrade', $_POST))
         }
         else
         {
-            if ($oUpgrader->initDatabaseConnection())
+            if ($oUpgrader->upgrade($oUpgrader->package_file))
             {
-                if ($oUpgrader->checkDBPermissions())
-                {
-                    $oUpgrader->init($oUpgrader->package_file);
-                    if ($oUpgrader->upgrade())
-                    {
-                        $message = 'Successfully upgraded Openads to version '.OA_VERSION;
-                        $action  = OA_UPGRADE_UPGRADE;
-                        setcookie('oat', $action);
-                    }
-                }
+                $message = 'Successfully upgraded Openads to version '.OA_VERSION;
+                $action  = OA_UPGRADE_UPGRADE;
+                setcookie('oat', $action);
             }
         }
     }
@@ -121,7 +114,7 @@ else if (array_key_exists('btn_adminsetup', $_REQUEST))
     {
         if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
         {
-            $oUpgrader->getAdmin();
+            //$oUpgrader->getAdmin();
             $action = OA_UPGRADE_ADMINSETUP;
         }
         else
@@ -172,6 +165,10 @@ else if (array_key_exists('btn_finish', $_REQUEST))
     }
     setcookie('oat', false);
     $action = OA_UPGRADE_FINISH;
+}
+else if (array_key_exists('btn_openads', $_REQUEST))
+{
+    header('location: http://'.$GLOBALS['_MAX']['CONF']['webpath']['admin']);
 }
 else
 {

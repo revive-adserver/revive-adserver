@@ -107,7 +107,7 @@ works in phpMyAdmin on MySQL 5.0.22 but not via this routine
      * then recovered in a separate session
      *
      */
-    function test_Recover()
+    function test_recover()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
 

@@ -149,21 +149,6 @@ class OA_Upgrade
     }
 
     /**
-     * initialise an upgrade
-     *
-     * @param string $input_file (upgrade package)
-     * @param string $timing
-     */
-    function init($input_file, $timing='constructive')
-    {
-        $logFile = str_replace('.xml', '', $input_file).'_'.$timing.'_'.date('Y_m_d_h_i_s').'.log';
-        $this->oLogger->setLogFile($logFile);
-
-        $this->aPackage     = $this->_parseUpgradePackageFile($this->upgradePath.$input_file);
-        $this->aDBPackages  = $this->aPackage['db_pkgs'];
-    }
-
-    /**
      * return an array of system environment info
      *
      * @return array
@@ -436,6 +421,12 @@ class OA_Upgrade
         }
         $this->oLogger->log('Installation created the database '.$this->aDsn['database']['name']);
 
+        if (!$this->checkPermissionToCreateTable())
+        {
+            $this->oLogger->logError('Insufficient database permissions to install');
+            return false;
+        }
+
         if (!$this->initDatabaseConnection())
         {
             $this->oLogger->logError('Installation failed to connect to the database '.$this->aDsn['database']['name']);
@@ -602,11 +593,24 @@ class OA_Upgrade
      *
      * @return boolean
      */
-    function upgrade()
+    function upgrade($input_file, $timing='constructive')
     {
+        $logFile = str_replace('.xml', '', $input_file).'_'.$timing.'_'.date('Y_m_d_h_i_s').'.log';
+        $this->oLogger->setLogFile($logFile);
+
+        if (!$this->_parseUpgradePackageFile($this->upgradePath.$input_file))
+        {
+            return false;
+        }
+
         if (is_null($this->oDbh))
         {
             $this->initDatabaseConnection();
+        }
+        if (!$this->checkDBPermissions())
+        {
+            $this->oLogger->logError('Insufficient database permissions');
+            return false;
         }
         if ($this->upgradeSchemas())
         {
@@ -667,12 +671,8 @@ class OA_Upgrade
         $oPrefs->setPrefChange('config_version', OA_VERSION);
         $oPrefs->setPrefChange('admin', $aAdmin['name']);
         $oPrefs->setPrefChange('admin_email', $aAdmin['email']);
-        $oPrefs->setPrefChange('admin_pw', $aAdmin['pword']);
+        $oPrefs->setPrefChange('admin_pw', md5($aAdmin['pword']));
 
-//        if ((!isset($aAdmin['dbUpgrade'])) || (!$aAdmin['dbUpgrade'])) {
-//            $oPrefs->setPrefChange('admin',        $admin);
-//            $oPrefs->setPrefChange('admin_pw',     md5($admin_pw));
-//        }
         // Generate a new instance ID if empty
         if (empty($GLOBALS['_MAX']['PREF']['instance_id'])) {
             $oPrefs->setPrefChange('instance_id',  sha1(uniqid('', true)));
@@ -691,7 +691,7 @@ class OA_Upgrade
      *
      * @return boolean
      */
-    function checkDBPermissions()
+    function checkPermissionToCreateTable()
     {
         $aExistingTables = $this->oDbh->manager->listTables();
         if (in_array('oa_tmp_dbpriviligecheck', $aExistingTables))
@@ -724,17 +724,23 @@ class OA_Upgrade
             {
                 $this->versionInitialSchema[$aPkg['schema']] = $this->oVersioner->getSchemaVersion($aPkg['schema']);
             }
-            if ($this->oDBUpgrader->init($timing, $aPkg['schema'], $aPkg['version']))
+            $ok = false;
+            if ($this->oDBUpgrader->init('constructive', $aPkg['schema'], $aPkg['version']))
             {
-                if ($this->oDBUpgrader->upgrade())
-                {
-                    $this->oVersioner->putSchemaVersion($aPkg['schema'], $aPkg['version']);
-                }
-                else
-                {
-                    $this->rollbackSchemas();
-                    return false;
-                }
+                $ok = $this->oDBUpgrader->upgrade();
+            }
+            if ($ok && $this->oDBUpgrader->init('destructive', $aPkg['schema'], $aPkg['version']))
+            {
+                $ok = $this->oDBUpgrader->upgrade();
+            }
+            if ($ok)
+            {
+              $this->oVersioner->putSchemaVersion($aPkg['schema'], $aPkg['version']);
+            }
+            else
+            {
+                $this->rollbackSchemas();
+                return false;
             }
         }
         return true;
@@ -781,14 +787,20 @@ class OA_Upgrade
         }
 
         $result = $this->oParser->parse();
-        if (PEAR::isError($result)) {
-            return $result;
+        if (PEAR::isError($result))
+        {
+            $this->oLogger->logError('problem parsing the package file: '.$result->getUserInfo());
+            return false;
         }
-        if (PEAR::isError($this->oParser->error)) {
-            return $this->oParser->error;
+        if (PEAR::isError($this->oParser->error))
+        {
+            $this->oLogger->logError('problem parsing the package file: '.$this->oParser->error);
+            return false;
         }
+        $this->aPackage     = $this->oParser->aPackage;
+        $this->aDBPackages  = $this->aPackage['db_pkgs'];
 
-        return $this->oParser->aPackage;
+        return true;
     }
 
     /**

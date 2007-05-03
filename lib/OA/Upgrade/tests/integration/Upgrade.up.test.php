@@ -110,7 +110,7 @@ class Test_OA_Upgrade extends UnitTestCase
 //        $GLOBALS['_MAX']['CONF']['table']['prefix'] = '';
     }
 
-    function test_init()
+    function test_parseUpgradePackageFile()
     {
         $oUpgrade  = new OA_Upgrade();
         $testid    = 'openads_upgrade_1_to_2';
@@ -122,7 +122,7 @@ class Test_OA_Upgrade extends UnitTestCase
         }
         $this->assertTrue(file_exists($oUpgrade->upgradePath.$testfile));
 
-        $oUpgrade->init($testfile);
+        $oUpgrade->_parseUpgradePackageFile($testpath.$testfile);
         $this->assertIsA($oUpgrade->aPackage,'array','problem with package array');
         $this->assertTrue(array_key_exists('db_pkgs',$oUpgrade->aPackage),'problem with package array: no db_pkgs element');
         $this->assertIsA($oUpgrade->aDBPackages,'array','problem with db packages array');
@@ -153,8 +153,8 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->aDBPackages[0]['files'][1],'changes_tables_core_2.xml','');
         $this->assertEqual($oUpgrade->aDBPackages[0]['files'][2],'migration_tables_core_2.php','');
 
-        $logpattern = '/openads_upgrade_1_to_2_constructive_[\d]{4}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}\.log/';
-        $this->assertWantedPattern($logpattern, basename($oUpgrade->oLogger->logFile), '');
+//        $logpattern = '/openads_upgrade_1_to_2_constructive_[\d]{4}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}\.log/';
+//        $this->assertWantedPattern($logpattern, basename($oUpgrade->oLogger->logFile), '');
 
         if (file_exists($oUpgrade->upgradePath.$testfile))
         {
