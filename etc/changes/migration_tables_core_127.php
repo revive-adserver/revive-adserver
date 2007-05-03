@@ -194,9 +194,142 @@ class Migration_127 extends Migration
 
 	function afterAddField__zones__session_capping()
 	{
+	    $this->migrateData();
 		return $this->afterAddField('zones', 'session_capping');
 	}
 
+
+	function migrateData()
+	{
+	    $conf = $GLOBALS['_MAX']['CONF'];
+	    $query = "
+	       SELECT *
+	       FROM {$conf['table']['prefix']}zones";
+	    $rsZones = DBC::NewRecordSet($query);
+	    $rsZones->find();
+	    
+	    $aZoneAdObjectHandlers = array();
+	    while($rsZones->fetch()) {
+	        $zonetype = $rsZones->get('zonetype');
+	        $what = $rsZones->get('what');
+	        $zoneid = $rsZones->get('zoneid');
+	        $zoneAdObjectHandler = OA_upgrade_getZoneAdObjectHandler($zonetype, $zoneid, $what);
+	        if (!$zoneAdObjectHandler) {
+	            // Either zonetype 2 - keywords, which shouldn't be modified
+	            // or unknown / unused zone type.
+	            continue;
+	        }
+	        $aZoneAdObjectHandlers []= $zoneAdObjectHandler;
+	    }
+	    
+	    foreach ($aZoneAdObjectHandlers as $zoneAdObjectHandler) {
+	        $result = $zoneAdObjectHandler->insertAssocs();
+	        if (PEAR::isError($result)) {
+	            return false;
+	        }
+	    }
+	}
+}
+	
+
+function OA_upgrade_getAdObjectIds($sIdList, $adObjectType)
+{
+    if (empty($sIdList)) {
+        return array();
+    }
+    $aAdObjectIdsHolders = explode(",", $sIdList);
+    $aIds = array();
+    $idxStart = strlen($adObjectType) + 1;
+    foreach ($aAdObjectIdsHolders as $idHolder) {
+        $id = substr($idHolder, $idxStart);
+        $aIds []= $id;
+    }
+    return $aIds;
+}
+
+function OA_upgrade_getZoneAdObjectHandler($zonetype, $zone_id, $sIdList)
+{
+    if ($zonetype == 0) {
+        return new ZoneBannerHandler($zone_id, $sIdList);
+    }
+    else if ($zonetype == 3) {
+        return new ZoneCampaignHandler($zone_id, $sIdList);
+    }
+    else {
+        return false; // Unknown / unused zone type
+    }
+}
+
+class ZoneAdObjectHandler
+{
+    var $zone_id;
+    var $aAdObjectIds;
+
+    function ZoneAdObjectHandler($zone_id, $sIdList, $adObjectType)
+    {
+        $this->zone_id = $zone_id;
+        $this->aAdObjectIds = OA_upgrade_getAdObjectIds($sIdList, $adObjectType);
+    }
+    
+    /**
+     * Inserts associations between zone and ad objects (campaign or banner)
+     * represented by this handler.
+     *
+     * @param MDB2_Driver_Common $oDbh
+     */
+    function insertAssocs($oDbh)
+    {
+        $assocTable = $this->getAdAssocTable();
+        $adObjectColumn = $this->getAdObjectColumn();
+        foreach($this->aAdObjectIds as $adObjectId) {
+            $sql = "
+                INSERT INTO $assocTable (zone_id, $adObjectColumn)
+                VALUES ({$this->zone_id}, $adObjectId)";
+            $result = $oDbh->exec($sql);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+        }
+        return true;
+    }
+}
+
+class ZoneBannerHandler extends ZoneAdObjectHandler
+{
+    function ZoneBannerHandler($zone_id, $sIdList)
+    {
+        $this->ZoneAdObjectHandler($zone_id, $sIdList, 'bannerid');
+    }
+    
+    
+    function getAssocTable()
+    {
+        return 'ad_zone_assoc';
+    }
+    
+    function getAdObjectColumn()
+    {
+        return 'ad_id';
+    }
+}
+
+class ZoneCampaignHandler extends ZoneAdObjectHandler
+{
+    function ZoneCampaignHandler($zone_id, $sIdList)
+    {
+        $this->ZoneAdObjectHandler($zone_id, $sIdList, 'clientid');
+    }
+    
+    
+    function getAssocTable()
+    {
+        return 'placement_zone_assoc';
+    }
+    
+    function getAdObjectColumn()
+    {
+        return 'placement_id';
+    }
 }
 
 ?>

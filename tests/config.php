@@ -43,6 +43,7 @@ define('DB_WITH_DATA',   4);
 // reduce filesystem parsing time
 $GLOBALS['_MAX']['TEST']['directories'] =
     array(
+        'etc/changes',
         'lib/max',
         'lib/OA',
         'plugins',
