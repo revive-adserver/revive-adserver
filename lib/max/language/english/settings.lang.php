@@ -145,6 +145,8 @@ $GLOBALS['strAdminCheckMonthly']                     = 'Monthly';
 $GLOBALS['strAdminCheckNever']                       = 'Never';
 $GLOBALS['strAdminNovice']                           = 'Admin\'s delete actions need confirmation for safety';
 $GLOBALS['strUserlogEmail']                          = 'Log all outgoing email messages';
+$GLOBALS['strTimezoneInformation']                   = "Timezone Information (Modifying the timezone will affect statistics)";
+$GLOBALS['strTimezone']                              = "Timezone";
 
 // Banner Settings
 $GLOBALS['strBannerSettings']                        = 'Banner Settings';

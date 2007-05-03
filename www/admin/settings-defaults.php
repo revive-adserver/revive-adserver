@@ -35,7 +35,7 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsController.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
 
 // Security check
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate);
@@ -63,15 +63,15 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                           'percentage_decimals', 'default_banner_weight',
                           'default_campaign_weight', 'gui_campaign_anonymous',
                           'publisher_default_tax_id', 'publisher_default_approved',
-                          'publisher_payment_modes', 'publisher_currencies', 
+                          'publisher_payment_modes', 'publisher_currencies',
                           'publisher_categories', 'publisher_help_files'
                           );
-    
+
     // Register input variables for inventory plugins
     foreach ($invPlugins as $plugin) {
         call_user_func_array('phpAds_registerGlobal', $plugin->getGlobalVars());
     }
-    
+
     // Set up the preferences object
     $preferences = new MAX_Admin_Preferences();
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
@@ -114,7 +114,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $preferences->setPrefChange('publisher_help_files',    $publisher_help_files);
         }
     }
-    
+
     // Advertiser / publisher preferences
     foreach ($statsFieldsPlugins as $plugin) {
         $vars = array_keys($plugin->getVisibilitySettings());
@@ -395,7 +395,7 @@ foreach ($statsFieldsPlugins as $plugin) {
         }
         $GLOBALS['_MAX']['PREF'][$k.'_label'] = serialize($GLOBALS['_MAX']['PREF'][$k.'_label']);
         $GLOBALS['_MAX']['PREF'][$k.'_rank']  = serialize($GLOBALS['_MAX']['PREF'][$k.'_rank']);
-        
+
         $show_headers = ($i++ == 0) ? $admin_settings : 0;
         $settings[1]['items'][] = array (
             'type'         => 'usertype_checkboxes',

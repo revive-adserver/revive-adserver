@@ -234,11 +234,13 @@ function setupConstants()
             } else {
                 // Ensure that at TZ variable is set, regardless
                 if (getenv('TZ') === false) {
+
                     $diff = date('O') / 100;
                     putenv('TZ=GMT'.($diff > 0 ? '-' : '+').abs($diff));
                 }
             }
         }
+
         // Parse the Openads configuration file
         $GLOBALS['_MAX']['CONF'] = parseIniFile();
         // Define the Openads Cache File location path (required trailing slash)

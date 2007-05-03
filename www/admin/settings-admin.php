@@ -47,7 +47,17 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
     phpAds_registerGlobal('admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email',
                           'company_name', 'language', 'updates_enabled', 'admin_novice',
-                          'userlog_email');
+                          'userlog_email', 'timezone_location');
+    //  Update config with timezone changes
+    if (isset($timezone_location)) {
+        $config = new MAX_Admin_Config();
+        $config->setConfigChange('timezone', 'location', $timezone_location);
+        if (!$config->writeConfigChange()) {
+            // Unable to write the config file out
+            $errormessage[0][] = $strUnableToWriteConfig;
+        }
+    }
+
     // Set up the preferences object
     $preferences = new MAX_Admin_Preferences();
     if (isset($admin)) {
@@ -95,6 +105,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             MAX_Admin_Redirect::redirect('settings-banner.php');
         }
     }
+
 }
 
 phpAds_PrepareHelp();
@@ -107,9 +118,9 @@ phpAds_SettingsSelection("admin");
 
 $unique_users   = MAX_Permission::getUniqueUserNames($pref['admin']);
 
+$aTimezone  = MAX_Admin_Timezones::AvailableTimezones();
 if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
-    $timezones  = MAX_Admin_Timezones::AvailableTimezones();
-    $timezone   = $timezones[$GLOBALS['_MAX']['CONF']['timezone']['location']];
+    $timezone   = $aTimezones[$GLOBALS['_MAX']['CONF']['timezone']['location']];
 
 //  find time zone if config is empty
 } else {
@@ -222,12 +233,13 @@ $settings = array (
         )
     ),
     array (
-        'text'  => $strTimezone,
+        'text'  => $strTimezoneInformation,
         'items' => array (
             array (
-                'type'    => 'plaintext',
-                'name'    => 'timezone',
-                'text'    => $timezone
+                'type'    => 'select',
+                'name'    => 'timezone_location',
+                'text'    => $strTimezone,
+                'items'   => $aTimezone
             )
         )
     )

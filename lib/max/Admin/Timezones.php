@@ -36,22 +36,18 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
  {
     function AvailableTimezones()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $pref = $GLOBALS['_MAX']['PREF'];
+        //  load global array of timezones
+        require_once MAX_PATH .'/lib/pear/Date/TimeZone.php';
 
-        //  get current language
-        $lang = (!empty($pref['language'])) ? $pref['language'] : $conf['max']['language'];
+        $aTimezoneKey = Date_TimeZone::getAvailableIDs();
 
-        if (!empty($lang)) {
-            //  check if timezone file exists for language stored in prefs
-            if (file_exists(MAX_PATH . '/lib/max/language/' . $lang . '/timezone.lang.php')) {
-                include_once MAX_PATH . '/lib/max/language/' . $lang . '/timezone.lang.php';
-                return $tz;
-            //  load default if it does not exist
-            } else {
-                return false;
-            }
+        foreach ($aTimezoneKey as $key) {
+            $aTimezone[$key] = $key;
         }
+
+        asort($aTimezone);
+
+        return $aTimezone;
     }
 
     function getTimezone()
