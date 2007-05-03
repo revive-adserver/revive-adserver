@@ -52,7 +52,13 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
      */
     function __construct($aParams)
     {
+        // Set this page's entity/breakdown values
+        $this->entity    = 'campaign';
+        $this->breakdown = 'history';
+
+        // This page uses the day span selector element
         $this->showDaySpanSelector = true;
+
         parent::__construct($aParams);
     }
 
@@ -87,8 +93,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
         $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId));
 
         // Add standard page parameters
-        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId,
-                                  'entity' => 'campaign', 'breakdown' => 'history');
+        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId);
 
         $this->_loadParams();
 
@@ -123,14 +128,9 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
         $aParams = array();
         $aParams['placement_id'] = $placementId;
 
-        $this->aPageParams['entity']    = 'campaign';
-        $this->aPageParams['breakdown'] = 'daily';
-
-
         $this->prepare($aParams, 'stats.php');
 
-        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId,
-                                  'entity' => 'campaign', 'breakdown' => 'history');
+        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId);
 
         $this->_loadParams();
 //        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');

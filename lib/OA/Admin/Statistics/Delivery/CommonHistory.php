@@ -315,7 +315,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
 
             $weekstats = array();
             foreach ($stats as $k => $v) {
-                $oDate    = & new Date($k);
+                $oDate    = new Date($k);
                 $v['day'] = $oDate->format('%d-%m');
 
                 // Workaround to calculate the correct week of year: Date::getWeekOfYear() seems to always
@@ -359,14 +359,16 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
                     }
 
                     // Fill days missing at the start
-                    $oDate = & new Date(key($weekstats[$week]['data']));
-                    $oDate->subtractSpan(new Date_Span('1, 0, 0, 0'));
+                    $oDaySpan = new Date_Span();
+                    $oDaySpan->setFromDays(1);
+                    $oDate = new Date(key($weekstats[$week]['data']));
+                    $oDate->subtractSpan($oDaySpan);
                     while($oDate->getDayOfWeek() >= $beginOfWeek) {
                         $weekstats[$week]['data'][$oDate->format('%Y-%m-%d')] = array(
                             'day' => $oDate->format('%d-%m')
                         ) + $hypenRow;
 
-                        $oDate->subtractSpan(new Date_Span('1, 0, 0, 0'));
+                        $oDate->subtractSpan($oDaySpan);
                     }
 
                     // Sort data
@@ -377,14 +379,14 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
                         end($weekstats[$week]['data']);
 
                         // Fill days missing at the end
-                        $oDate = & new Date(key($weekstats[$week]['data']));
-                        $oDate->addSpan(new Date_Span('1, 0, 0, 0'));
+                        $oDate = new Date(key($weekstats[$week]['data']));
+                        $oDate->addSpan($oDaySpan);
                         while(count($weekstats[$week]['data']) < 7) {
                             $weekstats[$week]['data'][$oDate->format('%Y-%m-%d')] = array(
                                 'day' => $oDate->format('%d-%m')
                             ) + $hypenRow;
 
-                            $oDate->addSpan(new Date_Span('1, 0, 0, 0'));
+                            $oDate->addSpan($oDaySpan);
                         }
                     }
 

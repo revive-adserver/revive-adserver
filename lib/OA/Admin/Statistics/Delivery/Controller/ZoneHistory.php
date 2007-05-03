@@ -52,7 +52,13 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends OA_Admin_Stati
      */
     function __construct($aParams)
     {
+        // Set this page's entity/breakdown values
+        $this->entity    = 'zone';
+        $this->breakdown = 'history';
+
+        // This page uses the day span selector element
         $this->showDaySpanSelector = true;
+
         parent::__construct($aParams);
     }
 
@@ -87,8 +93,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends OA_Admin_Stati
         $this->_checkAccess(array('publisher' => $publisherId, 'zone' => $zoneId));
 
         // Add standard page parameters
-        $this->aPageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId,
-                                   'entity' => 'zone', 'breakdown' => 'history');
+        $this->aPageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId);
         $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
         $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 
@@ -126,10 +131,8 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends OA_Admin_Stati
         $aParams = array();
         $aParams['zone_id'] = $zoneId;
 
-        $this->aPageParams['breakdown'] = 'daily';
-
         $this->prepare($aParams, 'stats.php');
-        $this->aPageParams['breakdown'] = 'history';
+
         $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
         $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
     }

@@ -52,7 +52,13 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalHistory extends OA_Admin_Sta
      */
     function __construct($aParams)
     {
+        // Set this page's entity/breakdown values
+        $this->entity    = 'global';
+        $this->breakdown = 'history';
+
+        // This page uses the day span selector element
         $this->showDaySpanSelector = true;
+
         parent::__construct($aParams);
     }
 
@@ -82,8 +88,6 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalHistory extends OA_Admin_Sta
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
         // Add module page parameters
-        $this->aPageParams['entity'] = 'global';
-        $this->aPageParams['breakdown'] = MAX_getValue('breakdown', '');
         $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
         $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 
@@ -98,7 +102,7 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalHistory extends OA_Admin_Sta
             $aParams['agency_id'] = phpAds_getAgencyID();
         }
 
-        $this->prepare($aParams, 'stats.php?entity=global&breakdown=daily');
+        $this->prepare($aParams, 'stats.php');
     }
 
 }

@@ -644,13 +644,11 @@ function phpAds_PageFooter()
 function showParams($params)
 {
     $tempStr = '';
-
     foreach($params as $k => $v) {
-      if($k != 'entity' && $k != 'breakdown') {
+      if ($k != 'entity' && $k != 'breakdown') {
           $tempStr .= '&' . $k . '=' . $v;
       }
     }
-
     return $tempStr;
 }
 

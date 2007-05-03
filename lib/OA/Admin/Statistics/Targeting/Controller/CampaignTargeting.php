@@ -52,7 +52,16 @@ class OA_Admin_Statistics_Targeting_Controller_CampaignTargeting extends OA_Admi
      */
     function __construct($aParams)
     {
+        // Set this page's entity/breakdown values
+        $this->entity    = 'campaign';
+        $this->breakdown = 'targeting';
+
+        // Set the left hand column link breakdown info
+        $this->dayLinkBreakdown = 'targeting-daily';
+
+        // This page uses the day span selector element
         $this->showDaySpanSelector = true;
+
         parent::__construct($aParams);
     }
 
@@ -86,12 +95,11 @@ class OA_Admin_Statistics_Targeting_Controller_CampaignTargeting extends OA_Admi
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
         $this->_checkAccess(array('advertiser' => $advertiserId, 'placement'  => $placementId));
 
-        // Add standard page parameters
+        // Add standard page parameters, including the current
+        // statistics page's entity/breakdown type
         $this->aPageParams = array(
             'clientid'   => $advertiserId,
-            'campaignid' => $placementId,
-            'entity'     => 'campaign',
-            'breakdown'  => 'daily'
+            'campaignid' => $placementId
         );
 
         // Load $_GET parameters
@@ -130,7 +138,7 @@ class OA_Admin_Statistics_Targeting_Controller_CampaignTargeting extends OA_Admi
         $aParams = array(
             'placement_id' => $placementId
         );
-        $this->prepare($aParams);
+        $this->prepare($aParams, 'stats.php');
     }
 
 }

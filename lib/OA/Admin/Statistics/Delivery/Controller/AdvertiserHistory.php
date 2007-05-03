@@ -52,7 +52,13 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserHistory extends OA_Admin
      */
     function __construct($aParams)
     {
+        // Set this page's entity/breakdown values
+        $this->entity    = 'advertiser';
+        $this->breakdown = 'history';
+
+        // This page uses the day span selector element
         $this->showDaySpanSelector = true;
+
         parent::__construct($aParams);
     }
 
@@ -118,14 +124,13 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserHistory extends OA_Admin
         $aParams = array();
         $aParams['advertiser_id'] = $advertiserId;
 
-        $this->prepare($aParams, 'stats.php?entity=advertiser&breakdown=daily');
+        $this->prepare($aParams, 'stats.php');
 
         $period_preset  = MAX_getStoredValue('period_preset', 'today');
         $statsBreakdown = MAX_getStoredValue('statsBreakdown', 'day');
 
         // Add module page parameters
         $this->aPageParams = array('clientid' => $advertiserId,
-                                  'entity' => $entity, 'breakdown' => $breakdown,
                                   'period_preset' => $period_preset,
                                   'statsBreakdown' => $statsBreakdown
                                  );

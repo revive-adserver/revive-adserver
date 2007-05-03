@@ -52,7 +52,13 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
      */
     function __construct($aParams)
     {
+        // Set this page's entity/breakdown values
+        $this->entity    = 'zone';
+        $this->breakdown = 'campaigns';
+
+        // This page uses the day span selector element
         $this->showDaySpanSelector = true;
+
         parent::__construct($aParams);
     }
 
@@ -174,9 +180,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
         }
 
         // Add standard page parameters
-        $this->aPageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId,
-                                  'entity' => 'zone', 'breakdown' => 'campaigns'
-                                 );
+        $this->aPageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId);
         $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
         $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 

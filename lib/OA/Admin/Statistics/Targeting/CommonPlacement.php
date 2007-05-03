@@ -71,8 +71,9 @@ class OA_Admin_Statistics_Targeting_CommonPlacement extends OA_Admin_Statistics_
      * {@link OA_Admin_Statistics_Common::output()} method.
      *
      * @param array $aParams An array containing the "placement_id".
+     * @param string $link   Optional link file name for the LHC day breakdown link.
      */
-    function prepare($aParams)
+    function prepare($aParams, $link = '')
     {
         // Set the span requirements
         $this->oHistory->getSpan($this, $aParams);
@@ -84,7 +85,6 @@ class OA_Admin_Statistics_Targeting_CommonPlacement extends OA_Admin_Statistics_
             '2007-05-02' => array(
                 'date' => '02-05-2007',
                 'date_f' => '2007-05-02',
-                'link' => 'stats.php?clientid=1&campaignid=1&entity=campaign&breakdown=targetingDaily&period_start=1995-01-01&period_end=2007-05-02&listorder=name&orderdirection=down&day=&period_preset=specific&setPerPage=15&day=20070427',
                 'placement_required_impressions' => 50,
                 'placement_requested_impressions' => 50,
                 'placement_actual_impressions' => 45,
@@ -104,7 +104,7 @@ class OA_Admin_Statistics_Targeting_CommonPlacement extends OA_Admin_Statistics_
         // Pad out any missing items in the stats array,
         // and ensure that links are correctly set
         $aDates = $this->oHistory->getDatesArray($this->aDates, $this->statsBreakdown, $this->oStartDate);
-        $this->oHistory->fillGapsAndLink($aStats, $aDates, $this);
+        $this->oHistory->fillGapsAndLink($aStats, $aDates, $this, $link);
 
         // Ensure the stats array for the range is filled
         foreach (array_keys($aStats) as $k) {

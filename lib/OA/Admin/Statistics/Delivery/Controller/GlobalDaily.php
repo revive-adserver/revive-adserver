@@ -41,6 +41,40 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalDaily extends OA_Admin_Stati
 {
 
     /**
+     * The final "child" implementation of the PHP5-style constructor.
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function __construct($aParams)
+    {
+        // Set this page's entity/breakdown values
+        $this->entity    = 'global';
+        $this->breakdown = 'daily';
+
+        parent::__construct($aParams);
+    }
+
+    /**
+     * PHP4-style constructor
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function OA_Admin_Statistics_Delivery_Controller_GlobalDaily($aParams)
+    {
+        $this->__construct($aParams);
+    }
+
+    /**
      * The final "child" implementation of the parental abstract method.
      *
      * @see OA_Admin_Statistics_Common::start()
@@ -51,8 +85,6 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalDaily extends OA_Admin_Stati
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
         // Add module page parameters
-        $this->aPageParams['entity'] = 'global';
-        $this->aPageParams['breakdown'] = 'daily';
         $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
         $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 

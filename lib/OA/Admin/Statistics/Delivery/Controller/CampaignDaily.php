@@ -45,6 +45,40 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
 {
 
     /**
+     * The final "child" implementation of the PHP5-style constructor.
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function __construct($aParams)
+    {
+        // Set this page's entity/breakdown values
+        $this->entity    = 'campaign';
+        $this->breakdown = 'daily';
+
+        parent::__construct($aParams);
+    }
+
+    /**
+     * PHP4-style constructor
+     *
+     * @param array $aParams An array of parameters. The array should
+     *                       be indexed by the name of object variables,
+     *                       with the values that those variables should
+     *                       be set to. For example, the parameter:
+     *                       $aParams = array('foo' => 'bar')
+     *                       would result in $this->foo = bar.
+     */
+    function OA_Admin_Statistics_Delivery_Controller_CampaignDaily($aParams)
+    {
+        $this->__construct($aParams);
+    }
+
+    /**
      * The final "child" implementation of the parental abstract method.
      *
      * @see OA_Admin_Statistics_Common::start()
@@ -99,8 +133,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
         }
 
         // Add standard page parameters
-        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId,
-                                  'entity' => 'campaign', 'breakdown' => 'daily');
+        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId);
         $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
         $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
         $this->aPageParams['day']           = MAX_getValue('day', '');

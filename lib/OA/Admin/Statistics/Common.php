@@ -224,6 +224,32 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     var $outputType;
 
     /**
+     * A variable for holding the current statistics page's "entity"
+     * value.
+     *
+     * @var string
+     */
+    var $entity;
+
+    /**
+     * A variable for holding the current statistics page's "breakdown"
+     * value.
+     *
+     * @var string
+     */
+    var $breakdown;
+
+    /**
+     * A variable for holding the current statistics page's "breakdown"
+     * value that should be used for any links that need to be
+     * generated to the daily breakdown page in the left-most column
+     * of the tabular data. Default is "daily".
+     *
+     * @var string
+     */
+    var $dayLinkBreakdown = 'daily';
+
+    /**
      * A PHP5-style constructor that can be used to perform common
      * class instantiation by children classes.
      *
@@ -239,6 +265,14 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         // Set the parameters
         foreach ($aParams as $k => $v) {
             $this->$k = $v;
+        }
+
+        // Ensure that the entity/breakdown values are set
+        if (empty($this->entity)) {
+            $this->entity = 'entity';
+        }
+        if (empty($this->breakdown)) {
+            $this->breakdown = 'breakdown';
         }
 
         // Prepare some basic preferences for the class
@@ -480,6 +514,10 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
         $this->_showBreadcrumbs();
 
+        // Add the current page's entity/breakdown values to the page
+        // parameters before output
+        $this->aPageParams['entity']    = $this->entity;
+        $this->aPageParams['breakdown'] = $this->breakdown;
         phpAds_ShowSections($this->aPageSections, $this->aPageParams, $openNewTable=false);
 
         $formSubmitLink = explode ("/", $_SERVER['REQUEST_URI']);
@@ -601,6 +639,21 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
         // Stop!
         die;
+    }
+
+    /**
+     * A method that can be used in both the Flexy template and the
+     * output() method to determine if a column should be visible,
+     * or not.
+     *
+     * By default, all columns are shown.
+     *
+     * @param string $column The column name.
+     * @return boolean True if the column is visible, false otherwise.
+     */
+    function showColumn($column)
+    {
+        return true;
     }
 
     /**
@@ -1013,14 +1066,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             'period_preset',
             'setPerPage'
         );
-
-        if ($this->aPageParams['entity'] == '') {
-            $aVarArray[] = 'entity';
-        }
-
-        if ($this->aPageParams['breakdown'] == '') {
-            $aVarArray[] = 'breakdown';
-        }
 
         // Clear existing params, if required
         if ($clearParams) {

@@ -175,39 +175,69 @@ class OA_Admin_Statistics_History
             }
             $aStats[$key]['date_f'] = $date_f;
 
-            // Add links to the items, if required
+            // Prepare the array of parameters for creating the LHC day-breakdown link,
+            // if required - simply the $oCaller->aPageParams array with "entity" and
+            // "breakdown" set as required
+            if (!empty($link)) {
+                $aDayLinkParams = array();
+                $aDayLinkParams['entity']    = $oCaller->entity;
+                $aDayLinkParams['breakdown'] = $oCaller->dayLinkBreakdown;
+                $aDayLinkParams = array_merge($oCaller->aPageParams, $aDayLinkParams);
+            }
+
+            // Add links to the left hand column items, if required
             switch ($oCaller->statsBreakdown) {
+
                 case 'week' :
                 case 'day' :
-                    $aStats[$key]['day']  = $key;
-                    $aStats[$key]['link'] = $oCaller->_addPageParamsToURI($link).'day='.str_replace('-', '', $key);
-                    $aParams = $oCaller->_removeDuplicateParams($link);
-                    $aStats[$key]['linkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams).
-                        'day='.str_replace('-', '', $key), 1);
-                    $aStats[$key]['convlinkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams).
-                        'day='.str_replace('-', '', $key), 1);
+                    // Set the "day/week" value
+                    $aStats[$key]['day'] = $key;
+                    if (!empty($link)) {
+                    // Set LHC day-breakdown link, if required:
+                        $aStats[$key]['link'] = $oCaller->_addPageParamsToURI($link, $aDayLinkParams) . 'day=' . str_replace('-', '', $key);
+
+                        $aParams = $oCaller->_removeDuplicateParams($link);
+                        $aStats[$key]['linkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams).
+                            'day='.str_replace('-', '', $key), 1);
+                        $aStats[$key]['convlinkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams).
+                            'day='.str_replace('-', '', $key), 1);
+                    }
                     break;
+
                 case 'month' :
-                    $month_start = new Date(sprintf('%s-%02d', $key, 1));
-                    $month_end   = new Date($month_start);
-                    $month_end->setDay($month_end->getDaysInMonth());
-                    $aStats[$key]['month']      = $key;
-                    $aParams = $oCaller->_removeDuplicateParams($link);
-                    $aStats[$key]['linkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams).
-                        'period_preset=specific&'.
-                        'period_start='.$month_start->format('%Y-%m-%d').'&'.
-                        'period_end='.$month_end->format('%Y-%m-%d'), 1);
-                    $aStats[$key]['convlinkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams).
-                        'period_preset=specific&'.
-                        'period_start='.$month_start->format('%Y-%m-%d').'&'.
-                        'period_end='.$month_end->format('%Y-%m-%d'), 1);
+                    // Set the "month" value
+                    $oMonthStart = new Date(sprintf('%s-%02d', $key, 1));
+                    $oMonthEnd = new Date();
+                    $oMonthEnd->copy($oMonthStart);
+                    $oMonthEnd->setDay($oMonthEnd->getDaysInMonth());
+                    $aStats[$key]['month'] = $key;
+                    if (!empty($link)) {
+                        $aParams = $oCaller->_removeDuplicateParams($link);
+                        $aStats[$key]['linkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams).
+                            'period_preset=specific&'.
+                            'period_start='.$oMonthStart->format('%Y-%m-%d').'&'.
+                            'period_end='.$oMonthEnd->format('%Y-%m-%d'), 1);
+                        $aStats[$key]['convlinkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams).
+                            'period_preset=specific&'.
+                            'period_start='.$oMonthStart->format('%Y-%m-%d').'&'.
+                            'period_end='.$oMonthEnd->format('%Y-%m-%d'), 1);
+                    }
                     break;
+
                 case 'dow' :
+                    // Set the "dow" value
                     $aStats[$key]['dow'] = $key;
                     break;
+
                 case 'hour' :
+                    // Set the "hour" value
                     $aStats[$key]['hour'] = $key;
-                    if (!empty($this->aDates['day_begin']) && $this->aDates['day_begin'] == $this->aDates['day_end']) {
+                    if (
+                        !empty($link) &&
+                        !empty($this->aDates['day_begin']) &&
+                        !empty($this->aDates['day_end']) &&
+                        $this->aDates['day_begin'] == $this->aDates['day_end']
+                    ) {
                         $aParams = $oCaller->_removeDuplicateParams($link);
                         $aStats[$key]['linkparams'] = substr($oCaller->_addPageParamsToURI('', $aParams).
                             'day='.str_replace('-', '', $this->aDates['day_begin']).'&'.
@@ -217,6 +247,7 @@ class OA_Admin_Statistics_History
                             'hour='.sprintf('%02d', $key), 1);
                     }
                     break;
+
             }
         }
     }
@@ -297,7 +328,7 @@ class OA_Admin_Statistics_History
                 while ($oDate->before($oEndDate)) {
                     $aDates[$oDate->format('%Y-%m')] = $oDate->format($GLOBALS['month_format']);
                     $oOneMonthSpan = new Date_Span((string)($oDate->getDaysInMonth() - $oDate->getDay() + 1), '%d');
-                    $date->addSpan($oOneMonthSpan);
+                    $oDate->addSpan($oOneMonthSpan);
                 }
                 break;
             case 'dow' :

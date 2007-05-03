@@ -61,17 +61,6 @@ class OA_Admin_Statistics_Delivery_Flexy extends OA_Admin_Statistics_Common
         return $this->aColumnLinks[$column];
     }
 
-    /**
-     * Return the visibility status of a column
-     *
-     * @param string Column name
-     * @return boolean True if the column is vilible
-     */
-    function showColumn($column)
-    {
-        return isset($this->aColumnVisible[$column]) ? $this->aColumnVisible[$column] : true;
-    }
-
 }
 
 ?>

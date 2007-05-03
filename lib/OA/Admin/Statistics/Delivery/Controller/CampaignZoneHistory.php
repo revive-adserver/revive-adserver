@@ -52,7 +52,13 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignZoneHistory extends OA_Adm
      */
     function __construct($aParams)
     {
+        // Set this page's entity/breakdown values
+        $this->entity    = 'campaign';
+        $this->breakdown = 'zone-history';
+
+        // This page uses the day span selector element
         $this->showDaySpanSelector = true;
+
         parent::__construct($aParams);
     }
 
@@ -146,7 +152,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignZoneHistory extends OA_Adm
         $aParams['placement_id'] = $placementId;
         $aParams['zone_id']      = $zoneId;
 
-        $this->prepare($aParams, 'stats.php?entity=campaign&breakdown=daily');
+        $this->prepare($aParams, 'stats.php');
     }
 
 }

@@ -52,7 +52,13 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends O
      */
     function __construct($aParams)
     {
+        // Set this page's entity/breakdown values
+        $this->entity    = 'affiliate';
+        $this->breakdown = 'campaign-history';
+
+        // This page uses the day span selector element
         $this->showDaySpanSelector = true;
+
         parent::__construct($aParams);
     }
 
@@ -138,7 +144,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends O
         $aParams['publisher_id'] = $publisherId;
         $aParams['placement_id'] = $placementId;
 
-        $this->prepare($aParams, 'stats.php?entity=affiliate&breakdown=daily');
+        $this->prepare($aParams, 'stats.php');
     }
 
 }

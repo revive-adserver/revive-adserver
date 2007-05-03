@@ -52,7 +52,13 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
      */
     function __construct($aParams)
     {
+        // Set this page's entity/breakdown values
+        $this->entity    = 'banner';
+        $this->breakdown = 'affiliates';
+
+        // This page uses the day span selector element
         $this->showDaySpanSelector = true;
+
         parent::__construct($aParams);
     }
 

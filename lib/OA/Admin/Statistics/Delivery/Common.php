@@ -89,6 +89,22 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
     }
 
     /**
+     * A method that can be used in both the Flexy template and the
+     * output() method to determine if a column should be visible,
+     * or not.
+     *
+     * Overrides the parent method to actually test to see if the
+     * columns should be visible or not.
+     *
+     * @param string $column The column name.
+     * @return boolean True if the column is visible, false otherwise.
+     */
+    function showColumn($column)
+    {
+        return isset($this->aColumnVisible[$column]) ? $this->aColumnVisible[$column] : true;
+    }
+
+    /**
      * A private method that can be inherited and used by children classes to
      * load the required plugins during instantiation.
      *
@@ -115,6 +131,25 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
         $b = isset($this->aPrefNames[$b]) && isset($pref[$this->aPrefNames[$b].'_rank']) ? $pref[$this->aPrefNames[$b].'_rank'] : 100;
         return $a - $b;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * A private method that can be inherited and used by children classes to
