@@ -136,6 +136,11 @@ function _getTimeYearFromNow() //Chris: See comment above
 	return MAX_commonGetTimeNow() + 365*24*60*60;
 }
 
+function _getTimeYearAgo() 
+{
+    return MAX_commonGetTimeNow() - 365*24*60*60;
+}
+ 	
 /**
  * @todo Should this empty array be set in init()?
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
