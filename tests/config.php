@@ -101,6 +101,7 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         //'dev'   => array('Developer Tools',                     DB_WITH_TABLES),
         'mol'   => array('Openads Other Libraries',             DB_WITH_TABLES),
         'up'    => array('Upgrade Classes',                     DB_WITH_TABLES),
+        'mig' => array('Upgrade Migration Classes',             DB_NO_TABLES),
     );
 
 /*
