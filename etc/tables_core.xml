@@ -5,7 +5,7 @@
  <name>openads</name>
  <create>true</create>
  <overwrite>false</overwrite>
- <version>514</version>
+ <version>513</version>
  <status>final</status>
 
  <table>
@@ -791,6 +791,14 @@
    </field>
 
    <field>
+    <name>filename</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
     <name>imageurl</name>
     <type>openads_varchar</type>
     <length>255</length>
@@ -1032,14 +1040,6 @@
     <name>parameters</name>
     <type>openads_text</type>
     <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>image_id</name>
-    <type>openads_mediumint</type>
-    <length>9</length>
-    <notnull>true</notnull>
     <default></default>
    </field>
 
@@ -7043,8 +7043,8 @@
     <name>warn_limit_days</name>
     <type>openads_smallint</type>
     <length>6</length>
-    <notnull>false</notnull>
-    <default></default>
+    <notnull>true</notnull>
+    <default>1</default>
    </field>
 
    <index>
