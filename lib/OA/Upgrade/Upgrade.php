@@ -264,7 +264,7 @@ class OA_Upgrade
     {
         if ($this->package_file)
         {
-            if (!file_exists(MAX_PATH.'/var/upgrade/'.$this->package_file))
+            if (!file_exists($this->upgradePath.$this->package_file))
             {
                 $this->oLogger->logError('Upgrade package file '.$this->package_file.' NOT found');
                 return false;
@@ -607,7 +607,7 @@ class OA_Upgrade
         {
             $this->initDatabaseConnection();
         }
-        if (!$this->checkDBPermissions())
+        if (!$this->checkPermissionToCreateTable())
         {
             $this->oLogger->logError('Insufficient database permissions');
             return false;
@@ -623,9 +623,19 @@ class OA_Upgrade
             $this->oLogger->log('Application version updated to '. OA_VERSION);
             if ($this->remove_max_version)
             {
+                if ($this->oConfiguration->isMaxConfigFile())
+                {
+                    if (!$this->oConfiguration->replaceMaxConfigFileWithOpenadsConfigFile())
+                    {
+                        $this->oLogger->logError('Failed to replace MAX configuration file with Openads configuration file');
+                        $this->message = 'Failed to update application version to '.OA_VERSION;
+                        return false;
+                    }
+                }
+                $this->oLogger->logError('Replaced MAX configuration file with Openads configuration file');
                 if (!$this->oVersioner->removeMaxVersion())
                 {
-                    $this->oLogger->log('Failed to remove MAX application version');
+                    $this->oLogger->logError('Failed to remove MAX application version');
                     $this->message = 'Failed to update application version to '.OA_VERSION;
                     return false;
                 }

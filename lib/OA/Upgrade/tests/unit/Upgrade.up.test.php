@@ -68,14 +68,14 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_Upgrade',
             $mockDBUpgrade = 'OA_DB_Upgrade'.rand(),
-            array('init','upgrade')
+            array('upgrade','init')
         );
 
         $oUpgrade->oDBUpgrader = new $mockDBUpgrade($this);
-        $oUpgrade->oDBUpgrader->setReturnValue('init', true);
-        $oUpgrade->oDBUpgrader->expectOnce('init');
         $oUpgrade->oDBUpgrader->setReturnValue('upgrade', true);
         $oUpgrade->oDBUpgrader->expectOnce('upgrade');
+        $oUpgrade->oDBUpgrader->setReturnValue('init', true);
+        $oUpgrade->oDBUpgrader->expectCallCount('init',2);
 
         $oUpgrade->aDBPackages = array(0=>array('version'=>'2','schema'=>'test_tables','files'=>''));
 

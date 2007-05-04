@@ -32,12 +32,50 @@ class OA_Upgrade_Config
         return $host[0];
     }
 
+    function getConfigFileName()
+    {
+        $host = $this->getHost();
+        $this->configPath = MAX_PATH.'/var/';
+        if (file_exists($host.'.conf.php'))
+        {
+            $this->configFile = $host.'.conf.php';
+        }
+        else if (file_exists($host.'.conf.ini'))
+        {
+            $this->configFile = $host.'.conf.ini';
+        }
+    }
+
+    function isMaxConfigFile()
+    {
+        $host = $this->getHost();
+        $this->configPath = MAX_PATH.'/var/';
+        if (file_exists($this->configPath.$host.'.conf.ini'))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    function replaceMaxConfigFileWithOpenadsConfigFile()
+    {
+        $host = $this->getHost();
+        $this->configPath = MAX_PATH.'/var/';
+        if (file_exists($this->configPath.$host.'.conf.ini'))
+        {
+            if (copy($this->configPath.$host.'.conf.ini', $this->configPath.$host.'.conf.php'))
+            copy($this->configPath.$host.'.conf.ini', $this->configPath.$host.'.conf.ini.old');
+            {
+                unlink($this->configPath.$host.'.conf.ini');
+            }
+        }
+        return file_exists($this->configPath.$host.'.conf.php');
+    }
+
     function putNewConfigFile()
     {
         $this->getInitialConfig();
-        $host = $this->getHost();
-        $this->configPath = MAX_PATH.'/var/';
-        $this->configFile = $host.'.conf.php';
+        $this->getConfigFileName();
         if (!file_exists($this->configPath.$this->configFile))
         {
             copy(MAX_PATH.'/etc/dist.conf.php', $this->configPath.$this->configFile);

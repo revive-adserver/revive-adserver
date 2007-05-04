@@ -88,12 +88,12 @@ class Test_OA_Upgrade extends UnitTestCase
 //        $GLOBALS['_MAX']['CONF']['table']    = $aTblOld;
     }
 
-    function test_checkDBPermissions()
+    function testcheckPermissionToCreateTable()
     {
         $oUpgrade = new OA_Upgrade();
         $oUpgrade->initDatabaseConnection();
         $this->assertIsA($oUpgrade->oDbh,'MDB2_driver_Common','class mismatch: MDB2_driver_Common');
-        $this->assertTrue($oUpgrade->checkDBPermissions(),'database permissions');
+        $this->assertTrue($oUpgrade->checkPermissionToCreateTable(),'database permissions');
     }
 
     function test_createCoreTables()

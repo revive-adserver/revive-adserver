@@ -162,8 +162,8 @@ class OA_DB_Upgrade
         $this->_log('to version: '.$this->versionTo);
         $this->_log('timing: '.$this->timingStr);
 
-        //$this->path_changes = MAX_PATH.'/etc/changes/';
-        $this->path_changes = MAX_PATH.'/var/upgrade/';
+        $this->path_changes = MAX_PATH.'/etc/changes/';
+        //$this->path_changes = MAX_PATH.'/var/upgrade/';
         $this->file_schema  = "{$this->path_changes}schema_{$schema}_{$this->versionTo}.xml";
         $this->file_changes  = "{$this->path_changes}changes_{$schema}_{$this->versionTo}.xml";
         $this->file_migrate  = "{$this->path_changes}migration_{$schema}_{$this->versionTo}.php";
