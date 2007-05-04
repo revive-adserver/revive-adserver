@@ -53,40 +53,43 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvMgr->aInfo['PHP']['actual']['memory_limit'] = '';
         $oEnvMgr->aInfo['PHP']['actual']['safe_mode'] = '0';
         $oEnvMgr->aInfo['PHP']['actual']['magic_quotes_runtime'] = '0';
-        $oEnvMgr->aInfo['PHP']['actual']['date.timezone'] = '';
+        $oEnvMgr->aInfo['PHP']['actual']['date.timezone'] = 'Europe/London';
 
         $oEnvMgr->aInfo['PHP']['actual']['version'] = '4.3.5';
-        $this->assertFalse($oEnvMgr->_checkCriticalPHP(),'version 4.3.5');
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_VERSION,'version 4.3.5');
 
         $oEnvMgr->aInfo['PHP']['actual']['version'] = '4.3.6';
-        $this->assertTrue($oEnvMgr->_checkCriticalPHP(),'version 4.3.6');
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'version 4.3.6');
 
         $oEnvMgr->aInfo['PHP']['actual']['version'] = '4.3.7';
-        $this->assertTrue($oEnvMgr->_checkCriticalPHP(),'version 4.3.7');
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'version 4.3.7');
 
         $oEnvMgr->aInfo['PHP']['actual']['version'] = '5.0.1';
-        $this->assertTrue($oEnvMgr->_checkCriticalPHP(),'version 5.0.1');
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'version 5.0.1');
 
         $oEnvMgr->aInfo['PHP']['actual']['memory_limit'] = '2048';
-        $this->assertFalse($oEnvMgr->_checkCriticalPHP(),'memory_limit too low');
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_MEMORY,'memory_limit too low');
 
         $oEnvMgr->aInfo['PHP']['actual']['memory_limit'] = '16384';
-        $this->assertTrue($oEnvMgr->_checkCriticalPHP(),'memory_limit');
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'memory_limit');
 
         $oEnvMgr->aInfo['PHP']['actual']['memory_limit'] = '';
-        $this->assertTrue($oEnvMgr->_checkCriticalPHP(),'memory_limit not set');
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'memory_limit not set');
 
         $oEnvMgr->aInfo['PHP']['actual']['safe_mode'] = '1';
-        $this->assertFalse($oEnvMgr->_checkCriticalPHP(),'safe_mode on');
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_SAFEMODE,'safe_mode on');
 
         $oEnvMgr->aInfo['PHP']['actual']['safe_mode'] = '0';
-        $this->assertTrue($oEnvMgr->_checkCriticalPHP(),'safe_mode off');
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'safe_mode off');
 
         $oEnvMgr->aInfo['PHP']['actual']['magic_quotes_runtime'] = '1';
-        $this->assertFalse($oEnvMgr->_checkCriticalPHP(),'magic_quotes_runtime on');
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_MAGICQ,'magic_quotes_runtime on');
 
         $oEnvMgr->aInfo['PHP']['actual']['magic_quotes_runtime'] = '0';
-        $this->assertTrue($oEnvMgr->_checkCriticalPHP(),'magic_quotes_runtime off');
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'magic_quotes_runtime off');
+
+        $oEnvMgr->aInfo['PHP']['actual']['date.timezone'] = '';
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_TIMEZONE,'date.timezone unset');
     }
 
     function test_checkCriticalPermissions()
@@ -98,14 +101,12 @@ class Test_OA_Environment_Manager extends UnitTestCase
 
         $oEnvMgr->aInfo['PERMS']['actual'] = array('/var'=>'NOT writeable');
         $this->assertFalse($oEnvMgr->_checkCriticalPermissions(),'');
-
     }
 
     function test_checkCriticalFiles()
     {
         $oEnvMgr = & $this->_getEnvMgrObj();
         $this->assertTrue($oEnvMgr->_checkCriticalFiles(),'');
-
     }
 
     function _getEnvMgrObj()

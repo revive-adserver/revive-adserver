@@ -21,14 +21,21 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
+*/
 /**
  * Openads Upgrade Class
  *
  * @author Monique Szpak <monique.szpak@openads.org>
  *
- * $Id $
+ * $Id$
  *
  */
+define('OA_ENV_ERROR_PHP_NOERROR',                    1);
+define('OA_ENV_ERROR_PHP_VERSION',                   -1);
+define('OA_ENV_ERROR_PHP_MEMORY',                    -2);
+define('OA_ENV_ERROR_PHP_SAFEMODE',                  -3);
+define('OA_ENV_ERROR_PHP_MAGICQ',                    -4);
+define('OA_ENV_ERROR_PHP_TIMEZONE',                  -5);
 
 require_once MAX_PATH.'/lib/OA/DB.php';
 
@@ -158,13 +165,19 @@ class OA_Environment_Manager
 
     function _checkCriticalPHP()
     {
-        $result = version_compare($this->aInfo['PHP']['actual']['version'],
-                                  $this->aInfo['PHP']['expected']['version']
-                                 );
-        $result = ($result<0 ? false : true);
+        if (function_exists('version_compare'))
+        {
+            $result = version_compare($this->aInfo['PHP']['actual']['version'],
+                                      $this->aInfo['PHP']['expected']['version'], "<");
+            $result = ($result ? OA_ENV_ERROR_PHP_VERSION : OA_ENV_ERROR_PHP_NOERROR);
+        }
+        else
+        {
+            $result = OA_ENV_ERROR_PHP_VERSION;
+        }
         if (!$result)
         {
-            $this->aInfo['PHP']['error'][] = "Version {$this->aInfo['PHP']['actual']['version']} is below the minimum supported version {$this->aInfo['PHP']['expected']['version']}";
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_VERSION] = "Version {$this->aInfo['PHP']['actual']['version']} is below the minimum supported version {$this->aInfo['PHP']['expected']['version']}";
         }
         else
         {
@@ -174,23 +187,23 @@ class OA_Environment_Manager
         $memlim = $this->aInfo['PHP']['actual']['memory_limit'];
         if (($memlim > 0) && ($memlim < $this->aInfo['PHP']['expected']['memory_limit']))
         {
-            $result = false;
-            $this->aInfo['PHP']['error'][] = 'memory_limit needs to be increased';
+            $result = OA_ENV_ERROR_PHP_MEMORY;
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MEMORY] = 'memory_limit needs to be increased';
         }
         if ($this->aInfo['PHP']['actual']['safe_mode'])
         {
-            $result = false;
-            $this->aInfo['PHP']['error'][] = 'safe_mode must be OFF';
+            $result = OA_ENV_ERROR_PHP_SAFEMODE;
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_SAFEMODE] = 'safe_mode must be OFF';
         }
         if ($this->aInfo['PHP']['actual']['magic_quotes_runtime'])
         {
-            $result = false;
-            $this->aInfo['PHP']['error'][] = 'magic_quotes_runtime must be OFF';
+            $result = OA_ENV_ERROR_PHP_MAGICQ;
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MAGICQ] = 'magic_quotes_runtime must be OFF';
         }
         if (!$this->aInfo['PHP']['actual']['date.timezone'])
         {
-            $result = false;
-            $this->aInfo['PHP']['error'][] = 'date.timezone expected to be set';
+            $result = OA_ENV_ERROR_PHP_TIMEZONE;
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEZONE] = 'date.timezone expected to be set';
         }
         return $result;
     }
