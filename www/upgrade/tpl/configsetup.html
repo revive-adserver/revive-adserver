@@ -4,58 +4,44 @@
         <?php
             if ($aConfig && is_array($aConfig) && (count($aConfig)>0))
             {
-                $section = 'max';
                 echo "<tr>
-                          <td class=\"section\" colspan=\"2\">**{$section}**</td>
+                          <td class=\"label\"><span>Language</span></td>
+                          <td class=\"input\"><input type=\"text\" name=\"aConfig[max][language]\" value=\"{$aConfig['max']['language']}\" size=\"48\" /></td>
+                      </tr>";
+                $aConfig['timezone']['location'] = (!$aConfig['timezone']['location'] ? 'Europe/London' : $aConfig['timezone']['location']); // need to do timezone detection
+                echo "<tr>
+                          <td class=\"label\"><span>Timezone</span></td>
+                          <td class=\"input\"><input type=\"text\" name=\"aConfig[timezone][location]\" value=\"{$aConfig['timezone']['location']}\"  size=\"48\"/></td>
+                      </tr>";
+
+
+                echo "<tr>
+                          <td class=\"label\"><span>Admin Webpath</span></td>
+                          <td class=\"input\"><input type=\"text\" name=\"aConfig[webpath][admin]\" value=\"{$aConfig['webpath']['admin']}\"  size=\"48\"/></td>
                       </tr>";
                 echo "<tr>
-                          <td class=\"label\"><span>language</span></td>
-                          <td class=\"input\"><input type=\"text\" name=\"aConfig[{$section}][language]\" value=\"{$aConfig[$section]['language']}\" size=\"48\" /></td>
+                          <td class=\"label\"><span>Delivery Webpath</span></td>
+                          <td class=\"input\"><input type=\"text\" name=\"aConfig[webpath][delivery]\" value=\"{$aConfig['webpath']['delivery']}\"  size=\"48\"/></td>
                       </tr>";
-                $section = 'timezone';
                 echo "<tr>
-                          <td class=\"section\" colspan=\"2\">**{$section}**</td>
+                          <td class=\"label\"><span>Images Webpath</span></td>
+                          <td class=\"input\"><input type=\"text\" name=\"aConfig[webpath][images]\" value=\"{$aConfig['webpath']['images']}\"  size=\"48\"/></td>
                       </tr>";
-                foreach ($aConfig[$section] AS $k => $v)
-                {
-                    echo "<tr>
-                              <td class=\"label\"><span>{$k}</span></td>
-                              <td class=\"input\"><input type=\"text\" name=\"aConfig[{$section}][{$k}]\" value=\"{$v}\"  size=\"48\"/></td>
-                          </tr>";
-                }
-                $section = 'webpath';
                 echo "<tr>
-                          <td class=\"section\" colspan=\"2\">**{$section}**</td>
+                          <td class=\"label\"><span>Delivery SSL Webpath</span></td>
+                          <td class=\"input\"><input type=\"text\" name=\"aConfig[webpath][deliverySSL]\" value=\"{$aConfig['webpath']['deliverySSL']}\"  size=\"48\"/></td>
                       </tr>";
-                foreach ($aConfig[$section] AS $k => $v)
-                {
-                    echo "<tr>
-                              <td class=\"label\"><span>{$k}</span></td>
-                              <td class=\"input\"><input type=\"text\" name=\"aConfig[{$section}][{$k}]\" value=\"{$v}\" size=\"48\" /></td>
-                          </tr>";
-                }
-                $section = 'store';
                 echo "<tr>
-                          <td class=\"section\" colspan=\"2\">**{$section}**</td>
+                          <td class=\"label\"><span>Images SSL Webpath</span></td>
+                          <td class=\"input\"><input type=\"text\" name=\"aConfig[webpath][imagesSSL]\" value=\"{$aConfig['webpath']['imagesSSL']}\"  size=\"48\"/></td>
                       </tr>";
-                foreach ($aConfig[$section] AS $k => $v)
-                {
-                    echo "<tr>
-                              <td class=\"label\"><span>{$k}</span></td>
-                              <td class=\"input\"><input type=\"text\" name=\"aConfig[{$section}][{$k}]\" value=\"{$v}\"  size=\"48\"/></td>
-                          </tr>";
-                }
-                $section = 'email';
+
+
                 echo "<tr>
-                          <td class=\"section\" colspan=\"2\">**{$section}**</td>
+                          <td class=\"label\"><span>Image Store</span></td>
+                          <td class=\"input\"><input type=\"text\" name=\"aConfig[store][webDir]\" value=\"{$aConfig['store']['webDir']}\"  size=\"48\"/></td>
                       </tr>";
-                foreach ($aConfig[$section] AS $k => $v)
-                {
-                    echo "<tr>
-                              <td class=\"label\"><span>{$k}</span></td>
-                              <td class=\"input\"><input type=\"text\" name=\"aConfig[{$section}][{$k}]\" value=\"{$v}\"  size=\"48\"/></td>
-                          </tr>";
-                }
+
             }
             else
             {

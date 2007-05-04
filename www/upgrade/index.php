@@ -46,6 +46,8 @@ $installing = true;
 require_once '../../init.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
 
+// CHANGE $_REQUEST TO $_POST
+
 $oUpgrader = new OA_Upgrade();
 
 if ($oUpgrader->oDBUpgrader->seekRecoveryFile())
