@@ -148,6 +148,24 @@ class OA_Upgrade
         return true;
     }
 
+    function isRecoveryRequired()
+    {
+        return $this->oDBUpgrader->seekRecoveryFile();
+    }
+
+    function recoverUpgrade()
+    {
+        if (is_null($this->oDbh))
+        {
+            $this->initDatabaseConnection();
+        }
+        if ($this->oDBUpgrader->getRecoveryData())
+        {
+            $this->oDBUpgrader->doRecovery();
+        }
+        return true;
+    }
+
     /**
      * return an array of system environment info
      *

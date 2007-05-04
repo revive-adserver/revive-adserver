@@ -456,6 +456,7 @@ class OA_DB_Upgrade
                                                               );
                             return false;
                         }
+                        $this->_logError("backup table restored: {$aTable_bak['bak']} => {$this->prefix}{$table}");
                         $this->oAuditor->logDatabaseAction(array('info1'=>'reverted table',
                                                                  'tablename'=>$this->prefix.$table,
                                                                  'tablename_backup'=>$aTable_bak['bak'],
@@ -582,11 +583,16 @@ class OA_DB_Upgrade
      *
      * @return boolean
      */
-    function prepRecovery()
+    function getRecoveryData()
     {
         $aRecovery = $this->seekRecoveryFile();
         if ($aRecovery)
         {
+            if (!$this->oSchema)
+            {
+                $this->initMDB2Schema();
+            }
+
             $this->aDBTables = $this->_listTables();
 
             $this->_setTiming('', $aRecovery['timingInt']);
@@ -608,6 +614,14 @@ class OA_DB_Upgrade
             }
             else
             {
+                if (is_array($aResult))
+                {
+                    $this->_log('THE FOLLOWING RECOVERY DATA HAS BEEN FOUND:');
+                }
+                else
+                {
+                    $this->_log('No recovery data found, this probably means that no recovery is necessary');
+                }
                 foreach ($aResult AS $k=>$aAction)
                 {
                     $this->_log("Action found: {$aAction['updated']} : {$aAction['info1']}");
@@ -633,6 +647,30 @@ class OA_DB_Upgrade
                 }
             }
         }
+        return true;
+    }
+
+    function doRecovery()
+    {
+        if (!empty($this->aRestoreTables))
+        {
+            $this->_log('NOW ATTEMPTING TO RESTORE BACKUP TABLES');
+            $this->oAuditor->setKeyParams(array('schema_name'=>$this->schema,
+                                                'version'=>$this->versionTo,
+                                                'timing'=>$this->timingInt
+                                                ));
+            if ($this->_rollback())
+            {
+                $this->_log('ROLLBACK SUCCESSFUL');
+                return true;
+            }
+            else
+            {
+                $this->_logError('ROLLBACK FAILED');
+                return false;
+            }
+        }
+        $this->_log('No tables need restoring');
         return true;
     }
 

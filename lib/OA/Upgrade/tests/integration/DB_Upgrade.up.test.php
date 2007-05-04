@@ -132,7 +132,7 @@ works in phpMyAdmin on MySQL 5.0.22 but not via this routine
         // remove it from memory
         $oDB_Upgrade->aRestoreTables = array();
         // prepare the recovery data....
-        $this->assertTrue($oDB_Upgrade->prepRecovery(),'recovery preparation failed');
+        $this->assertTrue($oDB_Upgrade->getRecoveryData(),'recovery preparation failed');
         $this->assertEqual(count($oDB_Upgrade->aRestoreTables),2,'wrong number of tables to restore');
         $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['table1']),'table1 not found in restore array');
         $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['table2']),'table2 not found in restore array');
@@ -143,7 +143,7 @@ works in phpMyAdmin on MySQL 5.0.22 but not via this routine
         $this->assertTrue($oTable->dropTable('table1'),'error dropping table1');
         $this->assertTrue($oTable->dropTable('table2'),'error dropping table2');
         // now restore those tables
-        $this->assertTrue($oDB_Upgrade->_rollback(), 'rollback failed');
+        $this->assertTrue($oDB_Upgrade->doRecovery(), 'rollback failed');
         // the recovery file should have been deleted
         $this->assertFalse($oDB_Upgrade->seekRecoveryFile(),'recovery file not deleted');
 

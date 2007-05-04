@@ -50,9 +50,9 @@ require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
 
 $oUpgrader = new OA_Upgrade();
 
-if ($oUpgrader->oDBUpgrader->seekRecoveryFile())
+if ($oUpgrader->isRecoveryRequired())
 {
-    $oUpgrader->oDBUpgrader->prepRecovery();
+    $oUpgrader->recoverUpgrade();
     $action = OA_UPGRADE_RECOVERY;
 }
 else if (array_key_exists('btn_syscheck', $_REQUEST))
