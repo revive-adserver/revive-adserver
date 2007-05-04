@@ -108,6 +108,19 @@ class OA_phpAdsNew
         return false;
     }
 
+    function renamePANConfigFile()
+    {
+        if (file_exists(MAX_PATH.$this->pathCfg.$this->fileCfg))
+        {
+            if (copy(MAX_PATH.$this->pathCfg.$this->fileCfg, MAX_PATH.$this->pathCfg.$this->fileCfg.'phpadsnew'))
+            {
+                unlink(MAX_PATH.$this->pathCfg.$this->fileCfg);
+            }
+        }
+        return (!file_exists(MAX_PATH.$this->pathCfg.$this->fileCfg));
+    }
+
+
 }
 
 ?>

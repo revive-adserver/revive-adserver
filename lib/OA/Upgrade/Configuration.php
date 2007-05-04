@@ -116,6 +116,8 @@ class OA_Upgrade_Config
             $this->setValue('webpath', 'admin'   , $this->getHost().'/admin');
             $this->setValue('webpath', 'delivery', $this->getHost().'/delivery');
             $this->setValue('webpath', 'images', $this->getHost().'/images');
+            $this->setValue('webpath', 'deliverySSL', $this->getHost().'/delivery');
+            $this->setValue('webpath', 'imagesSSL', $this->getHost().'/images');
         }
     }
 

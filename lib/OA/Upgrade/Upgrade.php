@@ -191,8 +191,8 @@ class OA_Upgrade
                 $this->oLogger->log('phpAdsNew '.$this->versionInitialApplication.' detected');
                 $this->oLogger->log($strConnected.' : '.$database);
                 $this->oLogger->logError($strNoUpgrade);
-                //return false;
-                break;
+                return false;
+                //break;
             case OA_STATUS_CAN_UPGRADE:
                 $this->oLogger->log('phpAdsNew '.$this->versionInitialApplication.' detected');
                 $this->oLogger->log($strCanUpgrade);
@@ -553,6 +553,13 @@ class OA_Upgrade
         {
             $this->oConfiguration->getInitialConfig();
         }
+//        else if ($this->detectPAN())
+//        {
+//            $this->detectPAN();
+//            $this->oConfiguration->getInitialConfig();
+//            $aOAD = $this->oConfiguration->aConfig;
+//            $aPAN = $this->oPAN->_getPANConfig();
+//        }
         return $this->oConfiguration->aConfig;
     }
 
@@ -612,38 +619,49 @@ class OA_Upgrade
             $this->oLogger->logError('Insufficient database permissions');
             return false;
         }
-        if ($this->upgradeSchemas())
+        if (!$this->upgradeSchemas())
         {
-            if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
+            return false;
+        }
+        if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
+        {
+            $this->oLogger->log('Failed to update application version to '.OA_VERSION);
+            $this->message = 'Failed to update application version to '.OA_VERSION;
+            return false;
+         }
+        $this->oLogger->log('Application version updated to '. OA_VERSION);
+
+        // clean up old version artefacts
+        if ($this->remove_max_version)
+        {
+            if ($this->oConfiguration->isMaxConfigFile())
             {
-                $this->oLogger->log('Failed to update application version to '.OA_VERSION);
-                $this->message = 'Failed to update application version to '.OA_VERSION;
-                return false;
-             }
-            $this->oLogger->log('Application version updated to '. OA_VERSION);
-            if ($this->remove_max_version)
-            {
-                if ($this->oConfiguration->isMaxConfigFile())
+                if (!$this->oConfiguration->replaceMaxConfigFileWithOpenadsConfigFile())
                 {
-                    if (!$this->oConfiguration->replaceMaxConfigFileWithOpenadsConfigFile())
-                    {
-                        $this->oLogger->logError('Failed to replace MAX configuration file with Openads configuration file');
-                        $this->message = 'Failed to update application version to '.OA_VERSION;
-                        return false;
-                    }
-                }
-                $this->oLogger->logError('Replaced MAX configuration file with Openads configuration file');
-                if (!$this->oVersioner->removeMaxVersion())
-                {
-                    $this->oLogger->logError('Failed to remove MAX application version');
-                    $this->message = 'Failed to update application version to '.OA_VERSION;
+                    $this->oLogger->logError('Failed to replace MAX configuration file with Openads configuration file');
+                    $this->message = 'Failed to replace MAX configuration file with Openads configuration file';
                     return false;
                 }
-                $this->oLogger->log('Removed MAX application version');
             }
-            return true;
+            $this->oLogger->logError('Replaced MAX configuration file with Openads configuration file');
+            if (!$this->oVersioner->removeMaxVersion())
+            {
+                $this->oLogger->logError('Failed to remove MAX application version');
+                $this->message = 'Failed to remove MAX application version';
+                return false;
+            }
+            $this->oLogger->log('Removed MAX application version');
         }
-        return false;
+        if ($this->oPAN->detected)
+        {
+            if (!$this->oPAN->renamePANConfigFile())
+            {
+                    $this->oLogger->logError('Failed to rename PAN configuration file (non-critical, you can delete or rename /var/config.inc.php yourself)');
+                    $this->message = 'Failed to rename PAN configuration file (non-critical, you can delete or rename /var/config.inc.php yourself)';
+                return true;
+            }
+        }
+        return true;
     }
 
 /*
@@ -703,19 +721,22 @@ class OA_Upgrade
      */
     function checkPermissionToCreateTable()
     {
+        $tblTmp = 'oa_tmp_dbpriviligecheck';
         $aExistingTables = $this->oDbh->manager->listTables();
-        if (in_array('oa_tmp_dbpriviligecheck', $aExistingTables))
+        if (in_array($tblTmp, $aExistingTables))
         {
-            $result = $this->oDbh->exec('DROP TABLE oa_tmp_dbpriviligecheck');
+            $result = $this->oDbh->exec('DROP TABLE '.$tblTmp);
         }
-        $result = $this->oDbh->exec('CREATE TABLE oa_tmp_dbpriviligecheck (tmp int)');
-        $data   = $this->oDbh->manager->listTableFields('oa_tmp_dbpriviligecheck');
+        $result = $this->oDbh->exec("CREATE TABLE {$tblTmp} (tmp int)");
+        $data   = $this->oDbh->manager->listTableFields($tblTmp);
         PEAR::popErrorHandling();
-        if (!PEAR::isError($data)) {
-            $result = $this->oDbh->exec('DROP TABLE max_tmp_dbpriviligecheck');
+        if (!PEAR::isError($data))
+        {
+            $result = $this->oDbh->exec('DROP TABLE '.$tblTmp);
             $this->oLogger->log('Database permissions are OK');
             return true;
-        } else {
+        } else
+        {
             $this->oLogger->logError('Failed to create test privileges table - check your database permissions');
             return false;
         }

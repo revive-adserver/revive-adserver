@@ -73,7 +73,7 @@ class Test_OA_Upgrade extends UnitTestCase
 
         $oUpgrade->oDBUpgrader = new $mockDBUpgrade($this);
         $oUpgrade->oDBUpgrader->setReturnValue('upgrade', true);
-        $oUpgrade->oDBUpgrader->expectOnce('upgrade');
+        $oUpgrade->oDBUpgrader->expectCallCount('upgrade',2);
         $oUpgrade->oDBUpgrader->setReturnValue('init', true);
         $oUpgrade->oDBUpgrader->expectCallCount('init',2);
 

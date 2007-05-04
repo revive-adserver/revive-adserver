@@ -301,7 +301,9 @@ class OA_DB_Upgrade
                                                                  'action'=>DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                                  )
                                                           );
-                        $this->_scheduleDestructive();
+                        // currently we are executing constructive
+                        // immediately after destructive
+                        //$this->_scheduleDestructive();
                     }
                 }
                 else
