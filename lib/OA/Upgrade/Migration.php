@@ -128,6 +128,11 @@ class Migration
                 break;
         }
     }
+    
+    function getPrefix()
+    {
+        return $GLOBALS['_MAX']['CONF']['table']['prefix'];
+    }
 
 //    /**
 //     * not finished
