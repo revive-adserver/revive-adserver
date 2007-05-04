@@ -1,6 +1,7 @@
 <?php
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 
 class Migration_128 extends Migration
 {
@@ -44,23 +45,13 @@ class Migration_128 extends Migration
 	            }
 	        }
 	        
-	        $sql = $this->sqlForInsert($tablePreference, $aValues);
+	        $sql = OA_DB_SQL::sqlForInsert($tablePreference, $aValues);
 	        $result = $this->oDBH->exec($sql);
 	        return (!PEAR::isError($result));
 	    }
 	    else {
 	        return false;
 	    }
-	}
-	
-	function sqlForInsert($table, $aValues)
-	{
-	    foreach($aValues as $column => $value) {
-	        $aValues[$column] = DBC::makeLiteral($value);
-	    }
-        $sColumns = implode(",", array_keys($aValues));
-        $sValues = implode(",", $aValues);
-        return "INSERT INTO $table ($sColumns) VALUES ($sValues)";
 	}
 }
 

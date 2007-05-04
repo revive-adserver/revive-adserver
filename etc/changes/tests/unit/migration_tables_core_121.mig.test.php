@@ -25,44 +25,63 @@
 $Id$
 */
 
-require_once MAX_PATH . '/etc/changes/migration_tables_core_128.php';
+require_once MAX_PATH . '/etc/changes/migration_tables_core_121.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 
 /**
- * Test for migration class #127.
+ * Test for migration class #121.
  *
  * @package    changes
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  */
-class Migration_128Test extends UnitTestCase
+class Migration_121Test extends UnitTestCase
 {
     function testMigrateData()
     {
         $oTable = new OA_DB_Table();
-        $oTable->init(MAX_PATH . '/etc/changes/schema_tables_core_127.xml');
-        $oTable->createTable('config');
-        $oTable->truncateTable('config');
-        $oTable->createTable('preference');
-        $oTable->truncateTable('preference');
+        $oTable->init(MAX_PATH . '/etc/changes/schema_tables_core_121.xml');
+        $oTable->createTable('acls');
+        $oTable->truncateTable('acls');
         
         $oDbh = OA_DB::singleton();
-        $migration = new Migration_128();
+        $migration = new Migration_121();
         $migration->init($oDbh);
         
-        $aValues = array('gui_show_parents' => "t", 'updates_enabled' => "f");
-        $sql = OA_DB_Sql::sqlForInsert('config', $aValues);
-        $oDbh->exec($sql);
+        $aTestData = array(
+            array('weekday', '==', '0,1')
+        );
+        $aExpectedData = array(
+            array('Time:Day', '=~', '0,1')
+        );
+        
+        $aValues = array();
+        $idx = 0;
+        foreach ($aTestData as $testData) {
+            $aValues = array(
+                'bannerid' => 1,
+                'logical' => 'and',
+                'type' => $testData[0],
+                'comparison' => $testData[1],
+                'data' => $testData[2],
+                'executionorder' => $idx++);
+            $sql = OA_DB_Sql::sqlForInsert('acls', $aValues);
+            $oDbh->exec($sql);
+        }
+        $cLimitations = $idx;
         
         $migration->migrateData();
         
-        $rsPreference = DBC::NewRecordSet("SELECT * from preference");
-        $rsPreference->find();
-        $this->assertTrue($rsPreference->fetch());
-        $aDataPreference = $rsPreference->toArray();
-        foreach($aValues as $column => $value) {
-            $this->assertEqual($value, $aDataPreference[$column]);
+        $rsAcls = DBC::NewRecordSet("SELECT type, comparison, data FROM acls ORDER BY executionorder");
+        $this->assertTrue($rsAcls->find());
+        
+        for ($idx = 0; $idx < $cLimitations; $idx++) {
+            $this->assertTrue($rsAcls->fetch());
+            $this->assertEqual($aExpectedData[$idx][0], $rsAcls->get('type'));
+            $this->assertEqual($aExpectedData[$idx][1], $rsAcls->get('comparison'));
+            $this->assertEqual($aExpectedData[$idx][2], $rsAcls->get('data'));
         }
+        $this->assertFalse($rsAcls->fetch());
         
         $oTable->dropAllTables();
     }

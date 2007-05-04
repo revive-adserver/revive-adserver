@@ -25,45 +25,32 @@
 $Id$
 */
 
-require_once MAX_PATH . '/etc/changes/migration_tables_core_128.php';
-require_once MAX_PATH . '/lib/OA/DB/Sql.php';
-
 /**
- * Test for migration class #127.
+ * A class used for creating simple custom queries.
  *
- * @package    changes
- * @subpackage TestSuite
+ * @package    OpenadsDB
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  */
-class Migration_128Test extends UnitTestCase
+class OA_DB_Sql
 {
-    function testMigrateData()
-    {
-        $oTable = new OA_DB_Table();
-        $oTable->init(MAX_PATH . '/etc/changes/schema_tables_core_127.xml');
-        $oTable->createTable('config');
-        $oTable->truncateTable('config');
-        $oTable->createTable('preference');
-        $oTable->truncateTable('preference');
-        
-        $oDbh = OA_DB::singleton();
-        $migration = new Migration_128();
-        $migration->init($oDbh);
-        
-        $aValues = array('gui_show_parents' => "t", 'updates_enabled' => "f");
-        $sql = OA_DB_Sql::sqlForInsert('config', $aValues);
-        $oDbh->exec($sql);
-        
-        $migration->migrateData();
-        
-        $rsPreference = DBC::NewRecordSet("SELECT * from preference");
-        $rsPreference->find();
-        $this->assertTrue($rsPreference->fetch());
-        $aDataPreference = $rsPreference->toArray();
-        foreach($aValues as $column => $value) {
-            $this->assertEqual($value, $aDataPreference[$column]);
-        }
-        
-        $oTable->dropAllTables();
-    }
+    /**
+     * Generates INSERT INTO... command. Assumes that $aValues contains
+     * a list of pairs column => value. Escapes values as necessary and adds
+     * '' for strings.
+     *
+     * @param string $table
+     * @param array $aValues
+     * @return string
+     */
+	function sqlForInsert($table, $aValues)
+	{
+	    foreach($aValues as $column => $value) {
+	        $aValues[$column] = DBC::makeLiteral($value);
+	    }
+        $sColumns = implode(",", array_keys($aValues));
+        $sValues = implode(",", $aValues);
+        return "INSERT INTO $table ($sColumns) VALUES ($sValues)";
+	}
 }
+
+?>
