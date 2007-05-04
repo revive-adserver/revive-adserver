@@ -120,11 +120,30 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
     // the user is upgrading from an old version where the config
     // files have a .ini prefix instead of .php...
     global $installing;
-    if ($installing) {
-        return parseIniFile($configPath, $configFile, $sections, '.ini');
+    if ($installing)
+    {
+        // ah but MMM might be installed, check for the ini file
+        if (file_exists($configPath . '/' . $host . $configFile . '.conf.ini'))
+        {
+            return parseIniFile($configPath, $configFile, $sections, '.ini');
+        }
+        if (!$configFile)
+        {
+            // Openads hasn't been installed, so use the distribution .ini file
+            // this deals with letting a PAN install get into the ugprader
+            return @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', $sections);
+        }
+        //return parseIniFile($configPath, $configFile, $sections, '.ini');
+
     }
     // Check to ensure Openads hasn't been installed
-    if (file_exists(MAX_PATH . '/var/INSTALLED')) {
+    if (file_exists(MAX_PATH . '/var/INSTALLED'))
+    {
+        // ah but MMM might be installed, check for the ini file
+        if (file_exists($configPath . '/' . $host . $configFile . '.conf.ini'))
+        {
+            return parseIniFile($configPath, $configFile, $sections, '.ini');
+        }
         exit(MAX_PRODUCT_NAME . " has been installed, but no configuration file ".$configPath . '/' . $host . $configFile . '.conf.php'." was found.\n");
     }
     // Openads hasn't been installed, so use the distribution .ini file

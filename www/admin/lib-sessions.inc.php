@@ -36,31 +36,31 @@ require_once MAX_PATH . '/lib/max/Dal/Admin/Session.php';
 
 /**
  * Fetch sessiondata from the database
- * 
+ *
  * This implementation uses the $_COOKIE superglobal to find session identifier.
  * @return void
- * 
+ *
  * @todo Move to a domain-layer class library.
  */
 function phpAds_SessionDataFetch()
 {
     global $session;
     $dal = new MAX_Dal_Admin_Session();
-    
+
     // Guard clause: Can't fetch a session without an ID
 	if (empty($_COOKIE['sessionID'])) {
         return;
     }
-    
+
     $serialized_session = $dal->getSerializedSession($_COOKIE['sessionID']);
-    
+
     // This is required because 'sessionID' cookie is set to new during logout.
     // According to comments in the file it is because some servers do not
     // support setting cookies during redirect.
     if (empty($serialized_session)) {
         return;
     }
-    
+
     $loaded_session = unserialize($serialized_session);
 	if (!$loaded_session) {
         // XXX: Consider raising an error
@@ -94,7 +94,7 @@ function phpAds_SessionDataRegister($key, $value='')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
 	global $session;
-	if ($conf['max']['installed']) {
+    if ($conf['openads']['installed']) {
 		phpAds_SessionStart();
 	}
 	if (is_array($key) && $value=='') {
@@ -104,7 +104,7 @@ function phpAds_SessionDataRegister($key, $value='')
 	} else {
 		$session[$key] = $value;
 	}
-	if ($conf['max']['installed']) {
+    if ($conf['openads']['installed']) {
 	   phpAds_SessionDataStore();
 	}
 }
@@ -119,12 +119,12 @@ function phpAds_SessionDataStore()
     global $session;
     if (isset($_COOKIE['sessionID']) && $_COOKIE['sessionID'] != '') {
         $session_id = $_COOKIE['sessionID'];
-        $serialized_session_data = serialize($session); 
+        $serialized_session_data = serialize($session);
         $dal->storeSerializedSession($serialized_session_data, $session_id);
     }
     // Randomly purge old sessions
     // XXX: Why is this random?
-    // XXX: Shouldn't this be done by a daemon, or at least at logout time? 
+    // XXX: Shouldn't this be done by a daemon, or at least at logout time?
     srand((double)microtime()*1000000);
     if(rand(1, 100) == 42) {
         $dal->pruneOldSessions();
@@ -134,19 +134,19 @@ function phpAds_SessionDataStore()
 
 /**
  * Destroy the current session
- * 
+ *
  * @todo Determine how much of these steps are unnecessary, and remove them.
  */
 function phpAds_SessionDataDestroy()
 {
     $dal = new MAX_Dal_Admin_Session();
-    
+
 	global $session;
     $dal->deleteSession($_COOKIE['sessionID']);
 
     MAX_cookieSet('sessionID', '');
     MAX_cookieFlush();
-	
+
 	unset($session);
 	unset($_COOKIE['sessionID']);
 }

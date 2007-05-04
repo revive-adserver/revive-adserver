@@ -77,7 +77,7 @@ require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 /*-------------------------------------------------------*/
 
 // Check if already installed
-if ($conf['max']['installed']) {
+if ($conf['openads']['installed']) {
     phpAds_PageHeader('');
     phpAds_Die($strFatalError, $strAlreadyInstalled);
 }
@@ -153,7 +153,7 @@ if (phpAds_isUser(phpAds_Admin)) {
             $GLOBALS['_MAX']['CONF']['database']['username']  = $database_username;
             $GLOBALS['_MAX']['CONF']['database']['password']  = $database_password;
             $GLOBALS['_MAX']['CONF']['database']['name']      = $database_name;
-            
+
             $table_type = trim($table_type);
             if (empty($table_type)) {
                 unset($GLOBALS['_MAX']['CONF']['table']['type']);
@@ -169,11 +169,11 @@ if (phpAds_isUser(phpAds_Admin)) {
                 PEAR::pushErrorHandling(null);
                 // Get the database version number
                 $version = $oDbh->queryOne('SELECT VERSION() AS version');
-                
+
                 if ($database_type == 'pgsql') {
                     $version = substr($version, 11);
                 }
-                
+
                 if (PEAR::isError($version)) {
                     $errormessage[0][] = $strNoVersionInfo;
                 } else {

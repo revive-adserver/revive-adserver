@@ -53,7 +53,8 @@ function init()
     if ((!$installing) && (PHP_SAPI != 'cli')) {
 //        if (basename($_SERVER['PHP_SELF']) != 'install.php' && PHP_SAPI != 'cli') {
         // Direct the user to the installation script if not installed
-        if (!$GLOBALS['_MAX']['CONF']['max']['installed']) {
+        if (!$GLOBALS['_MAX']['CONF']['openads']['installed']) {
+//        if (!$GLOBALS['_MAX']['CONF']['max']['installed']) {
 //                $path = dirname($_SERVER['PHP_SELF']);
 //                if ($path == '/') {
 //                    $path = '';

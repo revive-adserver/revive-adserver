@@ -478,7 +478,7 @@ class OA_Upgrade
             return false;
         }
 
-        $this->oConfiguration->setInstalledOn();
+        $this->oConfiguration->setOpenadsInstalledOn();
         $this->oLogger->log('Installation Succeeded');
         return true;
     }
@@ -642,8 +642,11 @@ class OA_Upgrade
                     $this->message = 'Failed to replace MAX configuration file with Openads configuration file';
                     return false;
                 }
+                $this->oLogger->logError('Replaced MAX configuration file with Openads configuration file');
+                $this->oConfiguration->setMaxInstalledOff();
+                $this->oConfiguration->setOpenadsInstalledOn();
+                $this->oConfiguration->writeConfig();
             }
-            $this->oLogger->logError('Replaced MAX configuration file with Openads configuration file');
             if (!$this->oVersioner->removeMaxVersion())
             {
                 $this->oLogger->logError('Failed to remove MAX application version');

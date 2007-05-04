@@ -65,7 +65,7 @@ function phpAds_Start()
     global $session;
 
     // XXX: Why not try loading session data when Openads is not installed?
-    if ($conf['max']['installed']) {
+    if ($conf['openads']['installed']) {
         phpAds_SessionDataFetch();
     }
     if (!phpAds_isLoggedIn() || phpAds_SuppliedCredentials()) {
@@ -231,7 +231,7 @@ function phpAds_Login()
             MAX_Permission_Session::restartToLoginScreen($strPasswordWrong);
         }
     } else {
-        if (!$conf['max']['installed']) {
+        if ($conf['openads']['installed']) {
             // We are trying to install, grant access...
             return MAX_Permission_User::getAAdminData('admin');
         }

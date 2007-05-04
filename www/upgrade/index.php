@@ -171,6 +171,7 @@ else if (array_key_exists('btn_finish', $_REQUEST))
 else if (array_key_exists('btn_openads', $_REQUEST))
 {
     header('location: http://'.$GLOBALS['_MAX']['CONF']['webpath']['admin']);
+    exit();
 }
 else
 {
