@@ -28,7 +28,7 @@ $Id$
  * db upgrade class demonstration script
  */
 
-require_once '../../init.php';
+require_once '../../../../init.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
 
 $welcome = true;
