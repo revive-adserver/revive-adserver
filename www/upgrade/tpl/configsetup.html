@@ -4,17 +4,21 @@
         <?php
             if ($aConfig && is_array($aConfig) && (count($aConfig)>0))
             {
+                // LANGUAGE
                 echo "<tr>
                           <td class=\"label\"><span>Language</span></td>
                           <td class=\"input\"><input type=\"text\" name=\"aConfig[max][language]\" value=\"{$aConfig['max']['language']}\" size=\"48\" /></td>
                       </tr>";
-                $aConfig['timezone']['location'] = (!$aConfig['timezone']['location'] ? 'Europe/London' : $aConfig['timezone']['location']); // need to do timezone detection
+
+                // TIMEZONE
+                // list of valid timezones: http://www.php.net/manual/en/timezones.php
+                $aConfig['timezone']['location'] = (!$aConfig['timezone']['location'] ? 'Europe/London' : $aConfig['timezone']['location']);
                 echo "<tr>
                           <td class=\"label\"><span>Timezone</span></td>
                           <td class=\"input\"><input type=\"text\" name=\"aConfig[timezone][location]\" value=\"{$aConfig['timezone']['location']}\"  size=\"48\"/></td>
                       </tr>";
 
-
+                // WEB PATHS
                 echo "<tr>
                           <td class=\"label\"><span>Admin Webpath</span></td>
                           <td class=\"input\"><input type=\"text\" name=\"aConfig[webpath][admin]\" value=\"{$aConfig['webpath']['admin']}\"  size=\"48\"/></td>
@@ -36,7 +40,7 @@
                           <td class=\"input\"><input type=\"text\" name=\"aConfig[webpath][imagesSSL]\" value=\"{$aConfig['webpath']['imagesSSL']}\"  size=\"48\"/></td>
                       </tr>";
 
-
+                // IMAGE STORE
                 echo "<tr>
                           <td class=\"label\"><span>Image Store</span></td>
                           <td class=\"input\"><input type=\"text\" name=\"aConfig[store][webDir]\" value=\"{$aConfig['store']['webDir']}\"  size=\"48\"/></td>
@@ -53,7 +57,8 @@
         <tr>
             <td colspan="2">
                 <button class="button" name="btn_adminsetup">continue</button>
-                <!-- we don't want to let them go back and execute the upgrade/install  -->
+                <!-- NO BACK BUTTON  -->
+                <!-- we don't want to let them go back and execute the upgrade/install again -->
             </td>
         </tr>
     </table>

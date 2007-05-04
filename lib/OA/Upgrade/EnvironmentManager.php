@@ -98,6 +98,7 @@ class OA_Environment_Manager
         $aResult['memory_limit'] = ini_get('memory_limit');
         $aResult['magic_quotes_runtime'] = get_magic_quotes_runtime();
         $aResult['safe_mode'] = ini_get('safe_mode');
+        $aResult['date.timezone'] = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
         //$aResult['register_globals'] = ini_get('register_globals');
         //$aResult['magic_quotes_gpc'] = get_magic_quotes_gpc();
 
@@ -186,7 +187,7 @@ class OA_Environment_Manager
             $result = false;
             $this->aInfo['PHP']['error'][] = 'magic_quotes_runtime must be OFF';
         }
-        if ($this->aInfo['PHP']['actual']['date.timezone'])
+        if (!$this->aInfo['PHP']['actual']['date.timezone'])
         {
             $result = false;
             $this->aInfo['PHP']['error'][] = 'date.timezone expected to be set';
