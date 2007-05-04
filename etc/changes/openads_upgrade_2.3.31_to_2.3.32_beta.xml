@@ -4,7 +4,7 @@
 <upgrade>
     <name>Openads</name>
     <creationDate>2007-04-19</creationDate>
-    <author>Monique Szpak</author>
+    <author>Openads Devs</author>
     <authorEmail>support@openads.org</authorEmail>
     <authorUrl>http://www.openads.org</authorUrl>
     <license>LICENSE.txt</license>
@@ -35,11 +35,18 @@
             <file>changes_tables_core_512.xml</file>
             <file>migration_tables_core_512.php</file>
         </package>
+        <package>
+            <version>513</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_513.xml</file>
+            <file>changes_tables_core_513.xml</file>
+            <file>migration_tables_core_513.php</file>
+        </package>
     </database>
 
     <!-- Custom Install Scripts to execute -->
-    <preinstallfile>do_this_first.php</preinstallfile>
-    <postinstallfile>do_this_last.php</postinstallfile>
+    <!--preinstallfile>do_this_first.php</preinstallfile>
+    <postinstallfile>do_this_last.php</postinstallfile-->
 
 
 </upgrade>
