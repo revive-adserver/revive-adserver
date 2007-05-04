@@ -36,17 +36,18 @@ require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 
 function phpAds_warningMail($campaign)
 {
+    $oDbh = &OA_DB::singleton();
 	$conf = $GLOBALS['_MAX']['CONF'];
 	global $strImpressionsClicksConversionsLow, $strMailHeader, $strWarnClientTxt;
 	global $strMailNothingLeft, $strMailFooter;
 	if ($pref['warn_admin'] || $pref['warn_client']) {
 		// Get the client which belongs to this campaign
-		$clientresult = phpAds_dbQuery(
-			"SELECT *".
-			" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-			" WHERE clientid=".$campaign['clientid']
-		);
-		if ($client = phpAds_dbFetchArray($clientresult)) {
+        $query = "
+			SELECT *
+			FROM ".$conf['table']['prefix'].$conf['table']['clients'] ."
+			WHERE clientid=". $oDbh->quote($campaign['clientid'], 'integer');
+        $res = $oDbh->query($query);
+		if ($client = $res->fetchRow()) {
             // Load config from the database
             if (!isset($GLOBALS['_MAX']['PREF'])) {
                 //phpAds_LoadDbConfig();

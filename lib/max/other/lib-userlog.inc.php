@@ -58,6 +58,7 @@ $GLOBALS['phpAds_Usertype'] = 0;
 
 function phpAds_userlogAdd($action, $object, $details = '')
 {
+    $oDbh = &OA_DB::singleton();
     $conf = $GLOBALS['_MAX']['CONF'];
 	global $phpAds_Usertype;
 	if ($phpAds_Usertype != 0) {
@@ -80,14 +81,18 @@ function phpAds_userlogAdd($action, $object, $details = '')
             )
         VALUES
             (
-                " . time() . ",
-                '$usertype',
-                '$userid',
-                '$action',
-                '$object',
-                '" . addslashes($details) . "'
+                ". $oDbh->quote(OA::getNow(), 'timestamp') . ",
+                ". $oDbh->quote($usertype, 'integer') .",
+                ". $oDbh->quote($userid, 'integer') .",
+                ". $oDbh->quote($action, 'integer') .",
+                ". $oDbh->quote($object, 'integer') .",
+                ". $oDbh->quote($details, 'text') . "
             )";
-    $res = phpAds_dbQuery($query);
+    $res = $oDbh->exec($query);
+    if (PEAR::isError($res)) {
+        return $res;
+    }
+    return true;
 }
 
 function phpAds_userlogSetUser ($usertype)

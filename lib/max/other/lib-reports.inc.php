@@ -40,9 +40,14 @@ function phpAds_SendMaintenanceReport($advertiserId, $first_unixtimestamp, $last
            $strLogErrorConversions, $strNoStatsForCampaign, $strNoViewLoggedInInterval,
            $strNoClickLoggedInInterval, $strNoCampaignLoggedInInterval, $strTotal,
            $strTotalThisPeriod;
+
+   $oDbh = &OA_DB::singleton();
+
     // Convert timestamps to SQL format
-    $last_sqltimestamp  = date("YmdHis", $last_unixtimestamp);
-    $first_sqltimestamp = date("YmdHis", $first_unixtimestamp);
+    $advertiserId       = $oDbh->quote($advertiserId, 'integer');
+    $first_sqltimestamp = date("YmdHis", $oDbh->query($first_unixtimestamp, 'timestampe'));
+    $last_sqltimestamp  = date("YmdHis", $oDbh->query($last_unixtimestamp, 'timestampe'));
+
     // Get Advertiser details
     $query = "
         SELECT
@@ -58,13 +63,19 @@ function phpAds_SendMaintenanceReport($advertiserId, $first_unixtimestamp, $last
         FROM
             {$conf['table']['prefix']}{$conf['table']['clients']}
         WHERE
-            clientid = $advertiserId";
+            clientid = {$advertiserId}";
+
     MAX::debug('  Getting details of advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
-    $rAdvertiserResult = phpAds_dbQuery($query);
-    if (phpAds_dbNumRows($rAdvertiserResult) < 1) {
+
+    $rAdvertiserResult = $oDbh->query($query);
+    if (PEAR::isError($rAdvertiserResult)) {
+        return $rAdvertiserResult;
+    }
+
+    if ($rAdvertiserResult->numRows() < 1) {
         MAX::debug('  Error obtaining details for advertiser ID ' . $advertiserId . '.', PEAR_LOG_ERR);
     } else {
-        $aAdvertiserDetails = phpAds_dbFetchArray($rAdvertiserResult);
+        $aAdvertiserDetails = $rAdvertiserResult->fetchRow();
         $active_campaigns = false;
         $log = '';
         // Fetch all placements belonging to advertiser

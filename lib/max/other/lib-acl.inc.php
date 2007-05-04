@@ -122,6 +122,7 @@ function MAX_AclAdjust($acl, $action)
 function MAX_AclSave($acls, $aEntities, $page = false)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
+    $oDbh = &OA_DB::singleton();
     if ($page === false) {
         $page = basename($_SERVER['PHP_SELF']);
     }
@@ -185,7 +186,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
         $affected_ads = array();
         $success = false;
 
-        $res = phpAds_dbQuery("
+        $query = "
             SELECT
                 DISTINCT(bannerid)
             FROM
@@ -193,19 +194,27 @@ function MAX_AclSave($acls, $aEntities, $page = false)
             WHERE
                 type = 'Site:Channel'
               AND (data = '{$aclsObjectId}' OR data LIKE '%,{$aclsObjectId}' OR data LIKE '%,{$aclsObjectId},%' OR data LIKE '{$aclsObjectId},%')
-        ");
-        while ($row = phpAds_dbFetchArray($res)) {
+        ";
+        $res = $oDbh->query($query);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
+        while ($row = $res->fetchRow()) {
             $affected_ads[] = $row['bannerid'];
         }
         if (!empty($affected_ads)) {
-            phpAds_dbQuery("
+            $query = "
                 UPDATE
                     {$conf['table']['prefix']}{$conf['table']['banners']}
                 SET
                     acls_updated = '{$now}'
                 WHERE
-                    bannerid IN (" . implode(',', $affected_ads) . ")
-            ");
+                    bannerid IN (" . $oDbh->escape(implode(',', $affected_ads)) . ")
+            ";
+            $res = $oDb->exec($query);
+            if (PEAR::isError($res)) {
+                return $res;
+            }
         }
     }
     return true;
@@ -250,26 +259,26 @@ function MAX_AclGetPlugins($acls) {
 
 function MAX_AclValidate($page, $aParams) {
     $conf =& $GLOBALS['_MAX']['CONF'];
-    switch($page) {
-        case 'banner-acl.php':
-            $query_existing = "SELECT compiledlimitation, acl_plugins FROM {$conf['table']['banners']} WHERE bannerid = {$aParams['bannerid']}";
-            $query_acls = "SELECT bannerid as id, logical, type, comparison, data, executionorder FROM {$conf['table']['acls']} WHERE bannerid = {$aParams['bannerid']} ORDER BY executionorder";
-        break;
-        case 'channel-acl.php':
-            $query_existing = "SELECT compiledlimitation, acl_plugins FROM {$conf['table']['channel']} WHERE channelid = {$aParams['channelid']}";
-            $query_acls = "SELECT channelid as id, logical, type, comparison, data, executionorder FROM {$conf['table']['acls_channel']} WHERE channelid = {$aParams['channelid']} ORDER BY executionorder";
-        break;
-    }
-    $dbh = &OA_DB::singleton();
-    if (PEAR::isError($dbh)) {
+    $oDbh = &OA_DB::singleton();
+    if (PEAR::isError($oDbh)) {
         // FIXME: What am I supposed to do here???
     }
-    list($compiledLimitation, $acl_plugins) = $dbh->queryRow($query_existing, null, MDB2_FETCHMODE_ORDERED);
+    switch($page) {
+        case 'banner-acl.php':
+            $query_existing = "SELECT compiledlimitation, acl_plugins FROM {$conf['table']['banners']} WHERE bannerid = ". $oDbh->quote($aParams['bannerid'], 'integer');
+            $query_acls = "SELECT bannerid as id, logical, type, comparison, data, executionorder FROM {$conf['table']['acls']} WHERE bannerid = ". $oDbh->quote($aParams['bannerid'], 'integer') ." ORDER BY executionorder";
+        break;
+        case 'channel-acl.php':
+            $query_existing = "SELECT compiledlimitation, acl_plugins FROM {$conf['table']['channel']} WHERE channelid = ". $oDbh->quote($aParams['channelid'], 'integer');
+            $query_acls = "SELECT channelid as id, logical, type, comparison, data, executionorder FROM {$conf['table']['acls_channel']} WHERE channelid = ". $oDbh->quote($aParams['channelid'], 'integer') ." ORDER BY executionorder";
+        break;
+    }
+    list($compiledLimitation, $acl_plugins) = $oDbh->queryRow($query_existing, null, MDB2_FETCHMODE_ORDERED);
     $compiledLimitation = stripslashes($compiledLimitation);
 
     $acls = array();
-    $res = phpAds_dbQuery($query_acls);
-    while ($row = phpAds_dbFetchArray($res)) {
+    $res = $oDbh->query($query_acls);
+    while ($row = $res->fetchRow()) {
         list($package, $name) = explode(':', $row['type']);
         $deliveryLimitationPlugin = MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
         $deliveryLimitationPlugin->init($row);
@@ -291,6 +300,7 @@ function MAX_AclValidate($page, $aParams) {
 }
 
 function MAX_AclCopy($page, $from, $to) {
+    $oDbh = &OA_DB::singleton();
     $conf =& $GLOBALS['_MAX']['CONF'];
 
     switch ($page) {
@@ -299,24 +309,31 @@ function MAX_AclCopy($page, $from, $to) {
             break;
         default:
             // Delete old limitations
-            $res = phpAds_dbQuery("
+            $query = "
                 DELETE FROM
                       {$conf['table']['prefix']}{$conf['table']['acls']}
                 WHERE
-                    bannerid = {$to}
-            ") or phpAds_sqlDie();
+                    bannerid = ". $oDbh->quote($to, 'integer');
+            $res = $oDbh->exec($query);
+            if (PEAR::isError($res)) {
+                return $res;
+            }
 
             // Copy ACLs
-            $res = phpAds_dbQuery("
+            $query = "
                 INSERT INTO {$conf['table']['prefix']}{$conf['table']['acls']}
                     SELECT
-                        {$to}, logical, type, comparison, data, executionorder
+                        ". $oDbh->quote($to, 'integer') .", logical, type, comparison, data, executionorder
                     FROM
                         {$conf['table']['prefix']}{$conf['table']['acls']}
                     WHERE
-                        bannerid={$from}
+                        bannerid= ". $oDbh->quote($from, 'integer') ."
                     ORDER BY executionorder
-            ");
+            ";
+            $res = $oDbh->exec($query);
+            if (PEAR::isError($res)) {
+                return $res;
+            }
 
             // Copy compiledlimitation
             $doBannersFrom = OA_Dal::staticGetDO('banners', $from);

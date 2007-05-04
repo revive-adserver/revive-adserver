@@ -151,7 +151,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
         {$conf['table']['prefix']}{$conf['table']['affiliates']} AS a,
         {$conf['table']['prefix']}{$conf['table']['preference']} AS p
     WHERE
-        z.zoneid={$zoneid}
+        z.zoneid= ". mysql_real_escape_string($zoneid) ."
       AND
         z.affiliateid = a.affiliateid
       AND
@@ -272,7 +272,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS az,
             {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c
         WHERE
-            az.zone_id = {$zoneid}
+            az.zone_id = ". mysql_real_escape_string($zoneid) ."
           AND
             d.bannerid = az.ad_id
           AND
@@ -359,6 +359,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
  */
 function OA_Dal_Delivery_getLinkedAds($search) {
     $conf = $GLOBALS['_MAX']['CONF'];
+    $search = mysql_real_escape_string($search);
 
     // Deal with categories
     $where1 = preg_replace('/cat:(\w+)/', "cat.name='$1'", $search);
@@ -524,7 +525,7 @@ function OA_Dal_Delivery_getAd($ad_id) {
         {$conf['table']['prefix']}{$conf['table']['banners']} AS d,
         {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c
     WHERE
-        d.bannerid={$ad_id}
+        d.bannerid= ". mysql_real_escape_string($ad_id) ."
         AND
         d.campaignid = c.campaignid
     ";
@@ -556,7 +557,7 @@ function OA_Dal_Delivery_getChannelLimitations($channelid) {
     FROM
             {$conf['table']['prefix']}{$conf['table']['channel']}
     WHERE
-            channelid={$channelid}");
+            channelid=". mysql_real_escape_string($channelid));
     if (!is_resource($rLimitation)) {
         if (defined('CACHE_LITE_FUNCTION_ERROR')) {
             return CACHE_LITE_FUNCTION_ERROR;
@@ -584,7 +585,7 @@ function OA_Dal_Delivery_getCreative($filename)
         FROM
             {$conf['table']['prefix']}{$conf['table']['images']}
         WHERE
-            filename = '{$filename}'
+            filename = '". mysql_real_escape_string($filename) ."'
     ");
     if (!is_resource($rCreative)) {
         if (defined('CACHE_LITE_FUNCTION_ERROR')) {
@@ -606,6 +607,7 @@ function OA_Dal_Delivery_getCreative($filename)
 function OA_Dal_Delivery_getTracker($trackerid)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
+    $trackerid = mysql_real_escape_string($trackerid);
     $rTracker = OA_Dal_Delivery_query("
         SELECT
             t.clientid AS advertiser_id,
@@ -642,6 +644,7 @@ function OA_Dal_Delivery_getTracker($trackerid)
 function OA_Dal_Delivery_getTrackerVariables($trackerid)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
+    $trackerid = mysql_real_escape_string($trackerid);
     $rVariables = OA_Dal_Delivery_query("
         SELECT
             v.variableid AS variable_id,
@@ -804,22 +807,22 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
             )
         VALUES
             (
-                '$log_viewerId',
+                '". mysql_real_escape_string($log_viewerId) ."',
                 '',
-                '".$dateFunc('Y-m-d H:i:s')."',
-                '$adId',
-                '$creativeId',
-                '$zoneId',";
+                '". $dateFunc('Y-m-d H:i:s') ."',
+                '". mysql_real_escape_string($adId) ."',
+                '". mysql_real_escape_string($creativeId) ."',
+                '". mysql_real_escape_string($zoneId) ."',";
     if (isset($_GET['source'])) {
         $query .= "
-                '".MAX_commonDecrypt($_GET['source'])."',";
+                '".MAX_commonDecrypt(mysql_real_escape_string($_GET['source']))."',";
     }
     if (isset($zoneInfo['channel_ids'])) {
         $query .= "
                 '{$zoneInfo['channel_ids']}',";
     }
     $query .= "
-                '".substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 32)."',
+                '". substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 32) ."',
                 '{$_SERVER['REMOTE_ADDR']}',
                 '{$_SERVER['REMOTE_HOST']}',";
     if (isset($geotargeting['country_code'])) {
@@ -844,11 +847,11 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
     }
     if (isset($_GET['referer'])) {
         $query .= "
-                '{$_GET['referer']}',";
+                '". mysql_real_escape_string($_GET['referer']) ."',";
     }
     $query .= "
                 '',
-                '".substr($_SERVER['HTTP_USER_AGENT'], 0, 255)."',";
+                '". substr($_SERVER['HTTP_USER_AGENT'], 0, 255) ."',";
     if (isset($userAgentInfo['os'])) {
         $query .= "
                 '{$userAgentInfo['os']}',";
@@ -979,11 +982,11 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
     VALUES
         (
             '$serverRawIp',
-            '$log_viewerId',
+            '". mysql_real_escape_string($log_viewerId) ."',
             '',
             '".$dateFunc('Y-m-d H:i:s')."',
-            '$trackerId',
-            '".MAX_commonDecrypt($_GET['source'])."',
+            '". mysql_real_escape_string($trackerId) ."',
+            '".MAX_commonDecrypt(mysql_real_escape_string($_GET['source']))."',
             '{$zoneInfo['channel_ids']}',
             '{$_SERVER['HTTP_ACCEPT_LANGUAGE']}',
             '{$_SERVER['REMOTE_ADDR']}',
@@ -993,7 +996,7 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
             '{$zoneInfo['host']}',
             '{$zoneInfo['path']}',
             '{$zoneInfo['query']}',
-            '{$_GET['referer']}',
+            '". mysql_real_escape_string($_GET['referer']) ."',
             '',
             '{$_SERVER['HTTP_USER_AGENT']}',
             '{$userAgentInfo['os']}',
@@ -1030,7 +1033,7 @@ function OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressi
     foreach ($variables as $variable) {
         $aRows[] = "(
                         '{$variable['variable_id']}',
-                        '{$serverRawTrackerImpressionId}',
+                        '". mysql_real_escape_string($serverRawTrackerImpressionId) ."',
                         '{$serverRawIp}',
                         '".$dateFunc('Y-m-d H:i:s')."',
                         '{$variable['value']}'

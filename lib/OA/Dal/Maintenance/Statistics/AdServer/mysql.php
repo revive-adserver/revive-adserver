@@ -226,8 +226,8 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysql extends OA_Dal_Maintenance_St
             FROM
                 tmp_ad_connection AS tac
             WHERE
-                tac.date_time >= '" . $oStart->format('%Y-%m-%d %H:%M:%S') . "'
-                AND tac.date_time <= '" . $oEnd->format('%Y-%m-%d %H:%M:%S') . "'
+                tac.date_time >= '" . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "'
+                AND tac.date_time <= '" . $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "'
             GROUP BY
                 tac.server_raw_tracker_impression_id, tac.server_raw_ip";
         MAX::debug('Selecting the possible connections that are the most recent connections ' .
@@ -311,9 +311,9 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysql extends OA_Dal_Maintenance_St
                 diac.updated = '". OA::getNow() ."',
                 diac.comments = CONCAT('Rejected because ', COALESCE(NULLIF(v.description, ''), v.name), ' is empty')
             WHERE
-                diac.tracker_date_time >= '" . $oStart->format('%Y-%m-%d %H:%M:%S') . "'
+                diac.tracker_date_time >= '" . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "'
                 AND
-                diac.tracker_date_time <= '" . $oEnd->format('%Y-%m-%d %H:%M:%S') . "'
+                diac.tracker_date_time <= '" . $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "'
                 AND
                 diac.inside_window = 1
                 AND
@@ -352,9 +352,9 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysql extends OA_Dal_Maintenance_St
                     AND
                     diac.inside_window = 1
                     AND
-                    diac.tracker_date_time >= '" . $oStart->format('%Y-%m-%d %H:%M:%S') . "'
+                    diac.tracker_date_time >= '" . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "'
                     AND
-                    diac.tracker_date_time <= '" . $oEnd->format('%Y-%m-%d %H:%M:%S') . "'
+                    diac.tracker_date_time <= '" . $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "'
                 )
             JOIN
                 {$aConf['table']['prefix']}{$aConf['table']['variables']} AS v

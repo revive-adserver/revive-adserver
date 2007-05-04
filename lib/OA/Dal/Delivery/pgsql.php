@@ -152,7 +152,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
         {$conf['table']['prefix']}{$conf['table']['affiliates']} AS a,
         {$conf['table']['prefix']}{$conf['table']['preference']} AS p
     WHERE
-        z.zoneid={$zoneid}
+        z.zoneid=". pg_esacpe_string($zoneid) ."
       AND
         z.affiliateid = a.affiliateid
       AND
@@ -272,7 +272,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS az,
             {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c
         WHERE
-            az.zone_id = {$zoneid}
+            az.zone_id = ". pg_esacpe_string($zoneid) ."
           AND
             d.bannerid = az.ad_id
           AND
@@ -359,6 +359,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
  */
 function OA_Dal_Delivery_getLinkedAds($search) {
     $conf = $GLOBALS['_MAX']['CONF'];
+    $search = pg_esacpe_string($search);
 
     // Deal with categories
     $where1 = preg_replace('/cat:(\w+)/', "cat.name='$1'", $search);
@@ -523,7 +524,7 @@ function OA_Dal_Delivery_getAd($ad_id) {
         {$conf['table']['prefix']}{$conf['table']['banners']} AS d,
         {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c
     WHERE
-        d.bannerid={$ad_id}
+        d.bannerid=". pg_escape_string($ad_id) ."
         AND
         d.campaignid = c.campaignid
     ";
@@ -548,6 +549,7 @@ function OA_Dal_Delivery_getAd($ad_id) {
  */
 function OA_Dal_Delivery_getChannelLimitations($channelid) {
     $conf = $GLOBALS['_MAX']['CONF'];
+    $channelid = pg_escape_string($channelid);
 
     $rLimitation = OA_Dal_Delivery_query("
     SELECT
@@ -576,6 +578,7 @@ function OA_Dal_Delivery_getChannelLimitations($channelid) {
 function OA_Dal_Delivery_getCreative($filename)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
+    $filename = pg_escape_string($filename);
     $rCreative = OA_Dal_Delivery_query("
         SELECT
             contents,
@@ -607,6 +610,8 @@ function OA_Dal_Delivery_getCreative($filename)
 function OA_Dal_Delivery_getTracker($trackerid)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
+    $trackerid = pg_escape_string($trackerid);
+
     $rTracker = OA_Dal_Delivery_query("
         SELECT
             t.clientid AS advertiser_id,
@@ -643,6 +648,8 @@ function OA_Dal_Delivery_getTracker($trackerid)
 function OA_Dal_Delivery_getTrackerVariables($trackerid)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
+    $trackerid = pg_escape_string($trackerid);
+
     $rVariables = OA_Dal_Delivery_query("
         SELECT
             v.variableid AS variable_id,
@@ -807,15 +814,15 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
             )
         VALUES
             (
-                '$log_viewerId',
+                '". pg_escape_string($log_viewerId) ."',
                 '',
                 '".$dateFunc('Y-m-d H:i:s')."',
-                '$adId',
-                '$creativeId',
-                '$zoneId',";
+                '". pg_escape_string($adId) ."',
+                '". pg_escape_string($creativeId) ."',
+                '". pg_escape_string($zoneId) ."',";
     if (isset($_GET['source'])) {
         $query .= "
-                '".MAX_commonDecrypt($_GET['source'])."',";
+                '".MAX_commonDecrypt(pg_escape_string($_GET['source']))."',";
     }
     if (isset($zoneInfo['channel_ids'])) {
         $query .= "
@@ -847,7 +854,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
     }
     if (isset($_GET['referer'])) {
         $query .= "
-                '{$_GET['referer']}',";
+                '". pg_escape_string($_GET['referer']) ."',";
     }
     $query .= "
                 '',
@@ -981,12 +988,12 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
         )
     VALUES
         (
-            '$serverRawIp',
-            '$log_viewerId',
+            '". pg_escape_string($serverRawIp) ."',
+            '". pg_escape_string($log_viewerId) ."',
             '',
             '".$dateFunc('Y-m-d H:i:s')."',
-            '$trackerId',
-            '".MAX_commonDecrypt($_GET['source'])."',
+            '". pg_escape_string($trackerId) ."',
+            '".MAX_commonDecrypt(pg_escape_string($_GET['source']))."',
             '{$zoneInfo['channel_ids']}',
             '".substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 32)."',
             '{$_SERVER['REMOTE_ADDR']}',
@@ -996,7 +1003,7 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
             '{$zoneInfo['host']}',
             '{$zoneInfo['path']}',
             '{$zoneInfo['query']}',
-            '{$_GET['referer']}',
+            '". pg_escape_string($_GET['referer']) ."',
             '',
             '".substr($_SERVER['HTTP_USER_AGENT'], 0, 255)."',
             '{$userAgentInfo['os']}',
@@ -1033,8 +1040,8 @@ function OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressi
     foreach ($variables as $variable) {
         $aRows[] = "(
                         '{$variable['variable_id']}',
-                        '{$serverRawTrackerImpressionId}',
-                        '{$serverRawIp}',
+                        '". pg_escape_string($serverRawTrackerImpressionId) ."',
+                        '". pg_escape_string($serverRawIp) ."',
                         '".$dateFunc('Y-m-d H:i:s')."',
                         '{$variable['value']}'
                     )";
