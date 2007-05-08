@@ -143,12 +143,14 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->aPackage['versionFrom'],'1','wrong value: versionFrom');
         $this->assertEqual($oUpgrade->aPackage['versionTo'],'2','wrong value: versionTo');
 
-        $this->assertEqual($oUpgrade->aPackage['preinstallfile'],'do_this_first.php','wrong value: preinstallfile');
-        $this->assertEqual($oUpgrade->aPackage['postinstallfile'],'do_this_last.php','wrong value: postinstallfile');
+        $this->assertEqual($oUpgrade->aPackage['prescript'],'do_this_first.php','wrong value: preinstallfile');
+        $this->assertEqual($oUpgrade->aPackage['postscript'],'do_this_last.php','wrong value: postinstallfile');
 
 
         $this->assertEqual($oUpgrade->aDBPackages[0]['schema'],'tables_core','');
         $this->assertEqual($oUpgrade->aDBPackages[0]['version'],'2','');
+        $this->assertEqual($oUpgrade->aDBPackages[0]['prescript'],'prescript_tables_core_2.php','');
+        $this->assertEqual($oUpgrade->aDBPackages[0]['postscript'],'postscript_tables_core_2.php','');
         $this->assertEqual($oUpgrade->aDBPackages[0]['files'][0],'schema_tables_core_2.xml','');
         $this->assertEqual($oUpgrade->aDBPackages[0]['files'][1],'changes_tables_core_2.xml','');
         $this->assertEqual($oUpgrade->aDBPackages[0]['files'][2],'migration_tables_core_2.php','');

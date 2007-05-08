@@ -20,12 +20,14 @@
             <file>schema_tables_core_2.xml</file>
             <file>changes_tables_core_2.xml</file>
             <file>migration_tables_core_2.php</file>
+            <prescript>prescript_tables_core_2.php</prescript>
+            <postscript>postscript_tables_core_2.php</postscript>
         </package>
     </database>
 
     <!-- Custom Install Scripts to execute -->
-    <preinstallfile>do_this_first.php</preinstallfile>
-    <postinstallfile>do_this_last.php</postinstallfile>
+    <prescript>do_this_first.php</prescript>
+    <postscript>do_this_last.php</postscript>
 
 
 </upgrade>

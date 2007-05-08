@@ -41,9 +41,11 @@ class OA_DB_Upgrade
     var $file_migrate;
 
     var $oSchema;
-    var $oMigrator;
     var $oLogger;
     var $oAuditor;
+    var $oMigrator;
+    var $oPreScript;
+    var $oPostScript;
 
     var $aDefinitionNew;
     var $aDefinitionOld;
@@ -249,6 +251,59 @@ class OA_DB_Upgrade
 
         $this->_log('successfully initialised DB Upgrade');
         return true;
+    }
+
+    function _prepScript($file, $classprefix, $object)
+    {
+        if (!$file)
+        {
+            return true;
+        }
+        else if (file_exists($file))
+        {
+            $this->_log('acquiring script '.$file);
+            require_once $file;
+            $classname = $classprefix.'_'.$this->schema.'_'.$this->versionTo;
+            if (class_exists($classname))
+            {
+                $this->_log('instantiating class '.$classname);
+                $this->$object = new $classname;
+                $method = 'execute_'.$this->timingStr;
+                if (is_callable(array($this->$object, $method)))
+                {
+                    $this->_log('method is callable '.$method);
+                    return true;
+                }
+                $this->_logError('method not found '.$method);
+                return false;
+            }
+            $this->_logError('class not found '.$classname);
+            return false;
+        }
+        $this->_logError('script not found '.$file);
+        return false;
+    }
+
+    function prepPreScript($file)
+    {
+        return $this->_prepScript($file, 'prescript', 'oPreScript');
+    }
+
+    function runPreScript($aParams='')
+    {
+        $method = 'execute_'.$this->timingStr;
+        return call_user_func(array($this->oPreScript, $method), $aParams);
+    }
+
+    function prepPostScript($file)
+    {
+        return $this->_prepScript($file, 'postscript', 'oPostScript');
+    }
+
+    function runPostScript($aParams='')
+    {
+        $method = 'execute_'.$this->timingStr;
+        return call_user_func(array($this->oPostScript, $method), $aParams);
     }
 
     /**

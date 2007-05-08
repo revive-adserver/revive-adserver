@@ -787,11 +787,34 @@ class OA_Upgrade
             $ok = false;
             if ($this->oDBUpgrader->init('constructive', $aPkg['schema'], $aPkg['version']))
             {
-                $ok = $this->oDBUpgrader->upgrade();
+                if ($this->_runUpgradeSchemaPreScript($aPkg['prescript']))
+                {
+                    if ($this->oDBUpgrader->upgrade())
+                    {
+                        if ($this->_runUpgradeSchemaPostscript($aPkg['postscript']))
+                        {
+                            $ok = true;
+                        }
+                    }
+                }
             }
-            if ($ok && $this->oDBUpgrader->init('destructive', $aPkg['schema'], $aPkg['version']))
+            // for now we execute destructive immediately after constructive
+            if ($ok)
             {
-                $ok = $this->oDBUpgrader->upgrade();
+                $ok = false; // start over - should return true throughout even if nothing to do
+                if ($this->oDBUpgrader->init('destructive', $aPkg['schema'], $aPkg['version']))
+                {
+                    if ($this->_runUpgradeSchemaPreScript($aPkg['prescript']))
+                    {
+                        if ($this->oDBUpgrader->upgrade())
+                        {
+                            if ($this->_runUpgradeSchemaPostscript($aPkg['postscript']))
+                            {
+                                $ok = true;
+                            }
+                        }
+                    }
+                }
             }
             if ($ok)
             {
@@ -800,6 +823,42 @@ class OA_Upgrade
             else
             {
                 $this->rollbackSchemas();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function _runUpgradeSchemaPreScript($file)
+    {
+        if ($file)
+        {
+            if (!$this->oDBUpgrader->prepPreScript($this->upgradePath.$file))
+            {
+                $this->oLogger->logError('schema prepping prescript: '.$this->upgradePath.$file);
+                return false;
+            }
+            if(!$this->oDBUpgrader->runPreScript($this->upgradePath.$file))
+            {
+                $this->oLogger->logError('schema prepping prescript: '.$this->upgradePath.$file);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function _runUpgradeSchemaPostScript($file)
+    {
+        if ($file)
+        {
+            if (!$this->oDBUpgrader->prepPostScript($this->upgradePath.$file))
+            {
+                $this->oLogger->logError('schema prepping postscript: '.$this->upgradePath.$file);
+                return false;
+            }
+            if(!$this->oDBUpgrader->runPostScript($this->upgradePath.$file))
+            {
+                $this->oLogger->logError('schema prepping postscript: '.$this->upgradePath.$file);
                 return false;
             }
         }

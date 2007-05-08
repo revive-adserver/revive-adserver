@@ -48,6 +48,36 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->UnitTestCase();
     }
 
+    function test_prepPreScript()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $this->assertTrue($oDB_Upgrade->prepPreScript(MAX_PATH.'/lib/OA/Upgrade/tests/unit/prescript_tables_core_2.php'));
+        $this->assertIsA($oDB_Upgrade->oPreScript, 'prescript_tables_core_2', 'prescript class instance error');
+    }
+
+    function test_runPreScript()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $this->assertTrue($oDB_Upgrade->prepPreScript(MAX_PATH.'/lib/OA/Upgrade/tests/unit/prescript_tables_core_2.php'));
+        $this->assertTrue($oDB_Upgrade->runPreScript(true),'prescript execution error');
+        $this->assertFalse($oDB_Upgrade->runPreScript(false),'prescript execution error');
+    }
+
+    function test_prepPostScript()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $this->assertTrue($oDB_Upgrade->prepPostScript(MAX_PATH.'/lib/OA/Upgrade/tests/unit/postscript_tables_core_2.php'));
+        $this->assertIsA($oDB_Upgrade->oPostScript, 'postscript_tables_core_2', 'postscript class instance error');
+    }
+
+    function test_runPostScript()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $this->assertTrue($oDB_Upgrade->prepPostScript(MAX_PATH.'/lib/OA/Upgrade/tests/unit/postscript_tables_core_2.php'));
+        $this->assertTrue($oDB_Upgrade->runPostScript(true),'postscript execution error');
+        $this->assertFalse($oDB_Upgrade->runPostScript(false),'postscript execution error');
+    }
+
     function test_dropRecoveryFile()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();

@@ -75,6 +75,8 @@ class OA_UpgradePackageParser extends XML_Parser
         case 'upgrade-database-package':
             $this->DBPkg_version = '';
             $this->DBPkg_schema = '';
+            $this->DBPkg_prescript = '';
+            $this->DBPkg_postscript = '';
             $this->aDBPkgs = array();
             $this->aFiles = array();
             break;
@@ -91,6 +93,8 @@ class OA_UpgradePackageParser extends XML_Parser
             $this->aPackage['db_pkgs'][] = array(
                                                  'version' => $this->DBPkg_version,
                                                  'schema' => $this->DBPkg_schema,
+                                                 'prescript' => $this->DBPkg_prescript,
+                                                 'postscript' => $this->DBPkg_postscript,
                                                  'files'=>$this->aDBPkgs
                                                  );
             break;
@@ -139,6 +143,12 @@ class OA_UpgradePackageParser extends XML_Parser
             case 'upgrade-database-package-file':
                 $this->aDBPkgs[] = $data;
                 break;
+            case 'upgrade-database-package-prescript':
+                $this->DBPkg_prescript = $data;
+                break;
+            case 'upgrade-database-package-postscript':
+                $this->DBPkg_postscript = $data;
+                break;
             case 'upgrade-database-package-version':
                 $this->DBPkg_version = $data;
                 break;
@@ -172,11 +182,11 @@ class OA_UpgradePackageParser extends XML_Parser
             case 'upgrade-versionto':
                 $this->aPackage['versionTo'] = $data;
                 break;
-            case 'upgrade-preinstallfile':
-                $this->aPackage['preinstallfile'] = $data;
+            case 'upgrade-prescript':
+                $this->aPackage['prescript'] = $data;
                 break;
-            case 'upgrade-postinstallfile':
-                $this->aPackage['postinstallfile'] = $data;
+            case 'upgrade-postscript':
+                $this->aPackage['postscript'] = $data;
                 break;
         }
     }

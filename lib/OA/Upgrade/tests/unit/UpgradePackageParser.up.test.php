@@ -71,12 +71,13 @@ class Test_OA_UpgradePackageParser extends UnitTestCase
         $this->assertEqual($aPackage['versionFrom'],'1','wrong value: versionFrom');
         $this->assertEqual($aPackage['versionTo'],'2','wrong value: versionTo');
 
-        $this->assertEqual($aPackage['preinstallfile'],'do_this_first.php','wrong value: preinstallfile');
-        $this->assertEqual($aPackage['postinstallfile'],'do_this_last.php','wrong value: postinstallfile');
+        $this->assertEqual($aPackage['prescript'],'do_this_first.php','wrong value: prescript');
+        $this->assertEqual($aPackage['postscript'],'do_this_last.php','wrong value: postscript');
 
 
         $this->assertEqual($aDBPackages[0]['schema'],'tables_core','');
-        $this->assertEqual($aDBPackages[0]['version'],'2','');
+        $this->assertEqual($aDBPackages[0]['prescript'],'prescript_tables_core_2.php','');
+        $this->assertEqual($aDBPackages[0]['postscript'],'postscript_tables_core_2.php','');
         $this->assertEqual($aDBPackages[0]['files'][0],'schema_tables_core_2.xml','');
         $this->assertEqual($aDBPackages[0]['files'][1],'changes_tables_core_2.xml','');
         $this->assertEqual($aDBPackages[0]['files'][2],'migration_tables_core_2.php','');
