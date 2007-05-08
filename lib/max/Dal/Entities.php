@@ -143,7 +143,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 AND
                 aza.link_type != 0
                 AND
-                aza.zone_id IN (" . $this->oDbh->esacpe(implode(', ', $aZoneIds)) . ")
+                aza.zone_id IN (" . $this->oDbh->escape(implode(', ', $aZoneIds)) . ")
             ORDER BY
                 ad_id";
         $rc = $this->oDbh->query($query);
