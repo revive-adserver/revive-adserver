@@ -71,7 +71,7 @@ class Migration
 
     function init(&$oDbh, $logfile='')
     {
-        $this->oDBH = &$oDbh;
+        $this->oDBH = $oDbh;
         if ($logfile)
         {
             $this->logFile = $logfile;
@@ -128,7 +128,7 @@ class Migration
                 break;
         }
     }
-    
+
     function getPrefix()
     {
         return $GLOBALS['_MAX']['CONF']['table']['prefix'];
