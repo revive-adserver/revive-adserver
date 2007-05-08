@@ -626,6 +626,7 @@ class OA_Upgrade
         $this->oConfiguration->setupConfigTimezone($aConfig['timezone']);
         $this->oConfiguration->setupConfigStore($aConfig['store']);
         $this->oConfiguration->setupConfigMax($aConfig['max']);
+        $this->oConfiguration->setupConfigPriority('');
         return $this->oConfiguration->writeConfig();
     }
 
@@ -688,6 +689,13 @@ class OA_Upgrade
                 return false;
             }
             $this->oLogger->log('Removed MAX application version');
+            $this->oConfiguration->setupConfigPriority('');
+            if (!$this->oConfiguration->writeConfig())
+            {
+                $this->oLogger->logError('Failed to set the randmax priority value');
+                $this->message = 'Failed to set the randmax priority value';
+                return false;
+            }
         }
         if ($this->oPAN->detected)
         {
@@ -696,6 +704,13 @@ class OA_Upgrade
                     $this->oLogger->logError('Failed to rename PAN configuration file (non-critical, you can delete or rename /var/config.inc.php yourself)');
                     $this->message = 'Failed to rename PAN configuration file (non-critical, you can delete or rename /var/config.inc.php yourself)';
                 return true;
+            }
+            $this->oConfiguration->setupConfigPriority('');
+            if (!$this->oConfiguration->writeConfig())
+            {
+                $this->oLogger->logError('Failed to set the randmax priority value');
+                $this->message = 'Failed to set the randmax priority value';
+                return false;
             }
         }
         return true;

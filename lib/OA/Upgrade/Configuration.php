@@ -79,7 +79,6 @@ class OA_Upgrade_Config
         if (!file_exists($this->configPath.$this->configFile))
         {
             copy(MAX_PATH.'/etc/dist.conf.php', $this->configPath.$this->configFile);
-            return $this->writeConfig();
         }
         return true;
     }
@@ -159,6 +158,11 @@ class OA_Upgrade_Config
     {
         $this->setValue('store', 'mode', 0);
         $this->setValue('store', 'webDir', $aConfig['webDir']);
+    }
+
+    function setupConfigPriority($aConfig)
+    {
+        $this->setValue('priority', 'randmax', mt_getrandmax());
     }
 
     function setupConfigDatabase($aConfig)
