@@ -59,6 +59,11 @@ class Plugins_DeliveryLimitations_Site_Referingpage extends Plugins_DeliveryLimi
         return MAX_Plugin_Translation::translate('Refering Page', $this->module, $this->package);
     }
 
+    
+    function getUpgradeFromEarly($op, $sData)
+    {
+        return OA_limitationsGetUpgradeForContains($op, $sData);
+    }
 }
 
 ?>

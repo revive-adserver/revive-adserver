@@ -59,6 +59,11 @@ class Plugins_DeliveryLimitations_Site_Source extends Plugins_DeliveryLimitation
         return MAX_Plugin_Translation::translate('Source', $this->module, $this->package);
     }
 
+    
+    function getUpgradeFromEarly($op, $sData)
+    {
+        return OA_limitationsGetAUpgradeFor20Regexp($op, $sData);
+    }
 }
 
 ?>

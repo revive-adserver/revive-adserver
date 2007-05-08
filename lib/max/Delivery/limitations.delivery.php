@@ -705,6 +705,39 @@ function MAX_limitationsGetAUpgradeForVariable($op, $sData)
     return $aResult;
 }
 
+/**
+ * This function should be used for the following delivery limitations:
+ *   * browser,
+ *   * operating system,
+ *   * useragent.
+ *
+ * @param string $op
+ * @param string $sData
+ */
+function OA_limitationsGetAUpgradeFor20Regexp($op, $sData)
+{
+    $aResult = array();
+    $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=x' : '!x';
+    $aResult['data'] = $sData;
+    return $aResult;
+}
+
+
+/**
+ * This function should be used for the 'referer' delivery limitation.
+ *
+ * @param string $op
+ * @param string $sData
+ * @return array
+ */
+function OA_limitationsGetUpgradeForContains($op, $sData)
+{
+    $aResult = array();
+    $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~';
+    $aResult['data'] = $sData;
+    return $aResult;
+}
+
 
 /**
  * Returns an array with downgraded format of operator and data

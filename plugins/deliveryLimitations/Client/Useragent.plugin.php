@@ -50,6 +50,11 @@ class Plugins_DeliveryLimitations_Client_Useragent extends Plugins_DeliveryLimit
         $this->columnName = 'user_agent';
         $this->nameEnglish = 'Useragent';
     }
+    
+    function getUpgradeFromEarly($op, $sData)
+    {
+        return OA_limitationsGetAUpgradeFor20Regexp($op, $sData);
+    }
 }
 
 ?>

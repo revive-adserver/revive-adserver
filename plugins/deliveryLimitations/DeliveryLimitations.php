@@ -444,6 +444,19 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
     {
         return MAX_limitationsGetADowngradeForString($op, $sData);
     }
+    
+    
+    /**
+     * Gets information about $op and $data for upgrade from Openads 2.0.
+     *
+     * @param string $op
+     * @param string $sData
+     * @return array
+     */
+    function getUpgradeFromEarly($op, $sData)
+    {
+        return $this->getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData);
+    }
 
 }
 
