@@ -217,6 +217,10 @@ function setupConstants()
         // Define the week to start on Sunday (0) so that the PEAR::Date and
         // PEAR::Date_Calc classes agree on what day is the start of the week
         define('DATE_CALC_BEGIN_WEEKDAY', 0);
+
+        // Parse the Openads configuration file
+        $GLOBALS['_MAX']['CONF'] = parseIniFile();
+
         // Ensure that the TZ environment variable is set for PHP < 5.1.0, so
         // that PEAR::Date class knows which timezone we are in, and doesn't
         // screw up the dates after using the PEAR::compare() method -  also,
@@ -241,8 +245,6 @@ function setupConstants()
             }
         }
 
-        // Parse the Openads configuration file
-        $GLOBALS['_MAX']['CONF'] = parseIniFile();
         // Define the Openads Cache File location path (required trailing slash)
         if (empty($GLOBALS['_MAX']['CONF']['delivery']['cachePath'])) {
             define('MAX_CACHE', MAX_PATH . '/var/cache/');
