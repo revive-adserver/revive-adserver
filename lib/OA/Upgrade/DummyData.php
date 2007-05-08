@@ -334,7 +334,7 @@ class OA_Dummy_Data
         $this->bannerId2 = DataGenerator::generateOne($doBanners);
     }
 
-}    function insertBanner3()
+    function insertBanner3()
     {
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->acls_updated = date('Y-m-d h:i:s');
@@ -420,6 +420,7 @@ class OA_Dummy_Data
 //        $doBanners->parameters    = '';                      // blob(65535)  blob
         $this->bannerId4 = DataGenerator::generateOne($doBanners);
     }
+
     function insertBanner5()
     {
         $doBanners = OA_Dal::factoryDO('banners');
@@ -463,6 +464,6 @@ class OA_Dummy_Data
 //        $doBanners->parameters    = '';                      // blob(65535)  blob
         $this->bannerId5 = DataGenerator::generateOne($doBanners);
     }
-
+}
 
 ?>
