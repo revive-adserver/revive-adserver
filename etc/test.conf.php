@@ -25,6 +25,9 @@ persistent                          = false
 ; General Openads Installation Settings                                                    ;
 ;------------------------------------------------------------------------------------------;
 
+[openads]
+installed                           = true
+
 [max]
 installed                           = true
 uiEnabled                           = true

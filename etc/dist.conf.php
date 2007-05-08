@@ -5,7 +5,6 @@
 [openads]
 installed                           = false
 
-
 [max]
 installed                           = false
 uiEnabled                           = true
