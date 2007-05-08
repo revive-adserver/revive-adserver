@@ -265,12 +265,12 @@ function MAX_AclValidate($page, $aParams) {
     }
     switch($page) {
         case 'banner-acl.php':
-            $query_existing = "SELECT compiledlimitation, acl_plugins FROM {$conf['table']['banners']} WHERE bannerid = ". $oDbh->quote($aParams['bannerid'], 'integer');
-            $query_acls = "SELECT bannerid as id, logical, type, comparison, data, executionorder FROM {$conf['table']['acls']} WHERE bannerid = ". $oDbh->quote($aParams['bannerid'], 'integer') ." ORDER BY executionorder";
+            $query_existing = "SELECT compiledlimitation, acl_plugins FROM {$conf['table']['prefix']}{$conf['table']['banners']} WHERE bannerid = ". $oDbh->quote($aParams['bannerid'], 'integer');
+            $query_acls = "SELECT bannerid as id, logical, type, comparison, data, executionorder FROM {$conf['table']['prefix']}{$conf['table']['acls']} WHERE bannerid = ". $oDbh->quote($aParams['bannerid'], 'integer') ." ORDER BY executionorder";
         break;
         case 'channel-acl.php':
-            $query_existing = "SELECT compiledlimitation, acl_plugins FROM {$conf['table']['channel']} WHERE channelid = ". $oDbh->quote($aParams['channelid'], 'integer');
-            $query_acls = "SELECT channelid as id, logical, type, comparison, data, executionorder FROM {$conf['table']['acls_channel']} WHERE channelid = ". $oDbh->quote($aParams['channelid'], 'integer') ." ORDER BY executionorder";
+            $query_existing = "SELECT compiledlimitation, acl_plugins FROM {$conf['table']['prefix']}{$conf['table']['channel']} WHERE channelid = ". $oDbh->quote($aParams['channelid'], 'integer');
+            $query_acls = "SELECT channelid as id, logical, type, comparison, data, executionorder FROM {$conf['table']['prefix']}{$conf['table']['acls_channel']} WHERE channelid = ". $oDbh->quote($aParams['channelid'], 'integer') ." ORDER BY executionorder";
         break;
     }
     list($compiledLimitation, $acl_plugins) = $oDbh->queryRow($query_existing, null, MDB2_FETCHMODE_ORDERED);
