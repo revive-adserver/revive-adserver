@@ -46,7 +46,7 @@ class Migration_128Test extends UnitTestCase
         $oTable->createTable('preference');
         $oTable->truncateTable('preference');
         
-        $oDbh = OA_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $migration = new Migration_128();
         $migration->init($oDbh);
         
