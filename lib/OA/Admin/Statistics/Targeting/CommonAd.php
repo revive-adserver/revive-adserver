@@ -25,6 +25,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal/Statistics.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/History.php';
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/Common.php';
 
 /**
@@ -62,6 +64,56 @@ class OA_Admin_Statistics_Targeting_CommonAd extends OA_Admin_Statistics_Targeti
             }
         }
         return true;
+    }
+
+    /**
+     * A method to prepare targeting statistcs data for display by the
+     * {@link OA_Admin_Statistics_Common::output()} method.
+     *
+     * @param array $aParams An array containing the "ad_id".
+     * @param string $link   Optional link file name for the LHC day breakdown link.
+     */
+    function prepare($aParams, $link = '')
+    {
+        // Set the span requirements
+        $this->oHistory->getSpan($this, $aParams);
+
+        // Set the current breakdown information, and get the required DAL method
+        $method = $this->oHistory->setBreakdownInfo($this, 'targeting');
+
+        $oStartDate = new Date($this->aDates['day_begin']);
+        $oEndDate   = new Date($this->aDates['day_end']);
+        $oDal = new OA_Dal_Statistics();
+        $aStats = $oDal->$method($aParams['ad_id'], 'ad', $oStartDate, $oEndDate);
+
+        if (count($aStats) == 0) {
+            // There are no stats!
+            $this->noStatsAvailable = true;
+            $this->aTargetingData = array();
+            return;
+        }
+
+        // Pad out any missing items in the stats array,
+        // and ensure that links are correctly set
+        $aDates = $this->oHistory->getDatesArray($this->aDates, $this->statsBreakdown, $this->oStartDate);
+        $this->oHistory->fillGapsAndLink($aStats, $aDates, $this, $link);
+
+        // Ensure the stats array for the range is filled
+        foreach (array_keys($aStats) as $k) {
+            $aStats[$k] += $this->aEmptyRow;
+        }
+
+        if (!in_array($this->listOrderField, array_merge(array($this->statsBreakdown), array_keys($this->aColumns)))) {
+            $this->listOrderField = $this->statsBreakdown;
+            $this->listOrderDirection = $this->statsBreakdown == 'hour' || $this->statsBreakdown == 'dow' ? 'up' : 'down';
+        }
+
+        // Summarise the values into a the totals array, & format
+        $this->_summariseTotalsAndFormat($aStats, true);
+
+        MAX_sortArray($aStats, $this->listOrderField, $this->listOrderDirection == 'up');
+
+        $this->aTargetingData = $aStats;
     }
 
 }

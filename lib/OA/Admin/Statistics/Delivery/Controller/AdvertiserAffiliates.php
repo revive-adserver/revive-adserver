@@ -166,7 +166,8 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliates extends OA_Ad
                 break;
         }
 
-        $this->_summarizeTotals($this->aEntitiesData);
+        // Summarise the values into a the totals array, & format
+        $this->_summariseTotalsAndFormat($this->aEntitiesData);
 
         $this->showHideLevels = array();
         switch ($this->startLevel)

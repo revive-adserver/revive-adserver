@@ -98,11 +98,12 @@ class OA_Admin_Statistics_History
      *                             $oCaller->weekDays       - May be set by method
      *                             $oCaller->statsKey       - Will be set by method
      *                             $oCaller->averageDesc    - Will be set by method
+     * @param string $type    One of "history" or "targeting".
      * @return string The partial Admin_DA method name (eg. "getDay") to be used to
      *                obtain the historical data - combined with other text to get the
      *                full method name (eg. "getDayHistory", "getDayTargeting").
      */
-    function setBreakdownInfo(&$oCaller)
+    function setBreakdownInfo(&$oCaller, $type = 'history')
     {
         switch ($oCaller->statsBreakdown) {
         case 'week':
@@ -115,32 +116,52 @@ class OA_Admin_Statistics_History
             }
             $oCaller->statsKey       = $GLOBALS['strWeek'];
             $oCaller->averageDesc    = $GLOBALS['strWeeks'];
-            $method = 'getDay';
+            if ($type == 'history') {
+                $method = 'getDayHistory';
+            } else {
+                $method = 'getTargetingStatisticsSpanByWeek';
+            }
             break;
 
         case 'month':
             $oCaller->statsKey       = $GLOBALS['strSingleMonth'];
             $oCaller->averageDesc    = $GLOBALS['strMonths'];
-            $method = 'getMonth';
+            if ($type == 'history') {
+                $method = 'getMonthHistory';
+            } else {
+                $method = 'getTargetingStatisticsSpanByMonth';
+            }
             break;
 
         case 'dow'  :
             $oCaller->statsKey       = $GLOBALS['strDayOfWeek'];
             $oCaller->averageDesc    = $GLOBALS['strWeekDays'];
-            $method = 'getDayOfWeek';
+            if ($type == 'history') {
+                $method = 'getDayOfWeekHistory';
+            } else {
+                $method = 'getTargetingStatisticsSpanByDow';
+            }
             break;
 
         case 'hour' :
             $oCaller->statsKey       = $GLOBALS['strHour'];
             $oCaller->averageDesc    = $GLOBALS['strHours'];
-            $method = 'getHour';
+            if ($type == 'history') {
+                $method = 'getHourHistory';
+            } else {
+                $method = 'getTargetingStatisticsSpanByHour';
+            }
             break;
 
         default     :
             $oCaller->statsBreakdown = 'day';
             $oCaller->statsKey       = $GLOBALS['strDay'];
             $oCaller->averageDesc    = $GLOBALS['strDays'];
-            $method = 'getDay';
+            if ($type == 'history') {
+                $method = 'getDayHistory';
+            } else {
+                $method = 'getTargetingStatisticsSpanByDay';
+            }
             break;
         }
         return $method;

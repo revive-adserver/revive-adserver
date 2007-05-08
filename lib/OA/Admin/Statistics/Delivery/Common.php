@@ -89,22 +89,6 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
     }
 
     /**
-     * A method that can be used in both the Flexy template and the
-     * output() method to determine if a column should be visible,
-     * or not.
-     *
-     * Overrides the parent method to actually test to see if the
-     * columns should be visible or not.
-     *
-     * @param string $column The column name.
-     * @return boolean True if the column is visible, false otherwise.
-     */
-    function showColumn($column)
-    {
-        return isset($this->aColumnVisible[$column]) ? $this->aColumnVisible[$column] : true;
-    }
-
-    /**
      * A private method that can be inherited and used by children classes to
      * load the required plugins during instantiation.
      *
@@ -356,90 +340,55 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
-     * A private method that can be inherited and used by children classes to
-     * calculate the sum of the requests, impressions, clicks and conversions
-     * that are to be displayed.
+     * A private method that extends the parent
+     * {@link OA_Admin_Statistics_Common::_summariseTotals{}} method to
+     * also ...
      *
      * @access private
-     * @param array Rows of stats
-     * @param boolean Calculate average data too
+     * @param array   $aRows   An array of statistics to summarise.
+     * @param boolean $average Calculate the average of the values as well.
      */
-    function _summarizeTotals(&$rows, $average = false)
+    function _summariseTotals(&$aRows, $average = false)
     {
-        foreach ($rows as $row) {
-            foreach (array_keys($this->aColumns) as $k) {
-                $this->aTotal[$k] += $row[$k];
-            }
-
-            // add conversion totals
-            $conversion_types = array(
+        parent::_summariseTotals($aRows, $average);
+        // Custom
+        foreach ($aRows as $row) {
+            // Add conversion totals
+            $aConversionTypes = array(
                 MAX_CONNECTION_AD_IMPRESSION,
                 MAX_CONNECTION_AD_CLICK,
                 MAX_CONNECTION_AD_ARRIVAL,
                 MAX_CONNECTION_MANUAL
             );
-            foreach ($conversion_types as $conversion_type) {
-                if (isset($row['sum_conversions_'.$conversion_type])) {
-                    $this->aTotal['sum_conversions_'.$conversion_type] += $row['sum_conversions_'.$conversion_type];
+            foreach ($aConversionTypes as $conversionType) {
+                if (isset($aRows['sum_conversions_'.$conversionType])) {
+                    $this->aTotal['sum_conversions_'.$conversionType] += $row['sum_conversions_'.$conversionType];
                 }
             }
         }
-
         $this->_summarizeStats($this->aTotal);
-
         if ($average) {
             $this->average = $this->summarizeAverage($this->aTotal, count($rows));
             $this->averageSpan = count($rows);
             $this->showAverage = $this->average !== false;
         }
-
-        $this->noStatsAvailable = !$this->_hasActiveStats($this->aTotal);
-
-        $this->_formatStats($this->aTotal, true);
-
-        foreach (array_keys($rows) as $k) {
-            $this->_formatStatsRecursive($rows[$k]);
-        }
-
-        $this->showTotals = true;
     }
 
-    /**
-     * A private method that can be inherited and used by children classes to
-     * calculate if the rows of data to be displayed has an active row to display
-     * or not.
-     *
-     * @access private
-     * @param array Rows of stats
-     * @return boolean The row is not empty
-     */
-    function _hasActiveStats($row)
-    {
-        foreach ($this->aPlugins as $oPlugin) {
-            if ($oPlugin->isRowActive($row)) {
-                return true;
-            }
-        }
-        return false;
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * A private method that can be inherited and used by children classes to
@@ -453,44 +402,6 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
     {
         foreach ($this->aPlugins as $oPlugin) {
             $oPlugin->summarizeStats($row);
-        }
-    }
-
-    /**
-     * A private method that can be inherited and used by children classes to
-     * format the rows of statistics that are to be displayed, according to the
-     * user's preferences.
-     *
-     * @access private
-     * @param array Row of stats
-     * @param bool  Is total
-     */
-    function _formatStats(&$row, $is_total = false)
-    {
-        if (!$this->skipFormatting) {
-            foreach ($this->aPlugins as $oPlugin) {
-                $oPlugin->_formatStats($row, $is_total);
-            }
-        }
-    }
-
-    /**
-     * Format a row of stats recursively according to the user preferences
-     *
-     * This function is useful when formatting stats for entities which also
-     * have subentities
-     *
-     * @static
-     *
-     * @param array Row of stats
-     */
-    function _formatStatsRecursive(&$row)
-    {
-        $this->_formatStats($row);
-        if (isset($row['subentities']) && is_array($row['subentities'])) {
-            foreach (array_keys($row['subentities']) as $key) {
-                $this->_formatStatsRecursive($row['subentities'][$key]);
-            }
         }
     }
 

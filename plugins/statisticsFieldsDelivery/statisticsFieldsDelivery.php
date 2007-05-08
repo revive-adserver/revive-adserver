@@ -219,6 +219,41 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
         return array();
     }
 
+    /**
+     * A method to format a row of statistics according to the column's "format"
+     * value in the {@link $this->_aFields} array, and according to user preferences
+     * for how numbers/currency should be formatted.
+     *
+     * @param array   $aRow    An array containing a row of statistics to format.
+     * @param boolean $isTotal Is the row a "total" row? When true, ensures that
+     *                         all "id" formatted columns (from the
+     *                         {@link $this->_aFields} array) are set to "-".
+     */
+    function _formatStats(&$aRow, $isTotal = false)
+    {
+        foreach ($this->_aFields as $k => $v) {
+            if (array_key_exists($k, $aRow)) {
+                if ($v['format'] == 'id') {
+                    $aRow[$k] = $isTotal ? '-' : $aRow[$k];
+                } elseif ($aRow[$k] == 0) {
+                    $aRow[$k] = '-';
+                } elseif ($v['format'] == 'percent') {
+                    $aRow[$k] = phpAds_formatPercentage($aRow[$k]);
+                } elseif ($v['format'] == 'currency') {
+                    $aRow[$k] = phpAds_formatNumber($aRow[$k], 2);
+                } else {
+                    $aRow[$k] = phpAds_formatNumber($aRow[$k]);
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+
 
 
 
@@ -319,30 +354,6 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
         }
 
         return $average;
-    }
-
-    /**
-     * Format a row of stats according to the user preferences
-     *
-     * @param array Row of stats
-     */
-    function _formatStats(&$row, $is_total = false)
-    {
-        foreach ($this->_aFields as $k => $v) {
-            if (array_key_exists($k, $row)) {
-                if ($v['format'] == 'id') {
-                    $row[$k] = $is_total ? '-' : $row[$k];
-                } elseif ($row[$k] == 0) {
-                    $row[$k] = '-';
-                } elseif ($v['format'] == 'percent') {
-                    $row[$k] = phpAds_formatPercentage($row[$k]);
-                } elseif ($v['format'] == 'currency') {
-                    $row[$k] = phpAds_formatNumber($row[$k], 2);
-                } else {
-                    $row[$k] = phpAds_formatNumber($row[$k]);
-                }
-            }
-        }
     }
 
     /**

@@ -259,7 +259,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
      */
     function getHistory($aParams, $link = '')
     {
-        $method = $this->oHistory->setBreakdownInfo($this) . 'History';
+        $method = $this->oHistory->setBreakdownInfo($this);
 
         // Add plugin aParams
         $pluginParams = array();
@@ -298,7 +298,8 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
 
         MAX_sortArray($aStats, $this->listOrderField, $this->listOrderDirection == 'up');
 
-        $this->_summarizeTotals($aStats, true);
+        // Summarise the values into a the totals array, & format
+        $this->_summariseTotalsAndFormat($aStats, true);
 
         return $aStats;
     }

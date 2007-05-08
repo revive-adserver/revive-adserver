@@ -154,6 +154,23 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     var $aTotal;
 
     /**
+     * A boolean to determine if the {@link $this->aTotal}
+     * array should be used in the Flexy template to show
+     * total values.
+     *
+     * @var boolean
+     */
+    var $showTotals = false;
+
+    /**
+     * A boolean to note if there are no statistics available
+     * to display.
+     *
+     * @var boolean
+     */
+    var $noStatsAvailable = false;
+
+    /**
      * An array of the appropriate display plugins.
      *
      * @var array
@@ -297,7 +314,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         foreach ($this->aPlugins as $oPlugin) {
             $this->aColumns       += $oPlugin->getFields($this);
             $this->aColumnLinks   += $oPlugin->getColumnLinks();
-            $this->aColumnVisible += $oPlugin->getVisibleColumns();
             $this->aEmptyRow      += $oPlugin->getEmptyRow();
         }
 
@@ -405,6 +421,11 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      */
     function output($graphMode = false)
     {
+        // Prepare the visible columns
+        foreach ($this->aPlugins as $oPlugin) {
+            $this->aColumnVisible += $oPlugin->getVisibleColumns();
+        }
+
         if ($this->outputType == 'deliveryEntity') {
 
             // Display the entity delivery stats
@@ -661,14 +682,12 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * output() method to determine if a column should be visible,
      * or not.
      *
-     * By default, all columns are shown.
-     *
      * @param string $column The column name.
      * @return boolean True if the column is visible, false otherwise.
      */
     function showColumn($column)
     {
-        return true;
+        return isset($this->aColumnVisible[$column]) ? $this->aColumnVisible[$column] : true;
     }
 
     /**
@@ -1137,6 +1156,113 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         return $aNewParams;
     }
 
+    /**
+     * A private method that can be inherited and used by children classes to
+     * calculate the total sum of all data rows, and store it in the
+     * {@link $this->aTotal} array, as well as formatting all the rows and the
+     * total array.
+     *
+     * Also sets {@link $this->showTotals} to true, if required.
+     *
+     * Also sets {@link $this->noStatsAvailable}, as required.
+     *
+     * @access private
+     * @param array $aRows An array of statistics to summarise & format.
+     */
+    function _summariseTotalsAndFormat(&$aRows)
+    {
+        $this->_summariseTotals($aRows);
+        $this->noStatsAvailable = !$this->_hasActiveStats($this->aTotal);
+        // Format all stats rows
+        $this->_formatStats($aRows);
+        // Format single total row
+        $this->_formatStatsRowRecursive($this->aTotal, true);
+    }
+
+    /**
+     * A private method that can be inherited and used by children classes to
+     * calculate the total sum of all data rows, and store it in the
+     * {@link $this->aTotal} array.
+     *
+     * Also sets {@link $this->showTotals} to true, if required.
+     */
+    function _summariseTotals(&$aRows)
+    {
+        $showTotals = false;
+        reset($aRows);
+        while (list(, $aRow) = each($aRows)) {
+            reset($aRow);
+            while (list($key, $value) = each($aRow)) {
+                // Ensure that we only try to sum for those columns
+                // that are set in the initial empty total row
+                if (isset($this->aTotal[$key])) {
+                    $this->aTotal[$key] += $value;
+                    $showTotals = true;
+                }
+            }
+        }
+        $this->showTotals = $showTotals;
+    }
+
+    /**
+     * A private method that can be inherited and used by children classes to
+     * format an array of statistics rows.
+     *
+     * @access private
+     * @param array   $aRows   An array of statistics rows.
+     * @param boolean $isTotal Is the row a "total" row? When true, ensures that
+     *                         all "id" formatted columns (from the
+     *                         {@link $this->_aFields} array) are set to "-".
+     */
+    function _formatStats(&$aRows, $isTotal = false)
+    {
+        if (isset($aRows) && is_array($aRows)) {
+            foreach (array_keys($aRows) as $key) {
+                $this->_formatStatsRowRecursive($aRows[$key], $isTotal);
+            }
+        }
+    }
+
+    /**
+     * A private method that can be inherited and used by children classes to
+     * recursively format a row of statistics.
+     *
+     * @access private
+     * @param array   $aRow    An array, containing a row of statistics,
+     *                         with possible "subentities" rows.
+     * @param boolean $isTotal Is the row a "total" row? When true, ensures that
+     *                         all "id" formatted columns (from the
+     *                         {@link $this->_aFields} array) are set to "-".
+     */
+    function _formatStatsRowRecursive(&$aRow, $isTotal = false)
+    {
+        if (isset($aRow['subentities']) && is_array($aRow['subentities'])) {
+            foreach (array_keys($aRow['subentities']) as $key) {
+                $this->_formatStatsRowRecursive($aRow['subentities'][$key], $isTotal);
+            }
+        }
+        if (is_array($aRow)) {
+            $this->_formatStatsRow($aRow, $isTotal);
+        }
+    }
+
+    /**
+     * A private method that can be inherited and used by children classes to
+     * format a row of statistics.
+     *
+     * @access private
+     * @param array   $aRow    An array, containing a row of statistics.
+     * @param boolean $isTotal Is the row a "total" row? When true, ensures that
+     *                         all "id" formatted columns (from the
+     *                         {@link $this->_aFields} array) are set to "-".
+     */
+    function _formatStatsRow(&$aRow, $isTotal = false)
+    {
+        foreach ($this->aPlugins as $oPlugin) {
+            $oPlugin->_formatStats($aRow, $isTotal);
+        }
+    }
+
     /********** PRIVATE METHODS USED BY THIS CLASS ONLY **********/
 
     /**
@@ -1256,6 +1382,24 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             $GLOBALS['session']['prefs']['GLOBALS'][$k] = $v;
         }
         phpAds_sessionDataStore();
+    }
+
+    /**
+     * A private method to determine if there are "active" statistics
+     * (ie. non-zero) in a given set of data rows.
+     *
+     * @access private
+     * @param array $aRow An array containing a rows of statistics.
+     * @return boolean True if the row is active, false otherwise.
+     */
+    function _hasActiveStats($aRow)
+    {
+        foreach ($this->aPlugins as $oPlugin) {
+            if ($oPlugin->isRowActive($aRow)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

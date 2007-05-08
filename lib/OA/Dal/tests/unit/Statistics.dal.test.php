@@ -67,7 +67,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
      * Test 12: Test as for Test 9, but now with zone data in the right OI
      * Test 13: Test with multiple OIs, multiple days
      */
-    function testGetPlacementOverviewTargetingStatistics()
+    function XXXtestGetPlacementOverviewTargetingStatistics()
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
@@ -578,7 +578,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
      * Test 12: Test as for Test 9, but now with zone data in the right OI
      * Test 13: Test with multiple OIs, multiple ads
      */
-    function testGetPlacementDailyTargetingStatistics()
+    function XXXtestGetPlacementDailyTargetingStatistics()
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
@@ -970,7 +970,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
      * Test 8: Test as for Test 7, but now with zone data in the wrong OI
      * Test 9: Test as for Test 7, but now with zone data in the right OI
      */
-    function testGetAdTargetingStatistics()
+    function XXXtestGetAdTargetingStatistics()
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
@@ -1156,7 +1156,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
      * Test 8: Test as for Test 7, but now with zone data in the wrong OI
      * Test 9: Test as for Test 7, but now with zone data in the right OI
      */
-    function testGetZoneTargetingStatistics()
+    function XXXtestGetZoneTargetingStatistics()
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;

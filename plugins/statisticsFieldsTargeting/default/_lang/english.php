@@ -34,15 +34,21 @@ $words = array(
     '_Requested'           => 'Requested Impressions',
     '_Actual'              => 'Actual Impressions',
     '_Zone Forecast'       => 'Zone Forecast',
+    '_Zones Forecast'      => 'Sum of Zone Forecasts',
     '_Zone Impressions'    => 'Zone Impressions',
+    '_Zones Impressions'   => 'Sum of Zone Impressions',
+    '_Average'             => 'Average',
 
     // Short names
-    'ID'                  => 'ID',
-    'Required'            => 'Required',
-    'Requested'           => 'Requested',
-    'Actual'              => 'Actual',
-    'Zone Forecast'       => 'Zone F\'cast',
-    'Zone Impressions'    => 'Zone Imp.'
+    'ID'                   => 'ID',
+    'Required'             => 'Required',
+    'Requested'            => 'Requested',
+    'Actual'               => 'Actual',
+    'Zone Forecast'        => 'Zone F\'cast',
+    'Zones Forecast'       => 'Sum Zone F\'casts',
+    'Zone Impressions'     => 'Zone Imp.',
+    'Zones Impressions'    => 'Sum Zone Imp.',
+    'Average'              => 'Average'
 );
 
 ?>

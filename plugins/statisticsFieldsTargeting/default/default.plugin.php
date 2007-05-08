@@ -54,23 +54,58 @@ class Plugins_statisticsFieldsTargeting_default_default extends Plugins_statisti
         $this->_aFields = array(
             'placement_required_impressions'  => array('name'   => MAX_Plugin_Translation::translate('_Required', $this->module, $this->package),
                                                        'short'  => MAX_Plugin_Translation::translate('Required', $this->module, $this->package),
-                                                       'format' => 'default'
+                                                       'format' => 'default',
+                                                       'active' => false
+                                                      ),
+            'ad_required_impressions'         => array('name'   => MAX_Plugin_Translation::translate('_Required', $this->module, $this->package),
+                                                       'short'  => MAX_Plugin_Translation::translate('Required', $this->module, $this->package),
+                                                       'format' => 'default',
+                                                       'active' => false
                                                       ),
             'placement_requested_impressions' => array('name'   => MAX_Plugin_Translation::translate('_Requested', $this->module, $this->package),
                                                        'short'  => MAX_Plugin_Translation::translate('Requested', $this->module, $this->package),
-                                                       'format' => 'default'
+                                                       'format' => 'default',
+                                                       'active' => false
+                                                      ),
+            'ad_requested_impressions'        => array('name'   => MAX_Plugin_Translation::translate('_Requested', $this->module, $this->package),
+                                                       'short'  => MAX_Plugin_Translation::translate('Requested', $this->module, $this->package),
+                                                       'format' => 'default',
+                                                       'active' => false
                                                       ),
             'placement_actual_impressions'    => array('name'   => MAX_Plugin_Translation::translate('_Actual', $this->module, $this->package),
                                                        'short'  => MAX_Plugin_Translation::translate('Actual', $this->module, $this->package),
-                                                       'format' => 'default'
+                                                       'format' => 'default',
+                                                       'active' => false
+                                                      ),
+            'ad_actual_impressions'           => array('name'   => MAX_Plugin_Translation::translate('_Actual', $this->module, $this->package),
+                                                       'short'  => MAX_Plugin_Translation::translate('Actual', $this->module, $this->package),
+                                                       'format' => 'default',
+                                                       'active' => false
                                                       ),
             'zone_forecast_impressions'       => array('name'   => MAX_Plugin_Translation::translate('_Zone Forecast', $this->module, $this->package),
                                                        'short'  => MAX_Plugin_Translation::translate('Zone Forecast', $this->module, $this->package),
-                                                       'format' => 'default'
+                                                       'format' => 'default',
+                                                       'active' => false
+                                                      ),
+            'zones_forecast_impressions'      => array('name'   => MAX_Plugin_Translation::translate('_Zones Forecast', $this->module, $this->package),
+                                                       'short'  => MAX_Plugin_Translation::translate('Zones Forecast', $this->module, $this->package),
+                                                       'format' => 'default',
+                                                       'active' => false
                                                       ),
             'zone_actual_impressions'         => array('name'   => MAX_Plugin_Translation::translate('_Zone Impressions', $this->module, $this->package),
                                                        'short'  => MAX_Plugin_Translation::translate('Zone Impressions', $this->module, $this->package),
-                                                       'format' => 'default'
+                                                       'format' => 'default',
+                                                       'active' => false
+                                                      ),
+            'zones_actual_impressions'        => array('name'   => MAX_Plugin_Translation::translate('_Zones Impressions', $this->module, $this->package),
+                                                       'short'  => MAX_Plugin_Translation::translate('Zones Impressions', $this->module, $this->package),
+                                                       'format' => 'default',
+                                                       'active' => false
+                                                      ),
+            'average'                         => array('name'   => MAX_Plugin_Translation::translate('_Average', $this->module, $this->package),
+                                                       'short'  => MAX_Plugin_Translation::translate('Average', $this->module, $this->package),
+                                                       'format' => 'boolean',
+                                                       'active' => true
                                                       )
         );
     }

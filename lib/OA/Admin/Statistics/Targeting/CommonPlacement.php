@@ -76,23 +76,15 @@ class OA_Admin_Statistics_Targeting_CommonPlacement extends OA_Admin_Statistics_
     function prepare($aParams, $link = '')
     {
         // Set the span requirements
-        $this->oHistory->getSpan($this, $aParams);
+        $this->oHistory->getSpan($this, $aParams, 'getTargetingSpan', 'getTargetingSpanParams');
 
-        //$oDal = new OA_Dal_Statistics();
-        //$aStats = $oDal->getPlacementOverviewTargetingStatistics($aParams['placement_id'], $this->oStartDate);
+        // Set the current breakdown information, and get the required DAL method
+        $method = $this->oHistory->setBreakdownInfo($this, 'targeting');
 
-        $aStats = array(
-            '2007-05-02' => array(
-                'date' => '02-05-2007',
-                'date_f' => '2007-05-02',
-                'placement_required_impressions' => 50,
-                'placement_requested_impressions' => 50,
-                'placement_actual_impressions' => 45,
-                'zone_forecast_impressions' => 100,
-                'zone_actual_impressions' => 90
-            )
-        );
-
+        $oStartDate = new Date($this->aDates['day_begin']);
+        $oEndDate   = new Date($this->aDates['day_end']);
+        $oDal = new OA_Dal_Statistics();
+        $aStats = $oDal->$method($aParams['placement_id'], 'placement', $oStartDate, $oEndDate);
 
         if (count($aStats) == 0) {
             // There are no stats!
@@ -110,6 +102,16 @@ class OA_Admin_Statistics_Targeting_CommonPlacement extends OA_Admin_Statistics_
         foreach (array_keys($aStats) as $k) {
             $aStats[$k] += $this->aEmptyRow;
         }
+
+        if (!in_array($this->listOrderField, array_merge(array($this->statsBreakdown), array_keys($this->aColumns)))) {
+            $this->listOrderField = $this->statsBreakdown;
+            $this->listOrderDirection = $this->statsBreakdown == 'hour' || $this->statsBreakdown == 'dow' ? 'up' : 'down';
+        }
+
+        // Summarise the values into a the totals array, & format
+        $this->_summariseTotalsAndFormat($aStats, true);
+
+        MAX_sortArray($aStats, $this->listOrderField, $this->listOrderDirection == 'up');
 
         $this->aTargetingData = $aStats;
     }

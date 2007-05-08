@@ -148,7 +148,8 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignBanners extends OA_Admin_S
 
         $this->aEntitiesData = $this->getBanners($aParams, $this->startLevel, $expand);
 
-        $this->_summarizeTotals($this->aEntitiesData);
+        // Summarise the values into a the totals array, & format
+        $this->_summariseTotalsAndFormat($this->aEntitiesData);
 
         $this->showHideLevels = array();
         $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveBannersHidden']}";

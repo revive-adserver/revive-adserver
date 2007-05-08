@@ -125,16 +125,10 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
             'images/icon-campaign.gif'
         );
 
-        $aParams = array();
-        $aParams['placement_id'] = $placementId;
-
+        $aParams = array(
+            'placement_id' => $placementId
+        );
         $this->prepare($aParams, 'stats.php');
-
-        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId);
-
-        $this->_loadParams();
-//        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-//        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 
     }
 

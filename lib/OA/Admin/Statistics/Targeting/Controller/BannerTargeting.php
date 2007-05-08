@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/CommonPlacement.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/CommonAd.php';
 
 /**
  * The class to display the targeting statistcs for the page:
@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/CommonPlacement.php'
  * @subpackage StatisticsTargeting
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Targeting_Controller_BannerTargeting extends OA_Admin_Statistics_Targeting_CommonPlacement
+class OA_Admin_Statistics_Targeting_Controller_BannerTargeting extends OA_Admin_Statistics_Targeting_CommonAd
 {
 
     /**
@@ -63,6 +63,16 @@ class OA_Admin_Statistics_Targeting_Controller_BannerTargeting extends OA_Admin_
         $this->showDaySpanSelector = true;
 
         parent::__construct($aParams);
+
+        // Special requirement for targeting statistics - activate required columns
+        // in the plugins
+        foreach (array_keys($this->aPlugins) as $key) {
+            $this->aPlugins[$key]->_aFields['ad_required_impressions']['active'] = true;
+            $this->aPlugins[$key]->_aFields['ad_requested_impressions']['active'] = true;
+            $this->aPlugins[$key]->_aFields['ad_actual_impressions']['active'] = true;
+            $this->aPlugins[$key]->_aFields['zones_forecast_impressions']['active'] = true;
+            $this->aPlugins[$key]->_aFields['zones_actual_impressions']['active'] = true;
+        }
     }
 
     /**
@@ -96,14 +106,18 @@ class OA_Admin_Statistics_Targeting_Controller_BannerTargeting extends OA_Admin_
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
         $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId, 'ad' => $adId));
 
-        // Add standard page parameters
-        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId, 'bannerid' => $adId);
-        $this->aPageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        // Add standard page parameters, including the current
+        // statistics page's entity/breakdown type
+        $this->aPageParams = array(
+            'clientid'   => $advertiserId,
+            'campaignid' => $placementId,
+            'bannerid'   => $adId
+        );
 
+        // Load $_GET parameters
         $this->_loadParams();
 
-        // HTML Framework
+        // Prepare HTML Framework
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
             $this->pageId = '2.1.2.2.3';
             $this->aPageSections = array('2.1.2.2.1', '2.1.2.2.2', '2.1.2.2.3');
@@ -116,6 +130,7 @@ class OA_Admin_Statistics_Targeting_Controller_BannerTargeting extends OA_Admin_
             $this->aPageSections[] = '1.2.2.4';
         }
 
+        // Add breadcrumb
         $this->_addBreadcrumbs('banner', $adId);
 
         // Add context
@@ -145,15 +160,11 @@ class OA_Admin_Statistics_Targeting_Controller_BannerTargeting extends OA_Admin_
             'images/icon-acl.gif'
         );
 
-        $aParams = array();
-        $aParams['ad_id'] = $adId;
-
+        // Prepare the data for display by output() method
+        $aParams = array(
+            'ad_id' => $adId
+        );
         $this->prepare($aParams, 'stats.php');
-
-        // Add standard page parameters
-        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId, 'bannerid' => $adId);
-        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
     }
 
 }

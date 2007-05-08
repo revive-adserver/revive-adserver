@@ -41,10 +41,12 @@ class Plugins_statisticsFieldsTargeting_statisticsFieldsTargeting extends Plugin
 {
 
     /**
-     * A method to prepare the array of columns that should be displayed (ie. not hidden)
-     * by the calling OA_Admin_Statistics_Common or child class.
+     * A method to prepare the array of columns that should be displayed
+     * (ie. not hidden) by the calling OA_Admin_Statistics_Common or child class.
      *
-     * Overrides the parent class, as targeting statistics fields cannot be enabled/disabled.
+     * Overrides the parent class, as targeting statistics fields cannot be
+     * enabled/disabled - instead, visibility is based on the "activity" of
+     * the column in the {@link $this->_aFields} array.
      *
      * @return array An array of fields, indexed by "field", giving a true
      *               or false value for display - {@see $this->_aFields}.
@@ -52,10 +54,13 @@ class Plugins_statisticsFieldsTargeting_statisticsFieldsTargeting extends Plugin
     function getVisibleColumns()
     {
         // Get the preferences
-        $aPref = $GLOBALS['_MAX']['PREF'];
         $aColumns = array();
         foreach ($this->_aFields as $k => $v) {
-            $aColumns[$k] = true;
+            if ($v['active']) {
+                $aColumns[$k] = true;
+            } else {
+                $aColumns[$k] = false;
+            }
         }
         return $aColumns;
     }

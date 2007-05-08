@@ -63,6 +63,16 @@ class OA_Admin_Statistics_Targeting_Controller_CampaignTargeting extends OA_Admi
         $this->showDaySpanSelector = true;
 
         parent::__construct($aParams);
+
+        // Special requirement for targeting statistics - activate required columns
+        // in the plugins
+        foreach (array_keys($this->aPlugins) as $key) {
+            $this->aPlugins[$key]->_aFields['placement_required_impressions']['active'] = true;
+            $this->aPlugins[$key]->_aFields['placement_requested_impressions']['active'] = true;
+            $this->aPlugins[$key]->_aFields['placement_actual_impressions']['active'] = true;
+            $this->aPlugins[$key]->_aFields['zones_forecast_impressions']['active'] = true;
+            $this->aPlugins[$key]->_aFields['zones_actual_impressions']['active'] = true;
+        }
     }
 
     /**

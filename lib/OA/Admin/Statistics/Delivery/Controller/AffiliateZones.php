@@ -162,7 +162,8 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateZones extends OA_Admin_St
 
         $this->aEntitiesData = $this->getZones($aParams, $this->startLevel, $expand);
 
-        $this->_summarizeTotals($this->aEntitiesData);
+        // Summarise the values into a the totals array, & format
+        $this->_summariseTotalsAndFormat($this->aEntitiesData);
 
         $this->showHideLevels = array();
         $this->hiddenEntitiesText = "{$this->hiddenEntities} {$GLOBALS['strInactiveZonesHidden']}";

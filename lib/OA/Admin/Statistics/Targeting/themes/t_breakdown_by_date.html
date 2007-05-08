@@ -127,7 +127,7 @@
             <tr>
                 <th scope="col" class="aleft"><a href="{listOrderHrefRev(statsBreakdown)}">{statsKey}<img flexy:if="listOrderImage(statsBreakdown)" src="{listOrderImage(statsBreakdown)}" border="0" /></a></th>
                 {foreach:aColumns,ck,cv}
-                <th scope="col" class="aright"><a href="{listOrderHrefRev(ck)}">{cv}<img flexy:if="listOrderImage(ck)" src="{listOrderImage(ck)}" border="0" /></a></th>
+                <th scope="col" class="aright" flexy:if="showColumn(ck)"><a href="{listOrderHrefRev(ck)}">{cv}<img flexy:if="listOrderImage(ck)" src="{listOrderImage(ck)}" border="0" /></a></th>
                 {end:}
             </tr>
         </thead>
@@ -139,7 +139,9 @@
                     <span flexy:if="!h[link]">{h[date_f]}</span>
                 </td>
                 {foreach:aColumns,ck,cv}
-                <td class="aright {h[htmlclass]}">{showValue(h,ck)}</td>
+                <td class="aright {h[htmlclass]}" flexy:if="showColumn(ck)">
+                {showValue(h,ck):h}
+                </td>
                 {end:}
             </tr>
             <tr>
@@ -171,25 +173,25 @@
             <tr>
                 <th scope="col" class="aleft">&nbsp;</th>
                 {foreach:aColumns,ck,cv}
-                <th scope="col" class="aright">{cv}</th>
+                <th scope="col" class="aright" flexy:if="showColumn(ck)">{cv}</th>
                 {end:}
             </tr>
             <tr flexy:if="showAverage">
                 <td><b>{tr(#strTotal#)}</b></td>
                 {foreach:aColumns,ck,cv}
-                <td class="aright">{showValue(aTotal,ck)}</td>
+                <td class="aright" flexy:if="showColumn(ck)">{showValue(aTotal,ck)}</td>
                 {end:}
             </tr>
             <tr flexy:if="!showAverage">
                 <td class="last"><b>{tr(#strTotal#)}</b></td>
                 {foreach:aColumns,ck,cv}
-                <td class="aright last">{showValue(aTotal,ck)}</td>
+                <td class="aright last" flexy:if="showColumn(ck)">{showValue(aTotal,ck):h}</td>
                 {end:}
             </tr>
             <tr flexy:if="showAverage">
                 <td class="last">{tr(#strAverage#)} ({averageSpan} {averageDesc})</td>
                 {foreach:aColumns,ck,cv}
-                <td class="aright last">{showValue(average,ck)}</td>
+                <td class="aright last" flexy:if="showColumn(ck)">{showValue(average,ck)}</td>
                 {end:}
             </tr>
         </tbody>

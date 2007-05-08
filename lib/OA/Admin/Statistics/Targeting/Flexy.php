@@ -39,6 +39,29 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
 class OA_Admin_Statistics_Targeting_Flexy extends OA_Admin_Statistics_Common
 {
 
+    /**
+     * A Flexy helper method to return the value of a field for display.
+     *
+     * Overrides the parent Flexy helper method so that it can deal with
+     * displaying warnings for average calculations, etc.
+     *
+     * @param array  $aArray An array of items.
+     * @param string $k      The index name of the item to display.
+     * @return mixed The item to display.
+     */
+    function showValue($aArray, $k)
+    {
+        if ($k == 'average') {
+            if ($aArray[$k] === true || (is_numeric($aArray[$k]) && $aArray[$k] > 0)) {
+                return '<img src="images/warning.gif" width="16 height="16" alt="" title="" />';
+            } else {
+                return '';
+            }
+        } else {
+            return parent::showValue($aArray, $k);
+        }
+    }
+
 }
 
 ?>

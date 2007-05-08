@@ -160,7 +160,8 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
                 break;
         }
 
-        $this->_summarizeTotals($this->aEntitiesData);
+        // Summarise the values into a the totals array, & format
+        $this->_summariseTotalsAndFormat($this->aEntitiesData);
 
         $this->showHideLevels = array();
         switch ($this->startLevel)
