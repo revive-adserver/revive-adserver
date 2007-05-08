@@ -35,12 +35,19 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
 
 class OA_Dummy_Data
 {
+    var $agencyId;
     var $clientId;
     var $campaignId;
     var $channelId;
-    var $zoneId;
-    var $bannerId;
-    var $agencyId = 0;
+
+    var $zoneId1;
+    var $zoneId2;
+
+    var $bannerId1;
+    var $bannerId2;
+    var $bannerId3;
+    var $bannerId4;
+    var $bannerId5;
 
     function OA_Dummy_Data()
     {
@@ -49,9 +56,16 @@ class OA_Dummy_Data
 
     function insert()
     {
+        $this->insertAgency();
+        $this->insertAffiliate();
         $this->insertClient();
-        $this->insertZone();
-        $this->insertBanner();
+        $this->insertZone1();
+        $this->insertZone2();
+        $this->insertBanner1();
+        $this->insertBanner2();
+        $this->insertBanner3();
+        $this->insertBanner4();
+        $this->insertBanner5();
         $this->insertCampaign();
         $this->insertAdZoneAssoc();
     }
@@ -70,26 +84,6 @@ class OA_Dummy_Data
         $doAgency->active    = 't';
         $doAgency->updated    = date('Y-m-d h:i:s');
         $this->agencyId = DataGenerator::generateOne($doAgency);
-    }
-
-    function insertAffiliate()
-    {
-        $doAffiliate = OA_Dal::factoryDO('affiliates');
-        $doAffiliate->acencyid  = $this->agencyId;
-        $doAffiliate->name    = 'Dummy Publisher';
-        $doAffiliate->mnemonic    = '';                        // string(5)  not_null
-        $doAffiliate->comments    = '';                        // blob(65535)  blob
-        $doAffiliate->contact    = 'pubby';
-        $doAffiliate->email    = 'pubby@example.com';
-        $doAffiliate->website    = 'http://www.example.com';
-        $doAffiliate->username    = '';                        // string(64)
-        $doAffiliate->password    = '';                        // string(64)
-        $doAffiliate->permissions    = '';                     // int(9)
-        $doAffiliate->language    = '';                        // string(64)
-        $doAffiliate->publiczones    = 't';
-        $doAffiliate->last_accepted_agency_agreement    = '';
-        $doAffiliate->updated   = date('Y-m-d h:i:s');
-        $this->affiliateId = DataGenerator::generateOne($doAffiliate);
     }
 
     function insertClient()
@@ -133,17 +127,17 @@ class OA_Dummy_Data
         $this->affiliateId = DataGenerator::generateOne($doAffiliate);
     }
 
-    function insertZone()
+    function insertZone1()
     {
         $doZones = OA_Dal::factoryDO('zones');
-        $doZones->zonename      = 'Dummy Publisher Default Zone';
+        $doZones->zonename      = 'Dummy Publisher Default Zone 1';
         $doZones->affiliateid      = $this->affiliateId;
         $doZones->zonetype      = 3;
         $doZones->width         = 0;
         $doZones->height        = 0;
         $doZones->forceappend   = 'f';
         $doZones->updated       = date('Y-m-d h:i:s');
-        $doZones->description    = 'Dummy Publisher Text Zone';
+        $doZones->description    = 'Dummy Publisher Text Zone 1';
         $doZones->delivery    = '3';
 //        $doZones->zonetype    = '';                       // int(6)  not_null
 //        $doZones->category    = '';                       // blob(65535)  not_null blob
@@ -163,7 +157,40 @@ class OA_Dummy_Data
 //        $doZones->capping    = '';                         // int(11)  not_null
 //        $doZones->session_capping    = '';                 // int(11)  not_null
 //        $doZones->what    = '';                           // blob(65535)  not_null blob
-        $this->zoneId = DataGenerator::generateOne($doZones);
+        $this->zoneId1 = DataGenerator::generateOne($doZones);
+    }
+
+    function insertZone2()
+    {
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->zonename      = 'Dummy Publisher Default Zone 2';
+        $doZones->affiliateid      = $this->affiliateId;
+        $doZones->zonetype      = 3;
+        $doZones->width         = 0;
+        $doZones->height        = 0;
+        $doZones->forceappend   = 'f';
+        $doZones->updated       = date('Y-m-d h:i:s');
+        $doZones->description    = 'Dummy Publisher Text Zone 2';
+        $doZones->delivery    = '3';
+//        $doZones->zonetype    = '';                       // int(6)  not_null
+//        $doZones->category    = '';                       // blob(65535)  not_null blob
+//        $doZones->ad_selection    = '';                   // blob(65535)  not_null blob
+//        $doZones->chain    = '';                          // blob(65535)  not_null blob
+//        $doZones->prepend    = '';                        // blob(65535)  not_null blob
+//        $doZones->append    = '';                         // blob(65535)  not_null blob
+        $doZones->appendtype    = '0';
+//        $doZones->inventory_forecast_type    = '';         // int(6)  not_null
+//        $doZones->comments    = '';                        // blob(65535)  blob
+//        $doZones->cost    = '';                            // unknown(12)
+//        $doZones->cost_type    = '';                       // int(6)
+//        $doZones->cost_variable_id    = '';                // string(255)
+//        $doZones->technology_cost    = '';                 // unknown(12)
+//        $doZones->technology_cost_type    = '';            // int(6)
+//        $doZones->block    = '';                           // int(11)  not_null
+//        $doZones->capping    = '';                         // int(11)  not_null
+//        $doZones->session_capping    = '';                 // int(11)  not_null
+//        $doZones->what    = '';                           // blob(65535)  not_null blob
+        $this->zoneId2 = DataGenerator::generateOne($doZones);
     }
 
 
@@ -208,7 +235,18 @@ class OA_Dummy_Data
         $this->campaignId = DataGenerator::generateOne($doCampaigns);
     }
 
-    function insertBanner()
+    function insertAdZoneAssoc()
+    {
+        $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
+        $doAdZoneAssoc->ad_id = $this->bannerId1;
+        $doAdZoneAssoc->zone_id = $this->zoneId1;
+
+        $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
+        $doAdZoneAssoc->ad_id = $this->bannerId2;
+        $doAdZoneAssoc->zone_id = $this->zoneId1;
+    }
+
+    function insertBanner1()
     {
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->acls_updated = date('Y-m-d h:i:s');
@@ -249,16 +287,182 @@ class OA_Dummy_Data
 //        $doBanners->keyword    = '';                         // string(255)  not_null
 //        $doBanners->transparent    = '';                     // int(1)  not_null
 //        $doBanners->parameters    = '';                      // blob(65535)  blob
-        $this->bannerId = DataGenerator::generateOne($doBanners);
+        $this->bannerId1 = DataGenerator::generateOne($doBanners);
     }
 
-    function insertAdZoneAssoc()
+    function insertBanner2()
     {
-        $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
-        $doAdZoneAssoc->ad_id = $this->bannerId;
-        $doAdZoneAssoc->zone_id = $this->zoneId;
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->acls_updated = date('Y-m-d h:i:s');
+        $doBanners->updated    = date('Y-m-d h:i:s');
+        $doBanners->campaignid      = $this->campaignId;
+        $doBanners->active          = 't';
+        $doBanners->contenttype    = 'txt';
+        $doBanners->pluginversion    = '0';                   // int(9)  not_null
+        $doBanners->storagetype    = 'txt';
+//        $doBanners->filename    = '';                        // string(255)  not_null
+//        $doBanners->imageurl    = '';                        // string(255)  not_null
+//        $doBanners->htmltemplate    = '';                 // blob(65535)  not_null blob
+//        $doBanners->htmlcache    = '';                    // blob(65535)  not_null blob
+//        $doBanners->width    = '';                           // int(6)  not_null
+//        $doBanners->height    = '';                          // int(6)  not_null
+//        $doBanners->weight    = '';                          // int(4)  not_null
+//        $doBanners->seq    = '';                             // int(4)  not_null
+        $doBanners->target    = '_blank';
+        $doBanners->url    = 'http://destination.example.com';
+        $doBanners->alt    = 'Dummy Alt Text';
+//        $doBanners->status    = '';                          // string(255)  not_null
+        $doBanners->bannertext    = 'Dummy Text Ad';
+        $doBanners->description    = 'Dummy Banner Text Ad';
+//        $doBanners->autohtml    = '';                       // string(1)  not_null enum
+//        $doBanners->adserver    = '';                        // string(50)  not_null
+//        $doBanners->block    = '';                           // int(11)  not_null
+//        $doBanners->capping    = '';                         // int(11)  not_null
+//        $doBanners->session_capping    = '';                 // int(11)  not_null
+//        $doBanners->compiledlimitation    = '';           // blob(65535)  not_null blob
+//        $doBanners->acl_plugins    = '';                     // blob(65535)  blob
+//        $doBanners->append    = '';                      // blob(65535)  not_null blob
+//        $doBanners->appendtype    = '';                      // int(4)  not_null
+//        $doBanners->bannertype    = '';                      // int(4)  not_null
+//        $doBanners->alt_filename    = '';                    // string(255)  not_null
+//        $doBanners->alt_imageurl    = '';                    // string(255)  not_null
+//        $doBanners->alt_contenttype    = '';                // string(4)  not_null enum
+//        $doBanners->comments    = '';                        // blob(65535)  blob
+//        $doBanners->keyword    = '';                         // string(255)  not_null
+//        $doBanners->transparent    = '';                     // int(1)  not_null
+//        $doBanners->parameters    = '';                      // blob(65535)  blob
+        $this->bannerId2 = DataGenerator::generateOne($doBanners);
     }
 
-}
+}    function insertBanner3()
+    {
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->acls_updated = date('Y-m-d h:i:s');
+        $doBanners->updated    = date('Y-m-d h:i:s');
+        $doBanners->campaignid      = $this->campaignId;
+        $doBanners->active          = 't';
+        $doBanners->contenttype    = 'txt';
+        $doBanners->pluginversion    = '0';                   // int(9)  not_null
+        $doBanners->storagetype    = 'txt';
+//        $doBanners->filename    = '';                        // string(255)  not_null
+//        $doBanners->imageurl    = '';                        // string(255)  not_null
+//        $doBanners->htmltemplate    = '';                 // blob(65535)  not_null blob
+//        $doBanners->htmlcache    = '';                    // blob(65535)  not_null blob
+//        $doBanners->width    = '';                           // int(6)  not_null
+//        $doBanners->height    = '';                          // int(6)  not_null
+//        $doBanners->weight    = '';                          // int(4)  not_null
+//        $doBanners->seq    = '';                             // int(4)  not_null
+        $doBanners->target    = '_blank';
+        $doBanners->url    = 'http://destination.example.com';
+        $doBanners->alt    = 'Dummy Alt Text';
+//        $doBanners->status    = '';                          // string(255)  not_null
+        $doBanners->bannertext    = 'Dummy Text Ad';
+        $doBanners->description    = 'Dummy Banner Text Ad';
+//        $doBanners->autohtml    = '';                       // string(1)  not_null enum
+//        $doBanners->adserver    = '';                        // string(50)  not_null
+//        $doBanners->block    = '';                           // int(11)  not_null
+//        $doBanners->capping    = '';                         // int(11)  not_null
+//        $doBanners->session_capping    = '';                 // int(11)  not_null
+//        $doBanners->compiledlimitation    = '';           // blob(65535)  not_null blob
+//        $doBanners->acl_plugins    = '';                     // blob(65535)  blob
+//        $doBanners->append    = '';                      // blob(65535)  not_null blob
+//        $doBanners->appendtype    = '';                      // int(4)  not_null
+//        $doBanners->bannertype    = '';                      // int(4)  not_null
+//        $doBanners->alt_filename    = '';                    // string(255)  not_null
+//        $doBanners->alt_imageurl    = '';                    // string(255)  not_null
+//        $doBanners->alt_contenttype    = '';                // string(4)  not_null enum
+//        $doBanners->comments    = '';                        // blob(65535)  blob
+//        $doBanners->keyword    = '';                         // string(255)  not_null
+//        $doBanners->transparent    = '';                     // int(1)  not_null
+//        $doBanners->parameters    = '';                      // blob(65535)  blob
+        $this->bannerId3 = DataGenerator::generateOne($doBanners);
+    }
+    function insertBanner4()
+    {
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->acls_updated = date('Y-m-d h:i:s');
+        $doBanners->updated    = date('Y-m-d h:i:s');
+        $doBanners->campaignid      = $this->campaignId;
+        $doBanners->active          = 't';
+        $doBanners->contenttype    = 'txt';
+        $doBanners->pluginversion    = '0';                   // int(9)  not_null
+        $doBanners->storagetype    = 'txt';
+//        $doBanners->filename    = '';                        // string(255)  not_null
+//        $doBanners->imageurl    = '';                        // string(255)  not_null
+//        $doBanners->htmltemplate    = '';                 // blob(65535)  not_null blob
+//        $doBanners->htmlcache    = '';                    // blob(65535)  not_null blob
+//        $doBanners->width    = '';                           // int(6)  not_null
+//        $doBanners->height    = '';                          // int(6)  not_null
+//        $doBanners->weight    = '';                          // int(4)  not_null
+//        $doBanners->seq    = '';                             // int(4)  not_null
+        $doBanners->target    = '_blank';
+        $doBanners->url    = 'http://destination.example.com';
+        $doBanners->alt    = 'Dummy Alt Text';
+//        $doBanners->status    = '';                          // string(255)  not_null
+        $doBanners->bannertext    = 'Dummy Text Ad';
+        $doBanners->description    = 'Dummy Banner Text Ad';
+//        $doBanners->autohtml    = '';                       // string(1)  not_null enum
+//        $doBanners->adserver    = '';                        // string(50)  not_null
+//        $doBanners->block    = '';                           // int(11)  not_null
+//        $doBanners->capping    = '';                         // int(11)  not_null
+//        $doBanners->session_capping    = '';                 // int(11)  not_null
+//        $doBanners->compiledlimitation    = '';           // blob(65535)  not_null blob
+//        $doBanners->acl_plugins    = '';                     // blob(65535)  blob
+//        $doBanners->append    = '';                      // blob(65535)  not_null blob
+//        $doBanners->appendtype    = '';                      // int(4)  not_null
+//        $doBanners->bannertype    = '';                      // int(4)  not_null
+//        $doBanners->alt_filename    = '';                    // string(255)  not_null
+//        $doBanners->alt_imageurl    = '';                    // string(255)  not_null
+//        $doBanners->alt_contenttype    = '';                // string(4)  not_null enum
+//        $doBanners->comments    = '';                        // blob(65535)  blob
+//        $doBanners->keyword    = '';                         // string(255)  not_null
+//        $doBanners->transparent    = '';                     // int(1)  not_null
+//        $doBanners->parameters    = '';                      // blob(65535)  blob
+        $this->bannerId4 = DataGenerator::generateOne($doBanners);
+    }
+    function insertBanner5()
+    {
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->acls_updated = date('Y-m-d h:i:s');
+        $doBanners->updated    = date('Y-m-d h:i:s');
+        $doBanners->campaignid      = $this->campaignId;
+        $doBanners->active          = 't';
+        $doBanners->contenttype    = 'txt';
+        $doBanners->pluginversion    = '0';                   // int(9)  not_null
+        $doBanners->storagetype    = 'txt';
+//        $doBanners->filename    = '';                        // string(255)  not_null
+//        $doBanners->imageurl    = '';                        // string(255)  not_null
+//        $doBanners->htmltemplate    = '';                 // blob(65535)  not_null blob
+//        $doBanners->htmlcache    = '';                    // blob(65535)  not_null blob
+//        $doBanners->width    = '';                           // int(6)  not_null
+//        $doBanners->height    = '';                          // int(6)  not_null
+//        $doBanners->weight    = '';                          // int(4)  not_null
+//        $doBanners->seq    = '';                             // int(4)  not_null
+        $doBanners->target    = '_blank';
+        $doBanners->url    = 'http://destination.example.com';
+        $doBanners->alt    = 'Dummy Alt Text';
+//        $doBanners->status    = '';                          // string(255)  not_null
+        $doBanners->bannertext    = 'Dummy Text Ad';
+        $doBanners->description    = 'Dummy Banner Text Ad';
+//        $doBanners->autohtml    = '';                       // string(1)  not_null enum
+//        $doBanners->adserver    = '';                        // string(50)  not_null
+//        $doBanners->block    = '';                           // int(11)  not_null
+//        $doBanners->capping    = '';                         // int(11)  not_null
+//        $doBanners->session_capping    = '';                 // int(11)  not_null
+//        $doBanners->compiledlimitation    = '';           // blob(65535)  not_null blob
+//        $doBanners->acl_plugins    = '';                     // blob(65535)  blob
+//        $doBanners->append    = '';                      // blob(65535)  not_null blob
+//        $doBanners->appendtype    = '';                      // int(4)  not_null
+//        $doBanners->bannertype    = '';                      // int(4)  not_null
+//        $doBanners->alt_filename    = '';                    // string(255)  not_null
+//        $doBanners->alt_imageurl    = '';                    // string(255)  not_null
+//        $doBanners->alt_contenttype    = '';                // string(4)  not_null enum
+//        $doBanners->comments    = '';                        // blob(65535)  blob
+//        $doBanners->keyword    = '';                         // string(255)  not_null
+//        $doBanners->transparent    = '';                     // int(1)  not_null
+//        $doBanners->parameters    = '';                      // blob(65535)  blob
+        $this->bannerId5 = DataGenerator::generateOne($doBanners);
+    }
+
 
 ?>
