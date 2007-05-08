@@ -41,8 +41,8 @@
             <file>schema_tables_core_513.xml</file>
             <file>changes_tables_core_513.xml</file>
             <file>migration_tables_core_513.php</file>
-            <prescript>prescript_tables_core_513.php</prescript>
-            <postscript>postscript_tables_core_513.php</postscript>
+            <!--prescript>prescript_tables_core_513.php</prescript>
+            <postscript>postscript_tables_core_513.php</postscript-->
         </package>
     </database>
 
