@@ -752,7 +752,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                affiliateid = ". $this->dbh->quote($publisherId, 'integer') ."
+                affiliateid = ". $this->oDbh->quote($publisherId, 'integer') ."
                 AND (inventory_forecast_type & 8) != 0
             ORDER BY
                 zoneid";
