@@ -179,9 +179,9 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
                 AND
                 zone_id IN (" . $this->oDbh->escape(implode(', ', $aZoneIds)) . ")
                 AND
-                day >= ". $this->oDbh->quote($aPeriod['start']->format('%Y-%m-%d'), 'date') . "'
+                day >= ". $this->oDbh->quote($aPeriod['start']->format('%Y-%m-%d'), 'date') . "
                 AND
-                day <= ". $this->oDbh->quote($aPeriod['end']->format('%Y-%m-%d'), 'date') . "'
+                day <= ". $this->oDbh->quote($aPeriod['end']->format('%Y-%m-%d'), 'date') . "
             GROUP BY
                 zone_id, day";
         $message = 'Finding all channel/zone forecast inventory data for channel ID ' . $channelId .
