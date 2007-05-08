@@ -1,6 +1,6 @@
 <?php
 
-require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once MAX_PATH . '/lib/OA/Upgrade/Migration.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 
 class Migration_128 extends Migration
@@ -25,14 +25,14 @@ class Migration_128 extends Migration
 	{
 		return $this->afterRemoveTable('config');
 	}
-	
-	
+
+
 	function migrateData()
 	{
 	    $prefix = $this->getPrefix();
 	    $tablePreference = $prefix . 'preference';
-	    $aColumns = $this->oDBH->listTableFields($tablePreference);
-	    
+	    $aColumns = $this->oDBH->manager->listTableFields($tablePreference);
+
 	    $sql = "
 	       SELECT * from {$prefix}config";
 	    $rsConfig = DBC::NewRecordSet($sql);
@@ -44,7 +44,7 @@ class Migration_128 extends Migration
 	                $aValues[$column] = $value;
 	            }
 	        }
-	        
+
 	        $sql = OA_DB_SQL::sqlForInsert($tablePreference, $aValues);
 	        $result = $this->oDBH->exec($sql);
 	        return (!PEAR::isError($result));
