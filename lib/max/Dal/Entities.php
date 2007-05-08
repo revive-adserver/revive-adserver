@@ -88,7 +88,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                campaignid = ". $this->dbh->quote($placementId, 'integer') ."
+                campaignid = ". $this->oDbh->quote($placementId, 'integer') ."
             ORDER BY
                 ad_id";
         $rc = $this->oDbh->query($query);
