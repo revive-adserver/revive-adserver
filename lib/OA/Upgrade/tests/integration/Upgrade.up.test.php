@@ -143,8 +143,8 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->aPackage['versionFrom'],'1','wrong value: versionFrom');
         $this->assertEqual($oUpgrade->aPackage['versionTo'],'2','wrong value: versionTo');
 
-        $this->assertEqual($oUpgrade->aPackage['prescript'],'do_this_first.php','wrong value: preinstallfile');
-        $this->assertEqual($oUpgrade->aPackage['postscript'],'do_this_last.php','wrong value: postinstallfile');
+        $this->assertEqual($oUpgrade->aPackage['prescript'],'prescript_openads_upgrade_1_to_2.php','wrong value: prescript');
+        $this->assertEqual($oUpgrade->aPackage['postscript'],'postscript_openads_upgrade_1_to_2.php','wrong value: postscript');
 
 
         $this->assertEqual($oUpgrade->aDBPackages[0]['schema'],'tables_core','');

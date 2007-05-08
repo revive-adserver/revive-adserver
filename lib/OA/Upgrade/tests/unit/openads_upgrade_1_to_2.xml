@@ -26,8 +26,8 @@
     </database>
 
     <!-- Custom Install Scripts to execute -->
-    <prescript>do_this_first.php</prescript>
-    <postscript>do_this_last.php</postscript>
+    <prescript>prescript_openads_upgrade_1_to_2.php</prescript>
+    <postscript>postscript_openads_upgrade_1_to_2.php</postscript>
 
 
 </upgrade>

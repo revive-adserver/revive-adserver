@@ -49,6 +49,12 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->UnitTestCase();
     }
 
+    function test_runScript()
+    {
+        $oUpgrade  = new OA_Upgrade();
+        $this->assertTrue($oUpgrade->runScript(MAX_PATH.'/lib/OA/Upgrade/tests/unit/prescript_openads_upgrade_1_to_2.php', 'prescript'));
+    }
+
     function test_upgradeSchemasPass()
     {
         $oUpgrade  = new OA_Upgrade();

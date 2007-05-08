@@ -148,11 +148,21 @@ class OA_Upgrade
         return true;
     }
 
+    /**
+     * see the recovery file and ye may findeth
+     *
+     * @return boolean
+     */
     function isRecoveryRequired()
     {
         return $this->oDBUpgrader->seekRecoveryFile();
     }
 
+    /**
+     * execute the db_upgrade recovery method
+     *
+     * @return unknown
+     */
     function recoverUpgrade()
     {
         if (is_null($this->oDbh))
@@ -432,6 +442,7 @@ class OA_Upgrade
         $this->aDsn['database'] = $aConfig['database'];
         $this->aDsn['table']    = $aConfig['table'];
 
+        // hmm, should check for create database permissions?
         if (!$this->_createDatabase())
         {
             $this->oLogger->logError('Installation failed to create the database '.$this->aDsn['database']['name']);
@@ -501,6 +512,11 @@ class OA_Upgrade
         return true;
     }
 
+    /**
+     * remove the currently connected database
+     *
+     * @param unknown_type $log
+     */
     function _dropDatabase($log = true)
     {
         OA_DB::dropDatabase($this->aDsn['database']['name']);
@@ -735,12 +751,63 @@ class OA_Upgrade
         return true;
     }
 
+    /**
+     * calls the dummy data class insert() method
+     * which uses the DataGenerator to insert some data
+     *
+     * @return boolean
+     */
     function insertDummyData()
     {
         require_once MAX_PATH.'/lib/OA/Upgrade/DummyData.php';
         $oDummy = new OA_Dummy_Data();
         $oDummy->insert();
         return true;
+    }
+
+
+    /**
+     * this can be used to run custom scripts
+     * for planned enhancement: pre/post upgrade
+     *
+     * @param string $file
+     * @param string $classprefix
+     * @return boolean
+     */
+    function runScript($file, $classprefix)
+    {
+        $class = str_replace('.php', '', basename($file));
+        if (!$file)
+        {
+            return true;
+        }
+        else if (file_exists($file))
+        {
+            $this->oLogger->log('acquiring script '.$file);
+            require_once $file;
+            if (class_exists($class))
+            {
+                $this->oLogger->log('instantiating class '.$class);
+                $oScript = new $class;
+                $method = 'execute';
+                if (is_callable(array($oScript, $method)))
+                {
+                    $this->oLogger->log('method is callable '.$method);
+                    if (!call_user_func(array($oScript, $method), ''))
+                    {
+                        $this->oLogger->logError('script returned false '.$class);
+                        return false;
+                    }
+                    return true;
+                }
+                $this->oLogger->logError('method not found '.$method);
+                return false;
+            }
+            $this->oLogger->logError('class not found '.$class);
+            return false;
+        }
+        $this->oLogger->logError('script not found '.$file);
+        return false;
     }
 
     /**
@@ -829,6 +896,13 @@ class OA_Upgrade
         return true;
     }
 
+    /**
+     * call the db_upgrader's prepare and run script functions
+     * for pre / post upgrade schema packages
+     *
+     * @param string $file
+     * @return boolean
+     */
     function _runUpgradeSchemaPreScript($file)
     {
         if ($file)
@@ -847,6 +921,13 @@ class OA_Upgrade
         return true;
     }
 
+    /**
+     * call the db_upgrader's prepare and run script functions
+     * for pre / post upgrade schema packages
+     *
+     * @param string $file
+     * @return boolean
+     */
     function _runUpgradeSchemaPostScript($file)
     {
         if ($file)
@@ -891,6 +972,7 @@ class OA_Upgrade
         }
         return true;
     }
+
 
     /**
      * use the xml parser to parse the upgrade package
@@ -974,6 +1056,7 @@ class OA_Upgrade
         }
         return true;
     }
+
     /**
      * Open each changeset and determine the version and timings
      *

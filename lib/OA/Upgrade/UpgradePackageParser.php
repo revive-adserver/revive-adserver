@@ -45,6 +45,8 @@ class OA_UpgradePackageParser extends XML_Parser
     var $aPackage       = array('db_pkgs' => array());
     var $DBPkg_version  = '';
     var $DBPkg_schema   = '';
+    var $DBPkg_prescript = '';
+    var $DBPkg_postscript = '';
     var $aDBPkgs        = array('files'=>array());
     var $aFiles         = array();
 
