@@ -82,7 +82,7 @@ class OA_Dummy_Data
         $doAgency->language    = '';                        // string(64)
         $doAgency->logout_url    = '';                      // string(255)
         $doAgency->active    = 't';
-        $doAgency->updated    = date('Y-m-d h:i:s');
+        $doAgency->updated    = OA::getNow(); //date('Y-m-d h:i:s');
         $this->agencyId = DataGenerator::generateOne($doAgency);
     }
 
@@ -99,10 +99,10 @@ class OA_Dummy_Data
         $doClients->language            = '';
         $doClients->report              = 'f';
         $doClients->reportinterval      = 7;
-        $doClients->reportlastdate      = date('Y-m-d');
+        $doClients->reportlastdate      = OA::getNow('Y-m-d'); //date('Y-m-d');
         $doClients->reportdeactivate    = 't';
         $doClients->comments            = '';                  // blob(65535)  blob
-        $doClients->updated             = date('Y-m-d h:i:s');
+        $doClients->updated             = OA::getNow(); //date('Y-m-d h:i:s');
         $doClients->lb_reporting        = 0;
         $this->clientId = DataGenerator::generateOne($doClients);
     }
@@ -123,7 +123,7 @@ class OA_Dummy_Data
         $doAffiliate->language    = '';                        // string(64)
         $doAffiliate->publiczones    = 't';
         $doAffiliate->last_accepted_agency_agreement    = '';
-        $doAffiliate->updated   = date('Y-m-d h:i:s');
+        $doAffiliate->updated   = OA::getNow(); //date('Y-m-d h:i:s');
         $this->affiliateId = DataGenerator::generateOne($doAffiliate);
     }
 
@@ -136,7 +136,7 @@ class OA_Dummy_Data
         $doZones->width         = 0;
         $doZones->height        = 0;
         $doZones->forceappend   = 'f';
-        $doZones->updated       = date('Y-m-d h:i:s');
+        $doZones->updated       = OA::getNow(); //date('Y-m-d h:i:s');
         $doZones->description    = 'Dummy Publisher Text Zone 1';
         $doZones->delivery    = '3';
 //        $doZones->zonetype    = '';                       // int(6)  not_null
@@ -169,7 +169,7 @@ class OA_Dummy_Data
         $doZones->width         = 0;
         $doZones->height        = 0;
         $doZones->forceappend   = 'f';
-        $doZones->updated       = date('Y-m-d h:i:s');
+        $doZones->updated       = OA::getNow(); //date('Y-m-d h:i:s');
         $doZones->description    = 'Dummy Publisher Text Zone 2';
         $doZones->delivery    = '3';
 //        $doZones->zonetype    = '';                       // int(6)  not_null
@@ -197,7 +197,7 @@ class OA_Dummy_Data
     function insertCampaign()
     {
 //        $doChannel = OA_Dal::factoryDO('channel');
-//        $doChannel->acls_updated = date('Y-m-d h:i:s');
+//        $doChannel->acls_updated = OA::getNow(); //date('Y-m-d h:i:s');
 //        $this->channelId = DataGenerator::generateOne($doChannel);
 //
 //        $doTrackers = OA_Dal::factoryDO('trackers');
@@ -228,7 +228,7 @@ class OA_Dummy_Data
 //        $doCampaigns->comments    = '';                        // blob(65535)  blob
 //        $doCampaigns->revenue    = '';                         // unknown(12)
 //        $doCampaigns->revenue_type    = '';                    // int(6)
-        $doCampaigns->updated    = date('Y-m-d h:i:s');
+        $doCampaigns->updated    = OA::getNow(); //date('Y-m-d h:i:s');
 //        $doCampaigns->block    = '';                           // int(11)  not_null
 //        $doCampaigns->capping    = '';                         // int(11)  not_null
 //        $doCampaigns->session_capping    = '';                 // int(11)  not_null
@@ -249,8 +249,8 @@ class OA_Dummy_Data
     function insertBanner1()
     {
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->acls_updated = date('Y-m-d h:i:s');
-        $doBanners->updated    = date('Y-m-d h:i:s');
+        $doBanners->acls_updated = OA::getNow(); //date('Y-m-d h:i:s');
+        $doBanners->updated    = OA::getNow(); //date('Y-m-d h:i:s');
         $doBanners->campaignid      = $this->campaignId;
         $doBanners->active          = 't';
         $doBanners->contenttype    = 'txt';
@@ -293,8 +293,8 @@ class OA_Dummy_Data
     function insertBanner2()
     {
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->acls_updated = date('Y-m-d h:i:s');
-        $doBanners->updated    = date('Y-m-d h:i:s');
+        $doBanners->acls_updated = OA::getNow(); //date('Y-m-d h:i:s');
+        $doBanners->updated    = OA::getNow(); //date('Y-m-d h:i:s');
         $doBanners->campaignid      = $this->campaignId;
         $doBanners->active          = 't';
         $doBanners->contenttype    = 'txt';
@@ -337,8 +337,8 @@ class OA_Dummy_Data
     function insertBanner3()
     {
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->acls_updated = date('Y-m-d h:i:s');
-        $doBanners->updated    = date('Y-m-d h:i:s');
+        $doBanners->acls_updated = OA::getNow(); //date('Y-m-d h:i:s');
+        $doBanners->updated    = OA::getNow(); //date('Y-m-d h:i:s');
         $doBanners->campaignid      = $this->campaignId;
         $doBanners->active          = 't';
         $doBanners->contenttype    = 'txt';
@@ -380,8 +380,8 @@ class OA_Dummy_Data
     function insertBanner4()
     {
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->acls_updated = date('Y-m-d h:i:s');
-        $doBanners->updated    = date('Y-m-d h:i:s');
+        $doBanners->acls_updated = OA::getNow(); //date('Y-m-d h:i:s');
+        $doBanners->updated    = OA::getNow(); //date('Y-m-d h:i:s');
         $doBanners->campaignid      = $this->campaignId;
         $doBanners->active          = 't';
         $doBanners->contenttype    = 'txt';
@@ -424,8 +424,8 @@ class OA_Dummy_Data
     function insertBanner5()
     {
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->acls_updated = date('Y-m-d h:i:s');
-        $doBanners->updated    = date('Y-m-d h:i:s');
+        $doBanners->acls_updated = OA::getNow(); //date('Y-m-d h:i:s');
+        $doBanners->updated    = OA::getNow(); //date('Y-m-d h:i:s');
         $doBanners->campaignid      = $this->campaignId;
         $doBanners->active          = 't';
         $doBanners->contenttype    = 'txt';
