@@ -31,6 +31,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
+require_once MAX_PATH . '/lib/max/Dal/Common.php';
 
 class OA_Dummy_Data
 {
@@ -55,6 +56,42 @@ class OA_Dummy_Data
         $this->insertAdZoneAssoc();
     }
 
+    function insertAgency()
+    {
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->name    = 'Dummy Agency';
+        $doAgency->contact    = '';                         // string(255)
+        $doAgency->email    = '';                           // string(64)  not_null
+        $doAgency->username    = '';                        // string(64)
+        $doAgency->password    = '';                        // string(64)
+        $doAgency->permissions    = '';                     // int(9)
+        $doAgency->language    = '';                        // string(64)
+        $doAgency->logout_url    = '';                      // string(255)
+        $doAgency->active    = 't';
+        $doAgency->updated    = date('Y-m-d h:i:s');
+        $this->agencyId = DataGenerator::generateOne($doAgency);
+    }
+
+    function insertAffiliate()
+    {
+        $doAffiliate = OA_Dal::factoryDO('affiliates');
+        $doAffiliate->acencyid  = $this->agencyId;
+        $doAffiliate->name    = 'Dummy Publisher';
+        $doAffiliate->mnemonic    = '';                        // string(5)  not_null
+        $doAffiliate->comments    = '';                        // blob(65535)  blob
+        $doAffiliate->contact    = 'pubby';
+        $doAffiliate->email    = 'pubby@example.com';
+        $doAffiliate->website    = 'http://www.example.com';
+        $doAffiliate->username    = '';                        // string(64)
+        $doAffiliate->password    = '';                        // string(64)
+        $doAffiliate->permissions    = '';                     // int(9)
+        $doAffiliate->language    = '';                        // string(64)
+        $doAffiliate->publiczones    = 't';
+        $doAffiliate->last_accepted_agency_agreement    = '';
+        $doAffiliate->updated   = date('Y-m-d h:i:s');
+        $this->affiliateId = DataGenerator::generateOne($doAffiliate);
+    }
+
     function insertClient()
     {
         $doClients = OA_Dal::factoryDO('clients');
@@ -64,37 +101,57 @@ class OA_Dummy_Data
         $doClients->email               = 'dummyclient@example.com';
         $doClients->clientusername      = '';                  // string(64)  not_null
         $doClients->clientpassword      = '';                  // string(64)  not_null
-        $doClients->permissions         = 0;                   // int(9)
-        $doClients->language            = '';                  // string(64)
-        $doClients->report              = 'f';                 // string(1)  not_null enum
-        $doClients->reportinterval      = 7;                   // int(9)  not_null
-        $doClients->reportlastdate      = date('Y-m-d');       // date(10)  not_null binary
-        $doClients->reportdeactivate    = 't';                 // string(1)  not_null enum
+        $doClients->permissions         = 0;
+        $doClients->language            = '';
+        $doClients->report              = 'f';
+        $doClients->reportinterval      = 7;
+        $doClients->reportlastdate      = date('Y-m-d');
+        $doClients->reportdeactivate    = 't';
         $doClients->comments            = '';                  // blob(65535)  blob
-        $doClients->updated             = date('Y-m-d h:i:s'); // datetime(19)  not_null binary
-        $doClients->lb_reporting        = 0;                   // int(1)  not_null
+        $doClients->updated             = date('Y-m-d h:i:s');
+        $doClients->lb_reporting        = 0;
         $this->clientId = DataGenerator::generateOne($doClients);
+    }
+
+    function insertAffiliate()
+    {
+        $doAffiliate = OA_Dal::factoryDO('affiliates');
+        $doAffiliate->agencyid    = $this->agencyId;
+        $doAffiliate->name    = 'Dummy Publisher';
+        $doAffiliate->mnemonic    = '';                        // string(5)  not_null
+        $doAffiliate->comments    = '';                        // blob(65535)  blob
+        $doAffiliate->contact    = 'pubby';
+        $doAffiliate->email    = 'pubby@example.com';
+        $doAffiliate->website    = 'http://www.example.com';
+        $doAffiliate->username    = '';                        // string(64)
+        $doAffiliate->password    = '';                        // string(64)
+        $doAffiliate->permissions    = '';                     // int(9)
+        $doAffiliate->language    = '';                        // string(64)
+        $doAffiliate->publiczones    = 't';
+        $doAffiliate->last_accepted_agency_agreement    = '';
+        $doAffiliate->updated   = date('Y-m-d h:i:s');
+        $this->affiliateId = DataGenerator::generateOne($doAffiliate);
     }
 
     function insertZone()
     {
         $doZones = OA_Dal::factoryDO('zones');
-        $doZones->zonename      = 'Dummy Zone';
+        $doZones->zonename      = 'Dummy Publisher Default Zone';
+        $doZones->affiliateid      = $this->affiliateId;
         $doZones->zonetype      = 3;
-        $doZones->width         = 468;
-        $doZones->height        = 60;
+        $doZones->width         = 0;
+        $doZones->height        = 0;
         $doZones->forceappend   = 'f';
         $doZones->updated       = date('Y-m-d h:i:s');
-//        $doZones->affiliateid    = '';                     // int(9)  multiple_key
-//        $doZones->description    = '';                     // string(255)  not_null
-//        $doZones->delivery    = '';                        // int(6)  not_null
-//        $doZones->zonetype    = '';                        // int(6)  not_null
-//        $doZones->category    = '';                        // blob(65535)  not_null blob
-//        $doZones->ad_selection    = '';                    // blob(65535)  not_null blob
-//        $doZones->chain    = '';                           // blob(65535)  not_null blob
-//        $doZones->prepend    = '';                         // blob(65535)  not_null blob
-//        $doZones->append    = '';                          // blob(65535)  not_null blob
-//        $doZones->appendtype    = '';                      // int(4)  not_null
+        $doZones->description    = 'Dummy Publisher Text Zone';
+        $doZones->delivery    = '3';
+//        $doZones->zonetype    = '';                       // int(6)  not_null
+//        $doZones->category    = '';                       // blob(65535)  not_null blob
+//        $doZones->ad_selection    = '';                   // blob(65535)  not_null blob
+//        $doZones->chain    = '';                          // blob(65535)  not_null blob
+//        $doZones->prepend    = '';                        // blob(65535)  not_null blob
+//        $doZones->append    = '';                         // blob(65535)  not_null blob
+        $doZones->appendtype    = '0';
 //        $doZones->inventory_forecast_type    = '';         // int(6)  not_null
 //        $doZones->comments    = '';                        // blob(65535)  blob
 //        $doZones->cost    = '';                            // unknown(12)
@@ -105,7 +162,7 @@ class OA_Dummy_Data
 //        $doZones->block    = '';                           // int(11)  not_null
 //        $doZones->capping    = '';                         // int(11)  not_null
 //        $doZones->session_capping    = '';                 // int(11)  not_null
-//        $doZones->what    = '';                            // blob(65535)  not_null blob
+//        $doZones->what    = '';                           // blob(65535)  not_null blob
         $this->zoneId = DataGenerator::generateOne($doZones);
     }
 
@@ -133,22 +190,21 @@ class OA_Dummy_Data
 //        $doCampaigns->conversions    = '';                     // int(11)
 //        $doCampaigns->expire    = '';                          // date(10)  binary
 //        $doCampaigns->activate    = '';                        // date(10)  binary
-//        $doCampaigns->active    = '';                          // string(1)  not_null enum
+//        $doCampaigns->active    = '';                       // string(1)  not_null enum
 //        $doCampaigns->priority    = '';                        // int(11)  not_null
 //        $doCampaigns->weight    = '';                          // int(4)  not_null
 //        $doCampaigns->target_impression    = '';               // int(11)  not_null
 //        $doCampaigns->target_click    = '';                    // int(11)  not_null
 //        $doCampaigns->target_conversion    = '';               // int(11)  not_null
-//        $doCampaigns->anonymous    = '';                       // string(1)  not_null enum
+//        $doCampaigns->anonymous    = '';                    // string(1)  not_null enum
 //        $doCampaigns->companion    = '';                       // int(1)
 //        $doCampaigns->comments    = '';                        // blob(65535)  blob
 //        $doCampaigns->revenue    = '';                         // unknown(12)
 //        $doCampaigns->revenue_type    = '';                    // int(6)
-//        $doCampaigns->updated    = '';                         // datetime(19)  not_null binary
+        $doCampaigns->updated    = date('Y-m-d h:i:s');
 //        $doCampaigns->block    = '';                           // int(11)  not_null
 //        $doCampaigns->capping    = '';                         // int(11)  not_null
 //        $doCampaigns->session_capping    = '';                 // int(11)  not_null
-
         $this->campaignId = DataGenerator::generateOne($doCampaigns);
     }
 
@@ -156,41 +212,40 @@ class OA_Dummy_Data
     {
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->acls_updated = date('Y-m-d h:i:s');
+        $doBanners->updated    = date('Y-m-d h:i:s');
         $doBanners->campaignid      = $this->campaignId;
-        $doBanners->active          = 't';                          // string(1)  not_null enum
-//        $doBanners->contenttype    = '';                     // string(4)  not_null enum
-//        $doBanners->pluginversion    = '';                   // int(9)  not_null
-//        $doBanners->storagetype    = '';                     // string(7)  not_null enum
+        $doBanners->active          = 't';
+        $doBanners->contenttype    = 'txt';
+        $doBanners->pluginversion    = '0';                   // int(9)  not_null
+        $doBanners->storagetype    = 'txt';
 //        $doBanners->filename    = '';                        // string(255)  not_null
 //        $doBanners->imageurl    = '';                        // string(255)  not_null
-//        $doBanners->htmltemplate    = '';                    // blob(65535)  not_null blob
-//        $doBanners->htmlcache    = '';                       // blob(65535)  not_null blob
+//        $doBanners->htmltemplate    = '';                 // blob(65535)  not_null blob
+//        $doBanners->htmlcache    = '';                    // blob(65535)  not_null blob
 //        $doBanners->width    = '';                           // int(6)  not_null
 //        $doBanners->height    = '';                          // int(6)  not_null
 //        $doBanners->weight    = '';                          // int(4)  not_null
 //        $doBanners->seq    = '';                             // int(4)  not_null
-//        $doBanners->target    = '';                          // string(16)  not_null
-//        $doBanners->url    = '';                             // blob(65535)  not_null blob
-//        $doBanners->alt    = '';                             // string(255)  not_null
+        $doBanners->target    = '_blank';
+        $doBanners->url    = 'http://destination.example.com';
+        $doBanners->alt    = 'Dummy Alt Text';
 //        $doBanners->status    = '';                          // string(255)  not_null
-//        $doBanners->bannertext    = '';                      // blob(65535)  not_null blob
-//        $doBanners->description    = '';                     // string(255)  not_null
-//        $doBanners->autohtml    = '';                        // string(1)  not_null enum
+        $doBanners->bannertext    = 'Dummy Text Ad';
+        $doBanners->description    = 'Dummy Banner Text Ad';
+//        $doBanners->autohtml    = '';                       // string(1)  not_null enum
 //        $doBanners->adserver    = '';                        // string(50)  not_null
 //        $doBanners->block    = '';                           // int(11)  not_null
 //        $doBanners->capping    = '';                         // int(11)  not_null
 //        $doBanners->session_capping    = '';                 // int(11)  not_null
-//        $doBanners->compiledlimitation    = '';              // blob(65535)  not_null blob
+//        $doBanners->compiledlimitation    = '';           // blob(65535)  not_null blob
 //        $doBanners->acl_plugins    = '';                     // blob(65535)  blob
-//        $doBanners->append    = '';                          // blob(65535)  not_null blob
+//        $doBanners->append    = '';                      // blob(65535)  not_null blob
 //        $doBanners->appendtype    = '';                      // int(4)  not_null
 //        $doBanners->bannertype    = '';                      // int(4)  not_null
 //        $doBanners->alt_filename    = '';                    // string(255)  not_null
 //        $doBanners->alt_imageurl    = '';                    // string(255)  not_null
-//        $doBanners->alt_contenttype    = '';                 // string(4)  not_null enum
+//        $doBanners->alt_contenttype    = '';                // string(4)  not_null enum
 //        $doBanners->comments    = '';                        // blob(65535)  blob
-//        $doBanners->updated    = '';                         // datetime(19)  not_null binary
-//        $doBanners->acls_updated    = '';                    // datetime(19)  not_null binary
 //        $doBanners->keyword    = '';                         // string(255)  not_null
 //        $doBanners->transparent    = '';                     // int(1)  not_null
 //        $doBanners->parameters    = '';                      // blob(65535)  blob

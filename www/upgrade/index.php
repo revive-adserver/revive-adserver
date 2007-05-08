@@ -159,6 +159,10 @@ else if (array_key_exists('btn_finish', $_REQUEST))
 {
     if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
     {
+        if (array_key_exists('chk_dummydata', $_REQUEST) && $_REQUEST['chk_dummydata'])
+        {
+            $oUpgrader->insertDummyData();
+        }
         $message = 'Congratulations you have finished installing Openads';
     }
     else

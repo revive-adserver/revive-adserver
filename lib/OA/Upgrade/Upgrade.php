@@ -735,6 +735,14 @@ class OA_Upgrade
         return true;
     }
 
+    function insertDummyData()
+    {
+        require_once MAX_PATH.'/lib/OA/Upgrade/DummyData.php';
+        $oDummy = new OA_Dummy_Data();
+        $oDummy->insert();
+        return true;
+    }
+
     /**
      * test if the database username has permissions to create tables
      *
