@@ -59,7 +59,7 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
     }
     
     // Check if ini file is cached
-    $configFileName = $configPath . '/' . $host . $configFile . '.conf.ini';
+    $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
     
     // Parse the configuration file
     $conf = @parse_ini_file($configFileName, true);

@@ -45,7 +45,7 @@ $Id$
  * Main part of script where data is initialized for delivery
  */
 
-require './init-delivery-parse.php';
+require_once 'init-delivery-parse.php';
 
 setupGlobalConfigVariables();
 
@@ -54,8 +54,8 @@ if ($GLOBALS['_MAX']['CONF']['debug']['logfile']) {
     @ini_set('error_log', MAX_PATH . '/var/' . $GLOBALS['_MAX']['CONF']['debug']['logfile']);
 }
 
-require MAX_PATH . '/lib/max/Delivery/common.php';
-require MAX_PATH . '/lib/max/Delivery/cache.php';
+require_once MAX_PATH . '/lib/max/Delivery/common.php';
+require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 
 // Set the viewer's remote information used in logging
 // and delivery limitation evaluation

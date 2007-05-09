@@ -29,11 +29,11 @@ $Id$
 */
 
 // Require the initialisation file
-require '../../init-delivery.php';
+require_once '../../init-delivery.php';
 
 // Required files
-require MAX_PATH . '/lib/max/Delivery/adSelect.php';
-require MAX_PATH . '/lib/max/Delivery/flash.php';
+require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
+require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 
 // No Caching
 MAX_commonSetNoCacheHeaders();

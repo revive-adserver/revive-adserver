@@ -26,10 +26,10 @@ $Id$
 */
 
 // Require the initialisation file
-require '../../init-delivery.php';
+require_once '../../init-delivery.php';
 
 // Required files
-require MAX_PATH . '/lib/max/Delivery/XML-RPC.php';
+require_once MAX_PATH . '/lib/max/Delivery/XML-RPC.php';
 
 // Configure the XML-RPC server to use the xmlRpcView 
 // function to handle the XML-RPC ad view request

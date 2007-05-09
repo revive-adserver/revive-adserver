@@ -31,10 +31,10 @@ $Id$
  */
 
 // Require the initialisation file
-require '../../init-delivery.php';
+require_once '../../init-delivery.php';
 
 // Required files
-require MAX_PATH . '/lib/max/Delivery/querystring.php';
+require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
 
 // Prevent click from being cached by browsers
 MAX_commonSetNoCacheHeaders();
@@ -105,7 +105,7 @@ function _getZoneAd($zoneId)
 {
     $conf = $GLOBALS['conf'];
 
-    require MAX_PATH . '/lib/max/Delivery/cache.php';
+    require_once MAX_PATH . '/lib/max/Delivery/cache.php';
     $zoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId, false);
 
     if (!empty($zoneLinkedAds['xAds']) && count($zoneLinkedAds['xAds']) == 1) {

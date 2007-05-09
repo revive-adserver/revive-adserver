@@ -65,7 +65,7 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
     }
     
     // Check if ini file is cached
-    $configFileName = $configPath . '/' . $host . $configFile . '.conf.ini';
+    $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
     
     // Parse the configuration file
     $conf = @parse_ini_file($configFileName, true);
@@ -393,6 +393,51 @@ function MAX_remotehostSetClientInfo()
 }
 function MAX_remotehostSetGeoInfo()
 {
+    if (!function_exists('parseDeliveryIniFile')) {
+        
+function parseDeliveryIniFile($configPath = null, $configFile = null, $sections = true)
+{
+    // Set up the configuration .ini file path location
+    if (!$configPath) {
+        $configPath = MAX_PATH . '/var';
+    }
+    if ($configFile) {
+        $configFile = '.' . $configFile;
+    }
+    
+    // Is the .ini file for the hostname being used directly accessible?
+    if (isset($_SERVER['HTTP_HOST'])) {
+        $host = $_SERVER['HTTP_HOST'];
+    } else {
+        $host = $_SERVER['SERVER_NAME'];
+    }
+    
+    // Check if ini file is cached
+    $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
+    
+    // Parse the configuration file
+    $conf = @parse_ini_file($configFileName, true);
+    if ($conf !== false) {
+        return $conf;
+    } elseif ($configFile === '.plugin') {
+        // For plugins, if no configuration file is found, return the sane default values
+        $pluginType = basename($configPath);
+        $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
+        $conf = parse_ini_file($defaultConfig, $sections);
+        if ($conf !== false) {
+            return $conf;
+        }
+        exit(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
+    }
+    
+    // Check to ensure Max hasn't been installed
+    if (file_exists(MAX_PATH . '/var/INSTALLED')) {
+        exit(MAX_PRODUCT_NAME . " has been installed, but no configuration file was found.\n");
+    }
+    // Max hasn't been installed, so delivery engine can't run
+    exit(MAX_PRODUCT_NAME . " has not been installed yet -- please read the INSTALL.txt file.\n");
+}
+    }
     $pluginTypeConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting', 'plugin');
     $type = (!empty($pluginTypeConfig['geotargeting']['type'])) ? $pluginTypeConfig['geotargeting']['type'] : null;
     if (!is_null($type) && $type != 'none') {

@@ -29,8 +29,8 @@ $Id$
 */
 
 // Require the initialisation file
-require '../../init-delivery.php';
-require MAX_PATH . '/lib/max/Delivery/tracker.php';
+require_once '../../init-delivery.php';
+require_once MAX_PATH . '/lib/max/Delivery/tracker.php';
 
 // No Caching
 MAX_commonSetNoCacheHeaders();

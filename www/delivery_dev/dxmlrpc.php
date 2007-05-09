@@ -26,13 +26,13 @@ $Id$
 */
 
 // Require the initialisation file
-require '../../init-delivery.php';
+require_once '../../init-delivery.php';
 
 // Require the DAL file for the delivery engine
-require(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
+require_once(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
 
 // Require the XMLRPC classes
-require 'XML/RPC/Server.php';
+require_once 'XML/RPC/Server.php';
 
 // function to handle the XML-RPC upgrade check request
 $server = new XML_RPC_Server(array(

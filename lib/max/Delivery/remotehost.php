@@ -34,8 +34,6 @@ $Id$
  * about the remote viewer.
  */
 
-require_once MAX_PATH . '/init-delivery-parse.php';
-
 /**
  * A function to convert the $_SERVER['REMOTE_ADDR'] global variable
  * from the current value to the real remote viewer's value, should
@@ -150,6 +148,9 @@ function MAX_remotehostSetClientInfo()
  */
 function MAX_remotehostSetGeoInfo()
 {
+    if (!function_exists('parseDeliveryIniFile')) {
+        require_once MAX_PATH . '/init-delivery-parse.php';
+    }
     $pluginTypeConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting', 'plugin');
     $type = (!empty($pluginTypeConfig['geotargeting']['type'])) ? $pluginTypeConfig['geotargeting']['type'] : null;
     if (!is_null($type) && $type != 'none') {
