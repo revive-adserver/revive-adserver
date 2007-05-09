@@ -455,7 +455,7 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
 }
 function MAX_remotehostPrivateAddress($ip)
 {
-    require 'Net/IPv4.php';
+    require_once 'Net/IPv4.php';
     // Define the private address networks, see
     // http://rfc.net/rfc1918.html
     $aPrivateNetworks = array(
