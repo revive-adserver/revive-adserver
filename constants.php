@@ -165,10 +165,6 @@ function setupConstants()
         MAX_CONNECTION_TYPE_SIGNUP => 'strConnTypeSignUp',
     );
 
-    define('MAX_DELIVERY_1x1', 'R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==');
-    define('MAX_DELIVERY_MULTIPLE_DELIMITER', '|'); // should we remove it as well? replaced by global in delivery
-    define('MAX_COOKIELESS_PREFIX', '__'); // should we remove it as well? replaced by global in delivery
-
     // IP Address used to determine which (if any) MaxMind databases are installed
     define('MAX_MIND_TEST_IP', '24.24.24.24');
 
