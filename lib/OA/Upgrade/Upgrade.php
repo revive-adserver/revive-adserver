@@ -86,6 +86,7 @@ class OA_Upgrade
     var $package_file = '';
 
     var $remove_max_version = false;
+    var $can_drop_database = false;
 
     var $existing_installation_status = -1;
 
@@ -448,7 +449,6 @@ class OA_Upgrade
             $this->oLogger->logError('Installation failed to create the database '.$this->aDsn['database']['name']);
             return false;
         }
-        $this->oLogger->log('Installation created the database '.$this->aDsn['database']['name']);
 
         if (!$this->checkPermissionToCreateTable())
         {
@@ -462,6 +462,7 @@ class OA_Upgrade
             $this->_dropDatabase();
             return false;
         }
+        $this->oLogger->log('Connected to database '.$this->oDbh->connected_database_name);
 
         if (!$this->createCoreTables())
         {
@@ -519,10 +520,27 @@ class OA_Upgrade
      */
     function _dropDatabase($log = true)
     {
-        OA_DB::dropDatabase($this->aDsn['database']['name']);
-        if ($log)
+        if ($this->can_drop_database)
         {
-            $this->oLogger->log('Installation dropped the database '.$this->aDsn['database']['name']);
+            if (OA_DB::dropDatabase($this->aDsn['database']['name']))
+            {
+                if ($log)
+                {
+                    $this->oLogger->log('Installation dropped the database '.$this->aDsn['database']['name']);
+                }
+                return true;
+            }
+            $this->oLogger->logError('Installation failed to drop the database '.$this->aDsn['database']['name']);
+            return false;
+        }
+        else
+        {
+            $this->oTable->dropAllTables();
+            if ($log)
+            {
+                $this->oLogger->log('Installation dropped the core tables from database '.$this->aDsn['database']['name']);
+            }
+            return true;
         }
     }
 
@@ -534,14 +552,13 @@ class OA_Upgrade
     function _createDatabase()
     {
         $this->oDbh = &OA_DB::singleton(OA_DB::getDsn($this->aDsn));
+        $GLOBALS['_MAX']['CONF']['database']          = $this->aDsn['database'];
+        $GLOBALS['_MAX']['CONF']['table']['prefix']   = $this->aDsn['table']['prefix'];
+        $GLOBALS['_MAX']['CONF']['table']['type']     = $this->aDsn['table']['type'];
         if (PEAR::isError($this->oDbh))
         {
             $GLOBALS['_OA']['CONNECTIONS']  = array();
             $GLOBALS['_MDB2_databases']     = array();
-
-            $GLOBALS['_MAX']['CONF']['database']          = $this->aDsn['database'];
-            $GLOBALS['_MAX']['CONF']['table']['prefix']   = $this->aDsn['table']['prefix'];
-            $GLOBALS['_MAX']['CONF']['table']['type']     = $this->aDsn['table']['type'];
 
             $result = OA_DB::createDatabase($this->aDsn['database']['name']);
             if (PEAR::isError($result)) // && !$ignore_errors)
@@ -556,7 +573,8 @@ class OA_Upgrade
                 $this->oDbh = null;
                 return false;
             }
-            return true;
+            $this->oLogger->log('Database created '.$this->aDsn['database']['name']);
+            $this->can_drop_database = true;
         }
         return true;
     }
