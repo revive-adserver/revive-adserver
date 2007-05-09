@@ -116,14 +116,16 @@ class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
 
     function execute($delimiter=",", $start_date, $end_date)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
     	global $date_format;
     	global $strGlobalHistory, $strTotal, $strDay, $strImpressions, $strClicks, $strCTRShort;
-    	$start_date_save = $start_date;
-    	$end_date_save = $end_date;
-    	$start_date = str_replace('/', '', $start_date);
-    	$end_date = str_replace('/', '', $end_date);
+
+        $oDbh = &OA_DB::singleton();
+        $conf = $GLOBALS['_MAX']['CONF'];
+
+    	$start_date_save   = $start_date;
+    	$end_date_save     = $end_date;
+    	$start_date    = str_replace('/', '', $start_date);
+    	$end_date      = str_replace('/', '', $end_date);
 
     	$reportName = 'm3 Agency Breakdown from ' . date('Y-M-d', strtotime($start_date)) . ' to ' . date('Y-M-d', strtotime($end_date)) . '.csv';
         header("Content-type: application/csv\nContent-Disposition: inline; filename=\"".$reportName."\"");
@@ -152,20 +154,23 @@ class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
                   AND
                     b.bannerid=s.ad_id
                   AND
-                    s.day >= '".$start_date."'
+                    s.day >= ". $oDbh->quote($start_date, 'date') ."
                   AND
-                    s.day <= '".$end_date."'
+                    s.day <= ". $oDbh->quote($end_date, 'date') ."
                 GROUP BY AgencyId, AgencyName
     		";
 
     	}
 
-    	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
+    	$res_banners = $oDbh->query($res_query);
+        if (PEAR::isError($res_banners)) {
+            return $res_banners;
+        }
 
     	echo "Agency Breakdown - ".$start_date_save." - ".$end_date_save."\n";
     	echo "AgencyID".$delimiter."Agency Name".$delimiter."Total Views".$delimiter."Total Clicks".$delimiter."Total Sales"."\n";
 
-    	while ($row_banners = phpAds_dbFetchArray($res_banners)) {
+    	while ($row_banners = $res_banners->fetchRow()) {
     	    echo $row_banners['AgencyId'].$delimiter.$row_banners['AgencyName'].$delimiter.$row_banners['TotalViews'].$delimiter.$row_banners['TotalClicks'].$delimiter.$row_banners['TotalConversions']."\n";
     	}
 

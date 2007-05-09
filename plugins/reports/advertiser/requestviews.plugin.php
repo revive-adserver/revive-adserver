@@ -120,6 +120,7 @@ class Plugins_Reports_Advertiser_Requestviews extends Plugins_Reports {
     	global $date_format;
 
     	$conf = & $GLOBALS['_MAX']['CONF'];
+        $oDbh = & OA_DB::singleton();
 
     	$reportName = $GLOBALS['strAdvertiserDailyViewsAnalysisReport'];
 
@@ -164,16 +165,19 @@ class Plugins_Reports_Advertiser_Requestviews extends Plugins_Reports {
                  WHERE z.zoneid = ds.zone_id
                    AND ds.ad_id = b.bannerid
                    AND b.campaignid = c.campaignid
-                   AND c.clientid = '".$clientid."'
-                   AND ds.day >= '$dbStart'
-                   AND ds.day <= '$dbEnd'
+                   AND c.clientid = ". $oDbh->quote($clientid, 'integer') ."
+                   AND ds.day >= ". $oDbh->quote($dbStart, 'date') ."
+                   AND ds.day <= ". $oDbh->quote($dbEnd, 'date') . "
                  GROUP BY day, priority
                  ORDER BY priority, day ASC";
 
-    	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
+    	$res = $oDbh->query($query);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
 
-    	if (phpAds_dbNumRows($res)) {
-        	while ($row = phpAds_dbFetchArray($res)) {
+    	if ($res->numRows()) {
+        	while ($row = $res->fetchRow()) {
         	    $data[] = $row;
         	}
 

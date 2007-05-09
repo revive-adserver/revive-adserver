@@ -121,6 +121,7 @@ class Plugins_Reports_Advertiser_Campaigndropdown extends Plugins_Reports {
     	global $phpAds_ThousandsSeperator,$phpAds_DecimalPoint;
 
     	$conf = & $GLOBALS['_MAX']['CONF'];
+        $oDbh = &OA_DB::singleton();
 
     	$reportName = $GLOBALS['strAdvertiserCampaignAnalysisReport'];
 
@@ -166,16 +167,19 @@ class Plugins_Reports_Advertiser_Campaigndropdown extends Plugins_Reports {
                  WHERE z.zoneid = ds.zone_id
                    AND ds.ad_id = b.bannerid
                    AND b.campaignid = c.campaignid
-                   AND c.clientid = '".$clientid."'
-                   AND ds.day >= '$dbStart'
-                   AND ds.day <= '$dbEnd'
+                   AND c.clientid = ". $oDbh->quote($clientid, 'integer')."
+                   AND ds.day >= ". $oDbh->quote($dbStart, 'date') ."
+                   AND ds.day <= ". $oDbh->quote($dbEnd, 'date') ."
                  GROUP BY c.campaignname, c.priority
                  ORDER BY day ASC";
 
-    	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
+    	$res = $oDbh->query($query);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
 
-    	if (phpAds_dbNumRows($res)) {
-        	while ($row = phpAds_dbFetchArray($res)) {
+    	if ($res->numRows()) {
+        	while ($row = $res->fetchRow()) {
 
                 // mask campaign name if anonymous campaign
                 $campaign_details = Admin_DA::getPlacement($row['campaign_id']);

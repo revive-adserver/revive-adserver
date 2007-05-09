@@ -115,11 +115,12 @@ class Plugins_Reports_Advertiser_Zone extends Plugins_Reports {
 
     function execute($clientid, $startdate, $enddate)
     {
-
         require_once 'Spreadsheet/Excel/Writer.php';
 
-        $conf = & $GLOBALS['_MAX']['CONF'];
     	global $date_format;
+
+        $conf = & $GLOBALS['_MAX']['CONF'];
+        $oDbh = & OA_DB::singleton();
 
     	$reportName = $GLOBALS['strAdvertiserZoneAnalysisReport'];
 
@@ -171,18 +172,21 @@ class Plugins_Reports_Advertiser_Zone extends Plugins_Reports {
                    AND ds.ad_id = b.bannerid
                    AND b.campaignid = c.campaignid
                    AND a.affiliateid = z.affiliateid
-                   AND c.clientid = '".$clientid."'
-                   AND ds.day >= '$dbStart'
-                   AND ds.day <= '$dbEnd'
+                   AND c.clientid = ". $oDbh->quote($clientid, 'integer') ."
+                   AND ds.day >= ". $oDbh->quote($dbStart, 'date') ."
+                   AND ds.day <= ". $oDbh->quote($dbEnd, 'date') ."
                  GROUP BY c.priority,name
                  ORDER BY c.priority, name ASC";
 
-    	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
+    	$res = $oDbh->query($query);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
 
-    	if(phpAds_dbNumRows($res)) {
+    	if($res->numRows()) {
 
         	// getting the db result to the temporary table - results needs to be prepared first
-        	while($row = phpAds_dbFetchArray($res)) {
+        	while($row = $res->fetchRow()) {
 
         	    // mask zone and publisher names if anonymous campaign
                 $campaign_details = Admin_DA::getPlacement($row['campaign_id']);
