@@ -460,7 +460,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $aResult = $oTask->getActiveZones();
         foreach ($aResult as $key => $oZone) {
             $this->assertIsA($oZone, 'Zone');
-            $this->assertEqual($oZone->id, ($key + 1));
+            $this->assertEqual($oZone->id, ($key));
         }
     }
 

@@ -473,23 +473,30 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
 
     /**
      * Method to return an array of zones objects representing
-     * all active zones
+     * all active zones, as well as the "Direct Selection" zone,
+     * zone ID zero.
      *
-     * @return array of Zone objects
      * @access public
-     * @todo change new Zone to pass array of properties
+     * @return array An array of Zone objects:
      *
-     * OUTPUT
-     * Array =
-     *     (
-     *         [0] => Object Zone,
-     *         [1] => Object Zone,
-     *         [2] => Object Zone,
-     *     )
+     * array(
+     *     [0] => Object Zone,
+     *     [1] => Object Zone,
+     *     [2] => Object Zone,
+     * )
+     *
      */
     function getActiveZones()
     {
         $aZones = array();
+        // Add the "Direct Selection" zone
+        $aZone = array(
+            'zoneid'   => 0,
+            'zonename' => 'Direct Selection Zone',
+            'zonetype' => -1    // Fake, non-real zone type number
+        );
+        $aZones[] = new Zone($aZone);
+        // Add any "real" zones
         $aActiveZones = $this->oDal->getActiveZones();
         if (is_array($aActiveZones) && (count($aActiveZones) > 0)) {
             foreach ($aActiveZones as $aZone) {

@@ -143,7 +143,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], $intervalsPerWeek * 3);
+        $this->assertEqual($aRow['number'], $intervalsPerWeek * 4);
         $query = "
             SELECT
                 operation_interval AS operation_interval,
@@ -159,7 +159,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 operation_interval_id, zone_id";
         $rc = $oDbh->query($query);
         for ($counter = 0; $counter < $intervalsPerWeek; $counter++) {
-            for ($zoneID = 1; $zoneID <= 4; $zoneID++) {
+            for ($zoneID = 0; $zoneID <= 4; $zoneID++) {
                 if ($zoneID == 2) {
                     continue;
                 }
@@ -474,7 +474,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], ($intervalsPerWeek + $hours) * 3);
+        $this->assertEqual($aRow['number'], ($intervalsPerWeek + $hours) * 4);
         $query = "
             SELECT
                 operation_interval AS operation_interval,
@@ -492,7 +492,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 operation_interval_id, zone_id";
         $rc = $oDbh->query($query);
         for ($counter = 0; $counter < $intervalsPerWeek; $counter++) {
-            for ($zoneID = 1; $zoneID <= 4; $zoneID++) {
+            for ($zoneID = 0; $zoneID <= 4; $zoneID++) {
                 if ($zoneID == 2) {
                     continue;
                 }
@@ -547,6 +547,14 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             ORDER BY
                 operation_interval_id, zone_id";
         $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['operation_interval_id'], 86);
+        $this->assertEqual($aRow['interval_start'], '2005-06-15 14:00:00');
+        $this->assertEqual($aRow['interval_end'], '2005-06-15 14:59:59');
+        $this->assertEqual($aRow['zone_id'], 0);
+        $this->assertEqual($aRow['forecast_impressions'], $aConf['priority']['defaultZoneForecastImpressions']);
+        $this->assertNull($aRow['actual_impressions']);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
         $this->assertEqual($aRow['operation_interval_id'], 86);
@@ -997,7 +1005,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], ($intervalsPerWeek + $hours1 + $hours2) * 3);
+        $this->assertEqual($aRow['number'], ($intervalsPerWeek + $hours1 + $hours2) * 4);
         $query = "
             SELECT
                 operation_interval AS operation_interval,
@@ -1015,7 +1023,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 operation_interval_id, zone_id";
         $rc = $oDbh->query($query);
         for ($counter = 0; $counter < $intervalsPerWeek; $counter++) {
-            for ($zoneID = 1; $zoneID <= 4; $zoneID++) {
+            for ($zoneID = 0; $zoneID <= 4; $zoneID++) {
                 if ($zoneID == 2) {
                     continue;
                 }
@@ -1075,6 +1083,14 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $this->assertEqual($aRow['operation_interval_id'], 86);
         $this->assertEqual($aRow['interval_start'], '2005-06-15 14:00:00');
         $this->assertEqual($aRow['interval_end'], '2005-06-15 14:59:59');
+        $this->assertEqual($aRow['zone_id'], 0);
+        $this->assertEqual($aRow['forecast_impressions'], $aConf['priority']['defaultZoneForecastImpressions']);
+        $this->assertNull($aRow['actual_impressions']);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['operation_interval_id'], 86);
+        $this->assertEqual($aRow['interval_start'], '2005-06-15 14:00:00');
+        $this->assertEqual($aRow['interval_end'], '2005-06-15 14:59:59');
         $this->assertEqual($aRow['zone_id'], 1);
         $this->assertEqual($aRow['forecast_impressions'], $aConf['priority']['defaultZoneForecastImpressions']);
         $this->assertNull($aRow['actual_impressions']);
@@ -1113,7 +1129,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 operation_interval_id, zone_id";
         $rc = $oDbh->query($query);
         for ($counter = ($intervalsPerWeek - $hours) + 1; $counter < $intervalsPerWeek; $counter++) {
-            for ($zoneID = 1; $zoneID <= 3; $zoneID++) {
+            for ($zoneID = 0; $zoneID <= 3; $zoneID++) {
                 if ($zoneID == 2) {
                     continue;
                 }
@@ -1161,6 +1177,14 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             ORDER BY
                 operation_interval_id, zone_id";
         $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['operation_interval_id'], 0);
+        $this->assertEqual($aRow['interval_start'], '2005-06-19 00:00:00');
+        $this->assertEqual($aRow['interval_end'], '2005-06-19 00:59:59');
+        $this->assertEqual($aRow['zone_id'], 0);
+        $this->assertEqual($aRow['forecast_impressions'], $aConf['priority']['defaultZoneForecastImpressions']);
+        $this->assertNull($aRow['actual_impressions']);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
         $this->assertEqual($aRow['operation_interval_id'], 0);
@@ -1797,7 +1821,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], $intervalsPerWeek * 3);
+        $this->assertEqual($aRow['number'], $intervalsPerWeek * 4);
         $query = "
             SELECT
                 operation_interval AS operation_interval,
@@ -1813,7 +1837,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 operation_interval_id, zone_id";
         $rc = $oDbh->query($query);
         for ($counter = 0; $counter < $intervalsPerWeek; $counter++) {
-            for ($zoneID = 1; $zoneID <= 4; $zoneID++) {
+            for ($zoneID = 0; $zoneID <= 4; $zoneID++) {
                 if ($zoneID == 2) {
                     continue;
                 }
@@ -2060,7 +2084,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], ($intervalsPerWeek + $hours) * 3);
+        $this->assertEqual($aRow['number'], ($intervalsPerWeek + $hours) * 4);
         $query = "
             SELECT
                 operation_interval AS operation_interval,
@@ -2078,7 +2102,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 operation_interval_id, zone_id";
         $rc = $oDbh->query($query);
         for ($counter = 0; $counter < $intervalsPerWeek; $counter++) {
-            for ($zoneID = 1; $zoneID <= 4; $zoneID++) {
+            for ($zoneID = 0; $zoneID <= 4; $zoneID++) {
                 if ($zoneID == 2) {
                     continue;
                 }
@@ -2133,6 +2157,14 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             ORDER BY
                 operation_interval_id, zone_id";
         $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['operation_interval_id'], 86);
+        $this->assertEqual($aRow['interval_start'], '2005-06-15 14:00:00');
+        $this->assertEqual($aRow['interval_end'], '2005-06-15 14:59:59');
+        $this->assertEqual($aRow['zone_id'], 0);
+        $this->assertEqual($aRow['forecast_impressions'], $aConf['priority']['defaultZoneForecastImpressions']);
+        $this->assertNull($aRow['actual_impressions']);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
         $this->assertEqual($aRow['operation_interval_id'], 86);
@@ -2467,7 +2499,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], ($intervalsPerWeek + $hours1 + $hours2) * 3);
+        $this->assertEqual($aRow['number'], ($intervalsPerWeek + $hours1 + $hours2) * 4);
         $query = "
             SELECT
                 operation_interval AS operation_interval,
@@ -2485,7 +2517,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 operation_interval_id, zone_id";
         $rc = $oDbh->query($query);
         for ($counter = 0; $counter < $intervalsPerWeek; $counter++) {
-            for ($zoneID = 1; $zoneID <= 4; $zoneID++) {
+            for ($zoneID = 0; $zoneID <= 4; $zoneID++) {
                 if ($zoneID == 2) {
                     continue;
                 }
@@ -2540,6 +2572,14 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             ORDER BY
                 operation_interval_id, zone_id";
         $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['operation_interval_id'], 86);
+        $this->assertEqual($aRow['interval_start'], '2005-06-15 14:00:00');
+        $this->assertEqual($aRow['interval_end'], '2005-06-15 14:59:59');
+        $this->assertEqual($aRow['zone_id'], 0);
+        $this->assertEqual($aRow['forecast_impressions'], $aConf['priority']['defaultZoneForecastImpressions']);
+        $this->assertNull($aRow['actual_impressions']);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
         $this->assertEqual($aRow['operation_interval_id'], 86);
@@ -2631,6 +2671,14 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             ORDER BY
                 operation_interval_id, zone_id";
         $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
+        $this->assertEqual($aRow['operation_interval_id'], 0);
+        $this->assertEqual($aRow['interval_start'], '2005-06-19 00:00:00');
+        $this->assertEqual($aRow['interval_end'], '2005-06-19 00:59:59');
+        $this->assertEqual($aRow['zone_id'], 0);
+        $this->assertEqual($aRow['forecast_impressions'], $aConf['priority']['defaultZoneForecastImpressions']);
+        $this->assertNull($aRow['actual_impressions']);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
         $this->assertEqual($aRow['operation_interval_id'], 0);
