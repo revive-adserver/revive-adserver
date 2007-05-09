@@ -28,7 +28,10 @@ $Id$
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/plugins/deliveryLimitations/tests/unit/DeliveryLimitationsTestCase.plg.php';
 require_once MAX_PATH . '/plugins/deliveryLimitations/Site/Channel.delivery.php';
-require_once MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
+
+if (!function_exists('OA_Dal_Delivery_connect')) {
+	require_once MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
+}
 
 /**
  * A class for testing the Plugins_DeliveryLimitations_Geo_City class.
