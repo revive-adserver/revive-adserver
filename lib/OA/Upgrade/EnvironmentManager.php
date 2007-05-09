@@ -71,7 +71,7 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['expected']['magic_quotes_runtime'] = '0';
         $this->aInfo['PHP']['expected']['memory_limit']         = '8192';
         $this->aInfo['PHP']['expected']['safe_mode']            = '0';
-        $this->aInfo['PHP']['expected']['date.timezone']        = true;
+        //$this->aInfo['PHP']['expected']['date.timezone']        = true;
         $this->aInfo['PERMS']['expected']                   = $this->aFilePermissions;
         $this->aInfo['FILES']['expected']                   = array();
 //        $this->aInfo['PAN']['expected']['version']          = '2.0.12';
@@ -200,11 +200,11 @@ class OA_Environment_Manager
             $result = OA_ENV_ERROR_PHP_MAGICQ;
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MAGICQ] = 'magic_quotes_runtime must be OFF';
         }
-        if (!$this->aInfo['PHP']['actual']['date.timezone'])
-        {
-            $result = OA_ENV_ERROR_PHP_TIMEZONE;
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEZONE] = 'date.timezone expected to be set';
-        }
+//        if (!$this->aInfo['PHP']['actual']['date.timezone'])
+//        {
+//            $result = OA_ENV_ERROR_PHP_TIMEZONE;
+//            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEZONE] = 'date.timezone expected to be set';
+//        }
         return $result;
     }
 
