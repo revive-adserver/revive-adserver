@@ -195,7 +195,7 @@ function setupConstants()
     define('MAX_LIMITATION_EQUAL', 0);
     define('MAX_LIMITATION_NOT_EQUAL', 1);
     define('MAX_LIMITATION_BITWISE', 2);
-
+    
     // Ensure that the initialisation has not been run before
     if (!(isset($GLOBALS['_MAX']['CONF']))) {
         // Define the Openads installation base path if not defined
@@ -270,6 +270,12 @@ function setupConstants()
             define('IMAGE_CANVAS_SYSTEM_FONT_PATH', $GLOBALS['_MAX']['CONF']['graphs']['ttfDirectory']);
         }
     }
+    
+    // These variables are common with delivery and possibly should be extended as an
+    // external method
+    $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'] = '|';
+    $GLOBALS['_MAX']['MAX_COOKIELESS_PREFIX'] = '__';
+    $GLOBALS['_MAX']['MAX_RAND'] = $GLOBALS['_MAX']['CONF']['priority']['randmax'];
 }
 
 /**

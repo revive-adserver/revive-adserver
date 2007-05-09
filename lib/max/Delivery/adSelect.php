@@ -87,6 +87,7 @@ $Id$
 
 require MAX_PATH . '/lib/max/Delivery/limitations.php';
 require MAX_PATH . '/lib/max/Delivery/adRender.php';
+require MAX_PATH . '/lib/max/Delivery/cache.php';
 
 /**
  * This is the main ad selection and rendering function

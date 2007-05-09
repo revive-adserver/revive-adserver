@@ -178,7 +178,7 @@ class test_DeliveryCommon extends UnitTestCase
 	    $_POST['max_test_get']     = '1';
 	    $_GET['max_test_post']     = '0';
 	    $_POST['max_test_post']    = '1';
-		MAX_commonRegisterGlobalsArray('max_test_get', 'max_test_post');
+		MAX_commonRegisterGlobalsArray(array('max_test_get', 'max_test_post'));
 		$this->assertTrue(array_key_exists('max_test_get', $GLOBALS),'max_test_get exists');
 		$this->assertTrue(array_key_exists('max_test_post', $GLOBALS),'max_test_post exists');
 		$this->assertTrue($GLOBALS['max_test_get'],'GLOBALS precedence error');

@@ -71,7 +71,9 @@ MAX_commonInitVariables();
 MAX_cookieUnpackCapping();
 
 /**
- * The environmental constants initialisation function for Max.
+ * Initialize the environmental constants and global variables
+ * required by delivery.
+ * 
  */
 function setupGlobalConfigVariables()
 {
