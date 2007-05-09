@@ -929,212 +929,6 @@ function MAX_header($value)
         header($value);
     }
 }
-define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
-$GLOBALS['OA_Delivery_Cache'] = array(
-    'path'   => MAX_PATH.'/var/cache/',
-    'prefix' => 'deliverycache_',
-    'expiry' => $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire']
-);
-function OA_Delivery_Cache_fetch($name, $isHash = false)
-{
-    $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
-    $cache_complete = false;
-    $cache_contents = '';
-    // We are assuming that most of the time cache will exists
-    $ok = @include($filename);
-    if ($ok && $cache_complete == true) {
-        // The method used to implement cache expiry imposes two cache writes if the cache is
-        // expired and the database is available, but avoid the need to check for file existence
-        // and modification time.
-        if (isset($cache_expiry) && $cache_expiry < MAX_commonGetTimeNow()) {
-            // Update expiry, needed to enable permanent caching if needed
-            OA_Delivery_Cache_store($name, $cache_contents, $isHash);
-            return false;
-        }
-        return $cache_contents;
-    }
-    return false;
-}
-function OA_Delivery_Cache_store($name, $cache, $isHash = false)
-{
-    if ($cache === OA_DELIVERY_CACHE_FUNCTION_ERROR) {
-        // Don't store the result to enable permanent caching
-        return false;
-    }
-    $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
-    $expiry   = MAX_commonGetTimeNow() + $GLOBALS['OA_Delivery_Cache']['expiry'];
-    $cache_literal  = "<"."?php\n\n";
-    $cache_literal .= "$"."cache_contents = ".var_export($cache, true).";\n\n";
-    $cache_literal .= "$"."cache_name     = '".addcslashes($name, "'")."';\n";
-    $cache_literal .= "$"."cache_expiry   = ".$expiry.";\n";
-    $cache_literal .= "$"."cache_complete = true;\n\n";
-    $cache_literal .= "?".">";
-    // Write cache to a temp file, then rename it, overwritng the old cache
-    // On *nix systems this should guarantee atomicity
-    $tmp_filename = tempnam($GLOBALS['OA_Delivery_Cache']['path'], $GLOBALS['OA_Delivery_Cache']['prefix'].'tmp_');
-    if ($fp = @fopen($tmp_filename, 'wb')) {
-        @fwrite ($fp, $cache_literal, strlen($cache_literal));
-        @fclose ($fp);
-        if (!@rename($tmp_filename, $filename)) {
-            // On some systems rename() doesn't overwrite destination
-            @unlink($filename);
-            @rename($tmp_filename, $filename);
-        }
-        return true;
-    }
-    return false;
-}
-function OA_Delivery_Cache_store_return($name, $cache, $isHash = false)
-{
-    if (OA_Delivery_Cache_store($name, $cache, $isHash)) {
-        return $cache;
-    }
-    return OA_Delivery_Cache_fetch($name, $isHash);
-}
-function OA_Delivery_Cache_delete($name = '')
-{
-    if ($name != '') {
-        $filename = OA_Delivery_Cache_buildFileName($name);
-        if (file_exists($filename)) {
-            @unlink ($filename);
-            return true;
-        }
-    } else {
-        $cachedir = @opendir($GLOBALS['OA_Delivery_Cache']['path']);
-        while (false !== ($filename = @readdir($cachedir))) {
-            if (preg_match("#^{$GLOBALS['OA_Delivery_Cache']['prefix']}[0-9A-F]{32}.php$#i", $filename))
-                @unlink ($filename);
-        }
-        @closedir($cachedir);
-        return true;
-    }
-    return false;
-}
-function OA_Delivery_Cache_info()
-{
-    $result = array();
-    $cachedir = @opendir($GLOBALS['OA_Delivery_Cache']['path']);
-    while (false !== ($filename = @readdir($cachedir))) {
-        if (preg_match("#^{$GLOBALS['OA_Delivery_Cache']['prefix']}[0-9A-F]{32}.php$#i", $filename)) {
-            $cache_complete = false;
-            $cache_contents = '';
-            $cache_name     = '';
-            $ok = @include($filename);
-            if ($ok && $cache_complete == true) {
-                $result[$cache_name] = strlen(serialize($cache_contents));
-            }
-        }
-    }
-    @closedir($cachedir);
-    return $result;
-}
-function OA_Delivery_Cache_buildFileName($name, $isHash = false)
-{
-    if(!$isHash) {
-        // If not a hash yet
-        $name = md5($name);
-    }
-    return $GLOBALS['OA_Delivery_Cache']['path'].$GLOBALS['OA_Delivery_Cache']['prefix'].$name.'.php';
-}
-function OA_Delivery_Cache_getName($functionName, $id = null)
-{
-    $functionName = strtolower(str_replace('MAX_cacheGet', '', $functionName));
-    if ($id) {
-        return $functionName.$id;
-    }
-    return $functionName;
-}
-function MAX_cacheGetAd($ad_id, $cached = true)
-{
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $ad_id);
-    if (($aRows = OA_Delivery_Cache_fetch($sName)) !== false) {
-    } else {
-        MAX_Dal_Delivery_Include();
-        $aRows = OA_Dal_Delivery_getAd($ad_id);
-        $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
-    }
-    return $aRows;
-}
-function MAX_cacheGetZoneLinkedAds($zoneId, $cached = true)
-{
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
-    if (($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
-        MAX_Dal_Delivery_Include();
-        $aRows = OA_Dal_Delivery_getZoneLinkedAds($zoneId);
-        $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
-    }
-    return $aRows;
-}
-function MAX_cacheGetZoneInfo($zoneId, $cached = true)
-{
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
-    if (($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
-        MAX_Dal_Delivery_Include();
-        $aRows = OA_Dal_Delivery_getZoneInfo($zoneId);
-        $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
-    }
-    return $aRows;
-}
-function MAX_cacheGetLinkedAds($search, $cached = true)
-{
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $search);
-    if (($aAds = OA_Delivery_Cache_fetch($sName)) === false) {
-        MAX_Dal_Delivery_Include();
-        $aAds = OA_Dal_Delivery_getLinkedAds($search);
-        $aAds = OA_Delivery_Cache_store_return($sName, $aAds);
-    }
-    return $aAds;
-}
-function MAX_cacheGetCreative($filename, $cached = true)
-{
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $filename);
-    if (($aCreative = OA_Delivery_Cache_fetch($sName)) === false) {
-        MAX_Dal_Delivery_Include();
-        $aCreative = OA_Dal_Delivery_getCreative($filename);
-        $aCreative = OA_Delivery_Cache_store_return($sName, $aCreative);
-    }
-    return $aCreative;
-}
-function MAX_cacheGetTracker($trackerid, $cached = true)
-{
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
-    if (($aTracker = OA_Delivery_Cache_fetch($sName)) === false) {
-        MAX_Dal_Delivery_Include();
-        $aTracker = OA_Dal_Delivery_getTracker($trackerid);
-        $aTracker = OA_Delivery_Cache_store_return($sName, $aTracker, $isHash = true);
-    }
-    return $aTracker;
-}
-function MAX_cacheGetTrackerVariables($trackerid, $cached = true)
-{
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
-    if (($aVariables = OA_Delivery_Cache_fetch($sName)) === false) {
-        MAX_Dal_Delivery_Include();
-        $aVariables = OA_Dal_Delivery_getTrackerVariables($trackerid);
-        $aVariables = OA_Delivery_Cache_store_return($sName, $aVariables);
-    }
-    return $aVariables;
-}
-function MAX_cacheGetChannelLimitations($channelid, $cached = true)
-{
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $channelid);
-    if (($limitations = OA_Delivery_Cache_fetch($sName)) === false) {
-        MAX_Dal_Delivery_Include();
-        $limitations = OA_Dal_Delivery_getChannelLimitations($channelid);
-        $limitations = OA_Delivery_Cache_store_return($sName, $limitations);
-    }
-    return $limitations;
-}
-function MAX_cacheGetGoogleJavaScript($cached = true)
-{
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__);
-    if (($output = OA_Delivery_Cache_fetch($sName)) === false) {
-        require_once(MAX_PATH . '/lib/max/Delivery/google.php');
-        $output = MAX_googleGetJavaScript();
-        $output = OA_Delivery_Cache_store_return($sName, $output);
-    }
-    return $output;
-}
 // Set the viewer's remote information used in logging
 // and delivery limitation evaluation
 MAX_remotehostProxyLookup();
@@ -1754,6 +1548,212 @@ function _adRenderBuildClickUrl($aBanner, $zoneId=0, $source='', $ct0='', $logCl
         $clickUrl = MAX_commonGetDeliveryUrl($conf['file']['click']) . '?' . $conf['var']['params'] . '=' . _adRenderBuildParams($aBanner, $zoneId, $source, $ct0, $logClick, true);
     }
     return $clickUrl;
+}
+define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
+$GLOBALS['OA_Delivery_Cache'] = array(
+    'path'   => MAX_PATH.'/var/cache/',
+    'prefix' => 'deliverycache_',
+    'expiry' => $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire']
+);
+function OA_Delivery_Cache_fetch($name, $isHash = false)
+{
+    $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
+    $cache_complete = false;
+    $cache_contents = '';
+    // We are assuming that most of the time cache will exists
+    $ok = @include($filename);
+    if ($ok && $cache_complete == true) {
+        // The method used to implement cache expiry imposes two cache writes if the cache is
+        // expired and the database is available, but avoid the need to check for file existence
+        // and modification time.
+        if (isset($cache_expiry) && $cache_expiry < MAX_commonGetTimeNow()) {
+            // Update expiry, needed to enable permanent caching if needed
+            OA_Delivery_Cache_store($name, $cache_contents, $isHash);
+            return false;
+        }
+        return $cache_contents;
+    }
+    return false;
+}
+function OA_Delivery_Cache_store($name, $cache, $isHash = false)
+{
+    if ($cache === OA_DELIVERY_CACHE_FUNCTION_ERROR) {
+        // Don't store the result to enable permanent caching
+        return false;
+    }
+    $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
+    $expiry   = MAX_commonGetTimeNow() + $GLOBALS['OA_Delivery_Cache']['expiry'];
+    $cache_literal  = "<"."?php\n\n";
+    $cache_literal .= "$"."cache_contents = ".var_export($cache, true).";\n\n";
+    $cache_literal .= "$"."cache_name     = '".addcslashes($name, "'")."';\n";
+    $cache_literal .= "$"."cache_expiry   = ".$expiry.";\n";
+    $cache_literal .= "$"."cache_complete = true;\n\n";
+    $cache_literal .= "?".">";
+    // Write cache to a temp file, then rename it, overwritng the old cache
+    // On *nix systems this should guarantee atomicity
+    $tmp_filename = tempnam($GLOBALS['OA_Delivery_Cache']['path'], $GLOBALS['OA_Delivery_Cache']['prefix'].'tmp_');
+    if ($fp = @fopen($tmp_filename, 'wb')) {
+        @fwrite ($fp, $cache_literal, strlen($cache_literal));
+        @fclose ($fp);
+        if (!@rename($tmp_filename, $filename)) {
+            // On some systems rename() doesn't overwrite destination
+            @unlink($filename);
+            @rename($tmp_filename, $filename);
+        }
+        return true;
+    }
+    return false;
+}
+function OA_Delivery_Cache_store_return($name, $cache, $isHash = false)
+{
+    if (OA_Delivery_Cache_store($name, $cache, $isHash)) {
+        return $cache;
+    }
+    return OA_Delivery_Cache_fetch($name, $isHash);
+}
+function OA_Delivery_Cache_delete($name = '')
+{
+    if ($name != '') {
+        $filename = OA_Delivery_Cache_buildFileName($name);
+        if (file_exists($filename)) {
+            @unlink ($filename);
+            return true;
+        }
+    } else {
+        $cachedir = @opendir($GLOBALS['OA_Delivery_Cache']['path']);
+        while (false !== ($filename = @readdir($cachedir))) {
+            if (preg_match("#^{$GLOBALS['OA_Delivery_Cache']['prefix']}[0-9A-F]{32}.php$#i", $filename))
+                @unlink ($filename);
+        }
+        @closedir($cachedir);
+        return true;
+    }
+    return false;
+}
+function OA_Delivery_Cache_info()
+{
+    $result = array();
+    $cachedir = @opendir($GLOBALS['OA_Delivery_Cache']['path']);
+    while (false !== ($filename = @readdir($cachedir))) {
+        if (preg_match("#^{$GLOBALS['OA_Delivery_Cache']['prefix']}[0-9A-F]{32}.php$#i", $filename)) {
+            $cache_complete = false;
+            $cache_contents = '';
+            $cache_name     = '';
+            $ok = @include($filename);
+            if ($ok && $cache_complete == true) {
+                $result[$cache_name] = strlen(serialize($cache_contents));
+            }
+        }
+    }
+    @closedir($cachedir);
+    return $result;
+}
+function OA_Delivery_Cache_buildFileName($name, $isHash = false)
+{
+    if(!$isHash) {
+        // If not a hash yet
+        $name = md5($name);
+    }
+    return $GLOBALS['OA_Delivery_Cache']['path'].$GLOBALS['OA_Delivery_Cache']['prefix'].$name.'.php';
+}
+function OA_Delivery_Cache_getName($functionName, $id = null)
+{
+    $functionName = strtolower(str_replace('MAX_cacheGet', '', $functionName));
+    if ($id) {
+        return $functionName.$id;
+    }
+    return $functionName;
+}
+function MAX_cacheGetAd($ad_id, $cached = true)
+{
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $ad_id);
+    if (($aRows = OA_Delivery_Cache_fetch($sName)) !== false) {
+    } else {
+        MAX_Dal_Delivery_Include();
+        $aRows = OA_Dal_Delivery_getAd($ad_id);
+        $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
+    }
+    return $aRows;
+}
+function MAX_cacheGetZoneLinkedAds($zoneId, $cached = true)
+{
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
+    if (($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
+        MAX_Dal_Delivery_Include();
+        $aRows = OA_Dal_Delivery_getZoneLinkedAds($zoneId);
+        $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
+    }
+    return $aRows;
+}
+function MAX_cacheGetZoneInfo($zoneId, $cached = true)
+{
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
+    if (($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
+        MAX_Dal_Delivery_Include();
+        $aRows = OA_Dal_Delivery_getZoneInfo($zoneId);
+        $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
+    }
+    return $aRows;
+}
+function MAX_cacheGetLinkedAds($search, $cached = true)
+{
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $search);
+    if (($aAds = OA_Delivery_Cache_fetch($sName)) === false) {
+        MAX_Dal_Delivery_Include();
+        $aAds = OA_Dal_Delivery_getLinkedAds($search);
+        $aAds = OA_Delivery_Cache_store_return($sName, $aAds);
+    }
+    return $aAds;
+}
+function MAX_cacheGetCreative($filename, $cached = true)
+{
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $filename);
+    if (($aCreative = OA_Delivery_Cache_fetch($sName)) === false) {
+        MAX_Dal_Delivery_Include();
+        $aCreative = OA_Dal_Delivery_getCreative($filename);
+        $aCreative = OA_Delivery_Cache_store_return($sName, $aCreative);
+    }
+    return $aCreative;
+}
+function MAX_cacheGetTracker($trackerid, $cached = true)
+{
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
+    if (($aTracker = OA_Delivery_Cache_fetch($sName)) === false) {
+        MAX_Dal_Delivery_Include();
+        $aTracker = OA_Dal_Delivery_getTracker($trackerid);
+        $aTracker = OA_Delivery_Cache_store_return($sName, $aTracker, $isHash = true);
+    }
+    return $aTracker;
+}
+function MAX_cacheGetTrackerVariables($trackerid, $cached = true)
+{
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
+    if (($aVariables = OA_Delivery_Cache_fetch($sName)) === false) {
+        MAX_Dal_Delivery_Include();
+        $aVariables = OA_Dal_Delivery_getTrackerVariables($trackerid);
+        $aVariables = OA_Delivery_Cache_store_return($sName, $aVariables);
+    }
+    return $aVariables;
+}
+function MAX_cacheGetChannelLimitations($channelid, $cached = true)
+{
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $channelid);
+    if (($limitations = OA_Delivery_Cache_fetch($sName)) === false) {
+        MAX_Dal_Delivery_Include();
+        $limitations = OA_Dal_Delivery_getChannelLimitations($channelid);
+        $limitations = OA_Delivery_Cache_store_return($sName, $limitations);
+    }
+    return $limitations;
+}
+function MAX_cacheGetGoogleJavaScript($cached = true)
+{
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__);
+    if (($output = OA_Delivery_Cache_fetch($sName)) === false) {
+        require_once(MAX_PATH . '/lib/max/Delivery/google.php');
+        $output = MAX_googleGetJavaScript();
+        $output = OA_Delivery_Cache_store_return($sName, $output);
+    }
+    return $output;
 }
 function MAX_adSelect($what, $target = '', $source = '', $withtext = 0, $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = '')
 {
