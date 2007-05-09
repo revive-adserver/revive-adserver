@@ -38,7 +38,7 @@ require_once(MAX_PATH . '/lib/max/Delivery/common.php');
 function phpAds_registerGlobal()
 {
     $args = func_get_args();
-    call_user_func_array('MAX_commonRegisterGlobals', $args);
+    MAX_commonRegisterGlobalsArray($args);
 }
 
 /**
