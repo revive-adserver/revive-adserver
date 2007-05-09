@@ -135,7 +135,7 @@ class OA_Upgrade
             $this->oTable->oDbh = $this->oDbh;
             $this->oDBUpgrader->initMDB2Schema();
             $this->oVersioner->init($this->oDbh);
-            $this->oDBAuditor->init($this->oDbh, $this->oLogger->logFile);
+            $this->oDBAuditor->init($this->oDbh, $this->oLogger);
             $this->oDBUpgrader->oAuditor = &$this->oDBAuditor;
             return true;
         }
