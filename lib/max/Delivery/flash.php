@@ -31,8 +31,6 @@ $Id$
  * @author     Chris Nutting <chris@m3.net>
  */
 
-require_once MAX_PATH . '/lib/max/Delivery/common.php';
-
 /**
  * This function outputs the code to include the FlashObject code as an external
  * JavaScript file

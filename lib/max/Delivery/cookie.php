@@ -31,6 +31,8 @@ $Id$
  * @author     Chris Nutting <chris@m3.net>
  */
 
+$GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
+
 /**
  * Set a cookie in the global cookie cache
  *
@@ -41,11 +43,10 @@ $Id$
  */
 function MAX_cookieSet($name, $value, $expire = 0)
 {
-    $cookieCache = &$GLOBALS['_MAX']['COOKIE']['CACHE'];
-    if (!isset($cookieCache)) {
-        $cookieCache = array();
+    if (!isset($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
+        $GLOBALS['_MAX']['COOKIE']['CACHE'] = array();
     }
-    $cookieCache[$name] = array($value, $expire);
+    $GLOBALS['_MAX']['COOKIE']['CACHE'][$name] = array($value, $expire);
 }
 
 /**
@@ -78,23 +79,22 @@ function MAX_cookieSetViewerIdAndRedirect($viewerId) {
 function MAX_cookieFlush()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    $cookieCache =& $GLOBALS['_MAX']['COOKIE']['CACHE'];
 
     MAX_cookieSendP3PHeaders();
 
-    if (!empty($cookieCache)) {
+    if (!empty($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
         // Set cookies
-        while (list($name,$v) = each ($cookieCache)) {
+        while (list($name,$v) = each ($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
             list($value, $expire) = $v;
             MAX_setcookie($name, $value, $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
         }
         // Clear cache
-        $cookieCache = array();
+        $GLOBALS['_MAX']['COOKIE']['CACHE'] = array();
     }
 
     // Compact all individual cookies into packed except for any cookies for the current bannerid
     // We only need to set these packed cookies if new capping data has been merged
-    $cookieNames = MAX_commonGetArrCappingCookieNames();
+    $cookieNames = $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'];
 
 	if (!is_array($cookieNames))
 		return;
@@ -128,51 +128,19 @@ function MAX_cookieFlush()
 
 function _getTimeThirtyDaysFromNow()
 {
-	return MAX_commonGetTimeNow() + 30*24*60*60;
+	return MAX_commonGetTimeNow() + 2592000; // 30*24*60*60;
 }
 
-function _getTimeYearFromNow() //Chris: See comment above
+function _getTimeYearFromNow()
 {
-	return MAX_commonGetTimeNow() + 365*24*60*60;
+	return MAX_commonGetTimeNow() + 31536000; // 365*24*60*60;
 }
 
 function _getTimeYearAgo() 
 {
-    return MAX_commonGetTimeNow() - 365*24*60*60;
+    return MAX_commonGetTimeNow() - 31536000; // 365*24*60*60;
 }
  	
-/**
- * @todo Should this empty array be set in init()?
-$GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
-
-function _getTimeYearAgo()
-{
-    return MAX_commonGetTimeNow() - 365*24*60*60;
-}
-
-/**
- * Stores the values of capping cookie names so that they can be later
- * retrieved by MAX_commonGetArrCappingCookieNames() function.
- *
- * @param array $aCookieNames
- */
-function MAX_commonSetArrCappingCookieNames($aCookieNames)
-{
-    $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = $aCookieNames;
-}
-
-/**
- * Returns an array of array capping cookie names. If the names weren't
- * initialized previously by a call to MAX_commonSetArrCappingCookieNames()
- * the empty array is returned.
- *
- * @return array
- */
-function MAX_commonGetArrCappingCookieNames()
-{
-	return $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'];
-}
-
 /**
  * This function unpacks the serialized array used for capping
  *
@@ -181,7 +149,7 @@ function MAX_cookieUnpackCapping()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    $cookieNames = MAX_commonGetArrCappingCookieNames();
+    $cookieNames = $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'];
 
 	if (!is_array($cookieNames))
 		return;
@@ -230,14 +198,13 @@ function MAX_cookieUnpackCapping()
  */
 function _isBlockCookie($cookieName)
 {
-	$conf = $GLOBALS['_MAX']['CONF'];
-	if ($cookieName == $conf['var']['blockAd']) {
+	if ($cookieName == $GLOBALS['_MAX']['CONF']['var']['blockAd']) {
 	    return true;
 	}
-	if ($cookieName == $conf['var']['blockCampaign']) {
+	if ($cookieName == $GLOBALS['_MAX']['CONF']['var']['blockCampaign']) {
 	    return true;
 	}
-	if ($cookieName == $conf['var']['blockZone']) {
+	if ($cookieName == $GLOBALS['_MAX']['CONF']['var']['blockZone']) {
 	    return true;
 	}
 	return false;
@@ -253,7 +220,7 @@ function _isBlockCookie($cookieName)
  */
 function MAX_cookieGetUniqueViewerID($create = true)
 {
-    $conf = &$GLOBALS['_MAX']['CONF'];
+    $conf = $GLOBALS['_MAX']['CONF'];
     if (isset($_COOKIE[$conf['var']['viewerId']])) {
         $userid = $_COOKIE[$conf['var']['viewerId']];
     } else {
@@ -284,7 +251,8 @@ function MAX_cookieGetCookielessViewerID()
     if (empty($_SERVER['REMOTE_ADDR']) || empty($_SERVER['HTTP_USER_AGENT'])) {
         return '';
     }
-    return MAX_COOKIELESS_PREFIX . substr(md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']), 0, 32-(strlen(MAX_COOKIELESS_PREFIX)));
+    $cookiePrefix = $GLOBALS['_MAX']['MAX_COOKIELESS_PREFIX'];
+    return $cookiePrefix . substr(md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']), 0, 32-(strlen($cookiePrefix)));
 }
 
 /**
@@ -293,9 +261,7 @@ function MAX_cookieGetCookielessViewerID()
  */
 function MAX_cookieSendP3PHeaders() {
     // Send P3P headers
-    $conf = $GLOBALS['_MAX']['CONF'];
-
-    if ($conf['p3p']['policies']) {
+    if ($GLOBALS['_MAX']['CONF']['p3p']['policies']) {
 		MAX_header("P3P: ". _generateP3PHeader());
 	}
 }

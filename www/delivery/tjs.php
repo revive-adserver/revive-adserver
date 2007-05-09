@@ -29,13 +29,13 @@ $Id$
 */
 
 // Require the initialisation file
-require_once '../../init-delivery.php';
+require '../../init-delivery.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Delivery/tracker.php';
+require MAX_PATH . '/lib/max/Delivery/tracker.php';
 
 //Register any script specific input variables
-MAX_commonRegisterGlobals('trackerid', 'inherit');
+MAX_commonRegisterGlobalsArray(array('trackerid', 'inherit'));
 if (empty($trackerid)) $trackerid = 0;
 
 // Determine the user ID
@@ -63,8 +63,5 @@ MAX_cookieFlush();
 if ($logVars) {
     echo "$variablesScript";
 }
-
-// stop benchmarking
-MAX_benchmarkStop();
 
 ?>

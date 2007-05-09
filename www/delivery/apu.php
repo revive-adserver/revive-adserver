@@ -29,27 +29,29 @@ $Id$
 */
 
 // Require the initialisation file
-require_once '../../init-delivery.php';
+require '../../init-delivery.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
+require MAX_PATH . '/lib/max/Delivery/adSelect.php';
 
 // No Caching
 MAX_commonSetNoCacheHeaders();
 
 //Register any script specific input variables
-MAX_commonRegisterGlobals(
-    'left',
-    'top',
-    'popunder',
-    'timeout',
-    'delay',
-    'toolbars',
-    'location',
-    'menubar',
-    'status',
-    'resizable',
-    'scrollbars'
+MAX_commonRegisterGlobalsArray(
+    array(
+        'left',
+        'top',
+        'popunder',
+        'timeout',
+        'delay',
+        'toolbars',
+        'location',
+        'menubar',
+        'status',
+        'resizable',
+        'scrollbars'
+    )
 );
 
 // Set defaults for script specific input variables
@@ -71,10 +73,6 @@ if (isset($zoneid)) { $row['zoneid'] = $zoneid; }
 
 // Do not pop a window if not banner was found..
 if (!$row['bannerid']) {
-	if ($conf['debug']['benchmark'] == 'true') {
-        $timer->stop();
-        MAX_Delivery_log_logBenchmark(basename($_SERVER['PHP_SELF']), $_SERVER['QUERY_STRING'], $timer->timeElapsed(), 'Window not opened');
-    }
     exit;
 }
 
@@ -201,8 +199,5 @@ window.setTimeout(\"MAX_{$row['bannerid']}_pop();\", ".($delay * 1000).");";
 	echo "
 MAX_{$row['bannerid']}_pop();";
 }
-
-// stop benchmarking
-MAX_benchmarkStop();
 
 ?>

@@ -31,6 +31,7 @@
     <include name="var/.htaccess"/>
     <include name="www/**"/>
     <exclude name="www/devel**"/>
+    <exclude name="www/delivery_dev**"/>
     <exclude name="www/upgrade_dev**"/>
     <exclude name="www/upgrade**"/>
 
@@ -59,8 +60,9 @@
     <include name="var/*.conf.php*"/>
     <include name="var/changes_test*.xml"/>
     <include name="var/INSTALLED"/>
-    <include name="var/cache/cache_*"/><!-- Cache files -->
+    <include name="var/cache/deliverycache_*"/><!-- Cache files -->
     <include name="www/devel/**"/>
+    <include name="www/delivery_dev/**"/>
     <include name="www/upgrade_dev/**"/>
     <include name="www/upgrade/**"/>
 
@@ -73,6 +75,7 @@
 
   <!-- Openads Package Integrity Plugin -->
   <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
+  <taskdef name="generatedelivery" classname="org.openads.ant.GenerateDeliveryTask"/>
 
   <target name="clean" description="Cleans all the files generated during the build.">
     <delete file="var/test.log" />
@@ -90,6 +93,15 @@
         <patternset refid="dist.excluded"/>
       </excludeset>
     </checkdistribution>
+  </target>
+  
+  <target name="generatedelivery"
+    description="Generate optimized for speed delivery">
+    <generatedelivery outputdir="${basedir}/www/delivery" max_path="${basedir}">
+      <deliveryfiles dir="${basedir}/www/delivery_dev">
+        <include name="*.php"/>
+      </deliveryfiles>
+    </generatedelivery>
   </target>
 
   <target name="init">
@@ -143,7 +155,7 @@
     <ant antfile="tests.xml"/>
   </target>
 
-  <target name="package" depends="init-release,prepare-version-info">
+  <target name="package" depends="init-release,prepare-version-info,generatedelivery">
     <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="." compression="bzip2" longfile="gnu">
       <patternset refid="dist.included"/>
     </tar>
@@ -167,7 +179,7 @@
   <target name="release" depends="package,tag" description="Creates a release packages in tar.bz2, tar.gz and zip formats.">
   </target>
 
-  <target name="simpletest" depends="clean, init, test-all, checkconsistency, package" />
+  <target name="simpletest" depends="clean, generatedelivery, init, test-all, checkconsistency, package" />
 
   <target name="prepare-version-info" if="version">
     <replaceregexp file="constants.php"

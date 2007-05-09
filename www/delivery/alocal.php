@@ -30,11 +30,11 @@ $Id$
 
 // Require the initialisation file
 // Note that MAX_PATH will have been defined by the invocated code
-require_once MAX_PATH . '/init-delivery.php';
+require MAX_PATH . '/init-delivery.php';
 
 // Include required files
-require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
-require_once MAX_PATH . '/lib/max/Delivery/flash.php';
+require MAX_PATH . '/lib/max/Delivery/adSelect.php';
+require MAX_PATH . '/lib/max/Delivery/flash.php';
 
 // This function is a wrapper to view raw, this allows for future migration
 function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target = '', $source = '', $withtext = '', $context = '') {

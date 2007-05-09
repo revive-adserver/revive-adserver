@@ -32,11 +32,10 @@ $Id$
  */
 
 // Require the initialisation file
-require_once '../../init-delivery.php';
+require '../../init-delivery.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Delivery/log.php';
-require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
+require MAX_PATH . '/lib/max/Delivery/querystring.php';
 
 // Prevent the logging beacon from being cached by browsers
 MAX_commonSetNoCacheHeaders();
@@ -66,14 +65,15 @@ $aCapZone['session_capping']     = MAX_Delivery_log_getArrGetVariable('sessionCa
 if (isset($_REQUEST['channel_ids'])) {
     $GLOBALS['_MAX']['CHANNELS'] = str_replace(
         $GLOBALS['_MAX']['CONF']['delivery']['chDelimiter'],
-        MAX_DELIVERY_MULTIPLE_DELIMITER,
+        $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'],
         $_REQUEST['channel_ids']
     );
 }
 
 // Loop over the ads to be logged (there may be more than one due to internal re-directs)
 // and log each ad, and then set any capping cookies required
-for ($index = 0; $index < count($aAdIds); $index++) {
+$countAdIds = count($aAdIds);
+for ($index = 0; $index < $countAdIds; $index++) {
     // Ensure that each ad to be logged has capaign, creative and zone
     // values set, and that all values are integers
     MAX_Delivery_log_ensureIntegerSet($aAdIds, $index);
@@ -104,13 +104,9 @@ if (!empty($_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']])) {
     MAX_commonDisplay1x1();
 }
 
-// Stop benchmarking
-MAX_benchmarkStop();
-
 // Run automaintenance, if needed
 if (!empty($GLOBALS['_MAX']['CONF']['maintenance']['autoMaintenance']) && empty($GLOBALS['_MAX']['CONF']['lb']['enabled'])) {
-    require_once '/lib/OA/Maintenance/Auto.php';
-
+    include MAX_PATH . '/lib/OA/Maintenance/Auto.php';
     OA_Maintenance_Auto::run();
 }
 

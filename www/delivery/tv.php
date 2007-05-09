@@ -26,10 +26,10 @@ $Id$
 */
 
 // Require the initialisation file
-require_once '../../init-delivery.php';
+require '../../init-delivery.php';
 
 // Required files
-require_once(MAX_PATH . '/lib/max/Delivery/cache.php');
+require(MAX_PATH . '/lib/max/Delivery/cache.php');
 // Register input variables
 if (!empty($_GET['server_raw_tracker_impression_id']) && !empty($_GET['trackerid'])) {
     $serverRawTrackerImpressionId = $_GET['server_raw_tracker_impression_id'];
@@ -38,8 +38,5 @@ if (!empty($_GET['server_raw_tracker_impression_id']) && !empty($_GET['trackerid
     $variables = MAX_cacheGetTrackerVariables($trackerId);
     MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp);
 }
-
-// stop benchmarking
-MAX_benchmarkStop();
 
 ?>

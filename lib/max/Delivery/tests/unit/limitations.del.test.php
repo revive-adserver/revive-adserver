@@ -84,7 +84,8 @@ class test_DeliveryLimitations extends UnitTestCase
         $row['acl_plugins']         = 'Site:Channel';
         $return = MAX_limitationsCheckAcl($row, $source);
         $this->assertTrue($return);
-        $expect = MAX_DELIVERY_MULTIPLE_DELIMITER.'1'.MAX_DELIVERY_MULTIPLE_DELIMITER.'2'.MAX_DELIVERY_MULTIPLE_DELIMITER;
+        $delimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
+        $expect = $delimiter.'1'.$delimiter.'2'.$delimiter;
         $this->assertEqual($GLOBALS['_MAX']['CHANNELS'], $expect);
 
         // test for site channel limitation
@@ -93,7 +94,7 @@ class test_DeliveryLimitations extends UnitTestCase
         $row['acl_plugins']         = 'Site:Channel';
         $return = MAX_limitationsCheckAcl($row, $source);
         $this->assertTrue($return);
-        $expect = MAX_DELIVERY_MULTIPLE_DELIMITER.'1'.MAX_DELIVERY_MULTIPLE_DELIMITER;
+        $expect = $delimiter.'1'.$delimiter;
         $this->assertEqual($GLOBALS['_MAX']['CHANNELS'], $expect);
     }
 

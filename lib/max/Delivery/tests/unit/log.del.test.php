@@ -97,16 +97,6 @@ class Delivery_TestOfLog extends UnitTestCase
     }
 
     /**
-     * A method to test the MAX_Delivery_log_logBenchmark() function.
-     *
-     * @TODO Not implemented.
-     */
-    function test_MAX_Delivery_log_logBenchmark()
-    {
-
-    }
-
-    /**
      * A method to test the _viewersHostOkayToLog() function.
      */
     function test_viewersHostOkayToLog()
@@ -456,7 +446,7 @@ class Delivery_TestOfLog extends UnitTestCase
         // Test 3
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['var']['blockAd'] = 'MAXBLOCK';
-        $_GET['MAXBLOCK'] = 1 . MAX_DELIVERY_MULTIPLE_DELIMITER . 5;
+        $_GET['MAXBLOCK'] = 1 . $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'] . 5;
         $aReturn = MAX_Delivery_log_getArrGetVariable('blockAd');
         $this->assertTrue(is_array($aReturn));
         $this->assertFalse(empty($aReturn));

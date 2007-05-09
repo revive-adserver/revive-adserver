@@ -44,6 +44,10 @@ $Id$
 function MAX_limitationsCheckAcl($row, $source = '')
 {
     if (!empty($row['compiledlimitation'])) {
+        static $aIncludedPlugins;
+        if (!isset($aIncludedPlugins)) {
+            $aIncludedPlugins = array();
+        }
         // Set to true in case of error in eval
         $result = true;
 
@@ -52,7 +56,11 @@ function MAX_limitationsCheckAcl($row, $source = '')
             $acl_plugins = explode(',', $row['acl_plugins']);
             foreach ($acl_plugins as $acl_plugin) {
                 list($package, $name) = explode(':', $acl_plugin);
-                require_once(MAX_PATH . "/plugins/deliveryLimitations/{$package}/{$name}.delivery.php");
+                $pluginName = MAX_PATH . "/plugins/deliveryLimitations/{$package}/{$name}.delivery.php";
+                if (!isset($aIncludedPlugins[$pluginName])) {
+                    require($pluginName);
+                    $aIncludedPlugins[$pluginName] = true;
+                }
             }
         }
         $GLOBALS['_MAX']['CHANNELS'] = '';
@@ -63,7 +71,7 @@ function MAX_limitationsCheckAcl($row, $source = '')
         }
         else
         {
-            $GLOBALS['_MAX']['CHANNELS'] .= MAX_DELIVERY_MULTIPLE_DELIMITER;
+            $GLOBALS['_MAX']['CHANNELS'] .= $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
         }
         return $result;
     } else {

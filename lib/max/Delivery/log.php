@@ -34,8 +34,7 @@ $Id$
  * data to the database.
  */
 
-require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
-require_once MAX_PATH . '/lib/max/Dal/Delivery.php';
+require MAX_PATH . '/lib/max/Dal/Delivery.php';
 
 /**
  * A function to log an ad request.
@@ -223,28 +222,6 @@ function MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTr
 }
 
 /**
- * A function to log benchmarking data to the debug file.
- *
- * A file called "debug.log" is created in the /var directory, if it
- * does not exist already, to store the benchmarking information.
- *
- * @param string $page The name of the script being benchmarked.
- * @param string $queryString The query string parameters passed to the page.
- * @param double $benchmark The elapsed time of the benchmark.
- * @param string $extra Any extra information to be logged.
- */
-function MAX_Delivery_log_logBenchmark($page, $queryString, $benchmark, $extra = '') {
-    if (_viewersHostOkayToLog()) {
-        $memoryUsage = MAX_benchmarkGetMemoryUsage();
-        $message = date("d/m/Y|H:i:s") . '|' . $memoryUsage . '|' . $page . '|' .
-            $benchmark . '|' . $extra . '|' . $queryString . "\n";
-        $logFile = fopen(MAX_PATH . '/var/debug.log', 'a');
-        fwrite($logFile, $message);
-        fclose($logFile);
-    }
-}
-
-/**
  * A "private" function to check if the information to be logged should be
  * logged or ignored, on the basis of the viewer's IP address or hostname.
  *
@@ -331,7 +308,7 @@ function _prepareLogInfo()
  * A function to return GET variables, where the GET variable name is
  * extracted from the configuration file settings, and the GET variable
  * value is exploded into an array of items on the constant
- * MAX_DELIVERY_MULTIPLE_DELIMITER.
+ * $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'].
  *
  * Returns an empty array if there is no GET variable by the specified
  * name.
@@ -344,7 +321,7 @@ function _prepareLogInfo()
 function MAX_Delivery_log_getArrGetVariable($name)
 {
     $varName = $GLOBALS['_MAX']['CONF']['var'][$name];
-    return isset($_GET[$varName]) ? explode(MAX_DELIVERY_MULTIPLE_DELIMITER, $_GET[$varName]) : array();
+    return isset($_GET[$varName]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_GET[$varName]) : array();
 }
 
 /**

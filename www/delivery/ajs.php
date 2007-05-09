@@ -29,18 +29,18 @@ $Id$
 */
 
 // Require the initialisation file
-require_once '../../init-delivery.php';
+require '../../init-delivery.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
-require_once MAX_PATH . '/lib/max/Delivery/flash.php';
-require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
+require MAX_PATH . '/lib/max/Delivery/adSelect.php';
+require MAX_PATH . '/lib/max/Delivery/flash.php';
+require MAX_PATH . '/lib/max/Delivery/javascript.php';
 
 // No Caching
 MAX_commonSetNoCacheHeaders();
 
 //Register any script specific input variables
-MAX_commonRegisterGlobals('block', 'blockcampaign', 'exclude', 'mmm_fo', 'q');
+MAX_commonRegisterGlobalsArray(array('block', 'blockcampaign', 'exclude', 'mmm_fo', 'q'));
 
 if (!is_array($context) && isset($context)) {
     $context = unserialize(base64_decode($context));
@@ -92,8 +92,5 @@ if (!empty($blockcampaign) && !empty($output['campaignid'])) {
     // Provide backwards compatibility for the time-being
     echo "\nif (document.phpAds_used) document.phpAds_used += 'campaignid:".$output['campaignid'].",';\n";
 }
-
-// stop benchmarking
-MAX_benchmarkStop();
 
 ?>

@@ -85,11 +85,8 @@ $Id$
  *
  */
 
-require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
-require_once MAX_PATH . '/lib/max/Delivery/log.php';
-require_once MAX_PATH . '/lib/max/Delivery/limitations.php';
-require_once MAX_PATH . '/lib/max/Delivery/cache.php';
-require_once MAX_PATH . '/lib/max/Delivery/adRender.php';
+require MAX_PATH . '/lib/max/Delivery/limitations.php';
+require MAX_PATH . '/lib/max/Delivery/adRender.php';
 
 /**
  * This is the main ad selection and rendering function
@@ -135,15 +132,15 @@ function MAX_adSelect($what, $target = '', $source = '', $withtext = 0, $context
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Store the original zone, campaign or banner IDs for later use
-    if (substr($what,0,5) == 'zone:') {
+    if (strpos($what,'zone:') === 0) {
 		$originalZoneId = intval(substr($what,5));
-    } elseif (substr($what,0,11) == 'campaignid:') {
+    } elseif (strpos($what,'campaignid:') === 0) {
         $originalCampaignId = intval(substr($what,11));
-    } elseif (substr($what,0,9) == 'bannerid:') {
+    } elseif (strpos($what, 'bannerid:') === 0) {
         $originalBannerId = intval(substr($what,9));
     }
     $userid = MAX_cookieGetUniqueViewerID();
-    MAX_cookieSet($conf['var']['viewerId'], $userid, time()+365*24*60*60);
+    MAX_cookieSet($conf['var']['viewerId'], $userid, MAX_commonGetTimeNow()+31536000); // 365*24*60*60
     $outputbuffer = '';
     // Set flag
     $found = false;
@@ -164,7 +161,7 @@ function MAX_adSelect($what, $target = '', $source = '', $withtext = 0, $context
 			$remaining = substr($what, $ix+1);
 			$what = substr($what, 0, $ix);
 		}
-        if (substr($what,0,5) == 'zone:') {
+        if (strpos($what, 'zone:') === 0) {
 			$zoneId  = intval(substr($what,5));
             $row = _adSelectZone($zoneId, $context, $source, $richmedia);
         } else {
@@ -192,7 +189,7 @@ function MAX_adSelect($what, $target = '', $source = '', $withtext = 0, $context
     if ($found) {
         $zoneId = empty($row['zoneid']) ? 0 : $row['zoneid'];
         // For internal redirected creatives, make sure that any appended code in the adChain is appended
-        if (count($GLOBALS['_MAX']['adChain']) > 1) {
+        if (!empty($GLOBALS['_MAX']['adChain'])) {
             foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
                 if (($ad['ad_id'] != $row['ad_id']) && !empty($ad['append'])) {
                     $row['append'] .= $ad['append'];
@@ -571,7 +568,8 @@ function _adSelectBuildContextArray(&$aLinkedAds, $context)
         'banner'   => array('exclude' => array(), 'include' => array()),
     );
 	if (is_array($context) && !empty($context)) {
-		for ($i=0; $i < count($context); $i++) {
+	    $cContext = count($context);
+		for ($i=0; $i < $cContext; $i++) {
 		    list ($key, $value) = each($context[$i]);
 
 			$valueArray = explode(':', $value);
@@ -598,7 +596,7 @@ function _adSelectBuildContextArray(&$aLinkedAds, $context)
             			    // Rescale the priorities for the available companion campaigns...
             			    $companionPrioritySum = 0;
             			    foreach ($aLinkedAds[$adArrayVar] as $iAdId => $aAd) {
-            			        if (in_array($aAd['placement_id'], array_keys($aContext['campaign']['include']))) {
+            			        if (isset($aContext['campaign']['include'][$aAd['placement_id']])) {
             			            $companionPrioritySum += $aAd['priority'];
             			        } else {
             			            unset($aLinkedAds[$adArrayVar][$iAdId]);

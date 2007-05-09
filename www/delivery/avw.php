@@ -29,16 +29,16 @@ $Id$
 */
 
 // Require the initialisation file
-require_once '../../init-delivery.php';
+require '../../init-delivery.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
+require MAX_PATH . '/lib/max/Delivery/adSelect.php';
 
 // No Caching
 MAX_commonSetNoCacheHeaders();
 
 // Register any script specific input variables
-MAX_commonRegisterGlobals('n');
+MAX_commonRegisterGlobalsArray(array('n'));
 if (!isset($n)) $n = 'default';
 
 $richMedia = false;     // This is an image tag - we only need the filename (or URL?) of the image...
@@ -80,13 +80,9 @@ if (!empty($row['html'])) {
 	MAX_commonDisplay1x1();
 }
 
-// stop benchmarking
-MAX_benchmarkStop();
-
 // Run automaintenance, if needed
 if (!empty($GLOBALS['_MAX']['CONF']['maintenance']['autoMaintenance']) && empty($GLOBALS['_MAX']['CONF']['lb']['enabled'])) {
-    require_once '/lib/OA/Maintenance/Auto.php';
-
+    include MAX_PATH . '/lib/OA/Maintenance/Auto.php';
     OA_Maintenance_Auto::run();
 }
 

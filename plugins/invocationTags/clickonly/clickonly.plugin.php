@@ -63,21 +63,6 @@ class Plugins_InvocationTags_clickonly_clickonly extends Plugins_InvocationTags
     }
 
     /**
-     * Check if plugin is allowed
-     *
-     * @return boolean  True - allowed, false - not allowed
-     */
-    function isAllowed($extra)
-    {
-        $isAllowed = parent::isAllowed($extra);
-        /*if((is_array($extra) && $extra['delivery'] == phpAds_ZoneText) || $this->maxInvocation->zone_invocation) {
-            return false;
-        } else {*/
-            return $isAllowed;
-        /*}*/
-    }
-
-    /**
      * Return list of options
      *
      * @return array    Group of options

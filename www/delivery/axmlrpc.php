@@ -26,10 +26,10 @@ $Id$
 */
 
 // Require the initialisation file
-require_once '../../init-delivery.php';
+require '../../init-delivery.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Delivery/XML-RPC.php';
+require MAX_PATH . '/lib/max/Delivery/XML-RPC.php';
 
 // Configure the XML-RPC server to use the xmlRpcView 
 // function to handle the XML-RPC ad view request
@@ -38,8 +38,5 @@ $server = new XML_RPC_Server(array(
                 'signature' => $xmlRpcView_sig,
                 'docstring' => $xmlRpcView_doc
               ));              
-
-// stop benchmarking
-MAX_benchmarkStop();
 
 ?>

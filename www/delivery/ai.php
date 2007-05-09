@@ -29,16 +29,15 @@ $Id$
 */
 
 // Require the initialisation file
-require_once '../../init-delivery.php';
+require '../../init-delivery.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-require_once MAX_PATH . '/lib/max/Delivery/cache.php';
+require MAX_PATH . '/lib/max/Delivery/cache.php';
 
 //Register any script specific input variables
-MAX_commonRegisterGlobals('filename', 'contenttype');
+MAX_commonRegisterGlobalsArray(array('filename', 'contenttype'));
 
-if (isset($filename) && $filename != '') {
+if (!empty($filename)) {
     $aCreative = MAX_cacheGetCreative($filename);
 
 	if (empty($aCreative)) {
@@ -84,8 +83,5 @@ if (isset($filename) && $filename != '') {
 		header("Location: ".$pref['default_banner_url']);
 	}
 }
-
-// stop benchmarking
-MAX_benchmarkStop();
 
 ?>

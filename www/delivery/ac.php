@@ -29,15 +29,15 @@ $Id$
 */
 
 // Require the initialisation file
-require_once '../../init-delivery.php';
+require '../../init-delivery.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
-require_once MAX_PATH . '/lib/max/Delivery/flash.php';
-require_once MAX_PATH . '/lib/max/Delivery/cache.php';
+require MAX_PATH . '/lib/max/Delivery/adSelect.php';
+require MAX_PATH . '/lib/max/Delivery/flash.php';
+require MAX_PATH . '/lib/max/Delivery/cache.php';
 
 //Register any script specific input variables
-MAX_commonRegisterGlobals('timeout');
+MAX_commonRegisterGlobalsArray(array('timeout'));
 $timeout  = !empty($timeout) ? $timeout : 0;
 
 if ($zoneid > 0) {
@@ -85,8 +85,5 @@ echo "
 {$prepend}{$html}{$append}
 </body>
 </html>";
-
-// stop benchmarking
-MAX_benchmarkStop();
 
 ?>

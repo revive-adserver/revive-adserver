@@ -62,7 +62,7 @@ function MAX_checkSite_Channel($limitation, $op, $aParams = array())
         @eval('$result = ('.$aLimitations['compiledlimitation'].');');
     }
     //MAX_record_Channel($limitation, $result);
-    $GLOBALS['_MAX']['CHANNELS'].= ($result ? MAX_DELIVERY_MULTIPLE_DELIMITER.$limitation : '');
+    $GLOBALS['_MAX']['CHANNELS'].= ($result ? $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'].$limitation : '');
     return $result;
 }
 

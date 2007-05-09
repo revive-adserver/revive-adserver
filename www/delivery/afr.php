@@ -29,17 +29,17 @@ $Id$
 */
 
 // Require the initialisation file
-require_once '../../init-delivery.php';
+require '../../init-delivery.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
-require_once MAX_PATH . '/lib/max/Delivery/flash.php';
+require MAX_PATH . '/lib/max/Delivery/adSelect.php';
+require MAX_PATH . '/lib/max/Delivery/flash.php';
 
 // No Caching
 MAX_commonSetNoCacheHeaders();
 
 //Register any script specific input variables
-MAX_commonRegisterGlobals('refresh', 'resize', 'rewrite', 'n');
+MAX_commonRegisterGlobalsArray(array('refresh', 'resize', 'rewrite', 'n'));
 
 // Initialise any afr.php specific variables
 if (!isset($rewrite))   $rewrite = 1;
@@ -79,13 +79,13 @@ if (isset($rewrite) && $rewrite == 1) {
 }
 
 // Build HTML
-echo "<html>\n";
-echo "<head>\n";
-echo "<title>".(!empty($banner['alt']) ? $banner['alt'] : 'Advertisement')."</title>\n";
+$outputHtml = "<html>\n";
+$outputHtml .= "<head>\n";
+$outputHtml .= "<title>".(!empty($banner['alt']) ? $banner['alt'] : 'Advertisement')."</title>\n";
 
 // Include the FlashObject script if required
 if (isset($banner['contenttype']) && $banner['contenttype'] == 'swf') {
-    echo MAX_flashGetFlashObjectExternal();
+    $outputHtml .= MAX_flashGetFlashObjectExternal();
 }
 
 // Add refresh meta tag if $refresh is set and numeric
@@ -93,40 +93,39 @@ if (isset($refresh) && is_numeric($refresh) && $refresh > 0) {
     $dest = MAX_commonGetDeliveryUrl() . substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], basename($_SERVER['SCRIPT_FILENAME'])));
     parse_str($_SERVER['QUERY_STRING'], $qs);
     $dest .= (!array_key_exists('loc', $qs)) ? "&loc=" . urlencode($loc) : '';
-	echo "<meta http-equiv='refresh' content='".$refresh.";url=$dest'>\n";
+	$outputHtml .= "<meta http-equiv='refresh' content='".$refresh.";url=$dest'>\n";
 }
 
 if (isset($resize) && $resize == 1) {
-	echo "<script type='text/javascript'>\n";
-	echo "<!--// <![CDATA[ \n";
-	echo "\tfunction MAX_adjustframe(frame) {\n";
-	echo "\t\tif (document.all) {\n";
-    echo "\t\t\tparent.document.all[frame.name].width = ".$banner['width'].";\n";
-    echo "\t\t\tparent.document.all[frame.name].height = ".$banner['height'].";\n";
-  	echo "\t\t}\n";
-  	echo "\t\telse if (document.getElementById) {\n";
-    echo "\t\t\tparent.document.getElementById(frame.name).width = ".$banner['width'].";\n";
-    echo "\t\t\tparent.document.getElementById(frame.name).height = ".$banner['height'].";\n";
-  	echo "\t\t}\n";
-	echo "\t}\n";
-	echo "// ]]> -->\n";
-	echo "</script>\n";
+	$outputHtml .= "<script type='text/javascript'>\n";
+	$outputHtml .= "<!--// <![CDATA[ \n";
+	$outputHtml .= "\tfunction MAX_adjustframe(frame) {\n";
+	$outputHtml .= "\t\tif (document.all) {\n";
+    $outputHtml .= "\t\t\tparent.document.all[frame.name].width = ".$banner['width'].";\n";
+    $outputHtml .= "\t\t\tparent.document.all[frame.name].height = ".$banner['height'].";\n";
+  	$outputHtml .= "\t\t}\n";
+  	$outputHtml .= "\t\telse if (document.getElementById) {\n";
+    $outputHtml .= "\t\t\tparent.document.getElementById(frame.name).width = ".$banner['width'].";\n";
+    $outputHtml .= "\t\t\tparent.document.getElementById(frame.name).height = ".$banner['height'].";\n";
+  	$outputHtml .= "\t\t}\n";
+	$outputHtml .= "\t}\n";
+	$outputHtml .= "// ]]> -->\n";
+	$outputHtml .= "</script>\n";
 }
 
-echo "</head>\n";
+$outputHtml .= "</head>\n";
 
 if (isset($resize) && $resize == 1) {
-	echo "<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0' style='background-color:transparent; width: 100%; text-align: center;' onload=\"MAX_adjustframe(window);\">\n";
+	$outputHtml .= "<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0' style='background-color:transparent; width: 100%; text-align: center;' onload=\"MAX_adjustframe(window);\">\n";
 } else {
-	echo "<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0' style='background-color:transparent; width: 100%; text-align: center;'>\n";
+	$outputHtml .= "<body leftmargin='0' topmargin='0' marginwidth='0' marginheight='0' style='background-color:transparent; width: 100%; text-align: center;'>\n";
 }
 
-echo $banner['html'];
-echo "\n</body>\n";
+$outputHtml .= $banner['html'];
+$outputHtml .= "\n</body>\n";
 
-echo "</html>\n";
+$outputHtml .= "</html>\n";
 
-// stop benchmarking
-MAX_benchmarkStop();
+echo $outputHtml;
 
 ?>

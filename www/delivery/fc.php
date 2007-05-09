@@ -39,7 +39,7 @@ $Id$
  */
 
 // Require the initialisation file
-require_once '../../init-delivery.php';
+require '../../init-delivery.php';
 
 /**
  * Invocation tag (plugin) name
@@ -63,8 +63,5 @@ if(!file_exists($tagFileName)) {
 // (we are not using MAX_Plugin interface for it because it has to be as fast as possible)
 include_once $tagFileName;
 
-
-// stop benchmarking
-MAX_benchmarkStop();
 
 ?>

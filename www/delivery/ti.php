@@ -29,14 +29,14 @@ $Id$
 */
 
 // Require the initialisation file
-require_once '../../init-delivery.php';
-require_once MAX_PATH . '/lib/max/Delivery/tracker.php';
+require '../../init-delivery.php';
+require MAX_PATH . '/lib/max/Delivery/tracker.php';
 
 // No Caching
 MAX_commonSetNoCacheHeaders();
 
 //Register any script specific input variables
-MAX_commonRegisterGlobals('trackerid');
+MAX_commonRegisterGlobalsArray(array('trackerid'));
 if (empty($trackerid))    $trackerid = 0;
 
 // Determine the user ID
@@ -53,8 +53,5 @@ if ($conf['logging']['trackerImpressions']) {
 MAX_cookieFlush();
 // Send a 1 x 1 gif
 MAX_commonDisplay1x1();
-
-// stop benchmarking
-MAX_benchmarkStop();
 
 ?>

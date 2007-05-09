@@ -29,6 +29,220 @@ $Id$
 */
 
 /**
+ * Light Cache methods
+ *
+ */
+
+
+/**
+ * Constant used for permanent caching
+ *
+ */
+define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
+
+
+/**
+ * Global variable to keep cache informations
+ *
+ * @var array
+ */
+$GLOBALS['OA_Delivery_Cache'] = array(
+    'path'   => MAX_PATH.'/var/cache/',
+    'prefix' => 'deliverycache_',
+    'expiry' => $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire']
+);
+
+/**
+ * A function to fetch a cache entry.
+ *
+ * @param string $name The cache entry name
+ * @param bool $isHash Is $name a hash already or should hash be created from it?
+ * @return mixed False on error, or the cache content as a string
+ */
+function OA_Delivery_Cache_fetch($name, $isHash = false)
+{
+    $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
+
+    $cache_complete = false;
+    $cache_contents = '';
+
+    // We are assuming that most of the time cache will exists
+    $ok = @include($filename);
+
+    if ($ok && $cache_complete == true) {
+        // The method used to implement cache expiry imposes two cache writes if the cache is
+        // expired and the database is available, but avoid the need to check for file existence
+        // and modification time.
+        if (isset($cache_expiry) && $cache_expiry < MAX_commonGetTimeNow()) {
+            // Update expiry, needed to enable permanent caching if needed
+            OA_Delivery_Cache_store($name, $cache_contents, $isHash);
+            return false;
+        }
+        return $cache_contents;
+    }
+
+    return false;
+}
+
+
+/**
+ * A function to store content a cache entry.
+ *
+ * @param string $name  The cache entry name
+ * @param string $cache The cache content
+ * @return bool True if the entry was succesfully stored
+ */
+function OA_Delivery_Cache_store($name, $cache, $isHash = false)
+{
+    if ($cache === OA_DELIVERY_CACHE_FUNCTION_ERROR) {
+        // Don't store the result to enable permanent caching
+        return false;
+    }
+
+    $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
+    $expiry   = MAX_commonGetTimeNow() + $GLOBALS['OA_Delivery_Cache']['expiry'];
+
+    $cache_literal  = "<"."?php\n\n";
+    $cache_literal .= "$"."cache_contents = ".var_export($cache, true).";\n\n";
+    $cache_literal .= "$"."cache_name     = '".addcslashes($name, "'")."';\n";
+    $cache_literal .= "$"."cache_expiry   = ".$expiry.";\n";
+    $cache_literal .= "$"."cache_complete = true;\n\n";
+    $cache_literal .= "?".">";
+
+    // Write cache to a temp file, then rename it, overwritng the old cache
+    // On *nix systems this should guarantee atomicity
+    $tmp_filename = tempnam($GLOBALS['OA_Delivery_Cache']['path'], $GLOBALS['OA_Delivery_Cache']['prefix'].'tmp_');
+    if ($fp = @fopen($tmp_filename, 'wb')) {
+        @fwrite ($fp, $cache_literal, strlen($cache_literal));
+        @fclose ($fp);
+
+        if (!@rename($tmp_filename, $filename)) {
+            // On some systems rename() doesn't overwrite destination
+            @unlink($filename);
+            @rename($tmp_filename, $filename);
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+
+/**
+ * A function to store content a cache entry and return the cache content,
+ * useful for retrieving the permanent cache content.
+ *
+ * @param string $name  The cache entry name
+ * @param string $cache The cache content
+ * @return string The cache content
+ */
+function OA_Delivery_Cache_store_return($name, $cache, $isHash = false)
+{
+    if (OA_Delivery_Cache_store($name, $cache, $isHash)) {
+        return $cache;
+    }
+
+    return OA_Delivery_Cache_fetch($name, $isHash);
+}
+
+/**
+ * A function to delete a single cache entry or the entire delivery cache.
+ *
+ * @param string $name The cache entry name
+ * @return bool True if the entres were succesfully stored
+ */
+function OA_Delivery_Cache_delete($name = '')
+{
+    if ($name != '') {
+        $filename = OA_Delivery_Cache_buildFileName($name);
+
+        if (file_exists($filename)) {
+            @unlink ($filename);
+            return true;
+        }
+    } else {
+        $cachedir = @opendir($GLOBALS['OA_Delivery_Cache']['path']);
+
+        while (false !== ($filename = @readdir($cachedir))) {
+            if (preg_match("#^{$GLOBALS['OA_Delivery_Cache']['prefix']}[0-9A-F]{32}.php$#i", $filename))
+                @unlink ($filename);
+        }
+
+        @closedir($cachedir);
+
+        return true;
+    }
+
+    return false;
+}
+
+
+/**
+ * A function to get cache informations.
+ *
+ * @return array An array of all the cache sizes by entry name
+ */
+function OA_Delivery_Cache_info()
+{
+    $result = array();
+
+    $cachedir = @opendir($GLOBALS['OA_Delivery_Cache']['path']);
+
+    while (false !== ($filename = @readdir($cachedir))) {
+        if (preg_match("#^{$GLOBALS['OA_Delivery_Cache']['prefix']}[0-9A-F]{32}.php$#i", $filename)) {
+            $cache_complete = false;
+            $cache_contents = '';
+            $cache_name     = '';
+
+            $ok = @include($filename);
+
+            if ($ok && $cache_complete == true) {
+                $result[$cache_name] = strlen(serialize($cache_contents));
+            }
+        }
+    }
+
+    @closedir($cachedir);
+
+    return $result;
+}
+
+
+/**
+ * A function to build a cache entry filename.
+ *
+ * @param string $name The cache entry name
+ * @return string The full path of the cache file
+ */
+function OA_Delivery_Cache_buildFileName($name, $isHash = false)
+{
+    if(!$isHash) {
+        // If not a hash yet
+        $name = md5($name);
+    }
+    return $GLOBALS['OA_Delivery_Cache']['path'].$GLOBALS['OA_Delivery_Cache']['prefix'].$name.'.php';
+}
+
+
+/**
+ * A function to build a cache entry name.
+ *
+ * This function accepts any string parameters which are then used
+ * to generate the cache name.
+ *
+ * @return string The generated cache entry name
+ */
+function OA_Delivery_Cache_getName($functionName, $id = null)
+{
+    $functionName = strtolower(str_replace('MAX_cacheGet', '', $functionName));
+    if ($id) {
+        return $functionName.$id;
+    }
+    return $functionName;
+}
+
+/**
  * Cache-wrapper for OA_Dal_Delivery_getAd()
  *
  * The function to get and return a single ad
@@ -40,16 +254,14 @@ $Id$
  */
 function MAX_cacheGetAd($ad_id, $cached = true)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    if ($cached) {
-        include_once 'Cache/Lite/Function.php';
-        $cache = new Cache_Lite_Function(_prepareCacheOptions());
-        $aRows = $cache->call('MAX_cacheGetAd', $ad_id, false);
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $ad_id);
+    if (($aRows = OA_Delivery_Cache_fetch($sName)) !== false) {
     } else {
-        require_once(MAX_PATH . '/lib/max/Dal/Delivery.php');
         MAX_Dal_Delivery_Include();
-        $aRows  = OA_Dal_Delivery_getAd($ad_id);
+        $aRows = OA_Dal_Delivery_getAd($ad_id);
+        $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
     }
+
     return $aRows;
 }
 
@@ -74,16 +286,13 @@ function MAX_cacheGetAd($ad_id, $cached = true)
  */
 function MAX_cacheGetZoneLinkedAds($zoneId, $cached = true)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    if ($cached) {
-        include_once 'Cache/Lite/Function.php';
-        $cache = new Cache_Lite_Function(_prepareCacheOptions());
-        $aRows = $cache->call('MAX_cacheGetZoneLinkedAds', $zoneId, false);
-    } else {
-        require_once(MAX_PATH . '/lib/max/Dal/Delivery.php');
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
+    if (($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
-        $aRows  = OA_Dal_Delivery_getZoneLinkedAds($zoneId);
+        $aRows = OA_Dal_Delivery_getZoneLinkedAds($zoneId);
+        $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
     }
+
     return $aRows;
 }
 
@@ -99,16 +308,13 @@ function MAX_cacheGetZoneLinkedAds($zoneId, $cached = true)
  */
 function MAX_cacheGetZoneInfo($zoneId, $cached = true)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    if ($cached) {
-        include_once 'Cache/Lite/Function.php';
-        $cache = new Cache_Lite_Function(_prepareCacheOptions());
-        $aRows = $cache->call('MAX_cacheGetZoneInfo', $zoneId, false);
-    } else {
-        require_once(MAX_PATH . '/lib/max/Dal/Delivery.php');
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
+    if (($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
-        $aRows  = OA_Dal_Delivery_getZoneInfo($zoneId);
+        $aRows = OA_Dal_Delivery_getZoneInfo($zoneId);
+        $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
     }
+
     return $aRows;
 }
 
@@ -126,16 +332,13 @@ function MAX_cacheGetZoneInfo($zoneId, $cached = true)
  */
 function MAX_cacheGetLinkedAds($search, $cached = true)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    if ($cached) {
-        include_once 'Cache/Lite/Function.php';
-        $cache = new Cache_Lite_Function(_prepareCacheOptions());
-        $aAds = $cache->call('MAX_cacheGetLinkedAds', $search, false);
-    } else {
-        require_once(MAX_PATH . '/lib/max/Dal/Delivery.php');
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $search);
+    if (($aAds = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aAds = OA_Dal_Delivery_getLinkedAds($search);
+        $aAds = OA_Delivery_Cache_store_return($sName, $aAds);
     }
+
     return $aAds;
 }
 
@@ -150,16 +353,13 @@ function MAX_cacheGetLinkedAds($search, $cached = true)
  */
 function MAX_cacheGetCreative($filename, $cached = true)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    if ($cached) {
-        include_once 'Cache/Lite/Function.php';
-        $cache = new Cache_Lite_Function(_prepareCacheOptions());
-        $aCreative = $cache->call('MAX_cacheGetCreative', $filename, false);
-    } else {
-        require_once(MAX_PATH . '/lib/max/Dal/Delivery.php');
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $filename);
+    if (($aCreative = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aCreative = OA_Dal_Delivery_getCreative($filename);
+        $aCreative = OA_Delivery_Cache_store_return($sName, $aCreative);
     }
+
     return $aCreative;
 }
 
@@ -174,16 +374,13 @@ function MAX_cacheGetCreative($filename, $cached = true)
  */
 function MAX_cacheGetTracker($trackerid, $cached = true)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    if ($cached) {
-        include_once 'Cache/Lite/Function.php';
-        $cache = new Cache_Lite_Function(_prepareCacheOptions());
-        $aTracker = $cache->call('MAX_cacheGetTracker', $trackerid, false);
-    } else {
-        require_once(MAX_PATH . '/lib/max/Dal/Delivery.php');
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
+    if (($aTracker = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aTracker = OA_Dal_Delivery_getTracker($trackerid);
+        $aTracker = OA_Delivery_Cache_store_return($sName, $aTracker, $isHash = true);
     }
+
     return $aTracker;
 }
 
@@ -198,16 +395,13 @@ function MAX_cacheGetTracker($trackerid, $cached = true)
  */
 function MAX_cacheGetTrackerVariables($trackerid, $cached = true)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    if ($cached) {
-        include_once 'Cache/Lite/Function.php';
-        $cache = new Cache_Lite_Function(_prepareCacheOptions());
-        $aVariables = $cache->call('MAX_cacheGetTrackerVariables', $trackerid, false);
-    } else {
-        require_once(MAX_PATH . '/lib/max/Dal/Delivery.php');
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
+    if (($aVariables = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aVariables = OA_Dal_Delivery_getTrackerVariables($trackerid);
+        $aVariables = OA_Delivery_Cache_store_return($sName, $aVariables);
     }
+
     return $aVariables;
 }
 
@@ -223,16 +417,13 @@ function MAX_cacheGetTrackerVariables($trackerid, $cached = true)
  */
 function MAX_cacheGetChannelLimitations($channelid, $cached = true)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    if ($cached) {
-        include_once 'Cache/Lite/Function.php';
-        $cache = new Cache_Lite_Function(_prepareCacheOptions());
-        $limitations = $cache->call('MAX_cacheGetChannelLimitations', $channelid, false);
-    } else {
-        require_once(MAX_PATH . '/lib/max/Dal/Delivery.php');
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $channelid);
+    if (($limitations = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $limitations = OA_Dal_Delivery_getChannelLimitations($channelid);
+        $limitations = OA_Delivery_Cache_store_return($sName, $limitations);
     }
+
     return $limitations;
 }
 
@@ -247,27 +438,14 @@ function MAX_cacheGetChannelLimitations($channelid, $cached = true)
  */
 function MAX_cacheGetGoogleJavaScript($cached = true)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    if ($cached) {
-        include_once 'Cache/Lite/Function.php';
-        $cache = new Cache_Lite_Function(_prepareCacheOptions());
-        $output = $cache->call('MAX_cacheGetGoogleJavaScript', false);
-    } else {
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__);
+    if (($output = OA_Delivery_Cache_fetch($sName)) === false) {
         require_once(MAX_PATH . '/lib/max/Delivery/google.php');
-        $output  = MAX_googleGetJavaScript();
+        $output = MAX_googleGetJavaScript();
+        $output = OA_Delivery_Cache_store_return($sName, $output);
     }
+
     return $output;
 }
 
-/**
- * This function is called by all cache functions to get the options to be passed to the cache object
- *
- * @return array    The array of options to be passed to the cache object
- */
-function _prepareCacheOptions()
-{
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $options = array('cacheDir' => MAX_CACHE, 'lifeTime' => $conf['delivery']['cacheExpire']);
-    return $options;
-}
 ?>

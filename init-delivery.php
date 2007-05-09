@@ -26,27 +26,37 @@ $Id$
 */
 
 /**
- * @package    Max
- * @author     Scott Switzer <scott@switzer.org>
- * @author     Andrew Hill <andrew@m3.net>
+ * @package    MaxDelivery
+ * @author     Chris Nutting <chris.nutting@openads.org>
+ * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openads.org>
  *
  * A file to set up the environment for the Openads delivery engine.
+ * 
+ * Both opcode and php by itself slow things down when we require many
+ * files. Therefore we gave up a little bit of maintainability in 
+ * order to speed up a delivery:
+ * * We are not using classes (if possible) in delivery
+ * * We have to use as few as possible includes and add new code into
+ *   existing files
  */
 
-require_once 'init-delivery-parse.php';
-require_once 'constants.php';
-setupConstants();
-require_once MAX_PATH . '/lib/max/Delivery/common.php';
+/**
+ * Main part of script where data is initialized for delivery
+ * {{{
+ */
 
+require './init-delivery-parse.php';
 
-
-// Set $conf
-$conf = $GLOBALS['_MAX']['CONF'];
+setupGlobalConfigVariables();
 
 // Set the log file
-if ($conf['debug']['logfile']) {
-    @ini_set('error_log', MAX_PATH . '/var/' . $conf['debug']['logfile']);
+if ($GLOBALS['_MAX']['CONF']['debug']['logfile']) {
+    @ini_set('error_log', MAX_PATH . '/var/' . $GLOBALS['_MAX']['CONF']['debug']['logfile']);
 }
+
+require MAX_PATH . '/lib/max/Delivery/common.php';
+require MAX_PATH . '/lib/max/Delivery/cache.php';
 
 // Set the viewer's remote information used in logging
 // and delivery limitation evaluation
@@ -61,7 +71,38 @@ MAX_commonInitVariables();
 // Unpack the packed capping cookies
 MAX_cookieUnpackCapping();
 
-// Start benchmarking...
-MAX_benchmarkStart();
+/**
+ * The environmental constants initialisation function for Max.
+ */
+function setupGlobalConfigVariables()
+{
+    if (!defined('MAX_PATH')) {
+        define('MAX_PATH', dirname(__FILE__));
+    }
+    $maxGlobals = array();
+    $maxGlobals['MAX_DELIVERY_MULTIPLE_DELIMITER'] = '|';
+    $maxGlobals['MAX_COOKIELESS_PREFIX'] = '__';
+
+    // Ensure that the initialisation has not been run before
+    if (!(isset($GLOBALS['CONF']))) {
+        // Parse the Max configuration file
+        $maxGlobals['CONF'] = parseDeliveryIniFile();
+        // Set the URL access mechanism
+        if (!empty($maxGlobals['CONF']['max']['requireSSL'])) {
+            $maxGlobals['HTTP'] = 'https://';
+        } else {
+            if (isset($_SERVER['SERVER_PORT'])) {
+                if (isset($maxGlobals['CONF']['max']['sslPort']) && $_SERVER['SERVER_PORT'] == $maxGlobals['CONF']['max']['sslPort']) {
+                    $maxGlobals['HTTP'] = 'https://';
+                } else {
+                    $maxGlobals['HTTP'] = 'http://';
+                }
+            }
+        }
+    }
+    // Maximum random number
+    $maxGlobals['MAX_RAND'] = $maxGlobals['CONF']['priority']['randmax'];
+    $GLOBALS['_MAX'] = $maxGlobals;
+}
 
 ?>

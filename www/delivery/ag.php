@@ -26,10 +26,10 @@ $Id$
 */
 
 // Require the initialisation file
-require_once '../../init-delivery.php';
+require '../../init-delivery.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Delivery/cache.php';
+require MAX_PATH . '/lib/max/Delivery/cache.php';
 
 // Get JS
 $output = MAX_cacheGetGoogleJavaScript();

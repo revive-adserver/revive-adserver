@@ -614,20 +614,21 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     // If there is an Openads->Openads internal redirect, log both zones information
+    $delimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
     if (!empty($GLOBALS['_MAX']['adChain'])) {
         foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
-            $aBanner['ad_id'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['ad_id'];
-            $aBanner['placement_id'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['placement_id'];
-            $zoneId .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['zoneid'];
-            $aBanner['block_ad'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['block_ad'];
-            $aBanner['cap_ad'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['cap_ad'];
-            $aBanner['session_cap_ad'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['session_cap_ad'];
-            $aBanner['block_campaign'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['block_campaign'];
-            $aBanner['cap_campaign'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['cap_campaign'];
-            $aBanner['session_cap_campaign'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['session_cap_campaign'];
-            $aBanner['block_zone'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['block_zone'];
-            $aBanner['cap_zone'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['cap_zone'];
-            $aBanner['session_cap_zone'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['session_cap_zone'];
+            $aBanner['ad_id'] .= $delimiter . $ad['ad_id'];
+            $aBanner['placement_id'] .= $delimiter . $ad['placement_id'];
+            $zoneId .= $delimiter . $ad['zoneid'];
+            $aBanner['block_ad'] .= $delimiter . $ad['block_ad'];
+            $aBanner['cap_ad'] .= $delimiter . $ad['cap_ad'];
+            $aBanner['session_cap_ad'] .= $delimiter . $ad['session_cap_ad'];
+            $aBanner['block_campaign'] .= $delimiter . $ad['block_campaign'];
+            $aBanner['cap_campaign'] .= $delimiter . $ad['cap_campaign'];
+            $aBanner['session_cap_campaign'] .= $delimiter . $ad['session_cap_campaign'];
+            $aBanner['block_zone'] .= $delimiter . $ad['block_zone'];
+            $aBanner['cap_zone'] .= $delimiter . $ad['cap_zone'];
+            $aBanner['session_cap_zone'] .= $delimiter . $ad['session_cap_zone'];
         }
     }
     $url = MAX_commonGetDeliveryUrl($conf['file']['log']);
@@ -636,7 +637,7 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
     $url .= $amp . "zoneid=" . $zoneId;
     if (!empty($source)) $url .= $amp . "source=" . $source;
     if (isset($GLOBALS['_MAX']['CHANNELS'])) {
-        $url .= $amp . "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER, $conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['CHANNELS']);
+        $url .= $amp . "channel_ids=" . str_replace($delimiter, $conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['CHANNELS']);
     }
     if (!empty($aBanner['block_ad'])) $url .= $amp . $conf['var']['blockAd'] . "=" . $aBanner['block_ad'];
     if (!empty($aBanner['cap_ad'])) $url .= $amp . $conf['var']['capAd'] . "=" . $aBanner['cap_ad'];
@@ -705,13 +706,14 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
     }
 
     $conf = $GLOBALS['_MAX']['CONF'];
+    $delimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
 
     // If there is an Openads->Openads internal redirect, log both zones information
     if (!empty($GLOBALS['_MAX']['adChain'])) {
         foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
-            $aBanner['bannerid'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['bannerid'];
-            $aBanner['placement_id'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['placement_id'];
-            $zoneId .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['zoneid'];
+            $aBanner['bannerid'] .= $delimiter . $ad['bannerid'];
+            $aBanner['placement_id'] .= $delimiter . $ad['placement_id'];
+            $zoneId .= $delimiter . $ad['zoneid'];
         }
     }
 
@@ -736,7 +738,7 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
             $maxdest = "{$del}maxdest={$ct0}{$dest}";
         }
         if (isset($GLOBALS['_MAX']['CHANNELS'])) {
-            $channelIds = $del. "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER, $conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['CHANNELS']);
+            $channelIds = $del. "channel_ids=" . str_replace($delimiter, $conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['CHANNELS']);
         } else {
             $channelIds = '';
         }

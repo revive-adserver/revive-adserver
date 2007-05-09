@@ -29,11 +29,11 @@ $Id$
  * @package    MaxDal
  * @subpackage DeliveryXMLRPC
  * @author     Chris Nutting <chris@m3.net>
- * 
+ *
  * @todo        There are methods in the mysql.php Dal that will have to be replicated here
- * 
+ *
  * The XML-RPC data access layer
- * 
+ *
  * This DAL makes a remote request to the origin server for the requested function
  * It then returns the information retrieved to the delivery engine.
  *
@@ -61,30 +61,22 @@ function getFromOrigin($function, $params)
     * @author     Chris Nutting <chris@m3.net>
     *
     */
-    
+
     $conf = $GLOBALS['_MAX']['CONF'];
-    
-    // If we know the id for this cache file, then touch the file so that concurrent processes don't spawn more XMLRPC calls
-    if (!empty($GLOBALS['_MAX']['deliveryCacheId'])) {
-        $deliveryCacheFilename = 'cache_' . md5('Cache_Lite_Function') . '_' . md5($GLOBALS['_MAX']['deliveryCacheId']);
-        if (file_exists(MAX_CACHE . $deliveryCacheFilename)) {
-            touch(MAX_CACHE . $deliveryCacheFilename);
-        }
-    }
-    
+
     // Create an XML-RPC client to talk to the XML-RPC server
     $client = new XML_RPC_Client($conf['origin']['script'], $conf['origin']['host'], $conf['origin']['port']);
     $message = new XML_RPC_Message($function, array());
-    
+
     // Add the parameters to the message
 	$message->addParam(new XML_RPC_Value($params, $GLOBALS['XML_RPC_String']));
-	
+
 	 // Send the XML-RPC message to the server
     $response = $client->send($message, $conf['origin']['timeout'], $conf['origin']['protocol']);
-	
+
     if ((!$response) || ($response->faultCode() != 0)) {
-        if (defined('CACHE_LITE_FUNCTION_ERROR')) {
-            return CACHE_LITE_FUNCTION_ERROR;
+        if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
+            return OA_DELIVERY_CACHE_FUNCTION_ERROR;
         } else {
             return null;
         }

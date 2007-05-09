@@ -31,10 +31,10 @@ $Id$
  */
 
 // Require the initialisation file
-require_once '../../init-delivery.php';
+require '../../init-delivery.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
+require MAX_PATH . '/lib/max/Delivery/querystring.php';
 
 // Prevent click from being cached by browsers
 MAX_commonSetNoCacheHeaders();
@@ -53,9 +53,9 @@ if (!empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && empty($_GET[$conf['var'
     MAX_cookieSetViewerIdAndRedirect($viewerId);
 }
 
-$adId       = isset($_REQUEST[$conf['var']['adId']]) ? explode(MAX_DELIVERY_MULTIPLE_DELIMITER, $_REQUEST[$conf['var']['adId']]) : array();
-$zoneId     = isset($_REQUEST[$conf['var']['zoneId']]) ? explode(MAX_DELIVERY_MULTIPLE_DELIMITER, $_REQUEST[$conf['var']['zoneId']]) : array();
-$creativeId = isset($_REQUEST[$conf['var']['creativeId']]) ? explode(MAX_DELIVERY_MULTIPLE_DELIMITER, $_REQUEST[$conf['var']['creativeId']]) : array();
+$adId       = isset($_REQUEST[$conf['var']['adId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['adId']]) : array();
+$zoneId     = isset($_REQUEST[$conf['var']['zoneId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['zoneId']]) : array();
+$creativeId = isset($_REQUEST[$conf['var']['creativeId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['creativeId']]) : array();
 
 if (empty($adId) && !empty($zoneId)) {
     foreach ($zoneId as $index => $zone) {
@@ -73,7 +73,7 @@ for ($i = 0; $i < count($adId); $i++) {
     }
     if (($adId[$i] > 0) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
         if (isset($_REQUEST['channel_ids'])) {
-            $GLOBALS['_MAX']['CHANNELS'] = str_replace($conf['delivery']['chDelimiter'], MAX_DELIVERY_MULTIPLE_DELIMITER, $_REQUEST['channel_ids']);
+            $GLOBALS['_MAX']['CHANNELS'] = str_replace($conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST['channel_ids']);
         }
         MAX_Delivery_log_logAdClick($viewerId, $adId[$i], $creativeId[$i], $zoneId[$i]);
     }
@@ -94,9 +94,6 @@ if (!empty($destination) && empty($_GET['trackonly'])) {
     }
 }
 
-// Stop benchmarking
-MAX_benchmarkStop();
-
 /**
  * Get the ad information when only passed in a zone ID (for email zones)
  *
@@ -108,7 +105,7 @@ function _getZoneAd($zoneId)
 {
     $conf = $GLOBALS['conf'];
 
-    require_once MAX_PATH . '/lib/max/Delivery/cache.php';
+    require MAX_PATH . '/lib/max/Delivery/cache.php';
     $zoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId, false);
 
     if (!empty($zoneLinkedAds['xAds']) && count($zoneLinkedAds['xAds']) == 1) {
