@@ -75,8 +75,8 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
             ) VALUES (
                 ?, ?, ?, ?, ?
             )";
-        $types = array('integer', 'text', 'boolean', 'boolean', 'integer');
-        $this->oDbh->prepare($query, $types);
+        $aTypes = array('integer', 'text', 'boolean', 'boolean', 'integer');
+        $st = $this->oDbh->prepare($query, $aTypes);
 
         foreach ($codes as $v) {
             $tagcode = trim($v['tagcode']);

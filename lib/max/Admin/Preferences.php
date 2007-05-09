@@ -196,8 +196,8 @@ class MAX_Admin_Preferences
                     ?, ? ,?
                 )
                 ";
-            $types = array('integer', 'text', 'text');
-            $this->oDbh->prepare($query, $types);
+            $aTypes = array('integer', 'text', 'text');
+            $st     = $this->oDbh->prepare($query, $aTypes);
             foreach ($this->prefSql as $key => $value) {
 
                 // Don't use a PEAR_Error handler
@@ -217,8 +217,9 @@ class MAX_Admin_Preferences
                             {$table_column} = ?
                         AND
                             preference = ?";
-                    $this->oDbh->prepare($query, array('integer', 'text'));
-                    $rows = $oDbh->exec(array($entityId, $key));
+                    $aTypes = array('integer', 'text');
+                    $st     = $this->oDbh->prepare($query, $aTypes);
+                    $rows   = $oDbh->exec(array($entityId, $key));
                     if (PEAR::isError($rows)) {
                         return MAX::raiseError($rows, MAX_ERROR_DBFAILURE);
                     }
