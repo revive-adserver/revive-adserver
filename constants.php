@@ -258,11 +258,11 @@ function setupConstants()
             define('MAX_PLUGINS_CACHE', $GLOBALS['_MAX']['CONF']['delivery']['pluginsCachePath']);
         }
         // Set the URL access mechanism
-        if ($GLOBALS['_MAX']['CONF']['max']['requireSSL']) {
+        if ($GLOBALS['_MAX']['CONF']['openads']['requireSSL']) {
             $GLOBALS['_MAX']['HTTP'] = 'https://';
         } else {
             if (isset($_SERVER['SERVER_PORT'])) {
-                if ($_SERVER['SERVER_PORT'] == $GLOBALS['_MAX']['CONF']['max']['sslPort']) {
+                if ($_SERVER['SERVER_PORT'] == $GLOBALS['_MAX']['CONF']['openads']['sslPort']) {
                     $GLOBALS['_MAX']['HTTP'] = 'https://';
                 } else {
                     $GLOBALS['_MAX']['HTTP'] = 'http://';
