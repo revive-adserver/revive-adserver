@@ -152,6 +152,14 @@ class OA_UpgradeLogger
         return $aFiles;
     }
 
+    function deleteLogFile()
+    {
+        if (file_exists($this->logFile))
+        {
+            unlink($this->logFile);
+        }
+    }
+
 }
 
 ?>

@@ -102,7 +102,6 @@ class OA_Upgrade
         $this->oVersioner   = new OA_Version_Controller();
         $this->oPAN         = new OA_phpAdsNew();
         $this->oSystemMgr   = new OA_Environment_Manager();
-        $this->oSystemMgr->init();
         $this->oConfiguration = new OA_Upgrade_Config();
         $this->oTable       = new OA_DB_Table();
 
@@ -440,8 +439,12 @@ class OA_Upgrade
     function install($aConfig)
     {
         $this->oLogger->setLogFile('install.log');
+        $this->oLogger->deleteLogFile();
         $this->aDsn['database'] = $aConfig['database'];
         $this->aDsn['table']    = $aConfig['table'];
+
+        $this->oLogger->log('Installation started '.OA::getNow());
+        $this->oLogger->log('Attempting to connect to database '.$this->aDsn['database'].' type '.$this->aDsn['type'].' with user '.$this->aDsn['username']);
 
         // hmm, should check for create database permissions?
         if (!$this->_createDatabase())
@@ -449,6 +452,7 @@ class OA_Upgrade
             $this->oLogger->logError('Installation failed to create the database '.$this->aDsn['database']['name']);
             return false;
         }
+        $this->oLogger->log('Connected to database '.$this->oDbh->connected_database_name);
 
         if (!$this->checkPermissionToCreateTable())
         {
@@ -462,7 +466,6 @@ class OA_Upgrade
             $this->_dropDatabase();
             return false;
         }
-        $this->oLogger->log('Connected to database '.$this->oDbh->connected_database_name);
 
         if (!$this->createCoreTables())
         {

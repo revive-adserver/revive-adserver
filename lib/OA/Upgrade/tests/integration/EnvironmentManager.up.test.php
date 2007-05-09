@@ -119,7 +119,6 @@ class Test_OA_Environment_Manager extends UnitTestCase
     function _getEnvMgrObj()
     {
         $oEnvMgr = new OA_Environment_Manager();
-        $oEnvMgr->init();
         return $oEnvMgr;
     }
 }

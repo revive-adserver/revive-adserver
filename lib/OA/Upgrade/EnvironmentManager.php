@@ -47,38 +47,21 @@ class OA_Environment_Manager
 
     function OA_Environment_Manager()
     {
-        $this->aFilePermissions = array(
-                                        MAX_PATH.'/var/',
-                                       );
-        $this->aInfo['PHP']['expected']     = array();
-        $this->aInfo['PERMS']['expected']   = array();
-        $this->aInfo['FILES']['expected']   = array();
-//        $this->aInfo['PAN']['expected']     = array();
-//        $this->aInfo['MAX']['expected']     = array();
-//        $this->aInfo['DB']['expected']      = array();
+        $this->aInfo['PERMS']['expected'] = array(
+                                                    MAX_PATH.'/var/',
+                                                   );
 
         $this->aInfo['PHP']['actual']       = array();
         $this->aInfo['PERMS']['actual']     = array();
         $this->aInfo['FILES']['actual']     = array();
-//        $this->aInfo['PAN']['actual']       = array();
-//        $this->aInfo['MAX']['actual']       = array();
-//        $this->aInfo['DB']['actual']        = array();
-    }
 
-    function init()
-    {
         $this->aInfo['PHP']['expected']['version']              = '4.3.6';
         $this->aInfo['PHP']['expected']['magic_quotes_runtime'] = '0';
         $this->aInfo['PHP']['expected']['memory_limit']         = '8192';
         $this->aInfo['PHP']['expected']['safe_mode']            = '0';
         //$this->aInfo['PHP']['expected']['date.timezone']        = true;
-        $this->aInfo['PERMS']['expected']                   = $this->aFilePermissions;
+
         $this->aInfo['FILES']['expected']                   = array();
-//        $this->aInfo['PAN']['expected']['version']          = '2.0.12';
-//        $this->aInfo['MAX']['expected']['version']          = 'v0.3.32-alpha';
-//        $this->aInfo['DB']['expected']['mysql']['version']  = '4.0.12';
-//        $this->aInfo['DB']['expected']['pgsql']['version']  = '7.0.0';
-        return $this->aInfo;
     }
 
     function checkSystem()
