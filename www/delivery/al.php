@@ -2014,7 +2014,7 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
 		if (($adArrayVar == 'ads') || ($adArrayVar == 'cAds')) {
 		    // Paid campaigns have a sum of priorities of unity, so pick
 		    // a random number between 0 and $prioritysum, inclusive.
-            $ranweight = (mt_rand(0, MAX_RAND) / MAX_RAND) * $prioritysum;
+            $ranweight = (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) / $GLOBALS['_MAX']['MAX_RAND']) * $prioritysum;
             $paidPriorityCounter = 0;
 		} else {
 		    // All other campaigns have integer-based priority values, so
