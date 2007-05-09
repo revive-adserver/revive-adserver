@@ -231,7 +231,7 @@ function phpAds_Login()
             MAX_Permission_Session::restartToLoginScreen($strPasswordWrong);
         }
     } else {
-        if ($conf['openads']['installed']) {
+        if (!$conf['openads']['installed']) {
             // We are trying to install, grant access...
             return MAX_Permission_User::getAAdminData('admin');
         }
