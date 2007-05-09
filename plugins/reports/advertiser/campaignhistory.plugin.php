@@ -124,17 +124,17 @@ class Plugins_Reports_Advertiser_Campaignhistory extends EnhancedReport {
     /*-------------------------------------------------------*/
     function execute($campaignid, $start, $end, $delimiter=",")
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
     	global $date_format;
     	global $strCampaign, $strTotal, $strDay, $strImpressions, $strClicks, $strCTRShort, $strConversions, $strCNVRShort;
 
-    	$conf = & $GLOBALS['_MAX']['CONF'];
+    	$conf = &$GLOBALS['_MAX']['CONF'];
+        $oDbh = &OA_DB::singleton();
 
     	// Format the start and end dates
-        $dbStart = date("Y-m-d", strtotime($start));
-        $dbEnd   = date("Y-m-d", strtotime($end));
-        $start = date("Y/m/d", strtotime($start));
-        $end   = date("Y/m/d", strtotime($end));
+        $dbStart    = date("Y-m-d", strtotime($start));
+        $dbEnd      = date("Y-m-d", strtotime($end));
+        $start      = date("Y/m/d", strtotime($start));
+        $end        = date("Y/m/d", strtotime($end));
 
         $reportName = 'm3 Campaign History Report from ' . date('Y-M-d', strtotime($start)) . ' to ' . date('Y-M-d', strtotime($end)) . '.csv';
         header("Content-type: application/csv\nContent-Disposition: inline; filename=\"".$reportName."\"");
@@ -150,18 +150,20 @@ class Plugins_Reports_Advertiser_Campaignhistory extends EnhancedReport {
     						".$conf['table']['prefix'].$conf['table']['banners']." as b
     					WHERE
     						s.ad_id=b.bannerid
-    						AND b.campaignid='".$campaignid."'
-    						AND s.day >= '".$dbStart."'
-    						AND s.day <  '".$dbEnd."'
+    						AND b.campaignid= ".$oDbh->quote($campaignid, 'integer') ."
+    						AND s.day >= ". $oDbh->quote($dbStart, 'date') ."
+    						AND s.day <  ". $oDbh->quote($dbEnd, 'date') ."
     					GROUP BY
     						day
                         ORDER BY
                             DATE_FORMAT(day, '%Y%m%d')
     				";
-    	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
+    	$res_banners = $oDbh->query($res_query);
+        if (PEAR::isError($res_banners)) {
+            return $res_banners;
+        }
 
-    	while ($row_banners = phpAds_dbFetchArray($res_banners))
-    	{
+    	while ($row_banners = $res_banners->fetchRow()) {
     		$stats[$row_banners['day']]['views'] 		= $row_banners['adviews'];
     		$stats[$row_banners['day']]['clicks'] 		= $row_banners['adclicks'];
     		$stats[$row_banners['day']]['conversions'] 	= $row_banners['adconversions'];

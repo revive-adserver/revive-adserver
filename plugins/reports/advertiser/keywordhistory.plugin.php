@@ -124,8 +124,10 @@ class Plugins_Reports_Advertiser_Keywordhistory extends Plugins_Reports {
 
     function execute($campaignid, $start, $end, $delimiter=",")
     {
-        $conf = & $GLOBALS['_MAX']['CONF'];
         global $strCampaign;
+
+        $conf = & $GLOBALS['_MAX']['CONF'];
+        $oDbh = & OA_DB::singleton();
 
         // Format the start and end dates
         $dbStart = date("Ymd000000", strtotime($start));
@@ -141,7 +143,7 @@ class Plugins_Reports_Advertiser_Keywordhistory extends Plugins_Reports {
 
         // Get trackers linked to this campaign, to avoid doing this over and over...
         // (The campaign is supplied as a parameter to the function)
-        $resTrackers = phpAds_dbQuery("
+        $query = "
                 SELECT
                     c.trackerid,
                     t.trackername
@@ -149,26 +151,33 @@ class Plugins_Reports_Advertiser_Keywordhistory extends Plugins_Reports {
                     ".$conf['table']['prefix'].$conf['table']['campaigns_trackers']." as c,
                     ".$conf['table']['prefix'].$conf['table']['trackers']." as t
                 WHERE
-                    c.campaignid = '".$campaignid."'
-                    AND c.trackerid = t.trackerid"
-        );
+                    c.campaignid = ". $oDbh->quote($campaignid, 'integer')."
+                    AND c.trackerid = t.trackerid
+        ";
+        $resTrackers = $oDbh->query($query);
+        if (PEAR::isError($resTrackers)) {
+            return $resTrackers;
+        }
 
         // Store the trackers linked to this campaign, so they can be used :-)
-        while ($rowTrackers = phpAds_dbFetchArray($resTrackers)) {
+        while ($rowTrackers = $resTrackers->fetchRow()) {
             $trackers[$rowTrackers['trackerid']]['name'] = $rowTrackers["trackername"];
         }
 
         // Get banner IDs for this campaign
-        $resBanners = phpAds_dbQuery("
-    				SELECT
-    					bannerid,
-    					description,
-    					active
-    				FROM
-    					".$conf['table']['prefix'].$conf['table']['banners']."
-    				WHERE
-    					campaignid = '".$campaignid."'"
-        );
+        $query = "
+				SELECT
+					bannerid,
+					description,
+					active
+				FROM
+					".$conf['table']['prefix'].$conf['table']['banners']."
+				WHERE
+					campaignid = ". $oDbh->quote($campaignid, 'integer');
+        $resBanners = $oDbh->query($query);
+        if (PEAR::isError($resBanners)) {
+            return $resBanners;
+        }
 
         // Initialise the index of banners, and a counter for
         // the number of hidden banners
@@ -176,7 +185,7 @@ class Plugins_Reports_Advertiser_Keywordhistory extends Plugins_Reports {
         $bannersHidden = 0;
 
         // For each banner ID...
-        while ($rowBanners = phpAds_dbFetchArray($resBanners)) {
+        while ($rowBanners = $resBanners->fetchRow()) {
 
              // Store the banner ID and name in the next $bannerIndex branch
             $stats[$bannerIndex]['id']   = $rowBanners['bannerid'];
@@ -184,7 +193,7 @@ class Plugins_Reports_Advertiser_Keywordhistory extends Plugins_Reports {
             // mask banner name if anonymous campaign
             $campaign_details = Admin_DA::getPlacement($campaignid);
             $campaignAnonymous = $campaign_details['anonymous'] == 't' ? true : false;
-      	    $rowBanners['description'] = MAX_getAdName($row['description'], null, null, $campaignAnonymous, $rowBanners['bannerid']);
+      	    $rowBanners['description'] = MAX_getAdName($rowBanners['description'], null, null, $campaignAnonymous, $rowBanners['bannerid']);
 
             $stats[$bannerIndex]['name'] = $rowBanners['description'];
 
@@ -206,25 +215,29 @@ class Plugins_Reports_Advertiser_Keywordhistory extends Plugins_Reports {
 
             // Select all the clicks for the current banner, and
             // group them by source (keyword)
-            $resClicks = phpAds_dbQuery("
-    					SELECT
-    						ad_id AS bannerid,
-    						page as keywords,
-    						count(page) as clicks
-    					FROM
-    						".$conf['table']['prefix'].$conf['table']['data_raw_ad_click']."
-    					WHERE
-    						bannerid = ".$stats[$bannerIndex]['id']."
-    						AND date_time >= '".$dbStart."'
-    						AND date_time <  '".$dbEnd."'
-    					GROUP BY
-    						page"
-            );
+            $query = "
+					SELECT
+						ad_id AS bannerid,
+						page as keywords,
+						count(page) as clicks
+					FROM
+						".$conf['table']['prefix'].$conf['table']['data_raw_ad_click']."
+					WHERE
+						ad_id = ". $stats[$bannerIndex]['id']."
+						AND date_time >= ". $oDbh->quote($dbStart, 'date') ."
+						AND date_time <  ". $oDbh->quote($dbEnd, 'date') ."
+					GROUP BY
+						page
+            ";
+            $resClicks = $oDbh->query($query);
+            if (PEAR::isError($resClicks)) {
+                return $resClicks;
+            }
 
             // Initialise the index of the keyword
             $keywordIndex = 0;
 
-            while ($rowClicks = phpAds_dbFetchArray($resClicks)) {
+            while ($rowClicks = $resClicks->fetchRow()) {
 
                 // Store the source (keyword) name and resulting clicks
                 // for the banner
@@ -255,11 +268,14 @@ class Plugins_Reports_Advertiser_Keywordhistory extends Plugins_Reports {
     							WHERE
     								c.action_bannerid = ".$stats[$bannerIndex]['id']."
     								AND c.action_source = '".$rowClicks['keywords']."'
-    								AND c.t_stamp >= '".$dbStart."'
-    								AND c.t_stamp <  '".$dbEnd."'
+    								AND c.t_stamp >= ". $oDbh->quote($dbStart, 'date') ."
+    								AND c.t_stamp <  ". $oDbh->quote($dbEnd, 'date') ."
     								AND c.cnv_latest = 1";
 
-                $resConversions = phpAds_dbQuery($select);
+                $resConversions = $oDbh->query($select);
+                if (PEAR::isError($resConversions)) {
+                    return $resConversions;
+                }
 
                 // Set the number of sale and non-sale conversions, and the total value
                 // of the conversions for this banner/keyword combination to zero
@@ -268,7 +284,7 @@ class Plugins_Reports_Advertiser_Keywordhistory extends Plugins_Reports {
                 $stats[$bannerIndex]['keywords'][$keywordIndex]['totalValue']  = 0;
 
                 // For each conversion...
-                while ($rowConversions = phpAds_dbFetchArray($resConversions)) {
+                while ($rowConversions = $resConversions->fetchRow()) {
 
                     // If the conversion was a sale (ie. not a non-sale conversion)...
                     if ($rowConversions['cnv_logstats'] == 'y') {

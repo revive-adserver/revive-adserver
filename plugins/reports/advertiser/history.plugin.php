@@ -104,10 +104,11 @@ class Plugins_Reports_Advertiser_History extends Plugins_Reports {
 
     function execute($clientid, $delimiter=",")
     {
-        $conf = & $GLOBALS['_MAX']['CONF'];
-
     	global $date_format;
     	global $strClient, $strTotal, $strDay, $strImpressions, $strClicks, $strCTRShort, $strConversions, $strCNVRShort;
+
+        $conf = & $GLOBALS['_MAX']['CONF'];
+        $oDbh = & OA_DB::singleton();
 
        	$reportName = 'm3 History Report.csv';
         header("Content-type: application/csv\nContent-Disposition: inline; filename=\"".$reportName."\"");
@@ -125,17 +126,19 @@ class Plugins_Reports_Advertiser_History extends Plugins_Reports {
     					WHERE
     						s.ad_id=b.bannerid
     						AND b.campaignid=c.campaignid
-    						AND c.clientid = '".$clientid."'
+    						AND c.clientid = ". $oDbh->quote($clientid, 'integer') ."
     					GROUP BY
     						day
                         ORDER BY
                             DATE_FORMAT(day, '%Y%m%d')
     				";
 
-    	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
+    	$res_banners = $oDbh->query($res_query);
+        if (PEAR::isError($res_banners)) {
+            return $res_banners;
+        }
 
-    	while ($row_banners = phpAds_dbFetchArray($res_banners))
-    	{
+    	while ($row_banners = $res_banners->fetchRow()) {
     		$stats[$row_banners['day']]['views'] 		= $row_banners['adviews'];
     		$stats[$row_banners['day']]['clicks'] 		= $row_banners['adclicks'];
     		$stats[$row_banners['day']]['conversions'] 	= $row_banners['adconversions'];
