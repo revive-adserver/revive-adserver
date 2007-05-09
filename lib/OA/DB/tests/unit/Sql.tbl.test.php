@@ -34,8 +34,9 @@ require_once MAX_PATH . '/lib/OA/DB/Sql.php';
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  */
-class Test_OA_DB_Table extends UnitTestCase
+class Test_OA_DB_Sql extends UnitTestCase
 {
+
     function testSqlForInsert()
     {
         $sql = OA_DB_Sql::sqlForInsert('zones', array('zonetype' => 1, 'name' => "120x72"));
