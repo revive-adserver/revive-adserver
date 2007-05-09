@@ -2,6 +2,7 @@
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
+require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
 class Migration_121 extends Migration
 {
