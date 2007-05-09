@@ -73,7 +73,7 @@ class Test_Migration extends UnitTestCase
         $this->_insertTestData(array(2=>'2nd text field'));
         $this->_insertTestData(array(3=>'3rd text field'));
         $oMigration = new Migration();
-        $oMigration->init($this->oDbh);
+        $oMigration->init($this->oDbh, MAX_PATH . "/var/DB_Upgrade.dev.test.log");
         $oMigration->aDefinition = $this->aDefinition;
         $toTable    = 'table1';
         $toField    = 'a_text_field_new';
@@ -92,7 +92,7 @@ class Test_Migration extends UnitTestCase
         $this->_insertTestData(array(2=>'2nd text field'));
         $this->_insertTestData(array(3=>'3rd text field'));
         $oMigration = new Migration();
-        $oMigration->init($this->oDbh);
+        $oMigration->init($this->oDbh, MAX_PATH . "/var/DB_Upgrade.dev.test.log");
         $oMigration->aDefinition = $this->aDefinition;
         $oMigration->aObjectMap['table1']['a_text_field_new'] = array('fromTable'=>'table1', 'fromField'=>'a_text_field');
         $oMigration->afterAddField('table1', 'a_text_field_new');
