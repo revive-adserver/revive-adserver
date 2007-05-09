@@ -1,4 +1,4 @@
-<?php // $Revision: 1.0
+<?php
 
 /*
 +---------------------------------------------------------------------------+
@@ -75,7 +75,6 @@ if (!isset($keyword))
         <meta http-equiv='Content-Type' content='text/html<?php echo isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : "" ?>'>
         <meta name='author' content='Openads - http://www.openads.org'>
         <link rel='stylesheet' href='images/<?php echo $phpAds_TextDirection; ?>/interface.css'>
-        <script language='JavaScript' src='interface.js'></script>
         <script language='JavaScript'>
         <!--
             function GoOpener(url, reload)
