@@ -43,7 +43,6 @@ $Id$
 
 /**
  * Main part of script where data is initialized for delivery
- * {{{
  */
 
 require './init-delivery-parse.php';
