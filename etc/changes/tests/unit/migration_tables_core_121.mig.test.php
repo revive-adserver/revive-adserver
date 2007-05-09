@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/etc/changes/migration_tables_core_121.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
+require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
 /**
  * Test for migration class #121.
