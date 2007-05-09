@@ -133,6 +133,18 @@ class Migration
     {
         return $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
+    
+    
+    /**
+     * Logs the MDB2_Error to the error log and returns false.
+     *
+     * @param MDB2_Error $error
+     * @return boolean Always false
+     */
+    function _logErrorAndReturnFalse($error)
+    {
+        return false;
+    }
 
 //    /**
 //     * not finished

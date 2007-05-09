@@ -1,6 +1,7 @@
 <?php
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once MAX_PATH . '/etc/changes/StatMigration.php';
 
 class Migration_110 extends Migration
 {
@@ -312,7 +313,10 @@ class Migration_110 extends Migration
 
 	function afterAddTable__data_summary_zone_source_monthly()
 	{
-		return $this->afterAddTable('data_summary_zone_source_monthly');
+	    $migration = new StatMigration();
+	    $migration->init($this->oDBH);
+	    
+		return $migration->migrateData() && $this->afterAddTable('data_summary_zone_source_monthly');
 	}
 
 }

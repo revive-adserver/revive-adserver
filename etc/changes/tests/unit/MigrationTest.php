@@ -25,61 +25,51 @@
 $Id$
 */
 
-require_once MAX_PATH . '/etc/changes/migration_tables_core_131.php';
+require_once MAX_PATH . '/etc/changes/migration_tables_core_128.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 
 /**
- * Test for migration class #131.
+ * Test for migration class #127.
  *
  * @package    changes
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  */
-class Migration_131Test extends UnitTestCase
+class MigrationTest extends UnitTestCase
 {
-    function testMigrateData()
+    /**
+     * The MDB2 driver handle.
+     *
+     * @var MDB2_Driver_Common
+     */
+    var $oDbh;
+    
+    /**
+     * The OA_DB_Table handle.
+     *
+     * @var OA_DB_Table
+     */
+    var $oTable;
+    
+    function setUp()
     {
-        $oTable = new OA_DB_Table();
-        $oTable->init(MAX_PATH . '/etc/changes/schema_tables_core_129.xml');
-        $oTable->createTable('adclicks');
-        $oTable->truncateTable('adclicks');
-        $oTable->createTable('data_raw_ad_click');
-        $oTable->truncateTable('data_raw_ad_click');
-
-        $oDbh = OA_DB::singleton();
-        $migration = new Migration_131();
-        $migration->init($oDbh);
-
-        $t_stamp1 = date('Y-m-d', time() - 86400*2 + mt_rand(0, 86399));
-        $t_stamp2 = date('Y-m-d', time() - 86400 + mt_rand(0, 86399));
-
-        $aValues = array('bannerid' => 1, 'zoneid' => 0, 't_stamp' => $t_stamp1);
-        $sql = OA_DB_Sql::sqlForInsert('adclicks', $aValues);
-        for ($i = 0; $i < 10; $i++) {
-            $oDbh->exec($sql);
+        $this->oDbh = &OA_DB::singleton();
+        $this->oTable = new OA_DB_Table();
+    }
+    
+    
+    function tearDown()
+    {
+        $this->oTable->dropAllTables();
+    }
+    
+    function initDatabase($schemaVersion, $aTables)
+    {
+        $this->oTable->init(MAX_PATH . "/etc/changes/schema_tables_core_{$schemaVersion}.xml");
+        foreach($aTables as $table) {
+            $this->oTable->createTable($table);
+            $this->oTable->truncateTable($table);
         }
-
-        $aValues['t_stamp'] = $t_stamp2;
-        $sql = OA_DB_Sql::sqlForInsert('adclicks', $aValues);
-        for ($i = 0; $i < 8; $i++) {
-            $oDbh->exec($sql);
-        }
-
-        $migration->migrateData();
-
-        $rsDRAC = DBC::NewRecordSet("SELECT COUNT(*) AS cnt FROM data_raw_ad_click WHERE date_time = '{$t_stamp1}'");
-        $rsDRAC->find();
-        $this->assertTrue($rsDRAC->fetch());
-        $aDataDRAC = $rsDRAC->toArray();
-        $this->assertEqual($aDataDRAC['cnt'], 10);
-
-        $rsDRAC = DBC::NewRecordSet("SELECT COUNT(*) AS cnt FROM data_raw_ad_click WHERE date_time = '{$t_stamp2}'");
-        $rsDRAC->find();
-        $this->assertTrue($rsDRAC->fetch());
-        $aDataDRAC = $rsDRAC->toArray();
-        $this->assertEqual($aDataDRAC['cnt'], 8);
-
-
-        $oTable->dropAllTables();
     }
 }
+?>

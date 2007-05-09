@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/etc/changes/migration_tables_core_128.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
+require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 
 /**
  * Test for migration class #127.
@@ -35,24 +36,18 @@ require_once MAX_PATH . '/lib/OA/DB/Sql.php';
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  */
-class Migration_128Test extends UnitTestCase
+class Migration_128Test extends MigrationTest
 {
     function testMigrateData()
     {
-        $oTable = new OA_DB_Table();
-        $oTable->init(MAX_PATH . '/etc/changes/schema_tables_core_127.xml');
-        $oTable->createTable('config');
-        $oTable->truncateTable('config');
-        $oTable->createTable('preference');
-        $oTable->truncateTable('preference');
+        $this->initDatabase(127, array('config', 'preference'));
         
-        $oDbh = &OA_DB::singleton();
         $migration = new Migration_128();
-        $migration->init($oDbh);
+        $migration->init($this->oDbh);
         
         $aValues = array('gui_show_parents' => "t", 'updates_enabled' => "f");
         $sql = OA_DB_Sql::sqlForInsert('config', $aValues);
-        $oDbh->exec($sql);
+        $this->oDbh->exec($sql);
         
         $migration->migrateData();
         
@@ -63,7 +58,5 @@ class Migration_128Test extends UnitTestCase
         foreach($aValues as $column => $value) {
             $this->assertEqual($value, $aDataPreference[$column]);
         }
-        
-        $oTable->dropAllTables();
     }
 }
