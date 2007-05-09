@@ -118,10 +118,11 @@ class OA_DB_Upgrade
     /**
      * instantiate the mdb2_schema object
      */
-    function initMDB2Schema($oDbh)
+    function initMDB2Schema()
     {
-        $result  = & MDB2_Schema::factory($oDbh);
-        if (!$this->_isPearError($result, 'failed to instantiate MDB2_Schema')) {
+        $result  = & MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()));
+        if (!$this->_isPearError($result, 'failed to instantiate MDB2_Schema'))
+        {
             $this->oSchema = $result;
             $this->portability = $this->oSchema->db->getOption('portability');
             $this->_setupSQLStatements();

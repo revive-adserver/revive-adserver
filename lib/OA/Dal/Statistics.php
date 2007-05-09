@@ -790,9 +790,9 @@ class OA_Dal_Statistics extends OA_Dal
             WHERE
                 dsaza.operation_interval = {$aConf['maintenance']['operationInterval']}
                 AND
-                dsaza.interval_start = ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                dsaza.interval_start = '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
                 AND
-                dsaza.interval_end = ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                dsaza.interval_end = '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'
                 AND
                 dsaza.ad_id = $adId
                 AND

@@ -95,16 +95,15 @@ class Plugins_Reports_Agency_History extends Plugins_Reports {
 
     function execute($delimiter=",")
     {
+        $conf = & $GLOBALS['_MAX']['CONF'];
     	global $date_format;
     	global $strGlobalHistory, $strTotal, $strDay, $strImpressions, $strClicks, $strCTRShort;
-
-        $conf = & $GLOBALS['_MAX']['CONF'];
-        $oDbh = & OA_DB::singleton();
 
         $reportName = 'm3 Overall History Report.csv';
         header("Content-type: application/csv\nContent-Disposition: inline; filename=\"".$reportName."\"");
 
-    	if(phpAds_isUser(phpAds_Admin)) {
+    	if(phpAds_isUser(phpAds_Admin))
+    	{
     		$res_query = "
     			SELECT
     				DATE_FORMAT(day, '".$date_format."') as day,
@@ -118,7 +117,9 @@ class Plugins_Reports_Agency_History extends Plugins_Reports {
     	           DATE_FORMAT(day, '%Y%m%d')
     		";
 
-    	} else {
+    	}
+    	else
+    	{
     		$res_query = "SELECT
     						DATE_FORMAT(s.day, '".$date_format."') as day,
     						SUM(s.impressions) AS adviews,
@@ -141,12 +142,10 @@ class Plugins_Reports_Agency_History extends Plugins_Reports {
     	}
 
 
-        $res_banners = $oDbh->query($res_query);
-        if (PEAR::isError($res_banners)) {
-            return $res_banners;
-        }
+    	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
 
-    	while ($row_banners = $res_banners->fetchRow()) {
+    	while ($row_banners = phpAds_dbFetchArray($res_banners))
+    	{
     		$stats [$row_banners['day']]['views'] = $row_banners['adviews'];
     		$stats [$row_banners['day']]['clicks'] = $row_banners['adclicks'];
     	}
@@ -158,8 +157,10 @@ class Plugins_Reports_Agency_History extends Plugins_Reports {
     	$totalclicks = 0;
     	$totalviews = 0;
 
-    	if (isset($stats) && is_array($stats)) {
-    		foreach (array_keys($stats) as $key) {
+    	if (isset($stats) && is_array($stats))
+    	{
+    		foreach (array_keys($stats) as $key)
+    		{
     			$row = array();
 
     			//$key = implode('/',array_reverse(split('[-]',$key)));

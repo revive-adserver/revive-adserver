@@ -121,7 +121,6 @@ class Plugins_Reports_Advertiser_Hourofday extends Plugins_Reports {
     	global $date_format;
 
     	$conf = & $GLOBALS['_MAX']['CONF'];
-        $oDbh = & OA_DB::singleton();
 
     	$reportName = $GLOBALS['strAdvertiserHourOfDayAnalysisReport'];
 
@@ -164,19 +163,16 @@ class Plugins_Reports_Advertiser_Hourofday extends Plugins_Reports {
                       ,".$conf['table']['prefix'].$conf['table']['campaigns']." c
                  WHERE ds.ad_id = b.bannerid
                    AND b.campaignid = c.campaignid
-                   AND c.clientid = ". $oDbh->quote($clientid, 'integer') ."
-                   AND ds.day >= ". $oDbh->quote($dbStart, 'date') ."
-                   AND ds.day <= ". $oDbh->quote($dbEnd, 'date') ."
+                   AND c.clientid = '".$clientid."'
+                   AND ds.day >= '$dbStart'
+                   AND ds.day <= '$dbEnd'
                  GROUP BY hour, c.priority
                  ORDER BY c.priority ASC";
 
-    	$res = $oDbh->query($query);
-        if (PEAR::isError($res)) {
-            return $res;
-        }
+    	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
 
-    	if ($res->numRows()) {
-        	while ($row = $res->fetchRow()) {
+    	if (phpAds_dbNumRows($res)) {
+        	while ($row = phpAds_dbFetchArray($res)) {
         	    $data[] = $row;
         	}
 

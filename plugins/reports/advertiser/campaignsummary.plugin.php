@@ -124,7 +124,6 @@ class Plugins_Reports_Advertiser_Campaignsummary extends Plugins_Reports {
     	global $strAffiliate;
 
     	$conf = & $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
 
     	$reportName = $GLOBALS['strAdvertiserCampaignSummaryReport'];
 
@@ -216,9 +215,9 @@ class Plugins_Reports_Advertiser_Campaignsummary extends Plugins_Reports {
                  WHERE ds.ad_id = b.bannerid
                    AND b.campaignid = c.campaignid
                    AND c.clientid = cl.clientid
-                   AND c.campaignid = ". $oDbh->quote($campaignid, 'integer') ."
-                   AND ds.day >= ". $oDbh->quote($dbStart, 'date') ."
-                   AND ds.day <= ". $oDbh->quote($dbEnd, 'date') ."
+                   AND c.campaignid = '".$campaignid."'
+                   AND ds.day >= '$dbStart'
+                   AND ds.day <= '$dbEnd'
                  GROUP BY c.priority
                  ORDER BY c.priority ASC";
 
@@ -234,25 +233,21 @@ class Plugins_Reports_Advertiser_Campaignsummary extends Plugins_Reports {
                  WHERE ds.ad_id = b.bannerid
                    AND b.campaignid = c.campaignid
                    AND c.clientid = cl.clientid
-                   AND c.campaignid = ". $oDbh->quote($campaignid, 'integer') ."
-                   AND ds.day <= ". $oDbh->quote($dbEnd, 'date') ."
+                   AND c.campaignid = '".$campaignid."'
+                   AND ds.day <= '$dbEnd'
                  GROUP BY c.priority
                  ORDER BY c.priority, c.campaignname ASC";
 
-    	$res = $oDbh->query($query);
-        if (PEAR::isError($res)) {
-            return $res;
-        }
+    	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
 
     	// getting the db result to the temporary table - results needs to be prepared first
-    	while ($row = $res->fetchRow()) {
+    	while ($row = phpAds_dbFetchArray($res)) {
             $data[] = $row;
     	}
 
-    	$summaryRow = $oDbh->queryRow($query2);
-        if (PEAR::isError($summaryRow)) {
-            return $summaryRow;
-        }
+    	$res2 = phpAds_dbQuery($query2) or phpAds_sqlDie();
+
+    	$summaryRow = phpAds_dbFetchArray($res2);
 
         $numrows = (is_array($data)) ? count($data): 0;
 

@@ -71,7 +71,7 @@ class Plugins_ChannelDerivation_Mysql_Mysql extends Plugins_ChannelDerivation
                 {$conf['table']['prefix']}{$conf['table']['plugins_channel_delivery_domains']} AS d,
                 {$conf['table']['prefix']}{$conf['table']['plugins_channel_delivery_rules']} AS r
             WHERE
-                d.domain_name = ". mysql_real_escape_string($domain) ."
+                d.domain_name = '{$domain}'
                 AND dr.rule_id = r.rule_id
                 AND d.domain_id = dr.domain_id
             ORDER BY dr.rule_order"

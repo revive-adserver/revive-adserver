@@ -116,11 +116,9 @@ class Plugins_Reports_Agency_Report extends Plugins_Reports {
 
     function execute($delimiter=",", $start_date, $end_date)
     {
+        $conf = & $GLOBALS['_MAX']['CONF'];
     	global $date_format;
     	global $strCampaign, $strTotal, $strDay, $strImpressions, $strClicks, $strCTRShort, $strConversions, $strCNVRShort;
-
-        $conf = & $GLOBALS['_MAX']['CONF'];
-        $oDbh = & OA_DB::singleton();
 
     	// Format the start and end dates
         $dbStart = date("Y-m-d", strtotime($start_date));
@@ -163,9 +161,9 @@ class Plugins_Reports_Agency_Report extends Plugins_Reports {
             z.affiliateid = p.affiliateid
 
     	WHERE
-            s.day >= ". $oDbh->quote($dbStart, 'date') ."
+            s.day >= '".$dbStart."'
           AND
-            s.day <= ". $oDbh->quote($dbEnd, 'date') ."
+            s.day <= '".$dbEnd."'
           AND
             b.bannerid = s.ad_id
           AND
@@ -174,7 +172,7 @@ class Plugins_Reports_Agency_Report extends Plugins_Reports {
             a.clientid = c.clientid
           ";
 
-    	$left_query .= (phpAds_isUser(phpAds_Agency)) ? " AND a.agencyid = ". $oDbh->quote($clientid, 'integer') : '';
+    	$left_query .= (phpAds_isUser(phpAds_Agency)) ? " AND a.agencyid = '".$clientid."'" : '';
 
         $left_query .= "
     	GROUP BY
@@ -188,10 +186,7 @@ class Plugins_Reports_Agency_Report extends Plugins_Reports {
             zonename;
     	";
 
-    	$res_banners = $oDbh->query($left_query);
-        if (PEAR::isError($res_banners)) {
-            return $res_banners;
-        }
+    	$res_banners = phpAds_dbQuery($left_query) or phpAds_sqlDie();
 
     	echo "Advertiser".$delimiter."Campaign".$delimiter."Publisher".$delimiter."Zone".$delimiter."Size".$delimiter;
     	echo "Views".$delimiter."Clicks".$delimiter,"Conversions\n\n";
@@ -201,7 +196,8 @@ class Plugins_Reports_Agency_Report extends Plugins_Reports {
     	$totals['conversions'] = 0;
 
 
-    	while ($row_banners = $res_banners->fetchRow()) {
+    	while ($row_banners = phpAds_dbFetchArray($res_banners))
+    	{
     	    $row_banners = str_replace($delimiter, ' ', $row_banners);
 
     	    ($row_banners['width'] == -1) ? $width = '*' : $width = $row_banners['width'];

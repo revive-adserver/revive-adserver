@@ -115,12 +115,12 @@ class Plugins_Reports_Advertiser_Dayofweek extends Plugins_Reports {
 
     function execute($clientid, $startdate, $enddate)
     {
+
         require_once 'Spreadsheet/Excel/Writer.php';
 
     	global $date_format;
 
     	$conf = & $GLOBALS['_MAX']['CONF'];
-        $oDbh = & OA_DB::singleton();
 
     	$reportName = $GLOBALS['strAdvertiserDayOfWeekAnalysisReport'];
 
@@ -161,19 +161,16 @@ class Plugins_Reports_Advertiser_Dayofweek extends Plugins_Reports {
                       ,".$conf['table']['prefix'].$conf['table']['campaigns']." c
                  WHERE ds.ad_id = b.bannerid
                    AND b.campaignid = c.campaignid
-                   AND c.clientid = ". $oDbh->quote($clientid, 'integer') ."
-                   AND ds.day >= ". $oDbh->quote($dbStart, 'date') ."
-                   AND ds.day <= ". $oDbh->quote($dbEnd, 'date') ."
+                   AND c.clientid = '".$clientid."'
+                   AND ds.day >= '$dbStart'
+                   AND ds.day <= '$dbEnd'
                  GROUP BY dayname, c.priority
                  ORDER BY c.priority, dayname ASC";
 
-    	$res = $oDbh->query($query);
-        if (PEAR::isError($res)) {
-            return $res;
-        }
+    	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
 
-    	if ($res->fetchRow()) {
-        	while ($row = $res->fetchRow()) {
+    	if (phpAds_dbNumRows($res)) {
+        	while ($row = phpAds_dbFetchArray($res)) {
         	    $data[] = $row;
         	}
 

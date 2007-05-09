@@ -120,14 +120,13 @@ class Plugins_Reports_Advertiser_Banner extends Plugins_Reports  {
     	global $phpAds_ThousandsSeperator,$phpAds_DecimalPoint;
 
     	$conf = & $GLOBALS['_MAX']['CONF'];
-        $oDbh = & OA_DB::singleton();
 
     	$reportName = $GLOBALS['strAdvertiserCreativeSummaryReport'];
 
-    	$startDate  = date(str_replace('%','',$date_format), strtotime($startdate));
-    	$endDate    = date(str_replace('%','',$date_format), strtotime($enddate));
-    	$dbStart    = date('Y-m-d', strtotime($startdate));
-    	$dbEnd      = date('Y-m-d', strtotime($enddate));
+    	$startDate = date(str_replace('%','',$date_format), strtotime($startdate));
+    	$endDate   = date(str_replace('%','',$date_format), strtotime($enddate));
+    	$dbStart = date('Y-m-d', strtotime($startdate));
+    	$dbEnd = date('Y-m-d', strtotime($enddate));
     	// creating report object
         $workbook = new Spreadsheet_Excel_Writer();
 
@@ -176,23 +175,20 @@ class Plugins_Reports_Advertiser_Banner extends Plugins_Reports  {
                    AND z.affiliateid = a.affiliateid
                    AND ds.ad_id = b.bannerid
                    AND b.campaignid = c.campaignid
-                   AND c.clientid = ". $oDbh->quote($clientid, 'integer') ."
-                   AND ds.day >= ". $oDbh->quote($dbStart, 'date') ."
-                   AND ds.day <= ". $oDbh->quote($dbEnd, 'date') ."
+                   AND c.clientid = '$clientid'
+                   AND ds.day >= '$dbStart'
+                   AND ds.day <= '$dbEnd'
                  GROUP BY campaignname, priority, bannername, zonename
                  ORDER BY priority, affiliatename, campaignname ASC";
 
-    	$res = $oDbh->query($query);
-        if (PEAR::isError($res)) {
-            return $res;
-        }
+    	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
 
     	// if there is any data for this query
-    	if ($res->numRows()) {
+    	if (phpAds_dbNumRows($res)) {
 
         	// getting the db result to the temporary table - results needs to be
         	// prepared first
-        	while ($row = $res->fetchRow()) {
+        	while ($row = phpAds_dbFetchArray($res)) {
 
                 // mask banner, campaign, zone and publisher names if anonymous campaign
                 $campaign_details = Admin_DA::getPlacement($row['campaign_id']);
