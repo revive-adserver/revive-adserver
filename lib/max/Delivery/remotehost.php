@@ -34,6 +34,8 @@ $Id$
  * about the remote viewer.
  */
 
+require_once MAX_PATH . '/init-delivery-parse.php';
+
 /**
  * A function to convert the $_SERVER['REMOTE_ADDR'] global variable
  * from the current value to the real remote viewer's value, should

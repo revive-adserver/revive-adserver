@@ -33,6 +33,7 @@ require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
 require_once MAX_PATH . '/lib/max/Permission/User.php';
 require_once MAX_PATH . '/lib/max/Permission/Session.php';
+require_once MAX_PATH . '/lib/max/other/common.php';
 
 // Define client permissions bitwise, so 1, 2, 4, 8, 16, etc.
 define ("phpAds_ModifyInfo", 1);
