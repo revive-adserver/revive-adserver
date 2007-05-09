@@ -34,7 +34,7 @@ $Id$
  * data to the database.
  */
 
-require MAX_PATH . '/lib/max/Dal/Delivery.php';
+require_once MAX_PATH . '/lib/max/Dal/Delivery.php';
 
 /**
  * A function to log an ad request.
