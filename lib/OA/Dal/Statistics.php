@@ -875,7 +875,13 @@ class OA_Dal_Statistics extends OA_Dal
             if ($breakdown == 'day') {
                 $key = $aValue['interval_start']->format('%Y-%m-%d');
             } else if ($breakdown == 'week') {
-                $key = $aValue['interval_start']->format('%Y-%U');
+                // Week breakdown uses same format as day, as the
+                // week view in the UI also displays the stats by day,
+                // it's just that the days are grouped by week - this
+                // grouping is done by the
+                // OA_Admin_Statistics_History::prepareWeekBreakdown()
+                // method
+                $key = $aValue['interval_start']->format('%Y-%m-%d');
             } else if ($breakdown == 'month') {
                 $key = $aValue['interval_start']->format('%Y-%m');
             } else if ($breakdown == 'dow') {

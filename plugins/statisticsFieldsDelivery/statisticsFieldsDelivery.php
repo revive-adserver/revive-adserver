@@ -340,23 +340,6 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
     }
 
     /**
-     * Calculate averages
-     *
-     * @param array Total stats
-     * @param array Number of entries
-     * @return array Averages array
-     */
-    function summarizeAverage($total, $count)
-    {
-        $average = array();
-        foreach ($this->_aFields as $k => $v) {
-            $average[$k] = $count ? $total[$k] / $count : 0;
-        }
-
-        return $average;
-    }
-
-    /**
      * Return plugin column formats
      *
      * @param array Formats

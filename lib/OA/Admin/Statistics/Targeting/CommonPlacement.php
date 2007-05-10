@@ -108,6 +108,11 @@ class OA_Admin_Statistics_Targeting_CommonPlacement extends OA_Admin_Statistics_
             $this->listOrderDirection = $this->statsBreakdown == 'hour' || $this->statsBreakdown == 'dow' ? 'up' : 'down';
         }
 
+        // If required, re-format the data in the weekly breakdown format
+        if ($this->statsBreakdown == 'week') {
+            $this->oHistory->prepareWeekBreakdown($aStats, $this);
+        }
+
         // Summarise the values into a the totals array, & format
         $this->_summariseTotalsAndFormat($aStats, true);
 

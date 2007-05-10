@@ -118,7 +118,8 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     var $aPageShortcuts;
 
     /**
-     * An array of columns to display.
+     * An array of columns to display, sum into totals,
+     * or calculate as averages.
      *
      * @var array
      */
@@ -1168,7 +1169,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * Also sets {@link $this->noStatsAvailable}, as required.
      *
      * @access private
-     * @param array $aRows An array of statistics to summarise & format.
+     * @param array $aRows An array of rows of statistics to summarise & format.
      */
     function _summariseTotalsAndFormat(&$aRows)
     {
@@ -1186,6 +1187,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * {@link $this->aTotal} array.
      *
      * Also sets {@link $this->showTotals} to true, if required.
+     *
+     * @access private
+     * @param array $aRows An array of rows of statistics to summarise.
      */
     function _summariseTotals(&$aRows)
     {
@@ -1195,14 +1199,70 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             reset($aRow);
             while (list($key, $value) = each($aRow)) {
                 // Ensure that we only try to sum for those columns
-                // that are set in the initial empty total row
-                if (isset($this->aTotal[$key])) {
-                    $this->aTotal[$key] += $value;
+                // that are set in the initial empty row
+                if (isset($this->aColumns[$key])) {
+                    if (is_bool($value)) {
+                        if ($value) {
+                            $this->aTotal[$key] = $value;
+                        }
+                    } else {
+                        $this->aTotal[$key] += $value;
+                    }
                     $showTotals = true;
                 }
             }
         }
         $this->showTotals = $showTotals;
+    }
+
+    /**
+     * A private method that can be inherited and used by children classes to
+     * calculate the average of data rows.
+     *
+     * @static
+     * @access private
+     * @param array $aRows An array of rows of statistics to calcuate the average for.
+     * @return array An array of averages.
+     */
+    function _summarizeAverages($aRows)
+    {
+        $aAverages = array();
+        // How many rows of data are there?
+        $rows = count($aRows);
+        if ($rows == 1) {
+            // Nothing to do, whoopie!
+            reset($aRows);
+            $key = key($aRows);
+            $aAverages = $aRows[$key];
+        } else {
+            // Boo, have to do real work
+            $aAverages = $this->aEmptyRow;
+            reset($aRows);
+            while (list(, $aRow) = each($aRows)) {
+                reset($aRow);
+                while (list($key, $value) = each($aRow)) {
+                    // Ensure that we only try to create averages for those
+                    // columns that are set in the empty row
+                    if (isset($this->aColumns[$key])) {
+                        if (is_bool($value)) {
+                            if ($value) {
+                                $aAverages[$key] = $value;
+                            }
+                        } else {
+                            $aAverages[$key] += $value;
+                        }
+                    }
+                }
+            }
+            foreach (array_keys($aAverages) as $key) {
+                if (!is_bool($aAverages[$key])) {
+                    $aAverages[$key] /= $rows;
+                }
+            }
+        }
+        // Format the averages and return
+        $this->_formatStatsRowRecursive($aAverages, true);
+        return $aAverages;
     }
 
     /**

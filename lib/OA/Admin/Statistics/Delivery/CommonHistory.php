@@ -284,8 +284,9 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
             $this->listOrderDirection = $this->statsBreakdown == 'hour' || $this->statsBreakdown == 'dow' ? 'up' : 'down';
         }
 
+        // If required, re-format the data in the weekly breakdown format
         if ($this->statsBreakdown == 'week') {
-            $this->prepareWeek($aStats);
+            $this->oHistory->prepareWeekBreakdown($aStats, $this);
         }
 
         MAX_sortArray($aStats, $this->listOrderField, $this->listOrderDirection == 'up');
@@ -294,102 +295,6 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         $this->_summariseTotalsAndFormat($aStats, true);
 
         return $aStats;
-    }
-
-    /**
-     * Modify the history array to match the breakdown by week if necessary
-     *
-     * @param array History data array
-     */
-    function prepareWeek(&$stats)
-    {
-        if ($this->statsBreakdown == 'week') {
-            $beginOfWeek = OA_Admin_DaySpan::getBeginOfWeek();
-
-            $weekstats = array();
-            foreach ($stats as $k => $v) {
-                $oDate    = new Date($k);
-                $v['day'] = $oDate->format('%d-%m');
-
-                // Workaround to calculate the correct week of year: Date::getWeekOfYear() seems to always
-                // use monday as start of week
-                if ($beginOfWeek > 1) {
-                    $oDate->substractSpan(new Date_Span(($beginOfWeek - 1).', 0, 0, 0'));
-                } elseif ($beginOfWeek == 0) {
-                    $oDate->addSpan(new Date_Span('1, 0, 0, 0'));
-                }
-                $week = sprintf('%04d-%02d', $oDate->getYear(), $oDate->getWeekOfYear());
-
-                if (!isset($weekstats[$week])) {
-                    $weekstats[$week] = array(
-                        'week'            => $week, //$oDate->format($GLOBALS['week_format']),
-                        'data'            => array(),
-                        'avg'             => array()
-                    ) + $this->aEmptyRow;
-                }
-
-                foreach (array_keys($this->aColumns) as $ck) {
-                    $weekstats[$week][$ck] += $v[$ck];
-                }
-
-                $this->_formatStats($v);
-                $weekstats[$week]['data'][$k] = $v;
-            }
-
-            ksort($weekstats);
-            $i = 0;
-            foreach (array_keys($weekstats) as $week) {
-                $days_count = count($weekstats[$week]['data']);
-                $weekstats[$week]['avg'] = $this->summarizeAverage($weekstats[$week], $days_count, 0);
-
-                ksort($weekstats[$week]['data']);
-                $this->_summarizeStats($weekstats[$week]);
-
-                if ($days_count < 7) {
-                    $hypenRow = array();
-                    foreach (array_keys($this->aColumns) as $k) {
-                        $hypenRow[$k] = '-';
-                    }
-
-                    // Fill days missing at the start
-                    $oDaySpan = new Date_Span();
-                    $oDaySpan->setFromDays(1);
-                    $oDate = new Date(key($weekstats[$week]['data']));
-                    $oDate->subtractSpan($oDaySpan);
-                    while($oDate->getDayOfWeek() >= $beginOfWeek) {
-                        $weekstats[$week]['data'][$oDate->format('%Y-%m-%d')] = array(
-                            'day' => $oDate->format('%d-%m')
-                        ) + $hypenRow;
-
-                        $oDate->subtractSpan($oDaySpan);
-                    }
-
-                    // Sort data
-                    ksort($weekstats[$week]['data']);
-
-                    if (count($weekstats[$week]['data']) < 7) {
-                        // Go to the end of the array
-                        end($weekstats[$week]['data']);
-
-                        // Fill days missing at the end
-                        $oDate = new Date(key($weekstats[$week]['data']));
-                        $oDate->addSpan($oDaySpan);
-                        while(count($weekstats[$week]['data']) < 7) {
-                            $weekstats[$week]['data'][$oDate->format('%Y-%m-%d')] = array(
-                                'day' => $oDate->format('%d-%m')
-                            ) + $hypenRow;
-
-                            $oDate->addSpan($oDaySpan);
-                        }
-                    }
-
-                }
-
-                $i++;
-            }
-
-            $stats = $weekstats;
-        }
     }
 
     /**

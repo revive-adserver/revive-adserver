@@ -26,6 +26,8 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
+require_once MAX_PATH . '/lib/OA/Admin/DaySpan.php';
+require_once 'Date.php';
 
 /**
  * A class of helper methods that can be called from the statistics
@@ -367,10 +369,98 @@ class OA_Admin_Statistics_History
     }
 
     /**
+     * A method to modify an array of history data so that it can be displayed in a format
+     * compatible with the weekly breakdown template.
+     *
+     * @param array $aData    A reference to an array of arrays, containing the rows of data.
+     * @param object $oCaller The calling object. Expected to have the the class variable
+     *                        "statsBreakdown" set.
+     */
+    function prepareWeekBreakdown(&$aData, $oCaller)
+    {
+        // Only prepare the weekly breakdown if the statsBreakdown
+        // in the caller is set to "week"
+        if ($oCaller->statsBreakdown != 'week') {
+            return;
+        }
+        $beginOfWeek = OA_Admin_DaySpan::getBeginOfWeek();
+        $aWeekData = array();
+        ksort($aData);
+        foreach ($aData as $key => $aRowData) {
+            // Get the date for this row's data
+            $oDate = new Date($key);
+            if ($beginOfWeek != 0) {
+                // Need to change the date used for the data so
+                // that the day appears in the correct week
+                $daysToGoback = (int) (SECONDS_PER_DAY * $beginOfWeek);
+                $oDate->subtractSeconds($daysToGoback);
+            }
+            // Get the week this date is in, in YYYY-MM format
+            $week = sprintf('%04d-%02d', $oDate->getYear(), $oDate->getWeekOfYear());
+            // Prepare the data array for this week, if not set, where
+            // the week is in the "week" index, there is a "data" index
+            // for all the rows that make up the week, an "avg" index
+            // for storing the average values, and the array has all
+            // the columns of an empty data row
+            if (!isset($aWeekData[$week])) {
+                $aWeekData[$week] = $oCaller->aEmptyRow;
+                $aWeekData[$week]['week'] = $week;
+                $aWeekData[$week]['data'] = array();
+                $aWeekData[$week]['avg']  = array();
+            }
+            // Add the data from the row to the totals of the week
+            foreach (array_keys($oCaller->aColumns) as $colKey) {
+                $aWeekData[$week][$colKey] += $aRowData[$colKey];
+            }
+            // Store the row in the week
+            $aWeekData[$week]['data'][$key] = $aRowData;
+        }
+        foreach (array_keys($aWeekData) as $week) {
+            // Calculate the average values of the data based on the
+            // number of days data that go into the week
+            $aWeekData[$week]['avg'] = $oCaller->_summarizeAverages($aWeekData[$week]['data']);
+            // Now that the averages and total are complete, fill any
+            // remaining days in the week with empty data
+            $days = count($aWeekData[$week]['data']);
+            if ($days < 7) {
+                // Locate the first day of the week in the days that make
+                // up the week so far
+                ksort($aWeekData[$week]['data']);
+                $key = key($aWeekData[$week]['data']);
+                $oDate = new Date($key);
+                $firstDataDayOfWeek = $oDate->getDayOfWeek();
+                // Is this after the start of the week?
+                if ($firstDataDayOfWeek > $beginOfWeek) {
+                    // Change the date to be the first day of this week
+                    $daysToGoback = (int) (SECONDS_PER_DAY * ($firstDataDayOfWeek - $beginOfWeek));
+                    $oDate->subtractSeconds($daysToGoback);
+                }
+                // Check each day in the week
+                for ($counter = 0; $counter < 7; $counter++) {
+                    if (is_null($aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')])) {
+                        // Set the day's data to the empty row, plus the "day" heading for the day
+                        $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')] = $oCaller->aEmptyRow;
+                        $aWeekData[$week]['data'][$oDate->format('%Y-%m-%d')]['day'] = $oDate->format('%Y-%m-%d');
+                    }
+                    $oDate->addSeconds(SECONDS_PER_DAY);
+                }
+            }
+            // Ensure the day data is sorted correctly
+            ksort($aWeekData[$week]['data']);
+            // Format all day rows
+            foreach (array_keys($aWeekData[$week]['data']) as $key) {
+                $oCaller->_formatStatsRowRecursive($aWeekData[$week]['data'][$key]);
+            }
+        }
+        // Set the new weekly-formatted data as the new data array to use
+        $aData = $aWeekData;
+    }
+
+    /**
      * A method to format the rows of display data to work with the standard "history" style
      * templates.
      *
-     * @param array $aData    An array of arrays, containing the rows of data.
+     * @param array $aData    A reference to an array of arrays, containing the rows of data.
      * @param object $oCaller The calling object. Expected to have the the class variable
      *                        "statsBreakdown" set.
      */
@@ -378,7 +468,7 @@ class OA_Admin_Statistics_History
     {
         // Re-order the "day of week" breakdown, if required
         if ($oCaller->statsBreakdown == 'dow') {
-            $beginOfWeek = isset($GLOBALS['_MAX']['PREF']['begin_of_week']) ? $GLOBALS['_MAX']['PREF']['begin_of_week'] : 0;
+            $beginOfWeek = OA_Admin_DaySpan::getBeginOfWeek();
             // Re-order when not starting on a Sunday
             for ($counter = 0; $counter < $beginOfWeek; $counter++) {
                 $aElement = array_shift($aData);

@@ -147,6 +147,7 @@ class OA_Admin_DaySpan
     /**
      * A method to obtain the begining of week, according to the user's preferences.
      *
+     * @static
      * @return integer The begining of week. (Sunday is 0, Monday is 1, etc.).
      */
     function getBeginOfWeek()
@@ -274,13 +275,16 @@ class OA_Admin_DaySpan
                 break;
             case 'this_week' :
                 $oDateStart    = new Date(Date_Calc::beginOfWeek($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
-                $oSixDaySpan   = new Date_Span('6', '%D');
-                $oSevenDaySpan = new Date_Span('7', '%D');
+                $oSixDaySpan   = new Date_Span();
+                $oSixDaySpan->setFromDays(6);
+                $oSevenDaySpan = new Date_Span();
+                $oSevenDaySpan->setFromDays(7);
                 // Now have week start and end when week starts on Sunday
                 // Does the user want to start on a different day?
-                $beginOfWeek   = $this->getBeginOfWeek();
+                $beginOfWeek   = OA_Admin_DaySpan::getBeginOfWeek();
                 if ($beginOfWeek > 0) {
-                    $oRequiredDaysSpan   = new Date_Span("$beginOfWeek", '%D'); // Must be a string. I don't know why she swallowed a fly...
+                    $oRequiredDaysSpan = new Date_Span();
+                    $oRequiredDaysSpan->setFromDays($beginOfWeek);
                     $oDateStart->addSpan($oRequiredDaysSpan);
                     $oDateToday = new Date($this->oNowDate->format('%Y-%m-%d'));
                     if ($oDateToday->getDayOfWeek() < $beginOfWeek) {
@@ -291,13 +295,16 @@ class OA_Admin_DaySpan
                 break;
             case 'last_week' :
                 $oDateStart    = new Date(Date_Calc::beginOfPrevWeek($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
-                $oSixDaySpan   = new Date_Span('6', '%D');
-                $oSevenDaySpan = new Date_Span('7', '%D');
+                $oSixDaySpan   = new Date_Span();
+                $oSixDaySpan->setFromDays(6);
+                $oSevenDaySpan = new Date_Span();
+                $oSevenDaySpan->setFromDays(7);
                 // Now have week start and end when week starts on Sunday
                 // Does the user want to start on a different day?
-                $beginOfWeek   = $this->getBeginOfWeek();
+                $beginOfWeek   = OA_Admin_DaySpan::getBeginOfWeek();
                 if ($beginOfWeek > 0) {
-                    $oRequiredDaysSpan   = new Date_Span("$beginOfWeek", '%D'); // Must be a string. I don't know why she swallowed a fly...
+                    $oRequiredDaysSpan = new Date_Span();
+                    $oRequiredDaysSpan->setFromDays($beginOfWeek);
                     $oDateStart->addSpan($oRequiredDaysSpan);
                     $oDateToday = new Date($this->oNowDate->format('%Y-%m-%d'));
                     if ($oDateToday->getDayOfWeek() < $beginOfWeek) {
@@ -311,8 +318,10 @@ class OA_Admin_DaySpan
             case 'last_7_days' :
                 $oDateStart    = new Date($this->oNowDate->format('%Y-%m-%d'));
                 $oDateEnd      = new Date($this->oNowDate->format('%Y-%m-%d'));
-                $oOneDaySpan   = new Date_Span('1', '%D');
-                $oSevenDaySpan = new Date_Span('7', '%D');
+                $oOneDaySpan   = new Date_Span();
+                $oOneDaySpan->setFromDays(1);
+                $oSevenDaySpan = new Date_Span();
+                $oSevenDaySpan->setFromDays(7);
                 $oDateStart->subtractSpan($oSevenDaySpan);
                 $oDateEnd->subtractSpan($oOneDaySpan);
                 break;
@@ -323,13 +332,15 @@ class OA_Admin_DaySpan
             case 'this_month_full' :
                 $oDateStart    = new Date(Date_Calc::beginOfMonth($this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
                 $oDateEnd      = new Date(Date_Calc::beginOfNextMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
-                $oOneDaySpan   = new Date_Span('1', '%D');
+                $oOneDaySpan   = new Date_Span();
+                $oOneDaySpan->setFromDays(1);
                 $oDateEnd->subtractSpan($oOneDaySpan);
                 break;
             case 'this_month_remainder' :
                 $oDateStart    = new Date($this->oNowDate->format('%Y-%m-%d'));
                 $oDateEnd      = new Date(Date_Calc::beginOfNextMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
-                $oOneDaySpan   = new Date_Span('1', '%D');
+                $oOneDaySpan   = new Date_Span();
+                $oOneDaySpan->setFromDays(1);
                 $oDateEnd->subtractSpan($oOneDaySpan);
                 break;
             case 'next_month' :
@@ -339,7 +350,8 @@ class OA_Admin_DaySpan
             case 'last_month' :
                 $oDateStart    = new Date(Date_Calc::beginOfPrevMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
                 $oDateEnd      = new Date(Date_Calc::beginOfMonth($this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
-                $oOneDaySpan   = new Date_Span('1', '%D');
+                $oOneDaySpan   = new Date_Span();
+                $oOneDaySpan->setFromDays(1);
                 $oDateEnd->subtractSpan($oOneDaySpan);
                 break;
         }

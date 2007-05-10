@@ -347,9 +347,8 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
      *
      * @access private
      * @param array   $aRows   An array of statistics to summarise.
-     * @param boolean $average Calculate the average of the values as well.
      */
-    function _summariseTotals(&$aRows, $average = false)
+    function _summariseTotals(&$aRows)
     {
         parent::_summariseTotals($aRows, $average);
         // Custom
@@ -366,12 +365,6 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
                     $this->aTotal['sum_conversions_'.$conversionType] += $row['sum_conversions_'.$conversionType];
                 }
             }
-        }
-        $this->_summarizeStats($this->aTotal);
-        if ($average) {
-            $this->average = $this->summarizeAverage($this->aTotal, count($rows));
-            $this->averageSpan = count($rows);
-            $this->showAverage = $this->average !== false;
         }
     }
 
@@ -403,32 +396,6 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
         foreach ($this->aPlugins as $oPlugin) {
             $oPlugin->summarizeStats($row);
         }
-    }
-
-    /**
-     * Calculate average requests, impressions, clicks and conversions
-     *
-     * @static
-     *
-     * @param array Total stats
-     * @param array Number of entries
-     * @return mixed Averages array or false on error
-     */
-    function summarizeAverage($total, $count, $min_count = 2)
-    {
-        if ($count < $min_count) {
-            return false;
-        }
-
-        $average = array();
-        foreach ($this->aPlugins as $oPlugin) {
-            $average += $oPlugin->summarizeAverage($total, $count);
-        }
-
-        $this->_summarizeStats($average);
-        $this->_formatStats($average, true);
-
-        return $average;
     }
 
     /**
