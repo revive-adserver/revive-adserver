@@ -113,6 +113,9 @@ class OA_Admin_Statistics_Targeting_CommonAd extends OA_Admin_Statistics_Targeti
 
         MAX_sortArray($aStats, $this->listOrderField, $this->listOrderDirection == 'up');
 
+        // Format the rows appropriately for output
+        $this->oHistory->formatRows($aStats, $this);
+
         $this->aTargetingData = $aStats;
     }
 

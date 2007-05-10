@@ -366,6 +366,40 @@ class OA_Admin_Statistics_History
         return $aDates;
     }
 
+    /**
+     * A method to format the rows of display data to work with the standard "history" style
+     * templates.
+     *
+     * @param array $aData    An array of arrays, containing the rows of data.
+     * @param object $oCaller The calling object. Expected to have the the class variable
+     *                        "statsBreakdown" set.
+     */
+    function formatRows(&$aData, $oCaller)
+    {
+        // Re-order the "day of week" breakdown, if required
+        if ($oCaller->statsBreakdown == 'dow') {
+            $beginOfWeek = isset($GLOBALS['_MAX']['PREF']['begin_of_week']) ? $GLOBALS['_MAX']['PREF']['begin_of_week'] : 0;
+            // Re-order when not starting on a Sunday
+            for ($counter = 0; $counter < $beginOfWeek; $counter++) {
+                $aElement = array_shift($aData);
+                $aData[] = $aElement;
+            }
+        }
+        // Format the rows
+        if (count($aData) > 0) {
+            $i = 0;
+            foreach (array_keys($aData) as $key) {
+                // Set the row's "htmlclass" value as being light, or dark
+                $aData[$key]['htmlclass'] = ($i++ % 2 == 0) ? 'dark' : 'light';
+                // Extend the "last" row's "htmlclass" value
+                if ($i == count($aData)) {
+                    $aData[$key]['htmlclass'] .= ' last';
+                }
+            }
+        }
+
+    }
+
 }
 
 ?>

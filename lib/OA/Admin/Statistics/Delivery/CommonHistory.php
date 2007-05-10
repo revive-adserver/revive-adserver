@@ -234,16 +234,8 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
 
         $this->aPagePrefs['setPerPage'] = $params['perPage'];
 
-        if (count($this->aHistoryData)) {
-            $i = 0;
-            foreach(array_keys($this->aHistoryData) as $k) {
-                $this->aHistoryData[$k]['htmlclass'] = ($i++ % 2 == 0) ? 'dark' : 'light';
-
-                if ($i == count($this->aHistoryData)) {
-                    $this->aHistoryData[$k]['htmlclass'] .= ' last';
-                }
-            }
-        }
+        // Format the rows appropriately for output
+        $this->oHistory->formatRows($this->aHistoryData, $this);
     }
 
     function getColspan()
