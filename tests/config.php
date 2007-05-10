@@ -97,7 +97,6 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'mtfdb' => array('Maintenance Forecasting Engine (DB)', DB_NO_TABLES),
         'plg'   => array('Plugins',                             DB_WITH_TABLES), // Required for Site:Channel plugin test, because the DAL is being used and it currently can not be mocked.
         'admin' => array('Administrative Interface',            NO_DB),
-        'sdh'   => array('Simple Data Handling',                NO_DB),
         //'dev'   => array('Developer Tools',                     DB_WITH_TABLES),
         'mol'   => array('Openads Other Libraries',             DB_WITH_TABLES),
         'up'    => array('Upgrade Classes',                     DB_WITH_TABLES),
