@@ -594,7 +594,9 @@ function _adRenderBuildFileUrl($aBanner, $useAlt = false, $params = '')
 function _adRenderBuildImageUrlPrefix()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    return ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) ? 'https://' . $conf['webpath']['imagesSSL']: 'http://' . $conf['webpath']['images'];
+    return (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) ?
+        'https://' . $conf['webpath']['imagesSSL'] :
+        'http://' . $conf['webpath']['images'];
 
 }
 
