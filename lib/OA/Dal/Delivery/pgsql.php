@@ -359,7 +359,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
  * @return array|false          The array of ads matching the search criteria
  *                              or false on failure
  */
-function OA_Dal_Delivery_getLinkedAds($search, $campaignid, $lastpart) {
+function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = true) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
     if ($campaignid > 0) {
