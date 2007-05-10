@@ -32,24 +32,42 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/max/Delivery/common.php';
+require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/lib/max/other/common.php';
-require_once MAX_PATH . '/lib/max/Delivery/common.php';
 
+require_once MAX_PATH . '/lib/OA/Admin/DaySpan.php';
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
+require_once 'Date.php';
 
 // No cache
 MAX_commonSetNoCacheHeaders();
 
-// Make data loading depending only on period_start & period_end
-$tempPeriodPreset = MAX_getValue('period_preset');
-$_REQUEST['period_preset'] = 'specific';
-$period_preset = 'specific';
-$session['prefs']['GLOBALS']['period_preset'] = 'specific';
-$period_preset = MAX_getStoredValue('period_preset', 'today');
-$period_start = MAX_getStoredValue('period_start', date('Y-m-d'));
-$period_end = MAX_getStoredValue('period_end', date('Y-m-d'));
+// The URL for stats pages may include values for "period_preset",
+// "period_start" and "period_end". However, the user may have
+// bookmarked or emailed a statsistics URL, and so the page may
+// be viewed on a day that is NOT the day the URL was created.
+// As a result, the "period_preset" value may no longer match
+// the dates. So, to prevent confusion, re-set the "period_preset"
+// value to the range that matches the date, if possible - otherwise
+// use the "Specific Dates" value. The exception, of course, is
+// "".
+$periodPreset = MAX_getValue('period_preset');
+if ($periodPreset == 'all_stats') {
+    unset($_REQUEST['period_start']);
+    unset($session['prefs']['GLOBALS']['period_start']);
+    unset($_REQUEST['period_end']);
+    unset($session['prefs']['GLOBALS']['period_end']);
+} else {
+    $oStartDate = new Date(MAX_getStoredValue('period_start', date('Y-m-d')));
+    $oEndDate   = new Date(MAX_getStoredValue('period_end', date('Y-m-d')));
+    $oDaySpan   = new OA_Admin_DaySpan();
+    $oDaySpan->setSpanDays($oStartDate, $oEndDate);
+    $periodFromDates = $oDaySpan->getPreset();
+    $_REQUEST['period_preset'] = $periodFromDates;
+    $session['prefs']['GLOBALS']['period_preset'] = $periodFromDates;
+}
 
 phpAds_registerGlobal('breakdown', 'entity', 'agency_id', 'advertiser_id',
                       'clientid', 'campaignid', 'placement_id', 'ad_id',

@@ -100,7 +100,7 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         //'dev'   => array('Developer Tools',                     DB_WITH_TABLES),
         'mol'   => array('Openads Other Libraries',             DB_WITH_TABLES),
         'up'    => array('Upgrade Classes',                     DB_WITH_TABLES),
-        'mig' => array('Upgrade Migration Classes',             DB_NO_TABLES),
+        'mig'   => array('Upgrade Migration Classes',           DB_NO_TABLES)
     );
 
 /*
@@ -126,7 +126,7 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'mtp' => array('Maintenance Priority Engine (DB)',     DB_WITH_DATA),
         'mtf' => array('Maintenance Forecasting Engine (DB)',  DB_WITH_TABLES),
         'del' => array('Delivery Engine (DB)',                 DB_WITH_DATA),
-        'up'  => array('Upgrade Classes',                     DB_WITH_TABLES),
+        'up'  => array('Upgrade Classes',                      DB_WITH_TABLES),
         //'dev' => array('Developer Tools',                      DB_WITH_TABLES),
     );
 

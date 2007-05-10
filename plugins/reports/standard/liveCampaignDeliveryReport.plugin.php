@@ -26,7 +26,8 @@ $Id$
 */
 
 require_once MAX_PATH . '/plugins/reports/proprietary/EnhancedReport.php';
-require_once MAX_PATH . '/lib/max/DaySpan.php';
+
+require_once MAX_PATH . '/lib/OA/Admin/DaySpan.php';
 
 class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends EnhancedReport
 {
@@ -264,7 +265,7 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends EnhancedReport
         $most_recent_day_string = $campaign['stats_most_recent_day'];
         $most_recent_day = new Date($most_recent_day_string);
 
-        $running_range = new DaySpan();
+        $running_range = new OA_Admin_DaySpan();
         $oBeginDate = new Date($campaign['campaign_start']);
         $oEndDate = new Date($most_recent_day_string);
         $running_range->setSpanDays($oBeginDate,$oEndDate);
@@ -318,7 +319,7 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends EnhancedReport
         $most_recent_day_string = $campaign['stats_most_recent_day'];
         $most_recent_day = new Date($most_recent_day_string);
 
-        $running_range = new DaySpan();
+        $running_range = new OA_Admin_DaySpan();
         $oBeginDate = new Date($campaign['campaign_start']);
         $oEndDate = new Date($most_recent_day_string);
         $running_range->setSpanDays($oBeginDate,$oEndDate);
@@ -401,11 +402,11 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends EnhancedReport
     }
 
     /**
-     * @return DaySpan A date range from the campaign's activation date to its expiry date.
+     * @return OA_Admin_DaySpan A date range from the campaign's activation date to its expiry date.
      */
     function &rangeFromCampaign($campaign)
     {
-        $campaign_range = new DaySpan();
+        $campaign_range = new OA_Admin_DaySpan();
         $oBeginDate = new Date($campaign['campaign_start']);
         $oEndDate = new Date($campaign['campaign_end']);
         $campaign_range->setSpanDays($oBeginDate,$oEndDate);
@@ -420,8 +421,8 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends EnhancedReport
      */
     function getDeliveryData()
     {
-        $today = new DaySpan('today');
-        $yesterday = new DaySpan('yesterday');
+        $today = new OA_Admin_DaySpan('today');
+        $yesterday = new OA_Admin_DaySpan('yesterday');
         $delivery_data_for_period = $this->dal->getCampaignDeliveryPerformanceForScopeByCampaignsActiveWithinPeriod($this->_scope, $this->_period);
         $delivery_data_for_today = $this->dal->getCampaignDeliveryPerformanceForScopeByCampaign($this->_scope, $today);
         $delivery_data_for_yesterday = $this->dal->getCampaignDeliveryPerformanceForScopeByCampaign($this->_scope, $yesterday);

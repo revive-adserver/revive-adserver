@@ -26,13 +26,14 @@ $Id$
 */
 
 /**
- * A view field for the DaySpan object.
+ * A view field for the OA_Admin_DaySpan object.
  *
  * @package    Max
  * @author     Scott Switzer <scott@switzer.org>
  */
-require_once MAX_PATH . '/lib/max/DaySpan.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/Field.php';
+
+require_once MAX_PATH . '/lib/OA/Admin/DaySpan.php';
 
 class Admin_UI_DaySpanField extends Admin_UI_Field
 {
@@ -49,7 +50,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
      * @param array $aFieldSelectionNames A list of the predefined 'friendly' selections.
      * @param string $fieldSelectionDefault The default selection.
      */
-    function __construct($name = 'DaySpanField', 
+    function __construct($name = 'DaySpanField',
                          $fieldSelectionDefault = 'last_month',
                          $aFieldSelectionNames = null
                         )
@@ -59,8 +60,8 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
         }
         $this->_name = $name;
         $this->_fieldSelectionNames = $aFieldSelectionNames;
-        $this->_value = new DaySpan($fieldSelectionDefault);
-        
+        $this->_value = new OA_Admin_DaySpan($fieldSelectionDefault);
+
         // Disable auto-submit by default
         $this->disableAutoSubmit();
     }
@@ -71,14 +72,14 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
      * @param array $aFieldSelectionNames A list of the predefined 'friendly' selections.
      * @param string $fieldSelectionDefault The default selection.
      */
-    function Admin_UI_DaySpanField($name = 'DaySpanField', 
+    function Admin_UI_DaySpanField($name = 'DaySpanField',
                                      $fieldSelectionDefault = 'last_month',
                                      $aFieldSelectionNames = null
                                     )
     {
         $this->__construct($name, $fieldSelectionDefault, $aFieldSelectionNames);
     }
-    
+
     /**
      * Return the default $aFieldSelectionNames array
      *
@@ -124,9 +125,9 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
     function setValue($presetValue)
     {
         $this->_fieldSelectionValue = $presetValue;
-        $this->_value = new DaySpan($presetValue);
+        $this->_value = new OA_Admin_DaySpan($presetValue);
     }
-    
+
     /**
      * A method to set the value of the field using the input querystring fields passed in from the HTML.
      *
@@ -137,11 +138,11 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
         $fieldSelectionName = $aFieldValues[$this->_name . '_preset'];
         if (!empty($fieldSelectionName)) {
             if ($fieldSelectionName == 'specific') {
-                $oDaySpan = new DaySpan();
+                $oDaySpan = new OA_Admin_DaySpan();
                 $sStartDate = $aFieldValues[$this->_name . '_start'];
                 $oStartDate = new Date();
 
-                if($sStartDate == '') {                
+                if($sStartDate == '') {
                     $sStartDate = '1995-01-01';
                 }
 
@@ -158,15 +159,15 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             } elseif ($fieldSelectionName == 'all_stats') {
                 $oDaySpan = null;
             } else {
-                $oDaySpan = new DaySpan($fieldSelectionName);
+                $oDaySpan = new OA_Admin_DaySpan($fieldSelectionName);
             }
             $this->_value = $oDaySpan;
             $this->_fieldSelectionValue = $fieldSelectionName;
         }
     }
-    
+
     /**
-     * A method that retrieves the start date of this field's DaySpan.
+     * A method that retrieves the start date of this field's OA_Admin_DaySpan.
      *
      * @return Date the start date of the this field.
      */
@@ -176,9 +177,9 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
         $value = is_null($oDaySpan) ? null : $oDaySpan->getStartDate();
         return $value;
     }
-    
+
     /**
-     * A method that retrieves the end date of this field's DaySpan.
+     * A method that retrieves the end date of this field's OA_Admin_DaySpan.
      *
      * @return Date the end date of the this field.
      */
@@ -188,7 +189,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
         $value = is_null($oDaySpan) ? null : $oDaySpan->getEndDate();
         return $value;
     }
-    
+
     /**
      * A method that returns an array representing the start and end dates of the span.
      *
@@ -204,81 +205,75 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
         }
         return $aDaySpan;
     }
-    
+
     /**
      * A method that echos the HTML for this field.
      */
     function display()
     {
-        $DaySpan = new DaySpan();
-
-        $name = $this->_name;
-        $startDate = $this->getStartDate();
-        $startDateStr = is_null($startDate) ? '' : $startDate->format('%Y-%m-%d');
-        $endDate = $this->getEndDate();
-        $endDateStr = is_null($endDate) ? '' : $endDate->format('%Y-%m-%d');
-        $fieldSelectionValue = $DaySpan->setSpanName($startDate, $endDate);//$this->_fieldSelectionValue;
-        $aFieldSelectionNames = $this->_fieldSelectionNames;
-
+        $oStartDate = $this->getStartDate();
+        $startDateStr = is_null($oStartDate) ? '' : $oStartDate->format('%Y-%m-%d');
+        $oEndDate = $this->getEndDate();
+        $endDateStr = is_null($oEndDate) ? '' : $oEndDate->format('%Y-%m-%d');
 
         echo "
-        <select name='{$name}_preset' id='{$name}_preset' onchange='{$name}FormChange(" . ($this->_autoSubmit ? 1 : 0) . ")' tabindex='" . $this->_tabIndex++ . "'>";
+        <select name='{$this->_name}_preset' id='{$this->_name}_preset' onchange='{$this->_name}FormChange(" . ($this->_autoSubmit ? 1 : 0) . ")' tabindex='" . $this->_tabIndex++ . "'>";
 
-        foreach ($aFieldSelectionNames as $v => $n) {
-            $selected = $v == $fieldSelectionValue ? " selected='selected'" : '';
+        foreach ($this->_fieldSelectionNames as $v => $n) {
+            $selected = $v == $this->_fieldSelectionValue ? " selected='selected'" : '';
             echo "
             <option value='{$v}'{$selected}>{$n}</option>";
         }
 
         echo "
         </select>
-        <label for='{$name}_start' style='margin-left: 1em'> From</label>
-        <input class='date' name='{$name}_start' id='{$name}_start' type='text' value='$startDateStr' tabindex='".$this->_tabIndex++."' />
-        <input type='image' src='images/icon-calendar.gif' id='{$name}_start_button' align='absmiddle' border='0' tabindex='".$this->_tabIndex++."' />
-        <label for='{$name}_end' style='margin-left: 1em'> To</label>
-        <input class='date' name='{$name}_end' id='{$name}_end' type='text' value='$endDateStr' tabindex='".$this->_tabIndex++."' />
-        <input type='image' src='images/icon-calendar.gif' id='{$name}_end_button' align='absmiddle' border='0' tabindex='".$this->_tabIndex++."' />
+        <label for='{$this->_name}_start' style='margin-left: 1em'> From</label>
+        <input class='date' name='{$this->_name}_start' id='{$this->_name}_start' type='text' value='$startDateStr' tabindex='".$this->_tabIndex++."' />
+        <input type='image' src='images/icon-calendar.gif' id='{$this->_name}_start_button' align='absmiddle' border='0' tabindex='".$this->_tabIndex++."' />
+        <label for='{$this->_name}_end' style='margin-left: 1em'> To</label>
+        <input class='date' name='{$this->_name}_end' id='{$this->_name}_end' type='text' value='$endDateStr' tabindex='".$this->_tabIndex++."' />
+        <input type='image' src='images/icon-calendar.gif' id='{$this->_name}_end_button' align='absmiddle' border='0' tabindex='".$this->_tabIndex++."' />
         <script type='text/javascript'>
         <!--
         Calendar.setup({
-            inputField : '{$name}_start',
+            inputField : '{$this->_name}_start',
             ifFormat   : '%Y-%m-%d',
-            button     : '{$name}_start_button',
+            button     : '{$this->_name}_start_button',
             align      : 'Bl',
             weekNumbers: false,
             firstDay   : " . ($GLOBALS['pref']['begin_of_week'] ? 1 : 0) . ",
             electric   : false
         })
         Calendar.setup({
-            inputField : '{$name}_end',
+            inputField : '{$this->_name}_end',
             ifFormat   : '%Y-%m-%d',
-            button     : '{$name}_end_button',
+            button     : '{$this->_name}_end_button',
             align      : 'Bl',
             weekNumbers: false,
             firstDay   : " . ($GLOBALS['pref']['begin_of_week'] ? 1 : 0) . ",
             electric   : false
         })
         // Tabindex handling
-        {$name}TabIndex = " . ($this->_tabIndex - 4) . ";
+        {$this->_name}TabIndex = " . ($this->_tabIndex - 4) . ";
         // Functions
-        function {$name}Reset()
+        function {$this->_name}Reset()
         {
-            document.getElementById('{$name}_start').value = '$startDateStr';
-            document.getElementById('{$name}_start').value = '$endDateStr';
-            document.getElementById('{$name}_preset').value = '$fieldSelectionValue';
+            document.getElementById('{$this->_name}_start').value = '$startDateStr';
+            document.getElementById('{$this->_name}_start').value = '$endDateStr';
+            document.getElementById('{$this->_name}_preset').value = '{$this->_fieldSelectionValue}';
         }
-        function {$name}FormSubmit() {
-            document.getElementById('{$name}_preset').form.submit();
+        function {$this->_name}FormSubmit() {
+            document.getElementById('{$this->_name}_preset').form.submit();
             return false;
         }
-        function {$name}FormChange(bAutoSubmit)
+        function {$this->_name}FormChange(bAutoSubmit)
         {
-            var o = document.getElementById('{$name}_preset');
-            var {$name}SelectName = o.options[o.selectedIndex].value;
-            var specific = {$name}SelectName == 'specific';";
-        
-        $oTmpDaySpan = new DaySpan();
-        foreach ($aFieldSelectionNames as $v => $n) {
+            var o = document.getElementById('{$this->_name}_preset');
+            var {$this->_name}SelectName = o.options[o.selectedIndex].value;
+            var specific = {$this->_name}SelectName == 'specific';";
+
+        $oTmpDaySpan = new OA_Admin_DaySpan();
+        foreach ($this->_fieldSelectionNames as $v => $n) {
             if ($v != 'specific') {
                 if ($v != 'all_stats') {
                     $oTmpDaySpan->setSpanPresetValue($v);
@@ -291,9 +286,9 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
                     $sTmpEndDate   = '';
                 }
                 echo "
-            if ({$name}SelectName == '$v') {
-                document.getElementById('{$name}_start').value = '$sTmpStartDate';
-                document.getElementById('{$name}_end').value = '$sTmpEndDate';
+            if ({$this->_name}SelectName == '$v') {
+                document.getElementById('{$this->_name}_start').value = '$sTmpStartDate';
+                document.getElementById('{$this->_name}_end').value = '$sTmpEndDate';
             }
                 ";
             }
@@ -301,37 +296,37 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
 
         echo "
 
-            document.getElementById('{$name}_start').readOnly = !specific;
-            document.getElementById('{$name}_end').readOnly = !specific;
+            document.getElementById('{$this->_name}_start').readOnly = !specific;
+            document.getElementById('{$this->_name}_end').readOnly = !specific;
 
             if (!specific) {
-                document.getElementById('{$name}_start').style.backgroundColor = '#CCCCCC';
-                document.getElementById('{$name}_end').style.backgroundColor = '#CCCCCC';
-                document.getElementById('{$name}_start').tabIndex = null;
-                document.getElementById('{$name}_start_button').tabIndex = null;
-                document.getElementById('{$name}_end').tabIndex = null;
-                document.getElementById('{$name}_end_button').tabIndex = null;
+                document.getElementById('{$this->_name}_start').style.backgroundColor = '#CCCCCC';
+                document.getElementById('{$this->_name}_end').style.backgroundColor = '#CCCCCC';
+                document.getElementById('{$this->_name}_start').tabIndex = null;
+                document.getElementById('{$this->_name}_start_button').tabIndex = null;
+                document.getElementById('{$this->_name}_end').tabIndex = null;
+                document.getElementById('{$this->_name}_end_button').tabIndex = null;
             } else {
-                document.getElementById('{$name}_start').style.backgroundColor = '#FFFFFF';
-                document.getElementById('{$name}_end').style.backgroundColor = '#FFFFFF';
-                document.getElementById('{$name}_start').tabIndex = {$name}TabIndex;
-                document.getElementById('{$name}_start_button').tabIndex = {$name}TabIndex + 1;
-                document.getElementById('{$name}_end').tabIndex = {$name}TabIndex + 2;
-                document.getElementById('{$name}_end_button').tabIndex = {$name}TabIndex + 3;
+                document.getElementById('{$this->_name}_start').style.backgroundColor = '#FFFFFF';
+                document.getElementById('{$this->_name}_end').style.backgroundColor = '#FFFFFF';
+                document.getElementById('{$this->_name}_start').tabIndex = {$this->_name}TabIndex;
+                document.getElementById('{$this->_name}_start_button').tabIndex = {$this->_name}TabIndex + 1;
+                document.getElementById('{$this->_name}_end').tabIndex = {$this->_name}TabIndex + 2;
+                document.getElementById('{$this->_name}_end_button').tabIndex = {$this->_name}TabIndex + 3;
             }
 
-            document.getElementById('{$name}_start_button').readOnly = !specific;
-            document.getElementById('{$name}_end_button').readOnly = !specific;
-            document.getElementById('{$name}_start_button').src = specific ? 'images/icon-calendar.gif' : 'images/icon-calendar-d.gif';
-            document.getElementById('{$name}_end_button').src = specific ? 'images/icon-calendar.gif' : 'images/icon-calendar-d.gif';
-            document.getElementById('{$name}_start_button').style.cursor = specific ? 'auto' : 'default';
-            document.getElementById('{$name}_end_button').style.cursor = specific ? 'auto' : 'default';
-            
+            document.getElementById('{$this->_name}_start_button').readOnly = !specific;
+            document.getElementById('{$this->_name}_end_button').readOnly = !specific;
+            document.getElementById('{$this->_name}_start_button').src = specific ? 'images/icon-calendar.gif' : 'images/icon-calendar-d.gif';
+            document.getElementById('{$this->_name}_end_button').src = specific ? 'images/icon-calendar.gif' : 'images/icon-calendar-d.gif';
+            document.getElementById('{$this->_name}_start_button').style.cursor = specific ? 'auto' : 'default';
+            document.getElementById('{$this->_name}_end_button').style.cursor = specific ? 'auto' : 'default';
+
             if (!specific && bAutoSubmit) {
                 o.form.submit();
             }
         }
-        {$name}FormChange(0);
+        {$this->_name}FormChange(0);
         //-->
         </script>";
     }

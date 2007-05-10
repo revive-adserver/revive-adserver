@@ -35,7 +35,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
     /* @var ReportScope */
     var $_scope;
 
-    /* @var DaySpan */
+    /* @var OA_Admin_DaySpan */
     var $_daySpan;
 
     function initInfo()

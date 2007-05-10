@@ -744,7 +744,7 @@ ORDER BY
 
     /**
      * @param int $publisher_id
-     * @param DaySpan $oDaySpan
+     * @param OA_Admin_DaySpan $oDaySpan
      * @param int $minimum_impressions
      */
     function getEffectivenessForAllPublisherZonesByDayZoneDomain($publisher_id, $oDaySpan, $minimum_impressions = 0)
@@ -776,7 +776,7 @@ ORDER BY
 
     /**
      * @param int $advertisier_id
-     * @param DaySpan $oDaySpan
+     * @param OA_Admin_DaySpan $oDaySpan
      */
     function getEffictivenessForAllAdvertiserAdsByDay($advertiser_id, $oDaySpan)
     {
@@ -913,7 +913,7 @@ ORDER BY
     /**
      * @access private
      * @param DB_QueryTool_Query $query_builder
-     * @param DaySpan $oDaySpan
+     * @param OA_Admin_DaySpan $oDaySpan
      */
     function _buildQueryForEverythingByZone(&$query_builder, $oDaySpan)
     {
@@ -1022,7 +1022,7 @@ ORDER BY
     /**
      * @access private
      * @param DB_QueryTool_Query $query_builder
-     * @param DaySpan $oDaySpan
+     * @param OA_Admin_DaySpan $oDaySpan
      * @todo Ensure that clickthrough ratio is accurate to at least 3 decimal places
      */
     function _buildQueryForEverythingByCampaign(&$query_builder)
@@ -1102,7 +1102,7 @@ ORDER BY
     }
 
     /**
-     * @param DaySpan $oDaySpan
+     * @param OA_Admin_DaySpan $oDaySpan
      * @param ReportScope $scope
      *
      * @todo Reduce code repetition between this and getEffectivenessForScopeByZone
@@ -1117,7 +1117,7 @@ ORDER BY
     }
 
     /**
-     * @param DaySpan $oDaySpan
+     * @param OA_Admin_DaySpan $oDaySpan
      * @param ReportScope $scope
      *
      * @todo Reduce code repetition between this and getEffectivenessForScopeByCampaign

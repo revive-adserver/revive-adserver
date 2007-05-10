@@ -548,6 +548,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             echo "<br/><br/><br/>";
         }
 
+        // Show the breadcrumbs
         $this->_showBreadcrumbs();
 
         // Add the current page's entity/breakdown values to the page

@@ -79,9 +79,9 @@ class ReportExecuteTest extends UnitTestCase
         $variables = $module->_getVariablesForReport($info, $passed_in);
         $this->assertEqual(count($variables), 1);
         $oDaySpan = $variables[0];
-        $this->assertIsA($oDaySpan, 'DaySpan');
+        $this->assertIsA($oDaySpan, 'OA_Admin_DaySpan');
         /**
-         * @TODO Fix these tests - removed, as methods do not exist in DaySpan class...
+         * @TODO Fix these tests - removed, as methods do not exist in OA_Admin_DaySpan class...
          *
          * $this->assertEqual($oDaySpan->getStartDateForDisplay(), '06/07/1998');
          * $this->assertEqual($oDaySpan->getEndDateForDisplay(), '08/08/1998');
@@ -106,9 +106,9 @@ class ReportExecuteTest extends UnitTestCase
         $variables = $module->_getVariablesForReport($info, $passed_in);
         $this->assertEqual(count($variables), 1);
         $oDaySpan = $variables[0];
-        $this->assertIsA($oDaySpan, 'DaySpan');
+        $this->assertIsA($oDaySpan, 'OA_Admin_DaySpan');
         /**
-         * @TODO Fix these tests - removed, as methods do not exist in DaySpan class...
+         * @TODO Fix these tests - removed, as methods do not exist in OA_Admin_DaySpan class...
          *
          * $this->assertEqual($oDaySpan->getStartDateForDisplay(), '06/07/1998');
          * $this->assertEqual($oDaySpan->getEndDateForDisplay(), '08/08/1998');
@@ -133,10 +133,10 @@ class ReportExecuteTest extends UnitTestCase
         $variables = $module->_getVariablesForReport($info, $passed_in);
         $this->assertEqual(count($variables), 1);
         $oDaySpan = $variables[0];
-        $this->assertIsA($oDaySpan, 'DaySpan');
+        $this->assertIsA($oDaySpan, 'OA_Admin_DaySpan');
         /**
          * @TODO Commented out the following tests, as there is no apparent mechanism
-         *       by which the date is set for the DaySpan class returned...
+         *       by which the date is set for the OA_Admin_DaySpan class returned...
          */
         //$this->assertEqual($oDaySpan->getStartDate(), new Date('2000-06-11 00:00:00'));
         //$this->assertEqual($oDaySpan->getEndDate(), new Date('2000-06-18 00:00:00'));
@@ -160,10 +160,10 @@ class ReportExecuteTest extends UnitTestCase
         $variables = $module->_getVariablesForReport($info, $passed_in);
         $this->assertEqual(count($variables), 1);
         $oDaySpan = $variables[0];
-        $this->assertIsA($oDaySpan, 'DaySpan');
+        $this->assertIsA($oDaySpan, 'OA_Admin_DaySpan');
         /**
          * @TODO Commented out the following tests, as there is no apparent mechanism
-         *       by which the date is set for the DaySpan class returned...
+         *       by which the date is set for the OA_Admin_DaySpan class returned...
          */
         //$this->assertEqual($oDaySpan->getStartDate(), new Date('2000-06-04 00:00:00'));
         //$this->assertEqual($oDaySpan->getEndDate(), new Date('2000-06-11 00:00:00'));
@@ -187,10 +187,10 @@ class ReportExecuteTest extends UnitTestCase
         $variables = $module->_getVariablesForReport($info, $passed_in);
         $this->assertEqual(count($variables), 1);
         $oDaySpan = $variables[0];
-        $this->assertIsA($oDaySpan, 'DaySpan');
+        $this->assertIsA($oDaySpan, 'OA_Admin_DaySpan');
         /**
          * @TODO Commented out the following tests, as there is no apparent mechanism
-         *       by which the date is set for the DaySpan class returned...
+         *       by which the date is set for the OA_Admin_DaySpan class returned...
          */
         //$this->assertEqual($oDaySpan->getStartDate(), new Date('2000-06-09 00:00:00'));
         //$this->assertEqual($oDaySpan->getEndDate(), new Date('2000-06-16 00:00:00'));
@@ -214,10 +214,10 @@ class ReportExecuteTest extends UnitTestCase
         $variables = $module->_getVariablesForReport($info, $passed_in);
         $this->assertEqual(count($variables), 1);
         $oDaySpan = $variables[0];
-        $this->assertIsA($oDaySpan, 'DaySpan');
+        $this->assertIsA($oDaySpan, 'OA_Admin_DaySpan');
         /**
          * @TODO Commented out the following tests, as there is no apparent mechanism
-         *       by which the date is set for the DaySpan class returned...
+         *       by which the date is set for the OA_Admin_DaySpan class returned...
          */
         //$this->assertEqual($oDaySpan->getStartDate(), new Date('2000-05-01 00:00:00'));
         //$this->assertEqual($oDaySpan->getEndDate(), new Date('2000-06-01 00:00:00'));
@@ -241,10 +241,10 @@ class ReportExecuteTest extends UnitTestCase
         $variables = $module->_getVariablesForReport($info, $passed_in);
         $this->assertEqual(count($variables), 1);
         $oDaySpan = $variables[0];
-        $this->assertIsA($oDaySpan, 'DaySpan');
+        $this->assertIsA($oDaySpan, 'OA_Admin_DaySpan');
         /**
          * @TODO Commented out the following tests, as there is no apparent mechanism
-         *       by which the date is set for the DaySpan class returned...
+         *       by which the date is set for the OA_Admin_DaySpan class returned...
          */
         //$this->assertEqual($oDaySpan->getStartDate(), new Date('2000-06-01 00:00:00'));
         //$this->assertEqual($oDaySpan->getEndDate(), new Date('2000-07-01 00:00:00'));

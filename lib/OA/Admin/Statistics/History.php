@@ -108,7 +108,7 @@ class OA_Admin_Statistics_History
         switch ($oCaller->statsBreakdown) {
         case 'week':
             $oCaller->weekDays = array();
-            $oDaySpan = new DaySpan('this_week');
+            $oDaySpan = new OA_Admin_DaySpan('this_week');
             $oDate    = $oDaySpan->getStartDate();
             for ($i = 0; $i < 7; $i++) {
                 $oCaller->weekDays[$oDate->getDayOfWeek()] = $GLOBALS['strDayShortCuts'][$oDate->getDayOfWeek()];

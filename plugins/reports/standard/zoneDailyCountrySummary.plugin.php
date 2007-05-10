@@ -38,7 +38,7 @@ require_once MAX_PATH . '/plugins/reports/lib.php';
 
 class Plugins_Reports_Standard_ZoneDailyCountrySummary extends Plugins_ExcelReports
 {
-    /* @var DaySpan */
+    /* @var OA_Admin_DaySpan */
     var $_daySpan;
 
     /* @var int */

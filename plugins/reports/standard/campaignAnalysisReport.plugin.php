@@ -40,7 +40,7 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends EnhancedReport //P
 {
     /* @var int */
     var $_campaign_id;
-    /* @var DaySpan */
+    /* @var OA_Admin_DaySpan */
     var $_daySpan;
 
     function info()

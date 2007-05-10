@@ -519,8 +519,8 @@ class Plugins_Reports_Publisher_ChannelAvailability extends Plugins_ExcelReports
      * @param mixed $zoneId The ID of the zone that the report is being generated for, as an
      *                      integer, or the string "all" if the report should show all zones
      *                      in the publisher.
-     * @param DaySpan $oDaySpan An object representing the start and end dates of the report
-     *                          period.
+     * @param OA_Admin_DaySpan $oDaySpan An object representing the start and end dates of the report
+     *                                   period.
      * @param integer $threshold The minimum count value - don't display values less than this.
      */
     function execute($publisherId, $channelId, $zoneId, $oDaySpan, $threshold)

@@ -312,7 +312,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
     function prepareWeek(&$stats)
     {
         if ($this->statsBreakdown == 'week') {
-            $beginOfWeek = DaySpan::getBeginOfWeek();
+            $beginOfWeek = OA_Admin_DaySpan::getBeginOfWeek();
 
             $weekstats = array();
             foreach ($stats as $k => $v) {
