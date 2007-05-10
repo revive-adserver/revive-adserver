@@ -53,7 +53,7 @@ require_once MAX_PATH . '/lib/max/Delivery/log.php';
 function MAX_commonGetDeliveryUrl($file = null)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) {
+    if (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) {
         $url = MAX_commonConstructSecureDeliveryUrl($file);
     } else {
         $url = MAX_commonConstructDeliveryUrl($file);
