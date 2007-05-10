@@ -76,6 +76,8 @@ class Test_OA_UpgradePackageParser extends UnitTestCase
 
 
         $this->assertEqual($aDBPackages[0]['schema'],'tables_core','');
+        $this->assertEqual($aDBPackages[0]['version'],'2','');
+        $this->assertEqual($aDBPackages[0]['stamp'],'100','');
         $this->assertEqual($aDBPackages[0]['prescript'],'prescript_tables_core_2.php','');
         $this->assertEqual($aDBPackages[0]['postscript'],'postscript_tables_core_2.php','');
         $this->assertEqual($aDBPackages[0]['files'][0],'schema_tables_core_2.xml','');

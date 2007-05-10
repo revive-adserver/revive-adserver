@@ -16,6 +16,7 @@
     <database>
         <package>
             <version>2</version>
+            <stamp>100</stamp>
             <schema>tables_core</schema>
             <file>schema_tables_core_2.xml</file>
             <file>changes_tables_core_2.xml</file>
