@@ -44,6 +44,7 @@ class OA_UpgradePackageParser extends XML_Parser
 {
     var $aPackage       = array('db_pkgs' => array());
     var $DBPkg_version  = '';
+    var $DBPkg_stamp    = '';
     var $DBPkg_schema   = '';
     var $DBPkg_prescript = '';
     var $DBPkg_postscript = '';
@@ -76,6 +77,7 @@ class OA_UpgradePackageParser extends XML_Parser
         switch ($this->element) {
         case 'upgrade-database-package':
             $this->DBPkg_version = '';
+            $this->DBPkg_stamp = '';
             $this->DBPkg_schema = '';
             $this->DBPkg_prescript = '';
             $this->DBPkg_postscript = '';
@@ -94,6 +96,7 @@ class OA_UpgradePackageParser extends XML_Parser
         case 'upgrade-database-package':
             $this->aPackage['db_pkgs'][] = array(
                                                  'version' => $this->DBPkg_version,
+                                                 'stamp' => $this->DBPkg_stamp,
                                                  'schema' => $this->DBPkg_schema,
                                                  'prescript' => $this->DBPkg_prescript,
                                                  'postscript' => $this->DBPkg_postscript,
@@ -153,6 +156,9 @@ class OA_UpgradePackageParser extends XML_Parser
                 break;
             case 'upgrade-database-package-version':
                 $this->DBPkg_version = $data;
+                break;
+            case 'upgrade-database-package-stamp':
+                $this->DBPkg_stamp = $data;
                 break;
             case 'upgrade-database-package-schema':
                 $this->DBPkg_schema = $data;
