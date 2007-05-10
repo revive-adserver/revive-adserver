@@ -74,7 +74,10 @@ foreach ($aLayer as $layer) {
                 $message = "{$fileName}\n" . join($output_lines, "\n");
                 switch ($returncode) {
                     case 0: $oReporter->paintPass($message); break;
-                    case 1: $oReporter->paintFail($message); break;
+                    case 1:
+                        $command = "Failed command (in /tests): php run.php --type=$layer --level=file --layer=$subLayer --folder=$dirName --file=$fileName --format=text\n";
+                        $oReporter->paintFail($command . $message);
+                        break;
                     default: $oReporter->paintException($message);
                 }
                 $oReporter->paintMethodEnd($fileName);
