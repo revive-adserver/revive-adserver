@@ -219,59 +219,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority > 0";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 4);
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.9);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 1);   // Initial priority run, factor starts at 1
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.7);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 1);   // Initial priority run, factor starts at 1
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.2);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 1);   // Initial priority run, factor starts at 1
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.3);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 1);   // Initial priority run, factor starts at 1
+        $this->assertEqual($aRow['number'], 7);
         $query = "
             SELECT
                 count(*) AS number
@@ -281,99 +229,128 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority > 0";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 4);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 11);
-        $this->assertEqual($aRow['requested_impressions'], 9);
-        $this->assertEqual($aRow['priority'], 0.9);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 1);   // Initial priority run, factor starts at 1
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 12);
-        $this->assertEqual($aRow['requested_impressions'], 7);
-        $this->assertEqual($aRow['priority'], 0.7);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 1);   // Initial priority run, factor starts at 1
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 2);
-        $this->assertEqual($aRow['priority'], 0.2);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 1);   // Initial priority run, factor starts at 1
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 3);
-        $this->assertEqual($aRow['priority'], 0.3);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 1);   // Initial priority run, factor starts at 1
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
+        $this->assertEqual($aRow['number'], 7);
+        // Test that the priorities in the ad_zone_assoc and data_summary_ad_zone_assoc
+        // tables are set correctly
+        $aTestOneZero = array();
+        $aTestOneZero['ad_id']           = 1;
+        $aTestOneZero['zone_id']         = 0;
+        $aTestOneZero['priority']        = 11 / 29;
+        $aTestOneZero['priority_factor'] = 1;          // Initial priority run, factor starts at 1
+        $aTestOneZero['history'][0]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 85,
+            'interval_start'             => '2005-06-15 13:00:00',
+            'interval_end'               => '2005-06-15 13:59:59',
+            'required_impressions'       => 11,
+            'requested_impressions'      => 11,
+            'priority'                   => 11 / 29,
+            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'past_zone_traffic_fraction' => null
+        );
+        $this->_assertPriority($aTestOneZero);
+        $aTestTwoZero = array();
+        $aTestTwoZero['ad_id']           = 2;
+        $aTestTwoZero['zone_id']         = 0;
+        $aTestTwoZero['priority']        = 12 / 29;
+        $aTestTwoZero['priority_factor'] = 1;          // Initial priority run, factor starts at 1
+        $aTestTwoZero['history'][0]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 85,
+            'interval_start'             => '2005-06-15 13:00:00',
+            'interval_end'               => '2005-06-15 13:59:59',
+            'required_impressions'       => 12,
+            'requested_impressions'      => 12,
+            'priority'                   => 12 / 29,
+            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'past_zone_traffic_fraction' => null
+        );
+        $this->_assertPriority($aTestTwoZero);
+        $aTestThreeZero = array();
+        $aTestThreeZero['ad_id']           = 3;
+        $aTestThreeZero['zone_id']         = 0;
+        $aTestThreeZero['priority']        = 6 / 29;
+        $aTestThreeZero['priority_factor'] = 1;        // Initial priority run, factor starts at 1
+        $aTestThreeZero['history'][0]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 85,
+            'interval_start'             => '2005-06-15 13:00:00',
+            'interval_end'               => '2005-06-15 13:59:59',
+            'required_impressions'       => 6,
+            'requested_impressions'      => 6,
+            'priority'                   => 6 / 29,
+            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'past_zone_traffic_fraction' => null
+        );
+        $this->_assertPriority($aTestThreeZero);
+        $aTestOneOne = array();
+        $aTestOneOne['ad_id']           = 1;
+        $aTestOneOne['zone_id']         = 1;
+        $aTestOneOne['priority']        = 0.9;         // Constant, only priority_factor increases
+        $aTestOneOne['priority_factor'] = 1;           // Initial priority run, factor starts at 1
+        $aTestOneOne['history'][0]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 85,
+            'interval_start'             => '2005-06-15 13:00:00',
+            'interval_end'               => '2005-06-15 13:59:59',
+            'required_impressions'       => 11,
+            'requested_impressions'      => 9,
+            'priority'                   => 0.9,       // Constant, only priority_factor increases
+            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'past_zone_traffic_fraction' => null
+        );
+        $this->_assertPriority($aTestOneOne);
+        $aTestTwoThree = array();
+        $aTestTwoThree['ad_id']           = 2;
+        $aTestTwoThree['zone_id']         = 3;
+        $aTestTwoThree['priority']        = 0.7;       // Constant, only priority_factor increases
+        $aTestTwoThree['priority_factor'] = 1;         // Initial priority run, factor starts at 1
+        $aTestTwoThree['history'][0]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 85,
+            'interval_start'             => '2005-06-15 13:00:00',
+            'interval_end'               => '2005-06-15 13:59:59',
+            'required_impressions'       => 12,
+            'requested_impressions'      => 7,
+            'priority'                   => 0.7,       // Constant, only priority_factor increases
+            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'past_zone_traffic_fraction' => null
+        );
+        $this->_assertPriority($aTestTwoThree);
+        $aTestThreeThree = array();
+        $aTestThreeThree['ad_id']           = 3;
+        $aTestThreeThree['zone_id']         = 3;
+        $aTestThreeThree['priority']        = 0.2;     // Constant, only priority_factor increases
+        $aTestThreeThree['priority_factor'] = 1;       // Initial priority run, factor starts at 1
+        $aTestThreeThree['history'][0]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 85,
+            'interval_start'             => '2005-06-15 13:00:00',
+            'interval_end'               => '2005-06-15 13:59:59',
+            'required_impressions'       => 3,
+            'requested_impressions'      => 2,
+            'priority'                   => 0.2,       // Constant, only priority_factor increases
+            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'past_zone_traffic_fraction' => null
+        );
+        $this->_assertPriority($aTestThreeThree);
+        $aTestThreeFour = array();
+        $aTestThreeFour['ad_id']           = 3;
+        $aTestThreeFour['zone_id']         = 4;
+        $aTestThreeFour['priority']        = 0.3;      // Constant, only priority_factor increases
+        $aTestThreeFour['priority_factor'] = 1;        // Initial priority run, factor starts at 1
+        $aTestThreeFour['history'][0]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 85,
+            'interval_start'             => '2005-06-15 13:00:00',
+            'interval_end'               => '2005-06-15 13:59:59',
+            'required_impressions'       => 3,
+            'requested_impressions'      => 3,
+            'priority'                   => 0.3,       // Constant, only priority_factor increases
+            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'past_zone_traffic_fraction' => null
+        );
+        $this->_assertPriority($aTestThreeFour);
         $query = "
             SELECT
                 start_run,
@@ -596,59 +573,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority > 0";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 4);
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.9);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10);  // Increased from 1 to 10, as no impressions
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.7);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10);  // Increased from 1 to 10, as no impressions
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.2);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10);  // Increased from 1 to 10, as no impressions
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.3);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10);  // Increased from 1 to 10, as no impressions
+        $this->assertEqual($aRow['number'], 7);
         $query = "
             SELECT
                 count(*) AS number
@@ -658,191 +583,103 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority > 0";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 8);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 11);
-        $this->assertEqual($aRow['requested_impressions'], 9);
-        $this->assertEqual($aRow['priority'], 0.9);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 1);   // Initial priority run, factor starts at 1
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 12);
-        $this->assertEqual($aRow['requested_impressions'], 7);
-        $this->assertEqual($aRow['priority'], 0.7);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 1);   // Initial priority run, factor starts at 1
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 2);
-        $this->assertEqual($aRow['priority'], 0.2);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 1);   // Initial priority run, factor starts at 1
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 3);
-        $this->assertEqual($aRow['priority'], 0.3);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 1);   // Initial priority run, factor starts at 1
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 86
-                AND interval_start = '2005-06-15 14:00:00'
-                AND interval_end = '2005-06-15 14:59:59'
-                AND ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 12);
-        $this->assertEqual($aRow['requested_impressions'], 9);
-        $this->assertEqual($aRow['priority'], 0.9);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10);  // Increased from 1 to 10, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 86
-                AND interval_start = '2005-06-15 14:00:00'
-                AND interval_end = '2005-06-15 14:59:59'
-                AND ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 12);
-        $this->assertEqual($aRow['requested_impressions'], 7);
-        $this->assertEqual($aRow['priority'], 0.7);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10);  // Increased from 1 to 10, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 86
-                AND interval_start = '2005-06-15 14:00:00'
-                AND interval_end = '2005-06-15 14:59:59'
-                AND ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 2);
-        $this->assertEqual($aRow['priority'], 0.2);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10);  // Increased from 1 to 10, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 86
-                AND interval_start = '2005-06-15 14:00:00'
-                AND interval_end = '2005-06-15 14:59:59'
-                AND ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 3);
-        $this->assertEqual($aRow['priority'], 0.3);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10);  // Increased from 1 to 10, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
+        $this->assertEqual($aRow['number'], 14);
+        // Test that the priorities in the ad_zone_assoc and data_summary_ad_zone_assoc
+        // tables are set correctly
+        $aTestOneZero['priority']        = 12 / 30;
+        $aTestOneZero['priority_factor'] = 10;         // Increased from 1 to 10, as no impressions
+        $aTestOneZero['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 86,
+            'interval_start'             => '2005-06-15 14:00:00',
+            'interval_end'               => '2005-06-15 14:59:59',
+            'required_impressions'       => 12,
+            'requested_impressions'      => 12,
+            'priority'                   => 12 / 30,
+            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestOneZero);
+        $aTestTwoZero['priority']        = 12 / 30;
+        $aTestTwoZero['priority_factor'] = 10;         // Increased from 1 to 10, as no impressions
+        $aTestTwoZero['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 86,
+            'interval_start'             => '2005-06-15 14:00:00',
+            'interval_end'               => '2005-06-15 14:59:59',
+            'required_impressions'       => 12,
+            'requested_impressions'      => 12,
+            'priority'                   => 12 / 30,
+            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestTwoZero);
+        $aTestThreeZero['priority']        = 6 / 30;
+        $aTestThreeZero['priority_factor'] = 10;       // Increased from 1 to 10, as no impressions
+        $aTestThreeZero['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 86,
+            'interval_start'             => '2005-06-15 14:00:00',
+            'interval_end'               => '2005-06-15 14:59:59',
+            'required_impressions'       => 6,
+            'requested_impressions'      => 6,
+            'priority'                   => 6 / 30,
+            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestThreeZero);
+        $aTestOneOne['priority_factor'] = 10;          // Increased from 1 to 10, as no impressions
+        $aTestOneOne['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 86,
+            'interval_start'             => '2005-06-15 14:00:00',
+            'interval_end'               => '2005-06-15 14:59:59',
+            'required_impressions'       => 12,
+            'requested_impressions'      => 9,
+            'priority'                   => 0.9,       // Constant, only priority_factor increases
+            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestOneOne);
+        $aTestTwoThree['priority_factor'] = 10;        // Increased from 1 to 10, as no impressions
+        $aTestTwoThree['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 86,
+            'interval_start'             => '2005-06-15 14:00:00',
+            'interval_end'               => '2005-06-15 14:59:59',
+            'required_impressions'       => 12,
+            'requested_impressions'      => 7,
+            'priority'                   => 0.7,       // Constant, only priority_factor increases
+            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestTwoThree);
+        $aTestThreeThree['priority_factor'] = 10;      // Increased from 1 to 10, as no impressions
+        $aTestThreeThree['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 86,
+            'interval_start'             => '2005-06-15 14:00:00',
+            'interval_end'               => '2005-06-15 14:59:59',
+            'required_impressions'       => 3,
+            'requested_impressions'      => 2,
+            'priority'                   => 0.2,       // Constant, only priority_factor increases
+            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestThreeThree);
+        $aTestThreeFour['priority_factor'] = 10;       // Increased from 1 to 10, as no impressions
+        $aTestThreeFour['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 86,
+            'interval_start'             => '2005-06-15 14:00:00',
+            'interval_end'               => '2005-06-15 14:59:59',
+            'required_impressions'       => 3,
+            'requested_impressions'      => 3,
+            'priority'                   => 0.3,       // Constant, only priority_factor increases
+            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestThreeFour);
         $query = "
             SELECT
                 start_run,
@@ -1226,59 +1063,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority > 0";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 4);
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.5);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 100); // Increased from 10 to 100, as no impressions
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.7);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 100); // Increased from 10 to 100, as no impressions
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.2);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 100); // Increased from 10 to 100, as no impressions
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.3);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 100); // Increased from 10 to 100, as no impressions
+        $this->assertEqual($aRow['number'], 7);
         $query = "
             SELECT
                 count(*) AS number
@@ -1288,283 +1073,104 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority > 0";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 12);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 11);
-        $this->assertEqual($aRow['requested_impressions'], 9);
-        $this->assertEqual($aRow['priority'], 0.9);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 1);   // Initial priority run, factor starts at 1
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 12);
-        $this->assertEqual($aRow['requested_impressions'], 7);
-        $this->assertEqual($aRow['priority'], 0.7);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 1);   // Initial priority run, factor starts at 1
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 2);
-        $this->assertEqual($aRow['priority'], 0.2);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 1);   // Initial priority run, factor starts at 1
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 3);
-        $this->assertEqual($aRow['priority'], 0.3);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 1);   // Initial priority run, factor starts at 1
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 86
-                AND interval_start = '2005-06-15 14:00:00'
-                AND interval_end = '2005-06-15 14:59:59'
-                AND ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 12);
-        $this->assertEqual($aRow['requested_impressions'], 9);
-        $this->assertEqual($aRow['priority'], 0.9);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10);  // Increased from 1 to 10, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 86
-                AND interval_start = '2005-06-15 14:00:00'
-                AND interval_end = '2005-06-15 14:59:59'
-                AND ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 12);
-        $this->assertEqual($aRow['requested_impressions'], 7);
-        $this->assertEqual($aRow['priority'], 0.7);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10);  // Increased from 1 to 10, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 86
-                AND interval_start = '2005-06-15 14:00:00'
-                AND interval_end = '2005-06-15 14:59:59'
-                AND ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 2);
-        $this->assertEqual($aRow['priority'], 0.2);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10);  // Increased from 1 to 10, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 86
-                AND interval_start = '2005-06-15 14:00:00'
-                AND interval_end = '2005-06-15 14:59:59'
-                AND ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 3);
-        $this->assertEqual($aRow['priority'], 0.3);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10);  // Increased from 1 to 10, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 0
-                AND interval_start = '2005-06-19 00:00:00'
-                AND interval_end = '2005-06-19 00:59:59'
-                AND ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 5);
-        $this->assertEqual($aRow['requested_impressions'], 5);
-        $this->assertEqual($aRow['priority'], 0.5);         // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 100);  // Increased from 10 to 100, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 0
-                AND interval_start = '2005-06-19 00:00:00'
-                AND interval_end = '2005-06-19 00:59:59'
-                AND ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 12);
-        $this->assertEqual($aRow['requested_impressions'], 7);
-        $this->assertEqual($aRow['priority'], 0.7);         // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 100);  // Increased from 10 to 100, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 0
-                AND interval_start = '2005-06-19 00:00:00'
-                AND interval_end = '2005-06-19 00:59:59'
-                AND ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 2);
-        $this->assertEqual($aRow['priority'], 0.2);         // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 100);  // Increased from 10 to 100, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 0
-                AND interval_start = '2005-06-19 00:00:00'
-                AND interval_end = '2005-06-19 00:59:59'
-                AND ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 3);
-        $this->assertEqual($aRow['priority'], 0.3);         // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 100);  // Increased from 10 to 100, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
+        $this->assertEqual($aRow['number'], 21);
+        // Test that the priorities in the ad_zone_assoc and data_summary_ad_zone_assoc
+        // tables are set correctly
+        $aTestOneZero['priority']        = 5 / 23;
+        $aTestOneZero['priority_factor'] = 100;        // Increased from 10 to 100, as no impressions
+        $aTestOneZero['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 0,
+            'interval_start'             => '2005-06-19 00:00:00',
+            'interval_end'               => '2005-06-19 00:59:59',
+            'required_impressions'       => 5,
+            'requested_impressions'      => 5,
+            'priority'                   => 5 / 23,
+            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestOneZero);
+        $aTestTwoZero['priority']        = 12 / 23;
+        $aTestTwoZero['priority_factor'] = 100;        // Increased from 10 to 100, as no impressions
+        $aTestTwoZero['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 0,
+            'interval_start'             => '2005-06-19 00:00:00',
+            'interval_end'               => '2005-06-19 00:59:59',
+            'required_impressions'       => 12,
+            'requested_impressions'      => 12,
+            'priority'                   => 12 / 23,
+            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestTwoZero);
+        $aTestThreeZero['priority']        = 6 / 23;
+        $aTestThreeZero['priority_factor'] = 100;      // Increased from 10 to 100, as no impressions
+        $aTestThreeZero['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 0,
+            'interval_start'             => '2005-06-19 00:00:00',
+            'interval_end'               => '2005-06-19 00:59:59',
+            'required_impressions'       => 6,
+            'requested_impressions'      => 6,
+            'priority'                   => 6 / 23,
+            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestThreeZero);
+        $aTestOneOne['priority']        = 0.5;         // Changed, skipped OIs
+        $aTestOneOne['priority_factor'] = 100;         // Increased from 10 to 100, as no impressions
+        $aTestOneOne['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 0,
+            'interval_start'             => '2005-06-19 00:00:00',
+            'interval_end'               => '2005-06-19 00:59:59',
+            'required_impressions'       => 5,
+            'requested_impressions'      => 5,
+            'priority'                   => 0.5,       // Changed, skipped OIs
+            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestOneOne);
+        $aTestTwoThree['priority_factor'] = 100;       // Increased from 10 to 100, as no impressions
+        $aTestTwoThree['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 0,
+            'interval_start'             => '2005-06-19 00:00:00',
+            'interval_end'               => '2005-06-19 00:59:59',
+            'required_impressions'       => 12,
+            'requested_impressions'      => 7,
+            'priority'                   => 0.7,       // Constant, only priority_factor increases
+            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestTwoThree);
+        $aTestThreeThree['priority_factor'] = 100;     // Increased from 10 to 100, as no impressions
+        $aTestThreeThree['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 0,
+            'interval_start'             => '2005-06-19 00:00:00',
+            'interval_end'               => '2005-06-19 00:59:59',
+            'required_impressions'       => 3,
+            'requested_impressions'      => 2,
+            'priority'                   => 0.2,       // Constant, only priority_factor increases
+            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestThreeThree);
+        $aTestThreeFour['priority_factor'] = 100;      // Increased from 10 to 100, as no impressions
+        $aTestThreeFour['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 0,
+            'interval_start'             => '2005-06-19 00:00:00',
+            'interval_end'               => '2005-06-19 00:59:59',
+            'required_impressions'       => 3,
+            'requested_impressions'      => 3,
+            'priority'                   => 0.3,       // Constant, only priority_factor increases
+            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestThreeFour);
         $query = "
             SELECT
                 start_run,
@@ -1897,51 +1503,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority > 0";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 4);
-        $query = "
-            SELECT
-                priority
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.9);
-        $query = "
-            SELECT
-                priority
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.7);
-        $query = "
-            SELECT
-                priority
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.2);
-        $query = "
-            SELECT
-                priority
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.3);
+        $this->assertEqual($aRow['number'], 7);
         $query = "
             SELECT
                 count(*) AS number
@@ -1951,99 +1513,128 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority > 0";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 4);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 11);
-        $this->assertEqual($aRow['requested_impressions'], 9);
-        $this->assertEqual($aRow['priority'], 0.9);
-        $this->assertEqual($aRow['priority_factor'], 1);
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 12);
-        $this->assertEqual($aRow['requested_impressions'], 7);
-        $this->assertEqual($aRow['priority'], 0.7);
-        $this->assertEqual($aRow['priority_factor'], 1);
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 2);
-        $this->assertEqual($aRow['priority'], 0.2);
-        $this->assertEqual($aRow['priority_factor'], 1);
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 3);
-        $this->assertEqual($aRow['priority'], 0.3);
-        $this->assertEqual($aRow['priority_factor'], 1);
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
+        $this->assertEqual($aRow['number'], 7);
+        // Test that the priorities in the ad_zone_assoc and data_summary_ad_zone_assoc
+        // tables are set correctly
+        $aTestOneZero = array();
+        $aTestOneZero['ad_id']           = 1;
+        $aTestOneZero['zone_id']         = 0;
+        $aTestOneZero['priority']        = 11 / 29;
+        $aTestOneZero['priority_factor'] = 1;          // Initial priority run, factor starts at 1
+        $aTestOneZero['history'][0]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 85,
+            'interval_start'             => '2005-06-15 13:00:00',
+            'interval_end'               => '2005-06-15 13:59:59',
+            'required_impressions'       => 11,
+            'requested_impressions'      => 11,
+            'priority'                   => 11 / 29,
+            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'past_zone_traffic_fraction' => null
+        );
+        $this->_assertPriority($aTestOneZero);
+        $aTestTwoZero = array();
+        $aTestTwoZero['ad_id']           = 2;
+        $aTestTwoZero['zone_id']         = 0;
+        $aTestTwoZero['priority']        = 12 / 29;
+        $aTestTwoZero['priority_factor'] = 1;          // Initial priority run, factor starts at 1
+        $aTestTwoZero['history'][0]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 85,
+            'interval_start'             => '2005-06-15 13:00:00',
+            'interval_end'               => '2005-06-15 13:59:59',
+            'required_impressions'       => 12,
+            'requested_impressions'      => 12,
+            'priority'                   => 12 / 29,
+            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'past_zone_traffic_fraction' => null
+        );
+        $this->_assertPriority($aTestTwoZero);
+        $aTestThreeZero = array();
+        $aTestThreeZero['ad_id']           = 3;
+        $aTestThreeZero['zone_id']         = 0;
+        $aTestThreeZero['priority']        = 6 / 29;
+        $aTestThreeZero['priority_factor'] = 1;        // Initial priority run, factor starts at 1
+        $aTestThreeZero['history'][0]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 85,
+            'interval_start'             => '2005-06-15 13:00:00',
+            'interval_end'               => '2005-06-15 13:59:59',
+            'required_impressions'       => 6,
+            'requested_impressions'      => 6,
+            'priority'                   => 6 / 29,
+            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'past_zone_traffic_fraction' => null
+        );
+        $this->_assertPriority($aTestThreeZero);
+        $aTestOneOne = array();
+        $aTestOneOne['ad_id']           = 1;
+        $aTestOneOne['zone_id']         = 1;
+        $aTestOneOne['priority']        = 0.9;         // Constant, only priority_factor increases
+        $aTestOneOne['priority_factor'] = 1;           // Initial priority run, factor starts at 1
+        $aTestOneOne['history'][0]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 85,
+            'interval_start'             => '2005-06-15 13:00:00',
+            'interval_end'               => '2005-06-15 13:59:59',
+            'required_impressions'       => 11,
+            'requested_impressions'      => 9,
+            'priority'                   => 0.9,       // Constant, only priority_factor increases
+            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'past_zone_traffic_fraction' => null
+        );
+        $this->_assertPriority($aTestOneOne);
+        $aTestTwoThree = array();
+        $aTestTwoThree['ad_id']           = 2;
+        $aTestTwoThree['zone_id']         = 3;
+        $aTestTwoThree['priority']        = 0.7;       // Constant, only priority_factor increases
+        $aTestTwoThree['priority_factor'] = 1;         // Initial priority run, factor starts at 1
+        $aTestTwoThree['history'][0]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 85,
+            'interval_start'             => '2005-06-15 13:00:00',
+            'interval_end'               => '2005-06-15 13:59:59',
+            'required_impressions'       => 12,
+            'requested_impressions'      => 7,
+            'priority'                   => 0.7,       // Constant, only priority_factor increases
+            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'past_zone_traffic_fraction' => null
+        );
+        $this->_assertPriority($aTestTwoThree);
+        $aTestThreeThree = array();
+        $aTestThreeThree['ad_id']           = 3;
+        $aTestThreeThree['zone_id']         = 3;
+        $aTestThreeThree['priority']        = 0.2;     // Constant, only priority_factor increases
+        $aTestThreeThree['priority_factor'] = 1;       // Initial priority run, factor starts at 1
+        $aTestThreeThree['history'][0]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 85,
+            'interval_start'             => '2005-06-15 13:00:00',
+            'interval_end'               => '2005-06-15 13:59:59',
+            'required_impressions'       => 3,
+            'requested_impressions'      => 2,
+            'priority'                   => 0.2,       // Constant, only priority_factor increases
+            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'past_zone_traffic_fraction' => null
+        );
+        $this->_assertPriority($aTestThreeThree);
+        $aTestThreeFour = array();
+        $aTestThreeFour['ad_id']           = 3;
+        $aTestThreeFour['zone_id']         = 4;
+        $aTestThreeFour['priority']        = 0.3;      // Constant, only priority_factor increases
+        $aTestThreeFour['priority_factor'] = 1;        // Initial priority run, factor starts at 1
+        $aTestThreeFour['history'][0]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 85,
+            'interval_start'             => '2005-06-15 13:00:00',
+            'interval_end'               => '2005-06-15 13:59:59',
+            'required_impressions'       => 3,
+            'requested_impressions'      => 3,
+            'priority'                   => 0.3,       // Constant, only priority_factor increases
+            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'past_zone_traffic_fraction' => null
+        );
+        $this->_assertPriority($aTestThreeFour);
 
         // Insert data that indicates that the Maintenance Statistics Engine
         // has recently updated the available stats, but don't insert any
@@ -2206,59 +1797,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority > 0";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 4);
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.9);
-        $this->assertEqual($aRow['priority_factor'], 10);
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.7);
-        $this->assertEqual($aRow['priority_factor'], 10);
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.2);
-        $this->assertEqual($aRow['priority_factor'], 10);
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.3);
-        $this->assertEqual($aRow['priority_factor'], 10);
+        $this->assertEqual($aRow['number'], 7);
         $query = "
             SELECT
                 count(*) AS number
@@ -2268,191 +1807,103 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority > 0";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 8);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 11);
-        $this->assertEqual($aRow['requested_impressions'], 9);
-        $this->assertEqual($aRow['priority'], 0.9);
-        $this->assertEqual($aRow['priority_factor'], 1);
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 12);
-        $this->assertEqual($aRow['requested_impressions'], 7);
-        $this->assertEqual($aRow['priority'], 0.7);
-        $this->assertEqual($aRow['priority_factor'], 1);
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 2);
-        $this->assertEqual($aRow['priority'], 0.2);
-        $this->assertEqual($aRow['priority_factor'], 1);
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 3);
-        $this->assertEqual($aRow['priority'], 0.3);
-        $this->assertEqual($aRow['priority_factor'], 1);
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 86
-                AND interval_start = '2005-06-15 14:00:00'
-                AND interval_end = '2005-06-15 14:59:59'
-                AND ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 12);
-        $this->assertEqual($aRow['requested_impressions'], 9);
-        $this->assertEqual($aRow['priority'], 0.9);       // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10); // Increased from 1 to 10, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 86
-                AND interval_start = '2005-06-15 14:00:00'
-                AND interval_end = '2005-06-15 14:59:59'
-                AND ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 12);
-        $this->assertEqual($aRow['requested_impressions'], 7);
-        $this->assertEqual($aRow['priority'], 0.7);       // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10); // Increased from 1 to 10, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 86
-                AND interval_start = '2005-06-15 14:00:00'
-                AND interval_end = '2005-06-15 14:59:59'
-                AND ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 2);
-        $this->assertEqual($aRow['priority'], 0.2);       // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10); // Increased from 1 to 10, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 86
-                AND interval_start = '2005-06-15 14:00:00'
-                AND interval_end = '2005-06-15 14:59:59'
-                AND ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 3);
-        $this->assertEqual($aRow['priority'], 0.3);       // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10); // Increased from 1 to 10, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
+        $this->assertEqual($aRow['number'], 14);
+        // Test that the priorities in the ad_zone_assoc and data_summary_ad_zone_assoc
+        // tables are set correctly
+        $aTestOneZero['priority']        = 12 / 30;
+        $aTestOneZero['priority_factor'] = 10;         // Increased from 1 to 10, as no impressions
+        $aTestOneZero['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 86,
+            'interval_start'             => '2005-06-15 14:00:00',
+            'interval_end'               => '2005-06-15 14:59:59',
+            'required_impressions'       => 12,
+            'requested_impressions'      => 12,
+            'priority'                   => 12 / 30,
+            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestOneZero);
+        $aTestTwoZero['priority']        = 12 / 30;
+        $aTestTwoZero['priority_factor'] = 10;         // Increased from 1 to 10, as no impressions
+        $aTestTwoZero['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 86,
+            'interval_start'             => '2005-06-15 14:00:00',
+            'interval_end'               => '2005-06-15 14:59:59',
+            'required_impressions'       => 12,
+            'requested_impressions'      => 12,
+            'priority'                   => 12 / 30,
+            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestTwoZero);
+        $aTestThreeZero['priority']        = 6 / 30;
+        $aTestThreeZero['priority_factor'] = 10;       // Increased from 1 to 10, as no impressions
+        $aTestThreeZero['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 86,
+            'interval_start'             => '2005-06-15 14:00:00',
+            'interval_end'               => '2005-06-15 14:59:59',
+            'required_impressions'       => 6,
+            'requested_impressions'      => 6,
+            'priority'                   => 6 / 30,
+            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestThreeZero);
+        $aTestOneOne['priority_factor'] = 10;          // Increased from 1 to 10, as no impressions
+        $aTestOneOne['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 86,
+            'interval_start'             => '2005-06-15 14:00:00',
+            'interval_end'               => '2005-06-15 14:59:59',
+            'required_impressions'       => 12,
+            'requested_impressions'      => 9,
+            'priority'                   => 0.9,       // Constant, only priority_factor increases
+            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestOneOne);
+        $aTestTwoThree['priority_factor'] = 10;        // Increased from 1 to 10, as no impressions
+        $aTestTwoThree['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 86,
+            'interval_start'             => '2005-06-15 14:00:00',
+            'interval_end'               => '2005-06-15 14:59:59',
+            'required_impressions'       => 12,
+            'requested_impressions'      => 7,
+            'priority'                   => 0.7,       // Constant, only priority_factor increases
+            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestTwoThree);
+        $aTestThreeThree['priority_factor'] = 10;      // Increased from 1 to 10, as no impressions
+        $aTestThreeThree['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 86,
+            'interval_start'             => '2005-06-15 14:00:00',
+            'interval_end'               => '2005-06-15 14:59:59',
+            'required_impressions'       => 3,
+            'requested_impressions'      => 2,
+            'priority'                   => 0.2,       // Constant, only priority_factor increases
+            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestThreeThree);
+        $aTestThreeFour['priority_factor'] = 10;       // Increased from 1 to 10, as no impressions
+        $aTestThreeFour['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 86,
+            'interval_start'             => '2005-06-15 14:00:00',
+            'interval_end'               => '2005-06-15 14:59:59',
+            'required_impressions'       => 3,
+            'requested_impressions'      => 3,
+            'priority'                   => 0.3,       // Constant, only priority_factor increases
+            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestThreeFour);
 
         // Insert data that indicates that the Maintenance Statistics Engine
         // has recently updated the available stats, but don't insert any
@@ -2720,59 +2171,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority > 0";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 4);
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.5);
-        $this->assertEqual($aRow['priority_factor'], 100);
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.7);
-        $this->assertEqual($aRow['priority_factor'], 100);
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.2);
-        $this->assertEqual($aRow['priority_factor'], 100);
-        $query = "
-            SELECT
-                priority,
-                priority_factor
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
-            WHERE
-                ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['priority'], 0.3);
-        $this->assertEqual($aRow['priority_factor'], 100);
+        $this->assertEqual($aRow['number'], 7);
         $query = "
             SELECT
                 count(*) AS number
@@ -2782,283 +2181,104 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority > 0";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 12);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 11);
-        $this->assertEqual($aRow['requested_impressions'], 9);
-        $this->assertEqual($aRow['priority'], 0.9);
-        $this->assertEqual($aRow['priority_factor'], 1);
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 12);
-        $this->assertEqual($aRow['requested_impressions'], 7);
-        $this->assertEqual($aRow['priority'], 0.7);
-        $this->assertEqual($aRow['priority_factor'], 1);
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 2);
-        $this->assertEqual($aRow['priority'], 0.2);
-        $this->assertEqual($aRow['priority_factor'], 1);
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 85
-                AND interval_start = '2005-06-15 13:00:00'
-                AND interval_end = '2005-06-15 13:59:59'
-                AND ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 3);
-        $this->assertEqual($aRow['priority'], 0.3);
-        $this->assertEqual($aRow['priority_factor'], 1);
-        $this->assertNull($aRow['past_zone_traffic_fraction']);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 86
-                AND interval_start = '2005-06-15 14:00:00'
-                AND interval_end = '2005-06-15 14:59:59'
-                AND ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 12);
-        $this->assertEqual($aRow['requested_impressions'], 9);
-        $this->assertEqual($aRow['priority'], 0.9);       // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10); // Increased from 1 to 10, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 86
-                AND interval_start = '2005-06-15 14:00:00'
-                AND interval_end = '2005-06-15 14:59:59'
-                AND ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 12);
-        $this->assertEqual($aRow['requested_impressions'], 7);
-        $this->assertEqual($aRow['priority'], 0.7);       // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10); // Increased from 1 to 10, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 86
-                AND interval_start = '2005-06-15 14:00:00'
-                AND interval_end = '2005-06-15 14:59:59'
-                AND ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 2);
-        $this->assertEqual($aRow['priority'], 0.2);       // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10); // Increased from 1 to 10, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 86
-                AND interval_start = '2005-06-15 14:00:00'
-                AND interval_end = '2005-06-15 14:59:59'
-                AND ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 3);
-        $this->assertEqual($aRow['priority'], 0.3);       // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 10); // Increased from 1 to 10, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 0
-                AND interval_start = '2005-06-19 00:00:00'
-                AND interval_end = '2005-06-19 00:59:59'
-                AND ad_id = 1
-                AND zone_id = 1";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 5);
-        $this->assertEqual($aRow['requested_impressions'], 5);
-        $this->assertEqual($aRow['priority'], 0.5);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 100); // Increased from 10 to 100, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 0
-                AND interval_start = '2005-06-19 00:00:00'
-                AND interval_end = '2005-06-19 00:59:59'
-                AND ad_id = 2
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 12);
-        $this->assertEqual($aRow['requested_impressions'], 7);
-        $this->assertEqual($aRow['priority'], 0.7);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 100); // Increased from 10 to 100, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 0
-                AND interval_start = '2005-06-19 00:00:00'
-                AND interval_end = '2005-06-19 00:59:59'
-                AND ad_id = 3
-                AND zone_id = 3";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 2);
-        $this->assertEqual($aRow['priority'], 0.2);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 100); // Increased from 10 to 100, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
-        $query = "
-            SELECT
-                required_impressions,
-                requested_impressions,
-                priority,
-                priority_factor,
-                past_zone_traffic_fraction
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
-            WHERE
-                operation_interval = 60
-                AND operation_interval_id = 0
-                AND interval_start = '2005-06-19 00:00:00'
-                AND interval_end = '2005-06-19 00:59:59'
-                AND ad_id = 3
-                AND zone_id = 4";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['required_impressions'], 3);
-        $this->assertEqual($aRow['requested_impressions'], 3);
-        $this->assertEqual($aRow['priority'], 0.3);        // Constant, only priority_factor increases
-        $this->assertEqual($aRow['priority_factor'], 100); // Increased from 10 to 100, as no impressions
-        $this->assertEqual($aRow['past_zone_traffic_fraction'], 0);
+        $this->assertEqual($aRow['number'], 21);
+        // Test that the priorities in the ad_zone_assoc and data_summary_ad_zone_assoc
+        // tables are set correctly
+        $aTestOneZero['priority']        = 5 / 23;
+        $aTestOneZero['priority_factor'] = 100;        // Increased from 10 to 100, as no impressions
+        $aTestOneZero['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 0,
+            'interval_start'             => '2005-06-19 00:00:00',
+            'interval_end'               => '2005-06-19 00:59:59',
+            'required_impressions'       => 5,
+            'requested_impressions'      => 5,
+            'priority'                   => 5 / 23,
+            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestOneZero);
+        $aTestTwoZero['priority']        = 12 / 23;
+        $aTestTwoZero['priority_factor'] = 100;        // Increased from 10 to 100, as no impressions
+        $aTestTwoZero['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 0,
+            'interval_start'             => '2005-06-19 00:00:00',
+            'interval_end'               => '2005-06-19 00:59:59',
+            'required_impressions'       => 12,
+            'requested_impressions'      => 12,
+            'priority'                   => 12 / 23,
+            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestTwoZero);
+        $aTestThreeZero['priority']        = 6 / 23;
+        $aTestThreeZero['priority_factor'] = 100;      // Increased from 10 to 100, as no impressions
+        $aTestThreeZero['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 0,
+            'interval_start'             => '2005-06-19 00:00:00',
+            'interval_end'               => '2005-06-19 00:59:59',
+            'required_impressions'       => 6,
+            'requested_impressions'      => 6,
+            'priority'                   => 6 / 23,
+            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestThreeZero);
+        $aTestOneOne['priority']        = 0.5;         // Changed, skipped OIs
+        $aTestOneOne['priority_factor'] = 100;         // Increased from 10 to 100, as no impressions
+        $aTestOneOne['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 0,
+            'interval_start'             => '2005-06-19 00:00:00',
+            'interval_end'               => '2005-06-19 00:59:59',
+            'required_impressions'       => 5,
+            'requested_impressions'      => 5,
+            'priority'                   => 0.5,       // Changed, skipped OIs
+            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestOneOne);
+        $aTestTwoThree['priority_factor'] = 100;       // Increased from 10 to 100, as no impressions
+        $aTestTwoThree['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 0,
+            'interval_start'             => '2005-06-19 00:00:00',
+            'interval_end'               => '2005-06-19 00:59:59',
+            'required_impressions'       => 12,
+            'requested_impressions'      => 7,
+            'priority'                   => 0.7,       // Constant, only priority_factor increases
+            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestTwoThree);
+        $aTestThreeThree['priority_factor'] = 100;     // Increased from 10 to 100, as no impressions
+        $aTestThreeThree['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 0,
+            'interval_start'             => '2005-06-19 00:00:00',
+            'interval_end'               => '2005-06-19 00:59:59',
+            'required_impressions'       => 3,
+            'requested_impressions'      => 2,
+            'priority'                   => 0.2,       // Constant, only priority_factor increases
+            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestThreeThree);
+        $aTestThreeFour['priority_factor'] = 100;      // Increased from 10 to 100, as no impressions
+        $aTestThreeFour['history'][1]      = array(
+            'operation_interval'         => 60,
+            'operation_interval_id'      => 0,
+            'interval_start'             => '2005-06-19 00:00:00',
+            'interval_end'               => '2005-06-19 00:59:59',
+            'required_impressions'       => 3,
+            'requested_impressions'      => 3,
+            'priority'                   => 0.3,       // Constant, only priority_factor increases
+            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'past_zone_traffic_fraction' => 0
+        );
+        $this->_assertPriority($aTestThreeFour);
 
         TestEnv::restoreEnv();
     }
@@ -3076,7 +2296,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
      * @TODO This test has been disabled, as *all* zones now have Priority Compensation
      *       performed, so the values in this test need to be updated.
      */
-    function xtestAdServerComplex()
+    function XXXtestAdServerComplex()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
@@ -3746,6 +2966,84 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $this->assertEqual($aRow['number'], 8);
 
         TestEnv::restoreEnv();
+    }
+
+    /**
+     * A private method for performing assertions on priority values
+     * that should be set in the ad_zone_assoc and
+     * data_summary_ad_zone_assoc tables.
+     *
+     * @param array $aParams An array of values to test, specifically:
+     *
+     * array(
+     *     'ad_id'           => The ad ID to test.
+     *     'zone_id'         => The zone ID to test.
+     *     'priority'        => The ad/zone priority that should be set.
+     *     'priority_factor' => The ad/zone priority factor that should be set.
+     *     'history'         => An array of arrays of values to assert in the
+     *                          data_summary_ad_zone_assoc table.
+     * )
+     *
+     * The "history" arrays should be of in the following format:
+     *
+     * array(
+     *     'operation_interval'         => The operation interval to test.
+     *     'operation_interval_id'      => The operation interval ID to test.
+     *     'interval_start'             => The operation interval start to test.
+     *     'interval_end'               => The operation interval end to test.
+     *     'required_impressions'       => The ad/zone required impressions that should be set.
+     *     'requested_impressions'      => The ad/zone requested impressions that should be set.
+     *     'priority'                   => The ad/zone priority that should be set.
+     *     'priority_factor'            => The ad/zone priority factor that should be set.
+     *     'past_zone_traffic_fraction' => The ad/zone past zone traffic fraction that should be set.
+     * )
+     */
+    function _assertPriority($aParams)
+    {
+        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $oDbh = &OA_DB::singleton();
+        // Assert the values in the ad_zone_assoc table are correct
+        $query = "
+            SELECT
+                priority,
+                priority_factor
+            FROM
+                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+            WHERE
+                ad_id = {$aParams['ad_id']}
+                AND zone_id = {$aParams['zone_id']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual((string) $aRow['priority'], (string) $aParams['priority']);
+        $this->assertEqual($aRow['priority_factor'], $aParams['priority_factor']);
+        // Assert the values in the data_summary_ad_zone_assoc table are correct
+        if (is_array($aParams['history']) && !empty($aParams['history'])) {
+            foreach ($aParams['history'] as $aTestData) {
+                $query = "
+                    SELECT
+                        required_impressions,
+                        requested_impressions,
+                        priority,
+                        priority_factor,
+                        past_zone_traffic_fraction
+                    FROM
+                        {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                    WHERE
+                        operation_interval = {$aTestData['operation_interval']}
+                        AND operation_interval_id = {$aTestData['operation_interval_id']}
+                        AND interval_start = '{$aTestData['interval_start']}'
+                        AND interval_end = '{$aTestData['interval_end']}'
+                        AND ad_id = {$aParams['ad_id']}
+                        AND zone_id = {$aParams['zone_id']}";
+                $rc = $oDbh->query($query);
+                $aRow = $rc->fetchRow();
+                $this->assertEqual($aRow['required_impressions'], $aTestData['required_impressions']);
+                $this->assertEqual($aRow['requested_impressions'], $aTestData['requested_impressions']);
+                $this->assertEqual((string) $aRow['priority'], (string) $aTestData['priority']);
+                $this->assertEqual($aRow['priority_factor'], $aTestData['priority_factor']);
+                $this->assertEqual($aRow['past_zone_traffic_fraction'], $aTestData['past_zone_traffic_fraction']);
+            }
+        }
     }
 
 }

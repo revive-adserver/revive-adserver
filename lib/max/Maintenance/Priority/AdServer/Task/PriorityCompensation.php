@@ -106,8 +106,6 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                 // values and the past information about previous priorities
                 $aPriorities[$oZone->id] = $this->learnedPriorities($oZone);
             }
-            // Email the "broken" ad/zone pairs
-            // MAX::sendMail('systems@m3.net', 'systems@m3.net', 'Hourly Priority Issues', $this->globalMessage);
             // Store the calculated priorities
             $this->oDal->updatePriorities($aPriorities);
             // Record the completion of the task in the database

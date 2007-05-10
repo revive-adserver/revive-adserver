@@ -379,10 +379,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      * Requires that a current day/time (as a Date object) be registered
      * with the ServiceLocator (as "now").
      *
-     * Ignores the special zone with zone ID of 0 (zero), as this is a
-     * reserved zone for storing statistics about directly selected ads,
-     * and as a result, shouldn't be used during prioritisation.
-     *
      * @access public
      * @return mixed An array of arrays, each one representing a zone found,
      *               in zone ID order, or false if no Date object registered
@@ -419,13 +415,11 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 AND t2.operation_interval_id = $previousOptIntID
                 AND t2.interval_start = '" . $aPreviousDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
                 AND t2.interval_end = '" . $aPreviousDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
-                AND t2.zone_id != 0
             WHERE
                 t1.operation_interval = {$aConf['maintenance']['operationInterval']}
                 AND t1.operation_interval_id = $currentOpIntID
                 AND t1.interval_start = '" . $aCurrentDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
                 AND t1.interval_end = '" . $aCurrentDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
-                AND t1.zone_id != 0
             ORDER BY
                 t1.zone_id";
         $rc = $this->oDbh->query($query);
@@ -437,9 +431,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             SELECT
                 zoneid AS zone_id
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['zones']}
-            WHERE
-                zoneid != 0";
+                {$aConf['table']['prefix']}{$aConf['table']['zones']}";
         $rc = $this->oDbh->query($query);
         while ($aRow = $rc->fetchRow()) {
             if (!isset($aResult[$aRow['zone_id']])) {
@@ -1176,20 +1168,20 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      * @param array $aData An array of zones, indexed by zone ID, each containing an array
      *                     "ads", which in turn is an array of hashes, each containing the
      *                     following indexes/data:
-     *                      - "ad_id"                   The ad ID.
-     *                      - "zone_id"                 The zone ID.
-     *                      - "priority"                The ad/zone priority value.
-     *                      - "impressions_required"    The number of impressions required for the
-     *                                                  placement the ad/zone link is in to delivery
-     *                                                  to meet its targets.
-     *                      - "impressions_requested"   The number of impressions the priority
-     *                                                  should result in.
-     *                      - "priority_factor"         The priority adjustment factor used to
-     *                                                  compensate for filters.
-     *                      - "priority_factor_limited" If the priority factor was limited, or not.
-     *                      - "past_zone_traffic_fraction"  The fraction of the zone's impressions
-     *                                                      given to the ad in the previous operation
-     *                                                      interval.
+     *                      - "ad_id"                      The ad ID.
+     *                      - "zone_id"                    The zone ID.
+     *                      - "priority"                   The ad/zone priority value.
+     *                      - "impressions_required"       The number of impressions required for the
+     *                                                     placement the ad/zone link is in to delivery
+     *                                                     to meet its targets.
+     *                      - "impressions_requested"      The number of impressions the priority
+     *                                                     should result in.
+     *                      - "priority_factor"            The priority adjustment factor used to
+     *                                                     compensate for filters.
+     *                      - "priority_factor_limited"    If the priority factor was limited, or not.
+     *                      - "past_zone_traffic_fraction" The fraction of the zone's impressions
+     *                                                     given to the ad in the previous operation
+     *                                                     interval.
      * @return boolean True on success, false on failure.
      *
      * @TODO Update the "created_by", "expired_by" fields once Openads has a role-based
@@ -1275,7 +1267,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             AND
                             zone_id = $zoneId
                             AND
-                            link_type = " . MAX_AD_ZONE_LINK_NORMAL;
+                            link_type = " . ($zoneId != 0 ? MAX_AD_ZONE_LINK_NORMAL : MAX_AD_ZONE_LINK_DIRECT);
                     $rows = $this->oDbh->exec($query);
                     if (PEAR::isError($rows)) {
                         OA::debug(" - Error zeroing ad ID $adId, zone ID $zoneID pair priority.", PEAR_LOG_DEBUG);
@@ -1302,7 +1294,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                     AND
                                     zone_id = {$aAdZonePriority['zone_id']}
                                     AND
-                                    link_type = " . MAX_AD_ZONE_LINK_NORMAL;
+                                    link_type = " . ($aAdZonePriority['zone_id'] != 0 ? MAX_AD_ZONE_LINK_NORMAL : MAX_AD_ZONE_LINK_DIRECT);
                             $rows = $this->oDbh->exec($query);
                             if (PEAR::isError($rows)) {
                                 OA::debug(" - Error updating ad ID {$aAdZonePriority['ad_id']}, zone ID {$aAdZonePriority['zone_id']} pair priority to {$aAdZonePriority['priority']}.", PEAR_LOG_DEBUG);
@@ -1333,6 +1325,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 SET
                     priority = 0
                 WHERE
+                    link_type = " . MAX_AD_ZONE_LINK_DIRECT . "
+                    OR
                     link_type = " . MAX_AD_ZONE_LINK_NORMAL;
             $rows = $this->oDbh->exec($query);
             if (PEAR::isError($rows)) {
@@ -1359,7 +1353,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                     AND
                                     zone_id = {$aAdZonePriority['zone_id']}
                                     AND
-                                    link_type = " . MAX_AD_ZONE_LINK_NORMAL;
+                                    link_type = " . ($aAdZonePriority['zone_id'] != 0 ? MAX_AD_ZONE_LINK_NORMAL : MAX_AD_ZONE_LINK_DIRECT);
                             $rows = $this->oDbh->exec($query);
                             if (PEAR::isError($rows)) {
                                 OA::debug('   - Error: Rolling back transaction.', PEAR_LOG_DEBUG);
@@ -2041,10 +2035,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      * Requires that a current day/time (as a Date object) be registered
      * with the ServiceLocator (as "now").
      *
-     * Ignores the special zone with zone ID of 0 (zero), as this is a
-     * reserved zone for storing statistics about directly selected ads,
-     * and as a result, shouldn't be used during prioritisation.
-     *
      * @return mixed An array, indexed by zone ID, of the current impression
      *               forecasts, or false if the current datetime not registered
      *               with the ServiceLocator.
@@ -2072,8 +2062,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                  array("$table.operation_interval = {$aConf['maintenance']['operationInterval']}", 'AND'),
                                  array("$table.operation_interval_id = $currentOpIntID",  'AND'),
                                  array("$table.interval_start = '" . $aCurrentDates['start']->format('%Y-%m-%d %H:%M:%S') . "'", 'AND'),
-                                 array("$table.interval_end = '" . $aCurrentDates['end']->format('%Y-%m-%d %H:%M:%S') . "'", 'AND'),
-                                 array("$table.zone_id != 0", 'AND')
+                                 array("$table.interval_end = '" . $aCurrentDates['end']->format('%Y-%m-%d %H:%M:%S') . "'", 'AND')
                              );
         $result = $this->_get($query);
         foreach ($result as $row) {
@@ -2085,9 +2074,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $query['table']    = $table;
         $query['fields']   = array(
                                 "$table.zoneid AS zone_id"
-                             );
-        $query['wheres']   = array(
-                                 array("$table.zoneid != 0", 'AND')
                              );
         $result = $this->_get($query);
         foreach ($result as $row) {
