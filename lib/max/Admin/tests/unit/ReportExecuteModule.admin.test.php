@@ -125,7 +125,7 @@ class ReportExecuteTest extends UnitTestCase
         );
         $info = array('plugin-import' => $import);
         $passed_in = array(
-            'example_preset' => 'thisweek',
+            'example_preset' => 'this_week',
         );
 
         $module = new ReportExecuteModule();
@@ -152,7 +152,7 @@ class ReportExecuteTest extends UnitTestCase
         );
         $info = array('plugin-import' => $import);
         $passed_in = array(
-            'example_preset' => 'lastweek',
+            'example_preset' => 'last_week',
         );
 
         $module = new ReportExecuteModule();
@@ -179,7 +179,7 @@ class ReportExecuteTest extends UnitTestCase
         );
         $info = array('plugin-import' => $import);
         $passed_in = array(
-            'example_preset' => 'last7days',
+            'example_preset' => 'last_7_days',
         );
 
         $module = new ReportExecuteModule();
@@ -206,7 +206,7 @@ class ReportExecuteTest extends UnitTestCase
         );
         $info = array('plugin-import' => $import);
         $passed_in = array(
-            'example_preset' => 'lastmonth',
+            'example_preset' => 'last_month',
         );
 
         $module = new ReportExecuteModule();
@@ -233,7 +233,7 @@ class ReportExecuteTest extends UnitTestCase
         );
         $info = array('plugin-import' => $import);
         $passed_in = array(
-            'example_preset' => 'thismonth',
+            'example_preset' => 'this_month',
         );
 
         $module = new ReportExecuteModule();
