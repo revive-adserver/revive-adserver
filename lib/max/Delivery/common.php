@@ -28,9 +28,9 @@
 $Id$
 */
 
-require MAX_PATH . '/lib/max/Delivery/cookie.php';
-require MAX_PATH . '/lib/max/Delivery/remotehost.php';
-require MAX_PATH . '/lib/max/Delivery/log.php';
+require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
+require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
+require_once MAX_PATH . '/lib/max/Delivery/log.php';
 
 /**
  * @package    MaxDelivery
