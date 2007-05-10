@@ -70,12 +70,14 @@ foreach ($aLayer as $layer) {
                 $oReporter->paintMethodStart($fileName);
                 $returncode = -1;
                 $output_lines = '';
-                exec("$php -q run.php --type=$layer --level=file --layer=$subLayer --folder=$dirName --file=$fileName --format=text", $output_lines, $returncode);
+                $exec = "run.php --type=$layer --level=file --layer=$subLayer --folder=$dirName"
+                    . " --file=$fileName --format=text";
+                exec("$php -q $exec", $output_lines, $returncode);
                 $message = "{$fileName}\n" . join($output_lines, "\n");
                 switch ($returncode) {
                     case 0: $oReporter->paintPass($message); break;
                     case 1:
-                        $command = "Failed command (in /tests): php run.php --type=$layer --level=file --layer=$subLayer --folder=$dirName --file=$fileName --format=text\n";
+                        $command = "Failed command (in /tests): php $exec\n";
                         $oReporter->paintFail($command . $message);
                         break;
                     default: $oReporter->paintException($message);
