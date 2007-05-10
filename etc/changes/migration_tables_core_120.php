@@ -11,8 +11,6 @@ class Migration_120 extends Migration
 
 		$this->aTaskList_constructive[] = 'beforeAddTable__affiliates_extra';
 		$this->aTaskList_constructive[] = 'afterAddTable__affiliates_extra';
-		$this->aTaskList_constructive[] = 'beforeAddTable__application_variable';
-		$this->aTaskList_constructive[] = 'afterAddTable__application_variable';
 		$this->aTaskList_constructive[] = 'beforeAddTable__password_recovery';
 		$this->aTaskList_constructive[] = 'afterAddTable__password_recovery';
 
@@ -29,16 +27,6 @@ class Migration_120 extends Migration
 	function afterAddTable__affiliates_extra()
 	{
 		return $this->afterAddTable('affiliates_extra');
-	}
-
-	function beforeAddTable__application_variable()
-	{
-		return $this->beforeAddTable('application_variable');
-	}
-
-	function afterAddTable__application_variable()
-	{
-		return $this->afterAddTable('application_variable');
 	}
 
 	function beforeAddTable__password_recovery()

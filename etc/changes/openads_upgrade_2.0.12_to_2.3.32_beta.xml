@@ -15,6 +15,13 @@
     <!-- Database Packages -->
     <database>
         <package>
+            <version>109</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_109.xml</file>
+            <file>changes_tables_core_109.xml</file>
+            <file>migration_tables_core_109.php</file>
+        </package>
+        <package>
             <version>110</version>
             <schema>tables_core</schema>
             <file>schema_tables_core_110.xml</file>
@@ -92,17 +99,67 @@
             <file>migration_tables_core_120.php</file>
         </package>
         <package>
-            <version>510</version>
+            <version>121</version>
             <schema>tables_core</schema>
-            <file>schema_tables_core_510.xml</file>
-            <file>changes_tables_core_510.xml</file>
-            <file>migration_tables_core_510.php</file>
+            <file>schema_tables_core_121.xml</file>
+            <file>changes_tables_core_121.xml</file>
+            <file>migration_tables_core_121.php</file>
+        </package>
+        <package>
+            <version>122</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_122.xml</file>
+            <file>changes_tables_core_122.xml</file>
+            <file>migration_tables_core_122.php</file>
+        </package>
+        <package>
+            <version>123</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_123.xml</file>
+            <file>changes_tables_core_123.xml</file>
+            <file>migration_tables_core_123.php</file>
+        </package>
+        <package>
+            <version>124</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_124.xml</file>
+            <file>changes_tables_core_124.xml</file>
+            <file>migration_tables_core_124.php</file>
+        </package>
+        <package>
+            <version>125</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_125.xml</file>
+            <file>changes_tables_core_125.xml</file>
+            <file>migration_tables_core_125.php</file>
+        </package>
+        <package>
+            <version>126</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_126.xml</file>
+            <file>changes_tables_core_126.xml</file>
+            <file>migration_tables_core_126.php</file>
+        </package>
+        <package>
+            <version>127</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_127.xml</file>
+            <file>changes_tables_core_127.xml</file>
+            <file>migration_tables_core_127.php</file>
+        </package>
+        <package>
+            <version>128</version>
+            <stamp>513</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_128.xml</file>
+            <file>changes_tables_core_128.xml</file>
+            <file>migration_tables_core_128.php</file>
         </package>
     </database>
 
     <!-- Custom Install Scripts to execute -->
-    <preinstallfile>do_this_first.php</preinstallfile>
-    <postinstallfile>do_this_last.php</postinstallfile>
+    <!--prescript>prescript_openads_upgrade_2.0.12_to_2.3.32_beta.php</prescript>
+    <postscript>postscript_openads_upgrade_2.0.12_to_2.3.32_beta.php</postscript-->
 
 
 </upgrade>
