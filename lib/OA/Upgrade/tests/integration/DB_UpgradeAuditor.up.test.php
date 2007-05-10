@@ -38,6 +38,7 @@ require_once MAX_PATH.'/lib/OA/Upgrade/DB_UpgradeAuditor.php';
  */
 class Test_OA_DB_UpgradeAuditor extends UnitTestCase
 {
+    var $path;
 
     /**
      * The constructor method.
@@ -45,6 +46,7 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
     function Test_OA_DB_UpgradeAuditor()
     {
         $this->UnitTestCase();
+        $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/integration/';
     }
 
     function test_constructor()
@@ -198,22 +200,22 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
 
         $aResult = $oAuditor->queryAudit($version, $timing, $schema, DB_UPGRADE_ACTION_BACKUP_STARTED);
         $this->assertIsa($aResult,'array','audit table query result is not an array');
-        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_UPGRADE_STARTED);
+        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_BACKUP_STARTED);
         $this->assertEqual($aResult[0]['action'],DB_UPGRADE_ACTION_BACKUP_STARTED,'wrong action for audit query result');
 
-        $aResult = $oAuditor->queryAudit($version, $timing, $schema, DB_UPGRADE_ACTION_BACKUP_TABLE);
+        $aResult = $oAuditor->queryAudit($version, $timing, $schema, DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED);
         $this->assertIsa($aResult,'array','audit table query result is not an array');
-        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_UPGRADE_STARTED);
-        $this->assertEqual($aResult[0]['action'],DB_UPGRADE_ACTION_BACKUP_TABLE,'wrong action for audit query result');
+        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED);
+        $this->assertEqual($aResult[0]['action'],DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,'wrong action for audit query result');
 
         $aResult = $oAuditor->queryAudit($version, $timing, $schema, DB_UPGRADE_ACTION_BACKUP_SUCCEEDED);
         $this->assertIsa($aResult,'array','audit table query result is not an array');
-        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_UPGRADE_STARTED);
+        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_BACKUP_SUCCEEDED);
         $this->assertEqual($aResult[0]['action'],DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,'wrong action for audit query result');
 
         $aResult = $oAuditor->queryAudit($version, $timing, $schema, DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED);
         $this->assertIsa($aResult,'array','audit table query result is not an array');
-        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_UPGRADE_STARTED);
+        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED);
         $this->assertEqual($aResult[0]['action'],DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,'wrong action for audit query result');
     }
 
@@ -279,7 +281,7 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
                            'tablename'=>'test_table',
                            'tablename_backup'=>'test_table_bak',
                            'table_backup_schema'=>serialize($this->_getFieldDefinitionArray()),
-                           'action'=>DB_UPGRADE_ACTION_BACKUP_TABLE,
+                           'action'=>DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,
                           );
         $aAudit[3] = array('info1'=>'BACKUP COMPLETE',
                            'action'=>DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
@@ -297,6 +299,28 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
         $aDef[$table]['fields']['test_field']  = array('type'=>'test_type','length'=>1);
         $aDef[$table]['indexes']['test_index'] = array('primary'=>true);
         return $aDef;
+    }
+
+/*
+seems to be a problem with LIKE in an MDB2 query
+works in phpMyAdmin on MySQL 5.0.22 but not via this routine
+*/
+    function test_listBackups()
+    {
+        $oAuditor = $this->_getAuditObject();
+        $oTable = new OA_DB_Table();
+        $oTable->init($this->path.'schema_test_backups.xml');
+        $this->assertTrue($oTable->createTable('z_test1'),'error creating test backup z_test1');
+        $this->assertTrue($oTable->createTable('z_test2'),'error creating test backup z_test2');
+        $this->assertTrue($oTable->createTable('z_test3'),'error creating test backup z_test3');
+        $aExistingTables = $oTable->oDbh->manager->listTables();
+        $this->assertTrue(in_array('z_test1', $aExistingTables), '_listBackups');
+        $this->assertTrue(in_array('z_test2', $aExistingTables), '_listBackups');
+        $this->assertTrue(in_array('z_test3', $aExistingTables), '_listBackups');
+
+        $aBackupTables = $oAuditor->_listBackups();
+        $this->assertIsA($aBackupTables,'array','backup array not an array');
+        $this->assertEqual(count($aBackupTables),3,'wrong number of backups found in database: expected 3 got '.count($aBackupTables));
     }
 
 }

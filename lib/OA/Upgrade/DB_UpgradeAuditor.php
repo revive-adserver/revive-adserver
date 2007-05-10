@@ -35,13 +35,15 @@ define('DB_UPGRADE_TIMING_DESTRUCTIVE_DEFAULT',                    1);
 
 define('DB_UPGRADE_ACTION_UPGRADE_STARTED',                        10);
 define('DB_UPGRADE_ACTION_BACKUP_STARTED',                         20);
-define('DB_UPGRADE_ACTION_BACKUP_TABLE',                           30);
+define('DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED',                    30);
 define('DB_UPGRADE_ACTION_BACKUP_SUCCEEDED',                       40);
 define('DB_UPGRADE_ACTION_BACKUP_FAILED',                          50);
+define('DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED',                    59);
 define('DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED',                      60);
 define('DB_UPGRADE_ACTION_UPGRADE_FAILED',                         70);
 define('DB_UPGRADE_ACTION_ROLLBACK_STARTED',                       80);
-define('DB_UPGRADE_ACTION_ROLLBACK_TABLE',                         90);
+define('DB_UPGRADE_ACTION_ROLLBACK_TABLE_RESTORED',                90);
+define('DB_UPGRADE_ACTION_ROLLBACK_TABLE_DROPPED',                 91);
 define('DB_UPGRADE_ACTION_ROLLBACK_SUCCEEDED',                     100);
 define('DB_UPGRADE_ACTION_ROLLBACK_FAILED',                        110);
 define('DB_UPGRADE_ACTION_OUTSTANDING_UPGRADE',                    120);
@@ -261,6 +263,35 @@ class OA_DB_UpgradeAuditor
             return false;
         }
         return true;
+    }
+
+    /**
+     * retrieve an array of table names from currently connected database
+     *
+     * @return array
+     */
+    function _listBackups()
+    {
+        $aResult = array();
+        $prefix = $this->prefix.'z_';
+        OA_DB::setCaseSensitive();
+        $aBakTables = $this->oDbh->manager->listTables(null, $prefix);
+        OA_DB::disableCaseSensitive();
+
+        $prelen = strlen($prefix);
+        krsort($aBakTables);
+        foreach ($aBakTables AS $k => $name)
+        {
+            // workaround for mdb2 problem "show table like"
+            if (substr($name,0,$prelen)==$prefix)
+            {
+                $aInfo = $this->queryAuditForABackup($name);
+                $aResult[$k]['backup_table'] = $name;
+                $aResult[$k]['copied_table'] = $aInfo[0]['tablename'];
+                $aResult[$k]['copied_date']  = $aInfo[0]['updated'];
+            }
+        }
+        return $aResult;
     }
 
 }

@@ -64,6 +64,7 @@ class Test_OA_Upgrade extends UnitTestCase
     function test_initDatabaseConnection()
     {
         $oUpgrade = new OA_Upgrade();
+        $oUpgrade->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
         $oUpgrade->initDatabaseConnection();
         $this->assertIsA($oUpgrade->oDbh,'MDB2_driver_Common','class mismatch: MDB2_driver_Common');
     }
@@ -184,12 +185,15 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oPAN->expectOnce('init');
         $oUpgrade->oPAN->setReturnValueAt(0, 'getPANversion', '200.311');
         $oUpgrade->oPAN->expectCallCount('getPANversion',2);
-        $oUpgrade->oPAN->setReturnValueAt(1, 'getPANversion', '200.312');
+        $oUpgrade->oPAN->setReturnValueAt(1, 'getPANversion', '200.500');
 
 
         $oUpgrade->oPAN->detected = true;
         $oUpgrade->oPAN->aDsn['database']['name'] = 'pan_test';
         $oUpgrade->oPAN->oDbh = null;
+
+        // save the global database settings as we will lose them soon...
+        $aDsn = $GLOBALS['_MAX']['CONF']['database'];
 
         $this->assertFalse($oUpgrade->detectPAN(),'');
         $this->assertEqual($oUpgrade->versionInitialApplication,'200.311','wrong initial application version');
@@ -197,9 +201,11 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->package_file, '', 'wrong package file assigned');
 
         $this->assertTrue($oUpgrade->detectPAN(),'');
-        $this->assertEqual($oUpgrade->versionInitialApplication,'200.312','wrong initial application version');
+        $this->assertEqual($oUpgrade->versionInitialApplication,'200.500','wrong initial application version');
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code');
         $this->assertEqual($oUpgrade->package_file, 'openads_upgrade_2.0.12_to_2.3.32_beta.xml','wrong package file assigned');
+
+        $GLOBALS['_MAX']['CONF']['database'] = $aDsn;
     }
 
     /**

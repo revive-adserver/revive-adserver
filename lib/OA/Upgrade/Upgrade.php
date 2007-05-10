@@ -128,23 +128,26 @@ class OA_Upgrade
     {
         if (is_null($this->oDbh))
         {
-            $this->oDbh = OA_DB::singleton($dsn);
+            //$this->oDbh = OA_DB::singleton($dsn);
+            $this->oDbh = OA_DB::singleton(OA_DB::getDsn());
         }
-        if (!PEAR::isError($this->oDbh))
-        {
-            $this->oTable->oDbh = $this->oDbh;
-            $this->oDBUpgrader->initMDB2Schema();
-            $this->oVersioner->init($this->oDbh);
-            $this->oDBAuditor->init($this->oDbh, $this->oLogger);
-            $this->oDBUpgrader->oAuditor = &$this->oDBAuditor;
-            return true;
-        }
-        else
+        if (PEAR::isError($this->oDbh))
         {
             $this->oLogger->log($this->oDbh->getUserInfo());
             $this->oDbh = null;
             return false;
         }
+        if (!$this->oDbh)
+        {
+            $this->oLogger->log('Unable to connect to database');
+            $this->oDbh = null;
+            return false;
+        }
+        $this->oTable->oDbh = $this->oDbh;
+        $this->oDBUpgrader->initMDB2Schema();
+        $this->oVersioner->init($this->oDbh);
+        $this->oDBAuditor->init($this->oDbh, $this->oLogger);
+        $this->oDBUpgrader->oAuditor = &$this->oDBAuditor;
         return true;
     }
 
@@ -165,15 +168,23 @@ class OA_Upgrade
      */
     function recoverUpgrade()
     {
-        if (is_null($this->oDbh))
+        $aRecover = $this->oDBUpgrader->seekRecoveryFile();
+        if ($aRecover['versionTo']<200)
         {
-            $this->initDatabaseConnection();
+            // interrupted PAN upgrade
+            // load PAN config
+            $this->detectPAN();
+        }
+        if (!$this->initDatabaseConnection())
+        {
+            return false;
         }
         if ($this->oDBUpgrader->getRecoveryData())
         {
             $this->oDBUpgrader->doRecovery();
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -329,12 +340,14 @@ class OA_Upgrade
             $this->versionInitialApplication = $this->oPAN->getPANversion();
             if ($this->versionInitialApplication) // its PAN
             {
-                $valid = (version_compare($this->versionInitialApplication,'200.312')>=0);
+                $valid = (version_compare($this->versionInitialApplication,'200.500')>=0);
                 if ($valid)
                 {
                     $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
                     $this->package_file = 'openads_upgrade_2.0.12_to_2.3.32_beta.xml';
                     $this->aDsn         = $this->oPAN->aDsn;
+                    $GLOBALS['_MAX']['CONF']['database'] = $this->aDsn['database'];
+                    $GLOBALS['_MAX']['CONF']['table'] = $this->aDsn['table'];
                     return true;
                 }
                 $this->existing_installation_status = OA_STATUS_PAN_VERSION_FAILED;
@@ -720,18 +733,20 @@ class OA_Upgrade
         }
         if ($this->oPAN->detected)
         {
+            if (!$this->createConfigFile())
+            {
+                $this->oLogger->logError('Installation failed to create the configuration file');
+                return false;
+            }
+            $aConfig['database'] = $GLOBALS['_MAX']['CONF']['database'];
+            $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
+            $this->saveConfigDB($aConfig);
+            $this->oConfiguration->setOpenadsInstalledOn();
             if (!$this->oPAN->renamePANConfigFile())
             {
                     $this->oLogger->logError('Failed to rename PAN configuration file (non-critical, you can delete or rename /var/config.inc.php yourself)');
                     $this->message = 'Failed to rename PAN configuration file (non-critical, you can delete or rename /var/config.inc.php yourself)';
                 return true;
-            }
-            $this->oConfiguration->setupConfigPriority('');
-            if (!$this->oConfiguration->writeConfig())
-            {
-                $this->oLogger->logError('Failed to set the randmax priority value');
-                $this->message = 'Failed to set the randmax priority value';
-                return false;
             }
         }
         return true;
@@ -921,7 +936,8 @@ class OA_Upgrade
             }
             if ($ok)
             {
-              $this->oVersioner->putSchemaVersion($aPkg['schema'], $aPkg['version']);
+              $version = ( $aPkg['stamp'] ?  $aPkg['stamp'] : $aPkg['version']);
+              $this->oVersioner->putSchemaVersion($aPkg['schema'],$version);
             }
             else
             {

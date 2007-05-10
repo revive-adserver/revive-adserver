@@ -44,6 +44,10 @@ class OA_Upgrade_Config
         {
             $this->configFile = $host.'.conf.ini';
         }
+        else
+        {
+            $this->configFile = $host.'.conf.php';
+        }
     }
 
     function isMaxConfigFile()

@@ -112,7 +112,7 @@ class OA_phpAdsNew
     {
         if (file_exists(MAX_PATH.$this->pathCfg.$this->fileCfg))
         {
-            if (copy(MAX_PATH.$this->pathCfg.$this->fileCfg, MAX_PATH.$this->pathCfg.$this->fileCfg.'phpadsnew'))
+            if (copy(MAX_PATH.$this->pathCfg.$this->fileCfg, MAX_PATH.$this->pathCfg.$this->fileCfg.'.AdsNew'))
             {
                 unlink(MAX_PATH.$this->pathCfg.$this->fileCfg);
             }
