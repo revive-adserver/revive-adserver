@@ -101,6 +101,37 @@ class TracHtmlReporter extends HtmlReporter
         }
         print "<br />\n";
     }
+    
+    /**
+     *    Paints the test failure with a breadcrumbs
+     *    trail of the nesting test suites below the
+     *    top level test.
+     *    @param string $message    Failure message displayed in
+     *                              the context of the other tests.
+     *    @access public
+     */
+    function paintFail($message) {
+        $this->_fails++;
+        print "<span class=\"fail\">Fail</span>: ";
+        $breadcrumb = $this->getTestList();
+        array_shift($breadcrumb);
+        print implode(" -&gt; ", $breadcrumb);
+        print " -&gt; " . $this->_htmlEntities($message);
+        
+        if (!empty($GLOBALS['_MAX']['CONF']['test']['urlToTracSvnBrowser'])) {
+            $pattern = "/\[(.*)\] with error/";
+            preg_match($pattern, $message, $matches = array());
+            print " <a href='".$GLOBALS['_MAX']['CONF']['test']['urlToTracSvnBrowser'];
+            $path = substr($matches[1], strlen(MAX_PATH));
+            if (strpos($path, '/') === 0) {
+                $path = substr($path, 1);
+            }
+            print $path . "'>";
+            print "<img src='images/tutorial.png' border='0'/></a>";
+        }
+        
+        print "<br />\n";
+    }    
 }
 
 ?>
