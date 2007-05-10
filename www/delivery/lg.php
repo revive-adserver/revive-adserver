@@ -720,7 +720,7 @@ function _setLimitations($type, $index, $aItems, $aCaps)
 function MAX_commonGetDeliveryUrl($file = null)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    if ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) {
+    if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) {
         $url = MAX_commonConstructSecureDeliveryUrl($file);
     } else {
         $url = MAX_commonConstructDeliveryUrl($file);
@@ -783,7 +783,6 @@ function MAX_commonRegisterGlobalsArray($args = array())
     if (!isset($magic_quotes_gpc)) {
         $magic_quotes_gpc = ini_get('magic_quotes_gpc');
     }
-    
     $found = false;
     foreach($args as $key) {
         if (isset($_GET[$key])) {
@@ -849,8 +848,8 @@ function MAX_commonDecrypt($string)
 }
 function MAX_commonInitVariables()
 {
-    MAX_commonRegisterGlobalsArray(array('context', 'source', 'target', 'withText', 'withtext', 'ct0', 'what', 'loc', 'referer', 'zoneid', 'campaignid', 'bannerid'));
-    global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid;
+    MAX_commonRegisterGlobalsArray(array('context', 'source', 'target', 'withText', 'withtext', 'ct0', 'what', 'loc', 'referer', 'zoneid', 'campaignid', 'bannerid', 'clientid'));
+    global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid;
     if (!isset($context)) 	$context = array();
     if (!isset($source))	$source = '';
     if (!isset($target)) 	$target = '_blank';
@@ -867,7 +866,7 @@ function MAX_commonInitVariables()
         } else {
             $what = '';
         }
-    } else {
+    } elseif (preg_match('/^.+:.+$/', $what)) {
         list($whatName, $whatValue) = explode(':', $what);
         if ($whatName == 'zone') {
             $whatName = 'zoneid';
@@ -875,6 +874,8 @@ function MAX_commonInitVariables()
         global $$whatName;
         $$whatName = $whatValue;
     }
+    // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
+    if (!isset($clientid))  $clientid = '';
     $source = MAX_commonDeriveSource($source);
     if (!empty($loc)) {
         $loc = stripslashes($loc);
@@ -1036,13 +1037,11 @@ function OA_Delivery_Cache_buildFileName($name, $isHash = false)
     }
     return $GLOBALS['OA_Delivery_Cache']['path'].$GLOBALS['OA_Delivery_Cache']['prefix'].$name.'.php';
 }
-function OA_Delivery_Cache_getName($functionName, $id = null)
+function OA_Delivery_Cache_getName($functionName)
 {
-    $functionName = strtolower(str_replace('MAX_cacheGet', '', $functionName));
-    if ($id) {
-        return $functionName.$id;
-    }
-    return $functionName;
+    $args = func_get_args();
+    $args[0] = strtolower(str_replace('MAX_cacheGet', '', $args[0]));
+    return join('�', $args);
 }
 function MAX_cacheGetAd($ad_id, $cached = true)
 {
@@ -1075,12 +1074,12 @@ function MAX_cacheGetZoneInfo($zoneId, $cached = true)
     }
     return $aRows;
 }
-function MAX_cacheGetLinkedAds($search, $cached = true)
+function MAX_cacheGetLinkedAds($search, $campaignid, $laspart, $cached = true)
 {
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $search);
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $search, $campaignid, $laspart);
     if (($aAds = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
-        $aAds = OA_Dal_Delivery_getLinkedAds($search);
+        $aAds = OA_Dal_Delivery_getLinkedAds($search, $campaignid, $laspart);
         $aAds = OA_Delivery_Cache_store_return($sName, $aAds);
     }
     return $aAds;

@@ -720,7 +720,7 @@ function _setLimitations($type, $index, $aItems, $aCaps)
 function MAX_commonGetDeliveryUrl($file = null)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    if ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) {
+    if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) {
         $url = MAX_commonConstructSecureDeliveryUrl($file);
     } else {
         $url = MAX_commonConstructDeliveryUrl($file);
@@ -783,7 +783,6 @@ function MAX_commonRegisterGlobalsArray($args = array())
     if (!isset($magic_quotes_gpc)) {
         $magic_quotes_gpc = ini_get('magic_quotes_gpc');
     }
-    
     $found = false;
     foreach($args as $key) {
         if (isset($_GET[$key])) {
@@ -849,8 +848,8 @@ function MAX_commonDecrypt($string)
 }
 function MAX_commonInitVariables()
 {
-    MAX_commonRegisterGlobalsArray(array('context', 'source', 'target', 'withText', 'withtext', 'ct0', 'what', 'loc', 'referer', 'zoneid', 'campaignid', 'bannerid'));
-    global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid;
+    MAX_commonRegisterGlobalsArray(array('context', 'source', 'target', 'withText', 'withtext', 'ct0', 'what', 'loc', 'referer', 'zoneid', 'campaignid', 'bannerid', 'clientid'));
+    global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid;
     if (!isset($context)) 	$context = array();
     if (!isset($source))	$source = '';
     if (!isset($target)) 	$target = '_blank';
@@ -867,7 +866,7 @@ function MAX_commonInitVariables()
         } else {
             $what = '';
         }
-    } else {
+    } elseif (preg_match('/^.+:.+$/', $what)) {
         list($whatName, $whatValue) = explode(':', $what);
         if ($whatName == 'zone') {
             $whatName = 'zoneid';
@@ -875,6 +874,8 @@ function MAX_commonInitVariables()
         global $$whatName;
         $$whatName = $whatValue;
     }
+    // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
+    if (!isset($clientid))  $clientid = '';
     $source = MAX_commonDeriveSource($source);
     if (!empty($loc)) {
         $loc = stripslashes($loc);
@@ -1656,13 +1657,11 @@ function OA_Delivery_Cache_buildFileName($name, $isHash = false)
     }
     return $GLOBALS['OA_Delivery_Cache']['path'].$GLOBALS['OA_Delivery_Cache']['prefix'].$name.'.php';
 }
-function OA_Delivery_Cache_getName($functionName, $id = null)
+function OA_Delivery_Cache_getName($functionName)
 {
-    $functionName = strtolower(str_replace('MAX_cacheGet', '', $functionName));
-    if ($id) {
-        return $functionName.$id;
-    }
-    return $functionName;
+    $args = func_get_args();
+    $args[0] = strtolower(str_replace('MAX_cacheGet', '', $args[0]));
+    return join('�', $args);
 }
 function MAX_cacheGetAd($ad_id, $cached = true)
 {
@@ -1695,12 +1694,12 @@ function MAX_cacheGetZoneInfo($zoneId, $cached = true)
     }
     return $aRows;
 }
-function MAX_cacheGetLinkedAds($search, $cached = true)
+function MAX_cacheGetLinkedAds($search, $campaignid, $laspart, $cached = true)
 {
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $search);
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $search, $campaignid, $laspart);
     if (($aAds = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
-        $aAds = OA_Dal_Delivery_getLinkedAds($search);
+        $aAds = OA_Dal_Delivery_getLinkedAds($search, $campaignid, $laspart);
         $aAds = OA_Delivery_Cache_store_return($sName, $aAds);
     }
     return $aAds;
@@ -1755,7 +1754,7 @@ function MAX_cacheGetGoogleJavaScript($cached = true)
     }
     return $output;
 }
-function MAX_adSelect($what, $target = '', $source = '', $withtext = 0, $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = '')
+function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $withtext = 0, $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = '')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     // Store the original zone, campaign or banner IDs for later use
@@ -1780,7 +1779,7 @@ function MAX_adSelect($what, $target = '', $source = '', $withtext = 0, $context
     $g_prepend = '';
     while (($what != '') && $found == false) {
 		// Get first part, store second part
-		$ix = strpos($what, ',');
+		$ix = strpos($what, '|');
 		if ($ix === false) {
 			$remaining = '';
 		} else {
@@ -1791,7 +1790,24 @@ function MAX_adSelect($what, $target = '', $source = '', $withtext = 0, $context
 			$zoneId  = intval(substr($what,5));
             $row = _adSelectZone($zoneId, $context, $source, $richmedia);
         } else {
-            $row = _adSelectDirect($what, $context, $source, $richmedia);
+            // Expand paths to regular statements
+            if (strpos($what, '/') > 0) {
+                if (strpos($what, '@') > 0) {
+                    list ($what, $append) = explode ('@', $what);
+                } else {
+                    $append = '';
+                }
+                $separate  = explode ('/', $what);
+                $expanded  = '';
+                $collected = array();
+                while (list(,$v) = each($separate)) {
+                    $expanded .= ($expanded != '' ? ',+' : '') . $v;
+                    $collected[] = $expanded . ($append != '' ? ',+'.$append : '');
+                }
+                $what = strtok(implode('|', array_reverse ($collected)), '|');
+                $remaining = strtok('').($remaining != '' ? '|'.$remaining : '');
+            }
+            $row = _adSelectDirect($what, $campaignid, $context, $source, $richmedia, $remaining == '');
         }
         if (is_array($row) && empty($row['default'])) {
             // Log the ad request
@@ -1851,28 +1867,17 @@ function MAX_adSelect($what, $target = '', $source = '', $withtext = 0, $context
         }
     }
 }
-function _adSelectDirect($what, $context = array(), $source = '', $richMedia = true)
+function _adSelectDirect($what, $campaignid = '', $context = array(), $source = '', $richMedia = true, $lastpart = true)
 {
-    if (strpos($what, '/') !== false) {
-        $aPieces = explode('/', $what);
-        while (!empty($what)) {
-            $aSearch[] = implode('&', $aPieces);
-            unset($aPieces[sizeof($aPieces)-1]);
-        }
-    } else {
-        $aSearch[] = $what;
-    }
-    foreach ($aSearch as $search) {
-        $aLinkedAds = MAX_cacheGetLinkedAds($search);
-        $aLinkedAd = _adSelect($aLinkedAds, $context, $source, $richMedia);
-        if (is_array($aLinkedAd)) {
-        	$aLinkedAd['zoneid'] = 0;
-			$aLinkedAd['bannerid'] = $aLinkedAd['ad_id'];
-			$aLinkedAd['storagetype'] = $aLinkedAd['type'];
-			$aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
-			$aLinkedAd['prepend'] = '';
-			return $aLinkedAd;
-        }
+    $aLinkedAds = MAX_cacheGetLinkedAds($what, $campaignid, $lastpart);
+    $aLinkedAd = _adSelect($aLinkedAds, $context, $source, $richMedia);
+    if (is_array($aLinkedAd)) {
+    	$aLinkedAd['zoneid'] = 0;
+		$aLinkedAd['bannerid'] = $aLinkedAd['ad_id'];
+		$aLinkedAd['storagetype'] = $aLinkedAd['type'];
+		$aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
+		$aLinkedAd['prepend'] = '';
+		return $aLinkedAd;
     }
     return false;
 }
@@ -2239,7 +2244,7 @@ if (isset($exclude) && $exclude != '' && $exclude != ',') {
     }
 }
 // Get the banner
-$output = MAX_adSelect($what, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
+$output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 // Save the context array into a javascript variable
 if (isset($output['context']) && is_array($output['context'])) {
     $JScontext = "<script type='text/javascript'>document.context='".base64_encode(serialize($output['context']))."'; </script>";
