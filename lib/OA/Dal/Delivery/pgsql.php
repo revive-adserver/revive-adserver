@@ -40,7 +40,7 @@ $Id$
  *
  * @param string $database   The name of the database config to use
  *                           (Must match the database section name in the conf file)
- * @return resource|false    The MySQL database resource
+ * @return resource|false    The PgSQL database resource
  *                           or false on failure
  */
 function OA_Dal_Delivery_connect($database = 'database') {
