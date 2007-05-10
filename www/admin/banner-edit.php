@@ -73,6 +73,7 @@ phpAds_registerGlobalUnslashed(
     ,'description'
     ,'height'
     ,'imageurl'
+    ,'keyword'
     ,'message'
     ,'replaceimage'
     ,'replacealtimage'
@@ -143,6 +144,13 @@ if (isset($submit)) {
     $aVariables['comments']        = $comments;
     $aVariables['compiledlimitation'] = '';
     $aVariables['append'] = '';
+
+    if (isset($keyword) && $keyword != '') {
+        $keywordArray = split('[ ,]+', trim($keyword));
+        $aVariables['keyword'] = implode(' ', $keywordArray);
+    } else {
+        $aVariables['keyword'] = '';
+    }
 
     // Handle SWF transparency
     if ($aVariables['contenttype'] == 'swf') {
@@ -315,6 +323,7 @@ if ($bannerid != '') {
     $row['contenttype']  = '';
     $row['adserver']     = '';
     $row['transparent']  = 0;
+    $row['keyword']      = '';
 
     $hardcoded_links = array();
     $hardcoded_targets = array();
@@ -952,6 +961,12 @@ if ($type == 'txt') {
 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+
+    echo "<tr><td width='30'>&nbsp;</td>";
+    echo "<td width='200'>".$strKeyword."</td>";
+    echo "<td><input class='flat' size='35' type='text' name='keyword' style='width:350px;' value='".phpAds_htmlQuotes($row["keyword"])."' tabindex='".($tabindex++)."'></td></tr>";
+    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strDescription."</td>";

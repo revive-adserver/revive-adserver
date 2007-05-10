@@ -328,6 +328,7 @@ class SimulationScenario
         }
         $adSelect = MAX_adSelect(
                             $oRequest->what,
+                            '',
                             $oRequest->target,
                             $oRequest->source,
                             $oRequest->withText,

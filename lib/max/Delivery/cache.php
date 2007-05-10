@@ -233,13 +233,12 @@ function OA_Delivery_Cache_buildFileName($name, $isHash = false)
  *
  * @return string The generated cache entry name
  */
-function OA_Delivery_Cache_getName($functionName, $id = null)
+function OA_Delivery_Cache_getName($functionName)
 {
-    $functionName = strtolower(str_replace('MAX_cacheGet', '', $functionName));
-    if ($id) {
-        return $functionName.$id;
-    }
-    return $functionName;
+    $args = func_get_args();
+    $args[0] = strtolower(str_replace('MAX_cacheGet', '', $args[0]));
+
+    return join('§', $args);
 }
 
 /**
@@ -330,12 +329,12 @@ function MAX_cacheGetZoneInfo($zoneId, $cached = true)
  *
  * @return array|false              The array of ads matching the search criteria
  */
-function MAX_cacheGetLinkedAds($search, $cached = true)
+function MAX_cacheGetLinkedAds($search, $campaignid, $laspart, $cached = true)
 {
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $search);
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $search, $campaignid, $laspart);
     if (($aAds = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
-        $aAds = OA_Dal_Delivery_getLinkedAds($search);
+        $aAds = OA_Dal_Delivery_getLinkedAds($search, $campaignid, $laspart);
         $aAds = OA_Delivery_Cache_store_return($sName, $aAds);
     }
 

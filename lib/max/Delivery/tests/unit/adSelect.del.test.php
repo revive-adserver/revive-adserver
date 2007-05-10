@@ -36,6 +36,7 @@ class test_DeliveryAdSelect extends UnitTestCase
 		require_once MAX_PATH . '/lib/max/Delivery/common.php';
 
 		$what         =	'zone:1';
+		$campaignid   = '';
 		$target       = 'http://www.target.com';
 		$source       = 'http://www.source.com';
 		$withText	  =	false;
@@ -45,7 +46,7 @@ class test_DeliveryAdSelect extends UnitTestCase
 		$loc		  =	0;
 		$referer	  = 'http://some.referrer.com/';
 
-	    $return       = MAX_adSelect($what, $target, $source, $withtext, $context, $richmedia, $ct0, $loc, $referer);
+	    $return       = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $context, $richmedia, $ct0, $loc, $referer);
 
 		$this->assertTrue(TRUE);
 	}

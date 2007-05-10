@@ -52,7 +52,7 @@ $limitations = MAX_layerGetLimitations();
 
 header("Content-type: application/x-javascript");
 if ($limitations['compatible']) {
-	$output = MAX_adSelect($what, $target, $source, $withtext, $context, $limitations['richmedia'], $GLOBALS['loc'], $GLOBALS['referer']);
+	$output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, $limitations['richmedia'], $GLOBALS['loc'], $GLOBALS['referer']);
 
 	MAX_cookieFlush();
 	// Exit if no matching banner was found

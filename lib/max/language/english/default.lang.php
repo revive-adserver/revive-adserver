@@ -461,6 +461,7 @@ $GLOBALS['strNewBannerFileAlt']     = "Select a backup image you <br />want to u
 $GLOBALS['strNewBannerURL']         = "Image URL (incl. http://)";
 $GLOBALS['strURL']                     = "Destination URL (incl. http://)";
 $GLOBALS['strHTML']                 = "HTML";
+$GLOBALS['strKeyword']              = "Keywords";
 $GLOBALS['strTextBelow']             = "Text below image";
 $GLOBALS['strWeight']                 = "Weight";
 $GLOBALS['strAlt']                     = "Alt text";

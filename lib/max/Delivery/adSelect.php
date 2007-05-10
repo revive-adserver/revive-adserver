@@ -94,6 +94,7 @@ require_once MAX_PATH . '/lib/max/Delivery/cache.php';
  *
  * @param string  $what         The ad-selection string, colon seperated name=value
  *                              e.g. bannerid=X, campaignid=Y, zone:Z or search:criteria
+ * @param string  $campaignid   The campaign ID to fecth banners from, added in 2.3.32 to allow BC with 2.0
  * @param string  $target       The target attribute for generated <a href> links
  * @param string  $source       The "source" parameter passed into the adcall
  * @param int     $withtext     Should "text below banner" be appended to the generated code
@@ -128,7 +129,7 @@ require_once MAX_PATH . '/lib/max/Delivery/cache.php';
  *                              )
  *                      )
  */
-function MAX_adSelect($what, $target = '', $source = '', $withtext = 0, $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = '')
+function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $withtext = 0, $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = '')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
 
@@ -155,7 +156,7 @@ function MAX_adSelect($what, $target = '', $source = '', $withtext = 0, $context
     $g_prepend = '';
     while (($what != '') && $found == false) {
 		// Get first part, store second part
-		$ix = strpos($what, ',');
+		$ix = strpos($what, '|');
 		if ($ix === false) {
 			$remaining = '';
 		} else {
@@ -166,7 +167,28 @@ function MAX_adSelect($what, $target = '', $source = '', $withtext = 0, $context
 			$zoneId  = intval(substr($what,5));
             $row = _adSelectZone($zoneId, $context, $source, $richmedia);
         } else {
-            $row = _adSelectDirect($what, $context, $source, $richmedia);
+            // Expand paths to regular statements
+            if (strpos($what, '/') > 0) {
+                if (strpos($what, '@') > 0) {
+                    list ($what, $append) = explode ('@', $what);
+                } else {
+                    $append = '';
+                }
+
+                $separate  = explode ('/', $what);
+                $expanded  = '';
+                $collected = array();
+
+                while (list(,$v) = each($separate)) {
+                    $expanded .= ($expanded != '' ? ',+' : '') . $v;
+                    $collected[] = $expanded . ($append != '' ? ',+'.$append : '');
+                }
+
+                $what = strtok(implode('|', array_reverse ($collected)), '|');
+                $remaining = strtok('').($remaining != '' ? '|'.$remaining : '');
+            }
+
+            $row = _adSelectDirect($what, $campaignid, $context, $source, $richmedia, $remaining == '');
         }
         if (is_array($row) && empty($row['default'])) {
             // Log the ad request
@@ -232,37 +254,28 @@ function MAX_adSelect($what, $target = '', $source = '', $withtext = 0, $context
  * This function selects an ad selected by direct selection
  *
  * @param string  $what         The search term being used to select the ad
+ * @param string  $campaignid   The campaign ID to fecth banners from, added in 2.3.32 to allow BC with 2.0
  * @param array   $context      The context of this ad selection
  *                              - used for companion positioning
  *                              - and excluding banner/campaigns from this ad-call
  * @param string  $source       The "source" parameter passed into the adcall
  * @param boolean $richMedia    Does this invocation method allow for serving 3rd party/html ads
+ * @param boolean $lastpart     Are there any other search strings left
  *
  * @return array|false          Returns an ad-array (see page DocBlock) or false if no ad found
  */
-function _adSelectDirect($what, $context = array(), $source = '', $richMedia = true)
+function _adSelectDirect($what, $campaignid = '', $context = array(), $source = '', $richMedia = true, $lastpart = true)
 {
-    if (strpos($what, '/') !== false) {
-        $aPieces = explode('/', $what);
-        while (!empty($what)) {
-            $aSearch[] = implode('&', $aPieces);
-            unset($aPieces[sizeof($aPieces)-1]);
-        }
-    } else {
-        $aSearch[] = $what;
-    }
-    foreach ($aSearch as $search) {
-        $aLinkedAds = MAX_cacheGetLinkedAds($search);
-        $aLinkedAd = _adSelect($aLinkedAds, $context, $source, $richMedia);
-        if (is_array($aLinkedAd)) {
-        	$aLinkedAd['zoneid'] = 0;
-			$aLinkedAd['bannerid'] = $aLinkedAd['ad_id'];
-			$aLinkedAd['storagetype'] = $aLinkedAd['type'];
-			$aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
-			$aLinkedAd['prepend'] = '';
+    $aLinkedAds = MAX_cacheGetLinkedAds($what, $campaignid, $lastpart);
+    $aLinkedAd = _adSelect($aLinkedAds, $context, $source, $richMedia);
+    if (is_array($aLinkedAd)) {
+    	$aLinkedAd['zoneid'] = 0;
+		$aLinkedAd['bannerid'] = $aLinkedAd['ad_id'];
+		$aLinkedAd['storagetype'] = $aLinkedAd['type'];
+		$aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
+		$aLinkedAd['prepend'] = '';
 
-			return $aLinkedAd;
-        }
+		return $aLinkedAd;
     }
 
     return false;

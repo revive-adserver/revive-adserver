@@ -61,7 +61,7 @@ if (isset($exclude) && $exclude != '' && $exclude != ',') {
 }
 
 // Get the banner
-$output = MAX_adSelect($what, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
+$output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
 // Save the context array into a javascript variable
 if (isset($output['context']) && is_array($output['context'])) {

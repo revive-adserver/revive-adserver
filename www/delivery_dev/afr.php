@@ -47,7 +47,7 @@ if (!isset($refresh))   $refresh = 0;
 if (!isset($resize))    $resize = 0;
 
 // Get the banner
-$banner = MAX_adSelect($what, $target, $source, $withtext, $context, true, $ct0, $loc, $referer);
+$banner = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, true, $ct0, $loc, $referer);
 
 // Send cookie if needed
 if (!empty($banner['html']) && !empty($n)) {

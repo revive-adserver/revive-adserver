@@ -164,7 +164,7 @@ function MAX_commonRegisterGlobalsArray($args = array())
     if (!isset($magic_quotes_gpc)) {
         $magic_quotes_gpc = ini_get('magic_quotes_gpc');
     }
-    
+
     $found = false;
     foreach($args as $key) {
         if (isset($_GET[$key])) {
@@ -260,8 +260,8 @@ function MAX_commonDecrypt($string)
  */
 function MAX_commonInitVariables()
 {
-    MAX_commonRegisterGlobalsArray(array('context', 'source', 'target', 'withText', 'withtext', 'ct0', 'what', 'loc', 'referer', 'zoneid', 'campaignid', 'bannerid'));
-    global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid;
+    MAX_commonRegisterGlobalsArray(array('context', 'source', 'target', 'withText', 'withtext', 'ct0', 'what', 'loc', 'referer', 'zoneid', 'campaignid', 'bannerid', 'clientid'));
+    global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid;
 
     if (!isset($context)) 	$context = array();
     if (!isset($source))	$source = '';
@@ -279,7 +279,7 @@ function MAX_commonInitVariables()
         } else {
             $what = '';
         }
-    } else {
+    } elseif (preg_match('/^.+:.+$/', $what)) {
         list($whatName, $whatValue) = explode(':', $what);
         if ($whatName == 'zone') {
             $whatName = 'zoneid';
@@ -287,6 +287,9 @@ function MAX_commonInitVariables()
         global $$whatName;
         $$whatName = $whatValue;
     }
+
+    // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
+    if (!isset($clientid))  $clientid = '';
 
     $source = MAX_commonDeriveSource($source);
 

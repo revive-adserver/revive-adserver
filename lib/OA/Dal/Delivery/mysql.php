@@ -257,13 +257,12 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             d.parameters AS parameters,
             d.transparent AS transparent,
             az.priority AS priority,
+            az.priority_factor AS priority_factor,
+            az.to_be_delivered AS to_be_delivered,
             c.campaignid AS campaign_id,
             c.priority AS campaign_priority,
             c.weight AS campaign_weight,
             c.companion AS campaign_companion,
-            az.priority AS priority,
-            az.priority_factor AS priority_factor,
-            az.to_be_delivered AS to_be_delivered,
             c.block AS block_campaign,
             c.capping AS cap_campaign,
             c.session_capping AS session_cap_campaign
@@ -351,93 +350,24 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
 /**
  * The function to get and return the ads for direct selection
  *
- * @param  string   $search     The search string for this banner selection
+ * @param string  $search       The search string for this banner selection
  *                              Usually 'bannerid:123' or 'campaignid:123'
+ * @param string  $campaignid   The campaign ID to fecth banners from, added in 2.3.32 to allow BC with 2.0
+ * @param boolean $lastpart     Are there any other search strings left
  *
  * @return array|false          The array of ads matching the search criteria
  *                              or false on failure
  */
-function OA_Dal_Delivery_getLinkedAds($search) {
+function OA_Dal_Delivery_getLinkedAds($search, $campaignid, $lastpart) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    // Deal with categories
-    $where1 = preg_replace('/cat:(\w+)/', "cat.name='$1'", $search);
-    // Deal with sizes
-    $where2 = preg_replace('/size:(\d+)x(\d+)/', 'd.width=$1 AND d.height=$2', $where1);
-    // Deal with ads
-    $where3 = preg_replace('/(ad_id|adid|bannerid):(\d+)/', 'd.bannerid=$2', $where2);
-    // Deal with campaigns
-    $where4 = preg_replace('/(placement_id|placementid|campaignid):(\d+)/', 'd.campaignid=$2', $where3);
-    // Deal with width, height
-    $where = preg_replace('/(width|height):(\d+)/', 'd.$1=$2', $where4);
-
-    $aColumns = array(
-        'd.bannerid AS ad_id',
-        'd.campaignid AS placement_id',
-        'd.active AS active',
-        'd.description AS name',
-        'd.storagetype AS type',
-        'd.contenttype AS contenttype',
-        'd.pluginversion AS pluginversion',
-        'd.filename AS filename',
-        'd.imageurl AS imageurl',
-        'd.htmltemplate AS htmltemplate',
-        'd.htmlcache AS htmlcache',
-        'd.width AS width',
-        'd.height AS height',
-        'd.weight AS weight',
-        'd.seq AS seq',
-        'd.target AS target',
-        'd.url AS url',
-        'd.alt AS alt',
-        'd.status AS status',
-        'd.bannertext AS bannertext',
-        'd.autohtml AS autohtml',
-        'd.adserver AS adserver',
-        'd.block AS block_ad',
-        'd.capping AS cap_ad',
-        'd.session_capping AS session_cap_ad',
-        'd.compiledlimitation AS compiledlimitation',
-        'd.append AS append',
-        'd.appendtype AS appendtype',
-        'd.bannertype AS bannertype',
-        'd.alt_filename AS alt_filename',
-        'd.alt_imageurl AS alt_imageurl',
-        'd.alt_contenttype AS alt_contenttype',
-        'd.parameters AS parameters',
-        'd.transparent AS transparent',
-        'az.priority AS priority',
-        'm.campaignid AS campaign_id',
-        'm.weight AS campaign_weight',
-        'az.priority AS priority',
-        'az.priority_factor AS priority_factor',
-        'm.block AS block_campaign',
-        'm.capping AS cap_campaign',
-        'm.session_capping AS session_cap_campaign'
-    );
-    $aTables = array(
-        $conf['table']['prefix'].$conf['table']['banners'] . ' AS d',
-        $conf['table']['prefix'].$conf['table']['campaigns'] . ' AS m',
-        $conf['table']['prefix'].$conf['table']['ad_zone_assoc'] . ' AS az'
-    );
-
-    if ($where1 != $search) {
-        $aTables[] = $conf['table']['prefix'].$conf['table']['ad_category_assoc'] . ' AS ac';
-        $aTables[] = $conf['table']['prefix'].$conf['table']['category'] . ' AS cat';
-        $where = 'd.bannerid=ac.ad_id AND ac.category_id=cat.category_id AND ' . $where;
+    if ($campaignid > 0) {
+        $precondition = " AND d.campaignid = '".$campaignid."' ";
+    } else {
+        $precondition = '';
     }
 
-    $columns = implode(",\n    ", $aColumns);
-    $tables = implode(",\n    ", $aTables);
-    $where = "
-    d.bannerid=az.ad_id
-  AND az.zone_id=0
-  AND d.campaignid=m.campaignid
-  AND m.active='t'
-  AND d.active='t'
-  AND {$where}";
-
-    $query = "SELECT\n    " . $columns . "\nFROM\n    " . $tables . "\nWHERE " . $where;
+    $query = OA_Dal_Delivery_buildQuery($search, $lastpart, $precondition);
 
     $rAds = OA_Dal_Delivery_query($query);
 
@@ -456,13 +386,14 @@ function OA_Dal_Delivery_getLinkedAds($search) {
             $aRows[] = $aRow;
         }
     }
-    if (is_array($aRows)) {
+    if (isset($aRows)) {
         uasort($aRows, '_mysqlSortArrayPriority');
     }
     $aAds = array();
-    $aAds['ads'] = $aRows;
+    $aAds['ads'] = array();
     $aAds['priority']['ads'] = 0;
-    if (is_array($aRows)) {
+    if (isset($aRows)) {
+        $aAds['ads'] = $aRows;
         foreach ($aRows as $aRow) {
             $aAds['priority']['ads'] += $aRow['priority'];
         }
@@ -1052,6 +983,355 @@ function OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressi
         VALUES " . implode(',', $aRows);
 
     return OA_Dal_Delivery_query($query, 'rawDatabase');
+}
+
+/**
+ * A function to generate a direct selection query preserving 2.0 backwards compatibility
+ *
+ * @param string  $part         The what parameter part to build the query
+ * @param boolean $lastpart     True if there are no other parts to work on
+ * @param string  $precondition Any SQL preconditions to apply
+ * @return string The generated query
+ */
+function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
+{
+    $conf = $GLOBALS['_MAX']['CONF'];
+
+    $aColumns = array(
+        'd.bannerid AS ad_id',
+        'd.campaignid AS placement_id',
+        'd.active AS active',
+        'd.description AS name',
+        'd.storagetype AS type',
+        'd.contenttype AS contenttype',
+        'd.pluginversion AS pluginversion',
+        'd.filename AS filename',
+        'd.imageurl AS imageurl',
+        'd.htmltemplate AS htmltemplate',
+        'd.htmlcache AS htmlcache',
+        'd.width AS width',
+        'd.height AS height',
+        'd.weight AS weight',
+        'd.seq AS seq',
+        'd.target AS target',
+        'd.url AS url',
+        'd.alt AS alt',
+        'd.status AS status',
+        'd.bannertext AS bannertext',
+        'd.autohtml AS autohtml',
+        'd.adserver AS adserver',
+        'd.block AS block_ad',
+        'd.capping AS cap_ad',
+        'd.session_capping AS session_cap_ad',
+        'd.compiledlimitation AS compiledlimitation',
+        'd.append AS append',
+        'd.appendtype AS appendtype',
+        'd.bannertype AS bannertype',
+        'd.alt_filename AS alt_filename',
+        'd.alt_imageurl AS alt_imageurl',
+        'd.alt_contenttype AS alt_contenttype',
+        'az.priority AS priority',
+        'm.campaignid AS campaign_id',
+        'm.weight AS campaign_weight',
+        'm.block AS block_campaign',
+        'm.capping AS cap_campaign',
+        'm.session_capping AS session_cap_campaign'
+    );
+
+    $aTables = array(
+        $conf['table']['prefix'].$conf['table']['banners'] . ' AS d',
+        $conf['table']['prefix'].$conf['table']['campaigns'] . ' AS m',
+        $conf['table']['prefix'].$conf['table']['ad_zone_assoc'] . ' AS az'
+    );
+
+    $select = "
+        d.bannerid=az.ad_id
+      AND az.zone_id=0
+      AND d.campaignid=m.campaignid
+      AND m.active='t'
+      AND d.active='t'";
+
+    // Add preconditions to query
+    if ($precondition != '')
+        $select .= " $precondition ";
+
+
+    // Other
+    if ($part != '')
+    {
+        $conditions = '';
+        $onlykeywords = true;
+
+        $part_array = explode(',', $part);
+        for ($k=0; $k < count($part_array); $k++)
+        {
+            // Process switches
+            if (substr($part_array[$k], 0, 1) == '+' || substr($part_array[$k], 0, 1) == '_')
+            {
+                $operator = 'AND';
+                $part_array[$k] = substr($part_array[$k], 1);
+            }
+            elseif (substr($part_array[$k], 0, 1) == '-')
+            {
+                $operator = 'NOT';
+                $part_array[$k] = substr($part_array[$k], 1);
+            }
+            else
+                $operator = 'OR';
+
+
+            //  Test statements
+            if($part_array[$k] != '' && $part_array[$k] != ' ')
+            {
+                // Banner dimensions, updated to support 2.3-only size keyword
+                if(preg_match('#^(?:size:)?([0-9]+x[0-9]+)$#', $part_array[$k], $m))
+                {
+                    list($width, $height) = explode('x', $m[1]);
+
+                    if ($operator == 'OR')
+                        $conditions .= "OR (d.width = $width AND d.height = $height) ";
+                    elseif ($operator == 'AND')
+                        $conditions .= "AND (d.width = $width AND d.height = $height) ";
+                    else
+                        $conditions .= "AND (d.width != $width OR d.height != $height) ";
+
+                    $onlykeywords = false;
+                }
+
+                // Banner Width
+                elseif (substr($part_array[$k],0,6) == 'width:')
+                {
+                    $part_array[$k] = substr($part_array[$k], 6);
+
+                    if ($part_array[$k] != '' && $part_array[$k] != ' ')
+                    {
+                        if (is_int(strpos($part_array[$k], '-')))
+                        {
+                            // Width range
+                            list($min, $max) = explode('-', $part_array[$k]);
+
+                            // Only upper limit, set lower limit to make sure not text ads are delivered
+                            if ($min == '')
+                                $min = 1;
+
+                            // Only lower limit
+                            if ($max == '')
+                            {
+                                if ($operator == 'OR')
+                                    $conditions .= "OR d.width >= '".trim($min)."' ";
+                                elseif ($operator == 'AND')
+                                    $conditions .= "AND d.width >= '".trim($min)."' ";
+                                else
+                                    $conditions .= "AND d.width < '".trim($min)."' ";
+                            }
+
+                            // Both lower and upper limit
+                            if ($max != '')
+                            {
+                                if ($operator == 'OR')
+                                    $conditions .= "OR (d.width >= '".trim($min)."' AND d.width <= '".trim($max)."') ";
+                                elseif ($operator == 'AND')
+                                    $conditions .= "AND (d.width >= '".trim($min)."' AND d.width <= '".trim($max)."') ";
+                                else
+                                    $conditions .= "AND (d.width < '".trim($min)."' OR d.width > '".trim($max)."') ";
+                            }
+                        }
+                        else
+                        {
+                            // Single value
+
+                            if ($operator == 'OR')
+                                $conditions .= "OR d.width = '".trim($part_array[$k])."' ";
+                            elseif ($operator == 'AND')
+                                $conditions .= "AND d.width = '".trim($part_array[$k])."' ";
+                            else
+                                $conditions .= "AND d.width != '".trim($part_array[$k])."' ";
+                        }
+                    }
+
+                    $onlykeywords = false;
+                }
+
+                // Banner Height
+                elseif (substr($part_array[$k],0,7) == 'height:')
+                {
+                    $part_array[$k] = substr($part_array[$k], 7);
+                    if ($part_array[$k] != '' && $part_array[$k] != ' ')
+                    {
+                        if (is_int(strpos($part_array[$k], '-')))
+                        {
+                            // Height range
+                            list($min, $max) = explode('-', $part_array[$k]);
+
+                            // Only upper limit, set lower limit to make sure not text ads are delivered
+                            if ($min == '')
+                                $min = 1;
+
+                            // Only lower limit
+                            if ($max == '')
+                            {
+                                if ($operator == 'OR')
+                                    $conditions .= "OR d.height >= '".trim($min)."' ";
+                                elseif ($operator == 'AND')
+                                    $conditions .= "AND d.height >= '".trim($min)."' ";
+                                else
+                                    $conditions .= "AND d.height < '".trim($min)."' ";
+                            }
+
+                            // Both lower and upper limit
+                            if ($max != '')
+                            {
+                                if ($operator == 'OR')
+                                    $conditions .= "OR (d.height >= '".trim($min)."' AND d.height <= '".trim($max)."') ";
+                                elseif ($operator == 'AND')
+                                    $conditions .= "AND (d.height >= '".trim($min)."' AND d.height <= '".trim($max)."') ";
+                                else
+                                    $conditions .= "AND (d.height < '".trim($min)."' OR d.height > '".trim($max)."') ";
+                            }
+                        }
+                        else
+                        {
+                            // Single value
+
+                            if ($operator == 'OR')
+                                $conditions .= "OR d.height = '".trim($part_array[$k])."' ";
+                            elseif ($operator == 'AND')
+                                $conditions .= "AND d.height = '".trim($part_array[$k])."' ";
+                            else
+                                $conditions .= "AND d.height != '".trim($part_array[$k])."' ";
+                        }
+                    }
+
+                    $onlykeywords = false;
+                }
+
+                // Banner ID, updated to support 2.3-only adid or ad_id
+                elseif (preg_match('#^(?:(?:bannerid|adid|ad_id):)?([0-9]+)$#', $part_array[$k], $m))
+                {
+                    $part_array[$k] = $m[1];
+
+                    if ($part_array[$k])
+                    {
+                        if ($operator == 'OR')
+                            $conditions .= "OR d.bannerid='".$part_array[$k]."' ";
+                        elseif ($operator == 'AND')
+                            $conditions .= "AND d.bannerid='".$part_array[$k]."' ";
+                        else
+                            $conditions .= "AND d.bannerid!='".$part_array[$k]."' ";
+                    }
+
+                    $onlykeywords = false;
+                }
+
+                // Campaign ID
+                elseif (preg_match('#^(?:(?:clientid|campaignid|placementid|placement_id):)?([0-9]+)$#', $part_array[$k], $m))
+                {
+                    $part_array[$k] = $m[1];
+
+                    if ($part_array[$k])
+                    {
+                        if ($operator == 'OR')
+                            $conditions .= "OR d.campaignid='".trim($part_array[$k])."' ";
+                        elseif ($operator == 'AND')
+                            $conditions .= "AND d.campaignid='".trim($part_array[$k])."' ";
+                        else
+                            $conditions .= "AND d.campaignid!='".trim($part_array[$k])."' ";
+                    }
+
+                    $onlykeywords = false;
+                }
+
+                // Format
+                elseif (substr($part_array[$k], 0, 7) == 'format:')
+                {
+                    $part_array[$k] = substr($part_array[$k], 7);
+                    if($part_array[$k] != '' && $part_array[$k] != ' ')
+                    {
+                        if ($operator == 'OR')
+                            $conditions .= "OR d.contenttype='".trim($part_array[$k])."' ";
+                        elseif ($operator == 'AND')
+                            $conditions .= "AND d.contenttype='".trim($part_array[$k])."' ";
+                        else
+                            $conditions .= "AND d.contenttype!='".trim($part_array[$k])."' ";
+                    }
+
+                    $onlykeywords = false;
+                }
+
+                // HTML
+                elseif($part_array[$k] == 'html')
+                {
+                    if ($operator == 'OR')
+                        $conditions .= "OR d.contenttype='html' ";
+                    elseif ($operator == 'AND')
+                        $conditions .= "AND d.contenttype='html' ";
+                    else
+                        $conditions .= "AND d.contenttype!='html' ";
+
+                    $onlykeywords = false;
+                }
+
+                // TextAd
+                elseif($part_array[$k] == 'textad')
+                {
+                    if ($operator == 'OR')
+                        $conditions .= "OR d.contenttype='txt' ";
+                    elseif ($operator == 'AND')
+                        $conditions .= "AND d.contenttype='txt' ";
+                    else
+                        $conditions .= "AND d.contenttype!='txt' ";
+
+                    $onlykeywords = false;
+                }
+
+                // Categories
+                elseif (substr($part_array[$k], 0, 4) == 'cat:')
+                {
+                    $part_array[$k] = substr($part_array[$k], 4);
+                    if($part_array[$k] != '' && $part_array[$k] != ' ')
+                    {
+                        $aTables[] = $conf['table']['prefix'].$conf['table']['ad_category_assoc'] . ' AS ac';
+                        $aTables[] = $conf['table']['prefix'].$conf['table']['category'] . ' AS cat';
+
+                        if ($operator == 'OR')
+                            $conditions .= "OR d.bannerid=ac.ad_id AND ac.category_id=cat.category_id ";
+                        elseif ($operator == 'AND')
+                            $conditions .= "AND d.bannerid=ac.ad_id AND ac.category_id=cat.category_id ";
+                        else
+                            $conditions .= "AND d.bannerid=ac.ad_id AND ac.category_id=cat.category_id ";
+                    }
+                }
+
+                // Keywords
+                else
+                {
+                    if ($operator == 'OR')
+                        $conditions .= "OR CONCAT(' ',d.keyword,' ') LIKE '% $part_array[$k] %' ";
+                    elseif ($operator == 'AND')
+                        $conditions .= "AND CONCAT(' ',d.keyword,' ') LIKE '% $part_array[$k] %' ";
+                    else
+                        $conditions .= "AND CONCAT(' ',d.keyword,' ') NOT LIKE '% $part_array[$k] %' ";
+                }
+            }
+        }
+
+        // Strip first AND or OR from $conditions
+        $conditions = strstr($conditions, ' ');
+
+        // Add global keyword
+        if ($lastpart == true && $onlykeywords == true)
+            $conditions .= "OR CONCAT(' ',d.keyword,' ') LIKE '% global %' ";
+
+        // Add conditions to select
+        if ($conditions != '') $select .= ' AND ('.$conditions.') ';
+    }
+
+    $columns = implode(",\n    ", $aColumns);
+    $tables = implode(",\n    ", $aTables);
+
+    $query = "SELECT\n    " . $columns . "\nFROM\n    " . $tables . "\nWHERE " . $select;
+
+    return $query;
 }
 
 
