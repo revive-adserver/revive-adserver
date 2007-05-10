@@ -4,13 +4,13 @@
 
 [openads]
 installed                           = false
+requireSSL                          = false
+sslPort                             = 443
 
 [max]
 installed                           = false
 uiEnabled                           = true
 language                            = english
-requireSSL                          = false
-sslPort                             = 443
 
 ;------------------------------------------------------------------------------------------;
 ; Database Settings                                                                        ;

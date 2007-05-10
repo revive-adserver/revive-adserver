@@ -202,7 +202,7 @@ class OA_Upgrade
 
         $this->oLogger->logClear();
         $database = '';
-        $this->detectPAN(&$database);
+        $this->detectPAN($database);
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_PAN_NOT_INSTALLED:
@@ -228,7 +228,7 @@ class OA_Upgrade
         }
 
         $database = '';
-        $this->detectMAX(&$database);
+        $this->detectMAX($database);
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_MAX_NOT_INSTALLED:
@@ -252,7 +252,7 @@ class OA_Upgrade
         }
 
         $database = '';
-        $this->detectOpenads(&$database);
+        $this->detectOpenads($database);
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_OAD_NOT_INSTALLED:
@@ -313,7 +313,7 @@ class OA_Upgrade
      * @param string $database (used for error display message)
      * @return boolean
      */
-    function detectPAN($database='')
+    function detectPAN(&$database='')
     {
         $this->oPAN->init();
         if ($this->oPAN->detected)
@@ -351,7 +351,7 @@ class OA_Upgrade
      * @param string $database (used for error display message)
      * @return boolean
      */
-    function detectMAX($database='')
+    function detectMAX(&$database='')
     {
         if ($GLOBALS['_MAX']['CONF']['max']['installed'])
         {
@@ -389,7 +389,7 @@ class OA_Upgrade
      * @param string $database (used for error display message)
      * @return boolean
      */
-    function detectOpenads($database='')
+    function detectOpenads(&$database='')
     {
         if ($GLOBALS['_MAX']['CONF']['max']['installed'])
         {
