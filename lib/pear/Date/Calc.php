@@ -1645,6 +1645,10 @@ class Date_Calc
         $c = ($year - 1) - $yy;
         $g = $yy + intval($yy/4);
         $jan1_weekday = 1 + intval((((($c / 100) % 4) * 5) + $g) % 7);
+        // Convert Jan 1 weekday to different date format if required (sunday = 1, saturday = 7)
+        if (DATE_CALC_BEGIN_WEEKDAY == 0) {
+            $jan1_weekday = ($jan1_weekday + 1) % 7;
+        }
         // weekday for year-month-day
         $h = $day_of_year_number + ($jan1_weekday - 1);
         $weekday = 1 + intval(($h - 1) % 7);
