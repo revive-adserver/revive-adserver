@@ -118,12 +118,11 @@ class Plugins_Reports_Publisher_Bannertype extends Plugins_Reports {
 
         require_once 'Spreadsheet/Excel/Writer.php';
 
-        $conf = & $GLOBALS['_MAX']['CONF'];
-
     	global $date_format;
     	global $strAffiliate;
 
     	$conf = & $GLOBALS['_MAX']['CONF'];
+        $oDbh = &OA_DB::singleton();
 
     	$reportName = $GLOBALS['strPublisherBannerTypeAnalysisReport'];
 
@@ -164,16 +163,19 @@ class Plugins_Reports_Publisher_Bannertype extends Plugins_Reports {
                       ,".$conf['table']['prefix'].$conf['table']['banners']." b
                  WHERE z.zoneid = ds.zone_id
                    AND ds.ad_id = b.bannerid
-                   AND z.affiliateid = '".$affiliateid."'
-                   AND ds.day >= '$dbStart'
-                   AND ds.day <= '$dbEnd'
+                   AND z.affiliateid = ". $oDbh->quote($affiliateid, 'integer') ."
+                   AND ds.day >= ". $oDbh->quote($dbStart, 'date')."
+                   AND ds.day <= ". $oDbh->quote($dbEnd, 'date') ."
                  GROUP BY contenttype, type, adserver
                  ORDER BY type";
 
-    	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
+        $res = $oDbh->query($query);
+        if (PEAR::isError($res)) {
+                return $res;
+        }
 
-    	if (phpAds_dbNumRows($res)) {
-        	while ($row = phpAds_dbFetchArray($res)) {
+    	if ($res->numRows()) {
+        	while ($row = $res->fetchRow()) {
         	    $data[] = $row;
         	}
 

@@ -122,6 +122,7 @@ class Plugins_Reports_Publisher_Zone extends Plugins_Reports {
     	global $strAffiliate;
 
     	$conf = & $GLOBALS['_MAX']['CONF'];
+        $oDbh = &OA_DB::singleton();
 
     	$reportName = $GLOBALS['strPublisherZoneAnalysisReport'];
 
@@ -164,18 +165,20 @@ class Plugins_Reports_Publisher_Zone extends Plugins_Reports {
                  WHERE z.zoneid = ds.zone_id
                    AND ds.ad_id = b.bannerid
                    AND b.campaignid = c.campaignid
-                   AND z.affiliateid = '".$affiliateid."'
-                   AND ds.day >= '$dbStart'
-                   AND ds.day <= '$dbEnd'
+                   AND z.affiliateid = ". $oDbh->quote($affiliateid, 'integer') ."
+                   AND ds.day >= ". $oDbh->quote($dbStart, 'date') ."
+                   AND ds.day <= ". $oDbh->quote($dbEnd, 'date') ."
                  GROUP BY zonename, c.priority
                  ORDER BY c.priority ASC";
 
-    	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
+        $res = $oDbh->query($query);
+        if (PEAR::isError($res)) {
+                return $res;
+        }
 
-    	if(phpAds_dbNumRows($res)) {
-
-        	// getting the db result to the temporary table - results needs to be prepared first
-        	while($row = phpAds_dbFetchArray($res)) {
+    	// getting the db result to the temporary table - results needs to be prepared first
+    	if ($res->numRows()) {
+        	while ($row = $res>fetchRow()) {
         	    $data[] = $row;
         	}
 

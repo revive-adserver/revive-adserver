@@ -128,35 +128,32 @@ function addTotals(& $table) {
 function getAffiliateSite($affiliate_id)
 {
     $conf = & $GLOBALS['_MAX']['CONF'];
-	if (phpAds_isUser(phpAds_Admin))
-	{
+    $oDbh = &OA_DB::singleton();
+
+	if (phpAds_isUser(phpAds_Admin)) {
 		$query =
 			"SELECT website".
 			" FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
-			" WHERE affiliateid=".$affiliate_id ;
-	}
-	elseif (phpAds_isUser(phpAds_Agency))
-	{
+			" WHERE affiliateid=". $oDbh->quote($affiliate_id, 'integer');
+	} elseif (phpAds_isUser(phpAds_Agency)) {
 		$query =
 			"SELECT website".
 			" FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
 			" WHERE agencyid=".phpAds_getUserID().
-			"   AND affiliateid=".$affiliate_id;
-	}
-	elseif (phpAds_isUser(phpAds_Client))
-	{
+			"   AND affiliateid=". $oDbh->quote($affiliate_id, 'integer');
+	} elseif (phpAds_isUser(phpAds_Client)) {
 		$query =
 			"SELECT website".
 			" FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
 			" WHERE affiliateid=".phpAds_getUserID().
-			"   AND affiliateid=".$affiliate_id;
+			"   AND affiliateid=". $oDbh->quote($affiliate_id, 'integer');
 	}
-	$res = phpAds_dbQuery($query);
 
-	if ($row = phpAds_dbFetchArray($res))
+	if ($row = $oDbh->queryRow($query)) {
 	   return "[id".$affiliate_id."] ".$row['website'];
-	else
+    } else {
 	   return 'none';
+    }
 }
 
 /*-------------------------------------------------------*/
