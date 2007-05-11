@@ -147,6 +147,13 @@
             <file>changes_tables_core_127.xml</file>
             <file>migration_tables_core_127.php</file>
         </package>
+        <package>
+            <version>128</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_128.xml</file>
+            <file>changes_tables_core_128.xml</file>
+            <file>migration_tables_core_128.php</file>
+        </package>
     </database>
 
     <!-- Custom Install Scripts to execute -->

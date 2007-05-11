@@ -25,38 +25,55 @@
 $Id$
 */
 
-require_once MAX_PATH . '/etc/changes/migration_tables_core_119.php';
+require_once MAX_PATH . '/etc/changes/migration_tables_core_128.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/DB_Upgrade.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/DB_UpgradeAuditor.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 
 /**
- * Test for migration class #127.
+ * Test for migration class #128.
  *
  * @package    changes
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  */
-class Migration_119Test extends MigrationTest
+class Migration_128Test extends MigrationTest
 {
     function testMigrateData()
     {
-        $this->initDatabase(119, array('config', 'preference'));
+        $this->initDatabase(127, array('banners'));
         
-        $migration = new Migration_119();
-        $migration->init($this->oDbh);
-        
-        $aValues = array('gui_show_parents' => "t", 'updates_enabled' => "f");
-        $sql = OA_DB_Sql::sqlForInsert('config', $aValues);
-        $this->oDbh->exec($sql);
-        
-        $migration->migrateData();
-        
-        $rsPreference = DBC::NewRecordSet("SELECT * from preference");
-        $rsPreference->find();
-        $this->assertTrue($rsPreference->fetch());
-        $aDataPreference = $rsPreference->toArray();
-        foreach($aValues as $column => $value) {
-            $this->assertEqual($value, $aDataPreference[$column]);
+        $toInt['f'] = 0;
+        $toInt['t'] = 1;
+        $aAValues = array(
+            array('bannerid' => 1, 'transparent' => "f"),
+            array('bannerid' => 2, 'transparent' => "t"),
+            array('bannerid' => 3, 'transparent' => "f"),
+            array('bannerid' => 4, 'transparent' => "f"),
+            array('bannerid' => 5, 'transparent' => "t")
+        );
+        foreach ($aAValues as $aValues) {
+            $sql = OA_DB_Sql::sqlForInsert('banners', $aValues);
+            $this->oDbh->exec($sql);
         }
+
+        $upgrader = new OA_DB_Upgrade();
+        $upgrader->initMDB2Schema();
+        $auditor   = new OA_DB_UpgradeAuditor();
+        $upgrader->oAuditor = &$auditor;
+        $this->assertTrue($auditor->init($upgrader->oSchema->db), 'error initialising upgrade auditor, probable error creating database action table');
+        $upgrader->init('constructive', 'tables_core', 128);
+        $upgrader->upgrade();
+
+        $rsBanners = DBC::NewRecordSet("SELECT bannerid, transparent FROM banners ORDER BY bannerid");
+        $rsBanners->find();
+        $this->assertEqual(count($aAValues), $rsBanners->getRowCount());
+        for ($idxBanner = 0; $idxBanner < count($aAValues); $idxBanner++) {
+            $this->assertTrue($rsBanners->fetch());
+            $this->assertEqual($aAValues[$idxBanner]['bannerid'], $rsBanners->get('bannerid'));
+            $this->assertEqual($toInt[$aAValues[$idxBanner]['transparent']], $rsBanners->get('transparent'));
+        }
+        $this->assertFalse($rsBanners->fetch());
     }
 }
