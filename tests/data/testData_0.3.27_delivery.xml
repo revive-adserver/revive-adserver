@@ -3808,7 +3808,6 @@
         <alt_imageurl></alt_imageurl>
         <alt_contenttype></alt_contenttype>
         <comments></comments>
-        <keyword>flash sql</keyword>
         <updated>2005-11-03 15:45:06</updated>
     </banners>
     <banners>
@@ -3846,7 +3845,6 @@
         <alt_imageurl></alt_imageurl>
         <alt_contenttype>gif</alt_contenttype>
         <comments></comments>
-        <keyword>flash web</keyword>
         <updated>2005-11-03 15:46:22</updated>
     </banners>
     <banners>
@@ -7688,6 +7686,7 @@
         <alt_imageurl></alt_imageurl>
         <alt_contenttype></alt_contenttype>
         <comments></comments>
+        <keyword>foo bar</keyword>
         <updated>2006-05-15 14:17:18</updated>
     </banners>
     <banners>
@@ -7724,6 +7723,7 @@
         <alt_imageurl></alt_imageurl>
         <alt_contenttype></alt_contenttype>
         <comments></comments>
+        <keyword>foo</keyword>
         <updated>2006-05-17 11:24:12</updated>
     </banners>
     <banners>
