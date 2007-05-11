@@ -28,7 +28,7 @@ class Migration_119 extends Migration
 
 	function afterAddTable__preference()
 	{
-		return $this->afterAddTable('preference');
+		return $this->migrateData() && $this->afterAddTable('preference');
 	}
 
 	function beforeAddTable__preference_advertiser()
@@ -51,6 +51,33 @@ class Migration_119 extends Migration
 		return $this->afterAddTable('preference_publisher');
 	}
 
+
+	function migrateData()
+	{
+	    $prefix = $this->getPrefix();
+	    $tablePreference = $prefix . 'preference';
+	    $aColumns = $this->oDBH->manager->listTableFields($tablePreference);
+
+	    $sql = "
+	       SELECT * from {$prefix}config";
+	    $rsConfig = DBC::NewRecordSet($sql);
+	    if ($rsConfig->find() && $rsConfig->fetch()) {
+	        $aDataConfig = $rsConfig->toArray();
+	        $aValues = array();
+	        foreach($aDataConfig as $column => $value) {
+	            if (in_array($column, $aColumns)) {
+	                $aValues[$column] = $value;
+	            }
+	        }
+
+	        $sql = OA_DB_SQL::sqlForInsert($tablePreference, $aValues);
+	        $result = $this->oDBH->exec($sql);
+	        return (!PEAR::isError($result));
+	    }
+	    else {
+	        return false;
+	    }
+	}
 }
 
 ?>
