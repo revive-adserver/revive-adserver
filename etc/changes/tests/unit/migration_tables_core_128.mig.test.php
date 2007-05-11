@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/etc/changes/migration_tables_core_128.php';
+require_once MAX_PATH . '/etc/changes/migration_tables_core_119.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 
@@ -36,13 +36,13 @@ require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  */
-class Migration_128Test extends MigrationTest
+class Migration_119Test extends MigrationTest
 {
     function testMigrateData()
     {
         $this->initDatabase(127, array('config', 'preference'));
         
-        $migration = new Migration_128();
+        $migration = new Migration_119();
         $migration->init($this->oDbh);
         
         $aValues = array('gui_show_parents' => "t", 'updates_enabled' => "f");
