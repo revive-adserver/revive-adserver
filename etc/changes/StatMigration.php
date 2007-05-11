@@ -27,6 +27,7 @@ $Id$
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php');
 require_once(MAX_PATH.'/lib/max/OperationInterval.php');
+require_once(MAX_PATH.'/lib/max/Dal/db/db.inc.php');
 
 class StatMigration extends Migration
 {
