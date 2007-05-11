@@ -1275,11 +1275,11 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                 elseif($part_array[$k] == 'html')
                 {
                     if ($operator == 'OR')
-                        $conditions .= "OR d.contenttype='html' ";
+                        $conditions .= "OR d.storagetype='html' ";
                     elseif ($operator == 'AND')
-                        $conditions .= "AND d.contenttype='html' ";
+                        $conditions .= "AND d.storagetype='html' ";
                     else
-                        $conditions .= "AND d.contenttype!='html' ";
+                        $conditions .= "AND d.storagetype!='html' ";
 
                     $onlykeywords = false;
                 }
@@ -1288,11 +1288,11 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                 elseif($part_array[$k] == 'textad')
                 {
                     if ($operator == 'OR')
-                        $conditions .= "OR d.contenttype='txt' ";
+                        $conditions .= "OR d.storagetype='txt' ";
                     elseif ($operator == 'AND')
-                        $conditions .= "AND d.contenttype='txt' ";
+                        $conditions .= "AND d.storagetype='txt' ";
                     else
-                        $conditions .= "AND d.contenttype!='txt' ";
+                        $conditions .= "AND d.storagetype!='txt' ";
 
                     $onlykeywords = false;
                 }
