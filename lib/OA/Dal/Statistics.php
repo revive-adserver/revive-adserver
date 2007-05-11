@@ -739,6 +739,14 @@ class OA_Dal_Statistics extends OA_Dal
      * calculated as an "averge" value, in the event that there are multiple, differing
      * values for the ad in a zone, in much the same way as is done in
      * OA_Dal_Maintenance_Priority::getPreviousAdDeliveryInfo().
+     *
+     * Note that this method does not use left joins, like the
+     * OA_Dal_Maintenance_Priority::getPreviousAdDeliveryInfo() method! This is so
+     * that all fields are filled in, regardless of if maintenance ran, or not.
+     *
+     * This helps ensure that the ad impressions delivered and the zone impressions
+     * match other statistics screens, even when the MPE failed to run in a given
+     * hour.
      */
     function getAdTargetingStatistics($adId, $oStartDate, $oEndDate)
     {
@@ -746,7 +754,7 @@ class OA_Dal_Statistics extends OA_Dal
             return false;
         }
         $aConf = $GLOBALS['_MAX']['CONF'];
-        // Extract the required data for the operation interval
+        // Extract the required MPE run information
         $query = "
             SELECT
                 dsaza.interval_start AS interval_start,
@@ -759,34 +767,9 @@ class OA_Dal_Statistics extends OA_Dal
                 dsaza.priority_factor_limited AS ad_priority_factor_limited,
                 dsaza.past_zone_traffic_fraction AS ad_past_zone_traffic_fraction,
                 dsaza.created AS created,
-                dsaza.expired AS expired,
-                dia.impressions AS ad_actual_impressions,
-                dszih.forecast_impressions AS zone_forecast_impressions,
-                dszih.actual_impressions AS zone_actual_impressions
+                dsaza.expired AS expired
             FROM
                 {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']} AS dsaza
-            LEFT JOIN
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']} AS dia
-            ON
-                dsaza.operation_interval = dia.operation_interval
-                AND
-                dsaza.interval_start = dia.interval_start
-                AND
-                dsaza.interval_end = dia.interval_end
-                AND
-                dsaza.ad_id = dia.ad_id
-                AND
-                dsaza.zone_id = dia.zone_id
-            LEFT JOIN
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']} AS dszih
-            ON
-                dsaza.operation_interval = dszih.operation_interval
-                AND
-                dsaza.interval_start = dszih.interval_start
-                AND
-                dsaza.interval_end = dszih.interval_end
-                AND
-                dsaza.zone_id = dszih.zone_id
             WHERE
                 dsaza.operation_interval = {$aConf['maintenance']['operationInterval']}
                 AND
@@ -796,20 +779,19 @@ class OA_Dal_Statistics extends OA_Dal
                 AND
                 dsaza.ad_id = $adId
                 AND
-                dsaza.required_impressions > 0
-            ORDER BY
-                dsaza.ad_id";
-        $message = "Getting the targeting statistcs for ad ID $adId for OI starting " .
+                dsaza.required_impressions > 0";
+        $message = "Getting the MPE-based targeting statistcs for ad ID $adId for OI starting " .
                    $oStartDate->format('%Y-%m-%d %H:%M:%S');
         OA::debug($message, PEAR_LOG_DEBUG);
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
-            $message = "Error getting the targeting statistcs for ad ID $adId for OI starting " .
+            $message = "Error getting the MPE-based targeting statistcs for ad ID $adId for OI starting " .
                        $oStartDate->format('%Y-%m-%d %H:%M:%S');
             return false;
         }
-        $averagesExist = false;
+        // Prepare the results array containing the MPE information
         $aResult = array();
+        $averagesExist = false;
         $aAverageValues = array();
         while ($aRow = $rc->fetchRow()) {
             $zoneId = $aRow['zone_id'];
@@ -841,6 +823,70 @@ class OA_Dal_Statistics extends OA_Dal
             } else {
                 unset($aResult[$zoneId]['created']);
                 unset($aResult[$zoneId]['expired']);
+            }
+        }
+        // Extract the required ad impressions delivered information
+        $query = "
+            SELECT
+                dia.zone_id AS zone_id,
+                dia.impressions AS ad_actual_impressions
+            FROM
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']} AS dia
+            WHERE
+                dia.operation_interval = {$aConf['maintenance']['operationInterval']}
+                AND
+                dia.interval_start = ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                AND
+                dia.interval_end = ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                AND
+                dia.ad_id = $adId";
+        $message = "Getting the ad delivery-based targeting statistcs for ad ID $adId for OI starting " .
+                   $oStartDate->format('%Y-%m-%d %H:%M:%S');
+        OA::debug($message, PEAR_LOG_DEBUG);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            $message = "Error getting the ad delivery-based targeting statistcs for ad ID $adId for OI starting " .
+                       $oStartDate->format('%Y-%m-%d %H:%M:%S');
+            return false;
+        }
+        // Merge the ad delivery information into the results array
+        while ($aRow = $rc->fetchRow()) {
+            $aResult[$aRow['zone_id']]['ad_actual_impressions'] += $aRow['ad_actual_impressions'];
+        }
+        // Extract the required zone forecast impressions information
+        $aZonesIds = array();
+        foreach (array_keys($aResult) as $zoneId) {
+            $aZonesIds[] = $zoneId;
+        }
+        if (count($aZonesIds) > 0) {
+            $query = "
+                SELECT
+                    dszih.zone_id AS zone_id,
+                    dszih.forecast_impressions AS zone_forecast_impressions,
+                    dszih.actual_impressions AS zone_actual_impressions
+                FROM
+                    {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']} AS dszih
+                WHERE
+                    dszih.operation_interval = {$aConf['maintenance']['operationInterval']}
+                    AND
+                    dszih.interval_start = ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                    AND
+                    dszih.interval_end = ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                    AND
+                    dszih.zone_id IN (" . implode(', ', $aZonesIds) . ")";
+            $message = "Getting the zone forecast-based targeting statistcs for ad ID $adId for OI starting " .
+                       $oStartDate->format('%Y-%m-%d %H:%M:%S');
+            OA::debug($message, PEAR_LOG_DEBUG);
+            $rc = $this->oDbh->query($query);
+            if (PEAR::isError($rc)) {
+                $message = "Error getting the zone forecast-based targeting statistcs for ad ID $adId for OI starting " .
+                           $oStartDate->format('%Y-%m-%d %H:%M:%S');
+                return false;
+            }
+            // Merge the zone forecast information into the results array
+            while ($aRow = $rc->fetchRow()) {
+                $aResult[$aRow['zone_id']]['zone_forecast_impressions'] += $aRow['zone_forecast_impressions'];
+                $aResult[$aRow['zone_id']]['zone_actual_impressions']   += $aRow['zone_actual_impressions'];
             }
         }
         return $aResult;
