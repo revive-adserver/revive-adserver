@@ -1019,8 +1019,8 @@ class OA_Dal_Statistics extends OA_Dal
      * ads.
      *
      * @access private
-     * @param integer $id   The ad or placement ID.
-     * @param string  $type Either "ad" or "placement".
+     * @param integer $id    The ad or placement ID.
+     * @param string  $type  Either "ad" or "placement".
      * @return boolean|array False if the type is is "placement" and the placement has
      *                       no ads, or false if the type is not valid. Otherwise,
      *                       an array of all the ads in the placement (or the single
@@ -1035,6 +1035,7 @@ class OA_Dal_Statistics extends OA_Dal
         } else if ($type == 'placement') {
             $doBanners = OA_Dal::factoryDO('banners');
             $doBanners->campaignid = $id;
+            $doBanners->active = 't';
             $doBanners->find();
             while ($doBanners->fetch()) {
                 $aAdIds[] = (int) $doBanners->bannerid;
