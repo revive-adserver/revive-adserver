@@ -60,6 +60,13 @@
 		<default></default>
 	</field>
 	<field>
+		<name>openads_generic_tinyint</name>
+		<type>openads_tinyint</type>
+		<length>4</length>
+		<notnull>true</notnull>
+		<default>0</default>
+	</field>
+	<field>
 		<name>openads_generic_description</name>
         <type>openads_varchar</type>
         <length>255</length>
