@@ -28,6 +28,7 @@ $Id$
 require_once MAX_PATH . '/etc/changes/StatMigration.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 
+
 /**
  * Test for StatMigration class.
  *
@@ -42,7 +43,7 @@ class StatMigrationTest extends MigrationTest
     function setUp()
     {
         parent::setUp();
-        $this->initDatabase(128, array('adstats', 'adviews', 'adclicks', 'data_raw_ad_impression', 'data_raw_ad_click'));
+        $this->initDatabase(128, array('adstats', 'adviews', 'adclicks', 'data_summary_ad_hourly', 'data_intermediate_ad'));
         $this->configPath = MAX_PATH . '/var/config.inc.php';
     }
     
@@ -53,130 +54,109 @@ class StatMigrationTest extends MigrationTest
 
         $migration = new StatMigration();
         $migration->init($this->oDbh);
-
-        $day1 = date('Y-m-d', time() - 86400*2);
-        $day2 = date('Y-m-d', time() - 86400);
-
-        $aValues = array('bannerid' => 1, 'zoneid' => 0, 'day' => $day1, 'hour' => 0, 'views' => 10, 'clicks' => 2);
-        $sql = OA_DB_Sql::sqlForInsert('adstats', $aValues);
-        $oDbh->exec($sql);
-
-        $aValues['hour'] = 1;
-        $sql = OA_DB_Sql::sqlForInsert('adstats', $aValues);
-        $oDbh->exec($sql);
-
-        $aValues['day'] = $day2;
-        $sql = OA_DB_Sql::sqlForInsert('adstats', $aValues);
-        $oDbh->exec($sql);
-
+        
+        $cEntries = $this->prepareTestData($mapCImpressions, $mapCClicks, '_insertCompactStatsTestData');
+        
         $this->assertTrue($migration->migrateCompactStats());
 
-        $rsDRAI = DBC::NewRecordSet("SELECT COUNT(*) AS cnt FROM data_raw_ad_impression WHERE date_time = '{$day1} 00:00:00'");
-        $rsDRAI->find();
-        $this->assertTrue($rsDRAI->fetch());
-        $aDataDRAI = $rsDRAI->toArray();
-        $this->assertEqual($aDataDRAI['cnt'], 10);
-
-        $rsDRAI = DBC::NewRecordSet("SELECT COUNT(*) AS cnt FROM data_raw_ad_impression WHERE date_time = '{$day1} 01:00:00'");
-        $rsDRAI->find();
-        $this->assertTrue($rsDRAI->fetch());
-        $aDataDRAI = $rsDRAI->toArray();
-        $this->assertEqual($aDataDRAI['cnt'], 10);
-
-        $rsDRAI = DBC::NewRecordSet("SELECT COUNT(*) AS cnt FROM data_raw_ad_impression WHERE date_time = '{$day2} 01:00:00'");
-        $rsDRAI->find();
-        $this->assertTrue($rsDRAI->fetch());
-        $aDataDRAI = $rsDRAI->toArray();
-        $this->assertEqual($aDataDRAI['cnt'], 10);
-
-        $rsDRAC = DBC::NewRecordSet("SELECT COUNT(*) AS cnt FROM data_raw_ad_click WHERE date_time = '{$day1} 00:00:00'");
-        $rsDRAC->find();
-        $this->assertTrue($rsDRAC->fetch());
-        $aDataDRAC = $rsDRAC->toArray();
-        $this->assertEqual($aDataDRAC['cnt'], 2);
+        $this->_checkDataTable('data_summary_ad_hourly', $cEntries, $mapCImpressions, $mapCClicks);
+        $this->_checkDataTable('data_intermediate_ad', $cEntries, $mapCImpressions, $mapCClicks);
     }
     
     
-    function testMigrateImpressions()
+    function prepareTestData(&$mapCImpressions, &$mapCClicks, $functionInsertTestData)
+    {
+        $aBannerIds = array(1,2,3);
+        $aZoneIds = array(1,2,3);
+        $aDays = array("2007-05-10", "2007-05-11", "2007-05-12");
+        $aCImpressions = array(5, 7, 12, 32, 4);
+        $aCClicks = array(8, 4, 15, 9, 2);
+
+        
+        foreach ($aBannerIds as $bannerId) {
+            foreach ($aZoneIds as $zoneId) {
+                foreach($aDays as $day) {
+                    for ($hour = 0; $hour < 24; $hour++) {
+                        $mapCImpressions[$bannerId][$zoneId][$day][$hour] =
+                            $aCImpressions[$hour % count($aCImpressions)];
+                        $mapCClicks[$bannerId][$zoneId][$day][$hour] =
+                            $aCClicks[$hour % count($aCClicks)];
+                        $this->$functionInsertTestData($bannerId, $zoneId, $day, $hour, $mapCImpressions, $mapCClicks);
+                    }
+                }
+            }
+        }
+        return count($aBannerIds) * count($aZoneIds) * count($aDays) * 24;
+    }
+    
+    
+    function _insertCompactStatsTestData($bannerId, $zoneId, $day, $hour, $mapCImpressions, $mapCClicks)
+    {
+        
+        $aValues = array(
+            'bannerid' => $bannerId,
+            'zoneid' => $zoneId,
+            'day' => $day,
+            'hour' => $hour,
+            'views' => $mapCImpressions[$bannerId][$zoneId][$day][$hour],
+            'clicks' => $mapCClicks[$bannerId][$zoneId][$day][$hour]);
+        $sql = OA_DB_Sql::sqlForInsert('adstats', $aValues);
+        $this->oDbh->exec($sql);
+    }
+    
+    
+    function _checkDataTable($table, $cEntries, $mapCImpressions, $mapCClicks)
+    {
+        $rsDsah = DBC::NewRecordSet("SELECT * FROM $table");
+        $this->assertTrue($rsDsah->find());
+        $this->assertEqual($cEntries, $rsDsah->getRowCount());
+        while($rsDsah->fetch()) {
+            $bannerId = $rsDsah->get('ad_id');
+            $zoneId = $rsDsah->get('zone_id');
+            $day = $rsDsah->get('day');
+            $hour = $rsDsah->get('hour');
+            $this->assertEqual($mapCImpressions[$bannerId][$zoneId][$day][$hour], $rsDsah->get('impressions'));
+            $this->assertEqual($mapCClicks[$bannerId][$zoneId][$day][$hour], $rsDsah->get('clicks'));
+        }
+
+    }
+    
+    
+    function _insertRawStatsTestData($bannerId, $zoneId, $day, $hour, $mapCImpressions, $mapCClicks)
+    {
+        $this->_insertRawStatsRows($bannerId, $zoneId, $day, $hour, 'adviews', $mapCImpressions);
+        $this->_insertRawStatsRows($bannerId, $zoneId, $day, $hour, 'adclicks', $mapCClicks);
+    }
+    
+    
+    function _insertRawStatsRows($bannerId, $zoneId, $day, $hour, $table, $mapCRows)
+    {
+        for ($idxRow = 0; $idxRow < $mapCRows[$bannerId][$zoneId][$day][$hour]; $idxRow++) {
+            $minutes = mt_rand(0, 59);
+            $seconds = mt_rand(0, 59);
+            $timestamp = "$day $hour:$minutes:$seconds";
+            $aValues = array(
+                'bannerid' => $bannerId,
+                'zoneid' => $zoneId,
+                't_stamp' => $timestamp);
+            $sql = OA_DB_Sql::sqlForInsert($table, $aValues);
+            $this->oDbh->exec($sql);
+        }
+    }
+
+    
+    function testMigrateRawStats()
     {
         $oDbh = &$this->oDbh;
         $migration = new StatMigration();
         $migration->init($oDbh);
 
-        $t_stamp1 = date('Y-m-d', $this->_getRandomTimeFromDay());
-        $t_stamp2 = date('Y-m-d', $this->_getRandomTimeFromDay(-1));
+        $cEntries = $this->prepareTestData($mapCImpressions, $mapCClicks, '_insertRawStatsTestData');
+        
+        $this->assertTrue($migration->migrateRawStats());
 
-        $aValues = array('bannerid' => 1, 'zoneid' => 0, 't_stamp' => $t_stamp1);
-        $sql = OA_DB_Sql::sqlForInsert('adviews', $aValues);
-        for ($i = 0; $i < 10; $i++) {
-            $oDbh->exec($sql);
-        }
-
-        $aValues['t_stamp'] = $t_stamp2;
-        $sql = OA_DB_Sql::sqlForInsert('adviews', $aValues);
-        for ($i = 0; $i < 8; $i++) {
-            $oDbh->exec($sql);
-        }
-
-        $this->assertTrue($migration->migrateImpressions());
-
-        $rsDRAI = DBC::NewRecordSet("SELECT COUNT(*) AS cnt FROM data_raw_ad_impression WHERE date_time = '{$t_stamp1}'");
-        $rsDRAI->find();
-        $this->assertTrue($rsDRAI->fetch());
-        $aDataDRAI = $rsDRAI->toArray();
-        $this->assertEqual($aDataDRAI['cnt'], 10);
-
-        $rsDRAI = DBC::NewRecordSet("SELECT COUNT(*) AS cnt FROM data_raw_ad_impression WHERE date_time = '{$t_stamp2}'");
-        $rsDRAI->find();
-        $this->assertTrue($rsDRAI->fetch());
-        $aDataDRAI = $rsDRAI->toArray();
-        $this->assertEqual($aDataDRAI['cnt'], 8);
-    }
-    
-    
-    function testMigrateClicks()
-    {
-        $oDbh = $this->oDbh;
-
-        $migration = new StatMigration();
-        $migration->init($oDbh);
-
-        $t_stamp1 = date('Y-m-d', $this->_getRandomTimeFromDay());
-        $t_stamp2 = date('Y-m-d', $this->_getRandomTimeFromDay(-1));
-
-        $aValues = array('bannerid' => 1, 'zoneid' => 0, 't_stamp' => $t_stamp1);
-        $sql = OA_DB_Sql::sqlForInsert('adclicks', $aValues);
-        for ($i = 0; $i < 10; $i++) {
-            $oDbh->exec($sql);
-        }
-
-        $aValues['t_stamp'] = $t_stamp2;
-        $sql = OA_DB_Sql::sqlForInsert('adclicks', $aValues);
-        for ($i = 0; $i < 8; $i++) {
-            $oDbh->exec($sql);
-        }
-
-        $this->assertTrue($migration->migrateClicks());
-
-        $rsDRAC = DBC::NewRecordSet("SELECT COUNT(*) AS cnt FROM data_raw_ad_click WHERE date_time = '{$t_stamp1}'");
-        $rsDRAC->find();
-        $this->assertTrue($rsDRAC->fetch());
-        $aDataDRAC = $rsDRAC->toArray();
-        $this->assertEqual($aDataDRAC['cnt'], 10);
-
-        $rsDRAC = DBC::NewRecordSet("SELECT COUNT(*) AS cnt FROM data_raw_ad_click WHERE date_time = '{$t_stamp2}'");
-        $rsDRAC->find();
-        $this->assertTrue($rsDRAC->fetch());
-        $aDataDRAC = $rsDRAC->toArray();
-        $this->assertEqual($aDataDRAC['cnt'], 8);
-    }
-    
-    
-    function _getRandomTimeFromDay($idxDay = 0)
-    {
-        $secondsPerDay = 24 * 60 * 60;
-        $time = time();
-        return $time - $time % $secondsPerDay + $idxDay * $secondsPerDay + mt_rand(0, 86399);
+        $this->_checkDataTable('data_summary_ad_hourly', $cEntries, $mapCImpressions, $mapCClicks);
+        $this->_checkDataTable('data_intermediate_ad', $cEntries, $mapCImpressions, $mapCClicks);
     }
     
     function testStatsCompacted()

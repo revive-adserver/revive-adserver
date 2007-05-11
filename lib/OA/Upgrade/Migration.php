@@ -32,6 +32,8 @@
 
 require_once('MDB2.php');
 
+define('TIMESTAMP_FORMAT', '%Y-%m-%d %H:%M:%S');
+
 /**
  * Event handling class for Openads deployment system
  *
