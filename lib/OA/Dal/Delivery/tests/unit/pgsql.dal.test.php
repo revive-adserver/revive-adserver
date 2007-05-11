@@ -179,10 +179,49 @@ class Test_OA_Dal_Delivery_pgsql extends SharedFixtureTestCase
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
         //$prn        = var_export($aReturn, TRUE);
         $this->assertIsA($aReturn, 'array');
-        foreach ($aReturn['ads'] as $k => $v)
-        {
+        foreach ($aReturn['ads'] as $k => $v) {
             $this->assertEqual($v['placement_id'], $placementid);
         }
+
+        $width      = 468;
+        $height     = 60;
+        $search     = '{$width}x{$height}';
+        $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
+        $this->assertIsA($aReturn, 'array');
+        foreach ($aReturn['ads'] as $k => $v) {
+            $this->assertEqual($v['width'], $width);
+            $this->assertEqual($v['width'], $height);
+        }
+
+        $search     = 'flash/web';
+        $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
+        $this->assertIsA($aReturn, 'array');
+        foreach ($aReturn['ads'] as $k => $v) {
+            $this->assertIaA(strpos($v['keyword'], 'flash'), 'int');
+            $this->assertIaA(strpos($v['keyword'], 'web'), 'int');
+        }
+
+        $search     = 'flash/foo';
+        $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
+        $this->assertIsA($aReturn, 'array');
+        foreach ($aReturn['ads'] as $k => $v) {
+            $this->assertIaA(strpos($v['keyword'], 'flash'), 'int');
+        }
+
+        $search     = 'flash,+foo';
+        $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
+        $this->assertIsA($aReturn['ads'], 'array');
+        $this->assertEqual(count($aReturn['ads']), 0);
+
+        $search     = 'html';
+        $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
+        $this->assertIsA($aReturn, 'array');
+        $this->assertEqual(count($aReturn['ads']), 31);
+
+        $search     = 'textad';
+        $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
+        $this->assertIsA($aReturn, 'array');
+        $this->assertEqual(count($aReturn['ads']), 10);
     }
 
     /**
@@ -394,7 +433,7 @@ class Test_OA_Dal_Delivery_pgsql extends SharedFixtureTestCase
     {
         if (!$this->_testOkayToRun()) {
             return;
-        }       
+        }
         $this->_testCloseConnection();
         TestEnv::restoreEnv();
     }
