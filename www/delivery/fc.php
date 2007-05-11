@@ -1173,14 +1173,32 @@ function setupGlobalConfigVariables()
     $maxGlobals['MAX_RAND'] = $maxGlobals['CONF']['priority']['randmax'];
     $GLOBALS['_MAX'] = $maxGlobals;
 }
+function setupIncludePath()
+{
+    static $checkIfAlreadySet;
+    if (isset($checkIfAlreadySet)) {
+        return;
+    }
+    $checkIfAlreadySet = true;
+    
+    // Define the PEAR installation path
+    $existingPearPath = ini_get('include_path');
+    $newPearPath = MAX_PATH . '/lib/pear';
+    if (!empty($existingPearPath)) {
+        $newPearPath .= PATH_SEPARATOR . $existingPearPath;
+    }
+    ini_set('include_path', $newPearPath);
+}
 define('MAX_PLUGINS_AD_PLUGIN_NAME', 'MAX_type');
 if(!isset($_GET[MAX_PLUGINS_AD_PLUGIN_NAME])) {
+    setupIncludePath();
     include_once MAX_PATH . '/lib/Max.php';
     MAX::raiseError(MAX_PLUGINS_AD_PLUGIN_NAME . ' is not specified', MAX_ERROR_NODATA, PEAR_ERROR_DIE);
 }
 $tagName = $_GET[MAX_PLUGINS_AD_PLUGIN_NAME];
 $tagFileName = MAX_PATH . '/plugins/invocationTags/'.$tagName.'/'.$tagName.'.delivery.php';
 if(!file_exists($tagFileName)) {
+    setupIncludePath();
     include_once MAX_PATH . '/lib/Max.php';
     MAX::raiseError('Invocation plugin delivery file "' . $tagFileName . '" doesn\'t exists', MAX_ERROR_NOFILE, PEAR_ERROR_DIE);
 }

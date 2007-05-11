@@ -1173,6 +1173,22 @@ function setupGlobalConfigVariables()
     $maxGlobals['MAX_RAND'] = $maxGlobals['CONF']['priority']['randmax'];
     $GLOBALS['_MAX'] = $maxGlobals;
 }
+function setupIncludePath()
+{
+    static $checkIfAlreadySet;
+    if (isset($checkIfAlreadySet)) {
+        return;
+    }
+    $checkIfAlreadySet = true;
+    
+    // Define the PEAR installation path
+    $existingPearPath = ini_get('include_path');
+    $newPearPath = MAX_PATH . '/lib/pear';
+    if (!empty($existingPearPath)) {
+        $newPearPath .= PATH_SEPARATOR . $existingPearPath;
+    }
+    ini_set('include_path', $newPearPath);
+}
 // Required files
 require_once(MAX_PATH . '/lib/max/Delivery/cache.php');
 require_once(MAX_PATH . '/lib/max/Delivery/javascript.php');

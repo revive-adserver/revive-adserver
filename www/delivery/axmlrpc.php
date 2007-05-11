@@ -1173,6 +1173,22 @@ function setupGlobalConfigVariables()
     $maxGlobals['MAX_RAND'] = $maxGlobals['CONF']['priority']['randmax'];
     $GLOBALS['_MAX'] = $maxGlobals;
 }
+function setupIncludePath()
+{
+    static $checkIfAlreadySet;
+    if (isset($checkIfAlreadySet)) {
+        return;
+    }
+    $checkIfAlreadySet = true;
+    
+    // Define the PEAR installation path
+    $existingPearPath = ini_get('include_path');
+    $newPearPath = MAX_PATH . '/lib/pear';
+    if (!empty($existingPearPath)) {
+        $newPearPath .= PATH_SEPARATOR . $existingPearPath;
+    }
+    ini_set('include_path', $newPearPath);
+}
 // Required files
 require_once 'Log.php';
 require_once 'PEAR.php';
@@ -1891,7 +1907,9 @@ function _adRenderBuildFileUrl($aBanner, $useAlt = false, $params = '')
 function _adRenderBuildImageUrlPrefix()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    return ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) ? 'https://' . $conf['webpath']['imagesSSL']: 'http://' . $conf['webpath']['images'];
+    return (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) ?
+        'https://' . $conf['webpath']['imagesSSL'] :
+        'http://' . $conf['webpath']['images'];
 }
 function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '', $amp = '&amp;')
 {
