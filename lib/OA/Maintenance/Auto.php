@@ -25,6 +25,8 @@
 $Id$
 */
 
+setupIncludePath();
+
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 

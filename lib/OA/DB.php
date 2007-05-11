@@ -79,7 +79,11 @@ class OA_DB
         // Create an MD5 checksum of the DSN
         $dsnMd5 = md5($dsn);
         // Does this database connection already exist?
-        $aConnections = array_keys($GLOBALS['_OA']['CONNECTIONS']);
+        if (isset($GLOBALS['_OA']['CONNECTIONS'])) {
+            $aConnections = array_keys($GLOBALS['_OA']['CONNECTIONS']);
+        } else {
+            $aConnections = array();
+        }
         if (!(count($aConnections) > 0) || !(in_array($dsnMd5, $aConnections))) {
             // Prepare options for a new database connection
             $aOptions = array();
