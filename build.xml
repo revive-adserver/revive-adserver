@@ -61,6 +61,7 @@
     <include name="var/changes_test*.xml"/>
     <include name="var/INSTALLED"/>
     <include name="var/cache/deliverycache_*"/><!-- Cache files -->
+    <include name="var/cache/cache_*"/>
     <include name="www/devel/**"/>
     <include name="www/delivery_dev/**"/>
     <include name="www/upgrade_dev/**"/>
