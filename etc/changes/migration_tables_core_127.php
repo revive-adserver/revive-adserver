@@ -201,15 +201,19 @@ class Migration_127 extends Migration
 
 	function migrateData()
 	{
-	    $conf = $GLOBALS['_MAX']['CONF'];
-	    $query = "
-	       SELECT *
-	       FROM {$conf['table']['prefix']}zones";
+	    $prefix = $this->getPrefix();
+	    $query = "SELECT * FROM {$prefix}zones";
 	    $rsZones = DBC::NewRecordSet($query);
-	    $rsZones->find();
+	    $result = $rsZones->find();
+	    if (PEAR::isError($result)) {
+	        $this->_logErrorAndReturnFalse($result);
+	    }
 	    
 	    $aZoneAdObjectHandlers = array();
-	    while($rsZones->fetch()) {
+	    while($result = $rsZones->fetch()) {
+	        if (PEAR::isError($result)) {
+	            $this->_logErrorAndReturnFalse($result);
+	        }
 	        $zonetype = $rsZones->get('zonetype');
 	        $what = $rsZones->get('what');
 	        $zoneid = $rsZones->get('zoneid');
@@ -223,9 +227,9 @@ class Migration_127 extends Migration
 	    }
 	    
 	    foreach ($aZoneAdObjectHandlers as $zoneAdObjectHandler) {
-	        $result = $zoneAdObjectHandler->insertAssocs();
+	        $result = $zoneAdObjectHandler->insertAssocs($this->oDBH);
 	        if (PEAR::isError($result)) {
-	            return false;
+	            return $this->_logErrorAndReturnFalse($result);
 	        }
 	    }
 	}
@@ -279,7 +283,7 @@ class ZoneAdObjectHandler
      */
     function insertAssocs($oDbh)
     {
-        $assocTable = $this->getAdAssocTable();
+        $assocTable = $this->getAssocTable();
         $adObjectColumn = $this->getAdObjectColumn();
         foreach($this->aAdObjectIds as $adObjectId) {
             $sql = "

@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/etc/changes/migration_tables_core_127.php';
+require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 
 /**
  * Test for migration class #127.
@@ -34,7 +35,7 @@ require_once MAX_PATH . '/etc/changes/migration_tables_core_127.php';
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  */
-class migration_tables_core_127Test extends UnitTestCase
+class migration_tables_core_127Test extends MigrationTest
 {
     function testGetAdObjectIds()
     {
@@ -52,5 +53,34 @@ class migration_tables_core_127Test extends UnitTestCase
         $aIdsExpected = array();
         $aIdsActual = OA_upgrade_getAdObjectIds($sIdHolders, 'clientid');
         $this->assertEqual($aIdsExpected, $aIdsActual);
+    }
+    
+    
+    function testMigrateData()
+    {
+        $this->initDatabase(127, array('zones', 'ad_zone_assoc', 'placement_zone_assoc'));
+        
+        $aAValues = array(
+            array('zoneid' => 1, 'zonetype' => 0, 'what' => ''),
+            array('zoneid' => 2, 'zonetype' => 0, 'what' => 'bannerid:3'),
+            array('zoneid' => 3, 'zonetype' => 3, 'what' => 'clientid:3'),
+        );
+        foreach ($aAValues as $aValues) {
+            $sql = OA_DB_Sql::sqlForInsert('zones', $aValues);
+            $this->oDbh->exec($sql);
+        }
+
+        $migration = new Migration_127();
+        $migration->init($this->oDbh);
+        
+        $migration->migrateData();
+        
+        $aAssocTables = array('ad_zone_assoc', 'placement_zone_assoc');
+        foreach($aAssocTables as $assocTable) {
+            $rsCAssocs = DBC::NewRecordSet("SELECT count(*) cassocs FROM $assocTable");
+            $this->assertTrue($rsCAssocs->find());
+            $this->assertTrue($rsCAssocs->fetch());
+            $this->assertEqual(1, $rsCAssocs->get('cassocs'), "%s: The table involved: $assocTable");
+        }
     }
 }

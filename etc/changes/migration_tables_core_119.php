@@ -1,6 +1,7 @@
 <?php
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once(MAX_PATH.'/lib/OA/DB/Sql.php');
 
 class Migration_119 extends Migration
 {
