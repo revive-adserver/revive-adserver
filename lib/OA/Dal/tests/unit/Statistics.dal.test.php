@@ -47,7 +47,161 @@ class Test_OA_Dal_Statistics extends UnitTestCase
     function Test_OA_Dal_Statistics()
     {
         $this->UnitTestCase();
+
+        // Prepare a partial mock of the OA_Dal_Statistics class with
+        // the _getTargetingStatisticsSpan() method knocked out
+        Mock::generatePartial(
+            'OA_Dal_Statistics',
+            'PartialMockOA_Dal_Statistics',
+            array('_getTargetingStatisticsSpan')
+        );
+
+        // Prepare some common testing parameters
+        $this->id         = 123;
+        $this->type       = "ad";
+        $this->oStartDate = new Date('2007-05-05');
+        $this->oEndDate   = new Date('2007-05-11');
+        $this->aExpectedParameters = array(
+            0 => $this->id,
+            1 => $this->type,
+            2 => $this->oStartDate,
+            3 => $this->oEndDate
+        );
     }
+
+    /**
+     * A private method to test methods that wrap the
+     * _getTargetingStatisticsSpan() method.
+     *
+     * @param string     $method     The name of the wrapper method to test.
+     * @param integer    $id         The $id parameter to pass to $method.
+     * @param string     $type       The $type parameter to pass to $method.
+     * @param PEAR::Date $oStartDate The $oStartDate parameter to pass to $method.
+     * @param PEAR::Date $oEndDate   The $oEndDate parameter to pass to $method.
+     * @param array      $aExpParam  An array of expected parameters that the
+     *                               _getTargetingStatisticsSpan() method should
+     *                               get.
+     */
+    function _testMockedClass($method, $id, $type, $oStartDate, $oEndDate, $aExpParam)
+    {
+        $oDal = new PartialMockOA_Dal_Statistics($this);
+        $oDal->expectOnce('_getTargetingStatisticsSpan', $aExpParam);
+        $oDal->$method($id, $type, $oStartDate, $oEndDate);
+        $oDal->tally();
+    }
+
+    /**
+     * A method to test the getTargetingStatisticsSpanByDay()
+     * wrapper method.
+     */
+    function testGetTargetingStatisticsSpanByDay()
+    {
+        // Call the getTargetingStatisticsSpanByDay() method on a
+        // mocked version of the class, and ensure that the correct
+        // parameters are passed to the _getTargetingStatisticsSpan()
+        // method.
+        $this->aExpectedParameters[4] = 'day';
+        $this->_testMockedClass(
+            'getTargetingStatisticsSpanByDay',
+            $this->id,
+            $this->type,
+            $this->oStartDate,
+            $this->oEndDate,
+            $this->aExpectedParameters
+        );
+    }
+
+    /**
+     * A method to test the getTargetingStatisticsSpanByWeek()
+     * wrapper method.
+     */
+    function testGetTargetingStatisticsSpanByWeek()
+    {
+        // Call the getTargetingStatisticsSpanByWeek() method on a
+        // mocked version of the class, and ensure that the correct
+        // parameters are passed to the _getTargetingStatisticsSpan()
+        // method.
+        $this->aExpectedParameters[4] = 'week';
+        $this->_testMockedClass(
+            'getTargetingStatisticsSpanByWeek',
+            $this->id,
+            $this->type,
+            $this->oStartDate,
+            $this->oEndDate,
+            $this->aExpectedParameters
+        );
+    }
+
+    /**
+     * A method to test the getTargetingStatisticsSpanByMonth()
+     * wrapper method.
+     */
+    function testGetTargetingStatisticsSpanByMonth()
+    {
+        // Call the getTargetingStatisticsSpanByMonth() method on a
+        // mocked version of the class, and ensure that the correct
+        // parameters are passed to the _getTargetingStatisticsSpan()
+        // method.
+        $this->aExpectedParameters[4] = 'month';
+        $this->_testMockedClass(
+            'getTargetingStatisticsSpanByMonth',
+            $this->id,
+            $this->type,
+            $this->oStartDate,
+            $this->oEndDate,
+            $this->aExpectedParameters
+        );
+    }
+
+    /**
+     * A method to test the getTargetingStatisticsSpanByDow()
+     * wrapper method.
+     */
+    function testGetTargetingStatisticsSpanByDow()
+    {
+        // Call the getTargetingStatisticsSpanByDow() method on a
+        // mocked version of the class, and ensure that the correct
+        // parameters are passed to the _getTargetingStatisticsSpan()
+        // method.
+        $this->aExpectedParameters[4] = 'dow';
+        $this->_testMockedClass(
+            'getTargetingStatisticsSpanByDow',
+            $this->id,
+            $this->type,
+            $this->oStartDate,
+            $this->oEndDate,
+            $this->aExpectedParameters
+        );
+    }
+
+    /**
+     * A method to test the getTargetingStatisticsSpanByHour()
+     * wrapper method.
+     */
+    function testGetTargetingStatisticsSpanByHour()
+    {
+        // Call the getTargetingStatisticsSpanByHour() method on a
+        // mocked version of the class, and ensure that the correct
+        // parameters are passed to the _getTargetingStatisticsSpan()
+        // method.
+        $this->aExpectedParameters[4] = 'hour';
+        $this->_testMockedClass(
+            'getTargetingStatisticsSpanByHour',
+            $this->id,
+            $this->type,
+            $this->oStartDate,
+            $this->oEndDate,
+            $this->aExpectedParameters
+        );
+    }
+
+
+
+
+
+
+
+
 
     /**
      * Test for the getPlacementOverviewTargetingStatistics() method.
