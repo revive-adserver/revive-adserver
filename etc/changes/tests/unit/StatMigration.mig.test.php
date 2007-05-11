@@ -43,7 +43,7 @@ class StatMigrationTest extends MigrationTest
     function setUp()
     {
         parent::setUp();
-        $this->initDatabase(128, array('adstats', 'adviews', 'adclicks', 'data_summary_ad_hourly', 'data_intermediate_ad'));
+        $this->initDatabase(119, array('adstats', 'adviews', 'adclicks', 'data_summary_ad_hourly', 'data_intermediate_ad'));
         $this->configPath = MAX_PATH . '/var/config.inc.php';
     }
     

@@ -25,7 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/etc/changes/migration_tables_core_128.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 
 /**
