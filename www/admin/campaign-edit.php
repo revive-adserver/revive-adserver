@@ -353,7 +353,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row['conversions']         = $data['conversions'];
     $row['expire']              = $data['expire'];
     if (OA_Dal::isValidDate($data['expire'])) {
-        $oExpireDate                = &new Date($data['expire']);
+        $oExpireDate                = new Date($data['expire']);
         $row['expire_f']            = $oExpireDate->format($date_format);
         $row['expire_dayofmonth']   = $oExpireDate->format('%d');
         $row['expire_month']        = $oExpireDate->format('%m');
@@ -361,7 +361,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     }
     $row['active']              = $data['active'];
     if (OA_Dal::isValidDate($data['activate'])) {
-        $oActivateDate              = &new Date($data['activate']);
+        $oActivateDate              = new Date($data['activate']);
         $row['activate_f']          = $oActivateDate->format($date_format);
         $row['activate_dayofmonth'] = $oActivateDate->format('%d');
         $row['activate_month']      = $oActivateDate->format('%m');
