@@ -170,7 +170,6 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
         foreach ($aReturn['ads'] as $k => $v) {
             $this->assertEqual($v['placement_id'], $placementid);
         }
-exit;
 
         $width      = 468;
         $height     = 60;
