@@ -101,12 +101,17 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserZoneHistory extends OA_A
         }
 
         // Add standard page parameters
-        $this->aPageParams = array('clientid' => $advertiserId);
-        $this->aPageParams['affiliateid'] = $aZones[$zoneId]['publisher_id'];
-        $this->aPageParams['zoneid'] = $zoneId;
-        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams = array(
+            'clientid'    => $advertiserId,
+            'affiliateid' => $aZones[$zoneId]['publisher_id'],
+            'zoneid'      => $zoneId
+        );
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
+        // Load $_GET parameters
         $this->_loadParams();
 
         // HTML Framework
@@ -118,6 +123,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserZoneHistory extends OA_A
             $this->aPageSections = array($this->pageId);
         }
 
+        // Add breadcrumbs
         $this->_addBreadcrumbs('advertiser', $advertiserId);
         $this->addCrossBreadcrumbs('zone', $zoneId);
 
@@ -126,7 +132,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserZoneHistory extends OA_A
         foreach ($aZones as $k => $v){
             $params['affiliateid'] = $aZones[$k]['publisher_id'];
             $params['zoneid'] = $k;
-            phpAds_PageContext (
+            phpAds_PageContext(
                 phpAds_buildName($k, MAX_getZoneName($v['name'], null, $v['anonymous'], $k)),
                 $this->_addPageParamsToURI($this->pageName, $params, true),
                 $zoneId == $k
@@ -142,10 +148,11 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserZoneHistory extends OA_A
             );
         }
 
-        $aParams = array();
-        $aParams['advertiser_id'] = $advertiserId;
-        $aParams['zone_id']       = $zoneId;
-
+        // Prepare the data for display by output() method
+        $aParams = array(
+            'advertiser_id' => $advertiserId,
+            'zone_id'       => $zoneId
+        );
         $this->prepare($aParams, 'stats.php');
     }
 

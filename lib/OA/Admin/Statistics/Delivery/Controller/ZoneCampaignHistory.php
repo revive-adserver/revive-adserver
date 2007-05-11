@@ -93,20 +93,25 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaignHistory extends OA_Adm
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
         $this->_checkAccess(array('publisher' => $publisherId, 'zone' => $zoneId));
 
-        // Fetch campaigns
-        $aPlacements = $this->getZoneCampaigns($zoneId);
-
         // Cross-entity security check
-        if (!isset($aPlacements[$placementId])) {
-            $this->noStatsAvailable = true;
+        if (!empty($zoneId)) {
+            $aPlacements = $this->getZoneCampaigns($zoneId);
+            if (!isset($aPlacements[$placementId])) {
+                $this->noStatsAvailable = true;
+            }
         }
 
         // Add standard page parameters
-        $this->aPageParams = array('affiliateid' => $publisherId);
-        $this->aPageParams['campaignid'] = $placementId;
-        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams = array(
+            'affiliateid' => $publisherId,
+            'campaignid'  => $placementId
+        );
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
+        // Load $_GET parameters
         $this->_loadParams();
 
         // HTML Framework
@@ -118,6 +123,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaignHistory extends OA_Adm
             $this->aPageSections = array($this->pageId);
         }
 
+        // Add breadcrumbs
         $this->_addBreadcrumbs('zone', $zoneId);
         $this->addCrossBreadcrumbs('campaign', $placementId);
 
@@ -125,7 +131,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaignHistory extends OA_Adm
         $params = $this->aPageParams;
         foreach ($aPlacements as $k => $v){
             $params['campaignid'] = $k;
-            phpAds_PageContext (
+            phpAds_PageContext(
                 phpAds_buildName($k, MAX_getPlacementName($v)),
                 $this->_addPageParamsToURI($this->pageName, $params, true),
                 $placementId == $k
@@ -140,17 +146,17 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaignHistory extends OA_Adm
                 'images/icon-affiliate.gif'
             );
         }
-
         $this->_addShortcut(
             $GLOBALS['strZoneProperties'],
             'zone-edit.php?affiliateid='.$publisherId.'&zoneid='.$zoneId,
             'images/icon-zone.gif'
         );
 
-        $aParams = array();
-        $aParams['zone_id'] = $zoneId;
-        $aParams['placement_id'] = $placementId;
-
+        // Prepare the data for display by output() method
+        $aParams = array(
+            'zone_id'      => $zoneId,
+            'placement_id' => $placementId
+        );
         $this->prepare($aParams, 'stats.php');
     }
 

@@ -94,14 +94,6 @@ class OA_Admin_Statistics_Targeting_Common extends OA_Admin_Statistics_Targeting
     var $averageDesc;
 
     /**
-     * The array of targeting statistics data to display in
-     * the Flexy template.
-     *
-     * @var array
-     */
-    var $aTargetingData;
-
-    /**
      * A PHP5-style constructor that can be used to perform common
      * class instantiation by children classes.
      *
@@ -121,17 +113,20 @@ class OA_Admin_Statistics_Targeting_Common extends OA_Admin_Statistics_Targeting
         // Get list order and direction
         $this->listOrderField     = MAX_getStoredValue('listorder', 'key');
         $this->listOrderDirection = MAX_getStoredValue('orderdirection', 'down');
-        $this->statsBreakdown     = MAX_getStoredValue('statsBreakdown', 'day');
 
         // Ensure the history class is prepared
         $this->useHistoryClass = true;
+
+        // Disable graphs in targeting pages
+        $this->aGraphData = array(
+            'noGraph' => true
+        );
 
         parent::__construct($aParams);
 
         // Store the preferences
         $this->aPagePrefs['listorder']      = $this->listOrderField;
         $this->aPagePrefs['orderdirection'] = $this->listOrderDirection;
-        $this->aPagePrefs['breakdown']      = $this->statsBreakdown;
     }
 
     /**
@@ -160,6 +155,23 @@ class OA_Admin_Statistics_Targeting_Common extends OA_Admin_Statistics_Targeting
         $aPlugins = &MAX_Plugin::getPlugins('statisticsFieldsTargeting');
         uasort($aPlugins, array($this, '_pluginSort'));
         $this->aPlugins = $aPlugins;
+    }
+
+    /**
+     * Create the error string to display when delivery statistics are not available.
+     *
+     * @return string The error string to display.
+     */
+    function showNoStatsString()
+    {
+        if (!empty($this->aDates['day_begin']) && !empty($this->aDates['day_end'])) {
+            $startDate = new Date($this->aDates['day_begin']);
+            $startDate = $startDate->format($GLOBALS['date_format']);
+            $endDate   = new Date($this->aDates['day_end']);
+            $endDate   = $endDate->format($GLOBALS['date_format']);
+            return sprintf($GLOBALS['strNoTargetingStatsForPeriod'], $startDate, $endDate);
+        }
+        return $GLOBALS['strNoTargetingStats'];
     }
 
 }

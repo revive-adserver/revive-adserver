@@ -97,11 +97,17 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
         $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId, 'ad' => $adId));
 
         // Add standard page parameters
-        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId, 'bannerid' => $adId);
+        $this->aPageParams = array(
+            'clientid'   => $advertiserId,
+            'campaignid' => $placementId,
+            'bannerid'   => $adId
+        );
 
-        $this->aPageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
 
+        // Load $_GET parameters
         $this->_loadParams();
 
         // HTML Framework
@@ -117,10 +123,11 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
             $this->aPageSections[] = '1.2.2.4';
         }
 
+        // Add breadcrumbs
         $this->_addBreadcrumbs('banner', $adId);
 
         // Add context
-        $this->pageContext = array('banners', $adId);
+        $this->aPageContext = array('banners', $adId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Client)) {
@@ -145,6 +152,9 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliates extends OA_Admin_
             'banner-acl.php?clientid='.$advertiserId.'&campaignid='.$placementId.'&bannerid='.$adId,
             'images/icon-acl.gif'
         );
+
+
+
 
         // Fix entity links
         $this->entityLinks['p'] = 'stats.php?entity=banner&breakdown=affiliate-history';

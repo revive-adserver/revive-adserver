@@ -130,7 +130,7 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
             // GD isn't enabled in php install
             return 'noGD';
         }
-        if (isset($this->aHistoryData)) {
+        if (isset($this->aStatsData)) {
             // Put sum_clicks on right axis only when there are
             $aTempGraph = array_flip($aGraphFilterArray);
             if (isset($aTempGraph['sum_clicks']) && !isset($aTempGraph['sum_ctr'])) {
@@ -285,7 +285,7 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
             }
             foreach($aGraphFilterArray as $k) {
                 $Dataset[$k] =& Image_Graph::factory('dataset');
-                foreach ($this->aHistoryData as $key => $record) {
+                foreach ($this->aStatsData as $key => $record) {
                     // Split the date ($key) into days and year, and place the year on the second line
                     $patterns = array ('/(19|20)(\d{2})-(\d{1,2})-(\d{1,2})/');
                     $replace = array ('\3-\4--\1\2');
@@ -368,6 +368,23 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
         }
     }
 
+    /**
+     * Create the error string to display when delivery statistics are not available.
+     *
+     * @return string The error string to display.
+     */
+    function showNoStatsString()
+    {
+        if (!empty($this->aDates['day_begin']) && !empty($this->aDates['day_end'])) {
+            $startDate = new Date($this->aDates['day_begin']);
+            $startDate = $startDate->format($GLOBALS['date_format']);
+            $endDate   = new Date($this->aDates['day_end']);
+            $endDate   = $endDate->format($GLOBALS['date_format']);
+            return sprintf($GLOBALS['strNoStatsForPeriod'], $startDate, $endDate);
+        }
+        return $GLOBALS['strNoStats'];
+    }
+
 
 
 
@@ -396,24 +413,6 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
         foreach ($this->aPlugins as $oPlugin) {
             $oPlugin->summarizeStats($row);
         }
-    }
-
-    /**
-     * Output the error string when stats are not available
-     *
-     * @return string Error string
-     */
-    function showNoStatsString()
-    {
-        if (!empty($this->aDates['day_begin']) && !empty($this->aDates['day_end'])) {
-            $startDate = new Date($this->aDates['day_begin']);
-            $startDate = $startDate->format($GLOBALS['date_format']);
-            $endDate   = new Date($this->aDates['day_end']);
-            $endDate   = $endDate->format($GLOBALS['date_format']);
-            return sprintf($GLOBALS['strNoStatsForPeriod'], $startDate, $endDate);
-        }
-
-        return $GLOBALS['strNoStats'];
     }
 
     /**

@@ -29,9 +29,12 @@ require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/other/stats.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
+require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Daily.php';
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Flexy.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/History.php';
 
 /**
  * A common class that defines a common "interface" and common methods for
@@ -219,6 +222,22 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     var $oHistory;
 
     /**
+     * Is the OA_Admin_Statistics_Daily helper class required
+     * by the class to assist in preparing the data to display?
+     *
+     * @var boolean
+     */
+    var $useDailyClass = false;
+
+    /**
+     * An local instance of the OA_Admin_Statistics_Daily
+     * ibject, if required.
+     *
+     * @var OA_Admin_Statistics_Daily
+     */
+    var $oDaily;
+
+    /**
      * The current page URI.
      *
      * @var string
@@ -256,6 +275,14 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      * @var string
      */
     var $breakdown;
+
+    /**
+     * A variable for storing overriding page "breakdown" values, such
+     * as "hour" for the daily statistics pages.
+     *
+     * @var string
+     */
+    var $statsBreakdown;
 
     /**
      * A variable for holding the current statistics page's "breakdown"
@@ -332,9 +359,16 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             $this->_initDaySpanSelector();
         }
 
+        // Initialise the OA_Admin_Statistics_Daily class, if required
+        if ($this->useDailyClass) {
+            $this->oDaily = new OA_Admin_Statistics_Daily();
+            $this->oDaily->parseDay($this->aDates);
+            $this->aPageContext = array('days', $this->aDates['day_begin']);
+            $this->statsBreakdown = 'hour';
+        }
+
         // Initialise the OA_Admin_Statistics_History class, if required
         if ($this->useHistoryClass) {
-            require_once MAX_PATH . '/lib/OA/Admin/Statistics/History.php';
             $this->oHistory = new OA_Admin_Statistics_History();
         }
     }
@@ -411,6 +445,17 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         MAX::raiseError($message, MAX_ERROR_NOMETHOD);
     }
 
+    /**
+     * Create the error string to display when delivery statistics are not available.
+     *
+     * @return string The error string to display.
+     */
+    function showNoStatsString()
+    {
+        $message = 'Error: Abstract method ' . __FUNCTION__ . ' must be implemented.';
+        MAX::raiseError($message, MAX_ERROR_NOMETHOD);
+    }
+
     /********** METHODS THAT CHILDREN CLASS WILL INHERIT AND CAN USE **********/
 
     /**
@@ -436,12 +481,11 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
         } else if (($this->outputType == 'deliveryHistory') || ($this->outputType == 'targetingHistory')) {
 
+            $aDisplayData =& $this->aStatsData;
             if ($this->outputType == 'deliveryHistory') {
-                $aDisplayData =& $this->aHistoryData;
                 $weekTemplate = 'breakdown_by_week.html';
                 $dateTemplate = 'breakdown_by_date.html';
             } else if ($this->outputType == 'targetingHistory') {
-                $aDisplayData =& $this->aTargetingData;
                 $weekTemplate = 't_breakdown_by_week.html';
                 $dateTemplate = 't_breakdown_by_date.html';
             }
@@ -487,16 +531,18 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             $aElements = array();
             if (!$graphMode) {
                 $aElements['statsBreakdown'] = new HTML_Template_Flexy_Element;
-                $aElements['statsBreakdown']->setOptions( array(
-                  'day'   => $GLOBALS['strBreakdownByDay'],
-                  'week'  => $GLOBALS['strBreakdownByWeek'],
-                  'month' => $GLOBALS['strBreakdownByMonth'],
-                  'dow'   => $GLOBALS['strBreakdownByDow'],
-                  'hour'  => $GLOBALS['strBreakdownByHour']
-                ));
+                $aElements['statsBreakdown']->setOptions(
+                    array(
+                        'day'   => $GLOBALS['strBreakdownByDay'],
+                        'week'  => $GLOBALS['strBreakdownByWeek'],
+                        'month' => $GLOBALS['strBreakdownByMonth'],
+                        'dow'   => $GLOBALS['strBreakdownByDow'],
+                        'hour'  => $GLOBALS['strBreakdownByHour']
+                    )
+                );
                 $aElements['statsBreakdown']->setValue($this->statsBreakdown);
                 $aElements['statsBreakdown']->setAttributes(array('onchange' => 'this.form.submit()'));
-                 $this->_output($aElements);
+                $this->_output($aElements);
             } else {
                  $this->_outputGraph($aElements);
             }
@@ -527,18 +573,23 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             $GLOBALS['affiliateid'] = phpAds_getUserId();
         }
 
+        // Add the current page's entity/breakdown values to the page
+        // parameters before generating this page's URI
+        $this->aPageParams['entity']    = $this->entity;
+        $this->aPageParams['breakdown'] = $this->breakdown;
+
         // Generate URI used to add other parameters
         $this->_generatePageURI();
 
         // Add context links, if any
-        if (is_array($this->pageContext)) {
-            call_user_func_array(array($this, '_showContext'), $this->pageContext);
+        if (is_array($this->aPageContext)) {
+            call_user_func_array(array($this, '_showContext'), $this->aPageContext);
         }
 
         // Add shortcuts, if any
         $this->_showShortcuts();
 
-        // Display header and section links
+        // Display header, top tab section links and left hand side navigation column
         phpAds_PageHeader($this->pageId);
 
         // Welcome text
@@ -552,14 +603,8 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         // Show the breadcrumbs
         $this->_showBreadcrumbs();
 
-        // Add the current page's entity/breakdown values to the page
-        // parameters before output
-        $this->aPageParams['entity']    = $this->entity;
-        $this->aPageParams['breakdown'] = $this->breakdown;
+        // Show the page sections
         phpAds_ShowSections($this->aPageSections, $this->aPageParams, $openNewTable=false);
-
-        $formSubmitLink = explode ("/", $_SERVER['REQUEST_URI']);
-        $formSubmitLink = $formSubmitLink[ count($formSubmitLink) - 1 ];
 
         $graphVals = $graphFilter;
 
@@ -575,30 +620,31 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 $graphVals[] = 'sum_clicks';
             }
         }
-        $graphFilterArray = $graphVals;
 
+        // Prepare the data required for displaying graphs
+        $graphFilterArray = $graphVals;
         $imageFormat = null;
         if (!extension_loaded('gd')) {
-        	$this->aStatsData['noGraph'] = true;
-		}
-
-        if (!function_exists('imagecreate')) {
-            $this->aStatsData['noGraph'] = $GLOBALS['strGDnotEnabled'];
-        } else {
-            $tmpUrl = 'http://'
-                      . $_SERVER['SERVER_NAME']
-                      . preg_replace('/stats.php/', 'stats-showgraph.php', $_SERVER['REQUEST_URI']);
-            foreach ($graphFilterArray as $k => $v) {
-                $tmpUrl .= '&graphFields[]=' . $v;
+        	$this->aGraphData['noGraph'] = true;
+		} else {
+            $imgPath = 'http://' . $GLOBALS['_MAX']['CONF']['webpath']['admin'] . '/images';
+            if (!function_exists('imagecreate')) {
+                $this->aGraphData['noGraph'] = $GLOBALS['strGDnotEnabled'];
+            } else {
+                $tmpUrl = 'http://'
+                          . $_SERVER['SERVER_NAME']
+                          . preg_replace('/stats.php/', 'stats-showgraph.php', $_SERVER['REQUEST_URI']);
+                foreach ($graphFilterArray as $k => $v) {
+                    $tmpUrl .= '&graphFields[]=' . $v;
+                }
             }
-        }
-
-        $imgPath = 'http://' . $GLOBALS['_MAX']['CONF']['webpath']['admin'] . '/images';
-
-        $this->aStatsData['imgPath']         = $imgPath;
-        $this->aStatsData['tmpUrl']          = $tmpUrl;
-        $this->aStatsData['queryString']     = $_SERVER['QUERY_STRING'];
-        $this->aStatsData['formSubmitLink']  = $formSubmitLink;
+            $formSubmitLink = explode ("/", $_SERVER['REQUEST_URI']);
+            $formSubmitLink = $formSubmitLink[ count($formSubmitLink) - 1 ];
+            $this->aGraphData['imgPath']         = $imgPath;
+            $this->aGraphData['tmpUrl']          = $tmpUrl;
+            $this->aGraphData['queryString']     = $_SERVER['QUERY_STRING'];
+            $this->aGraphData['formSubmitLink']  = $formSubmitLink;
+		}
 
         // Set the Flexy tags to open/close Javascript
         $this->scriptOpen     = "\n<script type=\"text/javascript\"> <!--\n";
@@ -649,8 +695,8 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $this->_generatePageURI();
 
         // Add context links, if any
-        if (is_array($this->pageContext))
-            call_user_func_array(array($this, '_showContext'), $this->pageContext);
+        if (is_array($this->aPageContext))
+            call_user_func_array(array($this, '_showContext'), $this->aPageContext);
 
         // Add shortcuts, if any
         $this->_showShortcuts();
@@ -957,126 +1003,128 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      */
     function _showContext($type, $current_id = 0)
     {
-        $aParams = array();
+        if ($this->useDailyClass && $type == 'days') {
+            // Use the helper class contect method instead
+            $aArray = array(
+                'period_start' => MAX_getStoredValue('period_start', date('Y-m-d')),
+                'period_end'   => MAX_getStoredValue('period_end', date('Y-m-d'))
+            );
+            $aDates = array_reverse($this->oHistory->getDatesArray($aArray, 'day', $this->oStartDate));
+            $this->oDaily->showContext($aDates, $current_id, $this);
+        } else {
+            $aParams = array();
+            switch ($type) {
+                case 'advertisers':
+                    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+                        if (phpAds_isUser(phpAds_Agency)) {
+                            $aParams['agency_id'] = phpAds_getUserID();
+                        }
+                        $params = $this->aPageParams;
+                        $advertisers = Admin_DA::getAdvertisers($aParams, false);
+                        foreach ($advertisers as $advertiser) {
+                            $params['clientid'] = $advertiser['advertiser_id'];
+                            phpAds_PageContext(
+                                phpAds_buildName($advertiser['advertiser_id'], $advertiser['name']),
+                                $this->_addPageParamsToURI($this->pageName, $params, true),
+                                $current_id == $advertiser['advertiser_id']
+                            );
+                        }
+                    }
+                    break;
 
-        switch ($type) {
-
-        case 'advertisers':
-            if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-                if (phpAds_isUser(phpAds_Agency)) {
-                    $aParams['agency_id'] = phpAds_getUserID();
-                }
-
-                $params = $this->aPageParams;
-                $advertisers = Admin_DA::getAdvertisers($aParams, false);
-                foreach ($advertisers as $advertiser) {
-                    $params['clientid'] = $advertiser['advertiser_id'];
-                    phpAds_PageContext (
-                        phpAds_buildName($advertiser['advertiser_id'], $advertiser['name']),
-                        $this->_addPageParamsToURI($this->pageName, $params, true),
-                        $current_id == $advertiser['advertiser_id']
-                    );
-                }
-            }
-            break;
-
-        case 'campaigns':
-            $aParams['advertiser_id'] = $this->aPageParams['clientid'];
-
-            $params = $this->aPageParams;
-            $campaigns = Admin_DA::getPlacements($aParams, false);
-            foreach ($campaigns as $campaign) {
-                $params['campaignid'] = $campaign['placement_id'];
-                // mask campaign name if anonymous campaign
-                   $campaign['name'] = MAX_getPlacementName($campaign);
-                phpAds_PageContext (
-                    phpAds_buildName($campaign['placement_id'], $campaign['name']),
-                    $this->_addPageParamsToURI($this->pageName, $params, true),
-                    $current_id == $campaign['placement_id']
-                );
-            }
-            break;
-
-        case 'banners':
-            $aParams['placement_id'] = $this->aPageParams['campaignid'];
-
-            $params = $this->aPageParams;
-            $banners = Admin_DA::getAds($aParams, false);
-            foreach ($banners as $banner) {
-                $params['bannerid'] = $banner['ad_id'];
-                // mask banner name if anonymous campaign
-                $campaign = Admin_DA::getPlacement($banner['placement_id']);
-                $campaignAnonymous = $campaign['anonymous'] == 't' ? true : false;
-                  $banner['name'] = MAX_getAdName($banner['name'], null, null, $campaignAnonymous, $banner['ad_id']);
-                phpAds_PageContext (
-                    phpAds_buildName($banner['ad_id'], $banner['name']),
-                    $this->_addPageParamsToURI($this->pageName, $params, true),
-                    $current_id == $banner['ad_id']
-                );
-            }
-            break;
-
-        case 'publishers':
-            if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-                if (phpAds_isUser(phpAds_Agency)) {
-                    $aParams['agency_id'] = phpAds_getUserID();
-                }
-
-                $params = $this->aPageParams;
-                $campaigns = Admin_DA::getPublishers($aParams, false);
-                foreach ($campaigns as $publisher) {
-                    $params['affiliateid'] = $publisher['publisher_id'];
-                    phpAds_PageContext (
-                        phpAds_buildName($publisher['publisher_id'], $publisher['name']),
-                        $this->_addPageParamsToURI($this->pageName, $params, true),
-                        $current_id == $publisher['publisher_id']
-                    );
-                }
-            }
-            break;
-
-        case 'publisher-campaigns':
-            if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-                $aParams = array(
-                    'publisher_id' => $publisherId,
-                    'placement_id' => $placementId,
-                    'include' => array('placement_id'),
-                    'exclude' => array('zone_id')
-                );
-                $aPlacements = array();
-                foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $this->aDates) as $v) {
-                    $aPlacements[$v['placement_id']] = true;
-                }
-                $params = $this->aPageParams;
-                $campaigns = Admin_DA::getPlacements(array(), false);
-                foreach ($campaigns as $campaign) {
-                    if (isset($aPlacements[$campaign['placement_id']])) {
+                case 'campaigns':
+                    $aParams['advertiser_id'] = $this->aPageParams['clientid'];
+                    $params = $this->aPageParams;
+                    $campaigns = Admin_DA::getPlacements($aParams, false);
+                    foreach ($campaigns as $campaign) {
                         $params['campaignid'] = $campaign['placement_id'];
-                        phpAds_PageContext (
+                        // mask campaign name if anonymous campaign
+                        $campaign['name'] = MAX_getPlacementName($campaign);
+                        phpAds_PageContext(
                             phpAds_buildName($campaign['placement_id'], $campaign['name']),
                             $this->_addPageParamsToURI($this->pageName, $params, true),
                             $current_id == $campaign['placement_id']
                         );
                     }
-                }
+                    break;
+
+                case 'banners':
+                    $aParams['placement_id'] = $this->aPageParams['campaignid'];
+                    $params = $this->aPageParams;
+                    $banners = Admin_DA::getAds($aParams, false);
+                    foreach ($banners as $banner) {
+                        $params['bannerid'] = $banner['ad_id'];
+                        // mask banner name if anonymous campaign
+                        $campaign = Admin_DA::getPlacement($banner['placement_id']);
+                        $campaignAnonymous = $campaign['anonymous'] == 't' ? true : false;
+                        $banner['name'] = MAX_getAdName($banner['name'], null, null, $campaignAnonymous, $banner['ad_id']);
+                        phpAds_PageContext(
+                            phpAds_buildName($banner['ad_id'], $banner['name']),
+                            $this->_addPageParamsToURI($this->pageName, $params, true),
+                            $current_id == $banner['ad_id']
+                        );
+                    }
+                    break;
+
+                case 'publishers':
+                    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+                        if (phpAds_isUser(phpAds_Agency)) {
+                            $aParams['agency_id'] = phpAds_getUserID();
+                        }
+                        $params = $this->aPageParams;
+                        $campaigns = Admin_DA::getPublishers($aParams, false);
+                        foreach ($campaigns as $publisher) {
+                            $params['affiliateid'] = $publisher['publisher_id'];
+                            phpAds_PageContext(
+                                phpAds_buildName($publisher['publisher_id'], $publisher['name']),
+                                $this->_addPageParamsToURI($this->pageName, $params, true),
+                                $current_id == $publisher['publisher_id']
+                            );
+                        }
+                    }
+                    break;
+
+                case 'publisher-campaigns':
+                    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+                        $aParams = array(
+                            'publisher_id' => $publisherId,
+                            'placement_id' => $placementId,
+                            'include' => array('placement_id'),
+                            'exclude' => array('zone_id')
+                        );
+                        $aPlacements = array();
+                        foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $this->aDates) as $v) {
+                            $aPlacements[$v['placement_id']] = true;
+                        }
+                        $params = $this->aPageParams;
+                        $campaigns = Admin_DA::getPlacements(array(), false);
+                        foreach ($campaigns as $campaign) {
+                            if (isset($aPlacements[$campaign['placement_id']])) {
+                                $params['campaignid'] = $campaign['placement_id'];
+                                phpAds_PageContext(
+                                    phpAds_buildName($campaign['placement_id'], $campaign['name']),
+                                    $this->_addPageParamsToURI($this->pageName, $params, true),
+                                    $current_id == $campaign['placement_id']
+                                );
+                            }
+                        }
+                    }
+                    break;
+
+                case 'zones':
+                    $aParams['publisher_id'] = $this->aPageParams['affiliateid'];
+                    $params = $this->aPageParams;
+                    $zones = Admin_DA::getZones($aParams, false);
+                    foreach ($zones as $zone) {
+                        $params['zoneid'] = $zone['zone_id'];
+                        phpAds_PageContext(
+                            phpAds_buildName($zone['zone_id'], $zone['name']),
+                            $this->_addPageParamsToURI($this->pageName, $params, true),
+                            $current_id == $zone['zone_id']
+                        );
+                    }
+                    break;
             }
-            break;
-
-        case 'zones':
-            $aParams['publisher_id'] = $this->aPageParams['affiliateid'];
-
-            $params = $this->aPageParams;
-            $zones = Admin_DA::getZones($aParams, false);
-            foreach ($zones as $zone) {
-                $params['zoneid'] = $zone['zone_id'];
-                phpAds_PageContext (
-                    phpAds_buildName($zone['zone_id'], $zone['name']),
-                    $this->_addPageParamsToURI($this->pageName, $params, true),
-                    $current_id == $zone['zone_id']
-                );
-            }
-            break;
-
         }
     }
 
@@ -1128,6 +1176,24 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             $this->aPageParams['orderdirection'] = 'up';
         }
 
+    }
+
+    /**
+     * A private method that can be inherited and used by children classes to
+     * load the statistics breakdown parameter.
+     */
+    function _loadStatsBreakdownParam()
+    {
+        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
+    }
+
+    /**
+     * A private method that can be inherited and used by children classes to
+     * load the period preset parameter.
+     */
+    function _loadPeriodPresetParam()
+    {
+        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
     }
 
     /**

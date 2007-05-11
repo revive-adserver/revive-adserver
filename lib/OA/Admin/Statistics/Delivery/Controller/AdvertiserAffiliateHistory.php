@@ -92,22 +92,26 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
         $this->_checkAccess(array('advertiser' => $advertiserId));
 
-        // Fetch campaigns
-        $aPublishers = $this->getAdvertiserPublishers($advertiserId);
-
         // Cross-entity security check
-        if (!isset($aPublishers[$publisherId])) {
-            $this->noStatsAvailable = true;
+        if (!empty($advertiserId)) {
+            $aPublishers = $this->getAdvertiserPublishers($advertiserId);
+            if (!isset($aPublishers[$publisherId])) {
+                $this->noStatsAvailable = true;
+            }
         }
 
         // Add standard page parameters
-        $this->aPageParams = array('clientid' => $advertiserId);
-        $this->aPageParams['affiliateid']    = $publisherId;
+        $this->aPageParams = array(
+            'clientid'    => $advertiserId,
+            'affiliateid' => $publisherId
+        );
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
+        // Load $_GET parameters
         $this->_loadParams();
-
-        $this->aPageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 
         // HTML Framework
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
@@ -118,6 +122,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends
             $this->aPageSections = array($this->pageId);
         }
 
+        // Add breadcrumbs
         $this->_addBreadcrumbs('advertiser', $advertiserId);
         $this->addCrossBreadcrumbs('publisher', $publisherId);
 
@@ -125,7 +130,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends
         $params = $this->aPageParams;
         foreach ($aPublishers as $k => $v){
             $params['affiliateid'] = $k;
-            phpAds_PageContext (
+            phpAds_PageContext(
                 phpAds_buildName($k, MAX_getPublisherName($v['name'], null, $v['anonymous'], $k)),
                 $this->_addPageParamsToURI($this->pageName, $params, true),
                 $publisherId == $k
@@ -141,10 +146,11 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliateHistory extends
             );
         }
 
-        $aParams = array();
-        $aParams['advertiser_id'] = $advertiserId;
-        $aParams['publisher_id']  = $publisherId;
-
+        // Prepare the data for display by output() method
+        $aParams = array(
+            'advertiser_id' => $advertiserId,
+            'publisher_id'  => $publisherId
+        );
         $this->prepare($aParams, 'stats.php');
     }
 

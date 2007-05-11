@@ -110,9 +110,9 @@ if (isset($plugin) && $plugin != '') {
 }
 
 // Remove comas in values greater than 1000
-foreach($oStats->aHistoryData as $dateKey => $dateRecord) {
+foreach($oStats->aStatsData as $dateKey => $dateRecord) {
     foreach($dateRecord as $k => $v) {
-        $oStats->aHistoryData[$dateKey][$k] = ereg_replace(",", "", $v);
+        $oStats->aStatsData[$dateKey][$k] = ereg_replace(",", "", $v);
     }
 }
 

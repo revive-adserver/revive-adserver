@@ -96,10 +96,16 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignAffiliates extends OA_Admi
         $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId));
 
         // Add standard page parameters
-        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId);
-        $this->aPageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams = array(
+            'clientid'   => $advertiserId,
+            'campaignid' => $placementId
+        );
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
+        // Load $_GET parameters
         $this->_loadParams();
 
         // HTML Framework
@@ -111,10 +117,11 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignAffiliates extends OA_Admi
             $this->aPageSections = array('1.2.1', '1.2.2', '1.2.3');
         }
 
+        // Add breadcrumbs
         $this->_addBreadcrumbs('campaign', $placementId);
 
         // Add context
-        $this->pageContext = array('campaigns', $placementId);
+        $this->aPageContext = array('campaigns', $placementId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Client)) {
@@ -129,6 +136,9 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignAffiliates extends OA_Admi
             'campaign-edit.php?clientid='.$advertiserId.'&campaignid='.$placementId,
             'images/icon-campaign.gif'
         );
+
+
+
 
         // Fix entity links
         $this->entityLinks['p'] = 'stats.php?entity=campaign&breakdown=affiliate-history';

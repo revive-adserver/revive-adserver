@@ -87,27 +87,33 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends OA_Admin
         // Get parameters
         $publisherId = $this->_getId('publisher');
         $zoneId      = $this->_getId('zone');
-        $zoneId      = $this->_getId('ad', 0);
+        $adId        = $this->_getId('ad', 0);
 
         // Security check
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
         $this->_checkAccess(array('publisher' => $publisherId, 'zone' => $zoneId));
 
-        // Fetch campaigns
-        $aAds = $this->getZoneBanners($zoneId);
-
         // Cross-entity security check
-        if (!isset($aAds[$adId])) {
-            $this->noStatsAvailable = true;
+        if (!empty($zoneId)) {
+            $aAds = $this->getZoneBanners($zoneId);
+            if (!isset($aAds[$adId])) {
+                $this->noStatsAvailable = true;
+            }
         }
 
         // Add standard page parameters
-        $this->aPageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId);
-        $this->aPageParams['campaignid'] = $aAds[$adId]['placement_id'];
-        $this->aPageParams['bannerid']   = $adId;
-        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams = array(
+            'affiliateid' => $publisherId,
+            'zoneid'      => $zoneId,
+            'campaignid'  => $aAds[$adId]['placement_id'],
+            'bannerid'    => $adId
+        );
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
+        // Load $_GET parameters
         $this->_loadParams();
 
         // HTML Framework
@@ -119,6 +125,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends OA_Admin
             $this->aPageSections = array($this->pageId);
         }
 
+        // Add breadcrumbs
         $this->_addBreadcrumbs('zone', $zoneId);
         $this->addCrossBreadcrumbs('banner', $adId);
 
@@ -127,7 +134,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends OA_Admin
         foreach ($aAds as $k => $v){
             $params['campaignid'] = $v['placement_id'];
             $params['bannerid'] = $k;
-            phpAds_PageContext (
+            phpAds_PageContext(
                 phpAds_buildName($k, MAX_getAdName($v['name'], null, null, $v['anonymous'], $k)),
                 $this->_addPageParamsToURI($this->pageName, $params, true),
                 $adId == $k
@@ -142,20 +149,18 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends OA_Admin
                 'images/icon-affiliate.gif'
             );
         }
-
         $this->_addShortcut(
             $GLOBALS['strZoneProperties'],
             'zone-edit.php?affiliateid='.$publisherId.'&zoneid='.$zoneId,
             'images/icon-zone.gif'
         );
 
-        $aParams = array();
-        $aParams['zone_id'] = $zoneId;
-        $aParams['ad_id'] = $adId;
-
+        // Prepare the data for display by output() method
+        $aParams = array(
+            'zone_id' => $zoneId,
+            'ad_id'   => $adId
+        );
         $this->prepare($aParams, 'stats.php');
-
-        $this->aPageParams['breakdown'] = 'banner-history';
     }
 }
 

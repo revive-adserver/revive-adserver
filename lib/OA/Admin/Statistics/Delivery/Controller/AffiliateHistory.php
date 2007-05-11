@@ -97,8 +97,16 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends OA_Admin_
         $this->_checkAccess(array('publisher' => $publisherId));
 
         // Add standard page parameters
-        $this->aPageParams = array('affiliateid' => $publisherId,
-                                  'statsBreakdown' => MAX_getStoredValue('statsBreakdown', 'history'));
+        $this->aPageParams = array(
+            'affiliateid' => $publisherId
+        );
+
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
+        // Load $_GET parameters
+        $this->_loadParams();
 
         // HTML Framework
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
@@ -113,10 +121,11 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends OA_Admin_
             $this->aPageSections[] = '1.3';
         }
 
+        // Add breadcrumbs
         $this->_addBreadcrumbs('publisher', $publisherId);
 
         // Add context
-        $this->pageContext = array('publishers', $publisherId);
+        $this->aPageContext = array('publishers', $publisherId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Affiliate)) {
@@ -127,8 +136,10 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends OA_Admin_
             );
         }
 
-        $aParams = array();
-        $aParams['publisher_id'] = $publisherId;
+        // Prepare the data for display by output() method
+        $aParams = array(
+            'publisher_id' => $publisherId
+        );
 
         // Limit by advertiser
         $advertiserId = (int)MAX_getValue('clientid', '');

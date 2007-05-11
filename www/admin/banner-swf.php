@@ -179,7 +179,7 @@ if ($bannerid != '') {
     $doBanners->find();
 
     while ($doBanners->fetch() && $row = $doBanners->toArray()) {
-        phpAds_PageContext (
+        phpAds_PageContext(
             phpAds_buildBannerName ($row['bannerid'], $row['description'], $row['alt']),
             "banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$row['bannerid'],
             $bannerid == $row['bannerid']

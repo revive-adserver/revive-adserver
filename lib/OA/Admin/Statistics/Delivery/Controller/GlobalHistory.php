@@ -87,21 +87,22 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalHistory extends OA_Admin_Sta
         // Security check
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
-        // Add module page parameters
-        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
 
+        // Load $_GET parameters
         $this->_loadParams();
 
         // HTML Framework
         $this->pageId = '2.2';
         $this->aPageSections = array('2.1', '2.4', '2.2');
 
+        // Prepare the data for display by output() method
         $aParams = array();
         if (phpAds_isUser(phpAds_Agency)) {
             $aParams['agency_id'] = phpAds_getAgencyID();
         }
-
         $this->prepare($aParams, 'stats.php');
     }
 

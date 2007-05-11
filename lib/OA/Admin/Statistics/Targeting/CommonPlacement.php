@@ -51,10 +51,10 @@ class OA_Admin_Statistics_Targeting_CommonPlacement extends OA_Admin_Statistics_
      */
     function _isEmptyResultArray()
     {
-        if (!is_array($this->aTargetingData)) {
+        if (!is_array($this->aStatsData)) {
             return true;
         }
-        foreach($this->aTargetingData as $aRecord) {
+        foreach($this->aStatsData as $aRecord) {
             if (
                 $aRecord['placement_required_impressions']  != '-' ||
                 $aRecord['placement_requested_impressions'] != '-' ||
@@ -89,7 +89,7 @@ class OA_Admin_Statistics_Targeting_CommonPlacement extends OA_Admin_Statistics_
         if (count($aStats) == 0) {
             // There are no stats!
             $this->noStatsAvailable = true;
-            $this->aTargetingData = array();
+            $this->aStatsData = array();
             return;
         }
 
@@ -121,7 +121,7 @@ class OA_Admin_Statistics_Targeting_CommonPlacement extends OA_Admin_Statistics_
         // Format the rows appropriately for output
         $this->oHistory->formatRows($aStats, $this);
 
-        $this->aTargetingData = $aStats;
+        $this->aStatsData = $aStats;
     }
 
 }

@@ -293,7 +293,7 @@ if (isset($navorder) && isset($navdirection)) {
 }
 
 while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
-    phpAds_PageContext (
+    phpAds_PageContext(
         phpAds_buildName ($row['trackerid'], $row['trackername']),
         "tracker-variables.php?clientid=".$clientid."&trackerid=".$row['trackerid'],
         $trackerid == $row['trackerid']

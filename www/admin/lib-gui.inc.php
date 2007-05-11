@@ -255,24 +255,8 @@ function phpAds_PageHeader($ID, $extra="")
             $pagetitle = isset($pref['name']) && $pref['name'] != '' ? $pref['name'] : MAX_PRODUCT_NAME;
         }
 
-        //show only +- 7 records for 'daily' pages
-        if($breakdown == 'daily') {
-            foreach($phpAds_context as $k => $v) {
-                if($v['selected'] == 1) {
-                    $up_limit = $k + 9;
-                    if($k > 7) {
-                        $down_limit = $k - 8;
-                    } else {
-                        $down_limit = 0;
-                    }
-
-                }
-
-            }
-        } else {
-            $up_limit = count($phpAds_context);
-            $down_limit=0;
-        }
+        $up_limit = count($phpAds_context);
+        $down_limit=0;
 
         // Build Context
         if (count($phpAds_context)) {

@@ -92,10 +92,15 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserHistory extends OA_Admin
         $this->_checkAccess(array('advertiser' => $advertiserId));
 
         // Add standard page parameters
-        $this->aPageParams = array('clientid' => $advertiserId);
-        $this->aPageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams = array(
+            'clientid' => $advertiserId
+        );
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
+        // Load $_GET parameters
         $this->_loadParams();
 
         // HTML Framework
@@ -107,6 +112,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserHistory extends OA_Admin
             $this->aPageSections = array('1.1', '1.2', '1.3');
         }
 
+        // Add breadcrumbs
         $this->_addBreadcrumbs('advertiser', $advertiserId);
 
         // Add context
@@ -121,21 +127,11 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserHistory extends OA_Admin
             );
         }
 
-        $aParams = array();
-        $aParams['advertiser_id'] = $advertiserId;
-
+        // Prepare the data for display by output() method
+        $aParams = array(
+            'advertiser_id' => $advertiserId
+        );
         $this->prepare($aParams, 'stats.php');
-
-        $period_preset  = MAX_getStoredValue('period_preset', 'today');
-        $statsBreakdown = MAX_getStoredValue('statsBreakdown', 'day');
-
-        // Add module page parameters
-        $this->aPageParams = array('clientid' => $advertiserId,
-                                  'period_preset' => $period_preset,
-                                  'statsBreakdown' => $statsBreakdown
-                                 );
-
-        $this->_loadParams($this->aPageParams);
     }
 
 }

@@ -150,7 +150,7 @@ $doTrackers->clientid = $clientid;
 $doTrackers->find();
 
 while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
-    phpAds_PageContext (
+    phpAds_PageContext(
         phpAds_buildName ($row['trackerid'], $row['trackername']),
         "tracker-campaigns.php?clientid=".$clientid."&trackerid=".$row['trackerid'],
         $trackerid == $row['trackerid']

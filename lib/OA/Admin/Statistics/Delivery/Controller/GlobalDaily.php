@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonDaily.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossHistory.php';
 
 /**
  * The class to display the delivery statistcs for the page:
@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonDaily.php';
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Controller_GlobalDaily extends OA_Admin_Statistics_Delivery_CommonDaily
+class OA_Admin_Statistics_Delivery_Controller_GlobalDaily extends OA_Admin_Statistics_Delivery_CommonCrossHistory
 {
 
     /**
@@ -55,6 +55,9 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalDaily extends OA_Admin_Stati
         // Set this page's entity/breakdown values
         $this->entity    = 'global';
         $this->breakdown = 'daily';
+
+        // Use the OA_Admin_Statistics_Daily helper class
+        $this->useDailyClass = true;
 
         parent::__construct($aParams);
     }
@@ -84,21 +87,22 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalDaily extends OA_Admin_Stati
         // Security check
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
-        // Add module page parameters
-        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
 
-        $this->_loadParams();
+        // Load the day parameter
+        $this->_loadDayParam();
 
         // HTML Framework
         $this->pageId = '2.2.1';
         $this->aPageSections = array('2.1.1');
 
+        // Prepare the data for display by output() method
         $aParams = array();
         if (phpAds_isUser(phpAds_Agency)) {
             $aParams['agency_id'] = phpAds_getAgencyID();
         }
-
         $this->prepare($aParams);
     }
 

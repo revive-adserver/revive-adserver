@@ -101,11 +101,17 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends O
         }
 
         // Add standard page parameters
-        $this->aPageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId);
-        $this->aPageParams['campaignid'] = $placementId;
-        $this->aPageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams = array(
+            'affiliateid' => $publisherId,
+            'campaignid'  => $placementId,
+            'zoneid'      => $zoneId
+        );
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
+        // Load $_GET parameters
         $this->_loadParams();
 
         // HTML Framework
@@ -117,6 +123,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends O
             $this->aPageSections = array($this->pageId);
         }
 
+        // Add breadcrumbs
         $this->_addBreadcrumbs('publisher', $publisherId);
         $this->addCrossBreadcrumbs('campaign', $placementId);
 
@@ -124,7 +131,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends O
         $params = $this->aPageParams;
         foreach ($aPlacements as $k => $v){
             $params['campaignid'] = $k;
-            phpAds_PageContext (
+            phpAds_PageContext(
                 phpAds_buildName($k, MAX_getPlacementName($v)),
                 $this->_addPageParamsToURI($this->pageName, $params, true),
                 $placementId == $k
@@ -140,10 +147,11 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaignHistory extends O
             );
         }
 
-        $aParams = array();
-        $aParams['publisher_id'] = $publisherId;
-        $aParams['placement_id'] = $placementId;
-
+        // Prepare the data for display by output() method
+        $aParams = array(
+            'publisher_id' => $publisherId,
+            'placement_id' => $placementId
+        );
         $this->prepare($aParams, 'stats.php');
     }
 

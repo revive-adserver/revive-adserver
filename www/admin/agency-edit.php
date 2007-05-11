@@ -151,7 +151,7 @@ if ($agencyid != '') {
 	$doAgency = OA_Dal::factoryDO('agency');
 	$doAgency->find();
 	while ($doAgency->fetch() && $row = $doAgency->toArray()) {
-		phpAds_PageContext (
+		phpAds_PageContext(
 			phpAds_buildName ($row['agencyid'], $row['name']),
 			"agency-edit.php?agencyid=".$row['agencyid'],
 			$agencyid == $row['agencyid']

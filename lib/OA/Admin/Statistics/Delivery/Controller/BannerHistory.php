@@ -94,10 +94,16 @@ class OA_Admin_Statistics_Delivery_Controller_BannerHistory extends OA_Admin_Sta
         $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId, 'ad' => $adId));
 
         // Add standard page parameters
-        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId, 'bannerid' => $adId);
-        $this->aPageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams = array(
+            'clientid'   => $advertiserId,
+            'campaignid' => $placementId,
+            'bannerid'   => $adId);
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
+        // Load $_GET parameters
         $this->_loadParams();
 
         // HTML Framework
@@ -113,10 +119,11 @@ class OA_Admin_Statistics_Delivery_Controller_BannerHistory extends OA_Admin_Sta
             $this->aPageSections[] = '1.2.2.4';
         }
 
+        // Add breadcrumbs
         $this->_addBreadcrumbs('banner', $adId);
 
         // Add context
-        $this->pageContext = array('banners', $adId);
+        $this->aPageContext = array('banners', $adId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Client)) {
@@ -142,15 +149,11 @@ class OA_Admin_Statistics_Delivery_Controller_BannerHistory extends OA_Admin_Sta
             'images/icon-acl.gif'
         );
 
-        $aParams = array();
-        $aParams['ad_id'] = $adId;
-
+        // Prepare the data for display by output() method
+        $aParams = array(
+            'ad_id' => $adId
+        );
         $this->prepare($aParams, 'stats.php');
-
-        // Add standard page parameters
-        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId, 'bannerid' => $adId);
-        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
 
     }
 

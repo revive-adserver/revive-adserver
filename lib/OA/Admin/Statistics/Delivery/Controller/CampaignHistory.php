@@ -93,8 +93,12 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
         $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId));
 
         // Add standard page parameters
-        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId);
+        $this->aPageParams = array(
+            'clientid'   => $advertiserId,
+            'campaignid' => $placementId
+        );
 
+        // Load $_GET parameters
         $this->_loadParams();
 
         // HTML Framework
@@ -106,10 +110,11 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
             $this->aPageSections = array('1.2.1', '1.2.2', '1.2.3');
         }
 
+        // Add breadcrumbs
         $this->_addBreadcrumbs('campaign', $placementId);
 
         // Add context
-        $this->pageContext = array('campaigns', $placementId);
+        $this->aPageContext = array('campaigns', $placementId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Client)) {
@@ -125,6 +130,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
             'images/icon-campaign.gif'
         );
 
+        // Prepare the data for display by output() method
         $aParams = array(
             'placement_id' => $placementId
         );

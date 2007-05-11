@@ -99,10 +99,15 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateZones extends OA_Admin_St
         }
 
         // Add standard page parameters
-        $this->aPageParams = array('affiliateid' => $publisherId);
-        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams = array(
+            'affiliateid' => $publisherId
+        );
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
+        // Load $_GET parameters
         $this->_loadParams();
 
         // HTML Framework
@@ -118,10 +123,11 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateZones extends OA_Admin_St
             $this->aPageSections[] = '1.3';
         }
 
+        // Add breadcrumbs
         $this->_addBreadcrumbs('publisher', $publisherId);
 
         // Add context
-        $this->pageContext = array('publishers', $publisherId);
+        $this->aPageContext = array('publishers', $publisherId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Affiliate)) {
@@ -131,6 +137,9 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateZones extends OA_Admin_St
                 'images/icon-affiliate.gif'
             );
         }
+
+
+
 
         $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['gui_hide_inactive'] == 't'));
         $this->showHideInactive = true;

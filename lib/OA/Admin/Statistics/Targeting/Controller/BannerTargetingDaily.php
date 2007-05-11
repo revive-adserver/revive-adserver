@@ -25,23 +25,23 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossHistory.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/CommonAd.php';
 
 /**
- * The class to display the delivery statistcs for the page:
+ * The class to display the targeting statistcs for the page:
  *
- * Statistics -> Publishers & Zones -> Campaign Distribution -> Distribution History
+ * Statistics -> Advertisers & Campaigns -> Banner History -> Targeting Statistics -> Daily Statistics
  *
  * @package    OpenadsAdmin
- * @subpackage StatisticsDelivery
- * @author     Matteo Beccati <matteo@beccati.com>
+ * @subpackage StatisticsTargeting
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Controller_AffiliateBannerHistory extends OA_Admin_Statistics_Delivery_CommonCrossHistory
+class OA_Admin_Statistics_Targeting_Controller_BannerTargetingDaily extends OA_Admin_Statistics_Targeting_CommonAd
 {
 
     /**
-     * The final "child" implementation of the PHP5-style constructor.
+     * A PHP5-style constructor that can be used to perform common
+     * class instantiation by children classes.
      *
      * @param array $aParams An array of parameters. The array should
      *                       be indexed by the name of object variables,
@@ -53,13 +53,23 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateBannerHistory extends OA_
     function __construct($aParams)
     {
         // Set this page's entity/breakdown values
-        $this->entity    = 'affiliate';
-        $this->breakdown = 'banner-history';
+        $this->entity    = 'banner';
+        $this->breakdown = 'targeting-daily';
 
-        // This page uses the day span selector element
-        $this->showDaySpanSelector = true;
+        // Use the OA_Admin_Statistics_Daily helper class
+        $this->useDailyClass = true;
 
         parent::__construct($aParams);
+
+        // Special requirement for targeting statistics - activate required columns
+        // in the plugins
+        foreach (array_keys($this->aPlugins) as $key) {
+            $this->aPlugins[$key]->_aFields['ad_required_impressions']['active'] = true;
+            $this->aPlugins[$key]->_aFields['ad_requested_impressions']['active'] = true;
+            $this->aPlugins[$key]->_aFields['ad_actual_impressions']['active'] = true;
+            $this->aPlugins[$key]->_aFields['zones_forecast_impressions']['active'] = true;
+            $this->aPlugins[$key]->_aFields['zones_actual_impressions']['active'] = true;
+        }
     }
 
     /**
@@ -72,7 +82,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateBannerHistory extends OA_
      *                       $aParams = array('foo' => 'bar')
      *                       would result in $this->foo = bar.
      */
-    function OA_Admin_Statistics_Delivery_Controller_AffiliateBannerHistory($aParams)
+    function OA_Admin_Statistics_Targeting_Controller_BannerTargeting($aParams)
     {
         $this->__construct($aParams);
     }
@@ -85,76 +95,62 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateBannerHistory extends OA_
     function start()
     {
         // Get parameters
-        $publisherId = $this->_getId('publisher');
-        $adId        = $this->_getId('ad', 0);
+        $advertiserId = $this->_getId('advertiser');
+        $placementId  = $this->_getId('placement');
+        $adId         = $this->_getId('ad');
 
         // Security check
-        phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-        $this->_checkAccess(array('publisher' => $publisherId));
-
-        // Fetch banners
-        $aAds = $this->getPublisherBanners($publisherId);
-
-        // Cross-entity security check
-        if (!isset($aAds[$adId])) {
-            $this->noStatsAvailable = true;
-        }
+        phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+        $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId, 'ad' => $adId));
 
         // Add standard page parameters
         $this->aPageParams = array(
-            'affiliateid' => $publisherId,
-            'campaignid'  => $aAds[$adId]['placement_id'],
-            'bannerid'    => $adId
+            'clientid'   => $advertiserId,
+            'campaignid' => $placementId,
+            'bannerid'   => $adId
         );
-
-        // Load the period preset and stats breakdown parameters
-        $this->_loadPeriodPresetParam();
-        $this->_loadStatsBreakdownParam();
 
         // Load $_GET parameters
         $this->_loadParams();
 
-        // HTML Framework
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-            $this->pageId = '2.4.3.2';
-            $this->aPageSections = array($this->pageId);
-        } elseif (phpAds_isUser(phpAds_Affiliate)) {
-            $this->pageId = '1.3.2';
-            $this->aPageSections = array($this->pageId);
-        }
+        // Prepare HTML Framework
+        $this->pageId = '2.1.2.2.3.1';
+        $this->aPageSections = array($this->pageId);
 
-        // Add breadcrumbs
-        $this->_addBreadcrumbs('publisher', $publisherId);
-        $this->addCrossBreadcrumbs('banner', $adId);
-
-        // Add context
-        $params = $this->aPageParams;
-        foreach ($aAds as $k => $v){
-            $params['campaignid'] = $v['placement_id'];
-            $params['bannerid'] = $k;
-            phpAds_PageContext(
-                phpAds_buildName($k, MAX_getAdName($v['name'], null, null, $v['anonymous'], $k)),
-                $this->_addPageParamsToURI($this->pageName, $params, true),
-                $adId == $k
-            );
-        }
+        // Add breadcrumb
+        $this->_addBreadcrumbs('banner', $adId);
 
         // Add shortcuts
-        if (!phpAds_isUser(phpAds_Affiliate)) {
+        if (!phpAds_isUser(phpAds_Client)) {
             $this->_addShortcut(
-                $GLOBALS['strAffiliateProperties'],
-                'affiliate-edit.php?affiliateid='.$publisherId,
-                'images/icon-affiliate.gif'
+                $GLOBALS['strClientProperties'],
+                'advertiser-edit.php?clientid='.$advertiserId,
+                'images/icon-advertiser.gif'
             );
         }
+        $this->_addShortcut(
+            $GLOBALS['strCampaignProperties'],
+            'campaign-edit.php?clientid='.$advertiserId.'&campaignid='.$placementId,
+            'images/icon-campaign.gif'
+        );
+        $this->_addShortcut(
+            $GLOBALS['strBannerProperties'],
+            'banner-edit.php?clientid='.$advertiserId.'&campaignid='.$placementId.'&bannerid='.$adId,
+            'images/icon-banner-stored.gif'
+        );
+        $this->_addShortcut(
+            $GLOBALS['strModifyBannerAcl'],
+            'banner-acl.php?clientid='.$advertiserId.'&campaignid='.$placementId.'&bannerid='.$adId,
+            'images/icon-acl.gif'
+        );
 
         // Prepare the data for display by output() method
         $aParams = array(
-            'publisher_id' => $publisherId,
-            'ad_id'        => $adId
+            'ad_id' => $adId
         );
-        $this->prepare($aParams, 'stats.php');
+        $this->prepare($aParams);
     }
+
 }
 
 ?>

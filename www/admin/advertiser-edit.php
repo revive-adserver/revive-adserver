@@ -213,7 +213,7 @@ if ($clientid != "") {
         $doClients->find();
 
 		while ($doClients->fetch() && $row = $doClients->toArray()) {
-			phpAds_PageContext (
+			phpAds_PageContext(
 				phpAds_buildName ($row['clientid'], $row['clientname']),
 				"advertiser-edit.php?clientid=".$row['clientid'],
 				$clientid == $row['clientid']

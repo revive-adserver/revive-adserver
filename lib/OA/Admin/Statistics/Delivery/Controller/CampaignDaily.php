@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonDaily.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossHistory.php';
 
 /**
  * The class to display the delivery statistcs for the page:
@@ -41,7 +41,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonDaily.php';
  * @author     Matteo Beccati <matteo@beccati.com>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Statistics_Delivery_CommonDaily
+class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Statistics_Delivery_CommonCrossHistory
 {
 
     /**
@@ -59,6 +59,9 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
         // Set this page's entity/breakdown values
         $this->entity    = 'campaign';
         $this->breakdown = 'daily';
+
+        // Use the OA_Admin_Statistics_Daily helper class
+        $this->useDailyClass = true;
 
         parent::__construct($aParams);
     }
@@ -95,23 +98,35 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
         phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
         $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId));
 
+        // Cross-entity security check
         if (!empty($zoneId)) {
-            // Fetch banners
             $aZones = $this->getCampaignZones($placementId);
-
-            // Cross-entity security check
             if (!isset($aZones[$zoneId])) {
                 $this->noStatsAvailable = true;
             }
         } elseif (!empty($publisherId)) {
-            // Fetch campaigns
             $aPublishers = $this->getCampaignPublishers($placementId);
-
-            // Cross-entity security check
             if (!isset($aPublishers[$publisherId])) {
                 $this->noStatsAvailable = true;
             }
         }
+
+        // Add standard page parameters
+        $this->aPageParams = array(
+            'clientid'   => $advertiserId,
+            'campaignid' => $placementId
+        );
+
+        // Add the cross-entity parameters
+        if (!empty($zoneId)) {
+            $this->aPageParams['affiliateid'] = $aZones[$zoneId]['publisher_id'];
+            $this->aPageParams['zoneid']      = $zoneId;
+        } elseif (!empty($publisherId)) {
+            $this->aPageParams['affiliateid'] = $publisherId;
+        }
+
+        // Load $_GET parameters
+        $this->_loadParams();
 
         // HTML Framework
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
@@ -132,25 +147,8 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
             $this->aPageSections = array($this->pageId);
         }
 
-        // Add standard page parameters
-        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId);
-        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
-        $this->aPageParams['day']           = MAX_getValue('day', '');
-
-        // Cross-entity
-        if (!empty($zoneId)) {
-            $this->aPageParams['affiliateid'] = $aZones[$zoneId]['publisher_id'];
-            $this->aPageParams['zoneid']      = $zoneId;
-        } elseif (!empty($publisherId)) {
-            $this->aPageParams['affiliateid'] = $publisherId;
-        }
-
-        $this->_loadParams();
-
+        // Add breadcrumbs
         $this->_addBreadcrumbs('campaign', $placementId);
-
-        // Cross-entity
         if (!empty($zoneId)) {
             $this->addCrossBreadcrumbs('zone', $zoneId);
         } elseif (!empty($publisherId)) {
@@ -171,16 +169,15 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
             'images/icon-campaign.gif'
         );
 
-        $aParams = array();
-        $aParams['placement_id'] = $placementId;
-
-        // Cross-entity
+        // Prepare the data for display by output() method
+        $aParams = array(
+            'placement_id' => $placementId
+        );
         if (!empty($zoneId)) {
             $aParams['zone_id'] = $zoneId;
         } elseif (!empty($publisherId)) {
             $aParams['publisher_id'] = $publisherId;
         }
-
         $this->prepare($aParams);
     }
 

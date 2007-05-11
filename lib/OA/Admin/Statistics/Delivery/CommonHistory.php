@@ -94,14 +94,6 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
     var $averageDesc;
 
     /**
-     * The array of "history" style delivery statistics data to
-     * display in the Flexy template.
-     *
-     * @var array
-     */
-    var $aHistoryData;
-
-    /**
      * PHP5-style constructor
      */
     function __construct($params)
@@ -112,7 +104,6 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         // Get list order and direction
         $this->listOrderField     = MAX_getStoredValue('listorder', 'key');
         $this->listOrderDirection = MAX_getStoredValue('orderdirection', 'down');
-        $this->statsBreakdown     = MAX_getStoredValue('statsBreakdown', 'day');
 
         // Ensure the history class is prepared
         $this->useHistoryClass = true;
@@ -122,7 +113,6 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         // Store the preferences
         $this->aPagePrefs['listorder']      = $this->listOrderField;
         $this->aPagePrefs['orderdirection'] = $this->listOrderDirection;
-        $this->aPagePrefs['breakdown']      = $this->statsBreakdown;
     }
 
     /**
@@ -144,10 +134,10 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
      */
     function _isEmptyResultArray()
     {
-        if (!is_array($this->aHistoryData)) {
+        if (!is_array($this->aStatsData)) {
             return true;
         }
-        foreach($this->aHistoryData as $aRecord) {
+        foreach($this->aStatsData as $aRecord) {
             if (
                 $aRecord['sum_requests'] != '-' ||
                 $aRecord['sum_views']    != '-' ||
@@ -181,10 +171,9 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         $aStats = $this->getHistory($aParams, $link);
 
         if ($this->noStatsAvailable) {
-            $this->aHistoryData = array();
+            $this->aStatsData = array();
             return;
         }
-
 
         if ($this->disablePager) {
             $use_pager = false;
@@ -220,14 +209,14 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
             }
 
             $pager =& Pager::factory($params);
-            $this->aHistoryData = $pager->getPageData();
+            $this->aStatsData = $pager->getPageData();
             $this->pagerLinks = $pager->getLinks();
             $this->pagerLinks = $this->pagerLinks['all'];
 
             $this->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="this.form.submit()"$2',
                 $pager->getPerPageSelectBox($per_page, $per_page * 4, $per_page));
         } else {
-            $this->aHistoryData = $aStats;
+            $this->aStatsData = $aStats;
             $this->pagerLinks = false;
             $this->pagerSelect = false;
         }
@@ -235,7 +224,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         $this->aPagePrefs['setPerPage'] = $params['perPage'];
 
         // Format the rows appropriately for output
-        $this->oHistory->formatRows($this->aHistoryData, $this);
+        $this->oHistory->formatRows($this->aStatsData, $this);
     }
 
     function getColspan()
@@ -335,7 +324,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
 
         $headers[] = $this->statsKey;
 
-        foreach ($this->aHistoryData as $h) {
+        foreach ($this->aStatsData as $h) {
             $row = array();
             $row[] = $h['date_f'];
             foreach (array_keys($this->aColumns) as $ck) {

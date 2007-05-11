@@ -99,7 +99,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     $doAffiliates->find();
 
     while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
-        phpAds_PageContext (
+        phpAds_PageContext(
             phpAds_buildAffiliateName ($row['affiliateid'], $row['name']),
             "affiliate-zones.php?affiliateid=".$row['affiliateid'],
             $affiliateid == $row['affiliateid']

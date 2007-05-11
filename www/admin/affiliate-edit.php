@@ -314,7 +314,7 @@ if ($affiliateid != "") {
         $doAffiliates->addListOrderBy($navorder, $navdirection);
         $doAffiliates->find();
         while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
-            phpAds_PageContext (
+            phpAds_PageContext(
                 phpAds_buildAffiliateName ($row['affiliateid'], $row['name']),
                 "affiliate-edit.php?affiliateid=".$row['affiliateid'],
                 $affiliateid == $row['affiliateid']

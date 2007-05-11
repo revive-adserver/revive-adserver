@@ -93,10 +93,16 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends OA_Admin_Stati
         $this->_checkAccess(array('publisher' => $publisherId, 'zone' => $zoneId));
 
         // Add standard page parameters
-        $this->aPageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId);
-        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams = array(
+            'affiliateid' => $publisherId,
+            'zoneid' => $zoneId
+        );
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
+        // Load $_GET parameters
         $this->_loadParams();
 
         // HTML Framework
@@ -108,10 +114,11 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends OA_Admin_Stati
             $this->aPageSections = array('1.2.1', '1.2.2');
         }
 
+        // Add breadcrumbs
         $this->_addBreadcrumbs('zone', $zoneId);
 
         // Add context
-        $this->pageContext = array('zones', $zoneId);
+        $this->aPageContext = array('zones', $zoneId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Affiliate)) {
@@ -121,20 +128,17 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends OA_Admin_Stati
                 'images/icon-affiliate.gif'
             );
         }
-
         $this->_addShortcut(
             $GLOBALS['strZoneProperties'],
             'zone-edit.php?affiliateid='.$publisherId.'&zoneid='.$zoneId,
             'images/icon-zone.gif'
         );
 
-        $aParams = array();
-        $aParams['zone_id'] = $zoneId;
-
+        // Prepare the data for display by output() method
+        $aParams = array(
+            'zone_id' => $zoneId
+        );
         $this->prepare($aParams, 'stats.php');
-
-        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
     }
 
 }

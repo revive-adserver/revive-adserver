@@ -96,9 +96,17 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
         $this->_checkAccess(array('publisher' => $publisherId, 'zone' => $zoneId));
 
         // Add standard page parameters
-        $this->aPageParams = array('affiliateid' => $publisherId, 'zoneid' => $zoneId);
+        $this->aPageParams = array(
+            'affiliateid' => $publisherId,
+            'zoneid'      => $zoneId
+        );
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
 
+        // Load $_GET parameters
+        $this->_loadParams();
 
         // HTML Framework
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
@@ -109,10 +117,11 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
             $this->aPageSections = array('1.2.1', '1.2.2');
         }
 
+        // Add breadcrumbs
         $this->_addBreadcrumbs('zone', $zoneId);
 
         // Add context
-        $this->pageContext = array('zones', $zoneId);
+        $this->aPageContext = array('zones', $zoneId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Affiliate)) {
@@ -122,12 +131,14 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
                 'images/icon-affiliate.gif'
             );
         }
-
         $this->_addShortcut(
             $GLOBALS['strZoneProperties'],
             'zone-edit.php?affiliateid='.$publisherId.'&zoneid='.$zoneId,
             'images/icon-zone.gif'
         );
+
+
+
 
         // Fix entity links
         $this->entityLinks['c'] = 'stats.php?entity=zone&breakdown=campaign-history';

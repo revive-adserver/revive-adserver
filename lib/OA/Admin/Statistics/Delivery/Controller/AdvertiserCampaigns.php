@@ -95,10 +95,15 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserCampaigns extends OA_Adm
         $this->_checkAccess(array('advertiser' => $advertiserId));
 
         // Add standard page parameters
-        $this->aPageParams = array('clientid' => $advertiserId,
-                                  'period_preset' => MAX_getStoredValue('period_preset', 'today')
-                                  );
+        $this->aPageParams = array(
+            'clientid' => $advertiserId
+        );
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
+        // Load $_GET parameters
         $this->_loadParams();
 
         // HTML Framework
@@ -110,10 +115,11 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserCampaigns extends OA_Adm
             $this->aPageSections = array('1.1', '1.2', '1.3');
         }
 
+        // Add breadcrumbs
         $this->_addBreadcrumbs('advertiser', $advertiserId);
 
         // Add context
-        $this->pageContext = array('advertisers', $advertiserId);
+        $this->aPageContext = array('advertisers', $advertiserId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Client)) {
@@ -123,6 +129,9 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserCampaigns extends OA_Adm
                 'images/icon-advertiser.gif'
             );
         }
+
+
+
 
         $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['gui_hide_inactive'] == 't'));
         $this->showHideInactive = true;

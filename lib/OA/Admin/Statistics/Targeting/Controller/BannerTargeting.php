@@ -103,38 +103,32 @@ class OA_Admin_Statistics_Targeting_Controller_BannerTargeting extends OA_Admin_
         $adId         = $this->_getId('ad');
 
         // Security check
-        phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
+        phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
         $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId, 'ad' => $adId));
 
-        // Add standard page parameters, including the current
-        // statistics page's entity/breakdown type
+        // Add standard page parameters
         $this->aPageParams = array(
             'clientid'   => $advertiserId,
             'campaignid' => $placementId,
             'bannerid'   => $adId
         );
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
         // Load $_GET parameters
         $this->_loadParams();
 
         // Prepare HTML Framework
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-            $this->pageId = '2.1.2.2.3';
-            $this->aPageSections = array('2.1.2.2.1', '2.1.2.2.2', '2.1.2.2.3');
-        } elseif (phpAds_isUser(phpAds_Client)) {
-            $this->pageId = '1.2.2.1';
-            $this->aPageSections[] = '1.2.2.1';
-            if (phpAds_isAllowed(phpAds_ModifyBanner)) {
-                $this->aPageSections[] = '1.2.2.2';
-            }
-            $this->aPageSections[] = '1.2.2.4';
-        }
+        $this->pageId = '2.1.2.2.3';
+        $this->aPageSections = array('2.1.2.2.1', '2.1.2.2.2', '2.1.2.2.3');
 
-        // Add breadcrumb
+        // Add breadcrumbs
         $this->_addBreadcrumbs('banner', $adId);
 
         // Add context
-        $this->pageContext = array('banners', $adId);
+        $this->aPageContext = array('banners', $adId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Client)) {

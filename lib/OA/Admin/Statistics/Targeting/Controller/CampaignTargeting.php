@@ -102,33 +102,31 @@ class OA_Admin_Statistics_Targeting_Controller_CampaignTargeting extends OA_Admi
         $placementId  = $this->_getId('placement');
 
         // Security check
-        phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
+        phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
         $this->_checkAccess(array('advertiser' => $advertiserId, 'placement'  => $placementId));
 
-        // Add standard page parameters, including the current
-        // statistics page's entity/breakdown type
+        // Add standard page parameters
         $this->aPageParams = array(
             'clientid'   => $advertiserId,
             'campaignid' => $placementId
         );
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
         // Load $_GET parameters
         $this->_loadParams();
 
         // Prepare HTML Framework
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-            $this->pageId = '2.1.2.4';
-            $this->aPageSections = array('2.1.2.1', '2.1.2.2', '2.1.2.3', '2.1.2.4');
-        } elseif (phpAds_isUser(phpAds_Client)) {
-            $this->pageId = '1.2.1';
-            $this->aPageSections = array('1.2.1', '1.2.2', '1.2.3');
-        }
+        $this->pageId = '2.1.2.4';
+        $this->aPageSections = array('2.1.2.1', '2.1.2.2', '2.1.2.3', '2.1.2.4');
 
-        // Add breadcrumb
+        // Add breadcrumbs
         $this->_addBreadcrumbs('campaign', $placementId);
 
         // Add context
-        $this->pageContext = array('campaigns', $placementId);
+        $this->aPageContext = array('campaigns', $placementId);
 
         // Add shortcuts
         if (!phpAds_isUser(phpAds_Client)) {

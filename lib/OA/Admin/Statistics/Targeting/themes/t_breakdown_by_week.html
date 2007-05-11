@@ -39,7 +39,7 @@
 
        if (graph.style.display == 'none') {
 
-            imgPath = '{aStatsData[tmpUrl]:h}';
+            imgPath = '{aGraphData[tmpUrl]:h}';
 
             if(imgPath != imageLinkSrc.src) {
                 imageLinkSrcTemp.src = imgPath;
@@ -48,13 +48,13 @@
 
             graph.style.display = 'block';
             graphboxes.style.display = 'block';
-            arrow.src = '{aStatsData[imgPath]}/triangle-d.gif';
+            arrow.src = '{aGraphData[imgPath]}/triangle-d.gif';
 
        } else {
 
             graph.style.display = 'none';
             graphboxes.style.display = 'none';
-            arrow.src = '{aStatsData[imgPath]}/ltr/triangle-l.gif';
+            arrow.src = '{aGraphData[imgPath]}/ltr/triangle-l.gif';
 
         }
     }
@@ -63,10 +63,10 @@
     <table width='100%' border='0' cellspacing='0' cellpadding='0'>
 	<tr>
     {if:!disableGraph}
-          {if:!aStatsData[noGraph]}
+          {if:!aGraphData[noGraph]}
     		  <td style="padding-bottom:5px; padding-right: 30px;white-space: nowrap;">
     			  <br />
-    			  <a href="javascript:showGraph();" accesskey="g"><img id="grapharrow" src="{aStatsData[imgPath]}/ltr/triangle-l.gif" border="0" />{strShowGraphOfStatistics:h}</a>
+    			  <a href="javascript:showGraph();" accesskey="g"><img id="grapharrow" src="{aGraphData[imgPath]}/ltr/triangle-l.gif" border="0" />{strShowGraphOfStatistics:h}</a>
     		  </td>
     		<td width='40' style="padding-right: 30px;">
     			<br />
@@ -75,16 +75,16 @@
     	{end:}
 		<td style="padding-bottom:5px; white-space: nowrap;">
 			<br />
-			<a href="stats.php?{aStatsData[queryString]}&plugin=advertiser:statshistory" accesskey="e">
+			<a href="stats.php?{aGraphData[queryString]}&plugin=advertiser:statshistory" accesskey="e">
             <img src="images/excel.gif" border="0" alt="" /> {strExportStatisticsToExcel:h}
             </a>
 		</td>
 		<td width="90%">&nbsp;</td>
 	{else:}
-        {if:!aStatsData[noGraph]}
+        {if:!aGraphData[noGraph]}
 		<td style="padding-bottom:5px; padding-right: 30px;white-space: nowrap;">
 		    <br />
-		    <span style="color: #999999;"><img id="grapharrow" src="{aStatsData[imgPath]}/ltr/triangle-l.gif" border="0" />{strShowGraphOfStatistics:h}</span>
+		    <span style="color: #999999;"><img id="grapharrow" src="{aGraphData[imgPath]}/ltr/triangle-l.gif" border="0" />{strShowGraphOfStatistics:h}</span>
 		</td>
 
 		<td width='40' style="padding-right: 30px;">
@@ -102,11 +102,11 @@
 	</tr>
 	</table>
     <div id="statsgraph" style="text-align: center; display:none; background-color:#f9f9f9; border: 1px solid #cccccc; padding: 10px; width: 850px; margin-top: 15px; margin-bottom: 15px;">
-	    {if:aStatsData[noGraph]}
-	    	<div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>&nbsp;{aStatsData[noGraph]:h}</div>
+	    {if:aGraphData[noGraph]}
+	    	<div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>&nbsp;{aGraphData[noGraph]:h}</div>
 	    {else:}
         <img id="imageLinkSrcTemp" src="" style="display: none;" />
-		    <img id="imageLinkSrc" src="{aStatsData[imgPath]}/ltr/preloader.gif" style="border: 1px solid #cccccc;padding: 5px;margin: 10px; background-color: #ffffff; text-align:center;" /><form method="post" action="{aStatsData[formSubmitLink]}">
+		    <img id="imageLinkSrc" src="{aGraphData[imgPath]}/ltr/preloader.gif" style="border: 1px solid #cccccc;padding: 5px;margin: 10px; background-color: #ffffff; text-align:center;" /><form method="post" action="{aGraphData[formSubmitLink]}">
 		    <div id="graphboxes" style="width: 90%; text-align: left; margin-left: auto; margin-right: auto; display: none; background-color:#eeeeee; padding: 10px; border: 1px solid #cccccc;">
 		    {foreach:aColumns,ck,cv}
 		    	<div style="width: 100px; float: left;"><input type="checkbox"  name="graphFilter[]" value="{ck}">&nbsp;{cv} </div>
@@ -135,7 +135,7 @@
             </tr>
         </thead>
         <tbody>
-            {foreach:aTargetingData,h}
+            {foreach:aStatsData,h}
             <tr class="{h[htmlclass][date]}">
                 <td class="{h[htmlclass][date]}">{h[week]}</td>
                 <td class="{h[htmlclass][date]}">{tr(#strDate#)}</td>

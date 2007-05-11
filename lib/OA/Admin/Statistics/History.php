@@ -300,15 +300,21 @@ class OA_Admin_Statistics_History
      *                                    that are available.
      * @return array The array, as described above.
      */
-    function getDatesArray(&$aDates, $breakdown, $oStatsStartDate)
+    function getDatesArray($aDates, $breakdown, $oStatsStartDate)
     {
         // Does the day span selector element have dates set?
-        if ($aDates['day_begin'] && $aDates['day_end']) {
-            // Use the dates given by the day span selector element
-            $oStartDate = new Date($aDates['day_begin']);
-            $oEndDate   = new Date($aDates['day_end']);
-            // Increase the start date in the day span selector element
-            // if no stats are available from its original start date
+        if (($aDates['day_begin'] && $aDates['day_end']) || ($aDates['period_start'] && $aDates['period_end'])) {
+            if ($aDates['day_begin'] && $aDates['day_end']) {
+                // Use the dates given by the day span selector element
+                $oStartDate = new Date($aDates['day_begin']);
+                $oEndDate   = new Date($aDates['day_end']);
+            } else {
+                // Use the dates given by the period_start and period_end
+                $oStartDate = new Date($aDates['period_start']);
+                $oEndDate   = new Date($aDates['period_end']);
+            }
+            // Increase the start date if no stats are available from
+            // the original start date
             if ($oStartDate->before($oStatsStartDate)) {
                 $oStartDate = new Date();
                 $oStartDate->copy($oStatsStartDate);
@@ -330,7 +336,7 @@ class OA_Admin_Statistics_History
             $oEndDate   = new Date();
         }
         // Prepare the return array
-        $aDates = array();
+        $aDatesResult = array();
         switch ($breakdown) {
             case 'week' :
             case 'day' :
@@ -339,7 +345,7 @@ class OA_Admin_Statistics_History
                 $oDate = new Date();
                 $oDate->copy($oStartDate);
                 while ($oDate->before($oEndDate)) {
-                    $aDates[$oDate->format('%Y-%m-%d')] = $oDate->format($GLOBALS['date_format']);
+                    $aDatesResult[$oDate->format('%Y-%m-%d')] = $oDate->format($GLOBALS['date_format']);
                     $oDate->addSpan($oOneDaySpan);
                 }
                 break;
@@ -349,23 +355,23 @@ class OA_Admin_Statistics_History
                 $oDate = new Date();
                 $oDate->copy($oStartDate);
                 while ($oDate->before($oEndDate)) {
-                    $aDates[$oDate->format('%Y-%m')] = $oDate->format($GLOBALS['month_format']);
+                    $aDatesResult[$oDate->format('%Y-%m')] = $oDate->format($GLOBALS['month_format']);
                     $oOneMonthSpan = new Date_Span((string)($oDate->getDaysInMonth() - $oDate->getDay() + 1), '%d');
                     $oDate->addSpan($oOneMonthSpan);
                 }
                 break;
             case 'dow' :
                 for ($dow = 0; $dow < 7; $dow++) {
-                    $aDates[$dow] = $GLOBALS['strDayFullNames'][$dow];
+                    $aDatesResult[$dow] = $GLOBALS['strDayFullNames'][$dow];
                 }
                 break;
             case 'hour' :
                 for ($hour = 0; $hour < 24; $hour++) {
-                    $aDates[$hour] = sprintf('%02d:00 - %02d:59', $hour, $hour);
+                    $aDatesResult[$hour] = sprintf('%02d:00 - %02d:59', $hour, $hour);
                 }
                 break;
         }
-        return $aDates;
+        return $aDatesResult;
     }
 
     /**
@@ -487,7 +493,6 @@ class OA_Admin_Statistics_History
                 }
             }
         }
-
     }
 
 }

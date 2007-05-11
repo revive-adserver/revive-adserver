@@ -86,7 +86,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliateHistory extends OA_
     {
         // Get parameters
         $advertiserId = $this->_getId('advertiser');
-        $publisherId = $this->_getId('publisher');
+        $publisherId  = $this->_getId('publisher');
         $placementId  = $this->_getId('placement');
         $adId         = $this->_getId('ad');
 
@@ -103,11 +103,18 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliateHistory extends OA_
         }
 
         // Add standard page parameters
-        $this->aPageParams = array('clientid' => $advertiserId, 'campaignid' => $placementId, 'bannerid' => $adId);
-        $this->aPageParams['affiliateid'] = $publisherId;
-        $this->aPageParams['period_preset']  = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->aPageParams = array(
+            'clientid'    => $advertiserId,
+            'affiliateid' => $publisherId,
+            'campaignid'  => $placementId,
+            'bannerid'    => $adId
+        );
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
+        // Load $_GET parameters
         $this->_loadParams();
 
         // HTML Framework
@@ -119,6 +126,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliateHistory extends OA_
             $this->aPageSections = array($this->pageId);
         }
 
+        // Add breadcrumbs
         $this->_addBreadcrumbs('banner', $adId);
         $this->addCrossBreadcrumbs('publisher', $publisherId);
 
@@ -126,7 +134,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliateHistory extends OA_
         $params = $this->aPageParams;
         foreach ($aPublishers as $k => $v){
             $params['affiliateid'] = $k;
-            phpAds_PageContext (
+            phpAds_PageContext(
                 phpAds_buildName($k, MAX_getPublisherName($v['name'], null, $v['anonymous'], $k)),
                 $this->_addPageParamsToURI($this->pageName, $params, true),
                 $publisherId == $k
@@ -157,10 +165,11 @@ class OA_Admin_Statistics_Delivery_Controller_BannerAffiliateHistory extends OA_
             'images/icon-acl.gif'
         );
 
-        $aParams = array();
-        $aParams['ad_id']        = $adId;
-        $aParams['publisher_id'] = $publisherId;
-
+        // Prepare the data for display by output() method
+        $aParams = array(
+            'ad_id'        => $adId,
+            'publisher_id' => $publisherId
+        );
         $this->prepare($aParams, 'stats.php');
     }
 
