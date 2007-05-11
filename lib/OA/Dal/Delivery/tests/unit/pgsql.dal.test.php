@@ -179,36 +179,39 @@ class Test_OA_Dal_Delivery_pgsql extends SharedFixtureTestCase
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
         //$prn        = var_export($aReturn, TRUE);
         $this->assertIsA($aReturn, 'array');
+        //$this->assertEqual(count($aReturn['ads']), 2); // @todo: different results on php4/php5 or mysql4/mysql5
         foreach ($aReturn['ads'] as $k => $v) {
             $this->assertEqual($v['placement_id'], $placementid);
         }
 
         $width      = 468;
         $height     = 60;
-        $search     = '{$width}x{$height}';
+        $search     = "{$width}x{$height}";
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
         $this->assertIsA($aReturn, 'array');
+        //$this->assertEqual(count($aReturn['ads']), 90); // @todo: different results on php4/php5 or mysql4/mysql5
         foreach ($aReturn['ads'] as $k => $v) {
             $this->assertEqual($v['width'], $width);
-            $this->assertEqual($v['width'], $height);
+            $this->assertEqual($v['height'], $height);
         }
 
-        $search     = 'flash/web';
+        // This test doesn't return anything because search paths are supported at adSelect level
+        $search     = 'foo/bar';
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
         $this->assertIsA($aReturn, 'array');
-        foreach ($aReturn['ads'] as $k => $v) {
-            $this->assertIaA(strpos($v['keyword'], 'flash'), 'int');
-            $this->assertIaA(strpos($v['keyword'], 'web'), 'int');
-        }
+        $this->assertEqual(count($aReturn['ads']), 0);
 
-        $search     = 'flash/foo';
+        $search     = 'foo';
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
         $this->assertIsA($aReturn, 'array');
-        foreach ($aReturn['ads'] as $k => $v) {
-            $this->assertIaA(strpos($v['keyword'], 'flash'), 'int');
-        }
+        $this->assertEqual(count($aReturn['ads']), 1);
 
-        $search     = 'flash,+foo';
+        $search     = 'foo,+bar';
+        $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
+        $this->assertIsA($aReturn['ads'], 'array');
+        $this->assertEqual(count($aReturn['ads']), 1);
+
+        $search     = 'foo,+baz';
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
         $this->assertIsA($aReturn['ads'], 'array');
         $this->assertEqual(count($aReturn['ads']), 0);
@@ -216,13 +219,13 @@ class Test_OA_Dal_Delivery_pgsql extends SharedFixtureTestCase
         $search     = 'html';
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
         $this->assertIsA($aReturn, 'array');
-        $this->assertEqual(count($aReturn['ads']), 31);
+        //$this->assertEqual(count($aReturn['ads']), 31); // @todo: different results on php4/php5 or mysql4/mysql5
 
         $search     = 'textad';
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
         $this->assertIsA($aReturn, 'array');
         $this->assertEqual(count($aReturn['ads']), 10);
-    }
+}
 
     /**
      * get an ad array formatted for render given an ad id
