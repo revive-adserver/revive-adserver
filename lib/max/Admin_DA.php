@@ -576,47 +576,47 @@ class Admin_DA
     function getConversions($aParams)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
+        $oDbh = &OA_DB::singleton();
 
         $where = '';
         if (!empty($aParams['agency_id'])) {
-            $where .= ' AND c.agencyid='.$aParams['agency_id'];
+            $where .= ' AND c.agencyid='. $oDbh->quote($aParams['agency_id'], 'integer');
         }
         if (!empty($aParams['day_begin'])) {
-            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d")>="'.$aParams['day_begin'].'"';
+            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d")>='. $oDbh->quote($aParams['day_begin'], 'date');
         }
         if (!empty($aParams['day_end'])) {
-            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d")<="'.$aParams['day_end'].'"';
+            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d")<='. $oDbh->quote($aParams['day_end'], 'date');
         }
         if (!empty($aParams['day'])) {
-            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d")="'.$aParams['day'].'"';
+            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d")='. $oDbh->quote($aParams['day'], 'date');
         }
         if (!empty($aParams['month'])) {
-            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m")="'.$aParams['month'].'"';
+            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m")='. $oDbh->quote($aParams['month'], 'text');
         }
         if (!empty($aParams['day_hour'])) {
-            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d %H")="'.$aParams['day_hour'].'"';
+            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d %H")='. $oDbh->quote($aParams['day_hour'], 'text');
         }
         if (!empty($aParams['clientid'])) {
-            $where .= ' AND c.clientid="'.$aParams['clientid'].'"';
+            $where .= ' AND c.clientid="'. $oDbh->quote($aParams['clientid'], 'integer');
         }
         if (isset($aParams['zonesIds'])) {
-            $where .= " AND ac.zone_id IN (".implode(',', $aParams['zonesIds']).")";
+            $where .= " AND ac.zone_id IN (". $oDbh->escape(implode(',', $aParams['zonesIds'])) .")";
         }
         if (!empty($aParams['campaignid'])) {
-            $where .= ' AND m.campaignid="'.$aParams['campaignid'].'"';
+            $where .= ' AND m.campaignid="'. $oDbh->quote($aParams['campaignid'], 'integer');
         }
         if (!empty($aParams['bannerid'])) {
-            $where .= ' AND d.bannerid="'.$aParams['bannerid'].'"';
+            $where .= ' AND d.bannerid="'. $oDbh->quote($aParams['bannerid'], 'integer');
         }
         if (!empty($aParams['statuses'])) {
-            $where .= ' AND ac.connection_status IN ('.implode(',', $aParams['statuses']).')';
+            $where .= ' AND ac.connection_status IN ('. $oDbh->escape(implode(',', $aParams['statuses'])).')';
         }
 
-
         if (isset($aParams['startRecord']) && is_numeric($aParams['startRecord']) && is_numeric($aParams['perPage'])) {
-            $limit = ' LIMIT ' . $aParams['startRecord'] . ', ' . $aParams['perPage'];
+            $limit = ' LIMIT ' .  $oDbh->quote($aParams['startRecord'], 'text', false) . ', ' . $oDbh->quote($aParams['perPage'], 'text', false);
         } else {
-            $limit = ' LIMIT 0, ' . $aParams['perPage'];
+            $limit = ' LIMIT 0, ' .  $oDbh->quote($aParams['perPage'], 'integer', false);
         }
 
         $query =
@@ -656,8 +656,7 @@ class Admin_DA
             ac.tracker_date_time
         $limit";
 
-        $dbh = &OA_DB::singleton();
-        return $dbh->queryAll($query, null, MDB2_FETCHMODE_DEFAULT, true);
+        return $oDbh->queryAll($query, null, MDB2_FETCHMODE_DEFAULT, true);
     }
 
     /**
@@ -719,7 +718,7 @@ class Admin_DA
             {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']} AS vv ON (vv.tracker_variable_id = v.variableid) LEFT JOIN
             {$conf['table']['prefix']}{$conf['table']['variable_publisher']} AS vp ON (vp.variable_id =  v.variableid AND vp.publisher_id = {$publisherId})
         WHERE
-            vv.data_intermediate_ad_connection_id='".$connectionId."'
+            vv.data_intermediate_ad_connection_id='". DBC::makeLiteral($connectionId) ."'
         ORDER BY
             v.name";
         $rsVariables = DBC::NewRecordSet($query);

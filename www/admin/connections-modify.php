@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/stats.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
-require_once MAX_PATH . '/lib/ma/core/ServiceLocator.php';
+require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysql.php';
 

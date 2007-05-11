@@ -11,12 +11,12 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
 class MAX_Dal_Admin_Banners extends MAX_Dal_Common
 {
     var $table = 'banners';
-	
+
 	var $orderListName = array(
         'name' => 'description',
         'id'   => 'bannerid',
     );
-    
+
     /**
      * Gets a RecordSet of matching banners.
      *
@@ -27,7 +27,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
     function getBannerByKeyword($keyword, $agencyId = null)
     {
 
-        $whereBanner = is_numeric($keyword) ? " OR b.bannerid=$keyword" : '';
+        $whereBanner = is_numeric($keyword) ? " OR b.bannerid=". DBC::makeLiteral($keyword) : '';
         $prefix = $this->getTablePrefix();
 
         $query = "
@@ -81,7 +81,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         $query .= $this->getSqlListOrder($listorder, $orderdirection);
         return $this->oDbh->queryAll($query, null, MDB2_FETCHMODE_DEFAULT, true);
     }
-    
+
     /**
      * @param int $agency_id
      * @param string $listorder One of 'bannerid', 'campaignid', 'alt',
@@ -95,7 +95,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
     function getAllBannersUnderAgency($agency_id, $listorder, $orderdirection)
     {
         $prefix = $this->getTablePrefix();
-        
+
         $query = "
             SELECT
                 b.bannerid AS ad_id,
@@ -111,10 +111,10 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
             WHERE
                 b.campaignid = m.campaignid
                 AND m.clientid = c.clientid
-                AND c.agencyid = $agency_id " .
+                AND c.agencyid = ". DBC::makeLiteral($agency_id) .
             $this->getSqlListOrder($listorder, $orderdirection)
         ;
-        
+
         $rsBanners = DBC::NewRecordSet($query);
         $aBanners = $rsBanners->getAll(array('ad_id', 'campaignid', 'alt', 'description', 'active', 'type'));
         $aBanners = $this->_rekeyBannersArray($aBanners);
@@ -146,7 +146,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         " FROM ".$conf['table']['prefix'].$conf['table']['banners']." AS b".
         ",".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
         " WHERE b.campaignid=m.campaignid".
-        " AND m.clientid=".$advertiser_id.
+        " AND m.clientid=". DBC::makeLiteral($advertiser_id) .
         " AND m.active='t'".
         " AND b.active='t'";
         $number_of_active_banners = $this->dbh->getOne($query_active_banners);
@@ -169,7 +169,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         ",".$conf['table']['prefix'].$conf['table']['clients']." AS c".
         " WHERE m.clientid=c.clientid".
         " AND b.campaignid=m.campaignid".
-        " AND c.agencyid=".$agency_id.
+        " AND c.agencyid=". DBC::makeLiteral($agency_id) .
         " AND m.active='t'".
         " AND b.active='t'";
         return $this->oDbh->queryOne($query_active_banners);
@@ -192,7 +192,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         }
         return $banners;
     }
-    
+
     /**
      * Move banner to different campaign
      *
@@ -208,7 +208,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
             "bannerid=". DBC::makeLiteral($bannerId),
             array('campaignid' => DBC::makeLiteral($campaignId)));
     }
-    
+
     /**
      * Join all banners, campaigns and clients and return it as RecordSet
      *
@@ -234,10 +234,10 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
                 c.campaignid=b.campaignid
                 AND cl.clientid=c.clientid
         ";
-        
+
         return DBC::NewRecordSet($query);
     }
-    
+
 }
 
 ?>

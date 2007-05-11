@@ -219,7 +219,7 @@ ORDER BY
     page,
     day
     ";
-        if (is_numeric($row_limit)) $query .= " LIMIT $row_limit";
+        if (is_numeric($row_limit)) $query .= " LIMIT ". $this->oDbh->quote($row_limit, 'integer', false);
         $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
@@ -262,7 +262,7 @@ ORDER BY
     country,
     day
     ";
-        if (is_numeric($row_limit)) $query .= " LIMIT $row_limit";
+        if (is_numeric($row_limit)) $query .= " LIMIT ". $this->oDbh->quote($row_limit, 'integer', false);
         $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
@@ -305,7 +305,7 @@ ORDER BY
     source,
     day
     ";
-        if (is_numeric($row_limit)) $query .= " LIMIT $row_limit";
+        if (is_numeric($row_limit)) $query .= " LIMIT ". $this->oDbh->quote($row_limit, 'integer', false);
         $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
@@ -350,7 +350,7 @@ ORDER BY
     keyword,
     day
     ";
-        if (is_numeric($row_limit)) $query .= " LIMIT $row_limit";
+        if (is_numeric($row_limit)) $query .= " LIMIT ". $this->oDbh->quote($row_limit, 'integer', false);
         $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
@@ -399,7 +399,7 @@ ORDER BY
     page,
     yearmonth
     ";
-        if (is_numeric($row_limit)) $query .= " LIMIT $row_limit";
+        if (is_numeric($row_limit)) $query .= " LIMIT ". $this->oDbh->quote($row_limit, 'integer', false);
         $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
@@ -446,7 +446,7 @@ ORDER BY
     country,
     yearmonth
     ";
-        if (is_numeric($row_limit)) $query .= " LIMIT $row_limit";
+        if (is_numeric($row_limit)) $query .= " LIMIT ". $this->oDbh->quote($row_limit, 'integer', false);
         $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
@@ -493,7 +493,7 @@ ORDER BY
     source,
     yearmonth
     ";
-        if (is_numeric($row_limit)) $query .= " LIMIT $row_limit";
+        if (is_numeric($row_limit)) $query .= " LIMIT ". $this->oDbh->quote($row_limit, 'integer', false);
         $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
@@ -542,7 +542,7 @@ ORDER BY
     keyword,
     yearmonth
     ";
-        if (is_numeric($row_limit)) $query .= " LIMIT $row_limit";
+        if (is_numeric($row_limit)) $query .= " LIMIT ". $this->oDbh->quote($row_limit, 'integer', false);
         $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
@@ -729,11 +729,13 @@ ORDER BY
     domain,
     page
 ";
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
+        $res = $this->oDbh->query($query);
+        if (PEAR::isError($res)) {
+                return $res;
+        }
 
         $count = 0;
-        while ($row = phpAds_dbFetchArray($res)) {
+        while ($row = $res->fetchRow()) {
             $effectiveness[$count][0] = $row['domain'];
             $effectiveness[$count][1] = $row['page'];
             $effectiveness[$count][2] = $row['impressions'];
@@ -1230,11 +1232,13 @@ FROM
 WHERE
     t.trackerid = ". $this->oDbh->quote($trackerId, 'integer');
 
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
+        $res = $this->oDbh->query($query);
+        if (PEAR::isError($res)) {
+                return $res;
+        }
 
         $anonymous = false;
-        while ($row = phpAds_dbFetchArray($res)) {
+        while ($row = $res->fetchRow()) {
             if ($row['anonymous'] == 't') {
                 $anonymous = true;
                 break;
@@ -1287,10 +1291,12 @@ $where
 ORDER BY
     tracker_id";
 
-            $res = phpAds_dbQuery($query)
-                or phpAds_sqlDie();
+            $res = $this->oDbh->query($query);
+            if (PEAR::isError($res)) {
+                    return $res;
+            }
 
-            while ($row = phpAds_dbFetchArray($res)) {
+            while ($row = $res->fetchRow()) {
                 $trackerId = $row['tracker_id'];
                 if (!isset($aTrackersVariables[$trackerId])) {
                     $aTrackersVariables[$trackerId]['tracker_id'] = $trackerId;
@@ -1415,11 +1421,13 @@ ORDER BY
     tracker_id,
     data_intermediate_ad_connection_id
 ";
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
+        $res = $this->oDbh->query($query);
+        if (PEAR::isError($res)) {
+                return $res;
+        }
 
         $aConnections = array();
-        while ($row = phpAds_dbFetchArray($res)) {
+        while ($row = $res->fetchRow()) {
             $trackerId = $row['tracker_id'];
             $connectionId = $row['data_intermediate_ad_connection_id'];
 
@@ -1738,10 +1746,10 @@ ORDER BY
                 {$conf['table']['agency']} AS g USING (agencyid)
             WHERE
               p.affiliateid = ". $this->oDbh->quote($publisher_id, 'integer');
-
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
-        $row = phpAds_dbFetchArray($res);
+        $row = $this->oDbh->queryRow($query);
+        if (PEAR::isError($row)) {
+                return $row;
+        }
         return $row;
     }
 
@@ -1792,7 +1800,7 @@ ORDER BY
     function getNameForAdvertiser($advertiser_id)
     {
         $advertiser_table = $this->getFullTableName('clients');
-        $query = "SELECT advertiser.clientname AS advertiser_name FROM $advertiser_table AS advertiser WHERE advertiser.clientid = $advertiser_id";
+        $query = "SELECT advertiser.clientname AS advertiser_name FROM $advertiser_table AS advertiser WHERE advertiser.clientid = ". $this->oDbh->quote($advertiser_id, 'integer');
         $result = $this->oDbh->getOne($query);
         if (PEAR::isError($result)) {
             MAX::raiseError('An Openads report asked for the name matching an advertiser ID number, but the had no record of that number.');
@@ -1826,9 +1834,10 @@ ORDER BY
               AND p.affiliateid = z.affiliateid
               AND z.zoneid=". $this->oDbh->quote($zoneId, 'integer');
 
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
-        $row = phpAds_dbFetchArray($res);
+        $row = $this->oDbh->queryRow($query);
+        if (PEAR::isError($row)) {
+                return $row;
+        }
         return $row;
     }
 
@@ -1852,12 +1861,13 @@ ORDER BY
                 domain,
                 page
         ";
-
-        $res = mysql_query($query)
-            or phpAds_sqlDie();
+        $res = $this->oDbh->query($query);
+        if (PEAR::isError($res)) {
+                return $res;
+        }
 
         $count = 0;
-        while ($row = phpAds_dbFetchArray($res)) {
+        while ($row = $res->fetchRow()) {
             $aInventoryData[$count][0] = $row['domain'];
             $aInventoryData[$count][1] = $row['page'];
             $aInventoryData[$count][2] = $row['impressions'];

@@ -279,8 +279,8 @@ class MAX_Dal_Common
     // Get any generic list order...
     function getSqlListOrder($listOrder, $orderDirection)
     {
-        $direction = $this->getOrderDirection($orderDirection);
-        $nameColumn = $this->getOrderColumn($listOrder);
+        $direction = $this->getOrderDirection($this->oDbh->quote($orderDirection, 'text'));
+        $nameColumn = $this->getOrderColumn($this->oDbh->quote($listOrder, 'text'));
         if (is_array($nameColumn)) {
             $sqlTableOrder = ' ORDER BY ' . implode($direction . ',', $nameColumn) . $direction;
         } else {

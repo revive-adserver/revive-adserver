@@ -37,7 +37,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
                 {$conf['table']['prefix']}{$conf['table']['clients']} AS c
             WHERE
                 (
-                    c.clientname LIKE '%$keyword%' $whereClient
+                    c.clientname LIKE ". DBC::makeLiteral('%'. $keyword. '%') . $whereClient ."
                 )";
         if ($agencyId !== null) {
             $query .= " AND c.agencyid=".DBC::makeLiteral($agencyId);

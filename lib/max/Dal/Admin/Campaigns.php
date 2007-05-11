@@ -31,8 +31,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 		    FROM
 		        {$prefix}campaigns
 	        WHERE
-	            campaignid = $campaignId
-        ";
+	            campaignid = ". DBC::makeLiteral($campaignId);
 
         $rsCampaigns = DBC::FindRecord($query);
         $aViews = $rsCampaigns->toArray();
@@ -59,8 +58,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             FROM
                 {$prefix}campaigns
             WHERE
-                campaignid = $campaignId
-        ";
+                campaignid = ". DBC::makeLiteral($campaignId);
 
         $rsCampaigns = DBC::FindRecord($query);
         $aClicks = $rsCampaigns->toArray();
@@ -116,8 +114,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 	        FROM
 	            {$prefix}campaigns
             WHERE
-                campaignid = $campaignid
-	    ";
+                campaignid = ". DBC::makeLiteral($campaignid);
 
 	    if ($rsCampaigns = DBC::FindRecord($query)) {
 	        $row_campaign = $rsCampaigns->toArray();
@@ -141,8 +138,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
            		        {$prefix}banners AS b
            		        LEFT JOIN {$prefix}data_summary_ad_hourly AS v
                		    ON b.bannerid = v.ad_id
-               		WHERE b.campaignid= $campaignid
-               	";
+               		WHERE b.campaignid= ". DBC::makeLiteral($campaignid);
 
                	$rsCampaigns = DBC::FindRecord($query);
     			if ($rsCampaigns) {
@@ -189,7 +185,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             		    LEFT JOIN {$prefix}banners AS b
             		    ON a.ad_id = b.bannerid
             		WHERE
-            		    campaignid = $campaignid
+            		    campaignid = ". DBC::makeLiteral($campaignid) ."
             		AND
             		    clicks > 0
             	";
@@ -273,7 +269,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      */
     function getCampaignAndClientByKeyword($keyword, $agencyId = null)
     {
-        $whereCampaign = is_numeric($keyword) ? " OR m.campaignid=$keyword" : '';
+        $whereCampaign = is_numeric($keyword) ? " OR m.campaignid=". DBC::makeLiteral($keyword) : '';
         $prefix = $this->getTablePrefix();
 
         $query = "
@@ -344,7 +340,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 {$prefix}clients AS c
             WHERE
                 c.clientid=m.clientid
-                AND c.agencyid=$agency_id " .
+                AND c.agencyid=". DBC::makeLiteral($agency_id) .
             $this->getSqlListOrder($listorder, $orderdirection)
         ;
 
@@ -376,7 +372,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             " FROM ".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
             ",".$conf['table']['prefix'].$conf['table']['clients']." AS c".
             " WHERE m.clientid=c.clientid".
-            " AND c.agencyid=".$agency_id.
+            " AND c.agencyid=". DBC::makeLiteral($agency_id) .
             " AND m.active='t'";
         return $this->oDbh->queryOne($query_active_campaigns);
     }
