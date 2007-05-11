@@ -3,7 +3,6 @@
                 if (count($aMessages)>0)
                 {
                 ?>
-                <div>
                     <?php
                         foreach ($aMessages AS $k => $msg)
                         {
@@ -11,16 +10,15 @@
                             if (substr($msg,0,3)==$c)
                             {
                                 $msg = str_replace($c, '', $msg);
-                                echo '<span style="background-color:pink;">'.$msg.'</span><br />';
+                                echo '<span class="sysmessage sysinfoerror">'.$msg.'</span><br />';
 
                             }
                             else
                             {
-                                echo '<span>'.$msg.'</span><br />';
+                                echo '<span class="sysmessage">'.$msg.'</span><br />';
                             }
                         }
                     ?>
-                </div>
                 <?php
                 }
                 ?>

@@ -1,77 +1,104 @@
-<form name="frmOpenads" method="POST" action="index.php">
-    <table>
-        <tr>
-            <td class="label">
-                Database Type
-            </td>
-            <td>
-                <input class="input" name="aConfig[database][type]" value="<?php echo $aDatabase['database']['type']; ?>" />
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                Database Hostname
-            </td>
-            <td>
-                <input class="input" name="aConfig[database][host]" value="<?php echo $aDatabase['database']['host']; ?>" />
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                Database Port
-            </td>
-            <td>
-                <input class="input" name="aConfig[database][port]" value="<?php echo $aDatabase['database']['port']; ?>" />
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                Database Username
-            </td>
-            <td>
-                <input class="input" name="aConfig[database][username]" value="<?php echo $aDatabase['database']['username']; ?>" />
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                Database Password
-            </td>
-            <td>
-                <input type="password" class="input" name="aConfig[database][password]" value="<?php echo $aDatabase['database']['password']; ?>" />
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                Database Name
-            </td>
-            <td>
-                <input class="input" name="aConfig[database][name]" value="<?php echo $aDatabase['database']['name']; ?>" />
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                Table Type
-            </td>
-            <td>
-                <input class="input" name="aConfig[table][type]" value="<?php echo $aDatabase['table']['type']; ?>" />
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                Table Prefix
-            </td>
-            <td>
-                <input class="input" name="aConfig[table][prefix]" value="<?php echo $aDatabase['table']['prefix']; ?>" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button class="button" name="btn_upgrade">continue</button>
-            </td>
-            <td>
-                <button class="button" name="btn_appcheck">go back</button>
-                <!--a href="javascript: history.go(-1)">go back</a-->
-            </td>
-        </tr>
+    <br />
+    <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+    <tr>
+        <td valign='top'><img src='../admin/images/install-database.gif'></td>
+        <td width='100%' valign='top'>
+        <br>
+        <span class='tab-s'>The MySQL database</span><br><img src='../admin/images/break-el.gif' width='100%' height='1' vspace='8'><span class='install'>Openads uses a MySQL database store the inventory and all of the statistics. Before you can continue you need to tell us which server you want to use and which username and password Openads needs to use to contact the server. If you do not know which information you should provide here, please contact the administrator of your server.
+        </td>
+    </tr>
     </table>
-</form>
+    <br />
+    <br />
+
+<form name="frmOpenads" method="POST" action="index.php" onSubmit='return max_formValidate(this);'>
+
+<?php
+            phpAds_ShowSettings(array (
+                array (
+                    'text'  => $strDatabaseSettings,
+                    'items' => array (
+                        array (
+                            'type'  => 'select',
+                            'name'  => 'aConfig[database][type]',
+                            'text'  => $strDbType,
+                            'items' => getSupportedDbTypes()
+                        ),
+                        array (
+                            'type'  => 'break'
+                        ),
+                        array (
+                            'type'  => 'text',
+                            'name'  => 'aConfig[database][host]',
+                            'text'  => $strDbHost,
+                            'req'   => true,
+                            'value' => $aDatabase['database']['host']
+                        ),
+                        array (
+                            'type'  => 'break'
+                        ),
+                        array (
+                            'type'  => 'text',
+                            'name'  => 'aConfig[database][port]',
+                            'text'  => $strDbPort,
+                            'req'   => true,
+                            'value' => $aDatabase['database']['port']
+                        ),
+                        array (
+                            'type'  => 'break'
+                        ),
+                        array (
+                            'type'  => 'text',
+                            'name'  => 'aConfig[database][username]',
+                            'text'  => $strDbUser,
+                            'req'   => true,
+                            'value' => $aDatabase['database']['username']
+                        ),
+                        array (
+                            'type'  => 'break'
+                        ),
+                        array (
+                            'type'  => 'password',
+                            'name'  => 'aConfig[database][password]',
+                            'text'  => $strDbPassword,
+                            'req'   => false,
+                            'value' => $aDatabase['database']['password']
+                        ),
+                        array (
+                            'type'  => 'break'
+                        ),
+                        array (
+                            'type'  => 'text',
+                            'name'  => 'aConfig[database][name]',
+                            'text'  => $strDbName,
+                            'req'   => true,
+                            'value' => $aDatabase['database']['name']
+                        )
+                    )
+                ),
+                array (
+                    'text'  => $strAdvancedSettings,
+                    'items' => array (
+                        array (
+                            'type'  => 'select',
+                            'name'  => 'aConfig[table][type]',
+                            'text'  => $strTablesType,
+                            'items' => getSupportedTableTypes()
+                        ),
+                        array (
+                            'type'  => 'break'
+                        ),
+                        array (
+                            'type'      => 'text',
+                            'name'      => 'aConfig[table][prefix]',
+                            'text'      => $strTablesPrefix,
+                            'req'       => false,
+                            'maxlength' => '7',
+                            'value'     => $aDatabase['table']['prefix']
+                        )
+                    )
+                )
+            ), $errormessage, 0, "../admin/");
+?>
+                <button class="button" name="btn_upgrade">continue &raquo;</button>
+                <button class="button floatleft" name="btn_appcheck">go back</button>

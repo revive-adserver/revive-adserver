@@ -1,10 +1,34 @@
-<div class="tablediv">
-    <form name="frmOpenads" method="POST" action="index.php">
-    <table class="tablemain">
+    <br />
+    <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+    <tr>
+        <td valign='top'>
+            <img src='../admin/images/install-welcome.gif'></td><td width='100%' valign='top'>        
+            <br />
+            <span class='tab-s'>System check</span>
+            <br />        
+            <img src='../admin/images/break-el.gif' width='100%' height='1' vspace='8'>        
+            <span class='install'>Openads has certain requirements which will now be checked. We will warn you if any settings need to be changed.</span>
+        </td>
+    </tr>
+    </table>
+    <br />
+    
+    <table border='0' width='100%' cellpadding='0' cellspacing='0'>
         <tr>
-            <th colspan="2">System Checks</th>
+            <td height='25' colspan='4'><img src='../admin/images/icon-setup.gif' width='16' height='16' align='absmiddle'>&nbsp;<b>System Checks</b></td>
+        </tr>
+        <tr height='1'>
+            <td bgcolor='#888888' width='30'><img src='images/break.gif' height='1' width='30'></td>
+            <td bgcolor='#888888' width='250'><img src='images/break.gif' height='1' width='250'></td>
+            <td bgcolor='#888888' width='100%'><img src='images/break.gif' height='1' width='1'></td>
+            <td bgcolor='#888888' width='30'><img src='images/break.gif' height='1' width='30'></td>
         </tr>
         <tr>
+            <td height='10' colspan='4'><img src='images/spacer.gif' width='30' height='1'></td>
+        </tr>
+
+        <form name="frmOpenads" method="POST" action="index.php">
+        
         <?php
             $halt = false;
 
@@ -26,27 +50,6 @@
             $sysinfoheading = 'File Integrity - '.(!$sysinfoarray['error']? 'no errors' : 'errors detected');
             include 'tpl/sysinfosection.html';
         ?>
-        </tr>
-        <tr>
-            <td>
-                <?php
-                    if (!$halt)
-                    {
-                ?>
-                        <button class="button" name="btn_appcheck">continue</button>
-                <?php
-                    }
-                    else
-                    {
-                ?>
-                        <button class="button" name="btn_syscheck">retry</button>                                <?php
-                    }
-                ?>
-            </td>
-            <td>
-                <button class="button" name="btn_terms">go back</button>
-            </td>
-        </tr>
-    </table>
-    </form>
-</div>
+        </tr>    
+        </table>
+        <br /><br />  

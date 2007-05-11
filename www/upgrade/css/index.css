@@ -1,64 +1,20 @@
-body {
- width: 97%;
- background-color: #FFFFFF;
- font-family: Arial, Helvetica, sans-serif;
- font-size: 12px;
+.installer_container {
+ width: 80%;
 }
-table {
- width: 100%;
- background-color: #D5E7C5;
- background-color: #FFFFFF;
- text-align: center;
- vertical-align:top;
-}
-th {
- width: 100%;
- text-align: center;
- padding: 10px;
- background-color: #D5E7C5;
-}
-td {
- border-top: solid 1px;
- border-left: solid 1px;
- border-bottom: solid 1px;
- border-right: solid 1px;
- border-color: #000000;
- margin-bottom: 0px;
- padding: 5px;
- vertical-align:top;
-}
-td.active {
- background-color:#EBEFE8;
-}
-td.section {
- width: 100%;
- text-align: center;
- padding: 10px;
- background-color:#EBEFE8;
- colspan:2;
-}
-banner.th {
- text-align: center;
- padding: 10px;
- background-color: #D5E7C5;
-}
-.navcol {
- width: 20%;
- background-color: #D5E7C5;
-}
+
+
 .bodycol {
  width: 80%;
  background-color: #FFFFFF;
  text-align: center;
 }
 .button {
- font-family: Arial, Helvetica, sans-serif;
- font-size: 14px;
- background-color: #F1FBE7;
- color: black;
- width: 100%;
+ float: right;
  margin-top:5px;
  margin-bottom:5px;
+}
+.marginright {
+ margin-right: 5px;
 }
 .smallbutton {
  font-family: Arial, Helvetica, sans-serif;
@@ -77,13 +33,58 @@ banner.th {
  text-align: right;
  background-color:#EBEFE8;
 }
-a {
- font-family: Arial, Helvetica, sans-serif;
- font-size: 14px;
- text-decoration: none;
- background-color: #F1FBE7;
- color: black;
- width: 100%;
- margin-top:5px;
- margin-bottom:5px;
+.underline {
+ border-bottom: 1px solid #AAAAAA;
 }
+table.sysinfotable {
+ width: 60%;
+ margin: 20px;
+ border: 1px solid #DDDDDD;
+ background: #F0F0F0;
+}
+.sysinfotable td {
+ color: #333333;
+ padding: 5px 15px 5px 10px;
+ border-bottom: 1px solid #DDDDDD;
+}
+.sysmessage {
+ font-weight: bold;
+}
+td.sysinfoerror, .sysinfoerror {
+ color: #FFFFFF;
+ font-weight: bold;
+ text-align: center;
+ background-color: #880000;
+}
+.floatleft {
+ float: left;
+}
+
+.graph { 
+    position: relative; /* IE is dumb */
+    width: 400px; 
+    border: 1px solid #ccc; 
+    padding: 2px; 
+    margin-left: auto;
+    margin-right: auto;
+    background: #f3f3f3;
+    -moz-border-radius: 6px;
+    clear: both;
+}
+.graphtitle {
+    width: 50px; 
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3px;
+}
+.graph .bar { 
+    display: block;
+    position: relative;
+    background: #000063; 
+    text-align: center; 
+    color: #fff; 
+    height: 2em; 
+    line-height: 2em;     
+    -moz-border-radius: 6px;       
+}
+.graph .bar span { position: absolute; left: 1em; }

@@ -35,22 +35,25 @@ $Id$
  * A collection of JavaScript functions for validating form submissions.
  */
 
-// Require the initialisation file
-require_once '../../../init.php';
-
-// Required files
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-require_once MAX_PATH . '/lib/max/language/Default.php';
-
-// Load the user preferences from the database
-$pref = MAX_Admin_Preferences::loadPrefs();
-
-// Load the required language files
-Language_Default::load();
-
-// Send content-type header
-header("Content-type: application/x-javascript");
-
+if (!defined('phpAds_installing')) {
+    // Require the initialisation file
+    require_once '../../../init.php';
+    
+    // Required files
+    require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+    require_once MAX_PATH . '/lib/max/language/Default.php';
+    
+    // Load the user preferences from the database
+    $pref = MAX_Admin_Preferences::loadPrefs();
+    
+    // Load the required language files
+    Language_Default::load();
+    
+    // Send content-type header
+    header("Content-type: application/x-javascript");
+} else {
+    echo "<script language='JavaScript' type='text/javascript'>";
+}
 ?>
 
 /**
@@ -310,12 +313,10 @@ function max_formValidate(f)
 			   '\n' +
 			   '<?php echo addslashes(html_entity_decode($strFieldFixBeforeContinue2)) ?>' +
 			   '\n');
-
-		// Select field with first error
-		f.elements[first].select();
-		f.elements[first].focus();
+        return false;
+	} else {
+        return true;
 	}
-	return noerrors;
 }
 
 /**
@@ -391,3 +392,10 @@ function max_formValidateHtml(obj)
 	
 	return true;	
 }
+
+<?php
+if (defined('phpAds_installing')) {
+    echo "</script>";
+}
+?>
+

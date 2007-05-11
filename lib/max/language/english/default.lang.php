@@ -63,6 +63,7 @@ $GLOBALS['excel_decimal_formatting']    = '#,##0.000;-#,##0.000;-';
 
 $GLOBALS['strHome']                     = "Home";
 $GLOBALS['strHelp']                     = "Help";
+$GLOBALS['strStartOver']                = "Start over";
 $GLOBALS['strNavigation']               = "Navigation";
 $GLOBALS['strShortcuts']                = "Shortcuts";
 $GLOBALS['strAdminstration']            = "Inventory";

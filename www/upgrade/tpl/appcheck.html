@@ -1,34 +1,43 @@
-<div>
-    <form name="frmOpenads" method="POST" action="index.php">
-    <table class="tablemain">
+    <table border='0' width='100%' cellpadding='0' cellspacing='0'>
         <tr>
-            <th colspan="2">Application Checks</th>
+            <td height='25' colspan='4'><img src='../admin/images/icon-setup.gif' width='16' height='16' align='absmiddle'>&nbsp;<b>Application Check</b></td>
+        </tr>
+        <tr height='1'>
+            <td bgcolor='#888888' width='30'><img src='images/break.gif' height='1' width='30'></td>
+            <td bgcolor='#888888' width='250'><img src='images/break.gif' height='1' width='250'></td>
+            <td bgcolor='#888888' width='100%'><img src='images/break.gif' height='1' width='1'></td>
+            <td bgcolor='#888888' width='30'><img src='images/break.gif' height='1' width='30'></td>
         </tr>
         <tr>
-            <td colspan="2">
-                <?php include 'tpl/messages.html';  ?>
-            </td>
+            <td height='10' colspan='4'><img src='images/spacer.gif' width='30' height='1'></td>
         </tr>
+        <tr><td height='10' colspan='4'>&nbsp;</td></tr>
         <tr>
-            <td>
-                <?php
-                    if (!$halt)
-                    {
-                ?>
-                        <button class="button" name="btn_dbsetup">continue</button>                                <?php
-                    }
-                    else
-                    {
-                ?>
-                        <!--a href="javascript: history.go(-1)">retry</a-->
-                        <button class="button" name="btn_appcheck">retry</button>                                   <?php
-                    }
-                ?>
-            </td>
-            <td>
-                <button class="button" name="btn_syscheck">go back</button>
+            <td colspan='4'>            
+                <table border='0' width='100%' cellpadding='0' cellspacing='0' class='sysinfotable' style='margin-top: 0; margin-left:auto; margin-right: auto;'>
+                <tr>
+                    <td style='text-align: center;'>
+                    <?php include 'tpl/messages.html';  ?>
+                    </td>
+                </tr>
+                </table>
             </td>
         </tr>
+        <tr><td height='10' colspan='4'>&nbsp;</td></tr>
+        <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1'></td></tr>
     </table>
-    </form>
-</div>
+        
+        <?php
+            if (!$halt)
+            {
+        ?>
+                <button class="button" name="btn_dbsetup">continue &raquo;</button>                                <?php
+            }
+            else
+            {
+        ?>
+                <!--a href="javascript: history.go(-1)">retry</a-->
+                <button class="button" name="btn_appcheck">retry</button>                                   <?php
+            }
+        ?>
+        <button class="button floatleft" name="btn_syscheck">&laquo; go back</button>

@@ -1,44 +1,66 @@
-<form name="frmOpenads" method="POST" action="index.php">
-    <table>
-        <tr>
-            <td class="label">
-                Openads Username
-            </td>
-            <td>
-                <input class="input" name="oaid[username]" value="<?php echo $aOaId['oaid']['username']; ?>" />
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                Openads Password
-            </td>
-            <td>
-                <input type="password" class="input" name="oaid[password]" value="<?php echo $aOaId['oaid']['password']; ?>" />
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                Confirm Password
-            </td>
-            <td>
-                <input type="password" class="input" name="oaid[password2]" value="" />
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                Openads Email
-            </td>
-            <td>
-                <input class="input" name="oaid[email]" value="<?php echo $aOaId['oaid']['email']; ?>" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button class="button" name="btn_datasetup">continue</button>
-            </td>
-            <td>
-                <a href="javascript: history.go(-1)">go back</a>
-            </td>
-        </tr>
-    </table>
-</form>
+<br>
+<table border='0' cellpadding='0' cellspacing='0' width='100%'>
+<tr>
+<td valign='top'><img src='../admin/images/install-admin.gif'></td>
+<td width='100%' valign='top'>
+<br>
+<span class='tab-s'><?php echo $strOpenadsIdYour; ?></span>
+<br>
+<img src='../admin/images/break-el.gif' width='100%' height='1' vspace='8'>
+<span class='install'><?php echo $strAdminSettingsIntro; ?></span>
+</td>
+</tr>
+</table>
+<br>
+
+<form name="frmOpenads" method="POST" action="index.php" onSubmit='return max_formValidate(this);'>
+
+<?php
+            phpAds_ShowSettings(array (
+                array (
+                    'text'  => $strOpenadsIdSettings,
+                    'items' => array (
+                        array (
+                            'type'  => 'text',
+                            'name'  => 'oaid[username]',
+                            'text'  => $strOpenadsUsername,
+                            'req'   => true,
+                            'value' => $oaid['username']
+                        ),
+                        array (
+                            'type'  => 'break'
+                        ),
+                        array (
+                            'type'  => 'password',
+                            'name'  => 'oaid[password]',
+                            'text'  => $strOpenadsPassword,
+                            'req'   => true,
+                            'value' => $oaid['password']
+                        ),
+                        array (
+                            'type'  => 'break'
+                        ),
+                        array (
+                            'type'  => 'password',
+                            'name'  => 'oaid[password2]',
+                            'text'  => $strRepeatPassword,
+                            'req'   => true,
+                            'value' => $oaid['password2']
+                        ),
+                        array (
+                            'type'  => 'break'
+                        ),
+                        array (
+                            'type'  => 'text',
+                            'name'  => 'oaid[email]',
+                            'text'  => $strOpenadsEmail,
+                            'req'   => true,
+                            'value' => $oaid['email']
+                        )
+                    )
+                )
+            ), $errormessage, 0, "../admin/");
+?>
+
+                <button class="button" name="btn_datasetup"><?php echo $strBtnContinue; ?></button>
+                <button class="button floatleft" name="btn_appcheck"><?php echo $strBtnGoBack; ?></button>

@@ -42,31 +42,71 @@ define('OA_UPGRADE_FINISH',                    70);
 global $installing;
 $installing = true;
 
-
 require_once '../../init.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
 
+// required files for header & nav
+require_once MAX_PATH . '/lib/max/Admin/Languages.php';
+require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
+require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
+
+// clear the $session variable to prevent users pretending to be logged in.
+unset($session);
+define('phpAds_installing',     true);
+
 // CHANGE $_REQUEST TO $_POST
+
+// MOVE THESE 2 FUNCTIONS SOMEWHERE ELSE - used in dbsetup.html
+
+ /**
+ * Return an array of supported DB types
+ *
+ * @return array
+ */
+function getSupportedDbTypes()
+{
+    // These values must be the same as used for the
+    // data access layer file names!
+    $types['mysql'] = 'mysql';
+    $types['pgsql'] = 'pgsql';
+    return $types;
+}
+
+ /**
+ * Return an array of supported Table types
+ *
+ * @return array
+ */
+function getSupportedTableTypes()
+{
+    // These values must be the same as used for the
+    // data access layer file names!
+    $types['MYISAM'] = 'MyISAM';
+    $types['INNODB'] = 'InnoDB';
+    return $types;
+}
 
 $oUpgrader = new OA_Upgrade();
 
 if ($oUpgrader->isRecoveryRequired())
 {
+    setcookie('oat', $action);
     $oUpgrader->recoverUpgrade();
     $action = OA_UPGRADE_RECOVERY;
 }
 else if (array_key_exists('btn_syscheck', $_REQUEST))
 {
-    $aSysInfo = $oUpgrader->checkEnvironment();
-    $action   = OA_UPGRADE_SYSCHECK;
-}
-else if (array_key_exists('btn_appcheck', $_REQUEST))
-{
+    $aSysInfo = $oUpgrader->checkEnvironment();    
     $halt = !$oUpgrader->canUpgrade();
     if (!$halt)
     {
         $halt = !$oUpgrader->checkUpgradePackage();
     }
+    $action   = OA_UPGRADE_SYSCHECK;
+}
+else if (array_key_exists('btn_appcheck', $_REQUEST))
+{
     $action = OA_UPGRADE_APPCHECK;
 }
 else if (array_key_exists('btn_dbsetup', $_REQUEST))
@@ -121,7 +161,10 @@ else if (array_key_exists('btn_adminsetup', $_REQUEST))
         }
         else
         {
-            $action = OA_UPGRADE_IDSETUP;
+            //$action = OA_UPGRADE_IDSETUP;
+            $message = 'Congratulations you have finished upgrading Openads';
+            setcookie('oat', false);
+            $action = OA_UPGRADE_FINISH;
         }
     }
     else
@@ -147,7 +190,7 @@ else if (array_key_exists('btn_datasetup', $_REQUEST))
     else
     {
         setcookie('oat', false);
-        $action = OA_UPGRADE_FINISH;
+        $action = OA_UPGRADE_DATASETUP;
         $message = 'Congratulations you have finished upgrading Openads';
     }
 }
@@ -177,13 +220,68 @@ else if (array_key_exists('btn_openads', $_REQUEST))
     header('location: http://'.$GLOBALS['_MAX']['CONF']['webpath']['admin']);
     exit();
 }
+else if (array_key_exists('dirPage', $_REQUEST))
+{   
+    $action = $_POST['dirPage'];
+}
 else
 {
     setcookie('oat', false);
     $action = OA_UPGRADE_WELCOME;
 }
+// Used to detmine which page is active
+$activeNav = array (
+    OA_UPGRADE_WELCOME        =>      '1',
+    OA_UPGRADE_TERMS          =>      '2',
+    OA_UPGRADE_SYSCHECK       =>      '3',
+    OA_UPGRADE_APPCHECK       =>      '3',
+    OA_UPGRADE_DBSETUP        =>      '5',
+    OA_UPGRADE_CONFIGSETUP    =>      '6',
+    OA_UPGRADE_ADMINSETUP     =>      '7',
+    OA_UPGRADE_IDSETUP        =>      '7',
+    OA_UPGRADE_DATASETUP      =>      '9',
+    OA_UPGRADE_UPGRADE        =>      '10',
+    OA_UPGRADE_INSTALL        =>      '10',
+    OA_UPGRADE_FINISH         =>      '10'
+);
 
+// setup the nav to determine whether or not to show a valid link
+$navLinks = array();
+foreach ($activeNav as $key=>$val) {
+    if ( $val <= $activeNav[$action]) {
+        $navLinks[$key] = 'javascript: changePage('.$key.')';
+    } else {
+        $navLinks[$key] = '';
+    }
+}
+
+// Setup array for navigation
+$phpAds_nav = array (
+    '1'     =>  array($navLinks[OA_UPGRADE_WELCOME]     => 'Welcome'),
+    '2'     =>  array($navLinks[OA_UPGRADE_TERMS]       => 'Terms'),
+    '3'     =>  array($navLinks[OA_UPGRADE_SYSCHECK]    => 'System Check'),
+    '4'     =>  array($navLinks[OA_UPGRADE_APPCHECK]    => 'Application Check'),
+    '5'     =>  array($navLinks[OA_UPGRADE_DBSETUP]     => 'Database Setup'),
+    '6'     =>  array($navLinks[OA_UPGRADE_CONFIGSETUP] => 'Configuration Setup'),
+    '7'     =>  array($navLinks[OA_UPGRADE_ADMINSETUP]  => 'Admin Setup'),
+    '8'     =>  array($navLinks[OA_UPGRADE_IDSETUP]     => 'Openads ID'),
+    '9'     =>  array($navLinks[OA_UPGRADE_DATASETUP]   => 'Data Setup'),
+    '10'    =>  array('' => 'Finished')
+);
+// determine string of action
+phpAds_PageHeader($activeNav[$action],'', '../admin/', false, false);
+// display navigation
+$showSections = array();
+foreach ($activeNav as $val) {
+    if (!in_array($val, $showSections))
+        $showSections[] = $val;
+}
+phpAds_ShowSections($showSections, false, true, '../admin/', $phpAds_nav);
+
+// display main template
 include 'tpl/index.html';
 
+// display footer
+phpAds_PageFooter('../admin/');
 
 ?>

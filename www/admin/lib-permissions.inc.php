@@ -195,8 +195,8 @@ function phpAds_getHelpFile ()
     if (!empty($session['help_file'])) {
         return $session['help_file'];
     }
-    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-        return 'http://docs.m3.net/';
+    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || defined('phpAds_installing')) {
+        return 'http://docs.openads.org/';
     }
 
     return false;
@@ -211,6 +211,13 @@ function phpAds_Login()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     global $strPasswordWrong;
+    // if user is not within the admin folder, redirect them
+    if (strpos($_SERVER['REQUEST_URI'],'admin') === false)
+    {
+        header('location: http://'.$GLOBALS['_MAX']['CONF']['webpath']['admin']);
+        exit();
+    }
+    
     if (phpAds_SuppliedCredentials()) {
         $username  = MAX_commonGetPostValueUnslashed('username');
         $password  = MAX_commonGetPostValueUnslashed('password');

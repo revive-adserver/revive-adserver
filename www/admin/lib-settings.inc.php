@@ -150,7 +150,7 @@ function phpAds_SettingsHelp($name)
 /* Build and display the settings user interface         */
 /*-------------------------------------------------------*/
 
-function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0)
+function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0, $imgPath="")
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $pref = $GLOBALS['_MAX']['PREF'];
@@ -180,9 +180,9 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0)
     while (list(,$section) = each ($data)) {
         if (!isset($section['visible']) || $section['visible']) {
             if (isset($errors[$i])) {
-                phpAds_ShowSettings_StartSection($section['text'], $errors[$i], $disableSubmit);
+                phpAds_ShowSettings_StartSection($section['text'], $errors[$i], $disableSubmit, $imgPath);
             } else {
-                phpAds_ShowSettings_StartSection($section['text'], NULL ,$disableSubmit);
+                phpAds_ShowSettings_StartSection($section['text'], NULL ,$disableSubmit, $imgPath);
             }
             while (list(,$item) = each ($section['items'])) {
                 if (!isset($item['visible']) || $item['visible']) {
@@ -222,12 +222,14 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0)
                             } elseif (isset($pref[$item['name']])) {
                                 // Load the preference value
                                 $value = $pref[$item['name']];
+                            } elseif (isset($item['value'])) {
+                                $value = $item['value'];
                             }
                         }
                     }
                     switch ($item['type']) {
                         case 'plaintext': phpAds_ShowSettings_PlainText($item); break;
-                        case 'break':     phpAds_ShowSettings_Break($item); break;
+                        case 'break':     phpAds_ShowSettings_Break($item, $imgPath); break;
                         case 'checkbox':  phpAds_ShowSettings_Checkbox($item, $value); break;
                         case 'text':      phpAds_ShowSettings_Text($item, $value); break;
                         case 'url':       phpAds_ShowSettings_Url($item, $value); break;
@@ -354,7 +356,7 @@ function phpAds_ShowSettings_GetType ($data, $name)
     return false;
 }
 
-function phpAds_ShowSettings_StartSection($name, $error = array(), $disableSubmit=0)
+function phpAds_ShowSettings_StartSection($name, $error = array(), $disableSubmit=0, $imgPath="")
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $icon = (!$conf['openads']['installed']) ? 'setup' : 'settings';
@@ -364,18 +366,18 @@ function phpAds_ShowSettings_StartSection($name, $error = array(), $disableSubmi
         echo "<input type='hidden' name='submitok' value='true'>\n";
     else
         echo "<input type='hidden' name='submitDisabled' value='true'>\n";
-    echo "<td height='25' colspan='4'><img src='images/icon-".$icon.".gif' width='16' height='16' align='absmiddle'>&nbsp;";
+    echo "<td height='25' colspan='4'><img src='".$imgPath."images/icon-".$icon.".gif' width='16' height='16' align='absmiddle'>&nbsp;";
     echo "<b>".$name."</b></td></tr>\n";
     echo "<tr height='1'>\n";
-    echo "<td bgcolor='#888888' width='30'><img src='images/break.gif' height='1' width='30'></td>\n";
-    echo "<td bgcolor='#888888' width='250'><img src='images/break.gif' height='1' width='250'></td>\n";
-    echo "<td bgcolor='#888888' width='100%'><img src='images/break.gif' height='1' width='1'></td>\n";
-    echo "<td bgcolor='#888888' width='30'><img src='images/break.gif' height='1' width='30'></td>\n";
-    echo "</tr><tr><td height='10' colspan='4'><img src='images/spacer.gif' width='30' height='1'></td></tr>\n";
+    echo "<td bgcolor='#888888' width='30'><img src='".$imgPath."images/break.gif' height='1' width='30'></td>\n";
+    echo "<td bgcolor='#888888' width='250'><img src='".$imgPath."images/break.gif' height='1' width='250'></td>\n";
+    echo "<td bgcolor='#888888' width='100%'><img src='".$imgPath."images/break.gif' height='1' width='1'></td>\n";
+    echo "<td bgcolor='#888888' width='30'><img src='".$imgPath."images/break.gif' height='1' width='30'></td>\n";
+    echo "</tr><tr><td height='10' colspan='4'><img src='".$imgPath."images/spacer.gif' width='30' height='1'></td></tr>\n";
     if (count($error)) {
         echo "<tr><td width='30'>&nbsp;</td><td height='10' colspan='2'>";
         echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'><tr>";
-        echo "<td width='22' valign='top'><img src='images/error.gif' width='16' height='16'>&nbsp;&nbsp;</td>";
+        echo "<td width='22' valign='top'><img src='".$imgPath."images/error.gif' width='16' height='16'>&nbsp;&nbsp;</td>";
         echo "<td valign='top'><font color='#AA0000'><b>";
         if (is_array($error)) {
             while (list(, $v) = each($error)) {
@@ -386,11 +388,11 @@ function phpAds_ShowSettings_StartSection($name, $error = array(), $disableSubmi
         }
         echo "</b></font></td></tr></table></td></tr>";
         echo "<tr><td height='10' width='30'>&nbsp;</td>";
-        echo "<td height='10' width='200'><img src='images/spacer.gif' width='200' height='1'></td>";
+        echo "<td height='10' width='200'><img src='".$imgPath."images/spacer.gif' width='200' height='1'></td>";
         echo "<td height='10' width='100%'>&nbsp;</td><td height='10' width='30'>&nbsp;</td></tr>";
-        echo "<tr><td height='14' width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-        echo "<td height='14' width='200'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>";
-        echo "<td height='14' width='100%'>&nbsp;</td><td height='14' width='30'><img src='images/spacer.gif' height='1' width='100%'></tr>";
+        echo "<tr><td height='14' width='30'><img src='".$imgPath."images/spacer.gif' height='1' width='100%'></td>";
+        echo "<td height='14' width='200'><img src='".$imgPath."images/break-l.gif' height='1' width='200' vspace='6'></td>";
+        echo "<td height='14' width='100%'>&nbsp;</td><td height='14' width='30'><img src='".$imgPath."images/spacer.gif' height='1' width='100%'></tr>";
     }
 }
 
@@ -411,21 +413,21 @@ function phpAds_ShowSettings_PlainText($item)
     }
 }
 
-function phpAds_ShowSettings_Break($item)
+function phpAds_ShowSettings_Break($item, $imgPath='')
 {
     if (!isset($item['size']) || $item['size'] == '' || $item['size'] == 'small') {
-        echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>\n";
-        echo "<td><img src='images/break-l.gif' height='1' width='250' vspace='10'></td>\n";
-        echo "<td>&nbsp;</td><td><img src='images/spacer.gif' height='1' width='100%'></tr>\n";
+        echo "<tr><td><img src='".$imgPath."images/spacer.gif' height='1' width='100%'></td>\n";
+        echo "<td><img src='".$imgPath."images/break-l.gif' height='1' width='250' vspace='10'></td>\n";
+        echo "<td>&nbsp;</td><td><img src='".$imgPath."images/spacer.gif' height='1' width='100%'></tr>\n";
     } else if ($item['size'] == 'large') {
-        echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>\n";
-        echo "<td colspan='3'><img src='images/break-l.gif' height='1' width='100%' vspace='10'></td></tr>\n";
+        echo "<tr><td><img src='".$imgPath."images/spacer.gif' height='1' width='100%'></td>\n";
+        echo "<td colspan='3'><img src='".$imgPath."images/break-l.gif' height='1' width='100%' vspace='10'></td></tr>\n";
     } else if ($item['size'] == 'full') {
-        echo "<tr><td colspan='4'><img src='images/break.gif' height='1' width='100%' vspace='16'></td></tr>\n";
+        echo "<tr><td colspan='4'><img src='".$imgPath."images/break.gif' height='1' width='100%' vspace='16'></td></tr>\n";
     } else if ($item['size'] == 'empty') {
-        echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>\n";
-        echo "<td><img src='images/spacer.gif' height='1' width='250' vspace='10'></td>\n";
-        echo "<td>&nbsp;</td><td><img src='images/spacer.gif' height='1' width='100%'></tr>\n";
+        echo "<tr><td><img src='".$imgPath."images/spacer.gif' height='1' width='100%'></td>\n";
+        echo "<td><img src='".$imgPath."images/spacer.gif' height='1' width='250' vspace='10'></td>\n";
+        echo "<td>&nbsp;</td><td><img src='".$imgPath."images/spacer.gif' height='1' width='100%'></tr>\n";
     }
 }
 
@@ -452,7 +454,7 @@ function phpAds_ShowSettings_Text($item, $value)
     echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."' valign='top'>".$item['text']."</td>\n";
     echo "<td width='100%' valign='top'>";
     echo "<input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='text' name='".$item['name']."'".($item['enabled'] ? ' disabled' : '')." ";
-    echo "size='".$item['size']."' value=\"".htmlspecialchars($value)."\" onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>";
+    echo "size='".$item['size']."' maxlength='".$item['maxlength']."' value=\"".htmlspecialchars($value)."\" onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>";
     echo "</td><td>".phpAds_ShowSettings_PadLock($item)."</td></tr>\n";
 }
 
@@ -535,7 +537,7 @@ function phpAds_ShowSettings_Select($item, $value, $showSubmitButton=0)
         echo ($item['enabled'] ? ' disabled' : '')." onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>\n";
         while (list($k, $v) = each($item['items'])) {
             echo "<option value=\"".htmlspecialchars($k)."\"".
-                ($k == $value ? " selected" : "").">".
+                ($k == $value ? " selected='selected'" : "").">".
                 $v."</option>";
         }
         echo "</select>";

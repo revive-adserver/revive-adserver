@@ -1,116 +1,40 @@
-<html>
-<head>
-    <title>Openads Installer</title>
-    <link rel="stylesheet" type="text/css" href="css/index.css"/>
-</head>
-<body>
-<table>
-<tr>
-    <th class="banner" style="width:20%;">
-        <h3>Openads</h3>
-    </th>
-    <th class="banner">
-        <h4>Installer</h4>
-    </th>
-    <td style="width:10%;">
-        <form name="frmOpenads" method="POST" action="index.php">
-            <button class="smallbutton" name="btn_help">Installer Help</button>
-            <br />
-            <button class="smallbutton" name="btn_welcome">Start Over</button>
-        </form>
-    </td>
-</tr>
-<tr>
-    <td class="navcol">
-        <form name="frmOpenads" method="POST" action="index.php">
-            <table>
-                <tr>
-                    <?php $class = ($action == OA_UPGRADE_WELCOME ? 'active' : ''); ?>
-                    <td class="<?php echo $class; ?>">
-                        Welcome
-                    </td>
-                </tr>
-                <tr>
-                    <?php $class = ($action == OA_UPGRADE_TERMS ? 'active' : ''); ?>
-                    <td class="<?php echo $class; ?>">
-                        Terms & Conditions
-                    </td>
-                </tr>
-                <tr>
-                    <?php $class = ($action == OA_UPGRADE_SYSCHECK ? 'active' : ''); ?>
-                    <td class="<?php echo $class; ?>">
-                        System Check
-                    </td>
-                </tr>
-                <tr>
-                    <?php $class = ($action == OA_UPGRADE_APPCHECK ? 'active' : ''); ?>
-                    <td class="<?php echo $class; ?>">
-                        Application Check
-                    </td>
-                </tr>
-                <tr>
-                    <?php $class = ($action == OA_UPGRADE_DBSETUP ? 'active' : ''); ?>
-                    <td class="<?php echo $class; ?>">
-                        Database Setup
-                    </td>
-                </tr>
-                <tr>
-                    <?php $class = ($action == OA_UPGRADE_CONFIGSETUP ? 'active' : ''); ?>
-                    <td class="<?php echo $class; ?>">
-                        Configuration Setup
-                    </td>
-                </tr>
-                <tr>
-                    <?php $class = ($action == OA_UPGRADE_ADMINSETUP ? 'active' : ''); ?>
-                    <td class="<?php echo $class; ?>">
-                        Admin Setup
-                    </td>
-                </tr>
-                <tr>
-                    <?php $class = ($action == OA_UPGRADE_IDSETUP ? 'active' : ''); ?>
-                    <td class="<?php echo $class; ?>">
-                        Openads ID Setup
-                    </td>
-                </tr>
-                <tr>
-                    <?php $class = ($action == OA_UPGRADE_DATASETUP ? 'active' : ''); ?>
-                    <td class="<?php echo $class; ?>">
-                        Data Setup
-                    </td>
-                </tr>
-                <tr>
-                    <?php $class = ($action == OA_UPGRADE_FINISH ? 'active' : ''); ?>
-                    <td class="<?php echo $class; ?>">
-                        Finish
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </td>
-    <td class="bodycol" colspan="2">
-        <?php
-            switch ($action)
-            {
-                case OA_UPGRADE_ERROR       : include 'tpl/messages.html'; break;
-                case OA_UPGRADE_RECOVERY    : include 'tpl/messages.html'; break;
-                case OA_UPGRADE_TERMS       : include 'tpl/terms.html'; break;
-                case OA_UPGRADE_SYSCHECK    : include 'tpl/syscheck.html'; break;
-                case OA_UPGRADE_APPCHECK    : include 'tpl/appcheck.html'; break;
-                case OA_UPGRADE_DBSETUP     : include 'tpl/dbsetup.html'; break;
-                case OA_UPGRADE_UPGRADE     : include 'tpl/success.html'; break;
-                case OA_UPGRADE_INSTALL     : include 'tpl/success.html'; break;
-                case OA_UPGRADE_CONFIGSETUP  : include 'tpl/configsetup.html'; break;
-                case OA_UPGRADE_ADMINSETUP  : include 'tpl/adminsetup.html'; break;
-                case OA_UPGRADE_IDSETUP     : include 'tpl/oaidsetup.html'; break;
-                case OA_UPGRADE_DATASETUP   : include 'tpl/datasetup.html'; break;
-                case OA_UPGRADE_FINISH      : include 'tpl/finish.html'; break;
-                default:  include 'tpl/welcome.html'; break;
-            }
-        ?>
-    </td>
-</tr>
-</table>
+<link rel="stylesheet" type="text/css" href="css/index.css"/>		
 
-</body>
-</html>
+<script language='JavaScript' src='../admin/js/sorttable.js'></script>
 
+<script type="text/javascript">
+function changePage(page) {
+    document.frmOpenads.dirPage.value = page;
+    document.frmOpenads.submit();
+}
+</script>
+<div class="installer_container">
+    <div class="graphtitle tab-s"><b>Progress</b></div>
+    <div class="graph">
+        <strong class="bar" style="width: 25%;">25%</strong>
+    </div>
+    <?php                
+    $incPath = '../../';
+    $hideHeader = true;
+    include '../admin/js/formValidation.php';
+        switch ($action)
+        {
+            case OA_UPGRADE_ERROR       : include 'tpl/messages.html';    break;
+            case OA_UPGRADE_RECOVERY    : include 'tpl/messages.html';    break;
+            case OA_UPGRADE_TERMS       : include 'tpl/terms.html';       break;
+            case OA_UPGRADE_SYSCHECK    : include 'tpl/syscheck.html'; include 'tpl/appcheck.html';    break;
+            case OA_UPGRADE_APPCHECK    : include 'tpl/appcheck.html';    break;
+            case OA_UPGRADE_DBSETUP     : include 'tpl/dbsetup.html';     break;
+            case OA_UPGRADE_UPGRADE     : include 'tpl/success.html';     break;
+            case OA_UPGRADE_INSTALL     : include 'tpl/success.html';     break;
+            case OA_UPGRADE_CONFIGSETUP : include 'tpl/configsetup.html'; break;
+            case OA_UPGRADE_ADMINSETUP  : include 'tpl/adminsetup.html';  break;
+            case OA_UPGRADE_IDSETUP     : include 'tpl/oaidsetup.html';   break;
+            case OA_UPGRADE_DATASETUP   : include 'tpl/datasetup.html';   break;
+            case OA_UPGRADE_FINISH      : include 'tpl/success.html';     break;
+            default                     : include 'tpl/welcome.html';     break;
+        }
+    ?>
+    <input type="hidden" name="dirPage" id="dirPage" value="" />
+</form>
+</div>
