@@ -769,19 +769,19 @@ $GLOBALS['strRecentHosts']             = "Most recent requesting hosts";
 // Expiration
 $GLOBALS['strExpired']                = "Expired";
 $GLOBALS['strExpiration']             = "Expiration";
-$GLOBALS['strNoExpiration']         = "No expiration date set";
-$GLOBALS['strEstimated']             = "Estimated expiration";
+$GLOBALS['strNoExpiration']           = "No expiration date set";
+$GLOBALS['strEstimated']              = "Estimated expiration";
 
 // Reports
 $GLOBALS['strReports']                = "Reports";
-$GLOBALS['strAdminReports']         = "Admin Reports";
-$GLOBALS['strAdvertiserReports']    = "Advertiser Reports";
-$GLOBALS['strAgencyReports']        = "Agency Reports";
-$GLOBALS['strPublisherReports']     = "Publisher Reports";
-$GLOBALS['strSelectReport']            = "Select the report you want to generate";
-$GLOBALS['strStartDate']            = "Start Date";
+$GLOBALS['strAdminReports']           = "Admin Reports";
+$GLOBALS['strAdvertiserReports']      = "Advertiser Reports";
+$GLOBALS['strAgencyReports']          = "Agency Reports";
+$GLOBALS['strPublisherReports']       = "Publisher Reports";
+$GLOBALS['strSelectReport']           = "Select the report you want to generate";
+$GLOBALS['strStartDate']              = "Start Date";
 $GLOBALS['strEndDate']                = "End Date";
-$GLOBALS['strNoData']                = "There is no data available for this time period";
+$GLOBALS['strNoData']                 = "There is no data available for this time period";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers']            = "All advertisers";
