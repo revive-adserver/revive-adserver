@@ -1288,6 +1288,13 @@
     <default></default>
    </field>
 
+   <field>
+      <name>acls_updated</name>
+      <type>openads_datetime</type>
+      <notnull>1</notnull>
+      <default></default>
+    </field>
+
    <index>
     <name>banners_pkey</name>
     <primary>true</primary>

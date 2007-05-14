@@ -3,7 +3,7 @@
 <instructionset>
   <name>openads_2_0_12</name>
   <version>128</version>
-  <comments>Changed the type of the &apos;transparent&apos; field and added &apos;parameters&apos; column.</comments>
+  <comments>Changed the type of the &apos;transparent&apos; field, added &apos;parameters&apos; and &apos;acls_updated&apos; columns.</comments>
   <constructive>
     <changeset>
       <name>openads_2_0_12</name>
@@ -26,6 +26,15 @@
               <type>openads_text</type>
               <notnull>1</notnull>
               <was>parameters</was>
+              <default></default>
+            </field>
+          </add>
+          <add>
+            <field>
+              <name>acls_updated</name>
+              <type>openads_datetime</type>
+              <notnull>1</notnull>
+              <was>acls_updated</was>
               <default></default>
             </field>
           </add>

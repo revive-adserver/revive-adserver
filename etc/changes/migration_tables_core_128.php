@@ -13,9 +13,12 @@ class Migration_128 extends Migration
 		$this->aTaskList_constructive[] = 'afterAlterField__banners__transparent';
 		$this->aTaskList_constructive[] = 'beforeAddField__banners__parameters';
 		$this->aTaskList_constructive[] = 'afterAddField__banners__parameters';
+		$this->aTaskList_constructive[] = 'beforeAddField__banners__acls_updated';
+		$this->aTaskList_constructive[] = 'afterAddField__banners__acls_updated';
 
 
 		$this->aObjectMap['banners']['parameters'] = array('fromTable'=>'banners', 'fromField'=>'parameters');
+		$this->aObjectMap['banners']['acls_updated'] = array('fromTable'=>'banners', 'fromField'=>'acls_updated');
     }
 
 
@@ -27,7 +30,7 @@ class Migration_128 extends Migration
 
 	function afterAlterField__banners__transparent()
 	{
-		return $this->migrateData() && $this->afterAlterField('banners', 'transparent');
+		return $this->afterAlterField('banners', 'transparent');
 	}
 
 	function beforeAddField__banners__parameters()
@@ -40,7 +43,16 @@ class Migration_128 extends Migration
 		return $this->afterAddField('banners', 'parameters');
 	}
 
-	
+	function beforeAddField__banners__acls_updated()
+	{
+		return $this->beforeAddField('banners', 'acls_updated');
+	}
+
+	function afterAddField__banners__acls_updated()
+	{
+		return $this->afterAddField('banners', 'acls_updated') && $this->migrateData();
+	}
+
 	function migrateData()
 	{
 	    $prefix = $this->getPrefix();
@@ -94,4 +106,5 @@ class Migration_128 extends Migration
 	    return true;
 	}
 }
+
 ?>
