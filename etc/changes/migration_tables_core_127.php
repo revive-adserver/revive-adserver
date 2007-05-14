@@ -273,7 +273,7 @@ class ZoneAdObjectHandler
     {
         $this->zone_id = $zone_id;
         $this->aAdObjectIds = OA_upgrade_getAdObjectIds($sIdList, $adObjectType);
-        $this->$prefix = $prefix;
+        $this->prefix = $prefix;
     }
     
     /**
@@ -322,7 +322,7 @@ class ZoneCampaignHandler extends ZoneAdObjectHandler
 {
     function ZoneCampaignHandler($prefix, $zone_id, $sIdList)
     {
-        $this->ZoneAdObjectHandler($zone_id, $sIdList, 'clientid');
+        $this->ZoneAdObjectHandler($prefix, $zone_id, $sIdList, 'clientid');
     }
     
     
