@@ -45,7 +45,12 @@ class Migration_128Test extends MigrationTest
         $toInt['f'] = 0;
         $toInt['t'] = 1;
         $aAValues = array(
-            array('bannerid' => 1, 'transparent' => "f"),
+            array('bannerid' => 1, 'transparent' => "f",
+                'contenttype' => 'swf',
+                'htmlcache' => <<<EOF
+<!--[if !IE]> --><object type='application/x-shockwave-flash' data='{url_prefix}/adimage.php?filename=test.swf&amp;contenttype=swf&amp;alink1={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openads.org&amp;atar1=_blank&amp;alink2={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openads.org&amp;atar2=_self' width='468' height='60'> <!-- <![endif]--> <!--[if IE]> <object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0' width='468' height='60'> <param name='movie' value='{url_prefix}/adimage.php?filename=test.swf&amp;contenttype=swf&amp;alink1={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openads.org&amp;atar1=_blank&amp;alink2={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openads.org&amp;atar2=_self' /> <!--><!----> <param name='quality' value='high' /> <param name='allowScriptAccess' value='always' />  <p>This is <strong>alternative</strong> content.</p> </object> <!-- <![endif]--> 
+EOF
+            ),
             array('bannerid' => 2, 'transparent' => "t"),
             array('bannerid' => 3, 'transparent' => "f"),
             array('bannerid' => 4, 'transparent' => "f"),
@@ -58,13 +63,28 @@ class Migration_128Test extends MigrationTest
         
         $this->upgradeToVersion(128);
 
-        $rsBanners = DBC::NewRecordSet("SELECT bannerid, transparent FROM banners ORDER BY bannerid");
+        $rsBanners = DBC::NewRecordSet("SELECT bannerid, transparent, parameters FROM banners ORDER BY bannerid");
         $rsBanners->find();
         $this->assertEqual(count($aAValues), $rsBanners->getRowCount());
         for ($idxBanner = 0; $idxBanner < count($aAValues); $idxBanner++) {
             $this->assertTrue($rsBanners->fetch());
             $this->assertEqual($aAValues[$idxBanner]['bannerid'], $rsBanners->get('bannerid'));
             $this->assertEqual($toInt[$aAValues[$idxBanner]['transparent']], $rsBanners->get('transparent'));
+            if ($idxBanner == 0) {
+                $params = $rsBanners->get('parameters');
+                $this->assertNotEqual($params, '');
+                $params = unserialize($params);
+                $this->assertEqual($params, array(
+                    1 => array(
+                        'link' => 'http://www.openads.org',
+                        'tar'  => '_blank'
+                    ),
+                    2 => array(
+                        'link' => 'http://www.openads.org',
+                        'tar'  => '_self'
+                    )
+                ));
+            }
         }
         $this->assertFalse($rsBanners->fetch());
     }

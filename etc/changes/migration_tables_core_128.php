@@ -53,6 +53,44 @@ class Migration_128 extends Migration
 	    if (PEAR::isError($result)) {
 	        return $this->_logErrorAndReturnFalse($result);
 	    }
+	    
+	    $sql = "
+	       SELECT
+	           bannerid,
+	           htmlcache
+	       FROM
+	           {$prefix}banners
+	       WHERE
+	           contenttype = 'swf'
+	    ";
+	    $result = $this->oDBH->getAssoc($sql);
+	    if (PEAR::isError($result)) {
+	        return $this->_logErrorAndReturnFalse($result);
+	    }
+	    foreach ($result as $bannerId => $code) {
+	        $code = preg_replace('/^.*(<object.*<\/object>).*$/s', '$1', $code);
+            preg_match_all('/alink(\d+).*?dest=(.*?)(?:&amp;atar\d+=(.*?))?(?:&amp;|\')/', $code, $m);
+            
+            if (count($m[0])) {
+                $params = array();
+                foreach ($m[1] as $k => $v) {
+                    $params[$v] = array(
+                        'link' => urldecode($m[2][$k]),
+                        'tar'  => isset($m[3][$k]) ? urldecode($m[3][$k]) : ''
+                    );
+                }
+                $params = serialize($params);
+                $sql = "
+        	       UPDATE {$prefix}banners
+        	       SET parameters = '".$this->oDBH->escape($params)."'
+        	       WHERE bannerid = '{$bannerId}'
+                ";
+        	    $result2 = $this->oDBH->exec($sql);
+        	    if (PEAR::isError($result2)) {
+        	        return $this->_logErrorAndReturnFalse($result2);
+        	    }
+            }
+	    }
 	    return true;
 	}
 }
