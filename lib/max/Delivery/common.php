@@ -28,6 +28,12 @@
 $Id$
 */
 
+$file = '/lib/max/Delivery/common.php';
+if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+    return;
+}
+$GLOBALS['_MAX']['FILES'][$file] = true;
+
 require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
 require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
 require_once MAX_PATH . '/lib/max/Delivery/log.php';

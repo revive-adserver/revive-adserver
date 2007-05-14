@@ -25,6 +25,12 @@
 $Id$
 */
 
+$file = '/lib/max/Dal/Delivery.php';
+if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+    return;
+}
+$GLOBALS['_MAX']['FILES'][$file] = true;
+
 function MAX_Dal_Delivery_Include()
 {
     static $included;

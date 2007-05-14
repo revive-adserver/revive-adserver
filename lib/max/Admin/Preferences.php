@@ -61,6 +61,9 @@ class MAX_Admin_Preferences
      */
     function loadPrefs($agencyId = null)
     {
+        if (!isset($GLOBALS['_MAX']['PREF'])) {
+            $GLOBALS['_MAX']['PREF'] = array();
+        }
         $conf = $GLOBALS['_MAX']['CONF'];
         if (is_null($agencyId)) {
             if (phpAds_isUser(phpAds_Agency)) {

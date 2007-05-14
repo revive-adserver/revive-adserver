@@ -53,7 +53,8 @@ class OA_Maintenance_Auto
         $aConf = $GLOBALS['_MAX']['CONF'];
         $aPref = $GLOBALS['_MAX']['PREF'];
 
-    	$iLastRun = $aPref['maintenance_timestamp'];
+    	$iLastRun = isset($aPref['maintenance_timestamp']) ?
+    	   $aPref['maintenance_timestamp'] : 0;
 
     	// Make sure that negative values don't break the script
     	if ($iLastRun > 0) {
@@ -62,6 +63,13 @@ class OA_Maintenance_Auto
 
     	if (time() >= $iLastRun + 3600)
     	{
+    	    if (!defined('MAX_VERSION')) {
+    	        // if the code is executed inside delivery constants need to
+    	        // be initialized
+        	    require_once MAX_PATH . '/constants.php';
+        	    setupConstants();
+    	    }
+    	    
     	    $oLock =& OA_DB_AdvisoryLock::factory();
 
     		if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE))

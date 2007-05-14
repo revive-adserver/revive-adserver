@@ -31,6 +31,12 @@ $Id$
  * @author     Chris Nutting <chris@m3.net>
  */
 
+$file = '/lib/max/Delivery/cookie.php';
+if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+    return;
+}
+$GLOBALS['_MAX']['FILES'][$file] = true;
+
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
 
 /**

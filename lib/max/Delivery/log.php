@@ -25,6 +25,12 @@
 $Id$
 */
 
+$file = '/lib/max/Delivery/log.php';
+if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+    return;
+}
+$GLOBALS['_MAX']['FILES'][$file] = true;
+
 /**
  * @package    MaxDelivery
  * @author     Andrew Hill <andrew@m3.net>

@@ -196,7 +196,7 @@ class OA_DB_AdvisoryLock
      */
     function _getId($sName)
     {
-        if (isset($GLOBALS['_MAX']['PREF'])) {
+        if (isset($GLOBALS['_MAX']['PREF']['instance_id'])) {
             $sId = $GLOBALS['_MAX']['PREF']['instance_id'];
         } else {
             $conf = $GLOBALS['_MAX']['CONF'];

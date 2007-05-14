@@ -76,7 +76,7 @@ class MAX_Maintenance_Statistics_Common_Task_DeleteOldData extends MAX_Maintenan
             $oSummarisedToDate = new Date();
             $oSummarisedToDate->copy($this->oController->updateIntermediateToDate);
         }
-        if (is_null($oSummarisedToDate)) {
+        if (empty($oSummarisedToDate)) {
             // Statistics were not summarised, don't delete
             return;
         }
