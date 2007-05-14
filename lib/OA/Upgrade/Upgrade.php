@@ -174,11 +174,17 @@ class OA_Upgrade
     {
         $this->aDBPackages = $this->seekRecoveryFile();
         $this->detectPAN();
+        $this->detectMAX();
         if (!$this->initDatabaseConnection())
         {
             return false;
         }
-        return $this->rollbackSchemas();
+        if (!$this->rollbackSchemas())
+        {
+            return false;
+        }
+        $this->_pickupRecoveryFile();
+        return true;
     }
 
     /**
@@ -337,6 +343,7 @@ class OA_Upgrade
                 $valid = (version_compare($this->versionInitialApplication,'200.500')>=0);
                 if ($valid)
                 {
+                    $this->versionInitialSchema['tables_core'] = '100';
                     $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
                     $this->package_file = 'openads_upgrade_2.0.12_to_2.3.32_beta.xml';
                     $this->aDsn         = $this->oPAN->aDsn;
@@ -375,6 +382,7 @@ class OA_Upgrade
                 $valid = (version_compare($this->versionInitialApplication,'v0.3.31-alpha')>=0);
                 if ($valid)
                 {
+                    $this->versionInitialSchema['tables_core'] = '500';
                     $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
                     $this->remove_max_version = true;
                     $this->package_file     = 'openads_upgrade_2.3.31_to_2.3.32_beta.xml';
