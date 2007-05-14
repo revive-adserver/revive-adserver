@@ -76,6 +76,7 @@
 
   <!-- Openads Package Integrity Plugin -->
   <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
+  <!-- Openads Delivery Generation Plugin -->
   <taskdef name="generatedelivery" classname="org.openads.ant.GenerateDeliveryTask"/>
 
   <target name="clean" description="Cleans all the files generated during the build.">
@@ -98,9 +99,10 @@
   
   <target name="generatedelivery"
     description="Generate optimized for speed delivery">
-    <generatedelivery outputdir="${basedir}/www/delivery" max_path="${basedir}">
+    <generatedelivery outputdir="${basedir}/www/delivery" max_path="${basedir}" template="${basedir}/www/delivery_dev/template.php">
       <deliveryfiles dir="${basedir}/www/delivery_dev">
         <include name="*.php"/>
+        <exclude name="template.php"/>
       </deliveryfiles>
     </generatedelivery>
   </target>
