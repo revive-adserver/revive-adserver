@@ -194,7 +194,7 @@ class Migration_127 extends Migration
 
 	function afterAddField__zones__session_capping()
 	{
-		return $this->migrateData() && $this->afterAddField('zones', 'session_capping');
+		return $this->afterAddField('zones', 'session_capping') && $this->migrateData();
 	}
 
 
@@ -216,7 +216,7 @@ class Migration_127 extends Migration
 	        $zonetype = $rsZones->get('zonetype');
 	        $what = $rsZones->get('what');
 	        $zoneid = $rsZones->get('zoneid');
-	        $zoneAdObjectHandler = OA_upgrade_getZoneAdObjectHandler($zonetype, $zoneid, $what);
+	        $zoneAdObjectHandler = OA_upgrade_getZoneAdObjectHandler($prefix, $zonetype, $zoneid, $what);
 	        if (!$zoneAdObjectHandler) {
 	            // Either zonetype 2 - keywords, which shouldn't be modified
 	            // or unknown / unused zone type.
@@ -250,13 +250,13 @@ function OA_upgrade_getAdObjectIds($sIdList, $adObjectType)
     return $aIds;
 }
 
-function OA_upgrade_getZoneAdObjectHandler($zonetype, $zone_id, $sIdList)
+function OA_upgrade_getZoneAdObjectHandler($prefix, $zonetype, $zone_id, $sIdList)
 {
     if ($zonetype == 0) {
-        return new ZoneBannerHandler($zone_id, $sIdList);
+        return new ZoneBannerHandler($prefix, $zone_id, $sIdList);
     }
     else if ($zonetype == 3) {
-        return new ZoneCampaignHandler($zone_id, $sIdList);
+        return new ZoneCampaignHandler($prefix, $zone_id, $sIdList);
     }
     else {
         return false; // Unknown / unused zone type
@@ -267,11 +267,13 @@ class ZoneAdObjectHandler
 {
     var $zone_id;
     var $aAdObjectIds;
+    var $prefix;
 
-    function ZoneAdObjectHandler($zone_id, $sIdList, $adObjectType)
+    function ZoneAdObjectHandler($prefix, $zone_id, $sIdList, $adObjectType)
     {
         $this->zone_id = $zone_id;
         $this->aAdObjectIds = OA_upgrade_getAdObjectIds($sIdList, $adObjectType);
+        $this->$prefix = $prefix;
     }
     
     /**
@@ -286,7 +288,7 @@ class ZoneAdObjectHandler
         $adObjectColumn = $this->getAdObjectColumn();
         foreach($this->aAdObjectIds as $adObjectId) {
             $sql = "
-                INSERT INTO $assocTable (zone_id, $adObjectColumn)
+                INSERT INTO {$this->prefix}$assocTable (zone_id, $adObjectColumn)
                 VALUES ({$this->zone_id}, $adObjectId)";
             $result = $oDbh->exec($sql);
             if (PEAR::isError($result)) {
@@ -299,9 +301,9 @@ class ZoneAdObjectHandler
 
 class ZoneBannerHandler extends ZoneAdObjectHandler
 {
-    function ZoneBannerHandler($zone_id, $sIdList)
+    function ZoneBannerHandler($prefix, $zone_id, $sIdList)
     {
-        $this->ZoneAdObjectHandler($zone_id, $sIdList, 'bannerid');
+        $this->ZoneAdObjectHandler($prefix, $zone_id, $sIdList, 'bannerid');
     }
     
     
@@ -318,7 +320,7 @@ class ZoneBannerHandler extends ZoneAdObjectHandler
 
 class ZoneCampaignHandler extends ZoneAdObjectHandler
 {
-    function ZoneCampaignHandler($zone_id, $sIdList)
+    function ZoneCampaignHandler($prefix, $zone_id, $sIdList)
     {
         $this->ZoneAdObjectHandler($zone_id, $sIdList, 'clientid');
     }
