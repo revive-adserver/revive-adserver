@@ -85,7 +85,12 @@ class OA_Environment_Manager
     function getPHPInfo()
     {
         $aResult['version'] = phpversion();
+        
         $aResult['memory_limit'] = ini_get('memory_limit');
+        if (preg_match('/^(\d+)M$/i', $aResult['memory_limit'], $m)) {
+            $aResult['memory_limit'] = $m[1] * 1024;
+        }
+        
         $aResult['magic_quotes_runtime'] = get_magic_quotes_runtime();
         $aResult['safe_mode'] = ini_get('safe_mode');
         $aResult['date.timezone'] = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
