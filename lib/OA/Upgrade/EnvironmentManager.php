@@ -43,13 +43,12 @@ class OA_Environment_Manager
 {
 
     var $aInfo = array();
-    var $aFilePermissions = array();
 
     function OA_Environment_Manager()
     {
         $this->aInfo['PERMS']['expected'] = array(
-                                                    MAX_PATH.'/var/',
-                                                   );
+                                                  MAX_PATH.'/var/',
+                                                 );
 
         $this->aInfo['PHP']['actual']       = array();
         $this->aInfo['PERMS']['actual']     = array();
@@ -76,21 +75,18 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['actual']     = $this->getPHPInfo();
         $this->aInfo['PERMS']['actual']   = $this->getFilePermissionErrors();
         $this->aInfo['FILES']['actual']   = $this->getFileIntegInfo();
-//        $this->aInfo['PAN']['actual']     = $this->getPANInfo();
-//        $this->aInfo['MAX']['actual']     = $this->getMAXInfo();
-//        $this->aInfo['DB']['actual']      = $this->getDBInfo();
         return $this->aInfo;
     }
 
     function getPHPInfo()
     {
         $aResult['version'] = phpversion();
-        
+
         $aResult['memory_limit'] = ini_get('memory_limit');
         if (preg_match('/^(\d+)M$/i', $aResult['memory_limit'], $m)) {
             $aResult['memory_limit'] = $m[1] * 1024;
         }
-        
+
         $aResult['magic_quotes_runtime'] = get_magic_quotes_runtime();
         $aResult['safe_mode'] = ini_get('safe_mode');
         $aResult['date.timezone'] = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
@@ -119,7 +115,7 @@ class OA_Environment_Manager
     {
         $aErrors = array();
 
-        foreach ($this->aFilePermissions as $file)
+        foreach ($this->aInfo['PERMS']['expected'] as $file)
         {
             if (empty($file))
             {
@@ -212,107 +208,9 @@ class OA_Environment_Manager
 
     function _checkCriticalFiles()
     {
-        //$this->aInfo['FILES']['actual'];
         $this->aInfo['FILES']['error'] = false;
         return true;
     }
-/*
-    function _checkCriticalPAN()
-    {
-        if ($this->aInfo['PAN']['actual'])
-        {
-            $result = version_compare($this->aInfo['PAN']['actual']['version'],
-                                      $this->aInfo['PAN']['expected']['version']
-                                     );
-            return ($result<0 ? false : true);
-        }
-        return true;
-    }
-
-    function _checkCriticalMAX()
-    {
-        $result = true;
-        if ($this->aInfo['MAX']['actual'])
-        {
-            $result = version_compare($this->aInfo['MAX']['actual']['version'],
-                                      $this->aInfo['MAX']['expected']['version']
-                                     );
-            return ($result<0 ? false : true);
-        }
-        return true;
-    }
-
-    function _getPANversion($aDsn)
-    {
-        $oDbh = OA_DB::singleton(OA_DB::getDsn($aDsn['database']));
-
-        $query = "SELECT config_version FROM {$this->aInfo['PAN']['actual']['table_prefix']}config";
-        $result = $oDbh->queryOne($query);
-        if (PEAR::isError($result))
-        {
-            return false;
-        }
-        return $result;
-    }
-
-    function getPANInfo()
-    {
-        if (file_exists(MAX_PATH.'/var/config.inc.php'))
-        {
-            include MAX_PATH.'/var/config.inc.php';
-            return $phpAds_config;
-        }
-        return false;
-    }
-
-    function _getMAXversion($aDsn)
-    {
-        $oDbh = OA_DB::singleton(OA_DB::getDsn($aDsn['database']));
-
-        $query = "SELECT value FROM {$this->aInfo['DB']['actual']['table']['prefix']}application_variable WHERE name='max_version'";
-        $result = $oDbh->queryOne($query);
-        if (PEAR::isError($result))
-        {
-            return false;
-        }
-        return $result;
-    }
-
-    function getMAXInfo()
-    {
-        if ($GLOBALS['_MAX']['CONF'])
-        {
-            return $GLOBALS['_MAX']['CONF'];
-        }
-        return false;
-    }
-
-    function getDBInfo()
-    {
-        if ($this->aInfo['PAN']['actual'])
-        {
-            $aResult['host']        = $this->aInfo['PAN']['actual']['dbhost'];
-            $aResult['type']        = 'mysql';
-            $aResult['port']        = $this->aInfo['PAN']['actual']['dbport'];
-            $aResult['username']    = $this->aInfo['PAN']['actual']['dbuser'];
-            $aResult['password']    = $this->aInfo['PAN']['actual']['dbpassword'];
-            $aResult['name']        = $this->aInfo['PAN']['actual']['dbname'];
-            $aResult['table']['type']   = $this->aInfo['PAN']['actual']['table_type'];
-            $aResult['table']['prefix'] = $this->aInfo['PAN']['actual']['table_prefix'];
-            $this->aInfo['PAN']['actual']['version']  = $this->_getPANversion($aResult);
-            return $aResult;
-        }
-        else if ($GLOBALS['_MAX']['CONF'])
-        {
-            $aResult = $GLOBALS['_MAX']['CONF']['database'];
-            $aResult['table']['type']   = $GLOBALS['_MAX']['CONF']['table']['type'];
-            $aResult['table']['prefix'] = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-            $this->aInfo['MAX']['actual']['version']  = $this->_getMAXversion($aResult);
-            return $aResult;
-        }
-        return false;
-    }
-*/
 
 }
 
