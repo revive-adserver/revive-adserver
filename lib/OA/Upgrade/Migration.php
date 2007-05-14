@@ -135,8 +135,8 @@ class Migration
     {
         return $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
-    
-    
+
+
     /**
      * Logs the MDB2_Error to the error log and returns false.
      *
@@ -186,11 +186,12 @@ class Migration
      */
     function insertColumnData($fromTable, $fromColumn, $toTable, $toColumn)
     {
-        $query  = "SELECT {$fromColumn} FROM {$fromTable}";
+        $prefix = $this->getPrefix();
+        $query  = "SELECT {$fromColumn} FROM {$prefix}{$fromTable}";
         $this->_log('select query prepared: '.$query);
         $aData  = $this->oDBH->queryCol($query);
 
-        $query  = "INSERT INTO {$toTable} ({$toColumn}) VALUES (:data)";
+        $query  = "INSERT INTO {$prefix}{$toTable} ({$toColumn}) VALUES (:data)";
         $stmt   = & $this->oDBH->prepare($query, array(), MDB2_PREPARE_MANIP);
         if (PEAR::isError($stmt))
         {
@@ -223,9 +224,9 @@ class Migration
     function updateColumn($fromTable, $fromColumn, $toTable, $toColumn)
     {
         // ERROR: $this not initialised
-
+        $prefix = $this->getPrefix();
         $statement  = $this->aSQLStatements['table_update_col'];
-        $query      = sprintf($statement, $toTable, $toColumn, $fromTable, $fromColumn);
+        $query      = sprintf($statement, $prefix.$toTable, $toColumn, $prefix.$fromTable, $fromColumn);
         $this->_log('select query prepared: '.$query);
         $result     = & $this->oDBH->exec($query);
         if (PEAR::isError($result))
