@@ -67,8 +67,7 @@ class Migration_122 extends Migration
 
 	function afterAddField__clients__updated()
 	{
-		return $this->afterAddField('clients', 'updated');
-		$this->migrateData();
+		return $this->migrateData() && $this->afterAddField('clients', 'updated');
 	}
 
 	function beforeRemoveField__clients__views()
@@ -153,9 +152,15 @@ class Migration_122 extends Migration
 	 
 	function migrateData()
 	{
-	    $conf = $GLOBALS['_MAX']['CONF'];
-        $sql = "INSERT INTO
-            {$conf['table']['prefix']}campaigns
+	    $prefix = $this->getPrefix();
+	    $tableCampaigns = $prefix . 'campaigns';
+	    $tableClients = $prefix . 'clients';
+        $sql = "
+        INSERT INTO
+            $tableCampaigns
+            (campaignid, campaignname, clientid, views, clicks, conversions,
+            expire, active, activate, priority, weight, target_impression,
+            target_click, target_conversion, anonymous, companion)
         SELECT
             clientid AS campaignid,
             clientname AS campaignname,
@@ -179,9 +184,15 @@ class Migration_122 extends Migration
             parent > 0";
         $result = $this->oDBH->exec($sql);
         if (PEAR::isError($result)) {
-            $this->_logError($result);
-            return false;
+            return $this->_logErrorAndReturnFalse($result);
         }
+        
+        $sql = "DELETE from $tableClients WHERE parent <> 0";
+        $result = $this->oDBH->exec($sql);
+        if (PEAR::isError($result)) {
+            return $this->_logErrorAndReturnFalse($result);
+        }
+        
         return true;
 	}
 

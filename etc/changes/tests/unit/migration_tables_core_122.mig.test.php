@@ -25,47 +25,55 @@
 $Id$
 */
 
-require_once MAX_PATH . '/etc/changes/migration_tables_core_128.php';
-require_once MAX_PATH . '/lib/OA/DB/Sql.php';
+require_once MAX_PATH . '/etc/changes/migration_tables_core_122.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 
 /**
- * Test for migration class #128.
+ * Test for migration class #122.
  *
  * @package    changes
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  */
-class Migration_128Test extends MigrationTest
+class migration_tables_core_122Test extends MigrationTest
 {
     function testMigrateData()
     {
-        $this->initDatabase(127, array('banners'));
+        $this->initDatabase(121, array('clients', 'campaigns'));
         
-        $toInt['f'] = 0;
-        $toInt['t'] = 1;
-        $aAValues = array(
-            array('bannerid' => 1, 'transparent' => "f"),
-            array('bannerid' => 2, 'transparent' => "t"),
-            array('bannerid' => 3, 'transparent' => "f"),
-            array('bannerid' => 4, 'transparent' => "f"),
-            array('bannerid' => 5, 'transparent' => "t")
+        $aCampaigns = array(
+            array('clientid' => 3, 'parent' => 1, 'views' => '100', target => '1000'),
+            array('clientid' => 4, 'parent' => 1, 'views' => '200', target => '1'),
+            array('clientid' => 5, 'parent' => 1, 'views' => '200', target => '0'),
         );
+        $cCampaigns = count($aCampaigns);
+        $aAValues = array(
+            array('clientid' => 1, 'parent' => 0, 'views' => '0', target => '0'),
+            array('clientid' => 2, 'parent' => 0, 'views' => '0', target => '0'),
+        );
+        $aAValues = array_merge($aAValues, $aCampaigns);
         foreach ($aAValues as $aValues) {
-            $sql = OA_DB_Sql::sqlForInsert('banners', $aValues);
+            $sql = OA_DB_Sql::sqlForInsert('clients', $aValues);
             $this->oDbh->exec($sql);
         }
-        
-        $this->upgradeToVersion(128);
 
-        $rsBanners = DBC::NewRecordSet("SELECT bannerid, transparent FROM banners ORDER BY bannerid");
-        $rsBanners->find();
-        $this->assertEqual(count($aAValues), $rsBanners->getRowCount());
-        for ($idxBanner = 0; $idxBanner < count($aAValues); $idxBanner++) {
-            $this->assertTrue($rsBanners->fetch());
-            $this->assertEqual($aAValues[$idxBanner]['bannerid'], $rsBanners->get('bannerid'));
-            $this->assertEqual($toInt[$aAValues[$idxBanner]['transparent']], $rsBanners->get('transparent'));
+        $this->upgradeToVersion(122);
+        
+        $rsCampaigns = DBC::NewRecordSet("SELECT * from campaigns");
+        $this->assertTrue($rsCampaigns->find());
+        $this->assertEqual($cCampaigns, $rsCampaigns->getRowCount());
+        for ($idxCampaign = 0; $idxCampaign < $cCampaigns; $idxCampaign++) {
+            $this->assertTrue($rsCampaigns->fetch());
+            $this->assertEqual($aCampaigns[$idxCampaign]['clientid'], $rsCampaigns->get('campaignid'));
+            $this->assertEqual($aCampaigns[$idxCampaign]['parent'], $rsCampaigns->get('clientid'));
+            $this->assertEqual($aCampaigns[$idxCampaign]['views'], $rsCampaigns->get('views'));
+            $priority = $aCampaigns[$idxCampaign]['target'] > 0 ? 5 : 0;
+            $this->assertEqual($priority, $rsCampaigns->get('priority'));
         }
-        $this->assertFalse($rsBanners->fetch());
+        
+        $rsClients = DBC::NewRecordSet("SELECT count(*) nclients FROM clients");
+        $this->assertTrue($rsClients->find());
+        $this->assertTrue($rsClients->fetch());
+        $this->assertEqual(count($aAValues) - $cCampaigns, $rsClients->get('nclients'));
     }
 }

@@ -26,6 +26,8 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/DB_Upgrade.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/DB_UpgradeAuditor.php';
 
 /**
  * Test for migration class #127.
@@ -69,6 +71,17 @@ class MigrationTest extends UnitTestCase
             $this->oTable->createTable($table);
             $this->oTable->truncateTable($table);
         }
+    }
+    
+    function upgradeToVersion($version)
+    {
+        $upgrader = new OA_DB_Upgrade();
+        $upgrader->initMDB2Schema();
+        $auditor   = new OA_DB_UpgradeAuditor();
+        $upgrader->oAuditor = &$auditor;
+        $this->assertTrue($auditor->init($upgrader->oSchema->db), 'error initialising upgrade auditor, probable error creating database action table');
+        $upgrader->init('constructive', 'tables_core', $version);
+        $this->assertTrue($upgrader->upgrade());
     }
 }
 ?>
