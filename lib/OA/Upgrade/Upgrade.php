@@ -137,7 +137,7 @@ class OA_Upgrade
         }
         if (PEAR::isError($this->oDbh))
         {
-            $this->oLogger->log($this->oDbh->getUserInfo());
+            $this->oLogger->log($this->oDbh->getMessage());
             $this->oDbh = null;
             return false;
         }
@@ -328,7 +328,7 @@ class OA_Upgrade
             if (PEAR::isError($this->oPAN->oDbh))
             {
                 $this->existing_installation_status = OA_STATUS_PAN_DBCONNECT_FAILED;
-                //$this->oLogger->log($oPAN->oDbh->getUserInfo());
+                //$this->oLogger->log($oPAN->oDbh->getMessage());
                 return false;
             }
             $this->versionInitialApplication = $this->oPAN->getPANversion();
@@ -451,9 +451,8 @@ class OA_Upgrade
         $this->aDsn['table']    = $aConfig['table'];
 
         $this->oLogger->log('Installation started '.OA::getNow());
-        $this->oLogger->log('Attempting to connect to database '.$this->aDsn['database'].' type '.$this->aDsn['type'].' with user '.$this->aDsn['username']);
+        $this->oLogger->log('Attempting to connect to database '.$this->aDsn['database']['name'].' with user '.$this->aDsn['database']['username']);
 
-        // hmm, should check for create database permissions?
         if (!$this->_createDatabase())
         {
             $this->oLogger->logError('Installation failed to create the database '.$this->aDsn['database']['name']);
@@ -567,19 +566,25 @@ class OA_Upgrade
         $GLOBALS['_MAX']['CONF']['table']['type']     = $this->aDsn['table']['type'];
         if (PEAR::isError($this->oDbh))
         {
+            if ($this->oDbh->getCode()==MDB2_ERROR_CONNECT_FAILED)
+            {
+                $this->oLogger->logError($this->oDbh->getMessage());
+                return false;
+            }
+
             $GLOBALS['_OA']['CONNECTIONS']  = array();
             $GLOBALS['_MDB2_databases']     = array();
 
             $result = OA_DB::createDatabase($this->aDsn['database']['name']);
             if (PEAR::isError($result)) // && !$ignore_errors)
             {
-                $this->oLogger->logError($result->getUserInfo());
+                $this->oLogger->logError($result->getMessage());
                 return false;
             }
             $this->oDbh = OA_DB::changeDatabase($this->aDsn['database']['name']);
             if (PEAR::isError($this->oDbh)) // && !$ignore_errors)
             {
-                $this->oLogger->logError($this->oDbh->getUserInfo());
+                $this->oLogger->logError($this->oDbh->getMessage());
                 $this->oDbh = null;
                 return false;
             }
@@ -1058,7 +1063,7 @@ class OA_Upgrade
         $result = $this->oParser->parse();
         if (PEAR::isError($result))
         {
-            $this->oLogger->logError('problem parsing the package file: '.$result->getUserInfo());
+            $this->oLogger->logError('problem parsing the package file: '.$result->getMessage());
             return false;
         }
         if (PEAR::isError($this->oParser->error))
