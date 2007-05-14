@@ -96,7 +96,6 @@ class Plugins_statisticsFieldsTargeting_statisticsFieldsTargeting extends Plugin
         return array();
     }
 
-
 }
 
 ?>

@@ -32,12 +32,13 @@ $words = array(
     '_ID'                  => 'ID',
     '_Required'            => 'Required Impressions',
     '_Requested'           => 'Requested Impressions',
-    '_Actual'              => 'Actual Impressions',
+    '_Actual'              => 'Impressions',
     '_Zone Forecast'       => 'Zone Forecast',
-    '_Zones Forecast'      => 'Sum of Zone Forecasts',
+    '_Zones Forecast'      => 'Sum Zone Forecasts',
     '_Zone Impressions'    => 'Zone Impressions',
-    '_Zones Impressions'   => 'Sum of Zone Impressions',
-    '_Average'             => 'Average'
+    '_Zones Impressions'   => 'Sum Zone Impressions',
+    '_Average'             => 'Average',
+    '_TargetRatio'         => 'Target Ratio'
 );
 
 ?>

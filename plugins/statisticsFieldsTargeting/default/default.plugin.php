@@ -95,6 +95,10 @@ class Plugins_statisticsFieldsTargeting_default_default extends Plugins_statisti
             'average'                         => array('name'   => MAX_Plugin_Translation::translate('_Average', $this->module, $this->package),
                                                        'format' => 'boolean',
                                                        'active' => true
+                                                      ),
+            'target_ratio'                    => array('name'   => MAX_Plugin_Translation::translate('_TargetRatio', $this->module, $this->package),
+                                                       'format' => 'percent',
+                                                       'active' => true
                                                       )
         );
     }
