@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * The mysql data access layer code the delivery engine.
+ * The pgsql data access layer code the delivery engine.
  *
  * @package    MaxDal
  * @subpackage Delivery
@@ -77,7 +77,7 @@ function OA_Dal_Delivery_connect($database = 'database') {
  * @param string $query    The SQL query to execute
  * @param string $database The database to use for this query
  *                         (Must match the database section name in the conf file)
- * @return resource|false  The MySQL resource if the query suceeded
+ * @return resource|false  The PgSQL resource if the query suceeded
  *                          or false on failure
  */
 function OA_Dal_Delivery_query($query, $database = 'database') {
@@ -329,20 +329,20 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
     // If there are paid ads, prepare array of priority totals
     // to allow delivery to do the scaling work later
     if (is_array($aRows['ads'])) {
-        $totals['ads'] = _mysqlGetTotalPrioritiesByCP($aRows['ads']);
+        $totals['ads'] = _pgsqlGetTotalPrioritiesByCP($aRows['ads']);
     }
     // If there are low priority ads, sort by priority
     if (is_array($aRows['lAds'])) {
-        uasort($aRows['lAds'], '_mysqlSortArrayPriority');
+        uasort($aRows['lAds'], '_pgsqlSortArrayPriority');
     }
     // If there are paid companion ads, prepare array of priority totals
     // to allow delivery to do the scaling work later
     if (is_array($aRows['cAds'])) {
-        $totals['cAds'] = _mysqlGetTotalPrioritiesByCP($aRows['ads']);
+        $totals['cAds'] = _pgsqlGetTotalPrioritiesByCP($aRows['ads']);
     }
     // If there are low priority companion ads, sort by priority
     if (is_array($aRows['clAds'])) {
-        uasort($aRows['clAds'], '_mysqlSortArrayPriority');
+        uasort($aRows['clAds'], '_pgsqlSortArrayPriority');
     }
     $aRows['priority'] = $totals;
     return $aRows;
@@ -362,6 +362,23 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
 function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = true) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
+    $aRows['xAds']  = array();
+    $aRows['cAds']  = array();
+    $aRows['clAds'] = array();
+    $aRows['ads']   = array();
+    $aRows['lAds']  = array();
+    $aRows['count_active'] = 0;
+    $aRows['zone_companion'] = false;
+    $aRows['count_active'] = 0;
+
+    $totals = array(
+        'xAds'  => 0,
+        'cAds'  => 0,
+        'clAds' => 0,
+        'ads'   => 0,
+        'lAds'  => 0
+    );
+
     if ($campaignid > 0) {
         $precondition = " AND d.campaignid = '".$campaignid."' ";
     } else {
@@ -379,27 +396,60 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
             return null;
         }
     }
-    while ($aRow = pg_fetch_assoc($rAds)) {
-        $row['weight'] = (empty($aRow['weight'])) ? 1 : $aRow['weight'];
-        $row['campaign_weight'] = (empty($aRow['campaign_weight'])) ? 1 : $aRow['campaign_weight'];
-        $aRow['priority'] = $aRow['weight'] * $aRow['campaign_weight'];
-        if ($aRow['priority'] > 0) {
-            $aRows[] = $aRow;
+    while ($aAd = pgsql_fetch_assoc($rAds)) {
+        // Is the ad Exclusive, Low, or Normal Priority?
+        if ($aAd['campaign_priority'] == -1) {
+            // Ad is in an exclusive placement
+            $aAd['priority'] = $aAd['campaign_weight'] * $aAd['weight'];
+            $aRows['xAds'][$aAd['ad_id']] = $aAd;
+            $aRows['count_active']++;
+            $totals['xAds'] += $aAd['priority'];
+        } elseif ($aAd['campaign_priority'] == 0) {
+            // Ad is in a low priority placement
+            $aAd['priority'] = $aAd['campaign_weight'] * $aAd['weight'];
+            $aRows['lAds'][$aAd['ad_id']] = $aAd;
+            $aRows['count_active']++;
+            $totals['lAds'] += $aAd['priority'];
+        } else {
+            // Ad is in a paid placement
+            $aRows['ads'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
+            $aRows['count_active']++;
+        }
+        // Also store Companion ads in additional array
+        if ($aAd['campaign_companion'] == 1) {
+            if ($aAd['campaign_priority'] == 0) {
+                // Store a low priority companion ad
+                $aRows['zone_companion'][] = $aAd['placement_id'];
+                $aRows['clAds'][$aAd['ad_id']] = $aAd;
+                $totals['clAds'] += $aAd['priority'];
+            } else {
+                // Sore a paid priority companion ad
+                $aRows['zone_companion'][] = $aAd['placement_id'];
+                $aRows['cAds'][$aAd['ad_id']] = $aAd;
+            }
+
         }
     }
-    if (isset($aRows)) {
-        uasort($aRows, '_mysqlSortArrayPriority');
+    // If there are paid ads, prepare array of priority totals
+    // to allow delivery to do the scaling work later
+    if (is_array($aRows['ads'])) {
+        $totals['ads'] = _pgsqlGetTotalPrioritiesByCP($aRows['ads']);
     }
-    $aAds = array();
-    $aAds['ads'] = array();
-    $aAds['priority']['ads'] = 0;
-    if (isset($aRows)) {
-        $aAds['ads'] = $aRows;
-        foreach ($aRows as $aRow) {
-            $aAds['priority']['ads'] += $aRow['priority'];
-        }
+    // If there are low priority ads, sort by priority
+    if (is_array($aRows['lAds'])) {
+        uasort($aRows['lAds'], '_pgsqlSortArrayPriority');
     }
-    return $aAds;
+    // If there are paid companion ads, prepare array of priority totals
+    // to allow delivery to do the scaling work later
+    if (is_array($aRows['cAds'])) {
+        $totals['cAds'] = _pgsqlGetTotalPrioritiesByCP($aRows['ads']);
+    }
+    // If there are low priority companion ads, sort by priority
+    if (is_array($aRows['clAds'])) {
+        uasort($aRows['clAds'], '_pgsqlSortArrayPriority');
+    }
+    $aRows['priority'] = $totals;
+    return $aRows;
 }
 
 /**
@@ -1011,44 +1061,51 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     $aColumns = array(
-        'd.bannerid AS ad_id',
-        'd.campaignid AS placement_id',
-        'd.active AS active',
-        'd.description AS name',
-        'd.storagetype AS type',
-        'd.contenttype AS contenttype',
-        'd.pluginversion AS pluginversion',
-        'd.filename AS filename',
-        'd.imageurl AS imageurl',
-        'd.htmltemplate AS htmltemplate',
-        'd.htmlcache AS htmlcache',
-        'd.width AS width',
-        'd.height AS height',
-        'd.weight AS weight',
-        'd.seq AS seq',
-        'd.target AS target',
-        'd.url AS url',
-        'd.alt AS alt',
-        'd.status AS status',
-        'd.bannertext AS bannertext',
-        'd.autohtml AS autohtml',
-        'd.adserver AS adserver',
-        'd.block AS block_ad',
-        'd.capping AS cap_ad',
-        'd.session_capping AS session_cap_ad',
-        'd.compiledlimitation AS compiledlimitation',
-        'd.append AS append',
-        'd.appendtype AS appendtype',
-        'd.bannertype AS bannertype',
-        'd.alt_filename AS alt_filename',
-        'd.alt_imageurl AS alt_imageurl',
-        'd.alt_contenttype AS alt_contenttype',
-        'az.priority AS priority',
-        'm.campaignid AS campaign_id',
-        'm.weight AS campaign_weight',
-        'm.block AS block_campaign',
-        'm.capping AS cap_campaign',
-        'm.session_capping AS session_cap_campaign'
+            'd.bannerid AS ad_id',
+            'd.campaignid AS placement_id',
+            'd.active AS active',
+            'd.description AS name',
+            'd.storagetype AS type',
+            'd.contenttype AS contenttype',
+            'd.pluginversion AS pluginversion',
+            'd.filename AS filename',
+            'd.imageurl AS imageurl',
+            'd.htmltemplate AS htmltemplate',
+            'd.htmlcache AS htmlcache',
+            'd.width AS width',
+            'd.height AS height',
+            'd.weight AS weight',
+            'd.seq AS seq',
+            'd.target AS target',
+            'd.url AS url',
+            'd.alt AS alt',
+            'd.status AS status',
+            'd.bannertext AS bannertext',
+            'd.autohtml AS autohtml',
+            'd.adserver AS adserver',
+            'd.block AS block_ad',
+            'd.capping AS cap_ad',
+            'd.session_capping AS session_cap_ad',
+            'd.compiledlimitation AS compiledlimitation',
+            'd.acl_plugins AS acl_plugins',
+            'd.append AS append',
+            'd.appendtype AS appendtype',
+            'd.bannertype AS bannertype',
+            'd.alt_filename AS alt_filename',
+            'd.alt_imageurl AS alt_imageurl',
+            'd.alt_contenttype AS alt_contenttype',
+            'd.parameters AS parameters',
+            'd.transparent AS transparent',
+            'az.priority AS priority',
+            'az.priority_factor AS priority_factor',
+            'az.to_be_delivered AS to_be_delivered',
+            'm.campaignid AS campaign_id',
+            'm.priority AS campaign_priority',
+            'm.weight AS campaign_weight',
+            'm.companion AS campaign_companion',
+            'm.block AS block_campaign',
+            'm.capping AS cap_campaign',
+            'm.session_capping AS session_cap_campaign'
     );
 
     $aTables = array(
@@ -1356,10 +1413,58 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
  *
  * @return boolean  Compare result
  */
-function _mysqlSortArrayPriority($a, $b)
+function _pgsqlSortArrayPriority($a, $b)
 {
     $compare = ($a['priority'] > $b['priority']) ? -1 : 1;
     return $compare;
+}
+
+
+/**
+ * A private method to calculate total expected priority values
+ * for each campaign priority. The values are used later during
+ * delivery to scale priorities to 1
+ *
+ * @param  array    $aAdsByCP   Ads array grouped by CP
+ *
+ * @return array    Array of total priorities by campaign priority
+ */
+
+function _pgsqlGetTotalPrioritiesByCP($aAdsByCP)
+{
+    $totals = array();
+
+    $blank_priority = 1;
+    $total_priority_cp = array();
+
+    foreach ($aAdsByCP as $campaign_priority => $aAds) {
+        $total_priority_cp[$campaign_priority] = 0;
+        foreach ($aAds as $key => $aAd) {
+            $blank_priority -= (double)$aAd['priority'];
+            if ($aAd['to_be_delivered']) {
+                $priority = $aAd['priority'] * $aAd['priority_factor'];
+            } else {
+                $priority = 0.00001;
+            }
+            $total_priority_cp[$campaign_priority] += $priority;
+            $aAdsByCP[$campaign_priority][$key]['priority'] = $priority;
+        }
+    }
+
+    // Sort by ascending CP
+    ksort($total_priority_cp);
+
+    // Store blank priority, ensuring that small rounding errors are
+    // not taken into account
+    $total_priority = $blank_priority <= 1e-15 ? 0 : $blank_priority;
+
+    // Calculate totals for each campaign priority
+    foreach($total_priority_cp as $campaign_priority => $priority) {
+        $total_priority += $priority;
+        $totals[$campaign_priority] = $priority / $total_priority;
+    }
+
+    return $totals;
 }
 
 ?>

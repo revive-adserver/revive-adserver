@@ -135,7 +135,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
 
     // Store the original zone, campaign or banner IDs for later use
     if (strpos($what,'zone:') === 0) {
-		$originalZoneId = intval(substr($what,5));
+        $originalZoneId = intval(substr($what,5));
     } elseif (strpos($what,'campaignid:') === 0) {
         $originalCampaignId = intval(substr($what,11));
     } elseif (strpos($what, 'bannerid:') === 0) {
@@ -155,16 +155,16 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
     $g_append = '';
     $g_prepend = '';
     while (($what != '') && $found == false) {
-		// Get first part, store second part
-		$ix = strpos($what, '|');
-		if ($ix === false) {
-			$remaining = '';
-		} else {
-			$remaining = substr($what, $ix+1);
-			$what = substr($what, 0, $ix);
-		}
+        // Get first part, store second part
+        $ix = strpos($what, '|');
+        if ($ix === false) {
+            $remaining = '';
+        } else {
+            $remaining = substr($what, $ix+1);
+            $what = substr($what, 0, $ix);
+        }
         if (strpos($what, 'zone:') === 0) {
-			$zoneId  = intval(substr($what,5));
+            $zoneId  = intval(substr($what,5));
             $row = _adSelectZone($zoneId, $context, $source, $richmedia);
         } else {
             // Expand paths to regular statements
@@ -266,18 +266,27 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
  */
 function _adSelectDirect($what, $campaignid = '', $context = array(), $source = '', $richMedia = true, $lastpart = true)
 {
-    $aLinkedAds = MAX_cacheGetLinkedAds($what, $campaignid, $lastpart);
-    $aLinkedAd = _adSelect($aLinkedAds, $context, $source, $richMedia);
+    $aDirectLinkedAds = MAX_cacheGetLinkedAds($what, $campaignid, $lastpart);
+
+    $aLinkedAd = _adSelectCommon($aDirectLinkedAds);
+
     if (is_array($aLinkedAd)) {
-    	$aLinkedAd['zoneid'] = 0;
-		$aLinkedAd['bannerid'] = $aLinkedAd['ad_id'];
-		$aLinkedAd['storagetype'] = $aLinkedAd['type'];
-		$aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
-		$aLinkedAd['prepend'] = '';
+        $aLinkedAd['zoneid'] = 0;
+        $aLinkedAd['bannerid'] = $aLinkedAd['ad_id'];
+        $aLinkedAd['storagetype'] = $aLinkedAd['type'];
+        $aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
+        $aLinkedAd['prepend'] = '';
 
-		return $aLinkedAd;
+        return $aLinkedAd;
     }
-
+    if (!empty($aDirectLinkedAds['default_banner_url'])) {
+        return array(
+           'default' => true,
+           'default_banner_url' =>  $aZoneLinkedAds['default_banner_url'],
+           'default_banner_dest' => $aZoneLinkedAds['default_banner_dest']
+        );
+    }
+    
     return false;
 }
 
@@ -293,12 +302,12 @@ function _adSelectDirect($what, $campaignid = '', $context = array(), $source = 
  */
 function _getNextZone($zoneId, $arrZone)
 {
-	if (!empty($arrZone['chain']) && (substr($arrZone['chain'],0,5) == 'zone:')) {
-		return intval(substr($arrZone['chain'],5));
-	}
-	else {
-		return $zoneId;
-	}
+    if (!empty($arrZone['chain']) && (substr($arrZone['chain'],0,5) == 'zone:')) {
+        return intval(substr($arrZone['chain'],5));
+    }
+    else {
+        return $zoneId;
+    }
 }
 
 
@@ -317,88 +326,109 @@ function _getNextZone($zoneId, $arrZone)
  */
 function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = true)
 {
-	global $g_append, $g_prepend;
-	while (!in_array($zoneId, $GLOBALS['_MAX']['followedChain'])) {
-		$GLOBALS['_MAX']['followedChain'][] = $zoneId;
-		$appendedThisZone = false;
+    global $g_append, $g_prepend;
+    while (!in_array($zoneId, $GLOBALS['_MAX']['followedChain'])) {
+        $GLOBALS['_MAX']['followedChain'][] = $zoneId;
+        $appendedThisZone = false;
 
-		// Get all ads which are linked to the zone
-		$aZoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId);
+        // Get all ads which are linked to the zone
+        $aZoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId);
 
-		if ($zoneId != 0 && MAX_limitationsIsZoneForbidden($zoneId, $aZoneLinkedAds)) {
-			$zoneId = _getNextZone($zoneId, $aZoneLinkedAds);
-			continue;
-		}
+        if ($zoneId != 0 && MAX_limitationsIsZoneForbidden($zoneId, $aZoneLinkedAds)) {
+            $zoneId = _getNextZone($zoneId, $aZoneLinkedAds);
+            continue;
+        }
 
-		if (is_array($aZoneLinkedAds)) {
-		    if ($aZoneLinkedAds['forceappend'] == 't') {
-		        $g_prepend .= $aZoneLinkedAds['prepend'];
-		        $g_append = $aZoneLinkedAds['append'] . $g_append;
-		        $appendedThisZone = true;
-		    }
-		    // Are there any ads linked to the zone?
-            if (!empty($aZoneLinkedAds['count_active'])) {
-		        // Get an ad from the any exclusive campaigns first...
-		        $aLinkedAd = _adSelect($aZoneLinkedAds, $context, $source, $richMedia, 'xAds');
-		        // If no ad selected, and a previous ad on the page has set that companion ads should be selected...
-                if (!is_array($aLinkedAd) && is_array($aZoneLinkedAds['zone_companion']) && !empty($context)) {
-                    // Try to select a normal companion ad...
-                    $aLinkedAd = _adSelect($aZoneLinkedAds, $context, $source, $richMedia, 'cAds');
-                    // If still no ad selected...
-                    if (!is_array($aLinkedAd)) {
-                        // Select one of the low-priority companion ads
-                        $aLinkedAd = _adSelect($aZoneLinkedAds, $context, $source, $richMedia, 'clAds');
-                    }
+        if (is_array($aZoneLinkedAds)) {
+            if ($aZoneLinkedAds['forceappend'] == 't') {
+                $g_prepend .= $aZoneLinkedAds['prepend'];
+                $g_append = $aZoneLinkedAds['append'] . $g_append;
+                $appendedThisZone = true;
+            }
+
+            $aLinkedAd = _adSelectCommon($aZoneLinkedAds);
+            
+            if (is_array($aLinkedAd)) {
+                $aLinkedAd['zoneid'] = $zoneId;
+                $aLinkedAd['bannerid'] = $aLinkedAd['ad_id'];
+                $aLinkedAd['storagetype'] = $aLinkedAd['type'];
+                $aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
+                $aLinkedAd['zone_companion'] = $aZoneLinkedAds['zone_companion'];
+                $aLinkedAd['block_zone'] = $aZoneLinkedAds['block_zone'];
+                $aLinkedAd['cap_zone'] = $aZoneLinkedAds['cap_zone'];
+                $aLinkedAd['session_cap_zone'] = $aZoneLinkedAds['session_cap_zone'];
+
+                if (!$appendedThisZone) {
+                    $aLinkedAd['append'] .= $aZoneLinkedAds['append'] . $g_append;
+                    $aLinkedAd['prepend'] = $g_prepend . $aZoneLinkedAds['prepend'];
+                } else {
+                    $aLinkedAd['append'] .= $g_append;
+                    $aLinkedAd['prepend'] = $g_prepend;
                 }
-                // If still no ad selected...
-                if (!is_array($aLinkedAd)) {
-                    // Select one of the normal ads
-                    // The normal ads are now grouped by campaign-priority so we need to iterate over the
-                    for ($i=10;$i>0;$i--) {
-                        if (!empty($aZoneLinkedAds['ads'][$i])) {
-                            $aLinkedAd = _adSelect($aZoneLinkedAds, $context, $source, $richMedia, 'ads', $i);
-                            // Did we pick an ad from this campaign-priority level?
-                            if (is_array($aLinkedAd)) { break; }
-                        }
-                    }
-                }
-                // If still no ad selected...
-                if (!is_array($aLinkedAd)) {
-                    // Select one of the low-priority ads
-                    $aLinkedAd = _adSelect($aZoneLinkedAds, $context, $source, $richMedia, 'lAds');
-                }
-		    	if (is_array($aLinkedAd)) {
-					$aLinkedAd['zoneid'] = $zoneId;
-					$aLinkedAd['bannerid'] = $aLinkedAd['ad_id'];
-					$aLinkedAd['storagetype'] = $aLinkedAd['type'];
-					$aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
-					$aLinkedAd['zone_companion'] = $aZoneLinkedAds['zone_companion'];
-					$aLinkedAd['block_zone'] = $aZoneLinkedAds['block_zone'];
-					$aLinkedAd['cap_zone'] = $aZoneLinkedAds['cap_zone'];
-					$aLinkedAd['session_cap_zone'] = $aZoneLinkedAds['session_cap_zone'];
+                return ($aLinkedAd);
+            }
 
-					if (!$appendedThisZone) {
-	                    $aLinkedAd['append'] .= $aZoneLinkedAds['append'] . $g_append;
-	                    $aLinkedAd['prepend'] = $g_prepend . $aZoneLinkedAds['prepend'];
-	                } else {
-	                    $aLinkedAd['append'] .= $g_append;
-	                    $aLinkedAd['prepend'] = $g_prepend;
-	                }
-					return ($aLinkedAd);
-		    	}
-			}
-			$zoneId = _getNextZone($zoneId, $aZoneLinkedAds);
-		}
-	}
-	if (!empty($aZoneLinkedAds['default_banner_url'])) {
-	    return array(
-	       'default' => true,
-	       'default_banner_url' =>  $aZoneLinkedAds['default_banner_url'],
-	       'default_banner_dest' => $aZoneLinkedAds['default_banner_dest']
-	    );
-	} else {
-	   return false;
-	}
+            $zoneId = _getNextZone($zoneId, $aZoneLinkedAds);
+        }
+    }
+    if (!empty($aZoneLinkedAds['default_banner_url'])) {
+        return array(
+           'default' => true,
+           'default_banner_url' =>  $aZoneLinkedAds['default_banner_url'],
+           'default_banner_dest' => $aZoneLinkedAds['default_banner_dest']
+        );
+    }
+    
+    return false;
+}
+
+
+/**
+ * This function selects an ad cyclying through exclusive, paid, low-pri etc.
+ *
+ * @param string  $aAds         The array of ads to pick from
+ *
+ * @return array|false          Returns an ad-array (see page DocBlock) or false if no ad found
+ */
+function _adSelectCommon($aAds)
+{
+    // Are there any ads linked?
+    if (!empty($aAds['count_active'])) {
+        // Get an ad from the any exclusive campaigns first...
+        $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'xAds');
+        // If no ad selected, and a previous ad on the page has set that companion ads should be selected...
+        if (!is_array($aLinkedAd) && isset($aAds['zone_companion']) && is_array($aAds['zone_companion']) && !empty($context)) {
+            // Try to select a normal companion ad...
+            $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'cAds');
+            // If still no ad selected...
+            if (!is_array($aLinkedAd)) {
+                // Select one of the low-priority companion ads
+                $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'clAds');
+            }
+        }
+        // If still no ad selected...
+        if (!is_array($aLinkedAd)) {
+            // Select one of the normal ads
+            // The normal ads are now grouped by campaign-priority so we need to iterate over the
+            for ($i=10;$i>0;$i--) {
+                if (!empty($aAds['ads'][$i])) {
+                    $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'ads', $i);
+                    // Did we pick an ad from this campaign-priority level?
+                    if (is_array($aLinkedAd)) { break; }
+                }
+            }
+        }
+        // If still no ad selected...
+        if (!is_array($aLinkedAd)) {
+            // Select one of the low-priority ads
+            $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'lAds');
+        }
+        if (is_array($aLinkedAd)) {
+            return $aLinkedAd;
+        }
+    }
+
+    return false;
 }
 
 
@@ -469,46 +499,46 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
         }
     }
 
-	while ($prioritysum && sizeof($aAds) > 0) {
-	    $low = 0;
-		$high = 0;
-		if (($adArrayVar == 'ads') || ($adArrayVar == 'cAds')) {
-		    // Paid campaigns have a sum of priorities of unity, so pick
-		    // a random number between 0 and $prioritysum, inclusive.
+    while ($prioritysum && sizeof($aAds) > 0) {
+        $low = 0;
+        $high = 0;
+        if (($adArrayVar == 'ads') || ($adArrayVar == 'cAds')) {
+            // Paid campaigns have a sum of priorities of unity, so pick
+            // a random number between 0 and $prioritysum, inclusive.
             $ranweight = (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) / $GLOBALS['_MAX']['MAX_RAND']) * $prioritysum;
             $paidPriorityCounter = 0;
-		} else {
-		    // All other campaigns have integer-based priority values, so
-		    // select a random number between 0 and the sum of all the
-		    // priority values
+        } else {
+            // All other campaigns have integer-based priority values, so
+            // select a random number between 0 and the sum of all the
+            // priority values
             $ranweight = ($prioritysum > 1) ? mt_rand(0, $prioritysum - 1) : 0;
-		}
-		// Perform selection of an ad, based on the random number
-		foreach($aAds as $adId => $aLinkedAd) {
-			if (is_array($aLinkedAd)) {
-				$placementId = $aLinkedAd['placement_id'];
-				$low = $high;
-				$high += $aLinkedAd['priority'];
-				if ($high > $ranweight && $low <= $ranweight) {
-				    // We have already tested the delivery limitations against the current impression
-				    return $aLinkedAd;
-				} else {
-				    // This ad did not match the random value generated. If we
-				    // are also looking for a paid placement ad, count the number
-				    // of iterations (ads we have looked at), so that we know
-				    // when we have selected the blank ad
-				    if (($adArrayVar == 'ads') || ($adArrayVar == 'cAds')) {
-				        $paidPriorityCounter++;
-				    }
-				    // Have we tested all the ads yet?
-				    if ($paidPriorityCounter == count($aAds)) {
-				        // Yes, and no ad was suitable, so no paid ad should be shown
-				        return;
-				    }
-				}
-			}
-		}
-	}
+        }
+        // Perform selection of an ad, based on the random number
+        foreach($aAds as $adId => $aLinkedAd) {
+            if (is_array($aLinkedAd)) {
+                $placementId = $aLinkedAd['placement_id'];
+                $low = $high;
+                $high += $aLinkedAd['priority'];
+                if ($high > $ranweight && $low <= $ranweight) {
+                    // We have already tested the delivery limitations against the current impression
+                    return $aLinkedAd;
+                } else {
+                    // This ad did not match the random value generated. If we
+                    // are also looking for a paid placement ad, count the number
+                    // of iterations (ads we have looked at), so that we know
+                    // when we have selected the blank ad
+                    if (($adArrayVar == 'ads') || ($adArrayVar == 'cAds')) {
+                        $paidPriorityCounter++;
+                    }
+                    // Have we tested all the ads yet?
+                    if ($paidPriorityCounter == count($aAds)) {
+                        // Yes, and no ad was suitable, so no paid ad should be shown
+                        return;
+                    }
+                }
+            }
+        }
+    }
 }
 
 /**
@@ -524,55 +554,55 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Excludelist banners
-	if (isset($aContext['banner']['exclude'][$aAd['ad_id']])) {
-		return false;
-	}
+    if (isset($aContext['banner']['exclude'][$aAd['ad_id']])) {
+        return false;
+    }
 
-	if (isset($aContext['campaign']['exclude'][$aAd['placement_id']])) {
-	    // Excludelist campaigns
-		return false;
-	}
+    if (isset($aContext['campaign']['exclude'][$aAd['placement_id']])) {
+        // Excludelist campaigns
+        return false;
+    }
 
-	if (sizeof($aContext['banner']['include']) && !isset($aContext['banner']['include'][$aAd['ad_id']])) {
-	    // Includelist banners
-		return false;
-	}
+    if (sizeof($aContext['banner']['include']) && !isset($aContext['banner']['include'][$aAd['ad_id']])) {
+        // Includelist banners
+        return false;
+    }
 
-	if (sizeof($aContext['campaign']['include']) && !isset($aContext['campaign']['include'][$aAd['placement_id']])) {
-	    // Includelist campaigns
-		return false;
-	}
+    if (sizeof($aContext['campaign']['include']) && !isset($aContext['campaign']['include'][$aAd['placement_id']])) {
+        // Includelist campaigns
+        return false;
+    }
 
-	if (   // Exclude richmedia banners if no alt image is specified
-	             $richMedia == false &&
-	             $aAd['alt_filename'] == '' &&
-	             !($aAd['contenttype'] == 'jpeg' || $aAd['contenttype'] == 'gif' || $aAd['contenttype'] == 'png') &&
-	             !($aAd['type'] == 'url' && $aAd['contenttype'] == '')
-	         ) {
-	    return false;
-	}
+    if (   // Exclude richmedia banners if no alt image is specified
+                 $richMedia == false &&
+                 $aAd['alt_filename'] == '' &&
+                 !($aAd['contenttype'] == 'jpeg' || $aAd['contenttype'] == 'gif' || $aAd['contenttype'] == 'png') &&
+                 !($aAd['type'] == 'url' && $aAd['contenttype'] == '')
+             ) {
+        return false;
+    }
 
-	if (MAX_limitationsIsAdForbidden($aAd)) {
-		return false;
-	}
+    if (MAX_limitationsIsAdForbidden($aAd)) {
+        return false;
+    }
 
-	if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'html' && ($aAd['adserver'] != 'max' || preg_match("#src\s?=\s?['\"]http:#", $aAd['htmlcache']))) {
-	    // HTML Banners that contain 'http:' on SSL
-		return false;
-	}
+    if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'html' && ($aAd['adserver'] != 'max' || preg_match("#src\s?=\s?['\"]http:#", $aAd['htmlcache']))) {
+        // HTML Banners that contain 'http:' on SSL
+        return false;
+    }
 
-	if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'url' && (substr($aAd['imageurl'], 0, 5) == 'http:')) {
-	    // It only matters if the initial call is to non-SSL (it can/could contain http:)
-		return false;
-	}
+    if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'url' && (substr($aAd['imageurl'], 0, 5) == 'http:')) {
+        // It only matters if the initial call is to non-SSL (it can/could contain http:)
+        return false;
+    }
 
-	if ($conf['delivery']['acls'] && !MAX_limitationsCheckAcl($aAd, $source)) {
-		return false;
-	}
+    if ($conf['delivery']['acls'] && !MAX_limitationsCheckAcl($aAd, $source)) {
+        return false;
+    }
 
-	// If any of the above failed, this function will have already returned false
-	// So to get this far means that the ad was valid
-	return true;
+    // If any of the above failed, this function will have already returned false
+    // So to get this far means that the ad was valid
+    return true;
 }
 
 function _adSelectBuildContextArray(&$aLinkedAds, $context)
@@ -581,59 +611,59 @@ function _adSelectBuildContextArray(&$aLinkedAds, $context)
         'campaign' => array('exclude' => array(), 'include' => array()),
         'banner'   => array('exclude' => array(), 'include' => array()),
     );
-	if (is_array($context) && !empty($context)) {
-	    $cContext = count($context);
-		for ($i=0; $i < $cContext; $i++) {
-		    list ($key, $value) = each($context[$i]);
+    if (is_array($context) && !empty($context)) {
+        $cContext = count($context);
+        for ($i=0; $i < $cContext; $i++) {
+            list ($key, $value) = each($context[$i]);
 
-			$valueArray = explode(':', $value);
+            $valueArray = explode(':', $value);
 
-			if (count($valueArray) == 1) {
+            if (count($valueArray) == 1) {
                 list($value) = $valueArray;
-			} else {
+            } else {
                 list($type, $value) = $valueArray;
-			}
+            }
 
-			switch($type) {
-			    case 'campaignid':
-    			    switch ($key) {
-    			        case '!=': $excludeCampaignID[$value] = true; break;
-    			        case '==': $includeCampaignID[$value] = true; break;
-    			    }
-    			break;
-    			case 'companionid':
-    			    switch ($key) {
-    			        case '!=': $excludeCampaignID[$value]   = true; break;
-    			        case '==':
-    			         if ($adArrayVar == 'cAds') {
-    			             $includeCampaignID[$value] = true;
-            			    // Rescale the priorities for the available companion campaigns...
-            			    $companionPrioritySum = 0;
-            			    foreach ($aLinkedAds[$adArrayVar] as $iAdId => $aAd) {
-            			        if (isset($aContext['campaign']['include'][$aAd['placement_id']])) {
-            			            $companionPrioritySum += $aAd['priority'];
-            			        } else {
-            			            unset($aLinkedAds[$adArrayVar][$iAdId]);
-            			        }
-            			    }
-            			    if ($companionPrioritySum > 0) {
-                			    $companionScaleFactor = 1 / $companionPrioritySum;
-                			    foreach($aLinkedAds[$adArrayVar] as $iAdId => $aAd) {
-               			            $aLinkedAds[$adArrayVar][$iAdId]['priority'] *= $companionScaleFactor;
-                			    }
-            			    }
+            switch($type) {
+                case 'campaignid':
+                    switch ($key) {
+                        case '!=': $excludeCampaignID[$value] = true; break;
+                        case '==': $includeCampaignID[$value] = true; break;
+                    }
+                break;
+                case 'companionid':
+                    switch ($key) {
+                        case '!=': $excludeCampaignID[$value]   = true; break;
+                        case '==':
+                         if ($adArrayVar == 'cAds') {
+                             $includeCampaignID[$value] = true;
+                            // Rescale the priorities for the available companion campaigns...
+                            $companionPrioritySum = 0;
+                            foreach ($aLinkedAds[$adArrayVar] as $iAdId => $aAd) {
+                                if (isset($aContext['campaign']['include'][$aAd['placement_id']])) {
+                                    $companionPrioritySum += $aAd['priority'];
+                                } else {
+                                    unset($aLinkedAds[$adArrayVar][$iAdId]);
+                                }
+                            }
+                            if ($companionPrioritySum > 0) {
+                                $companionScaleFactor = 1 / $companionPrioritySum;
+                                foreach($aLinkedAds[$adArrayVar] as $iAdId => $aAd) {
+                                    $aLinkedAds[$adArrayVar][$iAdId]['priority'] *= $companionScaleFactor;
+                                }
+                            }
                             }
                         break;
-    			    }
-    			break;
-    			default:
-        			switch ($key) {
-    			        case '!=': $excludeBannerID[$value] = true; break;
-    			        case '==': $includeBannerID[$value] = true; break;
-    			    }
-			}
-		}
-	}
+                    }
+                break;
+                default:
+                    switch ($key) {
+                        case '!=': $excludeBannerID[$value] = true; break;
+                        case '==': $includeBannerID[$value] = true; break;
+                    }
+            }
+        }
+    }
 }
 
 /**
