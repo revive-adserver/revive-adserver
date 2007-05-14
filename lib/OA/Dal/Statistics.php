@@ -959,6 +959,16 @@ class OA_Dal_Statistics extends OA_Dal
                 $aResult[$key]['average'] = true;
             }
         }
+        // Update the target ratio(s)
+        reset($aResult);
+        foreach (array_keys($aResult) as $key) {
+            if ($aResult[$key][$type . '_required_impressions'] > 0) {
+                $aResult[$key]['target_ratio'] = 0;
+                if ($aResult[$key][$type . '_actual_impressions'] > 0) {
+                    $aResult[$key]['target_ratio'] = $aResult[$key][$type . '_actual_impressions'] / $aResult[$key][$type . '_required_impressions'];
+                }
+            }
+        }
     }
 
     /**
