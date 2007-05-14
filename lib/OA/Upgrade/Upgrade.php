@@ -665,9 +665,8 @@ class OA_Upgrade
      */
     function upgrade($input_file, $timing='constructive')
     {
-        //$logFile = str_replace('.xml', '', $input_file).'_'.$timing.'_'.date('Y_m_d_h_i_s').'.log';
-        $logFile = $this->_getUpgradeLogFileName($input_file, $timing);
-        $this->oLogger->setLogFile($logFile);
+        $this->oLogger->setLogFile($this->_getUpgradeLogFileName($input_file, $timing));
+        $this->oDBUpgrader->logFile = $this->oLogger->logFile;
 
         if (!$this->_parseUpgradePackageFile($this->upgradePath.$input_file))
         {
