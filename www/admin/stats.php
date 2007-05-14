@@ -53,20 +53,27 @@ MAX_commonSetNoCacheHeaders();
 // value to the range that matches the date, if possible - otherwise
 // use the "Specific Dates" value. The exception, of course, is
 // "".
-$periodPreset = MAX_getValue('period_preset');
+$periodPreset = MAX_getValue('period_preset', 'today');
 if ($periodPreset == 'all_stats') {
     unset($_REQUEST['period_start']);
     unset($session['prefs']['GLOBALS']['period_start']);
     unset($_REQUEST['period_end']);
     unset($session['prefs']['GLOBALS']['period_end']);
 } else {
-    $oStartDate = new Date(MAX_getStoredValue('period_start', date('Y-m-d')));
-    $oEndDate   = new Date(MAX_getStoredValue('period_end', date('Y-m-d')));
-    $oDaySpan   = new OA_Admin_DaySpan();
-    $oDaySpan->setSpanDays($oStartDate, $oEndDate);
-    $periodFromDates = $oDaySpan->getPreset();
-    $_REQUEST['period_preset'] = $periodFromDates;
-    $session['prefs']['GLOBALS']['period_preset'] = $periodFromDates;
+    $period_start = MAX_getStoredValue('period_start', date('Y-m-d'));
+    $period_end   = MAX_getStoredValue('period_end', date('Y-m-d'));
+    if (!empty($period_start) && !empty($period_end)) {
+        $oStartDate = new Date($period_start);
+        $oEndDate   = new Date($period_end);
+        $oDaySpan   = new OA_Admin_DaySpan();
+        $oDaySpan->setSpanDays($oStartDate, $oEndDate);
+        $periodFromDates = $oDaySpan->getPreset();
+        $_REQUEST['period_preset'] = $periodFromDates;
+        $session['prefs']['GLOBALS']['period_preset'] = $periodFromDates;
+    } else {
+        $_REQUEST['period_preset'] = $periodPreset;
+        $session['prefs']['GLOBALS']['period_preset'] = $periodPreset;
+    }
 }
 
 phpAds_registerGlobal('breakdown', 'entity', 'agency_id', 'advertiser_id',
