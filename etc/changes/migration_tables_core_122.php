@@ -179,7 +179,7 @@ class Migration_122 extends Migration
             'f' AS anonymous,
             0 AS companion
         FROM
-            {$conf['table']['prefix']}clients
+            $tableClients
         WHERE
             parent > 0";
         $result = $this->oDBH->exec($sql);

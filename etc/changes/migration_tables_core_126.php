@@ -31,7 +31,7 @@ class Migration_126 extends Migration
 
 	function afterAddField__targetstats__campaignid()
 	{
-		return $this->afterAddField('targetstats', 'campaignid');
+		return $this->migrateData() && $this->afterAddField('targetstats', 'campaignid');
 	}
 
 	function beforeAddIndex__targetstats__targetstats_pkey()

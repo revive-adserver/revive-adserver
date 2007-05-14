@@ -194,8 +194,7 @@ class Migration_127 extends Migration
 
 	function afterAddField__zones__session_capping()
 	{
-	    $this->migrateData();
-		return $this->afterAddField('zones', 'session_capping');
+		return $this->migrateData() && $this->afterAddField('zones', 'session_capping');
 	}
 
 
