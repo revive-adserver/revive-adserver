@@ -3,7 +3,7 @@
 <instructionset>
   <name>openads_2_0_12</name>
   <version>128</version>
-  <comments>Changed the &apos;banners.transparent&apos; field type to tinyint.</comments>
+  <comments>Changed the type of the &apos;transparent&apos; field and added &apos;parameters&apos; column.</comments>
   <constructive>
     <changeset>
       <name>openads_2_0_12</name>
@@ -11,16 +11,25 @@
       <change>
         <table>
           <name>banners</name>
-        <change>
-          <field>
-            <name>transparent</name>
-            <type>openads_tinyint</type>
-            <length>4</length>
-            <notnull>true</notnull>
-            <default>0</default>
-          </field>
-        </change>
-      </table>
+          <change>
+            <field>
+              <name>transparent</name>
+              <type>openads_tinyint</type>
+              <length>4</length>
+              <notnull>true</notnull>
+              <default>0</default>
+            </field>
+          </change>
+          <add>
+            <field>
+              <name>parameters</name>
+              <type>openads_text</type>
+              <notnull>1</notnull>
+              <was>parameters</was>
+              <default></default>
+            </field>
+          </add>
+        </table>
       </change>
     </changeset>
   </constructive>

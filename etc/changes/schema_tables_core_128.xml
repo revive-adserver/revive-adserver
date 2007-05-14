@@ -1281,6 +1281,13 @@
     <default></default>
    </field>
 
+   <field>
+    <name>parameters</name>
+    <type>openads_text</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
    <index>
     <name>banners_pkey</name>
     <primary>true</primary>

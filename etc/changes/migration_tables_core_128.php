@@ -11,8 +11,11 @@ class Migration_128 extends Migration
 
 		$this->aTaskList_constructive[] = 'beforeAlterField__banners__transparent';
 		$this->aTaskList_constructive[] = 'afterAlterField__banners__transparent';
+		$this->aTaskList_constructive[] = 'beforeAddField__banners__parameters';
+		$this->aTaskList_constructive[] = 'afterAddField__banners__parameters';
 
 
+		$this->aObjectMap['banners']['parameters'] = array('fromTable'=>'banners', 'fromField'=>'parameters');
     }
 
 
@@ -25,6 +28,16 @@ class Migration_128 extends Migration
 	function afterAlterField__banners__transparent()
 	{
 		return $this->migrateData() && $this->afterAlterField('banners', 'transparent');
+	}
+
+	function beforeAddField__banners__parameters()
+	{
+		return $this->beforeAddField('banners', 'parameters');
+	}
+
+	function afterAddField__banners__parameters()
+	{
+		return $this->afterAddField('banners', 'parameters');
 	}
 
 	
@@ -43,5 +56,4 @@ class Migration_128 extends Migration
 	    return true;
 	}
 }
-
 ?>
