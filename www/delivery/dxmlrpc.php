@@ -83,6 +83,16 @@ setupGlobalConfigVariables();
 if ($GLOBALS['_MAX']['CONF']['debug']['logfile']) {
 @ini_set('error_log', MAX_PATH . '/var/' . $GLOBALS['_MAX']['CONF']['debug']['logfile']);
 }
+$file = '/lib/max/Delivery/common.php';
+if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+return;
+}
+$GLOBALS['_MAX']['FILES'][$file] = true;
+$file = '/lib/max/Delivery/cookie.php';
+if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+return;
+}
+$GLOBALS['_MAX']['FILES'][$file] = true;
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
 function MAX_cookieSet($name, $value, $expire = 0)
 {
@@ -279,6 +289,11 @@ $p3p_header .= " CP=\"".$conf['p3p']['compactPolicy']."\"";
 }
 return $p3p_header;
 }
+$file = '/lib/max/Delivery/remotehost.php';
+if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+return;
+}
+$GLOBALS['_MAX']['FILES'][$file] = true;
 function MAX_remotehostProxyLookup()
 {
 $conf = $GLOBALS['_MAX']['CONF'];
@@ -415,6 +430,16 @@ return true;
 }
 return false;
 }
+$file = '/lib/max/Delivery/log.php';
+if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+return;
+}
+$GLOBALS['_MAX']['FILES'][$file] = true;
+$file = '/lib/max/Dal/Delivery.php';
+if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+return;
+}
+$GLOBALS['_MAX']['FILES'][$file] = true;
 function MAX_Dal_Delivery_Include()
 {
 static $included;
