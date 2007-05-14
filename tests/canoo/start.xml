@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE project SYSTEM "/usr/local/canoo/selftests/config/WebTest.dtd" [
+<!DOCTYPE project SYSTEM "includes/WebTest.dtd" [
   <!ENTITY config SYSTEM "includes/config.xml">
 ]
 >
