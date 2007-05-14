@@ -98,6 +98,10 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
             'campaignid' => $placementId
         );
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
         // Load $_GET parameters
         $this->_loadParams();
 
