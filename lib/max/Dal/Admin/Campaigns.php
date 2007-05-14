@@ -1,9 +1,34 @@
 <?php
-/**
- * @since Openads v2.3.30-alpha - 20-Nov-2006
- */
+
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
 
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
+require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once 'Date.php';
 
 class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 {
@@ -15,246 +40,309 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     );
 
     /**
-     * Determines the AdViews left before expiration
+     * A method to determine the lifetime ad impressions left before expiration.
      *
-     * @param int $campaignId  the campaign ID.
-     * @return mixed  the number of ad views left or 'unlimited'
+     * @param integer $campaignId The campaign ID.
+     * @return mixed The number of ad impressions remaining, or the
+     *               string "unlimited".
      */
-    function getAdViewsLeft($campaignId)
+    function getAdImpressionsLeft($campaignId)
     {
         global $strUnlimited;
         $prefix = $this->getTablePrefix();
 
-        $query = "
-            SELECT
-                views
-		    FROM
-		        {$prefix}campaigns
-	        WHERE
-	            campaignid = ". DBC::makeLiteral($campaignId);
-
-        $rsCampaigns = DBC::FindRecord($query);
-        $aViews = $rsCampaigns->toArray();
-        if ($aViews['views'] == -1) {
+        // Get the campaign info
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->selectAdd("views AS impressions");
+        $doCampaigns->get($campaignId);
+        $aData = $doCampaigns->toArray();
+        if ($aData['impressions'] > 0) {
+            // Get the campaign delivery info
+            $dalDataIntermediateAd = OA_Dal::factoryDAL('data_intermediate_ad');
+            $record = $dalDataIntermediateAd->getDeliveredByCampaign($campaignId);
+            $aDeliveryData = $record->toArray();
+            return $aData['impressions'] - $aDeliveryData['impressions_delivered'];
+        } else {
             return $strUnlimited;
         }
-        return $aViews['views'];
     }
 
     /**
-     * Determines the AdClicks left before expiration
+     * A method to determine the lifetime ad clicks left before expiration.
      *
-     * @param int $campaignId  the campaign ID
-     * @return mixed  the number of ad clicks left or 'unlimited'
+     * @param integer $campaignId The campaign ID.
+     * @return mixed The number of ad clicks remaining, or the
+     *               string "unlimited".
      */
     function getAdClicksLeft($campaignId)
     {
         global $strUnlimited;
         $prefix = $this->getTablePrefix();
 
-        $query = "
-            SELECT
-                clicks
-            FROM
-                {$prefix}campaigns
-            WHERE
-                campaignid = ". DBC::makeLiteral($campaignId);
-
-        $rsCampaigns = DBC::FindRecord($query);
-        $aClicks = $rsCampaigns->toArray();
-        if ($aClicks['clicks'] == -1) {
+        // Get the campaign info
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->get($campaignId);
+        $aData = $doCampaigns->toArray();
+        if ($aData['clicks'] > 0) {
+            // Get the campaign delivery info
+            $dalDataIntermediateAd = OA_Dal::factoryDAL('data_intermediate_ad');
+            $record = $dalDataIntermediateAd->getDeliveredByCampaign($campaignId);
+            $aDeliveryData = $record->toArray();
+            return $aData['clicks'] - $aDeliveryData['clicks_delivered'];
+        } else {
             return $strUnlimited;
         }
-        return $aClicks['clicks'];
     }
 
     /**
-     * Estimates time before expiration.
-     * This function calculates the estimated end of a
-     * client's credits in clicks or views based on used
-     * views and clicks, the time from the first to the last
-     * view and click and the current date. If the client
-     * has an expiration date this one will have priority.
+     * A method to determine the lifetime ad conversions left before expiration.
      *
-     * The return value is an array which returns a ready to
-     * use string with expiration and left days contents
-     * based on language string settings, a string with the
-     * date and an integer value with the amount of days
-     * left for alternate usage
-     *
-     * Usage: list($desc,$enddate,$daysleft)=$dalCampaigns->getDaysLeft($campaignid)
-     *
-     * This function will temporarily not work properly, if
-     * statistics are reset or the amount of the credit in
-     * views or clicks or left days is modified.
-     *
-     * @param int $campaignid  the campaign ID
-     * @return array
+     * @param integer $campaignId The campaign ID.
+     * @return mixed The number of ad conversions remaining, or the
+     *               string "unlimited".
      */
-    function getDaysLeft($campaignid)
+    function getAdCconversionsLeft($campaignId)
+    {
+        global $strUnlimited;
+        $prefix = $this->getTablePrefix();
+
+        // Get the campaign info
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->get($campaignId);
+        $aData = $doCampaigns->toArray();
+        if ($aData['clicks'] > 0) {
+            // Get the campaign delivery info
+            $dalDataIntermediateAd = OA_Dal::factoryDAL('data_intermediate_ad');
+            $record = $dalDataIntermediateAd->getDeliveredByCampaign($campaignId);
+            $aDeliveryData = $record->toArray();
+            return $aData['conversions'] - $aDeliveryData['conversions_delivered'];
+        } else {
+            return $strUnlimited;
+        }
+    }
+
+    /**
+     * A method to determine how long it will be until a campaign "expires".
+     *
+     * Returns the earliest possible date from the following values:
+     *  - The campaign's expiration date, if set.
+     *  - The extimated expiration date based on lifetime impression delivery
+     *    rate, if applicable.
+     *  - The extimated expiration date based on lifetime click delivery rate
+     *    if applicable.
+     *  - The extimated expiration date based on lifetime conversion rate,
+     *    if applicable.
+     *
+     * Usage:
+     *   list($desc,$endDate,$daysLeft) = $dalCampaigns->getDaysLeft($campaignid);
+     *
+     * Where:
+     *   $desc is a string to display giving how the expiration was calculated
+     *     (eg. "Estimated expiration"), or that there is no expiration date,
+     *     in which date $endDate and $daysLeft are null.
+     *   $endDate is a formatted date string, ready for display, of the expiration
+     *     date, if applicable.
+     *   $daysLeft is a formatted number string, ready for display, of the number
+     *     of days until the campaign will end, if applicable.
+     *
+     * @param integer $campaignId The campaign ID.
+     * @return array The result array, as described above.
+     */
+    function getDaysLeft($campaignId)
     {
         global $date_format, $strExpiration, $strNoExpiration, $strDaysLeft, $strEstimated;
         $prefix = $this->getTablePrefix();
 
-        // preset return values
-    	$estimated_end = "-";
-    	$days_left="-";
-    	$description="";
-    	$absolute=0;
-        $time = OA::getNow();
+        // Define array to store possible expiration date results
+        $aExpiration = array();
 
-    	// Get client record
-	    $query = "
-		    SELECT
-		        views,
-		        clicks,
-		        expire,
-		        DATE_FORMAT(expire, '$date_format') as expire_f,
-		        TO_DAYS(expire) - TO_DAYS('$time') as days_left
-	        FROM
-	            {$prefix}campaigns
-            WHERE
-                campaignid = ". DBC::makeLiteral($campaignid);
+        // Get the campaign target info
+        $now = OA::getNow('Y-m-d');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->selectAdd("views AS impressions");
+        $doCampaigns->selectAdd("DATE_FORMAT(expire, '$date_format') as expire_f");
+        $doCampaigns->selectAdd("TO_DAYS(expire) - TO_DAYS('$now') as days_left");
+        $doCampaigns->get($campaignId);
+        $aCampaignData = $doCampaigns->toArray();
 
-	    if ($rsCampaigns = DBC::FindRecord($query)) {
-	        $row_campaign = $rsCampaigns->toArray();
+        // Does the campaign have a set expiration date?
+        if ($aCampaignData['expire'] != OA_Dal::noDateValue()) {
+            // Store the campaign's set expiration date as a possible
+            // date that may cause the campaign to expire
+			$aExpiration[] = array(
+				"daysLeft"  => round($aCampaignData['days_left']),
+				"date"	  	=> $aCampaignData['expire_f'],
+				"absolute"  => true
+			);
+        }
 
-	        // Check if the expiration date is set
-    		if ($row_campaign['expire'] != '0000-00-00' && $row_campaign['expire'] != '') {
-    			$expiration[] = array (
-    				"days_left" => round($row_campaign["days_left"]),
-    				"date"	  	=> $row_campaign["expire_f"],
-    				"absolute"  => true
-    			);
+        // Does the campaign have lifetime impression targets?
+        if ($aCampaignData['impressions'] > 0) {
+           	$query = "
+                SELECT
+                    SUM(dia.impressions) AS delivered,
+                    MIN(dia.day) AS day_of_first
+                FROM
+                    {$prefix}data_intermediate_ad AS dia,
+                    {$prefix}banners AS b
+                WHERE
+                    dia.ad_id = b.bannerid
+                    AND
+                    b.campaignid = ". DBC::makeLiteral($campaignId);
+           	$rsImpressions = DBC::FindRecord($query);
+			if ($rsImpressions) {
+			    $aImpressions = $rsImpressions->toArray();
+			    // Get the number of days until the campaign will end
+			    // based on the impression target delivery data
+                $aExpiration[] = $this->_calculateRemainingDays($aImpressions, $aCampaignData['impressions']);
+			}
+        }
+
+        // Does the campaign have lifetime click targets?
+        if ($aCampaignData['clicks'] > 0) {
+           	$query = "
+                SELECT
+                    SUM(dia.clicks) AS delivered,
+                    MIN(dia.day) AS day_of_first
+                FROM
+                    {$prefix}data_intermediate_ad AS dia,
+                    {$prefix}banners AS b
+                WHERE
+                    dia.ad_id = b.bannerid
+                    AND
+                    b.campaignid = ". DBC::makeLiteral($campaignId);
+           	$rsClicks = DBC::FindRecord($query);
+			if ($rsClicks) {
+			    $aClicks = $rsClicks->toArray();
+			    // Get the number of days until the campaign will end
+			    // based on the click target delivery data
+                $aExpiration[] = $this->_calculateRemainingDays($aClicks, $aCampaignData['clicks']);
+
+			}
+        }
+
+        // Does the campaign have lifetime conversion targets?
+        if ($aCampaignData['conversions'] > 0) {
+           	$query = "
+                SELECT
+                    SUM(dia.conversions) AS delivered,
+                    MIN(dia.day) AS day_of_first
+                FROM
+                    {$prefix}data_intermediate_ad AS dia,
+                    {$prefix}banners AS b
+                WHERE
+                    dia.ad_id = b.bannerid
+                    AND
+                    b.campaignid = ". DBC::makeLiteral($campaignId);
+           	$rsConversions = DBC::FindRecord($query);
+			if ($rsConversions) {
+			    $aConversions = $rsConversions->toArray();
+			    // Get the number of days until the campaign will end
+			    // based on the conversion target delivery data
+                $aExpiration[] = $this->_calculateRemainingDays($aConversions, $aCampaignData['conversions']);
+			}
+        }
+
+        $aReturn = array();
+        // Is there a possible expiration date?
+        if (empty($aExpiration) || count($aExpiration) == 0) {
+            // No, so return the "no expiration date" value
+    		$aReturn[] = $strExpiration.": ".$strNoExpiration;
+    		$aReturn[] = '';
+    		$aReturn[] = '';
+        } else {
+        	// Find the earliest expiration date
+    		$aFinalExpiration = $aExpiration[0];
+    		for ($i = 1; $i < count($aExpiration); $i++) {
+    		    if ($aExpiration[$i]['daysLeft'] < $aFinalExpiration['daysLeft']) {
+    		        $aFinalExpiration = $aExpiration[$i];
+                }
     		}
-
-    		if ($row_campaign["views"] != -1) {
-               	$query = "
-               	    SELECT
-               	        SUM(impressions) AS total_views,
-               	        MAX(TO_DAYS(day)) - TO_DAYS('$time') AS days_since_last_view,
-               		    TO_DAYS('$time') - MIN(TO_DAYS(day)) AS days_since_start
-           		    FROM
-           		        {$prefix}banners AS b
-           		        LEFT JOIN {$prefix}data_summary_ad_hourly AS v
-               		    ON b.bannerid = v.ad_id
-               		WHERE b.campaignid= ". DBC::makeLiteral($campaignid);
-
-               	$rsCampaigns = DBC::FindRecord($query);
-    			if ($rsCampaigns) {
-    				$row_views = $rsCampaigns->toArray();
-
-    				if (!isset($row_views["days_since_start"]) ||
-    				    $row_views["days_since_start"] == '' ||
-    				    $row_views["days_since_start"] == 0  ||
-    					$row_views["days_since_start"] == null)
-    				{
-    					$row_views["days_since_start"] = 1;
-    				}
-
-    				if (!empty ($row_views["total_views"]) && $row_views["total_views"] > 0) {
-    					$days_left = round ($row_campaign["views"] / ($row_views["total_views"] / $row_views["days_since_start"]));
-
-    					if ($row_campaign["views"] > 0) {
-    						$estimated_end = strftime ($date_format, mktime (0, 0, 0, date("m"), date("d") + $days_left, date("Y")));
-    						$expiration[] = array (
-    							"days_left" => $days_left,
-    							"date"	  	=> $estimated_end,
-    							"absolute"  => false
-    						);
-    					} else {
-    						$estimated_end = strftime ($date_format, mktime (0, 0, 0, date("m"), date("d") - $row_views["days_since_last_view"], date("Y")));
-    						$expiration[] = array (
-    							"days_left" => 0 - $row_views["days_since_last_view"],
-    							"date"	  	=> $estimated_end,
-    							"absolute"  => true
-    						);
-    					}
-    				}
-    			}
-    		}
-
-    		if ($row_campaign["clicks"] != -1) {
-            	$click_query = "
-                    SELECT
-                        SUM(clicks) as total_clicks,
-                        MAX(TO_DAYS(day)) - TO_DAYS('$time') as days_since_last_click,
-                        TO_DAYS('$time') - MIN(TO_DAYS(day)) as days_since_start
-                    FROM
-                        {$prefix}data_summary_ad_hourly AS a
-            		    LEFT JOIN {$prefix}banners AS b
-            		    ON a.ad_id = b.bannerid
-            		WHERE
-            		    campaignid = ". DBC::makeLiteral($campaignid) ."
-            		AND
-            		    clicks > 0
-            	";
-
-                $rsClicks = DBC::FindRecord($click_query);
-            	if ($rsClicks) {
-    				$row_clicks = $rsClicks->toArray();
-
-    				if (!isset($row_clicks["days_since_start"]) ||
-    				    $row_clicks["days_since_start"] == '' ||
-    				    $row_clicks["days_since_start"] == 0  ||
-    					$row_clicks["days_since_start"] == null)
-    				{
-    					$row_clicks["days_since_start"] = 1;
-    				}
-
-    				if (!empty ($row_clicks["total_clicks"]) && $row_clicks["total_clicks"] > 0) {
-    					$days_left = round($row_campaign["clicks"] / ($row_clicks["total_clicks"] / $row_clicks["days_since_start"]));
-
-    					if ($row_campaign["clicks"] > 0) {
-    						$estimated_end = strftime ($date_format, mktime (0, 0, 0, date("m"), date("d") + $days_left, date("Y")));
-    						$expiration[] = array (
-    							"days_left" => $days_left,
-    							"date"	  	=> $estimated_end,
-    							"absolute"  => false
-    						);
-    					} else {
-    						$estimated_end = strftime ($date_format, mktime (0, 0, 0, date("m"), date("d") - $row_clicks["days_since_last_view"], date("Y")));
-    						$expiration[] = array (
-    							"days_left" => 0 - $row_clicks["days_since_last_view"],
-    							"date"	  	=> $estimated_end,
-    							"absolute"  => true
-    						);
-    					}
-    				}
-    			}
-    		}
-    	}
-
-    	// Build Return value
-    	if (isset($expiration) && sizeof($expiration) > 0) {
-    		$sooner = $expiration[0];
-
-    		for ($i = 0; $i < sizeof($expiration); $i++) {
-    			if ($expiration[$i]['days_left'] < $sooner['days_left']) {
-    				$sooner = $expiration[$i];
-    			}
-    		}
-
-    		if ($sooner['days_left'] < 0) {
-    		    $sooner['days_left'] = 0;
-    		}
-
-    		if ($sooner['absolute']) {
-    			$ret_val[] = $strExpiration.": ".$sooner['date']." (".$strDaysLeft.": ".$sooner['days_left'].")";
+    		// Format the days remaining
+            $aFinalExpiration['daysLeft'] = phpAds_formatNumber($aFinalExpiration['daysLeft']);
+            // Prepare the return value
+    		if ($aFinalExpiration['absolute']) {
+    			$aReturn[] = $strExpiration . ": " . $aFinalExpiration['date'] . " (" . $strDaysLeft . ": " . $aFinalExpiration['daysLeft'] . ")";
     		} else {
-    			$ret_val[] = $strEstimated.": ".$sooner['date']." (".$strDaysLeft.": ".$sooner['days_left'].")";
+    			$aReturn[] = $strEstimated  . ": " . $aFinalExpiration['date'] . " (" . $strDaysLeft . ": " . $aFinalExpiration['daysLeft'] . ")";
     		}
+    		$aReturn[] = $aFinalExpiration['date'];
+    		$aReturn[] = $aFinalExpiration['daysLeft'];
+        }
+        return $aReturn;
+    }
 
-    		$ret_val[]=$sooner['date'];
-    		$ret_val[]=$sooner['days_left'];
-    	} else {
-    		// Unknown
-    		$ret_val[] = $strExpiration.": ".$strNoExpiration;
-    		$ret_val[] = '';
-    		$ret_val[] = '';
-    	}
 
-    	return isset($ret_val) ? $ret_val : false;
+    /**
+     * A private method to caclucate the number of days left until a
+     * campaign expires based on the impression, click or conversion
+     * delivery targets & the delivery rate of the campaign to date.
+     *
+     * @param array $aDeliveryData An array of two items. "delivered":
+     *                             the number of impressions, clicks or
+     *                             conversions delivered so far; and
+     *                             "day_of_first": a string in YYYY-MM-DD
+     *                             format representing the day that the
+     *                             first impression, click or conversion
+     *                             was delivered.
+     * @param integer $target      The total number of impressions, clicks
+     *                             or conversions required to be delivered
+     *                             by the campaign.
+     * @return array An array of three items. "daysLeft": the estimated
+     *               number of days remaining until the campaign ends;
+     *               "date": the estimated date of expiration; and
+     *               "absolute": the boolean "false", indicating that
+     *               the date is an estimate.
+     */
+    function _calculateRemainingDays($aDeliveryData, $target)
+    {
+        global $date_format;
+        $oNowDate = new Date();
+        $aExpiration = array();
+        // How many days since the first impression/click/conversion?
+        if (!empty($aDeliveryData['day_of_first'])) {
+            $oFirstDate = new Date($aDeliveryData['day_of_first']);
+            $oSpan = new Date_Span();
+            $oSpan->setFromDateDiff($oFirstDate, $oNowDate);
+            $daysSinceFirst = ceil($oSpan->toDays());
+        } else {
+            $daysSinceFirst = 1;
+        }
+        // Have *any* impressions/clicks/conversions been delivered?
+		if (!empty($aDeliveryData["delivered"]) && $aDeliveryData["delivered"] > 0) {
+		    $targetRemaining = $target - $aDeliveryData["delivered"];
+		    $deliveryRate = $aDeliveryData["delivered"] / $daysSinceFirst;
+			$daysLeft = (int) round($targetRemaining / $deliveryRate);
+		    $oSpan = new Date_Span();
+		    $oSpan->setFromDays($daysLeft);
+		    $oEstimatedEndDate = new Date();
+            $oEstimatedEndDate->addSpan($oSpan);
+            if ($oEstimatedEndDate->before($oNowDate)) {
+                // Ooop! Wrapped into the past - get the biggest possible date
+                $oEstimatedEndDate = new Date('1960-01-01 00:00:00');
+                $oEstimatedEndDate->subtractSeconds(1);
+            }
+            $estimatedEndDate = $oEstimatedEndDate->format($date_format);
+        	$aExpiration = array(
+        		'daysLeft' => $daysLeft,
+        		'date'     => $estimatedEndDate,
+        		'absolute' => false
+        	);
+		} else {
+		    // No impressions/clicks/conversions been delivered so far,
+		    // so cannot estimate how long it will take to expire the
+		    // campaign - estimate
+		    $daysLeft = PHP_INT_MAX;
+            $oEstimatedEndDate = new Date('1960-01-01 00:00:00');
+            $oEstimatedEndDate->subtractSeconds(1);
+            $estimatedEndDate = $oEstimatedEndDate->format($date_format);
+        	$aExpiration = array(
+        		'daysLeft' => $daysLeft,
+        		'date'     => $estimatedEndDate,
+        		'absolute' => true
+        	);
+		}
+		return $aExpiration;
     }
 
     /**

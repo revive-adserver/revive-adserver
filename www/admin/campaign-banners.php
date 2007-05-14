@@ -430,11 +430,11 @@ echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gi
 
 $dalCampaigns = OA_Dal::factoryDAL('campaigns');
 list($desc,$enddate,$daysleft) = $dalCampaigns->getDaysLeft($campaignid);
-$adclicksleft = $dalCampaigns->getAdClicksLeft($campaignid);
-$adviewsleft = $dalCampaigns->getAdViewsLeft($campaignid);
+$adImpressionsLeft = phpAds_formatNumber($dalCampaigns->getAdImpressionsLeft($campaignid));
+$adClicksLeft = phpAds_formatNumber($dalCampaigns->getAdClicksLeft($campaignid));
 
-echo "<tr><td height='25'>$strViewCredits: <b>$adviewsleft</b></td>";
-echo "<td height='25'>$strClickCredits: <b>$adclicksleft</b></td></tr>";
+echo "<tr><td height='25'>$strViewCredits: <b>$adImpressionsLeft</b></td>";
+echo "<td height='25'>$strClickCredits: <b>$adClicksLeft</b></td></tr>";
 echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%' alt=''></td></tr>";
 echo "<tr><td height='25' colspan='2'>$desc</td></tr>";
 
