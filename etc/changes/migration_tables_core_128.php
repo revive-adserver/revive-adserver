@@ -63,11 +63,11 @@ class Migration_128 extends Migration
 	       WHERE
 	           contenttype = 'swf'
 	    ";
-	    $result = $this->oDBH->getAssoc($sql);
-	    if (PEAR::isError($result)) {
-	        return $this->_logErrorAndReturnFalse($result);
+	    $aBanners = $this->oDBH->getAssoc($sql);
+	    if (PEAR::isError($aBanners)) {
+	        return $this->_logErrorAndReturnFalse($aBanners);
 	    }
-	    foreach ($result as $bannerId => $code) {
+	    foreach ($aBanners as $bannerId => $code) {
 	        $code = preg_replace('/^.*(<object.*<\/object>).*$/s', '$1', $code);
             preg_match_all('/alink(\d+).*?dest=(.*?)(?:&amp;atar\d+=(.*?))?(?:&amp;|\')/', $code, $m);
             
@@ -85,9 +85,9 @@ class Migration_128 extends Migration
         	       SET parameters = '".$this->oDBH->escape($params)."'
         	       WHERE bannerid = '{$bannerId}'
                 ";
-        	    $result2 = $this->oDBH->exec($sql);
-        	    if (PEAR::isError($result2)) {
-        	        return $this->_logErrorAndReturnFalse($result2);
+        	    $result = $this->oDBH->exec($sql);
+        	    if (PEAR::isError($result)) {
+        	        return $this->_logErrorAndReturnFalse($result);
         	    }
             }
 	    }
