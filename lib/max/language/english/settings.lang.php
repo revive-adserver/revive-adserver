@@ -86,7 +86,7 @@ $GLOBALS['strInstallMessage']               = "Before you can use ".MAX_PRODUCT_
 $GLOBALS['strInstallIntro']                 = "We have tried to make the installation of Openads as easy as possible, but
 				  keep in mind that setting up an ad server is not trivial. If you haven't read the documentation at
 				  this point, we <strong>strongly recommend</strong> that you do so before you proceed with the installation. The
-				  docuemtnation will help you avoid potential problems in the future and will guide you through the following steps.<p><b>If you are trying to upgrade an existing installation of Openads you probably did not follow the
+				  documentation will help you avoid potential problems in the future and will guide you through the following steps.<p><b>If you are trying to upgrade an existing installation of Openads you probably did not follow the
 				  instructions given in the documentation. If you continue, Openads will try to do a clean install and all your
 				  existing settings, inventory and statistics will be lost. If you want to upgrade an existing installation, please close this
 				  window, read the <a href='http://docs.openads.org/openads-2.0-guide/upgrading.html' target='_blank'>documentation on upgrading</a>
