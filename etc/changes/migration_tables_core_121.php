@@ -77,7 +77,7 @@ class Migration_121 extends Migration
 	        
 	        $comparison = $aNewAclsData['op'];
 	        $data = $aNewAclsData['data'];
-	        $aUpdates []= "UPDATE acls SET type = '$type', comparison = '$comparison', data = '$data'
+	        $aUpdates []= "UPDATE $tableAcls SET type = '$type', comparison = '$comparison', data = '$data'
 	        WHERE bannerid = $bannerid
 	        AND executionorder = $executionorder";
 	    }
