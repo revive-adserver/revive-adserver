@@ -139,17 +139,21 @@
             <tr class="{h[htmlclass][date]}">
                 <td class="{h[htmlclass][date]}">{h[week]}</td>
                 <td class="{h[htmlclass][date]}">{tr(#strDate#)}</td>
-                <td class="{h[htmlclass][date]} aright separate" flexy:foreach="h[data],hw">{hw[day]}</td>
-                <td class="{h[htmlclass][date]} aright separate">&nbsp;</td>
-                <td class="{h[htmlclass][date]} aright separate">&nbsp;</td>
+                {foreach:h[data],hw}
+                <td class="{hw[htmlclass][date]} aright separate">{hw[day]}</td>
+                {end:}
+                <td class="{h[avg][htmlclass][date]} aright separate">&nbsp;</td>
+                <td class="{h[htmlcolclass][date]} aright separate">&nbsp;</td>
             </tr>
             {foreach:aColumns,ck,cv}
-            <tr class="{showValue(h[htmlclass],ck)}" flexy:if="showColumn(ck)">
+            <tr flexy:if="showColumn(ck)" class="{showValue(h[htmlclass],ck)}">
                 <td class="{showValue(h[htmlclass],ck)}">&nbsp;</td>
                 <td class="{showValue(h[htmlclass],ck)}">{cv}</td>
-                <td class="{showValue(h[htmlclass],ck)} aright separate" flexy:foreach="h[data],hw">{showValue(hw,ck):h}</td>
-                <td class="{showValue(h[htmlclass],ck)} aright separate">{showValue(h[avg],ck):h}</td>
-                <td class="{showValue(h[htmlclass],ck)} aright separate">{showValue(h,ck):h}</td>
+                {foreach:h[data],hw}
+                <td class="{showValue(hw[htmlclass],ck)} aright separate">{showValue(hw,ck):h}</td>
+                {end:}
+                <td class="{showValue(h[avg][htmlclass],ck)} aright separate">{showValue(h[avg],ck):h}</td>
+                <td class="{showValue(h[htmlcolclass],ck)} aright separate">{showValue(h,ck):h}</td>
             </tr>
             {end:}
             {end:}
@@ -186,25 +190,25 @@
             <tr>
                 <th scope="col" class="aleft">&nbsp;</th>
                 {foreach:aColumns,ck,cv}
-                <th scope="col" class="aright">{cv}</th>
+                <th flexy:if="showColumn(ck)" scope="col" class="aright">{cv}</th>
                 {end:}
             </tr>
             <tr flexy:if="showAverage">
-                <td><b>{tr(#strTotal#)}</b></td>
+                <td  class="{aTotal[htmlclass]} last"><b>{tr(#strTotal#)}</b></td>
                 {foreach:aColumns,ck,cv}
-                <td class="aright">{showValue(aTotal,ck)}</td>
-                {end:}
-            </tr>
-            <tr flexy:if="!showAverage">
-                <td class="last"><b>{tr(#strTotal#)}</b></td>
-                {foreach:aColumns,ck,cv}
-                <td class="aright last">{showValue(aTotal,ck):h}</td>
+                <td flexy:if="showColumn(ck)" class="{aTotal[htmlclass]} aright">{showValue(aTotal,ck):h}</td>
                 {end:}
             </tr>
             <tr flexy:if="showAverage">
                 <td class="last">{tr(#strAverage#)} ({averageSpan} {averageDesc})</td>
                 {foreach:aColumns,ck,cv}
-                <td class="aright last">{showValue(average,ck)}</td>
+                <td flexy:if="showColumn(ck)" class="aright last">{showValue(average,ck)}</td>
+                {end:}
+            </tr>
+            <tr flexy:if="!showAverage">
+                <td  class="{aTotal[htmlclass]} last"><b>{tr(#strTotal#)}</b></td>
+                {foreach:aColumns,ck,cv}
+                <td flexy:if="showColumn(ck)" class="{aTotal[htmlclass]} aright last">{showValue(aTotal,ck):h}</td>
                 {end:}
             </tr>
         </tbody>

@@ -69,6 +69,7 @@ class OA_Admin_Statistics_Targeting_Controller_CampaignTargetingDaily extends OA
             $this->aPlugins[$key]->_aFields['placement_actual_impressions']['active'] = true;
             $this->aPlugins[$key]->_aFields['zones_forecast_impressions']['active'] = true;
             $this->aPlugins[$key]->_aFields['zones_actual_impressions']['active'] = true;
+            $this->aPlugins[$key]->_aFields['target_ratio']['active'] = true;
         }
     }
 

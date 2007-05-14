@@ -277,8 +277,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     var $breakdown;
 
     /**
-     * A variable for storing overriding page "breakdown" values, such
-     * as "hour" for the daily statistics pages.
+     * A variable for storing the page "display breakdown" values, either
+     * from the breakdown selection element, or "hour" when it's a daily
+     * statistics page.
      *
      * @var string
      */
@@ -499,22 +500,48 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             // Display the delivery history or targeting history stats
             if ($this->statsBreakdown == 'week') {
                 $this->template = $weekTemplate;
-                // Fix htmlclass to match the weekly template
                 if (count($aDisplayData)) {
-                    $rows = array('date');
+                    // Fix htmlclass to match the weekly template
+                    $aRows = array('date');
                     foreach (array_keys($this->aColumns) as $v) {
                         if ($this->showColumn($v)) {
-                            $rows[] = $v;
+                            $aRows[] = $v;
                         }
                     }
-                    $rows = array_reverse($rows);
+                    $aRows = array_reverse($aRows);
                     foreach (array_keys($aDisplayData) as $k) {
                         $htmlclass = $aDisplayData[$k]['htmlclass'];
-                        $tmpclass  = array();
-                        foreach ($rows as $r => $v) {
-                            $tmpclass[$v] = ($r ? 'nb' : '').$htmlclass;
+                        $aTmpHtmlclass  = array();
+                        foreach ($aRows as $r => $v) {
+                            $aTmpHtmlclass[$v] = ($r ? 'nb' : '') . $htmlclass;
                         }
-                        $aDisplayData[$k]['htmlclass'] = $tmpclass;
+                        $aDisplayData[$k]['htmlclass'] = $aTmpHtmlclass;
+                        if ($this->outputType == 'targetingHistory') {
+                            $htmlclass = $aDisplayData[$k]['htmlcolclass'];
+                            $aTmpHtmlclass  = array();
+                            foreach ($aRows as $r => $v) {
+                                $aTmpHtmlclass[$v] = ($r ? 'nb' : '') . $htmlclass;
+                            }
+                            $aDisplayData[$k]['htmlcolclass'] = $aTmpHtmlclass;
+                            foreach (array_keys($aDisplayData[$k]['data']) as $l) {
+                                $htmlclass = $aDisplayData[$k]['data'][$l]['htmlcolclass'];
+                                $aTmpHtmlclass  = array();
+                                foreach ($aRows as $r => $v) {
+                                    $aTmpHtmlclass[$v] = ($r ? 'nb' : '') . $htmlclass;
+                                }
+                                $aDisplayData[$k]['data'][$l]['htmlclass'] = $aTmpHtmlclass;
+                            }
+                            $htmlclass = $aDisplayData[$k]['avg']['htmlclass'];
+                            if (empty($htmlclass)) {
+                                $aTmpHtmlclass = $aDisplayData[$k]['htmlclass'];
+                            } else {
+                                $aTmpHtmlclass  = array();
+                                foreach ($aRows as $r => $v) {
+                                    $aTmpHtmlclass[$v] = ($r ? 'nb' : '') . $htmlclass;
+                                }
+                            }
+                            $aDisplayData[$k]['avg']['htmlclass'] = $aTmpHtmlclass;
+                        }
                     }
                 }
             } else {
@@ -1194,6 +1221,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     function _loadPeriodPresetParam()
     {
         $this->aPageParams['statsBreakdown'] = MAX_getStoredValue('statsBreakdown', 'day');
+        $this->statsBreakdown = $this->aPageParams['statsBreakdown'];
     }
 
     /**

@@ -72,6 +72,7 @@ class OA_Admin_Statistics_Targeting_Controller_BannerTargeting extends OA_Admin_
             $this->aPlugins[$key]->_aFields['ad_actual_impressions']['active'] = true;
             $this->aPlugins[$key]->_aFields['zones_forecast_impressions']['active'] = true;
             $this->aPlugins[$key]->_aFields['zones_actual_impressions']['active'] = true;
+            $this->aPlugins[$key]->_aFields['target_ratio']['active'] = true;
         }
     }
 

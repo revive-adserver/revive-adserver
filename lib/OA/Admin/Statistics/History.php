@@ -466,7 +466,7 @@ class OA_Admin_Statistics_History
      * A method to format the rows of display data to work with the standard "history" style
      * templates.
      *
-     * @param array $aData    A reference to an array of arrays, containing the rows of data.
+     * @param array  $aData   A reference to an array of arrays, containing the rows of data.
      * @param object $oCaller The calling object. Expected to have the the class variable
      *                        "statsBreakdown" set.
      */
@@ -483,14 +483,98 @@ class OA_Admin_Statistics_History
         }
         // Format the rows
         if (count($aData) > 0) {
-            $i = 0;
+            $i = 1;
+            reset($aData);
             foreach (array_keys($aData) as $key) {
+                // Is there a set target ratio?
+                if (preg_match('/(\d+\.\d*)%/', $aData[$key]['target_ratio'], $aMatches)) {
+                    $targetPercent = $aMatches[0];
+                    if ($targetPercent < 90) {
+                        $aData[$key]['htmlclass'] = 'reddark';
+                    } else if ($targetPercent > 110) {
+                        $aData[$key]['htmlclass'] = 'redlight';
+                    }
+
+                } else if (($aData[$key]['ad_required_impressions'] > 0 || $aData[$key]['placement_required_impressions'] > 0) && $aData[$key]['target_ratio'] == '-') {
+                    $aData[$key]['htmlclass'] = 'reddark';
+                }
                 // Set the row's "htmlclass" value as being light, or dark
-                $aData[$key]['htmlclass'] = ($i++ % 2 == 0) ? 'dark' : 'light';
+                if (empty($aData[$key]['htmlclass'])) {
+                    $aData[$key]['htmlclass'] = ($i++ % 2 == 0) ? 'dark' : 'light';
+                }
                 // Extend the "last" row's "htmlclass" value
-                if ($i == count($aData)) {
+                if ($setLast && $i == count($aData)) {
                     $aData[$key]['htmlclass'] .= ' last';
                 }
+            }
+        }
+    }
+
+    /**
+     * A method to format the rows of display data to work with the standard "history" style
+     * templates when in the weekly breakdown - for targeting statistics only!
+     *
+     * @param array  $aData   A reference to an array of arrays, containing the rows of data.
+     * @param object $oCaller The calling object. Expected to have the the class variable
+     *                        "statsBreakdown" set.
+     * @param string $colour  An optional, fixed non-targeting issue colour for all items.
+     */
+    function formatWeekRows(&$aData, $oCaller, $colour = null)
+    {
+        // Format the rows
+        if (count($aData) > 0) {
+            $i = 1;
+            reset($aData);
+            foreach (array_keys($aData) as $key) {
+                // Format the total row - is there a set target ratio?
+                if (preg_match('/(\d+\.\d*)%/', $aData[$key]['target_ratio'], $aMatches)) {
+                    $targetPercent = $aMatches[0];
+                    if ($targetPercent < 90) {
+                        $aData[$key]['htmlcolclass'] = 'reddark';
+                    } else if ($targetPercent > 110) {
+                        $aData[$key]['htmlcolclass'] = 'redlight';
+                    }
+                }
+                // Is there a weekly data array to format as well?
+                if (isset($aData[$key]['data']) && is_array($aData[$key]['data']) && count($aData[$key]['data']) > 0) {
+                    $colour = ($i++ % 2 == 0) ? 'dark' : 'light';
+                    $this->formatWeekRows($aData[$key]['data'], $oCaller, $colour);
+                }
+                // Is there an average value data array to format as well?
+                if (isset($aData[$key]['avg']) && is_array($aData[$key]['avg']) && count($aData[$key]['avg']) > 0) {
+                    $this->formatWeekRowsTotal($aData[$key]['avg'], $oCaller);
+                }
+                // Set the row's "htmlclass" value as being light, or dark
+                if (!isset($colour)) {
+                    $colour = ($i++ % 2 == 0) ? 'dark' : 'light';
+                }
+                $aData[$key]['htmlclass'] = $colour;
+                // Also set the "htmlcolclass" if not set already
+                if (empty($aData[$key]['htmlcolclass'])) {
+                    $aData[$key]['htmlcolclass'] = $colour;
+                }
+            }
+        }
+    }
+
+    /**
+     * A method to format the rows of display data to work with the standard "history" style
+     * templates when in the weekly breakdown - for targeting statistics only!
+     *
+     * @param array  $aData   A reference to an array, containing the a row of data.
+     * @param object $oCaller The calling object. Expected to have the the class variable
+     *                        "statsBreakdown" set.
+     * @param string $colour  An optional, fixed non-targeting issue colour for all items.
+     */
+    function formatWeekRowsTotal(&$aData, $oCaller, $colour = null)
+    {
+        // Format the total row - is there a set target ratio?
+        if (preg_match('/(\d+\.\d*)%/', $aData['target_ratio'], $aMatches)) {
+            $targetPercent = $aMatches[0];
+            if ($targetPercent < 90) {
+                $aData['htmlclass'] = 'reddark';
+            } else if ($targetPercent > 110) {
+                $aData['htmlclass'] = 'redlight';
             }
         }
     }
