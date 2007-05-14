@@ -89,6 +89,15 @@ class Test_OA_Upgrade extends UnitTestCase
 //        $GLOBALS['_MAX']['CONF']['table']    = $aTblOld;
     }
 
+    function test_getUpgradeLogFileName()
+    {
+        $oUpgrade = new OA_Upgrade();
+        $pattern = '/openads_upgrade_1_to_2_constructive_[\d]{4}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}\.log/';
+        $logfile = $oUpgrade->_getUpgradeLogFileName('openads_upgrade_1_to_2','constructive');
+        $this->assertWantedPattern($pattern, $logfile, 'wrong logfile pattern');
+
+    }
+
     function testcheckPermissionToCreateTable()
     {
         $oUpgrade = new OA_Upgrade();
@@ -97,26 +106,12 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertTrue($oUpgrade->checkPermissionToCreateTable(),'database permissions');
     }
 
-    function test_createCoreTables()
-    {
-//        OA_DB::dropDatabase('openads_install_test');
-//        OA_DB::createDatabase('openads_install_test');
-//        $GLOBALS['_MAX']['CONF']['table']['prefix'] = 'oa_';
-//        $oUpgrade = new OA_Upgrade();
-//        $oUpgrade->oDbh = OA_DB::changeDatabase('openads_install_test');
-//        $oUpgrade->initDatabaseConnection();
-//        $this->assertTrue($oUpgrade->createCoreTables(),'createCoreTables');
-//        //$oUpgrade->oTable->dropAllTables();
-//        OA_DB::dropDatabase('openads_install_test');
-//        $GLOBALS['_MAX']['CONF']['table']['prefix'] = '';
-    }
-
     function test_parseUpgradePackageFile()
     {
         $oUpgrade  = new OA_Upgrade();
         $testid    = 'openads_upgrade_1_to_2';
         $testfile  = $testid.'.xml';
-        $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/unit/';
+        $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
         if (file_exists($testpath.$testfile))
         {
             $this->assertTrue(copy($testpath.$testfile, $oUpgrade->upgradePath.$testfile));
@@ -155,9 +150,6 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->aDBPackages[0]['files'][0],'schema_tables_core_2.xml','');
         $this->assertEqual($oUpgrade->aDBPackages[0]['files'][1],'changes_tables_core_2.xml','');
         $this->assertEqual($oUpgrade->aDBPackages[0]['files'][2],'migration_tables_core_2.php','');
-
-//        $logpattern = '/openads_upgrade_1_to_2_constructive_[\d]{4}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}\.log/';
-//        $this->assertWantedPattern($logpattern, basename($oUpgrade->oLogger->logFile), '');
 
         if (file_exists($oUpgrade->upgradePath.$testfile))
         {
@@ -222,14 +214,14 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->versionInitialApplication,'v0.3.30-alpha','wrong initial application version');
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_MAX_VERSION_FAILED,'wrong upgrade status code');
         $this->assertEqual($oUpgrade->package_file, '', 'wrong package file assigned');
-        $this->_deleteTestAppVarRecord('max_version','v0.3.30-alpha');
+        $this->_deleteTestAppVarRecordAllNames('max_version');
 
         $this->_createTestAppVarRecord('max_version','v0.3.31-alpha');
         $this->assertTrue($oUpgrade->detectMAX(),'');
         $this->assertEqual($oUpgrade->versionInitialApplication,'v0.3.31-alpha','wrong initial application version');
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code');
         $this->assertEqual($oUpgrade->package_file, 'openads_upgrade_2.3.31_to_2.3.32_beta.xml','wrong package file assigned');
-        $this->_deleteTestAppVarRecord('max_version','v0.3.31-alpha');
+        $this->_deleteTestAppVarRecordAllNames('max_version');
 
     }
 
@@ -247,14 +239,149 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->versionInitialApplication,'2.3.31-beta','wrong initial application version');
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code');
         $this->assertEqual($oUpgrade->package_file, 'openads_upgrade_2.3.32_to_2.3.33_beta.xml','wrong package file assigned');
-        $this->_deleteTestAppVarRecord('oa_version','2.3.31-beta');
+        $this->_deleteTestAppVarRecordAllNames('oa_version');
 
         $this->_createTestAppVarRecord('oa_version',OA_VERSION);
         $this->assertTrue($oUpgrade->detectOpenads(),'');
         $this->assertEqual($oUpgrade->versionInitialApplication,OA_VERSION,'wrong initial application version');
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CURRENT_VERSION,'wrong upgrade status code');
         $this->assertEqual($oUpgrade->package_file, '', 'wrong package file assigned');
-        $this->_deleteTestAppVarRecord('oa_version',OA_VERSION);
+        $this->_deleteTestAppVarRecordAllNames('oa_version');
+    }
+
+    /**
+     * tests a set of constructive & destructive changes
+     * over 2 upgrade packages
+     * and ensures that they rollback correctly
+     *
+     */
+    function test_schemaUpgradeRollback()
+    {
+        $this->_deleteTestAppVarRecord('tables_core', '');
+        $this->assertEqual($this->_getTestAppVarValue('tables_core', ''), '', '');
+        $this->_createTestAppVarRecord('tables_core', '997');
+        $this->assertEqual($this->_getTestAppVarValue('tables_core', '997'), '997', '');
+
+        $this->_createTestAppVarRecord('oa_version','2.3.97');
+        $oUpgrade->versionInitialSchema['tables_core'] = 997;
+        $oUpgrade->versionInitialApplication = '2.3.97';
+
+        $oUpgrade  = new OA_Upgrade();
+        $oUpgrade->upgradePath = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
+        $oUpgrade->oDBUpgrader->path_changes = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
+        $input_file = 'openads_upgrade_2.3.97_to_2.3.99_beta.xml';
+        $oUpgrade->initDatabaseConnection();
+        $oUpgrade->_parseUpgradePackageFile($oUpgrade->upgradePath.$input_file);
+
+        $this->assertTrue($oUpgrade->upgradeSchemas(),'upgradeSchemas');
+
+        $this->_checkTablesUpgraded($oUpgrade);
+        $this->assertEqual($this->_getTestAppVarValue('tables_core', '999'), '999', '');
+
+        $this->assertTrue($oUpgrade->rollbackSchemas().'rollbackSchemas');
+
+        $this->assertEqual($this->_getTestAppVarValue('tables_core', '997'), '997', '');
+
+        $this->_checkTablesRolledBack($oUpgrade);
+
+        // remove the fake application variable records
+        $this->_deleteTestAppVarRecordAllNames('oa_version');
+        $this->_deleteTestAppVarRecordAllNames('tables_core');
+    }
+
+    /**
+     * tests a set of constructive & destructive changes
+     * over 2 upgrade packages
+     * emulates an interruption, dropping a recovery file
+     * ensure that the recovery info is read correctly
+     * and that the tables are restored correctly
+     *
+     */
+    function test_recover()
+    {
+        $this->_createTestAppVarRecord('tables_core', '997');
+        $this->assertEqual($this->_getTestAppVarValue('tables_core', '997'), '997', '');
+
+        $oUpgrade  = new OA_Upgrade();
+
+        // divert objects to test data
+        $oUpgrade->upgradePath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
+        $oUpgrade->oDBUpgrader->path_changes = $oUpgrade->upgradePath;
+        $oUpgrade->package_file = 'openads_upgrade_2.3.97_to_2.3.99_beta.xml';
+        $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.dev.test.log";
+
+        // just in case of error, lose this so we can continue afresh
+        $oUpgrade->_pickupRecoveryFile();
+
+        // fake the versions we are starting with
+        $this->_createTestAppVarRecord('tables_core', '2.3.97');
+        $oUpgrade->versionInitialSchema['tables_core'] = 997;
+        $oUpgrade->versionInitialApplication = '0.3.31';
+
+        // perform a good upgrade
+        $this->assertTrue($oUpgrade->upgrade($oUpgrade->package_file),'upgrade');
+
+        // check the upgraded tables
+        $this->_checkTablesUpgraded($oUpgrade);
+        $this->assertEqual($this->_getTestAppVarValue('tables_core', '999'), '999', '');
+
+        // emulate a partial upgrade...
+        $this->assertTrue($oUpgrade->_writeRecoveryFile('tables_core', 998),'failed to write recovery file');
+        $this->assertTrue($oUpgrade->_writeRecoveryFile('tables_core', 999),'failed to write recovery file');
+
+        // perform recovery
+        $this->assertTrue($oUpgrade->recoverUpgrade(),'recoverUpgrade');
+
+        // check the restored tables
+        $this->_checkTablesRolledBack($oUpgrade);
+        $this->assertEqual($this->_getTestAppVarValue('tables_core', '997'), '997', '');
+
+        // remove the fake application variable records
+        $this->_deleteTestAppVarRecordAllNames('oa_version');
+        $this->_deleteTestAppVarRecordAllNames('tables_core');
+
+        // just in case of error, lose this so we can continue afresh
+        $oUpgrade->_pickupRecoveryFile();
+    }
+
+    function _checkTablesUpgraded($oUpgrade)
+    {
+        $aDBTables = $oUpgrade->oDBUpgrader->_listTables();
+        $this->assertTrue(in_array('aardvark',$aDBTables), 'aardvark was not found');
+        $this->assertTrue(in_array('bandicoot',$aDBTables), 'bandicoot was not found');
+        $this->assertFalse(in_array('affiliates',$aDBTables), 'affiliates was found');
+
+        $aDBFields = $oUpgrade->oDBUpgrader->oSchema->db->manager->listTableFields('campaigns');
+
+        $this->assertFalse(in_array('campaignid',$aDBFields), 'campaignid was found');
+        $this->assertTrue(in_array('campaign_id',$aDBFields), 'campaign_id was not found');
+
+        $aDBFields = $oUpgrade->oDBUpgrader->oSchema->db->manager->listTableFields('acls_channel');
+
+        $this->assertFalse(in_array('channelid',$aDBFields), 'channelid was found');
+        $this->assertTrue(in_array('channel_id',$aDBFields), 'channel_id was not found');
+        $this->assertTrue(in_array('newfield',$aDBFields), 'newfield was not found');
+
+    }
+
+    function _checkTablesRolledBack($oUpgrade)
+    {
+        $aDBTables = $oUpgrade->oDBUpgrader->_listTables();
+
+        $this->assertFalse(in_array('aardvark',$aDBTables), 'aardvark was not found');
+        $this->assertFalse(in_array('bandicoot',$aDBTables), 'bandicoot was not found');
+        $this->assertTrue(in_array('affiliates',$aDBTables), 'affiliates was found');
+
+        $aDBFields = $oUpgrade->oDBUpgrader->oSchema->db->manager->listTableFields('campaigns');
+
+        $this->assertTrue(in_array('campaignid',$aDBFields), 'campaignid was not found');
+        $this->assertFalse(in_array('campaign_id',$aDBFields), 'campaign_id was found');
+
+        $aDBFields = $oUpgrade->oDBUpgrader->oSchema->db->manager->listTableFields('acls_channel');
+
+        $this->assertTrue(in_array('channelid',$aDBFields), 'channelid was not found');
+        $this->assertFalse(in_array('channel_id',$aDBFields), 'channel_id was found');
+        $this->assertFalse(in_array('newfield',$aDBFields), 'newfield was found');
     }
 
     function _createTestAppVarRecord($name, $value)
@@ -266,6 +393,15 @@ class Test_OA_Upgrade extends UnitTestCase
         return DataGenerator::generateOne($doApplicationVariable);
     }
 
+    function _getTestAppVarValue($name, $value)
+    {
+        $doApplicationVariable          = OA_Dal::factoryDO('application_variable');
+        $doApplicationVariable->name    = $name;
+        $doApplicationVariable->find();
+        $doApplicationVariable->fetch();
+        return $doApplicationVariable->value;
+    }
+
     function _deleteTestAppVarRecord($name, $value)
     {
         $doApplicationVariable          = OA_Dal::factoryDO('application_variable');
@@ -274,7 +410,12 @@ class Test_OA_Upgrade extends UnitTestCase
         $doApplicationVariable->delete();
     }
 
-
+    function _deleteTestAppVarRecordAllNames($name)
+    {
+        $doApplicationVariable          = OA_Dal::factoryDO('application_variable');
+        $doApplicationVariable->name    = $name;
+        $doApplicationVariable->delete();
+    }
 }
 
 ?>

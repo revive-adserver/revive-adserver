@@ -51,14 +51,14 @@ class Test_DB_Upgrade extends UnitTestCase
     function test_prepPreScript()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
-        $this->assertTrue($oDB_Upgrade->prepPreScript(MAX_PATH.'/lib/OA/Upgrade/tests/unit/prescript_tables_core_2.php'));
+        $this->assertTrue($oDB_Upgrade->prepPreScript(MAX_PATH.'/lib/OA/Upgrade/tests/data/prescript_tables_core_2.php'));
         $this->assertIsA($oDB_Upgrade->oPreScript, 'prescript_tables_core_2', 'prescript class instance error');
     }
 
     function test_runPreScript()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
-        $this->assertTrue($oDB_Upgrade->prepPreScript(MAX_PATH.'/lib/OA/Upgrade/tests/unit/prescript_tables_core_2.php'));
+        $this->assertTrue($oDB_Upgrade->prepPreScript(MAX_PATH.'/lib/OA/Upgrade/tests/data/prescript_tables_core_2.php'));
         $this->assertTrue($oDB_Upgrade->runPreScript(true),'prescript execution error');
         $this->assertFalse($oDB_Upgrade->runPreScript(false),'prescript execution error');
     }
@@ -66,39 +66,16 @@ class Test_DB_Upgrade extends UnitTestCase
     function test_prepPostScript()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
-        $this->assertTrue($oDB_Upgrade->prepPostScript(MAX_PATH.'/lib/OA/Upgrade/tests/unit/postscript_tables_core_2.php'));
+        $this->assertTrue($oDB_Upgrade->prepPostScript(MAX_PATH.'/lib/OA/Upgrade/tests/data/postscript_tables_core_2.php'));
         $this->assertIsA($oDB_Upgrade->oPostScript, 'postscript_tables_core_2', 'postscript class instance error');
     }
 
     function test_runPostScript()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
-        $this->assertTrue($oDB_Upgrade->prepPostScript(MAX_PATH.'/lib/OA/Upgrade/tests/unit/postscript_tables_core_2.php'));
+        $this->assertTrue($oDB_Upgrade->prepPostScript(MAX_PATH.'/lib/OA/Upgrade/tests/data/postscript_tables_core_2.php'));
         $this->assertTrue($oDB_Upgrade->runPostScript(true),'postscript execution error');
         $this->assertFalse($oDB_Upgrade->runPostScript(false),'postscript execution error');
-    }
-
-    function test_dropRecoveryFile()
-    {
-        $oDB_Upgrade = $this->_newDBUpgradeObject();
-        $this->assertTrue($oDB_Upgrade->_dropRecoveryFile(),'failed to write recovery file');
-    }
-
-    function test_seekRecoveryFile()
-    {
-        $oDB_Upgrade = $this->_newDBUpgradeObject();
-        $aResult = $oDB_Upgrade->seekRecoveryFile();
-        $this->assertIsA($aResult,'array','failed to find recovery file');
-        $this->assertEqual($aResult['schema_name'],'tables_core','error in recovery array: schema');
-        $this->assertEqual($aResult['timingInt'],0,'error in recovery array: timingStr');
-        $this->assertEqual($aResult['versionTo'],2,'error in recovery array: versionTo');
-        $this->assertTrue(isset($aResult['updated']),'error in recovery array: updated');
-    }
-
-    function test_pickupRecoveryFile()
-    {
-        $oDB_Upgrade = $this->_newDBUpgradeObject();
-        $this->assertTrue($oDB_Upgrade->_pickupRecoveryFile(),'failed to remove recovery file');
     }
 
     /**
@@ -133,14 +110,14 @@ class Test_DB_Upgrade extends UnitTestCase
     function test_getPreviousTablename()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
-        $oDB_Upgrade->aChanges  = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile(MAX_PATH.'/lib/OA/Upgrade/tests/unit/changes_test_rename.xml');
+        $oDB_Upgrade->aChanges  = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile(MAX_PATH.'/lib/OA/Upgrade/tests/data/changes_test_rename.xml');
         $this->assertEqual($oDB_Upgrade->_getPreviousTablename('table1_renamed'), 'table1', 'wrong previous table name');
     }
 
     function test_getPreviousFieldname()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
-        $oDB_Upgrade->aChanges  = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile(MAX_PATH.'/lib/OA/Upgrade/tests/unit/changes_test_rename.xml');
+        $oDB_Upgrade->aChanges  = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile(MAX_PATH.'/lib/OA/Upgrade/tests/data/changes_test_rename.xml');
         $this->assertEqual($oDB_Upgrade->_getPreviousFieldname('table1', 'b_id_field_renamed'), 'b_id_field', 'wrong previous field name');
     }
 

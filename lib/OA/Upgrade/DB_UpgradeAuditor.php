@@ -217,7 +217,7 @@ class OA_DB_UpgradeAuditor
         return $aResult;
     }
 
-    function queryAudit($version='', $timing='', $schema='tables_core', $action='')
+    function queryAudit($version='', $timing=null, $schema='tables_core', $action=null)
     {
         $query =   "SELECT * FROM {$this->prefix}{$this->logTable}"
                    ." WHERE schema_name ='{$schema}'";
@@ -225,11 +225,11 @@ class OA_DB_UpgradeAuditor
         {
             $query.= " AND version ={$version}";
         }
-        if ($timing)
+        if (!is_null($timing))
         {
             $query.= " AND timing ={$timing}";
         }
-        if ($action)
+        if (!is_null($action))
         {
             $query.= " AND action ={$action}";
         }

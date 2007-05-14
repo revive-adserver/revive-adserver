@@ -50,7 +50,7 @@ class Test_OA_UpgradePackageParser extends UnitTestCase
     {
         $oParser   = new OA_UpgradePackageParser();
         $testfile  = 'openads_upgrade_1_to_2.xml';
-        $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/unit/';
+        $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
 
         $oParser->setInputFile($testpath.$testfile);
         $this->assertTrue($oParser->parse(),'failed to parse input file');

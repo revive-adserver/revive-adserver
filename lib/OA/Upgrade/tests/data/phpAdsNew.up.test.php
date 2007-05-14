@@ -100,7 +100,7 @@ class Test_OA_phpAdsNew extends UnitTestCase
     function _putPanConfigFile()
     {
         $fileTo     = MAX_PATH.'/var/config.inc.php';
-        $fileFrom   = MAX_PATH.'/lib/OA/Upgrade/tests/data/pan.config.inc.php';
+        $fileFrom   = MAX_PATH.'/lib/OA/Upgrade/tests/integration/pan.config.inc.php';
 
         if (file_exists($fileTo))
         {

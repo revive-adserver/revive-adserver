@@ -46,7 +46,7 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
     function Test_OA_DB_UpgradeAuditor()
     {
         $this->UnitTestCase();
-        $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/integration/';
+        $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
     }
 
     function test_constructor()

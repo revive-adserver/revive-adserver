@@ -84,6 +84,7 @@ class OA_Upgrade
     var $versionInitialSchema = array();
 
     var $package_file = '';
+    var $recoveryFile;
 
     var $remove_max_version = false;
     var $can_drop_database = false;
@@ -94,6 +95,7 @@ class OA_Upgrade
     {
         //$this->upgradePath  = MAX_PATH.'/var/upgrade/';
         $this->upgradePath  = MAX_PATH.'/etc/changes/';
+        $this->recoveryFile = MAX_PATH.'/var/recover.log';
 
         $this->oLogger      = new OA_UpgradeLogger();
         $this->oParser      = new OA_UpgradePackageParser();
@@ -104,6 +106,8 @@ class OA_Upgrade
         $this->oSystemMgr   = new OA_Environment_Manager();
         $this->oConfiguration = new OA_Upgrade_Config();
         $this->oTable       = new OA_DB_Table();
+
+        $this->oDBUpgrader->path_changes = $this->upgradePath;
 
         $this->aDsn['database'] = array();
         $this->aDsn['table']    = array();
@@ -158,7 +162,7 @@ class OA_Upgrade
      */
     function isRecoveryRequired()
     {
-        return $this->oDBUpgrader->seekRecoveryFile();
+        return $this->seekRecoveryFile();
     }
 
     /**
@@ -168,23 +172,13 @@ class OA_Upgrade
      */
     function recoverUpgrade()
     {
-        $aRecover = $this->oDBUpgrader->seekRecoveryFile();
-        if ($aRecover['versionTo']<200)
-        {
-            // interrupted PAN upgrade
-            // load PAN config
-            $this->detectPAN();
-        }
+        $this->aDBPackages = $this->seekRecoveryFile();
+        $this->detectPAN();
         if (!$this->initDatabaseConnection())
         {
             return false;
         }
-        if ($this->oDBUpgrader->getRecoveryData())
-        {
-            $this->oDBUpgrader->doRecovery();
-            return true;
-        }
-        return false;
+        return $this->rollbackSchemas();
     }
 
     /**
@@ -671,7 +665,8 @@ class OA_Upgrade
      */
     function upgrade($input_file, $timing='constructive')
     {
-        $logFile = str_replace('.xml', '', $input_file).'_'.$timing.'_'.date('Y_m_d_h_i_s').'.log';
+        //$logFile = str_replace('.xml', '', $input_file).'_'.$timing.'_'.date('Y_m_d_h_i_s').'.log';
+        $logFile = $this->_getUpgradeLogFileName($input_file, $timing);
         $this->oLogger->setLogFile($logFile);
 
         if (!$this->_parseUpgradePackageFile($this->upgradePath.$input_file))
@@ -903,6 +898,7 @@ class OA_Upgrade
                 $this->versionInitialSchema[$aPkg['schema']] = $this->oVersioner->getSchemaVersion($aPkg['schema']);
             }
             $ok = false;
+            $this->_writeRecoveryFile($aPkg['schema'], $aPkg['version']);
             if ($this->oDBUpgrader->init('constructive', $aPkg['schema'], $aPkg['version']))
             {
                 if ($this->_runUpgradeSchemaPreScript($aPkg['prescript']))
@@ -920,7 +916,8 @@ class OA_Upgrade
             if ($ok)
             {
                 $ok = false; // start over - should return true throughout even if nothing to do
-                if ($this->oDBUpgrader->init('destructive', $aPkg['schema'], $aPkg['version']))
+                // last param 'true' will reset the object without having to re-parse the schema
+                if ($this->oDBUpgrader->init('destructive', $aPkg['schema'], $aPkg['version'], true))
                 {
                     if ($this->_runUpgradeSchemaPreScript($aPkg['prescript']))
                     {
@@ -945,6 +942,7 @@ class OA_Upgrade
                 return false;
             }
         }
+        $this->_pickupRecoveryFile();
         return true;
     }
 
@@ -1009,17 +1007,36 @@ class OA_Upgrade
         {
             if ($this->oVersioner->getSchemaVersion($schema) != $version)
             {
-                if ($this->oDBUpgrader->init($timing, $schema, $version))
+                krsort($this->aDBPackages);
+                foreach ($this->aDBPackages as $k=>$aPkg)
                 {
-                    if ($this->oDBUpgrader->rollback())
-                    {
-                        $this->oVersioner->putSchemaVersion($schema, $version);
-                    }
-                    else
+                    if (!$this->oDBUpgrader->init('destructive', $aPkg['schema'], $aPkg['version']))
                     {
                         return false;
                     }
+                    if (!$this->oDBUpgrader->prepRollback())
+                    {
+                        return false;
+                    }
+                    if (!$this->oDBUpgrader->rollback())
+                    {
+                        return false;
+                    }
+                    if (!$this->oDBUpgrader->init('constructive', $aPkg['schema'], $aPkg['version']))
+                    {
+                        return false;
+                    }
+                    if (!$this->oDBUpgrader->prepRollback())
+                    {
+                        return false;
+                    }
+                    if (!$this->oDBUpgrader->rollback())
+                    {
+                        return false;
+                    }
+                    $this->oVersioner->putSchemaVersion($aPkg['schema'], $aPkg['version']);
                 }
+                $this->oVersioner->putSchemaVersion($schema, $version);
             }
         }
         return true;
@@ -1147,6 +1164,62 @@ class OA_Upgrade
     {
         return $this->oLogger->aErrors;
     }
+
+    /**
+     * write the version, schema and timestamp to a small temp file in the var folder
+     * this will be written when an upgrade starts and deleted when it ends
+     * if this file is present outside of the upgrade process it indicates that
+     * the upgrade was interrupted
+     *
+     * @return boolean
+     */
+    function _writeRecoveryFile($schema, $version)
+    {
+        $log = fopen($this->recoveryFile, 'a');
+        $date = date('Y-m-d h:i:s');
+        fwrite($log, "{$schema}/{$version}/{$date}/{$this->versionInitialSchema[$schema]}/{$this->versionInitialApplication};\r\n");
+        fclose($log);
+        return file_exists($this->recoveryFile);
+    }
+
+    function _pickupRecoveryFile()
+    {
+        if (file_exists($this->recoveryFile))
+        {
+            unlink($this->recoveryFile);
+        }
+        return (!file_exists($this->recoveryFile));
+    }
+
+    function seekRecoveryFile()
+    {
+        if (file_exists($this->recoveryFile))
+        {
+            $aContent = explode(';', file_get_contents($this->recoveryFile));
+            foreach ($aContent as $k => $v)
+            {
+                if (trim($v))
+                {
+                    $aLine = explode('/', trim($v));
+                    $aResult[] = array(
+                                        'schema'    =>$aLine[0],
+                                        'version'   =>$aLine[1],
+                                        'updated'   =>$aLine[2],
+                                        'versionInitialSchema'      =>$aLine[3],
+                                        'versionInitialApplication' =>$aLine[4],
+                                        );
+                }
+            }
+            return $aResult;
+        }
+        return false;
+    }
+
+    function _getUpgradeLogFileName($input_file, $timing)
+    {
+        return str_replace('.xml', '', $input_file).'_'.$timing.'_'.OA::getNow('Y_m_d_h_i_s').'.log';
+    }
+
 
     /**
      * compile a list of changesets available in /etc/changes

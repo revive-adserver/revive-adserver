@@ -66,14 +66,14 @@ class Test_DB_Upgrade extends UnitTestCase
 
     function test_constructor()
     {
-        $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/integration/';
+        $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
         $oDB_Upgrade = & new OA_DB_Upgrade();
         $this->assertIsA($oDB_Upgrade, 'OA_DB_Upgrade', 'OA_DB_Upgrade not instantiated');
     }
 
     function test_initMDB2Schema()
     {
-        $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/integration/';
+        $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
         $oDB_Upgrade = & new OA_DB_Upgrade();
         $oDB_Upgrade->initMDB2Schema();
         $this->assertIsA($oDB_Upgrade->oSchema, 'MDB2_Schema', 'MDB2 Schema not instantiated');
@@ -107,7 +107,7 @@ class Test_DB_Upgrade extends UnitTestCase
      * then recovered in a separate session
      *
      */
-    function test_recover()
+/*    function test_recover()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
 
@@ -139,7 +139,7 @@ class Test_DB_Upgrade extends UnitTestCase
         // save the old definitions for comparison
         $aTblDefsOriginal = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1','table2'));
         $oTable = new OA_DB_Table();
-        // these actually get dropped by the _rollback method but still....
+        // these actually get dropped by the rollback method but still....
         $this->assertTrue($oTable->dropTable('table1'),'error dropping table1');
         $this->assertTrue($oTable->dropTable('table2'),'error dropping table2');
         // now restore those tables
@@ -163,7 +163,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue($oTable->dropTable($aRestoreTables['table2']['bak']),'error dropping test backup for table2');
         OA_DB::disabledQuoteIdentifier();
     }
-
+*/
     /**
      * this test calls backup method then immediately rollsback
      * emulating an upgrade error without interrupt (can recover in same session)
@@ -204,7 +204,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertFalse(in_array('table1', $oDB_Upgrade->aDBTables), 'could not drop test table');
 
-        $this->assertTrue($oDB_Upgrade->_rollback(), 'rollback failed');
+        $this->assertTrue($oDB_Upgrade->rollback(), 'rollback failed');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertTrue(in_array('table1',$oDB_Upgrade->aDBTables), 'test table was not restored');
@@ -255,7 +255,7 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
 
-        $this->assertTrue($oDB_Upgrade->_rollback(), 'rollback failed');
+        $this->assertTrue($oDB_Upgrade->rollback(), 'rollback failed');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertFalse(in_array('table2',$oDB_Upgrade->aDBTables), 'table2 was not dropped');
@@ -279,7 +279,7 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $this->_dropTestTables($oDB_Upgrade->oSchema->db);
 
-        $this->assertTrue($oDB_Upgrade->_rollback(), 'rollback failed');
+        $this->assertTrue($oDB_Upgrade->rollback(), 'rollback failed');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertTrue(in_array('table1',$oDB_Upgrade->aDBTables), 'table1 was not restored');
@@ -334,7 +334,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertFalse(in_array('table1_autoinc', $oDB_Upgrade->aDBTables), 'could not drop test table');
 
-        $this->assertTrue($oDB_Upgrade->_rollback(), 'rollback failed');
+        $this->assertTrue($oDB_Upgrade->rollback(), 'rollback failed');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertTrue(in_array('table1_autoinc',$oDB_Upgrade->aDBTables), 'test table was not restored');

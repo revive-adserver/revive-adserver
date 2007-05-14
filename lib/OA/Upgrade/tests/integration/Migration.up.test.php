@@ -62,7 +62,7 @@ class Test_Migration extends UnitTestCase
     {
         $this->oDbh = OA_DB::singleton(OA_DB::getDsn());
         $this->oTable = new OA_DB_Table();
-        $this->oTable->init(MAX_PATH.'/lib/OA/Upgrade/tests/integration/migration_test_1.xml');
+        $this->oTable->init(MAX_PATH.'/lib/OA/Upgrade/tests/data/migration_test_1.xml');
         $this->aDefinition = $this->oTable->aDefinition;
     }
 

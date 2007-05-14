@@ -57,45 +57,6 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->assertTrue($aResult,"should have returned a permission error (unless {$file} is writable that is ;)");
     }
 
-//    function test_getPANInfo()
-//    {
-//        $oEnvMgr    = & $this->_getEnvMgrObj();
-//        $fileTo     = MAX_PATH.'/var/config.inc.php';
-//        $fileFrom   = MAX_PATH.'/lib/OA/Upgrade/tests/integration/pan.config.inc.php';
-//
-//        if (file_exists($fileTo))
-//        {
-//            unlink($fileTo);
-//        }
-//        $this->assertTrue(file_exists($fileFrom),'pan test config does not exist');
-//        $this->assertTrue(copy($fileFrom, $fileTo),'failed to copy pan test config file');
-//        $this->assertTrue(file_exists($fileTo),'pan test config does not exist');
-//        $aResult  = $oEnvMgr->getPANInfo();
-//        unlink($fileTo);
-//        $this->assertEqual($aResult['dbhost'],'pan_host','');
-//        $this->assertEqual($aResult['dbport'],'9999','');
-//        $this->assertEqual($aResult['dbuser'],'pan_user','');
-//        $this->assertEqual($aResult['dbpassword'],'pan_password','');
-//        $this->assertEqual($aResult['dbname'],'pan_database','');
-//        $this->assertEqual($aResult['table_type'],'PANENGINE','');
-//        $this->assertEqual($aResult['table_prefix'],'panprefix_','');
-//    }
-
-//    function test_getDBInfo()
-//    {
-//        $oEnvMgr = & $this->_getEnvMgrObj();
-//        $aResult = $oEnvMgr->getDBInfo();
-//        $confdb = $GLOBALS['_MAX']['CONF']['database'];
-//        $conftbl = $GLOBALS['_MAX']['CONF']['table'];
-//        $this->assertEqual($aResult['type'],$confdb['type'],'');
-//        $this->assertEqual($aResult['port'],$confdb['port'],'');
-//        $this->assertEqual($aResult['username'],$confdb['username'],'');
-//        $this->assertEqual($aResult['password'],$confdb['password'],'');
-//        $this->assertEqual($aResult['name'],$confdb['name'],'');
-//        $this->assertEqual($aResult['table']['type'],$conftbl['type'],'');
-//        $this->assertEqual($aResult['table']['prefix'],$conftbl['prefix'],'');
-//    }
-//
     function test_getPHPInfo()
     {
         $oEnvMgr = & $this->_getEnvMgrObj();
