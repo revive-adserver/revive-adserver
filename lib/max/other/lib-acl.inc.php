@@ -258,42 +258,67 @@ function MAX_AclGetPlugins($acls) {
     return implode(',', $acl_plugins);
 }
 
+/**
+ * A function to test if the delivery limitations stored in the database
+ * are valid - that is, have the values stored in the acls or acls_channel
+ * tables been correctly compiled into the form required to be stored in
+ * the banners or channels table?
+ *
+ * @param string $page Either "banner-acl.php" if testing a banner limitation,
+ *                     or "channel-acl.php" if testing a channel limitation.
+ * @param array  $aParams An array, containing either the "bannerid" if testing
+ *                        a banner limitation, or the "channelid" if testing a
+ *                        channel limitation.
+ * @return boolean True if the limitations are correctly compiled, false otherwise.
+ */
 function MAX_AclValidate($page, $aParams) {
     $conf =& $GLOBALS['_MAX']['CONF'];
     $oDbh = &OA_DB::singleton();
+
     if (PEAR::isError($oDbh)) {
-        // FIXME: What am I supposed to do here???
+        return false;
     }
+
     switch($page) {
         case 'banner-acl.php':
-            $query_existing = "SELECT compiledlimitation, acl_plugins FROM {$conf['table']['prefix']}{$conf['table']['banners']} WHERE bannerid = ". $oDbh->quote($aParams['bannerid'], 'integer');
-            $query_acls = "SELECT bannerid as id, logical, type, comparison, data, executionorder FROM {$conf['table']['prefix']}{$conf['table']['acls']} WHERE bannerid = ". $oDbh->quote($aParams['bannerid'], 'integer') ." ORDER BY executionorder";
+            $doEntityTable = OA_Dal::factoryDO('banners');
+            $doEntityTable->bannerid = $aParams['bannerid'];
+            $doAclTable = OA_Dal::factoryDO('acls');
+            $doAclTable->bannerid = $aParams['bannerid'];
         break;
         case 'channel-acl.php':
-            $query_existing = "SELECT compiledlimitation, acl_plugins FROM {$conf['table']['prefix']}{$conf['table']['channel']} WHERE channelid = ". $oDbh->quote($aParams['channelid'], 'integer');
-            $query_acls = "SELECT channelid as id, logical, type, comparison, data, executionorder FROM {$conf['table']['prefix']}{$conf['table']['acls_channel']} WHERE channelid = ". $oDbh->quote($aParams['channelid'], 'integer') ." ORDER BY executionorder";
+            $doEntityTable = OA_Dal::factoryDO('channel');
+            $doEntityTable->channelid = $aParams['channelid'];
+            $doAclTable = OA_Dal::factoryDO('acls_channel');
+            $doAclTable->channelid = $aParams['channelid'];
         break;
     }
-    list($compiledLimitation, $acl_plugins) = $oDbh->queryRow($query_existing, null, MDB2_FETCHMODE_ORDERED);
-    $compiledLimitation = stripslashes($compiledLimitation);
 
-    $acls = array();
-    $res = $oDbh->query($query_acls);
-    while ($row = $res->fetchRow()) {
-        list($package, $name) = explode(':', $row['type']);
+    $doEntityTable->find();
+    $doEntityTable->fetch();
+    $aData = $doEntityTable->toArray();
+    $compiledLimitation = stripslashes($aData['compiledlimitation']);
+    $acl_plugins        = $aData['acl_plugins'];
+
+    $aAcls = array();
+    $doAclTable->orderBy(executionorder);
+    $doAclTable->find();
+    while ($doAclTable->fetch()) {
+        $aData = $doAclTable->toArray();
+        list($package, $name) = explode(':', $aData['type']);
         $deliveryLimitationPlugin = MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
-        $deliveryLimitationPlugin->init($row);
+        $deliveryLimitationPlugin->init($aData);
         if ($deliveryLimitationPlugin->isAllowed($page)) {
-            $acls[$row['executionorder']] = $row;
+            $aAcls[$aData['executionorder']] = $aData;
         }
     }
 
-    $newCompiledLimitation = stripslashes(MAX_AclGetCompiled($acls));
-    $newAclPlugins = MAX_AclGetPlugins($acls);
+    $newCompiledLimitation = stripslashes(MAX_AclGetCompiled($aAcls));
+    $newAclPlugins         = MAX_AclGetPlugins($aAcls);
 
     if (($newCompiledLimitation == $compiledLimitation) && ($newAclPlugins == $acl_plugins)) {
         return true;
-    } elseif ((empty($newAclPlugins) && empty($newAclPlugins)) && ($newCompiledLimitation == 'true' && empty($compiledLimitation))) {
+    } elseif (($compiledLimitation === 'true' || $compiledLimitation === '') && ($newCompiledLimitation === 'true' && empty($newAclPlugins))) {
         return true;
     } else {
         return false;
