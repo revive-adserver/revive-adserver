@@ -105,7 +105,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysql extends OA_Dal_Maintenance_Sta
             DELETE FROM
                 $table
             WHERE
-                date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
+                date_time <= " . $this->oDbh->quote($oDeleteDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
         MAX::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                    "') tracker impressions from the $table table", PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
@@ -120,7 +120,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysql extends OA_Dal_Maintenance_Sta
             DELETE FROM
                 $table
             WHERE
-                date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
+                date_time <= " . $this->oDbh->quote($oDeleteDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
         MAX::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                    "') tracker variable values from the $table table", PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
@@ -135,7 +135,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysql extends OA_Dal_Maintenance_Sta
             DELETE FROM
                 $table
             WHERE
-                date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
+                date_time <= " . $this->oDbh->quote($oDeleteDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
         MAX::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                    "') tracker clicks from the $table table", PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);

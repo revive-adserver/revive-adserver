@@ -910,7 +910,7 @@ function MAX_duplicateAd($adId, $placementId) {
 
         while (list($name, $value) = each($row)) {
             $values_fields .= "$name, ";
-            $values .= "'". $oDbh->escape($value) ."', ";
+            $values .= $oDbh->quote($value) .", ";
         }
 
         $values_fields = ereg_replace(", $", "", $values_fields);

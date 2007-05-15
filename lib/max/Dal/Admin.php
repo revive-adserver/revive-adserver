@@ -443,10 +443,9 @@ class MAX_Dal_Admin extends MAX_Dal_Common
                 WHERE interm.zone_id = adzone.zone_id
                     and interm.ad_id = adzone.ad_id
                     and interm.interval_start = adzone.interval_start
-                    and interm.zone_id = $this->oDbh->quote($zone_id, 'integer') ."
+                    and interm.zone_id = ". $this->oDbh->quote($zone_id, 'integer') ."
                     and interm.interval_start >= ". $this->oDbh->quote($start_sql, 'timestamp') ."
-                    and interm.interval_end <= ". $this->oDbh->quote($end_sql, 'timestamp');
-
+                    and interm.interval_end <= ". $this->oDbh->quote($end_sql, 'timestamp') ."
                 GROUP BY ad_id
                 ";
         $results = $this->oDbh->getAll($sql);

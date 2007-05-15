@@ -1084,7 +1084,7 @@ class OA_Dal_Maintenance_Statistics_Common
             // conversions, obviously...
             return;
         }
-        $connectionActions = '(' . implode(', ', $aActions['connections']) . ')';
+        $connectionActions = '(' . $this->oDbh->escape(implode(', ', $aActions['connections'])) . ')';
         // Select conversions with both basket value and items number or none of them
         $query = "
             INSERT INTO
@@ -1343,7 +1343,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 // in case the tracker impression happend just on midnight...
                 $upperBound = 1;
             }
-            for ($innerCounter = 0; $innterCounter <= $upperBound; $innterCounter++) {
+            for ($innerCounter = 0; $innerCounter <= $upperBound; $innerCounter++) {
                 // Set the appropriate data_raw_tracker_variable_value table
                 $trackerVariableValueTable = $aConf['table']['prefix'] .
                                              $aConf['table']['data_raw_tracker_variable_value'];
@@ -1375,9 +1375,9 @@ class OA_Dal_Maintenance_Statistics_Common
                         AND
                         drti.server_raw_ip = drtvv.server_raw_ip
                         AND
-                        diac.tracker_date_time >= " . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
+                        diac.tracker_date_time >= " . $oStart->format('%Y-%m-%d %H:%M:%S') . "
                         AND
-                        diac.tracker_date_time <= " . $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
+                        diac.tracker_date_time <= " . $oEnd->format('%Y-%m-%d %H:%M:%S');
                 OA::debug("Saving the tracker impression variable values from the $innerTable table", PEAR_LOG_DEBUG);
                 OA::disableErrorHandling();
                 $rows = $this->oDbh->exec($query);

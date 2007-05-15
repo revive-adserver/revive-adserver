@@ -200,13 +200,13 @@ class MAX_Admin_Preferences
                 )
                 ";
             $aTypes = array('integer', 'text', 'text');
-            $st     = $this->oDbh->prepare($query, $aTypes);
+            $st     = $oDbh->prepare($query, $aTypes);
             foreach ($this->prefSql as $key => $value) {
 
                 // Don't use a PEAR_Error handler
                 PEAR::pushErrorHandling(null);
                 // Try to INSERT first
-                $rows = $oDbh->exec(array($entityId, $key, $value));
+                $rows = $oDbh->execute(array($entityId, $key, $value));
                 // Restore the PEAR_Error handler
                 PEAR::popErrorHandling();
                 if (PEAR::isError($rows)) {
@@ -221,8 +221,8 @@ class MAX_Admin_Preferences
                         AND
                             preference = ?";
                     $aTypes = array('integer', 'text');
-                    $st     = $this->oDbh->prepare($query, $aTypes);
-                    $rows   = $oDbh->exec(array($entityId, $key));
+                    $st     = $oDbh->prepare($query, $aTypes);
+                    $rows   = $oDbh->execute(array($entityId, $key));
                     if (PEAR::isError($rows)) {
                         return MAX::raiseError($rows, MAX_ERROR_DBFAILURE);
                     }
@@ -297,7 +297,7 @@ class MAX_Admin_Preferences
                 ';
             // Don't use a PEAR_Error handler
             PEAR::pushErrorHandling(null);
-            $rows = $oDbh->exec($query);
+            $rows = $oDbh->execute($query);
             // Restore the PEAR_Error handler
             PEAR::popErrorHandling();
             if (PEAR::isError($rows)) {
@@ -313,7 +313,7 @@ class MAX_Admin_Preferences
                     WHERE
                         agencyid = ". $oDbh->quote($agencyId, 'integer');
 
-                $rows = $oDbh->exec($query);
+                $rows = $oDbh->execute($query);
                 if (PEAR::isError($rows)) {
                     return MAX::raiseError($rows, MAX_ERROR_DBFAILURE);
                 }
