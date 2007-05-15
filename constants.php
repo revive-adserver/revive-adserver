@@ -265,11 +265,6 @@ function setupConstants()
             define('IMAGE_CANVAS_SYSTEM_FONT_PATH', $GLOBALS['_MAX']['CONF']['graphs']['ttfDirectory']);
         }
     }
-    // These variables are common with delivery and possibly should be extended as an
-    // external method
-    $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'] = '|';
-    $GLOBALS['_MAX']['MAX_COOKIELESS_PREFIX'] = '__';
-    $GLOBALS['_MAX']['MAX_RAND'] = $GLOBALS['_MAX']['CONF']['priority']['randmax'];
 }
 
 /**

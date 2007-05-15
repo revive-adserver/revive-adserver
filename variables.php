@@ -41,75 +41,64 @@ $Id$
  *   existing files
  */
 
-/**
- * Main part of script where data is initialized for delivery
- */
-
-require_once 'init-delivery-parse.php';
-require_once 'variables.php';
-
-setupDeliveryConfigVariables();
-
-// Set the log file
-if ($GLOBALS['_MAX']['CONF']['debug']['logfile']) {
-    @ini_set('error_log', MAX_PATH . '/var/' . $GLOBALS['_MAX']['CONF']['debug']['logfile']);
-}
-
-require_once MAX_PATH . '/lib/max/Delivery/common.php';
-require_once MAX_PATH . '/lib/max/Delivery/cache.php';
-
-// Set the viewer's remote information used in logging
-// and delivery limitation evaluation
-MAX_remotehostProxyLookup();
-MAX_remotehostReverseLookup();
-MAX_remotehostSetClientInfo();
-MAX_remotehostSetGeoInfo();
-
-// Set common delivery parameters in the global scope
-MAX_commonInitVariables();
-
-// Unpack the packed capping cookies
-MAX_cookieUnpackCapping();
 
 /**
- * Initialize the environmental constants and global variables
- * required by delivery.
- * 
- */
-function setupDeliveryConfigVariables()
-{
-    if (!defined('MAX_PATH')) {
-        define('MAX_PATH', dirname(__FILE__));
-    }
-    // Ensure that the initialisation has not been run before
-    if (!(isset($GLOBALS['_MAX']['CONF']))) {
-        // Parse the Max configuration file
-        $GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
-    }
-    
-    setupConfigVariables();
-}
-
-/**
- * Defining include path in separate methods as it is required by delivery only in really exceptional
- * sircumstances
+ * Setup common variables - used by both delivery and admin part as well
  *
+ * This function should be executed after the config file is read in.
+ * 
+ * The reason behind using GLOBAL variables is that
+ * there are faster than constants
  */
-function setupIncludePath()
+function setupConfigVariables()
 {
-    static $checkIfAlreadySet;
-    if (isset($checkIfAlreadySet)) {
-        return;
-    }
-    $checkIfAlreadySet = true;
+    $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'] = '|';
+    $GLOBALS['_MAX']['MAX_COOKIELESS_PREFIX'] = '__';
     
-    // Define the PEAR installation path
-    $existingPearPath = ini_get('include_path');
-    $newPearPath = MAX_PATH . '/lib/pear';
-    if (!empty($existingPearPath)) {
-        $newPearPath .= PATH_SEPARATOR . $existingPearPath;
+    // Set the URL access mechanism
+    if (!empty($GLOBALS['_MAX']['CONF']['openads']['requireSSL'])) {
+        $GLOBALS['_MAX']['HTTP'] = 'https://';
+    } else {
+        if (isset($_SERVER['SERVER_PORT'])) {
+            if (isset($GLOBALS['_MAX']['CONF']['openads']['sslPort']) 
+                && $_SERVER['SERVER_PORT'] == $maxGlobals['CONF']['openads']['sslPort']) 
+            {
+                $GLOBALS['_MAX']['HTTP'] = 'https://';
+            } else {
+                $GLOBALS['_MAX']['HTTP'] = 'http://';
+            }
+        }
     }
-    ini_set('include_path', $newPearPath);
+    
+    // Maximum random number
+    $GLOBALS['_MAX']['MAX_RAND'] = $GLOBALS['_MAX']['CONF']['priority']['randmax'];
+    
+    // set time zone, for more info @see setTimeZoneLocation()
+    if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
+        setTimeZoneLocation($GLOBALS['_MAX']['CONF']['timezone']['location']);
+    }
+}
+
+/**
+ * Set a timezone location using a proper method per php version
+ *
+ * Ensure that the TZ environment variable is set for PHP < 5.1.0, so
+ * that PEAR::Date class knows which timezone we are in, and doesn't
+ * screw up the dates after using the PEAR::compare() method -  also,
+ * ensure that an appropriate timezone is set, if required, to allow
+ * the time zone to be other than the time zone of the server
+ * 
+ * @param string $location  Time zone location
+ */
+function setTimeZoneLocation($location)
+{
+    if (version_compare(phpversion(), '5.1.0', '>=')) {
+        // Set new time zone
+        date_default_timezone_set($location);
+    } else {
+        // Set new time zone
+        putenv("TZ={$location}");
+    }
 }
 
 ?>
