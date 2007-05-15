@@ -239,19 +239,19 @@ $activeNav = array (
     OA_UPGRADE_SYSCHECK       =>      '3',
     OA_UPGRADE_APPCHECK       =>      '3',
     OA_UPGRADE_DBSETUP        =>      '5',
+    OA_UPGRADE_UPGRADE        =>      '5',
+    OA_UPGRADE_INSTALL        =>      '5',
     OA_UPGRADE_CONFIGSETUP    =>      '6',
     OA_UPGRADE_ADMINSETUP     =>      '7',
     OA_UPGRADE_IDSETUP        =>      '7',
     OA_UPGRADE_DATASETUP      =>      '9',
-    OA_UPGRADE_UPGRADE        =>      '10',
-    OA_UPGRADE_INSTALL        =>      '10',
     OA_UPGRADE_FINISH         =>      '10'
 );
 
 // setup the nav to determine whether or not to show a valid link
 $navLinks = array();
 foreach ($activeNav as $key=>$val) {
-    if ( $val <= $activeNav[$action]) {
+    if ($val <= $activeNav[$action] && $val <= $activeNav[OA_UPGRADE_CONFIGSETUP]) {
         $navLinks[$key] = 'javascript: changePage('.$key.')';
     } else {
         $navLinks[$key] = '';

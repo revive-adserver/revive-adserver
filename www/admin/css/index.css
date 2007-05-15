@@ -71,8 +71,10 @@ td.sysinfoerror, .sysinfoerror {
 }
 
 div.sysinfoerror {
-    background-image: url('../../admin/images/install-error.gif');
-    background-repeat: no-repeat;
+    background-image:    url('../../admin/images/install-error-small.gif');
+    background-repeat:   no-repeat;
+    background-position: 10px 50%;
+    height: 45px;
     color: #990000;
 	background-color: #FFFFE1;
 	border: 1px dashed #990000;
