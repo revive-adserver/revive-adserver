@@ -228,12 +228,6 @@ function setupConstants()
                 // Set new time zone
                 putenv("TZ={$GLOBALS['_MAX']['CONF']['timezone']['location']}");
             }
-        } else {
-            // Ensure that at TZ variable is set, regardless
-            if (getenv('TZ') === false) {
-                $diff = date('O') / 100;
-                putenv('TZ=Etc/GMT'.($diff > 0 ? '-' : '+').abs($diff));
-            }
         }
         // Define the Openads Cache File location path (required trailing slash)
         if (empty($GLOBALS['_MAX']['CONF']['delivery']['cachePath'])) {
