@@ -51,7 +51,7 @@ $phpAds_config['persistent_connections'] = false;
 // Use INSERT DELAYED in logging functions?
 $phpAds_config['insert_delayed'] = false;
 
-// Database compatibility mode to insure phpAdsNew
+// Database compatibility mode to insure Openads
 // won't disturb an available database connection
 $phpAds_config['compatibility_mode'] = false;
 
@@ -62,11 +62,11 @@ $phpAds_config['mysql4_compatibility'] = false;
 
 
 /*********************************************************/
-/* phpAdsNew configuration                               */
+/* Openads configuration                                 */
 /*********************************************************/
 
-// The URL to your phpAds-installation
-$phpAds_config['url_prefix'] = 'http://www.your-url.com/phpAdsNew';
+// The URL to your Openads installation
+$phpAds_config['url_prefix'] = 'http://www.example.com/Openads';
 
 // Is the admin interface enabled
 $phpAds_config['ui_enabled'] = true;
@@ -193,7 +193,7 @@ $phpAds_config['mult_key'] = true;
 // Use delivery limitations?
 $phpAds_config['acl'] = true;
 
-// Default banner, it is show when phpAdsNew can't connect to the database or
+// Default banner, it is show when Openads can't connect to the database or
 // there are absolutely no banner to display. The banner is not logged.
 // Enter the complete url (incl. http://) for the image and the target,
 // or leave them empty if you don't want to show a banner when this happens.
@@ -223,6 +223,9 @@ $phpAds_config['type_html_php'] = false;
 // Enable distrbuted load balancing
 $phpAds_config['lb_enabled'] = false;
 
+// The URL to your Openads admin interface installation
+$phpAds_config['lb_admin_url_prefix'] = '';
+
 // Database local connection using sockets
 $phpAds_config['lb_dblocal'] = false;
 
@@ -247,7 +250,7 @@ $phpAds_config['lb_dbname'] = '';
 
 
 /*********************************************************/
-/* phpAdsNew self configuration code - don't change      */
+/* Openads self configuration code - don't change        */
 /*********************************************************/
 
 define('phpAds_installed', true);

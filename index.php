@@ -19,8 +19,14 @@ require	("config.inc.php");
 
 // Redirect to the admin interface
 if (defined('phpAds_installed') && phpAds_installed)
-	Header("Location: ".$phpAds_config['url_prefix']."/admin/index.php");
+{
+	// Redirect to the admin URL
+	if (!empty($phpAds_config['lb_enabled'])
+		$phpAds_config['url_prefix'] = $phpAds_config['lb_admin_url_prefix'];
+	
+	header("Location: ".$phpAds_config['url_prefix']."/admin/index.php");
+}
 else
-	Header("Location: admin/index.php");
+	header("Location: admin/index.php");
 
 ?>

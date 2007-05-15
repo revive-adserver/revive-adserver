@@ -18,7 +18,7 @@ define ('LIBDBCONFIG_INCLUDED', true);
 
 
 // Current phpAds version
-$phpAds_version = 200.329;
+$phpAds_version = 200.330;
 $phpAds_version_readable = "2.0.12-rc2";
 $phpAds_version_development = false;
 
@@ -92,6 +92,7 @@ $GLOBALS['phpAds_settings_information'] = array(
 	'pack_cookies' =>				array ('type' => 'boolean', 'sql' => false),
 	'auto_maintenance' =>			array ('type' => 'boolean', 'sql' => false),
 	'lb_enabled' => 				array ('type' => 'boolean', 'sql' => false),
+	'lb_admin_url_prefix' =>		array ('type' => 'string',	'sql' => false),
 	'lb_dblocal' => 				array ('type' => 'boolean', 'sql' => false),
 	'lb_dbhost' => 					array ('type' => 'string', 	'sql' => false),
 	'lb_dbport' => 					array ('type' => 'integer', 'sql' => false),

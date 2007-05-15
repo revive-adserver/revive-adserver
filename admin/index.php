@@ -22,27 +22,23 @@ require ("config.php");
 phpAds_checkAccess(phpAds_Admin+phpAds_Client+phpAds_Affiliate);
 
 
+// Deal with load balacing having a different admin URL
+if (!empty($phpAds_config['lb_enabled'])
+	$phpAds_config['url_prefix'] = $phpAds_config['lb_admin_url_prefix'];
+
+
 
 /*********************************************************/
 /* Main code                                             */
 /*********************************************************/
 
 if (phpAds_isUser(phpAds_Admin))
-{
-	Header("Location: ".$phpAds_config['url_prefix']."/admin/client-index.php");
-	exit;
-}
+	header("Location: ".$phpAds_config['url_prefix']."/admin/client-index.php");
+elseif (phpAds_isUser(phpAds_Client))
+	header("Location: ".$phpAds_config['url_prefix']."/admin/stats-client-history.php?clientid=".phpAds_getUserID());
+elseif (phpAds_isUser(phpAds_Affiliate))
+	header("Location: ".$phpAds_config['url_prefix']."/admin/stats-affiliate-zones.php?affiliateid=".phpAds_getUserID());
 
-if (phpAds_isUser(phpAds_Client))
-{
-	Header("Location: ".$phpAds_config['url_prefix']."/admin/stats-client-history.php?clientid=".phpAds_getUserID());
-	exit;
-}
-
-if (phpAds_isUser(phpAds_Affiliate))
-{
-	Header("Location: ".$phpAds_config['url_prefix']."/admin/stats-affiliate-zones.php?affiliateid=".phpAds_getUserID());
-	exit;
-}
+exit;
 
 ?>
