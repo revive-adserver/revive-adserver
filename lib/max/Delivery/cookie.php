@@ -32,9 +32,11 @@ $Id$
  */
 
 $file = '/lib/max/Delivery/cookie.php';
+###START_STRIP_DELIVERY
 if(isset($GLOBALS['_MAX']['FILES'][$file])) {
     return;
 }
+###END_STRIP_DELIVERY
 $GLOBALS['_MAX']['FILES'][$file] = true;
 
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();

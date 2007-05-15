@@ -29,9 +29,11 @@ $Id$
 */
 
 $file = '/lib/max/Delivery/common.php';
+###START_STRIP_DELIVERY
 if(isset($GLOBALS['_MAX']['FILES'][$file])) {
     return;
 }
+###END_STRIP_DELIVERY
 $GLOBALS['_MAX']['FILES'][$file] = true;
 
 require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
