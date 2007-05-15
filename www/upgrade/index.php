@@ -45,12 +45,6 @@ $installing = true;
 require_once '../../init.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
 
-// required files for header & nav
-require_once MAX_PATH . '/lib/max/Admin/Languages.php';
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
-require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
-require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
-
 // clear the $session variable to prevent users pretending to be logged in.
 unset($session);
 define('phpAds_installing',     true);
@@ -91,13 +85,12 @@ $oUpgrader = new OA_Upgrade();
 
 if ($oUpgrader->isRecoveryRequired())
 {
-    setcookie('oat', $action);
     $oUpgrader->recoverUpgrade();
     $action = OA_UPGRADE_RECOVERY;
 }
 else if (array_key_exists('btn_syscheck', $_REQUEST))
 {
-    $aSysInfo = $oUpgrader->checkEnvironment();    
+    $aSysInfo = $oUpgrader->checkEnvironment();
     $halt = !$oUpgrader->canUpgrade();
     if (!$halt)
     {
@@ -127,7 +120,6 @@ else if (array_key_exists('btn_upgrade', $_POST))
             {
                 $message = 'Successfully installed Openads version '.OA_VERSION;
                 $action  = OA_UPGRADE_INSTALL;
-                setcookie('oat', $action);
             }
         }
         else
@@ -136,7 +128,6 @@ else if (array_key_exists('btn_upgrade', $_POST))
             {
                 $message = 'Successfully upgraded Openads to version '.OA_VERSION;
                 $action  = OA_UPGRADE_UPGRADE;
-                setcookie('oat', $action);
             }
         }
     }
@@ -163,7 +154,6 @@ else if (array_key_exists('btn_adminsetup', $_REQUEST))
         {
             //$action = OA_UPGRADE_IDSETUP;
             $message = 'Congratulations you have finished upgrading Openads';
-            setcookie('oat', false);
             $action = OA_UPGRADE_FINISH;
         }
     }
@@ -189,8 +179,7 @@ else if (array_key_exists('btn_datasetup', $_REQUEST))
     }
     else
     {
-        setcookie('oat', false);
-        $action = OA_UPGRADE_DATASETUP;
+        $action = OA_UPGRADE_FINISH;
         $message = 'Congratulations you have finished upgrading Openads';
     }
 }
@@ -212,7 +201,6 @@ else if (array_key_exists('btn_finish', $_REQUEST))
     {
         $message = 'Congratulations you have finished upgrading Openads';
     }
-    setcookie('oat', false);
     $action = OA_UPGRADE_FINISH;
 }
 else if (array_key_exists('btn_openads', $_REQUEST))
@@ -221,14 +209,25 @@ else if (array_key_exists('btn_openads', $_REQUEST))
     exit();
 }
 else if (array_key_exists('dirPage', $_REQUEST))
-{   
+{
     $action = $_POST['dirPage'];
 }
 else
 {
-    setcookie('oat', false);
     $action = OA_UPGRADE_WELCOME;
 }
+
+if (($action == OA_UPGRADE_UPGRADE) || ($action == OA_UPGRADE_INSTALL))
+{
+    setcookie('oat', $action);
+}
+
+// required files for header & nav
+require_once MAX_PATH . '/lib/max/Admin/Languages.php';
+require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
+require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
+
 // Used to detmine which page is active
 $activeNav = array (
     OA_UPGRADE_WELCOME        =>      '1',

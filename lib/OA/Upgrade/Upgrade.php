@@ -525,8 +525,8 @@ class OA_Upgrade
             return false;
         }
 
-        $this->oConfiguration->setOpenadsInstalledOn();
-        $this->oLogger->log('Installation Succeeded');
+//        $this->oConfiguration->setOpenadsInstalledOn();
+//        $this->oLogger->log('Installation Succeeded');
         return true;
     }
 
@@ -806,6 +806,7 @@ class OA_Upgrade
             $this->oLogger->log('error writing admin preference record');
             return false;
         }
+        $this->oConfiguration->setOpenadsInstalledOn();
         return true;
     }
 
