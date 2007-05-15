@@ -168,7 +168,7 @@ function phpAds_dbInsertID($db = phpAds_adminDb)
  *
  * @todo Used a hack, it's deprecated, I reckon it doesn't need to be properly handled
  */
-function phpAds_dbError ($db = phpAds_adminDb)
+function phpAds_dbError($db = phpAds_adminDb)
 {
     _raise_deprecated_db_api_warning();
     $dbConn = $GLOBALS['_MAX']['PAN']['DB']->getConnection();
@@ -183,7 +183,7 @@ function phpAds_dbError ($db = phpAds_adminDb)
  *
  * @todo Used a hack, it's deprecated, I reckon it doesn't need to be properly handled
  */
-function phpAds_dbErrorNo ($db = phpAds_adminDb)
+function phpAds_dbErrorNo($db = phpAds_adminDb)
 {
     _raise_deprecated_db_api_warning();
     $dbConn = $GLOBALS['_MAX']['PAN']['DB']->getConnection();
@@ -201,7 +201,7 @@ function phpAds_dbErrorNo ($db = phpAds_adminDb)
  */
 function _raise_deprecated_db_api_warning()
 {
-    $depreciation_warning =& new PEAR_Error("The old phpAds_db* API has been deprecated. New code should be in a DAL.");
-    MAX::debug($depreciation_warning, PEAR_LOG_WARNING);
+    //$depreciation_warning = new PEAR_Error("The old phpAds_db* API has been deprecated. New code should be in a DAL.");
+    //MAX::debug($depreciation_warning, PEAR_LOG_WARNING);
 }
 ?>
