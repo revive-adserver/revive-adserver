@@ -78,19 +78,44 @@ exit(MAX_PRODUCT_NAME . " has been installed, but no configuration file was foun
 // Max hasn't been installed, so delivery engine can't run
 exit(MAX_PRODUCT_NAME . " has not been installed yet -- please read the INSTALL.txt file.\n");
 }
-setupGlobalConfigVariables();
-if ($GLOBALS['_MAX']['CONF']['debug']['logfile']) {
-@ini_set('error_log', MAX_PATH . '/var/' . $GLOBALS['_MAX']['CONF']['debug']['logfile']);
+function setupConfigVariables()
+{
+$GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'] = '|';
+$GLOBALS['_MAX']['MAX_COOKIELESS_PREFIX'] = '__';
+if (!empty($GLOBALS['_MAX']['CONF']['openads']['requireSSL'])) {
+$GLOBALS['_MAX']['HTTP'] = 'https://';
+} else {
+if (isset($_SERVER['SERVER_PORT'])) {
+if (isset($GLOBALS['_MAX']['CONF']['openads']['sslPort'])
+&& $_SERVER['SERVER_PORT'] == $GLOBALS['_MAX']['CONF']['openads']['sslPort'])
+{
+$GLOBALS['_MAX']['HTTP'] = 'https://';
+} else {
+$GLOBALS['_MAX']['HTTP'] = 'http://';
+}
+}
+}
+$GLOBALS['_MAX']['MAX_RAND'] = $GLOBALS['_MAX']['CONF']['priority']['randmax'];
+if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
+setTimeZoneLocation($GLOBALS['_MAX']['CONF']['timezone']['location']);
+}
+}
+function setTimeZoneLocation($location)
+{
+if (version_compare(phpversion(), '5.1.0', '>=')) {
+date_default_timezone_set($location);
+} else {
+putenv("TZ={$location}");
+}
+}
+setupDeliveryConfigVariables();
+$conf = $GLOBALS['_MAX']['CONF'];
+if ($conf['debug']['logfile']) {
+@ini_set('error_log', MAX_PATH . '/var/' . $conf['debug']['logfile']);
 }
 $file = '/lib/max/Delivery/common.php';
-if(isset($GLOBALS['_MAX']['FILES'][$file])) {
-return;
-}
 $GLOBALS['_MAX']['FILES'][$file] = true;
 $file = '/lib/max/Delivery/cookie.php';
-if(isset($GLOBALS['_MAX']['FILES'][$file])) {
-return;
-}
 $GLOBALS['_MAX']['FILES'][$file] = true;
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
 function MAX_cookieSet($name, $value, $expire = 0)
@@ -292,9 +317,6 @@ $p3p_header .= " CP=\"".$conf['p3p']['compactPolicy']."\"";
 return $p3p_header;
 }
 $file = '/lib/max/Delivery/remotehost.php';
-if(isset($GLOBALS['_MAX']['FILES'][$file])) {
-return;
-}
 $GLOBALS['_MAX']['FILES'][$file] = true;
 function MAX_remotehostProxyLookup()
 {
@@ -433,14 +455,8 @@ return true;
 return false;
 }
 $file = '/lib/max/Delivery/log.php';
-if(isset($GLOBALS['_MAX']['FILES'][$file])) {
-return;
-}
 $GLOBALS['_MAX']['FILES'][$file] = true;
 $file = '/lib/max/Dal/Delivery.php';
-if(isset($GLOBALS['_MAX']['FILES'][$file])) {
-return;
-}
 $GLOBALS['_MAX']['FILES'][$file] = true;
 function MAX_Dal_Delivery_Include()
 {
@@ -888,30 +904,15 @@ MAX_remotehostSetClientInfo();
 MAX_remotehostSetGeoInfo();
 MAX_commonInitVariables();
 MAX_cookieUnpackCapping();
-function setupGlobalConfigVariables()
+function setupDeliveryConfigVariables()
 {
 if (!defined('MAX_PATH')) {
 define('MAX_PATH', dirname(__FILE__).'/../..');
 }
-$maxGlobals = array();
-$maxGlobals['MAX_DELIVERY_MULTIPLE_DELIMITER'] = '|';
-$maxGlobals['MAX_COOKIELESS_PREFIX'] = '__';
-if (!(isset($GLOBALS['CONF']))) {
-$maxGlobals['CONF'] = parseDeliveryIniFile();
-if (!empty($maxGlobals['CONF']['openads']['requireSSL'])) {
-$maxGlobals['HTTP'] = 'https://';
-} else {
-if (isset($_SERVER['SERVER_PORT'])) {
-if (isset($maxGlobals['CONF']['openads']['sslPort']) && $_SERVER['SERVER_PORT'] == $maxGlobals['CONF']['openads']['sslPort']) {
-$maxGlobals['HTTP'] = 'https://';
-} else {
-$maxGlobals['HTTP'] = 'http://';
+if (!(isset($GLOBALS['_MAX']['CONF']))) {
+$GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
 }
-}
-}
-}
-$maxGlobals['MAX_RAND'] = $maxGlobals['CONF']['priority']['randmax'];
-$GLOBALS['_MAX'] = $maxGlobals;
+setupConfigVariables();
 }
 function setupIncludePath()
 {

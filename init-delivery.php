@@ -49,10 +49,11 @@ require_once 'init-delivery-parse.php';
 require_once 'variables.php';
 
 setupDeliveryConfigVariables();
+$conf = $GLOBALS['_MAX']['CONF'];
 
 // Set the log file
-if ($GLOBALS['_MAX']['CONF']['debug']['logfile']) {
-    @ini_set('error_log', MAX_PATH . '/var/' . $GLOBALS['_MAX']['CONF']['debug']['logfile']);
+if ($conf['debug']['logfile']) {
+    @ini_set('error_log', MAX_PATH . '/var/' . $conf['debug']['logfile']);
 }
 
 require_once MAX_PATH . '/lib/max/Delivery/common.php';

@@ -61,7 +61,7 @@ function setupConfigVariables()
     } else {
         if (isset($_SERVER['SERVER_PORT'])) {
             if (isset($GLOBALS['_MAX']['CONF']['openads']['sslPort']) 
-                && $_SERVER['SERVER_PORT'] == $maxGlobals['CONF']['openads']['sslPort']) 
+                && $_SERVER['SERVER_PORT'] == $GLOBALS['_MAX']['CONF']['openads']['sslPort']) 
             {
                 $GLOBALS['_MAX']['HTTP'] = 'https://';
             } else {
