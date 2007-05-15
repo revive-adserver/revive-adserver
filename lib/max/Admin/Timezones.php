@@ -31,15 +31,15 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
  * @package    Openads
  * @author     Alexander J. Tarachanowicz II <aj@seagullproject.org>
  */
-
  class MAX_Admin_Timezones
  {
+
     /**
-     * Returns the available timezone
+     * Returns an array of available timezones.
      *
-     * @param boolean $addBlank 	if set to true an empty entry will be added
-     *                              to the beginning of the array
-     * @return array                array containing all the available timezones
+     * @param boolean $addBlank If set to true an empty entry will be added
+     *                          to the beginning of the array.
+     * @return array An array containing all the available timezones.
      */
     function AvailableTimezones($addBlank = false)
     {
@@ -62,20 +62,42 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
         return $aTimezone;
     }
 
+    /**
+     * A method to calculate the user's timezone from their
+     * server environment.
+     *
+     * @static
+     * @return array An array of two items:
+     *      'tz'         => The timezone string; and
+     *      'calculated' => A boolean; true if the timezone
+     *                      value needed to be calculated
+     *                      when PHP < 5.1.0.
+     */
     function getTimezone()
     {
+        $calculated = false;
         if (version_compare(phpversion(), '5.1.0', '>=')) {
+            // Great! The PHP version is >= 5.1.0, so simply
+            // use the built in date_default_timezone_get()
+            // function, and know it's all good
             $tz = date_default_timezone_get();
-        } elseif (getenv('TZ') === false) {
+        } else {
+            // Boo, we have to rely on the dodgy old TZ
+            // environment variable stuff
             $tz = getenv('TZ');
-        }
-
-        //  get timezone from date if not set
-        if (empty($tz)) {
+            if ($tz === false) {
+                // Even worse! The user doesn't have a TZ
+                // variable, so we have to try and calcuate
+                // the timezone for the user
                 $diff = date('O') / 100;
-                $tz = 'GMT'.($diff > 0 ? '-' : '+').abs($diff);
+                $tz = 'TZ=Etc/GMT'.($diff > 0 ? '-' : '+').abs($diff);
+                $calculated = true;
+            }
         }
-
-        return (!empty($tz)) ? $tz : false;
+        $aReturn = array(
+            'tz'         => $tz,
+            'calculated' => $calculated
+        );
+        return $aReturn;
     }
 }

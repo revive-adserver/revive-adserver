@@ -1,4 +1,3 @@
-
 <?php
 
 /*
@@ -48,13 +47,25 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     phpAds_registerGlobal('admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email',
                           'company_name', 'language', 'updates_enabled', 'admin_novice',
                           'userlog_email', 'timezone_location');
+
     //  Update config with timezone changes
     if (isset($timezone_location)) {
-        $config = new MAX_Admin_Config();
-        $config->setConfigChange('timezone', 'location', $timezone_location);
-        if (!$config->writeConfigChange()) {
-            // Unable to write the config file out
-            $errormessage[0][] = $strUnableToWriteConfig;
+        // Does the timezone need to be written?
+        $writeTimezone = false;
+        $aTimezone = MAX_Admin_Timezones::getTimezone();
+        if (($aTimezone['generated'] === true) || ($aTimezone['tz'] != $timezone_location)) {
+            $writeTimezone = true;
+        } else if ($aTimezone['tz'] === $timezone_location) {
+            $writeTimezone = true;
+            $timezone_location = '';
+        }
+        if ($writeTimezone) {
+            $config = new MAX_Admin_Config();
+            $config->setConfigChange('timezone', 'location', $timezone_location);
+            if (!$config->writeConfigChange()) {
+                // Unable to write the config file out
+                $errormessage[0][] = $strUnableToWriteConfig;
+            }
         }
     }
 
@@ -118,13 +129,14 @@ phpAds_SettingsSelection("admin");
 
 $unique_users   = MAX_Permission::getUniqueUserNames($pref['admin']);
 
-$aTimezone  = MAX_Admin_Timezones::AvailableTimezones(true);
-if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
-    $timezone   = $aTimezones[$GLOBALS['_MAX']['CONF']['timezone']['location']];
-
-//  find time zone if config is empty
-} else {
-    $timezone   = MAX_Admin_Timezones::getTimezone();
+$aTimezones = MAX_Admin_Timezones::AvailableTimezones(true);
+$configTimezone = trim($GLOBALS['_MAX']['CONF']['timezone']['location']);
+if (empty($configTimezone)) {
+    // There is no value stored in the configuration file, as it
+    // is not required (ie. the TZ comes from the environment) -
+    // so set that environment value in the config file now
+    $aTimezone = MAX_Admin_Timezones::getTimezone();
+    $GLOBALS['_MAX']['CONF']['timezone']['location'] = $aTimezone['tz'];
 }
 
 $settings = array (
@@ -239,7 +251,7 @@ $settings = array (
                 'type'    => 'select',
                 'name'    => 'timezone_location',
                 'text'    => $strTimezone,
-                'items'   => $aTimezone
+                'items'   => $aTimezones
             )
         )
     )
