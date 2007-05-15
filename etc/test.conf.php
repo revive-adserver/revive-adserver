@@ -143,8 +143,7 @@ blockAdImpressions                  = 0
 blockAdClicks                       = 0
 blockTrackerImpressions             = 0
 logInUTC                            = false   ; If true delivery log raw data in UTC
-
-[ignoreHosts]
+ignoreHosts                         =         ; Comma separated list of hosts
 
 [modules]
 AdServer                            = true

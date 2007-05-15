@@ -240,20 +240,20 @@ function MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTr
 function _viewersHostOkayToLog()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    if (count($conf['ignoreHosts']) > 0) {
-        $hosts = '#('.implode('|',$conf['ignoreHosts']).')$#i';
-        if ($hosts != '') {
-            // Format the hosts to ignore in a PCRE format
-            $hosts = str_replace('.', '\.', $hosts);
-            $hosts = str_replace('*', '[^.]+', $hosts);
-            // Check if the viewer's IP address is in the ignore list
-            if (preg_match($hosts, $_SERVER['REMOTE_ADDR'])) {
-                return false;
-            }
-            // Check if the viewer's hostname is in the ignore list
-            if (preg_match($hosts, $_SERVER['REMOTE_HOST'])) {
-                return false;
-            }
+    if (!empty($conf['logging']['ignoreHosts'])) {
+        $hosts = str_replace(',', '|', $conf['logging']['ignoreHosts']);
+        $hosts = '#('.$hosts.')$#i';
+        
+        // Format the hosts to ignore in a PCRE format
+        $hosts = str_replace('.', '\.', $hosts);
+        $hosts = str_replace('*', '[^.]+', $hosts);
+        // Check if the viewer's IP address is in the ignore list
+        if (preg_match($hosts, $_SERVER['REMOTE_ADDR'])) {
+            return false;
+        }
+        // Check if the viewer's hostname is in the ignore list
+        if (preg_match($hosts, $_SERVER['REMOTE_HOST'])) {
+            return false;
         }
     }
     return true;
