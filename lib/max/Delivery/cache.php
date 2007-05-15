@@ -99,6 +99,10 @@ function OA_Delivery_Cache_store($name, $cache, $isHash = false)
         return false;
     }
 
+    if (!is_writable($GLOBALS['OA_Delivery_Cache']['path'])) {
+        return false;
+    }
+    
     $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
     $expiry   = MAX_commonGetTimeNow() + $GLOBALS['OA_Delivery_Cache']['expiry'];
 
@@ -119,7 +123,11 @@ function OA_Delivery_Cache_store($name, $cache, $isHash = false)
         if (!@rename($tmp_filename, $filename)) {
             // On some systems rename() doesn't overwrite destination
             @unlink($filename);
-            @rename($tmp_filename, $filename);
+            if (!@rename($tmp_filename, $filename)) {
+                // Make sure that no temporary file is left over
+                // if the destination is not writable
+                @unlink($tmp_filename);
+            }
         }
 
         return true;
