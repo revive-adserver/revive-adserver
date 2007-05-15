@@ -57,7 +57,7 @@ function init()
             if (!$GLOBALS['_MAX']['CONF']['openads']['installed'])
             {
                 $path = dirname($_SERVER['PHP_SELF']);
-                if ($path == '/')
+                if ($path == DIRECTORY_SEPARATOR)
                 {
                     $path = '';
                 }
