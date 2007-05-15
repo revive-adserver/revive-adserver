@@ -31,11 +31,16 @@ function phpAds_cleanTables($weeks, $stats)
 	
 	// Determine tables
 	if ($stats)
-		$tables = array(
-			$phpAds_config['tbl_adstats'] => array('day', 'Ymd'),
+	{
+		$tables = array(			
 			$phpAds_config['tbl_adviews'] => array('t_stamp', 'YmdHis'),
 			$phpAds_config['tbl_adclicks'] => array('t_stamp', 'YmdHis')
 		);
+		
+		// Prune adstats only when distributed stats are not enabled
+		if (!$phpAds_config['lb_enabled']))
+			$tables[$phpAds_config['tbl_adstats']] = array('day', 'Ymd');
+	}
 	else
 		$tables = array(
 			$phpAds_config['tbl_userlog'] => array('timestamp', '')

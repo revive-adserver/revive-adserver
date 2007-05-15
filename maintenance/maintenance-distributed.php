@@ -38,9 +38,11 @@ require (phpAds_path."/libraries/lib-cache.inc.php");
 if (!defined('LIBUSERLOG_INCLUDED'))
 	require (phpAds_path."/libraries/lib-userlog.inc.php");
 
-// Include required files
 if (!defined('LIBLOCKS_INCLUDED'))
 	require (phpAds_path.'/libraries/lib-locks.inc.php');
+
+if (!defined('LIBCLEANTABLES_INCLUDED'))
+	require (phpAds_path.'/libraries/lib-cleantables.inc.php');
 
 require (phpAds_path."/libraries/lib-log.inc.php");
 require (phpAds_path."/maintenance/lib-maintenance.inc.php");
@@ -352,6 +354,9 @@ if ($dlock = phpAds_maintenanceGetLock(phpAds_lockDistributed))
 	
 	// Switch databases
 	phpAds_dbNormalMode();
+
+	// Prune stats
+	phpAds_cleanTables(1, true);
 	
 	// Update the timestamp
 	phpAds_dbQuery ("
