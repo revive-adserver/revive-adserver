@@ -45,7 +45,6 @@
  * 
  */
 
-
 function parseDeliveryIniFile($configPath = null, $configFile = null, $sections = true)
 {
 if (!$configPath) {
@@ -147,6 +146,9 @@ if (!empty($_COOKIE[$cookieName]) && is_array($_COOKIE[$cookieName])) {
 $data = array();
 foreach ($_COOKIE[$cookieName] as $adId => $value) {
 $data[] = "{$adId}.{$value}";
+}
+while (strlen(implode('_', $data)) > 2048) {
+$data = array_slice($data, 1);
 }
 MAX_setcookie($cookieName, implode('_', $data), $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
 }
@@ -873,17 +875,11 @@ return $now;
 }
 function MAX_setcookie($name, $value, $expire, $path, $domain)
 {
-if(!empty($GLOBALS['is_simulation'])) {
-$_COOKIE[$name] = $value;
-} else {
 setcookie($name, $value, $expire, $path, $domain);
-}
 }
 function MAX_header($value)
 {
-if(empty($GLOBALS['is_simulation'])) {
 header($value);
-}
 }
 define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
 $GLOBALS['OA_Delivery_Cache'] = array(
@@ -912,6 +908,9 @@ if ($cache === OA_DELIVERY_CACHE_FUNCTION_ERROR) {
 // Don't store the result to enable permanent caching
 return false;
 }
+if (!is_writable($GLOBALS['OA_Delivery_Cache']['path'])) {
+return false;
+}
 $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
 $expiry   = MAX_commonGetTimeNow() + $GLOBALS['OA_Delivery_Cache']['expiry'];
 $cache_literal  = "<"."?php\n\n";
@@ -927,7 +926,9 @@ if ($fp = @fopen($tmp_filename, 'wb')) {
 if (!@rename($tmp_filename, $filename)) {
 // On some systems rename() doesn't overwrite destination
 @unlink($filename);
-@rename($tmp_filename, $filename);
+if (!@rename($tmp_filename, $filename)) {
+@unlink($tmp_filename);
+}
 }
 return true;
 }

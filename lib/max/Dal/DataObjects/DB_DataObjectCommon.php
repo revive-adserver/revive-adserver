@@ -38,7 +38,7 @@ require_once 'DB/DataObject.php';
 class DB_DataObjectCommon extends DB_DataObject
 {
     /**
-     * If true delete() method will try to delete also all records which has reference to this record
+     * If its true the delete() method will try to delete also all records which has reference to this record
      *
      * @var boolean
      */
