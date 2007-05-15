@@ -197,6 +197,8 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code');
         $this->assertEqual($oUpgrade->package_file, 'openads_upgrade_2.0.12_to_2.3.32_beta.xml','wrong package file assigned');
 
+        $this->assertEqual($GLOBALS['_MAX']['CONF']['database']['name'], 'pan_test', '');
+
         $GLOBALS['_MAX']['CONF']['database'] = $aDsn;
     }
 
@@ -222,7 +224,6 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code');
         $this->assertEqual($oUpgrade->package_file, 'openads_upgrade_2.3.31_to_2.3.32_beta.xml','wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('max_version');
-
     }
 
     /**
