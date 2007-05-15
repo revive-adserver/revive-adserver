@@ -268,7 +268,7 @@ function _adSelectDirect($what, $campaignid = '', $context = array(), $source = 
 {
     $aDirectLinkedAds = MAX_cacheGetLinkedAds($what, $campaignid, $lastpart);
 
-    $aLinkedAd = _adSelectCommon($aDirectLinkedAds);
+    $aLinkedAd = _adSelectCommon($aDirectLinkedAds, $context, $source, $richMedia);
 
     if (is_array($aLinkedAd)) {
         $aLinkedAd['zoneid'] = 0;
@@ -346,7 +346,7 @@ function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = t
                 $appendedThisZone = true;
             }
 
-            $aLinkedAd = _adSelectCommon($aZoneLinkedAds);
+            $aLinkedAd = _adSelectCommon($aZoneLinkedAds, $context, $source, $richMedia);
             
             if (is_array($aLinkedAd)) {
                 $aLinkedAd['zoneid'] = $zoneId;
@@ -387,10 +387,15 @@ function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = t
  * This function selects an ad cyclying through exclusive, paid, low-pri etc.
  *
  * @param string  $aAds         The array of ads to pick from
+ * @param array   $context      The context of this ad selection
+ *                              - used for companion positioning
+ *                              - and excluding banner/campaigns from this ad-call
+ * @param string  $source       The "source" parameter passed into the adcall
+ * @param boolean $richMedia    Does this invocation method allow for serving 3rd party/html ads
  *
  * @return array|false          Returns an ad-array (see page DocBlock) or false if no ad found
  */
-function _adSelectCommon($aAds)
+function _adSelectCommon($aAds, $context, $source, $richMedia)
 {
     // Are there any ads linked?
     if (!empty($aAds['count_active'])) {
