@@ -27,7 +27,6 @@ $Id $
 
 
 require_once MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php';
-//require_once MAX_PATH.'/lib/max/tests/util/DataGenerator.php';
 
 /**
  * A class for testing the Openads_DB_Upgrade class.
@@ -63,39 +62,39 @@ class Test_OA_phpAdsNew extends UnitTestCase
 
     }
 
-    function test_getPANConfig()
+    function test_migratePANConfig()
     {
         $oPAN = new OA_phpAdsNew();
 
         $this->_putPanConfigFile();
-        $oPAN->init();
-        $this->assertTrue($oPAN->detected,'failed to detect phpAdsNew');
-        $oPAN->_getPANConfig();
+        $aResult = $oPAN->_migratePANConfig($oPAN->_getPANConfig());
         $this->_deletePanConfigFile();
-        $aResult  = $oPAN->aConfig;
-        $this->assertEqual($aResult['dbhost'],'pan_host','host not detected');
-        $this->assertEqual($aResult['dbport'],'9999','port  not detected');
-        $this->assertEqual($aResult['dbuser'],'pan_user','user not detected');
-        $this->assertEqual($aResult['dbpassword'],'pan_password','password not detected');
-        $this->assertEqual($aResult['dbname'],'pan_database','database not detected');
-    }
-
-    function test_getPANdsn()
-    {
-        $oPAN = new OA_phpAdsNew();
-
-        $this->_putPanConfigFile();
-        $oPAN->init();
-        $this->assertTrue($oPAN->detected,'failed to detect phpAdsNew');
-        $this->_deletePanConfigFile();
-        $oPAN->_getPANdsn();
-        $aResult = $oPAN->aDsn;
         $this->assertEqual($aResult['database']['host'],'pan_host','host not set');
         $this->assertEqual($aResult['database']['port'],'9999','port not set');
         $this->assertEqual($aResult['database']['username'],'pan_user','username not set');
         $this->assertEqual($aResult['database']['password'],'pan_password','password not set');
         $this->assertEqual($aResult['database']['name'],'pan_database','database not set');
+        $this->assertFalse($aResult['database']['persistent'],'persistent incorrect');
+
+        $this->assertTrue($aResult['max']['uiEnabled'],'uiEnabled incorrect');
+        $this->assertFalse($aResult['openads']['requireSSL'], 'requireSSL incorrect');
+        $this->assertTrue($aResult['maintenance']['autoMaintenance'], 'autoMaintenance incorrect');
+        $this->assertFalse($aResult['logging']['reverseLookup'], 'reverseLookup incorrect');
+        $this->assertFalse($aResult['logging']['proxyLookup'],  'proxyLookup incorrect');
+        $this->assertTrue($aResult['logging']['adImpressions'],'adImpressions incorrect');
+        $this->assertTrue($aResult['logging']['adClicks'],'adClicks incorrect');
+//        $this->assertFalse($aResult[''][''] = $phpAds_config['log_beacon'],' incorrect');;
+//        $this->assertFalse($aResult[''][''] = $phpAds_config['ignore_hosts'],' incorrect');;
+        $this->assertEqual($aResult['logging']['blockAdImpressions'],0, 'blockAdImpressions incorrect');
+        $this->assertEqual($aResult['logging']['blockAdClicks'], 0, 'blockAdClicks incorrect');
+        $this->assertTrue($aResult['p3p']['policies'],'policies incorrect');
+        $this->assertEqual($aResult['p3p']['compactPolicy'],'NOI CUR ADM OUR NOR STA NID', 'compactPolicy incorrect');
+        $this->assertEqual($aResult['p3p']['policyLocation'],'pan_p3p_policy_location','policyLocation incorrect');
+        $this->assertTrue($aResult['delivery']['acls'],'acls incorrect');
+
+
     }
+
 
     function _putPanConfigFile()
     {

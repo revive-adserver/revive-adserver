@@ -171,7 +171,7 @@ $phpAds_config['p3p_compact_policy'] = 'NOI CUR ADM OUR NOR STA NID';
 // Policy file location
 // For example:
 // $phpAds_config['p3p_policy_location'] = 'http://www.your-url.com/w3c/p3p.xml';
-$phpAds_config['p3p_policy_location'] = '';
+$phpAds_config['p3p_policy_location'] = 'pan_p3p_policy_location';
 
 
 

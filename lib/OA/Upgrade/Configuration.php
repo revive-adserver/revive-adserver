@@ -140,6 +140,19 @@ class OA_Upgrade_Config
         $this->setValue('max','installed', '0');
     }
 
+    function setupConfigPan($aConfig)
+    {
+
+
+        foreach ($aConfig AS $section => $aKey)
+        {
+            foreach ($aKey AS $name => $value)
+            {
+                $this->setValue($section, $name, $value);
+            }
+        }
+    }
+
     function setupConfigMax($aConfig)
     {
         $this->setValue('max', 'language', $aConfig['language']);
@@ -177,6 +190,7 @@ class OA_Upgrade_Config
         $this->setValue('database', 'username', $aConfig['username']);
         $this->setValue('database', 'password', $aConfig['password']);
         $this->setValue('database', 'name',     $aConfig['name']);
+        $this->setValue('database', 'persistent',     $aConfig['persistent']);
         $this->setValue('database', 'mysql4_compatibility', $aConfig['mysql4_compatibility']);
     }
 

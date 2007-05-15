@@ -737,7 +737,6 @@ class OA_Upgrade
                 }
                 $this->oLogger->logError('Replaced MAX configuration file with Openads configuration file');
                 $this->oConfiguration->setMaxInstalledOff();
-                //$this->oConfiguration->setOpenadsInstalledOn();
                 $this->oConfiguration->writeConfig();
             }
             if (!$this->oVersioner->removeMaxVersion())
@@ -762,17 +761,20 @@ class OA_Upgrade
                 $this->oLogger->logError('Installation failed to create the configuration file');
                 return false;
             }
-            $aConfig['database'] = $GLOBALS['_MAX']['CONF']['database'];
+            $aConfig = $this->oPAN->aConfig;
             $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
-            $this->saveConfigDB($aConfig);
-            //$this->oConfiguration->setOpenadsInstalledOn();
+            $this->oConfiguration->setupConfigPan($aConfig);
+            $this->oConfiguration->writeConfig();
             if (!$this->oPAN->renamePANConfigFile())
             {
-                    $this->oLogger->logError('Failed to rename PAN configuration file (non-critical, you can delete or rename /var/config.inc.php yourself)');
-                    $this->message = 'Failed to rename PAN configuration file (non-critical, you can delete or rename /var/config.inc.php yourself)';
+                $this->oLogger->logError('Failed to rename PAN configuration file (non-critical, you can delete or rename /var/config.inc.php yourself)');
+                $this->message = 'Failed to rename PAN configuration file (non-critical, you can delete or rename /var/config.inc.php yourself)';
                 return true;
             }
         }
+        $aConfig['database'] = $GLOBALS['_MAX']['CONF']['database'];
+        $aConfig = $this->initDatabaseParameters($aConfig);
+        $this->saveConfigDB($aConfig);
         return true;
     }
 

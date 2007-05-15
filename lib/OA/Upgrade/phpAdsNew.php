@@ -39,6 +39,7 @@ class OA_phpAdsNew
     var $detected   = false;
     var $aDsn       = false;
     var $aConfig    = false;
+    //var $aPanConfig = false;
     var $pathCfg    = '/var/';
     var $fileCfg    = 'config.inc.php';
     var $prefix     = '';
@@ -52,13 +53,14 @@ class OA_phpAdsNew
 
     function init()
     {
-        $this->aConfig  = $this->_getPANConfig();
+        $this->aConfig      = $this->_migratePANConfig($this->_getPANConfig());
         if ($this->detected)
         {
-            $this->aDsn     = $this->_getPANdsn($this->aConfig);
-            $this->prefix   = $this->aConfig['table_prefix'];
-            $this->engine   = $this->aConfig['table_type'];
-            $this->oDbh     = OA_DB::singleton(OA_DB::getDsn($this->aDsn));
+            $this->aDsn['database'] = $this->aConfig['database'];
+            $this->aDsn['table']    = $this->aConfig['table'];
+            $this->prefix   = $this->aConfig['table']['prefix'];
+            $this->engine   = $this->aConfig['table']['type'];
+            $this->oDbh     = OA_DB::singleton(OA_DB::getDsn($this->aConfig));
         }
     }
 
@@ -91,21 +93,61 @@ class OA_phpAdsNew
         return false;
     }
 
-    function _getPANdsn()
+    function _migratePANConfig($phpAds_config)
     {
-        if ($this->detected)
+        if (is_array($phpAds_config))
         {
-            $aResult['database']['host']        = $this->aConfig['dbhost'];
+            $aResult['max']['uiEnabled'] = $phpAds_config['ui_enabled'];
+            $aResult['openads']['requireSSL'] = $phpAds_config['ui_forcessl'];
+            $aResult['maintenance']['autoMaintenance'] = $phpAds_config['auto_maintenance'];
+            $aResult['logging']['reverseLookup'] = $phpAds_config['reverse_lookup'];
+            $aResult['logging']['proxyLookup'] = $phpAds_config['proxy_lookup'];
+            $aResult['logging']['adImpressions'] = $phpAds_config['log_adviews'];
+            $aResult['logging']['adClicks'] = $phpAds_config['log_adclicks'];
+            //$aResult[''][''] = $phpAds_config['log_beacon'];
+            //$aResult[''][''] = $phpAds_config['ignore_hosts'];
+            $aResult['logging']['blockAdImpressions'] = $phpAds_config['block_adviews'];
+            $aResult['logging']['blockAdClicks'] = $phpAds_config['block_adclicks'];
+            $aResult['p3p']['policies'] = $phpAds_config['p3p_policies'];
+            $aResult['p3p']['compactPolicy'] = $phpAds_config['p3p_compact_policy'];
+            $aResult['p3p']['policyLocation'] = $phpAds_config['p3p_policy_location'];
+            $aResult['delivery']['acls'] = $phpAds_config['acl'];
+
+            $aResult['database']['host']        = $phpAds_config['dbhost'];
             $aResult['database']['type']        = 'mysql';
-            $aResult['database']['port']        = $this->aConfig['dbport'];
-            $aResult['database']['username']    = $this->aConfig['dbuser'];
-            $aResult['database']['password']    = $this->aConfig['dbpassword'];
-            $aResult['database']['name']        = $this->aConfig['dbname'];
-            $aResult['table']['type']           = $this->aConfig['table_type'];
-            $aResult['table']['prefix']         = $this->aConfig['table_prefix'];
+            $aResult['database']['port']        = $phpAds_config['dbport'];
+            $aResult['database']['username']    = $phpAds_config['dbuser'];
+            $aResult['database']['password']    = $phpAds_config['dbpassword'];
+            $aResult['database']['name']        = $phpAds_config['dbname'];
+            $aResult['database']['persistent']  = $phpAds_config['persistent_connections'];
+
+            $aResult['table']['type']           = $phpAds_config['table_type'];
+            $aResult['table']['prefix']         = $phpAds_config['table_prefix'];
+
+
+            //$aResult[''][''] = $phpAds_config['con_key'];
+
+            // THESE SHOULD BE MIGRATED FROM PAN CONFIG TO OA PREFERENCE TABLE
+            // E-mail admin when clicks/views get low?
+            //$phpAds_config['warn_admin'] = true;
+            //
+            // E-mail client when clicks/views get low?
+            //$phpAds_config['warn_client'] = true;
+            //
+            // Minimum clicks/views before warning e-mail is sent
+            //$phpAds_config['warn_limit'] = 100;
+            //
+            // Days before warning e-mail is sent
+            //$phpAds_config['warn_limit_days'] = 1;
+            //
+            //$phpAds_config['default_banner_url'] = '';
+            //$phpAds_config['default_banner_target'] = '';
+            //
+            //$phpAds_config['type_html_auto'] = true;
+
             return $aResult;
         }
-        return false;
+        return array();
     }
 
     function renamePANConfigFile()
