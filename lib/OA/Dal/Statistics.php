@@ -910,7 +910,7 @@ class OA_Dal_Statistics extends OA_Dal
         if (!is_array($aResult)) {
             return;
         }
-        if (!is_array($aTemp) || empty($aTemp)) {
+        if (empty($aTemp) || !is_array($aTemp)) {
             return;
         }
         if (!($type == 'ad' || $type == 'placement')) {
@@ -937,6 +937,8 @@ class OA_Dal_Statistics extends OA_Dal
                 if (strpos($key, '0') === 0) {
                     $key = substr($key, 1);
                 }
+            } else {
+                return;
             }
             if (!is_array($aResult[$key]) || empty($aResult[$key])) {
                 // Set the default values for the key
@@ -1100,7 +1102,19 @@ class OA_Dal_Statistics extends OA_Dal
      */
     function _calculateAverages($aValues, $oEndDate)
     {
-        if (!is_array($aValues) || empty($aValues)) {
+        if (empty($aValues) || !is_array($aValues)) {
+            return array();
+        }
+        reset($aValues);
+        while (list(,$aAdValues) = each($aValues)) {
+            if (empty($aAdValues) || !is_array($aAdValues)) {
+                return array();
+            }
+            if (count($aAdValues) != 10) {
+                return array();
+            }
+        }
+        if (empty($oEndDate) || !is_a($oEndDate, 'Date')) {
             return array();
         }
         $counter = 0;
@@ -1119,9 +1133,6 @@ class OA_Dal_Statistics extends OA_Dal
             if ($counter == 0) {
                 $aResult['interval_start']            = $aAdValues['interval_start'];
                 $aResult['interval_end']              = $aAdValues['interval_end'];
-                $aResult['ad_actual_impressions']     = $aAdValues['ad_actual_impressions'];
-                $aResult['zone_forecast_impressions'] = $aAdValues['zone_forecast_impressions'];
-                $aResult['zone_actual_impressions']   = $aAdValues['zone_actual_impressions'];
             }
             $oCreatedDate = new Date($aAdValues['created']);
             if (is_null($aAdValues['expired'])) {
