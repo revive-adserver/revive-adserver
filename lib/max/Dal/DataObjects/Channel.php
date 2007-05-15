@@ -3,6 +3,7 @@
  * Table Definition for channel
  */
 
+require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once 'DB_DataObjectCommon.php';
 
@@ -16,11 +17,11 @@ class DataObjects_Channel extends DB_DataObjectCommon
     var $channelid;                       // int(9)  not_null primary_key auto_increment
     var $agencyid;                        // int(9)  not_null
     var $affiliateid;                     // int(9)  not_null
-    var $name;                            // string(255)  
-    var $description;                     // string(255)  
+    var $name;                            // string(255)
+    var $description;                     // string(255)
     var $compiledlimitation;              // blob(65535)  not_null blob
     var $acl_plugins;                     // blob(65535)  blob
-    var $active;                          // int(1)  
+    var $active;                          // int(1)
     var $comments;                        // blob(65535)  blob
     var $updated;                         // datetime(19)  not_null binary
     var $acls_updated;                    // datetime(19)  not_null binary
@@ -36,24 +37,55 @@ class DataObjects_Channel extends DB_DataObjectCommon
 
     function delete($useWhere = false, $cascade = true)
     {
-    	// find acls which uses this channels
+    	// Find acls which use this channels
     	$dalAcls = OA_Dal::factoryDAL('acls');
     	$rsChannel = $dalAcls->getAclsByDataValueType($this->channelid, 'Site:Channel');
     	$rsChannel->reset();
     	while ($rsChannel->next()) {
-    		$channelIds = explode(',', $rsChannel->get('data'));
-    		$channelIds = array_diff($channelIds, array($this->channelid));
+    	    // Get the IDs of the banner that's using this channel
+    	    $bannerId = $rsChannel->get('bannerid');
 
-    		$doAcl = DB_DataObject::factory('acls');
-    		$doAcl->init();
-    		$doAcl->bannerid = $rsChannel->get('bannerid');
-    		$doAcl->executionorder = $rsChannel->get('executionorder');
-    		if (!empty($channelIds)) {
-	    		$doAcl->data = implode(',', $channelIds);
-	    		$doAcl->update();
+    	    // Get the remaining channels the banner will use, if any
+    		$aChannelIds = explode(',', $rsChannel->get('data'));
+    		$aChannelIds = array_diff($aChannelIds, array($this->channelid));
+
+    		// Prepare to update the banner's limitations in the "acls" table
+    		$doAcls = DB_DataObject::factory('acls');
+    		$doAcls->init();
+    		$doAcls->bannerid = $bannerId;
+    		$doAcls->executionorder = $rsChannel->get('executionorder');
+    		if (!empty($aChannelIds)) {
+	    		$doAcls->data = implode(',', $aChannelIds);
+	    		$doAcls->update();
     		} else {
-    			$doAcl->delete();
+    			$doAcls->delete();
     		}
+
+    		// Re-compile the banner's limitations
+            $aAcls = array();
+    		$doAcls = DB_DataObject::factory('acls');
+    		$doAcls->init();
+    		$doAcls->bannerid = $bannerId;
+    		$doAcls->orderBy('executionorder');
+            $doAcls->find();
+            while ($doAcls->fetch()) {
+                $aData = $doAcls->toArray();
+                list($package, $name) = explode(':', $aData['type']);
+                $deliveryLimitationPlugin = MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
+                $deliveryLimitationPlugin->init($aData);
+                if ($deliveryLimitationPlugin->isAllowed($page)) {
+                    $aAcls[$aData['executionorder']] = $aData;
+                }
+            }
+            $sLimitation = MAX_AclGetCompiled($aAcls, $page);
+            // TODO: it should be done inside plugins instead, there is no need to slash the data
+            $sLimitation = (!get_magic_quotes_runtime()) ? stripslashes($sLimitation) : $sLimitation;
+            $doBanners = OA_Dal::factoryDO('banners');
+            $doBanners->bannerid = $bannerId;
+            $doBanners->acl_plugins = MAX_AclGetPlugins($aAcls);
+            $doBanners->acls_updated = OA::getNow();
+            $doBanners->compiledlimitation = $sLimitation;
+            $doBanners->update();
     	}
 
     	return parent::delete($useWhere, $cascade);

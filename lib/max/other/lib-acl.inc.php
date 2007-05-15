@@ -123,7 +123,7 @@ function MAX_AclAdjust($acl, $action)
 function MAX_AclSave($acls, $aEntities, $page = false)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    $oDbh = &OA_DB::singleton();
+    $oDbh =& OA_DB::singleton();
     if ($page === false) {
         $page = basename($_SERVER['PHP_SELF']);
     }
@@ -301,7 +301,7 @@ function MAX_AclValidate($page, $aParams) {
     $acl_plugins        = $aData['acl_plugins'];
 
     $aAcls = array();
-    $doAclTable->orderBy(executionorder);
+    $doAclTable->orderBy('executionorder');
     $doAclTable->find();
     while ($doAclTable->fetch()) {
         $aData = $doAclTable->toArray();
