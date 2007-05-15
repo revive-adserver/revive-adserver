@@ -59,6 +59,8 @@ if ($periodPreset == 'all_stats') {
     unset($session['prefs']['GLOBALS']['period_start']);
     unset($_REQUEST['period_end']);
     unset($session['prefs']['GLOBALS']['period_end']);
+    $_REQUEST['period_preset'] = $periodPreset;
+    $session['prefs']['GLOBALS']['period_preset'] = $periodPreset;
 } else {
     $period_start = MAX_getStoredValue('period_start', date('Y-m-d'));
     $period_end   = MAX_getStoredValue('period_end', date('Y-m-d'));

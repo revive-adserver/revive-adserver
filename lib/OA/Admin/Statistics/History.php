@@ -85,6 +85,11 @@ class OA_Admin_Statistics_History
         $oCaller->spanDays   = (int)ceil($oSpan->toDays());
         $oCaller->spanWeeks  = (int)ceil($oCaller->spanDays / 7) + ($oCaller->spanDays % 7 ? 1 : 0);
         $oCaller->spanMonths = (($oNow->getYear() - $oStartDate->getYear()) * 12) + ($oNow->getMonth() - $oStartDate->getMonth()) + 1;
+        // Set the caller's aDates span in the even that it's empty
+        if (empty($oCaller->aDates)) {
+            $oCaller->aDates['day_begin'] = $oStartDate->format('%Y-%m-%d');
+            $oCaller->aDates['day_end']   = $oNow->format('%Y-%m-%d');
+        }
     }
 
     /**
