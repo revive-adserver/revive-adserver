@@ -806,7 +806,6 @@ class OA_Upgrade
             $this->oLogger->log('error writing admin preference record');
             return false;
         }
-        $this->oConfiguration->setOpenadsInstalledOn();
         return true;
     }
 

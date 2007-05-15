@@ -164,17 +164,13 @@ else if (array_key_exists('btn_adminsetup', $_REQUEST))
 }
 else if (array_key_exists('btn_oaidsetup', $_REQUEST))
 {
-    if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
-    {
-        $oUpgrader->putAdmin($_REQUEST['aAdmin']);
-    }
     $action = OA_UPGRADE_IDSETUP;
 }
 else if (array_key_exists('btn_datasetup', $_REQUEST))
 {
-    // first save the openads id setup
     if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
     {
+        $oUpgrader->putAdmin($_REQUEST['aAdmin']);
         $action = OA_UPGRADE_DATASETUP;
     }
     else
@@ -201,6 +197,7 @@ else if (array_key_exists('btn_finish', $_REQUEST))
     {
         $message = 'Congratulations you have finished upgrading Openads';
     }
+    $oUpgrader->oConfiguration->setOpenadsInstalledOn();
     $action = OA_UPGRADE_FINISH;
 }
 else if (array_key_exists('btn_openads', $_REQUEST))
