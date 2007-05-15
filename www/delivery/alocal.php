@@ -426,7 +426,7 @@ exit(MAX_PRODUCT_NAME . " has not been installed yet -- please read the INSTALL.
 $pluginTypeConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting', 'plugin');
 $type = (!empty($pluginTypeConfig['geotargeting']['type'])) ? $pluginTypeConfig['geotargeting']['type'] : null;
 if (!is_null($type) && $type != 'none') {
-$pluginConfig = parseIniFile(MAX_PATH . '/var/plugins/config/geotargeting/' . $type, 'plugin');
+$pluginConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting/' . $type, 'plugin');
 $GLOBALS['_MAX']['CONF']['geotargeting'] = array_merge($pluginTypeConfig['geotargeting'], $pluginConfig['geotargeting']);
 if (isset($GLOBALS['conf'])) {
 $GLOBALS['conf']['geotargeting'] = $GLOBALS['_MAX']['CONF']['geotargeting'];

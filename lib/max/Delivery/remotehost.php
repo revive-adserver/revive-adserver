@@ -162,7 +162,7 @@ function MAX_remotehostSetGeoInfo()
     $pluginTypeConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting', 'plugin');
     $type = (!empty($pluginTypeConfig['geotargeting']['type'])) ? $pluginTypeConfig['geotargeting']['type'] : null;
     if (!is_null($type) && $type != 'none') {
-        $pluginConfig = parseIniFile(MAX_PATH . '/var/plugins/config/geotargeting/' . $type, 'plugin');
+        $pluginConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting/' . $type, 'plugin');
         $GLOBALS['_MAX']['CONF']['geotargeting'] = array_merge($pluginTypeConfig['geotargeting'], $pluginConfig['geotargeting']);
         // There may have been a copy of $conf set in the global scope, this should also be updated
         if (isset($GLOBALS['conf'])) {
