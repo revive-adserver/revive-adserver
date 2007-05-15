@@ -117,7 +117,7 @@ class OA_Upgrade
         $this->aDsn['database']['username'] = '';
         $this->aDsn['database']['passowrd'] = '';
         $this->aDsn['database']['name']     = '';
-        $this->aDsn['table']['type']        = 'INNODB';
+        $this->aDsn['table']['type']        = 'InnoDB';
         $this->aDsn['table']['prefix']      = 'oa_';
     }
 
@@ -147,6 +147,7 @@ class OA_Upgrade
             $this->oDbh = null;
             return false;
         }
+        
         $this->oTable->oDbh = $this->oDbh;
         $this->oDBUpgrader->initMDB2Schema();
         $this->oVersioner->init($this->oDbh);
@@ -155,6 +156,24 @@ class OA_Upgrade
         return true;
     }
 
+    /**
+     * add any needed database parameter to the config array
+     *
+     * @param array $aConfig
+     * 
+     * @return array 
+     */
+    function initDatabaseParameters($aConfig)
+    {
+        // Check if we need to ensure to enable MySQL 4 compatibility
+        if (strcasecmp($aConfig['database']['type'], 'mysql') === 0) {
+            $result = $this->oDbh->exec("SET SESSION sql_mode='MYSQL40'");
+            $aConfig['database']['mysql4_compatibility'] = !PEAR::isError($result);
+        }
+            
+        return $aConfig;
+    }
+    
     /**
      * see the recovery file and ye may findeth
      *
@@ -480,6 +499,8 @@ class OA_Upgrade
             $this->_dropDatabase();
             return false;
         }
+        
+        $aConfig = $this->initDatabaseParameters($aConfig);
 
         if (!$this->createCoreTables())
         {

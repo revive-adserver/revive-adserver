@@ -68,6 +68,9 @@ function OA_Dal_Delivery_connect($database = 'database') {
         $dbLink = @mysql_connect($dbHost, $dbUser, $dbPassword);
     }
     if (@mysql_select_db($dbName, $dbLink)) {
+        if (!empty($dbConf['mysql4_compatibility'])) {
+            @mysql_query("SET SESSION sql_mode='MYSQL40'");
+        }
         return $dbLink;
     }
     return false;

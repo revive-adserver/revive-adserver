@@ -177,6 +177,7 @@ class OA_Upgrade_Config
         $this->setValue('database', 'username', $aConfig['username']);
         $this->setValue('database', 'password', $aConfig['password']);
         $this->setValue('database', 'name',     $aConfig['name']);
+        $this->setValue('database', 'mysql4_compatibility', $aConfig['mysql4_compatibility']);
     }
 
     function setupConfigTable($aConfig)

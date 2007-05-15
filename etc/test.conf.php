@@ -16,6 +16,8 @@ name                                = oa_simpletest ; Don't set this to be your 
                                                     ; database - the test database is
                                                     ; created/dropped during testing!
 persistent                          = false
+mysql4_compatibility                = false
+
 
 ;------------------------------------------------------------------------------------------;
 ; Do NOT Change Any Of The Following!                                                      ;

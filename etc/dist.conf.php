@@ -24,6 +24,7 @@ username                            =
 password                            =
 name                                =
 persistent                          = false
+mysql4_compatibility                = false
 
 [databaseMysql]
 statisticsSortBufferSize            =
