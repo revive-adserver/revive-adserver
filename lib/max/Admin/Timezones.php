@@ -34,12 +34,24 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
 
  class MAX_Admin_Timezones
  {
-    function AvailableTimezones()
+    /**
+     * Returns the available timezone
+     *
+     * @param boolean $addBlank 	if set to true an empty entry will be added
+     *                              to the beginning of the array
+     * @return array                array containing all the available timezones
+     */
+    function AvailableTimezones($addBlank = false)
     {
         //  load global array of timezones
         require_once MAX_PATH .'/lib/pear/Date/TimeZone.php';
 
         $aTimezoneKey = Date_TimeZone::getAvailableIDs();
+
+        //  add blank option
+        if ($addBlank) {
+            $aTimezone[] = '';
+        }
 
         foreach ($aTimezoneKey as $key) {
             $aTimezone[$key] = $key;
