@@ -133,7 +133,9 @@ else if (array_key_exists('btn_upgrade', $_POST))
     }
     if (($action != OA_UPGRADE_UPGRADE) && ($action != OA_UPGRADE_INSTALL))
     {
-        $action = OA_UPGRADE_ERROR;
+        $aDatabase = $_POST['aConfig'];
+        $displayError = true;
+        $action = OA_UPGRADE_DBSETUP;
     }
 }
 else if (array_key_exists('btn_configsetup', $_REQUEST))
@@ -152,6 +154,7 @@ else if (array_key_exists('btn_adminsetup', $_REQUEST))
         }
         else
         {
+            //Hide the IDsetup, instead display the finish page
             //$action = OA_UPGRADE_IDSETUP;
             $message = 'Congratulations you have finished upgrading Openads';
             $action = OA_UPGRADE_FINISH;
@@ -205,7 +208,7 @@ else if (array_key_exists('btn_openads', $_REQUEST))
     header('location: http://'.$GLOBALS['_MAX']['CONF']['webpath']['admin']);
     exit();
 }
-else if (array_key_exists('dirPage', $_REQUEST))
+else if (array_key_exists('dirPage', $_REQUEST) && !empty($_POST['dirPage']))
 {
     $action = $_POST['dirPage'];
 }
@@ -264,16 +267,37 @@ $phpAds_nav = array (
     '9'     =>  array($navLinks[OA_UPGRADE_DATASETUP]   => 'Data Setup'),
     '10'    =>  array('' => 'Finished')
 );
-// determine string of action
+
+// display header, with proper 'active page' marked using $activeNav[$action]
 phpAds_PageHeader($activeNav[$action],'', '../admin/', false, false);
-// display navigation
+
+// setup which sections to display
 $showSections = array();
 foreach ($activeNav as $val) {
     if (!in_array($val, $showSections))
         $showSections[] = $val;
 }
+
+// display navigation
 phpAds_ShowSections($showSections, false, true, '../admin/', $phpAds_nav);
 
+// calculate percentage complete
+$totalNav     = count($showSections)-1;
+$progressRate = 100 / $totalNav;
+foreach($showSections as $key=>$val) {
+    if ($val == $activeNav[$action]) {
+        if ($key == 0) {
+            $progressVal = 0;
+        } elseif ($key == $totalNav) {
+            $progressVal = 100;
+        } else {
+            $progressVal = round(($key) * $progressRate);
+        }
+        break;
+    } else {
+        $progressVal = 0;
+    }
+}
 // display main template
 include 'tpl/index.html';
 

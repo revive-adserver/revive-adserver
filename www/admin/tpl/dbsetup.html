@@ -16,7 +16,7 @@
     <br />
     <br />
 
-<form name="frmOpenads" method="POST" action="index.php" onSubmit='return max_formValidate(this);'>
+<form name="frmOpenads" method="POST" action="install.php" onSubmit='return max_formValidate(this);'>
 
 <?php            
     phpAds_ShowSettings(array (
@@ -108,5 +108,5 @@
                 <button class="button" name="btn_upgrade"><?php echo $strBtnContinue; ?></button>
 </form>
 <?php // create a new form which doesn't validate onReturn ?>
-<form name="frmOpenads2" method="POST" action="index.php">
+<form name="frmOpenads2" method="POST" action="install.php">
                 <button class="button floatleft" name="btn_syscheck"><?php echo $strBtnGoBack; ?></button>
