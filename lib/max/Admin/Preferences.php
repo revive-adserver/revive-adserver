@@ -289,7 +289,7 @@ class MAX_Admin_Preferences
                     ". $oDbh->quote($agencyId, 'integer') .",
                 ";
             foreach ($this->prefSql as $value) {
-                $query .= "'". $oDbh->escape($value) ."', ";
+                $query .= $oDbh->quote($value) .", ";
             }
             $query = preg_replace('/, $/', '', $query);
             $query .= '
@@ -297,13 +297,13 @@ class MAX_Admin_Preferences
                 ';
             // Don't use a PEAR_Error handler
             PEAR::pushErrorHandling(null);
-            $rows = $oDbh->execute($query);
+            $rows = $oDbh->exec($query);
             // Restore the PEAR_Error handler
             PEAR::popErrorHandling();
             if (PEAR::isError($rows)) {
                 // Can't INSERT, try UPDATE instead
                 foreach ($this->prefSql as $key => $value) {
-                    $sql[] = "$key = '". $oDbh->escape($value) ."'";
+                    $sql[] = "$key = ". $oDbh->quote($value);
                 }
                 $query = "
                     UPDATE
@@ -313,7 +313,7 @@ class MAX_Admin_Preferences
                     WHERE
                         agencyid = ". $oDbh->quote($agencyId, 'integer');
 
-                $rows = $oDbh->execute($query);
+                $rows = $oDbh->exec($query);
                 if (PEAR::isError($rows)) {
                     return MAX::raiseError($rows, MAX_ERROR_DBFAILURE);
                 }
