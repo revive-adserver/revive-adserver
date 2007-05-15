@@ -352,11 +352,15 @@ function MAX_commonGetTimeNow()
  */
 function MAX_setcookie($name, $value, $expire, $path, $domain)
 {
-    if(!empty($GLOBALS['is_simulation'])) {
-       $_COOKIE[$name] = $value;
-    } else {
+    ###START_STRIP_DELIVERY
+    if(empty($GLOBALS['is_simulation']) && !defined('TEST_ENVIRONMENT_RUNNING')) {
+    ###END_STRIP_DELIVERY
         setcookie($name, $value, $expire, $path, $domain);
+    ###START_STRIP_DELIVERY
+    } else {
+       $_COOKIE[$name] = $value;
     }
+    ###END_STRIP_DELIVERY
 }
 
 /**
@@ -364,9 +368,18 @@ function MAX_setcookie($name, $value, $expire, $path, $domain)
  */
 function MAX_header($value)
 {
-    if(empty($GLOBALS['is_simulation'])) {
+    ###START_STRIP_DELIVERY
+    if(empty($GLOBALS['is_simulation']) && !defined('TEST_ENVIRONMENT_RUNNING')) {
+    ###END_STRIP_DELIVERY
         header($value);
+    ###START_STRIP_DELIVERY
+    } else {
+        if (empty($GLOBALS['_HEADERS']) || !is_array($GLOBALS['_HEADERS'])) {
+            $GLOBALS['_HEADERS'] = array();
+        }
+        $GLOBALS['_HEADERS'][] = $value;
     }
+    ###END_STRIP_DELIVERY
 }
 
 ?>

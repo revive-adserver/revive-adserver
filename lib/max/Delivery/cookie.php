@@ -75,7 +75,14 @@ function MAX_cookieSetViewerIdAndRedirect($viewerId) {
     }
     $url .= "?{$conf['var']['cookieTest']}=1&" . $_SERVER['QUERY_STRING'];
     MAX_header("Location: {$url}");
-    exit;
+
+    ###START_STRIP_DELIVERY
+    if(empty($GLOBALS['is_simulation']) && !defined('TEST_ENVIRONMENT_RUNNING')) {
+    ###END_STRIP_DELIVERY
+        exit;
+    ###START_STRIP_DELIVERY
+    }
+    ###END_STRIP_DELIVERY
 }
 
 /**
@@ -127,6 +134,12 @@ function MAX_cookieFlush()
             foreach ($_COOKIE[$cookieName] as $adId => $value) {
                 $data[] = "{$adId}.{$value}";
             }
+            // RFC says that maximum cookie data length is 4096 bytes
+            // So we are assuming that 2048 will be valid in most browsers
+            // Discard oldest data until we are under the limit
+            while (strlen(implode('_', $data)) > 2048) {
+                $data = array_slice($data, 1);
+            }
             MAX_setcookie($cookieName, implode('_', $data), $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
         }
     }
@@ -142,11 +155,11 @@ function _getTimeYearFromNow()
 	return MAX_commonGetTimeNow() + 31536000; // 365*24*60*60;
 }
 
-function _getTimeYearAgo() 
+function _getTimeYearAgo()
 {
     return MAX_commonGetTimeNow() - 31536000; // 365*24*60*60;
 }
- 	
+
 /**
  * This function unpacks the serialized array used for capping
  *
