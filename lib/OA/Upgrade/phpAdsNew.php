@@ -104,14 +104,14 @@ class OA_phpAdsNew
             $aResult['logging']['proxyLookup'] = $phpAds_config['proxy_lookup'];
             $aResult['logging']['adImpressions'] = $phpAds_config['log_adviews'];
             $aResult['logging']['adClicks'] = $phpAds_config['log_adclicks'];
-            //$aResult[''][''] = $phpAds_config['log_beacon'];
-            //$aResult[''][''] = $phpAds_config['ignore_hosts'];
+            $aResult['logging']['ignoreHosts'] = join(',', $phpAds_config['ignore_hosts']);
             $aResult['logging']['blockAdImpressions'] = $phpAds_config['block_adviews'];
             $aResult['logging']['blockAdClicks'] = $phpAds_config['block_adclicks'];
             $aResult['p3p']['policies'] = $phpAds_config['p3p_policies'];
             $aResult['p3p']['compactPolicy'] = $phpAds_config['p3p_compact_policy'];
             $aResult['p3p']['policyLocation'] = $phpAds_config['p3p_policy_location'];
             $aResult['delivery']['acls'] = $phpAds_config['acl'];
+            $aResult['delivery']['execPhp'] = $phpAds_config['type_html_php'];
 
             $aResult['database']['host']        = $phpAds_config['dbhost'];
             $aResult['database']['type']        = 'mysql';
@@ -123,28 +123,7 @@ class OA_phpAdsNew
 
             $aResult['table']['type']           = $phpAds_config['table_type'];
             $aResult['table']['prefix']         = $phpAds_config['table_prefix'];
-
-
-            //$aResult[''][''] = $phpAds_config['con_key'];
-
-            // THESE SHOULD BE MIGRATED FROM PAN CONFIG TO OA PREFERENCE TABLE
-            // E-mail admin when clicks/views get low?
-            //$phpAds_config['warn_admin'] = true;
-            //
-            // E-mail client when clicks/views get low?
-            //$phpAds_config['warn_client'] = true;
-            //
-            // Minimum clicks/views before warning e-mail is sent
-            //$phpAds_config['warn_limit'] = 100;
-            //
-            // Days before warning e-mail is sent
-            //$phpAds_config['warn_limit_days'] = 1;
-            //
-            //$phpAds_config['default_banner_url'] = '';
-            //$phpAds_config['default_banner_target'] = '';
-            //
-            //$phpAds_config['type_html_auto'] = true;
-
+            
             return $aResult;
         }
         return array();

@@ -74,6 +74,22 @@ class Migration_119 extends Migration
 	        $sql = OA_DB_SQL::sqlForInsert($tablePreference, $aValues);
 	        $result = $this->oDBH->exec($sql);
 	        return (!PEAR::isError($result));
+
+            // THESE SHOULD BE MIGRATED FROM PAN CONFIG TO OA PREFERENCE TABLE
+            // E-mail admin when clicks/views get low?
+            //$phpAds_config['warn_admin'] = true;
+            //
+            // E-mail client when clicks/views get low?
+            //$phpAds_config['warn_client'] = true;
+            //
+            // Minimum clicks/views before warning e-mail is sent
+            //$phpAds_config['warn_limit'] = 100;
+            //
+            // Days before warning e-mail is sent
+            //$phpAds_config['warn_limit_days'] = 1;
+            //
+            //$phpAds_config['default_banner_url'] = '';
+            //$phpAds_config['default_banner_target'] = '';
 	    }
 	    else {
 	        return false;
