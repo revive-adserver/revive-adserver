@@ -100,11 +100,11 @@ class OA_Upgrade_Config
     function guessWebpath()
     {
         $path = dirname($_SERVER['PHP_SELF']);
-        if (preg_match('#/www/upgrade$#', $path))
+        if (preg_match('#/www/admin$#', $path))
         {
             // User has web root configured as Max's root directory
             // so can guess at all locations
-            $subpath = preg_replace('#/www/upgrade$#', '', $path);
+            $subpath = preg_replace('#/www/admin$#', '', $path);
             $basepath = $_SERVER['HTTP_HOST'] . $subpath. '/www/';
             $this->setValue('webpath', 'admin', $basepath.'admin');
             $this->setValue('webpath', 'delivery', $basepath.'delivery');
