@@ -66,6 +66,7 @@ phpAds_registerGlobalUnslashed(
     ,'revenue_type'
     ,'submit'
     ,'target_old'
+    ,'target_type_old'
     ,'target_value'
     ,'target_type'
     ,'unlimitedclicks'
@@ -75,6 +76,9 @@ phpAds_registerGlobalUnslashed(
     ,'weight_old'
     ,'weight'
     ,'clientid'
+    ,'previousimpressions'
+    ,'previousconversions'
+    ,'previousclicks'
 );
 
 // Security check
@@ -139,14 +143,17 @@ if (isset($submit)) {
                 switch ($target_type) {
                 case 'limit_impression':
                     $target_impression = $target_value;
+                    $target_type_variable = 'target_impression';
                     break;
 
                 case 'limit_click':
                     $target_click = $target_value;
+                    $target_type_variable = 'target_click';
                     break;
 
                 case 'limit_conversion':
                     $target_conversion = $target_value;
+                    $target_type_variable = 'target_conversion';
                     break;
                 }
             }
@@ -250,9 +257,24 @@ if (isset($submit)) {
         // - campaing changes status (activated or deactivated) or
         // - the campaign is active and target/weight are changed
         //
-        if (!$new_campaign && ($active != $active_old || ($active == 't' && ($target_impression != $target_old || $weight != $weight_old)))) {
-            // Run the Maintenance Priority Engine process
-            MAX_Maintenance_Priority::run();
+        if (!$new_campaign) {
+            switch(true) {
+            case ($active != $active_old):
+                // Run the Maintenance Priority Engine process
+                MAX_Maintenance_Priority::run();
+                break;
+            case ($active == 't'):
+                if ((!empty($target_type_variable) && ${$target_type_variable} != $target_old)
+                    || (!empty($target_type) && $target_type_old != $target_type)
+                    || $weight != $weight_old
+                    || $clicks != $previousclicks
+                    || $conversions != $previousconversions
+                    || $impressions != $previousimpressions) {
+                    // Run the Maintenance Priority Engine process
+                    MAX_Maintenance_Priority::run();
+                }
+                break;
+            }
         }
 
         // Rebuild cache
@@ -603,6 +625,7 @@ echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clienti
 echo "<input type='hidden' name='expire' value='".(isset($row["expire"]) ? $row["expire"] : '')."'>"."\n";
 echo "<input type='hidden' name='move' value='".(isset($move) ? $move : '')."'>"."\n";
 echo "<input type='hidden' name='target_old' value='".(isset($row['target']) ? (int)$row['target'] : 0)."'>"."\n";
+echo "<input type='hidden' name='target_type_old' value='".(isset($target_type) ? $target_type : '')."'>"."\n";
 echo "<input type='hidden' name='weight_old' value='".(isset($row['weight']) ? (int)$row['weight'] : 0)."'>"."\n";
 echo "<input type='hidden' name='active_old' value='".(isset($row['active']) && $row['active'] == 't' ? 't' : 'f')."'>"."\n";
 echo "<input type='hidden' name='previousweight' value='".(isset($row["weight"]) ? $row["weight"] : '')."'>"."\n";
