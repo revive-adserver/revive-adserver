@@ -23,7 +23,7 @@ phpAds_checkAccess(phpAds_Admin+phpAds_Client+phpAds_Affiliate);
 
 
 // Deal with load balacing having a different admin URL
-if (!empty($phpAds_config['lb_enabled']))
+if (!empty($phpAds_config['lb_admin_url_prefix']))
 	$phpAds_config['url_prefix'] = $phpAds_config['lb_admin_url_prefix'];
 
 
