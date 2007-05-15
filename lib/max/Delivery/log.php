@@ -304,7 +304,7 @@ function _prepareLogInfo()
     }
     // Determine if the access to Openads was made using HTTPS
     $maxHttps = 0;  // https is false
-    if ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) {
+    if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
         $maxHttps = 1;   // https is true
     }
     return array($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps);

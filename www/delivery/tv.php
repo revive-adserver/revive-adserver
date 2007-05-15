@@ -105,7 +105,7 @@ function MAX_cookieSetViewerIdAndRedirect($viewerId) {
 $conf = $GLOBALS['_MAX']['CONF'];
 MAX_cookieSet($conf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
 MAX_cookieFlush();
-if ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) {
+if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
 $url = MAX_commonConstructSecureDeliveryUrl(basename($_SERVER['PHP_SELF']));
 } else {
 $url = MAX_commonConstructDeliveryUrl(basename($_SERVER['PHP_SELF']));
@@ -628,7 +628,7 @@ $userAgentInfo = array(
 $userAgentInfo = array();
 }
 $maxHttps = 0;
-if ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) {
+if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
 $maxHttps = 1;
 }
 return array($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps);
@@ -679,7 +679,7 @@ $aCaps['session_capping'][$index]
 function MAX_commonGetDeliveryUrl($file = null)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-if (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) {
+if (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
 $url = MAX_commonConstructSecureDeliveryUrl($file);
 } else {
 $url = MAX_commonConstructDeliveryUrl($file);
@@ -694,8 +694,8 @@ return 'http://' . $conf['webpath']['delivery'] . '/' . $file;
 function MAX_commonConstructSecureDeliveryUrl($file)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-if ($conf['max']['sslPort'] != 443) {
-$path = preg_replace('#/#', ':' . $conf['max']['sslPort'] . '/', $conf['webpath']['deliverySSL']);
+if ($conf['openads']['sslPort'] != 443) {
+$path = preg_replace('#/#', ':' . $conf['openads']['sslPort'] . '/', $conf['webpath']['deliverySSL']);
 } else {
 $path = $conf['webpath']['deliverySSL'];
 }
@@ -1098,11 +1098,11 @@ $maxGlobals['MAX_DELIVERY_MULTIPLE_DELIMITER'] = '|';
 $maxGlobals['MAX_COOKIELESS_PREFIX'] = '__';
 if (!(isset($GLOBALS['CONF']))) {
 $maxGlobals['CONF'] = parseDeliveryIniFile();
-if (!empty($maxGlobals['CONF']['max']['requireSSL'])) {
+if (!empty($maxGlobals['CONF']['openads']['requireSSL'])) {
 $maxGlobals['HTTP'] = 'https://';
 } else {
 if (isset($_SERVER['SERVER_PORT'])) {
-if (isset($maxGlobals['CONF']['max']['sslPort']) && $_SERVER['SERVER_PORT'] == $maxGlobals['CONF']['max']['sslPort']) {
+if (isset($maxGlobals['CONF']['openads']['sslPort']) && $_SERVER['SERVER_PORT'] == $maxGlobals['CONF']['openads']['sslPort']) {
 $maxGlobals['HTTP'] = 'https://';
 } else {
 $maxGlobals['HTTP'] = 'http://';

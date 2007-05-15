@@ -59,7 +59,7 @@ require_once MAX_PATH . '/lib/max/Delivery/log.php';
 function MAX_commonGetDeliveryUrl($file = null)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    if (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) {
+    if (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
         $url = MAX_commonConstructSecureDeliveryUrl($file);
     } else {
         $url = MAX_commonConstructDeliveryUrl($file);
@@ -88,9 +88,9 @@ function MAX_commonConstructDeliveryUrl($file)
 function MAX_commonConstructSecureDeliveryUrl($file)
 {
         $conf = $GLOBALS['_MAX']['CONF'];
-        if ($conf['max']['sslPort'] != 443) {
+        if ($conf['openads']['sslPort'] != 443) {
             // Fix the delivery host
-            $path = preg_replace('#/#', ':' . $conf['max']['sslPort'] . '/', $conf['webpath']['deliverySSL']);
+            $path = preg_replace('#/#', ':' . $conf['openads']['sslPort'] . '/', $conf['webpath']['deliverySSL']);
         } else {
             $path = $conf['webpath']['deliverySSL'];
         }

@@ -308,9 +308,9 @@ EOF;
         // happens from the root of virtual hosts)
         $path .= '/';
         // Modify the admin URL for different SSL port if required
-        if ($conf['max']['sslPort'] != 443) {
+        if ($conf['openads']['sslPort'] != 443) {
             if ($GLOBALS['_MAX']['HTTP'] == 'https://') {
-                $path = preg_replace('#/#', ':' . $conf['max']['sslPort'] . '/', $path);
+                $path = preg_replace('#/#', ':' . $conf['openads']['sslPort'] . '/', $path);
             }
         }
         // Return the URL

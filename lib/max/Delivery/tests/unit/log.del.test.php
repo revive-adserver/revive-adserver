@@ -373,7 +373,7 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertEqual($userAgentInfo['browser'], 'ie');
         $this->assertEqual($maxHttps, 0);
         // Set the request to be "HTTPS"
-        $_SERVER['SERVER_PORT'] = $conf['max']['sslPort'];
+        $_SERVER['SERVER_PORT'] = $conf['openads']['sslPort'];
         // Test
         unset($geotargeting);
         unset($zoneInfo);

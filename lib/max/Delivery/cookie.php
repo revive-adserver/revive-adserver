@@ -68,7 +68,7 @@ function MAX_cookieSetViewerIdAndRedirect($viewerId) {
     MAX_cookieFlush();
 
     // Determine if the access to Openads was made using HTTPS
-    if ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) {
+    if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
         $url = MAX_commonConstructSecureDeliveryUrl(basename($_SERVER['PHP_SELF']));
     } else {
         $url = MAX_commonConstructDeliveryUrl(basename($_SERVER['PHP_SELF']));

@@ -275,7 +275,7 @@ function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
     $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
     $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
     $pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] : '4';
-    // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
+    // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
     $fileName = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
     $altImageAdCode = !empty($aBanner['alt_filename']) ? _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, false) : '';
     // Create the anchor tag..
@@ -308,7 +308,7 @@ function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
         }
     }
     $fileUrl = _adRenderBuildFileUrl($aBanner, false, $swfParams);
-    $protocol = ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) ? "https" : "http";
+    $protocol = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? "https" : "http";
     $rnd = md5(microtime());
     // Always get the image beacon, needed for capping/blocking...
     $beaconTag = _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer);
@@ -357,7 +357,7 @@ function _adRenderQuicktime($aBanner, $zoneId=0, $source='', $ct0='', $withText=
     $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
     $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
     $pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] : '4';
-    // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
+    // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
     $fileName = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
     $altImageBannercode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer);
     // Create the anchor tag..
@@ -520,7 +520,7 @@ function _adRenderReal($aBanner, $zoneId=0, $source='', $ct0='', $withText=false
     $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
     $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
     $pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] : '4';
-    // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
+    // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
     $fileName = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
     $altImageBannercode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer);
     // Create the anchor tag..
@@ -594,7 +594,7 @@ function _adRenderBuildFileUrl($aBanner, $useAlt = false, $params = '')
 function _adRenderBuildImageUrlPrefix()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    return (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) ?
+    return (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ?
         'https://' . $conf['webpath']['imagesSSL'] :
         'http://' . $conf['webpath']['images'];
 

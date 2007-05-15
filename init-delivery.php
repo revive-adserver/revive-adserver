@@ -89,11 +89,11 @@ function setupGlobalConfigVariables()
         // Parse the Max configuration file
         $maxGlobals['CONF'] = parseDeliveryIniFile();
         // Set the URL access mechanism
-        if (!empty($maxGlobals['CONF']['max']['requireSSL'])) {
+        if (!empty($maxGlobals['CONF']['openads']['requireSSL'])) {
             $maxGlobals['HTTP'] = 'https://';
         } else {
             if (isset($_SERVER['SERVER_PORT'])) {
-                if (isset($maxGlobals['CONF']['max']['sslPort']) && $_SERVER['SERVER_PORT'] == $maxGlobals['CONF']['max']['sslPort']) {
+                if (isset($maxGlobals['CONF']['openads']['sslPort']) && $_SERVER['SERVER_PORT'] == $maxGlobals['CONF']['openads']['sslPort']) {
                     $maxGlobals['HTTP'] = 'https://';
                 } else {
                     $maxGlobals['HTTP'] = 'http://';
