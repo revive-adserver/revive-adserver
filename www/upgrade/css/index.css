@@ -2,20 +2,22 @@
  width: 80%;
 }
 
-
 .bodycol {
  width: 80%;
  background-color: #FFFFFF;
  text-align: center;
 }
+
+.marginright {
+ margin-right: 5px;
+}
+
 .button {
  float: right;
  margin-top:5px;
  margin-bottom:5px;
 }
-.marginright {
- margin-right: 5px;
-}
+
 .smallbutton {
  font-family: Arial, Helvetica, sans-serif;
  font-size: 10px;
@@ -25,39 +27,62 @@
  margin-top:5px;
  margin-bottom:5px;
 }
+
 .input {
  text-align: left;
  background-color:#EBEFE8;
 }
+
 .label {
  text-align: right;
  background-color:#EBEFE8;
 }
+
 .underline {
  border-bottom: 1px solid #AAAAAA;
 }
+
 table.sysinfotable {
  width: 60%;
  margin: 20px;
  border: 1px solid #DDDDDD;
  background: #F0F0F0;
 }
+
 .sysinfotable td {
  color: #333333;
  padding: 5px 15px 5px 10px;
  border-bottom: 1px solid #DDDDDD;
 }
+
 .sysmessage {
  font-weight: bold;
 }
+
 td.sysinfoerror, .sysinfoerror {
  color: #FFFFFF;
  font-weight: bold;
  text-align: center;
  background-color: #880000;
 }
+
 .floatleft {
  float: left;
+}
+
+div.sysinfoerror {
+    background-image: url('../../admin/images/install-error.gif');
+    background-repeat: no-repeat;
+    color: #990000;
+	background-color: #FFFFE1;
+	border: 1px dashed #990000;
+	margin-top: 8px;
+	margin-bottom: 16px;
+	padding: 6px 6px 6px 32px;
+	line-height: 18px;
+	width: 65%;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .graph { 
@@ -87,4 +112,6 @@ td.sysinfoerror, .sysinfoerror {
     line-height: 2em;     
     -moz-border-radius: 6px;       
 }
-.graph .bar span { position: absolute; left: 1em; }
+.graph .bar span { 
+    position: absolute; left: 1em; 
+}

@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="css/index.css"/>		
 
-<script language='JavaScript' src='../admin/js/sorttable.js'></script>
+<script language='JavaScript' src='../admin/js-help.js'></script>
 
 <script type="text/javascript">
 function changePage(page) {
@@ -11,8 +11,9 @@ function changePage(page) {
 <div class="installer_container">
     <div class="graphtitle tab-s"><b>Progress</b></div>
     <div class="graph">
-        <strong class="bar" style="width: 25%;">25%</strong>
+        <strong class="bar" style="width: <?php echo $progressVal; ?>%;"><?php echo $progressVal; ?>%</strong>
     </div>
+    <br>
     <?php                
     $incPath = '../../';
     $hideHeader = true;
@@ -31,7 +32,7 @@ function changePage(page) {
             case OA_UPGRADE_ADMINSETUP  : include 'tpl/adminsetup.html';  break;
             case OA_UPGRADE_IDSETUP     : include 'tpl/oaidsetup.html';   break;
             case OA_UPGRADE_DATASETUP   : include 'tpl/datasetup.html';   break;
-            case OA_UPGRADE_FINISH      : include 'tpl/success.html';     break;
+            case OA_UPGRADE_FINISH      : include 'tpl/finish.html';      break;
             default                     : include 'tpl/welcome.html';     break;
         }
     ?>

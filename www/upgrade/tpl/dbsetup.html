@@ -1,3 +1,8 @@
+<?php
+    if ($displayError == true) {
+    	include 'messages.html';
+    }        
+?>
     <br />
     <table border='0' cellpadding='0' cellspacing='0' width='100%'>
     <tr>
@@ -13,92 +18,95 @@
 
 <form name="frmOpenads" method="POST" action="index.php" onSubmit='return max_formValidate(this);'>
 
-<?php
-            phpAds_ShowSettings(array (
+<?php            
+    phpAds_ShowSettings(array (
+        array (
+            'text'  => $strDatabaseSettings,
+            'items' => array (
                 array (
-                    'text'  => $strDatabaseSettings,
-                    'items' => array (
-                        array (
-                            'type'  => 'select',
-                            'name'  => 'aConfig[database][type]',
-                            'text'  => $strDbType,
-                            'items' => getSupportedDbTypes()
-                        ),
-                        array (
-                            'type'  => 'break'
-                        ),
-                        array (
-                            'type'  => 'text',
-                            'name'  => 'aConfig[database][host]',
-                            'text'  => $strDbHost,
-                            'req'   => true,
-                            'value' => $aDatabase['database']['host']
-                        ),
-                        array (
-                            'type'  => 'break'
-                        ),
-                        array (
-                            'type'  => 'text',
-                            'name'  => 'aConfig[database][port]',
-                            'text'  => $strDbPort,
-                            'req'   => true,
-                            'value' => $aDatabase['database']['port']
-                        ),
-                        array (
-                            'type'  => 'break'
-                        ),
-                        array (
-                            'type'  => 'text',
-                            'name'  => 'aConfig[database][username]',
-                            'text'  => $strDbUser,
-                            'req'   => true,
-                            'value' => $aDatabase['database']['username']
-                        ),
-                        array (
-                            'type'  => 'break'
-                        ),
-                        array (
-                            'type'  => 'password',
-                            'name'  => 'aConfig[database][password]',
-                            'text'  => $strDbPassword,
-                            'req'   => false,
-                            'value' => $aDatabase['database']['password']
-                        ),
-                        array (
-                            'type'  => 'break'
-                        ),
-                        array (
-                            'type'  => 'text',
-                            'name'  => 'aConfig[database][name]',
-                            'text'  => $strDbName,
-                            'req'   => true,
-                            'value' => $aDatabase['database']['name']
-                        )
-                    )
+                    'type'  => 'select',
+                    'name'  => 'aConfig[database][type]',
+                    'text'  => $strDbType,
+                    'items' => getSupportedDbTypes()
                 ),
                 array (
-                    'text'  => $strAdvancedSettings,
-                    'items' => array (
-                        array (
-                            'type'  => 'select',
-                            'name'  => 'aConfig[table][type]',
-                            'text'  => $strTablesType,
-                            'items' => getSupportedTableTypes()
-                        ),
-                        array (
-                            'type'  => 'break'
-                        ),
-                        array (
-                            'type'      => 'text',
-                            'name'      => 'aConfig[table][prefix]',
-                            'text'      => $strTablesPrefix,
-                            'req'       => false,
-                            'maxlength' => '7',
-                            'value'     => $aDatabase['table']['prefix']
-                        )
-                    )
+                    'type'  => 'break'
+                ),
+                array (
+                    'type'  => 'text',
+                    'name'  => 'aConfig[database][host]',
+                    'text'  => $strDbHost,
+                    'req'   => true,
+                    'value' => $aDatabase['database']['host']
+                ),
+                array (
+                    'type'  => 'break'
+                ),
+                array (
+                    'type'  => 'text',
+                    'name'  => 'aConfig[database][port]',
+                    'text'  => $strDbPort,
+                    'req'   => true,
+                    'value' => $aDatabase['database']['port']
+                ),
+                array (
+                    'type'  => 'break'
+                ),
+                array (
+                    'type'  => 'text',
+                    'name'  => 'aConfig[database][username]',
+                    'text'  => $strDbUser,
+                    'req'   => true,
+                    'value' => $aDatabase['database']['username']
+                ),
+                array (
+                    'type'  => 'break'
+                ),
+                array (
+                    'type'  => 'password',
+                    'name'  => 'aConfig[database][password]',
+                    'text'  => $strDbPassword,
+                    'req'   => false,
+                    'value' => $aDatabase['database']['password']
+                ),
+                array (
+                    'type'  => 'break'
+                ),
+                array (
+                    'type'  => 'text',
+                    'name'  => 'aConfig[database][name]',
+                    'text'  => $strDbName,
+                    'req'   => true,
+                    'value' => $aDatabase['database']['name']
                 )
-            ), $errormessage, 0, "../admin/");
+            )
+        ),
+        array (
+            'text'  => $strAdvancedSettings,
+            'items' => array (
+                array (
+                    'type'  => 'select',
+                    'name'  => 'aConfig[table][type]',
+                    'text'  => $strTablesType,
+                    'items' => getSupportedTableTypes()
+                ),
+                array (
+                    'type'  => 'break'
+                ),
+                array (
+                    'type'      => 'text',
+                    'name'      => 'aConfig[table][prefix]',
+                    'text'      => $strTablesPrefix,
+                    'req'       => false,
+                    'maxlength' => '7',
+                    'value'     => $aDatabase['table']['prefix']
+                )
+            )
+        )
+    ), $errormessage, 0, "../admin/");
 ?>
-                <button class="button" name="btn_upgrade">continue &raquo;</button>
-                <button class="button floatleft" name="btn_appcheck">go back</button>
+                <button class="button" name="btn_upgrade"><?php echo $strBtnContinue; ?></button>
+</form>
+<?php // create a new form which doesn't validate onReturn ?>
+<form name="frmOpenads2" method="POST" action="index.php">
+                <button class="button floatleft" name="btn_syscheck"><?php echo $strBtnGoBack; ?></button>

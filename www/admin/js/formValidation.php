@@ -313,10 +313,13 @@ function max_formValidate(f)
 			   '\n' +
 			   '<?php echo addslashes(html_entity_decode($strFieldFixBeforeContinue2)) ?>' +
 			   '\n');
-        return false;
-	} else {
-        return true;
+			   
+		// Select field with first error
+		f.elements[first].select();
+		f.elements[first].focus();
 	}
+	
+    return (noerrors);
 }
 
 /**

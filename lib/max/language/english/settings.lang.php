@@ -50,6 +50,7 @@ $GLOBALS['strFatalError']                   = "A fatal error occurred";
 $GLOBALS['strUpdateError']                  = "An error occured while updating";
 $GLOBALS['strBtnContinue']                  = "Continue &raquo;";
 $GLOBALS['strBtnGoBack']                    = "&laquo; Go Back";
+$GLOBALS['strBtnRetry']                     = "Retry";
 $GLOBALS['strUpdateDatabaseError']          = "Due to unknown reasons the update of the database structure wasn't succesful. The recommended way to proceed is to click <b>Retry updating</b> to try to correct these potential problems. If you are sure these errors won't affect the functionality of ".MAX_PRODUCT_NAME." you can click <b>Ignore errors</b> to continue. Ignoring these errors may cause serious problems and is not recommended!";
 $GLOBALS['strAlreadyInstalled']             = MAX_PRODUCT_NAME." is already installed on this system. If you want to configure it go to <a href='settings-index.php'>settings interface</a>";
 $GLOBALS['strCouldNotConnectToDB']          = "Could not connect to database, please recheck the settings you specified";
