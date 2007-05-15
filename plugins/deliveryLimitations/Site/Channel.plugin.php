@@ -90,107 +90,100 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
         $this->bannerid = (isset($GLOBALS['bannerid'])) ? $GLOBALS['bannerid'] : 0;
         $tabindex =& $GLOBALS['tabindex'];
 
-        // Get list of all connnected publishers to chosen banner
-        $res = phpAds_dbQuery("
+        // Get list of all publishers (affiliates) which are linked to the banner
+        $aAffiliates = array();
+        $query = "
             SELECT
-                z.affiliateid
+                z.affiliateid AS affiliateid
             FROM
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS aza,
                 {$conf['table']['prefix']}{$conf['table']['zones']} AS z
             WHERE
                 aza.zone_id = z.zoneid
-              AND aza.ad_id = {$this->bannerid}") or phpAds_sqlDie();
-
-        $affiliates = array();
-        while ($row = phpAds_dbFetchArray($res)) {
-            $affiliates[] = $row['affiliateid'];
+                AND
+                aza.ad_id = " . DBC::makeLiteral($this->bannerid);
+        $rsAffiliates = DBC::NewRecordSet($query);
+        $rsAffiliates->find();
+        while ($rsAffiliates->fetch()) {
+            $aAffiliates[] = $rsAffiliates->get('affiliateid');
         }
 
+        // Select the agency ID that owns this banner (it may be the admin ID, 0)
         $query = "
             SELECT
-                a.agencyid
+                a.agencyid AS agencyid
             FROM
                 {$conf['table']['prefix']}{$conf['table']['banners']} AS b,
                 {$conf['table']['prefix']}{$conf['table']['campaigns']} AS m,
                 {$conf['table']['prefix']}{$conf['table']['clients']} AS a
             WHERE
                 a.clientid = m.clientid
-              AND m.campaignid = b.campaignid
-              AND b.bannerid = {$this->bannerid}";
-        $dbh = &OA_DB::singleton();
-        if (PEAR::isError($dbh)) {
-            phpAds_sqlDie();
-        }
-        $this->agencyid = $dbh->queryOne($query);
+                AND
+                m.campaignid = b.campaignid
+                AND
+                b.bannerid = " . DBC::makeLiteral($this->bannerid);
+        $rsAgency = DBC::NewRecordSet($query);
+        $rsAgency->find();
+        $rsAgency->fetch();
+        $this->agencyid = $rsAgency->get('agencyid');
+
         if (PEAR::isError($this->agencyid)) {
             phpAds_sqlDie();
         }
 
-        $channels = Admin_DA::getChannels(array('channel_type' => 'admin'), true);
+        // Get all of the admin channels that could be used for this banner
+        $aChannels = Admin_DA::getChannels(array('channel_type' => 'admin'), true);
 
-        if ($this->agencyid) {
-            $channels = array_merge(
-                $channels,
+        // Get all of the agency channels that could be used for this banner
+        if ($this->agencyid != 0) {
+            $aChannels = array_merge(
+                $aChannels,
                 Admin_DA::getChannels(array('agency_id' => $this->agencyid, 'channel_type' => 'agency'), true)
             );
         }
 
-        $channels = array_merge(
-            $channels,
+        // Get all of the publisher channels that could be used for this banner
+        $aChannels = array_merge(
+            $aChannels,
             Admin_DA::getChannels(array('agency_id' => $this->agencyid, 'channel_type' => 'publisher'), true)
         );
 
-        /**
-         * @todo This code is a temporary workaround to de-duplicate the channel list
-         *       this should be factored into the DAL, so that the correct channels are returned
-         *       ideally the three calls above should be factored down to a single call requesting all available channels...
-         */
-        $deDupedChannels = array();
-        $foundChannelIds = array();
-        foreach ($channels as $channel) {
-            if (!in_array($channel['channel_id'], $foundChannelIds)) {
-                $deDupedChannels[] = $channel;
-            }
-            $foundChannelIds[] = $channel['channel_id'];
-        }
-        $channels = $deDupedChannels;
-        
-        $selectedChannels = array();
+        $aSelectedChannels = array();
         // Sort the list, and move selected items to the top of the list
-        usort($channels, '_sortByChannelName');
-        foreach ($channels as $index => $channel) {
-            if (in_array($channel['channel_id'], $this->data)) {
-                $selectedChannels[$index] = $channel;
-                unset($channels[$index]);
+        usort($aChannels, '_sortByChannelName');
+        foreach ($aChannels as $index => $aChannel) {
+            if (in_array($aChannel['channel_id'], $this->data)) {
+                $aSelectedChannels[$index] = $aChannel;
+                unset($aChannels[$index]);
             }
         }
-        $channels = $selectedChannels + $channels;
+        $aChannels = $aSelectedChannels + $aChannels;
         echo "<div class='box'>";
-        foreach ($channels as $row) {
-            if (!empty($row['publisher_id']) && !in_array($row['publisher_id'], $affiliates)) {
+        foreach ($aChannels as $aChannel) {
+            if (!empty($aChannel['publisher_id']) && !in_array($aChannel['publisher_id'], $aAffiliates)) {
                 continue;
             }
-            if (empty($row['publisher_id'])) {
-                $editUrl = "channel-acl.php?agencyid={$this->agencyid}&channelid={$row['channel_id']}";
+            if (empty($aChannel['publisher_id'])) {
+                $editUrl = "channel-acl.php?agencyid={$this->agencyid}&channelid={$aChannel['channel_id']}";
             } else {
-                $editUrl = "channel-acl.php?affiliateid={$row['publisher_id']}&channelid={$row['channel_id']}";
+                $editUrl = "channel-acl.php?affiliateid={$aChannel['publisher_id']}&channelid={$aChannel['channel_id']}";
             }
             echo "
                 <div class='boxrow'>
-                    <input 
-                        tabindex='".($tabindex++)."' 
-                        type='checkbox' 
-                        id='c_{$this->executionorder}_{$row['channel_id']}' 
+                    <input
+                        tabindex='".($tabindex++)."'
+                        type='checkbox'
+                        id='c_{$this->executionorder}_{$aChannel['channel_id']}'
                         name='acl[{$this->executionorder}][data][]'
-                        value='{$row['channel_id']}'".(in_array($row['channel_id'], $this->data) ? ' checked="checked"' : '')."
+                        value='{$aChannel['channel_id']}'".(in_array($aChannel['channel_id'], $this->data) ? ' checked="checked"' : '')."
                     />
-                    {$row['name']}
+                    {$aChannel['name']}
                     <a href='{$editUrl}' target='_blank'><img src='images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' align='absmiddle' alt='{$GLOBALS['strView']}'></a>
                 </div>";
         }
         echo "</div>";
     }
-    
+
     /**
      * Returns the compiledlimitation string for this limitation
      *
@@ -279,7 +272,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
 function _sortByChannelName($a, $b) {
     $a['name'] = strtolower($a['name']);
     $b['name'] = strtolower($b['name']);
-    
+
     if ($a['name'] == $b['name']) return 0;
     return strcmp($a['name'], $b['name']);
 }
