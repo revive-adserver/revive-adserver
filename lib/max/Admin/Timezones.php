@@ -57,7 +57,9 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
             $aTimezone[$key] = $key;
         }
 
-        return asort($aTimezone);
+        asort($aTimezone);
+
+        return $aTimezone;
     }
 
     function getTimezone()

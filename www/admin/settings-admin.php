@@ -118,7 +118,7 @@ phpAds_SettingsSelection("admin");
 
 $unique_users   = MAX_Permission::getUniqueUserNames($pref['admin']);
 
-$aTimezone  = MAX_Admin_Timezones::AvailableTimezones();
+$aTimezone  = MAX_Admin_Timezones::AvailableTimezones(true);
 if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
     $timezone   = $aTimezones[$GLOBALS['_MAX']['CONF']['timezone']['location']];
 
