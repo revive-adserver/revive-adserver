@@ -48,7 +48,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
 
         $aTimezoneKey = Date_TimeZone::getAvailableIDs();
 
-        //  add blank option
+        //  add empty key/value pair
         if ($addBlank) {
             $aTimezone[] = '';
         }
@@ -57,9 +57,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
             $aTimezone[$key] = $key;
         }
 
-        asort($aTimezone);
-
-        return $aTimezone;
+        return asort($aTimezone);
     }
 
     function getTimezone()
