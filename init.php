@@ -34,6 +34,7 @@ $Id$
 
 require_once 'init-parse.php';
 require_once 'constants.php';
+require_once 'variables.php';
 
 /**
  * The environment initialisation function for the Openads administration interface.
@@ -44,6 +45,7 @@ require_once 'constants.php';
 function init()
 {
     setupConstants();
+    setupConfigVariables();
     // Disable all notices and warnings, as some PAN code still
     // generates PHP warnings in places
     error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
