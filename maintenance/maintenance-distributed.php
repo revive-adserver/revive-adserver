@@ -34,6 +34,7 @@ require (phpAds_path."/libraries/lib-io.inc.php");
 require (phpAds_path."/libraries/lib-db.inc.php");
 require (phpAds_path."/libraries/lib-dbconfig.inc.php");
 require (phpAds_path."/libraries/lib-cache.inc.php");
+require (phpAds_path."/admin/lib-statistics.inc.php");
 
 if (!defined('LIBUSERLOG_INCLUDED'))
 	require (phpAds_path."/libraries/lib-userlog.inc.php");

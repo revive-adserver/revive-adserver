@@ -38,7 +38,7 @@ function phpAds_cleanTables($weeks, $stats)
 		);
 		
 		// Prune adstats only when distributed stats are not enabled
-		if (!$phpAds_config['lb_enabled']))
+		if (empty($phpAds_config['lb_enabled']))
 			$tables[$phpAds_config['tbl_adstats']] = array('day', 'Ymd');
 	}
 	else
