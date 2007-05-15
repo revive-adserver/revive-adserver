@@ -42,8 +42,22 @@ define('OA_UPGRADE_FINISH',                    70);
 global $installing;
 $installing = true;
 
+
 require_once '../../init.php';
+
+if (array_key_exists('btn_openads', $_REQUEST))
+{
+    header('location: http://'.$GLOBALS['_MAX']['CONF']['webpath']['admin']);
+    exit();
+}
+
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
+
+// required files for header & nav
+require_once MAX_PATH . '/lib/max/Admin/Languages.php';
+require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
+require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 
 // clear the $session variable to prevent users pretending to be logged in.
 unset($session);
@@ -203,11 +217,6 @@ else if (array_key_exists('btn_finish', $_REQUEST))
     $oUpgrader->oConfiguration->setOpenadsInstalledOn();
     $action = OA_UPGRADE_FINISH;
 }
-else if (array_key_exists('btn_openads', $_REQUEST))
-{
-    header('location: http://'.$GLOBALS['_MAX']['CONF']['webpath']['admin']);
-    exit();
-}
 else if (array_key_exists('dirPage', $_REQUEST) && !empty($_POST['dirPage']))
 {
     $action = $_POST['dirPage'];
@@ -221,12 +230,6 @@ if (($action == OA_UPGRADE_UPGRADE) || ($action == OA_UPGRADE_INSTALL))
 {
     setcookie('oat', $action);
 }
-
-// required files for header & nav
-require_once MAX_PATH . '/lib/max/Admin/Languages.php';
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
-require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
-require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 
 // Used to detmine which page is active
 $activeNav = array (
