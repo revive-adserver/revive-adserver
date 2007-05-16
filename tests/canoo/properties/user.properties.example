@@ -17,3 +17,10 @@ basepath=erasmus/www
 ;---------------------------------------------
 admin.name=admin
 admin.password=password
+
+;--------------------------------------------
+; Cookies names
+; TODO: should we rather read these variables
+;       from host.conf.php?
+;--------------------------------------------
+viewerId=MAXID
