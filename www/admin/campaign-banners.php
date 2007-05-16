@@ -425,20 +425,22 @@ echo "<br /><br />";
 echo "<br /><br />";
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25' colspan='2'><b>$strCreditStats</b></td></tr>";
-echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%' alt=''></td></tr>";
+echo "<tr><td height='25' colspan='3'><b>$strCreditStats</b></td></tr>";
+echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%' alt=''></td></tr>";
 
 $dalCampaigns = OA_Dal::factoryDAL('campaigns');
 list($desc,$enddate,$daysleft) = $dalCampaigns->getDaysLeft($campaignid);
 $adImpressionsLeft = phpAds_formatNumber($dalCampaigns->getAdImpressionsLeft($campaignid));
 $adClicksLeft = phpAds_formatNumber($dalCampaigns->getAdClicksLeft($campaignid));
+$adConversionsLeft = phpAds_formatNumber($dalCampaigns->getAdConversionsLeft($campaignid));
 
-echo "<tr><td height='25'>$strViewCredits: <b>$adImpressionsLeft</b></td>";
-echo "<td height='25'>$strClickCredits: <b>$adClicksLeft</b></td></tr>";
-echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%' alt=''></td></tr>";
-echo "<tr><td height='25' colspan='2'>$desc</td></tr>";
+echo "<tr><td height='25' width='33%'>$strViewCredits: <b>$adImpressionsLeft</b></td>";
+echo "<td height='25' width='33%'>$strClickCredits: <b>$adClicksLeft</b></td>";
+echo "<td height='25' width='33%'>$strConversionCredits: <b>$adConversionsLeft</b></td></tr>";
+echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%' alt=''></td></tr>";
+echo "<tr><td height='25' colspan='3'>$desc</td></tr>";
 
-echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%' alt=''></td></tr>";
+echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%' alt=''></td></tr>";
 echo "</table>";
 echo "<br /><br />";
 

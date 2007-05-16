@@ -101,7 +101,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      * @return mixed The number of ad conversions remaining, or the
      *               string "unlimited".
      */
-    function getAdCconversionsLeft($campaignId)
+    function getAdConversionsLeft($campaignId)
     {
         global $strUnlimited;
         $prefix = $this->getTablePrefix();
