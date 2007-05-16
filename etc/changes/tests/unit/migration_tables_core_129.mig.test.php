@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/etc/changes/migration_tables_core_119.php';
+require_once MAX_PATH . '/etc/changes/migration_tables_core_129.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 
@@ -36,27 +36,17 @@ require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  */
-class Migration_119Test extends MigrationTest
+class Migration_129Test extends MigrationTest
 {
     function testMigrateData()
     {
-        $this->initDatabase(119, array('config', 'preference'));
+        $this->initDatabase(129, array('config', 'preference'));
         
-        $migration = new Migration_119();
+        $migration = new Migration_129();
         $migration->init($this->oDbh);
         
-        $aValues = array(
-            'gui_show_parents' => 't',
-            'updates_enabled'  => 'f'
-        );
-        $sql = OA_DB_Sql::sqlForInsert('config', $aValues);
-        $this->oDbh->exec($sql);
-
-        $aValues += array(
-            'warn_admin'       => 't',
-            'warn_limit'       => '100'
-        );
-
+        $aValues = array('warn_limit_days' => 1);
+        
         $migration->migrateData();
         
         $rsPreference = DBC::NewRecordSet("SELECT * from preference");

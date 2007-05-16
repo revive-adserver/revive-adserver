@@ -1,6 +1,8 @@
 <?php
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once(MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php');
+require_once(MAX_PATH.'/lib/OA/DB/Sql.php');
 
 class Migration_129 extends Migration
 {
@@ -30,24 +32,24 @@ class Migration_129 extends Migration
 
 	function migrateData()
 	{
-	    $prefix = $this->getPrefix();
-	    $tablePreference = $prefix . 'preference';
-
-	        copy(
-	           MAX_PATH.'/etc/changes/tests/data/config_2_0_12.inc.php',
-	           MAX_PATH.'/var/config.inc.php'
-	        );
-	        
-	        // Migrate PAN config variables
-	        $phpAdsNew = new OA_phpAdsNew();
-            $aPanConfig = $phpAdsNew->_getPANConfig();
-            $aValues['warn_limit_days']                 = $aPanConfig['warn_limit_days'] ? $aPanConfig['warn_limit_days'] : 1;
-            
-            unlink(MAX_PATH.'/var/config.inc.php');
-            
-	        $sql = OA_DB_SQL::sqlForInsert($tablePreference, $aValues);
-	        $result = $this->oDBH->exec($sql);
-	        return (!PEAR::isError($result));
+        $prefix = $this->getPrefix();
+        $tablePreference = $prefix . 'preference';
+        
+        copy(
+           MAX_PATH.'/etc/changes/tests/data/config_2_0_12.inc.php',
+           MAX_PATH.'/var/config.inc.php'
+        );
+        
+        // Migrate PAN config variables
+        $phpAdsNew = new OA_phpAdsNew();
+        $aPanConfig = $phpAdsNew->_getPANConfig();
+        $aValues['warn_limit_days'] = $aPanConfig['warn_limit_days'] ? $aPanConfig['warn_limit_days'] : 1;
+        
+        unlink(MAX_PATH.'/var/config.inc.php');
+        
+        $sql = OA_DB_SQL::sqlForInsert($tablePreference, $aValues);
+        $result = $this->oDBH->exec($sql);
+        return (!PEAR::isError($result));
 	}
 
 }
