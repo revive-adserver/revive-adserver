@@ -2511,9 +2511,9 @@ class OA_Dal_Maintenance_Statistics_Common
                                   $advertisementRow['url']);
                     }
                     if ($aConf['email']['sendMail']) {
-                        $message =& OA_Email::prepareDeactivateCampaignEmail($campaignRow['contact'],
-                                                                             $campaignRow['campaign_name'],
-                                                                             $disableReason, $advertisements);
+                        $message =& OA_Email::prepareDeactivatePlacementEmail($campaignRow['contact'],
+                                                                              $campaignRow['campaign_name'],
+                                                                              $disableReason, $advertisements);
                         OA_Email::sendMail("Deactivated Banners: {$campaignRow['campaign_name']}", $message,
                                            $campaignRow['email'], $campaignRow['contact']);
                     }
@@ -2610,9 +2610,9 @@ class OA_Dal_Maintenance_Statistics_Common
                                     $advertisementRow['url']);
                         }
                         if ($aConf['email']['sendMail']) {
-                            $message =& MAX_Maintenance::OA_Email($campaignRow['contact'],
-                                                                  $campaignRow['campaign_name'],
-                                                                  $advertisements);
+                            $message =& OA_Email::prepareActivatePlacementEmail($campaignRow['contact'],
+                                                                                $campaignRow['campaign_name'],
+                                                                                $advertisements);
                             OA_Email::sendMail("Activated Banners: {$campaignRow['campaign_name']}", $message,
                                                $campaignRow['email'], $campaignRow['contact']);
                         }
