@@ -30,9 +30,10 @@ require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
-require_once MAX_PATH . '/lib/max/other/lib-reports.inc.php';
 require_once MAX_PATH . '/scripts/maintenance/translationStrings.php';
 
+require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/Email.php';
@@ -73,7 +74,7 @@ class MAX_Maintenance
         $oLock =& OA_DB_AdvisoryLock::factory();
 
         if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE)) {
-            MAX::debug('Running Maintenance Statistics and Priority', PEAR_LOG_INFO);
+            OA::debug('Running Maintenance Statistics and Priority', PEAR_LOG_INFO);
 
             // Update the timestamp for old maintenance code and auto-maintenance
             $this->updateLastRun();
@@ -109,7 +110,7 @@ class MAX_Maintenance
             // Remove lockfile, if required
             $this->releaseLock();
 
-            MAX::debug('Maintenance Statistics and Priority Completed', PEAR_LOG_INFO);
+            OA::debug('Maintenance Statistics and Priority Completed', PEAR_LOG_INFO);
         }
     }
 
@@ -127,10 +128,10 @@ class MAX_Maintenance
     function runMidnightTasks()
     {
         if (date('H') == 0) {
-            MAX::debug('Running Midnight Maintenance Tasks', PEAR_LOG_INFO);
+            OA::debug('Running Midnight Maintenance Tasks', PEAR_LOG_INFO);
             $this->runReports();
             $this->runOpenadsSync();
-            MAX::debug('Midnight Maintenance Tasks Completed', PEAR_LOG_INFO);
+            OA::debug('Midnight Maintenance Tasks Completed', PEAR_LOG_INFO);
         }
     }
 
@@ -143,39 +144,59 @@ class MAX_Maintenance
     }
 
     /**
-     * A method to send reports during maintenance
+     * A method to send the "midnight" reports during maintenance - that
+     * is, the delivery information report, showing what the campaign(s)
+     * have delivered since the last time the report was send; and also
+     * the email report to advise users that a campaign is "about" to
+     * expire, based on the user's preferences.
      */
     function runReports()
     {
-        MAX::debug('  Starting to send advertiser reports.', PEAR_LOG_DEBUG);
-        $query = "
-            SELECT
-                clientid,
-                report,
-                reportinterval,
-                reportlastdate,
-                UNIX_TIMESTAMP(reportlastdate) AS reportlastdate_t
-            FROM
-                {$this->conf['table']['prefix']}{$this->conf['table']['clients']}
-            WHERE
-                report = 't'";
-        MAX::debug('  Getting details of when advertiser reports were last sent.', PEAR_LOG_DEBUG);
-        $rResult = phpAds_dbQuery($query);
-        if (phpAds_dbNumRows($rResult) > 0) {
-            while ($aAdvertiser = phpAds_dbFetchArray($rResult)) {
-                // Determine date of interval days ago
-                $intervaldaysago = mktime(0, 0, 0, date('m'), date('d'), date('Y')) - ($aAdvertiser['reportinterval'] * (60 * 60 * 24));
-                // Check if the date interval has been reached
-                if (($aAdvertiser['reportlastdate_t'] <= $intervaldaysago && $aAdvertiser['reportlastdate'] != '0000-00-00') || ($aAdvertiser['reportlastdate'] == '0000-00-00')) {
-                    // Determine first and last date
-                    $last_unixtimestamp  = mktime(0, 0, 0, date('m'), date('d'), date('Y')) - 1;
-                    $first_unixtimestamp = $aAdvertiser['reportlastdate_t'];
-                    // Send the advertiser's report
-                    phpAds_SendMaintenanceReport($aAdvertiser['clientid'], $first_unixtimestamp, $last_unixtimestamp, true);
+        OA::debug('  Starting to send advertiser "campaign delivery" reports.', PEAR_LOG_DEBUG);
+        // Get all advertisers where the advertiser preference is to send reports
+        OA::debug('   - Getting details of advertisers that require reports to be sent.', PEAR_LOG_DEBUG);
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->report = 't';
+        $doClients->find();
+        while ($doClients->fetch()) {
+            $aAdvertiser = $doClients->toArray();
+            // Don't email report by default
+            $sendReport = false;
+            // Has the report interval date been passed?
+            if ($aAdvertiser['reportlastdate'] == OA_Dal::noDateString()) {
+                $sendReport = true;
+                $oReportLastDate = null;
+            } else {
+                $oNowDate = new Date();
+                $oReportLastDate = new Date($aAdvertiser['reportlastdate']);
+                $oSpan = new Date_Span();
+                $oSpan->setFromDateDiff($oReportLastDate, $oNowDate);
+                $daysSinceLastReport = (int) floor($oSpan->toDays());
+                if ($daysSinceLastReport >= $aAdvertiser['reportinterval']) {
+                    $sendReport = true;
+                }
+            }
+            if ($sendReport) {
+                // Prepare the end date of the report
+                $oReportEndDate = new Date();
+                $oReportEndDate->setHour(0);
+                $oReportEndDate->setMinute(0);
+                $oReportEndDate->setSecond(0);
+                $oReportEndDate->subtractSeconds(1);
+                // Send the advertiser's campaign delivery report
+                $aEmail = OA_Email::preparePlacementDeliveryEmail($aAdvertiser['clientid'], $oReportLastDate, $oReportEndDate);
+                if ($aEmail !== false) {
+                    OA_Email::sendMail($aEmail['subject'], $aEmail['contents'], $aEmail['userEmail'], $aEmail['userName']);
+                    // Update the last run date to "today"
+                    OA::debug('   - Updating the date the report was last sent for advertiser ID ' . $aAdvertiser['clientid'] . '.', PEAR_LOG_DEBUG);
+                    $doUpdateClients = OA_Dal::factoryDO('clients');
+                    $doUpdateClients->clientid = $aAdvertiser['clientid'];
+                    $doUpdateClients->reportlastdate = OA::getNow();
+                    $doUpdateClients->update();
                 }
             }
         }
-        MAX::debug('  Finished sending advertiser reports.', PEAR_LOG_DEBUG);
+        OA::debug('  Finished sending advertiser "campaign delivery" reports.', PEAR_LOG_DEBUG);
     }
 
     /**
@@ -183,7 +204,7 @@ class MAX_Maintenance
      */
     function runOpenadsSync()
     {
-        MAX::debug('  Starting Openads Sync process.', PEAR_LOG_DEBUG);
+        OA::debug('  Starting Openads Sync process.', PEAR_LOG_DEBUG);
 
         if ($pref['updates_enabled'] == 't') {
             require_once (MAX_PATH . '/lib/max/OpenadsSync.php');
@@ -192,11 +213,11 @@ class MAX_Maintenance
             $res = $oSync->checkForUpdates(0, true);
 
             if ($res[0] != 0 && $res[0] != 800) {
-                MAX::debug("Openads Sync error ($res[0]): $res[1]", PEAR_LOG_INFO);
+                OA::debug("Openads Sync error ($res[0]): $res[1]", PEAR_LOG_INFO);
             }
         }
 
-        MAX::debug('  Finished Openads Sync process.', PEAR_LOG_DEBUG);
+        OA::debug('  Finished Openads Sync process.', PEAR_LOG_DEBUG);
     }
 
     /**
@@ -206,13 +227,13 @@ class MAX_Maintenance
     {
         // If split tables, check for lockfile
         if ($this->conf['table']['split']) {
-            MAX::debug('Checking for lockfile', PEAR_LOG_INFO);
+            OA::debug('Checking for lockfile', PEAR_LOG_INFO);
             $attempt = 0;
             // Don't start if lockfile detected
             while (file_exists($this->conf['table']['lockfile'])) {
                 if ($attempt > 2) {
                     // Give up on maintenance
-                    MAX::debug('More than 3 attempts, sending email to admin user', PEAR_LOG_ERR);
+                    OA::debug('More than 3 attempts, sending email to admin user', PEAR_LOG_ERR);
                     $message  = "Warning! Maintenance was unable to run - the lockfile was found\n";
                     $message .= "in place while trying to start maintenance, even after 3 iterations.\n\n";
                     $message .= "The lockfile used was: {$this->conf['table']['lockfile']}.\n\n";
@@ -225,17 +246,17 @@ class MAX_Maintenance
                             agencyid = 0
                         ";
                     $row = $this->oDbh->queryRow($query);
-                    OA_Email::sendMail($row['admin_email'], '', 'Lockfile altert!', $message);
+                    OA_Email::sendMail('Lockfile altert!', $message, $row['admin_email'], '');
                     MAX::raiseError('Aborting script execution', null, PEAR_ERROR_DIE);
                 }
                 // Pause for 30 secs
-                MAX::debug('Lockfile exists, sleeping for 30 secs. Iteration ' . $attempt, PEAR_LOG_INFO);
+                OA::debug('Lockfile exists, sleeping for 30 secs. Iteration ' . $attempt, PEAR_LOG_INFO);
                 sleep(30);
                 $attempt ++;
             }
             // Write lockfile so table splitting scripts will abort if they
             // attempt to start during a maintenance run
-            MAX::debug('No lockfile exists, writing lockfile', PEAR_LOG_INFO);
+            OA::debug('No lockfile exists, writing lockfile', PEAR_LOG_INFO);
             $fh = fopen($this->conf['table']['lockfile'], 'w');
         }
     }
@@ -246,7 +267,7 @@ class MAX_Maintenance
     function releaseLock()
     {
         if ($this->conf['table']['split']) {
-            MAX::debug('Removing lockfile', PEAR_LOG_INFO);
+            OA::debug('Removing lockfile', PEAR_LOG_INFO);
             unlink($this->conf['table']['lockfile']);
         }
     }
@@ -260,7 +281,7 @@ class MAX_Maintenance
 
         // Update the timestamp (for old maintenance code)
         // TODO: Move this query to the DAL, so that other code (tests, installation) can call it.
-        MAX::debug('Updating the timestamp in the preference table', PEAR_LOG_DEBUG);
+        OA::debug('Updating the timestamp in the preference table', PEAR_LOG_DEBUG);
         $query = "
             UPDATE
                 {$this->conf['table']['prefix']}{$this->conf['table']['preference']}

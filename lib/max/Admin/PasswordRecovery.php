@@ -269,7 +269,7 @@ class MAX_Admin_PasswordRecovery
                 $GLOBALS['_MAX']['CONF']['email']['admin_name'] = $pref['admin_fullname'];
                 $GLOBALS['_MAX']['CONF']['email']['admin'] = $pref['admin_email'];
 
-                OA_Email::sendMail($email, $email, sprintf($GLOBALS['strPwdRecEmailPwdRecovery'], $pref['name']), $text);
+                OA_Email::sendMail(sprintf($GLOBALS['strPwdRecEmailPwdRecovery'], $pref['name']), $email, $email, $text);
                 $sent++;
             }
         }

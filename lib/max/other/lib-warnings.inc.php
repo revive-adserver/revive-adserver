@@ -72,10 +72,10 @@ function phpAds_warningMail($campaign)
 			$Body    = str_replace("{limit}", $pref['warn_limit'], $Body);
 			// Send email
 			if ($pref['warn_admin']) {
-				OA_Email::sendMail($pref['admin_email'], $pref['admin_fullname'], $Subject, $Body);
+				OA_Email::sendMail($Subject, $Body, $pref['admin_email'], $pref['admin_fullname']);
 			}
 			if ($pref['warn_client'] && $client["email"] != '') {
-				OA_Email::sendMail($client['email'], $client['contact'], $Subject, $Body);
+				OA_Email::sendMail($Subject, $Body, $client['email'], $client['contact']);
 				if ($pref['userlog_email']) {
 					phpAds_userlogAdd(phpAds_actionWarningMailed, $campaign['campaignid'], $Subject."\n\n".$Body);
 				}

@@ -2514,8 +2514,8 @@ class OA_Dal_Maintenance_Statistics_Common
                         $message =& OA_Email::prepareDeactivateCampaignEmail($campaignRow['contact'],
                                                                              $campaignRow['campaign_name'],
                                                                              $disableReason, $advertisements);
-                        OA_Email::sendMail($campaignRow['email'], $campaignRow['contact'],
-                                           "Deactivated Banners: {$campaignRow['campaign_name']}", $message);
+                        OA_Email::sendMail("Deactivated Banners: {$campaignRow['campaign_name']}", $message,
+                                           $campaignRow['email'], $campaignRow['contact']);
                     }
                 }
             } else {
@@ -2613,8 +2613,8 @@ class OA_Dal_Maintenance_Statistics_Common
                             $message =& MAX_Maintenance::OA_Email($campaignRow['contact'],
                                                                   $campaignRow['campaign_name'],
                                                                   $advertisements);
-                            OA_Email::sendMail($campaignRow['email'], $campaignRow['contact'],
-                                               "Activated Banners: {$campaignRow['campaign_name']}", $message);
+                            OA_Email::sendMail("Activated Banners: {$campaignRow['campaign_name']}", $message,
+                                               $campaignRow['email'], $campaignRow['contact']);
                         }
                     }
                 }
