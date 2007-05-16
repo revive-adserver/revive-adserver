@@ -79,6 +79,7 @@
         </package>
         <package>
             <version>199</version>
+            <stamp>513</stamp>
             <schema>tables_core</schema>
             <file>schema_tables_core_199.xml</file>
             <file>changes_tables_core_199.xml</file>
