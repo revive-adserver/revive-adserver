@@ -313,7 +313,7 @@ foreach($showSections as $key=>$val) {
     }
 }
 // display main template
-include 'tpl/index.html';
+include 'templates/install-index.html';
 
 // display footer
 phpAds_PageFooter($imgPath);

@@ -38,17 +38,17 @@
             $sysinfoarray['actual']['magic_quotes_runtime'] = ($sysinfoarray['actual']['magic_quotes_runtime']==0 ? 'OFF' : 'ON');
             $halt = (($halt) && (!$sysinfoarray['error']));
             $sysinfoheading = 'PHP - '.(!$sysinfoarray['error']? 'no errors' : 'errors detected');
-            include 'tpl/sysinfosection.html';
+            include 'templates/install-sysinfosection.html';
 
             $sysinfoarray = $aSysInfo['PERMS'];
             $halt = (($halt) && (!$sysinfoarray['error']));
             $sysinfoheading = 'File Permissions - '.(!$sysinfoarray['error']? 'no errors' : 'errors detected');
-            include 'tpl/sysinfosection.html';
+            include 'templates/install-sysinfosection.html';
 
             $sysinfoarray = $aSysInfo['FILES'];
             $halt = (($halt) && (!$sysinfoarray['error']));
             $sysinfoheading = 'File Integrity - '.(!$sysinfoarray['error']? 'no errors' : 'errors detected');
-            include 'tpl/sysinfosection.html';
+            include 'templates/install-sysinfosection.html';
         ?>
         </tr>    
         </table>
