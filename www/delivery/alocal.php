@@ -600,9 +600,9 @@ OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressionId, $se
 function _viewersHostOkayToLog()
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-if (count($conf['ignoreHosts']) > 0) {
-$hosts = '#('.implode('|',$conf['ignoreHosts']).')$#i';
-if ($hosts != '') {
+if (!empty($conf['logging']['ignoreHosts'])) {
+$hosts = str_replace(',', '|', $conf['logging']['ignoreHosts']);
+$hosts = '#('.$hosts.')$#i';
 $hosts = str_replace('.', '\.', $hosts);
 $hosts = str_replace('*', '[^.]+', $hosts);
 // Check if the viewer's IP address is in the ignore list
@@ -612,7 +612,6 @@ return false;
 // Check if the viewer's hostname is in the ignore list
 if (preg_match($hosts, $_SERVER['REMOTE_HOST'])) {
 return false;
-}
 }
 }
 return true;
@@ -1761,7 +1760,7 @@ return array('html' => $outputbuffer, 'bannerid' => '' );
 function _adSelectDirect($what, $campaignid = '', $context = array(), $source = '', $richMedia = true, $lastpart = true)
 {
 $aDirectLinkedAds = MAX_cacheGetLinkedAds($what, $campaignid, $lastpart);
-$aLinkedAd = _adSelectCommon($aDirectLinkedAds);
+$aLinkedAd = _adSelectCommon($aDirectLinkedAds, $context, $source, $richMedia);
 if (is_array($aLinkedAd)) {
 $aLinkedAd['zoneid'] = 0;
 $aLinkedAd['bannerid'] = $aLinkedAd['ad_id'];
@@ -1805,7 +1804,7 @@ $g_prepend .= $aZoneLinkedAds['prepend'];
 $g_append = $aZoneLinkedAds['append'] . $g_append;
 $appendedThisZone = true;
 }
-$aLinkedAd = _adSelectCommon($aZoneLinkedAds);
+$aLinkedAd = _adSelectCommon($aZoneLinkedAds, $context, $source, $richMedia);
 if (is_array($aLinkedAd)) {
 $aLinkedAd['zoneid'] = $zoneId;
 $aLinkedAd['bannerid'] = $aLinkedAd['ad_id'];
@@ -1836,7 +1835,7 @@ return array(
 }
 return false;
 }
-function _adSelectCommon($aAds)
+function _adSelectCommon($aAds, $context, $source, $richMedia)
 {
 if (!empty($aAds['count_active'])) {
 $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'xAds');
