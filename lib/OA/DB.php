@@ -84,7 +84,8 @@ class OA_DB
         } else {
             $aConnections = array();
         }
-        if (!(count($aConnections) > 0) || !(in_array($dsnMd5, $aConnections))) {
+        if (!(count($aConnections) > 0) || !(in_array($dsnMd5, $aConnections)))
+        {
             // Prepare options for a new database connection
             $aOptions = array();
             $aOptions['datatype_map'] = '';

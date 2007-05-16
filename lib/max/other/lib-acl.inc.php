@@ -29,10 +29,12 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 require_once(MAX_PATH . '/lib/max/other/lib-db.inc.php');
 require_once(MAX_PATH . '/www/admin/lib-banner.inc.php');
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
+require_once(MAX_PATH . '/lib/max/Dal/Admin/Acls.php');
 
 // Initialize the client info to enable client targeting options
 MAX_remotehostProxyLookup();
@@ -120,6 +122,22 @@ function MAX_AclAdjust($acl, $action)
     return $acl;
 }
 
+
+/**
+ * Converts the list of acls array descriptions of limitations to the
+ * compiled versionof the limitations.
+ *
+ * @param array $acls
+ * @return string
+ */
+function OA_aclGetSLimitationFromAAcls($acls)
+{
+    $sLimitation = MAX_AclGetCompiled($acls);
+    // TODO: it should be done inside plugins instead, there is no need to slash the data
+    $sLimitation = (!get_magic_quotes_runtime()) ? stripslashes($sLimitation) : $sLimitation;
+    return $sLimitation;
+}
+
 function MAX_AclSave($acls, $aEntities, $page = false)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
@@ -141,51 +159,49 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     else {
         return false;
     }
-
-    $sLimitation = MAX_AclGetCompiled($acls, $page);
-    // TODO: it should be done inside plugins instead, there is no need to slash the data
-    $sLimitation = (!get_magic_quotes_runtime()) ? stripslashes($sLimitation) : $sLimitation;
-
     $aclsObjectId = $aEntities[$fieldId];
-    $doObject = OA_Dal::staticGetDO($table, $aclsObjectId);
+    
+    $sLimitation = OA_aclGetSLimitationFromAAcls($acls);
 
-    if ($sLimitation == $doObject->compiledlimitation) {
-        return true;
+    $rsAcls = OA_DB_Sql::selectWhereOne($table, $fieldId, $aclsObjectId, array('compiledlimitation'));
+    $rsAcls->fetch();
+
+    if ($sLimitation == $rsAcls->get('compiledlimitation')) {
+        return true; // No changes to the ACL
     }
 
-    // There was a change to the ACL so update the necessary tables
-
-    $doAclsObject = OA_Dal::factoryDO($aclsTable);
-    $doAclsObject->$fieldId = $aclsObjectId;
-    $doAclsObject->delete();
+    OA_DB_Sql::deleteWhereOne($aclsTable, $fieldId, $aclsObjectId);
 
     if (!empty($acls)) {
         foreach ($acls as $acl) {
-            list($package, $name) = explode(':', $acl['type']);
-            $deliveryLimitationPlugin = MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
-            $deliveryLimitationPlugin->init($acl);
-            $doAclsObject = OA_Dal::factoryDO($aclsTable);
-            $doAclsObject->$fieldId = $aclsObjectId;
-            $doAclsObject->logical = $acl['logical'];
-            $doAclsObject->type = $acl['type'];
-            $doAclsObject->data = $deliveryLimitationPlugin->getData();
-            $doAclsObject->comparison = $acl['comparison'];
-            $doAclsObject->executionorder = $acl['executionorder'];
-            $doAclsObject->insert();
+            $deliveryLimitationPlugin = &OA_aclGetPluginFromRow($acl);
+            $sql = OA_DB_Sql::sqlForInsert($aclsTable, array(
+                $fieldId => $aclsObjectId,
+                'logical' => $acl['logical'],
+                'type' => $acl['type'],
+                'data' => $deliveryLimitationPlugin->getData(),
+                'comparison' => $acl['comparison'],
+                'executionorder' => $acl['executionorder']
+            ));
+            $result = $oDbh->exec($sql);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
         }
     }
 
-    $doObject = OA_Dal::factoryDO($table);
-    $doObject->$fieldId = $aclsObjectId;
-    $doObject->acl_plugins = MAX_AclGetPlugins($acls, $page);
-    $doObject->acls_updated = $now = OA::getNow();
-    $doObject->compiledlimitation = $sLimitation;
-    $doObject->update();
+    $result = OA_DB_Sql::updateWhereOne($table, $fieldId, $aclsObjectId, array(
+        'acl_plugins' => MAX_AclGetPlugins($acls),
+        'acls_updated' => ($now = OA::getNow()),
+        'compiledlimitation' => $sLimitation
+    ));
+    if (PEAR::isError($result)) {
+        return $result;
+    }
 
     // When a channel limitation changes - All banners with this channel must be re-learnt
     if ($page == 'channel-acl.php') {
         $affected_ads = array();
-        $success = false;
 
         $query = "
             SELECT
@@ -221,16 +237,12 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     return true;
 }
 
-function MAX_AclGetCompiled($acls) {
-    if (empty($acls)) {
+function MAX_AclGetCompiled($aAcls) {
+    if (empty($aAcls)) {
         return "true";
     } else {
-        foreach ($acls as $order => $acl) {
-            list($package, $name) = explode(':', $acl['type']);
-
-            $deliveryLimitationPlugin = MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
-            $deliveryLimitationPlugin->init($acl);
-
+        foreach ($aAcls as $acl) {
+            $deliveryLimitationPlugin = &OA_aclGetPluginFromRow($acl);
             $compiled = $deliveryLimitationPlugin->compile();
             if (!empty($compiledAcls)) {
                 $compiledAcls[] = $acl['logical'];
@@ -246,11 +258,7 @@ function MAX_AclGetPlugins($acls) {
         return '';
     }
     $acl_plugins = array();
-    foreach ($acls as $order => $acl) {
-        list($package, $name) = explode(':', $acl['type']);
-        $deliveryLimitationPlugin = MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
-        $deliveryLimitationPlugin->init($acl);
-
+    foreach ($acls as $acl) {
         if (!in_array($acl['type'], $acl_plugins)) {
             $acl_plugins[] = $acl['type'];
         }
@@ -373,59 +381,111 @@ function MAX_AclCopy($page, $from, $to) {
     }
 }
 
+
+/**
+ * Extracts the package and name of the plugin from its type, creates a plugin
+ * object and returns the reference to it.
+ *
+ * @param string $type
+ * @return Plugins_DeliveryLimitations
+ */
+function &OA_aclGetPluginFromType($type)
+{
+    list($package, $name) = explode(':', $type);
+    return MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
+}
+
+/**
+ * Creates a delivery limitation plugin from the row which describes it in the
+ * database and returns the reference to it.
+ *
+ * @param array $row
+ */
+function &OA_aclGetPluginFromRow($row)
+{
+    $plugin = &OA_aclGetPluginFromType($row['type']);
+    $plugin->init($row);
+    return $plugin;
+}
+
+
+/**
+ * Recompiles all acls definitions for one of the type: banners or channel.
+ *
+ * @param string $aclsTable 'acls' or 'acls_channel'.
+ * @param string $idColumn 'bannerid' or 'channelid'.
+ * @param string $page 'banner-acl.php' or 'channel-acl.php'.
+ * @param string $objectTable 'banners' or 'channel'
+ * @return boolean True on success, PEAR::Error on failure.
+ */
+function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable)
+{
+    $dbh = &OA_DB::singleton();
+
+    $result = $dbh->exec("UPDATE $objectTable SET compiledlimitation = 'true', acl_plugins = ''");
+    if (PEAR::isError($result)) {
+        return $result;
+    }
+
+    $dalAcls = &OA_Dal::factoryDAL('acls');
+    $rsAcls = $dalAcls->getRsAcls($aclsTable);
+    if (PEAR::isError($rsAcls)) {
+        return $rsAcls;
+    }
+    $result = $rsAcls->find();
+    if (PEAR::isError($result)) {
+        return $result;
+    }
+    
+    $aAcls = array();
+    while ($rsAcls->fetch()) {
+        $row = $rsAcls->toArray();
+        $deliveryLimitationPlugin = &OA_aclGetPluginFromRow($row);
+        if ($deliveryLimitationPlugin->isAllowed($page)) {
+            $aAcls[$row[$idColumn]][$row['executionorder']] = $row;
+        }
+    }
+    // OK so we've updated all the data values, now the hard part, we need to recompile limitations for all banners
+    foreach ($aAcls as $id => $acl) {
+        $aEntities = array($idColumn => $id);
+        MAX_AclSave($acl, $aEntities, $page);
+    }
+    return true;
+}
+
+function OA_aclRecompileBanners()
+{
+    $conf =& $GLOBALS['_MAX']['CONF'];
+    
+    return
+        OA_aclRecompileAclsForTable('acls', 'bannerid', 'banner-acl.php', $conf['table']['banners']);
+}
+
+function OA_aclRecompileCampaigns()
+{
+    $conf =& $GLOBALS['_MAX']['CONF'];
+    
+    return
+        OA_aclRecompileAclsForTable('acls_channel', 'channelid', 'channel-acl.php', $conf['table']['channel']);
+}
+
 /**
  * This function iterates over all the ACLs in the system, and recompiles the compiledlimitation
  * string across all banners and channels
  *
+ * @return boolean True on success, PEAR::Error on failure.
  */
 function MAX_AclReCompileAll()
 {
-    $conf =& $GLOBALS['_MAX']['CONF'];
-    // Since we need to do almost identical things for both banner and channel ACLs...
-    $actions = array(
-        'banners'   => array(
-            'table'     => 'acls',
-            'id_field'  => 'bannerid',
-            'page'      => 'banner-acl.php',
-            'compiled_table' => $conf['table']['banners'],
-        ),
-        'channels'  => array(
-            'table'     => 'acls_channel',
-            'id_field'  => 'channelid',
-            'page'      => 'channel-acl.php',
-            'compiled_table' => $conf['table']['channel'],
-        ),
-    );
-    foreach ($actions as $action) {
-        $recompile = array();
-        $acls = array();
-        $query = "
-            SELECT
-                *
-            FROM
-                {$conf['table']['prefix']}{$action['table']}
-            ORDER BY {$action['id_field']}, executionorder";
-        $res = phpAds_dbQuery($query);
-        if ($res !== false) {
-            while ($row = phpAds_dbFetchArray($res)) {
-                list($package, $name) = explode(':', $row['type']);
-                $deliveryLimitationPlugin = MAX_Plugin::factory('deliveryLimitations', ucfirst($package), ucfirst($name));
-                $deliveryLimitationPlugin->init($row);
-                if ($deliveryLimitationPlugin->isAllowed($action['page'])) {
-                    $acls[$row[$action['id_field']]][$row['executionorder']] = $row;
-                }
-            }
-        }
-        // OK so we've updated all the data values, now the hard part, we need to recompile limitations for all banners
-        foreach ($acls as $id => $acl) {
-            $aEntities = array($action['id_field'] => $id);
-            MAX_AclSave($acl, $aEntities, $action['page']);
-        }
-        // All other banners should have the compiledlimitation set to "true"
-        $ids = implode(',', array_keys($acls));
-        $query = "UPDATE {$action['compiled_table']} SET compiledlimitation = 'true', acl_plugins = '' WHERE {$action['id_field']} NOT IN ({$ids})";
-        phpAds_dbQuery($query);
+    $result = OA_aclRecompileBanners();
+    if (PEAR::isError($result)) {
+        return $result;
     }
+    $result = OA_aclRecompileCampaigns();
+    if (PEAR::isError($result)) {
+        return $result;
+    }
+    return true;
 }
 
 function MAX_aclAStripslashed($aArray)

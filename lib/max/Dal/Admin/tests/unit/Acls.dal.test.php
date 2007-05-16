@@ -91,6 +91,5 @@ class MAX_Dal_Admin_AclsTest extends DalUnitTestCase
     	$rsChannel->reset();
     	$this->assertEqual($rsChannel->getRowCount(), 2);
     }
-
 }
 ?>

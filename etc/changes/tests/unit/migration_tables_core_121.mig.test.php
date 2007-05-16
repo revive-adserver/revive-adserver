@@ -28,6 +28,7 @@ $Id$
 require_once MAX_PATH . '/etc/changes/migration_tables_core_121.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
+require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 
 /**
  * Test for migration class #121.
@@ -36,14 +37,11 @@ require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  */
-class Migration_121Test extends UnitTestCase
+class Migration_121Test extends MigrationTest
 {
     function testMigrateData()
     {
-        $oTable = new OA_DB_Table();
-        $oTable->init(MAX_PATH . '/etc/changes/schema_tables_core_121.xml');
-        $oTable->createTable('acls');
-        $oTable->truncateTable('acls');
+        $this->initDatabase(121, array('acls', 'banners'));
         
         $oDbh = &OA_DB::singleton();
         $migration = new Migration_121();
@@ -117,7 +115,5 @@ class Migration_121Test extends UnitTestCase
             $this->assertEqual($aExpectedData[$idx][2], $rsAcls->get('data'));
         }
         $this->assertFalse($rsAcls->fetch());
-        
-        $oTable->dropAllTables();
     }
 }

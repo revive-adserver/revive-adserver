@@ -3,6 +3,7 @@
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
 require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
+require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
 
 class Migration_121 extends Migration
 {
@@ -89,8 +90,12 @@ class Migration_121 extends Migration
 	            return false;
 	        }
 	    }
+        $result = MAX_AclReCompileAll();
+        if (PEAR::isError($result)) {
+            $this->_logErrorAndReturnFalse($result);
+        }
+
 	    return true;
-	    /** @todo Migrate acls type, comparison and data for other fields*/
 	}
 
     /**

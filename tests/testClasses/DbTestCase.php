@@ -25,55 +25,67 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Dal/Common.php';
+require_once MAX_PATH . '/lib/OA/DB/Sql.php';
+require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
 
-class MAX_Dal_Admin_Acls extends MAX_Dal_Common
+/**
+ * This class is useful if you want to perform database-based tests.
+ *
+ * @package    OpenadsDB
+ * @subpackage TestSuite
+ * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
+ */
+class DbTestCase extends UnitTestCase
 {
-    var $table = 'acls';
-
-	/**
-     * @param $findInSet string  Data to look after (eg 13)
-     * @param $type string       Data type (eg Site:Channel)
+    /**
+     * Use this variable to carry DDL operations.
      *
-     * @return RecordSet
-     * @access public
+     * @var OA_DB_Table
      */
-    function getAclsByDataValueType($findInSet, $type)
-    {
-        $findInSet = "FIND_IN_SET(".DBC::makeLiteral($findInSet).", data)";
-        $prefix = $this->getTablePrefix();
-    	$query = "
-            SELECT
-                *,
-                $findInSet
-            FROM
-                {$prefix}acls
-            WHERE
-                type = ".DBC::makeLiteral($type)."
-                AND $findInSet > 0
-        ";
+    var $oaTable;
 
-        return DBC::NewRecordSet($query);
+    /**
+     * Initializes the $oaTable with the default db schema
+     * ('/etc/tables_core.xml').
+     * @see #initOaTable()
+     */
+    function setUp()
+    {
+        $this->initOaTable('/etc/tables_core.xml');
     }
-    
     
     /**
-     * Returns the record set for either 'acls' or 'acls_channels' table,
-     * all records and rows.
-     *
-     * @param string $table Either 'acls' or 'acls_channels'
-     * @return RecordSet
+     * Truncates all the tables in the database.
      */
-    function &getRsAcls($table)
+    function tearDown()
     {
-        $prefix = $this->getTablePrefix();
-        $query = "
-            SELECT
-                *
-            FROM
-                {$prefix}{$table}";
-        return DBC::NewRecordSet($query);
+        $this->oaTable->truncateAllTables();
+    }
+
+    /**
+     * Initializes the $oaTable with the schema specified by $schemaPath.
+     * The $schemaPath is a path to the schema relative to the max installation
+     * directory, e.g. '/etc/tables_core.xml'.
+     *
+     * @param unknown_type $schemaPath
+     */
+    function initOaTable($schemaPath)
+    {
+        $this->oaTable = new OA_DB_Table();
+        $this->oaTable->init(MAX_PATH . $schemaPath);
+    }
+    
+    /**
+     * Creates and truncates the tables in the list $aTables.
+     *
+     * @param array $aTables Names of the tables to be created.
+     */
+    function initTables($aTables)
+    {
+        foreach ($aTables as $table) {
+            $this->oaTable->createTable($table);
+            $this->oaTable->truncateTable($table);
+        }
     }
 }
-
 ?>
