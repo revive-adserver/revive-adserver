@@ -25,6 +25,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+
 /**
  * @package    MaxUI
  * @subpackage Language

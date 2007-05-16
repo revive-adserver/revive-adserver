@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/max/language/Default.php';
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
@@ -61,7 +62,10 @@ class OA_Email
     {
         OA::debug('   - Preparing "placement delivery" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
 
-        global $aConf, $phpAds_CharSet, $date_format, $strBanner, $strCampaign, $strImpressions,
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
+        Language_Default::load();
+        global $phpAds_CharSet, $date_format, $strBanner, $strCampaign, $strImpressions,
                $strClicks, $strConversions, $strLinkedTo, $strMailSubject, $strMailHeader,
                $strMailBannerStats, $strMailFooter, $strMailReportPeriod, $strMailReportPeriodAll,
                $strLogErrorBanners, $strLogErrorClients, $strLogErrorViews, $strLogErrorClicks,
@@ -71,6 +75,28 @@ class OA_Email
 
         $oDbh =& OA_DB::singleton();
 
+        // Prepare some strings & formatting options
+        $strCampaignLength = strlen($strCampaign);
+        $strBannerLength   = strlen($strBanner);
+
+        $headingPrintfLength = max($strCampaignLength, $strBannerLength);
+        $strCampaignPrint = '%-'  . $headingPrintfLength . 's';
+        $headingPrintfLength--;
+        $strBannerPrint   = ' %-'  . $headingPrintfLength . 's';
+
+        $strTotalImpressions = $strImpressions . ' (' . $strTotal . ')';
+        $strTotalClicks      = $strClicks      . ' (' . $strTotal . ')';
+        $strTotalConversions = $strConversions . ' (' . $strTotal . ')';
+
+        $strTotalImpressionsLength = strlen($strTotalImpressions);
+        $strTotalClicksLength      = strlen($strTotalClicks);
+        $strTotalConversionsLength = strlen($strTotalConversions);
+        $strTotalThisPeriodLength  = strlen($strTotalThisPeriod);
+
+        $adTextPrintfLength = max($strTotalImpressionsLength, $strTotalClicksLength, $strTotalConversionsLength, $strTotalThisPeriodLength);
+        $adTextPrint = ' %'  . $adTextPrintfLength . 's';
+
+        // Prepare the result array
         $aResult = array(
             'subject'   => '',
             'contents'  => '',
@@ -92,6 +118,11 @@ class OA_Email
             OA::debug('   - No email for advertiser ID ' . $advertiserId . '.', PEAR_LOG_ERR);
             return false;
         }
+        // Check the advertiser wants to have reports sent
+        if ($aAdvertiser['report'] != 't') {
+            OA::debug('   - Reports disabled for advertiser ID ' . $advertiserId . '.', PEAR_LOG_ERR);
+            return false;
+        }
         // Fetch all the advertiser's placements
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId;
@@ -99,8 +130,8 @@ class OA_Email
         if ($doPlacements->getRowCount() > 0) {
             while ($doPlacements->fetch()) {
                 $aPlacement = $doPlacements->toArray();
-                $aResult['contents'] .= "\n" . $strCampaign . "  " .
-                    strip_tags(phpAds_buildName($aPlacement['campaignid'], $aPlacement['campaignname'])) . "\n";
+                $aResult['contents'] .= "\n" . sprintf($strCampaignPrint, $strCampaign) . ' ' .
+                                        strip_tags(phpAds_buildName($aPlacement['campaignid'], $aPlacement['campaignname'])) . "\n";
                 $aResult['contents'] .= "=======================================================\n\n";
                 // Fetch all ads in the placement
                 $doBanners = OA_Dal::factoryDO('banners');
@@ -117,13 +148,17 @@ class OA_Email
                         $adConversions = phpAds_totalConversions($aAd['bannerid']);
                         if ($adImpressions > 0 || $adClicks > 0 || $adConversions > 0) {
                             // This ad has delivered at some stage, so report on the ad for the report period
-                            $aResult['contents'] .= $strBanner . "  " .
+                            $aResult['contents'] .= sprintf($strBannerPrint, $strBanner) . ' ' .
                                 strip_tags(phpAds_buildBannerName($aAd['bannerid'], $aAd['description'], $aAd['alt'])) . "\n";
-                            $aResult['contents'] .= $strLinkedTo . ": " . $aAd['URL']."\n";
-                            $aResult['contents'] .= "-------------------------------------------------------\n";
+                            if (!empty($aAd['URL'])) {
+                                $aResult['contents'] .= $strLinkedTo . ': ' . $aAd['URL'] . "\n";
+                            }
+                            $aResult['contents'] .= " ------------------------------------------------------\n";
                             $adHasStats = false;
                             if ($adImpressions > 0) {
-                                $aResult['contents'] .= $strImpressions . ' (' . $strTotal . '):    ' . $adImpressions . "\n";
+                                $adHasStats = true;
+                                $aResult['contents'] .=  sprintf($adTextPrint, $strTotalImpressions) . ': ' .
+                                                         sprintf('%15s', phpAds_formatNumber($adImpressions)) . "\n";
                                 // Fetch the ad's impressions for the report period, grouped by day
                                 $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
                                 $doDataSummaryAdHourly->selectAdd('SUM(impressions) as quantity');
@@ -141,18 +176,20 @@ class OA_Email
                                     $total = 0;
                                     while ($doDataSummaryAdHourly->fetch()) {
                                         $aAdImpressions = $doDataSummaryAdHourly->toArray();
-                                            $aResult['contents'] .= "      " . $aAdImpressions['t_stamp_f'] .
-                                                ":   " . $aAdImpressions['quantity'] . "\n";
-                                            $total += $aAdImpressions['quantity'];
+                                        $aResult['contents'] .= sprintf($adTextPrint, $aAdImpressions['t_stamp_f']) . ': ' .
+                                                                sprintf('%15s', phpAds_formatNumber($aAdImpressions['quantity'])) . "\n";
+                                        $total += $aAdImpressions['quantity'];
                                     }
-                                    $aResult['contents'] .= $strTotalThisPeriod . ": " . $total."\n";
-                                    $adHasStats = true;
+                                    $aResult['contents'] .= sprintf($adTextPrint, $strTotalThisPeriod) . ': ' .
+                                                            sprintf('%15s', phpAds_formatNumber($total)) . "\n";
                                 } else {
-                                    $aResult['contents'] .= "      " . $strNoViewLoggedInInterval . "\n";
+                                    $aResult['contents'] .= '  ' . $strNoViewLoggedInInterval . "\n";
                                 }
                             }
                             if ($adClicks > 0) {
-                                $aResult['contents'] .= "\n" . $strClicks . ' (' . $strTotal . '):    ' . $adClicks . "\n";
+                                $adHasStats = true;
+                                $aResult['contents'] .= "\n" . sprintf($adTextPrint, $strTotalClicks) . ': ' .
+                                                         sprintf('%15s', phpAds_formatNumber($adClicks)) . "\n";
                                 // Fetch the ad's clicks for the report period, grouped by day
                                 $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
                                 $doDataSummaryAdHourly->selectAdd('SUM(clicks) as quantity');
@@ -170,18 +207,20 @@ class OA_Email
                                     $total = 0;
                                     while ($doDataSummaryAdHourly->fetch()) {
                                         $aAdClicks = $doDataSummaryAdHourly->toArray();
-                                            $aResult['contents'] .= "      " . $aAdClicks['t_stamp_f'] .
-                                                ":   " . $aAdClicks['quantity'] . "\n";
-                                            $total += $aAdClicks['quantity'];
+                                        $aResult['contents'] .= sprintf($adTextPrint, $aAdClicks['t_stamp_f']) . ': ' .
+                                                                sprintf('%15s', phpAds_formatNumber($aAdClicks['quantity'])) . "\n";
+                                        $total += $aAdClicks['quantity'];
                                     }
-                                    $aResult['contents'] .= $strTotalThisPeriod . ": " . $total."\n";
-                                    $adHasStats = true;
+                                    $aResult['contents'] .= sprintf($adTextPrint, $strTotalThisPeriod) . ': ' .
+                                                            sprintf('%15s', phpAds_formatNumber($total)) . "\n";
                                 } else {
-                                    $aResult['contents'] .= "      " . $strNoClickLoggedInInterval . "\n";
+                                    $aResult['contents'] .= '  ' . $strNoClickLoggedInInterval . "\n";
                                 }
                             }
                             if ($adConversions > 0) {
-                                $aResult['contents'] .= "\n" . $strConversions . ' (' . $strTotal . '):    ' . $adConversions . "\n";
+                                $adHasStats = true;
+                                $aResult['contents'] .= "\n" . sprintf($adTextPrint, $strTotalConversions) . ': ' .
+                                                         sprintf('%15s', phpAds_formatNumber($adConversions)) . "\n";
                                 // Fetch the ad's conversions for the report period, grouped by day
                                 $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
                                 $doDataSummaryAdHourly->selectAdd('SUM(conversions) as quantity');
@@ -199,19 +238,19 @@ class OA_Email
                                     $total = 0;
                                     while ($doDataSummaryAdHourly->fetch()) {
                                         $aAdConversions = $doDataSummaryAdHourly->toArray();
-                                            $aResult['contents'] .= "      " . $aAdConversions['t_stamp_f'] .
-                                                ":   " . $aAdConversions['quantity'] . "\n";
-                                            $total += $aAdConversions['quantity'];
+                                        $aResult['contents'] .= sprintf($adTextPrint, $aAdConversions['t_stamp_f']) . ': ' .
+                                                                sprintf('%15s', phpAds_formatNumber($aAdConversions['quantity'])) . "\n";
+                                        $total += $aAdConversions['quantity'];
                                     }
-                                    $aResult['contents'] .= $strTotalThisPeriod . ": " . $total."\n";
-                                    $adHasStats = true;
+                                    $aResult['contents'] .= sprintf($adTextPrint, $strTotalThisPeriod) . ': ' .
+                                                            sprintf('%15s', phpAds_formatNumber($total)) . "\n";
                                 } else {
-                                    $aResult['contents'] .= "      " . $strNoConversionLoggedInInterval . "\n";
+                                    $aResult['contents'] .= '  ' . $strNoConversionLoggedInInterval . "\n";
                                 }
                             }
-                            $aResult['contents'] .= "\n\n";
+                            $aResult['contents'] .= "\n";
                         }
-                        if ($adHasStats == true || $aPlacement['active'] == 't') {
+                        if ($adHasStats == true) {
                             $adsWithDelivery = true;
                         }
                     }
@@ -227,22 +266,22 @@ class OA_Email
             return false;
         }
         // Prepare the remaining email details
-        $aResult['subject'] = $strMailSubject . ": " . $aAdvertiser['clientname'];
+        $aResult['subject'] = $strMailSubject . ': ' . $aAdvertiser['clientname'];
         $body  = "$strMailHeader\n";
         $body .= "$strMailBannerStats\n";
-        if (is_null($oReportLastDate)) {
+        if (is_null($oStartDate)) {
             $body .= "$strMailReportPeriodAll\n\n";
         } else {
             $body .= "$strMailReportPeriod\n\n";
         }
-        $body .= "{$aResult['subject']}\n";
+        $body .= "{$aResult['contents']}\n";
         $body .= "$strMailFooter";
         $body  = str_replace("{clientname}",    $aAdvertiser['clientname'], $body);
         $body  = str_replace("{contact}",       $aAdvertiser['contact'], $body);
         $body  = str_replace("{adminfullname}", $aConf['admin_fullname'], $body);
         $body  = str_replace("{startdate}",     (is_null($oStartDate) ? '' : $oStartDate->format($date_format)), $body);
-        $body  = str_replace("{enddate}",       $oStartDate->format($date_format), $body);
-        $aResult['subject']   = $body;
+        $body  = str_replace("{enddate}",       $oEndDate->format($date_format), $body);
+        $aResult['contents']  = $body;
         $aResult['userEmail'] = $aAdvertiser['email'];
         $aResult['userName']  = $aAdvertiser['contact'];
         return $aResult;
