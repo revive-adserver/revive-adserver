@@ -7,7 +7,8 @@
   </target>
 
   <target name="delivery">
-    <ant antfile="usecases/deliveryAfr.xml" />
+    <ant antfile="usecases/delivery/afr.xml" />
+    <ant antfile="usecases/delivery/ac.xml" />
   </target>
 
 </project>

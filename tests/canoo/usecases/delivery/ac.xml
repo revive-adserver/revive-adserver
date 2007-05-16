@@ -2,12 +2,12 @@
 <!DOCTYPE project SYSTEM                    "../../includes/WebTest.dtd" [
   <!ENTITY config SYSTEM               "file:../../includes/config.xml">
   <!ENTITY checkForErrors SYSTEM       "file:../../modules/errors.xml">
-  <!ENTITY checkDeliveryCookies SYSTEM "file:../../modules/cookies.xml">
   <!ENTITY verifyLinks SYSTEM          "file:../../modules/links.xml">
+  <!ENTITY loginBeacon SYSTEM          "file:../../modules/loginBeacon.xml">
 ]
 >
 
-<project name="Openads delivery - afr.php" basedir="../.." default="main">
+<project name="Openads delivery - ac.php" basedir="../.." default="main">
   <import file="../../includes/init.xml"/>
   <import file="${webtest.home}/lib/taskdef.xml"/>
 
@@ -16,19 +16,12 @@
     <testSpec name="Run Delivery">
       &config;
       <steps>
-        <invoke description="Invoke delivery file" url="/delivery/afr.php?what=bannerid:2" />
+        <invoke description="Invoke delivery file" url="/delivery/ac.php?bannerid=2" />
         &checkForErrors;
-        &checkDeliveryCookies;
         &verifyLinks;
         <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
         <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />
-        
-        <invoke description="Invoke delivery file" url="/delivery/afr.php?what=zone:1" />
-        &checkForErrors;
-        &checkDeliveryCookies;
-        &verifyLinks;
-        <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
-        <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />        
+        &loginBeacon;
       </steps>
 
     </testSpec>
