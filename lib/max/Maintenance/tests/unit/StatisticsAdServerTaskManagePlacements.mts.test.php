@@ -72,7 +72,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_ManagePlacement
         // Mock the DAL, and set expectations
         Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
         $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
-        $oDal->expectNever('manageCampaigns');
+        $oDal->expectNever('managePlacements');
         $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Set the controller class
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
@@ -89,7 +89,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_ManagePlacement
         // Mock the DAL, and set expectations
         Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
         $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
-        $oDal->expectOnce('manageCampaigns', array($oDateNow));
+        $oDal->expectOnce('managePlacements', array($oDateNow));
         $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Set the controller class
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();

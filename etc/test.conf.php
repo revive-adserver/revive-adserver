@@ -328,19 +328,6 @@ trackonly           = trackonly     ; Used to avoid redirecting after a click
 openads             = openads       ; Used as identifier for the adsense click tracking comments
 
 ;------------------------------------------------------------------------------------------;
-; E-mail Set Up for Maintenance                                                            ;
-;------------------------------------------------------------------------------------------;
-
-[email]
-sendMail            = false         ; Should campaign activation/deactivation mesages
-                                    ; be sent?
-admin               =               ; The email address campaign activation/deactivation
-                                    ; emails should come from, and the address error
-                                    ; messages should be sent to
-admin_name          =               ; The admin's name for signing off campaign
-                                    ; activation/deactivation emails
-
-;------------------------------------------------------------------------------------------;
 ; Load Balancing / Distributed Statistics                                                  ;
 ;------------------------------------------------------------------------------------------;
 

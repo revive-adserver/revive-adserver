@@ -7850,9 +7850,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
     }
 
     /**
-     * Tests the manageCampaigns() method.
+     * Tests the managePlacements() method.
      */
-    function testManageCampaigns()
+    function testmanagePlacements()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
@@ -7989,7 +7989,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         );
         $rows = $st->execute($aData);
         // Test with no summarised data
-        $report = $dsa->manageCampaigns($oDate);
+        $report = $dsa->managePlacements($oDate);
         $query = "
             SELECT
                 *
@@ -8154,7 +8154,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         );
         $rows = $st->execute($aData);
         // Test with summarised data
-        $report = $dsa->manageCampaigns($oDate);
+        $report = $dsa->managePlacements($oDate);
         $query = "
             SELECT
                 *
@@ -8354,8 +8354,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                         0
                      )";
         $rows = $oDbh->exec($query);
-        $oDate = &new Date('2005-12-08 01:00:01');
-        $report = $dsa->manageCampaigns($oDate);
+        $oDate = new Date('2005-12-08 01:00:01');
+        $report = $dsa->managePlacements($oDate);
         $query = "
             SELECT
                 *

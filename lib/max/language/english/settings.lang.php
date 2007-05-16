@@ -86,7 +86,7 @@ $GLOBALS['strInstallWelcome']               = "Welcome to ".MAX_PRODUCT_NAME;
 $GLOBALS['strInstallMessage']               = "Before you can use ".MAX_PRODUCT_NAME." it needs to be configured and <br /> the database needs to be created. Click <b>Proceed</b> to continue.";
 $GLOBALS['strInstallIntro']                 = "We have tried to make the installation of Openads as easy as possible, but
 				  keep in mind that setting up an ad server is not trivial. If you haven't read the documentation at
-				  this point, we <a href='http://docs.openads.org' target='_blank'><strong>strongly recommend</strong></a> that you do so before you proceed with the installation.</p> 
+				  this point, we <a href='http://docs.openads.org' target='_blank'><strong>strongly recommend</strong></a> that you do so before you proceed with the installation.</p>
                   <p>
                   <a href='http://docs.openads.org' target='_blank'><strong>The
 				  documentation</strong></a> will help you avoid potential problems in the future and includes information about the installation and upgrade process as advice for managing your inventory
@@ -106,9 +106,9 @@ $GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PROD
                                                 It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
                                                 first step of the install process. If you want to know more on what the error message below means, and how to solve it,
                                                 please consult the supplied documentation.";
-$GLOBALS['strSystemCheck']                  = "System check";                                                
-$GLOBALS['strSystemCheckIntro']             = "Openads has certain requirements which will now be checked. We will warn you if any settings need to be changed.";                                                
-$GLOBALS['strDbSuccessIntro']               = "It is important that you complete the rest of the steps. Openads has not been properly configured yet.";            
+$GLOBALS['strSystemCheck']                  = "System check";
+$GLOBALS['strSystemCheckIntro']             = "Openads has certain requirements which will now be checked. We will warn you if any settings need to be changed.";
+$GLOBALS['strDbSuccessIntro']               = "It is important that you complete the rest of the steps. Openads has not been properly configured yet.";
 $GLOBALS['strErrorOccured']                 = "The following error occured:";
 $GLOBALS['strErrorInstallDatabase']         = "The database structure could not be created.";
 $GLOBALS['strErrorInstallPrefs']            = "The administrator user preferences could not be written to the database.";
@@ -419,6 +419,9 @@ $GLOBALS['strWarnLimit']                             = 'Send a warning when the 
 $GLOBALS['strWarnLimitErr']                          = 'Warn Limit must be a positive integer';
 $GLOBALS['strWarnLimitDays']                         = 'Send a warning when the days left are less than specified here';
 $GLOBALS['strWarnLimitDaysErr']                      = 'Warn Limit Days should be a positive number';
+$GLOBALS['strAllowEmail']                            = 'Globally allow sending of e-mails';
+$GLOBALS['strEmailAddress']                          = 'E-mail address to send reports FROM';
+$GLOBALS['strEmailAddressName']                      = 'Company or personal name to sign off e-mail with';
 $GLOBALS['strWarnAdmin']                             = 'Send a warning to the administrator every time a campaign is almost expired';
 $GLOBALS['strWarnClient']                            = 'Send a warning to the advertiser every time a campaign is almost expired';
 $GLOBALS['strWarnAgency']                            = 'Send a warning to the agency every time a campaign is almost expired';

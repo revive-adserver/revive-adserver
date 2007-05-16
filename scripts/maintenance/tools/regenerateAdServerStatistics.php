@@ -213,7 +213,7 @@ $query = "
 $rows = $oDbh->exec($query);
 
 // Ensure emails are not sent due to activation/deactivation effect
-$conf['email']['sendMail'] = false;
+define('DISABLE_ALL_EMAILS', 1);
 
 // Set a date to one second before the operation interval, to be used as the last
 // time the stats were updated

@@ -146,9 +146,7 @@ class MAX_Maintenance
     /**
      * A method to send the "midnight" reports during maintenance - that
      * is, the delivery information report, showing what the campaign(s)
-     * have delivered since the last time the report was send; and also
-     * the email report to advise users that a campaign is "about" to
-     * expire, based on the user's preferences.
+     * have delivered since the last time the report was sendt.
      */
     function runReports()
     {

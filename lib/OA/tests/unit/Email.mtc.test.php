@@ -62,7 +62,12 @@ class Test_OA_Email extends UnitTestCase
         $name         = 'Andrew Hill';
         $clientName   = 'Foo Client';
 
-        $aConf['admin_fullname'] = 'Openads Ltd.';
+        // Prepare the admin email address and name
+        $oPreference = OA_Dal::factoryDO('preference');
+        $oPreference->agencyid       = 0;
+        $oPreference->admin_fullname = 'Openads Ltd.';
+        $oPreference->admin_email    = 'send@example.com';
+        DataGenerator::generateOne($oPreference);
 
         // Test with no advertiser data in the database, and ensure that
         // false is returned
@@ -348,6 +353,13 @@ class Test_OA_Email extends UnitTestCase
      */
     function testPrepareActivatePlacementEmail()
     {
+        // Prepare the admin email address and name
+        $oPreference = OA_Dal::factoryDO('preference');
+        $oPreference->agencyid       = 0;
+        $oPreference->admin_fullname = 'Openads Ltd.';
+        $oPreference->admin_email    = 'send@example.com';
+        DataGenerator::generateOne($oPreference);
+
         $contactName = 'Andrew Hill';
         $placementName = 'Test Activation Placement';
         $ads[0] = array('First Test Banner', '', 'http://example.com/');
@@ -357,7 +369,7 @@ class Test_OA_Email extends UnitTestCase
         $email = OA_Email::prepareActivatePlacementEmail($contactName, $placementName, $ads);
         $desiredEmail  = 'Dear Andrew Hill,' . "\n\n";
         $desiredEmail .= 'The following ads have been activated because '. "\n";
-        $desiredEmail .= 'the placement activation date has been reached.' . "\n\n";
+        $desiredEmail .= 'the campaign activation date has been reached.' . "\n\n";
         $desiredEmail .= "-------------------------------------------------------\n";
         $desiredEmail .= 'Ad [ID 0] First Test Banner' . "\n";
         $desiredEmail .= 'Linked to: http://example.com/' . "\n";
@@ -373,8 +385,10 @@ class Test_OA_Email extends UnitTestCase
         $desiredEmail .= "-------------------------------------------------------\n";
         $desiredEmail .= "\nThank you for advertising with us.\n\n";
         $desiredEmail .= "Regards,\n\n";
-        $desiredEmail .= $conf['email']['admin_name'];
+        $desiredEmail .= 'Openads Ltd.';
         $this->assertEqual($email, $desiredEmail);
+
+        DataGenerator::cleanUp();
     }
 
     /**
@@ -383,6 +397,13 @@ class Test_OA_Email extends UnitTestCase
      */
     function testSendDeactivatePlacementEmail()
     {
+        // Prepare the admin email address and name
+        $oPreference = OA_Dal::factoryDO('preference');
+        $oPreference->agencyid       = 0;
+        $oPreference->admin_fullname = 'Openads Ltd.';
+        $oPreference->admin_email    = 'send@example.com';
+        DataGenerator::generateOne($oPreference);
+
         $contactName = 'Andrew Hill';
         $placementName = 'Test Activation Placement';
         $ads[0] = array('First Test Banner', '', 'http://example.com/');
@@ -410,7 +431,7 @@ class Test_OA_Email extends UnitTestCase
         $desiredEmail .= "please feel free to contact us.\n";
         $desiredEmail .= "We'd be glad to hear from you.\n\n";
         $desiredEmail .= "Regards,\n\n";
-        $desiredEmail .= $conf['email']['admin_name'];
+        $desiredEmail .= 'Openads Ltd.';
         $this->assertEqual($email, $desiredEmail);
         $email = OA_Email::prepareDeactivatePlacementEmail($contactName, $placementName, 4, $ads);
         $desiredEmail  = 'Dear Andrew Hill,' . "\n\n";
@@ -433,7 +454,7 @@ class Test_OA_Email extends UnitTestCase
         $desiredEmail .= "please feel free to contact us.\n";
         $desiredEmail .= "We'd be glad to hear from you.\n\n";
         $desiredEmail .= "Regards,\n\n";
-        $desiredEmail .= $conf['email']['admin_name'];
+        $desiredEmail .= 'Openads Ltd.';
         $this->assertEqual($email, $desiredEmail);
         $email = OA_Email::prepareDeactivatePlacementEmail($contactName, $placementName, 8, $ads);
         $desiredEmail  = 'Dear Andrew Hill,' . "\n\n";
@@ -456,12 +477,12 @@ class Test_OA_Email extends UnitTestCase
         $desiredEmail .= "please feel free to contact us.\n";
         $desiredEmail .= "We'd be glad to hear from you.\n\n";
         $desiredEmail .= "Regards,\n\n";
-        $desiredEmail .= $conf['email']['admin_name'];
+        $desiredEmail .= 'Openads Ltd.';
         $this->assertEqual($email, $desiredEmail);
         $email = OA_Email::prepareDeactivatePlacementEmail($contactName, $placementName, 16, $ads);
         $desiredEmail  = 'Dear Andrew Hill,' . "\n\n";
         $desiredEmail .= 'The following ads have been disabled because:' . "\n";
-        $desiredEmail .= '  - The placement deactivation date has been reached' . "\n\n";
+        $desiredEmail .= '  - The campaign deactivation date has been reached' . "\n\n";
         $desiredEmail .= "-------------------------------------------------------\n";
         $desiredEmail .= 'Ad [ID 0] First Test Banner' . "\n";
         $desiredEmail .= 'Linked to: http://example.com/' . "\n";
@@ -479,7 +500,7 @@ class Test_OA_Email extends UnitTestCase
         $desiredEmail .=  "please feel free to contact us.\n";
         $desiredEmail .= "We'd be glad to hear from you.\n\n";
         $desiredEmail .= "Regards,\n\n";
-        $desiredEmail .= $conf['email']['admin_name'];
+        $desiredEmail .= 'Openads Ltd.';
         $this->assertEqual($email, $desiredEmail);
         $value = 0 | 2 | 4 | 8 | 16;
         $email = OA_Email::prepareDeactivatePlacementEmail($contactName, $placementName, $value, $ads);
@@ -488,7 +509,7 @@ class Test_OA_Email extends UnitTestCase
         $desiredEmail .= '  - There are no impressions remaining' . "\n";
         $desiredEmail .= '  - There are no clicks remaining' . "\n";
         $desiredEmail .= '  - There are no conversions remaining' . "\n";
-        $desiredEmail .= '  - The placement deactivation date has been reached' . "\n\n";
+        $desiredEmail .= '  - The campaign deactivation date has been reached' . "\n\n";
         $desiredEmail .= "-------------------------------------------------------\n";
         $desiredEmail .= 'Ad [ID 0] First Test Banner' . "\n";
         $desiredEmail .= 'Linked to: http://example.com/' . "\n";
@@ -506,8 +527,10 @@ class Test_OA_Email extends UnitTestCase
         $desiredEmail .=  "please feel free to contact us.\n";
         $desiredEmail .= "We'd be glad to hear from you.\n\n";
         $desiredEmail .= "Regards,\n\n";
-        $desiredEmail .= $conf['email']['admin_name'];
+        $desiredEmail .= 'Openads Ltd.';
         $this->assertEqual($email, $desiredEmail);
+
+        DataGenerator::cleanUp();
     }
 
 }

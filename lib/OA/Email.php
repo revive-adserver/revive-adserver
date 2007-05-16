@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/language/Default.php';
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
@@ -62,7 +63,10 @@ class OA_Email
     {
         OA::debug('   - Preparing "placement delivery" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
 
-        $aConf = $GLOBALS['_MAX']['CONF'];
+        $aPref = $GLOBALS['_MAX']['PREF'];
+        if (is_null($aPref)) {
+            $aPref = MAX_Admin_Preferences::loadPrefs();
+        }
 
         Language_Default::load();
         global $phpAds_CharSet, $date_format, $strBanner, $strCampaign, $strImpressions,
@@ -278,7 +282,7 @@ class OA_Email
         $body .= "$strMailFooter";
         $body  = str_replace("{clientname}",    $aAdvertiser['clientname'], $body);
         $body  = str_replace("{contact}",       $aAdvertiser['contact'], $body);
-        $body  = str_replace("{adminfullname}", $aConf['admin_fullname'], $body);
+        $body  = str_replace("{adminfullname}", $aPref['admin_fullname'], $body);
         $body  = str_replace("{startdate}",     (is_null($oStartDate) ? '' : $oStartDate->format($date_format)), $body);
         $body  = str_replace("{enddate}",       $oEndDate->format($date_format), $body);
         $aResult['contents']  = $body;
@@ -320,10 +324,14 @@ class OA_Email
      */
     function prepareActivatePlacementEmail($contactName, $placementName, $aAds)
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
+        $aPref = $GLOBALS['_MAX']['PREF'];
+        if (is_null($aPref)) {
+            $aPref = MAX_Admin_Preferences::loadPrefs();
+        }
+
         $message  = "Dear $contactName,\n\n";
         $message .= 'The following ads have been activated because ' . "\n";
-        $message .= 'the placement activation date has been reached.';
+        $message .= 'the campaign activation date has been reached.';
         $message .= "\n\n";
         $message .= "-------------------------------------------------------\n";
         foreach ($aAds as $ad_id => $aData) {
@@ -341,7 +349,7 @@ class OA_Email
         }
         $message .= "\nThank you for advertising with us.\n\n";
         $message .= "Regards,\n\n";
-        $message .= $aConf['email']['admin_name'];
+        $message .= $aPref['admin_fullname'];
         return $message;
     }
 
@@ -365,7 +373,11 @@ class OA_Email
      */
     function prepareDeactivatePlacementEmail($contactName, $placementName, $reason, $aAds)
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
+        $aPref = $GLOBALS['_MAX']['PREF'];
+        if (is_null($aPref)) {
+            $aPref = MAX_Admin_Preferences::loadPrefs();
+        }
+
         $message  = "Dear $contactName,\n\n";
         $message .= 'The following ads have been disabled because:' . "\n";
         if ($reason & MAX_PLACEMENT_DISABLED_IMPRESSIONS) {
@@ -378,7 +390,7 @@ class OA_Email
             $message .= '  - There are no conversions remaining' . "\n";
         }
         if ($reason & MAX_PLACEMENT_DISABLED_DATE) {
-            $message .= '  - The placement deactivation date has been reached' . "\n";
+            $message .= '  - The campaign deactivation date has been reached' . "\n";
         }
         $message .= "\n";
         $message .= '-------------------------------------------------------' . "\n";
@@ -399,7 +411,7 @@ class OA_Email
         $message .= 'please feel free to contact us.' . "\n";
         $message .= 'We\'d be glad to hear from you.' . "\n\n";
         $message .= 'Regards,' . "\n\n";
-        $message .= "{$aConf['email']['admin_name']}";
+        $message .= "{$aPref['admin_fullname']}";
         return $message;
     }
 
@@ -418,7 +430,15 @@ class OA_Email
      */
     function sendMail($subject, $contents, $userEmail, $userName = null)
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
+        if (defined('DISABLE_ALL_EMAILS')) {
+            return true;
+        }
+
+        $aPref = $GLOBALS['_MAX']['PREF'];
+        if (is_null($aPref)) {
+            $aPref = MAX_Admin_Preferences::loadPrefs();
+        }
+
     	global $phpAds_CharSet;
     	// Build the "to:" header for the email
     	if (!get_cfg_var('SMTP')) {
@@ -434,9 +454,9 @@ class OA_Email
     	if (get_cfg_var('SMTP')) {
     		$headersParam .= 'To: "' . $userName . '" <' . $userEmail . ">\r\n";
     	}
-    	$headersParam .= 'From: "' . $aConf['email']['admin_name'] . '" <' . $aConf['email']['admin'].'>' . "\r\n";
+    	$headersParam .= 'From: "' . $aPref['admin_fullname'] . '" <' . $aPref['admin_email'].'>' . "\r\n";
     	// Use only \n as header separator when qmail is used
-    	if ($aConf['qmail_patch']) {
+    	if ($aPref['qmail_patch']) {
     		$headersParam = str_replace("\r", '', $headersParam);
     	}
     	// Add \r to linebreaks in the contents for MS Exchange compatibility
