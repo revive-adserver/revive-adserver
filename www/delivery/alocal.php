@@ -1456,6 +1456,8 @@ $clickUrl = MAX_commonGetDeliveryUrl($conf['file']['click']) . '?' . $conf['var'
 }
 return $clickUrl;
 }
+$file = '/lib/max/Delivery/cache.php';
+$GLOBALS['_MAX']['FILES'][$file] = true;
 define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
 $GLOBALS['OA_Delivery_Cache'] = array(
 'path'   => MAX_PATH.'/var/cache/',
