@@ -34,7 +34,10 @@ $Id$
 define('TEST_ENVIRONMENT_RUNNING', true);
 require_once '../init-parse.php';
 require_once '../constants.php';
+require_once '../variables.php';
 setupConstants();
+setupConfigVariables();
+
 require_once 'PEAR.php';
 
 /**
