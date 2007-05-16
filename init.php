@@ -44,7 +44,9 @@ require_once 'variables.php';
  */
 function init()
 {
+    // Set up the UI constants
     setupConstants();
+    // Set up the common configuration variables
     setupConfigVariables();
     // Disable all notices and warnings, as some PAN code still
     // generates PHP warnings in places
