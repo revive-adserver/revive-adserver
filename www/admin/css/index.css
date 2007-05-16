@@ -109,15 +109,17 @@ div.sysinfoerror {
 }
 .graph { 
     position: relative; /* IE is dumb */
-    width: 400px; 
-    line-height: 2em;
-    border: 1px solid #ccc; 
-    padding: 2px; 
+    width: 396px !important;
+    width: 406px; 
+    height: 18px !important;
+    height: 28px;
+    line-height: 18px;
+    padding: 5px;
+    vertical-align: middle;
     margin-left: auto;
     margin-right: auto;
     text-align: left;
-    background: #f3f3f3;
-    -moz-border-radius: 6px;
+    background: #fff url('../images/progress-bg.gif') no-repeat;
     clear: both;
 }
 .graphtitle {
@@ -128,15 +130,16 @@ div.sysinfoerror {
     margin-bottom: 3px;
 }
 .graph .bar { 
+    vertical-align: middle;
     display: block;
     position: relative;
-    background: #000063; 
     text-align: center; 
-    color: #fff; 
-    height: 2em; 
-    line-height: 2em;     
-    -moz-border-radius: 6px;       
+    height: 18px;
+    background: #000063;
+    -moz-border-radius: 4px;
+    color: #fff;      
 }
+ 
 .graph .bar span { 
     position: absolute; left: 1em; 
 }

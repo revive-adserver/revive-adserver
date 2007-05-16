@@ -11,10 +11,10 @@
     </tr>
     <tr>
         <td valign='top'>
-        <img src='../admin/images/install-database.gif'></td>
+        <img src='<?php echo $imgPath; ?>images/install-database.gif'></td>
         <td width='100%' valign='top'>
         <br>
-        <span class='tab-s'>The MySQL database</span><br><img src='../admin/images/break-el.gif' width='100%' height='1' vspace='8'><span class='install'>Openads uses a MySQL database store the inventory and all of the statistics. Before you can continue you need to tell us which server you want to use and which username and password Openads needs to use to contact the server. If you do not know which information you should provide here, please contact the administrator of your server.
+        <span class='tab-s'>The MySQL database</span><br><img src='<?php echo $imgPath; ?>images/break-el.gif' width='100%' height='1' vspace='8'><span class='install'>Openads uses a MySQL database store the inventory and all of the statistics. Before you can continue you need to tell us which server you want to use and which username and password Openads needs to use to contact the server. If you do not know which information you should provide here, please contact the administrator of your server.
         </td>
     </tr>
     </table>
@@ -32,7 +32,7 @@
     }
     </script>
 <div id="formContainer" style="display: block; width:100%; height:100%;">
-<form name="frmOpenads3" id="frmOpenads3" method="POST" action="install.php" onSubmit='return showLoader(this);' style="display: block;">
+<form name="frmOpenads" id="frmOpenads" method="POST" action="install.php" onSubmit='return showLoader(this);' style="display: block;">
 
 <?php            
 
@@ -135,7 +135,7 @@
                 )
             )
         )
-    ), $errormessage, 0, "../admin/");
+    ), $errormessage, 0, $imgPath);
 ?>
                 <input type="submit" class="button" name="btn_upgrade" value="<?php echo $strBtnContinue; ?>">
                 <input type="hidden" name="dirPage" id="dirPage" value="" />

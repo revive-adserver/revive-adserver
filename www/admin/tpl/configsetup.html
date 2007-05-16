@@ -1,12 +1,12 @@
 <br>
 <table border='0' cellpadding='0' cellspacing='0' width='100%'>
 <tr>
-<td valign='top'><img src='../admin/images/install-welcome.gif'></td>
+<td valign='top'><img src='<?php echo $imgPath; ?>images/install-welcome.gif'></td>
 <td width='100%' valign='top'>
 <br>
 <span class='tab-s'><?php echo $strConfigurationSetup; ?></span>
 <br>
-<img src='../admin/images/break-el.gif' width='100%' height='1' vspace='8'>
+<img src='<?php echo $imgPath; ?>images/break-el.gif' width='100%' height='1' vspace='8'>
 <span class='install'><?php echo $strAdminSettingsIntro; ?></span>
 </td>
 </tr>
@@ -120,21 +120,21 @@
                         )
                     )
                 )
-            ), $errormessage, 0, "../admin/");
+            ), $errormessage, 0, $imgPath);
     }
     else 
     {
     ?>
         <table border='0' width='100%' cellpadding='0' cellspacing='0'><tr>
     <input type='hidden' name='submitok' value='true'>
-    <td height='25' colspan='4'><img src='../admin/images/icon-setup.gif' width='16' height='16' align='absmiddle'>&nbsp;<b><?php echo $strConfigurationSettings; ?></b></td></tr>
+    <td height='25' colspan='4'><img src='<?php echo $imgPath; ?>images/icon-setup.gif' width='16' height='16' align='absmiddle'>&nbsp;<b><?php echo $strConfigurationSettings; ?></b></td></tr>
     <tr height='1'>
-    <td bgcolor='#888888' width='30'><img src='../admin/images/break.gif' height='1' width='30'></td>
-    <td bgcolor='#888888' width='250'><img src='../admin/images/break.gif' height='1' width='250'></td>
-    <td bgcolor='#888888' width='100%'><img src='../admin/images/break.gif' height='1' width='1'></td>
+    <td bgcolor='#888888' width='30'><img src='<?php echo $imgPath; ?>images/break.gif' height='1' width='30'></td>
+    <td bgcolor='#888888' width='250'><img src='<?php echo $imgPath; ?>images/break.gif' height='1' width='250'></td>
+    <td bgcolor='#888888' width='100%'><img src='<?php echo $imgPath; ?>images/break.gif' height='1' width='1'></td>
     
-    <td bgcolor='#888888' width='30'><img src='../admin/images/break.gif' height='1' width='30'></td>
-    </tr><tr><td height='10' colspan='4'><img src='../admin/images/spacer.gif' width='30' height='1'></td></tr>
+    <td bgcolor='#888888' width='30'><img src='<?php echo $imgPath; ?>images/break.gif' height='1' width='30'></td>
+    </tr><tr><td height='10' colspan='4'><img src='<?php echo $imgPath; ?>images/spacer.gif' width='30' height='1'></td></tr>
     <tr><td>&nbsp;</td>
     <td class='cellenabled' valign='top'>
     Configuration setup not needed, config file is present
@@ -142,9 +142,9 @@
     <td width='100%' valign='top'>&nbsp;</td>
     <td>&nbsp;</td>
     </tr>
-    <tr><td><img src='../admin/images/spacer.gif' height='1' width='100%'></td>
-    <td><img src='../admin/images/break-l.gif' height='1' width='400' vspace='10'></td>
-    <td>&nbsp;</td><td><img src='../admin/images/spacer.gif' height='1' width='100%'></tr>
+    <tr><td><img src='<?php echo $imgPath; ?>images/spacer.gif' height='1' width='100%'></td>
+    <td><img src='<?php echo $imgPath; ?>images/break-l.gif' height='1' width='400' vspace='10'></td>
+    <td>&nbsp;</td><td><img src='<?php echo $imgPath; ?>images/spacer.gif' height='1' width='100%'></tr>
     </table>
     <?php
     }

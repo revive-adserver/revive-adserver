@@ -63,11 +63,12 @@ require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 unset($session);
 define('phpAds_installing',     true);
 
-// setup oUpgrader
+// setup oUpgrader, determine whether they are installing or that they can Upgrade
 $oUpgrader = new OA_Upgrade();
-
 $halt = $oUpgrader->canUpgrade();
 $installStatus = $oUpgrader->existing_installation_status;
+
+$imgPath = '';
 
  /**
  * Return an array of supported DB types
@@ -239,7 +240,7 @@ if (($action == OA_UPGRADE_UPGRADE) || ($action == OA_UPGRADE_INSTALL))
     setcookie('oat', $action);
 }
 
-// Used to detmine which page is active
+// Used to detmine which page is active in nav
 $activeNav = array (
     OA_UPGRADE_WELCOME        =>      '1',
     OA_UPGRADE_TERMS          =>      '2',
@@ -282,7 +283,7 @@ $phpAds_nav = array (
 );
 
 // display header, with proper 'active page' marked using $activeNav[$action]
-phpAds_PageHeader($activeNav[$action],'', '../admin/', false, false);
+phpAds_PageHeader($activeNav[$action],'', $imgPath, false, false);
 
 // setup which sections to display
 $showSections = array();
@@ -292,7 +293,7 @@ foreach ($activeNav as $val) {
 }
 
 // display navigation
-phpAds_ShowSections($showSections, false, true, '../admin/', $phpAds_nav);
+phpAds_ShowSections($showSections, false, true, $imgPath, $phpAds_nav);
 
 // calculate percentage complete
 $totalNav     = count($showSections)-1;
@@ -315,6 +316,6 @@ foreach($showSections as $key=>$val) {
 include 'tpl/index.html';
 
 // display footer
-phpAds_PageFooter('../admin/');
+phpAds_PageFooter($imgPath);
 
 ?>
