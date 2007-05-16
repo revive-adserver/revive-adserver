@@ -33,6 +33,13 @@ $Id$
  *
  */
 
+$file = '/lib/max/Delivery/cache.php';
+###START_STRIP_DELIVERY
+if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+    return;
+}
+###END_STRIP_DELIVERY
+$GLOBALS['_MAX']['FILES'][$file] = true;
 
 /**
  * Constant used for permanent caching
@@ -246,7 +253,7 @@ function OA_Delivery_Cache_getName($functionName)
     $args = func_get_args();
     $args[0] = strtolower(str_replace('MAX_cacheGet', '', $args[0]));
 
-    return join('§', $args);
+    return join('ï¿½', $args);
 }
 
 /**
