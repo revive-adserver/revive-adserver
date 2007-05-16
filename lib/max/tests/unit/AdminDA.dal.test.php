@@ -31,11 +31,11 @@ $Id$
  * @author     Demian Turner <demian@m3.net>
  */
 
-require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 require_once 'Text/Password.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
+require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
 /**
  * A class for testing the Admin_DA class.
