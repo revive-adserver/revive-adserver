@@ -99,7 +99,9 @@ function phpAds_getBannerCache($banner)
                 
             // Adserver processing complete, now replace the noscript values back:
             //$buffer = preg_replace("#{noframe}#", $noFrame[2], $buffer);
-            $buffer = preg_replace("#{noscript}#", $noScript[0], $buffer);
+            if (isset($noScript[0])) {
+                $buffer = preg_replace("#{noscript}#", $noScript[0], $buffer);
+            }
         }
     }
     
