@@ -13,7 +13,7 @@
         </tr>
         <tr><td height='10' colspan='4'>&nbsp;</td></tr>
         <tr>
-            <td colspan='4'>            
+            <td colspan='4' align='center'>            
                     <?php include 'tpl/messages.html';  ?>
             </td>
         </tr>
@@ -25,13 +25,13 @@
             if (!$halt)
             {
         ?>
-                <button class="button" name="btn_dbsetup"><?php echo $strBtnContinue; ?></button>                                <?php
+                <input type="submit" class="button" name="btn_dbsetup" value="<?php echo $strBtnContinue; ?>" />                                <?php
             }
             else
             {
         ?>
                 <!--a href="javascript: history.go(-1)">retry</a-->
-                <button class="button" name="btn_appcheck"><?php echo $strBtnRetry; ?></button>                                   <?php
+                <input type="submit" class="button" name="btn_appcheck" value="<?php echo $strBtnRetry; ?>" />                                   <?php
             }
         ?>
-        <button class="button floatleft" name="btn_terms"><?php echo $strBtnGoBack; ?>k</button>
+        <input type="submit" class="button floatleft" name="btn_terms" value="<?php echo $strBtnGoBack; ?>" />

@@ -7,6 +7,7 @@
             <span class='tab-s'><?php echo $message ?></span>
             <br />        
             <img src='../admin/images/break-el.gif' width='100%' height='1' vspace='8'>        
+            <span class='install'><?php echo $strDbSuccessIntro; ?></span>
         </td>
     </tr>
     </table>
@@ -14,5 +15,5 @@
     <br />
 
 <form name="frmOpenads" method="POST" action="install.php">
-    <button class="button" name="btn_configsetup"><?php echo $strBtnContinue; ?></button>
+    <input type="submit" class="button" name="btn_configsetup" value="<?php echo $strBtnContinue; ?>" />
 </form>

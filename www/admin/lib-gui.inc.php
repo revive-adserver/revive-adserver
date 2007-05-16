@@ -709,16 +709,24 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
             }
             echo "</td>\n";
             echo "\t\t\t\t\t<td background='".$imgPath."images/".$phpAds_TextDirection."/stab-sb.gif' valign='middle' nowrap>";
-            echo "&nbsp;&nbsp;<a class='tab-s' href='";
+            echo "&nbsp;&nbsp;";            
             if (!empty($sectionUrl)) {
-                echo $sectionUrl;
-            } else {
-                echo "#";
+                echo "<a ";
+            } else {    
+                echo "<span ";
             }
+            echo " class='tab-s' href='" . $sectionUrl;
             if($params) {
                 echo showParams($params);
             }
-            echo "' accesskey='".($i+1)."'>".$sectionStr."</a></td>\n";
+            echo "' accesskey='".($i+1)."'>".$sectionStr;
+                     
+            if (!empty($sectionUrl)) {
+                echo "</a>";
+            } else {    
+                echo "</span>";
+            }
+            echo "</td>\n";
         } else {
             echo "\t\t\t\t\t<td background='".$imgPath."images/".$phpAds_TextDirection."/stab-ub.gif' valign='middle' nowrap>";
             if ($i > 0) {
@@ -732,16 +740,24 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
             }
             echo "</td>\n";
             echo "\t\t\t\t\t<td background='".$imgPath."images/".$phpAds_TextDirection."/stab-ub.gif' valign='middle' nowrap>";
-            echo "&nbsp;&nbsp;<a class='tab-g' href='";
+            
+            echo "&nbsp;&nbsp;";                     
             if (!empty($sectionUrl)) {
-                echo $sectionUrl;
-            } else {
-                echo "#";
+                echo "<a ";
+            } else {    
+                echo "<span ";
             }
+            echo " class='tab-g' href='".$sectionUrl;
             if($params) {
                 echo showParams($params);
             }
-            echo "' accesskey='".($i+1)."'>".$sectionStr."</a></td>\n";
+            echo "' accesskey='".($i+1)."'>".$sectionStr;                             
+            if (!empty($sectionUrl)) {
+                echo "</a>";
+            } else {    
+                echo "</span>";
+            }
+            echo "</td>\n";
         }
         $previousselected = $selected;
     }

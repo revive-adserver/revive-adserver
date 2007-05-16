@@ -9,9 +9,15 @@ function changePage(page) {
 }
 </script>
 <div class="installer_container">
-    <div class="graphtitle tab-s"><b>Progress</b></div>
-    <div class="graph">
-        <strong class="bar" style="width: <?php echo $progressVal; ?>%;"><?php echo $progressVal; ?>%</strong>
+    <div id="graph_container">
+        <div class="graphtitle tab-s"><b>Progress</b></div>
+        <div class="graph">
+            <?php if(!empty($progressVal)) { ?>
+                <strong class="bar" style="width: <?php echo $progressVal; ?>%;"><?php echo $progressVal; ?>%</strong>
+            <?php } else { ?>
+                &nbsp;
+            <?php } ?>
+        </div>
     </div>
     <br>
     <?php                

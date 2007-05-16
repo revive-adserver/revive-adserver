@@ -63,9 +63,11 @@ require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 unset($session);
 define('phpAds_installing',     true);
 
-// CHANGE $_REQUEST TO $_POST
+// setup oUpgrader
+$oUpgrader = new OA_Upgrade();
 
-// MOVE THESE 2 FUNCTIONS SOMEWHERE ELSE - used in dbsetup.html
+$halt = $oUpgrader->canUpgrade();
+$installStatus = $oUpgrader->existing_installation_status;
 
  /**
  * Return an array of supported DB types
@@ -95,8 +97,6 @@ function getSupportedTableTypes()
     return $types;
 }
 
-$oUpgrader = new OA_Upgrade();
-
 if ($oUpgrader->isRecoveryRequired())
 {
     $oUpgrader->recoverUpgrade();
@@ -105,7 +105,6 @@ if ($oUpgrader->isRecoveryRequired())
 else if (array_key_exists('btn_syscheck', $_REQUEST))
 {
     $aSysInfo = $oUpgrader->checkEnvironment();
-    $halt = !$oUpgrader->canUpgrade();
     if (!$halt)
     {
         $halt = !$oUpgrader->checkUpgradePackage();
@@ -132,7 +131,7 @@ else if (array_key_exists('btn_upgrade', $_POST))
         {
             if ($oUpgrader->install($_REQUEST['aConfig']))
             {
-                $message = 'Successfully installed Openads version '.OA_VERSION;
+                $message = 'Your database has successfully been created for Openads '.OA_VERSION;
                 $action  = OA_UPGRADE_INSTALL;
             }
         }
@@ -140,7 +139,7 @@ else if (array_key_exists('btn_upgrade', $_POST))
         {
             if ($oUpgrader->upgrade($oUpgrader->package_file))
             {
-                $message = 'Successfully upgraded Openads to version '.OA_VERSION;
+                $message = 'Your database has successfully been upgraded to Openads version '.OA_VERSION;
                 $action  = OA_UPGRADE_UPGRADE;
             }
         }
@@ -220,7 +219,15 @@ else if (array_key_exists('btn_finish', $_REQUEST))
 }
 else if (array_key_exists('dirPage', $_REQUEST) && !empty($_POST['dirPage']))
 {
-    $action = $_POST['dirPage'];
+    $action = $_POST['dirPage'];    
+    if ($_POST['dirPage'] == OA_UPGRADE_SYSCHECK) {
+        $aSysInfo = $oUpgrader->checkEnvironment();
+        $halt = !$oUpgrader->canUpgrade();
+        if (!$halt)
+        {
+            $halt = !$oUpgrader->checkUpgradePackage();
+        }
+    }
 }
 else
 {
@@ -241,17 +248,19 @@ $activeNav = array (
     OA_UPGRADE_DBSETUP        =>      '5',
     OA_UPGRADE_UPGRADE        =>      '5',
     OA_UPGRADE_INSTALL        =>      '5',
-    OA_UPGRADE_CONFIGSETUP    =>      '6',
-    OA_UPGRADE_ADMINSETUP     =>      '7',
-    OA_UPGRADE_IDSETUP        =>      '7',
-    OA_UPGRADE_DATASETUP      =>      '9',
-    OA_UPGRADE_FINISH         =>      '10'
+    OA_UPGRADE_CONFIGSETUP    =>      '6'
 );
+if ($installStatus == OA_STATUS_OAD_NOT_INSTALLED) {
+    $activeNav[OA_UPGRADE_ADMINSETUP]     =      '7';
+    $activeNav[OA_UPGRADE_IDSETUP]        =      '7';
+    $activeNav[OA_UPGRADE_DATASETUP]      =      '9';
+}
+$activeNav[OA_UPGRADE_FINISH] =      '10';
 
 // setup the nav to determine whether or not to show a valid link
 $navLinks = array();
 foreach ($activeNav as $key=>$val) {
-    if ($val <= $activeNav[$action] && $val <= $activeNav[OA_UPGRADE_CONFIGSETUP]) {
+    if ($val <= $activeNav[$action] && $activeNav[$action] < $activeNav[OA_UPGRADE_CONFIGSETUP]) {
         $navLinks[$key] = 'javascript: changePage('.$key.')';
     } else {
         $navLinks[$key] = '';

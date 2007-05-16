@@ -86,13 +86,10 @@ $GLOBALS['strInstallWelcome']               = "Welcome to ".MAX_PRODUCT_NAME;
 $GLOBALS['strInstallMessage']               = "Before you can use ".MAX_PRODUCT_NAME." it needs to be configured and <br /> the database needs to be created. Click <b>Proceed</b> to continue.";
 $GLOBALS['strInstallIntro']                 = "We have tried to make the installation of Openads as easy as possible, but
 				  keep in mind that setting up an ad server is not trivial. If you haven't read the documentation at
-				  this point, we <strong>strongly recommend</strong> that you do so before you proceed with the installation. The
-				  documentation will help you avoid potential problems in the future and will guide you through the following steps.<p><b>If you are trying to upgrade an existing installation of Openads you probably did not follow the
-				  instructions given in the documentation. If you continue, Openads will try to do a clean install and all your
-				  existing settings, inventory and statistics will be lost. If you want to upgrade an existing installation, please close this
-				  window, read the <a href='http://docs.openads.org/openads-2.0-guide/upgrading.html' target='_blank'>documentation on upgrading</a>
-				  and follow the instructions carefully.</b></p><p>Comprehensive <a href='http://docs.openads.org/openads-2.0-guide/index.html' target='_blank'>documentation</a> is provided on
-			      the Openads website it includes information about the installation and upgrade process as advice for managing your inventory
+				  this point, we <a href='http://docs.openads.org' target='_blank'><strong>strongly recommend</strong></a> that you do so before you proceed with the installation.</p> 
+                  <p>
+                  <a href='http://docs.openads.org' target='_blank'><strong>The
+				  documentation</strong></a> will help you avoid potential problems in the future and includes information about the installation and upgrade process as advice for managing your inventory
 				  and placing banners on your website.</p><p>If you still have questions after reading the documentation, visit the
 				  <a href='http://www.openads.org/support/overview.html' target='_blank'>support</a> section of our website and the
 				  <a href='http://forum.openads.org/' target='_blank'>community forum</a>.</p>";
@@ -109,6 +106,9 @@ $GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PROD
                                                 It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
                                                 first step of the install process. If you want to know more on what the error message below means, and how to solve it,
                                                 please consult the supplied documentation.";
+$GLOBALS['strSystemCheck']                  = "System check";                                                
+$GLOBALS['strSystemCheckIntro']             = "Openads has certain requirements which will now be checked. We will warn you if any settings need to be changed.";                                                
+$GLOBALS['strDbSuccessIntro']               = "It is important that you complete the rest of the steps. Openads has not been properly configured yet.";            
 $GLOBALS['strErrorOccured']                 = "The following error occured:";
 $GLOBALS['strErrorInstallDatabase']         = "The database structure could not be created.";
 $GLOBALS['strErrorInstallPrefs']            = "The administrator user preferences could not be written to the database.";

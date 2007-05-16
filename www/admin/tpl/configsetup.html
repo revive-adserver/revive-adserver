@@ -20,21 +20,15 @@
         if ($aConfig && is_array($aConfig) && (count($aConfig)>0))
         {
             
-            // Setup list of all timezones
-            require_once('timezones.php');
-            $tzArr = returnTimezoneList();
+            // Setup list of all timezones, calculate selected timezone
+            require_once('../../lib/OA/Admin/Timezones.php');
+            $aTimezone       = OA_Admin_Timezones::AvailableTimezones(true);
+            $selTimezoneArr  = OA_Admin_Timezones::getTimezone();
+            $selTimezone     = $selTimezoneArr['tz'];
             
             // For language, setup English as first choice
             $langVal = 'english';
             
-            // For timezone, set London as default choice
-            $aConfig['timezone']['location'] = (!$aConfig['timezone']['location'] ? 'Europe/London' : $aConfig['timezone']['location']);
-            
-            // set the key equal to the val
-            foreach ($tzArr as $key=>$val) {
-                $timezoneArr[$val] = $val;
-            }
-
             phpAds_ShowSettings(array (
                 array (
                     'text'  => $strConfigurationSettings,
@@ -55,8 +49,8 @@
                             'name'  => 'aConfig[timezone][location]',
                             'text'  => $strTimezone,
                             'req'   => true,
-                            'value' => $aConfig['timezone']['location'],
-                            'items' => $timezoneArr
+                            'value' => $selTimezone,
+                            'items' => $aTimezone
                         ),
                         array (
                             'type'  => 'break'
@@ -156,5 +150,5 @@
     }
 ?>
 
-                <button class="button" name="btn_adminsetup"><?php echo $strBtnContinue; ?></button>
+                <input type="submit" class="button" name="btn_adminsetup" value="<?php echo $strBtnContinue; ?>" />
                 <!-- NO BACK BUTTON  -->

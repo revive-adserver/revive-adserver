@@ -186,8 +186,8 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0, $imgPat
             }
             while (list(,$item) = each ($section['items'])) {
                 if (!isset($item['visible']) || $item['visible']) {
-                    $item['enabled'] = showSettingsLocked($item);
                     if (!$item['enabled']) {
+                        $item['enabled'] = showSettingsLocked($item);
                         $dependbuffer .= phpAds_ShowSettings_CheckDependancies($data, $item);
                     }
                     if (count($errors)) {
@@ -439,7 +439,7 @@ function phpAds_ShowSettings_Checkbox($item, $value)
     if (isset($item['indent']) && $item['indent']) {
         echo "<img src='images/indent.gif'>\n";
     }
-    echo "<input type='checkbox' name='".$item['name']."' value='true'".($value == true ? ' checked' : '').($item['enabled'] ? ' disabled' : '');
+    echo "<input type='checkbox' name='".$item['name']."' id='".$item['name']."' value='true'".($value == true ? ' checked' : '').($item['enabled'] ? ' disabled' : '');
     echo " onClick=\"phpAds_refreshEnabled();\" onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>".$item['text'];
     echo "</td><td>".phpAds_ShowSettings_PadLock($item)."</td></tr>\n";
 }
@@ -453,7 +453,7 @@ function phpAds_ShowSettings_Text($item, $value)
     echo "<tr onMouseOver=\"setHelp('".$item['name']."')\"><td>&nbsp;</td>\n";
     echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."' valign='top'>".$item['text']."</td>\n";
     echo "<td width='100%' valign='top'>";
-    echo "<input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='text' name='".$item['name']."'".($item['enabled'] ? ' disabled' : '')." ";
+    echo "<input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='text' name='".$item['name']."' id='".$item['name']."'".($item['enabled'] ? ' disabled' : '')." ";
     echo "size='".$item['size']."' maxlength='".$item['maxlength']."' value=\"".htmlspecialchars($value)."\" onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>";
     echo "</td><td>".phpAds_ShowSettings_PadLock($item)."</td></tr>\n";
 }
@@ -474,7 +474,7 @@ function phpAds_ShowSettings_Url($item, $value, $type = '')
     } else {
         echo 'http(s)://';
     }
-    echo "</td><td><input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='text' name='".$item['name']."'".($item['enabled'] ? ' disabled' : '')." ";
+    echo "</td><td><input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='text' name='".$item['name']."' id='".$item['name']."'".($item['enabled'] ? ' disabled' : '')." ";
     echo "size='".$item['size']."' value=\"".htmlspecialchars($value)."\" onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>";
     echo "</td></tr></table></td><td>".phpAds_ShowSettings_PadLock($item)."</td></tr>\n";
 }
@@ -488,7 +488,7 @@ function phpAds_ShowSettings_Textarea($item, $value)
      echo "<tr onMouseOver=\"setHelp('".$item['name']."')\"><td>&nbsp;</td>\n";
     echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."' valign='top'>".$item['text']."</td>";
     echo "<td width='100%' valign='top'>\n";
-    echo "<textarea onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' name='".$item['name']."' rows='".$item['rows']."'".($item['enabled'] ? ' disabled' : '')." ";
+    echo "<textarea onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' name='".$item['name']."' id='".$item['name']."' rows='".$item['rows']."'".($item['enabled'] ? ' disabled' : '')." ";
     echo "style='width: 350px;' onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>".htmlspecialchars($value)."</textarea>";
     echo "</td><td>".phpAds_ShowSettings_PadLock($item)."</td></tr>\n";
 }
@@ -516,7 +516,7 @@ function phpAds_ShowSettings_Password($item, $value)
     if ($hidePassword) {
         echo "<!-- password is set to password for security reasons -->";
     }
-    echo "<input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='password' name='".$item['name']."'".($item['enabled'] ? ' disabled' : '')." ";
+    echo "<input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='password' name='".$item['name']."' id='".$item['name']."'".($item['enabled'] ? ' disabled' : '')." ";
     echo "value='".$value."' size='".$item['size']."' onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>";
     echo "</td><td>".phpAds_ShowSettings_PadLock($item)."</td></tr>\n";
 }
@@ -528,7 +528,7 @@ function phpAds_ShowSettings_Select($item, $value, $showSubmitButton=0)
         echo "<tr onMouseOver=\"setHelp('".$item['name']."')\"><td>&nbsp;</td>\n";
         echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."'>".$item['text']."</td>\n";
         echo "<td width='100%'>\n";
-        echo "<select name='".$item['name']."'";
+        echo "<select name='".$item['name']."' id='".$item['name']."'";
         if(isset($item['reload']) && $item['reload'] == 'yes') {
             echo " onChange=\"this.form.field_changed.value=name;this.form.submit();phpAds_refreshEnabled();\"";
         } else {
@@ -571,7 +571,7 @@ function phpAds_ShowSettings_UsertypeCheckboxes($item, $value)
     echo "<tr onMouseOver=\"setHelp('".$item['name']."')\"><td>&nbsp;</td>\n";
     echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."'>".$item['text']."</td>\n";
     echo "<td width='100%'>\n";
-    echo "<input type='hidden' name='".$item['name']."' value='".htmlspecialchars($value)."'>\n";
+    echo "<input type='hidden' name='".$item['name']."' id='".$item['name']."' value='".htmlspecialchars($value)."'>\n";
 
     echo "<table border='0' cellpadding='2' cellspacing='0'><tr align='center'>\n";
 
@@ -657,7 +657,7 @@ function phpAds_ShowSettings_UsertypeTextboxes($item, $value)
 
 function phpAds_ShowSettings_PadLock($item)
 {
-    if (showSettingsLocked($item)) {
+    if (showSettingsLocked($item) || $item['enabled']==true) {
         return '<img src="images/padlock-closed.gif">';
     } else {
         return '&nbsp;';

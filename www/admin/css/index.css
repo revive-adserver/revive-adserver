@@ -71,7 +71,7 @@ td.sysinfoerror, .sysinfoerror {
 }
 
 div.sysinfoerror {
-    background-image:    url('../../admin/images/install-error-small.gif');
+    background-image:    url('../images/install-error-small.gif');
     background-repeat:   no-repeat;
     background-position: 10px 50%;
     height: 45px;
@@ -87,19 +87,42 @@ div.sysinfoerror {
 	margin-right: auto;
 }
 
+.pageLoader {
+    background-image:    url('../images/loading.gif');
+    background-repeat:   no-repeat;
+    background-position: 50% 185px;
+    position: relative;
+    top: -490px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	padding-top: 170px;
+	background-color: #ffffff;
+    width: 950px;
+    height: 500px;
+	opacity:.80;filter: alpha(opacity=80); -moz-opacity: 0.8;
+}
+
+#graph_container {
+    width: 100%;
+    text-align: center;
+}
 .graph { 
     position: relative; /* IE is dumb */
     width: 400px; 
+    line-height: 2em;
     border: 1px solid #ccc; 
     padding: 2px; 
     margin-left: auto;
     margin-right: auto;
+    text-align: left;
     background: #f3f3f3;
     -moz-border-radius: 6px;
     clear: both;
 }
 .graphtitle {
-    width: 50px; 
+    text-align: center;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 3px;

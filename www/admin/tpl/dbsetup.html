@@ -1,12 +1,17 @@
-<?php
-    if ($displayError == true) {
-    	include 'messages.html';
-    }        
-?>
     <br />
     <table border='0' cellpadding='0' cellspacing='0' width='100%'>
     <tr>
-        <td valign='top'><img src='../admin/images/install-database.gif'></td>
+        <td colspan='2' align='center'>
+        <?php
+            if ($displayError == true) {
+            	include 'messages.html';
+            }        
+        ?>
+        </td>
+    </tr>
+    <tr>
+        <td valign='top'>
+        <img src='../admin/images/install-database.gif'></td>
         <td width='100%' valign='top'>
         <br>
         <span class='tab-s'>The MySQL database</span><br><img src='../admin/images/break-el.gif' width='100%' height='1' vspace='8'><span class='install'>Openads uses a MySQL database store the inventory and all of the statistics. Before you can continue you need to tell us which server you want to use and which username and password Openads needs to use to contact the server. If you do not know which information you should provide here, please contact the administrator of your server.
@@ -15,69 +20,94 @@
     </table>
     <br />
     <br />
-
-<form name="frmOpenads" method="POST" action="install.php" onSubmit='return max_formValidate(this);'>
+    <script type='text/javascript'>
+    function showLoader(f) {
+        noerrors = max_formValidate(f);
+        if (noerrors == true) {
+            document.getElementById('dbLoader').style.display='block';
+            document.getElementById('aConfig[database][type]').style.display='none';
+            document.getElementById('aConfig[table][type]').style.display='none';         
+        }        
+        return(noerrors);
+    }
+    </script>
+<div id="formContainer" style="display: block; width:100%; height:100%;">
+<form name="frmOpenads3" id="frmOpenads3" method="POST" action="install.php" onSubmit='return showLoader(this);' style="display: block;">
 
 <?php            
+
+    // Disable the form items if user is upgrading
+    if ($installStatus == OA_STATUS_OAD_NOT_INSTALLED) {
+        $disableForm = false;
+    } else {
+        $disableForm = true;
+    }
+
     phpAds_ShowSettings(array (
         array (
             'text'  => $strDatabaseSettings,
             'items' => array (
                 array (
-                    'type'  => 'select',
-                    'name'  => 'aConfig[database][type]',
-                    'text'  => $strDbType,
-                    'items' => getSupportedDbTypes()
+                    'type'    => 'select',
+                    'name'    => 'aConfig[database][type]',
+                    'text'    => $strDbType,
+                    'enabled' => $disableForm,
+                    'items'   => getSupportedDbTypes()
                 ),
                 array (
-                    'type'  => 'break'
+                    'type'    => 'break'
                 ),
                 array (
-                    'type'  => 'text',
-                    'name'  => 'aConfig[database][host]',
-                    'text'  => $strDbHost,
-                    'req'   => true,
-                    'value' => $aDatabase['database']['host']
+                    'type'    => 'text',
+                    'name'    => 'aConfig[database][host]',
+                    'text'    => $strDbHost,
+                    'enabled' => $disableForm,
+                    'req'     => true,
+                    'value'   => $aDatabase['database']['host']
                 ),
                 array (
-                    'type'  => 'break'
+                    'type'    => 'break'
                 ),
                 array (
-                    'type'  => 'text',
-                    'name'  => 'aConfig[database][port]',
-                    'text'  => $strDbPort,
-                    'req'   => true,
-                    'value' => $aDatabase['database']['port']
+                    'type'    => 'text',
+                    'name'    => 'aConfig[database][port]',
+                    'text'    => $strDbPort,
+                    'enabled' => $disableForm,
+                    'req'     => true,
+                    'value'   => $aDatabase['database']['port']
                 ),
                 array (
-                    'type'  => 'break'
+                    'type'    => 'break'
                 ),
                 array (
-                    'type'  => 'text',
-                    'name'  => 'aConfig[database][username]',
-                    'text'  => $strDbUser,
-                    'req'   => true,
-                    'value' => $aDatabase['database']['username']
+                    'type'    => 'text',
+                    'name'    => 'aConfig[database][username]',
+                    'text'    => $strDbUser,
+                    'enabled' => $disableForm,
+                    'req'     => true,
+                    'value'   => $aDatabase['database']['username']
                 ),
                 array (
-                    'type'  => 'break'
+                    'type'    => 'break'
                 ),
                 array (
-                    'type'  => 'password',
-                    'name'  => 'aConfig[database][password]',
-                    'text'  => $strDbPassword,
-                    'req'   => false,
-                    'value' => $aDatabase['database']['password']
+                    'type'    => 'password',
+                    'name'    => 'aConfig[database][password]',
+                    'text'    => $strDbPassword,
+                    'enabled' => $disableForm,
+                    'req'     => false,
+                    'value'   => $aDatabase['database']['password']
                 ),
                 array (
-                    'type'  => 'break'
+                    'type'    => 'break'
                 ),
                 array (
-                    'type'  => 'text',
-                    'name'  => 'aConfig[database][name]',
-                    'text'  => $strDbName,
-                    'req'   => true,
-                    'value' => $aDatabase['database']['name']
+                    'type'    => 'text',
+                    'name'    => 'aConfig[database][name]',
+                    'text'    => $strDbName,
+                    'enabled' => $disableForm,
+                    'req'     => true,
+                    'value'   => $aDatabase['database']['name']
                 )
             )
         ),
@@ -85,18 +115,20 @@
             'text'  => $strAdvancedSettings,
             'items' => array (
                 array (
-                    'type'  => 'select',
-                    'name'  => 'aConfig[table][type]',
-                    'text'  => $strTablesType,
-                    'items' => getSupportedTableTypes()
+                    'type'      => 'select',
+                    'name'      => 'aConfig[table][type]',
+                    'text'      => $strTablesType,
+                    'enabled'   => $disableForm,
+                    'items'     => getSupportedTableTypes()
                 ),
                 array (
-                    'type'  => 'break'
+                    'type'      => 'break'
                 ),
                 array (
                     'type'      => 'text',
                     'name'      => 'aConfig[table][prefix]',
                     'text'      => $strTablesPrefix,
+                    'enabled'   => $disableForm,
                     'req'       => false,
                     'maxlength' => '7',
                     'value'     => $aDatabase['table']['prefix']
@@ -105,8 +137,16 @@
         )
     ), $errormessage, 0, "../admin/");
 ?>
-                <button class="button" name="btn_upgrade"><?php echo $strBtnContinue; ?></button>
+                <input type="submit" class="button" name="btn_upgrade" value="<?php echo $strBtnContinue; ?>">
+                <input type="hidden" name="dirPage" id="dirPage" value="" />
 </form>
-<?php // create a new form which doesn't validate onReturn ?>
-<form name="frmOpenads2" method="POST" action="install.php">
-                <button class="button floatleft" name="btn_syscheck"><?php echo $strBtnGoBack; ?></button>
+  
+
+<form name="frmOpenads2" id="frmOpenads2" method="POST" action="install.php">
+                <input type="submit" class="button floatleft" name="btn_syscheck" value="<?php echo $strBtnGoBack; ?>" />
+</form>
+<div id="dbLoader" class="pageLoader tab-s" style="display: none;">Processing...</div>
+</div>
+<form>
+                
+                
