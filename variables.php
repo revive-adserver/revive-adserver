@@ -32,13 +32,13 @@ $Id$
  * @author     Radek Maciaszek <radek.maciaszek@openads.org>
  *
  * A file to set up the environment for the Openads delivery engine.
- * 
- * Both opcode and php by itself slow things down when we require many
- * files. Therefore we gave up a little bit of maintainability in 
- * order to speed up a delivery:
- * * We are not using classes (if possible) in delivery
- * * We have to use as few as possible includes and add new code into
- *   existing files
+ *
+ * Both opcode and PHP by itself slow things down when we require many
+ * files. Therefore maintainability has been sacrificed in order to
+ * speed up a delivery:
+ * - We are not using classes (if possible) in delivery;
+ * - We have as few as possible includes and add new code into
+ *   existing files.
  */
 
 
@@ -46,7 +46,7 @@ $Id$
  * Setup common variables - used by both delivery and admin part as well
  *
  * This function should be executed after the config file is read in.
- * 
+ *
  * The reason behind using GLOBAL variables is that
  * there are faster than constants
  */
@@ -54,14 +54,14 @@ function setupConfigVariables()
 {
     $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'] = '|';
     $GLOBALS['_MAX']['MAX_COOKIELESS_PREFIX'] = '__';
-    
+
     // Set the URL access mechanism
     if (!empty($GLOBALS['_MAX']['CONF']['openads']['requireSSL'])) {
         $GLOBALS['_MAX']['HTTP'] = 'https://';
     } else {
         if (isset($_SERVER['SERVER_PORT'])) {
-            if (isset($GLOBALS['_MAX']['CONF']['openads']['sslPort']) 
-                && $_SERVER['SERVER_PORT'] == $GLOBALS['_MAX']['CONF']['openads']['sslPort']) 
+            if (isset($GLOBALS['_MAX']['CONF']['openads']['sslPort'])
+                && $_SERVER['SERVER_PORT'] == $GLOBALS['_MAX']['CONF']['openads']['sslPort'])
             {
                 $GLOBALS['_MAX']['HTTP'] = 'https://';
             } else {
@@ -69,25 +69,26 @@ function setupConfigVariables()
             }
         }
     }
-    
+
     // Maximum random number
     $GLOBALS['_MAX']['MAX_RAND'] = $GLOBALS['_MAX']['CONF']['priority']['randmax'];
-    
-    // set time zone, for more info @see setTimeZoneLocation()
+
+    // Set time zone, for more info @see setTimeZoneLocation()
     if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
         setTimeZoneLocation($GLOBALS['_MAX']['CONF']['timezone']['location']);
     }
 }
 
 /**
- * Set a timezone location using a proper method per php version
+ * Set a timezone location using the proper method for the user's PHP
+ * version.
  *
  * Ensure that the TZ environment variable is set for PHP < 5.1.0, so
  * that PEAR::Date class knows which timezone we are in, and doesn't
- * screw up the dates after using the PEAR::compare() method -  also,
+ * screw up the dates after using the PEAR::compare() method; also,
  * ensure that an appropriate timezone is set, if required, to allow
- * the time zone to be other than the time zone of the server
- * 
+ * the time zone to be other than the time zone of the server.
+ *
  * @param string $location  Time zone location
  */
 function setTimeZoneLocation($location)
