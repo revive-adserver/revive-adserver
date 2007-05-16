@@ -418,7 +418,7 @@ function &OA_aclGetPluginFromRow($row)
  * @param string $objectTable 'banners' or 'channel'
  * @return boolean True on success, PEAR::Error on failure.
  */
-function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable)
+function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable, $upgrade = false)
 {
     $dbh = &OA_DB::singleton();
 
@@ -441,7 +441,7 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable)
     while ($rsAcls->fetch()) {
         $row = $rsAcls->toArray();
         $deliveryLimitationPlugin = &OA_aclGetPluginFromRow($row);
-        if ($deliveryLimitationPlugin->isAllowed($page)) {
+        if ($upgrade || $deliveryLimitationPlugin->isAllowed($page)) {
             $aAcls[$row[$idColumn]][$row['executionorder']] = $row;
         }
     }
@@ -453,20 +453,20 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable)
     return true;
 }
 
-function OA_aclRecompileBanners()
+function OA_aclRecompileBanners($upgrade = false)
 {
     $conf =& $GLOBALS['_MAX']['CONF'];
     
     return
-        OA_aclRecompileAclsForTable('acls', 'bannerid', 'banner-acl.php', $conf['table']['banners']);
+        OA_aclRecompileAclsForTable('acls', 'bannerid', 'banner-acl.php', $conf['table']['banners'], $upgrade);
 }
 
-function OA_aclRecompileCampaigns()
+function OA_aclRecompileCampaigns($upgrade = false)
 {
     $conf =& $GLOBALS['_MAX']['CONF'];
     
     return
-        OA_aclRecompileAclsForTable('acls_channel', 'channelid', 'channel-acl.php', $conf['table']['channel']);
+        OA_aclRecompileAclsForTable('acls_channel', 'channelid', 'channel-acl.php', $conf['table']['channel'], $upgrade);
 }
 
 /**
@@ -475,13 +475,13 @@ function OA_aclRecompileCampaigns()
  *
  * @return boolean True on success, PEAR::Error on failure.
  */
-function MAX_AclReCompileAll()
+function MAX_AclReCompileAll($upgrade = false)
 {
-    $result = OA_aclRecompileBanners();
+    $result = OA_aclRecompileBanners($upgrade);
     if (PEAR::isError($result)) {
         return $result;
     }
-    $result = OA_aclRecompileCampaigns();
+    $result = OA_aclRecompileCampaigns($upgrade);
     if (PEAR::isError($result)) {
         return $result;
     }

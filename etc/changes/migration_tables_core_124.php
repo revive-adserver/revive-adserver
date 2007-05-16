@@ -1,10 +1,12 @@
 <?php
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
+require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
+require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
 
 class Migration_124 extends Migration
 {
-
     function Migration_124()
     {
         //$this->__construct();
@@ -57,7 +59,7 @@ class Migration_124 extends Migration
 
 	function afterAddField__banners__campaignid()
 	{
-		return $this->migrateData() && $this->afterAddField('banners', 'campaignid');
+		return $this->migrateCampaignId() && $this->afterAddField('banners', 'campaignid');
 	}
 
 	function beforeAddField__banners__adserver()
@@ -157,7 +159,7 @@ class Migration_124 extends Migration
 
 	function afterAlterField__banners__url()
 	{
-		return $this->afterAlterField('banners', 'url');
+		return $this->afterAlterField('banners', 'url') && $this->migrateAcls();
 	}
 
 	function beforeRemoveField__banners__clientid()
@@ -180,11 +182,11 @@ class Migration_124 extends Migration
 		return $this->afterRemoveField('banners', 'priority');
 	}
 
-	function migrateData()
+	function migrateCampaignId()
 	{
-	    $conf = $GLOBALS['_MAX']['CONF'];
+	    $prefix = $this->getPrefix();
 	    $query = "
-	       UPDATE {$conf['table']['prefix']}banners
+	       UPDATE {$prefix}banners
 	       set campaignid = clientid";
 	    $this->oDBH->exec($query);
 	}

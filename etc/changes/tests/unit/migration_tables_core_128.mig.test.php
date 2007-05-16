@@ -28,6 +28,7 @@ $Id$
 require_once MAX_PATH . '/etc/changes/migration_tables_core_128.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
+require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
 /**
  * Test for migration class #128.
@@ -40,7 +41,7 @@ class Migration_128Test extends MigrationTest
 {
     function testMigrateData()
     {
-        $this->initDatabase(127, array('banners'));
+        $this->initDatabase(127, array('banners', 'acls', 'channel', 'acls_channel'));
         
         $toInt['f'] = 0;
         $toInt['t'] = 1;
@@ -87,5 +88,84 @@ EOF
             }
         }
         $this->assertFalse($rsBanners->fetch());
+    }
+    
+    function testMigrateAcls()
+    {
+        $this->initDatabase(127, array('banners', 'acls', 'channel', 'acls_channel'));
+        
+        
+        $aTestData = array(
+            array('weekday', '==', '0,1'),
+            array('weekday', '==', '0,1,4'),
+            array('weekday', '==', ''),
+            array('time', '==', '5,6'),
+            array('time', '==', '5'),
+            array('date', '>=', '20070510'),
+            array('clientip', '==', '150.254.170.189'),
+            array('domain', '!=', 'www.openads.org'),
+            array('language', '!=', '(hr)|(nl)'),
+            array('language', '!=', '(en)'),
+            array('continent', '==', 'AF'),
+            array('country', '==', 'PL,GB'),
+            array('browser', '==', '(^Mozilla/5.*Gecko)|(Opera)|(MSN)'),
+            array('browser', '!=', '(^Mozilla/5.*Gecko)|(Opera)|(MSN)'),
+            array('os', '==', '(Win)|(Windows CE)|(Mac)|(Linux)|(BSD)|(SunOS)|(IRIX)|(AIX)|(Unix)'),
+            array('useragent', '==', 'ahahaha'),
+            array('referer', '==', 'blabblah'),
+            array('source', '==', 'www.openads.org'),
+        );
+        $aExpectedData = array(
+            array('Time:Day', '=~', '0,1'),
+            array('Time:Day', '=~', '0,1,4'),
+            array('Time:Day', '=~', ''),
+            array('Time:Hour', '=~', '5,6'),
+            array('Time:Hour', '=~', '5'),
+            array('Time:Date', '>=', '20070510'),
+            array('Client:Ip', '==', '150.254.170.189'),
+            array('Client:Domain', '!=', 'www.openads.org'),
+            array('Client:Language', '!~', 'hr,nl'),
+            array('Client:Language', '!~', 'en'),
+            array('Geo:Continent', '=~', 'AF'),
+            array('Geo:Country', '=~', 'PL,GB'),
+            array('Client:Useragent', '=x', '(^Mozilla/5.*Gecko)|(Opera)|(MSN)'),
+            array('Client:Useragent', '!x', '(^Mozilla/5.*Gecko)|(Opera)|(MSN)'),
+            array('Client:Useragent', '=x', '(Win)|(Windows CE)|(Mac)|(Linux)|(BSD)|(SunOS)|(IRIX)|(AIX)|(Unix)'),
+            array('Client:Useragent', '=x', 'ahahaha'),
+            array('Site:Referingpage', '=~', 'blabblah'),
+            array('Site:Source', '=x', 'www.openads.org'),
+        );
+        
+        $sql = OA_DB_Sql::sqlForInsert('banners', array('bannerid' => 1));
+        $this->oDbh->exec($sql);
+        
+        $aValues = array();
+        $idx = 0;
+        foreach ($aTestData as $testData) {
+            $aValues = array(
+                'bannerid' => 1,
+                'logical' => 'and',
+                'type' => $testData[0],
+                'comparison' => $testData[1],
+                'data' => $testData[2],
+                'executionorder' => $idx++);
+            $sql = OA_DB_Sql::sqlForInsert('acls', $aValues);
+            $this->oDbh->exec($sql);
+        }
+        $cLimitations = $idx;
+        
+        $this->upgradeToVersion(128);
+        
+        $rsAcls = DBC::NewRecordSet("SELECT type, comparison, data FROM acls ORDER BY executionorder");
+        $this->assertTrue($rsAcls->find());
+        
+        for ($idx = 0; $idx < $cLimitations; $idx++) {
+            $expected = $aExpectedData[$idx][0] . "|" . $aExpectedData[$idx][1] . "|" . $aExpectedData[$idx][2];
+            $this->assertTrue($rsAcls->fetch());
+            $this->assertEqual($aExpectedData[$idx][0], $rsAcls->get('type'), "%s IN TYPE FOR: $expected");
+            $this->assertEqual($aExpectedData[$idx][1], $rsAcls->get('comparison'), "%s IN COMPARISON FOR: $expected" );
+            $this->assertEqual($aExpectedData[$idx][2], $rsAcls->get('data'));
+        }
+        $this->assertFalse($rsAcls->fetch());
     }
 }
