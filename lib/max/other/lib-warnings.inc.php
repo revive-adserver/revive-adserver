@@ -28,6 +28,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Email.php';
 require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 
 /*-------------------------------------------------------*/
@@ -71,10 +72,10 @@ function phpAds_warningMail($campaign)
 			$Body    = str_replace("{limit}", $pref['warn_limit'], $Body);
 			// Send email
 			if ($pref['warn_admin']) {
-				MAX::sendMail($pref['admin_email'], $pref['admin_fullname'], $Subject, $Body);
+				OA_Email::sendMail($pref['admin_email'], $pref['admin_fullname'], $Subject, $Body);
 			}
 			if ($pref['warn_client'] && $client["email"] != '') {
-				MAX::sendMail($client['email'], $client['contact'], $Subject, $Body);
+				OA_Email::sendMail($client['email'], $client['contact'], $Subject, $Body);
 				if ($pref['userlog_email']) {
 					phpAds_userlogAdd(phpAds_actionWarningMailed, $campaign['campaignid'], $Subject."\n\n".$Body);
 				}

@@ -35,6 +35,7 @@ require_once MAX_PATH . '/scripts/maintenance/translationStrings.php';
 
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
+require_once MAX_PATH . '/lib/OA/Email.php';
 require_once 'Date.php';
 
 /**
@@ -52,8 +53,8 @@ class MAX_Maintenance
 
     function MAX_Maintenance()
     {
-        $this->conf =& $GLOBALS['_MAX']['CONF'];
-        $this->pref =& $GLOBALS['_MAX']['PREF'];
+        $this->conf = $GLOBALS['_MAX']['CONF'];
+        $this->pref = $GLOBALS['_MAX']['PREF'];
 
         // Get a connection to the datbase
         $this->oDbh = &OA_DB::singleton();
@@ -61,105 +62,6 @@ class MAX_Maintenance
             // Unable to continue!
             MAX::raiseError($this->oDbh, null, PEAR_ERROR_DIE);
         }
-    }
-
-    /**
-     * A method for premaring e-mails, advising of the activation of campaigns.
-     *
-     * @static
-     * @param string $contactName The name of the campaign contact.
-     * @param string $campaignName The name of the deactivated campaign.
-     * @param array $ads A reference to an array of ads
-     *                              in the campaign, indexed by ad_id,
-     *                              of an array containing the description, alt
-     *                              description, and  destination URL of the
-     *                              ad.
-     * @return string The email that has been prepared.
-     */
-    function prepareActivateCampaignEmail($contactName, $campaignName, &$ads)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $message  = "Dear $contactName,\n\n";
-        $message .= 'The following ads have been activated because ' . "\n";
-        $message .= 'the campaign activation date has been reached.';
-        $message .= "\n\n";
-        $message .= "-------------------------------------------------------\n";
-        foreach ($ads as $ad_id => $data) {
-            $message .= "Ad [ID $ad_id] ";
-            if ($data[0] != '') {
-                $message .= $data[0];
-            } elseif ($data[1] != '') {
-                $message .= $data[1];
-            } else {
-                $message .= 'Untitled';
-            }
-            $message .= "\n";
-            $message .= "Linked to: {$data[2]}\n";
-            $message .= "-------------------------------------------------------\n";
-        }
-        $message .= "\nThank you for advertising with us.\n\n";
-        $message .= "Regards,\n\n";
-        $message .= $conf['email']['admin_name'];
-        return $message;
-    }
-
-    /**
-     * A method for preparing e-mails, advising of the deactivation of campaigns.
-     *
-     * @static
-     * @param string $contactName The name of the campaign contact.
-     * @param string $campaignName The name of the deactivated campaign.
-     * @param integer $reason A binary flag field containting the reason(s) the campaign
-     *                        was deactivated:
-     *                        2  - No more impressions
-     *                        4  - No more clicks
-     *                        8  - No more conversions
-     *                        16 - Campaign ended (due to date)
-     * @param array $ads A reference to an array of ads
-     *                              in the campaign, indexed by ad_id,
-     *                              of an array containing the description, alt
-     *                              description, and  destination URL of the
-     *                              ad.
-     * @return string The email that has been prepared.
-     */
-    function prepareDeactivateCampaignEmail($contactName, $campaignName, $reason, &$ads)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $message  = "Dear $contactName,\n\n";
-        $message .= 'The following ads have been disabled because:' . "\n";
-        if ($reason & MAX_PLACEMENT_DISABLED_IMPRESSIONS) {
-            $message .= '  - There are no impressions remaining' . "\n";
-        }
-        if ($reason & MAX_PLACEMENT_DISABLED_CLICKS) {
-            $message .= '  - There are no clicks remaining' . "\n";
-        }
-        if ($reason & MAX_PLACEMENT_DISABLED_CONVERSIONS) {
-            $message .= '  - There are no conversions remaining' . "\n";
-        }
-        if ($reason & MAX_PLACEMENT_DISABLED_DATE) {
-            $message .= '  - The campaign deactivation date has been reached' . "\n";
-        }
-        $message .= "\n";
-        $message .= '-------------------------------------------------------' . "\n";
-        foreach ($ads as $ad_id => $data) {
-            $message .= "Ad [ID $ad_id] ";
-            if ($data[0] != '') {
-                $message .= $data[0];
-            } elseif ($data[1] != '') {
-                $message .= $data[1];
-            } else {
-                $message .= 'Untitled';
-            }
-            $message .= "\n";
-            $message .= "Linked to: {$data[2]}\n";
-            $message .= '-------------------------------------------------------' . "\n";
-        }
-        $message .= "\n" . 'If you would like to continue advertising on our website,' . "\n";
-        $message .= 'please feel free to contact us.' . "\n";
-        $message .= 'We\'d be glad to hear from you.' . "\n\n";
-        $message .= 'Regards,' . "\n\n";
-        $message .= "{$conf['email']['admin_name']}";
-        return $message;
     }
 
     /**
@@ -323,7 +225,7 @@ class MAX_Maintenance
                             agencyid = 0
                         ";
                     $row = $this->oDbh->queryRow($query);
-                    MAX::sendMail($row['admin_email'], '', 'Lockfile altert!', $message);
+                    OA_Email::sendMail($row['admin_email'], '', 'Lockfile altert!', $message);
                     MAX::raiseError('Aborting script execution', null, PEAR_ERROR_DIE);
                 }
                 // Pause for 30 secs

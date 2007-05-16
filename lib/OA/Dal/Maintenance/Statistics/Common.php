@@ -39,6 +39,7 @@ require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics.php';
+require_once MAX_PATH . '/lib/OA/Email.php';
 
 /**
  * Definitions of class constants.
@@ -2510,11 +2511,11 @@ class OA_Dal_Maintenance_Statistics_Common
                                   $advertisementRow['url']);
                     }
                     if ($aConf['email']['sendMail']) {
-                        $message =& MAX_Maintenance::prepareDeactivateCampaignEmail($campaignRow['contact'],
-                                                                                   $campaignRow['campaign_name'],
-                                                                                   $disableReason, $advertisements);
-                        MAX::sendMail($campaignRow['email'], $campaignRow['contact'],
-                                      "Deactivated Banners: {$campaignRow['campaign_name']}", $message);
+                        $message =& OA_Email::prepareDeactivateCampaignEmail($campaignRow['contact'],
+                                                                             $campaignRow['campaign_name'],
+                                                                             $disableReason, $advertisements);
+                        OA_Email::sendMail($campaignRow['email'], $campaignRow['contact'],
+                                           "Deactivated Banners: {$campaignRow['campaign_name']}", $message);
                     }
                 }
             } else {
@@ -2609,11 +2610,11 @@ class OA_Dal_Maintenance_Statistics_Common
                                     $advertisementRow['url']);
                         }
                         if ($aConf['email']['sendMail']) {
-                            $message =& MAX_Maintenance::prepareActivateCampaignEmail($campaignRow['contact'],
-                                                                                      $campaignRow['campaign_name'],
-                                                                                      $advertisements);
-                            MAX::sendMail($campaignRow['email'], $campaignRow['contact'],
-                                          "Activated Banners: {$campaignRow['campaign_name']}", $message);
+                            $message =& MAX_Maintenance::OA_Email($campaignRow['contact'],
+                                                                  $campaignRow['campaign_name'],
+                                                                  $advertisements);
+                            OA_Email::sendMail($campaignRow['email'], $campaignRow['contact'],
+                                               "Activated Banners: {$campaignRow['campaign_name']}", $message);
                         }
                     }
                 }

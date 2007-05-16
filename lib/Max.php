@@ -128,39 +128,6 @@ class MAX
         return $logger->log($message, $priority);
     }
 
-
-
-    /**
-     * Originally phpAds_sendMail() function.
-     */
-    function sendMail($email, $readable, $subject, $contents)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-    	global $phpAds_CharSet;
-    	// Build To header
-    	if (!get_cfg_var('SMTP')) {
-    		$param_to = '"'.$readable.'" <'.$email.'>';
-    	} else {
-    		$param_to = $email;
-    	}
-    	// Build additional headers
-    	$param_headers = "Content-Transfer-Encoding: 8bit\r\n";
-    	if (isset($phpAds_CharSet)) {
-    		$param_headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\r\n";
-    	}
-    	if (get_cfg_var('SMTP')) {
-    		$param_headers .= 'To: "'.$readable.'" <'.$email.">\r\n";
-    	}
-    	$param_headers .= 'From: "'.$conf['email']['admin_name'].'" <'.$conf['email']['admin'].'>'."\r\n";
-    	// Use only \n as header separator when qmail is used
-    	if ($conf['qmail_patch']) {
-    		$param_headers = str_replace("\r", '', $param_headers);
-    	}
-    	// Add \r to linebreaks in the contents for MS Exchange compatibility
-    	$contents = str_replace("\n", "\r\n", $contents);
-    	return (@mail($param_to, $subject, $contents, $param_headers));
-    }
-
     /*-------------------------------------------------------*/
     /* Get list order status                                 */
     /*-------------------------------------------------------*/
@@ -339,15 +306,15 @@ function pearErrorHandler($oError)
     }
 
     // Add backtrace info
-    if (!empty($conf['debug']['showBacktrace'])) { 
+    if (!empty($conf['debug']['showBacktrace'])) {
         $msg .= 'PEAR backtrace: <div onClick="if (this.style.height) {this.style.height = null;this.style.width = null;} else {this.style.height = \'8px\'; this.style.width=\'8px\'}"';
         $msg .= 'style="float:left; cursor: pointer; border: 1px dashed #FF0000; background-color: #EFEFEF; height: 8px; width: 8px; overflow: hidden; margin-bottom: 2px;">';
         $msg .= '<pre wrap style="margin: 5px; background-color: #EFEFEF">';
-        
+
         ob_start();
         print_r($oError->getBacktrace());
         $msg .= ob_get_clean();
-        
+
         $msg .= '<hr></pre></div>';
         $msg .= '<div style="clear:both"></div>';
     }

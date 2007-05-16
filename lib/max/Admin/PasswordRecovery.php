@@ -33,12 +33,13 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Dal/PasswordRecovery.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
+require_once MAX_PATH . '/lib/OA/Email.php';
 
 class MAX_Admin_PasswordRecovery
 {
     /* @var MAX_Dal_PasswordRecovery */
     var $_dal;
-     
+
     /**
      * PHP5-style constructor
      */
@@ -46,7 +47,7 @@ class MAX_Admin_PasswordRecovery
     {
         $this->_useDefaultDal();
     }
-   
+
     /**
      * PHP4-style constructor
      */
@@ -54,7 +55,7 @@ class MAX_Admin_PasswordRecovery
     {
         $this->__construct();
     }
-    
+
     function _useDefaultDal()
     {
         $oServiceLocator = ServiceLocator::instance();
@@ -64,43 +65,43 @@ class MAX_Admin_PasswordRecovery
         }
         $this->_dal =& $dal;
     }
-    
+
     /**
      * Display page header
-     * 
+     *
      */
     function pageHeader()
     {
         // Setup navigation
         $nav = array ("1" => array("password-recovery.php" => $GLOBALS['strPasswordRecovery']));
-        
+
         $GLOBALS['phpAds_nav'] = array(
             'admin'     => $nav,
             'agency'    => $nav,
             'client'    => $nav,
             'affiliate' => $nav
         );
-        
+
         phpAds_PageHeader("1");
 
         echo "<br><br>";
     }
-    
+
     /**
      * Display page footer and make sure that the session gets destroyed
-     * 
+     *
      */
     function pageFooter()
     {
         // Remove session
         unset($GLOBALS['session']);
-        
+
         phpAds_PageFooter();
     }
-    
+
     /**
      * Display an entire page with the password recovery form.
-     * 
+     *
      * This method, combined with handlePost allows semantic, REST-style
      * actions.
      */
@@ -116,10 +117,10 @@ class MAX_Admin_PasswordRecovery
         }
         $this->pageFooter();
     }
-    
+
     /**
      * Display an entire page with the password recovery form.
-     * 
+     *
      * This method, combined with handleGet allows semantic, REST-style
      * actions.
      */
@@ -149,25 +150,25 @@ class MAX_Admin_PasswordRecovery
         }
         $this->pageFooter();
     }
-    
+
     /**
      * Display a message
      *
-     * @param string message to be displayed 
+     * @param string message to be displayed
      */
     function displayMessage($message)
     {
         phpAds_showBreak();
 
         echo "<br /><span class='install'>{$message}</span><br /><br />";
-        
+
         phpAds_showBreak();
     }
-    
+
     /**
      * Display recovery request form
      *
-     * @param string error message text 
+     * @param string error message text
      */
     function displayRecoveryRequestForm($errormessage = '')
     {
@@ -175,9 +176,9 @@ class MAX_Admin_PasswordRecovery
             echo "<div class='errormessage' style='width: 400px;'><img class='errormessage' src='images/errormessage.gif' align='absmiddle'>";
             echo "<span class='tab-r'>{$errormessage}</span></div>";
         }
-        
+
         echo "<form method='post' action='password-recovery.php'>\n";
-        
+
         echo "<div class='install'>".$GLOBALS['strPwdRecEnterEmail']."</div>";
         echo "<table cellpadding='0' cellspacing='0' border='0'>";
         echo "<tr><td colspan='2'><img src='images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
@@ -188,11 +189,11 @@ class MAX_Admin_PasswordRecovery
 
         echo "</form>\n";
     }
-    
+
     /**
      * Display new password form
      *
-     * @param string error message text 
+     * @param string error message text
      */
     function displayRecoveryResetForm($id, $errormessage = '')
     {
@@ -200,10 +201,10 @@ class MAX_Admin_PasswordRecovery
             echo "<div class='errormessage' style='width: 400px;'><img class='errormessage' src='images/errormessage.gif' align='absmiddle'>";
             echo "<span class='tab-r'>{$errormessage}</span></div>";
         }
-        
+
         echo "<form method='post' action='password-recovery.php'>\n";
         echo "<input type='hidden' name='id' value='".htmlentities($id)."' />";
-        
+
         echo "<div class='install'>".$GLOBALS['strPwdRecEnterPassword']."</div>";
         echo "<table cellpadding='0' cellspacing='0' border='0'>";
         echo "<tr><td colspan='2'><img src='images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
@@ -215,7 +216,7 @@ class MAX_Admin_PasswordRecovery
 
         echo "</form>\n";
     }
-    
+
     /**
      * Check if the user is allowed to see the password recovery tools
      *
@@ -224,7 +225,7 @@ class MAX_Admin_PasswordRecovery
     {
         return !phpAds_isLoggedIn() && !phpAds_SuppliedCredentials();
     }
-    
+
     /**
      * Send the password recovery email
      *
@@ -235,19 +236,19 @@ class MAX_Admin_PasswordRecovery
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $old_prefs = $GLOBALS['_MAX']['PREF'];
-        
+
         $users = $this->_dal->searchMatchingUsers($email);
-        
+
         $agencies = array();
         foreach ($users as $u) {
             $agencies[$u['agencyid']][$u['email']][] = $u;
         }
-        
+
         $sent = 0;
         foreach ($agencies as $agencyId => $emails) {
             $pref = MAX_Admin_Preferences::loadPrefs($agencyId);
             Language_Default::load();
-            
+
             foreach ($emails as $email => $users) {
                 $text = '';
                 foreach ($users as $u) {
@@ -263,12 +264,12 @@ class MAX_Admin_PasswordRecovery
                     $text .= $GLOBALS['strPwdRecResetLink'].": ";
                     $text .= Max::constructURL(MAX_URL_ADMIN, "password-recovery.php?id={$recovery_id}")."\n\n";
                 }
-                
+
                 // Hack
                 $GLOBALS['_MAX']['CONF']['email']['admin_name'] = $pref['admin_fullname'];
                 $GLOBALS['_MAX']['CONF']['email']['admin'] = $pref['admin_email'];
-                
-                MAX::sendMail($email, $email, sprintf($GLOBALS['strPwdRecEmailPwdRecovery'], $pref['name']), $text);
+
+                OA_Email::sendMail($email, $email, sprintf($GLOBALS['strPwdRecEmailPwdRecovery'], $pref['name']), $text);
                 $sent++;
             }
         }

@@ -28,6 +28,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Email.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
 function phpAds_SendMaintenanceReport($advertiserId, $first_unixtimestamp, $last_unixtimestamp, $update = true)
@@ -270,7 +271,7 @@ function phpAds_SendMaintenanceReport($advertiserId, $first_unixtimestamp, $last
             $body    = str_replace("{adminfullname}", $conf['admin_fullname'], $body);
             $body    = str_replace("{startdate}",     date(str_replace('%', '', $date_format), $first_unixtimestamp), $body);
             $body    = str_replace("{enddate}",       date(str_replace('%', '', $date_format), $last_unixtimestamp), $body);
-            if (MAX::sendMail($aAdvertiserDetails['email'], $aAdvertiserDetails['contact'], $subject, $body)) {
+            if (OA_Email::sendMail($aAdvertiserDetails['email'], $aAdvertiserDetails['contact'], $subject, $body)) {
                 // Update last run
                 if ($update == true) {
                     $query = "
