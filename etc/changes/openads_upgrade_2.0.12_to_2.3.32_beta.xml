@@ -78,6 +78,13 @@
             <file>migration_tables_core_128.php</file>
         </package>
         <package>
+            <version>129</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_129.xml</file>
+            <file>changes_tables_core_129.xml</file>
+            <file>migration_tables_core_129.php</file>
+        </package>
+        <package>
             <version>199</version>
             <stamp>513</stamp>
             <schema>tables_core</schema>
