@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
-require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
+require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
 /**
  * This class is useful if you want to perform database-based tests.
@@ -53,7 +53,7 @@ class DbTestCase extends UnitTestCase
     {
         $this->initOaTable('/etc/tables_core.xml');
     }
-    
+
     /**
      * Truncates all the tables in the database.
      */
@@ -74,7 +74,7 @@ class DbTestCase extends UnitTestCase
         $this->oaTable = new OA_DB_Table();
         $this->oaTable->init(MAX_PATH . $schemaPath);
     }
-    
+
     /**
      * Creates and truncates the tables in the list $aTables.
      *
