@@ -26,12 +26,14 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
 */
 
 /**
- * A class for retrieving a list of avaiable timezone for the proper locale.
+ * A class for retrieving a list of avaiable timezones, and for dealing with
+ * preparing the timezone configuration value.
  *
- * @package    Openads
+ * @package    OpenadsAdmin
  * @author     Alexander J. Tarachanowicz II <aj@seagullproject.org>
+ * @author     Andrew Hill <andrew@openads.org>
  */
- class MAX_Admin_Timezones
+ class OA_Admin_Timezones
  {
 
     /**
@@ -43,28 +45,27 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
      */
     function AvailableTimezones($addBlank = false)
     {
-        //  load global array of timezones
+        // Load global array of timezones
         require_once MAX_PATH .'/lib/pear/Date/TimeZone.php';
-
         $aTimezoneKey = Date_TimeZone::getAvailableIDs();
-
-        //  add empty key/value pair
+        // Add empty key/value pair
         if ($addBlank) {
             $aTimezone[] = '';
         }
-
         foreach ($aTimezoneKey as $key) {
             $aTimezone[$key] = $key;
         }
-
         asort($aTimezone);
-
         return $aTimezone;
     }
 
     /**
      * A method to calculate the user's timezone from their
      * server environment.
+     *
+     * This method will ONLY work when there have been no
+     * previous calls to date_default_timezone_set() or
+     * putenv("TZ=...") to set the timezone manually.
      *
      * @static
      * @return array An array of two items:
@@ -90,7 +91,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
                 // variable, so we have to try and calcuate
                 // the timezone for the user
                 $diff = date('O') / 100;
-                $tz = 'TZ=Etc/GMT'.($diff > 0 ? '-' : '+').abs($diff);
+                $tz = 'Etc/GMT'.($diff > 0 ? '-' : '+').abs($diff);
                 $calculated = true;
             }
         }
@@ -100,4 +101,43 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
         );
         return $aReturn;
     }
+
+    /**
+     * A method to calculate the timezon value to write out
+     * to the configuration file, based on a user selected
+     * timezone value.
+     *
+     * @static
+     * @param string $tz        The user selected timezone value.
+     * @param array  $aTimezone The result of a call to the
+     *                          {@link OA_Admin_Timezones::getTimezone()}
+     *                          method.
+     * @return string The timezone value to write to the
+     *                configuration file.
+     */
+    function getConfigTimezoneValue($tz, $aTimezone)
+    {
+        if ($tz != $aTimezone['tz']) {
+            // The user selected timezone is not equal to the
+            // environment timezone, so, must write the user
+            // selected value to the config file
+            $return = $tz;
+        } else if (($tz === $aTimezone['tz']) && ($aTimezone['generated'] === true)) {
+            // The user selected timezone is the same as the
+            // environment timezone, however, the environment
+            // timezone has been generated, so must write the
+            // user selected value to the config file to avoid
+            // the getenv/putenv call every time we init
+            $return = $tz;
+        } else {
+            // The user selected timezone is the same as the
+            // environment timezone, and the enviroment timezone
+            // is not generated, so we don't have to write the
+            // timezone to the config file - it will be set
+            // automatically by PHP.
+            $return = '';
+        }
+        return $return;
+    }
+
 }

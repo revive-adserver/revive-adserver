@@ -28,6 +28,15 @@
 $Id$
 */
 
+/**
+ * Obtain the server timezone information *before* the init script is
+ * called, to ensure that the timezone information from the server is
+ * not affected by any calls to date_default_timezone_set() or
+ * putenv("TZ=...") to set the timezone manually.
+ */
+require_once '../../lib/OA/Admin/Timezones.php';
+$aTimezone = OA_Admin_Timezones::getTimezone();
+
 // Require the initialisation file
 require_once '../../init.php';
 
@@ -35,7 +44,6 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/max/Admin/Timezones.php';
 require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 
 // Security check
@@ -50,22 +58,12 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
     //  Update config with timezone changes
     if (isset($timezone_location)) {
-        // Does the timezone need to be written?
-        $writeTimezone = false;
-        $aTimezone = MAX_Admin_Timezones::getTimezone();
-        if (($aTimezone['generated'] === true) || ($aTimezone['tz'] != $timezone_location)) {
-            $writeTimezone = true;
-        } else if ($aTimezone['tz'] === $timezone_location) {
-            $writeTimezone = true;
-            $timezone_location = '';
-        }
-        if ($writeTimezone) {
-            $config = new MAX_Admin_Config();
-            $config->setConfigChange('timezone', 'location', $timezone_location);
-            if (!$config->writeConfigChange()) {
-                // Unable to write the config file out
-                $errormessage[0][] = $strUnableToWriteConfig;
-            }
+        $timezone_location = OA_Admin_Timezones::getConfigTimezoneValue($timezone_location, $aTimezone);
+        $config = new MAX_Admin_Config();
+        $config->setConfigChange('timezone', 'location', $timezone_location);
+        if (!$config->writeConfigChange()) {
+            // Unable to write the config file out
+            $errormessage[0][] = $strUnableToWriteConfig;
         }
     }
 
@@ -129,13 +127,12 @@ phpAds_SettingsSelection("admin");
 
 $unique_users   = MAX_Permission::getUniqueUserNames($pref['admin']);
 
-$aTimezones = MAX_Admin_Timezones::AvailableTimezones(true);
+$aTimezones = OA_Admin_Timezones::AvailableTimezones(true);
 $configTimezone = trim($GLOBALS['_MAX']['CONF']['timezone']['location']);
 if (empty($configTimezone)) {
     // There is no value stored in the configuration file, as it
     // is not required (ie. the TZ comes from the environment) -
     // so set that environment value in the config file now
-    $aTimezone = MAX_Admin_Timezones::getTimezone();
     $GLOBALS['_MAX']['CONF']['timezone']['location'] = $aTimezone['tz'];
 }
 
