@@ -169,6 +169,12 @@ class OA_Environment_Manager
         }
 
         $memlim = $this->aInfo['PHP']['actual']['memory_limit'];
+        
+        // Double the required mem if PHP >= 5.2.0 - memory handling has changed and 
+        // memory occupation info is mora accurate. The default has been raised
+        if (version_compare($this->aInfo['PHP']['actual']['version'], '5.2.0', '>=')) {
+            $memlim *= 2;
+        }
         if (($memlim > 0) && ($memlim < $this->aInfo['PHP']['expected']['memory_limit']))
         {
             $result = OA_ENV_ERROR_PHP_MEMORY;

@@ -1,6 +1,7 @@
 <?php
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once(MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php');
 require_once(MAX_PATH.'/lib/OA/DB/Sql.php');
 
 class Migration_119 extends Migration
@@ -71,25 +72,25 @@ class Migration_119 extends Migration
 	            }
 	        }
 
+	        copy(
+	           MAX_PATH.'/etc/changes/tests/data/config_2_0_12.inc.php',
+	           MAX_PATH.'/var/config.inc.php'
+	        );
+	        
+	        // Migrate PAN config variables
+	        $phpAdsNew = new OA_phpAdsNew();
+            $aPanConfig = $phpAdsNew->_getPANConfig();
+            $aValues['warn_admin']                 = $aPanConfig['warn_admin'] ? 't' : 'f';
+            $aValues['warn_client']                = $aPanConfig['warn_client'] ? 't' : 'f';
+            $aValues['warn_limit']                 = $aPanConfig['warn_limit'] ? $aPanConfig['warn_limit'] : 100;
+            $aValues['default_banner_url']         = $aPanConfig['default_banner_url'];
+            $aValues['default_banner_destination'] = $aPanConfig['default_banner_target'];
+            
+            unlink(MAX_PATH.'/var/config.inc.php');
+            
 	        $sql = OA_DB_SQL::sqlForInsert($tablePreference, $aValues);
 	        $result = $this->oDBH->exec($sql);
 	        return (!PEAR::isError($result));
-
-            // THESE SHOULD BE MIGRATED FROM PAN CONFIG TO OA PREFERENCE TABLE
-            // E-mail admin when clicks/views get low?
-            //$phpAds_config['warn_admin'] = true;
-            //
-            // E-mail client when clicks/views get low?
-            //$phpAds_config['warn_client'] = true;
-            //
-            // Minimum clicks/views before warning e-mail is sent
-            //$phpAds_config['warn_limit'] = 100;
-            //
-            // Days before warning e-mail is sent
-            //$phpAds_config['warn_limit_days'] = 1;
-            //
-            //$phpAds_config['default_banner_url'] = '';
-            //$phpAds_config['default_banner_target'] = '';
 	    }
 	    else {
 	        return false;
