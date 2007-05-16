@@ -116,11 +116,11 @@ class OA_Upgrade_Config
         {
             // User has web root configured as Max's www/admin directory,
             // so can only guess the admin location
-            $this->setValue('webpath', 'admin'   , $this->getHost().'/admin');
-            $this->setValue('webpath', 'delivery', $this->getHost().'/delivery');
-            $this->setValue('webpath', 'images', $this->getHost().'/images');
-            $this->setValue('webpath', 'deliverySSL', $this->getHost().'/delivery');
-            $this->setValue('webpath', 'imagesSSL', $this->getHost().'/images');
+            $this->setValue('webpath', 'admin'   , $this->getHost()); //.'/admin');
+            $this->setValue('webpath', 'delivery', $this->getHost()); //.'/delivery');
+            $this->setValue('webpath', 'images', $this->getHost()); //.'/images');
+            $this->setValue('webpath', 'deliverySSL', $this->getHost()); //.'/delivery');
+            $this->setValue('webpath', 'imagesSSL', $this->getHost()); //.'/images');
         }
     }
 

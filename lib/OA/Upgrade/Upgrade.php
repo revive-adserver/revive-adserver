@@ -522,14 +522,15 @@ class OA_Upgrade
         }
         $this->oLogger->log('Installation updated the application version to '.OA_VERSION);
 
-        if (!$this->createConfigFile())
-        {
-            $this->oLogger->logError('Installation failed to create the configuration file');
-            $this->_dropDatabase();
-            return false;
-        }
-        $this->oLogger->log('Installation created a configuration file '.$this->oConfiguration->configFile);
+//        if (!$this->createConfigFile())
+//        {
+//            $this->oLogger->logError('Installation failed to create the configuration file');
+//            $this->_dropDatabase();
+//            return false;
+//        }
+//        $this->oLogger->log('Installation created a configuration file '.$this->oConfiguration->configFile);
 
+        $this->oConfiguration->getInitialConfig();
         if (!$this->saveConfigDB($aConfig))
         {
             $this->oLogger->logError('Installation failed to write database details to the configuration file '.$this->oConfiguration->configFile);
@@ -550,7 +551,7 @@ class OA_Upgrade
     /**
      * remove the currently connected database
      *
-     * @param unknown_type $log
+     * @param boolean $log
      */
     function _dropDatabase($log = true)
     {
@@ -681,6 +682,11 @@ class OA_Upgrade
     function saveConfig($aConfig)
     {
         $this->oConfiguration->setupConfigWebPath($aConfig['webpath']);
+        $this->oConfiguration->writeConfig();
+        $aConfig['database'] = $GLOBALS['_MAX']['CONF']['database'];
+        $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
+        $this->oConfiguration->setupConfigDatabase($aConfig['database']);
+        $this->oConfiguration->setupConfigTable($aConfig['table']);
         $this->oConfiguration->setupConfigTimezone($aConfig['timezone']);
         $this->oConfiguration->setupConfigStore($aConfig['store']);
         $this->oConfiguration->setupConfigMax($aConfig['max']);
