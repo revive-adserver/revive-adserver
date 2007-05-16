@@ -195,8 +195,7 @@ class test_DeliveryAdRender extends UnitTestCase
 	function test_adRenderHtml()
 	{
 		$this->sendMessage('test_adRenderHtml');
-
-        require_once MAX_PATH . '/lib/OA/Dal/Delivery/'.$GLOBALS['_MAX']['CONF']['database']['type'].'.php';
+        MAX_Dal_Delivery_Include();
         OA_Dal_Delivery_connect();
         $aBanner    = (array)OA_Dal_Delivery_getAd(4);
         $prn        = print_r($aBanner, TRUE);
