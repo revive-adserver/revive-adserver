@@ -64,12 +64,12 @@ class OA_Maintenance_Auto
     	if (time() >= $iLastRun + 3600)
     	{
     	    if (!defined('MAX_VERSION')) {
-    	        // if the code is executed inside delivery constants need to
-    	        // be initialized
+    	        // If the code is executed inside delivery, the constants
+    	        // need to be initialized
         	    require_once MAX_PATH . '/constants.php';
         	    setupConstants();
     	    }
-    	    
+
     	    $oLock =& OA_DB_AdvisoryLock::factory();
 
     		if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE))
