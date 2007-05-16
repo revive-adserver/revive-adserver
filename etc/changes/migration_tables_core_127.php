@@ -335,6 +335,33 @@ class ZoneCampaignHandler extends ZoneAdObjectHandler
     {
         return 'placement_id';
     }
+    
+    
+    function insertAssocs($oDbh)
+    {
+        $result = parent::insertAssocs($oDbh);
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        
+        $sCampaignIds = implode(", ", $this->aAdObjectIds);
+        $tableBanners = $this->prefix . 'banners';
+        $sql = "SELECT bannerid FROM $tableBanners WHERE campaignid IN ($sCampaignIds)";
+        $rsBanners = DBC::NewRecordSet($sql);
+        $result = $rsBanners->find();
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        $sBannerIds = '';
+        while($result = $rsBanners->fetch()) {
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+            $sBannerIds .= 'bannerid:' . $rsBanners->get('bannerid');
+        }
+        $zoneBannerHandler = new ZoneBannerHandler($this->prefix, $this->zone_id, $sBannerIds);
+        return $zoneBannerHandler->insertAssocs($oDbh);
+    }
 }
 
 ?>

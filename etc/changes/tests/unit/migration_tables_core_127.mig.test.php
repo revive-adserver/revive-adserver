@@ -58,7 +58,7 @@ class migration_tables_core_127Test extends MigrationTest
     
     function testMigrateData()
     {
-        $this->initDatabase(127, array('zones', 'ad_zone_assoc', 'placement_zone_assoc'));
+        $this->initDatabase(127, array('zones', 'ad_zone_assoc', 'placement_zone_assoc', 'banners'));
         
         $aAValues = array(
             array('zoneid' => 1, 'zonetype' => 0, 'what' => ''),
@@ -69,18 +69,22 @@ class migration_tables_core_127Test extends MigrationTest
             $sql = OA_DB_Sql::sqlForInsert('zones', $aValues);
             $this->oDbh->exec($sql);
         }
+        
+        $aBannerValues = array('bannerid' => 1, 'campaignid' => 3);
+        $sql = OA_DB_Sql::sqlForInsert('banners', $aBannerValues);
+        $this->oDbh->exec($sql);
 
         $migration = new Migration_127();
         $migration->init($this->oDbh);
         
         $migration->migrateData();
         
-        $aAssocTables = array('ad_zone_assoc', 'placement_zone_assoc');
-        foreach($aAssocTables as $assocTable) {
+        $aAssocTables = array('ad_zone_assoc' => 2, 'placement_zone_assoc' => 1);
+        foreach($aAssocTables as $assocTable => $cAssocs) {
             $rsCAssocs = DBC::NewRecordSet("SELECT count(*) cassocs FROM $assocTable");
             $this->assertTrue($rsCAssocs->find());
             $this->assertTrue($rsCAssocs->fetch());
-            $this->assertEqual(1, $rsCAssocs->get('cassocs'), "%s: The table involved: $assocTable");
+            $this->assertEqual($cAssocs, $rsCAssocs->get('cassocs'), "%s: The table involved: $assocTable");
         }
     }
 }
