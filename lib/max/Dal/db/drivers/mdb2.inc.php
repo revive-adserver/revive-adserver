@@ -87,8 +87,10 @@ class MDB2Connection {
 	* @return void
 	* @access private
 	*/
-	function RaiseError($sql = NULL) {
-		$error = & $this->getConnectionId();
+	function RaiseError($error = NULL, $sql = NULL) {
+	    if (empty($error)) {
+		    $error = & $this->getConnectionId();
+	    }
 		$id = 'DB_ERROR';
 		$info = array('driver' => 'mdb2');
 		if (MDB2::isError($error)) {
@@ -280,7 +282,7 @@ class MDB2Connection {
 	    }
 		
 		if (MDB2::isError($result)) {
-			$this->RaiseError($sql);
+			$this->RaiseError($result, $sql);
 			return;
 		}
 		return $result;

@@ -31,13 +31,11 @@ function RaiseErrorHandler($group, $id, $info=NULL) {
         $oError = &new ErrorInfo();
         $oError->group = $group;
         $oError->id = $id;
-        $oError->info;
-        $errorstr = serialize($oError);
-        while (strlen($oError) > 1023) {
-            $oError->truncated = true;
-            array_pop($oError->info);
-            $errorstr = serialize($oError);
-        }
+        $oError->info = $info;
+        
+        $errorstr = sprintf('[%s: message="%s" group=%d id=%s]',
+                       strtolower(get_class($oError)), implode(', ', $oError->info), $oError->group, $oError->id);
+                       
         trigger_error($errorstr, E_USER_ERROR);
     }
 }
