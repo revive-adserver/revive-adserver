@@ -32,19 +32,18 @@ $Id$
  * @author     Radek Maciaszek <radek.maciaszek@openads.org>
  *
  * A file to set up the environment for the Openads delivery engine.
- * 
- * Both opcode and php by itself slow things down when we require many
- * files. Therefore we gave up a little bit of maintainability in 
+ *
+ * Both opcode and PHP by itself slow things down when we require many
+ * files. Therefore we gave up a little bit of maintainability in
  * order to speed up a delivery:
- * * We are not using classes (if possible) in delivery
- * * We have to use as few as possible includes and add new code into
+ * - We are not using classes (if possible) in delivery
+ * - We have to use as few as possible includes and add new code into
  *   existing files
  */
 
 /**
  * Main part of script where data is initialized for delivery
  */
-
 require_once 'init-delivery-parse.php';
 require_once 'variables.php';
 
@@ -73,9 +72,8 @@ MAX_commonInitVariables();
 MAX_cookieUnpackCapping();
 
 /**
- * Initialize the environmental constants and global variables
- * required by delivery.
- * 
+ * A function to initialize the environmental constants and global
+ * variables required by delivery.
  */
 function setupDeliveryConfigVariables()
 {
@@ -87,14 +85,14 @@ function setupDeliveryConfigVariables()
         // Parse the Max configuration file
         $GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
     }
-    
+
+    // Set up the common configuration variables
     setupConfigVariables();
 }
 
 /**
- * Defining include path in separate methods as it is required by delivery only in really exceptional
- * sircumstances
- *
+ * A function to define the PEAR include path in a separate method,
+ * as it is required by delivery only in exceptional circumstances.
  */
 function setupIncludePath()
 {
@@ -103,7 +101,7 @@ function setupIncludePath()
         return;
     }
     $checkIfAlreadySet = true;
-    
+
     // Define the PEAR installation path
     $existingPearPath = ini_get('include_path');
     $newPearPath = MAX_PATH . '/lib/pear';
