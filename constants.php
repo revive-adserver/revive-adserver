@@ -215,20 +215,6 @@ function setupConstants()
         define('DATE_CALC_BEGIN_WEEKDAY', 0);
         // Parse the Openads configuration file
         $GLOBALS['_MAX']['CONF'] = parseIniFile();
-        // Ensure that the TZ environment variable is set for PHP < 5.1.0, so
-        // that PEAR::Date class knows which timezone we are in, and doesn't
-        // screw up the dates after using the PEAR::compare() method -  also,
-        // ensure that an appropriate timezone is set, if required, to allow
-        // the time zone to be other than the time zone of the server
-        if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
-            if (version_compare(phpversion(), '5.1.0', '>=')) {
-                // Set new time zone
-                date_default_timezone_set($GLOBALS['_MAX']['CONF']['timezone']['location']);
-            } else {
-                // Set new time zone
-                putenv("TZ={$GLOBALS['_MAX']['CONF']['timezone']['location']}");
-            }
-        }
         // Define the Openads Cache File location path (required trailing slash)
         if (empty($GLOBALS['_MAX']['CONF']['delivery']['cachePath'])) {
             define('MAX_CACHE', MAX_PATH . '/var/cache/');
