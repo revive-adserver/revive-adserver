@@ -35,7 +35,7 @@ define('MAX_DATAGENERATOR_DEFAULT_DATE_VALUE', date('Y-m-d'));
  * Online manual: https://developer.openads.org/wiki/DataGenerator
  *
  * @package    MaxDal
- * @subpackage TestSuite
+ * @author     Radek Maciaszek <radek.maciaszek@openads.org>
  *
  */
 class DataGenerator
