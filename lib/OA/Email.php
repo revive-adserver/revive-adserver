@@ -59,7 +59,7 @@ class OA_Email
      */
     function preparePlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate)
     {
-        OA::debug('   - Preparing "campaign delivery" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
+        OA::debug('   - Preparing "placement delivery" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
 
         global $aConf, $phpAds_CharSet, $date_format, $strBanner, $strCampaign, $strImpressions,
                $strClicks, $strConversions, $strLinkedTo, $strMailSubject, $strMailHeader,
@@ -262,29 +262,29 @@ class OA_Email
      * @copyright 2003-2007 Openads Limited
      * @copyright 2000-2003 The phpAdsNew developers
      */
-    function prepareCampaignImpendingExpiryEmail($advertiserId)
+    function prepareplacementImpendingExpiryEmail($advertiserId)
     {
         OA::debug('   - Preparing "impending expiry" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
     }
 
     /**
      * A static method for premaring e-mails, advising of the activation of a
-     * campaign.
+     * placement.
      *
      * @static
-     * @param string $contactName  The name of the campaign contact.
-     * @param string $campaignName The name of the deactivated campaign.
-     * @param array  $aAds         An array of ads in the campaign, indexed by
-     *                             ad_id, of an array containing the description,
-     *                             alt description, and destination URL of the ad.
+     * @param string $contactName   The name of the placement contact.
+     * @param string $placementName The name of the deactivated placement.
+     * @param array  $aAds          An array of ads in the placement, indexed by
+     *                              ad_id, of an array containing the description,
+     *                              alt description, and destination URL of the ad.
      * @return string The email that has been prepared.
      */
-    function prepareActivatePlacementEmail($contactName, $campaignName, $aAds)
+    function prepareActivatePlacementEmail($contactName, $placementName, $aAds)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $message  = "Dear $contactName,\n\n";
         $message .= 'The following ads have been activated because ' . "\n";
-        $message .= 'the campaign activation date has been reached.';
+        $message .= 'the placement activation date has been reached.';
         $message .= "\n\n";
         $message .= "-------------------------------------------------------\n";
         foreach ($aAds as $ad_id => $aData) {
@@ -308,23 +308,23 @@ class OA_Email
 
     /**
      * A static method for preparing e-mails, advising of the deactivation of a
-     * campaign.
+     * placement.
      *
      * @static
-     * @param string  $contactName  The name of the campaign contact.
-     * @param string  $campaignName The name of the deactivated campaign.
-     * @param integer $reason       A binary flag field containting the reason(s) the
-     *                              campaign was deactivated:
-     *                                  2  - No more impressions
-     *                                  4  - No more clicks
-     *                                  8  - No more conversions
-     *                                  16 - Campaign ended (due to date)
-     * @param array   $aAds         An array of ads in the campaign, indexed by
-     *                              ad_id, of an array containing the description,
-     *                              alt description, and destination URL of the ad.
+     * @param string  $contactName   The name of the placement contact.
+     * @param string  $placementName The name of the deactivated placement.
+     * @param integer $reason        A binary flag field containting the reason(s) the
+     *                               placement was deactivated:
+     *                                   2  - No more impressions
+     *                                   4  - No more clicks
+     *                                   8  - No more conversions
+     *                                   16 - Placement ended (due to date)
+     * @param array   $aAds          An array of ads in the placement, indexed by
+     *                               ad_id, of an array containing the description,
+     *                               alt description, and destination URL of the ad.
      * @return string The email that has been prepared.
      */
-    function prepareDeactivatePlacementEmail($contactName, $campaignName, $reason, $aAds)
+    function prepareDeactivatePlacementEmail($contactName, $placementName, $reason, $aAds)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $message  = "Dear $contactName,\n\n";
@@ -339,7 +339,7 @@ class OA_Email
             $message .= '  - There are no conversions remaining' . "\n";
         }
         if ($reason & MAX_PLACEMENT_DISABLED_DATE) {
-            $message .= '  - The campaign deactivation date has been reached' . "\n";
+            $message .= '  - The placement deactivation date has been reached' . "\n";
         }
         $message .= "\n";
         $message .= '-------------------------------------------------------' . "\n";

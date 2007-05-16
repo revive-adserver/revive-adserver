@@ -46,21 +46,21 @@ class Test_OA_Email extends UnitTestCase
     }
 
     /**
-     * Tests that an e-mail advising a campaign has been activated is able to
+     * Tests that an e-mail advising a placement has been activated is able to
      * be generated correctly.
      */
     function testPrepareActivatePlacementEmail()
     {
         $contactName = 'Andrew Hill';
-        $campaignName = 'Test Activation Campaign';
+        $placementName = 'Test Activation Placement';
         $ads[0] = array('First Test Banner', '', 'http://example.com/');
         $ads[1] = array('Second Test Banner', 'Alt. Description', 'http://example.com/');
         $ads[2] = array('', 'Third Test Banner', 'http://example.com/foo/bar.html');
         $ads[3] = array('', '', 'http://example.com/foo.html');
-        $email = OA_Email::prepareActivatePlacementEmail($contactName, $campaignName, $ads);
+        $email = OA_Email::prepareActivatePlacementEmail($contactName, $placementName, $ads);
         $desiredEmail  = 'Dear Andrew Hill,' . "\n\n";
         $desiredEmail .= 'The following ads have been activated because '. "\n";
-        $desiredEmail .= 'the campaign activation date has been reached.' . "\n\n";
+        $desiredEmail .= 'the placement activation date has been reached.' . "\n\n";
         $desiredEmail .= "-------------------------------------------------------\n";
         $desiredEmail .= 'Ad [ID 0] First Test Banner' . "\n";
         $desiredEmail .= 'Linked to: http://example.com/' . "\n";
@@ -81,18 +81,18 @@ class Test_OA_Email extends UnitTestCase
     }
 
     /**
-     * Tests that e-mails advising a campaign has been deactivated is able to
+     * Tests that e-mails advising a placement has been deactivated is able to
      * be generated correctly.
      */
-    function testSendDeactivateCampaignEmail()
+    function testSendDeactivatePlacementEmail()
     {
         $contactName = 'Andrew Hill';
-        $campaignName = 'Test Activation Campaign';
+        $placementName = 'Test Activation Placement';
         $ads[0] = array('First Test Banner', '', 'http://example.com/');
         $ads[1] = array('Second Test Banner', 'Alt. Description', 'http://example.com/');
         $ads[2] = array('', 'Third Test Banner', 'http://example.com/foo/bar.html');
         $ads[3] = array('', '', 'http://example.com/foo.html');
-        $email = OA_Email::prepareDeactivatePlacementEmail($contactName, $campaignName, 2, $ads);
+        $email = OA_Email::prepareDeactivatePlacementEmail($contactName, $placementName, 2, $ads);
         $desiredEmail  = 'Dear Andrew Hill,' . "\n\n";
         $desiredEmail .= 'The following ads have been disabled because:' . "\n";
         $desiredEmail .= '  - There are no impressions remaining' . "\n\n";
@@ -115,7 +115,7 @@ class Test_OA_Email extends UnitTestCase
         $desiredEmail .= "Regards,\n\n";
         $desiredEmail .= $conf['email']['admin_name'];
         $this->assertEqual($email, $desiredEmail);
-        $email = OA_Email::prepareDeactivatePlacementEmail($contactName, $campaignName, 4, $ads);
+        $email = OA_Email::prepareDeactivatePlacementEmail($contactName, $placementName, 4, $ads);
         $desiredEmail  = 'Dear Andrew Hill,' . "\n\n";
         $desiredEmail .= 'The following ads have been disabled because:' . "\n";
         $desiredEmail .= '  - There are no clicks remaining' . "\n\n";
@@ -138,7 +138,7 @@ class Test_OA_Email extends UnitTestCase
         $desiredEmail .= "Regards,\n\n";
         $desiredEmail .= $conf['email']['admin_name'];
         $this->assertEqual($email, $desiredEmail);
-        $email = OA_Email::prepareDeactivatePlacementEmail($contactName, $campaignName, 8, $ads);
+        $email = OA_Email::prepareDeactivatePlacementEmail($contactName, $placementName, 8, $ads);
         $desiredEmail  = 'Dear Andrew Hill,' . "\n\n";
         $desiredEmail .= 'The following ads have been disabled because:' . "\n";
         $desiredEmail .= '  - There are no conversions remaining' . "\n\n";
@@ -161,10 +161,10 @@ class Test_OA_Email extends UnitTestCase
         $desiredEmail .= "Regards,\n\n";
         $desiredEmail .= $conf['email']['admin_name'];
         $this->assertEqual($email, $desiredEmail);
-        $email = OA_Email::prepareDeactivatePlacementEmail($contactName, $campaignName, 16, $ads);
+        $email = OA_Email::prepareDeactivatePlacementEmail($contactName, $placementName, 16, $ads);
         $desiredEmail  = 'Dear Andrew Hill,' . "\n\n";
         $desiredEmail .= 'The following ads have been disabled because:' . "\n";
-        $desiredEmail .= '  - The campaign deactivation date has been reached' . "\n\n";
+        $desiredEmail .= '  - The placement deactivation date has been reached' . "\n\n";
         $desiredEmail .= "-------------------------------------------------------\n";
         $desiredEmail .= 'Ad [ID 0] First Test Banner' . "\n";
         $desiredEmail .= 'Linked to: http://example.com/' . "\n";
@@ -185,13 +185,13 @@ class Test_OA_Email extends UnitTestCase
         $desiredEmail .= $conf['email']['admin_name'];
         $this->assertEqual($email, $desiredEmail);
         $value = 0 | 2 | 4 | 8 | 16;
-        $email = OA_Email::prepareDeactivatePlacementEmail($contactName, $campaignName, $value, $ads);
+        $email = OA_Email::prepareDeactivatePlacementEmail($contactName, $placementName, $value, $ads);
         $desiredEmail  = 'Dear Andrew Hill,' . "\n\n";
         $desiredEmail .= 'The following ads have been disabled because:' . "\n";
         $desiredEmail .= '  - There are no impressions remaining' . "\n";
         $desiredEmail .= '  - There are no clicks remaining' . "\n";
         $desiredEmail .= '  - There are no conversions remaining' . "\n";
-        $desiredEmail .= '  - The campaign deactivation date has been reached' . "\n\n";
+        $desiredEmail .= '  - The placement deactivation date has been reached' . "\n\n";
         $desiredEmail .= "-------------------------------------------------------\n";
         $desiredEmail .= 'Ad [ID 0] First Test Banner' . "\n";
         $desiredEmail .= 'Linked to: http://example.com/' . "\n";
