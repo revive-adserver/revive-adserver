@@ -59,7 +59,7 @@ class Migration_124 extends Migration
 
 	function afterAddField__banners__campaignid()
 	{
-		return $this->migrateCampaignId() && $this->afterAddField('banners', 'campaignid');
+		return $this->afterAddField('banners', 'campaignid');
 	}
 
 	function beforeAddField__banners__adserver()
@@ -159,7 +159,7 @@ class Migration_124 extends Migration
 
 	function afterAlterField__banners__url()
 	{
-		return $this->afterAlterField('banners', 'url') && $this->migrateAcls();
+		return $this->afterAlterField('banners', 'url');
 	}
 
 	function beforeRemoveField__banners__clientid()

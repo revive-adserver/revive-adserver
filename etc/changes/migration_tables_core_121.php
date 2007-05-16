@@ -21,7 +21,7 @@ class Migration_121 extends Migration
 
 	function afterAlterField__acls__type()
 	{
-	    return $this->migrateData() && $this->afterAlterField('acls', 'type');
+	    return $this->afterAlterField('acls', 'type');
 	}
 }
 
