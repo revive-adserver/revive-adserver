@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -25,6 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
+$Id$
 */
 
 /**
@@ -984,29 +985,6 @@ $message .= 'on line ' . $errorBt['line'] . ' of "' . $errorBt['file'] . '"';
 }
 }
 return $logger->log($message, $priority);
-}
-function sendMail($email, $readable, $subject, $contents)
-{
-$conf = $GLOBALS['_MAX']['CONF'];
-global $phpAds_CharSet;
-if (!get_cfg_var('SMTP')) {
-$param_to = '"'.$readable.'" <'.$email.'>';
-} else {
-$param_to = $email;
-}
-$param_headers = "Content-Transfer-Encoding: 8bit\r\n";
-if (isset($phpAds_CharSet)) {
-$param_headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\r\n";
-}
-if (get_cfg_var('SMTP')) {
-$param_headers .= 'To: "'.$readable.'" <'.$email.">\r\n";
-}
-$param_headers .= 'From: "'.$conf['email']['admin_name'].'" <'.$conf['email']['admin'].'>'."\r\n";
-if ($conf['qmail_patch']) {
-$param_headers = str_replace("\r", '', $param_headers);
-}
-$contents = str_replace("\n", "\r\n", $contents);
-return (@mail($param_to, $subject, $contents, $param_headers));
 }
 function getOrderDirection($ThisOrderDirection)
 {
