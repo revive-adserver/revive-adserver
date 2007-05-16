@@ -229,7 +229,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
                      'url'        => $row['url'],
                      'campaignid' => $row['campaignid'],
                     );
-         $output['context'] = (is_array($row['zone_companion']) && (count($row['zone_companion'])) > 0) ? _adSelectBuildCompanionContext($row, $context) : array();
+         $output['context'] = (!empty($row['zone_companion']) && (is_array($row['zone_companion']))) ? _adSelectBuildCompanionContext($row, $context) : array();
          return $output;
     } else {
         // No banner found
