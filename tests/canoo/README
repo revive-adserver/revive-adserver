@@ -1,0 +1,11 @@
+
+= Installtion and usage documentaion =
+
+== To install canoo and run the tests ==
+ 1. Download Canoo (http://webtest.canoo.com/webtest/manual/Downloads.html) and extract it into /usr/local/canoo folder
+ 2. Follow installation instruction (http://webtest.canoo.com/webtest/manual/install.html)
+ 3. Copy "properties/user.properties.example" to "properties/user.properties" and modify database access passwords
+ 4. Synopsis to run all tests:
+ {{{
+ # webtest -buildfile start.xml
+ }}}
