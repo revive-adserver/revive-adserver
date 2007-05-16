@@ -259,6 +259,21 @@
     <default>1</default>
    </field>
 
+   <field>
+    <name>priority_factor</name>
+    <type>openads_double</type>
+    <notnull>false</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>to_be_delivered</name>
+    <type>openads_tinyint</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>1</default>
+   </field>
+
    <index>
     <name>ad_zone_assoc_zone_id</name>
     <field>
@@ -5100,6 +5115,14 @@
     <length>10</length>
     <notnull>false</notnull>
     <default></default>
+   </field>
+
+   <field>
+    <name>to_be_delivered</name>
+    <type>openads_tinyint</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>1</default>
    </field>
 
    <index>
