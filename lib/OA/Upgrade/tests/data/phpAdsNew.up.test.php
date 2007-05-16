@@ -27,7 +27,6 @@ $Id $
 
 
 require_once MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php';
-//require_once MAX_PATH.'/lib/max/tests/util/DataGenerator.php';
 
 /**
  * A class for testing the Openads_DB_Upgrade class.

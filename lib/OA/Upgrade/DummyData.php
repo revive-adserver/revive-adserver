@@ -30,8 +30,8 @@ $Id$
  */
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
+require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
 class OA_Dummy_Data
 {

@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/tests/util/DataGenerator.php';
+require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics.php';
