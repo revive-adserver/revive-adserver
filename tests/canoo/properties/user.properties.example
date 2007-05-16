@@ -1,4 +1,19 @@
+
+;---------------------------------------------
+; Canoo
+;---------------------------------------------
+webtest.home=/usr/local/canoo  ; path to canoo
+
+;---------------------------------------------
+; Where Openads is available for testing
+;---------------------------------------------
 host=localhost
 port=80
 protocol=http
-basepath=erasmus
+basepath=erasmus/www
+
+;---------------------------------------------
+; What are the Openads' user credentials
+;---------------------------------------------
+admin.name=admin
+admin.password=password
