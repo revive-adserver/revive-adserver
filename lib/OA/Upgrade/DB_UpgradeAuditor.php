@@ -285,6 +285,7 @@ class OA_DB_UpgradeAuditor
             // workaround for mdb2 problem "show table like"
             if (substr($name,0,$prelen)==$prefix)
             {
+                $name = str_replace($this->prefix, '', $name);
                 $aInfo = $this->queryAuditForABackup($name);
                 $aResult[$k]['backup_table'] = $name;
                 $aResult[$k]['copied_table'] = $aInfo[0]['tablename'];

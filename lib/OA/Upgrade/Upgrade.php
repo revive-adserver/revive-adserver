@@ -621,6 +621,11 @@ class OA_Upgrade
         return false;
     }
 
+    function setOpenadsInstalledOn()
+    {
+        $this->oConfiguration->setOpenadsInstalledOn();
+    }
+
     /**
      * retrieve the configuration settings
      *
@@ -1148,7 +1153,7 @@ class OA_Upgrade
      */
     function _checkChangesetAudit($schema)
     {
-        $aResult = $this->oDBAuditor->queryAudit('', '', $schema, DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED);
+        $aResult = $this->oDBAuditor->queryAudit(null, null, $schema, DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED);
         if ($aResult)
         {
             foreach ($aResult as $k=>$v)
