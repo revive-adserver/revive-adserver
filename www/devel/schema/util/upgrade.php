@@ -37,11 +37,7 @@ $upgrade = false;
 
 $oUpgrader = new OA_Upgrade();
 
-if ($oUpgrader->oDBUpgrader->seekRecoveryFile())
-{
-    $oUpgrader->oDBUpgrader->prepRecovery();
-}
-else if (array_key_exists('btn_view_available', $_REQUEST))
+if (array_key_exists('btn_view_available', $_REQUEST))
 {
     $aPackagesAvail = $oUpgrader->_getPackageList();
 }
@@ -49,7 +45,8 @@ else if (array_key_exists('btn_parse_pkg', $_REQUEST))
 {
     $input_file = $_POST['btn_parse_pkg'];
     //$aPkgParsed = $oUpgrader->_parseUpgradePackageFile(MAX_PATH.'/var/upgrade/'.$input_file);
-    $aPkgParsed = $oUpgrader->_parseUpgradePackageFile(MAX_PATH.'/etc/changes/'.$input_file);
+    $oUpgrader->_parseUpgradePackageFile(MAX_PATH.'/etc/changes/'.$input_file);
+    $aPkgParsed = $oUpgrader->aPackage;
 }
 else if (array_key_exists('btn_view_changesets', $_REQUEST))
 {
@@ -65,12 +62,12 @@ else if (array_key_exists('btn_view_environment', $_REQUEST))
     $oUpgrader->oSystemMgr->getAllInfo();
     $oUpgrader->oSystemMgr->checkCritical();
     $aSysInfo = $oUpgrader->oSystemMgr->aInfo;
-    $oUpgrader->detectOpenads();
+    $oUpgrader->canUpgrade();
 }
 else if (array_key_exists('btn_view_backups', $_REQUEST))
 {
     $oUpgrader->initDatabaseConnection();
-    $aBackups = $oUpgrader->oDBUpgrader->_listBackups();
+    $aBackups = $oUpgrader->oDBAuditor->_listBackups();
 }
 else if (array_key_exists('btn_backup_drop', $_REQUEST))
 {
@@ -95,14 +92,14 @@ else if (array_key_exists('btn_view_audit', $_REQUEST))
 }
 else if (array_key_exists('btn_initialise', $_REQUEST))
 {
-    $oUpgrader->oDBUpgrader->init($timing, $schema, $version);
-    $upgrade = true;
+//    $oUpgrader->oDBUpgrader->init($timing, $schema, $version);
+//    $upgrade = true;
 }
 else if (array_key_exists('btn_upgrade', $_POST))
 {
-    $oUpgrader->init($_POST['btn_upgrade']);
-    $oUpgrader->initDatabaseConnection();
-    $oUpgrader->upgradeSchemas();
+//    $oUpgrader->init($_POST['btn_upgrade']);
+//    $oUpgrader->initDatabaseConnection();
+//    $oUpgrader->upgradeSchemas();
 }
 include 'tpl/upgrade.html';
 

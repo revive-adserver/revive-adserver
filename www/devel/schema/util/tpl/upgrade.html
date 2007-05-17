@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Openads DB Upgrade</title>
+    <title>Openads Schema Upgrade Utilities</title>
     <link rel="stylesheet" type="text/css" href="css/upgrade.css"/>
 </head>
 <body>
@@ -9,7 +9,7 @@ if ($welcome)
 {
 ?>
 <div class="tablediv">
-    <h2>Openads Database Upgrade Demonstration</h2>
+    <h2>Openads Schema Upgrade Utilities</h2>
     <form name="frmUpgrade" method="POST" action="upgrade.php">
         <!--button name="btn_initialise">hey! i see you need an upgrade, would you like me to help you with that?</button-->
         <button name="btn_view_available">view a list of available database upgrades</button>
@@ -203,9 +203,9 @@ if (count($aSysInfo)>0)
         $sysinfoheading = 'Permission Errors';
         include 'tpl/sysinfosection.html';
 
-        $sysinfoarray = $aSysInfo['FILES'];
-        $sysinfoheading = 'File Integrity Problems';
-        include 'tpl/sysinfosection.html';
+//        $sysinfoarray = $aSysInfo['FILES'];
+//        $sysinfoheading = 'File Integrity Problems';
+//        include 'tpl/sysinfosection.html';
     ?>
     </table>
     </form>
