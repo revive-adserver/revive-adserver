@@ -28,6 +28,7 @@ $Id$
 require_once MAX_PATH . '/etc/changes/migration_tables_core_119.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/Configuration.php';
 
 /**
  * Test for migration class #127.
@@ -67,4 +68,81 @@ class Migration_119Test extends MigrationTest
             $this->assertEqual($value, $aDataPreference[$column]);
         }
     }
+    
+    
+    function testCreateGeoTargetingConfiguration()
+    {
+        
+        $upgradeConfig = new OA_Upgrade_Config();
+        $host = $upgradeConfig->getHost();
+
+        $migration = new Migration_119();
+        $migration->init($this->oDbh);
+        
+        $this->checkNoGeoTargeting($migration, $host);
+        $this->checkGeoIp($migration, $host);
+        $this->checkModGeoIP($migration, $host);
+        
+    }
+    
+    function checkNoGeoTargeting(&$migration, $host)
+    {
+        $geotracking_type = '';
+        $geotracking_location = '';
+        $geotracking_stats = false;
+        $geotracking_conf = '';
+        $this->assertTrue($migration->createGeoTargetingConfiguration(
+            $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf));
+        $this->checkGeoPluginConfig('"none"', $geotracking_stats, '', $host);
+    }
+    
+    
+    function checkGeoIp(&$migration, $host)
+    {
+        $geotracking_type = 'geoip';
+        $geotracking_location = '/path/to/geoip/database.dat';
+        $geotracking_stats = true;
+        $geotracking_conf = 'a:4:{s:12:"databaseType";i:1;s:16:"databaseSegments";i:16776960;s:13:"record_length";i:3;s:17:"databaseTimestamp";i:1179406656;}';
+
+        $this->assertTrue($migration->createGeoTargetingConfiguration(
+            $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf));
+        $configContent = "[geotargeting]\ntype=GeoIP\ngeoipCountryLocation=/path/to/geoip/database.dat\n";
+        $this->checkGeoPluginConfig('GeoIP', $geotracking_stats, $configContent, $host);
+    }
+    
+    
+    function checkModGeoIP(&$migration, $host)
+    {
+        $geotracking_type = 'mod_geoip';
+        $geotracking_location = '';
+        $geotracking_stats = false;
+        $geotracking_conf = '';
+        
+        $this->assertTrue($migration->createGeoTargetingConfiguration(
+            $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf));
+        $this->checkGeoPluginConfig('ModGeoIP', $geotracking_stats, "[geotargeting]\ntype=ModGeoIP\n", $host);
+    }
+    
+    
+    function checkGeoPluginConfig($type, $geotracking_stats, $configContent = '', $host)
+    {
+        $saveStats = $geotracking_stats ? 'true' : 'false';
+        $pluginConfigPath = MAX_PATH . "/var/plugins/config/geotargeting/$host.plugin.conf.php";
+        $pluginConfigContents = "[geotargeting]\ntype=$type\nsaveStats=$saveStats\nshowUnavailable=false";
+        $this->checkFileContents($pluginConfigPath, $pluginConfigContents);
+        
+        if (!empty($configContent)) {
+            $configPath = MAX_PATH . "/var/plugins/config/geotargeting/$type/$host.plugin.conf.php";
+            $this->checkFileContents($configPath, $configContent);
+        }
+    }
+    
+    function checkFileContents($filename, $contents)
+    {
+        if ($this->assertTrue(file_exists($filename), "File: '$filename' should exist!")) {
+            $actualContents = file_get_contents($filename);
+            $this->assertEqual($contents, $actualContents);
+        }
+    }
+    
 }

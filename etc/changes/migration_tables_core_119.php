@@ -111,6 +111,12 @@ class Migration_119 extends Migration
             $aValues['default_banner_url']         = $aPanConfig['default_banner_url'];
             $aValues['default_banner_destination'] = $aPanConfig['default_banner_target'];
 
+            $this->createGeoTargetingConfiguration(
+                $aPanConfig['geotracking_type'],
+                $aPanConfig['geotracking_location'],
+                $aPanConfig['geotracking_stats'],
+                $aPanConfig['geotracking_conf']);
+            
             unlink(MAX_PATH.'/var/config.inc.php');
 
 	        $sql = OA_DB_SQL::sqlForInsert($tablePreference, $aValues);
@@ -120,6 +126,125 @@ class Migration_119 extends Migration
 	    else {
 	        return false;
 	    }
+	}
+	
+	
+	function createGeoTargetingConfiguration(
+	   $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf)
+	{
+	    $upgradeConfig = new OA_Upgrade_Config();
+	    $host = $upgradeConfig->getHost();
+	    
+	    if (empty($geotracking_type)) {
+	        return $this->writeGeoPluginConfig('"none"', $geotracking_stats, $host);
+	    }
+	    elseif ($geotracking_type == 'mod_geoip') {
+	        return
+	           $this->writeGeoPluginConfig('ModGeoIP', $geotracking_stats, $host)
+	           && $this->writeGeoSpecificConfig('ModGeoIP', '', $host);
+	    }
+	    elseif ($geotracking_type == 'geoip') {
+	        $result = $this->writeGeoPluginConfig('GeoIP', $geotracking_stats, $host);
+	        $databaseSetting = $this->getDatabaseSetting($geotracking_conf, $geotracking_location);
+	        if ($databaseSetting === false) {
+	            return false;
+	        }
+	        return $result && $this->writeGeoSpecificConfig('GeoIP', $databaseSetting, $host);
+	    }
+	    return false;
+	}
+	
+	function getDatabaseSetting($geotracking_conf, $geotracking_location)
+	{
+	    $sDatabaseType = $this->getDatabaseType($geotracking_conf);
+	    if ($sDatabaseType === false) {
+	        return false;
+	    }
+	    return "$sDatabaseType=$geotracking_location\n";
+	}
+	
+	
+	function getDatabaseType($geotracking_conf)
+	{
+	    $aLocationStrings = array(
+	       1 => 'geoipCountryLocation',
+	       7 => 'geoipRegionLocation',
+	       3 => 'geoipRegionLocation',
+	       6 => 'geoipCityLocation',
+	       2 => 'geoipCityLocation',
+	       5 => 'geoipOrgLocation',
+	       4 => 'geoipIspLocation',
+	       10 => 'geoipNetspeedLocation',
+	       8 => 'geoipDmaLocation', // GEOIP_PROXY_EDITION
+	       9 => 'geoipAreaLocation' // GEOIP_ASNUM_EDITION
+	    );
+	    $aGeotrackingConf = unserialize($geotracking_conf);
+	    if ($aGeotrackingConf === false) {
+	        return false;
+	    }
+	    if (!isset($aGeotrackingConf['databaseType'])) {
+	        return false;
+	    }
+	    $databaseType = $aGeotrackingConf['databaseType'];
+	    if (!isset($aLocationStrings[$databaseType])) {
+	        return false;
+	    }
+	    return $aLocationStrings[$databaseType];
+	}
+	
+	
+	function writeGeoPluginConfig($type, $geotracking_stats, $host)
+	{
+	    $saveStats = $geotracking_stats ? 'true' : 'false';
+	    $pluginConfigPath = MAX_PATH . "/var/plugins/config/geotargeting/$host.plugin.conf.php";
+        $pluginConfigContents = "[geotargeting]\ntype=$type\nsaveStats=$saveStats\nshowUnavailable=false";
+        return $this->writeContents($pluginConfigPath, $pluginConfigContents);
+	}
+	
+	
+	function writeGeoSpecificConfig($type, $append, $host)
+	{
+	    $pluginConfigDir = MAX_PATH . "/var/plugins/config/geotargeting/$type";
+	    $result = $this->createConfigDirectory($pluginConfigDir);
+	    $pluginConfigPath = "$pluginConfigDir/$host.plugin.conf.php";
+        $pluginConfigContents = "[geotargeting]\ntype=$type\n$append";
+        return $result && $this->writeContents($pluginConfigPath, $pluginConfigContents);
+	}
+	
+	
+	function createConfigDirectory($dir)
+	{
+	    if (file_exists($dir) && !is_dir($dir)) {
+	        return false;
+	    }
+	    elseif (file_exists($dir)) {
+	        return true;
+	    }
+	    return mkdir($dir, 0700, true);
+	}
+	
+	/**
+	 * Reimplements file_put_contents for PHP4, but works only for text
+	 * content.
+	 *
+	 * @param string $filename
+	 * @param string $contents
+	 */
+	function writeContents($filename, $contents)
+	{
+        $file = fopen($filename, "wt");
+        if ($file === false) {
+            return false;
+        }
+        $result = fwrite($file, $contents);
+        if ($result === false) {
+            return false;
+        }
+        $result = fclose($file);
+        if ($result === false) {
+            return false;
+        }
+	    return true;
 	}
 }
 
