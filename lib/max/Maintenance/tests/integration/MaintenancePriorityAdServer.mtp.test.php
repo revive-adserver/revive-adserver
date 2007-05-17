@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/variables.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
@@ -71,6 +72,8 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInteval'] = 60;
         $aConf['priority']['useZonePatterning'] = false;
+        $aConf['timezone']['location'] = 'GMT';
+        setTimeZoneLocation($aConf['timezone']['location']);
 
         $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
