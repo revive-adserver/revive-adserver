@@ -31,6 +31,7 @@ $Id$
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
 
+require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/Maintenance.php';
 
 require_once MAX_PATH . '/lib/OA.php';
@@ -70,8 +71,25 @@ class OA_Dal_Maintenance_Statistics_Common
      */
     var $oDbh;
 
+    /**
+     * Local instance of OA_DB_Table_Core.
+     *
+     * @var OA_DB_Table_Core
+     */
     var $tables;
+
+    /**
+     * Local instance of OA_DB_Table_Statistics.
+     *
+     * @var OA_DB_Table_Statistics
+     */
     var $tempTables;
+
+    /**
+     * Local instance of OA_Dal_Maintenance_Statistics.
+     *
+     * @var OA_Dal_Maintenance_Statistics
+     */
     var $oDalMaintenanceStatistics;
 
     /**
@@ -1414,7 +1432,7 @@ class OA_Dal_Maintenance_Statistics_Common
 
     /**
      * A private method to reject conversions which have empty required variables.
-     * The method check connections from last interval (between $start and $end) and
+     * The method check connections from last interval (between $start and $oEnd) and
      * marks as disapproved those  them
      * between those dates.
      *
@@ -1430,7 +1448,7 @@ class OA_Dal_Maintenance_Statistics_Common
 
     /**
      * A private method to dedup conversions which have associated unique variables.
-     * The method check connections from last interval (between $start and $end) and dedup them
+     * The method check connections from last interval (between $start and $oEnd) and dedup them
      * between those dates.
      *
      * @abstract
@@ -2362,26 +2380,23 @@ class OA_Dal_Maintenance_Statistics_Common
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $report .= "\n";
-        // Obtain the current time
-        $now = OA::getNow();
-        // Obtain the start/end dates of the previous Operation Inverval
-        $oDate = new Date($now);
         $aPreviousOIDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         // Select all placements in the system
         $query = "
             SELECT
-                ca.campaignid AS campaign_id,
-                ca.campaignname AS campaign_name,
+                cl.clientid AS advertiser_id,
+                cl.agencyid AS agency_id,
                 cl.contact AS contact,
                 cl.email AS email,
                 cl.reportdeactivate AS send_activate_deactivate_email,
+                ca.campaignid AS campaign_id,
+                ca.campaignname AS campaign_name,
                 ca.views AS targetimpressions,
                 ca.clicks AS targetclicks,
                 ca.conversions AS targetconversions,
                 ca.active AS active,
                 ca.activate AS start,
-                ca.expire AS end,
-                '". $now ."' AS now
+                ca.expire AS end
             FROM
                 {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS ca,
                 {$aConf['table']['prefix']}{$aConf['table']['clients']} AS cl
@@ -2473,8 +2488,8 @@ class OA_Dal_Maintenance_Statistics_Common
                 }
                 // Does the placement need to be disabled due to the date?
                 if ($aPlacement['end'] != OA_Dal::noDateValue()) {
-                    $end = new Date($aPlacement['end'] . ' 23:59:59');  // Convert day to end of Date
-                    if (($end->format('%Y-%m-%d %H:%M:%S') != '0000-00-00 23:59:59') && ($oDate->after($end))) {
+                    $oEndDate = new Date($aPlacement['end'] . ' 23:59:59');  // Convert day to end of Date
+                    if ($oDate->after($oEndDate)) {
                         $disableReason |= MAX_PLACEMENT_DISABLED_DATE;
                         $query = "
                             UPDATE
@@ -2485,7 +2500,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 campaignid = {$aPlacement['campaign_id']}";
                         $report .= ' - Past placement end time: Deactivating placement ID ' .
                               "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}\n";
-                        MAX::debug('Found placement end date of ' . $end->format('%Y-%m-%d %H:%M:%S') . ' has been '.
+                        MAX::debug('Found placement end date of ' . $oEndDate->format('%Y-%m-%d %H:%M:%S') . ' has been '.
                                    'passed by current time of ' . $oDate->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_DEBUG);
                         MAX::debug('Passed placement end time: Deactivating placement ID ' .
                                    "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}", PEAR_LOG_INFO);
@@ -2528,26 +2543,92 @@ class OA_Dal_Maintenance_Statistics_Common
                             $disableReason,
                             $advertisements
                         );
-                        OA_Email::sendMail(
-                            "Deactivated Banners: {$aPlacement['campaign_name']}",
-                            $message,
-                            $aPlacement['email'],
-                            $aPlacement['contact']
-                        );
+                        if ($message !== false) {
+                            OA_Email::sendMail(
+                                "Deactivated Banners: {$aPlacement['campaign_name']}",
+                                $message,
+                                $aPlacement['email'],
+                                $aPlacement['contact']
+                            );
+                        }
                     }
                 } else {
                     // The placement has NOT been deactivated - test to see if it will
-                    // be deactivated soon, however!
-
+                    // be deactivated soon. Store the current preferences array, and
+                    // load the preferences for this placement's owning agency and
+                    // advertiser
+                    $aCurrentPrefs = $GLOBALS['_MAX']['PREF'];
+                    unset($GLOBALS['_MAX']['PREF']);
+                    MAX_Admin_Preferences::loadPrefs($aPlacement['agency_id']);
+                    MAX_Admin_Preferences::loadEntityPrefs('advertiser', $aPlacement['advertiser_id']);
+                    // Does a warning need to be send for this placement?
+                    $aPrefs = $GLOBALS['_MAX']['PREF'];
+                    if ($aPrefs['warn_admin'] == 't' || $aPrefs['warn_agency'] == 't' || $aPrefs['warn_client'] == 't') {
+                        // Test the placement to see if the expiration is imminent,
+                        // or not, based on the placement's expiration date
+                        if ($aPrefs['warn_limit_days'] > 0 && $aPlacement['end'] != OA_Dal::noDateValue()) {
+                            $warnSeconds = (int) $aPrefs['warn_limit_days'] * SECONDS_PER_DAY;
+                            $oEndDate = new Date($aPlacement['end'] . ' 23:59:59');  // Convert day to end of Date
+                            $oTestDate = new Date();
+                            $oTestDate->copy($oDate);
+                            $oTestDate->addSeconds($warnSeconds);
+                            if ($oTestDate->after($oEndDate)) {
+                                // There are less than $aPrefs['warn_limit_days'] days until
+                                // the placement expires! Question is, has this just happened
+                                // in the current operation interval?
+                                $oiSeconds = (int) $aConf['maintenance']['operationInterval'] * 60;
+                                $oTestDate->subtractSeconds($oiSeconds);
+                                if (!$oTestDate->after($oEndDate)) {
+                                    // Yes! This is the operation interval that the boundary
+                                    // was crossed to the point where it's about to expire,
+                                    // so send that email, baby!
+                                    $aEmail =& OA_Email::prepareplacementImpendingExpiryEmail(
+                                        $aPlacement['advertiser_id'],
+                                        'date'
+                                    );
+                                    if ($aEmail !== false) {
+                                        OA_Email::sendMail($aEmail['subject'], $aEmail['contents'], $aEmail['userEmail'], $aEmail['userName']);
+                                    }
+                                }
+                            }
+                        }
+                        // Test the placement to see if the expiraction is imminent,
+                        // or not, based on the placement's impression limitations
+                        if ($aPrefs['warn_limit'] > 0 && $aPlacement['targetimpressions'] > 0) {
+                            $dalCampaigns = OA_Dal::factoryDAL('campaigns');
+                            $remainingImpressions = $dalCampaigns->getAdImpressionsLeft($aPlacement['campaign_id']);
+                            if ($remainingImpressions < $aPrefs['warn_limit']) {
+                                // There are less than $aPrefs['warn_limit'] impressions until
+                                // the placement expires! Question is, has this just happened
+                                // in the current operation interval?
+                                $previousRemainingImpressions =
+                                    $dalCampaigns->getAdImpressionsLeft($aPlacement['campaign_id'], $aPreviousOIDates['end']);
+                                if ($previousRemainingImpressions >= $aPrefs['warn_limit']) {
+                                    // Yes! This is the operation interval that the boundary
+                                    // was crossed to the point where it's about to expire,
+                                    // so send that email, baby!
+                                    $aEmail =& OA_Email::prepareplacementImpendingExpiryEmail(
+                                        $aPlacement['advertiser_id'],
+                                        'impressions'
+                                    );
+                                    if ($aEmail !== false) {
+                                        OA_Email::sendMail($aEmail['subject'], $aEmail['contents'], $aEmail['userEmail'], $aEmail['userName']);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    // Restore the original preference array
+                    $GLOBALS['_MAX']['PREF'] = $aCurrentPrefs;
                 }
             } else {
                 // The placement is not active - does it need to be enabled,
                 // based on the placement starting date?
                 $start = new Date($aPlacement['start'] . ' 00:00:00');      // Convert day to start of Date
                 if ($aPlacement['end'] != OA_Dal::noDateValue()) {
-                    $end   = new Date($aPlacement['end']   . ' 23:59:59');  // Convert day to end of Date
+                    $oEndDate   = new Date($aPlacement['end']   . ' 23:59:59');  // Convert day to end of Date
                 } else {
-                    $end = null;
+                    $oEndDate = null;
                 }
                 if (($start->format('%Y-%m-%d') != OA_Dal::noDateValue()) && ($oDate->after($start))) {
                     // There is an activation date, which has been passed. Find out if
@@ -2590,7 +2671,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     if ((($aPlacement['targetimpressions'] <= 0) || (($aPlacement['targetimpressions'] > 0) && ($remainingImpressions > 0))) &&
                         (($aPlacement['targetclicks']      <= 0) || (($aPlacement['targetclicks']      > 0) && ($remainingClicks      > 0))) &&
                         (($aPlacement['targetconversions'] <= 0) || (($aPlacement['targetconversions'] > 0) && ($remainingConversions > 0))) &&
-                        (is_null($end) || (($end->format('%Y-%m-%d') != OA_Dal::noDateValue()) && (Date::compare($oDate, $end) < 0)))) {
+                        (is_null($oEndDate) || (($oEndDate->format('%Y-%m-%d') != OA_Dal::noDateValue()) && (Date::compare($oDate, $oEndDate) < 0)))) {
                         $query = "
                             UPDATE
                                 {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
@@ -2636,13 +2717,15 @@ class OA_Dal_Maintenance_Statistics_Common
                                 $aPlacement['contact'],
                                 $aPlacement['campaign_name'],
                                 $advertisements
-                             );
-                            OA_Email::sendMail(
-                                "Activated Banners: {$aPlacement['campaign_name']}",
-                                $message,
-                                $aPlacement['email'],
-                                $aPlacement['contact']
                             );
+                            if ($message !== false) {
+                                OA_Email::sendMail(
+                                    "Activated Banners: {$aPlacement['campaign_name']}",
+                                    $message,
+                                    $aPlacement['email'],
+                                    $aPlacement['contact']
+                                );
+                            }
                         }
                     }
                 }

@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
+require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once 'Date.php';
@@ -42,11 +43,18 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     /**
      * A method to determine the lifetime ad impressions left before expiration.
      *
-     * @param integer $campaignId The campaign ID.
+     * @param integer    $campaignId The campaign ID.
+     * @param PEAR::Date $oDate      An optional date. If present, sets an upper
+     *                               date boundary of the end of the operation
+     *                               interval the date is in to limit the delivery
+     *                               statistics used in determining how many
+     *                               impressions have delivered. Can be used to
+     *                               determine the the lifetime ad impressions left
+     *                               before expiration at a previous time.
      * @return mixed The number of ad impressions remaining, or the
      *               string "unlimited".
      */
-    function getAdImpressionsLeft($campaignId)
+    function getAdImpressionsLeft($campaignId, $oDate = null)
     {
         global $strUnlimited;
         $prefix = $this->getTablePrefix();
@@ -58,8 +66,13 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $aData = $doCampaigns->toArray();
         if ($aData['impressions'] > 0) {
             // Get the campaign delivery info
+            if (!is_null($oDate)) {
+                // Get the end of operation interval the date represents
+                $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+                $oDate = $aDates['end'];
+            }
             $dalDataIntermediateAd = OA_Dal::factoryDAL('data_intermediate_ad');
-            $record = $dalDataIntermediateAd->getDeliveredByCampaign($campaignId);
+            $record = $dalDataIntermediateAd->getDeliveredByCampaign($campaignId, $oDate);
             $aDeliveryData = $record->toArray();
             return $aData['impressions'] - $aDeliveryData['impressions_delivered'];
         } else {
@@ -70,11 +83,18 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     /**
      * A method to determine the lifetime ad clicks left before expiration.
      *
-     * @param integer $campaignId The campaign ID.
+     * @param integer    $campaignId The campaign ID.
+     * @param PEAR::Date $oDate      An optional date. If present, sets an upper
+     *                               date boundary of the end of the operation
+     *                               interval the date is in to limit the delivery
+     *                               statistics used in determining how many
+     *                               clicks have delivered. Can be used to
+     *                               determine the the lifetime ad clicks left
+     *                               before expiration at a previous time.
      * @return mixed The number of ad clicks remaining, or the
      *               string "unlimited".
      */
-    function getAdClicksLeft($campaignId)
+    function getAdClicksLeft($campaignId, $oDate = null)
     {
         global $strUnlimited;
         $prefix = $this->getTablePrefix();
@@ -85,8 +105,13 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $aData = $doCampaigns->toArray();
         if ($aData['clicks'] > 0) {
             // Get the campaign delivery info
+            if (!is_null($oDate)) {
+                // Get the end of operation interval the date represents
+                $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+                $oDate = $aDates['end'];
+            }
             $dalDataIntermediateAd = OA_Dal::factoryDAL('data_intermediate_ad');
-            $record = $dalDataIntermediateAd->getDeliveredByCampaign($campaignId);
+            $record = $dalDataIntermediateAd->getDeliveredByCampaign($campaignId, $oDate);
             $aDeliveryData = $record->toArray();
             return $aData['clicks'] - $aDeliveryData['clicks_delivered'];
         } else {
@@ -97,11 +122,18 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     /**
      * A method to determine the lifetime ad conversions left before expiration.
      *
-     * @param integer $campaignId The campaign ID.
+     * @param integer    $campaignId The campaign ID.
+     * @param PEAR::Date $oDate      An optional date. If present, sets an upper
+     *                               date boundary of the end of the operation
+     *                               interval the date is in to limit the delivery
+     *                               statistics used in determining how many
+     *                               conversions have delivered. Can be used to
+     *                               determine the the lifetime ad conversions left
+     *                               before expiration at a previous time.
      * @return mixed The number of ad conversions remaining, or the
      *               string "unlimited".
      */
-    function getAdConversionsLeft($campaignId)
+    function getAdConversionsLeft($campaignId, $oDate = null)
     {
         global $strUnlimited;
         $prefix = $this->getTablePrefix();
@@ -112,8 +144,13 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $aData = $doCampaigns->toArray();
         if ($aData['clicks'] > 0) {
             // Get the campaign delivery info
+            if (!is_null($oDate)) {
+                // Get the end of operation interval the date represents
+                $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+                $oDate = $aDates['end'];
+            }
             $dalDataIntermediateAd = OA_Dal::factoryDAL('data_intermediate_ad');
-            $record = $dalDataIntermediateAd->getDeliveredByCampaign($campaignId);
+            $record = $dalDataIntermediateAd->getDeliveredByCampaign($campaignId, $oDate);
             $aDeliveryData = $record->toArray();
             return $aData['conversions'] - $aDeliveryData['conversions_delivered'];
         } else {

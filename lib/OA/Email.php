@@ -295,19 +295,20 @@ class OA_Email
      * A static method for preparing an advertiser's "impending expiry" report.
      *
      * @static
-     * @param integer    $advertiserId The advertiser's ID.
-     * @return array An array of four elements:
-     *                  '' =>
-     *                  '' =>
-     *                  '' =>
-     *                  '' =>
-     *
-     * @copyright 2003-2007 Openads Limited
-     * @copyright 2000-2003 The phpAdsNew developers
+     * @param integer $advertiserId The advertiser's ID.
+     * @param string  $reason       The reason for expiration. One of:
+     *                              "date", "impressions".
+     * @return boolean|array False, if the report could not be created, otherwise
+     *                       an array of four elements:
+     *                          'subject'   => The email subject line.
+     *                          'contents'  => The body of the email report.
+     *                          'userEmail' => The email address to send the report to.
+     *                          'userName'  => The real name of the email address, or null.
      */
-    function prepareplacementImpendingExpiryEmail($advertiserId)
+    function prepareplacementImpendingExpiryEmail($advertiserId, $reason)
     {
         OA::debug('   - Preparing "impending expiry" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
+        return false;
     }
 
     /**

@@ -32,26 +32,39 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
     var $table = 'data_intermediate_ad';
 
     /**
-     * @param int $campaignId
+     * A method to determine the number of impressions, clicks and conversions
+     * delivered by a given campaign to date.
+     *
+     * Can also determine the delivery information up to a given operation
+     * interval end date.
+     *
+     * @param integer    $campaignId The campaign ID.
+     * @param PEAR::Date $oDate      An optional date. If present, limits
+     *                               delivery information to that which is
+     *                               in or before this maximum possible
+     *                               operation interval end date.
      * @return MDB2Record
      */
-	function getDeliveredByCampaign($campaignId)
+	function getDeliveredByCampaign($campaignId, $oDate = null)
     {
         $prefix = $this->getTablePrefix();
-
         $query = "
             SELECT
-                   SUM(dia.impressions) AS impressions_delivered,
-                   SUM(dia.clicks) AS clicks_delivered,
-                   SUM(dia.conversions) AS conversions_delivered
-               FROM
-                   {$prefix}banners AS b,
-                   {$prefix}data_intermediate_ad AS dia
-               WHERE
-                   b.campaignid = ".DBC::makeLiteral($campaignId)."
-                   AND b.bannerid = dia.ad_id
-            ";
-
+                SUM(dia.impressions) AS impressions_delivered,
+                SUM(dia.clicks) AS clicks_delivered,
+                SUM(dia.conversions) AS conversions_delivered
+            FROM
+                {$prefix}banners AS b,
+                {$prefix}data_intermediate_ad AS dia
+            WHERE
+                b.campaignid = " . DBC::makeLiteral($campaignId) . "
+                AND
+                b.bannerid = dia.ad_id";
+        if (!is_null($oDate)) {
+            $query .= "
+                AND
+                dia.interval_end <= " . DBC::makeLiteral($oDate->format('%Y-%m-%d %H:%m:%s'), 'timestamp');
+        }
         return DBC::FindRecord($query);
     }
 
