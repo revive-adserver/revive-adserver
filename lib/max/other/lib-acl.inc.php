@@ -33,8 +33,11 @@ require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 require_once(MAX_PATH . '/lib/max/other/lib-db.inc.php');
 require_once(MAX_PATH . '/www/admin/lib-banner.inc.php');
 require_once MAX_PATH . '/lib/max/Plugin.php';
-require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
 require_once(MAX_PATH . '/lib/max/Dal/Admin/Acls.php');
+if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/remotehost.php'])) {
+    // Required by PHP5.1.2
+    require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
+}
 
 // Initialize the client info to enable client targeting options
 MAX_remotehostProxyLookup();
