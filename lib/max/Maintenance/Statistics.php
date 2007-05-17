@@ -47,12 +47,12 @@ class MAX_Maintenance_Statistics
     function run()
     {
         // Get the configuration
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Log the start of the process
         MAX::debug('Running Maintenance Statistics Engine', PEAR_LOG_INFO);
         // Set longer time out, and ignore user abort
         if (!ini_get('safe_mode')) {
-            @set_time_limit($conf['maintenance']['timeLimitScripts']);
+            @set_time_limit($aConf['maintenance']['timeLimitScripts']);
             @ignore_user_abort(true);
         }
         // Ensure the the current time is registered with the ServiceLocator
@@ -64,7 +64,7 @@ class MAX_Maintenance_Statistics
             $oServiceLocator->register('now', $oDate);
         }
         // Run the MSE process for all installed modules
-        foreach ($conf['modules'] as $module => $installed) {
+        foreach ($aConf['modules'] as $module => $installed) {
             if ($installed) {
                 // Create the MAX_Maintenance_Statistics_MODULE class,
                 // and run the statistics process
