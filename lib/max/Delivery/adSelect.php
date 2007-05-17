@@ -230,6 +230,18 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
                      'campaignid' => $row['campaignid'],
                     );
          $output['context'] = (!empty($row['zone_companion']) && (is_array($row['zone_companion']))) ? _adSelectBuildCompanionContext($row, $context) : array();
+         // If ad-logging is disabled, the log beacon won't be sent, so set the capping at request
+         if (!$conf['logging']['adImpressions']) {
+             if ($row['block_ad'] > 0 || $row['cap_ad'] > 0 || $row['session_cap_ad'] > 0) {
+                 MAX_Delivery_cookie_setCapping('Ad', $row['bannerid'], $row['block_ad'], $row['cap_ad'], $row['session_cap_ad']);
+             }
+             if ($row['block_campaign'] > 0 || $row['cap_campaign'] > 0 || $row['session_cap_campaign'] > 0) {
+                 MAX_Delivery_cookie_setCapping('Campaign', $row['campaign_id'], $row['block_campaign'], $row['cap_campaign'], $row['session_cap_campaign']);
+             }
+             if ($row['block_zone'] > 0 || $row['cap_zone'] > 0 || $row['session_cap_zone'] > 0) {
+                 MAX_Delivery_cookie_setCapping('Zone', $row['zoneid'], $row['block_zone'], $row['cap_zone'], $row['session_cap_zone']);
+             }
+         }
          return $output;
     } else {
         // No banner found
@@ -286,7 +298,7 @@ function _adSelectDirect($what, $campaignid = '', $context = array(), $source = 
            'default_banner_dest' => $aZoneLinkedAds['default_banner_dest']
         );
     }
-    
+
     return false;
 }
 
@@ -347,7 +359,7 @@ function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = t
             }
 
             $aLinkedAd = _adSelectCommon($aZoneLinkedAds, $context, $source, $richMedia);
-            
+
             if (is_array($aLinkedAd)) {
                 $aLinkedAd['zoneid'] = $zoneId;
                 $aLinkedAd['bannerid'] = $aLinkedAd['ad_id'];
@@ -378,7 +390,7 @@ function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = t
            'default_banner_dest' => $aZoneLinkedAds['default_banner_dest']
         );
     }
-    
+
     return false;
 }
 

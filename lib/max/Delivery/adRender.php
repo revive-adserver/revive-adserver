@@ -246,8 +246,8 @@ function _adRenderImage($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
     }
     // Get the text below the banner
     $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />$clickTag{$aBanner['bannertext']}$clickTagEnd" : '';
-    // Always get the image beacon, needed for capping/blocking...
-    $beaconTag = _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer);
+    // Get the image beacon...
+    $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
     return $prepend . $imageTag . $bannerText . $beaconTag . $append;
 }
 
@@ -310,10 +310,6 @@ function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
     $fileUrl = _adRenderBuildFileUrl($aBanner, false, $swfParams);
     $protocol = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? "https" : "http";
     $rnd = md5(microtime());
-    // Always get the image beacon, needed for capping/blocking...
-    $beaconTag = _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer);
-    // Strip beacon from alternate image
-    $altImageAdCode = str_replace($beaconTag, '', $altImageAdCode);
     $code = "
 <div id='m3_$rnd' style='display: inline;'>$altImageAdCode</div>
 <script type='text/javascript'>
@@ -330,6 +326,7 @@ function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
    // ]]> -->
 </script>";
     $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$clickTag}{$aBanner['bannertext']}{$clickTagEnd}" : '';
+    $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
     return "{$prepend}{$code}{$bannerText}{$beaconTag}{$append}";
 }
 
@@ -375,10 +372,6 @@ function _adRenderQuicktime($aBanner, $zoneId=0, $source='', $ct0='', $withText=
     }
     $clickTag = _adRenderBuildFileUrl($aBanner, $source, $ct0, $logClick);
     $fileUrl = _adRenderBuildFileUrl($aBanner, false, $swfParams);
-    // Always get the image beacon, needed for capping/blocking...
-    $beaconTag = _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer);
-    // Strip beacon from alternate image
-    $altImageBannercode = str_replace($beaconTag, '', $altImageBannercode);
     $code = "
 <object classid='clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B' codebase='http://www.apple.com/qtactivex/qtplugin.cab' width='$width' height='$height'>
 <param name='src' value='$fileUrl'>
@@ -388,6 +381,8 @@ function _adRenderQuicktime($aBanner, $zoneId=0, $source='', $ct0='', $withText=
 <noembed>$altImageBannercode</noembed>
 </object>";
     $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$anchor}{$aBanner['bannertext']}{$anchorEnd}" : '';
+    // Get the image beacon...
+    $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
     return $prepend . $code . $bannerText . $beaconTag . $append;
 }
 
@@ -446,7 +441,7 @@ function _adRenderHtml($aBanner, $zoneId=0, $source='', $ct0='', $withText=false
     $bannerText = !empty($aBanner['bannertext']) ? "$clickTag{$aBanner['bannertext']}$clickTagEnd" : '';
     // Get the image beacon...
     if ((strpos($code, '{logurl}') === false) && (strpos($code, '{logurl_enc}') === false)) {
-        $beaconTag = _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer);
+        $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
     } else {
         $beaconTag = '';
     }
@@ -488,8 +483,8 @@ function _adRenderText($aBanner, $zoneId=0, $source='', $ct0='', $withText=false
     }
     // Get the text below the banner
     $bannerText = !empty($aBanner['bannertext']) ? "$clickTag{$aBanner['bannertext']}$clickTagEnd" : '';
-    // Always get the image beacon, needed for capping/blocking...
-    $beaconTag = _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer);
+    // Get the image beacon...
+    $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
     return $prepend . $bannerText . $beaconTag . $append;
 
 }
@@ -547,8 +542,8 @@ function _adRenderReal($aBanner, $zoneId=0, $source='', $ct0='', $withText=false
 <noembed>$altImageBannercode</noembed>
 </object>";
     $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$anchor}{$aBanner['bannertext']}{$anchorEnd}" : '';
-    // Always get the image beacon, needed for capping/blocking...
-    $beaconTag = _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer);
+    // Get the image beacon...
+    $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
     return $prepend . $code . $bannerText . $beaconTag . $append;
 }
 
