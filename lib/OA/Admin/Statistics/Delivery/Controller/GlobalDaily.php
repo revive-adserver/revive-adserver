@@ -91,9 +91,6 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalDaily extends OA_Admin_Stati
         $this->_loadPeriodPresetParam();
         $this->_loadStatsBreakdownParam();
 
-        // Load the day parameter
-        $this->_loadDayParam();
-
         // HTML Framework
         $this->pageId = '2.2.1';
         $this->aPageSections = array('2.1.1');
