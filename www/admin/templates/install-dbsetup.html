@@ -52,6 +52,7 @@
                     'name'    => 'aConfig[database][type]',
                     'text'    => $strDbType,
                     'enabled' => $disableForm,
+                    'value'   => $aConfig['database']['type'],
                     'items'   => getSupportedDbTypes()
                 ),
                 array (
@@ -119,6 +120,7 @@
                     'name'      => 'aConfig[table][type]',
                     'text'      => $strTablesType,
                     'enabled'   => $disableForm,
+                    'value'     => $aConfig['table']['type'],
                     'items'     => getSupportedTableTypes()
                 ),
                 array (
