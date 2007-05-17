@@ -950,7 +950,10 @@ class OA_Upgrade
             }
             else
             {
-                $this->rollbackSchemas();
+                if ($this->rollbackSchemas())
+                {
+                    $this->_pickupRecoveryFile();
+                }
                 return false;
             }
         }
