@@ -1,5 +1,30 @@
 <?php
 
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
 require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
 
 /**
@@ -34,14 +59,14 @@ class test_DeliveryQuerystring extends UnitTestCase
         $tmpPost    = $_POST;
         $tmpCookie  = $_COOKIE;
         $tmpRequest = $_REQUEST;
-        
+
         $zoneid     = 123;
         $campaignid = 456;
         $bannerid   = 789;
         $loc        = "http://www.example.com/page.html?name1=value1&name2=value2";
         $referer    = "http://www.example.com/referer.php?name3=value3&name4=value4";
         $dest       = "http://www.example.com/landing.php?name5=value5&name6=value6";
-        
+
         $_COOKIE    = array();
         $_GET       = array();
         $_POST      = array();
@@ -55,7 +80,7 @@ class test_DeliveryQuerystring extends UnitTestCase
         $this->assertEqual($_GET['loc'], $loc);
         $this->assertEqual($_GET['referer'], $referer);
         $this->assertEqual($_GET['maxdest'], $dest);
-        
+
         $_COOKIE    = array();
         $_GET       = array();
         $_POST      = array();
