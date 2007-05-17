@@ -70,8 +70,8 @@ class MAX_Maintenance_Statistics_Common_Task extends MAX_Core_Task
             // registered in the service locator
             $serviceName = 'OA_Dal_Maintenance_Statistics_' . $this->oController->module;
             if (!$oServiceLocator->get($serviceName)) {
-                $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
-                $oMaxDalMaintenanceStatistics = $oMDMSF->factory($this->oController->module);
+                $oDalMSF = new OA_Dal_Maintenance_Statistics_Factory();
+                $oMaxDalMaintenanceStatistics = $oDalMSF->factory($this->oController->module);
                 $oServiceLocator->register($serviceName, $oMaxDalMaintenanceStatistics);
             }
         }
