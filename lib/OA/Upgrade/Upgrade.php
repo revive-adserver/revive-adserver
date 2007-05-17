@@ -93,7 +93,6 @@ class OA_Upgrade
 
     function OA_Upgrade()
     {
-        //$this->upgradePath  = MAX_PATH.'/var/upgrade/';
         $this->upgradePath  = MAX_PATH.'/etc/changes/';
         $this->recoveryFile = MAX_PATH.'/var/recover.log';
 
@@ -242,14 +241,12 @@ class OA_Upgrade
             case OA_STATUS_PAN_DBCONNECT_FAILED:
                 $this->oLogger->logError('phpAdsNew'.$strDetected);
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
-                //return false;
                 break;
             case OA_STATUS_PAN_VERSION_FAILED:
                 $this->oLogger->log('phpAdsNew '.$this->versionInitialApplication.' detected');
                 $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strNoUpgrade);
                 return false;
-                //break;
             case OA_STATUS_CAN_UPGRADE:
                 $this->oLogger->log('phpAdsNew '.$this->versionInitialApplication.' detected');
                 $this->oLogger->log($strCanUpgrade);
@@ -522,14 +519,6 @@ class OA_Upgrade
         }
         $this->oLogger->log('Installation updated the application version to '.OA_VERSION);
 
-//        if (!$this->createConfigFile())
-//        {
-//            $this->oLogger->logError('Installation failed to create the configuration file');
-//            $this->_dropDatabase();
-//            return false;
-//        }
-//        $this->oLogger->log('Installation created a configuration file '.$this->oConfiguration->configFile);
-
         $this->oConfiguration->getInitialConfig();
         if (!$this->saveConfigDB($aConfig))
         {
@@ -542,9 +531,6 @@ class OA_Upgrade
             $this->_dropDatabase();
             return false;
         }
-
-//        $this->oConfiguration->setOpenadsInstalledOn();
-//        $this->oLogger->log('Installation Succeeded');
         return true;
     }
 
@@ -602,13 +588,13 @@ class OA_Upgrade
             $GLOBALS['_MDB2_databases']     = array();
 
             $result = OA_DB::createDatabase($this->aDsn['database']['name']);
-            if (PEAR::isError($result)) // && !$ignore_errors)
+            if (PEAR::isError($result))
             {
                 $this->oLogger->logError($result->getMessage());
                 return false;
             }
             $this->oDbh = OA_DB::changeDatabase($this->aDsn['database']['name']);
-            if (PEAR::isError($this->oDbh)) // && !$ignore_errors)
+            if (PEAR::isError($this->oDbh))
             {
                 $this->oLogger->logError($this->oDbh->getMessage());
                 $this->oDbh = null;
@@ -646,20 +632,9 @@ class OA_Upgrade
         {
             $this->oConfiguration->getInitialConfig();
         }
-//        else if ($this->detectPAN())
-//        {
-//            $this->detectPAN();
-//            $this->oConfiguration->getInitialConfig();
-//            $aOAD = $this->oConfiguration->aConfig;
-//            $aPAN = $this->oPAN->_getPANConfig();
-//        }
         return $this->oConfiguration->aConfig;
     }
 
-    function createConfigFile()
-    {
-        return $this->oConfiguration->putNewConfigFile();
-    }
     /**
      * save database configuration settings
      *
@@ -762,7 +737,7 @@ class OA_Upgrade
         }
         if ($this->oPAN->detected)
         {
-            if (!$this->createConfigFile())
+            if ($this->oConfiguration->putNewConfigFile())
             {
                 $this->oLogger->logError('Installation failed to create the configuration file');
                 return false;
