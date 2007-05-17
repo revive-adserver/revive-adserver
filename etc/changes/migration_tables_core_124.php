@@ -84,7 +84,7 @@ class Migration_124 extends Migration
 
 	function afterAddField__banners__campaignid()
 	{
-		return $this->afterAddField('banners', 'campaignid');
+		return $this->afterAddField('banners', 'campaignid') && $this->migrateCampaignId();
 	}
 
 	function beforeAddField__banners__adserver()
@@ -213,7 +213,11 @@ class Migration_124 extends Migration
 	    $query = "
 	       UPDATE {$prefix}banners
 	       set campaignid = clientid";
-	    $this->oDBH->exec($query);
+	    $result = $this->oDBH->exec($query);
+	    if (PEAR::isError($result)) {
+	        $this->_logErrorAndReturnFalse($result);
+	    }
+	    return true;
 	}
 }
 
