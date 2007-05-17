@@ -1,10 +1,36 @@
 <?php
+
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
 /**
  * Table Definition for variables
  */
 require_once 'DB_DataObjectCommon.php';
 
-class DataObjects_Variables extends DB_DataObjectCommon 
+class DataObjects_Variables extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
     var $refreshUpdatedFieldIfExists = true;
@@ -15,7 +41,7 @@ class DataObjects_Variables extends DB_DataObjectCommon
     var $variableid;                      // int(9)  not_null primary_key unsigned auto_increment
     var $trackerid;                       // int(9)  not_null multiple_key
     var $name;                            // string(250)  not_null
-    var $description;                     // string(250)  
+    var $description;                     // string(250)
     var $datatype;                        // string(7)  not_null enum
     var $purpose;                         // string(12)  enum
     var $reject_if_empty;                 // int(1)  not_null unsigned
@@ -34,3 +60,5 @@ class DataObjects_Variables extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 }
+
+?>

@@ -1,10 +1,36 @@
 <?php
+
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
 /**
  * Table Definition for zones
  */
 require_once 'DB_DataObjectCommon.php';
 
-class DataObjects_Zones extends DB_DataObjectCommon 
+class DataObjects_Zones extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
     var $dalModelName = 'zones';
@@ -30,11 +56,11 @@ class DataObjects_Zones extends DB_DataObjectCommon
     var $forceappend;                     // string(1)  enum
     var $inventory_forecast_type;         // int(6)  not_null
     var $comments;                        // blob(65535)  blob
-    var $cost;                            // unknown(12)  
-    var $cost_type;                       // int(6)  
-    var $cost_variable_id;                // string(255)  
-    var $technology_cost;                 // unknown(12)  
-    var $technology_cost_type;            // int(6)  
+    var $cost;                            // unknown(12)
+    var $cost_type;                       // int(6)
+    var $cost_variable_id;                // string(255)
+    var $technology_cost;                 // unknown(12)
+    var $technology_cost_type;            // int(6)
     var $updated;                         // datetime(19)  not_null binary
     var $block;                           // int(11)  not_null
     var $capping;                         // int(11)  not_null
@@ -49,7 +75,7 @@ class DataObjects_Zones extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-    
+
     /**
      * ON DELETE CASCADE is handled by parent class but we have
      * to also make sure here that we are handling here:
@@ -68,36 +94,38 @@ class DataObjects_Zones extends DB_DataObjectCommon
     	$doZones->appendtype = phpAds_ZoneAppendZone;
     	$doZones->whereAdd("append LIKE '%zone:".$this->zoneid."%'");
     	$doZones->find();
-    	
+
     	while($doZones->fetch()) {
 			$doZoneUpdate = clone($doZones);
 			$doZoneUpdate->appendtype = phpAds_ZoneAppendRaw;
 			$doZoneUpdate->append = '';
 			$doZoneUpdate->update();
     	}
-    	
+
     	// Handle all "chained" zones
     	$doZones = $this->factory('zones');
     	$doZones->chain = 'zone:'.$this->zoneid;
     	$doZones->find();
-    	
+
     	while($doZones->fetch()) {
 			$doZoneUpdate = clone($doZones);
 			$doZoneUpdate->chain = '';
 			$doZoneUpdate->update();
     	}
-    	
+
     	return parent::delete($useWhere, $cascadeDelete);
     }
-    
+
     function duplicate()
     {
         // Get unique name
         $this->zonename = $this->getUniqueNameForDuplication('zonename');
-        
+
         $this->zoneid = null;
         $newZoneid = $this->insert();
         return $newZoneid;
     }
-    
+
 }
+
+?>

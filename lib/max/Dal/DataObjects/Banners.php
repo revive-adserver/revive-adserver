@@ -1,4 +1,30 @@
 <?php
+
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
 /**
  * Table Definition for banners
  */
@@ -6,7 +32,7 @@ require_once 'DB_DataObjectCommon.php';
 include_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 include_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 
-class DataObjects_Banners extends DB_DataObjectCommon 
+class DataObjects_Banners extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
     var $refreshUpdatedFieldIfExists = true;
@@ -62,7 +88,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-    
+
     function delete($useWhere = false, $cascade = true)
     {
     	$doBanner = clone($this);
@@ -72,10 +98,10 @@ class DataObjects_Banners extends DB_DataObjectCommon
     	}
     	return parent::delete($useWhere, $cascade);
     }
-    
+
     /**
      * Duplicates the banner.
-     * 
+     *
      * @return int  the new bannerid
      *
      */
@@ -84,9 +110,9 @@ class DataObjects_Banners extends DB_DataObjectCommon
         // unset the bannerId
         $old_adId = $this->bannerid;
         unset($this->bannerid);
-        
+
         $this->description = 'Copy of ' . $this->description;
-        
+
         // Set the filename
         // We want to rename column 'storagetype' to 'type' so...
         if ($this->storagetype == 'web' || $this->storagetype == 'sql') {
@@ -94,20 +120,20 @@ class DataObjects_Banners extends DB_DataObjectCommon
         } elseif ($this->type == 'web' || $this->type == 'sql') {
             $this->filename = $this->_imageDuplicate($this->type, $this->filename);
         }
-        
+
         // Insert the new banner and get the ID
         $new_adId = $this->insert();
-        
+
         // Copy ACLs and capping
         MAX_AclCopy(basename($_SERVER['PHP_SELF']), $old_adId, $new_adId);
-        
+
         // Duplicate and ad-zone associations
         MAX_duplicateAdZones($old_adId, $new_adId);
-        
+
         // Return the new bannerId
         return $new_adId;
     }
-    
+
     function insert()
     {
         $this->_rebuildCache();
@@ -120,13 +146,13 @@ class DataObjects_Banners extends DB_DataObjectCommon
         }
         return $id;
     }
-    
+
     function _rebuildCache()
     {
     	$this->htmlcache = phpAds_getBannerCache($this->toArray());
     }
-    
-    
+
+
     /**
      * Automatically refreshes HTML cache in addition to normal
      * update() call.
@@ -141,10 +167,10 @@ class DataObjects_Banners extends DB_DataObjectCommon
         $this->_rebuildCache();
         return parent::update($dataObject);
     }
-    
+
     /**
      * Wrapper for phpAds_ImageDuplicate
-     * 
+     *
      * @access private
      */
     function _imageDuplicate($storagetype, $filename)
@@ -152,3 +178,5 @@ class DataObjects_Banners extends DB_DataObjectCommon
         return phpAds_ImageDuplicate($storagetype, $filename);
     }
 }
+
+?>
