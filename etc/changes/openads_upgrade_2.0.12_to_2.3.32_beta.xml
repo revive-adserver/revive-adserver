@@ -95,8 +95,8 @@
     </database>
 
     <!-- Custom Install Scripts to execute -->
-    <!--prescript>prescript_openads_upgrade_2.0.12_to_2.3.32_beta.php</prescript>
-    <postscript>postscript_openads_upgrade_2.0.12_to_2.3.32_beta.php</postscript-->
+    <!--prescript>prescript_openads_upgrade_2.0.12_to_2.3.32_beta.php</prescript-->
+    <postscript>postscript_openads_upgrade_2.0.12_to_2.3.32_beta.php</postscript>
 
 
 </upgrade>

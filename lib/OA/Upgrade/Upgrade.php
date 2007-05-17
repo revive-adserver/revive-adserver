@@ -698,6 +698,11 @@ class OA_Upgrade
             $this->oLogger->logError('Insufficient database permissions');
             return false;
         }
+        if (!$this->runScript($this->aPackage['prescript']))
+        {
+            $this->oLogger->log('Failure from upgrade prescript '.$this->aPackage['prescript']);
+            return false;
+        }
         if (!$this->upgradeSchemas())
         {
             return false;
@@ -761,6 +766,11 @@ class OA_Upgrade
         $aConfig['database'] = $GLOBALS['_MAX']['CONF']['database'];
         $aConfig = $this->initDatabaseParameters($aConfig);
         $this->saveConfigDB($aConfig);
+        if (!$this->runScript($this->aPackage['postscript']))
+        {
+            $this->oLogger->log('Failure from upgrade postscript '.$this->aPackage['postscript']);
+            return false;
+        }
         return true;
     }
 
@@ -828,7 +838,6 @@ class OA_Upgrade
         return true;
     }
 
-
     /**
      * this can be used to run custom scripts
      * for planned enhancement: pre/post upgrade
@@ -837,17 +846,18 @@ class OA_Upgrade
      * @param string $classprefix
      * @return boolean
      */
-    function runScript($file, $classprefix)
+    function runScript($file)
     {
         $class = str_replace('.php', '', basename($file));
         if (!$file)
         {
             return true;
         }
-        else if (file_exists($file))
+        else if (file_exists($this->upgradePath.$file))
         {
             $this->oLogger->log('acquiring script '.$file);
-            require_once $file;
+            require_once $this->upgradePath.$file;
+            $class = 'OA_UpgradePostscript';
             if (class_exists($class))
             {
                 $this->oLogger->log('instantiating class '.$class);
