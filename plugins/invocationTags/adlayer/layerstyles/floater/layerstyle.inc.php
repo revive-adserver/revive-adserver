@@ -65,8 +65,8 @@ function MAX_layerPutJs($output, $uniqid)
 	global $limited, $lmargin, $rmargin;
 	
 	// Register input variables
-	MAX_commonRegisterGlobals('ltr', 'loop', 'speed', 'pause',
-					       'shiftv', 'limited', 'lmargin', 'rmargin');
+	MAX_commonRegisterGlobalsArray(array('ltr', 'loop', 'speed', 'pause',
+					       'shiftv', 'limited', 'lmargin', 'rmargin'));
 	
 	
 	if (!isset($ltr)) $ltr = 't';
@@ -317,7 +317,7 @@ function MAX_layerGetHtml($output, $uniqid)
 	global $transparent, $backcolor, $shiftv;
 	
 	// Register input variables
-	MAX_commonRegisterGlobals('transparent', 'backcolor', 'shiftv');
+	MAX_commonRegisterGlobalsArray(array('transparent', 'backcolor', 'shiftv'));
 	
 	
 	if (!isset($transparent)) $transparent = 't';

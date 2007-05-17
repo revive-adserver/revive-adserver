@@ -62,7 +62,7 @@ function MAX_layerPutJs($output, $uniqid)
 	global $align, $collapsetime, $padding;
 	
 	// Register input variables
-	MAX_commonRegisterGlobals('align', 'collapsetime', 'padding');
+	MAX_commonRegisterGlobalsArray(array('align', 'collapsetime', 'padding'));
 	
 	
 	// Calculate layer size (inc. borders)
@@ -210,7 +210,7 @@ function MAX_layerGetHtml($output, $uniqid)
 	$conf = $GLOBALS['_MAX']['CONF'];
 	
 	// Register input variables
-	MAX_commonRegisterGlobals('align', 'collapsetime', 'padding', 'closetext');
+	MAX_commonRegisterGlobalsArray(array('align', 'collapsetime', 'padding', 'closetext'));
 	
 	
 	if (!isset($padding)) $padding = '2';

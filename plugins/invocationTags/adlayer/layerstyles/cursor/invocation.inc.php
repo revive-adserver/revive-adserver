@@ -35,8 +35,8 @@ define('phpAds_adLayerLoaded', true);
 
 
 // Register input variables
-MAX_commonRegisterGlobals('stickyness', 'offsetx', 'offsety', 'hide',
-					   'transparancy', 'delay', 'trail');
+MAX_commonRegisterGlobalsArray(array('stickyness', 'offsetx', 'offsety', 'hide',
+					   'transparancy', 'delay', 'trail'));
 
 /**
  *

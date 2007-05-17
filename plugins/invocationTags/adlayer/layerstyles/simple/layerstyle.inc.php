@@ -63,8 +63,8 @@ function MAX_layerPutJs($output, $uniqid)
 	global $shifth, $shiftv, $closebutton;
 	
 	// Register input variables
-	MAX_commonRegisterGlobals('align', 'valign', 'closetime', 'padding',
-						   'shifth', 'shiftv', 'closebutton');
+	MAX_commonRegisterGlobalsArray(array('align', 'valign', 'closetime', 'padding',
+						   'shifth', 'shiftv', 'closebutton'));
 	
 	
 	if (!isset($padding)) $padding = 0;
@@ -211,9 +211,9 @@ function MAX_layerGetHtml($output, $uniqid)
 	$conf = $GLOBALS['_MAX']['CONF'];
 	
 	// Register input variables
-	MAX_commonRegisterGlobals('align', 'padding', 'closebutton',
+	MAX_commonRegisterGlobalsArray(array('align', 'padding', 'closebutton',
 						   'backcolor', 'bordercolor',
-						   'nobg', 'noborder');
+						   'nobg', 'noborder'));
 	
 	
 	if (!isset($padding)) $padding = '2';

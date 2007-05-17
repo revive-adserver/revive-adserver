@@ -34,8 +34,8 @@ define('phpAds_adLayerLoaded', true);
 
 
 // Register input variables
-MAX_commonRegisterGlobals('target', 'align', 'padding', 'closebutton', 'backcolor', 'bordercolor',
-					   'valign', 'closetime', 'shifth', 'shiftv', 'nobg', 'noborder');
+MAX_commonRegisterGlobalsArray(array('target', 'align', 'padding', 'closebutton', 'backcolor', 'bordercolor',
+					   'valign', 'closetime', 'shifth', 'shiftv', 'nobg', 'noborder'));
 
 
 /**

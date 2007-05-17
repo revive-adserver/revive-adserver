@@ -62,8 +62,8 @@ function MAX_layerPutJs($output, $uniqid)
 	global $stickyness, $offsetx, $offsety, $hide, $transparancy, $delay, $trail;
 	
 	// Register input variables
-	MAX_commonRegisterGlobals('stickyness', 'offsetx', 'offsety', 'hide',
-					       'transparancy', 'delay', 'trail');
+	MAX_commonRegisterGlobalsArray(array('stickyness', 'offsetx', 'offsety', 'hide',
+					       'transparancy', 'delay', 'trail'));
 	
 	
 	if (!isset($trail) || $trail == '') $trail = 0;

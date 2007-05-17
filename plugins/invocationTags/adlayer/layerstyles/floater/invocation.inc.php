@@ -34,8 +34,8 @@ $Id$
 define('phpAds_adLayerLoaded', true);
 
 // Register input variables
-MAX_commonRegisterGlobals('ltr', 'loop', 'speed', 'pause', 'shiftv', 'transparent', 'backcolor',
-					   'limited', 'lmargin', 'rmargin');
+MAX_commonRegisterGlobalsArray(array('ltr', 'loop', 'speed', 'pause', 'shiftv', 'transparent', 'backcolor',
+					   'limited', 'lmargin', 'rmargin'));
 
 
 /**
