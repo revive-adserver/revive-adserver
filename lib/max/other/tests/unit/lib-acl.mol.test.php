@@ -122,16 +122,16 @@ class LibAclTest extends DalUnitTestCase
         $doAclsChannel = OA_Dal::factoryDO('acls_channel');
         $this->assertEqual(0, $doAclsChannel->count());
     }
-    
-    
+
+
     function test_MAX_AclCopy()
     {
         $block = 125;
-        
+
         $dg = new DataGenerator();
         $dg->setDataOne('banners', array('block' => $block));
         $bannerId = $dg->generateOne('banners');
-        
+
         $cAcls = 5;
         $aDataAcls = array('bannerid' => array($bannerId), 'executionorder' => array());
         for($idxAcl = 1; $idxAcl <= 5; $idxAcl++) {
@@ -139,14 +139,14 @@ class LibAclTest extends DalUnitTestCase
         }
         $dg->setData('acls', $aDataAcls);
         $dg->generate('acls', 5);
-        
+
         $dg->setDataOne('banners', array('data' => ''));
         $bannerIdNew = $dg->generateOne('banners');
         MAX_AclCopy('', $bannerId, $bannerIdNew);
-        
+
         $doBanners = OA_DAL::staticGetDO('banners', $bannerIdNew);
         $this->assertEqual($block, $doBanners->block);
-        
+
         $o = new DB_DataObjectCommon();
         $doAcls = OA_DAL::staticGetDO('acls', 'bannerid', $bannerId);
         $aDataAcls = $doAcls->getAll(array('logical', 'type', 'comparison', 'data', 'executionorder'));
@@ -154,26 +154,26 @@ class LibAclTest extends DalUnitTestCase
         $aDataAclsNew = $doAcls->getAll(array('logical', 'type', 'comparison', 'data', 'executionorder'));
         $this->assertEqual($aDataAcls, $aDataAclsNew);
     }
-    
-    
+
+
     function test_OA_aclGetPluginFromRow()
     {
         $row = array('type' => 'Time:Hour', 'logical' => 'and', 'data' => 'AaAaA');
         $plugin = &OA_aclGetPluginFromRow($row);
-        $this->assertEqual('Plugins_DeliveryLimitations_Time_Hour', get_class($plugin));
+        $this->assertTrue(is_a($plugin, 'Plugins_DeliveryLimitations_Time_Hour'));
         $this->assertEqual('and', $plugin->logical);
         $this->assertEqual('AaAaA', $plugin->data);
     }
-    
-    
+
+
     function test_MAX_aclRecompileAll()
     {
         $oaTable = new OA_DB_Table();
         $oaTable->truncateTable('acls');
-        
+
         $generator = new DataGenerator();
         $bannerid = $generator->generateOne('banners');
-        
+
         $generator->setData('acls', array(
             'bannerid' => array($bannerid),
             'logical' => array('and'),
@@ -183,9 +183,9 @@ class LibAclTest extends DalUnitTestCase
             'executionorder' => array(1,0)
         ));
         $generator->generate('acls', 2);
-        
+
         $this->assertTrue(MAX_AclReCompileAll());
-        
+
         $doBanners = &OA_Dal::staticGetDO('banners', $bannerid);
         $this->assertEqual(
             "MAX_checkClient_Domain('openads.org', '!~') and MAX_checkTime_Day('0,1', '=~')",
