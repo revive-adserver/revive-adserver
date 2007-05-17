@@ -36,7 +36,7 @@
 
     // Disable the form items if user is upgrading
     // Change $inputType so that disabled selects are text fields, so that the correct value can be displayed
-    if ($installStatus == OA_STATUS_OAD_NOT_INSTALLED) {
+    if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL) {
         $disableForm = false;
         $inputType   = 'select';
     } else {

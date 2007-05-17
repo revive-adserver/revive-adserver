@@ -63,12 +63,10 @@ require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 unset($session);
 define('phpAds_installing',     true);
 
-// setup oUpgrader, determine whether they are installing or that they can Upgrade
 $oUpgrader = new OA_Upgrade();
-$halt = $oUpgrader->canUpgrade();
-$installStatus = $oUpgrader->existing_installation_status;
 
 $imgPath = '';
+$installStatus = 'unknown';
 
  /**
  * Return an array of supported DB types
@@ -105,6 +103,8 @@ if ($oUpgrader->isRecoveryRequired())
 }
 else if (array_key_exists('btn_syscheck', $_REQUEST))
 {
+    $halt = $oUpgrader->canUpgrade();
+    $installStatus = $oUpgrader->existing_installation_status;
     $aSysInfo = $oUpgrader->checkEnvironment();
     if (!$halt)
     {
@@ -235,9 +235,11 @@ else
     $action = OA_UPGRADE_WELCOME;
 }
 
-if (($action == OA_UPGRADE_UPGRADE) || ($action == OA_UPGRADE_INSTALL))
+if ($installStatus == OA_STATUS_OAD_NOT_INSTALLED)
 {
-    setcookie('oat', $action);
+    setcookie('oat', OA_UPGRADE_INSTALL);
+} elseif ($installStatus != 'unknown') {
+    setcookie('oat', OA_UPGRADE_UPGRADE);
 }
 
 // Used to detmine which page is active in nav
@@ -251,7 +253,7 @@ $activeNav = array (
     OA_UPGRADE_INSTALL        =>      '5',
     OA_UPGRADE_CONFIGSETUP    =>      '6'
 );
-if ($installStatus == OA_STATUS_OAD_NOT_INSTALLED) {
+if ($_COOKIE['oat'] != OA_UPGRADE_UPGRADE) {
     $activeNav[OA_UPGRADE_ADMINSETUP]     =      '7';
     $activeNav[OA_UPGRADE_IDSETUP]        =      '7';
     $activeNav[OA_UPGRADE_DATASETUP]      =      '9';
