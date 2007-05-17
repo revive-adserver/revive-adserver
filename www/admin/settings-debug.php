@@ -31,7 +31,6 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
-require_once MAX_PATH . '/www/admin/lib-install-db.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 
 // Security check
@@ -71,7 +70,7 @@ $settings = array (
         'text'  => $strDebug,
         'items' => array (
             array (
-                'type'    => 'checkbox', 
+                'type'    => 'checkbox',
                 'name'    => 'log_enabled',
                 'text'    => $strEnableDebug
             ),
@@ -79,7 +78,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'checkbox', 
+                'type'    => 'checkbox',
                 'name'    => 'log_methodNames',
                 'text'    => $strDebugMethodNames,
                 'depends' => 'log_enabled==1'
@@ -88,7 +87,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'checkbox', 
+                'type'    => 'checkbox',
                 'name'    => 'log_lineNumbers',
                 'text'    => $strDebugLineNumbers,
                 'depends' => 'log_enabled==1'
@@ -97,7 +96,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'select', 
+                'type'    => 'select',
                 'name'    => 'log_type',
                 'text'    => $strDebugType,
                 'items'   => array('file'   => $strDebugTypeFile,
@@ -110,7 +109,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'text', 
+                'type'    => 'text',
                 'name'    => 'log_name',
                 'text'    => $strDebugName,
                 'req'     => true,
@@ -120,7 +119,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'select', 
+                'type'    => 'select',
                 'name'    => 'log_priority',
                 'text'    => $strDebugPriority,
                 'items'   => array('PEAR_LOG_DEBUG'   => $strPEAR_LOG_DEBUG,
@@ -138,7 +137,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'text', 
+                'type'    => 'text',
                 'name'    => 'log_ident',
                 'text'    => $strDebugIdent,
                 'req'     => true,
@@ -148,7 +147,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'text', 
+                'type'    => 'text',
                 'name'    => 'log_paramsUsername',
                 'text'    => $strDebugUsername,
                 'depends' => 'log_enabled==1 && log_type==1 || log_type==2'
@@ -157,7 +156,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'password', 
+                'type'    => 'password',
                 'name'    => 'log_paramsPassword',
                 'text'    => $strDebugPassword,
                 'depends' => 'log_enabled==1 && log_type==1 || log_type==2'
