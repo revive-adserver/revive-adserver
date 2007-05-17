@@ -26,13 +26,17 @@
         <tr>
             <td height='10' colspan='4'><img src='images/spacer.gif' width='30' height='1'></td>
         </tr>
-
+        <tr>
         <form name="frmOpenads" method="POST" action="install.php">
         
         <?php
             $halt = false;
 
             $sysinfoarray = $aSysInfo['PHP'];
+            
+            // remove date.timezone from the array
+            unset($sysinfoarray['actual']['date.timezone']);
+            
             $sysinfoarray['actual']['memory_limit'] = ($sysinfoarray['actual']['memory_limit']!='' ? $sysinfoarray['actual']['memory_limit'] : 'Not Set');
             $sysinfoarray['actual']['safe_mode'] = ($sysinfoarray['actual']['safe_mode']==0 ? 'OFF' : 'ON');
             $sysinfoarray['actual']['magic_quotes_runtime'] = ($sysinfoarray['actual']['magic_quotes_runtime']==0 ? 'OFF' : 'ON');
@@ -45,10 +49,13 @@
             $sysinfoheading = 'File Permissions - '.(!$sysinfoarray['error']? 'no errors' : 'errors detected');
             include 'templates/install-sysinfosection.html';
 
+            /* 
+            ******* REMOVE FILECHECK SECTION ************
             $sysinfoarray = $aSysInfo['FILES'];
             $halt = (($halt) && (!$sysinfoarray['error']));
             $sysinfoheading = 'File Integrity - '.(!$sysinfoarray['error']? 'no errors' : 'errors detected');
             include 'templates/install-sysinfosection.html';
+            */
         ?>
         </tr>    
         </table>
