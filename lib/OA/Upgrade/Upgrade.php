@@ -737,7 +737,7 @@ class OA_Upgrade
         }
         if ($this->oPAN->detected)
         {
-            if ($this->oConfiguration->putNewConfigFile())
+            if (!$this->oConfiguration->putNewConfigFile())
             {
                 $this->oLogger->logError('Installation failed to create the configuration file');
                 return false;
