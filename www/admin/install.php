@@ -45,7 +45,7 @@ $installing = true;
 
 require_once '../../init.php';
 
-if (array_key_exists('btn_openads', $_REQUEST))
+if (array_key_exists('btn_openads', $_POST))
 {
     header('location: http://'.$GLOBALS['_MAX']['CONF']['webpath']['admin']);
     exit();
@@ -101,7 +101,7 @@ if ($oUpgrader->isRecoveryRequired())
     $oUpgrader->recoverUpgrade();
     $action = OA_UPGRADE_RECOVERY;
 }
-else if (array_key_exists('btn_syscheck', $_REQUEST))
+else if (array_key_exists('btn_syscheck', $_POST))
 {
     $halt = $oUpgrader->canUpgrade();
     $installStatus = $oUpgrader->existing_installation_status;
@@ -112,11 +112,11 @@ else if (array_key_exists('btn_syscheck', $_REQUEST))
     }
     $action   = OA_UPGRADE_SYSCHECK;
 }
-else if (array_key_exists('btn_appcheck', $_REQUEST))
+else if (array_key_exists('btn_appcheck', $_POST))
 {
     $action = OA_UPGRADE_APPCHECK;
 }
-else if (array_key_exists('btn_dbsetup', $_REQUEST))
+else if (array_key_exists('btn_dbsetup', $_POST))
 {
     if ($oUpgrader->canUpgrade())
     {
@@ -130,7 +130,7 @@ else if (array_key_exists('btn_upgrade', $_POST))
     {
         if ($oUpgrader->existing_installation_status == OA_STATUS_NOT_INSTALLED)
         {
-            if ($oUpgrader->install($_REQUEST['aConfig']))
+            if ($oUpgrader->install($_POST['aConfig']))
             {
                 $message = 'Your database has successfully been created for Openads '.OA_VERSION;
                 $action  = OA_UPGRADE_INSTALL;
@@ -152,14 +152,14 @@ else if (array_key_exists('btn_upgrade', $_POST))
         $action = OA_UPGRADE_DBSETUP;
     }
 }
-else if (array_key_exists('btn_configsetup', $_REQUEST))
+else if (array_key_exists('btn_configsetup', $_POST))
 {
     $aConfig = $oUpgrader->getConfig();
     $action = OA_UPGRADE_CONFIGSETUP;
 }
-else if (array_key_exists('btn_adminsetup', $_REQUEST))
+else if (array_key_exists('btn_adminsetup', $_POST))
 {
-    if ($oUpgrader->saveConfig($_REQUEST['aConfig']))
+    if ($oUpgrader->saveConfig($_POST['aConfig']))
     {
         if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
         {
@@ -180,15 +180,15 @@ else if (array_key_exists('btn_adminsetup', $_REQUEST))
         $action = OA_UPGRADE_ERROR;
     }
 }
-else if (array_key_exists('btn_oaidsetup', $_REQUEST))
+else if (array_key_exists('btn_oaidsetup', $_POST))
 {
     $action = OA_UPGRADE_IDSETUP;
 }
-else if (array_key_exists('btn_datasetup', $_REQUEST))
+else if (array_key_exists('btn_datasetup', $_POST))
 {
     if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
     {
-        $oUpgrader->putAdmin($_REQUEST['aAdmin']);
+        $oUpgrader->putAdmin($_POST['aAdmin']);
         $action = OA_UPGRADE_DATASETUP;
     }
     else
@@ -197,15 +197,15 @@ else if (array_key_exists('btn_datasetup', $_REQUEST))
         $message = 'Congratulations you have finished upgrading Openads';
     }
 }
-else if (array_key_exists('btn_terms', $_REQUEST))
+else if (array_key_exists('btn_terms', $_POST))
 {
     $action = OA_UPGRADE_TERMS;
 }
-else if (array_key_exists('btn_finish', $_REQUEST))
+else if (array_key_exists('btn_finish', $_POST))
 {
     if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
     {
-        if (array_key_exists('chk_dummydata', $_REQUEST) && $_REQUEST['chk_dummydata'])
+        if (array_key_exists('chk_dummydata', $_POST) && $_POST['chk_dummydata'])
         {
             $oUpgrader->insertDummyData();
         }
@@ -218,7 +218,7 @@ else if (array_key_exists('btn_finish', $_REQUEST))
     $oUpgrader->setOpenadsInstalledOn();
     $action = OA_UPGRADE_FINISH;
 }
-else if (array_key_exists('dirPage', $_REQUEST) && !empty($_POST['dirPage']))
+else if (array_key_exists('dirPage', $_POST) && !empty($_POST['dirPage']))
 {
     $action = $_POST['dirPage'];
     if ($_POST['dirPage'] == OA_UPGRADE_SYSCHECK) {
