@@ -70,13 +70,18 @@ class migration_tables_core_127Test extends MigrationTest
             $this->oDbh->exec($sql);
         }
         
-        $aBannerValues = array('bannerid' => 1, 'campaignid' => 3);
-        $sql = OA_DB_Sql::sqlForInsert('banners', $aBannerValues);
-        $this->oDbh->exec($sql);
+        $aABannerValues = array(
+            array('bannerid' => 1, 'campaignid' => 3),
+            array('bannerid' => 2, 'campaignid' => 3)
+        );
+        foreach ($aABannerValues as $aBannerValues) {
+            $sql = OA_DB_Sql::sqlForInsert('banners', $aBannerValues);
+            $this->oDbh->exec($sql);
+        }
 
         $this->upgradeToVersion(127);
         
-        $aAssocTables = array('ad_zone_assoc' => 2, 'placement_zone_assoc' => 1);
+        $aAssocTables = array('ad_zone_assoc' => 3, 'placement_zone_assoc' => 1);
         foreach($aAssocTables as $assocTable => $cAssocs) {
             $rsCAssocs = DBC::NewRecordSet("SELECT count(*) cassocs FROM $assocTable");
             $this->assertTrue($rsCAssocs->find());

@@ -377,13 +377,14 @@ class ZoneCampaignHandler extends ZoneAdObjectHandler
         if (PEAR::isError($result)) {
             return $result;
         }
-        $sBannerIds = '';
+        $aBannerIds = array();
         while($result = $rsBanners->fetch()) {
             if (PEAR::isError($result)) {
                 return $result;
             }
-            $sBannerIds .= 'bannerid:' . $rsBanners->get('bannerid');
+            $aBannerIds []= 'bannerid:' . $rsBanners->get('bannerid');
         }
+        $sBannerIds = implode(",", $aBannerIds);
         $zoneBannerHandler = new ZoneBannerHandler($this->prefix, $this->zone_id, $sBannerIds);
         return $zoneBannerHandler->insertAssocs($oDbh);
     }
