@@ -110,26 +110,26 @@ class Delivery_TestOfLog extends UnitTestCase
         // Disable reverse lookups
         $conf['logging']['reverseLookup'] = false;
         // Set no hosts to ignore
-        $conf['ignoreHosts'] = array();
+        $conf['logging']['ignoreHosts'] = '';
         // Test
         $this->assertTrue(_viewersHostOkayToLog());
         // Set different IP addresses to ignore
-        $conf['ignoreHosts'] = array('23.23.23.23', '127.0.0.1');
+        $conf['logging']['ignoreHosts'] = '23.23.23.23,127.0.0.1';
         // Test
         $this->assertTrue(_viewersHostOkayToLog());
         // Set different and same IP addresses to ignore
-        $conf['ignoreHosts'] = array('23.23.23.23', '24.24.24.24', '127.0.0.1');
+        $conf['logging']['ignoreHosts'] = '23.23.23.23,24.24.24.24,127.0.0.1';
         // Test
         $this->assertFalse(_viewersHostOkayToLog());
         // Set a fake, known IP address and host name
         $_SERVER['REMOTE_ADDR'] = '24.24.24.24';
         $_SERVER['REMOTE_HOST'] = 'example.com';
         // Set different IP addresses to ignore
-        $conf['ignoreHosts'] = array('23.23.23.23', 'www.example.com', '127.0.0.1');
+        $conf['logging']['ignoreHosts'] = '23.23.23.23,www.example.com,127.0.0.1';
         // Test
         $this->assertTrue(_viewersHostOkayToLog());
         // Set different and same IP addresses to ignore
-        $conf['ignoreHosts'] = array('23.23.23.23', 'example.com', '127.0.0.1');
+        $conf['logging']['ignoreHosts'] = '23.23.23.23,example.com,127.0.0.1';
         // Test
         $this->assertFalse(_viewersHostOkayToLog());
         // Set a fake, known IP address and host name
@@ -138,14 +138,14 @@ class Delivery_TestOfLog extends UnitTestCase
         // Enable revers lookups
         $conf['logging']['reverseLookup'] = true;
         // Set different IP addresses to ignore
-        $conf['ignoreHosts'] = array('23.23.23.23', 'example.com');
+        $conf['logging']['ignoreHosts'] = '23.23.23.23,example.com';
         // Test
         $this->assertTrue(_viewersHostOkayToLog());
         // Set a fake, known IP address and host name
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['REMOTE_HOST'] = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         // Set different and same IP addresses to ignore
-        $conf['ignoreHosts'] = array('23.23.23.23', gethostbyaddr($_SERVER['REMOTE_ADDR']));
+        $conf['logging']['ignoreHosts'] = '23.23.23.23,' . gethostbyaddr($_SERVER['REMOTE_ADDR']);
         // Test
         $this->assertFalse(_viewersHostOkayToLog());
         // Reset the configuration
