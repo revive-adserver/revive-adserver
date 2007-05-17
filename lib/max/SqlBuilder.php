@@ -25,7 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Delivery/common.php';
+if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/common.php'])) {
+    // Required by PHP5.1.2
+    require_once MAX_PATH . '/lib/max/Delivery/common.php';
+}
 
 /**
  * @package    MaxDal
