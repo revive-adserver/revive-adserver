@@ -12,6 +12,7 @@
     <ant antfile="usecases/delivery/ai.xml" />
     <ant antfile="usecases/delivery/ajs.xml" />
     <ant antfile="usecases/delivery/avw.xml" />
+    <ant antfile="usecases/delivery/ck.xml" />
   </target>
 
 </project>

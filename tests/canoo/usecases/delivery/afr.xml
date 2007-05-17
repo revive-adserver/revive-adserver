@@ -19,16 +19,23 @@
         <invoke description="Invoke delivery file" url="/delivery/afr.php?what=bannerid:2" />
         &checkForErrors;
         &checkDeliveryCookies;
-        &verifyLinks;
         <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
         <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />
+        &verifyLinks;
+        
+        <invoke description="Invoke delivery file" url="/delivery/afr.php?what=bannerid:3" />
+        &checkForErrors;
+        &checkDeliveryCookies;
+        <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
+        <verifyText description="Check that ad contains a gif" regex="true" text="ai.php\?filename=468x60.gif&amp;contenttype=gif" />
+        &verifyLinks;
         
         <invoke description="Invoke delivery file" url="/delivery/afr.php?what=zone:1" />
         &checkForErrors;
         &checkDeliveryCookies;
-        &verifyLinks;
         <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
         <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />        
+        &verifyLinks;
       </steps>
 
     </testSpec>
