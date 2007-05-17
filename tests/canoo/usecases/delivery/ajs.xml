@@ -6,7 +6,7 @@
 >
 
 <!--
-  Test that returned binary data (returns what was in data field of images table)
+  Test that page generate the JavaScript which contains the ad
 -->
 <project name="Openads delivery - ajs.php" basedir="../.." default="main">
   <import file="../../includes/init.xml"/>

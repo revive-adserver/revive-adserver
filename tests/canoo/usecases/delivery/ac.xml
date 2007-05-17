@@ -7,6 +7,9 @@
 ]
 >
 
+<!-- Similar test to afr.php, the only difference is that ???
+     TODO: refactor afr.php and ac.php so they should use the same base for tests
+-->
 <project name="Openads delivery - ac.php" basedir="../.." default="main">
   <import file="../../includes/init.xml"/>
   <import file="${webtest.home}/lib/taskdef.xml"/>

@@ -8,7 +8,7 @@
 >
 
 <!--
-  Test that returned binary data (returns what was in data field of images table)
+  Test that page redirects user to ai.php
 -->
 <project name="Openads delivery - avw.php" basedir="../.." default="main">
   <import file="../../includes/init.xml"/>
@@ -22,7 +22,7 @@
         <invoke description="Invoke delivery file" url="/delivery/avw.php?bannerid=3" />
         &checkForErrors;
         &checkDeliveryCookies;
-        <!-- Check that browser was redirected to aj.php file and that response contains gif -->
+        <!-- Check that browser was redirected to ai.php file and that response contains gif -->
         &checkForImageGif;
       </steps>
 

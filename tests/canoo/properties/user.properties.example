@@ -13,6 +13,13 @@ protocol=http
 basepath=erasmus/www
 
 ;---------------------------------------------
+; Access to existing testing database
+;---------------------------------------------
+sql.url=jdbc:mysql://localhost/test
+sql.user=username
+sql.password=password
+
+;---------------------------------------------
 ; What are the Openads' user credentials
 ;---------------------------------------------
 admin.name=admin

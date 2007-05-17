@@ -7,6 +7,8 @@
 ]
 >
 
+<!-- Test that delivery shows a proper ad for different requests (zone, bannerid, etc) -->
+
 <project name="Openads delivery - afr.php" basedir="../.." default="main">
   <import file="../../includes/init.xml"/>
   <import file="${webtest.home}/lib/taskdef.xml"/>
