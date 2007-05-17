@@ -296,19 +296,218 @@ class OA_Email
      *
      * @static
      * @param integer $advertiserId The advertiser's ID.
+     * @param integer $placementId  The advertiser's ID.
      * @param string  $reason       The reason for expiration. One of:
      *                              "date", "impressions".
+     * @param mixed   $value        The limit reason (ie. the date or value limit)
+     *                              used to decide that the placement is about to
+     *                              expire.
      * @return boolean|array False, if the report could not be created, otherwise
-     *                       an array of four elements:
+     *                       an array or arrays of four elements:
      *                          'subject'   => The email subject line.
      *                          'contents'  => The body of the email report.
      *                          'userEmail' => The email address to send the report to.
      *                          'userName'  => The real name of the email address, or null.
      */
-    function prepareplacementImpendingExpiryEmail($advertiserId, $reason)
+    function prepareplacementImpendingExpiryEmail($advertiserId, $placementId, $reason, $value)
     {
         OA::debug('   - Preparing "impending expiry" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
-        return false;
+
+        $aPref = $GLOBALS['_MAX']['PREF'];
+        if (is_null($aPref)) {
+            $aPref = MAX_Admin_Preferences::loadPrefs();
+        }
+
+        Language_Default::load();
+        global $strSirMadam, $strImpendingCampaignExpiry, $strMailHeader, $strMailFooter,
+               $strImpendingCampaignExpiryDateBody, $strImpendingCampaignExpiryImpsBody,
+               $strYourCampaign, $strTheCampiaignBelongingTo, $strImpendingCampaignExpiryBody,
+               $strCampaign, $strBanner, $strLinkedTo, $strNoBanners;
+
+        $oDbh =& OA_DB::singleton();
+
+        // Prepare the result array
+        $aResult = array();
+
+        // Prepare the sub-result array
+        $aSubResult = array(
+            'subject'   => '',
+            'contents'  => '',
+            'userEmail' => '',
+            'userName'  => null
+        );
+
+        // Prepare the expiration email body
+        if ($reason == 'date') {
+            $reason = $strImpendingCampaignExpiryDateBody;
+        } else if ($reason == 'impressions') {
+            $reason = $strImpendingCampaignExpiryImpsBody;
+        } else {
+            return false;
+        }
+
+        // Prepare the array of users that want warning emails
+        $aUsers = array();
+        if ($aPref['warn_admin'] == 't') {
+            $aUsers['admin'] = 'admin';
+        }
+        if ($aPref['warn_agency'] == 't') {
+            $aUsers['agency'] = 'agency';
+        }
+        if ($aPref['warn_client'] == 't') {
+            $aUsers['advertiser'] = 'advertiser';
+        }
+        if (empty($aUsers)) {
+            return false;
+        }
+
+        // Get the advertiser's details
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->clientid = $advertiserId;
+        $doClients->find();
+        if (!$doClients->fetch()) {
+            OA::debug('   - Error obtaining details for advertiser ID ' . $advertiserId . '.', PEAR_LOG_ERR);
+            return false;
+        }
+        $aAdvertiser = $doClients->toArray();
+
+        // Is warning the agency is set, is the agency ID the same as the admin ID?
+        if (isset($aUsers['agency']) && $aAdvertiser['agencyid'] == 0) {
+            OA::debug('   - Advertiser ID ' . $advertiserId . ' is owned by admin, no need to warn agency.', PEAR_LOG_ERR);
+            $aUsers['admin'] = 'admin';
+            unset($aUsers['agency']);
+        }
+
+        // Get & test the admin user's email address details, if required
+        if (isset($aUsers['admin'])) {
+            $doPreference = OA_Dal::factoryDO('preference');
+            $doPreference->agencyid = 0;
+            $doPreference->find();
+            if (!$doPreference->fetch()) {
+                unset($aUsers['admin']);
+            } else {
+                $aAdminOwner = $doPreference->toArray();
+                if (empty($aAdminOwner['admin_email'])) {
+                    OA::debug('   - No email for admin.', PEAR_LOG_ERR);
+                    unset($aUsers['admin']);
+                }
+                if (empty($aAdminOwner['admin_fullname'])) {
+                    $aAdminOwner['admin_fullname'] = $strSirMadam;
+                }
+            }
+        }
+
+        // Get & test the agency user's email address details, if required
+        if (isset($aUsers['agency'])) {
+            $doPreference = OA_Dal::factoryDO('preference');
+            $doPreference->agencyid = $aAdvertiser['agencyid'];
+            $doPreference->find();
+            if (!$doPreference->fetch()) {
+                unset($aUsers['agency']);
+            } else {
+                $aAgencyOwner = $doPreference->toArray();
+                if (empty($aAgencyOwner['admin_email'])) {
+                    OA::debug('   - No email for agency.', PEAR_LOG_ERR);
+                    unset($aUsers['agency']);
+                }
+                if (empty($aAgencyOwner['admin_fullname'])) {
+                    $aAgencyOwner['admin_fullname'] = $strSirMadam;
+                }
+            }
+        }
+
+        // Test the advertiser's email address details, if required
+        if (isset($aUsers['advertiser'])) {
+            if (empty($aAdvertiser['email'])) {
+                OA::debug('   - No email for advertiser ID ' . $advertiserId . '.', PEAR_LOG_ERR);
+                unset($aUsers['advertiser']);
+            }
+        }
+
+        // Re-test that there is a user to report to, and
+        // that they have an email address to mail
+        if (empty($aUsers)) {
+            return false;
+        }
+
+        // Double-check that the placement ID is owned by the advertiser
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->campaignid = $placementId;
+        $doCampaigns->find();
+        if (!$doCampaigns->fetch()) {
+            return false;
+        }
+        $aPlacement = $doCampaigns->toArray();
+        if ($aPlacement['clientid'] != $advertiserId) {
+            return false;
+        }
+
+        $aSubResult['subject'] = $strImpendingCampaignExpiry . ': ' . $aAdvertiser['clientname'];
+        $body  = $strMailHeader . "\n\n";
+        $body .= $reason . "\n\n";
+        $body .= $strImpendingCampaignExpiryBody . "\n\n";
+        $body .= $strCampaign . ' ' .
+                 strip_tags(phpAds_buildName($aPlacement['campaignid'], $aPlacement['campaignname'])) . "\n";
+        $body .= "-------------------------------------------------------\n\n";
+
+        // Get the ads in the placement
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $placementId;
+        $doBanners->find();
+        if ($doBanners->getRowCount() > 0) {
+            // List the ads
+            while ($doBanners->fetch()) {
+                $aAd = $doBanners->toArray();
+                $body .= ' ' . $strBanner . ' ' .
+                         strip_tags(phpAds_buildBannerName($aAd['bannerid'], $aAd['description'], $aAd['alt'])) . "\n";
+                if (!empty($aAd['url'])) {
+                    $body .= '  ' . $strLinkedTo . ': ' . $aAd['url'] . "\n";
+                }
+                $body .= "\n";
+            }
+        } else {
+            // No ads!
+            $body .= ' ' . $strNoBanners . "\n\n";
+        }
+
+        $body .= "-------------------------------------------------------\n\n";
+        $body .= "$strMailFooter";
+
+        if (empty($aAdvertiser['clientname'])) {
+        } else {
+        }
+        $body = str_replace("{date}",  $value, $body);
+        $body = str_replace("{limit}", $value, $body);
+        $body = str_replace("{adminfullname}", $aPref['admin_fullname'], $body);
+        foreach ($aUsers as $user) {
+            $realBody = $body;
+            if ($user == 'admin') {
+                $campaignReplace = $strTheCampiaignBelongingTo . ' ' . trim($aAdvertiser['clientname']);
+                $realBody = str_replace("{clientname}", $campaignReplace, $realBody);
+                $realBody = str_replace("{contact}", $aAdminOwner['admin_fullname'], $realBody);
+            } else if ($user == 'agency') {
+                $campaignReplace = $strTheCampiaignBelongingTo . ' ' . trim($aAdvertiser['clientname']);
+                $realBody = str_replace("{clientname}", $campaignReplace, $realBody);
+                $realBody = str_replace("{contact}", $aAgencyOwner['admin_fullname'], $realBody);
+            } else if ($user == 'advertiser') {
+                $campaignReplace = $strYourCampaign;
+                $realBody = str_replace("{clientname}", $campaignReplace, $realBody);
+                $realBody = str_replace("{contact}", $aAdvertiser['contact'], $realBody);
+            }
+            $aSubResult['contents'] = $realBody;
+            if ($user == 'admin') {
+                $aSubResult['userEmail'] = $aAdminOwner['admin_email'];
+                $aSubResult['userName']  = $aAdminOwner['admin_fullname'];
+            } else if ($user == 'agency') {
+                $aSubResult['userEmail'] = $aAgencyOwner['admin_email'];
+                $aSubResult['userName']  = $aAgencyOwner['admin_fullname'];
+            } else if ($user == 'advertiser') {
+                $aSubResult['userEmail'] = $aAdvertiser['email'];
+                $aSubResult['userName']  = $aAdvertiser['contact'];
+            }
+            $aResult[] = $aSubResult;
+        }
+        return $aResult;
     }
 
     /**

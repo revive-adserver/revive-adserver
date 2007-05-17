@@ -2379,6 +2379,7 @@ class OA_Dal_Maintenance_Statistics_Common
     function managePlacements($oDate)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
+        global $date_format;
         $report .= "\n";
         $aPreviousOIDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         // Select all placements in the system
@@ -2584,10 +2585,19 @@ class OA_Dal_Maintenance_Statistics_Common
                                     // so send that email, baby!
                                     $aEmail =& OA_Email::prepareplacementImpendingExpiryEmail(
                                         $aPlacement['advertiser_id'],
-                                        'date'
+                                        $aPlacement['campaign_id'],
+                                        'date',
+                                        $oEndDate->format($date_format)
                                     );
                                     if ($aEmail !== false) {
-                                        OA_Email::sendMail($aEmail['subject'], $aEmail['contents'], $aEmail['userEmail'], $aEmail['userName']);
+                                        foreach (array_keys($aEmail) as $key) {
+                                            OA_Email::sendMail(
+                                                $aEmail[$key]['subject'],
+                                                $aEmail[$key]['contents'],
+                                                $aEmail[$key]['userEmail'],
+                                                $aEmail[$key]['userName']
+                                            );
+                                        }
                                     }
                                 }
                             }
@@ -2609,10 +2619,19 @@ class OA_Dal_Maintenance_Statistics_Common
                                     // so send that email, baby!
                                     $aEmail =& OA_Email::prepareplacementImpendingExpiryEmail(
                                         $aPlacement['advertiser_id'],
-                                        'impressions'
+                                        $aPlacement['campaign_id'],
+                                        'impressions',
+                                        $aPrefs['warn_limit']
                                     );
                                     if ($aEmail !== false) {
-                                        OA_Email::sendMail($aEmail['subject'], $aEmail['contents'], $aEmail['userEmail'], $aEmail['userName']);
+                                        foreach (array_keys($aEmail) as $key) {
+                                            OA_Email::sendMail(
+                                                $aEmail[$key]['subject'],
+                                                $aEmail[$key]['contents'],
+                                                $aEmail[$key]['userEmail'],
+                                                $aEmail[$key]['userName']
+                                            );
+                                        }
                                     }
                                 }
                             }
