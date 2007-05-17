@@ -31,7 +31,11 @@ $Id$
 // Required files
 require_once MAX_PATH . '/lib/max/other/lib-db.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
-require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
+
+if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/cookie.php'])) {
+    // Required by PHP5.1.2
+    require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
+}
 require_once MAX_PATH . '/lib/max/Dal/Admin/Session.php';
 
 /**
