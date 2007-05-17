@@ -1,5 +1,30 @@
 <?php
 
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
 function display_error($message, $data='')
 {
     $error = true;
@@ -266,7 +291,7 @@ function get_max_version($dbh, $conf)
 {
     $query = "SELECT value FROM {$conf['table']['prefix']}application_variable WHERE name ='max_version'";
     $result = $dbh->getOne($query);
-	
+
     return $result;
 }
 
@@ -367,7 +392,7 @@ function save_scenario($basename, $conf)
 {
 	$dsn = OA_DB::getDsn($conf);
     $dbh = &OA_DB::singleton($dsn);
-    
+
     $conf['simdb']['version'] = get_max_version($dbh, $conf);
 
     $versname = $conf['simdb']['version'].'_'.$basename;

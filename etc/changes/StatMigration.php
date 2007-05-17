@@ -1,4 +1,5 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
 | Openads v2.3                                                              |
@@ -41,38 +42,38 @@ class StatMigration extends Migration
         }
     }
 
-    
+
     function migrateCompactStats()
     {
 	    $prefix              = $this->getPrefix();
 	    $tableAdStats        = $prefix . 'adstats';
 	    $tableDataIntermediateAd = $prefix . 'data_intermediate_ad';
-	    
+
 	    $timestamp = date('Y-m-d H:i:s', time());
-	    
+
 	    $this->_getOperationIntervalInfo($operationIntervalId, $operationInterval, $dateStart, $dateEnd);
-	    
+
 	    $sql = "
 	       INSERT INTO $tableDataIntermediateAd
 	           (day,hour,ad_id,creative_id,zone_id,impressions,clicks,operation_interval, operation_interval_id, interval_start, interval_end, updated)
 	           SELECT day, hour, bannerid, 0, zoneid, views, clicks, $operationInterval, $operationIntervalId, $dateStart, $dateEnd, '$timestamp'
 	           FROM $tableAdStats";
-	    
+
 	    return $this->migrateStats($sql);
     }
-    
-    
+
+
     function migrateRawStats()
     {
 	    $prefix              = $this->getPrefix();
 	    $tableAdViews        = $prefix . 'adviews';
 	    $tableAdClicks        = $prefix . 'adclicks';
 	    $tableDataIntermediateAd = $prefix . 'data_intermediate_ad';
-	    
+
 	    $timestamp = date('Y-m-d H:i:s', time());
-	    
+
 	    $this->_getOperationIntervalInfo($operationIntervalId, $operationInterval, $dateStart, $dateEnd);
-	    
+
 	    $sql = "
 	       INSERT INTO $tableDataIntermediateAd
 	           (ad_id, zone_id, creative_id, day, hour, impressions, clicks, operation_interval, operation_interval_id, interval_start, interval_end, updated)
@@ -87,37 +88,37 @@ class StatMigration extends Migration
 	               GROUP BY bannerid, zoneid, date_format(t_stamp, '%Y-%m-%d'), date_format(t_stamp, '%H'))
 	                   united
 	               GROUP BY ad_id, zone_id, day, hour";
-	    
+
 	    return $this->migrateStats($sql);
     }
-    
-    
+
+
     function migrateStats($sql)
     {
 	    $prefix              = $this->getPrefix();
 	    $tableDataIntermediateAd = $prefix . 'data_intermediate_ad';
 	    $tableDataSummaryAdHourly = $prefix . 'data_summary_ad_hourly';
-	    
+
 	    $result = $this->oDBH->exec($sql);
-	    
+
 	    if (PEAR::isError($result)) {
 	        return $this->_logErrorAndReturnFalse($result);
 	    }
-	    
+
 	    $sql = "
 	       INSERT INTO $tableDataSummaryAdHourly
 	           (ad_id, zone_id, creative_id, day, hour, impressions, clicks, updated)
     	       SELECT ad_id, zone_id, creative_id, day, hour, impressions, clicks, updated
     	       FROM $tableDataIntermediateAd";
 	    $result = $this->oDBH->exec($sql);
-	    
+
 	    if (PEAR::isError($result)) {
 	        return $this->_logErrorAndReturnFalse($result);
 	    }
-	    
+
 	    return true;
     }
-    
+
     function _getOperationIntervalInfo(&$operationIntervalId, &$operationInterval, &$dateStart, &$dateEnd)
     {
 	    $date = new Date();
@@ -129,8 +130,8 @@ class StatMigration extends Migration
 	    $dateStart = DBC::makeLiteral($aOperationIntervalDates['start']->format(TIMESTAMP_FORMAT));
 	    $dateEnd = DBC::makeLiteral($aOperationIntervalDates['end']->format(TIMESTAMP_FORMAT));
     }
-    
-    
+
+
     function statsCompacted()
     {
         $phpAdsNew = new OA_phpAdsNew();

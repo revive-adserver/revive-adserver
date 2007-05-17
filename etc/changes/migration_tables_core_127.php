@@ -1,5 +1,30 @@
 <?php
 
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 
 class Migration_127 extends Migration
@@ -207,7 +232,7 @@ class Migration_127 extends Migration
 	    if (PEAR::isError($result)) {
 	        $this->_logErrorAndReturnFalse($result);
 	    }
-	    
+
 	    $aZoneAdObjectHandlers = array();
 	    while($result = $rsZones->fetch()) {
 	        if (PEAR::isError($result)) {
@@ -224,7 +249,7 @@ class Migration_127 extends Migration
 	        }
 	        $aZoneAdObjectHandlers []= $zoneAdObjectHandler;
 	    }
-	    
+
 	    foreach ($aZoneAdObjectHandlers as $zoneAdObjectHandler) {
 	        $result = $zoneAdObjectHandler->insertAssocs($this->oDBH);
 	        if (PEAR::isError($result)) {
@@ -233,7 +258,7 @@ class Migration_127 extends Migration
 	    }
 	}
 }
-	
+
 
 function OA_upgrade_getAdObjectIds($sIdList, $adObjectType)
 {
@@ -275,7 +300,7 @@ class ZoneAdObjectHandler
         $this->aAdObjectIds = OA_upgrade_getAdObjectIds($sIdList, $adObjectType);
         $this->prefix = $prefix;
     }
-    
+
     /**
      * Inserts associations between zone and ad objects (campaign or banner)
      * represented by this handler.
@@ -305,13 +330,13 @@ class ZoneBannerHandler extends ZoneAdObjectHandler
     {
         $this->ZoneAdObjectHandler($prefix, $zone_id, $sIdList, 'bannerid');
     }
-    
-    
+
+
     function getAssocTable()
     {
         return 'ad_zone_assoc';
     }
-    
+
     function getAdObjectColumn()
     {
         return 'ad_id';
@@ -324,26 +349,26 @@ class ZoneCampaignHandler extends ZoneAdObjectHandler
     {
         $this->ZoneAdObjectHandler($prefix, $zone_id, $sIdList, 'clientid');
     }
-    
-    
+
+
     function getAssocTable()
     {
         return 'placement_zone_assoc';
     }
-    
+
     function getAdObjectColumn()
     {
         return 'placement_id';
     }
-    
-    
+
+
     function insertAssocs($oDbh)
     {
         $result = parent::insertAssocs($oDbh);
         if (PEAR::isError($result)) {
             return $result;
         }
-        
+
         $sCampaignIds = implode(", ", $this->aAdObjectIds);
         $tableBanners = $this->prefix . 'banners';
         $sql = "SELECT bannerid FROM $tableBanners WHERE campaignid IN ($sCampaignIds)";

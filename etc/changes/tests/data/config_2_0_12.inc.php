@@ -1,5 +1,30 @@
 <?php
 
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
 /*********************************************************/
 /* Database configuration                                */
 /*********************************************************/
@@ -149,13 +174,13 @@ $phpAds_config['warn_admin'] = true;
 $phpAds_config['warn_client'] = true;
 
 // Minimum clicks/views before warning e-mail is sent
-$phpAds_config['warn_limit'] = 100; 
+$phpAds_config['warn_limit'] = 100;
 
 // Days before warning e-mail is sent
-$phpAds_config['warn_limit_days'] = 1; 
+$phpAds_config['warn_limit_days'] = 1;
 
 // Use packed cookies
-$phpAds_config['pack_cookies'] = false; 
+$phpAds_config['pack_cookies'] = false;
 
 
 
@@ -210,7 +235,7 @@ $phpAds_config['default_banner_target'] = '';
 // click logging.
 $phpAds_config['type_html_auto'] = true;
 
-// Allow php expressions to be executed from within a 
+// Allow php expressions to be executed from within a
 // HTML banner
 $phpAds_config['type_html_php'] = false;
 
