@@ -3,7 +3,7 @@
     <tr>
         <td colspan='2' align='center'>
         <?php
-            if ($displayError == true) {
+            if ($displayError == true) {  
             	include 'install-messages.html';
             }        
         ?>
@@ -25,6 +25,8 @@
         noerrors = max_formValidate(f);
         if (noerrors == true) {
             document.getElementById('dbLoader').style.display='block';
+            document.getElementById('dbLoader').style.top='-510px';
+            document.getElementById('dbLoader').style.height='570px';
         }        
         return(noerrors);
     }
@@ -144,11 +146,12 @@
                 <input type="hidden" name="dirPage" id="dirPage" value="" />
 </form>
   
-
 <form name="frmOpenads2" id="frmOpenads2" method="POST" action="install.php">
                 <input type="submit" class="button floatleft" name="btn_syscheck" value="<?php echo $strBtnGoBack; ?>" />
 </form>
-<div id="dbLoader" class="pageLoader tab-s" style="display: none;">Processing...</div>
+
+<div id="dbLoader" class="pageLoader tab-s" style="display: none;"><div>Processing...</div></div>
+
 </div>
 <form>
                 

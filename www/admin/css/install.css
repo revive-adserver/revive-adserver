@@ -92,15 +92,16 @@ div.sysinfoerror {
     background-repeat:   no-repeat;
     background-position: 50% 185px;
     position: relative;
-    top: -490px;
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
-	padding-top: 170px;
 	background-color: #ffffff;
     width: 950px;
-    height: 500px;
+    height: 1px;
 	opacity:.80;filter: alpha(opacity=80); -moz-opacity: 0.8;
+}
+.pageLoader div {
+	padding-top: 165px;
 }
 
 #graph_container {
