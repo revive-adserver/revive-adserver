@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -51,6 +51,8 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Domain extends UnitTestCa
      */
     function test_getSqlLimitation()
     {
+        $current_quotes_runtime = get_magic_quotes_runtime();
+
         $oPlugin = &MAX_Plugin::factory('deliveryLimitations', 'Client', 'Domain');
 
         $result = $oPlugin->_getSqlLimitation('==', '*');
@@ -69,12 +71,14 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Domain extends UnitTestCa
         set_magic_quotes_runtime(0);
         $result = $oPlugin->_getSqlLimitation('==', 'WWW.for"nax.net');
         $this->assertEqual($result, "LOWER(RIGHT(host_name, 15)) = ('www.for\\\"nax.net')");
+
+        set_magic_quotes_runtime($current_quotes_runtime);
     }
 
 
     /**
      * Tests the delivery part of this plugin.
-     * 
+     *
      * The test works only if the testing machine has a proper setup!
      */
     function test_checkClientDomain()

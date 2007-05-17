@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -97,16 +97,6 @@ class Delivery_TestOfLog extends UnitTestCase
     }
 
     /**
-     * A method to test the MAX_Delivery_log_logBenchmark() function.
-     *
-     * @TODO Not implemented.
-     */
-    function test_MAX_Delivery_log_logBenchmark()
-    {
-
-    }
-
-    /**
      * A method to test the _viewersHostOkayToLog() function.
      */
     function test_viewersHostOkayToLog()
@@ -120,26 +110,26 @@ class Delivery_TestOfLog extends UnitTestCase
         // Disable reverse lookups
         $conf['logging']['reverseLookup'] = false;
         // Set no hosts to ignore
-        $conf['ignoreHosts'] = array();
+        $conf['logging']['ignoreHosts'] = '';
         // Test
         $this->assertTrue(_viewersHostOkayToLog());
         // Set different IP addresses to ignore
-        $conf['ignoreHosts'] = array('23.23.23.23', '127.0.0.1');
+        $conf['logging']['ignoreHosts'] = '23.23.23.23,127.0.0.1';
         // Test
         $this->assertTrue(_viewersHostOkayToLog());
         // Set different and same IP addresses to ignore
-        $conf['ignoreHosts'] = array('23.23.23.23', '24.24.24.24', '127.0.0.1');
+        $conf['logging']['ignoreHosts'] = '23.23.23.23,24.24.24.24,127.0.0.1';
         // Test
         $this->assertFalse(_viewersHostOkayToLog());
         // Set a fake, known IP address and host name
         $_SERVER['REMOTE_ADDR'] = '24.24.24.24';
         $_SERVER['REMOTE_HOST'] = 'example.com';
         // Set different IP addresses to ignore
-        $conf['ignoreHosts'] = array('23.23.23.23', 'www.example.com', '127.0.0.1');
+        $conf['logging']['ignoreHosts'] = '23.23.23.23,www.example.com,127.0.0.1';
         // Test
         $this->assertTrue(_viewersHostOkayToLog());
         // Set different and same IP addresses to ignore
-        $conf['ignoreHosts'] = array('23.23.23.23', 'example.com', '127.0.0.1');
+        $conf['logging']['ignoreHosts'] = '23.23.23.23,example.com,127.0.0.1';
         // Test
         $this->assertFalse(_viewersHostOkayToLog());
         // Set a fake, known IP address and host name
@@ -148,14 +138,14 @@ class Delivery_TestOfLog extends UnitTestCase
         // Enable revers lookups
         $conf['logging']['reverseLookup'] = true;
         // Set different IP addresses to ignore
-        $conf['ignoreHosts'] = array('23.23.23.23', 'example.com');
+        $conf['logging']['ignoreHosts'] = '23.23.23.23,example.com';
         // Test
         $this->assertTrue(_viewersHostOkayToLog());
         // Set a fake, known IP address and host name
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['REMOTE_HOST'] = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         // Set different and same IP addresses to ignore
-        $conf['ignoreHosts'] = array('23.23.23.23', gethostbyaddr($_SERVER['REMOTE_ADDR']));
+        $conf['logging']['ignoreHosts'] = '23.23.23.23,' . gethostbyaddr($_SERVER['REMOTE_ADDR']);
         // Test
         $this->assertFalse(_viewersHostOkayToLog());
         // Reset the configuration
@@ -201,7 +191,7 @@ class Delivery_TestOfLog extends UnitTestCase
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
         $this->assertEqual(count($geotargeting), 0);
-        $this->assertEqual(count($zoneInfo), 1);
+        $this->assertEqual(count($zoneInfo), 0);
         $this->assertEqual(count($userAgentInfo), 0);
         $this->assertEqual($maxHttps, 0);
         // Enable reverse lookups
@@ -221,7 +211,7 @@ class Delivery_TestOfLog extends UnitTestCase
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $this->assertEqual($_SERVER['REMOTE_HOST'], gethostbyaddr($_SERVER['REMOTE_ADDR']));
         $this->assertEqual(count($geotargeting), 0);
-        $this->assertEqual(count($zoneInfo), 1);
+        $this->assertEqual(count($zoneInfo), 0);
         $this->assertEqual(count($userAgentInfo), 0);
         $this->assertEqual($maxHttps, 0);
         // Enable geotargeting
@@ -258,7 +248,7 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertEqual($geotargeting['organisation'], 'Foo');
         $this->assertEqual($geotargeting['isp'], 'Bar');
         $this->assertEqual($geotargeting['netspeed'], 'Unknown');
-        $this->assertEqual(count($zoneInfo), 1);
+        $this->assertEqual(count($zoneInfo), 0);
         $this->assertEqual(count($userAgentInfo), 0);
         $this->assertEqual($maxHttps, 0);
         // Set a passed in referer location
@@ -383,7 +373,7 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertEqual($userAgentInfo['browser'], 'ie');
         $this->assertEqual($maxHttps, 0);
         // Set the request to be "HTTPS"
-        $_SERVER['SERVER_PORT'] = $conf['max']['sslPort'];
+        $_SERVER['SERVER_PORT'] = $conf['openads']['sslPort'];
         // Test
         unset($geotargeting);
         unset($zoneInfo);
@@ -456,7 +446,7 @@ class Delivery_TestOfLog extends UnitTestCase
         // Test 3
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['var']['blockAd'] = 'MAXBLOCK';
-        $_GET['MAXBLOCK'] = 1 . MAX_DELIVERY_MULTIPLE_DELIMITER . 5;
+        $_GET['MAXBLOCK'] = 1 . $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'] . 5;
         $aReturn = MAX_Delivery_log_getArrGetVariable('blockAd');
         $this->assertTrue(is_array($aReturn));
         $this->assertFalse(empty($aReturn));

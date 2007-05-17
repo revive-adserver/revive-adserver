@@ -31,7 +31,7 @@ global $GEOIP_COUNTRY_CODE_TO_NUMBER, $GEOIP_COUNTRY_CODES, $GEOIP_COUNTRY_NAMES
 /*
  * Changelog:
  *
- * 2005-01-13   Andrew Hill, m3 Media Services Limited (http://www.m3.net)
+ * 2005-01-13   Andrew Hill, Openads Limited (http://www.openads.org)
  *              Formatted file according to PEAR library standards.
  *              Moved $GEOIP_COUNTRY_CODE_TO_NUMBER, $GEOIP_COUNTRY_CODES,
  *                  $GEOIP_COUNTRY_CODES3 and $GEOIP_COUNTRY_NAMES into the

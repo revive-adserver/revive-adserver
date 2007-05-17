@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -61,16 +61,18 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_City extends Plugins_Deliver
 
     function testCompile()
     {
+        $current_quotes_runtime = get_magic_quotes_runtime();
         set_magic_quotes_runtime(1);
-        $oPlugin = &MAX_Plugin::factory('deliveryLimitations', 'Geo', 'City');
 
+        $oPlugin = &MAX_Plugin::factory('deliveryLimitations', 'Geo', 'City');
         $rawData = 'GB|London, Manchester';
         $oPlugin->init(array('data' => $rawData, 'comparison' => '=='));
         $this->assertEqual('MAX_checkGeo_City(\'gb|london,manchester\', \'==\')', $oPlugin->compile());
         $this->assertEqual($rawData, $oPlugin->getData());
-
         $oPlugin->init(array('data' => array('GB', 'London, Manchester'), 'comparison' => '=='));
         $this->assertEqual('MAX_checkGeo_City(\'gb|london,manchester\', \'==\')', $oPlugin->compile());
+
+        set_magic_quotes_runtime($current_quotes_runtime);
     }
 
     function testOverlap()
@@ -98,8 +100,8 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_City extends Plugins_Deliver
         $this->assertFalse(MAX_checkGeo_City('pl|',
             'bla', array('country_code' => 'PL', 'city' => 'Szczecin')));
     }
-    
-    
+
+
     function testGetName()
     {
         $oPlugin = &MAX_Plugin::factory('deliveryLimitations', 'Geo', 'City');

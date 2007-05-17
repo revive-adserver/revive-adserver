@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -33,8 +33,8 @@ $Id$
  * @package    Max
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
- * 
- * @todo Only show HTML when run from Web.  
+ *
+ * @todo Only show HTML when run from Web.
  */
 
 require_once 'init.php';
@@ -56,7 +56,7 @@ if ($runner->output_format_name == 'html') {
 /* TODO: Consider a non-Web environment */
 if (defined('TEST_ENVIRONMENT_NO_CONFIG')) {
     echo "<h1>Cannot Run Tests</h1>\n";
-    echo "<p>You have not copied the the test.conf.ini file in the\n";
+    echo "<p>You have not copied the the test.conf.php file in the\n";
     echo "/etc directory into the /var directory, and edited the file,\n";
     echo "so that it contains your database server details.</p>\n";
     exit();
@@ -67,6 +67,27 @@ $start = microtime();
 // Store the type of test being run globally, to save passing
 // about as a parameter all the time
 $GLOBALS['_MAX']['TEST']['test_type'] = $_GET['type'];
+
+if ($GLOBALS['_MAX']['TEST']['test_type'] == 'phpunit') {
+    $dir = $_GET['dir'];
+    if (empty($dir)) {
+        echo 'Call was to run a PEAR PHPUnit test, but no test directory specified.';
+    } else {
+        // Copy over the PHPUnit CSS file
+        $result = @copy($dir . '/tests.css', MAX_PATH . '/tests/tests.css');
+        if (!$result) {
+            $error = '<p><b>Unable to copy the CSS file for the PHPUnit test. Check that the PHPUnit ' .
+            '\'test.css\' file exists, and that the web server process can write to the Openads \'test\' '.
+            'directory.</b></p><hr />';
+            echo $error;
+        }
+        // Run the PHPUnit tests
+        require_once $dir . '/test.php';
+        // Remove the PHPUnit CSS file
+        @unlink(MAX_PATH . '/tests/tests.css');
+    }
+    exit;
+}
 
 // Set longer time out
 if (!ini_get('safe_mode')) {
@@ -105,4 +126,5 @@ if ($runner->output_format_name == 'html') {
     echo '</b> seconds.</div>';
 }
 $runner->exitWithCode();
+
 ?>

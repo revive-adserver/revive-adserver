@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -36,7 +36,7 @@ Language_Maintenance::load();
 
 function phpAds_MaintenanceSelection($section)
 {
-    global 
+    global
          $phpAds_TextDirection
         ,$strBanners
         ,$strCache
@@ -45,6 +45,7 @@ function phpAds_MaintenanceSelection($section)
         ,$strSourceEdit
         ,$strStats
         ,$strStorage
+        ,$strMaintenance
     ;
 
 ?>
@@ -62,42 +63,41 @@ function maintenance_goto_section()
 <?php
     $conf =& $GLOBALS['_MAX']['CONF'];
     $pref =& $GLOBALS['_MAX']['PREF'];
-    
+
     echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
     echo "<tr><form name='maintenance_selection'><td height='35'>";
     echo "<b>".$strChooseSection.":&nbsp;</b>";
     echo "<select name='section' onChange='maintenance_goto_section();'>";
-    
-    if (phpAds_isUser(phpAds_Admin)) {    
+
+    if (phpAds_isUser(phpAds_Admin)) {
+        echo "<option value='maintenance'".($section == 'maintenance' ? ' selected' : '').">".$strMaintenance."</option>";
         echo "<option value='banners'".($section == 'banners' ? ' selected' : '').">".$strBanners."</option>";
         echo "<option value='priority'".($section == 'priority' ? ' selected' : '').">".$strPriority."</option>";
-    
-        
+
         $login = 'ftp://' . $conf['store']['ftpUsername'] . ':' . $conf['store']['ftpPassword'] . '@' .
-                 $cond['store']['ftpHost'] . '/' . $conf['store']['ftpPath'];
-        if ($pref['type_web_allow'] == true && (($conf['store']['mode'] == 0 && 
-            $conf['store']['webDir'] != '') || ($conf['store']['mode'] == 1 && 
+                 $conf['store']['ftpHost'] . '/' . $conf['store']['ftpPath'];
+        if ($pref['type_web_allow'] == true && (($conf['store']['mode'] == 0 &&
+            $conf['store']['webDir'] != '') || ($conf['store']['mode'] == 1 &&
             $login != '')) && $conf['webpath']['images'] != '')
             echo "<option value='storage'".($section == 'storage' ? ' selected' : '').">".$strStorage."</option>";
-        
-        if ($conf['delivery']['cache'] != 'none')
+
+        if (!isset($conf['delivery']['cache']) || $conf['delivery']['cache'] != 'none')
             echo "<option value='cache'".($section == 'zones' ? ' selected' : '').">".$strCache."</option>";
-    
-        //echo "<option value='source-edit'".($section == 'source-edit' ? ' selected' : '').">".$strSourceEdit."</option>";
+
         if ($conf['delivery']['acls']) {
             echo "<option value='acls'".($section == 'acls' ? ' selected' : '').">Delivery Limitations</option>";
         }
-        
+
         echo "<option value='appendcodes'".($section == 'appendcodes' ? ' selected' : '').">Append codes</option>";
     }
-    
+
     echo "<option value='finance'".($section == 'finance' ? ' selected' : '').">Finance</option>";
-        
+
     echo "</select>&nbsp;<a href='javascript:void(0)' onClick='maintenance_goto_section();'>";
     echo "<img src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";
     echo "</td></form></tr>";
       echo "</table>";
-    
+
     phpAds_ShowBreak();
 }
 

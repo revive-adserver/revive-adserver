@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -28,7 +28,6 @@ $Id$
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/plugins/deliveryLimitations/tests/unit/DeliveryLimitationsTestCase.plg.php';
 require_once MAX_PATH . '/plugins/deliveryLimitations/Site/Channel.delivery.php';
-require_once MAX_PATH . '/lib/max/Dal/Delivery/mysql.php';
 
 /**
  * A class for testing the Plugins_DeliveryLimitations_Geo_City class.
@@ -51,7 +50,9 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Site_Channel extends Plugins_Del
 
     function testCompile()
     {
+        $current_quotes_runtime = get_magic_quotes_runtime();
         set_magic_quotes_runtime(1);
+
         $oPlugin = &MAX_Plugin::factory('deliveryLimitations', 'Site', 'Channel');
         $oPlugin->init(array('data' => '21', 'comparison' => '=='));
         $this->assertEqual("(MAX_checkSite_Channel('21', '=='))", $oPlugin->compile());
@@ -64,15 +65,21 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Site_Channel extends Plugins_Del
 
         $oPlugin->init(array('data' => '21,43', 'comparison' => '!~'));
         $this->assertEqual("!(MAX_checkSite_Channel('21', '!~') || MAX_checkSite_Channel('43', '!~'))", $oPlugin->compile());
+
+        set_magic_quotes_runtime($current_quotes_runtime);
     }
 
     function testMAX_checkSite_Channel()
     {
+        $current_quotes_runtime = get_magic_quotes_runtime();
         set_magic_quotes_runtime(0);
+
         $GLOBALS['loc'] = 'localhost2';
         $this->assertTrue(MAX_checkSite_Channel('10', '=='));
         $GLOBALS['loc'] = 'blah.com';
         $this->assertFalse(MAX_checkSite_Channel('10', '=='));
+
+        set_magic_quotes_runtime($current_quotes_runtime);
     }
 
     function testOverlap()

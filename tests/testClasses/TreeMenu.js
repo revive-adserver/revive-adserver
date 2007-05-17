@@ -1,5 +1,5 @@
 // +-----------------------------------------------------------------------+
-// | Copyright (c) 2002-2003, Richard Heyes, Harald Radi                        |
+// | Copyright (c) 2002-2003, Richard Heyes, Harald Radi                   |
 // | All rights reserved.                                                  |
 // |                                                                       |
 // | Redistribution and use in source and binary forms, with or without    |
@@ -85,7 +85,7 @@ function arrayCopy(input)
 	{
 		newIndex = this.n.length;
 		this.n[newIndex] = newNode;
-		
+
 		return this.n[newIndex];
 	}
 
@@ -97,15 +97,15 @@ function arrayCopy(input)
 		var plustop    = new Image; plustop.src    = this.iconpath + '/plustop.gif';
 		var plusbottom = new Image; plusbottom.src = this.iconpath + '/plusbottom.gif';
 		var plus       = new Image; plus.src       = this.iconpath + '/plus.gif';
-	
+
 		var minustop    = new Image; minustop.src    = this.iconpath + '/minustop.gif';
 		var minusbottom = new Image; minusbottom.src = this.iconpath + '/minusbottom.gif';
 		var minus       = new Image; minus.src       = this.iconpath + '/minus.gif';
-	
+
 		var branchtop    = new Image; branchtop.src    = this.iconpath + '/branchtop.gif';
 		var branchbottom = new Image; branchbottom.src = this.iconpath + '/branchbottom.gif';
 		var branch       = new Image; branch.src       = this.iconpath + '/branch.gif';
-	
+
 		var linebottom = new Image; linebottom.src = this.iconpath + '/linebottom.gif';
 		var line       = new Image; line.src       = this.iconpath + '/line.gif';
 	}
@@ -123,7 +123,7 @@ function arrayCopy(input)
 		var modifier      = '';
 		var layerID       = '';
 		var parentLayerID = '';
-	
+
 		/**
 	    * Parse any optional arguments
 	    */
@@ -137,7 +137,7 @@ function arrayCopy(input)
 		var currentlevel  = level.length;
 
 		for (var i=0; i<nodes.length; i++) {
-		
+
 			level[currentlevel] = i+1;
 			layerID = this.myname + '_' + 'node_' + this.implode('_', level);
 
@@ -150,7 +150,7 @@ function arrayCopy(input)
 	        * Store the child/parent relationship
 	        */
 			this.childParents[layerID] = parentLayerID;
-	
+
 			/**
 	        * Gif modifier
 	        */
@@ -161,20 +161,20 @@ function arrayCopy(input)
 			} else {
 				modifier = "";
 			}
-	
+
 			/**
 	        * Single root branch is always expanded
 	        */
 			if (!this.doesMenu() || (parentLayerID == null && (nodes.length == 1 || this.noTopLevelImages))) {
 				expanded = true;
-	
+
 			} else if (nodes[i].expanded) {
 				expanded = true;
-	
+
 			} else {
 				expanded = false;
 			}
-	
+
 			/**
 	        * Make sure visibility is correct based on parent status
 	        */
@@ -188,7 +188,7 @@ function arrayCopy(input)
 				this.branchStatus[layerID] = expanded;
 				this.branches[this.branches.length] = layerID;
 			}
-	
+
 			/**
 	        * Setup toggle relationship
 	        */
@@ -196,14 +196,14 @@ function arrayCopy(input)
 				this.layerRelations[parentLayerID] = new Array();
 			}
 			this.layerRelations[parentLayerID][this.layerRelations[parentLayerID].length] = layerID;
-	
+
 			/**
 	        * Branch images
 	        */
 			var gifname  = nodes[i].n.length && this.doesMenu() && nodes[i].isDynamic ? (expanded ? 'minus' : 'plus') : 'branch';
 			var iconName = expanded && nodes[i].expandedIcon ? nodes[i].expandedIcon : nodes[i].icon;
 			var iconimg  = nodes[i].icon ? this.stringFormat('<img src="{0}/{1}" width="20" height="20" align="top" id="icon_{2}">', this.iconpath, iconName, layerID) : '';
-			
+
 			/**
 			* Add event handlers
 			*/
@@ -246,10 +246,10 @@ function arrayCopy(input)
 	            */
 				if (parentLayerID == null && (nodes.length == 1 || this.noTopLevelImages)) {
 					var newPrepend = '';
-	
+
 				} else if (i < (nodes.length - 1)) {
 					var newPrepend = prepend + this.stringFormat('<img src="{0}/line.gif" width="20" height="20" align="top">', this.iconpath);
-	
+
 				} else {
 					var newPrepend = prepend + this.stringFormat('<img src="{0}/linebottom.gif" width="20" height="20" align="top">', this.iconpath);
 				}
@@ -287,13 +287,13 @@ function arrayCopy(input)
 			if (this.branchStatus[this.layerRelations[layerID][i]]) {
 				this.toggleBranch(this.layerRelations[layerID][i], false);
 			}
-	
+
 			this.getLayer(this.layerRelations[layerID][i]).style.display = newDisplay;
 		}
-	
+
 		if (updateStatus) {
 			this.branchStatus[layerID] = !this.branchStatus[layerID];
-	
+
 			/**
 	        * Persistence
 	        */
@@ -306,11 +306,11 @@ function arrayCopy(input)
 			*/
 			if (fireEvents) {
 				nodeObject = this.nodeRefs[layerID];
-	
+
 				if (nodeObject.ontoggle != null) {
 					eval(nodeObject.ontoggle);
 				}
-				
+
 				if (newDisplay == 'none' && nodeObject.oncollapse != null) {
 					eval(nodeObject.oncollapse);
 				} else if (newDisplay == 'inline' && nodeObject.onexpand != null){
@@ -332,10 +332,10 @@ function arrayCopy(input)
 	TreeMenu.prototype.swapImage = function (layerID)
 	{
 		var imgSrc = document.images['img_' + layerID].src;
-	
+
 		var re = /^(.*)(plus|minus)(bottom|top|single)?.gif$/
 		if (matches = imgSrc.match(re)) {
-	
+
 			document.images['img_' + layerID].src = this.stringFormat('{0}{1}{2}{3}',
 			                                                matches[1],
 															matches[2] == 'plus' ? 'minus' : 'plus',
@@ -352,10 +352,10 @@ function arrayCopy(input)
 	{
 		if (document.images['icon_' + layerID]) {
 			var imgSrc = document.images['icon_' + layerID].src;
-	
+
 			if (this.nodeRefs[layerID].icon && this.nodeRefs[layerID].expandedIcon) {
 				var newSrc = (imgSrc.indexOf(this.nodeRefs[layerID].expandedIcon) == -1 ? this.nodeRefs[layerID].expandedIcon : this.nodeRefs[layerID].icon);
-	
+
 				document.images['icon_' + layerID].src = this.iconpath + '/' + newSrc;
 			}
 		}
@@ -384,10 +384,10 @@ function arrayCopy(input)
 	{
 		if (is_ie4) {
 			return document.all(layerID);
-	
+
 		} else if (document.getElementById(layerID)) {
 			return document.getElementById(layerID);
-	
+
 		} else if (document.all(layerID)) {
 			return document.all(layerID);
 		}
@@ -427,7 +427,7 @@ function arrayCopy(input)
 				cookieString[cookieString.length] = i;
 			}
 		}
-		
+
 		document.cookie = 'TreeMenuBranchStatus=' + cookieString.join(':');
 	}
 
@@ -458,7 +458,7 @@ function arrayCopy(input)
 		if (!this.doesPersistence()) {
 			return false;
 		}
-		
+
 		this.loadCookie();
 
 		for (var i=0; i<this.branches.length; i++) {
@@ -484,13 +484,13 @@ function arrayCopy(input)
 		if (this.in_array(this.childParents[layerID], this.branches)
 		    && this.branchStatus[this.childParents[layerID]]
 			&& this.checkParentVisibility(this.childParents[layerID]) ) {
-			
+
 			return true;
-	
+
 		} else if (this.childParents[layerID] == null) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -500,13 +500,13 @@ function arrayCopy(input)
 	TreeMenu.prototype.stringFormat = function (strInput)
 	{
 		var idx = 0;
-	
+
 		for (var i=1; i<arguments.length; i++) {
 			while ((idx = strInput.indexOf('{' + (i - 1) + '}', idx)) != -1) {
 				strInput = strInput.substring(0, idx) + arguments[i] + strInput.substr(idx + 3);
 			}
 		}
-		
+
 		return strInput;
 	}
 
@@ -516,7 +516,7 @@ function arrayCopy(input)
 	TreeMenu.prototype.implode = function (seperator, input)
 	{
 		var output = '';
-	
+
 		for (var i=0; i<input.length; i++) {
 			if (i == 0) {
 				output += input[i];
@@ -524,7 +524,7 @@ function arrayCopy(input)
 				output += seperator + input[i];
 			}
 		}
-		
+
 		return output;
 	}
 
@@ -538,7 +538,7 @@ function arrayCopy(input)
 				return true;
 			}
 		}
-	
+
 		return false;
 	}
 
@@ -570,7 +570,7 @@ function arrayCopy(input)
 	{
 		newIndex = this.n.length;
 		this.n[newIndex] = newNode;
-		
+
 		return this.n[newIndex];
 	}
 
@@ -601,7 +601,7 @@ function arrayCopy(input)
 * That's the end of the tree classes. What follows is
 * the browser detection code.
 */
-	
+
 
 //<!--
 // Ultimate client-side JavaScript client sniff. Version 3.03
@@ -681,7 +681,7 @@ function arrayCopy(input)
     var is_ie     = ((agt.indexOf("msie") != -1) && (agt.indexOf("opera") == -1));
     var is_ie4    = (is_ie && (is_major == 4) && (agt.indexOf("msie 4")!=-1) );
     var is_ie4up  = (is_ie && (is_major >= 4));
-	
+
 	var is_opera  = (agt.indexOf("opera") != -1);
 	var is_opera7 = is_opera && (agt.indexOf("opera 7") != -1);
 

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -103,29 +103,33 @@ class Plugins_Reports_Publisher_History extends Plugins_Reports {
 
     function execute($affiliateid, $delimiter=",")
     {
-        $conf = & $GLOBALS['_MAX']['CONF'];
     	global $date_format;
     	global $strAffiliate, $strTotal, $strDay, $strImpressions, $strClicks, $strCTRShort;
+
+        $conf = & $GLOBALS['_MAX']['CONF'];
+        $oDbh = &OA_DB::singleton();
 
         $reportName = 'm3 History Report.csv';
         header("Content-type: application/csv\nContent-Disposition: inline; filename=\"".$reportName."\"");
 
-    	$idresult = phpAds_dbQuery ("
+        $query = "
     		SELECT
     			zoneid
     		FROM
     			".$conf['table']['prefix'].$conf['table']['zones']."
     		WHERE
-    			affiliateid = '".$affiliateid."'
-    	");
+    			affiliateid = ". $oDbh->quote($affiliateid, 'integer');
 
-    	while ($row = phpAds_dbFetchArray($idresult))
-    	{
+        $idresult = $oDbh->query($query);
+        if (PEAR::isError($idresult)) {
+                return $idresult;
+        }
+
+    	while ($row = $idresult->fetchRow()) {
     		$zoneids[] = "zone_id = ".$row['zoneid'];
     	}
 
-
-    	$res_query = "
+    	$query = "
     		SELECT
     			DATE_FORMAT(day, '".$date_format."') as day,
     			SUM(impressions) AS adviews,
@@ -140,10 +144,12 @@ class Plugins_Reports_Publisher_History extends Plugins_Reports {
     	        DATE_FORMAT(day, '%Y%m%d')
     	";
 
-    	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
+        $res_banners = $oDbh->query($query);
+        if (PEAR::isError($res_banners)) {
+                return $res_banners;
+        }
 
-    	while ($row_banners = phpAds_dbFetchArray($res_banners))
-    	{
+    	while ($row_banners = $res_banners->fetchRow()) {
     		$stats [$row_banners['day']]['views'] = $row_banners['adviews'];
     		$stats [$row_banners['day']]['clicks'] = $row_banners['adclicks'];
     	}
@@ -154,10 +160,8 @@ class Plugins_Reports_Publisher_History extends Plugins_Reports {
     	$totalclicks = 0;
     	$totalviews = 0;
 
-    	if (isset($stats) && is_array($stats))
-    	{
-    		foreach (array_keys($stats) as $key)
-    		{
+    	if (isset($stats) && is_array($stats)) {
+    		foreach (array_keys($stats) as $key) {
     			$row = array();
 
     //			$key = implode('/',array_reverse(split('[-]',$key)));

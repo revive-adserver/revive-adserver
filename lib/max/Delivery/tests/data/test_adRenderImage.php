@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -85,7 +85,7 @@ $expect = "<a href='http://" . $GLOBALS['_MAX']['CONF']['webpath']['delivery'] .
     "/m3_test_468x60_blue.gif' width='468' height='60' alt='' title='' border='0' /></a>" .
     "<div id='beacon_7' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'>" .
     "<img src='http://" . $GLOBALS['_MAX']['CONF']['webpath']['delivery'] .
-    "/lg.php?bannerid=7&amp;campaignid=2&amp;zoneid=0&amp;channel_ids=&amp;{$conf['var']['blockAd']}=60&amp;" .
+    "/lg.php?bannerid=7&amp;campaignid=2&amp;zoneid=0&amp;{$conf['var']['blockAd']}=60&amp;" .
     "referer=http%3A%2F%2Fsome.referrer.com%2F&amp;cb={random}' width='0' height='0' alt='' " .
     "style='width: 0px; height: 0px;' /></div>";
 

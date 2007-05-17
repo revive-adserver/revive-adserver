@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -28,138 +28,75 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/Max.php';
-require_once 'PEAR.php';
+// require_once MAX_PATH . '/lib/Max.php';
+// require_once 'PEAR.php';
+
+$GLOBALS['_MAX']['PAN'] = array();
+
+
 /**
  * Check if the MySQL PHP extension is available
  */
 function phpAds_dbAvailable()
 {
     _raise_deprecated_db_api_warning();
-    
+
 	return (function_exists('mysql_connect'));
 }
 
 /**
  * Open a connection to the database.
- * 
- * @param enum $db Deprecated.
+ *
+ * @return True if connection was successful, false otherwise.
  * @deprecated 0.3.30 - 15-Nov-2006
  */
-function phpAds_dbConnect($db = phpAds_adminDb)
+function phpAds_dbConnect()
 {
     _raise_deprecated_db_api_warning();
-    
-	$conf = $GLOBALS['_MAX']['CONF'];
-	if ($db == phpAds_rawDb) {
-	    // Does the connection already exist?
-	    if (isset($GLOBALS['_MAX']['RAW_DB_LINK'])) {
-	        return $GLOBALS['_MAX']['RAW_DB_LINK'];
-	    }
-	    // Connect to the raw database
-	    if (isset($conf['rawDatabase'])) {
-	       $dbport     = isset($conf['rawDatabase']['port']) ? $conf['rawDatabase']['port'] : 3306;
-	       $dbhost     = $dbport != 3306 ? $conf['rawDatabase']['host'].':'.$dbport : $conf['rawDatabase']['host'];
-	       $dbuser     = $conf['rawDatabase']['username'];
-	       $dbpassword = $conf['rawDatabase']['password'];
-	       $dbname     = $conf['rawDatabase']['name'];
-	    } else {
-	        // Use the admin database as the raw database - normal Max
-	        // users will do this when connecting to the "raw" database
-	       $dbport     = isset($conf['database']['port']) ? $conf['database']['port'] : 3306;
-	       $dbhost     = $dbport != 3306 ? $conf['database']['host'].':'.$dbport : $conf['database']['host'];
-	       $dbuser     = $conf['database']['username'];
-	       $dbpassword = $conf['database']['password'];
-	       $dbname     = $conf['database']['name'];
-	    }
-	    if ($conf['database']['persistent']) {
-	        $phpAds_rawDb_link = @mysql_pconnect($dbhost, $dbuser, $dbpassword);
-	    } else {
-	        $phpAds_rawDb_link = @mysql_connect($dbhost, $dbuser, $dbpassword);
-	    }
-	    if (@mysql_select_db ($dbname, $phpAds_rawDb_link)) {
-	        $GLOBALS['_MAX']['RAW_DB_LINK'] = $phpAds_rawDb_link;
-	        return $phpAds_rawDb_link;
-	    }
-	} else {
-	    // Does the connection already exist?
-	    if (isset($GLOBALS['_MAX']['ADMIN_DB_LINK'])) {
-	        return $GLOBALS['_MAX']['ADMIN_DB_LINK'];
-	    }
-	    // Connect to the admin database
-	    $dbport     = isset($conf['database']['port']) ? $conf['database']['port'] : 3306;
-	    $dbhost     = $dbport != 3306 ? $conf['database']['host'].':'.$dbport : $conf['database']['host'];
-	    $dbuser     = $conf['database']['username'];
-	    $dbpassword = $conf['database']['password'];
-	    $dbname     = $conf['database']['name'];
-	    if ($conf['database']['persistent']) {
-	        $phpAds_db_link = @mysql_pconnect($dbhost, $dbuser, $dbpassword);
-	    } else {
-	        $phpAds_db_link = @mysql_connect($dbhost, $dbuser, $dbpassword);
-	    }
-	    if (@mysql_select_db($dbname, $phpAds_db_link)) {
-	        $GLOBALS['_MAX']['ADMIN_DB_LINK'] = $phpAds_db_link;
-	        return $phpAds_db_link;
-	    }
-	}
+
+    $GLOBALS['_MAX']['PAN']['DB'] = &OA_DB::singleton();
+    return !PEAR::isError($GLOBALS['_MAX']['PAN']['DB']);
 }
 
-/*-------------------------------------------------------*/
-/* Close the connection to the database			         */
-/*-------------------------------------------------------*/
-
-/*
-function phpAds_dbClose($db = phpAds_adminDb)
-{
-	// Never close the database connection, because
-	// it may interfere with other scripts which
-	// share the same connection.
-	global $phpAds_db_link, $phpAds_rawDb_link;
-	switch($db) {
-    case phpAds_rawDb: 
-        // mysql_close($phpAds_rawDb_link);
-        break;
-    case phpAds_adminDb:
-        // mysql_close($phpAds_db_link);
-        break;
-	default:
-        break;
-	}
-}
-*/
 
 /**
  * Execute a query against the configured database.
- * 
+ *
  * This function doesn't require an active connection to be present;
  * it will create a connection if none are available.
- * 
+ *
  * @param string  $query   An SQL query.
  * @param enum    $db      (Deprecated.)
- * @deprecated v0.3.30 - 15-Nov-2006 - Use MAX DB calls (from a DAL!) instead.  
+ * @deprecated v0.3.30 - 15-Nov-2006 - Use MAX DB calls (from a DAL!) instead.
  */
-function phpAds_dbQuery($query, $db = phpAds_adminDb)
+function phpAds_dbQuery($query)
 {
     _raise_deprecated_db_api_warning();
-    
-    global $phpAds_last_query;
-    $phpAds_last_query = $query;
-    if ($db == phpAds_rawDb) {        
-	    if (!isset($GLOBALS['_MAX']['RAW_DB_LINK'])) {
-	        phpAds_dbConnect(phpAds_rawDb);
-	    }
-	    return @mysql_query($query, $GLOBALS['_MAX']['RAW_DB_LINK']);
-    } else {
-	    if (!isset($GLOBALS['_MAX']['ADMIN_DB_LINK'])) {
-	        phpAds_dbConnect(phpAds_adminDb);
-	    }
-	    return @mysql_query($query, $GLOBALS['_MAX']['ADMIN_DB_LINK']);
+
+    $query = trim($query);
+    $queryType = strtoupper(substr($query, 0, 6));
+    if ("SELECT" == $queryType) {
+        $GLOBALS['_MAX']['PAN']['DB'] = &DBC::NewRecordSet($query);
+        if (PEAR::isError($GLOBALS['_MAX']['PAN']['DB'])) {
+            return false;
+        }
+        return $GLOBALS['_MAX']['PAN']['DB']->find();
+    }
+    else {
+        $dbh = &OA_DB::singleton();
+        if (PEAR::isError($dbh)) {
+            $GLOBALS['_MAX']['PAN']['DB'] = $dbh;
+            return false;
+        }
+        $cRows = $dbh->exec($query);
+        $GLOBALS['_MAX']['PAN']['DB'] = $cRows;
+        return !PEAR::isError($cRows);
     }
 }
 
 /**
  * Get the number of rows returned.
- * 
+ *
  * @param resource $res A MySQL result resource.
  * @return int
  * @deprecated 0.3.30 - 15-Nov-2006
@@ -167,7 +104,11 @@ function phpAds_dbQuery($query, $db = phpAds_adminDb)
 function phpAds_dbNumRows($res)
 {
     _raise_deprecated_db_api_warning();
-	return @mysql_num_rows($res);
+
+    if (PEAR::isError($GLOBALS['_MAX']['PAN']['DB'])) {
+        return false;
+    }
+    return $GLOBALS['_MAX']['PAN']['DB']->getRowCount();
 }
 
 /**
@@ -180,33 +121,15 @@ function phpAds_dbNumRows($res)
 function phpAds_dbFetchArray($res)
 {
     _raise_deprecated_db_api_warning();
-	return @mysql_fetch_array($res, MYSQL_ASSOC);
+    if (PEAR::isError($GLOBALS['_MAX']['PAN']['DB'])) {
+        return false;
+    }
+    if ($GLOBALS['_MAX']['PAN']['DB']->fetch()) {
+        return $GLOBALS['_MAX']['PAN']['DB']->toArray();
+    }
+    return false;
 }
 
-/**
- * Get next row as an array
- * @param resource $res A MySQL result resource.
- * @return array  (string 'field' => mixed)
- * @deprecated 0.3.30 - 15-Nov-2006
- * @todo Remove this function entirely. It is not used anywhere in the codebase!
- */
-function phpAds_dbFetchRow($res)
-{
-    _raise_deprecated_db_api_warning();
-	return @mysql_fetch_row($res);
-}
-
-/**
- * Get a specific row and column
- * @param resource $res A MySQL result resource.
- * @return mixed A value from the result set.
- * @deprecated 0.3.30 - 15-Nov-2006
- */
-function phpAds_dbResult($res, $row, $column)
-{
-    _raise_deprecated_db_api_warning();
-	return @mysql_result($res, $row, $column);
-}
 
 /**
  * Return the number of affected rows
@@ -217,7 +140,10 @@ function phpAds_dbResult($res, $row, $column)
 function phpAds_dbAffectedRows($db = phpAds_adminDb)
 {
     _raise_deprecated_db_api_warning();
-	return @mysql_affected_rows($db == phpAds_adminDb ? $GLOBALS['_MAX']['ADMIN_DB_LINK'] : $GLOBALS['_MAX']['RAW_DB_LINK']);
+    if (PEAR::isError($GLOBALS['_MAX']['PAN']['DB'])) {
+        return false;
+    }
+	return $GLOBALS['_MAX']['PAN']['DB'];
 }
 
 /**
@@ -229,33 +155,53 @@ function phpAds_dbAffectedRows($db = phpAds_adminDb)
 function phpAds_dbInsertID($db = phpAds_adminDb)
 {
     _raise_deprecated_db_api_warning();
-	return @mysql_insert_id($db == phpAds_adminDb ? $GLOBALS['_MAX']['ADMIN_DB_LINK'] : $GLOBALS['_MAX']['RAW_DB_LINK']);
+    $dbh = &OA_DB::singleton();
+    $id = $dbh->lastInsertID();
+    if (PEAR::isError($id)) {
+        return false;
+    }
+    return $id;
 }
 
 /**
  * Get the error message if something went wrong
+ *
+ * @todo Used a hack, it's deprecated, I reckon it doesn't need to be properly handled
  */
-function phpAds_dbError ($db = phpAds_adminDb)
+function phpAds_dbError($db = phpAds_adminDb)
 {
     _raise_deprecated_db_api_warning();
-	return @mysql_error($db == phpAds_adminDb ? $GLOBALS['_MAX']['ADMIN_DB_LINK'] : $GLOBALS['_MAX']['RAW_DB_LINK']);
+    $dbConn = $GLOBALS['_MAX']['PAN']['DB']->getConnection();
+    if ($GLOBALS['_MAX']['PAN']['DB']->connected_dsn['phptype'] == 'pgsql') {
+        return pg_errormessage($dbConn);
+    }
+    return mysql_error($dbConn);
 }
 
-function phpAds_dbErrorNo ($db = phpAds_adminDb)
+/**
+ * Get the error code if something went wrong
+ *
+ * @todo Used a hack, it's deprecated, I reckon it doesn't need to be properly handled
+ */
+function phpAds_dbErrorNo($db = phpAds_adminDb)
 {
     _raise_deprecated_db_api_warning();
-	return @mysql_errno($db == phpAds_adminDb ? $GLOBALS['_MAX']['ADMIN_DB_LINK'] : $GLOBALS['_MAX']['RAW_DB_LINK']);
+    $dbConn = $GLOBALS['_MAX']['PAN']['DB']->getConnection();
+    if ($GLOBALS['_MAX']['PAN']['DB']->connected_dsn['phptype'] == 'pgsql') {
+        return -1;
+    }
+    return mysql_errno($dbConn);
 }
 
 /**
  * Raise a warning to help us find and remove code which still uses this API.
- * 
+ *
  * @return void
  * @private
  */
 function _raise_deprecated_db_api_warning()
 {
-    $depreciation_warning =& new PEAR_Error("The old phpAds_db* API has been deprecated. New code should be in a DAL.");
-    MAX::debug($depreciation_warning, PEAR_LOG_WARNING);
+    //$depreciation_warning = new PEAR_Error("The old phpAds_db* API has been deprecated. New code should be in a DAL.");
+    //MAX::debug($depreciation_warning, PEAR_LOG_WARNING);
 }
 ?>

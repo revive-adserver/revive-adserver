@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
@@ -42,32 +43,22 @@ phpAds_registerGlobal ('value');
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
 if (phpAds_isUser(phpAds_Agency))
 {
-    $query = "SELECT ".
-		$conf['table']['prefix'].$conf['table']['banners'].".bannerid as bannerid".
-		" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-		",".$conf['table']['prefix'].$conf['table']['campaigns'].
-		",".$conf['table']['prefix'].$conf['table']['banners'].
-		" WHERE ".$conf['table']['prefix'].$conf['table']['campaigns'].".clientid='".$clientid."'".
-		" AND ".$conf['table']['prefix'].$conf['table']['banners'].".campaignid='".$campaignid."'".
-		" AND ".$conf['table']['prefix'].$conf['table']['banners'].".campaignid=".$conf['table']['prefix'].$conf['table']['campaigns'].".campaignid".
-		" AND ".$conf['table']['prefix'].$conf['table']['campaigns'].".clientid=".$conf['table']['clients'].".clientid".
-		" AND ".$conf['table']['prefix'].$conf['table']['clients'].".agencyid=".phpAds_getUserID()
-    ;
-    // if specific banner requested, make sure it is linked to this campaign to prevent URL mangling
-    if ($bannerid) {
-        $query .= " AND ".$conf['table']['prefix'].$conf['table']['banners'].".bannerid='".$bannerid."'";
+    $doBanners = OA_Dal::factoryDO('banners');
+    $doBanners->addReferenceFilter('agency', phpAds_getUserID());
+    $doBanners->addReferenceFilter('campaigns', $campaignid);
+    $doBanners->addReferenceFilter('clients', $clientid);
+    if (!empty($bannerid)) {
+        $doBanners->addReferenceFilter('banners', $bannerid);
     }
-    $res = phpAds_dbQuery($query)
-		or phpAds_sqlDie();
-    if (phpAds_dbNumRows($res) == 0)
-	{
-		phpAds_PageHeader("2");
-		phpAds_Die ($strAccessDenied, $strNotAdmin);
-	}
+    $doBanners->find();
+
+    if (!$doBanners->getRowCount()) {
+        phpAds_PageHeader("2");
+    	phpAds_Die ($strAccessDenied, $strNotAdmin);
+    }
 }
 
 
@@ -85,35 +76,20 @@ if (phpAds_isUser(phpAds_Client))
 	if (($value == 'f' && phpAds_isAllowed(phpAds_DisableBanner)) ||
 	    ($value == 't' && phpAds_isAllowed(phpAds_ActivateBanner)))
 	{
-		$result = phpAds_dbQuery("
-			SELECT
-				campaignid
-			FROM
-				".$conf['table']['prefix'].$conf['table']['banners']."
-			WHERE
-				bannerid = '$bannerid'
-			") or phpAds_sqlDie();
-		$row = phpAds_dbFetchArray($result);
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->get($bannerid);
 
-		if ($row["campaignid"] == '' || phpAds_getUserID() != phpAds_getCampaignParentClientID ($row["campaignid"]))
+
+		if ($doBanners->campaignid == '' || phpAds_getUserID() != phpAds_getCampaignParentClientID ($doBanners->campaignid))
 		{
 			phpAds_PageHeader("1");
 			phpAds_Die ($strAccessDenied, $strNotAdmin);
 		}
 		else
 		{
-			$campaignid = $row["campaignid"];
-
-			$res = phpAds_dbQuery("
-				UPDATE
-					".$conf['table']['prefix'].$conf['table']['banners']."
-				SET
-					active = '$value',
-					updated = '".date('Y-m-d H:i:s')."'
-				WHERE
-					bannerid = '$bannerid'
-				") or phpAds_sqlDie();
-
+			$campaignid = $doBanners->campaignid;
+            $doBanners->active = $value;
+            $doBanners->update();
 
 			// Run the Maintenance Priority Engine process
             MAX_Maintenance_Priority::run();
@@ -133,29 +109,21 @@ if (phpAds_isUser(phpAds_Client))
 }
 elseif (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 {
-	if (isset($bannerid) && $bannerid != '')
+	if (!empty($bannerid))
 	{
-		$res = phpAds_dbQuery("
-			UPDATE
-				".$conf['table']['prefix'].$conf['table']['banners']."
-			SET
-				active = '$value',
-				updated = '".date('Y-m-d H:i:s')."'
-			WHERE
-				bannerid = '$bannerid'
-		") or phpAds_sqlDie();
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->get($bannerid);
+        $doBanners->active = $value;
+        $doBanners->update();
 	}
-	elseif (isset($campaignid) && $campaignid != '')
+	elseif (!empty($campaignid))
 	{
-		$res = phpAds_dbQuery("
-			UPDATE
-				".$conf['table']['prefix'].$conf['table']['banners']."
-			SET
-				active = '$value',
-				updated = '".date('Y-m-d H:i:s')."'
-			WHERE
-				campaignid = '$campaignid'
-		") or phpAds_sqlDie();
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->active = $value;
+        $doBanners->whereAdd('campaignid = ' . $campaignid);
+
+        // Update all the banners
+        $doBanners->update(DB_DATAOBJECT_WHEREADD_ONLY);
 	}
 
 	// Run the Maintenance Priority Engine process

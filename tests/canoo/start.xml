@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<project name="Openads" basedir="." default="main">
+
+  <target name="main">
+    <ant antfile="usecases/loginTest.xml" />
+  </target>
+
+  <target name="init">
+    <classpath>
+      <fileset dir="lib">
+        <include name="**/*.jar"/>
+      </fileset>
+    </classpath>
+    <sql
+        driver="org.database.jdbcDriver"
+        url="${sql.url}"
+        userid="${sql.user}"
+        password="${sql.password}"
+        >
+      <transaction src="sql/dropTables.sql" />
+      <transaction src="sql/delivery.sql" />
+    </sql>
+  </target>
+  
+  <target name="delivery" depends="init">
+    <ant antfile="usecases/delivery/afr.xml" />
+    <ant antfile="usecases/delivery/ac.xml" />
+    <ant antfile="usecases/delivery/ai.xml" />
+    <ant antfile="usecases/delivery/ajs.xml" />
+    <ant antfile="usecases/delivery/avw.xml" />
+    <ant antfile="usecases/delivery/ck.xml" />
+    <ant antfile="usecases/delivery/alocal.xml" />
+  </target>
+  
+</project>

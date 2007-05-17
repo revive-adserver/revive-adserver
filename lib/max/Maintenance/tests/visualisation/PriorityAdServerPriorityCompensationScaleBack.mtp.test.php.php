@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -51,7 +51,7 @@ class Maintenance_TestOfPriorityCompensationScaleBack extends UnitTestCase
     function Maintenance_TestOfPriorityCompensationScaleBack()
     {
         $this->UnitTestCase();
-        Mock::generate('MAX_Dal_Maintenance_Priority');
+        Mock::generate('OA_Dal_Maintenance_Priority');
         Mock::generatePartial(
             'PriorityCompensation',
             'PartialMockPriorityCompensationScaleBack',
@@ -70,10 +70,10 @@ class Maintenance_TestOfPriorityCompensationScaleBack extends UnitTestCase
     function testScaleBackSimple()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        // Mock the MAX_Dal_Maintenance_Priority class
-        $oDal = new MockMAX_Dal_Maintenance_Priority($this);
+        // Mock the OA_Dal_Maintenance_Priority class
+        $oDal = new MockOA_Dal_Maintenance_Priority($this);
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         // Partially mock the PriorityCompensation class
         $oPriorityCompensation = new PartialMockPriorityCompensationScaleBack($this);
         $oPriorityCompensation->setReturnReference('_getDal', $oDal);
@@ -370,10 +370,10 @@ class Maintenance_TestOfPriorityCompensationScaleBack extends UnitTestCase
     function testScaleBackComplex()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        // Mock the MAX_Dal_Maintenance_Priority class
-        $oDal = new MockMAX_Dal_Maintenance_Priority($this);
+        // Mock the OA_Dal_Maintenance_Priority class
+        $oDal = new MockOA_Dal_Maintenance_Priority($this);
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         // Partially mock the PriorityCompensation class
         $oPriorityCompensation = new PartialMockPriorityCompensationScaleBack($this);
         $oPriorityCompensation->setReturnReference('_getDal', $oDal);
@@ -788,10 +788,10 @@ class Maintenance_TestOfPriorityCompensationScaleBack extends UnitTestCase
     function testScaleBackComplex2()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        // Mock the MAX_Dal_Maintenance_Priority class
-        $oDal = new MockMAX_Dal_Maintenance_Priority($this);
+        // Mock the OA_Dal_Maintenance_Priority class
+        $oDal = new MockOA_Dal_Maintenance_Priority($this);
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         // Partially mock the PriorityCompensation class
         $oPriorityCompensation = new PartialMockPriorityCompensationScaleBack($this);
         $oPriorityCompensation->setReturnReference('_getDal', $oDal);

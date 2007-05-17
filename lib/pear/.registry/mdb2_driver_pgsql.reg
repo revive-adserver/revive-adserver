@@ -1,0 +1,216 @@
+a:23:{s:7:"attribs";a:6:{s:15:"packagerversion";s:6:"1.4.11";s:7:"version";s:3:"2.0";s:5:"xmlns";s:35:"http://pear.php.net/dtd/package-2.0";s:11:"xmlns:tasks";s:33:"http://pear.php.net/dtd/tasks-1.0";s:9:"xmlns:xsi";s:41:"http://www.w3.org/2001/XMLSchema-instance";s:18:"xsi:schemaLocation";s:147:"http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd";}s:4:"name";s:17:"MDB2_Driver_pgsql";s:7:"channel";s:12:"pear.php.net";s:7:"summary";s:17:"pgsql MDB2 driver";s:11:"description";s:35:"This is the PostgreSQL MDB2 driver.";s:4:"lead";a:4:{s:4:"name";s:17:"Lukas Kahwe Smith";s:4:"user";s:6:"lsmith";s:5:"email";s:20:"smith@pooteeweet.org";s:6:"active";s:3:"yes";}s:9:"developer";a:4:{s:4:"name";s:18:"Nathan Fredrickson";s:4:"user";s:3:"nrf";s:5:"email";s:23:"nathan@silverorange.com";s:6:"active";s:3:"yes";}s:4:"date";s:10:"2006-11-03";s:4:"time";s:8:"14:07:41";s:7:"version";a:2:{s:7:"release";s:5:"1.3.0";s:3:"api";s:5:"2.3.0";}s:9:"stability";a:2:{s:7:"release";s:6:"stable";s:3:"api";s:6:"stable";}s:7:"license";s:11:"BSD License";s:5:"notes";s:724:"- fixed _modifyQuery() for manipulation queries
+- fixed inheritance structure of convertResult()
+- added support for new 'disable_iso_date' date DSN option (Request #8739)
+- added support for getting the table name in tableInfo()
+- added connection to pg_escape_*() calls
+- fixed _modifyQuery() for manipulation queries
+- enable detection of proper size of integers in mapNativeDatatype
+- migrated to package.xml version 2
+
+open todo items:
+- enable pg_execute() once issues with bytea column are resolved
+- use pg_result_error_field() to handle localized error messages (Request #7059)
+- add option to use unnamed prepared statements
+  (see http://www.postgresql.org/docs/current/static/protocol-flow.html "Extended Query")";s:8:"contents";a:1:{s:3:"dir";a:2:{s:7:"attribs";a:2:{s:14:"baseinstalldir";s:1:"/";s:4:"name";s:1:"/";}s:4:"file";a:7:{i:0;a:2:{s:7:"attribs";a:4:{s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"05b1d69875944cb30ec249c519dd0fe5";s:4:"name";s:30:"MDB2/Driver/Datatype/pgsql.php";s:4:"role";s:3:"php";}s:13:"tasks:replace";a:1:{s:7:"attribs";a:3:{s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";s:4:"type";s:12:"package-info";}}}i:1;a:2:{s:7:"attribs";a:4:{s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"e67d38bcda0efa049b01a9a8dc4b7245";s:4:"name";s:30:"MDB2/Driver/Function/pgsql.php";s:4:"role";s:3:"php";}s:13:"tasks:replace";a:1:{s:7:"attribs";a:3:{s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";s:4:"type";s:12:"package-info";}}}i:2;a:2:{s:7:"attribs";a:4:{s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"e32ec7d65b8762c0b8d04fbe8df30c7a";s:4:"name";s:29:"MDB2/Driver/Manager/pgsql.php";s:4:"role";s:3:"php";}s:13:"tasks:replace";a:1:{s:7:"attribs";a:3:{s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";s:4:"type";s:12:"package-info";}}}i:3;a:2:{s:7:"attribs";a:4:{s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"1cd0f377be5bccaf197a6f76aad563cb";s:4:"name";s:28:"MDB2/Driver/Native/pgsql.php";s:4:"role";s:3:"php";}s:13:"tasks:replace";a:1:{s:7:"attribs";a:3:{s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";s:4:"type";s:12:"package-info";}}}i:4;a:2:{s:7:"attribs";a:4:{s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"7eef9976d82bb71e1f12573553241561";s:4:"name";s:29:"MDB2/Driver/Reverse/pgsql.php";s:4:"role";s:3:"php";}s:13:"tasks:replace";a:1:{s:7:"attribs";a:3:{s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";s:4:"type";s:12:"package-info";}}}i:5;a:2:{s:7:"attribs";a:4:{s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"36af9fdbb4e6af44a4e6f77f4983c0d7";s:4:"name";s:21:"MDB2/Driver/pgsql.php";s:4:"role";s:3:"php";}s:13:"tasks:replace";a:1:{s:7:"attribs";a:3:{s:4:"from";s:17:"@package_version@";s:2:"to";s:7:"version";s:4:"type";s:12:"package-info";}}}i:6;a:1:{s:7:"attribs";a:4:{s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"576f3211fd87f279dc258bbfe728b3db";s:4:"name";s:17:"package_pgsql.xml";s:4:"role";s:4:"data";}}}}}s:12:"dependencies";a:1:{s:8:"required";a:4:{s:3:"php";a:1:{s:3:"min";s:5:"4.3.0";}s:13:"pearinstaller";a:1:{s:3:"min";s:7:"1.4.0b1";}s:7:"package";a:3:{s:4:"name";s:4:"MDB2";s:7:"channel";s:12:"pear.php.net";s:3:"min";s:5:"2.3.0";}s:9:"extension";a:1:{s:4:"name";s:5:"pgsql";}}}s:10:"phprelease";s:0:"";s:9:"changelog";a:1:{s:7:"release";a:15:{i:0;a:5:{s:7:"version";a:2:{s:7:"release";s:5:"1.3.0";s:3:"api";s:5:"2.3.0";}s:9:"stability";a:2:{s:7:"release";s:6:"stable";s:3:"api";s:6:"stable";}s:4:"date";s:10:"2006-11-03";s:7:"license";s:11:"BSD License";s:5:"notes";s:724:"- fixed _modifyQuery() for manipulation queries
+- fixed inheritance structure of convertResult()
+- added support for new 'disable_iso_date' date DSN option (Request #8739)
+- added support for getting the table name in tableInfo()
+- added connection to pg_escape_*() calls
+- fixed _modifyQuery() for manipulation queries
+- enable detection of proper size of integers in mapNativeDatatype
+- migrated to package.xml version 2
+
+open todo items:
+- enable pg_execute() once issues with bytea column are resolved
+- use pg_result_error_field() to handle localized error messages (Request #7059)
+- add option to use unnamed prepared statements
+  (see http://www.postgresql.org/docs/current/static/protocol-flow.html "Extended Query")";}i:1;a:5:{s:7:"version";a:2:{s:7:"release";s:5:"1.2.2";s:3:"api";s:5:"1.2.2";}s:9:"stability";a:2:{s:7:"release";s:6:"stable";s:3:"api";s:6:"stable";}s:4:"date";s:10:"2006-09-03";s:7:"license";a:2:{s:7:"attribs";a:1:{s:3:"uri";s:22:"http://www.example.com";}s:8:"_content";s:11:"BSD License";}s:5:"notes";s:348:"- flip positions property array in prepared statement objects to make it
+  possible to optionally use the same named placeholder in multiple places
+  inside a single prepared statement
+
+open todo items:
+- enable pg_execute() once issues with bytea column are resolved
+- use pg_result_error_field() to handle localized error messages (Request #7059)";}i:2;a:5:{s:7:"version";a:2:{s:7:"release";s:5:"1.2.1";s:3:"api";s:5:"1.2.1";}s:9:"stability";a:2:{s:7:"release";s:6:"stable";s:3:"api";s:6:"stable";}s:4:"date";s:10:"2006-08-21";s:7:"license";a:2:{s:7:"attribs";a:1:{s:3:"uri";s:22:"http://www.example.com";}s:8:"_content";s:11:"BSD License";}s:5:"notes";s:472:"- return an error if a named placeholder name is used twice inside a single statement
+- do not list empty contraints and indexes
+- do not set a default if type is a LOB (Request #8074)
+- fixed handling return values when disable_query is set in _doQuery() and _execute()
+- increased MDB2 dependency too 2.2.1
+
+open todo items:
+- enable pg_execute() once issues with bytea column are resolved
+- use pg_result_error_field() to handle localized error messages (Request #7059)";}i:3;a:5:{s:7:"version";a:2:{s:7:"release";s:5:"1.2.0";s:3:"api";s:5:"1.2.0";}s:9:"stability";a:2:{s:7:"release";s:6:"stable";s:3:"api";s:6:"stable";}s:4:"date";s:10:"2006-07-23";s:7:"license";a:2:{s:7:"attribs";a:1:{s:3:"uri";s:22:"http://www.example.com";}s:8:"_content";s:11:"BSD License";}s:5:"notes";s:1352:"- performance tweaks for pg_prepare() enabled installations
+- MDB2_PORTABILITY_RTRIM ignored by driver (Bug #8239)
+- added ability to escape wildcard characters in escape() and quote()
+- added setTransactionIsolation()
+- added savepoint support to beginTransaction(), commit() and rollback()
+- added debug() call at the end of a query/prepare/execute calling (Request #7933)
+- added context array parameter to debug() and make use of it whereever sensible
+- added optional method name parameter to raiseError() and use whereever possible
+- added ability to escape wildcard characters in escape() and quote()
+- added debug() call at the end of a query/prepare/execute calling (Request #7933)
+- added 'nativetype' output to tableInfo() and getTableFieldDefinition()
+- added 'mdb2type' output to getTableFieldDefinition()
+- reworked tableInfo() to use a common implementation based on getTableFieldDefinition()
+  when a table name is passed (Bug #8124)
+- fixed incorrect regex in mapNativeDatatype() (Bug #8256) (thx ioz at ionosfera dot com)
+- disconnect after changing database/DSN (otherwise transactions may be left open)
+- use old dsn when rolling back open transactions in disconnect()
+
+open todo items:
+- enable pg_execute() once issues with bytea column are resolved
+- use pg_result_error_field() to handle localized error messages (Request #7059)";}i:4;a:5:{s:7:"version";a:2:{s:7:"release";s:5:"1.1.0";s:3:"api";s:5:"1.1.0";}s:9:"stability";a:2:{s:7:"release";s:6:"stable";s:3:"api";s:6:"stable";}s:4:"date";s:10:"2006-06-15";s:7:"license";a:2:{s:7:"attribs";a:1:{s:3:"uri";s:22:"http://www.example.com";}s:8:"_content";s:11:"BSD License";}s:5:"notes";s:1106:"- added setCharset()
+- use setCharset() in connect()/_doConnect()
+- generalized quoteIdentifier() with a property
+- switched most array_key_exists() calls to !empty() to improve readability and performance
+- fixed a few edge cases and potential warnings
+- return error when changing datatypes in alterTable() on pgsql version lower than 8.x (Bug #7731)
+- added ability to rewrite queries for query(), exec() and prepare() using a debug handler callback
+- fixed missing error handling in getTableFieldDefinition() (Bug #7791)
+- pass limit and offset to the result object constructor in _execute() for read statements
+- use pg_prepare() if available so that we do not need to define the types anymore (Request #7797)
+- added code to use pg_execute() but disabled due to issues with bytea fields
+- check if result/connection has not yet been freed/dicsonnected before
+  attempting to free a result set(Bug #7790)
+- revert change that would prefer 'clob' over 'text' for TEXT fields
+  (this was breaking runtime instrospection)
+
+open todo items:
+- enable pg_execute() once issues with bytea column are resolved";}i:5;a:5:{s:7:"version";a:2:{s:7:"release";s:5:"1.0.3";s:3:"api";s:5:"1.0.3";}s:9:"stability";a:2:{s:7:"release";s:6:"stable";s:3:"api";s:6:"stable";}s:4:"date";s:10:"2006-05-24";s:7:"license";a:2:{s:7:"attribs";a:1:{s:3:"uri";s:22:"http://www.example.com";}s:8:"_content";s:11:"BSD License";}s:5:"notes";s:161:"SECURITY FIX (http://www.postgresql.org/docs/techdocs.50)
+- use pg_escape_string()
+- use "'" as the escape character 
+- limit fetch to 1 row in listTableFields()";}i:6;a:5:{s:7:"version";a:2:{s:7:"release";s:5:"1.0.2";s:3:"api";s:5:"1.0.2";}s:9:"stability";a:2:{s:7:"release";s:6:"stable";s:3:"api";s:6:"stable";}s:4:"date";s:10:"2006-05-23";s:7:"license";a:2:{s:7:"attribs";a:1:{s:3:"uri";s:22:"http://www.example.com";}s:8:"_content";s:11:"BSD License";}s:5:"notes";s:251:"- added "emulate_prepared" option to force prepared statement emulation
+- tweaked handling of free() for prepared statements
+- return error if a prepared statement is attempted to be freed twice
+- fixed notice when using prepare() without placeholders";}i:7;a:5:{s:7:"version";a:2:{s:7:"release";s:5:"1.0.1";s:3:"api";s:5:"1.0.1";}s:9:"stability";a:2:{s:7:"release";s:6:"stable";s:3:"api";s:6:"stable";}s:4:"date";s:10:"2006-05-14";s:7:"license";a:2:{s:7:"attribs";a:1:{s:3:"uri";s:22:"http://www.example.com";}s:8:"_content";s:11:"BSD License";}s:5:"notes";s:863:"- added listTableViews() (request #6773)
+- explicitly set is_manip parameter to false for transaction debug calls
+- pass parameter array as debug() all with scope "parameters" in every execute()
+  call (bug #4119)
+- typo fixes in phpdoc (thx Stoyan)
+- added support for fixed and variable types for 'text' in declarations,
+  as well as in reverse engineering (Request #1523)
+- made _doQuery() return a reference
+- added userinfo's to all raiseError calls that previously had none
+- calling PREPARE is always a manip query
+- added 'prepared_statements' supported meta data setting
+- strip of file:// prefix in writeLOBToFile()
+- typo fix ressource/resource in LOB array
+- added missing supported parameter to prepare() signature
+- properly handle explicit error codes in errorInfo()
+- moved from OID to TEXT and BYTEA (OID handling was broken, its also deprecated)";}i:8;a:5:{s:7:"version";a:2:{s:7:"release";s:5:"1.0.0";s:3:"api";s:5:"1.0.0";}s:9:"stability";a:2:{s:7:"release";s:6:"stable";s:3:"api";s:6:"stable";}s:4:"date";s:10:"2006-02-09";s:7:"license";a:2:{s:7:"attribs";a:1:{s:3:"uri";s:22:"http://www.example.com";}s:8:"_content";s:11:"BSD License";}s:5:"notes";s:334:"- handle null as resource when disable_query option is enabled in result object
+
+open todo items:
+- considering migrating away from OID's to bytea, since this is encourage
+  since version 8 and is also what PDO expects, however there is no streaming
+  API for bytea columns .. this needs to be done using manually chunked reads/writes";}i:9;a:5:{s:7:"version";a:2:{s:7:"release";s:5:"0.2.4";s:3:"api";s:5:"0.2.4";}s:9:"stability";a:2:{s:7:"release";s:4:"beta";s:3:"api";s:4:"beta";}s:4:"date";s:10:"2006-02-05";s:7:"license";a:2:{s:7:"attribs";a:1:{s:3:"uri";s:22:"http://www.example.com";}s:8:"_content";s:11:"BSD License";}s:5:"notes";s:719:"- added support for length in integer and decimal columns
+- removed ugly hack for quote parameter in quote() since it was insufficient
+  (escaping also needs to be prevented)
+- added support for out of order parameter binding in prepared queries
+- reset row_limit and row_offset after calling prepare() just like we do for query() and exec()
+- cosmetic fix (removed "row_" prefix from "row_limit" and "row_offset")
+- improved parsing in getServerInfo() (bug #6550)
+
+open todo items:
+- considering migrating away from OID's to bytea, since this is encourage
+  since version 8 and is also what PDO expects, however there is no streaming
+  API for bytea columns .. this needs to be done using manually chunked reads/writes";}i:10;a:5:{s:7:"version";a:2:{s:7:"release";s:5:"0.2.3";s:3:"api";s:5:"0.2.3";}s:9:"stability";a:2:{s:7:"release";s:4:"beta";s:3:"api";s:4:"beta";}s:4:"date";s:10:"2006-01-13";s:7:"license";a:2:{s:7:"attribs";a:1:{s:3:"uri";s:22:"http://www.example.com";}s:8:"_content";s:11:"BSD License";}s:5:"notes";s:811:"- explicitly pass if the module is phptype specific in all loadModule calls (bug #6226)
+- fixed signature of executeStoredProc()
+- typo fixes in error handling of nextResult() and numRows() calls
+- _fixIndexName() now just attempts to remove possible formatting
+- renamed _isSequenceName() to _fixSequenceName()
+- _fixSequenceName() now just attempts to remove possible formatting, and only
+  returns a boolean if no formatting was applied when the new "check" parameter is set to true
+- fixed bug that caused unique indexes from not being seen (bug #6476)
+
+open todo items:
+- considering migrating away from OID's to bytea, since this is encourage
+  since version 8 and is also what PDO expects, however there is no streaming
+  API for bytea columns .. this needs to be done using manually chunked reads/writes";}i:11;a:5:{s:7:"version";a:2:{s:7:"release";s:5:"0.2.2";s:3:"api";s:5:"0.2.2";}s:9:"stability";a:2:{s:7:"release";s:4:"beta";s:3:"api";s:4:"beta";}s:4:"date";s:10:"2005-12-30";s:7:"license";a:2:{s:7:"attribs";a:1:{s:3:"uri";s:22:"http://www.example.com";}s:8:"_content";s:11:"BSD License";}s:5:"notes";s:306:"- types can now always be keyed by name or by order
+
+open todo items:
+- considering migrating away from OID's to bytea, since this is encourage
+  since version 8 and is also what PDO expects, however there is no streaming
+  API for bytea columns .. this needs to be done using manually chunked reads/writes";}i:12;a:5:{s:7:"version";a:2:{s:7:"release";s:5:"0.2.1";s:3:"api";s:5:"0.2.1";}s:9:"stability";a:2:{s:7:"release";s:4:"beta";s:3:"api";s:4:"beta";}s:4:"date";s:10:"2005-12-28";s:7:"license";a:2:{s:7:"attribs";a:1:{s:3:"uri";s:22:"http://www.example.com";}s:8:"_content";s:11:"BSD License";}s:5:"notes";s:787:"- fixed datatype conversion for "time" values
+- fixed getTableFieldDefinition() default handling (though still a bit shaky)
+- reverse module: ensure that parameters in queries are properly quoted
+- fixed bug in alterTable() where "rename" would be skipped if no other alteration is done
+- do not use multiple commands in ALTER TABLE (only supported since 8.0)
+- implemented native prepared queries
+- use proper error code in alterTable()
+- renamed table as the last step in alterTable()
+- proper quote new table name in alterTable()
+
+open todo items:
+- considering migrating away from OID's to bytea, since this is encourage
+  since version 8 and is also what PDO expects, however there is no streaming
+  API for bytea columns .. this needs to be done using manually chunked reads/writes";}i:13;a:5:{s:7:"version";a:2:{s:7:"release";s:5:"0.2.0";s:3:"api";s:5:"0.2.0";}s:9:"stability";a:2:{s:7:"release";s:4:"beta";s:3:"api";s:4:"beta";}s:4:"date";s:10:"2005-12-21";s:7:"license";a:2:{s:7:"attribs";a:1:{s:3:"uri";s:22:"http://www.example.com";}s:8:"_content";s:11:"BSD License";}s:5:"notes";s:1734:"- do not fix case in listUsers()
+- unified case fixing in the list*() methods
+- tweaked text handling in mapNativeDatatype()
+- use getConnection() to access connection property
+- split index and constraint handling
+- quote identifiers where possible inside the manager methods depending on
+  the new 'quote_identifier' option (defaults to off)
+- refactored get*Declaration() methods to use getTypeDeclaration()
+- added support for table and column renaming as well as default and nullability
+  changing in alterTable()
+- setting in_transaction to false on disconnect
+- added new Function modules to handle difference in SQL functions
+- force rollback() with open transactions on disconnect
+- escape floats to make sure they do not contain evil characters (bug #5608)
+- split off manipulation queries into exec() method from the query() method *BC BREAK*
+- if result_types is set to false in prepare() method the query will be handled as a DML statement *BC BREAK*
+- use a proper default value if a field is set to not null in _getDeclaration*() (bug #5930)
+- added ability to determine unsigned in mapNativeDatatype()
+  (only really implemented in the mysql(i) drivers) (bug #6054)
+- use MDB2_ERROR_NOT_FOUND in getTableConstraintDefinition() and getTableIndexDefinition() (bug #6055)
+- added getServerVersion()
+- unified array structure in mapNativeDatatype() *BC BREAK*
+- added 'mdbtype' to tableInfo() output that is generated from mapNativeDatatype()
+- changed 'len' to 'length' in tableInfo() output *BC BREAK*
+
+open todo items:
+- implement native prepared queries
+- migrate away from OID's to bytea, since this is encourage since version 8
+  and is also what PDO expects
+- testgettablefielddefinition and testnow test cases fail";}i:14;a:5:{s:7:"version";a:2:{s:7:"release";s:5:"0.1.1";s:3:"api";s:5:"0.1.1";}s:9:"stability";a:2:{s:7:"release";s:4:"beta";s:3:"api";s:4:"beta";}s:4:"date";s:10:"2005-10-10";s:7:"license";a:2:{s:7:"attribs";a:1:{s:3:"uri";s:22:"http://www.example.com";}s:8:"_content";s:11:"BSD License";}s:5:"notes";s:1654:"Warning: this release features numerous BC breaks!
+
+There have been considerable improvements to the datatype, manager and reverse
+modules. Furthermore preliminary support for auto increment and primary keys
+has been added. Please note that making a field auto increment implies a single
+column primary key on this field.
+
+- increased php dependency to 4.3.0 due to the usage of the streams API since beta5
+- fixed typo in _getTextDeclaration()
+- alterTable now needs the full definition to work (use getTableFieldDefinition
+ from Reverse module if you do not have a definition at hand) this eliminates the need
+ of the declaration part in the alterTable array.
+- fix PHP4.4 breakage
+- improved error mapping (ported from DB)
+- better detect if the query returned a result set or not in _doQuery()
+- minor tweaks to LOB handling
+- use !empty() instead of isset() in fetchRow to determine if result cols were bound or result types were set
+- moved all private fetch mode fix methods into _fixResultArrayValues() for performance reasons
+- renamed MDB2_PORTABILITY_LOWERCASE to MDB2_PORTABILITY_FIX_CASE and use 'field_case' option to determine if to upper- or lowercase (CASE_LOWER/CASE_UPPER)
+- use array_key_exists() instead of isset() where possible
+- changed structure of field add/remove/change in alterTable() to match MDB2_Schema
+- added createIndex()
+- return 0 for manipulation queries when disable_query is enabled
+- tweaked getTableFieldDefinition() in reverse module
+- added getTypeDeclaration() in the datatype module
+- tweaked field changing in alterTable()
+- fixed alterTable() signature
+
+open todo items:
+- implement native prepared queries";}}}s:8:"filelist";a:7:{s:30:"MDB2/Driver/Datatype/pgsql.php";a:5:{s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"05b1d69875944cb30ec249c519dd0fe5";s:4:"name";s:30:"MDB2/Driver/Datatype/pgsql.php";s:4:"role";s:3:"php";s:12:"installed_as";s:66:"/home/andrew/code/max/c3po/lib/pear/MDB2/Driver/Datatype/pgsql.php";}s:30:"MDB2/Driver/Function/pgsql.php";a:5:{s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"e67d38bcda0efa049b01a9a8dc4b7245";s:4:"name";s:30:"MDB2/Driver/Function/pgsql.php";s:4:"role";s:3:"php";s:12:"installed_as";s:66:"/home/andrew/code/max/c3po/lib/pear/MDB2/Driver/Function/pgsql.php";}s:29:"MDB2/Driver/Manager/pgsql.php";a:5:{s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"e32ec7d65b8762c0b8d04fbe8df30c7a";s:4:"name";s:29:"MDB2/Driver/Manager/pgsql.php";s:4:"role";s:3:"php";s:12:"installed_as";s:65:"/home/andrew/code/max/c3po/lib/pear/MDB2/Driver/Manager/pgsql.php";}s:28:"MDB2/Driver/Native/pgsql.php";a:5:{s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"1cd0f377be5bccaf197a6f76aad563cb";s:4:"name";s:28:"MDB2/Driver/Native/pgsql.php";s:4:"role";s:3:"php";s:12:"installed_as";s:64:"/home/andrew/code/max/c3po/lib/pear/MDB2/Driver/Native/pgsql.php";}s:29:"MDB2/Driver/Reverse/pgsql.php";a:5:{s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"7eef9976d82bb71e1f12573553241561";s:4:"name";s:29:"MDB2/Driver/Reverse/pgsql.php";s:4:"role";s:3:"php";s:12:"installed_as";s:65:"/home/andrew/code/max/c3po/lib/pear/MDB2/Driver/Reverse/pgsql.php";}s:21:"MDB2/Driver/pgsql.php";a:5:{s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"36af9fdbb4e6af44a4e6f77f4983c0d7";s:4:"name";s:21:"MDB2/Driver/pgsql.php";s:4:"role";s:3:"php";s:12:"installed_as";s:57:"/home/andrew/code/max/c3po/lib/pear/MDB2/Driver/pgsql.php";}s:17:"package_pgsql.xml";a:5:{s:14:"baseinstalldir";s:1:"/";s:6:"md5sum";s:32:"576f3211fd87f279dc258bbfe728b3db";s:4:"name";s:17:"package_pgsql.xml";s:4:"role";s:4:"data";s:12:"installed_as";s:40:"/tmp/MDB2_Driver_pgsql/package_pgsql.xml";}}s:12:"_lastversion";N;s:7:"dirtree";a:8:{s:56:"/home/andrew/code/max/c3po/lib/pear/MDB2/Driver/Datatype";b:1;s:47:"/home/andrew/code/max/c3po/lib/pear/MDB2/Driver";b:1;s:40:"/home/andrew/code/max/c3po/lib/pear/MDB2";b:1;s:56:"/home/andrew/code/max/c3po/lib/pear/MDB2/Driver/Function";b:1;s:55:"/home/andrew/code/max/c3po/lib/pear/MDB2/Driver/Manager";b:1;s:54:"/home/andrew/code/max/c3po/lib/pear/MDB2/Driver/Native";b:1;s:55:"/home/andrew/code/max/c3po/lib/pear/MDB2/Driver/Reverse";b:1;s:22:"/tmp/MDB2_Driver_pgsql";b:1;}s:3:"old";a:7:{s:7:"version";s:5:"1.3.0";s:12:"release_date";s:10:"2006-11-03";s:13:"release_state";s:6:"stable";s:15:"release_license";s:11:"BSD License";s:13:"release_notes";s:724:"- fixed _modifyQuery() for manipulation queries
+- fixed inheritance structure of convertResult()
+- added support for new 'disable_iso_date' date DSN option (Request #8739)
+- added support for getting the table name in tableInfo()
+- added connection to pg_escape_*() calls
+- fixed _modifyQuery() for manipulation queries
+- enable detection of proper size of integers in mapNativeDatatype
+- migrated to package.xml version 2
+
+open todo items:
+- enable pg_execute() once issues with bytea column are resolved
+- use pg_result_error_field() to handle localized error messages (Request #7059)
+- add option to use unnamed prepared statements
+  (see http://www.postgresql.org/docs/current/static/protocol-flow.html "Extended Query")";s:12:"release_deps";a:4:{i:0;a:4:{s:4:"type";s:3:"php";s:3:"rel";s:2:"ge";s:7:"version";s:5:"4.3.0";s:8:"optional";s:2:"no";}i:1;a:6:{s:4:"type";s:3:"pkg";s:7:"channel";s:12:"pear.php.net";s:4:"name";s:4:"PEAR";s:3:"rel";s:2:"ge";s:7:"version";s:7:"1.4.0b1";s:8:"optional";s:2:"no";}i:2;a:6:{s:4:"type";s:3:"pkg";s:7:"channel";s:12:"pear.php.net";s:4:"name";s:4:"MDB2";s:3:"rel";s:2:"ge";s:7:"version";s:5:"2.3.0";s:8:"optional";s:2:"no";}i:3;a:4:{s:4:"type";s:3:"ext";s:4:"name";s:5:"pgsql";s:3:"rel";s:3:"has";s:8:"optional";s:2:"no";}}s:11:"maintainers";a:2:{i:0;a:5:{s:4:"name";s:17:"Lukas Kahwe Smith";s:5:"email";s:20:"smith@pooteeweet.org";s:6:"active";s:3:"yes";s:6:"handle";s:6:"lsmith";s:4:"role";s:4:"lead";}i:1;a:5:{s:4:"name";s:18:"Nathan Fredrickson";s:5:"email";s:23:"nathan@silverorange.com";s:6:"active";s:3:"yes";s:6:"handle";s:3:"nrf";s:4:"role";s:9:"developer";}}}s:10:"xsdversion";s:3:"2.0";s:13:"_lastmodified";i:1171894686;}

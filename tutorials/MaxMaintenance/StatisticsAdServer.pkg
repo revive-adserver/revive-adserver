@@ -18,7 +18,7 @@
   The summary table "data_summary_ad_hourly" contains a day/hour based
   breakdown of the impressions, clicks and conversions. The summary table
   "data_summary_zone_impression_history" contains an operation interval
-  based history of the actual ad impressions for each zone in Max.
+  based history of the actual ad impressions for each zone in Openads.
  </para>
  <para>
   The MSE process for the AdServer module is carried out via the following steps:

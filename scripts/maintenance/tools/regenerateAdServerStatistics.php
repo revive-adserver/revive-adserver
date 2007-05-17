@@ -3,11 +3,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -59,11 +59,12 @@ require_once $path . '/../../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/Maintenance.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
-require_once "Date.php";
+
+require_once MAX_PATH . '/lib/OA/DB.php';
+require_once 'Date.php';
 
 // Create Date objects of the start and end dates, set the "current time"
 // to be 5 seconds after the end of the operation interval
@@ -141,7 +142,7 @@ sleep(10);
 /***************************************************************************/
 
 // Create a Data Access Layer object
-$dbh = &MAX_DB::singleton();
+$oDbh = &OA_DB::singleton();
 
 // Find the connections (if any) in the data_intermediate_ad_connection table
 $query = "
@@ -152,16 +153,16 @@ $query = "
     WHERE
         tracker_date_time >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
         AND tracker_date_time <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'";
-$result = $dbh->query($query);
+$rc = $oDbh->query($query);
 
 // Delete any variable values that are attached to these connections
-while ($row = mysql_fetch_array($result)) {
+while ($row = $rc->fetchRow()) {
     $query = "
         DELETE FROM
             {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
         WHERE
             data_intermediate_ad_connection_id = {$row['data_intermediate_ad_connection_id']}";
-    $innerResult = $dbh->query($query);
+    $rows = $oDbh->exec($query);
 }
 
 // Delete any connections in the data_intermediate_ad_connection table
@@ -171,7 +172,7 @@ $query = "
     WHERE
         tracker_date_time >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
         AND tracker_date_time <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'";
-$result = $dbh->query($query);
+$rows = $oDbh->exec($query);
 
 // Delete any summary rows from the data_intermediate_ad table
 $query = "
@@ -180,7 +181,7 @@ $query = "
     WHERE
         interval_start = '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
         AND interval_end = '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'";
-$result = $dbh->query($query);
+$rows = $oDbh->exec($query);
 
 // Delete any summary rows from the data_summary_ad_hourly table
 $query = "
@@ -191,7 +192,7 @@ $query = "
         AND hour >= " . $oStartDate->format('%H') . "
         AND day <= '" . $oEndDate->format('%Y-%m-%d') . "'
         AND hour <= " . $oEndDate->format('%H');
-$result = $dbh->query($query);
+$rows = $oDbh->exec($query);
 
 // Delete any impression history data from the data_summary_zone_impression_history table
 $query = "
@@ -200,7 +201,7 @@ $query = "
     WHERE
         interval_start >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
         AND interval_end <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'";
-$result = $dbh->query($query);
+$rows = $oDbh->exec($query);
 
 // Delete any impression history data from the data_summary_ad_zone_assoc table
 $query = "
@@ -209,10 +210,10 @@ $query = "
     WHERE
         interval_start >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
         AND interval_end <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'";
-$result = $dbh->query($query);
+$rows = $oDbh->exec($query);
 
 // Ensure emails are not sent due to activation/deactivation effect
-$conf['email']['sendMail'] = false;
+define('DISABLE_ALL_EMAILS', 1);
 
 // Set a date to one second before the operation interval, to be used as the last
 // time the stats were updated

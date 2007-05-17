@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -27,7 +27,10 @@
 $Id$
 */
 
-require_once(MAX_PATH . '/lib/max/Delivery/common.php');
+if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/common.php'])) {
+    // Required by PHP5.1.2
+    require_once MAX_PATH . '/lib/max/Delivery/common.php';
+}
 
 /**
  * Register an array of variable names in the global scope
@@ -38,7 +41,37 @@ require_once(MAX_PATH . '/lib/max/Delivery/common.php');
 function phpAds_registerGlobal()
 {
     $args = func_get_args();
-    call_user_func_array('MAX_commonRegisterGlobals', $args);
+    MAX_commonRegisterGlobalsArray($args);
+}
+
+/**
+ * This function takes an array of variable names
+ * and makes them available in the global scope
+ *
+ * $_POST values take precedence over $_GET values
+ *
+ */
+function phpAds_registerGlobalUnslashed()
+{
+    $args = func_get_args();
+    while (list(,$key) = each($args)) {
+        if (isset($_GET[$key])) {
+            $value = $_GET[$key];
+        }
+        if (isset($_POST[$key])) {
+            $value = $_POST[$key];
+        }
+        if (isset($value)) {
+            if (ini_get('magic_quotes_gpc')) {
+                $value = MAX_commonUnslashArray($value);
+            }
+        }
+        else {
+            $value = null;
+        }
+        $GLOBALS[$key] = $value;
+        unset($value);
+    }
 }
 
 ?>

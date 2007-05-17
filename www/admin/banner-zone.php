@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -162,6 +162,7 @@ require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
         $i=0;
 
         //select all checkboxes
+        $publisherIdList = '';
         foreach ($aPublishers as $publisherId => $aPublisher) {
             $publisherIdList .= $publisherId . '|';
         }
@@ -210,7 +211,8 @@ require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
                     foreach($aZones as $zoneId => $aZone) {
                         $zoneName = $aZone['name'];
                         $zoneDescription = $aZone['description'];
-                        $zoneIcon = MAX_getEntityIcon('zone', $aZone['active'] == 't', $aZone['type']);
+                        $zoneIsActive = (isset($aZone['active']) && $aZone['active'] == 't') ? true : false;
+                        $zoneIcon = MAX_getEntityIcon('zone', $zoneIsActive, $aZone['type']);
                         $checked = isset($aLinkedZones[$zoneId]) ? ' checked' : '';
                         $bgcolor = ($checked == ' checked') ? " bgcolor='#d8d8ff'" : $bgcolorSave;
                         

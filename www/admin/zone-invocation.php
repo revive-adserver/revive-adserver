@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
@@ -39,42 +40,13 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
 
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Affiliate)) {
-    $result = phpAds_dbQuery("
-        SELECT
-            affiliateid
-        FROM
-            ".$conf['table']['prefix'].$conf['table']['zones']."
-        WHERE
-            zoneid = '$zoneid'
-        ") or phpAds_sqlDie();
-    $row = phpAds_dbFetchArray($result);
-    if ($row["affiliateid"] == '' || phpAds_getUserID() != $row["affiliateid"]) {
-        phpAds_PageHeader("1");
-        phpAds_Die($strAccessDenied, $strNotAdmin);
-    } else {
-        $affiliateid = $row["affiliateid"];
-    }
-} elseif (phpAds_isUser(phpAds_Agency)) {
-    $query = "SELECT z.zoneid as zoneid".
-        " FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." AS a".
-        ",".$conf['table']['prefix'].$conf['table']['zones']." AS z".
-        " WHERE z.affiliateid='".$affiliateid."'".
-        " AND z.zoneid='".$zoneid."'".
-        " AND z.affiliateid=a.affiliateid".
-        " AND a.agencyid=".phpAds_getUserID();
-    $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-    if (phpAds_dbNumRows($res) == 0) {
-        phpAds_PageHeader("2");
-        phpAds_Die($strAccessDenied, $strNotAdmin);
-    }
-}
+MAX_Permission::checkAccessToObject('zones', $zoneid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -105,23 +77,9 @@ MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$res = phpAds_dbQuery("
-    SELECT
-        z.affiliateid,
-        z.width,
-        z.height,
-        z.delivery,
-        af.website
-    FROM
-        {$conf['table']['prefix']}{$conf['table']['zones']} AS z,
-        {$conf['table']['prefix']}{$conf['table']['affiliates']} AS af
-    WHERE
-        z.zoneid=$zoneid
-      AND af.affiliateid = z.affiliateid
-    ") or phpAds_sqlDie();
-if (phpAds_dbNumRows($res)) {
-    $zone = phpAds_dbFetchArray($res);
-    $extra = array('affiliateid' => $affiliateid, 
+$dalZones = OA_Dal::factoryDAL('zones');
+if ($zone = $dalZones->getZoneForInvocationForm($zoneid)) {
+    $extra = array('affiliateid' => $affiliateid,
                    'zoneid' => $zoneid,
                    'width' => $zone['width'],
                    'height' => $zone['height'],

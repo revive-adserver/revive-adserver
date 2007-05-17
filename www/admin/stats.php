@@ -2,14 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -32,25 +29,51 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/max/Delivery/common.php';
+require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/lib/max/other/common.php';
-require_once MAX_PATH . '/lib/max/Delivery/common.php';
 
-//No cache
+require_once MAX_PATH . '/lib/OA/Admin/DaySpan.php';
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
+require_once 'Date.php';
+
+// No cache
 MAX_commonSetNoCacheHeaders();
 
-//make data loading depending only on period_start & period_end
-$tempPeriodPreset = $_REQUEST['period_preset'];
-$_REQUEST['period_preset'] = 'specific';
-$period_preset = 'specific';
-$session['prefs']['GLOBALS']['period_preset'] = 'specific';
-$period_preset = MAX_getStoredValue('period_preset', 'today');
-$period_start = MAX_getStoredValue('period_start', date('Y-m-d'));
-$period_end = MAX_getStoredValue('period_end', date('Y-m-d'));
-
-
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsControllerFactory.php';
+// The URL for stats pages may include values for "period_preset",
+// "period_start" and "period_end". However, the user may have
+// bookmarked or emailed a statsistics URL, and so the page may
+// be viewed on a day that is NOT the day the URL was created.
+// As a result, the "period_preset" value may no longer match
+// the dates. So, to prevent confusion, re-set the "period_preset"
+// value to the range that matches the date, if possible - otherwise
+// use the "Specific Dates" value. The exception, of course, is
+// "".
+$periodPreset = MAX_getValue('period_preset', 'today');
+if ($periodPreset == 'all_stats') {
+    unset($_REQUEST['period_start']);
+    unset($session['prefs']['GLOBALS']['period_start']);
+    unset($_REQUEST['period_end']);
+    unset($session['prefs']['GLOBALS']['period_end']);
+    $_REQUEST['period_preset'] = $periodPreset;
+    $session['prefs']['GLOBALS']['period_preset'] = $periodPreset;
+} else {
+    $period_start = MAX_getStoredValue('period_start', date('Y-m-d'));
+    $period_end   = MAX_getStoredValue('period_end', date('Y-m-d'));
+    if (!empty($period_start) && !empty($period_end)) {
+        $oStartDate = new Date($period_start);
+        $oEndDate   = new Date($period_end);
+        $oDaySpan   = new OA_Admin_DaySpan();
+        $oDaySpan->setSpanDays($oStartDate, $oEndDate);
+        $periodFromDates = $oDaySpan->getPreset();
+        $_REQUEST['period_preset'] = $periodFromDates;
+        $session['prefs']['GLOBALS']['period_preset'] = $periodFromDates;
+    } else {
+        $_REQUEST['period_preset'] = $periodPreset;
+        $session['prefs']['GLOBALS']['period_preset'] = $periodPreset;
+    }
+}
 
 phpAds_registerGlobal('breakdown', 'entity', 'agency_id', 'advertiser_id',
                       'clientid', 'campaignid', 'placement_id', 'ad_id',
@@ -62,15 +85,15 @@ phpAds_registerGlobal('breakdown', 'entity', 'agency_id', 'advertiser_id',
                      );
 
 
-if(isset($graphFilter) && is_array($graphFilter)) {
+if (isset($graphFilter) && is_array($graphFilter)) {
 
     //remove old filter fileds from link
     $REQUEST_URI = $_SERVER['REQUEST_URI'];
     $REQUEST_URI = preg_replace('/graphFields\[\]=(.*)$/', '', $REQUEST_URI);
 
-    $redirectUrl = 'http://' 
-                   . $_SERVER['SERVER_NAME'] 
-                   . $REQUEST_URI;  
+    $redirectUrl = 'http://'
+                   . $_SERVER['SERVER_NAME']
+                   . $REQUEST_URI;
 
     foreach($graphFilter as $k => $v) {
         $redirectUrl .= '&graphFields[]=' . $v;
@@ -80,124 +103,72 @@ if(isset($graphFilter) && is_array($graphFilter)) {
     header("Location: $redirectUrl");
     die;
 } else {
-    $graphFilter = $graphFields;
+    $graphFilter = isset($graphFields) ? $graphFields : null;
 }
 
 // handle filters
-if(is_numeric($advertiser_id)) {
-    $clientid = $advertiser_id;
+if (!empty($advertiser_id)) {
+    $clientid = (int) $advertiser_id;
 }
 
-if(is_numeric($placement_id)) {
-    $campaignid = $placement_id;
+if (!empty($placement_id)) {
+    $campaignid = (int) $placement_id;
 }
 
-if(is_numeric($ad_id)) {
-    $bannerid = $ad_id;
+if (!empty($ad_id)) {
+    $bannerid = (int) $ad_id;
 }
 
-if(is_numeric($publisher_id)) {
-    $affiliateid = $publisher_id;
+if (!empty($publisher_id)) {
+    $affiliateid = (int) $publisher_id;
 }
 
-if(is_numeric($zone_id)) {
-      $zoneid = $zone_id;
+if (!empty($zone_id)) {
+      $zoneid = (int) $zone_id;
 }
 
-if(!isset($entity)) {
+if (!isset($entity)) {
     $entity = 'global';
 }
-if(!isset($breakdown)) {
+if (!isset($breakdown)) {
     $breakdown = 'advertiser';
 }
 
-//add all manipulated values to globals
+// Add all manipulated values to globals
 $_REQUEST['zoneid']      = $zoneid;
 $_REQUEST['affiliateid'] = $affiliateid;
 $_REQUEST['bannerid']    = $bannerid;
 $_REQUEST['campaignid']  = $campaignid;
 $_REQUEST['clientid']    = $clientid;
 
-//loading non-standard stat files
-if($entity == 'campaign' && $breakdown == 'keywords') {
-
-    include_once MAX_PATH . '/www/admin/stats-campaign-keywords.php';
-    die;
-
-} else if($entity == 'campaign' && $breakdown == 'optimise') {
-
-    include_once MAX_PATH . '/www/admin/stats-campaign-optimise.php';
-    die;
-
-} else if($entity == 'campaign' && $breakdown == 'sources') {
-
-    include_once MAX_PATH . '/www/admin/stats-campaign-sources.php';
-    die;
-
-} else if($entity == 'conversions') {
-
+// Display stats
+if ($entity == 'conversions') {
     include_once MAX_PATH . '/www/admin/stats-conversions.php';
-    die;
-
-} else if($entity == 'global' && $breakdown == 'misc') {
-
-    include_once MAX_PATH . '/www/admin/stats-global-misc.php';
-    die;
-
-} else if($entity == 'linkedbanner' && $breakdown == 'history') {
-
-    include_once MAX_PATH . '/www/admin/stats-linkedbanner-history.php';
-    die;
-
-} else if($entity == 'optimise') {
-
-    include_once MAX_PATH . '/www/admin/stats-optimise.php';
-    die;
-
-} else if($entity == 'placement' && $breakdown == 'target') {
-
-    include_once MAX_PATH . '/www/admin/stats-placement-target.php';
-    die;
-
-} else if($entity == 'placement' && $breakdown == 'target-daily') {
-
-    include_once MAX_PATH . '/www/admin/stats-placement-target.php';
-    die;
-
-} else if($entity == 'reset') {
-
-    include_once MAX_PATH . '/www/admin/stats-reset.php';
-    die;
-
-} else {
-
-    // Display stats
-    $stats = &StatsControllerFactory::newStatsController($entity . "-" . $breakdown);
-
-    //create Excel stats report
-    if(isset($plugin) && $plugin != '') {
-        include_once MAX_PATH . '/www/admin/stats-report-execute.php';
-    }
-
-    //output html code
-    $stats->output();
-
-    //erase stats graph file
-    if(isset($GraphFile) && $GraphFile != '') {
-
-        $dirObject = dir( $conf['store']['webDir'] . '/temp');    
-        while (false !== ($entry = $dirObject->read())) {
-
-            if( filemtime($conf['store']['webDir'] . '/temp/' . $entry) + 60 < time()) {
-                unlink($conf['store']['webDir'] . '/temp/' . $entry);
-            }
-        }
-    }
-
-
-
+    exit;
 }
 
+$oStats = &OA_Admin_Statistics_Factory::getController($entity . "-" . $breakdown);
+$oStats->start();
+
+// Create Excel stats report
+if (isset($plugin) && $plugin != '') {
+    include_once MAX_PATH . '/www/admin/stats-report-execute.php';
+}
+
+//output html code
+$oStats->output();
+
+//erase stats graph file
+if (isset($GraphFile) && $GraphFile != '') {
+
+    $dirObject = dir($conf['store']['webDir'] . '/temp');
+    while (false !== ($entry = $dirObject->read())) {
+
+        if (filemtime($conf['store']['webDir'] . '/temp/' . $entry) + 60 < time()) {
+            unlink($conf['store']['webDir'] . '/temp/' . $entry);
+        }
+    }
+}
 
 
 ?>

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -44,8 +44,8 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
     {
         $this->UnitTestCase();
         Mock::generate(
-            'MAX_Dal_Maintenance_Priority',
-            $this->mockDal = 'MockMAX_Dal_Maintenance_Priority'.rand()
+            'OA_Dal_Maintenance_Priority',
+            $this->mockDal = 'MockOA_Dal_Maintenance_Priority'.rand()
         );
         Mock::generatePartial(
             'PriorityCompensation',
@@ -63,10 +63,10 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
      */
     function test_buildClasses()
     {
-        // Mock the MAX_DB class used in the constructor method
+        // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         // Partially mock the PriorityCompensation class
         $oPriorityCompensation = new PartialMockPriorityCompensation($this);
@@ -354,10 +354,10 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
      */
     function testScalePriorities()
     {
-        // Mock the MAX_DB class used in the constructor method
+        // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         // Partially mock the PriorityCompensation class
         $oPriorityCompensation = new PartialMockPriorityCompensation($this);
@@ -457,10 +457,10 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
      */
     function testInitialPriorities()
     {
-        // Mock the MAX_DB class used in the constructor method
+        // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         // Partially mock the PriorityCompensation class
         $oPriorityCompensation = new PartialMockPriorityCompensation($this);
@@ -802,10 +802,10 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
      */
     function testLearnedPriorities()
     {
-        // Mock the MAX_DB class used in the constructor method
+        // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         // Partially mock the PriorityCompensation class
         $oPriorityCompensation = new PartialMockPriorityCompensation($this);

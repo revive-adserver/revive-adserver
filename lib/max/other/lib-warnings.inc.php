@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -28,6 +28,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Email.php';
 require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 
 /*-------------------------------------------------------*/
@@ -36,17 +37,18 @@ require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 
 function phpAds_warningMail($campaign)
 {
+    $oDbh = &OA_DB::singleton();
 	$conf = $GLOBALS['_MAX']['CONF'];
 	global $strImpressionsClicksConversionsLow, $strMailHeader, $strWarnClientTxt;
 	global $strMailNothingLeft, $strMailFooter;
 	if ($pref['warn_admin'] || $pref['warn_client']) {
 		// Get the client which belongs to this campaign
-		$clientresult = phpAds_dbQuery(
-			"SELECT *".
-			" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-			" WHERE clientid=".$campaign['clientid']
-		);
-		if ($client = phpAds_dbFetchArray($clientresult)) {
+        $query = "
+			SELECT *
+			FROM ".$conf['table']['prefix'].$conf['table']['clients'] ."
+			WHERE clientid=". $oDbh->quote($campaign['clientid'], 'integer');
+        $res = $oDbh->query($query);
+		if ($client = $res->fetchRow()) {
             // Load config from the database
             if (!isset($GLOBALS['_MAX']['PREF'])) {
                 //phpAds_LoadDbConfig();
@@ -70,10 +72,10 @@ function phpAds_warningMail($campaign)
 			$Body    = str_replace("{limit}", $pref['warn_limit'], $Body);
 			// Send email
 			if ($pref['warn_admin']) {
-				MAX::sendMail($pref['admin_email'], $pref['admin_fullname'], $Subject, $Body);
+				OA_Email::sendMail($Subject, $Body, $pref['admin_email'], $pref['admin_fullname']);
 			}
 			if ($pref['warn_client'] && $client["email"] != '') {
-				MAX::sendMail($client['email'], $client['contact'], $Subject, $Body);
+				OA_Email::sendMail($Subject, $Body, $client['email'], $client['contact']);
 				if ($pref['userlog_email']) {
 					phpAds_userlogAdd(phpAds_actionWarningMailed, $campaign['campaignid'], $Subject."\n\n".$Body);
 				}

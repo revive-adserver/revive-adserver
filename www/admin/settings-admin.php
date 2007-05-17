@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -28,6 +28,15 @@
 $Id$
 */
 
+/**
+ * Obtain the server timezone information *before* the init script is
+ * called, to ensure that the timezone information from the server is
+ * not affected by any calls to date_default_timezone_set() or
+ * putenv("TZ=...") to set the timezone manually.
+ */
+require_once '../../lib/OA/Admin/Timezones.php';
+$aTimezone = OA_Admin_Timezones::getTimezone();
+
 // Require the initialisation file
 require_once '../../init.php';
 
@@ -38,22 +47,32 @@ require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+MAX_Permission::checkAccess(phpAds_Admin);
 
 $errormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
     phpAds_registerGlobal('admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email',
                           'company_name', 'language', 'updates_enabled', 'admin_novice',
-                          'userlog_email');
+                          'userlog_email', 'timezone_location');
+
+    //  Update config with timezone changes
+    if (isset($timezone_location)) {
+        $timezone_location = OA_Admin_Timezones::getConfigTimezoneValue($timezone_location, $aTimezone);
+        $config = new MAX_Admin_Config();
+        $config->setConfigChange('timezone', 'location', $timezone_location);
+        if (!$config->writeConfigChange()) {
+            // Unable to write the config file out
+            $errormessage[0][] = $strUnableToWriteConfig;
+        }
+    }
+
     // Set up the preferences object
     $preferences = new MAX_Admin_Preferences();
     if (isset($admin)) {
         if (!strlen($admin)) {
             $errormessage[0][] = $strInvalidUsername;
-        } elseif (phpAds_dbNumRows(phpAds_dbQuery("SELECT * FROM ".$conf['table']['prefix'].$conf['table']['clients']." WHERE LOWER(clientusername) = '".strtolower($admin)."'"))) {
-            $errormessage[0][] = $strDuplicateClientName;
-        } elseif (phpAds_dbNumRows(phpAds_dbQuery("SELECT * FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE LOWER(username) = '".strtolower($admin)."'"))) {
+        } elseif (!MAX_Permission::isUsernameAllowed($pref['admin'], $admin)) {
             $errormessage[0][] = $strDuplicateClientName;
         } else {
             $preferences->setPrefChange('admin', $admin);
@@ -95,6 +114,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             MAX_Admin_Redirect::redirect('settings-banner.php');
         }
     }
+
 }
 
 phpAds_PrepareHelp();
@@ -105,26 +125,23 @@ phpAds_PageHeader("5.1");
 phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
 phpAds_SettingsSelection("admin");
 
-$unique_users = array();
-$res = phpAds_dbQuery(
-    "SELECT LOWER(clientusername) as used".
-    " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-    " WHERE clientusername != ''"
-);
+$unique_users   = MAX_Permission::getUniqueUserNames($pref['admin']);
 
-while ($row = phpAds_dbFetchArray($res))
-    $unique_users[] = $row['used'];
-
-$res = phpAds_dbQuery("SELECT LOWER(username) as used FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE username != ''");
-while ($row = phpAds_dbFetchArray($res))
-    $unique_users[] = $row['used'];
+$aTimezones = OA_Admin_Timezones::AvailableTimezones(true);
+$configTimezone = trim($GLOBALS['_MAX']['CONF']['timezone']['location']);
+if (empty($configTimezone)) {
+    // There is no value stored in the configuration file, as it
+    // is not required (ie. the TZ comes from the environment) -
+    // so set that environment value in the config file now
+    $GLOBALS['_MAX']['CONF']['timezone']['location'] = $aTimezone['tz'];
+}
 
 $settings = array (
     array (
         'text'  => $strLoginCredentials,
         'items' => array (
             array (
-                'type'    => 'text', 
+                'type'    => 'text',
                 'name'    => 'admin',
                 'text'    => $strAdminUsername,
                 'check'   => 'unique',
@@ -134,7 +151,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'password', 
+                'type'    => 'password',
                 'name'    => 'pwold',
                 'text'    => $strOldPassword
             ),
@@ -142,7 +159,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'password', 
+                'type'    => 'password',
                 'name'    => 'pw',
                 'text'    => $strNewPassword,
                 'depends' => 'pwold!=""'
@@ -151,7 +168,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'password', 
+                'type'    => 'password',
                 'name'    => 'pw2',
                 'text'    => $strRepeatPassword,
                 'depends' => 'pwold!=""',
@@ -163,7 +180,7 @@ $settings = array (
         'text'  => $strBasicInformation,
         'items' => array (
             array (
-                'type'    => 'text', 
+                'type'    => 'text',
                 'name'    => 'admin_fullname',
                 'text'    => $strAdminFullName,
                 'size'    => 35
@@ -172,7 +189,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'text', 
+                'type'    => 'text',
                 'name'    => 'admin_email',
                 'text'    => $strAdminEmail,
                 'size'    => 35,
@@ -182,7 +199,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'text', 
+                'type'    => 'text',
                 'name'    => 'company_name',
                 'text'    => $strCompanyName,
                 'size'    => 35
@@ -193,7 +210,7 @@ $settings = array (
         'text'  => $strPreferences,
         'items' => array (
             array (
-                'type'    => 'select', 
+                'type'    => 'select',
                 'name'    => 'language',
                 'text'    => $strLanguage,
                 'items'   => MAX_Admin_Languages::AvailableLanguages()
@@ -202,7 +219,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'checkbox', 
+                'type'    => 'checkbox',
                 'name'    => 'updates_enabled',
                 'text'    => $strAdminCheckUpdates
             ),
@@ -221,7 +238,18 @@ $settings = array (
                 'type'    => 'checkbox',
                 'name'    => 'userlog_email',
                 'text'    => $strUserlogEmail
-            )            
+            )
+        )
+    ),
+    array (
+        'text'  => $strTimezoneInformation,
+        'items' => array (
+            array (
+                'type'    => 'select',
+                'name'    => 'timezone_location',
+                'text'    => $strTimezone,
+                'items'   => $aTimezones
+            )
         )
     )
 );

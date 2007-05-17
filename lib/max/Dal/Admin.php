@@ -1,11 +1,12 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -36,6 +37,7 @@ require_once 'Date.php';
  */
 class MAX_Dal_Admin extends MAX_Dal_Common
 {
+
     function MAX_Dal_Admin()
     {
         parent :: MAX_Dal_Common();
@@ -242,11 +244,11 @@ class MAX_Dal_Admin extends MAX_Dal_Common
                     AND interm.interval_start = adzone.interval_start
                 WHERE
                     ads.bannerid = interm.ad_id
-                    AND ads.campaignid = {$placementId}
-                    AND interm.interval_start >= $start_sql
-                    AND interm.interval_end <= $end_sql
-                ";
-        $results = $this->dbh->getAll($sql);
+                    AND ads.campaignid = ". $this->oDbh->quote($placementId, 'integer') ."
+                    AND interm.interval_start >= ". $this->oDbh->quote($start_sql, 'timestamp') ."
+                    AND interm.interval_end <= ". $this->oDbh->quote($end_sql, 'timestamp');
+
+        $results = $this->oDbh->getAll($sql);
         return $results;
     }
 
@@ -293,8 +295,8 @@ class MAX_Dal_Admin extends MAX_Dal_Common
                     AND interm.interval_start = adzone.interval_start
                 WHERE
                     ads.bannerid = interm.ad_id
-                    AND ads.campaignid = {$placement_id}
-                    AND date_format(interm.interval_start, '%Y-%m-%d') = date_format({$day_sql}, '%Y-%m-%d')
+                    AND ads.campaignid = ". $this->oDbh->quote($placement_id, 'integer') ."
+                    AND date_format(interm.interval_start, '%Y-%m-%d') = date_format(". $this->oDbh->quote($day_sql, 'date') .", '%Y-%m-%d')
                 GROUP BY
                     interm.interval_start,
                     adzone.expired,
@@ -306,7 +308,7 @@ class MAX_Dal_Admin extends MAX_Dal_Common
                     adzone.expired
                 ";
 
-        $complete_db_results = $this->dbh->getAll($sql);
+        $complete_db_results = $this->oDbh->getAll($sql);
         return $complete_db_results;
     }
 
@@ -368,11 +370,11 @@ class MAX_Dal_Admin extends MAX_Dal_Common
                 WHERE interm.zone_id = adzone.zone_id
                     and interm.ad_id = adzone.ad_id
                     and interm.interval_start = adzone.interval_start
-                    and interm.ad_id = {$ad_id}
-                    and interm.interval_start >= {$start_sql}
-                    and interm.interval_end <= {$end_sql}
-                ";
-        $results = $this->dbh->getAll($sql);
+                    and interm.ad_id = ". $this->oDbh->quote($ad_id, 'integer') ."
+                    and interm.interval_start >= ". $this->oDbh->quote($start_sql, 'timestamp') ."
+                    and interm.interval_end <= ". $this->oDbh->quote($end_sql, 'timestamp');
+
+        $results = $this->oDbh->getAll($sql);
 
         $stats = array ();
         foreach ($results as $result)
@@ -442,12 +444,12 @@ class MAX_Dal_Admin extends MAX_Dal_Common
                 WHERE interm.zone_id = adzone.zone_id
                     and interm.ad_id = adzone.ad_id
                     and interm.interval_start = adzone.interval_start
-                    and interm.zone_id = {$zone_id}
-                    and interm.interval_start >= {$start_sql}
-                    and interm.interval_end <= {$end_sql}
+                    and interm.zone_id = ". $this->oDbh->quote($zone_id, 'integer') ."
+                    and interm.interval_start >= ". $this->oDbh->quote($start_sql, 'timestamp') ."
+                    and interm.interval_end <= ". $this->oDbh->quote($end_sql, 'timestamp') ."
                 GROUP BY ad_id
                 ";
-        $results = $this->dbh->getAll($sql);
+        $results = $this->oDbh->getAll($sql);
         $stats = array ();
         foreach ($results as $result)
         {
@@ -476,10 +478,15 @@ class MAX_Dal_Admin extends MAX_Dal_Common
         $sql = "
             INSERT INTO {$data_table_name}
                 (interval_start, interval_end, ad_id, zone_id, impressions)
-            VALUES
-                ($start_sql, $end_sql, $ad_id, $zone_id, 50)
-            ";
-        $this->dbh->query($sql);
+            VALUES (
+                ". $this->oDbh->quote($start_sql, 'timestamp') .",
+                ". $this->oDbh->quote($end_sql, 'timestamp') .",
+                ". $this->oDbh->quote($ad_id, 'integer') .",
+                ". $this->oDbh->quote($zone_id, 'integer') .",
+                ". $this->oDbh->quote(50, 'integer') ."
+            )";
+
+        $this->oDbh->exec($sql);
     }
 
     function _addAdZonePriority($start_sql, $end_sql, $ad_id, $zone_id)
@@ -489,10 +496,16 @@ class MAX_Dal_Admin extends MAX_Dal_Common
         $sql = "
                 INSERT INTO {$adzone_table_name}
                     (interval_start, interval_end, ad_id, zone_id, impressions_requested)
-                VALUES
-                    ($start_sql, $end_sql, $ad_id, $zone_id, 50)
-                ";
-        $this->dbh->query($sql);
+                VALUES (
+                    ". $this->oDbh->quote($start_sql, 'timestamp') .",
+                    ". $this->oDbh->quote($end_sql, 'timestamp') .",
+                    ". $this->oDbh->quote($ad_id, 'integer') .",
+                    ". $this->oDbh->quote($zone_id, 'integer') .",
+                    ". $this->oDbh->quote(50, 'integer') ."
+                )";
+
+        $this->oDbh->exec($sql);
+
     }
 
     /**
@@ -513,11 +526,10 @@ class MAX_Dal_Admin extends MAX_Dal_Common
                     interm.interval_start = adzone.interval_start
                     AND interm.ad_id = adzone.ad_id
                     AND interm.zone_id = adzone.zone_id
-                    AND interm.ad_id = {$ad_id}
-                    AND interm.zone_id = {$zone_id}
-                ";
+                    AND interm.ad_id = ". $this->oDbh->quote($ad_id, 'integer') ."
+                    AND interm.zone_id = ". $this->oDbh->quote($zone_id, 'integer');
 
-        $results = $this->dbh->getOne($sql);
+        $results = $this->oDbh->getOne($sql);
         return (int) $results[0];
     }
 
@@ -539,9 +551,9 @@ class MAX_Dal_Admin extends MAX_Dal_Common
                     {$adzone_table} adzone
                 WHERE
                     ad.bannerid = adzone.ad_id
-                    AND ad.campaignid = {$placement_id}
-                ";
-    	$results = $this->dbh->getAll($sql);
+                    AND ad.campaignid = ". $this->oDbh->quote($placement_id, 'integer');
+
+    	$results = $this->oDbh->getAll($sql);
     	$zones = array();
     	foreach($results as $row) {
     	    array_push($zones, $row['zone_id']);
@@ -553,7 +565,7 @@ class MAX_Dal_Admin extends MAX_Dal_Common
     {
         $ad_table = $this->ad_table;
         $sql = "SELECT COUNT(bannerid) FROM `{$ad_table}` ads";
-        $results = $this->dbh->getOne($sql);
+        $results = $this->oDbh->getOne($sql);
         return (int) $results[0];
     }
 

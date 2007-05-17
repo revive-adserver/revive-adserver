@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -27,11 +27,11 @@ $Id$
 require_once MAX_PATH.'/lib/max/Dal/Common.php';
 
 /**
- * Trakcers DAL for Max Media Manager
+ * Trackers DAL for Openads
  *
- * @package MaxDal
- * @since 0.3.22 - Apr 13, 2006
- * @copyright 2006 M3 Media Services
+ * @package OpenadsDal
+ * @since Openads v2.3.22-alpha - Apr 13, 2006
+ * @copyright 2003-2007 Openads Limited
  * @version $Id$
  */
 
@@ -39,10 +39,13 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
 {
     function getAppendCodes($tracker_id)
     {
-        $query = "SELECT tracker_append_id, tagcode, rank, paused, autotrack FROM {$this->prefix}{$this->conf['table']['tracker_append']} WHERE tracker_id = ? ORDER BY rank";
-        
-        $tags = array();
-        foreach ($this->dbh->getAll($query, array($tracker_id)) as $row) {
+        $query = "
+            SELECT tracker_append_id, tagcode, rank, paused, autotrack
+            FROM {$this->prefix}{$this->conf['table']['tracker_append']}
+            WHERE tracker_id = ". $this->oDbh->quote($tracker_id, 'integer') ."
+            ORDER BY rank";
+        $res = $this->oDbh->query($query);
+        while ($row = $res->fetchRow()) {
             $row['paused']    = $row['paused'] == 't';
             $row['autotrack'] = $row['autotrack'] == 't';
             $tags[$row['tracker_append_id']] = $row;
@@ -50,18 +53,31 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
 
         return $tags;
     }
-    
+
     function setAppendCodes($tracker_id, $codes)
     {
-        $query = "DELETE FROM {$this->prefix}{$this->conf['table']['tracker_append']} WHERE tracker_id = ?";
-        
-        $result = $this->dbh->query($query, array($tracker_id));
+        $tracker_id = (is_numeric($tracker_id)) ? $tracker_id : (int) $tracker_id;
+
+        $query = "
+            DELETE FROM {$this->prefix}{$this->conf['table']['tracker_append']}
+            WHERE tracker_id = ". $this->oDbh->quote($tracker_id, 'integer');
+        $result = $this->oDbh->exec($query);
+
         if (PEAR::isError($result)) {
             MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
-        
+
         $rank = 0;
         $appendcodes = array();
+        $query = "
+            INSERT INTO {$this->prefix}{$this->conf['table']['tracker_append']} (
+                tracker_id, tagcode, paused, autotrack, rank
+            ) VALUES (
+                ?, ?, ?, ?, ?
+            )";
+        $aTypes = array('integer', 'text', 'boolean', 'boolean', 'integer');
+        $st = $this->oDbh->prepare($query, $aTypes);
+
         foreach ($codes as $v) {
             $tagcode = trim($v['tagcode']);
             if (!strlen($tagcode)) {
@@ -69,22 +85,24 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
             }
             $paused    = $v['paused'] ? 't' : 'f';
             $autotrack = $v['autotrack'] ? 't' : 'f';
-            $query = "INSERT INTO {$this->prefix}{$this->conf['table']['tracker_append']} (tracker_id, tagcode, paused, autotrack, rank) VALUES (?, ?, ?, ?, ?)";
-            $result = $this->dbh->query($query, array($tracker_id, $tagcode, $paused, $autotrack, ++$rank));
+            $result = $this->oDbh->execute(array($tracker_id, $tagcode, $paused, $autotrack, ++$rank));
             if (PEAR::isError($result)) {
                 MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             }
 
             $appendcodes[] = array('tagcode' => $tagcode, 'paused' => $paused, 'autotrack' => $autotrack);
         }
-        
-        $query = "UPDATE {$this->prefix}{$this->conf['table']['trackers']} SET appendcode = ? WHERE trackerid = ?";
-        $result = $this->dbh->query($query, array($this->generateAppendCode($appendcodes), $tracker_id));
+
+        $query = "
+            UPDATE {$this->prefix}{$this->conf['table']['trackers']}
+            SET appendcode = ". $this->oDbh->quote($this->generateAppendCode($appendcodes)) ."
+            WHERE trackerid = ". $this->oDbh->quote($tracker_id);
+        $result = $this->oDbh->exec($query);
         if (PEAR::isError($result)) {
             MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
     }
-    
+
     function generateAppendCode($codes)
     {
         $appendcode = array();
@@ -96,11 +114,11 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
                     $v['tagcode'] = preg_replace('/("\?trackerid=\d+)(&amp;r="\+az_r\+"\'><\" \+ "\/script>")/', '$1&amp;inherit=1$2', $v['tagcode']);
                     $v['tagcode'] = preg_replace('/\{variable:(.+?)\}/', '{m3_trackervariable:$1}', $v['tagcode']);
                 }
-                
+
                 $appendcode[] = $v['tagcode'];
             }
         }
-        
+
         return join("\n", $appendcode);
     }
 
@@ -108,16 +126,16 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
     {
         $query = "SELECT trackerid, trackername, clientid, appendcode FROM {$this->prefix}{$this->conf['table']['trackers']}";
         $trackers = array();
-        foreach ($this->dbh->getAll($query) as $row) {
+        foreach ($this->oDbh->getAll($query) as $row) {
             $trackers[$row['trackerid']] = $row;
         }
-        
+
         $query = "SELECT tracker_id, tagcode, rank, paused FROM {$this->prefix}{$this->conf['table']['tracker_append']} WHERE paused = 'f' ORDER BY rank";
         $codes = array();
-        foreach ($this->dbh->getAll($query) as $row) {
+        foreach ($this->oDbh->getAll($query) as $row) {
             $codes[$row['tracker_id']][] = $row;
         }
-        
+
         foreach ($trackers as $tracker_id => $tracker) {
             if (!isset($codes[$tracker_id])) {
                 if (empty($tracker['appendcode'])) {
@@ -130,19 +148,19 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
                 unset($trackers[$tracker_id]);
             }
         }
-        
+
         return $trackers;
     }
-    
+
     function recompileAppendCodes($ids = null) {
         if (is_null($ids)) {
             $query = "SELECT trackerid FROM {$this->prefix}{$this->conf['table']['trackers']}";
             $ids = array();
-            foreach ($this->dbh->getAll($query) as $row) {
+            foreach ($this->oDbh->getAll($query) as $row) {
                 $ids[] = $row['trackerid'];
             }
         }
-        
+
         foreach ($ids as $tracker_id) {
             $this->setAppendCodes($tracker_id, $this->getAppendCodes($tracker_id));
         }

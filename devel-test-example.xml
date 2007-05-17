@@ -1,0 +1,20 @@
+<tests>
+  <php>
+    <version name="php4.3.11" executable="/usr/local/php4/bin/php"/>
+    <version name="php4.4.6" executable="/usr/local/php-4.4.6/bin/php"/>
+    <version name="php5.0.5" executable="/usr/local/php-5.0.5/bin/php"/>
+    <version name="php5.1.2" executable="/usr/local/php-5.1.2/bin/php"/>
+    <version name="php5.2.1" executable="/usr/local/php-5.2.1/bin/php"/>
+  </php>
+  <database>
+    <version name="mysql4.0.27" db.type="mysql" db.host="localhost" db.port="3309" db.username="username" db.password="password" db.name="cc" db.table.type="INNODB"/>
+    <version name="mysql4.1.22" db.type="mysql" db.host="localhost" db.port="3307" db.username="username" db.password="password" db.name="cc" db.table.type="INNODB"/>
+    <version name="mysql5.0.373" db.type="mysql" db.host="localhost" db.port="3308" db.username="username" db.password="password" db.name="cc" db.table.type="INNODB"/>
+    <version name="mysql4.0.27" db.type="mysql" db.host="localhost" db.port="3309" db.username="username" db.password="password" db.name="cc" db.table.type="MyISAM"/>
+    <version name="mysql4.1.22" db.type="mysql" db.host="localhost" db.port="3307" db.username="username" db.password="password" db.name="cc" db.table.type="MyISAM"/>
+    <version name="mysql5.0.373" db.type="mysql" db.host="localhost" db.port="3308" db.username="username" db.password="password" db.name="cc" db.table.type="MyISAM"/>
+    <version name="pgsql8.0.12" db.type="pgsql" db.host="localhost" db.port="5432" db.username="username" db.password="password" db.name="cc" db.table.type=" "/>
+    <version name="pgsql8.1.8" db.type="pgsql" db.host="localhost" db.port="5433" db.username="username" db.password="password" db.name="cc" db.table.type=" "/>
+    <version name="pgsql8.2.3" db.type="pgsql" db.host="localhost" db.port="5434" db.username="username" db.password="password" db.name="cc" db.table.type=" "/>
+  </database>
+</tests>

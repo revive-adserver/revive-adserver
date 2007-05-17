@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -124,11 +124,11 @@ class Plugins_Reports_Advertiser_Campaignhistory extends EnhancedReport {
     /*-------------------------------------------------------*/
     function execute($campaignid, $start, $end, $delimiter=",")
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
     	global $date_format;
     	global $strCampaign, $strTotal, $strDay, $strImpressions, $strClicks, $strCTRShort, $strConversions, $strCNVRShort;
 
-    	$conf = & $GLOBALS['_MAX']['CONF'];
+    	$conf = &$GLOBALS['_MAX']['CONF'];
+        $oDbh = &OA_DB::singleton();
 
     	// Format the start and end dates
         $dbStart = date("Y-m-d", strtotime($start));
@@ -150,18 +150,20 @@ class Plugins_Reports_Advertiser_Campaignhistory extends EnhancedReport {
     						".$conf['table']['prefix'].$conf['table']['banners']." as b
     					WHERE
     						s.ad_id=b.bannerid
-    						AND b.campaignid='".$campaignid."'
-    						AND s.day >= '".$dbStart."'
-    						AND s.day <  '".$dbEnd."'
+    						AND b.campaignid= ".$oDbh->quote($campaignid, 'integer') ."
+    						AND s.day >= ". $oDbh->quote($dbStart, 'date') ."
+    						AND s.day <  ". $oDbh->quote($dbEnd, 'date') ."
     					GROUP BY
     						day
                         ORDER BY
                             DATE_FORMAT(day, '%Y%m%d')
     				";
-    	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
+    	$res_banners = $oDbh->query($res_query);
+        if (PEAR::isError($res_banners)) {
+            return $res_banners;
+        }
 
-    	while ($row_banners = phpAds_dbFetchArray($res_banners))
-    	{
+    	while ($row_banners = $res_banners->fetchRow()) {
     		$stats[$row_banners['day']]['views'] 		= $row_banners['adviews'];
     		$stats[$row_banners['day']]['clicks'] 		= $row_banners['adclicks'];
     		$stats[$row_banners['day']]['conversions'] 	= $row_banners['adconversions'];
@@ -321,8 +323,8 @@ class Plugins_Reports_Advertiser_Campaignhistory extends EnhancedReport {
      */
     function getStatsController($controller_type)
     {
-        require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsControllerFactory.php';
-        return StatsControllerFactory::newStatsController($controller_type, array(
+        require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
+        return OA_Admin_Statistics_Factory::getController($controller_type, array(
             'skipFormatting' => true,
             'disablePager'   => true
         ));

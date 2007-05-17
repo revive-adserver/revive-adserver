@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -500,22 +500,22 @@ class TestOfMAX_Plugin extends UnitTestCase {
     {
         // Test getting the default config file name by module
         $result = MAX_Plugin::getConfigFileName('foo', null, null, true, 'fake.host.name');
-        $this->assertEqual($result, MAX_PATH.'/plugins/foo/fake.host.name.plugin.conf.ini');
+        $this->assertEqual($result, MAX_PATH.'/plugins/foo/fake.host.name.plugin.conf.php');
         // Test getting the default config file name by module and package
         $result = MAX_Plugin::getConfigFileName('foo', 'bar', null, true, 'fake.host.name');
-        $this->assertEqual($result, MAX_PATH.'/plugins/foo/bar/fake.host.name.plugin.conf.ini');
+        $this->assertEqual($result, MAX_PATH.'/plugins/foo/bar/fake.host.name.plugin.conf.php');
         // Test getting the default config file name by module, package and plugin
         $result = MAX_Plugin::getConfigFileName('foo', 'bar', 'baz', true, 'fake.host.name');
-        $this->assertEqual($result, MAX_PATH.'/plugins/foo/bar/baz.fake.host.name.plugin.conf.ini');
+        $this->assertEqual($result, MAX_PATH.'/plugins/foo/bar/baz.fake.host.name.plugin.conf.php');
         // Test getting the real config file name by module
         $result = MAX_Plugin::getConfigFileName('foo', null, null, false, 'fake.host.name');
-        $this->assertEqual($result, MAX_PATH.'/var/plugins/config/foo/fake.host.name.plugin.conf.ini');
+        $this->assertEqual($result, MAX_PATH.'/var/plugins/config/foo/fake.host.name.plugin.conf.php');
         // Test getting the real config file name by module and package
         $result = MAX_Plugin::getConfigFileName('foo', 'bar', null, false, 'fake.host.name');
-        $this->assertEqual($result, MAX_PATH.'/var/plugins/config/foo/bar/fake.host.name.plugin.conf.ini');
+        $this->assertEqual($result, MAX_PATH.'/var/plugins/config/foo/bar/fake.host.name.plugin.conf.php');
         // Test getting the real config file name by module, package and plugin
         $result = MAX_Plugin::getConfigFileName('foo', 'bar', 'baz', false, 'fake.host.name');
-        $this->assertEqual($result, MAX_PATH.'/var/plugins/config/foo/bar/baz.fake.host.name.plugin.conf.ini');
+        $this->assertEqual($result, MAX_PATH.'/var/plugins/config/foo/bar/baz.fake.host.name.plugin.conf.php');
     }
 
     /**
@@ -577,13 +577,13 @@ class TestOfMAX_Plugin extends UnitTestCase {
         // Unset the error handler
         PEAR::popErrorHandling();
         // Test a config file that does exist
-        $result = MAX_Plugin::getConfigByFileName(MAX_PATH . '/plugins/geotargeting/default.plugin.conf.ini');
+        $result = MAX_Plugin::getConfigByFileName(MAX_PATH . '/plugins/geotargeting/default.plugin.conf.php');
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 2);
         $this->assertEqual($result['type'], 'none');
         $this->assertFalse($result['saveStats']);
         // Test a config file that does exist, with sections
-        $result = MAX_Plugin::getConfigByFileName(MAX_PATH . '/plugins/geotargeting/default.plugin.conf.ini', true);
+        $result = MAX_Plugin::getConfigByFileName(MAX_PATH . '/plugins/geotargeting/default.plugin.conf.php', true);
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 1);
         $this->assertTrue(is_array($result['geotargeting']));

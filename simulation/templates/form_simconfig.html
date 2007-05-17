@@ -1,8 +1,8 @@
 <form method="POST" action="init.php">
 <table class="input">
     <tr><th colspan="2">Simulation Configuration (Real Config)</th></tr>
-    <tr><td colspan="2"><?php if ($configError) { display_error('Enter a hostname that has a real configuration ini file (.conf.ini)'); } ?></td></tr>
-    <tr><td class="label">Installed Max Admin Host</td>
+    <tr><td colspan="2"><?php if ($configError) { display_error('Enter a hostname that has a real configuration ini file (.conf.php)'); } ?></td></tr>
+    <tr><td class="label">Installed Openads Admin Host</td>
     <td><input name="realConfig" type="text" value="<?php echo $conf['realConfig']; ?>" size="32" /></td></tr>
     <tr><th colspan="2">Simulation Target Database</th></tr>
     <tr><td class="label">type</td><td><input name="simdb[type]"  type="text" value="<?php echo $conf['simdb']['type']; ?>" ></td></tr>

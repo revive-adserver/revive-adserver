@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -461,7 +461,7 @@ $GLOBALS['strBannerWeight']			= "Bannergewichtung";
 //neu in MMM 0.3
 $GLOBALS['strBannerType']           = "Werbemitteltyp";
 $GLOBALS['strAdserverTypeGeneric']  = "Standard HTML-Banner";
-$GLOBALS['strAdserverTypeMax']      = "Rich Media - m3 Max Media Manager";
+$GLOBALS['strAdserverTypeMax']      = "Rich Media - Openads";
 $GLOBALS['strAdserverTypeAtlas']    = "Rich Media - Atlas";
 $GLOBALS['strAdserverTypeBluestreak']   = "Rich Media - Bluestreak";
 $GLOBALS['strAdserverTypeDoubleclick']  = "Rich Media - DoubleClick";

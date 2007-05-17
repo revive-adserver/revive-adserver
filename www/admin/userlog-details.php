@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,11 +32,12 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/language/Userlog.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+MAX_Permission::checkAccess(phpAds_Admin);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -52,24 +53,17 @@ Language_Userlog::load();
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$res = phpAds_dbQuery("
-	SELECT
-		*
-	FROM 
-		".$conf['table']['prefix'].$conf['table']['userlog']."
-	WHERE
-		userlogid = '".$userlogid."'
-");
+$doUserLog = OA_Dal::factoryDO('userlog');
 
-
-if ($row = phpAds_dbFetchArray($res))
+if ($doUserLog->get($userlogid))
 {
+    $row = $doUserLog->toArray();
 	echo "<br />";
 	echo "<table cellpadding='0' cellspacing='0' border='0'>";
-	
+
 	echo "<tr height='20'><td><b>".$strDate."</b>:&nbsp;&nbsp;</td>";
 	echo "<td>".strftime($date_format, $row['timestamp']).", ".strftime($minute_format, $row['timestamp'])."</td></tr>";
-	
+
 	echo "<tr height='20'><td><b>".$strUser."</b>:&nbsp;&nbsp;</td><td>";
 	switch ($row['usertype'])
 	{
@@ -78,14 +72,14 @@ if ($row = phpAds_dbFetchArray($res))
 		case phpAds_userAdministrator:	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".$strAdministrator; break;
 	}
 	echo "</td></tr>";
-	
+
 	$action = $strUserlog[$row['action']];
 	$action = str_replace ('{id}', $row['object'], $action);
 	echo "<tr height='20'><td><b>".$strAction."</b>:&nbsp;&nbsp;</td><td>".$action."</td></tr>";
 	echo "</table>";
-	
+
 	phpAds_ShowBreak();
-	
+
 	echo "<br /><br />";
 	echo "<pre>".$row['details']."</pre>";
 	echo "<br /><br />";

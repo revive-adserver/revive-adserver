@@ -1,69 +1,196 @@
-<project name="openads" default="simpletest">
-    <target name="simpletest" depends="init, test-domain, test-db, test-all-individually, test-integration" />
-    <target name="full-build" depends="simpletest, test-with-selenium" />
-    <property file="etc/build.properties" />
-    <property name="max.base_dir" value="${user.dir}" />
-    <property name="max.build_dir" value="${max.base_dir}/build" />
-    <property name="max.test_admin_host" value="www-tests" />
-    <property name="max.php_cli_executable" value="php" />
-	<macrodef name="report-on-simpletest-results">
-		<attribute name="basename" />
-		<sequential>
-			<xslt style="tests/simpletest2junit.xslt" basedir="build/test-results" destdir="build/test-reports">
-	           <mapper type="glob" from="@{basename}.simpletest.xml" to="@{basename}.junit.xml" />
-	        </xslt>
-		</sequential>
-	</macrodef>
-    <target name="init">
-        <mkdir dir="build/test-results"/>
-        <mkdir dir="build/test-reports"/>
-    </target>
-    <target name="clean">
-        <delete dir="var/test.log" />
-        <delete dir="build" />
-    </target>
-    <target name="test-domain">
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/quick.simpletest.xml">
-            <arg value="quick_tests.php" />
-            <arg value="--format=xml" />
-        </exec>
-    	<report-on-simpletest-results basename="quick" />
-    </target>
-    <target name="test-db">
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/complete.simpletest.xml">
-            <arg value="complete_tests.php" />
-            <arg value="--format=xml" />
-        </exec>
-    	<report-on-simpletest-results basename="complete" />
-    </target>
-	<target name="test-all-individually">
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/all-unit-individual.simpletest.xml">
-            <arg value="find_broken_test_files.php" />
-            <arg value="${max.php_cli_executable}" />
-            <arg value="unit" />
-        </exec>
-    	<report-on-simpletest-results basename="all-unit-individual" />
-	</target>
-	<target name="test-integration">
-        <exec dir="tests" executable="${max.php_cli_executable}" failonerror="true" output="build/test-results/integration.simpletest.xml">
-            <arg value="find_broken_test_files.php" />
-            <arg value="${max.php_cli_executable}" />
-            <arg value="integration" />
-        </exec>
-    	<report-on-simpletest-results basename="integration" />
-	</target>
-	<target name="test-with-selenium">
-		<fail unless="max.base_dir" message="The property 'max.base_dir' should point to the Openads root." />
-		<fail unless="max.build_dir" message="The property 'max.build_dir' should point a folder to which results can be written." />
-		<fail unless="max.test_admin_host" message="The property 'max.test_admin_host' should be set to a hostname where the Openads Web Interface for Administration is published." />
-		<fail unless="max.firefox_cli_executable" message="The property 'max.firefox_cli_executable' should be set to a binary that Selenium RC can launch and control. (Perhaps something like '/usr/lib/firefox/firefox-bin'.)" />
-		<java jar="${selenium_server.lib_path}/selenium-server.jar" fork="true">
-			<arg value="-htmlSuite" />
-			<arg value="*firefox ${max.firefox_cli_executable}" />
-			<arg value="http://${max.test_admin_host}" />
-			<arg value="${max.base_dir}/www/admin/tests/functional/CriticalSuite.html" />
-			<arg value="${max.build_dir}/test-results/critical.selenium.html" />
-		</java>
-	</target>
-</project>
+<project name="openads" default="release" basedir=".">
+  <property name="test.conf.xml" value="devel.xml"/>
+  <property name="dir.test.results" location="build/test-results"/>
+  <property name="dir.test.reports" location="build/test-results"/>
 
+  <patternset id="dist.included">
+    <!-- Files in the main directory -->
+    <include name="CHANGELOG.txt"/>
+    <include name="INSTALL.txt"/>
+    <include name="LICENSE.txt"/>
+    <include name="README.txt"/>
+    <include name="UPGRADE.txt"/>
+    <include name="*.php"/>
+    <include name="robots.txt"/>
+
+    <!-- Subdirectory rules -->
+    <include name="docs/**"/>
+    <exclude name="docs/CODING_STANDARDS.txt"/>
+    <exclude name="docs/developer"/>
+    <exclude name="docs/developer/**"/>
+    <include name="etc/**"/>
+    <exclude name="etc/*.properties*"/>
+    <exclude name="etc/test.conf.php"/>
+    <include name="lib/**"/>
+    <exclude name="lib/simpletest/**"/>
+    <include name="plugins/**"/>
+    <include name="scripts/maintenance/**"/>
+    <include name="scripts/.htaccess"/>
+    <include name="var/cache/README.txt"/>
+    <include name="var/plugins/**"/>
+    <include name="var/.htaccess"/>
+    <include name="www/**"/>
+    <exclude name="www/devel**"/>
+    <exclude name="www/delivery_dev**"/>
+    <exclude name="www/upgrade_dev**"/>
+    <exclude name="www/upgrade**"/>
+
+    <!-- Build-wide rules -->
+    <exclude name="**/tests"/>
+    <exclude name="**/tests/**"/>
+  </patternset>
+
+  <patternset id="dist.excluded">
+    <!-- Files in the main directory -->
+    <include name="tests.xsl"/>
+    <include name="*.xml"/>
+    <include name="should_not_exist"/><!-- Required for one of the tests - ask Andrew -->
+
+    <!-- Subdirectory rules -->
+    <include name="build/**"/>
+    <include name="docs/CODING_STANDARDS.txt"/>
+    <include name="docs/developer/**"/>
+    <include name="etc/*.properties*"/>
+    <include name="etc/test.conf.php"/>
+    <include name="lib/simpletest/**"/>
+    <include name="scripts/db_dataobject/**"/>
+    <include name="scripts/updateDocs.sh"/>
+    <include name="tutorials/**"/>
+    <include name="simulation/**"/>
+    <include name="var/*.conf.php*"/>
+    <include name="var/changes_test*.xml"/>
+    <include name="var/INSTALLED"/>
+    <include name="var/cache/deliverycache_*"/><!-- Cache files -->
+    <include name="var/cache/cache_*"/>
+    <include name="www/devel/**"/>
+    <include name="www/delivery_dev/**"/>
+    <include name="www/upgrade_dev/**"/>
+    <include name="www/upgrade/**"/>
+
+    <!-- Build-wide rules -->
+    <include name="**/tests"/>
+    <include name="**/tests/**"/>
+    <include name="**/*.log"/><!-- Log files -->
+    <include name="**/.*.swp"/><!-- Vim swap files -->
+  </patternset>
+
+  <!-- Openads Package Integrity Plugin -->
+  <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
+  <!-- Openads Delivery Generation Plugin -->
+  <taskdef name="generatedelivery" classname="org.openads.ant.GenerateDeliveryTask"/>
+
+  <target name="clean" description="Cleans all the files generated during the build.">
+    <delete file="var/test.log" />
+    <delete dir="build" />
+    <delete file="tests.xml" />
+  </target>
+
+  <target name="checkconsistency"
+    description="Checks whether all the files in the working directory are specified in the included or excluded lists of files.">
+    <checkdistribution>
+      <includeset dir="${basedir}">
+        <patternset refid="dist.included"/>
+      </includeset>
+      <excludeset dir="${basedir}">
+        <patternset refid="dist.excluded"/>
+      </excludeset>
+    </checkdistribution>
+  </target>
+  
+  <target name="generatedelivery"
+    description="Generate optimized for speed delivery">
+    <generatedelivery outputdir="${basedir}/www/delivery" max_path="${basedir}" template="${basedir}/www/delivery_dev/template.php">
+      <deliveryfiles dir="${basedir}/www/delivery_dev">
+        <include name="*.php"/>
+        <exclude name="template.php"/>
+      </deliveryfiles>
+    </generatedelivery>
+  </target>
+
+  <target name="init">
+    <touch file="should_not_exist"/>
+    <mkdir dir="build/test-results"/>
+    <mkdir dir="build/test-reports"/>
+  </target>
+
+  <target name="init-timestamp" unless="cctimestamp">
+    <tstamp/>
+    <property name="cctimestamp" value="${DSTAMP}${TSTAMP}"/>
+  </target>
+
+  <target name="init-label" unless="label">
+    <property name="label" value="trunk"/>
+  </target>
+
+  <target name="prepare-line-info" if="line">
+    <propertyfile file="etc/version.properties">
+      <entry key="openads.version.${line}.minor" type="int" operation="+" value="1"/>
+    </propertyfile>
+    <property file="etc/version.properties"/>
+    <condition property="minor" value="${openads.version.alpha.minor}">
+      <equals arg1="alpha" arg2="${line}"/>
+    </condition>
+    <condition property="minor" value="${openads.version.beta.minor}">
+      <equals arg1="beta" arg2="${line}"/>
+    </condition>
+    <condition property="minor" value="${openads.version.stable.minor}">
+      <equals arg1="stable" arg2="${line}"/>
+    </condition>
+    <condition property="linetag" value=".${minor}" else="-${line}${minor}">
+      <equals arg1="stable" arg2="${line}"/>
+    </condition>
+    <property name="version" value="${openads.version.major}${linetag}"/>
+  </target>
+
+  <target name="init-version" unless="version" depends="prepare-line-info,init-timestamp,init-label">
+    <property name="version" value="${label}-${cctimestamp}"/>
+  </target>
+
+  <target name="init-release" unless="release" depends="checkconsistency,init,init-version">
+    <property name="release" value="openads-${version}"/>
+  </target>
+
+  <target name="test-prepare">
+    <xslt style="tests.xsl" in="${test.conf.xml}" out="tests.xml"/>
+  </target>
+
+  <target name="test-all" depends="init,test-prepare">
+    <ant antfile="tests.xml"/>
+  </target>
+
+  <!-- @todo add generatedelivery as a last task in depends list -->
+  <target name="package" depends="init-release,prepare-version-info">
+    <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="." compression="bzip2" longfile="gnu">
+      <patternset refid="dist.included"/>
+    </tar>
+    <tar destfile="${dir.test.results}/${release}.tar.gz" basedir="." compression="gzip" longfile="gnu">
+      <patternset refid="dist.included"/>
+    </tar>
+    <zip destfile="${dir.test.results}/${release}.zip" basedir=".">
+      <patternset refid="dist.included"/>
+    </zip>
+  </target>
+
+  <target name="tag" depends="init-release">
+    <exec dir="${basedir}" executable="svn" failonerror="true">
+      <arg line="commit --non-interactive -q -m 'Updated ${line} minor version number to ${minor}.' etc/version.properties"/>
+    </exec>
+    <exec dir="${basedir}" executable="svn" failonerror="true">
+      <arg line="copy --non-interactive -q . -m 'Tagged release ${release}.' https://svn.openads.org/openads/tags/max/${release}"/>
+    </exec>
+  </target>
+
+  <target name="release" depends="package,tag" description="Creates a release packages in tar.bz2, tar.gz and zip formats.">
+  </target>
+
+  <!-- @todo add generatedelivery as a second task in depends list -->
+  <target name="simpletest" depends="clean, init, test-all, checkconsistency, package" />
+
+  <target name="prepare-version-info" if="version">
+    <replaceregexp file="constants.php"
+      match="^.*MAX_VERSION_READABLE.*$"
+      replace="    define('MAX_VERSION_READABLE',  '${version}');"
+      byline="true"/>
+  </target>
+
+</project>

@@ -1,0 +1,33 @@
+
+;---------------------------------------------
+; Canoo
+;---------------------------------------------
+webtest.home=/usr/local/canoo  ; path to canoo
+
+;---------------------------------------------
+; Where Openads is available for testing
+;---------------------------------------------
+host=localhost
+port=80
+protocol=http
+basepath=erasmus/www
+
+;---------------------------------------------
+; Access to existing testing database
+;---------------------------------------------
+sql.url=jdbc:mysql://localhost/test
+sql.user=username
+sql.password=password
+
+;---------------------------------------------
+; What are the Openads' user credentials
+;---------------------------------------------
+admin.name=admin
+admin.password=password
+
+;--------------------------------------------
+; Cookies names
+; TODO: should we rather read these variables
+;       from host.conf.php?
+;--------------------------------------------
+viewerId=MAXID

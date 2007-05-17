@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -22,63 +22,58 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: init-delivery-parse.php 6120 2007-04-30 01:55:40Z aj@seagullproject.org $
 */
 
 /**
  * @package    Max
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openads.org>
  */
 
 /**
  * The delivery engine's function to parse the configuration .ini file
  *
  * @param $configPath The path to the config file
- * @param $configSuffix Optional - The suffix of the config files
+ * @param $configFile Optional - The suffix of the config file
+ * @param $sections Optional - process sections to get a multidimensional array
  * 
  * @return mixed The array resulting from the call to parse_ini_file(), with
  *               the appropriate .ini file for the installation.
  */
-function parseIniFile($configPath = null, $configFile = null, $sections = true)
+function parseDeliveryIniFile($configPath = null, $configFile = null, $sections = true)
 {
     // Set up the configuration .ini file path location
-    if (is_null($configPath)) {
+    if (!$configPath) {
         $configPath = MAX_PATH . '/var';
     }
-    // Set up the configuration .ini file type name
-    if (!is_null($configFile)) {
+    if ($configFile) {
         $configFile = '.' . $configFile;
     }
+    
     // Is the .ini file for the hostname being used directly accessible?
-    if (!empty($_SERVER['HTTP_HOST'])) {
+    if (isset($_SERVER['HTTP_HOST'])) {
         $host = $_SERVER['HTTP_HOST'];
     } else {
         $host = $_SERVER['SERVER_NAME'];
     }
     
-    // Is the .ini file for the hostname being used directly accessible?
-    if (file_exists($configPath . '/' . $host . $configFile . '.conf.ini')) {
-        // Parse the configuration file
-        $conf = @parse_ini_file($configPath . '/' . $host . $configFile . '.conf.ini', true);
-        // Is this a real config file?
-        if (!isset($conf['realConfig'])) {
-            // Yes, return the parsed configuration file
-            return $conf;
-        }
-        // Parse and return the real configuration .ini file
-        if (file_exists($configPath . '/' . $conf['realConfig'] . $configFile . '.conf.ini')) {
-            $realConfig = @parse_ini_file($configPath . '/' . $conf['realConfig'] . $configFile . '.conf.ini', true);
-            return mergeConfigFiles($realConfig, $conf);
-        }
+    // Check if ini file is cached
+    $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
+    
+    // Parse the configuration file
+    $conf = @parse_ini_file($configFileName, true);
+    if ($conf !== false) {
+        return $conf;
     } elseif ($configFile === '.plugin') {
         // For plugins, if no configuration file is found, return the sane default values
         $pluginType = basename($configPath);
-        $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.ini';
-        if (file_exists($defaultConfig)) {
-            return parse_ini_file($defaultConfig, $sections);
-        } else {
-            exit(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
+        $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
+        $conf = parse_ini_file($defaultConfig, $sections);
+        if ($conf !== false) {
+            return $conf;
         }
+        exit(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
     }
     
     // Check to ensure Max hasn't been installed

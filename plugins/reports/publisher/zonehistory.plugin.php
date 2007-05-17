@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -88,7 +88,7 @@ class Plugins_Reports_Publisher_Zonehistory extends Plugins_Reports {
                 'default' => $default_period_preset
             )
         );
-        
+
         return $aImport;
     }
 
@@ -116,10 +116,11 @@ class Plugins_Reports_Publisher_Zonehistory extends Plugins_Reports {
     {
         require_once 'Spreadsheet/Excel/Writer.php';
 
-        $conf = & $GLOBALS['_MAX']['CONF'];
-
     	global $date_format;
     	global $strZone, $strTotal, $strDay, $strImpressions, $strClicks, $strCTRShort;
+
+        $conf = & $GLOBALS['_MAX']['CONF'];
+        $oDbh = &OA_DB::singleton();
 
     	$startDate = !empty($oDaySpan) ? date('Y-m-d', strtotime($oDaySpan->getStartDateString())): 'Beginning';
         $endDate = !empty($oDaySpan) ? date('Y-m-d', strtotime($oDaySpan->getEndDateString())): date('Y-M-d');
@@ -151,7 +152,7 @@ class Plugins_Reports_Publisher_Zonehistory extends Plugins_Reports {
         // formatting - end
 
     	// SQL to generate report data:
-        $res_query ="SELECT
+        $query ="SELECT
             c.campaignname AS campaign,
             DATE_FORMAT(a.day, '%d/%m/%Y') as day,
             SUM(a.impressions) AS adviews,
@@ -161,7 +162,7 @@ class Plugins_Reports_Publisher_Zonehistory extends Plugins_Reports {
             ".$conf['table']['prefix'].$conf['table']['banners']." AS b,
             ".$conf['table']['prefix'].$conf['table']['campaigns']." AS c
         WHERE
-            a.zone_id = ".$zoneid."
+            a.zone_id = ". $oDbh->quote($zoneid, 'integer') ."
           AND
             a.ad_id = b.bannerid
           AND
@@ -172,11 +173,14 @@ class Plugins_Reports_Publisher_Zonehistory extends Plugins_Reports {
         ORDER BY
             campaignname, day";
 
-    	$res_banners = phpAds_dbQuery($res_query) or phpAds_sqlDie();
+        $res = $oDbh->query($query);
+        if (PEAR::isError($res)) {
+                return $res;
+        }
 
         // copy result to array
-       	while($row = phpAds_dbFetchArray($res_banners)) {
-       	    $data[] = $row;
+    	while ($row = $res>fetchRow()) {
+    	    $data[] = $row;
        	}
 
        	$currentRow = 0;

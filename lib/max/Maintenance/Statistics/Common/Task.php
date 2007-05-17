@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -27,7 +27,8 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/core/Task.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics/Factory.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Factory.php';
 
 /**
  * A abstract class, defining an interface for Maintenance Statistics Common
@@ -67,10 +68,10 @@ class MAX_Maintenance_Statistics_Common_Task extends MAX_Core_Task
         if (!empty($this->oController->module)) {
             // Ensure that the required data access layer class is
             // registered in the service locator
-            $serviceName = 'MAX_Dal_Maintenance_Statistics_' . $this->oController->module;
+            $serviceName = 'OA_Dal_Maintenance_Statistics_' . $this->oController->module;
             if (!$oServiceLocator->get($serviceName)) {
-                $oMDMSF = new MAX_Dal_Maintenance_Statistics_Factory();
-                $oMaxDalMaintenanceStatistics = $oMDMSF->factory($this->oController->module);
+                $oDalMSF = new OA_Dal_Maintenance_Statistics_Factory();
+                $oMaxDalMaintenanceStatistics = $oDalMSF->factory($this->oController->module);
                 $oServiceLocator->register($serviceName, $oMaxDalMaintenanceStatistics);
             }
         }

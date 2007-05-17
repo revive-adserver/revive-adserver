@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -42,14 +42,14 @@ class MAX_Admin_Inventory_TrackerAppend
 {
     /* @var MAX_Dal_TrackerTags */
     var $_dal;
-    
+
     var $_cycle = 0;
-    
+
     var $advertiser_id;
     var $tracker_id;
     var $codes;
     var $showReminder = false;
-    
+
     /**
      * PHP5-style constructor
      */
@@ -60,7 +60,7 @@ class MAX_Admin_Inventory_TrackerAppend
         $this->advertiser_id = MAX_getValue('clientid', 0);
         $this->tracker_id    = MAX_getValue('trackerid', 0);
     }
-    
+
     /**
      * PHP4-style constructor
      */
@@ -68,7 +68,7 @@ class MAX_Admin_Inventory_TrackerAppend
     {
         $this->__constructor();
     }
-    
+
     function _useDefaultDal()
     {
         $oServiceLocator = ServiceLocator::instance();
@@ -78,12 +78,12 @@ class MAX_Admin_Inventory_TrackerAppend
         }
         $this->_dal =& $dal;
     }
-    
+
     function cycleRow($class)
     {
         return trim($class.(($this->_cycle++ % 2) ? ' light' : ' dark'));
     }
-    
+
     function getPausedCodes()
     {
         $paused = array();
@@ -92,21 +92,21 @@ class MAX_Admin_Inventory_TrackerAppend
                 $paused[] = $k;
             }
         }
-        
+
         return join(',', $paused);
     }
 
     function handlePost($vars)
     {
         $codes = array();
-        
+
         if (isset($vars['tag']) && is_array($vars['tag'])) {
             foreach ($vars['tag'] as $k => $v) {
                 $codes[$k] = array('tagcode' => stripslashes($v), 'paused' => false);
                 $codes[$k]['autotrack'] = isset($vars['autotrack'][$k]);
             }
         }
-        
+
         if (isset($vars['t_paused'])) {
             foreach (explode(',', $vars['t_paused']) as $k) {
                 if (isset($codes[$k])) {
@@ -114,19 +114,19 @@ class MAX_Admin_Inventory_TrackerAppend
                 }
             }
         }
-                
+
         if (isset($vars['t_action'])) {
             switch ($vars['t_action']) {
                 case 'new':
                     $codes[] = array('tagcode' => '', 'paused' => false);
                     break;
-                    
+
                 case 'del':
                     if (isset($vars['t_id']) && isset($codes[$vars['t_id']])) {
                         unset($codes[$vars['t_id']]);
                     }
                     break;
-                    
+
                 case 'up':
                     if (isset($vars['t_id']) && isset($codes[$vars['t_id']]) && isset($codes[$vars['t_id'] - 1])) {
                         $tmp = $codes[$vars['t_id']];
@@ -134,7 +134,7 @@ class MAX_Admin_Inventory_TrackerAppend
                         $codes[$vars['t_id'] - 1] = $tmp;
                     }
                     break;
-                    
+
                 case 'down':
                     if (isset($vars['t_id']) && isset($codes[$vars['t_id']]) && isset($codes[$vars['t_id'] + 1])) {
                         $tmp = $codes[$vars['t_id']];
@@ -142,7 +142,7 @@ class MAX_Admin_Inventory_TrackerAppend
                         $codes[$vars['t_id'] + 1] = $tmp;
                     }
                     break;
-                    
+
                 case 'pause':
                 case 'restart':
                     if (isset($vars['t_id']) && isset($codes[$vars['t_id']])) {
@@ -151,7 +151,7 @@ class MAX_Admin_Inventory_TrackerAppend
                     break;
             }
         }
-        
+
         if (isset($vars['save'])) {
             $this->_dal->setAppendCodes($this->tracker_id, $codes);
             MAX_Admin_Redirect::redirect("tracker-invocation.php?clientid={$this->advertiser_id}&trackerid={$this->tracker_id}");
@@ -160,7 +160,7 @@ class MAX_Admin_Inventory_TrackerAppend
             $this->showReminder = true;
         }
     }
-    
+
     function handleGet()
     {
         if (is_null($this->codes)) {
@@ -175,7 +175,7 @@ class MAX_Admin_Inventory_TrackerAppend
             'compileDir'        => MAX_PATH . '/var/templates_compiled',
             'flexyIgnore'        => true
         ));
-        
+
         $codes = $this->codes;
         $this->codes = array();
         foreach ($codes as $v){
@@ -183,12 +183,13 @@ class MAX_Admin_Inventory_TrackerAppend
             $v['id']   = "tag_{$k}";
             $v['name'] = "tag[{$k}]";
             $v['autotrackname'] = "autotrack[{$k}]";
+            $v['autotrack'] = null;
             $v['rank'] = $k + 1;
             $v['move_up'] = $k > 0;
             $v['move_down'] = $k < count($codes) - 1;
             $this->codes[] = $v;
         }
-        
+
         // Display page content
         $output->compile('TrackerAppend.html');
         $output->outputObject($this);

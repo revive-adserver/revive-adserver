@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -202,7 +202,7 @@ class DateRange
                 $this->_end = null;
                 break;
             default:
-                trigger_error("Max encountered date range description that it didn't recognise: '$specifier'");
+                trigger_error("Openads encountered date range description that it didn't recognise: '$specifier'");
                 break;
         }
     }
@@ -313,7 +313,7 @@ class DateRange
 
         if ($preset_string == 'specific') {
             if (!($start_string && $end_string)) {
-                trigger_error("Max was asked to generate a date range but wasn't given dates.");
+                trigger_error("Openads was asked to generate a date range but wasn't given dates.");
             }
             $this->setDateRangeByNaturalHumanStrings($start_string, $end_string);
         } else {

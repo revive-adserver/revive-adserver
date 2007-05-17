@@ -1,9 +1,9 @@
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -22,11 +22,11 @@
 
 
 
-NOTE: THE UPGRADE PROCESS IN Max v0.3 IS KNOWN TO BE FAULTY. ONLY ATTEMPT
-TO UPGRADE TO Max v0.3 IF YOU ARE AN EXPERIENCED USER, AND YOU ARE HAPPY
-WITH HAVING TO SOLVE YOUR OWN UPGRADE ISSUES. Max v0.3 IS NOT RECOMMENDED
+NOTE: THE UPGRADE PROCESS IN Openads v2.3 IS KNOWN TO BE FAULTY. ONLY ATTEMPT
+TO UPGRADE TO Openads v2.3 IF YOU ARE AN EXPERIENCED USER, AND YOU ARE HAPPY
+WITH HAVING TO SOLVE YOUR OWN UPGRADE ISSUES. Openads v2.3 IS NOT RECOMMENDED
 FOR REGULAR USERS OF phpAdsNew OR Max v0.1. THE UPGRADE PROCESS WILL BE
-FIXED BEFORE Max v0.3 IS RELEASED AS A BETA-LEVEL PRODUCT.
+FIXED BEFORE Openads v2.3 IS RELEASED AS A BETA-LEVEL PRODUCT.
 
 
 
@@ -40,9 +40,9 @@ this backup to recover your installation if something goes wrong.
 
 If you don't backup your data before upgrading, and something does go wrong, there's
 probably nothing we can do to help! However, please contact us via the forums
-(http://max.awarez.net/) and we'll do our best to help.
+(http://www.openads.org/) and we'll do our best to help.
 
-Please Note: While you can upgrade from ANY version of Max, you can only upgrade from
+Please Note: While you can upgrade from ANY version of Openads, you can only upgrade from
 phpAdsNew 2.0 or greater. If you are running a version of phpAdsNew earlier than 2.0,
 please download phpAdsNew 2.0, and follow the instructions included in phpAdsNew to
 upgrade your installation. Once done, you can then upgrade from phpAdsNew 2.0 to Max.
@@ -59,7 +59,7 @@ Upgrade Process
 
 3)  Go to the bottom of the page, and select "Delete log". Once done, log out of Max.
 
-4)  If you are upgrading from Max, disable your maintenance script cronjob/schtask.
+4)  If you are upgrading from Openads, disable your maintenance script cronjob/schtask.
 
 5)  Shut down your webserver.
 
@@ -67,7 +67,7 @@ Upgrade Process
     example, if Max was installed in "/var/www/html/max", move that folder to
     something like "/var/www/html/max-backup".)
 
-7)  Download the Max Media Manager archive file from http://max.awarez.net/.
+7)  Download the Openads archive file from http://www.openads.org/.
 
 8)  Extract the Max archive into the same location that your old Max or phpAdsNew
     installation used to be. (For example, if Max used to be installed in
@@ -91,7 +91,7 @@ Upgrade Process
     are almost certainly using a Single Host installation.)
 
     You should be presented with the Max automated install program. Use the program to
-    "install" Max, and the process will take care of upgrading your existing installation.
+    "install" Openads, and the process will take care of upgrading your existing installation.
 
     /************************************************************************************/
     IMPORTANT: When specifying you database connection, you must enter the database
@@ -104,17 +104,17 @@ Upgrade Process
     phpAdsNew, please select your original table type. However, if you want to obtain
     the speed benefits of using InnoDB tables, please read the information at:
       http://dev.mysql.com/doc/mysql/en/Converting_tables_to_InnoDB.html
-    Don't forget to change your www.example.com.conf.ini file's table type to "INNODB"
+    Don't forget to change your www.example.com.conf.php file's table type to "INNODB"
     afterwards!
 
     NOTE: Depending on the version of Max or phpAdsNew you are upgrading from, the
     process may take a while. Please be patient!
 
-    VERY IMPORTANT: When upgrading from phpAdsNew or Max v0.1.x to Max v0.3.x, the
+    VERY IMPORTANT: When upgrading from phpAdsNew or Max v0.1.x to Openads v2.3.x, the
     database structure is significantly different. As a result, the changes take far too
     long for even a moderate-sized database to convert. As a result, you will not have
-    any past data after upgrading to Max v0.3. If you would like to import your past data
-    into your Max v0.3 installation, please consult the UPGRADE_PAST_DATA.txt file in
+    any past data after upgrading to Openads v2.3. If you would like to import your past data
+    into your Openads v2.3 installation, please consult the UPGRADE_PAST_DATA.txt file in
     the docs directory. (Note that if you are upgrading from Max v0.2, you don't need
     to upgrade your data - this is done automatically.)
     /************************************************************************************/
@@ -132,19 +132,19 @@ Upgrade Process
     new local storage location (see the "Delivery Settings"), or configure the local
     storage directory to the appropriate location.
 
-    Once you have made any changes you want, please "lock" the www.example.com.conf.ini
+    Once you have made any changes you want, please "lock" the www.example.com.conf.php
     file, so that configuration changes cannot be accidentally or maliciously made. If
     you are running a unix-like operating system, change to the directory you extracted
     the Max archive into, and remove write access with the command (as root):
 
-      chmod a-w var/www.example.com.conf.ini
+      chmod a-w var/www.example.com.conf.php
 
-    If you are running Max on Windows, right click on the www.example.com.conf.ini file
+    If you are running Max on Windows, right click on the www.example.com.conf.php file
     in Windows Explorer, select "Properties" and ensure that the file IS marked as
-    "Read-only". You can find the www.example.com.conf.ini file in the "var" directory
+    "Read-only". You can find the www.example.com.conf.php file in the "var" directory
     of your Max installation directory.
 
-14) If you are upgrading from Max, re-enable your maintenance script cronjob/schtask.
+14) If you are upgrading from Openads, re-enable your maintenance script cronjob/schtask.
 
     Please note that it is no longer necessary to move the maintenance scripts out
     of the Max installation, so as a result, the location of the maintenance.php file

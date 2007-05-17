@@ -1,22 +1,22 @@
 
-    Max Media Manager - Open Source Ad Server
+    Openads - Open Source Ad Server
     ------------------------------------------------------------------------
-    Max is a set of tools which enable online marketing campaigns.
-    Primarily, Max is written in PHP, and is loosely based on phpAdsNew.
-    The core modules of Max include:
+    Openads is a set of tools which enable online marketing campaigns.
+    Primarily, Openads is written in PHP, and is loosely based on phpAdsNew.
+    The core modules of Openads include:
     . Ad Server
     . Search Engine Tools
     . Email Marketing Tools
     . Conversion Tracking Tools
 
 
-    Version 0.3.32-alpha
+    Version 0.3.32-beta
     ------------------------------------------------------------------------
     THIS IS ALPHA SOFTWARE AND MAY NOT BE STABLE ENOUGH FOR USE
     IN A PRODUCTION ENVIRONMENT. THE USE OF THIS SOFTWARE IS
     COMPLETELY AT YOUR OWN RISK!
 
-    Copyright (c) 2003-2006 m3 Media Services Limited
+    Copyright (c) 2003-2007 Openads Limited
 
 	Based on phpAdsNew Copyright (c) 2000-2003 phpAdsNew developers:
     	Niels Leenheer <niels@creatype.nl>
@@ -78,8 +78,8 @@
 
     Support:
     ------------------------------------------------------------------------
-    Questions about Max Media Manager should be directed to the mailing
-    lists. More information about it can be found on the Max Media Manager
+    Questions about Openads should be directed to the mailing
+    lists. More information about it can be found on the Openads
     homepage. Bug reports and questions related to the development of Max
     are also welcome on the site.
 
@@ -91,8 +91,8 @@
 
     Credits:
     ------------------------------------------------------------------------
-    Thanks to Marcus Baker for allowing m3 Media Services Limited to
-      distribute Simple Test for PHP along with Max. Simple Test is
+    Thanks to Marcus Baker for allowing Openads Limited to
+      distribute Simple Test for PHP along with Openads. Simple Test is
       distributed under the Open Group Test Suite License. Please see the
       Simple Test LICENSE file in the lib/simpletest/ directory for details.
 

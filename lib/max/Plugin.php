@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -416,7 +416,8 @@ class MAX_Plugin
         }
         // Ensure that only real, valid packages/plugins are instantiated
         if ($package == $omit) {
-            return null;
+            $r = null;
+            return $r;
         }
         // Instantiate the plugin, if possible
         if (!empty($module) && !empty($package)) {
@@ -495,7 +496,7 @@ class MAX_Plugin
             }
             $startPath  = MAX_PLUGINS_VAR . '/config/';
         }
-        $configName = $host.'.plugin.conf.ini';
+        $configName = $host.'.plugin.conf.php';
         if ($package === null) {
             $configPath = $module . '/';
         } elseif ($name === null) {
@@ -721,7 +722,7 @@ class MAX_Plugin
             'lifeTime' => $cacheExpire,
             'automaticSerialization' => true
         );
-        if (!file_exists($aOptions['cacheDir'])) {
+        if (!is_dir($aOptions['cacheDir'])) {
             if (!MAX_Plugin::_mkDirRecursive($aOptions['cacheDir'], MAX_PLUGINS_VAR_WRITE_MODE)) {
                 Max::raiseError('Folder: "' . $aOptions['cacheDir'] . '" is not writeable.');
                 return false;

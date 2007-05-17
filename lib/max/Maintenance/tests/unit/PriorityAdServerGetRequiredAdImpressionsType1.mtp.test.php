@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -28,6 +28,8 @@ $Id$
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsType1.php';
+
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once 'Date.php';
 
 /**
@@ -48,14 +50,14 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
     {
         $this->UnitTestCase();
         Mock::generate('MAX_Dal_Entities');
-        Mock::generate('MAX_Dal_Maintenance_Priority');
-        Mock::generate('MAX_Table_Priority');
+        Mock::generate('OA_Dal_Maintenance_Priority');
+        Mock::generate('OA_DB_Table_Priority');
     }
 
     /**
      * A private method for the test class that creates an instance
      * of the mocked DAL class (MAX_Dal_Maintenance), the mocked
-     * table creation class (MAX_Table_Priority), registeres the
+     * table creation class (Openads_Table_Priority), registers the
      * mocked classes in the ServiceLocator, and then returns an
      * instance of the GetRequiredAdImpressionsType1 class to use
      * in testing.
@@ -68,10 +70,10 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $oServiceLocator = &ServiceLocator::instance();
         $oDal   = new MockMAX_Dal_Entities($this);
         $oServiceLocator->register('MAX_Dal_Entities', $oDal);
-        $oDal   = new MockMAX_Dal_Maintenance_Priority($this);
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
-        $oTable = new MockMAX_Table_Priority($this);
-        $oServiceLocator->register('MAX_Table_Priority',  $oTable);
+        $oDal   = new MockOA_Dal_Maintenance_Priority($this);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
+        $oTable = new MockOA_DB_Table_Priority($this);
+        $oServiceLocator->register('OA_DB_Table_Priority',  $oTable);
         return new GetRequiredAdImpressionsType1();
     }
 
@@ -197,8 +199,8 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
      */
     function test_getValidPlacements()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['campaigns'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $table = $aConf['table']['prefix'] . $aConf['table']['campaigns'];
         $oGetRequiredAdImpressionsType1 = &$this->_getCurrentTask();
 
         // Test 1
@@ -211,7 +213,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
             array(
                 array(),
                 array(
-                    array("($table.activate = '0000-00-00' OR $table.activate <= '" . $oDate->format('%Y-%m-%d') . "')", 'AND'),
+                    array("($table.activate " . OA_Dal::equalNoDateString() . " OR $table.activate <= '" . $oDate->format('%Y-%m-%d') . "')", 'AND'),
                     array("$table.expire >= '" . $oDate->format('%Y-%m-%d') . "'", 'AND'),
                     array("$table.priority >= 1", 'AND'),
                     array("$table.active = 't'", 'AND'),
@@ -302,10 +304,10 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         // getPlacementImpressionInventoryRequirement() is called
         Mock::generatePartial(
             'MAX_Entity_Placement',
-            'MockPartialMAX_Entity_Placement',
+            'MockPartialMAX_Entity_Placement_GetRequiredAdImpressions',
             array('setSummaryStatisticsToDate')
         );
-        $oPlacement = new MockPartialMAX_Entity_Placement($this);
+        $oPlacement = new MockPartialMAX_Entity_Placement_GetRequiredAdImpressions($this);
         $oPlacement->MAX_Entity_Placement(array('placement_id' => 1));
 
         // Manually set the remaining inventory that would normally be
@@ -443,8 +445,8 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
      */
     function testDistributePlacementImpressionsByZonePattern()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['maintenance']['operationInterval'] = 60;
+        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf['maintenance']['operationInterval'] = 60;
 
         $oGetRequiredAdImpressionsType1 = &$this->_getCurrentTask();
         $aPlacements = array();
@@ -573,8 +575,8 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
      */
     function test_getAdImpressionsByZonePattern()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['maintenance']['operationInterval'] = 60;
+        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf['maintenance']['operationInterval'] = 60;
 
         Mock::generatePartial(
             'MAX_Entity_Ad',
@@ -632,7 +634,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
                     'ad_id'          => 1,
                     'logical'        => 'and',
                     'type'           => 'Time:Hour',
-                    'comparison'     => '!=',
+                    'comparison'     => '!~',
                     'data'           => '12',
                     'executionorder' => 0
                 )
@@ -661,7 +663,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
                     'ad_id'          => 1,
                     'logical'        => 'and',
                     'type'           => 'Time:Hour',
-                    'comparison'     => '!=',
+                    'comparison'     => '!~',
                     'data'           => '15',
                     'executionorder' => 0
                 )
@@ -695,7 +697,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
                     'ad_id'          => 1,
                     'logical'        => 'and',
                     'type'           => 'Time:Hour',
-                    'comparison'     => '!=',
+                    'comparison'     => '!~',
                     'data'           => '15',
                     'executionorder' => 0
                 )
@@ -732,7 +734,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
                     'ad_id'          => 1,
                     'logical'        => 'and',
                     'type'           => 'Time:Hour',
-                    'comparison'     => '!=',
+                    'comparison'     => '!~',
                     'data'           => '15',
                     'executionorder' => 0
                 )
@@ -779,7 +781,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
             $oDate,
             $oPlacementExpiryDate
         );
-        $this->assertEqual($result, 9);
+        $this->assertEqual($result, 10);
 
         // Test 6
         $oAd = new PartialMockMAX_Entity_Ad($this);
@@ -791,7 +793,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
                     'ad_id'          => 1,
                     'logical'        => 'and',
                     'type'           => 'Time:Hour',
-                    'comparison'     => '!=',
+                    'comparison'     => '!~',
                     'data'           => '15',
                     'executionorder' => 0
                 )
@@ -857,8 +859,8 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
      */
     function test_getCumulativeZoneForecast()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['maintenance']['operationInterval'] = 60;
+        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf['maintenance']['operationInterval'] = 60;
 
         // Test 1
         $oGetRequiredAdImpressionsType1 = &$this->_getCurrentTask();

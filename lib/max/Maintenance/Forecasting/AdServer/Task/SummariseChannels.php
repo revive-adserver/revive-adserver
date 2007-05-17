@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -50,9 +50,9 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels extends MAX_Ma
     var $oDalEntities;
 
     /**
-     * A local variable for storing an instance of the MAX_Dal_Maintenance_Forecasting class.
+     * A local variable for storing an instance of the OA_Dal_Maintenance_Forecasting class.
      *
-     * @var MAX_Dal_Maintenance_Forecasting
+     * @var OA_Dal_Maintenance_Forecasting
      */
     var $oDalMaintenanceForecasting;
 
@@ -93,18 +93,18 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels extends MAX_Ma
     }
 
     /**
-     * A private method to create/register/return the MAX_Dal_Maintenance_Forecasting class.
+     * A private method to create/register/return the OA_Dal_Maintenance_Forecasting class.
      *
      * @access private
-     * @return MAX_Dal_Maintenance_Forecasting
+     * @return OA_Dal_Maintenance_Forecasting
      */
     function &_getMaintenanceForecastingDal()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Forecasting');
+        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Forecasting');
         if (!$oDal) {
-            $oDal = new MAX_Dal_Maintenance_Forecasting();
-            $oServiceLocator->register('MAX_Dal_Maintenance_Forecasting', $oDal);
+            $oDal = new OA_Dal_Maintenance_Forecasting();
+            $oServiceLocator->register('OA_Dal_Maintenance_Forecasting', $oDal);
         }
         return $oDal;
     }

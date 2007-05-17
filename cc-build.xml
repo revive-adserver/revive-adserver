@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project name="openads" default="cruise">
 
 	<macrodef name="svn-update">
@@ -12,21 +11,6 @@
 			</exec>
 		</sequential>
 	</macrodef>
-
-	<macrodef name="svn-copy">
-		<attribute name="src"/>
-		<attribute name="dest"/>
-		<attribute name="message"/>
-		<attribute name="username"/>
-		<attribute name="password"/>
-		<sequential>
-			<exec executable="svn" failonerror="true">
-				<arg line="copy --non-interactive --username @{username} --password @{password} --message '@{message}' @{src} @{dest}"/> 
-			</exec>
-		</sequential>
-	</macrodef>
-
-	<property name="svnBaseURL" value="https://svn.openads.org/openads/branches/max/trunk"/>
 
 	<target name="init">
 		<fail unless="label" message="Need to have 'label' defined"/>
@@ -45,10 +29,11 @@
 		<ant antfile="build.xml" dir="${basedir}" output="build.log" target="simpletest" />
 	</target>
 
-	<target name="tag" depends="init">
-		<!-- OpenAds may prefer to tag successful builds in a subfolder of "tags", to reduce clutter. -->
-		<svn-copy src="${basedir}" dest="${svnBaseURL}/tags/${label}" message="Tagging build ${label}" username="cruise" password="cruise"/>
+	<target name="make-release">
+		<ant antfile="build.xml" dir="${basedir}" output="build.log" target="release" />
 	</target>
 
-	<target name="cruise" depends="init, clean, update, build"/> <!-- many projects also "tag" the source after a succesful build. -->
+	<target name="cruise" depends="init, clean, update, build"/>
+
+  <target name="release" depends="init,clean,update,make-release"/>
 </project>

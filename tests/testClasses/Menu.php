@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -35,14 +35,14 @@ require_once 'HTML/TreeMenu.php';
  * @package    Max
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
- * 
+ *
  * @todo Consider reducing repetition by extracting "add node" logic.
  */
 class Menu
 {
-    /** 
+    /**
      * A method to return the HTML code needed to display a tree-based
-     * menu of all the Max tests.
+     * menu of all the Openads tests.
      *
      * @return string A string containing the HTML code needed to display
      *                the tests in a tree-based menu.
@@ -53,7 +53,7 @@ class Menu
         $menu     = new HTML_TreeMenu();
         $rootNode = new HTML_TreeNode(
                             array(
-                                'text' => 'Max Media Manager Tests',
+                                'text' => 'Openads 2.3 Tests',
                                 'icon' => "package.png"
                             )
                         );
@@ -112,6 +112,43 @@ class Menu
             }
             $rootNode->addItem(${$nodeName});
         }
+
+        /**
+         * @TODO Clean up the following code to ensure that adding new
+         *       PEAR PHPUnit tests to the test suite is easier!
+         */
+        // Create the PEAR PHPUnit tests
+        $nodeName = 'PearRootNode';
+        ${$nodeName} = new HTML_TreeNode(
+                            array(
+                                'text' => 'PEAR PHPUnit Test Suite',
+                                'icon' => "package.png",
+                                'link' => "",
+                                'linkTarget' => "right"
+                            )
+                        );
+        $firstNode = &${$nodeName}->addItem(
+            new HTML_TreeNode(
+                array(
+                    'text' => 'PEAR::MDB2',
+                    'icon' => "package.png",
+                    'link' => "run.php?type=phpunit&dir=../lib/pear/MDB2/tests",
+                    'linkTarget' => 'right'
+                )
+            )
+        );
+        $firstNode = &${$nodeName}->addItem(
+            new HTML_TreeNode(
+                array(
+                    'text' => 'PEAR::MDB2_Schema',
+                    'icon' => "package.png",
+                    'link' => "run.php?type=phpunit&dir=../lib/pear/MDB2_Schema/tests",
+                    'linkTarget' => 'right'
+                )
+            )
+        );
+        $rootNode->addItem(${$nodeName});
+
         // Add the root node to the menu, and return the HTML code
         $menu->addItem($rootNode);
         $tree = new HTML_TreeMenu_DHTML($menu);
@@ -119,11 +156,11 @@ class Menu
         $code .= "\n<script>\n";
         $code .= file_get_contents(MAX_PATH . '/tests/testClasses/TreeMenu.js');
         $code .= "\n</script>";
-        $code .= $tree->toHTML();        
+        $code .= $tree->toHTML();
         return $code;
     }
 
-    
+
     /**
      * @param HTML_TreeNode $parentNode
      * @param string $title
@@ -134,7 +171,7 @@ class Menu
     function _addLinkedPackageNode($parentNode, $title, $target_url)
     {
         assert(is_object($parentNode));
-        
+
         $node_options = array(
               'icon' => 'package.png',
               'linkTarget' => 'right'

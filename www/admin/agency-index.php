@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,15 +32,16 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php'; 
+require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
 // Register input variables
 phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder',
                       'orderdirection');
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+MAX_Permission::checkAccess(phpAds_Admin);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -92,24 +93,18 @@ else
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-// Get agencys & campaign and build the tree
+// Get agencies & campaign and build the tree
 if (phpAds_isUser(phpAds_Admin))
 {
-    $res_agencies = phpAds_dbQuery(
-        "SELECT agencyid, name".
-        " FROM ".$conf['table']['prefix'].$conf['table']['agency']
-    ) or phpAds_sqlDie();
-    
+    $doAgency = OA_Dal::factoryDO('agency');
+    $agencies = $doAgency->getAll(array('name', 'agencyid'), true, false);
 }
 
-while ($row_agencies = phpAds_dbFetchArray($res_agencies))
-{
-    $agencies[$row_agencies['agencyid']]                    = $row_agencies;
-    $agencies[$row_agencies['agencyid']]['expand']          = 0;
-    $agencies[$row_agencies['agencyid']]['count']           = 0;
-    $agencies[$row_agencies['agencyid']]['hideinactive']    = 0;
+foreach ($agencies as $k => $v) {
+    $agencies[$k]['expand'] = 0;
+    $agencies[$k]['count'] = 0;
+    $agencies[$k]['hideinactive'] = 0;
 }
-
 
 
 // using same icons and images for agencies as we do for advertisers...
@@ -179,7 +174,7 @@ if (!isset($agencies) || !is_array($agencies) || count($agencies) == 0)
     echo "\t\t\t\t<tr height='25' bgcolor='#F6F6F6'>\n";
     echo "\t\t\t\t\t<td height='25' colspan='5'>&nbsp;&nbsp;".$strNoAgencies."</td>\n";
     echo "\t\t\t\t</tr>\n";
-    
+
     echo "\t\t\t\t<tr>\n";
     echo "\t\t\t\t\t<td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>\n";
     echo "\t\t\t\t<tr>\n";
@@ -191,23 +186,23 @@ else
     {
         $agency = $agencies[$key];
         $channels = Admin_DA::getChannels(array('agency_id' => $agency['agencyid'], 'channel_type' => 'agency'));
-        
+
         echo "\t\t\t\t<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">\n";
-        
+
         // Icon & name
         echo "\t\t\t\t\t<td height='25'>\n";
         echo "\t\t\t\t\t\t<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>\n";
-            
+
         echo "\t\t\t\t\t\t<img src='images/icon-advertiser.gif' align='absmiddle'>\n";
         echo "\t\t\t\t\t\t<a href='agency-edit.php?agencyid=".$agency['agencyid']."'>".$agency['name']."</a>\n";
         echo "\t\t\t\t\t</td>\n";
-        
+
         // ID
         echo "\t\t\t\t\t<td height='25'>".$agency['agencyid']."</td>\n";
-        
+
         echo "\t\t\t\t\t<td height='25'>&nbsp;</td>\n";
         echo "\t\t\t\t\t<td height='25'>&nbsp;</td>\n";
-        
+
         // Button - Channel overview
         echo "<td height='25'>";
         echo "<a href='channel-index.php?agencyid={$agency['agencyid']}'>";
@@ -217,16 +212,16 @@ else
             echo "<img src='images/icon-channel.gif' border='0' align='absmiddle' alt='{$GLOBALS['strChannels']}'>";
         }
         echo "&nbsp;{$GLOBALS['strChannels']}</a>&nbsp;&nbsp;";
-        
+
         echo "</td>";
-        
+
         // Delete
         echo "\t\t\t\t\t<td height='25'>";
         echo "<a href='agency-delete.php?agencyid=".$agency['agencyid']."&returnurl=agency-index.php'".phpAds_DelConfirm($strConfirmDeleteAgency)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
         echo "</td>\n";
 
         echo "\t\t\t\t</tr>\n";
-        
+
         echo "\t\t\t\t<tr height='1'>\n";
         echo "\t\t\t\t\t<td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>\n";
         echo "\t\t\t\t</tr>\n";
@@ -241,7 +236,7 @@ if ($hideinactive == true)
 {
     echo "&nbsp;&nbsp;<img src='images/icon-activate.gif' align='absmiddle' border='0'>";
     echo "&nbsp;<a href='agency-index.php?hideinactive=0'>".$strShowAll."</a>";
-    echo "&nbsp;&nbsp;|&nbsp;&nbsp;".$agencieshidden." ".$strInactiveAgenciesHidden;
+    echo "&nbsp;&nbsp;|&nbsp;&nbsp;" . $strInactiveAgenciesHidden;
 }
 else
 {
@@ -258,8 +253,7 @@ echo "\t\t\t\t</table>\n";
 
 
 // total number of agencies
-$res_agencies         = phpAds_dbQuery("SELECT count(*) AS count FROM ".$conf['table']['prefix'].$conf['table']['agency']) or phpAds_sqlDie();
-
+$agencyCount = $doAgency->getRowCount();
 
 echo "\t\t\t\t<br /><br /><br /><br />\n";
 echo "\t\t\t\t<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>\n";
@@ -271,7 +265,7 @@ echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break.gif' he
 echo "\t\t\t\t</tr>\n";
 
 echo "\t\t\t\t<tr>\n";
-echo "\t\t\t\t\t<td height='25'>&nbsp;&nbsp;".$strTotalAgencies.": <b>".phpAds_dbResult($res_agencies, 0, "count")."</b></td>\n";
+echo "\t\t\t\t\t<td height='25'>&nbsp;&nbsp;".$strTotalAgencies.": <b>" . $agencyCount . "</b></td>\n";
 echo "\t\t\t\t\t<td height='25' colspan='2'></td>\n";
 echo "\t\t\t\t</tr>\n";
 

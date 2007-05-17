@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -26,8 +26,9 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/Max.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 require_once 'Date.php';
 
 /**
@@ -71,7 +72,7 @@ class MAX_Maintenance_Priority
             @ignore_user_abort(true);
         }
         // Create a Maintenance DAL object
-        $oDal = new MAX_Dal_Maintenance_Priority();
+        $oDal = new OA_Dal_Maintenance_Priority();
         // Try to get the MPE database-level lock
         $lock = $oDal->obtainPriorityLock();
         if (!$lock) {

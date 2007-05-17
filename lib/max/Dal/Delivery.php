@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -25,13 +25,26 @@
 $Id$
 */
 
+$file = '/lib/max/Dal/Delivery.php';
+###START_STRIP_DELIVERY
+if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+    return;
+}
+###END_STRIP_DELIVERY
+$GLOBALS['_MAX']['FILES'][$file] = true;
+
 function MAX_Dal_Delivery_Include()
 {
+    static $included;
+    if (isset($included)) {
+        return;
+    }
+    $included = true;
     $conf = $GLOBALS['_MAX']['CONF'];
-    if (isset($conf['origin']['type']) && is_readable(MAX_PATH . '/lib/max/Dal/Delivery/' . strtolower($conf['origin']['type']) . '.php')) {
-        require_once(MAX_PATH . '/lib/max/Dal/Delivery/' . strtolower($conf['origin']['type']) . '.php');
+    if (isset($conf['origin']['type']) && is_readable(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['origin']['type']) . '.php')) {
+        require(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['origin']['type']) . '.php');
     } else {
-        require_once(MAX_PATH . '/lib/max/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
+        require(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
     }
 }
 

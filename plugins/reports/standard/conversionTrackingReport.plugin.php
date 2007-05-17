@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -35,7 +35,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
     /* @var ReportScope */
     var $_scope;
 
-    /* @var DaySpan */
+    /* @var OA_Admin_DaySpan */
     var $_daySpan;
 
     function initInfo()
@@ -581,8 +581,6 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
     {
         $worksheetName = MAX_Plugin_Translation::translate('Performance by Day', $this->module, $this->package);
         $this->_report_writer->createReportWorksheet($worksheetName, $this->_name, $this->getReportParametersForDisplay());
-
-        require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsControllerFactory.php';
 
         if (is_null($this->_daySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';

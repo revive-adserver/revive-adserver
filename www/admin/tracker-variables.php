@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,11 +32,9 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-
-// Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
 // Register input variables
 phpAds_registerGlobal (
@@ -49,27 +47,9 @@ phpAds_registerGlobal (
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Agency))
-{
-    $query = "SELECT c.clientid as clientid".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients']." AS c".
-        ",".$conf['table']['prefix'].$conf['table']['trackers']." AS t".
-        " WHERE t.clientid=c.clientid".
-        " AND c.clientid='".$clientid."'".
-        " AND t.trackerid='".$trackerid."'".
-        " AND c.agencyid=".phpAds_getUserID();
-
-    $res = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
-
-    if (phpAds_dbNumRows($res) == 0)
-    {
-        phpAds_PageHeader("1");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-}
-
-
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccessToObject('clients', $clientid);
+MAX_Permission::checkAccessToObject('trackers', $trackerid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -81,78 +61,53 @@ if (!isset($variables))
 
 
 
-if (isset($trackerid) && $trackerid != '')
+if (!empty($trackerid))
 {
     // Get publisher list
-    $res = phpAds_dbQuery("
-        SELECT
-            p.affiliateid AS publisher_id,
-            p.name AS name
-        FROM
-            ".$conf['table']['prefix'].$conf['table']['ad_zone_assoc']." aza JOIN
-            ".$conf['table']['prefix'].$conf['table']['zones']." z ON (aza.zone_id = z.zoneid) JOIN
-            ".$conf['table']['prefix'].$conf['table']['affiliates']." p USING (affiliateid) JOIN
-            ".$conf['table']['prefix'].$conf['table']['banners']." b ON (aza.ad_id = b.bannerid) JOIN
-            ".$conf['table']['prefix'].$conf['table']['campaigns_trackers']." ct USING (campaignid)
-        WHERE
-            ct.trackerid = '".$trackerid."'
-        GROUP BY
-            publisher_id,
-            name
-        ORDER BY
-            name
-    ") or phpAds_sqlDie();
+    $dalAffiliates = OA_Dal::factoryDAL('affiliates');
+    $rsAffiliates = $dalAffiliates->getPublishersByTracker($trackerid);
+    $rsAffiliates->find();
+
     $publishers = array();
-    while ($row = phpAds_dbFetchArray($res)) {
-        $publishers[$row['publisher_id']] = strip_tags(phpAds_BuildAffiliateName($row['publisher_id'], $row['name']));
+    while ($rsAffiliates->fetch() && $row = $rsAffiliates->toArray()) {
+        $publishers[$row['affiliateid']] = strip_tags(phpAds_BuildAffiliateName($row['affiliateid'], $row['name']));
     }
 
-    if (!isset($variablemethod)) {        
+    if (!isset($variablemethod)) {
         // get variable method
-        $tracker_result = phpAds_dbQuery(
-            "SELECT
-                variablemethod
-             FROM
-                ".$conf['table']['prefix'].$conf['table']['trackers']."
-            WHERE trackerid='".$trackerid."'"
-        ) or phpAds_sqlDie();
-        
-        $variablemethod = phpAds_dbResult($tracker_result, 0, 0);
+        $doTrackers = OA_Dal::factoryDO('trackers');
+        if ($doTrackers->get($trackerid)) {
+            $variablemethod = $doTrackers->variablemethod;
+        }
     }
-    
+
     if (!isset($variables))
     {
         // get variables from db
-        $variables_result = phpAds_dbQuery(
-            "SELECT
-                *
-             FROM
-                ".$conf['table']['prefix'].$conf['table']['variables']."
-            WHERE trackerid='".$trackerid."'"
-        ) or phpAds_sqlDie();
+        $doVariables = OA_Dal::factoryDO('variables');
+        $doVariables->trackerid = $trackerid;
+        $doVariables->find();
 
-        while ($vars = phpAds_dbFetchArray($variables_result))
+        $variables = array();
+        while ($doVariables->fetch() && $vars = $doVariables->toArray())
         {
             // Remove assignment
             $vars['variablecode'] = addslashes(trim(preg_replace('/^.+?=/', '', $vars['variablecode'])));
 
             $vars['publisher_visible'] = array();
             $vars['publisher_hidden']  = array();
-            
+
             $variables[$vars['variableid']] = $vars;
         }
-        
+
         // get publisher visibility from db
-        $publishers_result = phpAds_dbQuery(
-            "SELECT
-                vp.*
-             FROM
-                ".$conf['table']['prefix'].$conf['table']['variables']." v JOIN
-                ".$conf['table']['prefix'].$conf['table']['variable_publisher']." vp ON (v.variableid = vp.variable_id)
-            WHERE trackerid='".$trackerid."'"
-        ) or phpAds_sqlDie();
-        
-        while ($pubs = phpAds_dbFetchArray($publishers_result))
+        $doVariables = OA_Dal::factoryDO('variables');
+        $doVariables->trackerid = $trackerid;
+        $doVariable_publisher = OA_Dal::factoryDO('variable_publisher');
+        $doVariables->joinAdd($doVariable_publisher);
+        $doVariables->find();
+
+        while ($doVariables->fetch() && $pubs = $doVariables->toArray())
         {
             if ($pubs['visible'] && $variables[$pubs['variable_id']]['hidden'] == 't') {
                 $variables[$pubs['variable_id']]['publisher_visible'][] = $pubs['publisher_id'];
@@ -160,9 +115,12 @@ if (isset($trackerid) && $trackerid != '')
                 $variables[$pubs['variable_id']]['publisher_hidden'][] = $pubs['publisher_id'];
             }
         }
-        
-        // Remove keys
-        $variables = array_values($variables);
+
+        // Remove keys]
+        if (isset($variables))
+        {
+            $variables = array_values($variables);
+        }
     }
     else
     {
@@ -174,8 +132,8 @@ if (isset($trackerid) && $trackerid != '')
             $variables[$f]['description'] = $_POST['description'.$f];
             $variables[$f]['datatype'] = $_POST['datatype'.$f];
             $variables[$f]['purpose'] = $_POST['purpose'.$f];
-            $variables[$f]['reject_if_empty'] = $_POST['reject_if_empty'.$f];
-            $variables[$f]['is_unique'] = $_POST['is_unique'.$f];
+            $variables[$f]['reject_if_empty'] = isset($_POST['reject_if_empty'.$f]) ? $_POST['reject_if_empty'.$f] : '';
+            $variables[$f]['is_unique'] = isset($_POST['is_unique'.$f]) ? $_POST['is_unique'.$f] : '';
             // Set window delays
             $uniqueWindowSeconds = 0;
             if (!empty($_POST['uniquewindow'.$f]))
@@ -188,10 +146,10 @@ if (isset($trackerid) && $trackerid != '')
             }
             $variables[$f]['unique_window'] = $uniqueWindowSeconds;
             $variables[$f]['variablecode'] = $_POST['variablecode'.$f];
-            
+
             $variables[$f]['publisher_visible'] = array();
             $variables[$f]['publisher_hidden']  = array();
-            
+
             switch ($_POST['visibility'.$f]) {
                 case 'all':
                     $variables[$f]['hidden'] = 't';
@@ -215,6 +173,15 @@ if (isset($trackerid) && $trackerid != '')
             $variables[] = array(
                 'publisher_visible' => array(),
                 'publisher_hidden' => array(),
+                'name' => '',
+                'hidden' => 'f',
+                'description' => '',
+                'datatype' => 'string',
+                'purpose' => '',
+                'reject_if_empty' => '',
+                'is_unique' => null,
+                'unique_window' => 0,
+                'variablecode' => '',
             );
 
 
@@ -222,26 +189,22 @@ if (isset($trackerid) && $trackerid != '')
     if (isset($action['save']))
     {
         // save variablemethod
-        $tracker_update = phpAds_dbQuery(
-            "UPDATE
-                ".$conf['table']['prefix'].$conf['table']['trackers']."
-            SET
-                variablemethod = '".$variablemethod."'
-            WHERE
-                trackerid='".$trackerid."'"
-        ) or phpAds_sqlDie(); 
+        $doTrackers = OA_Dal::factoryDO('trackers');
+        $doTrackers->get($trackerid);
+        $doTrackers->variablemethod = $variablemethod;
+        $doTrackers->update();
 
         $isUniqueAlreadyExists = false;
         foreach($variables as $k => $v)
         {
             // Set purpose to NULL when generic was chosen
             if (!empty($v['purpose'])) {
-                $v['purpose'] = "'".$v['purpose']."'";
+                $v['purpose'] = $v['purpose'];
             } else {
                 $v['purpose'] = "NULL";
             }
-            
-            if ($v['is_unique'] !== null) {
+
+            if ($v['is_unique']) {
                 if($isUniqueAlreadyExists) {
                     $variables[$k]['is_unique'] = $v['is_unique'] = 0;
                 } else {
@@ -261,77 +224,28 @@ if (isset($trackerid) && $trackerid != '')
                     $v['variablecode'] = "var {$v['name']} = escape(\\'%%".strtoupper($v['name'])."_VALUE%%\\')"; break;
             }
 
-            // Always delete variable_publisher entries 
-            if (isset($v['variableid'])) {
-                phpAds_dbQuery( 
-                    "DELETE 
-                        FROM ".$conf['table']['prefix'].$conf['table']['variable_publisher']." 
-                    WHERE 
-                        variable_id = ".$v['variableid'] 
-                ) or phpAds_sqlDie(); 
+            // Always delete variable_publisher entries
+            if (!empty($v['variableid'])) {
+                $doVariable_publisher = OA_Dal::factoryDO('variable_publisher');
+                $doVariable_publisher->variable_id = $v['variableid'];
+                $doVariable_publisher->delete();
             }
 
-            if (isset($v['variableid']) && isset($v['delete'])) {
+            $doVariables = OA_Dal::factoryDO('variables');
+            if (!empty($v['variableid']) && isset($v['delete'])) {
                 // delete variables from db
-                $variables_update = phpAds_dbQuery(
-                    "DELETE
-                        FROM ".$conf['table']['prefix'].$conf['table']['variables']."
-                    WHERE
-                        variableid=".$v['variableid']."
-                    LIMIT 1 "
-                ) or phpAds_sqlDie();
+                $doVariables->deleteById($v['variableid']);
             } elseif (isset($v['variableid']) && !isset($v['delete'])) {
                 // update variable info
-                $variables_update = phpAds_dbQuery(
-                    "UPDATE
-                        ".$conf['table']['prefix'].$conf['table']['variables']."
-                     SET
-                        name            = '".$v['name']."',
-                        description     = '".$v['description']."',
-                        datatype        = '".$v['datatype']."',
-                        purpose         = ".$v['purpose'].",
-                        reject_if_empty = '".$v['reject_if_empty']."',
-                        is_unique       = '".$v['is_unique']."',
-                        unique_window   = '".$v['unique_window']."',
-                        variablecode    = '".$v['variablecode']."',
-                        hidden          = '".$v['hidden']."',
-                        updated = '".date('Y-m-d H:i:s')."'
-                    WHERE
-                        variableid=".$v['variableid']
-                ) or phpAds_sqlDie();
+                $doVariables->get($v['variableid']);
+                $doVariables->setFrom($v);
+                $doVariables->update();
             } else {
-                $variables_insert = phpAds_dbQuery(
-                    "INSERT INTO ".$conf['table']['prefix'].$conf['table']['variables']."
-                        (trackerid,
-                         name,
-                         description,
-                         datatype,
-                         purpose,
-                         reject_if_empty,
-                         is_unique,
-                         unique_window,
-                         variablecode,
-                         hidden,
-                         updated)
-                    VALUES
-                        (".$trackerid.",
-                        '".$v['name']."',
-                        '".$v['description']."',
-                        '".$v['datatype']."',
-                        ".$v['purpose'].",
-                        '".$v['reject_if_empty']."',
-                        '".$v['is_unique']."',
-                        '".$v['unique_window']."',
-                        '".$v['variablecode']."',
-                        '".$v['hidden']."',
-                        '".date('Y-m-d H:i:s')."'
-                        )"
-                ) or phpAds_sqlDie();
-                
-                // Get newly created variable id
-                $v['variableid'] = phpAds_dbInsertId();
+                $doVariables->setFrom($v);
+                $doVariables->trackerid = $trackerid;
+                $v['variableid'] = $doVariables->insert();
             }
-            
+
             // Update variable_publisher entries
             $variable_publisher = array();
             if (is_array($v['publisher_visible'])) {
@@ -346,12 +260,11 @@ if (isset($trackerid) && $trackerid != '')
             }
 
             foreach ($variable_publisher as $publisher_id => $visible) {
-                phpAds_dbQuery(
-                    "INSERT INTO ".$conf['table']['prefix'].$conf['table']['variable_publisher']."
-                        (variable_id, publisher_id, visible)
-                    VALUES
-                        (".$v['variableid'].", ".$publisher_id.", ".$visible.")"
-                ) or phpAds_sqlDie();
+                $doVariable_publisher = OA_Dal::factoryDO('variable_publisher');
+                $doVariable_publisher->variable_id = $v['variableid'];
+                $doVariable_publisher->publisher_id = $publisher_id;
+                $doVariable_publisher->visible = $visible;
+                $doVariable_publisher->insert();
             }
 
         }
@@ -373,15 +286,14 @@ if (isset($trackerid) && $trackerid != '')
 }
 
 // Get other trackers
-$res = phpAds_dbQuery(
-    "SELECT *".
-    " FROM ".$conf['table']['prefix'].$conf['table']['trackers'].
-    " WHERE clientid='".$clientid."'".
-    phpAds_getTrackerListOrder ($navorder, $navdirection)
-);
+$doTrackers = OA_Dal::factoryDO('trackers');
+$doTrackers->clientid = $clientid;
+if (isset($navorder) && isset($navdirection)) {
+    $doTrackers->addListOrderBy($navorder, $navdirection);
+}
 
-while ($row = phpAds_dbFetchArray($res)) {
-    phpAds_PageContext (
+while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
+    phpAds_PageContext(
         phpAds_buildName ($row['trackerid'], $row['trackername']),
         "tracker-variables.php?clientid=".$clientid."&trackerid=".$row['trackerid'],
         $trackerid == $row['trackerid']
@@ -406,20 +318,14 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
     $extra .= "\t\t\t\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"."\n";
     $extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
 
-    if (phpAds_isUser(phpAds_Admin)) {
-        $query = "SELECT clientid,clientname".
-            " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-            " WHERE clientid != '".$clientid."'";
-    } elseif (phpAds_isUser(phpAds_Agency)) {
-        $query = "SELECT clientid,clientname".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-        " WHERE clientid != '".$clientid."'".
-        " AND agencyid=".phpAds_getUserID();
+    $doClients = OA_Dal::factoryDO('clients');
+    $doClients->whereAdd('clientid <>'.$clientid);
+    if (phpAds_isUser(phpAds_Agency)) {
+        $doClients->agencyid = phpAds_getUserID();
     }
-    $res = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
+    $doClients->find();
 
-    while ($row = phpAds_dbFetchArray($res)) {
+    while ($doClients->fetch() && $row = $doClients->toArray()) {
         $extra .= "\t\t\t\t\t<option value='".$row['clientid']."'>".phpAds_buildName($row['clientid'], $row['clientname'])."</option>\n";
     }
 
@@ -441,7 +347,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 
 
 //Start
-
+$tabindex = 0;
 
 if (isset($trackerid) && $trackerid != '')
 {
@@ -454,7 +360,7 @@ if (isset($trackerid) && $trackerid != '')
                 echo "<tr><td height='25' colspan='3'><b>".$strTrackingSettings."</b></td></tr>"."\n";
                 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
                 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
-                
+
                 echo "<tr>"."\n";
                 echo "\t"."<td width='30'>&nbsp;</td>"."\n";
                 echo "\t"."<td width='200'>".$strTrackerType."</td>"."\n";
@@ -564,6 +470,7 @@ if (isset($trackerid) && $trackerid != '')
 
                                                 echo '</td></tr></table>';
 
+                                                $onLoadUniqueJs = '';
                                                 if($checked) {
                                                     $onLoadUniqueJs = "\nm3_setRadioCheckbox(document.getElementById('$uniqueCheckboxId'), \"is_unique\");";
                                                 }
@@ -782,7 +689,7 @@ phpAds_SessionDataStore();
     {
         var s = findObj('variablemethod');
         var display = s.selectedIndex == s.options.length - 1 ? '' : 'none'
-        
+
         var trs = document.getElementsByTagName('TR');
         for (var i = 0; i < trs.length; i++) {
             if (trs[i].className == 'jscode') {
@@ -790,7 +697,7 @@ phpAds_SessionDataStore();
             }
         }
     }
-    
+
     m3_updateVariableMethod();
 
     function m3_updateVisibility()
@@ -810,16 +717,16 @@ phpAds_SessionDataStore();
             }
         }
     }
-    
+
     m3_updateVisibility();
 
     function m3_hideShowMove(o, s)
     {
         var id = o.id.replace(/^[^0-9]+/, '');
         var p = document.getElementById((s ? 'p_show' : 'p_hide') + id);
-        
+
         var sel = o.selectedIndex;
-        
+
         if (sel >= 0) {
             p.appendChild(o.options[sel]);
             o.selectedIndex = -1;
@@ -833,11 +740,11 @@ phpAds_SessionDataStore();
     {
         var o = document.getElementById((s ? 'p_hide' : 'p_show') + id);
         var p = document.getElementById((s ? 'p_show' : 'p_hide') + id);
-        
+
         for (var i = o.options.length - 1; i >= 0; i--) {
             p.appendChild(o.options[i]);
         }
-        
+
         o.selectedIndex = -1;
         p.selectedIndex = -1;
         o.blur();
@@ -858,11 +765,11 @@ phpAds_SessionDataStore();
                 }
             }
         }
-        
+
         return true;
     }
 
-    <?php echo $onLoadUniqueJs; ?>
+    <?php if (isset($onLoadUniqueJs)) echo $onLoadUniqueJs; ?>
 
 //-->
 </script>

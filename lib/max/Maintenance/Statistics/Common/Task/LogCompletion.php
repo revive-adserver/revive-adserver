@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -54,7 +54,7 @@ class MAX_Maintenance_Statistics_Common_Task_LogCompletion extends MAX_Maintenan
 
     /**
      * The implementation of the MAX_Core_Task::run() method that performs
-     * the task of this class. Intended to be inherited by childred of this
+     * the task of this class. Intended to be inherited by children of this
      * class. Logs the completion of the running of MSE tasks.
      *
      * @param string $runTypeField The name of DB field to hold $type value;
@@ -68,15 +68,15 @@ class MAX_Maintenance_Statistics_Common_Task_LogCompletion extends MAX_Maintenan
         if (is_null($oEndDate)) {
             $oEndDate = new Date();
         }
-        // Get instance of MAX_Dal_Maintenance_Statistics
-        $oDal = new MAX_Dal_Maintenance_Statistics();
+        // Get instance of OA_Dal_Maintenance_Statistics
+        $oDal = new OA_Dal_Maintenance_Statistics();
         if (($this->oController->updateFinal) && ($this->oController->updateIntermediate)) {
             $oDal->setMaintenanceStatisticsLastRunInfo(
                 $oNowDate,
                 $oEndDate,
                 $this->oController->updateIntermediateToDate,
                 $runTypeField,
-                DAL_STATISTICS_COMMON_UPDATE_BOTH
+                OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH
             );
         } elseif ($this->oController->updateFinal) {
             $oDal->setMaintenanceStatisticsLastRunInfo(
@@ -84,7 +84,7 @@ class MAX_Maintenance_Statistics_Common_Task_LogCompletion extends MAX_Maintenan
                 $oEndDate,
                 $this->oController->updateFinalToDate,
                 $runTypeField,
-                DAL_STATISTICS_COMMON_UPDATE_HOUR
+                OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR
             );
         } elseif ($this->oController->updateIntermediate) {
             $oDal->setMaintenanceStatisticsLastRunInfo(
@@ -92,7 +92,7 @@ class MAX_Maintenance_Statistics_Common_Task_LogCompletion extends MAX_Maintenan
                 $oEndDate,
                 $this->oController->updateIntermediateToDate,
                 $runTypeField,
-                DAL_STATISTICS_COMMON_UPDATE_OI
+                OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI
             );
         } else {
             MAX::debug(

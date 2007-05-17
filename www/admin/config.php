@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -36,10 +36,9 @@ require_once MAX_PATH . '/lib/max/other/lib-db.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+require_once MAX_PATH . '/lib/max/Permission.php';
 
-// Open the database connection
-//$link = phpAds_dbConnect();
-$link=true;
+$link = phpAds_dbConnect();
 if (!$link) {
     // Check if UI is enabled
     if (!$conf['max']['uiEnabled']) {
@@ -51,7 +50,7 @@ if (!$link) {
         phpAds_PageFooter();
         exit;
     }
-    
+
     // This text isn't translated, because if it is shown the language files are not yet loaded
     phpAds_Die ("A fatal error occurred", MAX_PRODUCT_NAME." can't connect to the database.
                 Because of this it isn't possible to use the administrator interface. The delivery
@@ -78,14 +77,14 @@ if (!phpAds_isUser(phpAds_Admin)) {
     $pref = MAX_Admin_Preferences::loadPrefs(phpAds_getAgencyID());
 }
 
-// Rewrite column preferences 
+// Rewrite column preferences
 $pref = MAX_Admin_Preferences::expandColumnPrefs();
 
 // Load the required language files
 Language_Default::load();
 
 // Register variables
-phpAds_registerGlobal(
+phpAds_registerGlobalUnslashed(
      'affiliateid'
     ,'agencyid'
     ,'bannerid'
@@ -131,12 +130,15 @@ function MMM_buildNavigation()
                         "2.1.2.2.2.1.1" =>  array("stats.php?entity=banner&breakdown=daily&clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid&affiliateid=$affiliateid&day=$day" => $GLOBALS['strDailyStats']),
                       "2.1.2.2.2.2"     =>  array("stats.php?entity=banner&breakdown=zone-history&clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid&affiliateid=$affiliateid&zoneid=$zoneid" => $GLOBALS['strDistributionHistory']),
                         "2.1.2.2.2.2.1" =>  array("stats.php?entity=banner&breakdown=daily&clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid&affiliateid=$affiliateid&zoneid=$zoneid&day=$day" => $GLOBALS['strDailyStats']),
+                    "2.1.2.2.3"         =>  array("stats.php?entity=banner&breakdown=targeting&clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $GLOBALS['strTargetStats']),
+                      "2.1.2.2.3.1"     =>  array("stats.php?entity=banner&breakdown=targeting-daily&clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $GLOBALS['strDailyStats']),
                   "2.1.2.3"             =>  array("stats.php?entity=campaign&breakdown=affiliates&clientid=$clientid&campaignid=$campaignid" => $GLOBALS['strPublisherDistribution']),
                     "2.1.2.3.1"         =>  array("stats.php?entity=campaign&breakdown=affiliate-history&clientid=$clientid&campaignid=$campaignid&affiliateid=$affiliateid" => $GLOBALS['strDistributionHistory']),
                       "2.1.2.3.1.1"     =>  array("stats.php?entity=campaign&breakdown=daily&clientid=$clientid&campaignid=$campaignid&affiliateid=$affiliateid&day=$day" => $GLOBALS['strDailyStats']),
                     "2.1.2.3.2"         =>  array("stats.php?entity=campaign&breakdown=zone-history&clientid=$clientid&campaignid=$campaignid&affiliateid=$affiliateid&zoneid=$zoneid" => $GLOBALS['strDistributionHistory']),
                       "2.1.2.3.2.1"     =>  array("stats.php?entity=advertiser&breakdown=daily&clientid=$clientid&campaignid=$campaignid&affiliateid=$affiliateid&zoneid=$zoneid&day=$day" => $GLOBALS['strDailyStats']),
-                  //"2.1.2.4"               =>  array("stats-placement-target.php?clientid=$clientid&campaignid=$campaignid" => $GLOBALS['strTargetStats']),
+                  "2.1.2.4"             =>  array("stats.php?entity=campaign&breakdown=targeting&clientid=$clientid&campaignid=$campaignid" => $GLOBALS['strTargetStats']),
+                    "2.1.2.4.1"         =>  array("stats.php?entity=campaign&breakdown=targeting-daily&clientid=$clientid&campaignid=$campaignid" => $GLOBALS['strDailyStats']),
                   "2.1.2.5"             =>  array("stats.php?entity=campaign&breakdown=optimise&clientid=$clientid&campaignid=$campaignid" => $GLOBALS['strOptimise']),
                   "2.1.2.6"             =>  array("stats.php?entity=campaign&breakdown=keywords&clientid=$clientid&campaignid=$campaignid" => $GLOBALS['strKeywordStatistics']),
                 "2.1.3"                 =>  array("stats.php?entity=advertiser&breakdown=affiliates&clientid=$clientid" => $GLOBALS['strPublisherDistribution']),
@@ -356,7 +358,7 @@ function MMM_buildNavigation()
                     '2.1.1.2'           =>  array("banner-acl.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $GLOBALS['strModifyBannerAcl']),
                     '2.1.1.3'           =>  array("banner-advanced.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $GLOBALS['strAdvanced']),
             */
-            "3"                         =>  array("report-index.php" => $GLOBALS['strReports']),
+            "3"                         =>  array("report-index.php?clientid=$clientid" => $GLOBALS['strReports']),
             "4"                         =>  array("settings-index.php?clientid=$clientid" => $GLOBALS['strSettings']),
               "4.1"                     =>  array("settings-index.php?clientid=$clientid" => $GLOBALS['strMainSettings'])
         ),
@@ -379,7 +381,7 @@ function MMM_buildNavigation()
                 "1.3.2"             =>  array("stats.php?entity=affiliate&breakdown=banner-history&affiliateid=$affiliateid&campaignid=$campaignid&bannerid=$bannerid" => $GLOBALS['strDistributionHistory']),
                   "1.3.2.1"         =>  array("stats.php?entity=affiliate&breakdown=daily&affiliateid=$affiliateid&campaignid=$campaignid&bannerid=$bannerid&day=$day" => $GLOBALS['strDailyStats']),
             "3"                     =>  array("report-index.php?affiliateid=$affiliateid" => $GLOBALS['strReports'])
-              
+
         )
     );
     if (phpAds_isUser(phpAds_Client)) {
@@ -400,15 +402,15 @@ function MMM_buildNavigation()
         if (phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
             $reports = $GLOBALS['phpAds_nav']['affiliate']['3'];
             unset ($GLOBALS['phpAds_nav']['affiliate']['3']);
-            $GLOBALS['phpAds_nav']['affiliate']['1'] = array("stats.php?entity=affiliate&breakdown=campaigns&affiliateid=$affiliateid" => $GLOBALS['strStats']); 
-            $GLOBALS['phpAds_nav']['affiliate']['2'] = array("affiliate-invocation.php?affiliateid=$affiliateid" => $GLOBALS['strInvocationcode']); 
+            $GLOBALS['phpAds_nav']['affiliate']['1'] = array("stats.php?entity=affiliate&breakdown=campaigns&affiliateid=$affiliateid" => $GLOBALS['strStats']);
+            $GLOBALS['phpAds_nav']['affiliate']['2'] = array("affiliate-invocation.php?affiliateid=$affiliateid" => $GLOBALS['strInvocationcode']);
             $GLOBALS['phpAds_nav']['affiliate']['4'] = array("affiliate-edit.php?affiliateid=$affiliateid" => $GLOBALS['strAffiliateProperties']);
             $GLOBALS['phpAds_nav']['affiliate']['3'] = $reports;
         } else {
-            $GLOBALS['phpAds_nav']['affiliate']['2'] = array("affiliate-zones.php?affiliateid=$affiliateid" => $GLOBALS['strAdminstration']); 
+            $GLOBALS['phpAds_nav']['affiliate']['2'] = array("affiliate-zones.php?affiliateid=$affiliateid" => $GLOBALS['strAdminstration']);
             $GLOBALS['phpAds_nav']['affiliate']['2.1'] = array("affiliate-zones.php?affiliateid=$affiliateid" => $GLOBALS['strZoneOverview']);
             $GLOBALS['phpAds_nav']['affiliate']['2.1.3'] = array("zone-probability.php?affiliateid=$affiliateid&zoneid=$zoneid" => $GLOBALS['strProbability']);
-            
+
             if (phpAds_isAllowed(phpAds_EditZone) || phpAds_isAllowed(phpAds_AddZone)) {
                 $GLOBALS['phpAds_nav']['affiliate']['2.1.1'] = array("zone-edit.php?affiliateid=$affiliateid&zoneid=$zoneid" => $GLOBALS['strZoneProperties']);
             }
@@ -418,12 +420,12 @@ function MMM_buildNavigation()
             if (phpAds_isAllowed(MAX_AffiliateGenerateCode)) {
                 $GLOBALS['phpAds_nav']['affiliate']['2.1.4'] = array("zone-invocation.php?affiliateid=$affiliateid&zoneid=$zoneid" => $GLOBALS['strInvocationcode']);
                 $GLOBALS['phpAds_nav']['affiliate']['2.2']   = array("affiliate-invocation.php?affiliateid=$affiliateid" => $GLOBALS['strInvocationcode']);
-            }        
-                    
+            }
+
             // Add settings to the end
             $GLOBALS['phpAds_nav']['affiliate']['4']   = array("settings-index.php?affiliateid=$affiliateid" => $GLOBALS['strSettings']);
             $GLOBALS['phpAds_nav']['affiliate']['4.1'] = array("settings-index.php?affiliateid=$affiliateid" => $GLOBALS['strMainSettings']);
-    
+
             if (phpAds_isAllowed(phpAds_ModifyInfo)) {
                 $GLOBALS['phpAds_nav']['affiliate']['4.2'] = array("affiliate-edit.php?affiliateid=$affiliateid" => $GLOBALS['strAffiliateProperties']);
             }

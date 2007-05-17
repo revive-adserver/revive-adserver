@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -34,11 +34,11 @@ $words = array(
   -->",
 
     'Publisher JS Channel Script Comment 1' => "
-<!-- Max Media Manager Channel Script
+<!-- Openads Channel Script
   --
-  -- Erstellt mit Max " . MAX_VERSION_READABLE . "
+  -- Erstellt mit Openads " . MAX_VERSION_READABLE . "
   --
-  -- Fuegen Sie dieses Script unmittelbar UEBER dem Max Media Manager Header Script
+  -- Fuegen Sie dieses Script unmittelbar UEBER dem Openads Header Script
   -- (wie unten definiert) in den <head>-Tag Ihrer Site ein.
   --
   -- Das untenstehende Script definiert die Variable az_channel. Diese Variable
@@ -56,11 +56,11 @@ $words = array(
 -->",
 
     'Publisher JS Header Script Comment' => "
-<!-- Max Media Manager Header Script
+<!-- Openads Header Script
   --
-  -- Erstellt mit Max " . MAX_VERSION_READABLE . "
+  -- Erstellt mit Openads " . MAX_VERSION_READABLE . "
   --
-  -- Fuegen Sie dieses Script UNTERHALB des Max Media Manager Channel Scipts (aber dennoch
+  -- Fuegen Sie dieses Script UNTERHALB des Openads Channel Scipts (aber dennoch
   -- innerhalb des <head>-Tags Ihrer Site ein). Jede Seite Ihrer Web-Site, auf der Sie
   -- Werbung ausliefern moechten muss dieses Script enthalten.
   --
@@ -74,9 +74,9 @@ $words = array(
   -->",
 
     'Publisher JS Ad Tag Script(s) Comment' => "
-<!-- Max Media Manager Ad Tag Script(s)
+<!-- Openads Ad Tag Script(s)
   --
-  -- Erstellt mit Max " . MAX_VERSION_READABLE . "
+  -- Erstellt mit Openads " . MAX_VERSION_READABLE . "
   --
   -- Im folgenden finden Sie die Script(e) fuer jede Zone(n).
   -- Bitte beachten Sie die folgenden Dinge:

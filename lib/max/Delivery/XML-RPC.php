@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -42,9 +42,9 @@ $xmlRpcView_sig = array(array($xmlrpcString,
                               $xmlrpcBoolean, $xmlrpcString, $xmlrpcStruct));
 
 $xmlRpcView_doc = 'When passed the "what", "target", "source", "withText", remote IP address and array ' .
-                  'of cookies, returns the cookies to be set and the HTML code to display the appropriate ' . 
+                  'of cookies, returns the cookies to be set and the HTML code to display the appropriate ' .
                   'advertisement.';
-                  
+
 /**
  * A function to handle XML-RPC advertisement view requests.
  *
@@ -59,7 +59,7 @@ $xmlRpcView_doc = 'When passed the "what", "target", "source", "withText", remot
  *                                (indexed by cookie name).
  * @return XML_RPC_Response The response. The XML_RPC_Value of the response can be one of
  *                          a number of different values:
- *                          - Error Code 1: The $params variable was not an XML_RPC_Value of 
+ *                          - Error Code 1: The $params variable was not an XML_RPC_Value of
  *                            type "array".
  *                          - Error Code 2: The $params XML_RPC_Value "array" did not have 6
  *                            elements.
@@ -109,11 +109,11 @@ function xmlRpcView($params)
         $_COOKIE[$key] = $value->scalarval();
     }
     // Find the ad display code
-    $output = MAX_adSelect($what, $target, $source, $withText);
+    $output = MAX_adSelect($what, '', $target, $source, $withText);
     if ($output['contenttype'] == 'swf') {
         $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
     }
-    
+
     // Convert the output and cookies into XML_RPC_Values
     if (count($output) > 0) {
         foreach ($output as $key => $value) {

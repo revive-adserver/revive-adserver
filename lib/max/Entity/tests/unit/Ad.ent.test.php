@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -44,7 +44,7 @@ class Maintenance_TestOfMAX_Entity_Ad extends UnitTestCase
     function  Maintenance_TestOfMAX_Entity_Ad()
     {
         $this->UnitTestCase();
-        Mock::generate('MAX_Dal_Maintenance_Priority');
+        Mock::generate('OA_Dal_Maintenance_Priority');
         Mock::generatePartial('MAX_Entity_Ad', 'MockPartialMAX_Entity_Ad', array('_abort'));
     }
 
@@ -55,8 +55,8 @@ class Maintenance_TestOfMAX_Entity_Ad extends UnitTestCase
     function setUp()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oMaxDalMaintenancePriority = new MockMAX_Dal_Maintenance_Priority($this);
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oMaxDalMaintenancePriority);
+        $oMaxDalMaintenancePriority = new MockOA_Dal_Maintenance_Priority($this);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oMaxDalMaintenancePriority);
     }
 
     /**
@@ -67,7 +67,7 @@ class Maintenance_TestOfMAX_Entity_Ad extends UnitTestCase
     function tearDown()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->remove('MAX_Dal_Maintenance_Priority');
+        $oServiceLocator->remove('OA_Dal_Maintenance_Priority');
     }
 
     /**
@@ -191,7 +191,7 @@ class Maintenance_TestOfMAX_Entity_Ad extends UnitTestCase
     function testGetDeliveryLimitations()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oMaxDalMaintenancePriority = &$oServiceLocator->get('MAX_Dal_Maintenance_Priority');
+        $oMaxDalMaintenancePriority = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
         $oMaxDalMaintenancePriority->expectArgumentsAt(0, 'getAllDeliveryLimitationsByTypeId', array(1, 'ad'));
         $oMaxDalMaintenancePriority->expectCallCount('getAllDeliveryLimitationsByTypeId', 1);
 

@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -196,6 +196,7 @@ function _getEntityString($entityIds)
 
 function MAX_displayDateSelectionForm($period, $period_start, $period_end, $pageName, &$tabindex, $hiddenValues = null)
 {
+    global $tabindex;
     require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';
    
     $oDaySpan = &FieldFactory::newField('day-span');
@@ -208,7 +209,7 @@ function MAX_displayDateSelectionForm($period, $period_start, $period_end, $page
     $oDaySpan->display();
     $tabindex = $oDaySpan->_tabIndex;
     echo "
-    <input type='button' value='Go' onclick='return periodFormSubmit()' style='margin-left: 1em' tabindex='".$this->tabindex++."' />";
+    <input type='button' value='Go' onclick='return periodFormSubmit()' style='margin-left: 1em' tabindex='".$tabindex++."' />";
     _displayHiddenValues($hiddenValues);
     echo "
     </form>";
@@ -630,7 +631,8 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <select name='newclientid' style='width: 110;'>";
         $aOtherAdvertisers = _multiSort($aOtherAdvertisers,'name','advertiser_id');    
-        foreach ($aOtherAdvertisers as $otherAdvertiserId => $aOtherAdvertiser) {
+        foreach ($aOtherAdvertisers as $aOtherAdvertiser) {
+            $otherAdvertiserId = $aOtherAdvertiser['advertiser_id'];
             $otherAdvertiserName = MAX_buildName($otherAdvertiserId, $aOtherAdvertiser['name']);
             if ($otherAdvertiserId != $advertiserId) {
                 $extra .= "
@@ -683,6 +685,7 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
             case 'banner-advanced.php' : $tabValue = '4.1.3.4.6'; break;
         }
     }
+    $bannerName = '';
     foreach ($aOtherBanners as $otherBannerId => $aOtherBanner) {
 
         // mask banner name if anonymous campaign
@@ -702,7 +705,7 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         phpAds_PageContext($otherBannerName, $page, $current);
     }
 
-    if (phpAds_isAllowed(phpAds_ModifyInfo)) {
+    if (MAX_Permission::checkIsAllowed(phpAds_ModifyInfo)) {
         phpAds_PageShortcut($GLOBALS['strClientProperties'], "advertiser-edit.php?clientid=$advertiserId", 'images/icon-advertiser.gif');
     }
     if (!phpAds_isUser(phpAds_Client)) {
@@ -731,11 +734,11 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         // mask campaign name if anonymous campaign
         $aOtherCampaign['name'] = MAX_getPlacementName($aOtherCampaign);
        
-        $otherCampaignName = MAX_buildName($otherCampaignId, $aOtherCampaign['name']);
+        $otherCampaignName = MAX_buildName($aOtherCampaign['placement_id'], $aOtherCampaign['name']);
         
-        if ($otherCampaignId != $campaignId) {
+        if ($aOtherCampaign['placement_id'] != $campaignId) {
             $extra .= "
-<option value='$otherCampaignId'>$otherCampaignName</option>";
+<option value='" . $aOtherCampaign['placement_id'] . "'>$otherCampaignName</option>";
         } else {
             $campaignName = $otherCampaignName;
         }
@@ -768,12 +771,16 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
     $advertiserName = phpAds_getClientName($advertiserId);
 
     // Build ad preview
-    require_once (MAX_PATH . '/lib/max/Delivery/adRender.php');
-    $aBanner = Admin_DA::getAd($bannerId);
-    $aBanner['storagetype'] = $aBanner['type'];
-    $aBanner['bannerid'] = $aBanner['ad_id'];
-    $bannerCode = MAX_adRender($aBanner, 0, '', '', '', true, false, false);
-
+    if ($bannerId) {
+        require_once (MAX_PATH . '/lib/max/Delivery/adRender.php');
+        $aBanner = Admin_DA::getAd($bannerId);
+        $aBanner['storagetype'] = $aBanner['type'];
+        $aBanner['bannerid'] = $aBanner['ad_id'];
+        $bannerCode = MAX_adRender($aBanner, 0, '', '', '', true, false, false);
+    } else {
+        $extra = '';
+        $bannerCode = '';
+    }
     phpAds_PageHeader($tabValue, $extra);
     echo "
 <img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;$advertiserName&nbsp;<img src='images/$phpAds_TextDirection/caret-rs.gif'>&nbsp;
@@ -788,6 +795,7 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
 
     global $phpAds_TextDirection;
 
+    $extra = '';
     $publisherId = $aEntities['affiliateid'];
     $zoneId = $aEntities['zoneid'];
     $entityString = _getEntityString($aEntities);
@@ -864,10 +872,10 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
             <select name='newaffiliateid' style='width: 110;'>";
                 $aOtherPublishers = _multiSort($aOtherPublishers,'name','publisher_id');
                 foreach ($aOtherPublishers as $otherPublisherId => $aOtherPublisher) {
-                    $otherPublisherName = MAX_buildName($otherPublisherId, $aOtherPublisher['name']);
-                    if ($otherPublisherId != $publisherId) {
+                    $otherPublisherName = MAX_buildName($aOtherPublisher['publisher_id'], $aOtherPublisher['name']);
+                    if ($aOtherPublisher['publisher_id'] != $publisherId) {
                         $extra .= "
-                <option value='$otherPublisherId'>$otherPublisherName</option>";
+                <option value='" . $aOtherPublisher['publisher_id'] . "'>$otherPublisherName</option>";
                     }
                 }
         }
@@ -926,7 +934,7 @@ function MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities
 
     phpAds_PageShortcut($GLOBALS['strAffiliateHistory'], 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$publisherId, 'images/icon-statistics.gif');
 
-    phpAds_PageHeader($tabValue, $extra);
+    phpAds_PageHeader($tabValue, $extra = '');
     echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>$publisherName</b><br /><br /><br />";
     phpAds_ShowSections($tabSections);
 }
@@ -935,8 +943,8 @@ function MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublish
 {
     global $phpAds_TextDirection;
 
-    $agencyId = $aEntities['agencyid'];
-    $publisherId = $aEntities['affiliateid'];
+    $agencyId = isset($aEntities['agencyid']) ? $aEntities['agencyid'] : null;
+    $publisherId = isset($aEntities['affiliateid']) ? $aEntities['affiliateid'] : null;
     $channelId = $aEntities['channelid'];
 
     $entityString = _getEntityString($aEntities);
@@ -1012,10 +1020,11 @@ function MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublish
 <input type='hidden' name='channelid' value='$channelId'>
 <input type='hidden' name='returnurl' value='$pageName'>
 <br /><br />
-<b>{$GLOBALS['strModifychannel']}</b><br />
+<b>{$GLOBALS['strChannel']}</b><br />
 <img src='images/break.gif' height='1' width='160' vspace='4'><br />
 <img src='images/icon-duplicate-channel.gif' align='absmiddle'>&nbsp;<a href='channel-modify.php?duplicate=true&$entityString&returnurl=$pageName'>{$GLOBALS['strDuplicate']}</a><br />";
 
+    $deleteReturlUrl = '';
     if ($channelType == 'publisher') {
         $deleteReturlUrl = 'affiliate-channels.php';
         
@@ -1149,7 +1158,8 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
     }
 
     $aOtherEntities = _multiSort($aOtherEntities, 'name', 'advertiser_id');
-    foreach ($aOtherEntities as $otherEntityId => $aOtherEntity) {
+    foreach ($aOtherEntities as $aOtherEntity) {
+        $otherEntityId = $aOtherEntity['advertiser_id'];
         $selected = $otherEntityId == $entityId ? ' selected' : '';
 
         if ($entity == 'placement') {
@@ -1298,7 +1308,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
                 // Remove from array any ads not linked to the zone.
                 // These might exist if campaign has been linked to zone
                 // and indivual ads have then been unlinked
-                $pParams = array(zone_id => $zoneId);
+                $pParams = array('zone_id' => $zoneId);
                 $aAdZones = Admin_DA::getAdZones($pParams, true);
                 $aAdZoneLinks = array();
                 foreach($aAdZones as $aAdZone) {
@@ -1348,7 +1358,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
     <tr height='25'$bgcolor>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='$adIcon' align='absmiddle'>&nbsp;$adLink</td>
         <td>$adId</td>
-        <td align='$phpAds_TextAlignRight'>
+        <td align=".$GLOBALS['phpAds_TextAlignRight'].">
             <a href='banner-htmlpreview.php?bannerid=$adId' target='_new' onClick=\"return openWindow('banner-htmlpreview.php?bannerid=$adId', '', 'status=no,scrollbars=no,resizable=no,width=$adWidth,height=$adHeight');\"><img src='images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;{$GLOBALS['strShowBanner']}</a>&nbsp;&nbsp;
         </td>
     </tr>";
@@ -1392,6 +1402,8 @@ function MAX_displayPlacementAdSelectionViewForm($publisherId, $zoneId, $view, $
 {
     global $phpAds_TextDirection;
 
+    $disabled = null;
+    $disabledHidden = null;
     if (!empty($aOtherZones[$zoneId]['type'])) {
         if ($aOtherZones[$zoneId]['type'] == MAX_ZoneEmail) {
             $view = 'ad';

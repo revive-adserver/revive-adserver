@@ -1,16 +1,40 @@
 <?php
 
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
 require_once MAX_PATH . '/lib/pear/XML/Parser.php';
-//require_once MAX_PATH . '/lib/pear/XML/Parser/Simple.php';
 
 /**
  * Parser for phpMyAdmin-style XML data dumps.
- * 
- * Only configured tables (conf.ini) will be recognised.
+ *
+ * Only configured tables (conf.php) will be recognised.
  * If the data dump contains entries for other tables,
  * there is no guarantee what will happen.
- * 
- * @todo Handle unknown tables by raising an error (or ignoring them)  
+ *
+ * @todo Handle unknown tables by raising an error (or ignoring them)
  */
 class MAX_TestData_XML_Parser extends XML_Parser
 {
@@ -33,7 +57,7 @@ class MAX_TestData_XML_Parser extends XML_Parser
 
   /**
    * Constructor.
-   * 
+   *
    * @param string $outputMode
    */
   function MAX_TestData_XML_Parser($outputMode = 'text')

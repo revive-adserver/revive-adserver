@@ -1,0 +1,158 @@
+    <br />
+    <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+    <tr>
+        <td colspan='2' align='center'>
+        <?php
+            if ($displayError == true) {  
+            	include 'install-messages.html';
+            }        
+        ?>
+        </td>
+    </tr>
+    <tr>
+        <td valign='top'>
+        <img src='<?php echo $imgPath; ?>images/install-database.gif'></td>
+        <td width='100%' valign='top'>
+        <br>
+        <span class='tab-s'>The MySQL database</span><br><img src='<?php echo $imgPath; ?>images/break-el.gif' width='100%' height='1' vspace='8'><span class='install'>Openads uses a MySQL database store the inventory and all of the statistics. Before you can continue you need to tell us which server you want to use and which username and password Openads needs to use to contact the server. If you do not know which information you should provide here, please contact the administrator of your server.
+        </td>
+    </tr>
+    </table>
+    <br />
+    <br />
+    <script type='text/javascript'>
+    function showLoader(f) {
+        noerrors = max_formValidate(f);
+        if (noerrors == true) {
+            document.getElementById('dbLoader').style.display='block';
+            document.getElementById('dbLoader').style.top='-510px';
+            document.getElementById('dbLoader').style.height='570px';
+        }        
+        return(noerrors);
+    }
+    </script>
+<div id="formContainer" style="display: block; width:100%; height:100%;">
+<form name="frmOpenads" id="frmOpenads" method="POST" action="install.php" onSubmit='return showLoader(this);' style="display: block;">
+
+<?php            
+
+    // Disable the form items if user is upgrading
+    // Change $inputType so that disabled selects are text fields, so that the correct value can be displayed
+    if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL) {
+        $disableForm = false;
+        $inputType   = 'select';
+    } else {
+        $disableForm = true;
+        $inputType   = 'text';
+    }
+    
+    phpAds_ShowSettings(array (
+        array (
+            'text'  => $strDatabaseSettings,
+            'items' => array (
+                array (
+                    'type'    => $inputType,
+                    'name'    => 'aConfig[database][type]',
+                    'text'    => $strDbType,
+                    'enabled' => $disableForm,
+                    'value'   => $aDatabase['database']['type'],
+                    'items'   => getSupportedDbTypes()
+                ),
+                array (
+                    'type'    => 'break'
+                ),
+                array (
+                    'type'    => 'text',
+                    'name'    => 'aConfig[database][host]',
+                    'text'    => $strDbHost,
+                    'enabled' => $disableForm,
+                    'req'     => true,
+                    'value'   => $aDatabase['database']['host']
+                ),
+                array (
+                    'type'    => 'break'
+                ),
+                array (
+                    'type'    => 'text',
+                    'name'    => 'aConfig[database][port]',
+                    'text'    => $strDbPort,
+                    'enabled' => $disableForm,
+                    'req'     => true,
+                    'value'   => $aDatabase['database']['port']
+                ),
+                array (
+                    'type'    => 'break'
+                ),
+                array (
+                    'type'    => 'text',
+                    'name'    => 'aConfig[database][username]',
+                    'text'    => $strDbUser,
+                    'enabled' => $disableForm,
+                    'req'     => true,
+                    'value'   => $aDatabase['database']['username']
+                ),
+                array (
+                    'type'    => 'break'
+                ),
+                array (
+                    'type'    => 'password',
+                    'name'    => 'aConfig[database][password]',
+                    'text'    => $strDbPassword,
+                    'enabled' => $disableForm,
+                    'req'     => false,
+                    'value'   => $aDatabase['database']['password']
+                ),
+                array (
+                    'type'    => 'break'
+                ),
+                array (
+                    'type'    => 'text',
+                    'name'    => 'aConfig[database][name]',
+                    'text'    => $strDbName,
+                    'enabled' => $disableForm,
+                    'req'     => true,
+                    'value'   => $aDatabase['database']['name']
+                )
+            )
+        ),
+        array (
+            'text'  => $strAdvancedSettings,
+            'items' => array (
+                array (
+                    'type'      => $inputType,
+                    'name'      => 'aConfig[table][type]',
+                    'text'      => $strTablesType,
+                    'enabled'   => $disableForm,
+                    'value'     => $aDatabase['table']['type'],
+                    'items'     => getSupportedTableTypes()
+                ),
+                array (
+                    'type'      => 'break'
+                ),
+                array (
+                    'type'      => 'text',
+                    'name'      => 'aConfig[table][prefix]',
+                    'text'      => $strTablesPrefix,
+                    'enabled'   => $disableForm,
+                    'req'       => false,
+                    'maxlength' => '7',
+                    'value'     => $aDatabase['table']['prefix']
+                )
+            )
+        )
+    ), $errormessage, 0, $imgPath);
+?>
+                <input type="submit" class="button" name="btn_upgrade" value="<?php echo $strBtnContinue; ?>">
+                <input type="hidden" name="dirPage" id="dirPage" value="" />
+</form>
+  
+<form name="frmOpenads2" id="frmOpenads2" method="POST" action="install.php">
+                <input type="submit" class="button floatleft" name="btn_syscheck" value="<?php echo $strBtnGoBack; ?>" />
+</form>
+
+<div id="dbLoader" class="pageLoader tab-s" style="display: none;"><div>Processing...</div></div>
+
+</div>
+<form>
+                
+                

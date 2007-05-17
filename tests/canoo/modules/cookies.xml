@@ -1,0 +1,5 @@
+<storeCookie name="${viewerId}" property="cookie_viewerId" />
+<verifyProperty description="Verify 'viewerId' cookie is not empty"
+      name="cookie_viewerId"
+      text="[a-z]+[0-9]+"
+      regex="true" />

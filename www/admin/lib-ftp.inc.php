@@ -1,19 +1,38 @@
 <?php
 
-/*----------------------------------------------------------------------*/
-/* phpAdsNew 2                                                          */
-/* ===========                                                          */
-/*                                                                      */
-/* Copyright (c) 2001 by TOMO <groove@spencernetwork.org>               */
-/* For more information visit: http://www.phpadsnew.com                 */
-/*----------------------------------------------------------------------*/
-
-
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| Copyright (c) 2001 by TOMO <groove@spencernetwork.org>                    |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
 
 $ftp_debug = FALSE;
 $ftp_umask = 0022;
 $ftp_timeout = 30;
-
 
 if (!defined("FTP_BINARY")) {
 	define("FTP_BINARY", 1);
@@ -22,11 +41,10 @@ if (!defined("FTP_ASCII")) {
 	define("FTP_ASCII", 0);
 }
 
-
 function ftp_connect($server, $port = 21)
 {
 	global $ftp_timeout;
-	
+
 	ftp_debug("Trying to ".$server.":".$port." ...\n");
 	$sock = @fsockopen($server, $port, $errno, $errstr, $ftp_timeout);
 	if ($sock && ftp_ok($sock)) {
@@ -148,15 +166,15 @@ function ftp_rename($sock, $from, $to)
 		ftp_debug("Error : No such file or directory \"".$from."\"\n");
 		return FALSE;
 	}
-	
+
 	ftp_putcmd($sock, "RNFR", $from);
-	
+
 	if (!ftp_ok($sock)) {
 		return FALSE;
 	}
-	
+
 	ftp_putcmd($sock, "RNTO", $to);
-	
+
 	return ftp_ok($sock);
 }
 
@@ -164,14 +182,14 @@ function ftp_nlist($sock, $arg = "", $pathname = "")
 {
 	ftp_putcmd($sock, "PASV");
 	$string = ftp_getresp($sock);
-	
+
 	if ($arg == "") {
 		$nlst = "NLST";
 	} else {
 		$nlst = "NLST ".$arg;
 	}
 	ftp_putcmd($sock, $nlst, $pathname);
-	
+
 	$sock_data = ftp_open_data_connection($string);
 	if (!$sock_data) {
 		return FALSE;
@@ -182,13 +200,13 @@ function ftp_nlist($sock, $arg = "", $pathname = "")
 		ftp_debug("Cannot connect to remote host\n");
 		return FALSE;
 	}
-	
+
 	while (!feof($sock_data)) {
 		$list[] = ereg_replace("[\r\n]", "", fgets($sock_data, 512));
 	}
 	ftp_close_data_connection($sock_data);
 	ftp_debug(implode("\n", $list));
-	
+
 	if (ftp_ok($sock)) {
 		return $list;
 	} else {
@@ -200,9 +218,9 @@ function ftp_rawlist($sock, $pathname = "")
 {
 	ftp_putcmd($sock, "PASV");
 	$response = ftp_getresp($sock);
-	
+
 	ftp_putcmd($sock, "LIST", $pathname);
-	
+
 	$sock_data = ftp_open_data_connection($response);
 	if (!$sock_data) {
 		return FALSE;
@@ -213,13 +231,13 @@ function ftp_rawlist($sock, $pathname = "")
 		ftp_debug("Cannot connect to remote host\n");
 		return FALSE;
 	}
-	
+
 	while (!feof($sock_data)) {
 		$list[] = ereg_replace("[\r\n]", "", fgets($sock_data, 512));
 	}
 	ftp_debug(implode("\n", $list));
 	ftp_close_data_connection($sock_data);
-	
+
 	if (ftp_ok($sock)) {
 		return $list;
 	} else {
@@ -230,40 +248,40 @@ function ftp_rawlist($sock, $pathname = "")
 function ftp_get($sock, $localfile, $remotefile, $mode = 1)
 {
 	global $ftp_umask;
-	
+
 	if ($mode) {
 		$type = "I";
 	} else {
 		$type = "A";
 	}
-	
+
 	if (!ftp_file_exists($sock, $remotefile)) {
 		ftp_debug("Error : No such file or directory \"".$remotefile."\"\n");
 		ftp_debug("Error : GET failed\n");
 		return FALSE;
 	}
-	
+
 	if (@file_exists($localfile)) {
 		ftp_debug("Warning : local file will be overwritten\n");
 	} else {
 		umask($ftp_umask);
 	}
-	
+
 	$fp = @fopen($localfile, "w");
 	if (!$fp) {
 		ftp_debug("Error : Cannot create \"".$localfile."\"");
 		ftp_debug("Error : GET failed\n");
 		return FALSE;
 	}
-	
+
 	ftp_putcmd($sock, "PASV");
 	$string = ftp_getresp($sock);
-	
+
 	ftp_putcmd($sock, "TYPE", $type);
 	ftp_getresp($sock);
-	
+
 	ftp_putcmd($sock, "RETR", $remotefile);
-	
+
 	$sock_data = ftp_open_data_connection($string);
 	if (!$sock_data) {
 		return FALSE;
@@ -275,42 +293,42 @@ function ftp_get($sock, $localfile, $remotefile, $mode = 1)
 		ftp_debug("Error : GET failed\n");
 		return FALSE;
 	}
-	
+
 	ftp_debug("Retrieving remote file \"".$remotefile."\" to local file \"".$localfile."\"\n");
 	while (!feof($sock_data)) {
 		fputs($fp, fread($sock_data, 4096));
 	}
 	fclose($fp);
-	
+
 	ftp_close_data_connection($sock_data);
-	
+
 	return ftp_ok($sock);
 }
 
 function ftp_fget($sock, $fp, $remotefile, $mode = 1)
 {
 	global $ftp_umask;
-	
+
 	if ($mode) {
 		$type = "I";
 	} else {
 		$type = "A";
 	}
-	
+
 	if (!ftp_file_exists($sock, $remotefile)) {
 		ftp_debug("Error : No such file or directory \"".$remotefile."\"\n");
 		ftp_debug("Error : GET failed\n");
 		return FALSE;
 	}
-	
+
 	ftp_putcmd($sock, "PASV");
 	$string = ftp_getresp($sock);
-	
+
 	ftp_putcmd($sock, "TYPE", $type);
 	ftp_getresp($sock);
-	
+
 	ftp_putcmd($sock, "RETR", $remotefile);
-	
+
 	$sock_data = ftp_open_data_connection($string);
 	if (!$sock_data) {
 		return FALSE;
@@ -322,14 +340,14 @@ function ftp_fget($sock, $fp, $remotefile, $mode = 1)
 		ftp_debug("Error : GET failed\n");
 		return FALSE;
 	}
-	
+
 	ftp_debug("Retrieving remote file \"".$remotefile."\" to local file \"".$localfile."\"\n");
 	while (!feof($sock_data)) {
 		fputs($fp, fread($sock_data, 4096));
 	}
-	
+
 	ftp_close_data_connection($sock_data);
-	
+
 	return ftp_ok($sock);
 }
 
@@ -340,32 +358,32 @@ function ftp_put($sock, $remotefile, $localfile, $mode = 1)
 	} else {
 		$type = "A";
 	}
-	
+
 	if (!file_exists($localfile)) {
 		ftp_debug("Error : No such file or directory \"".$localfile."\"\n");
 		ftp_debug("Error : PUT failed\n");
 		return FALSE;
 	}
-	
+
 	$fp = @fopen($localfile, "r");
 	if (!$fp) {
 		ftp_debug("Cannot read file \"".$localfile."\"\n");
 		ftp_debug("Error : PUT failed\n");
 		return FALSE;
 	}
-	
+
 	ftp_putcmd($sock, "PASV");
 	$string = ftp_getresp($sock);
-	
+
 	ftp_putcmd($sock, "TYPE", $type);
 	ftp_getresp($sock);
-	
+
 	if (ftp_file_exists($sock, $remotefile)) {
 		ftp_debug("Warning : Remote file will be overwritten\n");
 	}
-	
+
 	ftp_putcmd($sock, "STOR", $remotefile);
-	
+
 	$sock_data = ftp_open_data_connection($string);
 	if (!$sock_data) {
 		return FALSE;
@@ -377,15 +395,15 @@ function ftp_put($sock, $remotefile, $localfile, $mode = 1)
 		ftp_debug("Error : PUT failed\n");
 		return FALSE;
 	}
-	
+
 	ftp_debug("Storing local file \"".$localfile."\" to remote file \"".$remotefile."\"\n");
 	while (!feof($fp)) {
 		fputs($sock_data, fread($fp, 4096));
 	}
 	fclose($fp);
-	
+
 	ftp_close_data_connection($sock_data);
-	
+
 	return ftp_ok($sock);
 }
 
@@ -396,19 +414,19 @@ function ftp_fput($sock, $remotefile, $fp, $mode = 1)
 	} else {
 		$type = "A";
 	}
-	
+
 	ftp_putcmd($sock, "PASV");
 	$string = ftp_getresp($sock);
-	
+
 	ftp_putcmd($sock, "TYPE", $type);
 	ftp_getresp($sock);
-	
+
 	if (ftp_file_exists($sock, $remotefile)) {
 		ftp_debug("Warning : Remote file will be overwritten\n");
 	}
-	
+
 	ftp_putcmd($sock, "STOR", $remotefile);
-	
+
 	$sock_data = ftp_open_data_connection($string);
 	if (!$sock_data) {
 		return FALSE;
@@ -420,14 +438,14 @@ function ftp_fput($sock, $remotefile, $fp, $mode = 1)
 		ftp_debug("Error : PUT failed\n");
 		return FALSE;
 	}
-	
+
 	ftp_debug("Storing local file \"".$localfile."\" to remote file \"".$remotefile."\"\n");
 	while (!feof($fp)) {
 		fputs($sock_data, fread($fp, 4096));
 	}
-	
+
 	ftp_close_data_connection($sock_data);
-	
+
 	return ftp_ok($sock);
 }
 
@@ -455,14 +473,14 @@ function ftp_putcmd($sock, $cmd, $arg = "")
 	if (!$sock) {
 		return FALSE;
 	}
-	
+
 	if ($arg != "") {
 		$cmd = $cmd." ".$arg;
 	}
-	
+
 	fputs($sock, $cmd."\r\n");
 	ftp_debug("> ".$cmd."\n");
-	
+
 	return TRUE;
 }
 
@@ -471,15 +489,15 @@ function ftp_getresp($sock)
 	if (!$sock) {
 		return FALSE;
 	}
-	
+
 	$response = "";
 	do {
 		$res = fgets($sock, 512);
 		$response .= $res;
 	} while (substr($res, 3, 1) != " ");
-	
+
 	ftp_debug(str_replace("\r\n", "\n", $response));
-	
+
 	return $response;
 }
 
@@ -488,7 +506,7 @@ function ftp_ok($sock)
 	if (!$sock) {
 		return FALSE;
 	}
-	
+
 	$response = ftp_getresp($sock);
 	if (ereg("^[123]", $response)) {
 		return TRUE;
@@ -502,7 +520,7 @@ function ftp_file_exists($sock, $pathname)
 	if (!$sock) {
 		return FALSE;
 	}
-	
+
 	ftp_putcmd($sock, "MDTM", $pathname);
 	if (ftp_ok($sock)) {
 		ftp_debug("Remote file ".$pathname." exists\n");
@@ -539,11 +557,11 @@ function ftp_open_data_connection($string)
 function ftp_debug($message = "")
 {
 	global $ftp_debug;
-	
+
 	if ($ftp_debug) {
 		echo $message;
 	}
-	
+
 	return TRUE;
 }
 

@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<project name="Init Openads Web Tests" basedir=".." default="main">
+  <property file="properties/user.properties"/>
+</project>

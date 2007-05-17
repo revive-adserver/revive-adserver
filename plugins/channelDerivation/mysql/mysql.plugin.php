@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -62,9 +62,9 @@ class Plugins_ChannelDerivation_Mysql_Mysql extends Plugins_ChannelDerivation
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        require_once(MAX_PATH . '/lib/max/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
+        require_once(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
 
-        $rulesRes = MAX_Dal_Delivery_query("
+        $rulesRes = OA_Dal_Delivery_query("
             SELECT r.modifier, r.rule
             FROM
                 {$conf['table']['prefix']}{$conf['table']['plugins_channel_delivery_assoc']} AS dr,

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -92,7 +92,7 @@ class MAX_Plugin_Translation
         }
         if (is_readable($path)) {
             include $path;
-            //  If current module is not the default max module
+            //  If current module is not the default openads module
             if (isset($words)) {
                 if ($package === null) {
                     $GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module] = $words;

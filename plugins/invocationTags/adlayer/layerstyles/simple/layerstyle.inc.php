@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -63,8 +63,8 @@ function MAX_layerPutJs($output, $uniqid)
 	global $shifth, $shiftv, $closebutton;
 	
 	// Register input variables
-	MAX_commonRegisterGlobals('align', 'valign', 'closetime', 'padding',
-						   'shifth', 'shiftv', 'closebutton');
+	MAX_commonRegisterGlobalsArray(array('align', 'valign', 'closetime', 'padding',
+						   'shifth', 'shiftv', 'closebutton'));
 	
 	
 	if (!isset($padding)) $padding = 0;
@@ -211,9 +211,9 @@ function MAX_layerGetHtml($output, $uniqid)
 	$conf = $GLOBALS['_MAX']['CONF'];
 	
 	// Register input variables
-	MAX_commonRegisterGlobals('align', 'padding', 'closebutton',
+	MAX_commonRegisterGlobalsArray(array('align', 'padding', 'closebutton',
 						   'backcolor', 'bordercolor',
-						   'nobg', 'noborder');
+						   'nobg', 'noborder'));
 	
 	
 	if (!isset($padding)) $padding = '2';

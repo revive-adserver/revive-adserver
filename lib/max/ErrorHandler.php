@@ -2,11 +2,11 @@
 /* Reminder: always indent with 4 spaces (no tabs). */
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/Max.php';
 /**
  * Global error handler class, modifies behaviour for PHP errors, not PEAR.
  *
- * @package Max
+ * @package Openads
  * @author  Peter James <petej@shaman.ca>
  * @author  Demian Turner <demian@phpkitchen.com>
  */
@@ -156,11 +156,10 @@ EOF;
             //  never send email if error occured in test
             if ($conf['debug']['sendErrorEmails'] && !defined('TEST_ENVIRONMENT_RUNNING') && $this->errorType[$errNo][1] <= constant($conf['debug']['emailAdminThreshold'])) {
                 //  get extra info
-                $dbh = & MAX_DB::singleton();
-                $lastQuery = $dbh['last_query'];
+                $oDbh = &OA_DB::singleton();
+                $lastQuery = $oDbh->last_query;
                 $aExtraInfo['callingURL'] = $_SERVER['SCRIPT_NAME'];
-                $aExtraInfo['lastSQL'] = isset($dbh['last_query']) ?
-                    $dbh['last_query'] : null;
+                $aExtraInfo['lastSQL'] = isset($oDbh->last_query) ? $oDbh->last_query : null;
                 $aExtraInfo['clientData']['HTTP_REFERER'] = &$_SERVER['HTTP_REFERER'];
                 $aExtraInfo['clientData']['HTTP_USER_AGENT'] = &$_SERVER['HTTP_USER_AGENT'];
                 $aExtraInfo['clientData']['REMOTE_ADDR'] = &$_SERVER['REMOTE_ADDR'];

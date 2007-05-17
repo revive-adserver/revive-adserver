@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -24,16 +24,18 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
-require_once MAX_PATH . '/lib/max/DB.php';
+
 require_once MAX_PATH . '/lib/max/SqlBuilder.php';
-require_once MAX_PATH . '/lib/max/Table/Core.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
+
+require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 /**
  * A class for simulating maintenance/delivery scenarios
@@ -60,7 +62,7 @@ class SimulationScenario
     var $tablePrefix = '';
     var $oServiceLocator;
     var $oCoreTables;
-    var $oDBH;
+    var $oDbh;
 
     var $loadCommonData = true;
 
@@ -69,6 +71,7 @@ class SimulationScenario
 
     var $adSelectCallback;
     var $aVarDump;
+
 
     /**
      * The constructor method.
@@ -102,37 +105,35 @@ class SimulationScenario
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = '';
         $_COOKIE = $HTTP_COOKIE_VARS = array();
 
-        //start with a clean set of tables
-        MAX_Table_Core::destroy();
-        $this->oCoreTables = MAX_Table_Core::singleton();
+		// get service locator instance
+		$this->oServiceLocator = &ServiceLocator::instance();
 
-        // set up some services
-        $this->oServiceLocator = &ServiceLocator::instance();
-        $this->oServiceLocator->register('MAX_TABLES', $tables);
+        // start with a clean set of tables
+        OA_DB_Table_Core::destroy();
+        $this->oCoreTables = &OA_DB_Table_Core::singleton();
 
-        // MAX_TABLES instance registers MAX_DB
-        $this->oDBH = &$this->oServiceLocator->get('MAX_DB');
+        // get the database handler
+        $this->oDbh = &OA_DB::singleton();
 
         // fake the date/time
         $this->setDateTime();
     }
 
     /**
-     * create a new set of max tables
-     * this is called by the child class
-     * it might not want them!
+     * create a new set of openads tables this is called by the child class it
+     * might not want them!
      *
      */
     function newTables()
     {
-        if ($this->oDBH)
+        if ($this->oDbh)
         {
             $this->oCoreTables->dropAllTables();
             $this->oCoreTables->createAllTables();
         }
         else
         {
-            $this->reportResult(false, 'could not create new tables, invalid db object', $this->oDBH);
+            $this->reportResult(false, 'could not create new tables, invalid db object', $this->oDbh);
         }
     }
 
@@ -153,7 +154,7 @@ class SimulationScenario
 			if (!is_array($aIteration['precise_requests']))
 			{
 				$aIteration['precise_requests'] = array();
-				
+
 				for ($i = 1; $i <= $requestObjs; $i++)
 				{
 					if (!empty($aIteration['request_objects'][$i]->requests))
@@ -163,9 +164,9 @@ class SimulationScenario
 					}
 				}
 			}
-			
+
 			$precise_requests = $aIteration['precise_requests'];
-			
+
 			$aIteration['max_requests'] = count($aIteration['precise_requests']);
 		}
 		else
@@ -327,6 +328,7 @@ class SimulationScenario
         }
         $adSelect = MAX_adSelect(
                             $oRequest->what,
+                            '',
                             $oRequest->target,
                             $oRequest->source,
                             $oRequest->withText,
@@ -422,7 +424,7 @@ class SimulationScenario
             $array = &$this->aFailed[$iteration];
             $bannerId = 0;
         }
-        
+
         if (preg_match('/zone(?:id)?:(\d+)/', $what, $m))
             $zoneId = (int)$m[1];
         else
@@ -432,7 +434,7 @@ class SimulationScenario
             $array[$bannerId][$zoneId] = 0;
 
         $array[$bannerId][$zoneId]++;
-        
+
         $this->totalRequests++;
     }
 
@@ -459,19 +461,16 @@ class SimulationScenario
        }
 
        $table = $GLOBALS['_MAX']['CONF']['table']['data_raw_ad_impression'];
+       $dbh = OA_DB::singleton();
        foreach($this->aDelivered[$interval] as $bannerId => $aZones)
        {
                foreach($aZones as $zoneId => $count)
             {
                 for ($i = 0; $i < $count; $i++)
                 {
-                    $aValues = array(
-                                      'date_time' => $date,
-                                      'ad_id' => $bannerId,
-                                      'zone_id' => $zoneId
-                                    );
-                    $aTable = array($table=>$table);
-                    $result = SqlBuilder::_insert($aTable, $aValues);
+                    $dbh->exec("
+                        INSERT INTO $table (date_time, ad_id, zone_id)
+                        VALUES ('$date', $bannerId, $zoneId)");
                 }
             }
        }
@@ -495,12 +494,12 @@ class SimulationScenario
         $this->printPriorities();
         $this->printHeading('End updatePriorities; date: ' . $this->_getDateTimeString(), 3);
 
-        // Hack! The TestEnv class doesn't always drop temp tables for some 
-        // reason, so drop them "by hand", just in case. 
-        $dbType = strtolower($GLOBALS['_MAX']['CONF']['database']['type']); 
-        $oTable = &MAX_Table_Priority::singleton($dbType); 
-        $oTable->dropTempTable("tmp_ad_required_impression"); 
-        $oTable->dropTempTable("tmp_ad_zone_impression");     
+        // Hack! The TestEnv class doesn't always drop temp tables for some
+        // reason, so drop them "by hand", just in case.
+        $dbType = strtolower($GLOBALS['_MAX']['CONF']['database']['type']);
+        $oTable = &OA_DB_Table_Priority::singleton();
+        $oTable->dropTable("tmp_ad_required_impression");
+        $oTable->dropTable("tmp_ad_zone_impression");
     }
 
     /**
@@ -725,10 +724,10 @@ class SimulationScenario
     {
         foreach ($aQueries as $k => $query)
         {
-            $result = $this->oDBH->query($query);
-            if (!$result)
+            $rows = $this->oDbh->exec($query);
+            if (PEAR::isError($rows))
             {
-                $this->reportResult($result, 'execution failed', $query);
+                $this->reportResult($rows, 'execution failed', $query);
                 exit();
             }
         }
@@ -736,7 +735,7 @@ class SimulationScenario
 
     function printResult($query, $title)
     {
-        $this->printTable($this->oDBH->query($query), $title);
+        $this->printTable($this->oDbh->query($query), $title);
     }
     /**
      * print out any pre-run summary info you want

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,9 +32,9 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/www/admin/lib-expiration.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gd.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 
@@ -43,22 +43,8 @@ phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder', 'orderd
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-
-if (phpAds_isUser(phpAds_Agency)) {
-    $query = "SELECT clientid FROM ".$conf['table']['prefix'].$conf['table']['clients']." WHERE clientid='".$clientid."' AND agencyid=".phpAds_getUserID();
-    $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-    if (phpAds_dbNumRows($res) == 0) {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-} elseif (phpAds_isUser(phpAds_Client)) {
-    if (phpAds_getUserID() != $clientid) {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-}
-
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
+MAX_Permission::checkAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -128,27 +114,21 @@ if (isset($session['prefs']['campaign-banners.php'][$campaignid]['nodes'])) {
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$res = phpAds_dbQuery("
-    SELECT
-        *,
-        storagetype AS type
-    FROM
-        ".$conf['table']['prefix'].$conf['table']['banners']."
-    WHERE
-        campaignid = '$campaignid'
-    ".phpAds_getBannerListOrder($listorder, $orderdirection)."
-") or phpAds_sqlDie();
+$doBanners = OA_Dal::factoryDO('banners');
+$doBanners->campaignid = $campaignid;
+$doBanners->selectAdd('storagetype AS type');
+$doBanners->find();
 
 $countActive = 0;
 
-while ($row = phpAds_dbFetchArray($res)) {
+while ($doBanners->fetch() && $row = $doBanners->toArray()) {
     $banners[$row['bannerid']] = $row;
-    
+
     // mask banner name if anonymous campaign
     $campaign_details = Admin_DA::getPlacement($row['campaignid']);
     $campaignAnonymous = $campaign_details['anonymous'] == 't' ? true : false;
     $banners[$row['bannerid']]['description'] = MAX_getAdName($row['description'], null, null, $campaignAnonymous, $row['bannerid']);
-    
+
     $banners[$row['bannerid']]['expand'] = 0;
     if ($row['active'] == 't') {
         $countActive++;
@@ -166,11 +146,11 @@ if (isset($expand) && $expand != '') {
                 }
             }
             break;
-						
+
         case 'none':
             $node_array = array();
             break;
-						
+
         default:
             $node_array[] = $expand;
             break;
@@ -188,12 +168,12 @@ for ($i=0; $i < $node_array_size; $i++) {
     }
 }
 
-// Figure out which banners are inactive, 
+// Figure out which banners are inactive,
 $bannersHidden = 0;
 if (isset($banners) && is_array($banners) && count($banners) > 0) {
     reset ($banners);
     while (list ($key, $banner) = each ($banners)) {
-        if (($hideinactive == true) && ($banner['active'] == 'f')) {            
+        if (($hideinactive == true) && ($banner['active'] == 'f')) {
             $bannersHidden++;
             unset($banners[$key]);
         }
@@ -208,7 +188,7 @@ if (!phpAds_isUser(phpAds_Client)) {
 }
 
 
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
 echo "<tr height='25'>";
 echo "<td height='25' width='40%'><b>&nbsp;&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&listorder=name'>".$GLOBALS['strName']."</a>";
@@ -257,7 +237,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
         if ($i > 0) {
             echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%' alt=''></td></tr>";
         }
-		
+
         // Icon & name
         $name = $strUntitled;
         if (isset($banners[$bkey]['alt']) && $banners[$bkey]['alt'] != '') {
@@ -266,12 +246,12 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
         if (isset($banners[$bkey]['description']) && $banners[$bkey]['description'] != '') {
             $name = $banners[$bkey]['description'];
         }
-		
+
         $name = phpAds_breakString ($name, '30');
-		
+
         echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td height='25'>";
         echo "&nbsp;";
-				
+
         if (!$pref['gui_show_campaign_preview']) {
             if ($banners[$bkey]['expand'] == '1') {
                 echo "<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&collapse=".$banners[$bkey]['bannerid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0' alt=''></a>&nbsp;";
@@ -281,7 +261,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
         } else {
             echo "&nbsp;";
         }
-        
+
         if ($banners[$bkey]['active'] == 't') {
             if ($banners[$bkey]['type'] == 'html') {
                 echo "<img src='images/icon-banner-html.gif' align='absmiddle' alt=''>";
@@ -303,31 +283,31 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
                 echo "<img src='images/icon-banner-stored-d.gif' align='absmiddle'>";
             }
         }
-        
+
         echo "&nbsp;";
-        if (phpAds_isUser(phpAds_Client) && !phpAds_isAllowed(phpAds_ModifyBanner)) {
+        if (phpAds_isUser(phpAds_Client) && !MAX_Permission::isAllowed(phpAds_ModifyBanner)) {
             echo $name;
         } else {
             echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bkey."'>".$name."</a>";
         }
         echo "</td>";
-		
+
         // ID
         echo "<td height='25'>".$bkey."</td>";
-		
+
         // Button 1
         echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
         if (!phpAds_isUser(phpAds_Client)) {
             echo "<a href='banner-acl.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]['bannerid']."'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-        } else {            
-            echo "&nbsp;";            
+        } else {
+            echo "&nbsp;";
         }
         echo "</td>";
-		
+
         // Button 2
         echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-        if (phpAds_isUser(phpAds_Client) && !phpAds_isAllowed(phpAds_ActivateBanner)) {
-            echo "&nbsp;";        
+        if (phpAds_isUser(phpAds_Client) && !MAX_Permission::isAllowed(phpAds_ActivateBanner)) {
+            echo "&nbsp;";
         } else {
             if ($banners[$bkey]["active"] == "t") {
                 echo "<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]["bannerid"]."&value=".$banners[$bkey]["active"]."'><img src='images/icon-deactivate.gif' align='absmiddle' border='0'>&nbsp;";
@@ -338,7 +318,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
             }
             echo "</a>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
         }
-		
+
         // Button 3
         echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
         if (phpAds_isUser(phpAds_Client)) {
@@ -354,18 +334,18 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
             echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
             echo "<td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
             echo "</tr>";
-			
+
             echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td colspan='1'>&nbsp;</td><td colspan='4'>";
             echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
-			
+
             echo "<tr height='25'><td colspan='2'>".($banners[$bkey]['url'] != '' ? $banners[$bkey]['url'] : '-')."</td></tr>";
 
-            if ($banners[$bkey]['type'] == 'txt') { 
+            if ($banners[$bkey]['type'] == 'txt') {
                 echo "<tr height='25'><td width='50%'>".$strSize.": ".strlen($banners[$bkey]['bannertext'])." ".$strChars."</td>";
             } else {
                 echo "<tr height='25'><td width='50%'>".$strSize.": ".$banners[$bkey]['width']." x ".$banners[$bkey]['height']."</td>";
             }
-			
+
             echo "<td width='50%'>".$strWeight.": ".$banners[$bkey]['weight']."</td></tr>";
 
             echo "</table><br /></td></tr>";
@@ -376,7 +356,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
             if (!$pref['gui_show_banner_info']) {
                 echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td colspan='1'>&nbsp;</td><td colspan='4'>";
             }
-			
+
             echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td colspan='5'>";
             echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>";
             echo "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
@@ -384,7 +364,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
             echo "</tr></table><br /><br />";
             echo "</td></tr>";
         }
-		
+
         $i++;
     }
 }
@@ -415,10 +395,10 @@ if (!$pref['gui_show_campaign_preview']) {
     echo "&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&expand=none' accesskey='".$keyCollapseAll."'>".$strCollapseAll."</a>";
     echo "</td>";
 } else {
-    echo "<td colspan='2'>&nbsp;</td>";	
+    echo "<td colspan='2'>&nbsp;</td>";
 }
 echo "</tr>";
-	
+
 // Display the items to:
 //  - Delete all banners, if banners exist
 //  - Activate all banners, if banners exist and some banners are inactive
@@ -445,19 +425,22 @@ echo "<br /><br />";
 echo "<br /><br />";
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25' colspan='2'><b>$strCreditStats</b></td></tr>";
-echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%' alt=''></td></tr>";
+echo "<tr><td height='25' colspan='3'><b>$strCreditStats</b></td></tr>";
+echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%' alt=''></td></tr>";
 
-list($desc,$enddate,$daysleft) = phpAds_getDaysLeft($campaignid);
-$adclicksleft = phpAds_getAdClicksLeft($campaignid);
-$adviewsleft  = phpAds_getAdViewsLeft($campaignid);
+$dalCampaigns = OA_Dal::factoryDAL('campaigns');
+list($desc,$enddate,$daysleft) = $dalCampaigns->getDaysLeft($campaignid);
+$adImpressionsLeft = phpAds_formatNumber($dalCampaigns->getAdImpressionsLeft($campaignid));
+$adClicksLeft = phpAds_formatNumber($dalCampaigns->getAdClicksLeft($campaignid));
+$adConversionsLeft = phpAds_formatNumber($dalCampaigns->getAdConversionsLeft($campaignid));
 
-echo "<tr><td height='25'>$strViewCredits: <b>$adviewsleft</b></td>";
-echo "<td height='25'>$strClickCredits: <b>$adclicksleft</b></td></tr>";
-echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%' alt=''></td></tr>";
-echo "<tr><td height='25' colspan='2'>$desc</td></tr>";
+echo "<tr><td height='25' width='33%'>$strViewCredits: <b>$adImpressionsLeft</b></td>";
+echo "<td height='25' width='33%'>$strClickCredits: <b>$adClicksLeft</b></td>";
+echo "<td height='25' width='33%'>$strConversionCredits: <b>$adConversionsLeft</b></td></tr>";
+echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%' alt=''></td></tr>";
+echo "<tr><td height='25' colspan='3'>$desc</td></tr>";
 
-echo "<tr><td height='1' colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%' alt=''></td></tr>";
+echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%' alt=''></td></tr>";
 echo "</table>";
 echo "<br /><br />";
 

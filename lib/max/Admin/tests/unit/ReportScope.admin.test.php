@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -119,63 +119,6 @@ class ReportScopeTest extends UnitTestCase
         $scope->useAgencyId(630);
         $scope->useAllAvailableData();
         $this->assertFalse($scope->getAgencyId(), 'Using all available data should mean that no agencies are selected');
-    }
-
-    function testApplySessionSecurityWorksForAgency()
-    {
-        global $session;
-        $session['usertype'] = phpAds_Agency;
-        $session['userid'] = 34;
-
-        $scope = new ReportScope();
-        $scope->applySessionSecurity();
-        $this->assertEqual($scope->getAgencyId(), 34);
-    }
-
-    function testApplySessionSecurityWorksForAdvertiser()
-    {
-        global $session;
-        $session['usertype'] = phpAds_Advertiser;
-        $session['userid'] = 420;
-
-        $scope = new ReportScope();
-        $scope->applySessionSecurity();
-        $this->assertEqual($scope->getAdvertiserId(), 420);
-    }
-
-    function testApplySessionSecurityWorksForPublisher()
-    {
-        global $session;
-        $session['usertype'] = phpAds_Publisher;
-        $session['userid'] = 987;
-
-        $scope = new ReportScope();
-        $scope->applySessionSecurity();
-        $this->assertEqual($scope->getPublisherId(), 987);
-    }
-
-    function testApplySessionSecurityDoesntOverrideAdminsChoiceOfPublisher()
-    {
-        global $session;
-        $session['usertype'] = phpAds_Admin;
-        $session['userid'] = 9;
-
-        $scope = new ReportScope();
-        $scope->usePublisherId(345);
-        $scope->applySessionSecurity();
-        $this->assertEqual($scope->getPublisherId(), 345);
-    }
-
-    function testApplySessionSecurityDoesntOverrideAdminsChoiceOfAgency()
-    {
-        global $session;
-        $session['usertype'] = phpAds_Admin;
-        $session['userid'] = 9;
-
-        $scope = new ReportScope();
-        $scope->useAgencyId(345);
-        $scope->applySessionSecurity();
-        $this->assertEqual($scope->getAgencyId(), 345);
     }
 }
 

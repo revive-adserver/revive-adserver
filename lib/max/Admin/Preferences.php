@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -25,11 +25,12 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 
+require_once MAX_PATH . '/lib/OA/DB.php';
+
 /**
- * A preferences management class for the Max administration interface.
+ * A preferences management class for the Openads administration interface.
  *
  * @package    Max
  * @author     Andrew Hill <andrew@m3.net>
@@ -39,7 +40,7 @@ require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 class MAX_Admin_Preferences
 {
     var $prefSql;
-    
+
     /**
      * The constructor method. Creates an array so that updates to
      * agency preferences can be (locally) stored.
@@ -60,6 +61,9 @@ class MAX_Admin_Preferences
      */
     function loadPrefs($agencyId = null)
     {
+        if (!isset($GLOBALS['_MAX']['PREF'])) {
+            $GLOBALS['_MAX']['PREF'] = array();
+        }
         $conf = $GLOBALS['_MAX']['CONF'];
         if (is_null($agencyId)) {
             if (phpAds_isUser(phpAds_Agency)) {
@@ -68,21 +72,21 @@ class MAX_Admin_Preferences
                 $agencyId = (!empty($conf['max']['defaultAgency'])) ? $conf['max']['defaultAgency'] : 0;
             }
         }
-        $dbh =& MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $query = "
             SELECT
                 *
             FROM
                 {$conf['table']['prefix']}{$conf['table']['preference']}
             WHERE
-                agencyid = $agencyId
-        ";
-        $result = $dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE);
+                agencyid = ". $oDbh->quote($agencyId, 'integer');
+
+        $rc = $oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($result->numRows() == 1) {
-            $row = $result->fetchRow();
+        if ($rc->numRows() == 1) {
+            $row = $rc->fetchRow();
             foreach ($row as $key => $value) {
                 $GLOBALS['_MAX']['PREF'][$key] = $value;
             }
@@ -92,12 +96,12 @@ class MAX_Admin_Preferences
             } elseif (phpAds_isUser(phpAds_Affiliate)) {
                 MAX_Admin_Preferences::loadEntityPrefs('publisher');
             }
-            
+
             return $GLOBALS['_MAX']['PREF'];
         }
         return array();
     }
-    
+
     /**
      * A method to load entity preference data stored in the database
      * as key/value pairs and merge it into a global array
@@ -116,22 +120,22 @@ class MAX_Admin_Preferences
         }
 
         switch ($entityType) {
-        
-        case 'advertiser':    
+
+        case 'advertiser':
             $table_name   = "{$conf['table']['prefix']}{$conf['table']['preference_advertiser']}";
             $table_column = 'advertiser_id';
             break;
-        
-        case 'publisher':    
+
+        case 'publisher':
             $table_name   = "{$conf['table']['prefix']}{$conf['table']['preference_publisher']}";
             $table_column = 'publisher_id';
             break;
-        
+
         default:
             MAX::raiseError("The MAX_Admin_Preferences module discovered an entity type that it didn't know how to handle.", MAX_ERROR_INVALIDARGS);
         }
-        
-        $dbh =& MAX_DB::singleton();
+
+        $oDbh = &OA_DB::singleton();
         $query = "
             SELECT
                 preference,
@@ -139,19 +143,20 @@ class MAX_Admin_Preferences
             FROM
                 {$table_name}
             WHERE
-                {$table_column} = '$entityId'
-        ";
-        $result = $dbh->query($query);
-        if (PEAR::isError($result)) {
-            return MAX::raiseError($result, MAX_ERROR_DBFAILURE);
+                {$table_column} = ". $oDbh->quote($entityId, 'integer');
+
+        $rc = $oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        
-        while ($row = $result->fetchRow()) {
+
+        while ($row = $rc->fetchRow()) {
             if (array_key_exists($row['preference'], $GLOBALS['_MAX']['PREF'])) {
                 $GLOBALS['_MAX']['PREF'][$row['preference']] = $row['value'];
             }
         }
     }
+
     /**
      * A method to write entity preference data  in the database
      * as key/value pairs
@@ -165,47 +170,46 @@ class MAX_Admin_Preferences
     {
         if (!is_null($this->prefSql)) {
             $conf = $GLOBALS['_MAX']['CONF'];
-            $dbh =& MAX_DB::singleton();
-    
+            $oDbh = &OA_DB::singleton();
+
             if (empty($entityId)) {
                 $entityId = phpAds_getUserId();
             }
-    
+
             switch ($entityType) {
-            
-            case 'advertiser':    
+
+            case 'advertiser':
                 $table_name   = "{$conf['table']['prefix']}{$conf['table']['preference_advertiser']}";
                 $table_column = 'advertiser_id';
                 break;
-            
-            case 'publisher':    
+
+            case 'publisher':
                 $table_name   = "{$conf['table']['prefix']}{$conf['table']['preference_publisher']}";
                 $table_column = 'publisher_id';
                 break;
-            
+
             default:
                 MAX::raiseError("The MAX_Admin_Preferences module discovered an entity type that it didn't know how to handle.", MAX_ERROR_INVALIDARGS);
             }
-            
-            // Try to INSERT first
+
+            $query = "
+                INSERT INTO {$table_name} (
+                    {$table_column}, preference, value
+                ) VALUES (
+                    ?, ? ,?
+                )
+                ";
+            $aTypes = array('integer', 'text', 'text');
+            $st     = $oDbh->prepare($query, $aTypes);
             foreach ($this->prefSql as $key => $value) {
-                $query = "
-                    INSERT INTO {$table_name} (
-                        {$table_column},
-                        preference,
-                        value
-                    ) VALUES (
-                        '$entityId',
-                        '$key',
-                        '$value'
-                    )
-                    ";
+
                 // Don't use a PEAR_Error handler
                 PEAR::pushErrorHandling(null);
-                $result = $dbh->query($query);
-                // Resore the PEAR_Error handler
+                // Try to INSERT first
+                $rows = $oDbh->execute(array($entityId, $key, $value));
+                // Restore the PEAR_Error handler
                 PEAR::popErrorHandling();
-                if (PEAR::isError($result)) {
+                if (PEAR::isError($rows)) {
                     // Can't INSERT, try UPDATE instead
                     $query = "
                         UPDATE
@@ -213,21 +217,23 @@ class MAX_Admin_Preferences
                         SET
                             value = '$value'
                         WHERE
-                            {$table_column} = '{$entityId}' AND
-                            preference = '{$key}'
-                        ";
-                    $result = $dbh->query($query);
-                    if (PEAR::isError($result)) {
-                        return MAX::raiseError($result, MAX_ERROR_DBFAILURE);
+                            {$table_column} = ?
+                        AND
+                            preference = ?";
+                    $aTypes = array('integer', 'text');
+                    $st     = $oDbh->prepare($query, $aTypes);
+                    $rows   = $oDbh->execute(array($entityId, $key));
+                    if (PEAR::isError($rows)) {
+                        return MAX::raiseError($rows, MAX_ERROR_DBFAILURE);
                     }
                 }
             }
             unset($this->prefSql);
         }
-        
+
         return true;
     }
-        
+
     /**
      * A method for defining required changes to the agency preferences.
      *
@@ -244,7 +250,7 @@ class MAX_Admin_Preferences
         }
         $this->prefSql[$pref] = $value;
     }
-    
+
     /**
      * A method for writing out any required changes to an agency's preferences.
      *
@@ -255,7 +261,7 @@ class MAX_Admin_Preferences
     {
         if (!is_null($this->prefSql)) {
             $conf = $GLOBALS['_MAX']['CONF'];
-            $dbh =& MAX_DB::singleton();
+            $oDbh = &OA_DB::singleton();
 
             if (phpAds_isUser(phpAds_Client)) {
                 return MAX_Admin_Preferences::writeEntityPrefs('advertiser');
@@ -264,7 +270,7 @@ class MAX_Admin_Preferences
             } else {
                 $agencyId   = phpAds_isUser(phpAds_Agency) ? phpAds_getUserID() : 0;
             }
-                        
+
             // Try to INSERT first
             $query = "
                 INSERT INTO
@@ -280,10 +286,10 @@ class MAX_Admin_Preferences
                     )
                 VALUES
                     (
-                    '{$agencyId}',
+                    ". $oDbh->quote($agencyId, 'integer') .",
                 ";
             foreach ($this->prefSql as $value) {
-                $query .= "'$value', ";
+                $query .= $oDbh->quote($value) .", ";
             }
             $query = preg_replace('/, $/', '', $query);
             $query .= '
@@ -291,13 +297,13 @@ class MAX_Admin_Preferences
                 ';
             // Don't use a PEAR_Error handler
             PEAR::pushErrorHandling(null);
-            $result = $dbh->query($query);
-            // Resore the PEAR_Error handler
+            $rows = $oDbh->exec($query);
+            // Restore the PEAR_Error handler
             PEAR::popErrorHandling();
-            if (PEAR::isError($result)) {
+            if (PEAR::isError($rows)) {
                 // Can't INSERT, try UPDATE instead
                 foreach ($this->prefSql as $key => $value) {
-                    $sql[] = "$key = '$value'";
+                    $sql[] = "$key = ". $oDbh->quote($value);
                 }
                 $query = "
                     UPDATE
@@ -305,18 +311,18 @@ class MAX_Admin_Preferences
                     SET
                         " . join(', ', $sql) . "
                     WHERE
-                        agencyid = '{$agencyId}'
-                    ";
-                $result = $dbh->query($query);
-                if (PEAR::isError($result)) {
-                    return MAX::raiseError($result, MAX_ERROR_DBFAILURE);
+                        agencyid = ". $oDbh->quote($agencyId, 'integer');
+
+                $rows = $oDbh->exec($query);
+                if (PEAR::isError($rows)) {
+                    return MAX::raiseError($rows, MAX_ERROR_DBFAILURE);
                 }
             }
             unset($this->prefSql);
         }
         return true;
     }
-    
+
     /**
      * A method for unserializing and expanding column preferences.
      *
@@ -357,7 +363,7 @@ class MAX_Admin_Preferences
         $missing_cols = array();
         foreach ($GLOBALS['_MAX']['PREF'] as $k => $v) {
             if (preg_match('/^gui_column_/', $k)) {
-                if ($tmp = @unserialize($v)) {
+                if (is_string($v) && $tmp = @unserialize($v)) {
                     $GLOBALS['_MAX']['PREF'][$k.'_array'] = $tmp;
                     $GLOBALS['_MAX']['PREF'][$k] = 0;
                     foreach ($tmp as $perm => $custom) {
@@ -378,8 +384,8 @@ class MAX_Admin_Preferences
         foreach ($missing_cols as $k) {
             $GLOBALS['_MAX']['PREF'][$k]          = 15; // Any user
             $GLOBALS['_MAX']['PREF'][$k.'_rank']  = ++$max_rank;
-        }       
-        
+        }
+
         return $GLOBALS['_MAX']['PREF'];
     }
 

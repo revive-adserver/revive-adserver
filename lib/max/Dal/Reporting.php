@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -46,10 +46,10 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
     {
         $conf = & $GLOBALS['_MAX']['CONF'];
 
-        $adminConstraint = $agencyId > 0 ? "AND a.agencyid=$agencyId" : '';
-        $affiliateConstraint = $publisherId > 0 ? "AND z.affiliateid=$publisherId" : '';
-        $statsStartConstraint = !empty($statsStartDate) ? "AND dsah.day>='$statsStartDate'" : '';
-        $statsEndConstraint = !empty($statsEndDate) ? "AND dsah.day<='$statsEndDate'" : '';
+        $adminConstraint = $agencyId > 0 ? "AND a.agencyid=". $this->oDbh->quote($agencyId, 'integer') : '';
+        $affiliateConstraint = $publisherId > 0 ? "AND z.affiliateid=". $this->oDbh->quote($publisherId, 'integer') : '';
+        $statsStartConstraint = !empty($statsStartDate) ? "AND dsah.day>=". $this->oDbh->quote($statsStartDate, 'date') : '';
+        $statsEndConstraint = !empty($statsEndDate) ? "AND dsah.day<=". $this->oDbh->quote($statsEndDate, 'date') : '';
 
         $aAdvertiserDailyStatsData = array();
 
@@ -77,7 +77,10 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
             day
         ";
 
-        $res = phpAds_dbQuery($query) or phpAds_sqlDie();
+        $res = $this->oDbh->query($query);
+        if (PEAR::isError($res)) {
+            return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
+        }
 
         while ($row = phpAds_dbFetchArray($res)) {
             $aAdvertiserDailyStatsData[$row['day']]['day'] = $row['day'];
@@ -92,12 +95,12 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
     {
         $conf = & $GLOBALS['_MAX']['CONF'];
 
-        $adminConstraint = $agencyId > 0 ? "AND a.agencyid=$agencyId" : '';
-        $affiliateConstraint = $publisherId > 0 ? "AND z.affiliateid=$publisherId" : '';
-        $campaignStartConstraint = !empty($campaignStartDate) ? "AND (c.expire>='$campaignStartDate' OR c.expire='0000-00-00')" : '';
-        $campaignEndConstraint = !empty($campaignEndDate) ? "AND (c.activate<='$campaignEndDate' OR c.activate='0000-00-00')" : '';
-        $statsStartConstraint = !empty($statsStartDate) ? "AND dsah.day>='$statsStartDate'" : '';
-        $statsEndConstraint = !empty($statsEndDate) ? "AND dsah.day<='$statsEndDate'" : '';
+        $adminConstraint = $agencyId > 0 ? "AND a.agencyid=". $this->oDbh->quote($agencyId, 'integer') : '';
+        $affiliateConstraint = $publisherId > 0 ? "AND z.affiliateid=". $this->oDbh->quote($publisherId, 'integer') : '';
+        $campaignStartConstraint = !empty($campaignStartDate) ? "AND (c.expire>=". $this->oDbh->quote($campaignStartDate, 'date') ." OR c.expire='0000-00-00')" : '';
+        $campaignEndConstraint = !empty($campaignEndDate) ? "AND (c.activate<=". $this->oDbh->quote($campaignEndDate, 'date') ." OR c.activate='0000-00-00')" : '';
+        $statsStartConstraint = !empty($statsStartDate) ? "AND dsah.day>=". $this->oDbh->quote($statsStartDate, 'date') : '';
+        $statsEndConstraint = !empty($statsEndDate) ? "AND dsah.day<=". $this->oDbh->quote($statsEndDate, 'date') : '';
 
         $aCampaignData = array();
 
@@ -130,9 +133,12 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
             $affiliateConstraint
         ";
 
-        $res = phpAds_dbQuery($query) or phpAds_sqlDie();
+        $res = $this->oDbh->query($query);
+        if (PEAR::isError($res)) {
+            return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
+        }
 
-        while ($row = phpAds_dbFetchArray($res)) {
+        while ($row = $res->fetchRow()) {
             if (empty($aCampaignData[$row['campaign_id']])) {
                 $aCampaignData[$row['campaign_id']]['campaign_id'] = $row['campaign_id'];
                 $aCampaignData[$row['campaign_id']]['campaign_name'] = $row['campaign_name'];
@@ -186,9 +192,12 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
             $affiliateConstraint
         ";
 
-        $res = phpAds_dbQuery($query) or phpAds_sqlDie();
+        $res = $this->oDbh->query($query);
+        if (PEAR::isError($res)) {
+            return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
+        }
 
-        while ($row = phpAds_dbFetchArray($res)) {
+        while ($row = $res->fetchRow()) {
             if (empty($aCampaignData[$row['campaign_id']])) {
                 $aCampaignData[$row['campaign_id']]['campaign_id'] = $row['campaign_id'];
                 $aCampaignData[$row['campaign_id']]['campaign_name'] = $row['campaign_name'];
@@ -249,9 +258,12 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
             zone_id
         ";
 
-        $res = phpAds_dbQuery($query) or phpAds_sqlDie();
+        $res = $this->oDbh->query($query);
+        if (PEAR::isError($res)) {
+            return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
+        }
 
-        while ($row = phpAds_dbFetchArray($res)) {
+        while ($row = $res->fetchRow()) {
             if (empty($aCampaignData[$row['campaign_id']])) {
                 $aCampaignData[$row['campaign_id']]['campaign_id'] = $row['campaign_id'];
                 $aCampaignData[$row['campaign_id']]['campaign_name'] = $row['campaign_name'];
@@ -292,8 +304,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        if (phpAds_isUser(phpAds_Admin))
-        {
+        if (phpAds_isUser(phpAds_Admin)) {
             $query =
                 "SELECT
                     c.clientid,
@@ -309,9 +320,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
                 ORDER BY
                     c.clientname, m.campaignname
                 ";
-        }
-        elseif (phpAds_isUser(phpAds_Agency))
-        {
+        } elseif (phpAds_isUser(phpAds_Agency)) {
             $query =
                 "SELECT
                     c.clientid,
@@ -328,9 +337,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
                 ORDER BY
                     c.clientname, m.campaignname
                 ";
-        }
-        elseif (phpAds_isUser(phpAds_Advertiser))
-        {
+        } elseif (phpAds_isUser(phpAds_Advertiser)) {
             $query =
                 "SELECT
                     c.clientid,
@@ -375,16 +382,12 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
             $query =
                 "SELECT clientid,clientname".
                 " FROM ".$conf['table']['prefix'].$conf['table']['clients'];
-        }
-        elseif (phpAds_isUser(phpAds_Agency))
-        {
+        } elseif (phpAds_isUser(phpAds_Agency)) {
             $query =
                 "SELECT clientid,clientname".
                 " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
                 " WHERE agencyid=".phpAds_getUserID();
-        }
-        elseif (phpAds_isUser(phpAds_Advertiser))
-        {
+        } elseif (phpAds_isUser(phpAds_Advertiser)) {
             $query =
                 "SELECT clientid,clientname".
                 " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
@@ -407,8 +410,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        if (phpAds_isUser(phpAds_Admin))
-        {
+        if (phpAds_isUser(phpAds_Admin)) {
             $query =
                 "SELECT
                     a.affiliateid,
@@ -420,9 +422,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
                     ".$conf['table']['prefix'].$conf['table']['affiliates']." as a
                 WHERE
                     a.affiliateid=z.affiliateid";
-        }
-        elseif (phpAds_isUser(phpAds_Agency))
-        {
+        } elseif (phpAds_isUser(phpAds_Agency)) {
             $query =
                 "SELECT
                     a.affiliateid,
@@ -435,9 +435,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
                 WHERE
                     a.affiliateid=z.affiliateid
                     AND a.agencyid=".phpAds_getUserID();
-        }
-        elseif (phpAds_isUser(phpAds_Advertiser))
-        {
+        } elseif (phpAds_isUser(phpAds_Advertiser)) {
             $query =
                 "SELECT
                     a.affiliateid,
@@ -456,8 +454,9 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
 
         $res = phpAds_dbQuery($query);
 
-        while ($row = phpAds_dbFetchArray($res))
+        while ($row = phpAds_dbFetchArray($res)) {
             $zoneArray[$row['zoneid']] = "<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id".$row['affiliateid']."]".$row['name']." - [id".$row['zoneid']."]".$row['zonename']."</span> ";
+        }
 
         return ($zoneArray);
     }
@@ -469,28 +468,23 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        if (phpAds_isUser(phpAds_Admin))
-        {
+        if (phpAds_isUser(phpAds_Admin)) {
             $query =
                 "SELECT affiliateid,name".
                 " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'];
-        }
-        elseif (phpAds_isUser(phpAds_Agency))
-        {
+        } elseif (phpAds_isUser(phpAds_Agency)) {
             $query =
                 "SELECT affiliateid,name".
                 " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
                 " WHERE agencyid=".phpAds_getUserID();
-        }
-        elseif (phpAds_isUser(phpAds_Advertiser))
-        {
+        } elseif (phpAds_isUser(phpAds_Advertiser)) {
             $query =
                 "SELECT affiliateid,name".
                 " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
                 " WHERE affiliateid=".phpAds_getUserID();
         }
         $orderBy ? $query .= " ORDER BY $orderBy ASC" : 0;
-        
+
         $res = phpAds_dbQuery($query);
 
         while ($row = phpAds_dbFetchArray($res))

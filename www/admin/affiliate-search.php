@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
@@ -40,23 +41,17 @@ require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 phpAds_registerGlobal ('keyword', 'client', 'campaign', 'banner', 'zone', 'affiliate', 'compact');
 
 // Security check
-phpAds_checkAccess(phpAds_Affiliate);
+MAX_Permission::checkAccess(phpAds_Affiliate);
 
 // Check Searchselection
 if (!isset($campaign))  $campaign  = false;
 if (!isset($banner))    $banner    = false;
 if (!isset($zone))      $zone      = false;
 
-
-if ($client == false &&    $campaign == false &&
-    $banner == false &&    $zone == false &&
-    $affiliate == false)
-{
-    $client = true;
+if ($campaign == false && $banner == false && $zone == false) {
     $campaign = true;
     $banner = true;
     $zone = true;
-    $affiliate = true;
 }
 
 // Disable some entities
@@ -76,7 +71,7 @@ if (!isset($keyword))
     <head>
         <title><?php echo strip_tags($strSearch); ?></title>
         <meta http-equiv='Content-Type' content='text/html<?php echo isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : "" ?>'>
-        <meta name='author' content='Max Media Manager - http://sourceforge.net/projects/max'>
+        <meta name='author' content='Openads - http://sourceforge.net/projects/max'>
         <link rel='stylesheet' href='images/<?php echo $phpAds_TextDirection; ?>/interface.css'>
         <script language='JavaScript' src='interface.js'></script>
         <script language='JavaScript'>
@@ -135,73 +130,27 @@ if (!isset($keyword))
 <tr><td width='20'>&nbsp;</td><td>
 
 <?php
-
-    $whereBanner = is_numeric($keyword) ? " OR b.bannerid=$keyword" : '';
-    $whereCampaign = is_numeric($keyword) ? " OR m.campaignid=$keyword" : '';
-    $whereZone = is_numeric($keyword) ? " OR z.zoneid=$keyword" : '';
-
-    $query_campaigns = "
-        SELECT
-            m.campaignid AS campaignid,
-            m.campaignname AS campaignname,
-            m.clientid AS clientid
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['campaigns']} AS m,
-            {$conf['table']['prefix']}{$conf['table']['clients']} AS c
-        WHERE
-            m.clientid=c.clientid
-            AND (m.campaignname LIKE '%$keyword%'
-                $whereCampaign)
-    ";
-
-    $query_banners = "
-        SELECT
-            b.bannerid as bannerid,
-            b.description as description,
-            b.alt as alt,
-            b.campaignid as campaignid,
-            m.clientid as clientid
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['banners']} AS b,
-            {$conf['table']['prefix']}{$conf['table']['campaigns']} AS m,
-            {$conf['table']['prefix']}{$conf['table']['clients']} AS c
-        WHERE
-            m.clientid=c.clientid
-            AND b.campaignid=m.campaignid
-            AND (b.alt LIKE '%$keyword%'
-                OR b.description LIKE '%$keyword%'
-                $whereBanner)
-    ";
-
-    $query_zones = "
-        SELECT
-            z.zoneid AS zoneid,
-            z.zonename AS zonename,
-            z.description AS description,
-            a.affiliateid AS affiliateid
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['zones']} AS z,
-            {$conf['table']['prefix']}{$conf['table']['affiliates']} AS a
-        WHERE
-            z.affiliateid=a.affiliateid
-            AND (z.zonename LIKE '%$keyword%'
-            OR description LIKE '%$keyword%'
-            $whereZone)
-    ";
-
     $publisherId = phpAds_getUserID();
-    $query_clients .= " AND 1 = 0";
-    $query_zones .= " AND a.affiliateid=$publisherId";
 
-    $res_campaigns = phpAds_dbQuery($query_campaigns) or phpAds_sqlDie();
-    $res_banners = phpAds_dbQuery($query_banners) or phpAds_sqlDie();
-    $res_zones = phpAds_dbQuery($query_zones) or phpAds_sqlDie();
+    $dalBanners = OA_Dal::factoryDAL('banners');
+    $rsBanners = $dalBanners->getBannerByKeyword($keyword);
+    $rsBanners->find();
 
+    $dalCampaigns = OA_Dal::factoryDAL('campaigns');
+    $rsCampaigns = $dalCampaigns->getCampaignAndClientByKeyword($keyword);
+    $rsCampaigns->find();
 
-    if (phpAds_dbNumRows($res_campaigns) > 0 ||
-        phpAds_dbNumRows($res_banners) > 0 ||
-        phpAds_dbNumRows($res_zones) > 0)
+    $dalZones = OA_Dal::factoryDAL('zones');
+    $rsZones = $dalZones->getZoneByKeyword($keyword, null, $publisherId);
+    $rsZones->find();
+
+    $foundMatches = false;
+    if ($rsCampaigns->getRowCount() ||
+        $rsBanners->getRowCount() ||
+        $rsZones->getRowCount())
     {
+        $foundMatches = true;
+
         echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
         echo "<tr height='25'>";
         echo "<td height='25'><b>&nbsp;&nbsp;".$GLOBALS['strName']."</b></td>";
@@ -218,11 +167,14 @@ if (!isset($keyword))
     $i=0;
 
 
-    if ($campaign && phpAds_dbNumRows($res_campaigns) > 0)
+    if ($campaign && $rsCampaigns->getRowCount())
     {
-        while ($row_campaigns = phpAds_dbFetchArray($res_campaigns))
+        while ($rsCampaigns->fetch() && $row_campaigns = $rsCampaigns->toArray())
         {
-            if (!count(Admin_DA::_getEntities('placement_zone_assoc', array('publisher_id' => $publisherId, 'placement_id' => $row_campaigns['campaignid'])))) {
+            $doPlacement_zone_assoc = OA_Dal::factoryDO('placement_zone_assoc');
+            $doPlacement_zone_assoc->publisher_id = $publisherId;
+            $doPlacement_zone_assoc->placement_id = $row_campaigns['campaignid'];
+            if (!$doPlacement_zone_assoc->count()) {
                 continue;
             }
 
@@ -249,17 +201,17 @@ if (!isset($keyword))
 
             if (!$compact)
             {
-                $query_b_expand = "SELECT bannerid,campaignid,description,alt,storagetype AS type FROM ".$conf['table']['prefix'].$conf['table']['banners']." WHERE campaignid=".$row_campaigns['campaignid'];
-                  $res_b_expand = phpAds_dbQuery($query_b_expand) or phpAds_sqlDie();
+                $doBanners = OA_Dal::factoryDO('banners');
+                $doBanners->campaignid = $row_campaigns['campaignid'];
+                $doBanners->selectAs(array('contenttype'), 'type');
+                $doBanners->find();
 
-                $aAdAssoc = Admin_DA::_getEntities('ad_zone_assoc', array('publisher_id' => $publisherId, 'placement_id' => $row_campaigns['campaignid']));
+                $doAd_zone_assoc = OA_Dal::factoryDO('ad_zone_assoc');
+                $doAd_zone_assoc->publisher_id = $publisherId;
+                $doAd_zone_assoc->placement_id = $row_campaigns['campaignid'];
+                $aAds = $doAd_zone_assoc->getAll(array('ad_id'));
 
-                $aAds = array();
-                foreach ($aAdAssoc as $v) {
-                    $aAds[$v['ad_id']] = true;
-                }
-
-                while ($row_b_expand = phpAds_dbFetchArray($res_b_expand))
+                while ($doBanners->fetch() && $row_b_expand = $doBanners->toArray())
                 {
                     if (!isset($aAds[$row_b_expand['bannerid']])) {
                         continue;
@@ -309,11 +261,14 @@ if (!isset($keyword))
         }
     }
 
-    if ($banner && phpAds_dbNumRows($res_banners) > 0)
+    if ($banner && $rsBanners->getRowCount())
     {
-        while ($row_banners = phpAds_dbFetchArray($res_banners))
+        while ($rsBanners->fetch() && $row_banners = $rsBanners->toArray())
         {
-            if (!count(Admin_DA::_getEntities('ad_zone_assoc', array('publisher_id' => $publisherId, 'ad_id' => $row_banners['bannerid'])))) {
+            $doAd_zone_assoc = OA_Dal::factoryDO('ad_zone_assoc');
+            $doAd_zone_assoc->publisher_id = $publisherId;
+            $doAd_zone_assoc->ad_id = $row_banners['bannerid'];
+            if(!$doAd_zone_assoc->count()) {
                 continue;
             }
 
@@ -360,9 +315,9 @@ if (!isset($keyword))
     }
 
 
-    if ($zone && phpAds_dbNumRows($res_zones) > 0)
+    if ($zone && $rsZones->getRowCount())
     {
-        while ($row_zones = phpAds_dbFetchArray($res_zones))
+        while ($rsZones->fetch() && $row_zones = $rsZones->toArray())
         {
             $name = $row_zones['zonename'];
             $name = phpAds_breakString ($name, '30');
@@ -396,9 +351,7 @@ if (!isset($keyword))
         }
     }
 
-    if (phpAds_dbNumRows($res_campaigns) > 0 ||
-        phpAds_dbNumRows($res_banners) > 0 ||
-        phpAds_dbNumRows($res_zones) > 0)
+    if ($foundMatches)
     {
         echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
     }

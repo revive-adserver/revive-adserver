@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -56,6 +56,7 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
     var $res;
     var $columnName = '';
     var $nameEnglish = '';
+    var $defaultComparison = '==';
 
     /**
      * An array list of operations available for this type of plugin.
@@ -124,6 +125,7 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
      */
     function display()
     {
+        global $tabindex;
         if ($this->executionorder > 0) {
             echo "<tr><td colspan='4'><img src='images/break-el.gif' width='100%' height='1'></td></tr>";
         }
@@ -185,6 +187,7 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
      */
     function displayComparison()
     {
+        global $tabindex;
         echo "<select name='acl[{$this->executionorder}][comparison]' tabindex='".($tabindex++)."'>";
         foreach($this->aOperations as $sOperator => $sDescription) {
             echo "<option value='$sOperator' " . (($this->comparison == $sOperator) ? 'selected' : '') . ">$sDescription</option>";
@@ -199,7 +202,8 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
      */
     function displayData()
     {
-    	echo "<input type='text' size='40' name='acl[{$this->executionorder}][data]' value='".htmlentities(isset($this->data) ? $this->data : "", ENT_QUOTES)."' tabindex='".($tabindex++)."'>";
+    	global $tabindex;
+        echo "<input type='text' size='40' name='acl[{$this->executionorder}][data]' value='".htmlentities(isset($this->data) ? $this->data : "", ENT_QUOTES)."' tabindex='".($tabindex++)."'>";
     }
 
     /**
@@ -439,6 +443,19 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
     function getDeliveryLimitationPluginDowngradeThreeTwentyNineAlpha($op, $sData)
     {
         return MAX_limitationsGetADowngradeForString($op, $sData);
+    }
+    
+    
+    /**
+     * Gets information about $op and $data for upgrade from Openads 2.0.
+     *
+     * @param string $op
+     * @param string $sData
+     * @return array
+     */
+    function getUpgradeFromEarly($op, $sData)
+    {
+        return $this->getDeliveryLimitationPluginUpgradeThreeThirtyOneAlpha($op, $sData);
     }
 
 }

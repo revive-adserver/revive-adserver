@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -39,11 +39,13 @@ $Id$
  *                           Default is no name (ie. the main Max
  *                           configuration file).
  * @param boolean $sections  Process sections, as per parse_ini_file().
+ * @param string  $type      The config file type value (eg. ".php"). Allows BC
+ *                           support for old ".ini" files.
  *
  * @return mixed The array resulting from the call to parse_ini_file(), with
- *               the appropriate .ini file for the installation.
+ *               the appropriate .php file for the installation.
  */
-function parseIniFile($configPath = null, $configFile = null, $sections = true)
+function parseIniFile($configPath = null, $configFile = null, $sections = true, $type = '.php')
 {
     // Set up the configuration .ini file path location
     if (is_null($configPath)) {
@@ -53,25 +55,12 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true)
     if (!is_null($configFile)) {
         $configFile = '.' . $configFile;
     }
-    // Is the system running the test environment?
-    if (is_null($configFile) && defined('TEST_ENVIRONMENT_RUNNING')) {
-        // Does the test environment config exist?
-        if (file_exists($configPath . '/test.conf.ini')) {
-            return @parse_ini_file($configPath . '/test.conf.ini', $sections);
-        } else {
-            // Define a value so that we know the testing environment is not
-            // configured, so that the TestRenner class knows not to run any
-            // tests, and return an empty config
-            define('TEST_ENVIRONMENT_NO_CONFIG', true);
-            return array();
-        }
-    }
     // Is this a web, or a cli call?
     if (is_null($configFile) && !isset($_SERVER['SERVER_NAME'])) {
-        if (is_null($GLOBALS['argv'][1])) {
+        if (!isset($GLOBALS['argv'][1])) {
             exit(MAX_PRODUCT_NAME . " was called via the command line, but had no host as a parameter.\n");
         }
-        $host = trim($GLOBALS['argv'][1]);       
+        $host = trim($GLOBALS['argv'][1]);
     } else {
         if (!empty($_SERVER['HTTP_HOST'])) {
             $host = explode(':', $_SERVER['HTTP_HOST']);
@@ -81,36 +70,84 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true)
         	$host = $host[0];
         }
     }
+    // Is the system running the test environment?
+    if (is_null($configFile) && defined('TEST_ENVIRONMENT_RUNNING')) {
+        if (isset($_SERVER['SERVER_NAME'])) {
+            // If test runs from web-client first check if host test config exists
+            // This could be used to have different tests for different configurations
+            $testFilePath = $configPath . '/'.$host.'.test.conf' . $type;
+            if (file_exists($testFilePath)) {
+                return @parse_ini_file($testFilePath, $sections);
+            }
+        }
+        // Does the test environment config exist?
+        $testFilePath = $configPath . '/test.conf' . $type;
+        if (file_exists($testFilePath)) {
+            return @parse_ini_file($testFilePath, $sections);
+        } else {
+            // Define a value so that we know the testing environment is not
+            // configured, so that the TestRenner class knows not to run any
+            // tests, and return an empty config
+            define('TEST_ENVIRONMENT_NO_CONFIG', true);
+            return array();
+        }
+    }
     // Is the .ini file for the hostname being used directly accessible?
-    if (file_exists($configPath . '/' . $host . $configFile . '.conf.ini')) {
+    if (file_exists($configPath . '/' . $host . $configFile . '.conf' . $type)) {
         // Parse the configuration file
-        $conf = @parse_ini_file($configPath . '/' . $host . $configFile . '.conf.ini', $sections);
+        $conf = @parse_ini_file($configPath . '/' . $host . $configFile . '.conf' . $type, $sections);
         // Is this a real config file?
         if (!isset($conf['realConfig'])) {
             // Yes, return the parsed configuration file
             return $conf;
         }
         // Parse and return the real configuration .ini file
-        if (file_exists($configPath . '/' . $conf['realConfig'] . $configFile . '.conf.ini')) {
-            $realConfig = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf.ini', true);
+        if (file_exists($configPath . '/' . $conf['realConfig'] . $configFile . '.conf' . $type)) {
+            $realConfig = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf' . $type, true);
             return mergeConfigFiles($realConfig, $conf);
         }
     } elseif ($configFile === '.plugin') {
         // For plugins, if no configuration file is found, return the sane default values
         $pluginType = basename($configPath);
-        $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.ini';
+        $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf' . $type;
         if (file_exists($defaultConfig)) {
             return parse_ini_file($defaultConfig, $sections);
         } else {
             exit(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
         }
     }
-    // Check to ensure Max hasn't been installed
-    if (file_exists(MAX_PATH . '/var/INSTALLED')) {
-        exit(MAX_PRODUCT_NAME . " has been installed, but no configuration file ".$configPath . '/' . $host . $configFile . '.conf.ini'."was found.\n");
+    // Got all this way, and no configuration file yet found - maybe
+    // the user is upgrading from an old version where the config
+    // files have a .ini prefix instead of .php...
+    global $installing;
+    if ($installing)
+    {
+        // ah but MMM might be installed, check for the ini file
+        if (file_exists($configPath . '/' . $host . $configFile . '.conf.ini'))
+        {
+            return parseIniFile($configPath, $configFile, $sections, '.ini');
+        }
+        if (!$configFile)
+        {
+            // Openads hasn't been installed, so use the distribution .ini file
+            // this deals with letting a PAN install get into the ugprader
+            return @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', $sections);
+        }
+        //return parseIniFile($configPath, $configFile, $sections, '.ini');
+
     }
-    // Max hasn't been installed, so use the distribution .ini file
-    return @parse_ini_file(MAX_PATH . '/etc/dist.conf.ini', $sections);
+    // Check to ensure Openads hasn't been installed
+    if (file_exists(MAX_PATH . '/var/INSTALLED'))
+    {
+        // ah but MMM might be installed, check for the ini file
+        if (file_exists($configPath . '/' . $host . $configFile . '.conf.ini'))
+        {
+            return parseIniFile($configPath, $configFile, $sections, '.ini');
+        }
+        exit(MAX_PRODUCT_NAME . " has been installed, but no configuration file ".$configPath . '/' . $host . $configFile . '.conf.php'." was found.\n");
+    }
+    // Openads hasn't been installed, so use the distribution .ini file
+    return @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', $sections);
 }
 
 ?>

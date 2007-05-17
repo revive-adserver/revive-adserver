@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -117,7 +117,9 @@ function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $wit
         case 'swf'  :
             if ($richMedia) {
                 $code = _adRenderFlash($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $loc, $referer);
-            } else { $code = _adRenderImage($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, true, $richMedia, $loc, $referer); }
+            } else {
+                $code = _adRenderImage($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, true, $richMedia, $loc, $referer);
+            }
             break;
         case 'txt'  :
             $code = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, false, $loc, $referer);
@@ -169,7 +171,8 @@ function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $wit
         $code = str_replace('{clickurlparams}', $maxparams, $code);  // This step needs to be done separately because {clickurlparams} does contain {random}...
     }
     $search = array('{timestamp}','{random}','{target}','{url_prefix}','{bannerid}','{zoneid}','{source}', '{pageurl}', '{width}', '{height}');
-    $replace = array($time, $random, $target, $urlPrefix, $aBanner['bannerid'], $zoneId, $source, urlencode($GLOBALS['loc']), $aBanner['width'], $aBanner['height']);
+    $locReplace = isset($GLOBALS['loc']) ? $GLOBALS['loc'] : '';
+    $replace = array($time, $random, $target, $urlPrefix, $aBanner['bannerid'], $zoneId, $source, urlencode($locReplace), $aBanner['width'], $aBanner['height']);
 
     // Arrival URLs
     if (preg_match('#^\?(m3_data=[a-z0-9]+)#i', $logClick, $arrivalClick)) {
@@ -272,7 +275,7 @@ function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
     $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
     $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
     $pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] : '4';
-    // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
+    // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
     $fileName = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
     $altImageAdCode = !empty($aBanner['alt_filename']) ? _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, false) : '';
     // Create the anchor tag..
@@ -288,8 +291,24 @@ function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
         $clickTag = '';
         $clickTagEnd = '';
     }
+    if (!empty($aBanner['parameters'])) {
+        $aAdParams = unserialize($aBanner['parameters']);
+        if (isset($aAdParams['swf']) && is_array($aAdParams['swf'])) {
+            // Converted SWF file, use paramters content
+            $swfParams = array();
+            $aBannerSwf = $aBanner;
+            // Set the flag to let _adRenderBuildClickUrl know that we're not using clickTAG
+            $aBannerSwf['noClickTag'] = true;
+            foreach ($aAdParams['swf'] as $iKey => $aSwf) {
+                $aBannerSwf['url'] = $aSwf['link'];
+                $swfParams[] = "alink{$iKey}=".urlencode(_adRenderBuildClickUrl($aBannerSwf, $zoneId, $source, $ct0, $logClick));
+                $swfParams[] = "atar{$iKey}=".urlencode($aSwf['tar']);
+            }
+            $swfParams = join('&', $swfParams);
+        }
+    }
     $fileUrl = _adRenderBuildFileUrl($aBanner, false, $swfParams);
-    $protocol = ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) ? "https" : "http";
+    $protocol = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? "https" : "http";
     $rnd = md5(microtime());
     // Always get the image beacon, needed for capping/blocking...
     $beaconTag = _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer);
@@ -298,9 +317,15 @@ function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
     $code = "
 <div id='m3_$rnd' style='display: inline;'>$altImageAdCode</div>
 <script type='text/javascript'>
-	<!--// <![CDATA[
-   var fo = new FlashObject('$fileUrl', 'mymovie', '$width', '$height', '$pluginVersion');
-   //fo.addParam('wmode','transparent');
+   <!--// <![CDATA[
+   var fo = new FlashObject('$fileUrl', 'mymovie', '$width', '$height', '$pluginVersion');";
+
+    if (!empty($aBanner['transparent'])) {
+        $code .= "
+   fo.addParam('wmode','transparent');";
+    }
+
+    $code .= "
    fo.write('m3_$rnd');
    // ]]> -->
 </script>";
@@ -332,7 +357,7 @@ function _adRenderQuicktime($aBanner, $zoneId=0, $source='', $ct0='', $withText=
     $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
     $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
     $pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] : '4';
-    // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
+    // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
     $fileName = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
     $altImageBannercode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer);
     // Create the anchor tag..
@@ -495,7 +520,7 @@ function _adRenderReal($aBanner, $zoneId=0, $source='', $ct0='', $withText=false
     $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
     $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
     $pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] : '4';
-    // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
+    // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
     $fileName = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
     $altImageBannercode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer);
     // Create the anchor tag..
@@ -569,7 +594,9 @@ function _adRenderBuildFileUrl($aBanner, $useAlt = false, $params = '')
 function _adRenderBuildImageUrlPrefix()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    return ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) ? 'https://' . $conf['webpath']['imagesSSL']: 'http://' . $conf['webpath']['images'];
+    return (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ?
+        'https://' . $conf['webpath']['imagesSSL'] :
+        'http://' . $conf['webpath']['images'];
 
 }
 
@@ -588,21 +615,22 @@ function _adRenderBuildImageUrlPrefix()
 function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '', $amp = '&amp;')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    // If there is a Max->Max internal redirect, log both zones information
+    // If there is an Openads->Openads internal redirect, log both zones information
+    $delimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
     if (!empty($GLOBALS['_MAX']['adChain'])) {
         foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
-            $aBanner['ad_id'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['ad_id'];
-            $aBanner['placement_id'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['placement_id'];
-            $zoneId .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['zoneid'];
-            $aBanner['block_ad'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['block_ad'];
-            $aBanner['cap_ad'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['cap_ad'];
-            $aBanner['session_cap_ad'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['session_cap_ad'];
-            $aBanner['block_campaign'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['block_campaign'];
-            $aBanner['cap_campaign'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['cap_campaign'];
-            $aBanner['session_cap_campaign'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['session_cap_campaign'];
-            $aBanner['block_zone'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['block_zone'];
-            $aBanner['cap_zone'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['cap_zone'];
-            $aBanner['session_cap_zone'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['session_cap_zone'];
+            $aBanner['ad_id'] .= $delimiter . $ad['ad_id'];
+            $aBanner['placement_id'] .= $delimiter . $ad['placement_id'];
+            $zoneId .= $delimiter . $ad['zoneid'];
+            $aBanner['block_ad'] .= $delimiter . $ad['block_ad'];
+            $aBanner['cap_ad'] .= $delimiter . $ad['cap_ad'];
+            $aBanner['session_cap_ad'] .= $delimiter . $ad['session_cap_ad'];
+            $aBanner['block_campaign'] .= $delimiter . $ad['block_campaign'];
+            $aBanner['cap_campaign'] .= $delimiter . $ad['cap_campaign'];
+            $aBanner['session_cap_campaign'] .= $delimiter . $ad['session_cap_campaign'];
+            $aBanner['block_zone'] .= $delimiter . $ad['block_zone'];
+            $aBanner['cap_zone'] .= $delimiter . $ad['cap_zone'];
+            $aBanner['session_cap_zone'] .= $delimiter . $ad['session_cap_zone'];
         }
     }
     $url = MAX_commonGetDeliveryUrl($conf['file']['log']);
@@ -611,7 +639,7 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
     $url .= $amp . "zoneid=" . $zoneId;
     if (!empty($source)) $url .= $amp . "source=" . $source;
     if (isset($GLOBALS['_MAX']['CHANNELS'])) {
-        $url .= $amp . "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER, $conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['CHANNELS']);
+        $url .= $amp . "channel_ids=" . str_replace($delimiter, $conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['CHANNELS']);
     }
     if (!empty($aBanner['block_ad'])) $url .= $amp . $conf['var']['blockAd'] . "=" . $aBanner['block_ad'];
     if (!empty($aBanner['cap_ad'])) $url .= $amp . $conf['var']['capAd'] . "=" . $aBanner['cap_ad'];
@@ -680,17 +708,19 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
     }
 
     $conf = $GLOBALS['_MAX']['CONF'];
+    $delimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
 
-    // If there is a Max->Max internal redirect, log both zones information
+    // If there is an Openads->Openads internal redirect, log both zones information
     if (!empty($GLOBALS['_MAX']['adChain'])) {
         foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
-            $aBanner['bannerid'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['bannerid'];
-            $aBanner['placement_id'] .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['placement_id'];
-            $zoneId .= MAX_DELIVERY_MULTIPLE_DELIMITER . $ad['zoneid'];
+            $aBanner['bannerid'] .= $delimiter . $ad['bannerid'];
+            $aBanner['placement_id'] .= $delimiter . $ad['placement_id'];
+            $zoneId .= $delimiter . $ad['zoneid'];
         }
     }
 
     $maxparams = '';
+    $channelIds = '';
     if (!empty($aBanner['url']) || $overrideDest) {
         // There is a link
         $del = $conf['delivery']['ctDelimiter'];
@@ -703,9 +733,14 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
         $dest = !empty($aBanner['url']) ? $aBanner['url'] : '';
         // If the passed in a ct0= value that is not a valid URL (simple checking), then ignore it
         $ct0 = (empty($ct0) || strtolower(substr($ct0, 0, 4)) != 'http') ? '' : $ct0;
-        $aBanner['contenttype'] == "swf" ? $maxdest = "{$del}maxdest=" . urlencode($ct0 . $dest) : $maxdest = "{$del}maxdest={$ct0}{$dest}";
+        if ($aBanner['contenttype'] == "swf" && empty($aBanner['noClickTag'])) {
+            // Strip maxdest with SWF banners using clickTAG
+            $maxdest = '';
+        } else {
+            $maxdest = "{$del}maxdest={$ct0}{$dest}";
+        }
         if (isset($GLOBALS['_MAX']['CHANNELS'])) {
-            $channelIds = $del. "channel_ids=" . str_replace(MAX_DELIVERY_MULTIPLE_DELIMITER, $conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['CHANNELS']);
+            $channelIds = $del. "channel_ids=" . str_replace($delimiter, $conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['CHANNELS']);
         } else {
             $channelIds = '';
         }

@@ -4,14 +4,14 @@
   <refpurpose>Describes how the Maintenance Plugins work</refpurpose>
  </refnamediv>
  <para>
-  This is the documentation for the Max Media Manager Maintenance Plugin API.
-  If you're interested writing a maintenance engine plugin for Max, this document
+  This is the documentation for the Openads Maintenance Plugin API.
+  If you're interested writing a maintenance engine plugin for Openads, this document
   will explain how to do it!
  </para>
  <refsect1 id="{@id hooks}">
   <title>Maintenance Plugin Hooks</title>
   <para>
-   As the maintenance engine in Max follows a fairly well defined process, all
+   As the maintenance engine in Openads follows a fairly well defined process, all
    plugins for the maintenance engine need to be written to be called at one of
    a given set of pre-defined hooks.
   </para>
@@ -130,7 +130,7 @@
  <refsect1 id="{@id mpe_hooks}">
   <title>Defined Maintenance Prioritisation Engine Plugin Hook Points</title>
   <para>
-   Plugin hook points for the MPE are not yet defined in Max.
+   Plugin hook points for the MPE are not yet defined in Openads.
   </para>
  </refsect1>
 </refentry>

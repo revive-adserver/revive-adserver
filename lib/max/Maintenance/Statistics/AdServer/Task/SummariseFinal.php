@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -123,7 +123,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseFinal extends MAX_Mainte
         $this->oController->report .= $message . ".\n";
         MAX::debug($message, PEAR_LOG_DEBUG);
         $oServiceLocator = &ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Statistics_AdServer');
+        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $oDal->saveHistory($oStartDate, $oEndDate);
     }
 
@@ -142,7 +142,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseFinal extends MAX_Mainte
         $this->oController->report .= $message . ".\n";
         MAX::debug($message, PEAR_LOG_DEBUG);
         $oServiceLocator = &ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Statistics_AdServer');
+        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $aTypes = array(
             'types' => array(
                 0 => 'request',

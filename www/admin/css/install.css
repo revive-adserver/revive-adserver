@@ -1,0 +1,146 @@
+.installer_container {
+ width: 80%;
+}
+
+.bodycol {
+ width: 80%;
+ background-color: #FFFFFF;
+ text-align: center;
+}
+
+.marginright {
+ margin-right: 5px;
+}
+
+.button {
+ float: right;
+ margin-top:5px;
+ margin-bottom:5px;
+}
+
+.smallbutton {
+ font-family: Arial, Helvetica, sans-serif;
+ font-size: 10px;
+ background-color: #F1FBE7;
+ color: black;
+ width: 60px;
+ margin-top:5px;
+ margin-bottom:5px;
+}
+
+.input {
+ text-align: left;
+ background-color:#EBEFE8;
+}
+
+.label {
+ text-align: right;
+ background-color:#EBEFE8;
+}
+
+.underline {
+ border-bottom: 1px solid #AAAAAA;
+}
+
+table.sysinfotable {
+ width: 60%;
+ margin: 20px;
+ border: 1px solid #DDDDDD;
+ background: #F0F0F0;
+}
+
+.sysinfotable td {
+ color: #333333;
+ padding: 5px 15px 5px 10px;
+ border-bottom: 1px solid #DDDDDD;
+}
+
+.sysmessage {
+ font-weight: bold;
+}
+
+td.sysinfoerror, .sysinfoerror {
+ color: #FFFFFF;
+ font-weight: bold;
+ text-align: center;
+ background-color: #880000;
+}
+
+.floatleft {
+ float: left;
+}
+
+div.sysinfoerror {
+    background-image:    url('../images/install-error-small.gif');
+    background-repeat:   no-repeat;
+    background-position: 10px 50%;
+    height: 45px;
+    color: #990000;
+	background-color: #FFFFE1;
+	border: 1px dashed #990000;
+	margin-top: 8px;
+	margin-bottom: 16px;
+	padding: 6px 6px 6px 32px;
+	line-height: 18px;
+	width: 65%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.pageLoader {
+    background-image:    url('../images/loading.gif');
+    background-repeat:   no-repeat;
+    background-position: 50% 185px;
+    position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	background-color: #ffffff;
+    width: 950px;
+    height: 1px;
+	opacity:.80;filter: alpha(opacity=80); -moz-opacity: 0.8;
+}
+.pageLoader div {
+	padding-top: 165px;
+}
+
+#graph_container {
+    width: 100%;
+    text-align: center;
+}
+.graph { 
+    position: relative; /* IE is dumb */
+    width: 396px !important;
+    width: 406px; 
+    height: 18px !important;
+    height: 28px;
+    line-height: 18px;
+    padding: 5px;
+    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    background: #fff url('../images/progress-bg.gif') no-repeat;
+    clear: both;
+}
+.graphtitle {
+    text-align: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3px;
+}
+.graph .bar { 
+    vertical-align: middle;
+    display: block;
+    position: relative;
+    text-align: center; 
+    height: 18px;
+    background: #000063;
+    -moz-border-radius: 4px;
+    color: #fff;      
+}
+ 
+.graph .bar span { 
+    position: absolute; left: 1em; 
+}

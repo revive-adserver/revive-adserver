@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_schema.xsl"?>
+<database>
+
+ <name>tables_temp_priority</name>
+ <create>true</create>
+ <overwrite>false</overwrite>
+ <version>500</version>
+ <status>final</status>
+
+ <table>
+
+  <name>tmp_ad_required_impression</name>
+
+  <declaration>
+
+   <field>
+    <name>ad_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <unsigned>true</unsigned>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>required_impressions</name>
+    <type>integer</type>
+    <length>4</length>
+    <unsigned>true</unsigned>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>tmp_ad_required_impression_ad_id</name>
+    <field>
+     <name>ad_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>tmp_ad_zone_impression</name>
+
+  <declaration>
+
+   <field>
+    <name>ad_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <unsigned>true</unsigned>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>zone_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <unsigned>true</unsigned>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>required_impressions</name>
+    <type>integer</type>
+    <length>4</length>
+    <unsigned>true</unsigned>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>requested_impressions</name>
+    <type>integer</type>
+    <length>4</length>
+    <unsigned>true</unsigned>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>tmp_ad_zone_impression_ad_id</name>
+    <field>
+     <name>ad_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>tmp_ad_zone_impression_zone_id</name>
+    <field>
+     <name>zone_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+</database>

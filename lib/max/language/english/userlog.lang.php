@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -49,7 +49,6 @@ $GLOBALS['strUserlog'] = array (
 	phpAds_actionBatchStatistics			=> "Statistics compiled",
 	phpAds_actionDeactivationMailed			=> "Deactivation notification for campaign {id} send by e-mail",
 	phpAds_actionDeactiveCampaign			=> "Campaign {id} deactivated",
-	phpAds_actionInventoryCalculation		=> "Built an inventory delivery plan",
 	phpAds_actionPriorityCalculation		=> "Priority recalculated",
 	phpAds_actionPublisherReportMailed 		=> "Report for publisher {id} send by e-mail",
 	phpAds_actionWarningMailed				=> "Deactivation warning for campaign {id} send by e-mail"

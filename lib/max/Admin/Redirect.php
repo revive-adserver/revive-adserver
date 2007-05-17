@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -38,8 +38,8 @@ class MAX_Admin_Redirect
 {
 
     /**
-     * A method to perform redirects. Only suitable for use once Max is installed,
-     * as it required the max.conf.ini file to be correctly set up.
+     * A method to perform redirects. Only suitable for use once Openads is installed,
+     * as it required the max.conf.php file to be correctly set up.
      *
      * @param string $adminPage The administration interface page to redirect to
      *                          (excluding a leading slash ("/")). Default is the
@@ -50,12 +50,12 @@ class MAX_Admin_Redirect
         header('Location: ' . MAX::constructURL(MAX_URL_ADMIN, $adminPage));
         exit;
     }
-    
+
     function redirectIfNecessary($adminPage)
     {
         $oDesiredUrl = new MAX_Url();
         $oCurrentUrl = new MAX_Url();
-        
+
         $full_desired_url_string = MAX::constructURL(MAX_URL_ADMIN, $adminPage);
         $oDesiredUrl->useValuesFromString($full_desired_url_string);
         $oCurrentUrl->useValuesFromServerVariableArray($_SERVER);
@@ -64,7 +64,7 @@ class MAX_Admin_Redirect
         }
         $this->redirect($adminPage);
     }
-    
+
 }
 
 ?>

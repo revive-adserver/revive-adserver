@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM                    "../../includes/WebTest.dtd" [
+  <!ENTITY config SYSTEM               "file:../../includes/config.xml">
+  <!ENTITY checkForErrors SYSTEM       "file:../../modules/errors.xml">
+  <!ENTITY verifyLinks SYSTEM          "file:../../modules/links.xml">
+  <!ENTITY loginBeacon SYSTEM          "file:../../modules/loginBeacon.xml">
+]
+>
+
+<!-- Similar test to afr.php, the only difference is that ???
+     TODO: refactor afr.php and ac.php so they should use the same base for tests
+-->
+<project name="Openads delivery - ac.php" basedir="../.." default="main">
+  <import file="../../includes/init.xml"/>
+  <import file="${webtest.home}/lib/taskdef.xml"/>
+
+  <target name="main">
+
+    <testSpec name="Run Delivery">
+      &config;
+      <steps>
+        <invoke description="Invoke delivery file" url="/delivery/ac.php?bannerid=2" />
+        &checkForErrors;
+        &verifyLinks;
+        <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
+        <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />
+        &loginBeacon;
+      </steps>
+
+    </testSpec>
+
+</target>
+
+</project>

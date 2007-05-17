@@ -3,11 +3,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 +---------------------------------------------------------------------------+
 $Id$
 */
@@ -228,7 +228,7 @@ $Id$
         
         $query = "
             DELETE FROM {$conf['table'][$table]}
-            WHERE day < DATE_SUB(NOW(), INTERVAL " . $oldDataDays . " DAY)
+            WHERE day < DATE_SUB('". OA::getNow() ."', INTERVAL " . $oldDataDays . " DAY)
         ";
         if ($res = phpAds_dbQuery($query)) {
             $num = phpAds_dbAffectedRows();
@@ -776,8 +776,8 @@ $Id$
         FROM
             {$conf['table']['data_summary_zone_domain_page_daily']}
         WHERE
-            day <= DATE_SUB(NOW(), INTERVAL 1 DAY)
-            AND day >= DATE_SUB(NOW(), INTERVAL " . ($forecastWeeks * 7) . " DAY)
+            day <= DATE_SUB('". OA::getNow() ."', INTERVAL 1 DAY)
+            AND day >= DATE_SUB('". OA::getNow() ."', INTERVAL " . ($forecastWeeks * 7) . " DAY)
         GROUP BY
             day_of_week,
             zone_id,
@@ -816,8 +816,8 @@ $Id$
         FROM
             {$conf['table']['data_summary_zone_country_daily']}
         WHERE
-            day <= DATE_SUB(NOW(), INTERVAL 1 DAY)
-            AND day >= DATE_SUB(NOW(), INTERVAL " . ($forecastWeeks * 7) . " DAY)
+            day <= DATE_SUB('". OA::getNow() ."', INTERVAL 1 DAY)
+            AND day >= DATE_SUB('". OA::getNow() ."', INTERVAL " . ($forecastWeeks * 7) . " DAY)
         GROUP BY
             day_of_week,
             zone_id,
@@ -855,8 +855,8 @@ $Id$
         FROM
             {$conf['table']['data_summary_zone_source_daily']}
         WHERE
-            day <= DATE_SUB(NOW(), INTERVAL 1 DAY)
-            AND day >= DATE_SUB(NOW(), INTERVAL " . ($forecastWeeks * 7) . " DAY)
+            day <= DATE_SUB('". OA::getNow() ."', INTERVAL 1 DAY)
+            AND day >= DATE_SUB('". OA::getNow() ."', INTERVAL " . ($forecastWeeks * 7) . " DAY)
         GROUP BY
             day_of_week,
             zone_id,
@@ -895,8 +895,8 @@ $Id$
         FROM
             {$conf['table']['data_summary_zone_site_keyword_daily']}
         WHERE
-            day <= DATE_SUB(NOW(), INTERVAL 1 DAY)
-            AND day >= DATE_SUB(NOW(), INTERVAL " . ($forecastWeeks * 7) . " DAY)
+            day <= DATE_SUB('". OA::getNow() ."', INTERVAL 1 DAY)
+            AND day >= DATE_SUB('". OA::getNow() ."', INTERVAL " . ($forecastWeeks * 7) . " DAY)
         GROUP BY
             day_of_week,
             zone_id,

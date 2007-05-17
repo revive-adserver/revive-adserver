@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -26,9 +26,10 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics/AdServer/mysql.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer/Task/SummariseIntermediate.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysql.php';
 require_once 'Date.php';
 
 /**
@@ -83,9 +84,9 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         $conf = &$GLOBALS['_MAX']['CONF'];
 
         // Mock the DAL
-        Mock::generate('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
-        $oDal = new MockMAX_Dal_Maintenance_Statistics_AdServer_mysql($this);
-        $oServiceLocator->register('MAX_Dal_Maintenance_Statistics_AdServer', $oDal);
+        Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
+        $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
+        $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
 
         // Set the controller class
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
@@ -414,11 +415,11 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         $oStartDate = new Date('2006-03-09 10:00:00');
         $oEndDate   = new Date('2006-03-09 10:59:59');
         // Mock the DAL, and set expectations
-        Mock::generate('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
-        $oDal = new MockMAX_Dal_Maintenance_Statistics_AdServer_mysql($this);
+        Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
+        $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
         $oDal->expectOnce('summariseRequests', array($oStartDate, $oEndDate));
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Statistics_AdServer', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Test
         $oSummariseIntermediate = new MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate();
         $oSummariseIntermediate->_summariseIntermediateRequests($oStartDate, $oEndDate);
@@ -434,11 +435,11 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         $oStartDate = new Date('2006-03-09 10:00:00');
         $oEndDate   = new Date('2006-03-09 10:59:59');
         // Mock the DAL, and set expectations
-        Mock::generate('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
-        $oDal = new MockMAX_Dal_Maintenance_Statistics_AdServer_mysql($this);
+        Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
+        $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
         $oDal->expectOnce('summariseImpressions', array($oStartDate, $oEndDate));
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Statistics_AdServer', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Test
         $oSummariseIntermediate = new MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate();
         $oSummariseIntermediate->_summariseIntermediateImpressions($oStartDate, $oEndDate);
@@ -454,11 +455,11 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         $oStartDate = new Date('2006-03-09 10:00:00');
         $oEndDate   = new Date('2006-03-09 10:59:59');
         // Mock the DAL, and set expectations
-        Mock::generate('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
-        $oDal = new MockMAX_Dal_Maintenance_Statistics_AdServer_mysql($this);
+        Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
+        $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
         $oDal->expectOnce('summariseClicks', array($oStartDate, $oEndDate));
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Statistics_AdServer', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Test
         $oSummariseIntermediate = new MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate();
         $oSummariseIntermediate->_summariseIntermediateClicks($oStartDate, $oEndDate);
@@ -474,11 +475,11 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         $oStartDate = new Date('2006-03-09 10:00:00');
         $oEndDate   = new Date('2006-03-09 10:59:59');
         // Mock the DAL, and set expectations
-        Mock::generate('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
-        $oDal = new MockMAX_Dal_Maintenance_Statistics_AdServer_mysql($this);
+        Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
+        $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
         $oDal->expectOnce('summariseConnections', array($oStartDate, $oEndDate));
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Statistics_AdServer', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Test
         $oSummariseIntermediate = new MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate();
         $oSummariseIntermediate->_summariseIntermediateConnections($oStartDate, $oEndDate);
@@ -494,8 +495,8 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         $oStartDate = new Date('2006-03-09 10:00:00');
         $oEndDate   = new Date('2006-03-09 10:59:59');
         // Mock the DAL, and set expectations
-        Mock::generate('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
-        $oDal = new MockMAX_Dal_Maintenance_Statistics_AdServer_mysql($this);
+        Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
+        $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
         $aTypes = array(
             'types' => array(
                 0 => 'request',
@@ -509,7 +510,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         );
         $oDal->expectOnce('saveIntermediate', array($oStartDate, $oEndDate, $aTypes));
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Statistics_AdServer', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Test
         $oSummariseIntermediate = new MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate();
         $oSummariseIntermediate->_saveIntermediateSummaries($oStartDate, $oEndDate);

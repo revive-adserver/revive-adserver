@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,13 +32,15 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+//phpAds_checkAccess(phpAds_Admin);
+MAX_Permission::checkAccess(phpAds_Admin);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -52,18 +54,25 @@ phpAds_MaintenanceSelection("priority");
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-function phpAds_showBanners ()
+function phpAds_showBanners()
 {
 	$conf = $GLOBALS['_MAX']['CONF'];
 	global $strUntitled, $strName, $strID, $strWeight;
 	global $strProbability, $strPriority, $strRecalculatePriority;
 	global $phpAds_TextDirection;
 
-	$res = phpAds_dbQuery("SELECT ad_id AS bannerid,priority FROM {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} WHERE zone_id=0 ORDER BY priority desc");
-	$rows = array();
+	$doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
+	$doAdZoneAssoc->selectAdd();
+	$doAdZoneAssoc->selectAs(array('ad_id'), 'bannerid');
+	$doAdZoneAssoc->selectAdd('priority');
+	$doAdZoneAssoc->zoneid = 0;
+	$doAdZoneAssoc->OrderBy('priority DESC');
+    $doAdZoneAssoc->find();
+
+    $rows = array();
 	$prioritysum = 0;
 
-	while ($tmprow = phpAds_dbFetchArray($res)) {
+	while ($doAdZoneAssoc->fetch() && $tmprow = $doAdZoneAssoc->toArray()) {
 		if ($tmprow['priority']) {
 			$prioritysum += $tmprow['priority'];
 			$rows[$tmprow['bannerid']] = $tmprow;
@@ -86,7 +95,7 @@ function phpAds_showBanners ()
 
 		// Banners
 		foreach (array_keys($rows) as $key) {
-			$name = phpAds_getBannerName ($rows[$key]['bannerid'], 60, false);
+			$name = phpAds_getBannerName($rows[$key]['bannerid'], 60, false);
 
 			if ($i > 0) echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
 
@@ -121,136 +130,20 @@ function phpAds_showBanners ()
 	}
 }
 
-
-
-
-
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
 echo "<br />";
 
-
-/*
-// Extra campaign info
-$res = phpAds_dbQuery(
-	"SELECT COUNT(*) AS count".
-	",SUM(target) AS sum_target".
-	" FROM ".$conf['table']['prefix'].$conf['table']['campaigns'].
-	" WHERE target>0"
-);
-
-$campaigns_count = phpAds_dbResult($res, 0, 'count');
-$campaigns_target = phpAds_dbResult($res, 0, 'sum_target');
-
-$res = phpAds_dbQuery(
-	"SELECT COUNT(*) AS campaigns".
-	" FROM ".$conf['table']['prefix'].$conf['table']['campaigns'].
-	" WHERE weight > 0"
-);
-
-$campaigns_weight = phpAds_dbResult($res, 0, 'campaigns');
-
-
-// Get the number of days running
-$query = "SELECT UNIX_TIMESTAMP(MIN(day)) AS days_running FROM ".$conf['table']['prefix'].$conf['table']['data_summary_ad_hourly']." WHERE day > 0 AND hour > 0 ORDER BY day LIMIT 1";
-$res = phpAds_dbQuery($query);
-$days_running = phpAds_dbResult($res, 0, 'days_running');
-
-if ($days_running > 0) {
-	$days_running = mktime (0, 0, 0, date('m'), date('d'), date('Y')) - $days_running;
-	$days_running = round ($days_running / (60 * 60 * 24)) - 1;
-} else {
-	$days_running = 0;
-}
-
-if ($days_running >= 2){
-	echo str_replace ("{days}", $days_running, $strPriorityDaysRunning);
-	if ($days_running >= 8) {
-		echo $strPriorityBasedLastWeek;
-	}
-	if ($days_running >= 2 && $days_running < 8) {
-		echo $strPriorityBasedLastDays;
-	}
-	if ($days_running == 1) {
-		echo $strPriorityBasedYesterday;
-	}
-} else {
-	echo $strPriorityNoData;
-}
-
-define('phpAds_CurrentTimestamp', phpAds_dbResult(phpAds_dbQuery("SELECT UNIX_TIMESTAMP(NOW()) as now"),0,'now'));
-define('phpAds_CurrentHour', date('H',phpAds_CurrentTimestamp));
-define('phpAds_CurrentDay', mktime(0,0,0,date('m',phpAds_CurrentTimestamp),date('d',phpAds_CurrentTimestamp),date('Y',phpAds_CurrentTimestamp)));
-
-$banners   = phpAds_PriorityPrepareBanners();
-$campaigns = phpAds_PriorityPrepareCampaigns();
-$profile   = array();
-
-list($profile, $profile_correction_executed) = phpAds_PriorityPredictProfile($campaigns, $banners);
-
-$estimated_hits = 0;
-for ($p=0; $p<24; $p++){
-	$estimated_hits += $profile[$p];
-}
-
-if ($campaigns_target) {
-	if ($estimated_hits > $campaigns_target) {
-		echo $strPriorityEnoughAdViews;
-	} else {
-		echo $strPriorityNotEnoughAdViews;
-	}
-} else {
-	$campaigns_target = 0;
-}
-*/
-
 // Show recalculate button
-//echo "<br /><br />";
-//phpAds_ShowBreak();
 echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-priority-calculate.php'>$strRecalculatePriority</a>&nbsp;&nbsp;";
 echo "<br /><br />";
 phpAds_ShowBreak();
 
-
-// Show banners
-//echo "<br /><br />";
-//phpAds_showBanners();
-
 echo "<br /><br />";
 echo 'This page needs to be re-written to show an agency-based list of ad/zone priority data...';
 echo "<br /><br />";
-
-
-/*
-echo "<br /><br />";
-echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
-	echo "<tr height='25'>";
-	echo "<td height='25'>&nbsp;&nbsp;<b>".$strOverall."</b></td>";
-	echo "<td height='25'>&nbsp;</td>";
-	echo "</tr>";
-
-echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	echo "<tr height='25'>";
-	echo "<td height='25'>&nbsp;&nbsp;".$strHighPriorityCampaigns.": <b>".$campaigns_count."</b></td>";
-	echo "<td height='25'>".$strAdViewsAssigned.": <b>".$campaigns_target."</b></td>";
-	echo "</tr>";
-
-echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
-	echo "<tr height='25'>";
-	echo "<td height='25'>&nbsp;&nbsp;".$strLowPriorityCampaigns.": <b>".$campaigns_weight."</b></td>";
-	echo "<td height='25'>&nbsp;</td>";
-	echo "</tr>";
-
-if ($campaigns_target > 0) {
-	echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
-		echo "<tr height='25'>";
-		echo "<td height='25'>&nbsp;&nbsp;".$strPredictedAdViews.": <b>".$estimated_hits."</b></td>";
-		echo "<td height='25'>&nbsp;</td>";
-		echo "</tr>";
-}
-*/
 
 echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "</table>";

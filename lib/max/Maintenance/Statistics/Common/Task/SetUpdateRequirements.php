@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -53,7 +53,7 @@ class MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends MAX_M
 
     /**
      * The implementation of the MAX_Core_Task::run() method that performs
-     * the task of this class. Intended to be inherited by childred of this
+     * the task of this class. Intended to be inherited by children of this
      * class.
      */
     function run()
@@ -64,7 +64,7 @@ class MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends MAX_M
         if (!$oNowDate) {
             $oNowDate = new Date();
         }
-        $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Statistics_' . $this->oController->module);
+        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_' . $this->oController->module);
         $module = $this->oController->module . ' Module.';
         $this->oController->report = 'Maintenance Statistics Report: ' . $module . "\n";
         MAX::debug('Running Maintenance Statistics: ' . $module, PEAR_LOG_INFO);
@@ -87,7 +87,7 @@ class MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends MAX_M
         // Determine when the last intermediate table update happened
         if ($oLastUpdatedDate === false) {
             $this->oController->lastDateIntermediate =
-                $oDal->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_OI, $oNowDate);
+                $oDal->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI, $oNowDate);
         } else {
             $this->oController->lastDateIntermediate = $oLastUpdatedDate;
         }
@@ -128,7 +128,7 @@ class MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends MAX_M
         // Determine when the last final table update happened
         if ($oLastUpdatedDate === false) {
             $this->oController->lastDateFinal =
-                $oDal->getMaintenanceStatisticsLastRunInfo(DAL_STATISTICS_COMMON_UPDATE_HOUR, $oNowDate);
+                $oDal->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR, $oNowDate);
         } else {
             $this->oController->lastDateFinal = $oLastUpdatedDate;
         }

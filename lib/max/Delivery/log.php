@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -25,6 +25,14 @@
 $Id$
 */
 
+$file = '/lib/max/Delivery/log.php';
+###START_STRIP_DELIVERY
+if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+    return;
+}
+###END_STRIP_DELIVERY
+$GLOBALS['_MAX']['FILES'][$file] = true;
+
 /**
  * @package    MaxDelivery
  * @author     Andrew Hill <andrew@m3.net>
@@ -34,7 +42,6 @@ $Id$
  * data to the database.
  */
 
-require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
 require_once MAX_PATH . '/lib/max/Dal/Delivery.php';
 
 /**
@@ -52,7 +59,7 @@ function MAX_Delivery_log_logAdRequest($viewerId, $adId, $creativeId, $zoneId)
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_request'];
         MAX_Dal_Delivery_Include();
-        MAX_Dal_Delivery_logAction(
+        OA_Dal_Delivery_logAction(
             $table,
             $viewerId,
             $adId,
@@ -81,7 +88,7 @@ function MAX_Delivery_log_logAdImpression($viewerId, $adId, $creativeId, $zoneId
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
         MAX_Dal_Delivery_Include();
-        MAX_Dal_Delivery_logAction(
+        OA_Dal_Delivery_logAction(
             $table,
             $viewerId,
             $adId,
@@ -110,7 +117,7 @@ function MAX_Delivery_log_logAdClick($viewerId, $adId, $creativeId, $zoneId)
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_click'];
         MAX_Dal_Delivery_Include();
-        MAX_Dal_Delivery_logAction(
+        OA_Dal_Delivery_logAction(
             $table,
             $viewerId,
             $adId,
@@ -128,7 +135,7 @@ function MAX_Delivery_log_logAdClick($viewerId, $adId, $creativeId, $zoneId)
  * A function to log a tracker impression.
  *
  * Note that the $conf['rawDatabase'] variables will only be defined
- * in the event that Max is configured for multiple databases. Normally,
+ * in the event that Openads is configured for multiple databases. Normally,
  * this will not be the case, so the server_ip field will be 'singleDB'.
  *
  * @param integer $viewerId The viewer ID (was userid).
@@ -152,7 +159,7 @@ function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $table = $conf['table']['prefix'] . $conf['table']['data_raw_tracker_impression'];
         MAX_Dal_Delivery_Include();
-        $rawTrackerImpressionId = MAX_Dal_Delivery_logTracker(
+        $rawTrackerImpressionId = OA_Dal_Delivery_logTracker(
             $table,
             $viewerId,
             $trackerId,
@@ -171,14 +178,14 @@ function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
  * A function to log tracker impression variable values.
  *
  * Note that the $conf['rawDatabase'] variables will only be defined
- * in the event that Max is configured for multiple databases. Normally,
+ * in the event that Openads is configured for multiple databases. Normally,
  * this will not be the case, so the server_ip field will be 'singleDB'.
  *
  * @param integer $trackerId The tracker ID.
  * @param integer $serverRawTrackerImpressionId The unique tracker impression
  *                                              id on the raw database server.
  * @param string $serverRawIp The IP address of the raw database server, or null
- *                            if Max is not running in multiple database server
+ *                            if Openads is not running in multiple database server
  *                            mode.
  */
 function MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp)
@@ -218,29 +225,7 @@ function MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTr
     }
     if (count($variables)) {
         MAX_Dal_Delivery_Include();
-        MAX_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressionId, $serverRawIp);
-    }
-}
-
-/**
- * A function to log benchmarking data to the debug file.
- *
- * A file called "debug.log" is created in the /var directory, if it
- * does not exist already, to store the benchmarking information.
- *
- * @param string $page The name of the script being benchmarked.
- * @param string $queryString The query string parameters passed to the page.
- * @param double $benchmark The elapsed time of the benchmark.
- * @param string $extra Any extra information to be logged.
- */
-function MAX_Delivery_log_logBenchmark($page, $queryString, $benchmark, $extra = '') {
-    if (_viewersHostOkayToLog()) {
-        $memoryUsage = MAX_benchmarkGetMemoryUsage();
-        $message = date("d/m/Y|H:i:s") . '|' . $memoryUsage . '|' . $page . '|' .
-            $benchmark . '|' . $extra . '|' . $queryString . "\n";
-        $logFile = fopen(MAX_PATH . '/var/debug.log', 'a');
-        fwrite($logFile, $message);
-        fclose($logFile);
+        OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressionId, $serverRawIp);
     }
 }
 
@@ -255,20 +240,20 @@ function MAX_Delivery_log_logBenchmark($page, $queryString, $benchmark, $extra =
 function _viewersHostOkayToLog()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    if (count($conf['ignoreHosts']) > 0) {
-        $hosts = '#('.implode('|',$conf['ignoreHosts']).')$#i';
-        if ($hosts != '') {
-            // Format the hosts to ignore in a PCRE format
-            $hosts = str_replace('.', '\.', $hosts);
-            $hosts = str_replace('*', '[^.]+', $hosts);
-            // Check if the viewer's IP address is in the ignore list
-            if (preg_match($hosts, $_SERVER['REMOTE_ADDR'])) {
-                return false;
-            }
-            // Check if the viewer's hostname is in the ignore list
-            if (preg_match($hosts, $_SERVER['REMOTE_HOST'])) {
-                return false;
-            }
+    if (!empty($conf['logging']['ignoreHosts'])) {
+        $hosts = str_replace(',', '|', $conf['logging']['ignoreHosts']);
+        $hosts = '#('.$hosts.')$#i';
+        
+        // Format the hosts to ignore in a PCRE format
+        $hosts = str_replace('.', '\.', $hosts);
+        $hosts = str_replace('*', '[^.]+', $hosts);
+        // Check if the viewer's IP address is in the ignore list
+        if (preg_match($hosts, $_SERVER['REMOTE_ADDR'])) {
+            return false;
+        }
+        // Check if the viewer's hostname is in the ignore list
+        if (preg_match($hosts, $_SERVER['REMOTE_HOST'])) {
+            return false;
         }
     }
     return true;
@@ -285,7 +270,7 @@ function _viewersHostOkayToLog()
  *                     to access the page containing the zone.
  *                  2: An array of information about the viewer's web browser
  *                     and operating system.
- *                  3: An integer to store if the call to Max was performed
+ *                  3: An integer to store if the call to Openads was performed
  *                     using HTTPS (1) or not (0).
  */
 function _prepareLogInfo()
@@ -297,12 +282,11 @@ function _prepareLogInfo()
         $geotargeting = $GLOBALS['_MAX']['CLIENT_GEO'];
     }
     // Get the zone location information, if possible
+    $zoneInfo = array();
     if (!empty($_GET['loc'])) {
         $zoneInfo = parse_url($_GET['loc']);
     } elseif (!empty($_SERVER['HTTP_REFERER'])) {
         $zoneInfo = parse_url($_SERVER['HTTP_REFERER']);
-    } else {
-        $zoneInfo = array();
     }
     if (!empty($zoneInfo['scheme'])) {
         $zoneInfo['scheme'] = ($zoneInfo['scheme'] == 'https') ? 1 : 0;
@@ -320,9 +304,9 @@ function _prepareLogInfo()
     } else {
         $userAgentInfo = array();
     }
-    // Determine if the access to Max was made using HTTPS
+    // Determine if the access to Openads was made using HTTPS
     $maxHttps = 0;  // https is false
-    if ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) {
+    if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
         $maxHttps = 1;   // https is true
     }
     return array($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps);
@@ -332,7 +316,7 @@ function _prepareLogInfo()
  * A function to return GET variables, where the GET variable name is
  * extracted from the configuration file settings, and the GET variable
  * value is exploded into an array of items on the constant
- * MAX_DELIVERY_MULTIPLE_DELIMITER.
+ * $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'].
  *
  * Returns an empty array if there is no GET variable by the specified
  * name.
@@ -345,7 +329,7 @@ function _prepareLogInfo()
 function MAX_Delivery_log_getArrGetVariable($name)
 {
     $varName = $GLOBALS['_MAX']['CONF']['var'][$name];
-    return isset($_GET[$varName]) ? explode(MAX_DELIVERY_MULTIPLE_DELIMITER, $_GET[$varName]) : array();
+    return isset($_GET[$varName]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_GET[$varName]) : array();
 }
 
 /**

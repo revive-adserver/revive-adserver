@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -50,7 +50,7 @@ define ("phpAds_actionActiveCampaign", 21);
 define ("phpAds_actionAutoClean", 30);
 define ("phpAds_actionBatchStatistics", 40);
 
-$GLOBAL['phpAds_Usertype'] = 0;
+$GLOBALS['phpAds_Usertype'] = 0;
 
 /*-------------------------------------------------------*/
 /* Add an entry to the userlog                           */
@@ -58,6 +58,7 @@ $GLOBAL['phpAds_Usertype'] = 0;
 
 function phpAds_userlogAdd($action, $object, $details = '')
 {
+    $oDbh = &OA_DB::singleton();
     $conf = $GLOBALS['_MAX']['CONF'];
 	global $phpAds_Usertype;
 	if ($phpAds_Usertype != 0) {
@@ -67,17 +68,31 @@ function phpAds_userlogAdd($action, $object, $details = '')
 		$usertype = phpAds_userAdministrator;
 		$userid   = 0;
 	}
-	$res = phpAds_dbQuery("
-		INSERT INTO
-			".$conf['table']['prefix'].$conf['table']['userlog']."
-		SET
-			timestamp = ".time().",
-			usertype = '".$usertype."',
-			userid = '".$userid."',
-			action = '".$action."',
-			object = '".$object."',
-			details = '".addslashes($details)."'
-	");
+    $query = "
+        INSERT INTO
+            {$conf['table']['prefix']}{$conf['table']['userlog']}
+            (
+                timestamp,
+                usertype,
+                userid,
+                action,
+                object,
+                details
+            )
+        VALUES
+            (
+                ". $oDbh->quote(OA::getNow(), 'timestamp') . ",
+                ". $oDbh->quote($usertype, 'integer') .",
+                ". $oDbh->quote($userid, 'integer') .",
+                ". $oDbh->quote($action, 'integer') .",
+                ". $oDbh->quote($object, 'integer') .",
+                ". $oDbh->quote($details, 'text') . "
+            )";
+    $res = $oDbh->exec($query);
+    if (PEAR::isError($res)) {
+        return $res;
+    }
+    return true;
 }
 
 function phpAds_userlogSetUser ($usertype)

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -29,49 +29,63 @@ $Id$
  * @package    Max
  * @author     Andrew Hill <andrew@m3.net>
  *
- * A file to set up the environment for the Max administration interface.
+ * A file to set up the environment for the Openads administration interface.
  */
 
 require_once 'init-parse.php';
 require_once 'constants.php';
+require_once 'variables.php';
 
 /**
- * The environment initialisation function for the Max administration interface.
+ * The environment initialisation function for the Openads administration interface.
  *
  * @TODO Should move the user authentication, loading of preferences into this
  *       file, and out of the /www/admin/config.php file.
  */
 function init()
 {
+    // Set up the UI constants
     setupConstants();
+    // Set up the common configuration variables
+    setupConfigVariables();
     // Disable all notices and warnings, as some PAN code still
     // generates PHP warnings in places
     error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
     // If not being called from the installation script...
-    if (basename($_SERVER['PHP_SELF']) != 'install.php') {
-        // Direct the user to the installation script if not installed
-        if (!$GLOBALS['_MAX']['CONF']['max']['installed']) {
-            $path = dirname($_SERVER['PHP_SELF']);
-            if ($path == '/') {
-                $path = '';
+
+    global $installing;
+    if ((!$installing) && (PHP_SAPI != 'cli')) {
+        if (basename($_SERVER['PHP_SELF']) != 'install.php' && PHP_SAPI != 'cli')
+        {
+            // Direct the user to the installation script if not installed
+            if (!$GLOBALS['_MAX']['CONF']['openads']['installed'])
+            {
+                $path = dirname($_SERVER['PHP_SELF']);
+                if ($path == DIRECTORY_SEPARATOR)
+                {
+                    $path = '';
+                }
+                if ($GLOBALS['_MAX']['ROOT_INDEX'])
+                {
+                    // The root index.php page was called to get here
+                    $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
+                           $_SERVER['HTTP_HOST'] . $path . '/www/admin/install.php';
+                    header($location);
+                } elseif ($GLOBALS['_MAX']['WWW_INDEX'])
+                {
+                    // The index.php page in /www was called to get here
+                    $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
+                           $_SERVER['HTTP_HOST'] . $path . '/admin/install.php';
+                    header($location);
+                } else
+                {
+                    // The index.php page in /www/admin was called to get here
+                    $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
+                           $_SERVER['HTTP_HOST'] . $path . '/install.php';
+                    header($location);
+                }
+                exit();
             }
-            if ($GLOBALS['_MAX']['ROOT_INDEX']) {
-                // The root index.php page was called to get here
-                $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
-                       $_SERVER['HTTP_HOST'] . $path . '/www/admin/' . 'install.php';
-                header($location);
-            } elseif ($GLOBALS['_MAX']['WWW_INDEX']) {
-                // The index.php page in /www was called to get here
-                $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
-                       $_SERVER['HTTP_HOST'] . $path . '/admin/' . 'install.php';
-                header($location);
-            } else {
-                // The index.php page in /www/admin was called to get here
-                $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
-                       $_SERVER['HTTP_HOST'] . $path . '/install.php';
-                header($location);
-            }
-            exit();
         }
     }
     // Start PHP error handler

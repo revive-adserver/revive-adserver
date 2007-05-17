@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
@@ -39,8 +40,7 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/Field/DaySpanField.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin | phpAds_Agency);
-
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
 
 
 /*-------------------------------------------------------*/
@@ -84,18 +84,18 @@ if (phpAds_isUser(phpAds_Agency)) {
 
 if (empty($zoneid)) {
 	echo "<select name='zoneid' id='zoneid' tabindex='".($tabindex++)."'>";
-	
+
 	$aZones = Admin_DA::fromCache('getZones', $aParams);
-	
+
 	foreach ($aZones as $zoneId => $zone) {
 		echo "<option value='{$zone['zone_id']}'>".strip_tags(phpAds_buildZoneName($zoneId, $zone['name']))."</option>";
 	}
-	
+
 	echo "</select>";
 } else {
 	$aParams['zone_id'] = $zoneid;
 	$aZones = Admin_DA::fromCache('getZones', $aParams, true);
-	
+
 	foreach ($aZones as $zoneId => $zone) {
 		echo "<b>".strip_tags(phpAds_buildZoneName($zoneId, $zone['name']))."</b>";
 		echo "<input type='hidden' name='zoneid' value='".$zoneId."' />";
@@ -107,17 +107,17 @@ echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 
 if (!empty($zoneid)) {
 	$zone = end($aZones);
-	
+
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 	echo "<tr><td width='30'>&nbsp;</td><td width='200'>". 'Period' ."</td><td>";
-	
+
 	$oDaySpan =& new Admin_UI_DaySpanField('period');
 	$oDaySpan->display();
-	
+
 	echo "</td>";
 	echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-	
+
 	echo "<tr><td width='30'>&nbsp;</td>";
 	echo "<td width='200'>".$strCostInfo."</td>";
 	echo "<td>";
@@ -136,47 +136,13 @@ if (!empty($zoneid)) {
 	echo "</select>";
 	echo "&nbsp;&nbsp;";
 
-    $res = phpAds_dbQuery("
-        SELECT DISTINCT
-            v.variableid AS variable_id,
-            v.name AS variable_name,
-            v.description AS variable_description,
-            t.trackerid AS tracker_id,
-            t.trackername AS tracker_name,
-            t.description AS tracker_description
-        FROM
-            ".$conf['table']['prefix'].$conf['table']['ad_zone_assoc']." aza JOIN
-            ".$conf['table']['prefix'].$conf['table']['zones']." z ON (aza.zone_id = z.zoneid) JOIN
-            ".$conf['table']['prefix'].$conf['table']['banners']." b ON (aza.ad_id = b.bannerid) JOIN
-            ".$conf['table']['prefix'].$conf['table']['campaigns_trackers']." ct USING (campaignid) JOIN
-            ".$conf['table']['prefix'].$conf['table']['trackers']." t USING (trackerid) JOIN
-            ".$conf['table']['prefix'].$conf['table']['variables']." v USING (trackerid) LEFT JOIN
-            ".$conf['table']['prefix'].$conf['table']['variable_publisher']." vp ON (vp.variable_id = v.variableid AND vp.publisher_id = z.affiliateid)
-        WHERE
-            ".(empty($zoneid) ? "z.affiliateid = '".$affiliateid."'" : "z.zoneid = '".$zoneid."'")." AND
-            v.datatype = 'numeric'
-            ".(phpAds_isUser(phpAds_Affiliate) ? "AND (v.hidden = 'f' OR vp.visible = 1)" : '')."
-    ");
-    
-    $res_tracker_variables = array();
-    if (!phpAds_dbNumRows($res)) {
-        $res_noresults = true;
-    } else {
-        $res_noresults = false;
-        $i = 0;
-        while ($row = phpAds_dbFetchArray($res)) {
-            $res_tracker_variables[$i]['variable_id'] = $row['variable_id'];
-            $res_tracker_variables[$i]['tracker_name'] = $row['tracker_name'];
-            $res_tracker_variables[$i]['variable_name'] = $row['variable_name'];
-            $res_tracker_variables[$i]['tracker_description'] = $row['tracker_description'];
-            $res_tracker_variables[$i]['variable_description'] = $row['variable_description'];
-            $i++;
-        }
-    }
-    
+	$dalVariables = OA_Dal::factoryDAL('variables');
+    $rsVariables = $dalVariables->getTrackerVariables($zoneid, $affiliateid, phpAds_isUser(phpAds_Affiliate));
+    $res_tracker_variables = $rsVariables->getAll();
+
     echo "<select name='cost_variable_id' id='cost_variable_id'>";
-    
-    if ($res_noresults) {
+
+    if (empty($res_tracker_variables)) {
         echo "<option value=''>-- No linked tracker --</option>";
     } else {
         foreach ($res_tracker_variables as $k=>$v) {
@@ -188,18 +154,18 @@ if (!empty($zoneid)) {
             "</option>";
         }
     }
-    
+
     echo "</select>";
-    
+
     if (strpos($zone['cost_variable_id'], ',')) {
         $cost_variable_ids = explode(',', $zone['cost_variable_id']);
     } else {
         $cost_variable_ids = array($zone['cost_variable_id']);
     }
-    
+
     echo "<select name='cost_variable_id_mult[]' id='cost_variable_id_mult' multiple='multiple' size='3'>";
-    
-    if ($res_noresults) {
+
+    if (empty($res_tracker_variables)) {
         echo "<option value=''>-- No linked tracker --</option>";
     } else {
         foreach ($res_tracker_variables as $k=>$v) {
@@ -211,7 +177,7 @@ if (!empty($zoneid)) {
             "</option>";
         }
     }
-    
+
     echo "</select>";
 	echo "</td>";
 	echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
@@ -229,7 +195,7 @@ if (!empty($zoneid)) {
 	echo "</select>";
 	echo "</td></tr>";
 }
-	
+
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "</table>";
@@ -255,7 +221,7 @@ echo "<br /><br />";
         var o = document.getElementById('cost_type');
         var p = document.getElementById('cost_variable_id');
         var p2 = document.getElementById('cost_variable_id_mult');
-        
+
         if ( o.options[o.selectedIndex].value == <?php echo MAX_FINANCE_ANYVAR; ?>) {
             p.style.display = '';
             p2.style.display = 'none';
@@ -267,9 +233,9 @@ echo "<br /><br />";
             p2.style.display = 'none';
         }
     }
-    
+
     m3_updateFinance();
-    
+
 //-->
 </script>
 

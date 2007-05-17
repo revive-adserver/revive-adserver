@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -45,7 +45,9 @@ class Language_Invocation
     function load()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $pref = $GLOBALS['_MAX']['PREF'];
+        $pref = isset($GLOBALS['_MAX']['PREF']['language'])
+            ? $GLOBALS['_MAX']['PREF']
+            : array('language' => 'english');
         // Always load the English language, in case of incomplete translations
         include_once MAX_PATH . '/lib/max/language/english/invocation.lang.php';
         // Load the language from preferences, if possible, otherwise load

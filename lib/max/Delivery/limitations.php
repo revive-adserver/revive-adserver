@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -44,6 +44,10 @@ $Id$
 function MAX_limitationsCheckAcl($row, $source = '')
 {
     if (!empty($row['compiledlimitation'])) {
+        static $aIncludedPlugins;
+        if (!isset($aIncludedPlugins)) {
+            $aIncludedPlugins = array();
+        }
         // Set to true in case of error in eval
         $result = true;
 
@@ -52,7 +56,11 @@ function MAX_limitationsCheckAcl($row, $source = '')
             $acl_plugins = explode(',', $row['acl_plugins']);
             foreach ($acl_plugins as $acl_plugin) {
                 list($package, $name) = explode(':', $acl_plugin);
-                require_once(MAX_PATH . "/plugins/deliveryLimitations/{$package}/{$name}.delivery.php");
+                $pluginName = MAX_PATH . "/plugins/deliveryLimitations/{$package}/{$name}.delivery.php";
+                if (!isset($aIncludedPlugins[$pluginName])) {
+                    require($pluginName);
+                    $aIncludedPlugins[$pluginName] = true;
+                }
             }
         }
         $GLOBALS['_MAX']['CHANNELS'] = '';
@@ -63,7 +71,7 @@ function MAX_limitationsCheckAcl($row, $source = '')
         }
         else
         {
-            $GLOBALS['_MAX']['CHANNELS'] .= MAX_DELIVERY_MULTIPLE_DELIMITER;
+            $GLOBALS['_MAX']['CHANNELS'] .= $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
         }
         return $result;
     } else {

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/language/Userlog.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
@@ -39,7 +40,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 phpAds_registerGlobal ('start');
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+MAX_Permission::checkAccess(phpAds_Admin);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -55,42 +56,27 @@ Language_Userlog::load();
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$res = phpAds_dbQuery("
-	SELECT 
-		COUNT(*) as count
-	FROM
-		".$conf['table']['prefix'].$conf['table']['userlog']."
-");
-
-if ($row = phpAds_dbFetchArray($res))
-	$count = $row['count'];
-else
-	$count = 0;
-
+$doUserLog = OA_Dal::factoryDO('userlog');
+if (!$count = $doUserLog->count()) {
+    $count = 0;
+}
 
 $limit = 15;
 $start = isset($start) ? (int) $start : 0;
 
-$res = phpAds_dbQuery("
-	SELECT
-		*
-	FROM 
-		".$conf['table']['prefix'].$conf['table']['userlog']."
-	ORDER BY
-		timestamp DESC
-	LIMIT
-		".($start * $limit).", ".$limit."
-");
-
+$doUserLog = OA_Dal::factoryDO('userlog');
+$doUserLog->orderBy('timestamp DESC');
+$doUserLog->limit($start * $limit, $limit);
+$doUserLog->find();
 
 echo "<br /><br />";
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";	
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 echo "<tr><td height='25'>&nbsp;&nbsp;<b>".$strDate."</b></td>";
 echo "<td height='25'><b>".$strAction."</b></td></tr>";
 echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
 
 
-if (phpAds_dbNumRows($res) == 0)
+if ($doUserLog->getRowCount() == 0)
 {
 	echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='4'>";
 	echo "&nbsp;&nbsp;".$strNoActionsLogged."</td></tr>";
@@ -99,15 +85,15 @@ if (phpAds_dbNumRows($res) == 0)
 
 $i=0;
 
-while ($row = phpAds_dbFetchArray($res))
+while ($doUserLog->fetch() && $row = $doUserLog->toArray())
 {
 	if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
 	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-	
+
 	// Timestamp
 	echo "<td height='25'>&nbsp;&nbsp;".strftime($date_format, $row['timestamp']).", ";
 	echo strftime($minute_format, $row['timestamp'])."</td>";
-	
+
 	// User
 	echo "<td height='25'>";
 	switch ($row['usertype'])
@@ -117,7 +103,7 @@ while ($row = phpAds_dbFetchArray($res))
 		case phpAds_userAdministrator:	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;".$strAdministrator; break;
 	}
 	echo "</td>";
-	
+
 	// Details
 	echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
 	if ($row['details'] != '')
@@ -129,21 +115,21 @@ while ($row = phpAds_dbFetchArray($res))
 		echo "&nbsp;";
 	echo "&nbsp;&nbsp;</td>";
 	echo "</tr>";
-	
+
 	// Space
 	echo "<tr height='20' valign='top' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 	echo "<td>&nbsp;</td>";
-	
+
 	// Action
 	$action = $strUserlog[$row['action']];
 	$action = str_replace ('{id}', $row['object'], $action);
 	echo "<td height='20' colspan='2'><img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;".$action."</td>";
 	echo "</tr>";
-	
+
 	$i++;
 }
 
-if (phpAds_dbNumRows($res) > 0)
+if ($doUserLog->getRowCount() > 0)
 {
 	echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='25' colspan='2'>";
@@ -157,7 +143,7 @@ if (phpAds_dbNumRows($res) > 0)
 		if ($count > ($start + 1) * $limit)
 		{
 			if ($start > 0) echo "&nbsp;|&nbsp;";
-			
+
 			echo "<a href='userlog-index.php?start=".($start + 1)."'>";
 			echo $strNext."<img src='images/arrow-r.gif' border='0' align='absmiddle'></a>";
 		}

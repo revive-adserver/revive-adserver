@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -62,7 +62,7 @@ function MAX_checkSite_Channel($limitation, $op, $aParams = array())
         @eval('$result = ('.$aLimitations['compiledlimitation'].');');
     }
     //MAX_record_Channel($limitation, $result);
-    $GLOBALS['_MAX']['CHANNELS'].= ($result ? MAX_DELIVERY_MULTIPLE_DELIMITER.$limitation : '');
+    $GLOBALS['_MAX']['CHANNELS'].= ($result ? $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'].$limitation : '');
     return $result;
 }
 

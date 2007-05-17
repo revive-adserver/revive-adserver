@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,49 +32,16 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once MAX_PATH . '/lib/max/Permission.php';
 require_once 'Date.php';
 
-// Register input variables
-phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
+phpAds_registerGlobalUnslashed('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
 
-
-// Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-
-if (phpAds_isUser(phpAds_Agency)) {
-	$query = "SELECT clientid".
-		" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-		" WHERE clientid='".$clientid."'".
-		" AND agencyid=".phpAds_getUserID();
-	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
-	if (phpAds_dbNumRows($res) == 0) {
-		phpAds_PageHeader("2");
-		phpAds_Die ($strAccessDenied, $strNotAdmin);
-	}
-} elseif (phpAds_isUser(phpAds_Client)) {
-    /**
-     * @todo need to investigate whether the url check below
-     * is actually necessary and, if so, if there is a better
-     * way of doing it
-     */
-    
-    /* Sometimes $clientid will be null due to the 'clientid' query
-       string parameter being left blank or unset.
-       We need to ensure that the url-mangling check below ignores
-       this case and that we then proceed with the correct client id.
-    */
-    if (isset($clientid) && $clientid != '') {   
-        if (phpAds_getUserID() != $clientid) {
-		  phpAds_PageHeader("2");
-		  phpAds_Die ($strAccessDenied, $strNotAdmin);
-        } 
-    } else { // $clientid blank/unset so use user id from session
-        $clientid = phpAds_getUserID();
-    }
-}
-
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
+MAX_Permission::checkAccessToObject('clients', $clientid);
 
 if (phpAds_isUser(phpAds_Admin) && !is_numeric($clientid)) {
     header("Location: advertiser-index.php");
@@ -85,38 +52,33 @@ if (phpAds_isUser(phpAds_Admin) && !is_numeric($clientid)) {
 /*-------------------------------------------------------*/
 
 if (isset($session['prefs']['advertiser-index.php']['listorder'])) {
-	$navorder = $session['prefs']['advertiser-index.php']['listorder'];
+    $navorder = $session['prefs']['advertiser-index.php']['listorder'];
 } else {
-	$navorder = '';
+    $navorder = '';
 }
 
 if (isset($session['prefs']['advertiser-index.php']['orderdirection'])) {
-	$navdirection = $session['prefs']['advertiser-index.php']['orderdirection'];
+ $session['prefs']['advertiser-index.php']['orderdirection'];
+    $navdirection = $session['prefs']['advertiser-index.php']['orderdirection'];
 } else {
 	$navdirection = '';
 }
 
 // Get other clients
-if (phpAds_isUser(phpAds_Admin)) {
-	$query = "SELECT clientid,clientname".
-		" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-		phpAds_getClientListOrder ($navorder, $navdirection);
-} elseif (phpAds_isUser(phpAds_Agency)) {
-	$query = "SELECT clientid,clientname".
-		" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-		" WHERE agencyid=".phpAds_getUserID().
-		phpAds_getClientListOrder ($navorder, $navdirection);
-} elseif (phpAds_isUser(phpAds_Client)) {
-    $query = "SELECT clientid,clientname".
-		" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-		" WHERE clientid=".phpAds_getUserID().
-		phpAds_getClientListOrder ($navorder, $navdirection);
-}
-$res = phpAds_dbQuery($query)
-	or phpAds_sqlDie();
+$doClients = OA_Dal::factoryDO('clients');
 
-while ($row = phpAds_dbFetchArray($res)) {
-	phpAds_PageContext (
+// Unless admin, restrict results shown.
+if (phpAds_isUser(phpAds_Agency)) {
+    $doClients->agencyid = phpAds_getUserID();
+} elseif (phpAds_isUser(phpAds_Client)) {
+    $doClients->clientid = phpAds_getUserID();
+}
+
+$doClients->addListOrderBy($navorder, $navdirection);
+$doClients->find();
+
+while ($doClients->fetch() && $row = $doClients->toArray()) {
+	phpAds_PageContext(
 		phpAds_buildName ($row['clientid'], $row['clientname']),
 		"advertiser-campaigns.php?clientid=".$row['clientid'],
 		$clientid == $row['clientid']
@@ -175,35 +137,22 @@ if (isset($session['prefs']['advertiser-campaigns.php'][$clientid]['nodes'])) {
 /*-------------------------------------------------------*/
 
 // Get clients & campaign and build the tree
-$query = "
-    SELECT
-        campaignid AS campaignid,
-        campaignname AS campaignname,
-        views AS impressions,
-        clicks AS clicks,
-        conversions AS conversions,
-        activate AS activate,
-        active AS active,
-        expire AS expire,
-        priority AS priority,
-        anonymous AS anonymous
-    FROM
-        {$conf['table']['prefix']}{$conf['table']['campaigns']}
-    WHERE
-        clientid = $clientid
-    " . phpAds_getCampaignListOrder($listorder, $orderdirection);
-$res_campaigns = phpAds_dbQuery($query)
-    or phpAds_sqlDie();
 
-while ($row_campaigns = phpAds_dbFetchArray($res_campaigns)) {
+$doCampaigns = OA_Dal::factoryDO('campaigns');
+$doCampaigns->clientid = $clientid;
+
+$doCampaigns->addListOrderBy($listorder, $orderdirection);
+$doCampaigns->find();
+
+while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
 	$campaigns[$row_campaigns['campaignid']]['campaignid']   = $row_campaigns['campaignid'];
-	
+
     // mask campaign name if anonymous campaign
     $campaign_details = Admin_DA::getPlacement($row_campaigns['campaignid']);
     $row_campaigns['campaignname'] = MAX_getPlacementName($campaign_details);
-    
+
 	$campaigns[$row_campaigns['campaignid']]['campaignname'] = $row_campaigns['campaignname'];
-	$campaigns[$row_campaigns['campaignid']]['impressions']  = phpAds_formatNumber($row_campaigns['impressions']);
+	$campaigns[$row_campaigns['campaignid']]['impressions']  = phpAds_formatNumber($row_campaigns['views']);
 	$campaigns[$row_campaigns['campaignid']]['clicks']       = phpAds_formatNumber($row_campaigns['clicks']);
 	$campaigns[$row_campaigns['campaignid']]['conversions']  = phpAds_formatNumber($row_campaigns['conversions']);
 	if ($row_campaigns['activate'] != '0000-00-00') {
@@ -231,29 +180,21 @@ while ($row_campaigns = phpAds_dbFetchArray($res_campaigns)) {
     $campaigns[$row_campaigns['campaignid']]['anonymous'] = $row_campaigns['anonymous'];
 }
 
-// Get the banners for each campaign
-$res_banners = phpAds_dbQuery("
-	SELECT
-		bannerid,
-		campaignid,
-		alt,
-		description,
-		active,
-		storagetype AS type
-	FROM
-		".$conf['table']['prefix'].$conf['table']['banners']."
-		".phpAds_getBannerListOrder ($listorder, $orderdirection)."
-	") or phpAds_sqlDie();
 
-while ($row_banners = phpAds_dbFetchArray($res_banners)) {
+$doBanners = OA_Dal::factoryDO('banners');
+$doBanners->selectAs(array('storagetype'), 'type');
+$doBanners->addListOrderBy($listorder, $orderdirection);
+$doBanners->find();
+
+while ($doBanners->fetch() && $row_banners = $doBanners->toArray()) {
     if (isset($campaigns[$row_banners['campaignid']])) {
         $banners[$row_banners['bannerid']] = $row_banners;
-        
+
         // mask banner name if anonymous campaign
         $campaign_details = Admin_DA::getPlacement($row_banners['campaignid']);
         $campaignAnonymous = $campaign_details['anonymous'] == 't' ? true : false;
         $banners[$row_banners['bannerid']]['description'] = MAX_getAdName($row_banners['description'], null, null, $campaignAnonymous, $row_banners['bannerid']);
-               
+
         $campaigns[$row_banners['campaignid']]['count']++;
     }
 }

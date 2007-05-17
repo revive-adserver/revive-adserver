@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -76,7 +76,7 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
                 $adTable AS a,
                 $dsahTable AS dsah
             WHERE
-                a.campaignid = $placementId
+                a.campaignid = ". $this->oDbh->quote($placementId, 'integer') ."
                 AND
                 a.bannerid = dsah.ad_id
             ORDER BY
@@ -84,17 +84,17 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
             LIMIT 1";
         $message = "Finding start date of placement ID $placementId based on delivery statistics.";
         MAX::debug($message, PEAR_LOG_DEBUG);
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return $rResult;
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return $rc;
         }
         // Was a result found?
-        if ($rResult->numRows() == 0) {
+        if ($rc->numRows() == 0) {
             // Return the current time
             $oDate = new Date();
         } else {
             // Store the results
-            $aRow = $rResult->fetchRow();
+            $aRow = $rc->fetchRow();
             $oDate = new Date($aRow['day'] . ' ' . $aRow['hour'] . ':00:00');
         }
         return $oDate;
@@ -171,30 +171,30 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
             SELECT
                 zone_id AS zone_id,
                 day AS day,
-                $columnName AS forecast_impressions
+                SUM($columnName) AS forecast_impressions
             FROM
                 $table
             WHERE
                 channel_id = $channelId
                 AND
-                zone_id IN (" . implode(', ', $aZoneIds) . ")
+                zone_id IN (" . $this->oDbh->escape(implode(', ', $aZoneIds)) . ")
                 AND
-                day >= '" . $aPeriod['start']->format('%Y-%m-%d') . "'
+                day >= ". $this->oDbh->quote($aPeriod['start']->format('%Y-%m-%d'), 'date') . "
                 AND
-                day <= '" . $aPeriod['end']->format('%Y-%m-%d') . "'
+                day <= ". $this->oDbh->quote($aPeriod['end']->format('%Y-%m-%d'), 'date') . "
             GROUP BY
-                channel_id, day";
+                zone_id, day";
         $message = 'Finding all channel/zone forecast inventory data for channel ID ' . $channelId .
-                   ' and zone ID in ' . implode(', ', $aZoneIds) . ' in the period ' .
+                   ' and zone IDs in ' . implode(', ', $aZoneIds) . ' in the period ' .
                    $aPeriod['start']->format('%Y-%m-%d') . ' to ' . $aPeriod['end']->format('%Y-%m-%d');
         MAX::debug($message, PEAR_LOG_DEBUG);
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return $rResult;
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return $rc;
         }
         // Store the results
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             if (!is_null($aRow['forecast_impressions'])) {
                 $aResult[$aRow['zone_id']][$aRow['day']] = $aRow['forecast_impressions'];
             }
@@ -227,23 +227,23 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
                     FROM
                         $table
                     WHERE
-                        channel_id = $channelId
+                        channel_id = ". $this->oDbh->quote($channelId, 'integer') ."
                         AND
-                        zone_id = $zoneId
+                        zone_id = ". $this->oDbh->quote($zoneId, 'integer') ."
                     ORDER BY
                         day DESC
                     LIMIT 7";
                 $message = 'Finding the seven most recent days of channel/zone forecast inventory data ' .
                             ' for channel ID ' . $channelId . ' and zone ID ' . $zoneId;
                 MAX::debug($message, PEAR_LOG_DEBUG);
-                $rResult = $this->dbh->query($query);
-                if (PEAR::isError($rResult)) {
-                    return $rResult;
+                $rc = $this->oDbh->query($query);
+                if (PEAR::isError($rc)) {
+                    return $rc;
                 }
                 // Prepare an array of the forecast values found, indexed by day
                 // of the week
                 $aDaysFound = array();
-                while ($aRow = $rResult->fetchRow()) {
+                while ($aRow = $rc->fetchRow()) {
                     if (!is_null($aRow['day']) && !is_null($aRow['forecast_impressions'])) {
                         $oDate = new Date($aRow['day']);
                         $dayOfWeek = $oDate->getDayOfWeek();
@@ -307,16 +307,14 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
                 FROM
                     $table
                 WHERE
-                    zone_id = $zoneId
-                ORDER BY
-                    interval_start DESC
+                    zone_id = ". $this->oDbh->quote($zoneId, 'integer') ."
                 LIMIT
                     " . MAX_OperationInterval::operationIntervalsPerWeek();
-            $rResult = $this->dbh->query($query);
-            if (PEAR::isError($rResult)) {
-                return $rResult;
+            $rc = $this->oDbh->query($query);
+            if (PEAR::isError($rc)) {
+                return $rc;
             }
-            while ($aRow = $rResult->fetchRow()) {
+            while ($aRow = $rc->fetchRow()) {
                 if (!is_null($aRow['impressions'])) {
                     $aResult[$zoneId] = $aRow['impressions'];
                 }

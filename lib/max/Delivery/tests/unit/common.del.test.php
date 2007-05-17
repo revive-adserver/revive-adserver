@@ -1,5 +1,30 @@
 <?php
 
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 
 /**
@@ -38,7 +63,7 @@ class test_DeliveryCommon extends UnitTestCase
     function test_MAX_commonGetDeliveryUrl_Uses_HTTP_Scheme_For_Nonsecure_URLs()
     {
         $_SERVER['SERVER_PORT'] = 80;
-        $GLOBALS['_MAX']['CONF']['max']['sslPort']  = 443;
+        $GLOBALS['_MAX']['CONF']['openads']['sslPort']  = 443;
         $url = MAX_commonGetDeliveryUrl('test.html');
         $this->assertEqual($url, 'http://www.maxstore.net/www/delivery/test.html', "HTTP delivery on standard, non-secure ports only need to generate plain HTTP URLs for delivery, with no explicit port.");
     }
@@ -46,7 +71,7 @@ class test_DeliveryCommon extends UnitTestCase
     function test_MAX_commonGetDeliveryUrl_Uses_HTTPS_Scheme_For_Secure_URLs()
     {
         $_SERVER['SERVER_PORT'] = 443;
-        $GLOBALS['_MAX']['CONF']['max']['sslPort']  = 443;
+        $GLOBALS['_MAX']['CONF']['openads']['sslPort']  = 443;
         $url    = MAX_commonGetDeliveryUrl('test.html');
         $this->assertEqual($url, 'https://secure.maxstore.net/www/delivery/test.html', "Delivery requests that come in on the 'secure port' should use HTTPS URLs. %s");
     }
@@ -54,10 +79,10 @@ class test_DeliveryCommon extends UnitTestCase
     function test_MAX_commonGetDeliveryUrl_Includes_Nonstandard_Secure_Port_Number()
     {
         $_SERVER['SERVER_PORT'] = 4430;
-        $GLOBALS['_MAX']['CONF']['max']['sslPort']  = 4430;
+        $GLOBALS['_MAX']['CONF']['openads']['sslPort']  = 4430;
         $url    = MAX_commonGetDeliveryUrl('test.html');
         $this->assertEqual($url, 'https://secure.maxstore.net:4430/www:4430/delivery/test.html', "A non-standard port number should be explicitly provided in delivery URLs. %s");
-        
+
     }
 
 	/**
@@ -87,7 +112,7 @@ class test_DeliveryCommon extends UnitTestCase
 	{
 		$this->sendMessage('test_MAX_commonConstructSecureDeliveryUrl');
         $GLOBALS['_MAX']['CONF']['webpath']['deliverySSL'] 	= 'secure.maxstore.net/www/delivery';
-        $GLOBALS['_MAX']['CONF']['max']['sslPort'] 			= 444;
+        $GLOBALS['_MAX']['CONF']['openads']['sslPort'] 			= 444;
 		$file = 'test.html';
 		$ret 	= MAX_commonConstructSecureDeliveryUrl($file);
         $this->assertEqual($ret, 'https://secure.maxstore.net:444/www:444/delivery/test.html');
@@ -171,42 +196,19 @@ class test_DeliveryCommon extends UnitTestCase
 	 * $_POST values take precedence over $_GET values
 	 *
 	 */
-	function test_MAX_commonRegisterGlobals()
+	function test_MAX_commonRegisterGlobalsArray()
 	{
 	    $tmpGlobals = $GLOBALS;
 	    $_GET['max_test_get']      = '0';
 	    $_POST['max_test_get']     = '1';
 	    $_GET['max_test_post']     = '0';
 	    $_POST['max_test_post']    = '1';
-		MAX_commonRegisterGlobals('max_test_get', 'max_test_post');
+		MAX_commonRegisterGlobalsArray(array('max_test_get', 'max_test_post'));
 		$this->assertTrue(array_key_exists('max_test_get', $GLOBALS),'max_test_get exists');
 		$this->assertTrue(array_key_exists('max_test_post', $GLOBALS),'max_test_post exists');
 		$this->assertTrue($GLOBALS['max_test_get'],'GLOBALS precedence error');
 		$this->assertTrue($GLOBALS['max_test_post'],'GLOBALS precedence error');
 		$GLOBALS = $tmpGlobals;
-	}
-
-	/**
-	 * Recursivley add slashes to the values in an array
-	 *
-	 * @param array Input array
-	 * @return array Output array with values slashed
-	 */
-	function test_MAX_commonSlashArray()
-	{
-		$this->sendMessage('test_MAX_commonSlashArray');
-		$strIn0	= "Mr O\'Reilly";
-		$strIn1	= '"Mr Reilly"\n';
-		$strRe0 = addslashes($strIn0);
-		$strRe1 = addslashes($strIn1);
-
-		$aIn	= array(0 => $strIn0,
-						1 => array(0 => $strIn1),
-						);
-		$aRet 	= MAX_commonSlashArray($aIn);
-
-        $this->assertEqual($aRet[0], $strRe0);
-        $this->assertEqual($aRet[1][0], $strRe1);
 	}
 
 	/**

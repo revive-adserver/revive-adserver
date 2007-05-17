@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -157,7 +157,7 @@ class Plugins_ChannelDerivation extends MAX_Plugin_Common
      *
      * @param boolean $processSections      If true the configuration data is returned
      *                                      as one dimension array
-     * @param boolean $commonPackageConfig  If true read the global plugin.conf.ini file
+     * @param boolean $commonPackageConfig  If true read the global plugin.conf.php file
      *                                      for specific package
      *
      * @return object                       Plugin object or false if any error occured

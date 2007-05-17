@@ -1,0 +1,137 @@
+<?php
+
+// uncomment this line if you want to run both MDB2 from a CVS checkout
+#ini_set('include_path', '..'.PATH_SEPARATOR.ini_get('include_path'));
+
+require_once 'MDB2/tests/testcases.php';
+
+// use a user that has full permissions on a database named "driver_test"
+$mysql = array(
+    'dsn' => array(
+        'phptype' => 'mysql',
+        'username' => 'username',
+        'password' => 'password',
+        'hostspec' => 'hostname',
+    ),
+    'options' => array(
+        'use_transactions' => true
+    )
+);
+
+$pgsql = array(
+    'dsn' => array(
+        'phptype' => 'pgsql',
+        'username' => 'username',
+        'password' => 'password',
+        'hostspec' => 'hostname',
+    )
+);
+
+$oci8 = array(
+    'dsn' => array(
+        'phptype' => 'oci8',
+        'username' => '',
+        'password' => 'password',
+        'hostspec' => 'hostname',
+    ),
+    'options' => array(
+        'DBA_username' => 'username',
+        'DBA_password' => 'password'
+    )
+);
+
+$sqlite = array(
+    'dsn' => array(
+        'phptype' => 'sqlite',
+        'username' => '',
+        'password' => 'password',
+        'hostspec' => 'hostname',
+    ),
+    'options' => array(
+        'database_path' => '',
+        'database_extension' => '',
+    )
+);
+
+// must be a user with system administrator privileges
+$mssql = array(
+    'dsn' => array(
+        'phptype' => 'mssql',
+        'username' => 'username',
+        'password' => 'password',
+        'hostspec' => 'hostname',
+    )
+);
+
+$fbsql = array(
+    'dsn' => array(
+        'phptype' => 'fbsql',
+        'username' => 'username',
+        'password' => 'password',
+        'hostspec' => 'hostname',
+    )
+);
+
+
+$ibase = array(
+    'dsn' => array(
+        'phptype' => 'ibase',
+        'username' => 'username',
+        'password' => 'password',
+        'hostspec' => 'hostname',
+    )
+);
+
+$dbarray = array();
+#$dbarray[] = $mysql;
+#$dbarray[] = $pgsql;
+#$dbarray[] = $oci8;
+#$dbarray[] = $sqlite;
+#$dbarray[] = $mssql;
+#$dbarray[] = $fbsql;
+#$dbarray[] = $ibase;
+
+// you may need to uncomment the line and modify the multiplier as you see fit
+#set_time_limit(60*count($dbarray));
+
+//if uncommented, the following will drop and recreate the test database when running the test
+// the paths assumes that MDB2_Schema is checked out in the same parent directory as MDB2
+/*
+require_once('MDB2/Schema.php');
+$schema_path = '../../MDB2_Schema/tests/';
+
+// OPENADS ONLY
+$schema_path = MAX_PATH.'/lib/pear/MDB2_Schema/tests/';
+
+function pe($e) {
+    die($e->getMessage().' '.$e->getUserInfo());
+}
+function databaseExists($db, $database_name)
+{
+    $result = $db->manager->listDatabases();
+    if (PEAR::isError($result)) {
+        return false;
+    }
+    return in_array(strtolower($database_name), array_map('strtolower', $result));
+}
+PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, 'pe');
+foreach ($dbarray as $dbtype) {
+    $schema =& MDB2_Schema::factory($dbtype['dsn'], $dbtype['options']);
+    if (databaseExists($schema->db, 'driver_test'))
+    {
+        $schema->db->manager->dropDatabase('driver_test');
+    }
+    $schema->updateDatabase(
+        $schema_path.'driver_test.schema',
+        false,
+        array('create' => '1', 'name' => 'driver_test')
+    );
+    $schema->updateDatabase(
+        $schema_path.'lob_test.schema',
+        false,
+        array('create' => '1', 'name' => 'driver_test')
+    );
+}
+PEAR::popErrorHandling();
+*/
+?>

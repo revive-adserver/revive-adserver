@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,7 +32,7 @@ require_once 'Log.php';
 require_once 'PEAR.php';
 
 /**
- * The main Max Media Manager class.
+ * The main Openads class.
  *
  * @package    Max
  * @author     Andrew Hill <andrew@m3.net>
@@ -128,39 +128,6 @@ class MAX
         return $logger->log($message, $priority);
     }
 
-
-
-    /**
-     * Originally phpAds_sendMail() function.
-     */
-    function sendMail($email, $readable, $subject, $contents)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-    	global $phpAds_CharSet;
-    	// Build To header
-    	if (!get_cfg_var('SMTP')) {
-    		$param_to = '"'.$readable.'" <'.$email.'>';
-    	} else {
-    		$param_to = $email;
-    	}
-    	// Build additional headers
-    	$param_headers = "Content-Transfer-Encoding: 8bit\r\n";
-    	if (isset($phpAds_CharSet)) {
-    		$param_headers .= "Content-Type: text/plain; charset=".$phpAds_CharSet."\r\n";
-    	}
-    	if (get_cfg_var('SMTP')) {
-    		$param_headers .= 'To: "'.$readable.'" <'.$email.">\r\n";
-    	}
-    	$param_headers .= 'From: "'.$conf['email']['admin_name'].'" <'.$conf['email']['admin'].'>'."\r\n";
-    	// Use only \n as header separator when qmail is used
-    	if ($conf['qmail_patch']) {
-    		$param_headers = str_replace("\r", '', $param_headers);
-    	}
-    	// Add \r to linebreaks in the contents for MS Exchange compatibility
-    	$contents = str_replace("\n", "\r\n", $contents);
-    	return (@mail($param_to, $subject, $contents, $param_headers));
-    }
-
     /*-------------------------------------------------------*/
     /* Get list order status                                 */
     /*-------------------------------------------------------*/
@@ -232,7 +199,7 @@ class MAX
      * @static
      * @param PEAR_Error $oError A {@link PEAR_Error} object
      */
-    function errorObjToString($oError)
+    function errorObjToString($oError, $additionalInfo = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $message = $oError->getMessage();
@@ -250,6 +217,7 @@ class MAX
     <br />
     <br />$message
     <br /><pre>$debugInfo</pre>
+    $additionalInfo
 </div>
 <br />
 <br />
@@ -282,11 +250,11 @@ EOF;
     }
 
     /**
-     * A method to construct URLs based on the Max installation details.
+     * A method to construct URLs based on the Openads installation details.
      *
      * @param integer $type The URL type. One of:
      *                  - MAX_URL_ADMIN for admin pages;
-     *                  - MAX_URL_IMAGE for Max images (i.e. in /admin/images).
+     *                  - MAX_URL_IMAGE for Openads images (i.e. in /admin/images).
      * @param string $file An optional file name.
      * @return string The URL to the file.
      */
@@ -307,9 +275,9 @@ EOF;
         // happens from the root of virtual hosts)
         $path .= '/';
         // Modify the admin URL for different SSL port if required
-        if ($conf['max']['sslPort'] != 443) {
+        if ($conf['openads']['sslPort'] != 443) {
             if ($GLOBALS['_MAX']['HTTP'] == 'https://') {
-                $path = preg_replace('#/#', ':' . $conf['max']['sslPort'] . '/', $path);
+                $path = preg_replace('#/#', ':' . $conf['openads']['sslPort'] . '/', $path);
             }
         }
         // Return the URL
@@ -330,16 +298,28 @@ function pearErrorHandler($oError)
     $message = $oError->getMessage();
     $debugInfo = $oError->getDebugInfo();
     MAX::debug('PEAR' . " :: $message : $debugInfo", PEAR_LOG_ERR);
-    // Send the error to the screen
-    echo MAX::errorObjToString($oError);
 
-    //  if sesssion debug, send error info to screen
+    // If sesssion debug, send error info to screen
+    $msg = '';
     if (empty($conf['debug']['production'])) {
         $GLOBALS['_MAX']['ERRORS'][] = $oError;
-        if (!empty($conf['debug']['showBacktrace'])) {
-            echo '<pre>'; print_r($oError->getBacktrace()); print '</pre>';
-        }
     }
+
+    // Add backtrace info
+    if (!empty($conf['debug']['showBacktrace'])) {
+        $msg .= 'PEAR backtrace: <div onClick="if (this.style.height) {this.style.height = null;this.style.width = null;} else {this.style.height = \'8px\'; this.style.width=\'8px\'}"';
+        $msg .= 'style="float:left; cursor: pointer; border: 1px dashed #FF0000; background-color: #EFEFEF; height: 8px; width: 8px; overflow: hidden; margin-bottom: 2px;">';
+        $msg .= '<pre wrap style="margin: 5px; background-color: #EFEFEF">';
+
+        ob_start();
+        print_r($oError->getBacktrace());
+        $msg .= ob_get_clean();
+
+        $msg .= '<hr></pre></div>';
+        $msg .= '<div style="clear:both"></div>';
+    }
+    // Send the error to the screen
+    echo MAX::errorObjToString($oError, $msg);
 }
 
 // Set PEAR error handler

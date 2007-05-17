@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
@@ -43,27 +44,11 @@ phpAds_registerGlobal ('returnurl');
 
 // Security check
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
-
-if (phpAds_isUser(phpAds_Agency)) {
-    if (isset($campaignid) && $campaignid != '') {
-        $query = "SELECT c.clientid".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients']." AS c".
-        ",".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
-        " WHERE c.clientid=m.clientid".
-        " AND c.clientid='".$clientid."'".
-        " AND m.campaignid='".$campaignid."'".
-        " AND agencyid=".phpAds_getUserID();
-    } else {
-        $query = "SELECT c.clientid".
-        " FROM ".$conf['table']['prefix'].$conf['table']['clients']." AS c".
-        " WHERE c.clientid='".$clientid."'".
-        " AND agencyid=".phpAds_getUserID();
-    }
-    $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-    if (phpAds_dbNumRows($res) == 0) {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
+if (!empty($campaignid)) {
+    MAX_Permission::checkAccessToObject('campaigns', $campaignid);
+}
+if (!empty($clientid)) {
+    MAX_Permission::checkAccessToObject('clients', $clientid);
 }
 
 /*-------------------------------------------------------*/
@@ -78,72 +63,10 @@ if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-function phpAds_DeleteCampaign($campaignid) {
-    $conf = $GLOBALS['_MAX']['CONF'];
-
-    // Delete Campaign_Zone Associations
-    phpAds_dbQuery("DELETE FROM {$conf['table']['prefix']}{$conf['table']['placement_zone_assoc']} WHERE placement_id=$campaignid") or phpAds_sqlDie();
-
-    // Delete Campaign
-    phpAds_dbQuery("DELETE FROM {$conf['table']['prefix']}{$conf['table']['campaigns']} WHERE campaignid=$campaignid") or phpAds_sqlDie();
-
-    // Delete Campaign/Tracker links
-    phpAds_dbQuery("DELETE FROM {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']} WHERE campaignid=$campaignid") or phpAds_sqlDie();
-
-    // Delete Conversions Logged to this Campaign
-    //$res = phpAds_dbQuery("DELETE FROM ".$conf['table']['prefix'].$conf['table']['conversionlog'].
-    //" WHERE campaignid='".$campaignid."'"
-    //) or phpAds_sqlDie();
-
-    // Loop through each banner
-    $res_banners = phpAds_dbQuery("
-		SELECT
-			bannerid,
-			storagetype AS type,
-			filename
-		FROM
-			".$conf['table']['prefix'].$conf['table']['banners']."
-		WHERE
-			campaignid = '$campaignid'
-	") or phpAds_sqlDie();
-
-    while ($row = phpAds_dbFetchArray($res_banners)) {
-
-    	$bannerid = $row['bannerid'];
-
-        // Cleanup stored images for each banner
-        if (($row['type'] == 'web' || $row['type'] == 'sql') && $row['filename'] != '') {
-            phpAds_ImageDelete ($row['type'], $row['filename']);
-        }
-
-        // Delete Banner ACLs
-        phpAds_dbQuery("
-			DELETE FROM
-				".$conf['table']['prefix'].$conf['table']['acls']."
-			WHERE
-				bannerid = $bannerid
-		") or phpAds_sqlDie();
-
-	    // Delete Ad_Zone Associations
-	    phpAds_dbQuery("DELETE FROM {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} WHERE ad_id=$bannerid") or phpAds_sqlDie();
-
-        // Delete stats for each banner
-        //phpAds_deleteStatsByBannerID($bannerid);
-    }
-
-    // Delete Banners
-    phpAds_dbQuery("
-		DELETE FROM
-			".$conf['table']['prefix'].$conf['table']['banners']."
-		WHERE
-			campaignid = '$campaignid'
-	") or phpAds_sqlDie();
-}
-
-
-if (isset($campaignid) && $campaignid != '') {
-    // Campaign is specified, delete only this campaign
-    phpAds_DeleteCampaign($campaignid);
+if (!empty($campaignid)) {
+    $doCampaigns = OA_Dal::factoryDO('campaigns');
+    $doCampaigns->campaignid = $campaignid;
+    $doCampaigns->delete();
     // Find and delete the campains from $node_array, if
     // necessary. (Later, it would be better to have
     // links to this file pass in the clientid as well,
@@ -177,7 +100,7 @@ if (isset($node_array)) {
 /* Return to the index page                              */
 /*-------------------------------------------------------*/
 
-if (!isset($returnurl) && $returnurl == '') {
+if (empty($returnurl)) {
     $returnurl = 'advertiser-campaigns.php';
 }
 

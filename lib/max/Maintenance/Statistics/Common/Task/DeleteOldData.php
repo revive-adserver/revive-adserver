@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -52,7 +52,7 @@ class MAX_Maintenance_Statistics_Common_Task_DeleteOldData extends MAX_Maintenan
 
     /**
      * The implementation of the MAX_Core_Task::run() method that performs
-     * the task of this class. Intended to be inherited by childred of this
+     * the task of this class. Intended to be inherited by children of this
      * class.
      */
     function run()
@@ -76,7 +76,7 @@ class MAX_Maintenance_Statistics_Common_Task_DeleteOldData extends MAX_Maintenan
             $oSummarisedToDate = new Date();
             $oSummarisedToDate->copy($this->oController->updateIntermediateToDate);
         }
-        if (is_null($oSummarisedToDate)) {
+        if (empty($oSummarisedToDate)) {
             // Statistics were not summarised, don't delete
             return;
         }
@@ -114,7 +114,7 @@ class MAX_Maintenance_Statistics_Common_Task_DeleteOldData extends MAX_Maintenan
     {
         $time = time();
         $oServiceLocator = &ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Statistics_' . $this->oController->module);
+        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_' . $this->oController->module);
         $rows = $oDal->deleteOldData($oSummarisedToDate);
         $time = time() - $time;
         if ($conf['table']['split']) {

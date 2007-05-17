@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>513</version>
+  <comments>Added warn_day_limit column to preference table, needed for date-based expiring campaign alert</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>513</version>
+      <change>
+        <table>
+          <name>preference</name>
+          <add>
+            <field>
+              <name>warn_limit_days</name>
+              <type>openads_smallint</type>
+              <length>6</length>
+              <notnull>true</notnull>
+              <was>warn_limit_days</was>
+              <default>1</default>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>513</version>
+    </changeset>
+  </destructive>
+</instructionset>

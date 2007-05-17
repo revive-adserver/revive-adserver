@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-size.inc.php';
@@ -49,8 +50,7 @@ foreach($invPlugins as $pluginKey => $plugin) {
 }
 
 // Register input variables
-phpAds_registerGlobal ('append', 'submitbutton');
-phpAds_registerGlobal ('appendtype', 'appendid', 'appenddelivery', 'appendsave');
+phpAds_registerGlobalUnslashed('append', 'submitbutton', 'appendtype', 'appendid', 'appenddelivery', 'appendsave');
 
 // Register input variables for plugins
 foreach ($invPlugins as $plugin) {
@@ -59,25 +59,17 @@ foreach ($invPlugins as $plugin) {
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
 
 if (phpAds_isUser(phpAds_Agency)) {
-    $query = "
-        SELECT
-            d.bannerid as bannerid
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['clients']} AS a,
-            {$conf['table']['prefix']}{$conf['table']['campaigns']} AS m,
-            {$conf['table']['prefix']}{$conf['table']['banners']} AS d
-        WHERE
-            m.clientid='{$clientid}'
-          AND d.campaignid='{$campaignid}'
-          AND d.bannerid='{$bannerid}'
-          AND d.campaignid=m.campaignid
-          AND m.clientid=a.clientid
-          AND a.agencyid=".phpAds_getUserID();
-    $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-    if (phpAds_dbNumRows($res) == 0) {
+    $doBanners = OA_Dal::factoryDO('banners');
+    $doBanners->addReferenceFilter('agency', phpAds_getUserID());
+    $doBanners->addReferenceFilter('campaigns', $campaignid);
+    $doBanners->addReferenceFilter('clients', $clientid);
+    $doBanners->addReferenceFilter('banners', $bannerid);
+    $doBanners->find();
+
+    if (!$doBanners->getRowCount()) {
         phpAds_PageHeader("2");
         phpAds_Die ($strAccessDenied, $strNotAdmin);
     }
@@ -114,33 +106,21 @@ if (isset($submitbutton)) {
             }
 
             // Update banner
-            $sqlupdate[] = "append='{$append}'";
-            $sqlupdate[] = "appendtype='{$appendtype}'";
-        
+            $sqlupdate['append'] = $append;
+            $sqlupdate['appendtype'] = $appendtype;
+
             // Add variables from plugins
             foreach ($invPlugins as $plugin) {
                 foreach ($plugin->prepareVariables() as $k => $v) {
-                    $sqlupdate[] = "{$k}='{$v}'";
+                    $sqlupdate[$k] = $v;
                 }
             }
 
-            $res = phpAds_dbQuery("
-                UPDATE
-                    {$conf['table']['prefix']}{$conf['table']['banners']}
-                SET
-                    ".join(', ', $sqlupdate)."
-                    , updated = '".date('Y-m-d H:i:s')."'
-                WHERE
-                    bannerid='{$bannerid}'
-            ") or phpAds_sqlDie();
+            $doBanners = OA_Dal::factoryDO('banners');
+            $doBanners->get($bannerid);
+            $doBanners->setFrom($sqlupdate);
+            $doBanners->update();
         }
-
-        // Rebuild Banner cache
-        phpAds_rebuildBannerCache($bannerid);
-
-        // Rebuild Cache
-        // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
-        // phpAds_cacheDelete();
 
         // Do not redirect until not finished with zone appending, if present
         if (!isset($appendsave) || $appendsave) {
@@ -181,49 +161,13 @@ MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntit
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$res = phpAds_dbQuery("
-    SELECT
-        bannerid,
-        campaignid,
-        active,
-        contenttype,
-        pluginversion,
-        storagetype AS type,
-        filename,
-        imageurl,
-        htmltemplate,
-        htmlcache,
-        width,
-        height,
-        weight,
-        seq,
-        target,
-        url,
-        alt,
-        status,
-        bannerTEXT,
-        description,
-        autohtml,
-        adserver,
-        block,
-        capping,
-        session_capping,
-        compiledlimitation,
-        append,
-        appendtype,
-        bannertype,
-        alt_filename,
-        alt_imageurl,
-        alt_contenttype
-    FROM
-        {$conf['table']['prefix']}{$conf['table']['banners']}
-    WHERE
-        bannerid = '{$bannerid}'
-") or phpAds_sqlDie();
-
-if (phpAds_dbNumRows($res)) {
-    $banner = phpAds_dbFetchArray($res);
+$doBanners = OA_Dal::factoryDO('banners');
+$doBanners->selectAdd('storagetype AS type');
+$doBanners->bannerid = $bannerid;
+if ($doBanners->find(true)) {
+    $banner = $doBanners->toArray();
 }
+
 $tabindex = 1;
 
 if ($banner['type'] != 'txt' || count($invPlugins)){
@@ -246,27 +190,26 @@ if ($banner['type'] != 'txt') {
     $available = array();
 
     // Get list of public publishers
-    $res = phpAds_dbQuery("SELECT * FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE publiczones = 't'");
-    while ($row = phpAds_dbFetchArray($res)) {
+    $doAffiliates = OA_Dal::factoryDO('affiliates');
+    $doAffiliates->publiczones = 't';
+    $doAffiliates->find();
+    while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
         $available[] = "affiliateid = '{$row['affiliateid']}'";
     }
     $available = implode ($available, ' OR ');
 
     // Get public zones
-    $res = phpAds_dbQuery("
-        SELECT
-            zoneid, zonename, delivery
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['zones']}
-        WHERE
-            (delivery = ".phpAds_ZonePopup." OR delivery = ".phpAds_ZoneInterstitial.")
-          AND ({$available})
-        ORDER BY
-            zoneid
-    ");
+    $doZones = OA_Dal::factoryDO('zones');
+    $doZones->selectAdd();
+    $doZones->selectAdd('zoneid, zonename, delivery');
+    $doZones->whereAdd('delivery = ' . phpAds_ZonePopup);
+    $doZones->whereAdd('delivery = ' . phpAds_ZoneInterstitial, 'OR');
+    $available ? $doZones->whereAdd($available) : null;
+    $doZones->orderBy('zoneid');
+    $doZones->find();
 
     $available = array(phpAds_ZonePopup => array(), phpAds_ZoneInterstitial => array());
-    while ($row = phpAds_dbFetchArray($res)) {
+    while ($doZones->fetch() && $row = $doZones->toArray()) {
         $available[$row['delivery']][$row['zoneid']] = phpAds_buildZoneName($row['zoneid'], $row['zonename']);
     }
 

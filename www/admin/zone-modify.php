@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
@@ -40,7 +41,7 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 phpAds_registerGlobal('newaffiliateid', 'returnurl', 'duplicate');
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
 
 if (!MAX_checkZone($affiliateid, $zoneid)) {
     phpAds_Die($strAccessDenied, $strNotAdmin);
@@ -56,91 +57,27 @@ if (isset($zoneid) && $zoneid != '') {
         // Needs to ensure that the publisher the zone is being moved to is
         // owned by the agency, if an agency is logged in.
         if (phpAds_isUser(phpAds_Agency)) {
-            MAX_checkPublisher($newaffiliateid);
-        } 
-        
+            if (!MAX_checkPublisher($newaffiliateid)) {
+                phpAds_Die($strAccessDenied, $strNotAdmin);
+            }
+        }
+
         // Move the zone to the new Publisher/Affiliate
-        $res = phpAds_dbQuery("
-            UPDATE
-                ".$conf['table']['prefix'].$conf['table']['zones']."
-            SET
-                affiliateid = '".$newaffiliateid."',
-                updated = '".date('Y-m-d H:i:s')."'
-            WHERE
-                zoneid = '".$zoneid."'
-            ") or phpAds_sqlDie();
-        
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->get($zoneid);
+        $doZones->affiliateid = $newaffiliateid;
+        $doZones->update();
+
         Header ("Location: ".$returnurl."?affiliateid=".$newaffiliateid."&zoneid=".$zoneid);
         exit;
-        
+
     } elseif (isset($duplicate) && $duplicate == 'true') {
         // Duplicate the zone
-        
-        $res = phpAds_dbQuery("
-			SELECT
-		   		*
-			FROM
-				".$conf['table']['prefix'].$conf['table']['zones']."
-			WHERE
-				zoneid = '".$zoneid."'
-		") or phpAds_sqlDie();
-        
-        if ($row = phpAds_dbFetchArray($res)) {
-            // Get names
-            if (ereg("^(.*) \([0-9]+\)$", $row['zonename'], $regs)) {
-                $basename = $regs[1];
-            } else {
-                $basename = $row['zonename'];
-            }
-            
-            $names = array();
-            
-            $res = phpAds_dbQuery("
-				SELECT
-			   		*
-				FROM
-					".$conf['table']['prefix'].$conf['table']['zones']."
-			") or phpAds_sqlDie();
-            
-            while ($name = phpAds_dbFetchArray($res)) {
-                $names[] = $name['zonename'];
-            }
-            
-            // Get unique name
-            $i = 2;
-            
-            while (in_array($basename.' ('.$i.')', $names)) {
-                $i++;
-            }
-            
-            $row['zonename'] = $basename.' ('.$i.')';
-            
-            
-            // Remove bannerid
-            unset($row['zoneid']);
-            
-            $values = array();
-            
-            if(isset($row['updated'])) {
-                unset($row['updated']);
-            }
-            while (list($name, $value) = each($row)) {
-                $values[] = $name." = '".addslashes($value)."'";
-            }
-            
-            $res = phpAds_dbQuery("
-		   		INSERT INTO
-		   			".$conf['table']['prefix'].$conf['table']['zones']."
-				SET
-					".implode(", ", $values).",
-					updated = '".date('Y-m-d H:i:s')."'
-	   		") or phpAds_sqlDie();
-            
-            $new_zoneid = phpAds_dbInsertID();
-            
-            Header ("Location: ".$returnurl."?affiliateid=".$affiliateid."&zoneid=".$new_zoneid);
-            exit;
-        }
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->get($zoneid);
+        $new_zoneid = $doZones->duplicate();
+        Header ("Location: ".$returnurl."?affiliateid=".$affiliateid."&zoneid=".$new_zoneid);
+        exit;
     }
 }
 

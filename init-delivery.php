@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -26,27 +26,37 @@ $Id$
 */
 
 /**
- * @package    Max
- * @author     Scott Switzer <scott@switzer.org>
- * @author     Andrew Hill <andrew@m3.net>
+ * @package    MaxDelivery
+ * @author     Chris Nutting <chris.nutting@openads.org>
+ * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Radek Maciaszek <radek.maciaszek@openads.org>
  *
- * A file to set up the environment for the Max delivery engine.
+ * A file to set up the environment for the Openads delivery engine.
+ *
+ * Both opcode and PHP by itself slow things down when we require many
+ * files. Therefore we gave up a little bit of maintainability in
+ * order to speed up a delivery:
+ * - We are not using classes (if possible) in delivery
+ * - We have to use as few as possible includes and add new code into
+ *   existing files
  */
 
+/**
+ * Main part of script where data is initialized for delivery
+ */
 require_once 'init-delivery-parse.php';
-require_once 'constants.php';
-setupConstants();
-require_once MAX_PATH . '/lib/max/Delivery/common.php';
+require_once 'variables.php';
 
-
-
-// Set $conf
+setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
 
 // Set the log file
 if ($conf['debug']['logfile']) {
     @ini_set('error_log', MAX_PATH . '/var/' . $conf['debug']['logfile']);
 }
+
+require_once MAX_PATH . '/lib/max/Delivery/common.php';
+require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 
 // Set the viewer's remote information used in logging
 // and delivery limitation evaluation
@@ -61,7 +71,44 @@ MAX_commonInitVariables();
 // Unpack the packed capping cookies
 MAX_cookieUnpackCapping();
 
-// Start benchmarking...
-MAX_benchmarkStart();
+/**
+ * A function to initialize the environmental constants and global
+ * variables required by delivery.
+ */
+function setupDeliveryConfigVariables()
+{
+    if (!defined('MAX_PATH')) {
+        define('MAX_PATH', dirname(__FILE__));
+    }
+    // Ensure that the initialisation has not been run before
+    if (!(isset($GLOBALS['_MAX']['CONF']))) {
+        // Parse the Max configuration file
+        $GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
+    }
+
+    // Set up the common configuration variables
+    setupConfigVariables();
+}
+
+/**
+ * A function to define the PEAR include path in a separate method,
+ * as it is required by delivery only in exceptional circumstances.
+ */
+function setupIncludePath()
+{
+    static $checkIfAlreadySet;
+    if (isset($checkIfAlreadySet)) {
+        return;
+    }
+    $checkIfAlreadySet = true;
+
+    // Define the PEAR installation path
+    $existingPearPath = ini_get('include_path');
+    $newPearPath = MAX_PATH . '/lib/pear';
+    if (!empty($existingPearPath)) {
+        $newPearPath .= PATH_SEPARATOR . $existingPearPath;
+    }
+    ini_set('include_path', $newPearPath);
+}
 
 ?>

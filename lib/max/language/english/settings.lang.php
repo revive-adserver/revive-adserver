@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -43,10 +43,14 @@ $GLOBALS['strDatabaseSettings']             = "Database Settings";
 $GLOBALS['strAdminSettings']                = "Administrator Settings";
 $GLOBALS['strAdvancedSettings']             = "Advanced Settings";
 $GLOBALS['strOtherSettings']                = "Other settings";
-
+$GLOBALS['strOpenadsIdYour']                = "Your Openads ID";
+$GLOBALS['strOpenadsIdSettings']            = "Openads ID Settings";
 $GLOBALS['strWarning']                      = "Warning";
 $GLOBALS['strFatalError']                   = "A fatal error occurred";
 $GLOBALS['strUpdateError']                  = "An error occured while updating";
+$GLOBALS['strBtnContinue']                  = "Continue &raquo;";
+$GLOBALS['strBtnGoBack']                    = "&laquo; Go Back";
+$GLOBALS['strBtnRetry']                     = "Retry";
 $GLOBALS['strUpdateDatabaseError']          = "Due to unknown reasons the update of the database structure wasn't succesful. The recommended way to proceed is to click <b>Retry updating</b> to try to correct these potential problems. If you are sure these errors won't affect the functionality of ".MAX_PRODUCT_NAME." you can click <b>Ignore errors</b> to continue. Ignoring these errors may cause serious problems and is not recommended!";
 $GLOBALS['strAlreadyInstalled']             = MAX_PRODUCT_NAME." is already installed on this system. If you want to configure it go to <a href='settings-index.php'>settings interface</a>";
 $GLOBALS['strCouldNotConnectToDB']          = "Could not connect to database, please recheck the settings you specified";
@@ -70,7 +74,7 @@ $GLOBALS['strWarningMagicQuotesRuntime']    = "The PHP configuration variable ma
 $GLOBALS['strWarningFileUploads']           = "The PHP configuration variable file_uploads needs to be turned on.";
 $GLOBALS['strWarningTrackVars']             = "The PHP configuration variable track_vars needs to be turned on.";
 $GLOBALS['strWarningPREG']                  = "The version of PHP you are using doesn't have support for PERL compatible regular expressions. You need to enable the PREG extension before you can proceed.";
-$GLOBALS['strConfigLockedDetected']         = MAX_PRODUCT_NAME." has detected that the <b>max.conf.ini</b> file cannot be written by the web server. You can't proceed until you make the 'var' directory writable by the web server. Read the supplied documentation if you don't know how to do that.";
+$GLOBALS['strConfigLockedDetected']         = MAX_PRODUCT_NAME." has detected that the <b>max.conf.php</b> file cannot be written by the web server. You can't proceed until you make the 'var' directory writable by the web server. Read the supplied documentation if you don't know how to do that.";
 $GLOBALS['strCantUpdateDB']                 = "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and advertisers will be deleted.";
 $GLOBALS['strIgnoreErrors']                 = "Ignore errors";
 $GLOBALS['strRetryUpdate']                  = "Retry updating";
@@ -80,10 +84,19 @@ $GLOBALS['strTablesType']                   = "Table type";
 
 $GLOBALS['strInstallWelcome']               = "Welcome to ".MAX_PRODUCT_NAME;
 $GLOBALS['strInstallMessage']               = "Before you can use ".MAX_PRODUCT_NAME." it needs to be configured and <br /> the database needs to be created. Click <b>Proceed</b> to continue.";
+$GLOBALS['strInstallIntro']                 = "We have tried to make the installation of Openads as easy as possible, but
+				  keep in mind that setting up an ad server is not trivial. If you haven't read the documentation at
+				  this point, we <a href='http://docs.openads.org' target='_blank'><strong>strongly recommend</strong></a> that you do so before you proceed with the installation.</p>
+                  <p>
+                  <a href='http://docs.openads.org' target='_blank'><strong>The
+				  documentation</strong></a> will help you avoid potential problems in the future and includes information about the installation and upgrade process as advice for managing your inventory
+				  and placing banners on your website.</p><p>If you still have questions after reading the documentation, visit the
+				  <a href='http://www.openads.org/support/overview.html' target='_blank'>support</a> section of our website and the
+				  <a href='http://forum.openads.org/' target='_blank'>community forum</a>.</p>";
 $GLOBALS['strInstallSuccess']               = "<b>The installation of ".MAX_PRODUCT_NAME." is now complete.</b><br /><br />In order for ".MAX_PRODUCT_NAME." to function correctly you also need
                                                 to make sure the maintenance file is run every hour. More information about this subject can be found in the documentation.
-                                                <br /><br />Click <b>Proceed</b> to go the configuration page, where you can
-                                                modify more settings. Please do not forget to lock the max.conf.ini file when you are finished to prevent security
+                                                <br /><br />Click <b>Continue</b> to go the configuration page, where you can
+                                                modify more settings. Please do not forget to lock the max.conf.php file when you are finished to prevent security
                                                 breaches, ie, make it read-only by the webserver.";
 $GLOBALS['strUpdateSuccess']                = "<b>The upgrade of ".MAX_PRODUCT_NAME." was succesful.</b><br /><br />In order for ".MAX_PRODUCT_NAME." to function correctly you also need
                                                 to make sure the maintenance file is run every hour (previously this was every day). More information about this subject can be found in the documentation.
@@ -93,10 +106,13 @@ $GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PROD
                                                 It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
                                                 first step of the install process. If you want to know more on what the error message below means, and how to solve it,
                                                 please consult the supplied documentation.";
+$GLOBALS['strSystemCheck']                  = "System check";
+$GLOBALS['strSystemCheckIntro']             = "Openads has certain requirements which will now be checked. We will warn you if any settings need to be changed.";
+$GLOBALS['strDbSuccessIntro']               = "It is important that you complete the rest of the steps. Openads has not been properly configured yet.";
 $GLOBALS['strErrorOccured']                 = "The following error occured:";
 $GLOBALS['strErrorInstallDatabase']         = "The database structure could not be created.";
 $GLOBALS['strErrorInstallPrefs']            = "The administrator user preferences could not be written to the database.";
-$GLOBALS['strErrorInstallVersion']          = "The Max version number could not be written to the database.";
+$GLOBALS['strErrorInstallVersion']          = "The Openads version number could not be written to the database.";
 $GLOBALS['strErrorUpgrade']                 = 'The existing installation\'s database could not be upgraded.';
 $GLOBALS['strErrorInstallDbConnect']        = "It was not possible to open a connection to the database.";
 
@@ -128,10 +144,16 @@ $GLOBALS['strEditConfigPossible']                    = 'It is possible to edit a
 $GLOBALS['strUnableToWriteConfig']                   = 'Unable to write changes to the config file';
 $GLOBALS['strUnableToWritePrefs']                    = 'Unable to commit preferences to the database';
 
+// Configuration Settings
+$GLOBALS['strConfigurationSetup']                    = 'Configuration Setup';
+$GLOBALS['strConfigurationSettings']                    = 'Configuration settings';
+
 // Administrator Settings
 $GLOBALS['strAdministratorSettings']                 = 'Administrator Settings';
+$GLOBALS['strAdministratorAccount']                  = 'The Administrator Account';
 $GLOBALS['strLoginCredentials']                      = 'Login Credentials';
 $GLOBALS['strAdminUsername']                         = 'Admin\'s Username';
+$GLOBALS['strAdminPassword']                         = 'Admin\'s Password';
 $GLOBALS['strInvalidUsername']                       = 'Invalid Username';
 $GLOBALS['strBasicInformation']                      = 'Basic Information';
 $GLOBALS['strAdminFullName']                         = 'Admin\'s Full Name';
@@ -145,6 +167,14 @@ $GLOBALS['strAdminCheckMonthly']                     = 'Monthly';
 $GLOBALS['strAdminCheckNever']                       = 'Never';
 $GLOBALS['strAdminNovice']                           = 'Admin\'s delete actions need confirmation for safety';
 $GLOBALS['strUserlogEmail']                          = 'Log all outgoing email messages';
+$GLOBALS['strTimezoneInformation']                   = "Timezone Information (Modifying the timezone will affect statistics)";
+$GLOBALS['strTimezone']                              = "Timezone";
+$GLOBALS['strAdminSettingsIntro']                    = "Before you can continue you need to setup the administrator account. You can use this account to log into the administrator interface and manage your inventory and view statistics.";
+
+// Openads ID Settings
+$GLOBALS['strOpenadsUsername']                       = "Openads Username";
+$GLOBALS['strOpenadsPassword']                       = "Openads Password";
+$GLOBALS['strOpenadsEmail']                          = "Openads Email";
 
 // Banner Settings
 $GLOBALS['strBannerSettings']                        = 'Banner Settings';
@@ -174,6 +204,8 @@ $GLOBALS['strDbName']                                = 'Database Name';
 $GLOBALS['strDatabaseOptimalisations']               = 'Global Database Optimisation Settings';
 $GLOBALS['strPersistentConnections']                 = 'Use Persistent Connections';
 $GLOBALS['strCantConnectToDb']                       = 'Can\'t Connect to Database';
+$GLOBALS['strDemoDataInstall']                       = 'Install Demo Data';
+$GLOBALS['strDemoDataIntro']                         = 'If you wish, you can choose now to install demo inventory into your database to get an idea of how Advertisers, Publishers, Banners, and Zones can be setup. This is highly recommended for first time users.';
 
 // Debug Logging Settings
 $GLOBALS['strDebugSettings']                         = 'Debug Logging';
@@ -204,6 +236,12 @@ $GLOBALS['strDebugPassword']                         = 'mCal, SQL Server Passwor
 // Delivery Settings
 $GLOBALS['strDeliverySettings']                      = 'Delivery Settings';
 $GLOBALS['strWebPath']                               = 'Global ' . MAX_PRODUCT_NAME . ' Server Access Paths';
+$GLOBALS['strWebPathSimple']                         = 'Web path';
+$GLOBALS['strDeliveryPath']                          = 'Delivery path';
+$GLOBALS['strImagePath']                             = 'Images path';
+$GLOBALS['strDeliverySslPath']                       = 'Delivery SSL path';
+$GLOBALS['strImageSslPath']                          = 'Images SSL path';
+$GLOBALS['strImageStore']                            = 'Images folder';
 $GLOBALS['strTypeWebSettings']                       = 'Global Webserver Local Banner Storage Settings';
 $GLOBALS['strTypeWebMode']                           = 'Storing Method';
 $GLOBALS['strTypeWebModeLocal']                      = 'Local Directory';
@@ -214,7 +252,7 @@ $GLOBALS['strTypeFTPHost']                           = 'FTP Host';
 $GLOBALS['strTypeFTPDirectory']                      = 'Host Directory';
 $GLOBALS['strTypeFTPUsername']                       = 'Login';
 $GLOBALS['strTypeFTPPassword']                       = 'Password';
-$GLOBALS['strTypeFTPPassive']                        = 'Use passive FTP'; 
+$GLOBALS['strTypeFTPPassive']                        = 'Use passive FTP';
 $GLOBALS['strTypeFTPErrorDir']                       = 'The FTP Host Directory does not exist';
 $GLOBALS['strTypeFTPErrorConnect']                   = 'Could not connect to the FTP Server, the Login or Password is not correct';
 $GLOBALS['strTypeFTPErrorHost']                      = 'The FTP Host is not correct';
@@ -379,6 +417,11 @@ $GLOBALS['strEmailWarnings']                         = 'E-mail Warnings';
 $GLOBALS['strAdminEmailHeaders']                     = 'Add the following headers to each e-mail message sent by ' . MAX_PRODUCT_NAME;
 $GLOBALS['strWarnLimit']                             = 'Send a warning when the number of impressions left are less than specified here';
 $GLOBALS['strWarnLimitErr']                          = 'Warn Limit must be a positive integer';
+$GLOBALS['strWarnLimitDays']                         = 'Send a warning when the days left are less than specified here';
+$GLOBALS['strWarnLimitDaysErr']                      = 'Warn Limit Days should be a positive number';
+$GLOBALS['strAllowEmail']                            = 'Globally allow sending of e-mails';
+$GLOBALS['strEmailAddress']                          = 'E-mail address to send reports FROM';
+$GLOBALS['strEmailAddressName']                      = 'Company or personal name to sign off e-mail with';
 $GLOBALS['strWarnAdmin']                             = 'Send a warning to the administrator every time a campaign is almost expired';
 $GLOBALS['strWarnClient']                            = 'Send a warning to the advertiser every time a campaign is almost expired';
 $GLOBALS['strWarnAgency']                            = 'Send a warning to the agency every time a campaign is almost expired';

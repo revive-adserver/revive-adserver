@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -35,8 +35,9 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics/AdServer/mysql.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/Field/DaySpanField.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysql.php';
 
 // Security check
 //phpAds_checkAccess(phpAds_Admin);
@@ -55,9 +56,9 @@ phpAds_registerGlobal('zoneid', 'cost', 'cost_type', 'cost_variable_id', 'cost_v
 /*-------------------------------------------------------*/
 
 $oServiceLocator = &ServiceLocator::instance();
-$oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
+$oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer_mysql');
 if (!$oDal) {
-    $oDal = & new MAX_Dal_Maintenance_Statistics_AdServer_mysql;
+    $oDal = & new OA_Dal_Maintenance_Statistics_AdServer_mysql;
 }
 
 $oDaySpan =& new Admin_UI_DaySpanField('period');
@@ -77,10 +78,10 @@ if (!empty($oDaySpan->_value)) {
 if ($cost_type == MAX_FINANCE_VARSUM && is_array($cost_variable_id_mult)) {
     $cost_variable_id = 0;
     foreach ($cost_variable_id_mult as $val) {
-        if ($cost_variable_id) {                
+        if ($cost_variable_id) {
             $cost_variable_id .= "," . $val;
-        } else {   
-            $cost_variable_id = $val;                
+        } else {
+            $cost_variable_id = $val;
         }
     }
 }

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -30,8 +30,11 @@ require_once MAX_PATH . '/tests/testClasses/TestEnv.php';
 require_once MAX_PATH . '/lib/simpletest/unit_tester.php';
 require_once MAX_PATH . '/lib/simpletest/mock_objects.php';
 require_once MAX_PATH . '/lib/simpletest/reporter.php';
+require_once MAX_PATH . '/tests/testClasses/TracHtmlReporter.php';
 require_once MAX_PATH . '/lib/simpletest/web_tester.php';
 require_once MAX_PATH . '/lib/simpletest/xml.php';
+
+require_once MAX_PATH . '/lib/OA/DB.php';
 require_once 'Console/Getopt.php';
 
 /**
@@ -47,40 +50,40 @@ class TestRunner
 {
     /**
      * @var string The reporter format for displaying results.
-     * 
+     *
      * One of 'auto', 'xml', 'text', or 'html'
      */
     var $output_format_name = 'auto';
 
     /**
      * @var string The type of tests being run.
-     * 
+     *
      * One of 'unit', 'integration', or maybe others.
      */
     var $test_type_name = 'unit';
 
     /**
      * @var string The level at which testing should be directed.
-     * 
+     *
      * One of 'all', 'layer', 'folder' or 'file'.
      */
     var $test_level_name = 'sdh';
 
     /**
-     * @var string A folder (relative to the Max root) containing tests to run.
-     * 
+     * @var string A folder (relative to the Openads root) containing tests to run.
+     *
      * It should not include a leading '/'.
      */
     var $test_folder_name = '';
 
     /**
      * @var string A base filename containing tests to run.
-     * 
+     *
      * Stored as a full filename without path, such as
      * "example.dal.test.php"
      */
     var $test_file_name;
-    
+
     /** @var int The number of times any run has failed.
      * @todo Consider querying report object instead of storing failures.
      */
@@ -95,7 +98,7 @@ class TestRunner
     }
 
     /**
-     * A method to run all the tests in the Max project.
+     * A method to run all the tests in the Openads project.
      */
     function runAll()
     {
@@ -119,14 +122,14 @@ class TestRunner
         // Find all the tests in the layer
         $tests = TestFiles::getLayerTestFiles($type, $layer);
         // Add the test files to a SimpleTest group
-        $testName = strtoupper($type) . ': ' .
-            $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][0] .' Tests';
-        $test = new GroupTest($testName);
+        $testName = $this->_testName($layer);
+        $secondaryName = $this->_secondaryTestName($layer);
+        $test = new GroupTest($testName, $secondaryName);
         foreach ($tests as $layerCode => $folders) {
             foreach ($folders as $folder => $files) {
                 foreach ($files as $index => $file) {
-                    $test->addTestFile(MAX_PROJECT_PATH . '/' . $folder . '/' .
-                                       constant($type . '_TEST_STORE') . '/' . $file);
+                    $testFile = MAX_PROJECT_PATH . '/' . $folder . '/' . constant($type . '_TEST_STORE') . '/' . $file;
+                    $test->addTestFile($testFile);
                 }
             }
         }
@@ -146,16 +149,17 @@ class TestRunner
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
         // Set up the environment for the test
         TestRunner::setupEnv($layer);
-        // Find all the tests in the layer/folder
-        $tests = TestFiles::getTestFiles($type, $layer, MAX_PROJECT_PATH . '/' . $folder);
+        // Find all the tests in the layer/folder, but ensure
+        // that they are NOT obtained recursively!
+        $tests = TestFiles::getTestFiles($type, $layer, MAX_PROJECT_PATH . '/' . $folder, false);
         // Add the test files to a SimpleTest group
-        $testName = strtoupper($type) . ': ' .
-            $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][0] . ': Tests in ' . $folder;
-        $test = new GroupTest($testName);
+        $testName = $this->_testName($layer, $folder);
+        $secondaryName = $this->_secondaryTestName($layer);
+        $test = new GroupTest($testName, $secondaryName);
         foreach ($tests as $folder => $data) {
             foreach ($data as $index => $file) {
-                $test->addTestFile(MAX_PROJECT_PATH . '/' . $folder . '/' .
-                                   constant($type . '_TEST_STORE') . '/' . $file);
+                $testFile = MAX_PROJECT_PATH . '/' . $folder . '/' . constant($type . '_TEST_STORE') . '/' . $file;
+                $test->addTestFile($testFile);
             }
         }
         $this->runCase($test);
@@ -175,14 +179,70 @@ class TestRunner
         // Set up the environment for the test
         TestRunner::setupEnv($layer);
         // Add the test file to a SimpleTest group
-        $testName = strtoupper($type) . ': ' .
-            $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][0] . ': ' . $folder . '/' . $file;
-        $test = new GroupTest($testName);
-        $test->addTestFile(MAX_PROJECT_PATH . '/' . $folder . '/' .
-                           constant($type . '_TEST_STORE') . '/' . $file);
+        $testName = $this->_testName($layer, $folder, $file);
+        $secondaryName = $this->_secondaryTestName($layer);
+        $test = new GroupTest($testName, $secondaryName);
+        $testFile = MAX_PROJECT_PATH . '/' . $folder . '/' . constant($type . '_TEST_STORE') . '/' . $file;
+        $test->addTestFile($testFile);
         $this->runCase($test);
         // Tear down the environment for the test
-        TestRunner::teardownEnv($layer); 
+        TestRunner::teardownEnv($layer);
+    }
+
+    /**
+     * A private method to create the test name for display.
+     *
+     * @access private
+     * @param string $layer  The name of a layer group to run.
+     * @param string $folder The folder group to run, not including "tests/unit". Optional.
+     * @param string $file   The file to run, including ".test.php". Optional.
+     * @return string The display string for the test.
+     */
+    function _testName($layer, $folder = null, $file = null)
+    {
+        $type = $GLOBALS['_MAX']['TEST']['test_type'];
+        $name = strtoupper($type) . ': ';
+        $name .= $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][0];
+        if (is_null($folder) && is_null($file)) {
+            $name .= ' Tests';
+        } else if (!is_null($folder) && is_null($file)) {
+            $name .= ': Tests in ' . $folder;
+        } else if (!is_null($folder) && !is_null($file)) {
+            $name .= ': ' . $folder . '/' . $file;
+        }
+        return $name;
+    }
+
+    /**
+     * A private method to determine if a secondary test name for
+     * the tests is needed.
+     *
+     * @access private
+     * @param string $layer  The name of a layer group to run.
+     * @return string The secondary display string for the test.
+     */
+    function _secondaryTestName($layer)
+    {
+        $type = $GLOBALS['_MAX']['TEST']['test_type'];
+        $runType = $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][1];
+        if ($runType !== NO_DB) {
+            $aConf = $GLOBALS['_MAX']['CONF'];
+            $oDbh = &OA_DB::singleton();
+            $query = "SELECT VERSION() AS version";
+            $aRow = $oDbh->queryRow($query);
+            $version = 'UNKNOWN!';
+            if (!PEAR::isError($aRow)) {
+                if (preg_match('/(\S*( ([0-9]|\.)*)?)/ ', $aRow['version'], $aMatches)) {
+                    $version = $aMatches[0];
+                }
+                if ($aConf['database']['type'] == 'mysql') {
+                    $version .= ' using ' . $aConf['table']['type'];
+                }
+            }
+            return 'Database: ' . $aConf['database']['type'] . ' (' . $version . ') on  ' . $aConf['database']['host'];
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -190,8 +250,9 @@ class TestRunner
      * the layer the test/s is/are in.
      *
      * @param string $layer The layer the test/s is/are in.
+     * @param bool $ignore_errors True if setup errors should be ignored.
      */
-    function setupEnv($layer)
+    function setupEnv($layer, $ignore_errors = false)
     {
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
         $envType = $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][1];
@@ -199,12 +260,12 @@ class TestRunner
         TestEnv::restoreConfig();
         // Setup the database, if needed
         if ($envType == DB_NO_TABLES) {
-            TestEnv::setupDB();
+            TestEnv::setupDB($ignore_errors);
         } elseif ($envType == DB_WITH_TABLES) {
-            TestEnv::setupDB();
+            TestEnv::setupDB($ignore_errors);
             TestEnv::setupCoreTables();
         } elseif ($envType == DB_WITH_DATA) {
-            TestEnv::setupDB();
+            TestEnv::setupDB($ignore_errors);
             TestEnv::setupCoreTables();
             TestEnv::setupDefaultData();
         }
@@ -231,11 +292,11 @@ class TestRunner
 
     /**
      * Populate default testing focus based on parameters.
-     * 
-     * This implementation reads parameters from the command-line. 
-     * 
+     *
+     * This implementation reads parameters from the command-line.
+     *
      * @return void This method does not return a value.
-     * 
+     *
      * @todo Consider renaming this method to better express its intent.
      * @todo Deprecate the $_GET compatibility, moving $_GET parameter handling
      * to a subclass.
@@ -245,7 +306,7 @@ class TestRunner
         $con = new Console_Getopt();
         $args = $con->readPHPArgv();
         array_shift($args);
-        $options = $con->getopt2($args, array(), array('format=', 'type=', 'level=', 'layer=', 'folder=', 'file='));
+        $options = $con->getopt2($args, array(), array('format=', 'type=', 'level=', 'layer=', 'folder=', 'file=', 'dir='));
         if (PEAR::isError($options)) {
             PEAR::raiseError($args);
             die(254);
@@ -279,8 +340,7 @@ class TestRunner
             }
         }
     }
-    
-    
+
     /**
      * @return SimpleReporter
      */
@@ -297,23 +357,23 @@ class TestRunner
         PEAR::raiseError($error);
         die(254);
     }
-    
+
     /**
-     * @return SimpleReporter 
+     * @return SimpleReporter
      */
     function _createDefaultReporter()
     {
         if (SimpleReporter::inCli()) {
             $reporter = new TextReporter();
         } else {
-            $reporter = new HtmlReporter();
+            $reporter = new TracHtmlReporter();
         }
         return $reporter;
     }
-    
+
     /**
      * Run a test case (usually a group/suite) with the inferred reporter.
-     * 
+     *
      * @param SimpleTestCase $test_case
      * @return void    This method does not return a value.
      *                 Use hasFailures() to query status after running this.
@@ -337,7 +397,7 @@ class TestRunner
     {
         return $this->_failed_runs > 0;
     }
-    
+
     function exitWithCode()
     {
         if ($this->hasFailures()) {

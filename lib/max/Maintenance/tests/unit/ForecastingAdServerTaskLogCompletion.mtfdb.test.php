@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -62,16 +62,19 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_LogCompletion 
      */
     function testRun()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $tables = MAX_Table_Core::singleton();
-        $dbh = &MAX_DB::singleton();
+        // Reset the testing environment
+        TestEnv::restoreEnv();
+
+        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $oTables = &OA_DB_Table_Core::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
         // Create the required table
-        $tables->createTable('data_raw_ad_impression');
-        $tables->createTable('log_maintenance_forecasting');
+        $oTables->createTable('data_raw_ad_impression');
+        $oTables->createTable('log_maintenance_forecasting');
 
-        $now = new Date('2004-06-06 18:10:00');
-        $oServiceLocator->register('now', $now);
+        $oNow = new Date('2004-06-06 18:10:00');
+        $oServiceLocator->register('now', $oNow);
         // Create and register a new MAX_Maintenance_Forecasting_AdServer object
         $oMaintenanceForecasting = new MAX_Maintenance_Forecasting_AdServer();
         $oServiceLocator->register('Maintenance_Forecasting_Controller', $oMaintenanceForecasting);
@@ -81,19 +84,20 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_LogCompletion 
         // Set some of the object's variables, and log
         $oLogCompletion->oController->update = true;
         $oLogCompletion->oController->oUpdateToDate = new Date('2004-06-06 17:59:59');
-        $end = new Date('2004-06-06 18:12:00');
-        $oLogCompletion->run($end);
+        $oEnd = new Date('2004-06-06 18:12:00');
+        $oLogCompletion->run($oEnd);
         // Test
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['start_run'], '2004-06-06 18:10:00');
-        $this->assertEqual($row['end_run'], '2004-06-06 18:12:00');
-        $this->assertEqual($row['duration'], 120);
-        $this->assertEqual($row['updated_to'], '2004-06-06 17:59:59');
+                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_forecasting']}";
+        $aRow = $oDbh->getRow($query);
+        $this->assertEqual($aRow['start_run'], '2004-06-06 18:10:00');
+        $this->assertEqual($aRow['end_run'], '2004-06-06 18:12:00');
+        $this->assertEqual($aRow['duration'], 120);
+        $this->assertEqual($aRow['updated_to'], '2004-06-06 17:59:59');
+
         // Reset the testing environment
         TestEnv::restoreEnv();
     }

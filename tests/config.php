@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -43,13 +43,16 @@ define('DB_WITH_DATA',   4);
 // reduce filesystem parsing time
 $GLOBALS['_MAX']['TEST']['directories'] =
     array(
+        'etc/changes',
         'lib/max',
+        'lib/OA',
         'plugins',
-        'tests'
+        'tests',
+        //'www/devel'
     );
 
 // Project path - helpful for testing external projects
-// which integrate with Max code
+// which integrate with Openads code
 define('MAX_PROJECT_PATH', MAX_PATH);
 
 // Define the available root-level test groups
@@ -79,22 +82,25 @@ define($type . '_TEST_STORE', 'tests/unit');
 $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
     array(
         'core'  => array('Core Classes',                        DB_NO_TABLES),
+        'db'    => array('Database Abstraction Layer (DB)',     DB_NO_TABLES),
         'tbl'   => array('Table Creation Layer (DB)',           DB_NO_TABLES),
-        'dal'   => array('Data Access Layer (DB)',              DB_WITH_TABLES),
+        'dal'   => array('Data Abstraction Layer (DB)',         DB_WITH_TABLES),
         'del'   => array('Delivery Engine',                     NO_DB),
         'dl'    => array('Delivery Limitations',                NO_DB),
         'ent'   => array('Entities',                            NO_DB),
         'fct'   => array('Forecast',                            NO_DB),
-        'mtc'   => array('Maintenance Engine',                  NO_DB),
+        'mtc'   => array('Maintenance Engine (DB)',             DB_WITH_TABLES),
         'mts'   => array('Maintenance Statistics Engine',       NO_DB),
         'mtsdb' => array('Maintenance Statistics Engine (DB)',  DB_NO_TABLES),
         'mtp'   => array('Maintenance Priority Engine',         NO_DB),
         'mtf'   => array('Maintenance Forecasting Engine',      NO_DB),
         'mtfdb' => array('Maintenance Forecasting Engine (DB)', DB_NO_TABLES),
-        'plg'   => array('Plugins',                             DB_WITH_TABLES), // Required for Site:Channel plugin test, because the DAL is being used and it currently can not be mocked.
+        'plg'   => array('Plugins',                             DB_WITH_TABLES),
         'admin' => array('Administrative Interface',            NO_DB),
-        'sdh'   => array('Simple Data Handling',                NO_DB),
-        'mol'   => array('Max Other Libraries',                 NO_DB)
+        //'dev'   => array('Developer Tools',                     DB_WITH_TABLES),
+        'mol'   => array('Openads Other Libraries',             DB_WITH_TABLES),
+        'up'    => array('Upgrade Classes',                     DB_WITH_TABLES),
+        'mig'   => array('Upgrade Migration Classes',           DB_NO_TABLES)
     );
 
 /*
@@ -119,7 +125,9 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'mts' => array('Maintenance Statistics Engine (DB)',   DB_NO_TABLES),
         'mtp' => array('Maintenance Priority Engine (DB)',     DB_WITH_DATA),
         'mtf' => array('Maintenance Forecasting Engine (DB)',  DB_WITH_TABLES),
-        'del' => array('Delivery Engine (DB)', DB_WITH_DATA),
+        'del' => array('Delivery Engine (DB)',                 DB_WITH_DATA),
+        'up'  => array('Upgrade Classes',                      DB_WITH_TABLES),
+        //'dev' => array('Developer Tools',                      DB_WITH_TABLES),
     );
 
 /*

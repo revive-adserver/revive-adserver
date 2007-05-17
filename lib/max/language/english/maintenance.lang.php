@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -90,7 +90,7 @@ $GLOBALS['strStorage']				= "Storage";
 $GLOBALS['strMoveToDirectory']			= "Move images stored inside the database to a directory";
 $GLOBALS['strStorageExplaination']		= "
 	The images used by local banners are stored inside the database or stored in a directory. If you store the images inside
-	a directory the load on the database will be reduced and this will lead to a increase in speed.
+	a directory the load on the database will be reduced and this will lead to an increase in speed.
 ";
 
 

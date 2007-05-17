@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,7 +32,6 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/language/Invocation.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
-require_once MAX_PATH . '/lib/max/other/db_proc.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
@@ -164,8 +163,8 @@ class MAX_Admin_Invocation {
         $buffer = "
 <!--/*
   *
-  *  Max Media Manager image beacon tracker code
-  *  - Generated with Max " . MAX_VERSION_READABLE . "
+  *  Openads image beacon tracker code
+  *  - Generated with Openads " . MAX_VERSION_READABLE . "
   *
   *  If this tag is being served on a secure (SSL) page, you must replace
   *  'http://{$conf['webpath']['delivery']}/...'
@@ -335,7 +334,7 @@ class MAX_Admin_Invocation {
                 $buffer .= "<tr><td height='25'>";
                 if ($codetype == "clickonly" && !$this->zone_invocation) {
                     if ($bannerid == 0) {
-                        $this->ads = $zAds;
+                        $this->ads = array();
                     } else {
                         $this->ads = array($bannerid => $aAd);
                     }
@@ -350,7 +349,7 @@ class MAX_Admin_Invocation {
                 }
 
                 // Supress the textarea if required by this plugin
-                if (!$invocationTag->suppressTextarea) {
+                if (empty($invocationTag->suppressTextarea)) {
                     $buffer .= "<img src='images/icon-generatecode.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strBannercode']."</b></td>";
 
                     // Show clipboard button only on IE
@@ -449,8 +448,8 @@ class MAX_Admin_Invocation {
 
         $buffer = "<!--/*
   *
-  *  Max Media Manager JavaScript tracker code
-  *  - Generated with Max " . MAX_VERSION_READABLE . "
+  *  Openads JavaScript tracker code
+  *  - Generated with Openads " . MAX_VERSION_READABLE . "
   *
   *  To help prevent caching of the <noscript> beacon, if possible,
   *  Replace %%RANDOM_NUMBER%% with a randomly generated number (or timestamp)

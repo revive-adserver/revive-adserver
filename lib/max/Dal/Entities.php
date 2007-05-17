@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -24,7 +24,9 @@
 $Id$
 */
 
-require_once MAX_PATH.'/lib/max/Dal/Common.php';
+require_once MAX_PATH . '/lib/max/Dal/Common.php';
+
+require_once MAX_PATH . '/lib/OA/Dal.php';
 
 /**
  * The non-DB specific Common Data Access Layer (DAL) class for getting
@@ -86,18 +88,18 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                campaignid = $placementId
+                campaignid = ". $this->oDbh->quote($placementId, 'integer') ."
             ORDER BY
                 ad_id";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['ad_id']] = $aRow;
         }
         return $aResult;
@@ -141,18 +143,18 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 AND
                 aza.link_type != 0
                 AND
-                aza.zone_id IN (" . implode(', ', $aZoneIds) . ")
+                aza.zone_id IN (" . $this->oDbh->escape(implode(', ', $aZoneIds)) . ")
             ORDER BY
                 ad_id";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['zone_id']][] = $aRow['ad_id'];
         }
         return $aResult;
@@ -221,19 +223,19 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                     a.bannerid = dl.bannerid
                 )
             WHERE
-                a.campaignid IN (" . implode(', ', $aPlacementIds) . ")
+                a.campaignid IN (" . $this->oDbh->escape(implode(', ', $aPlacementIds)) . ")
                 AND
                 a.active = 't'";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
         $aAdIds = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             if (is_null($aResult[$aRow['placement_id']][$aRow['ad_id']])) {
                 $aResult[$aRow['placement_id']][$aRow['ad_id']]['active'] = $aRow['active'];
                 $aResult[$aRow['placement_id']][$aRow['ad_id']]['weight'] = $aRow['weight'];
@@ -290,16 +292,16 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                bannerid = $adId";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+                bannerid = ". $this->oDbh->quote($adId, 'integer');
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['executionorder']] = array(
                 'logical'    => $aRow['logical'],
                 'type'       => $aRow['type'],
@@ -331,15 +333,15 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 active = 1
             ORDER BY
                 agencyid";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[] = $aRow['agency_id'];
         }
         return $aResult;
@@ -386,20 +388,20 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                agencyid = $agencyId
-                AND affiliateid = $publisherId
+                agencyid = ". $this->oDbh->quote($agencyId, 'integer') ."
+                AND affiliateid = ". $this->oDbh->quote($publisherId, 'integer') ."
                 AND active = 1
             ORDER BY
                 channelid";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[] = $aRow['channel_id'];
         }
         return $aResult;
@@ -440,16 +442,16 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                channelid = $channelId";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+                channelid = ". $this->oDbh->quote($channelId, 'integer');
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['executionorder']] = array(
                 'logical'    => $aRow['logical'],
                 'type'       => $aRow['type'],
@@ -533,24 +535,24 @@ class MAX_Dal_Entities extends MAX_Dal_Common
                 a.bannerid IN (" . implode(', ', $aAdIds) . ")
                 AND
                 (
-                    (p.active = 't' AND p.expire = '0000-00-00')
+                    (p.active = 't' AND p.expire " . OA_Dal::equalNoDateString()  . ")
                     OR
-                    (p.active = 't' AND p.expire != '0000-00-00' AND p.expire >= '" . $aPeriod['start']->format('%Y-%m-%d') . "')
+                    (p.active = 't' AND p.expire " . OA_Dal::notEqualNoDateString() . " AND p.expire >= " . $this->oDbh->quote($aPeriod['start']->format('%Y-%m-%d'), 'date') . ")
                     OR
-                    (p.active = 'f' AND p.activate != '0000-00-00' AND p.activate <= '" . $aPeriod['end']->format('%Y-%m-%d') . "' AND p.expire = '0000-00-00')
+                    (p.active = 'f' AND p.activate " . OA_Dal::notEqualNoDateString() . " AND p.activate <= " . $this->oDbh->quote($aPeriod['end']->format('%Y-%m-%d'), 'date') . " AND p.expire " . OA_Dal::equalNoDateString() . ")
                     OR
-                    (p.active = 'f' AND p.activate != '0000-00-00' AND p.activate <= '" . $aPeriod['end']->format('%Y-%m-%d') . "' AND p.expire != '0000-00-00' AND p.expire >= '" . $aPeriod['start']->format('%Y-%m-%d') . "')
+                    (p.active = 'f' AND p.activate " . OA_Dal::notEqualNoDateString() . " AND p.activate <= " . $this->oDbh->quote($aPeriod['end']->format('%Y-%m-%d'), 'date') . " AND p.expire " . OA_Dal::notEqualNoDateString() . " AND p.expire >= " . $this->oDbh->quote($aPeriod['start']->format('%Y-%m-%d'), 'date') . ")
                 )
         ";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['placement_id']] = $aRow;
         }
         return $aResult;
@@ -584,18 +586,18 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                agencyid = $agencyId
+                agencyid = ". $this->oDbh->quote($agencyId, 'integer') ."
             ORDER BY
                 affiliateid";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[] = $aRow['publisher_id'];
         }
         return $aResult;
@@ -656,16 +658,16 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                zoneid IN (" . implode(', ', $aZoneIds) . ")";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+                zoneid IN (" . $this->oDbh->escape(implode(', ', $aZoneIds)) . ")";
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['zone_id']] = $aRow;
         }
         return $aResult;
@@ -697,18 +699,18 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                affiliateid = $publisherId
+                affiliateid = ". $this->oDbh->quote($publisherId, 'integer') ."
             ORDER BY
                 zoneid";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[] = $aRow['zone_id'];
         }
         return $aResult;
@@ -733,7 +735,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
      *
      * @TODO Eventually, the inventory_forecast_type field should be
      *       changed to "forecast", once channel forecasting is changed
-     *       to be the ONLY forecasting type in Max.
+     *       to be the ONLY forecasting type in Openads.
      */
     function getAllChannelForecastZonesIdsByPublisherId($publisherId)
     {
@@ -750,19 +752,19 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                affiliateid = $publisherId
+                affiliateid = ". $this->oDbh->quote($publisherId, 'integer') ."
                 AND (inventory_forecast_type & 8) != 0
             ORDER BY
                 zoneid";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[] = $aRow['zone_id'];
         }
         return $aResult;
@@ -798,20 +800,20 @@ class MAX_Dal_Entities extends MAX_Dal_Common
             FROM
                 $table
             WHERE
-                ad_id IN (" . implode(', ', $aAdIds) . ")
+                ad_id IN (" . $this->oDbh->escape(implode(', ', $aAdIds)) . ")
                 AND
                 link_type != 0
             ORDER BY
                 ad_id, zone_id";
-        $rResult = $this->dbh->query($query);
-        if (PEAR::isError($rResult)) {
-            return MAX::raiseError($rResult, MAX_ERROR_DBFAILURE);
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
         }
-        if ($rResult->numRows() < 1) {
+        if ($rc->numRows() < 1) {
             return null;
         }
         $aResult = array();
-        while ($aRow = $rResult->fetchRow()) {
+        while ($aRow = $rc->fetchRow()) {
             $aResult[$aRow['ad_id']][] = $aRow['zone_id'];
         }
         return $aResult;

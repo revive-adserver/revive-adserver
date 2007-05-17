@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -46,7 +46,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_ForecastChanne
     function Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_ForecastChannels()
     {
         $this->UnitTestCase();
-        Mock::generate('MAX_Dal_Maintenance_Forecasting');
+        Mock::generate('OA_Dal_Maintenance_Forecasting');
     }
 
     /**
@@ -55,8 +55,8 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_ForecastChanne
     function testCreate()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oMaxDalMaintenanceForecasting = new MockMAX_Dal_Maintenance_Forecasting($this);
-        $oServiceLocator->register('MAX_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
+        $oMaxDalMaintenanceForecasting = new MockOA_Dal_Maintenance_Forecasting($this);
+        $oServiceLocator->register('OA_Dal_Maintenance_Forecasting', $oMaxDalMaintenanceForecasting);
 
         $oForecastChannels = new MAX_Maintenance_Forecasting_AdServer_Task_ForecastChannels();
         $this->assertTrue(is_a($oForecastChannels, 'MAX_Maintenance_Forecasting_AdServer_Task_ForecastChannels'));

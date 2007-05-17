@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -121,6 +121,7 @@ class Plugins_Reports_Publisher_Campaign extends Plugins_Reports {
     	global $phpAds_ThousandsSeperator,$phpAds_DecimalPoint;
 
     	$conf = & $GLOBALS['_MAX']['CONF'];
+        $oDbh = &OA_DB::singleton();
 
     	$reportName = $GLOBALS['strPublisherCampaignAnalysisReport'];
 
@@ -165,16 +166,19 @@ class Plugins_Reports_Publisher_Campaign extends Plugins_Reports {
                  WHERE z.zoneid = ds.zone_id
                    AND ds.ad_id = b.bannerid
                    AND b.campaignid = c.campaignid
-                   AND z.affiliateid = '".$affiliateid."'
-                   AND ds.day >= '$dbStart'
-                   AND ds.day <= '$dbEnd'
+                   AND z.affiliateid = ". $oDbh->quote($affiliateid, 'integer') ."
+                   AND ds.day >= ". $oDbh->quote($dbStart, 'date') ."
+                   AND ds.day <= ". $oDbh->quote($dbEnd, 'date') ."
                  GROUP BY c.campaignname, c.priority
                  ORDER BY day ASC";
 
-    	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
+        $res = $oDbh->query($query);
+        if (PEAR::isError($res)) {
+                return $res;
+        }
 
-    	if (phpAds_dbNumRows($res)) {
-        	while ($row = phpAds_dbFetchArray($res)) {
+    	if ($res->numRows()) {
+        	while ($row = $res->fetchRow()) {
         	    $data[] = $row;
         	}
 

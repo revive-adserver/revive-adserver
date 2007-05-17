@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -28,19 +28,16 @@
 $Id$
 */
 
-/**
- * @todo Replace direct access to constant values stored in $GLOBALS with
- * constant functions. For example, instead of writing:
- * $conf = $GLOBALS['_MAX']['CONF'];
- * one could write:
- * $conf = MAX_commonGetArrConf();
- * @see https://trac.openads.org/ticket/927
- */
+$file = '/lib/max/Delivery/common.php';
+###START_STRIP_DELIVERY
+if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+    return;
+}
+###END_STRIP_DELIVERY
+$GLOBALS['_MAX']['FILES'][$file] = true;
 
-require_once MAX_PATH . '/lib/max/Delivery/output.php';
 require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
 require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
-require_once MAX_PATH . '/lib/max/Delivery/benchmark.php';
 require_once MAX_PATH . '/lib/max/Delivery/log.php';
 
 /**
@@ -64,7 +61,7 @@ require_once MAX_PATH . '/lib/max/Delivery/log.php';
 function MAX_commonGetDeliveryUrl($file = null)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    if ($_SERVER['SERVER_PORT'] == $conf['max']['sslPort']) {
+    if (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
         $url = MAX_commonConstructSecureDeliveryUrl($file);
     } else {
         $url = MAX_commonConstructDeliveryUrl($file);
@@ -93,9 +90,9 @@ function MAX_commonConstructDeliveryUrl($file)
 function MAX_commonConstructSecureDeliveryUrl($file)
 {
         $conf = $GLOBALS['_MAX']['CONF'];
-        if ($conf['max']['sslPort'] != 443) {
+        if ($conf['openads']['sslPort'] != 443) {
             // Fix the delivery host
-            $path = preg_replace('#/#', ':' . $conf['max']['sslPort'] . '/', $conf['webpath']['deliverySSL']);
+            $path = preg_replace('#/#', ':' . $conf['openads']['sslPort'] . '/', $conf['webpath']['deliverySSL']);
         } else {
             $path = $conf['webpath']['deliverySSL'];
         }
@@ -159,7 +156,7 @@ function MAX_commonSetNoCacheHeaders()
 {
     MAX_header('Pragma: no-cache');
     MAX_header('Cache-Control: private, max-age=0, no-cache');
-    MAX_header('Date: '.gmdate('D, d M Y H:i:s').' GMT');
+    MAX_header('Date: '.gmdate('D, d M Y H:i:s', MAX_commonGetTimeNow()).' GMT');
 }
 
 /**
@@ -169,18 +166,25 @@ function MAX_commonSetNoCacheHeaders()
  * $_POST values take precedence over $_GET values
  *
  */
-function MAX_commonRegisterGlobals()
+function MAX_commonRegisterGlobalsArray($args = array())
 {
-    $args = func_get_args();
-    while (list(,$key) = each($args)) {
+    static $magic_quotes_gpc;
+    if (!isset($magic_quotes_gpc)) {
+        $magic_quotes_gpc = ini_get('magic_quotes_gpc');
+    }
+
+    $found = false;
+    foreach($args as $key) {
         if (isset($_GET[$key])) {
             $value = $_GET[$key];
+            $found = true;
         }
         if (isset($_POST[$key])) {
             $value = $_POST[$key];
+            $found = true;
         }
-        if (isset($value)) {
-            if (!ini_get('magic_quotes_gpc')) {
+        if ($found) {
+            if (!$magic_quotes_gpc) {
                 if (!is_array($value)) {
                     $value = addslashes($value);
                 } else {
@@ -188,28 +192,9 @@ function MAX_commonRegisterGlobals()
                 }
             }
             $GLOBALS[$key] = $value;
-            unset($value);
+            $found = false;
         }
     }
-}
-
-/**
- * Recursivley add slashes to the values in an array
- *
- * @param array Input array
- * @return array Output array with values slashed
- */
-function MAX_commonSlashArray($a)
-{
-    while (list($k,$v) = each($a)) {
-        if (!is_array($v)) {
-            $a[$k] = addslashes($v);
-        } else {
-            $a[$k] = MAX_commonSlashArray($v);
-        }
-    }
-    reset ($a);
-    return ($a);
 }
 
 /**
@@ -233,10 +218,10 @@ function MAX_commonDeriveSource($source)
  */
 function MAX_commonEncrypt($string)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
     $convert = '';
-    if (isset($string) && substr($string,1,4) != 'obfs' && $conf['delivery']['obfuscate']) {
-        for ($i=0; $i < strlen($string); $i++) {
+    if (isset($string) && substr($string,1,4) != 'obfs' && $GLOBALS['_MAX']['CONF']['delivery']['obfuscate']) {
+        $strLen = strlen($string);
+        for ($i=0; $i < $strLen; $i++) {
             $dec = ord(substr($string,$i,1));
             if (strlen($dec) == 2) {
                 $dec = 0 . $dec;
@@ -263,7 +248,8 @@ function MAX_commonDecrypt($string)
     $conf = $GLOBALS['_MAX']['CONF'];
     $convert = '';
     if (isset($string) && substr($string,1,4) == 'obfs' && $conf['delivery']['obfuscate']) {
-        for ($i=6; $i < strlen($string)-1; $i = $i+3) {
+        $strLen = strlen($string);
+        for ($i=6; $i < $strLen-1; $i = $i+3) {
             $dec = substr($string,$i,3);
             $dec = 324 - $dec;
             $dec = chr($dec);
@@ -282,8 +268,8 @@ function MAX_commonDecrypt($string)
  */
 function MAX_commonInitVariables()
 {
-    MAX_commonRegisterGlobals('context', 'source', 'target', 'withText', 'withtext', 'ct0', 'what', 'loc', 'referer', 'zoneid', 'campaignid', 'bannerid');
-    global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid;
+    MAX_commonRegisterGlobalsArray(array('context', 'source', 'target', 'withText', 'withtext', 'ct0', 'what', 'loc', 'referer', 'zoneid', 'campaignid', 'bannerid', 'clientid'));
+    global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid;
 
     if (!isset($context)) 	$context = array();
     if (!isset($source))	$source = '';
@@ -301,7 +287,7 @@ function MAX_commonInitVariables()
         } else {
             $what = '';
         }
-    } else {
+    } elseif (preg_match('/^.+:.+$/', $what)) {
         list($whatName, $whatValue) = explode(':', $what);
         if ($whatName == 'zone') {
             $whatName = 'zoneid';
@@ -309,6 +295,9 @@ function MAX_commonInitVariables()
         global $$whatName;
         $$whatName = $whatValue;
     }
+
+    // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
+    if (!isset($clientid))  $clientid = '';
 
     $source = MAX_commonDeriveSource($source);
 
@@ -321,25 +310,22 @@ function MAX_commonInitVariables()
     }
 
     // Set real referer - Only valid if passed in
-    if (isset($referer) && $referer) {
+    if (!empty($referer)) {
         $_SERVER['HTTP_REFERER'] = stripslashes($referer);
     } else {
         if (isset($_SERVER['HTTP_REFERER'])) unset($_SERVER['HTTP_REFERER']);
     }
 
-    $conf = $GLOBALS['_MAX']['CONF'];
     $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array(
-        $conf['var']['blockAd'],
-        $conf['var']['capAd'],
-        $conf['var']['sessionCapAd'],
-        $conf['var']['blockCampaign'],
-        $conf['var']['capCampaign'],
-        $conf['var']['sessionCapCampaign'],
-        $conf['var']['blockZone'],
-        $conf['var']['capZone'],
-        $conf['var']['sessionCapZone']);
-
-    $GLOBALS['_MAX']['NOW'] = time();
+        $GLOBALS['_MAX']['CONF']['var']['blockAd'],
+        $GLOBALS['_MAX']['CONF']['var']['capAd'],
+        $GLOBALS['_MAX']['CONF']['var']['sessionCapAd'],
+        $GLOBALS['_MAX']['CONF']['var']['blockCampaign'],
+        $GLOBALS['_MAX']['CONF']['var']['capCampaign'],
+        $GLOBALS['_MAX']['CONF']['var']['sessionCapCampaign'],
+        $GLOBALS['_MAX']['CONF']['var']['blockZone'],
+        $GLOBALS['_MAX']['CONF']['var']['capZone'],
+        $GLOBALS['_MAX']['CONF']['var']['sessionCapZone']);
 }
 
 /**
@@ -350,17 +336,52 @@ function MAX_commonDisplay1x1()
     MAX_header('Content-Type: image/gif');
     MAX_header('Content-Length: 43');
     // 1 x 1 gif
-    echo base64_decode(MAX_DELIVERY_1x1);
-}
-
-function MAX_commonGetArrCappingCookieNames()
-{
-	return $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'];
+    echo base64_decode('R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==');
 }
 
 function MAX_commonGetTimeNow()
 {
-    return $GLOBALS['_MAX']['NOW'];
+    static $now;
+    if (!isset($now)) {
+        $now = $GLOBALS['_MAX']['NOW'] = time();
+    }
+    return $now;
+}
+
+
+/**
+ * set a cookie (for real)
+ */
+function MAX_setcookie($name, $value, $expire, $path, $domain)
+{
+    ###START_STRIP_DELIVERY
+    if(empty($GLOBALS['is_simulation']) && !defined('TEST_ENVIRONMENT_RUNNING')) {
+    ###END_STRIP_DELIVERY
+        setcookie($name, $value, $expire, $path, $domain);
+    ###START_STRIP_DELIVERY
+    } else {
+       $_COOKIE[$name] = $value;
+    }
+    ###END_STRIP_DELIVERY
+}
+
+/**
+ * send a header (for real)
+ */
+function MAX_header($value)
+{
+    ###START_STRIP_DELIVERY
+    if(empty($GLOBALS['is_simulation']) && !defined('TEST_ENVIRONMENT_RUNNING')) {
+    ###END_STRIP_DELIVERY
+        header($value);
+    ###START_STRIP_DELIVERY
+    } else {
+        if (empty($GLOBALS['_HEADERS']) || !is_array($GLOBALS['_HEADERS'])) {
+            $GLOBALS['_HEADERS'] = array();
+        }
+        $GLOBALS['_HEADERS'][] = $value;
+    }
+    ###END_STRIP_DELIVERY
 }
 
 ?>

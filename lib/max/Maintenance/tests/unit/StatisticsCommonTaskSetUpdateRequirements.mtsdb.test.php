@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -64,9 +64,9 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         // Use a reference to $GLOBALS['_MAX']['CONF'] so that the configuration
         // options can be changed while the test is running
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $dbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
-        $tables = MAX_Table_Core::singleton();
+        $tables = &OA_DB_Table_Core::singleton();
         // Create the required tables
         $tables->createTable('data_raw_ad_impression');
         $tables->createTable('log_maintenance_statistics');
@@ -74,7 +74,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         // and an operation interval less than 60
         $conf['maintenance']['operationInterval'] = 30;
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -88,7 +88,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         // and an operation interval greater than 60
         $conf['maintenance']['operationInterval'] = 120;
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -108,12 +108,12 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
-                (date_time)
+                (ad_id, creative_id, zone_id, date_time)
             VALUES
-                ('2004-06-06 18:05:00')";
-        $result = $dbh->query($query);
+                (0, 0, 0, '2004-06-06 18:05:00')";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -125,19 +125,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the ad impression
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert ad impression data 20 minutes ago, in previous hour
         // and operation interval
         $now = new Date('2004-06-06 18:10:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
-                (date_time)
+                (ad_id, creative_id, zone_id, date_time)
             VALUES
-                ('2004-06-06 17:50:00')";
-        $result = $dbh->query($query);
+                (0, 0, 0, '2004-06-06 17:50:00')";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -149,19 +149,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
         // Delete the ad impression
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert ad impression data 20 minutes ago, in current hour
         // and current operation interval
         $now = new Date('2004-06-06 18:25:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
-                (date_time)
+                (ad_id, creative_id, zone_id, date_time)
             VALUES
-                ('2004-06-06 18:05:00')";
-        $result = $dbh->query($query);
+                (0, 0, 0, '2004-06-06 18:05:00')";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -173,19 +173,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the ad impression
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert ad impression data 20 minutes ago, in current hour
         // and previous operation interval
         $now = new Date('2004-06-06 18:45:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
-                (date_time)
+                (ad_id, creative_id, zone_id, date_time)
             VALUES
-                ('2004-06-06 18:25:00')";
-        $result = $dbh->query($query);
+                (0, 0, 0, '2004-06-06 18:25:00')";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -197,19 +197,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the ad impression
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert ad impression data 39 minutes ago, in previous hour
         // and operation interval
         $now = new Date('2004-06-06 18:10:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
-                (date_time)
+                (ad_id, creative_id, zone_id, date_time)
             VALUES
-                ('2004-06-06 17:31:00')";
-        $result = $dbh->query($query);
+                (0, 0, 0, '2004-06-06 17:31:00')";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -221,19 +221,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
         // Delete the ad impression
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert ad impression data 39 minutes ago, in current hour
         // and previous operation interval
         $now = new Date('2004-06-06 18:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
-                (date_time)
+                (ad_id, creative_id, zone_id, date_time)
             VALUES
-                ('2004-06-06 18:01:00')";
-        $result = $dbh->query($query);
+                (0, 0, 0, '2004-06-06 18:01:00')";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -245,19 +245,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the ad impression
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert ad impression data 61 minutes ago, in previous hour
         // and previous operation interval
         $now = new Date('2004-06-06 18:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
-                (date_time)
+                (ad_id, creative_id, zone_id, date_time)
             VALUES
-                ('2004-06-06 17:39:00')";
-        $result = $dbh->query($query);
+                (0, 0, 0, '2004-06-06 17:39:00')";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -269,7 +269,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
         // Delete the ad impression
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         /*----------------------------------------------------------*/
         /* Run tests relating to a 120 minute operation interval    */
         /*----------------------------------------------------------*/
@@ -280,12 +280,12 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
-                (date_time)
+                (ad_id, creative_id, zone_id, date_time)
             VALUES
-                ('2004-06-06 18:05:00')";
-        $result = $dbh->query($query);
+                (0, 0, 0, '2004-06-06 18:05:00')";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -297,19 +297,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the ad impression
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert ad impression data 20 minutes ago, in previous hour
         // and current operation interval
         $now = new Date('2004-06-06 19:10:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
-                (date_time)
+                (ad_id, creative_id, zone_id, date_time)
             VALUES
-                ('2004-06-06 18:50:00')";
-        $result = $dbh->query($query);
+                (0, 0, 0, '2004-06-06 18:50:00')";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -321,19 +321,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
         // Delete the ad impression
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert ad impression data 20 minutes ago, in previous hour
         // and operation interval
         $now = new Date('2004-06-06 18:10:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
-                (date_time)
+                (ad_id, creative_id, zone_id, date_time)
             VALUES
-                ('2004-06-06 17:50:00')";
-        $result = $dbh->query($query);
+                (0, 0, 0, '2004-06-06 17:50:00')";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -345,19 +345,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
         // Delete the ad impression
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert ad impression data 20 minutes ago, in current hour
         // and operation interval
         $now = new Date('2004-06-06 18:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
-                (date_time)
+                (ad_id, creative_id, zone_id, date_time)
             VALUES
-                ('2004-06-06 18:20:00')";
-        $result = $dbh->query($query);
+                (0, 0, 0, '2004-06-06 18:20:00')";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -369,19 +369,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the ad impression
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert ad impression data 61 minutes ago, in previous hour
         // and current operation interval
         $now = new Date('2004-06-06 19:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
-                (date_time)
+                (ad_id, creative_id, zone_id, date_time)
             VALUES
-                ('2004-06-06 18:39:00')";
-        $result = $dbh->query($query);
+                (0, 0, 0, '2004-06-06 18:39:00')";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -393,19 +393,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
         // Delete the ad impression
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert ad impression data 61 minutes ago, in previous hour
         // and operation interval
         $now = new Date('2004-06-06 18:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
-                (date_time)
+                (ad_id, creative_id, zone_id, date_time)
             VALUES
-                ('2004-06-06 17:39:00')";
-        $result = $dbh->query($query);
+                (0, 0, 0, '2004-06-06 17:39:00')";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -417,19 +417,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
         // Delete the ad impression
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert ad impression data 121 minutes ago, in previous hour
         // and operation interval
         $now = new Date('2004-06-06 18:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
-                (date_time)
+                (ad_id, creative_id, zone_id, date_time)
             VALUES
-                ('2004-06-06 16:39:00')";
-        $result = $dbh->query($query);
+                (0, 0, 0, '2004-06-06 16:39:00')";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -441,7 +441,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
         // Delete the ad impression
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         /*----------------------------------------------------------*/
         /* Run tests relating to a 30 minute operation interval     */
         /*----------------------------------------------------------*/
@@ -452,12 +452,12 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 18:05:00', 0, '2004-06-06 17:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 18:05:00', 0, '2004-06-06 17:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -469,19 +469,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert hourly stats run 5 minutes ago, up to current hour
         // and operation interval
         $now = new Date('2004-06-06 18:10:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 18:05:00', 0, '2004-06-06 17:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 18:05:00', 0, '2004-06-06 17:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -493,19 +493,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert OI stats run 20 minutes ago, up to  previous hour
         // and operation interval
         $now = new Date('2004-06-06 18:10:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 17:50:00', 0, '2004-06-06 17:29:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 17:50:00', 0, '2004-06-06 17:29:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -517,19 +517,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert hourly stats run 20 minutes ago, up to previous hour
         // and operation interval
         $now = new Date('2004-06-06 18:10:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 17:50:00', 1, '2004-06-06 16:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 17:50:00', 1, '2004-06-06 16:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -541,19 +541,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert OI stats run 20 minutes ago, up to current hour
         // and current operation interval
         $now = new Date('2004-06-06 18:25:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 18:05:00', 0, '2004-06-06 17:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 18:05:00', 0, '2004-06-06 17:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -565,19 +565,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert hourly stats run 20 minutes ago, up to current hour
         // and current operation interval
         $now = new Date('2004-06-06 18:25:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 18:05:00', 1, '2004-06-06 17:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 18:05:00', 1, '2004-06-06 17:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -589,19 +589,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert OI stats run 20 minutes ago, up to current hour
         // and previous operation interval
         $now = new Date('2004-06-06 18:45:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 18:25:00', 0, '2004-06-06 17:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 18:25:00', 0, '2004-06-06 17:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -613,19 +613,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert OI stats run 20 minutes ago, up to current hour
         // and previous operation interval
         $now = new Date('2004-06-06 18:45:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 18:25:00', 1, '2004-06-06 17:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 18:25:00', 1, '2004-06-06 17:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -637,19 +637,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert OI stats run data 39 minutes ago, up to previous hour
         // and operation interval
         $now = new Date('2004-06-06 18:10:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 17:31:00', 0, '2004-06-06 17:29:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 17:31:00', 0, '2004-06-06 17:29:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -661,19 +661,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert OI stats run data 39 minutes ago, up to previous hour
         // and operation interval
         $now = new Date('2004-06-06 18:10:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 17:31:00', 1, '2004-06-06 16:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 17:31:00', 1, '2004-06-06 16:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -685,19 +685,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert OI stats run 39 minutes ago, up to current hour
         // and previous operation interval
         $now = new Date('2004-06-06 18:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 18:01:00', 0, '2004-06-06 17:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 18:01:00', 0, '2004-06-06 17:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -709,19 +709,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert hourly stats run 39 minutes ago, up to current hour
         // and previous operation interval
         $now = new Date('2004-06-06 18:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 18:01:00', 1, '2004-06-06 17:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 18:01:00', 1, '2004-06-06 17:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -733,19 +733,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert OI stats run 61 minutes ago, up to previous hour
         // and previous operation interval
         $now = new Date('2004-06-06 18:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 17:39:00', 0, '2004-06-06 17:29:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 17:39:00', 0, '2004-06-06 17:29:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -757,19 +757,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert OI stats run 61 minutes ago, in previous hour
         // and previous operation interval
         $now = new Date('2004-06-06 18:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 17:39:00', 1, '2004-06-06 16:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 17:39:00', 1, '2004-06-06 16:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -781,7 +781,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         /*----------------------------------------------------------*/
         /* Run tests relating to a 120 minute operation interval    */
         /*----------------------------------------------------------*/
@@ -792,12 +792,12 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 18:05:00', 0, '2004-06-06 17:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 18:05:00', 0, '2004-06-06 17:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -809,19 +809,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert hourly stats run 5 minutes ago, up to current hour
         // and operation interval
         $now = new Date('2004-06-06 18:10:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 18:05:00', 1, '2004-06-06 17:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 18:05:00', 1, '2004-06-06 17:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -833,19 +833,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert OI stats run 20 minutes ago, up to previous hour
         // and current operation interval
         $now = new Date('2004-06-06 19:10:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 18:50:00', 0, '2004-06-06 17:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 18:50:00', 0, '2004-06-06 17:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -857,19 +857,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert OI stats run 20 minutes ago, up to previous hour
         // and current operation interval
         $now = new Date('2004-06-06 19:10:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 18:50:00', 1, '2004-06-06 17:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 18:50:00', 1, '2004-06-06 17:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -881,19 +881,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert OI stats run 20 minutes ago, up to previous hour
         // and operation interval
         $now = new Date('2004-06-06 18:10:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 17:50:00', 0, '2004-06-06 15:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 17:50:00', 0, '2004-06-06 15:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -905,19 +905,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert hourly stats run 20 minutes ago, up to previous hour
         // and operation interval
         $now = new Date('2004-06-06 18:10:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 17:50:00', 1, '2004-06-06 16:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 17:50:00', 1, '2004-06-06 16:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -929,19 +929,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert OI stats run 20 minutes ago, up to current hour
         // and operation interval
         $now = new Date('2004-06-06 18:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 18:20:00', 0, '2004-06-06 17:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 18:20:00', 0, '2004-06-06 17:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -953,19 +953,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert hourly stats run 20 minutes ago, up to current hour
         // and operation interval
         $now = new Date('2004-06-06 18:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 18:20:00', 1, '2004-06-06 17:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 18:20:00', 1, '2004-06-06 17:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -977,19 +977,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert OI stats run 61 minutes ago, up to previous hour
         // and current operation interval
         $now = new Date('2004-06-06 19:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 18:39:00', 0, '17:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 18:39:00', 0, '17:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -1001,19 +1001,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert hourly stats run 61 minutes ago, up to previous hour
         // and current operation interval
         $now = new Date('2004-06-06 19:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 18:39:00', 1, '2004-06-06 17:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 18:39:00', 1, '2004-06-06 17:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -1025,19 +1025,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert OI stats run 61 minutes ago, up to previous hour
         // and operation interval
         $now = new Date('2004-06-06 18:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 17:39:00', 0, '2004-06-06 15:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 17:39:00', 0, '2004-06-06 15:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -1049,19 +1049,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert hourly stats run 61 minutes ago, in previous hour
         // and operation interval
         $now = new Date('2004-06-06 18:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 17:39:00', 1, '2004-06-06 16:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 17:39:00', 1, '2004-06-06 16:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -1073,19 +1073,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert OI stats run 121 minutes ago, up to previous hour
         // and operation interval
         $now = new Date('2004-06-06 18:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 16:39:00', 0, '2004-06-06 15:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 16:39:00', 0, '2004-06-06 15:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -1097,19 +1097,19 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertFalse($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Insert hourly stats run 121 minutes ago, in previous hour
         // and operation interval
         $now = new Date('2004-06-06 18:40:00');
         $oServiceLocator->register('now', $now);
         $query = "INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
-                (start_run, adserver_run_type, updated_to)
+                (start_run, adserver_run_type, updated_to, duration)
             VALUES
-                ('2004-06-06 16:39:00', 1, '2004-06-06 15:59:59')";
-        $result = $dbh->query($query);
+                ('2004-06-06 16:39:00', 1, '2004-06-06 15:59:59', 0)";
+        $rows = $dbh->exec($query);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->module = 'AdServer';
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements
@@ -1121,7 +1121,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         $this->assertTrue($oSetUpdateRequirements->oController->updateFinal);
         // Delete the run log information
         $query = "DELETE FROM {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}";
-        $result = $dbh->query($query);
+        $rows = $dbh->exec($query);
         // Reset the testing environment
         TestEnv::restoreEnv();
     }

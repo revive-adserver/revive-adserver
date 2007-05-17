@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2005 Awarez Ltd.                                       |
 | For contact details, see: http://www.awarez.net/                          |
@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
@@ -39,7 +40,8 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/stats.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics/AdServer/mysql.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysql.php';
 
 require_once 'Date.php';
 
@@ -64,13 +66,8 @@ $aParams['campaignid'] = $campaignId;
 $aParams['bannerid']   = $bannerId;
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
-
-if (phpAds_isUser(phpAds_Agency) && !phpAds_isAllowed(phpAds_EditConversions)) {
-    // editing statuses is allowed only if an agency have a proper right
-    phpAds_PageHeader(0);
-    phpAds_Die($strAccessDenied, $strNotAdmin);
-}
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkIsAllowed(phpAds_EditConversions);
 
 if (!empty($day)) {
     // Reset period
@@ -133,14 +130,11 @@ if (!empty($aConversions))
         if(isset($aConversions[$conversionId]) && $aConversions[$conversionId]['connection_status'] != $statusId) {
 
             $modified = true;
-
             // Edit conversion
-            $query = 'UPDATE '.$conf['table']['prefix'].$conf['table']['data_intermediate_ad_connection']
-                    .' SET connection_status = '.$statusId
-                    .', updated = "'.date('Y-m-d H:i:s').'"'
-                    .' WHERE data_intermediate_ad_connection_id='.$conversionId;
-
-            $res = phpAds_dbQuery($query) or phpAds_sqlDie();
+            $doData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');
+            $doData_intermediate_ad_connection->get($conversionId);
+            $doData_intermediate_ad_connection->connection_status = $statusId;
+            $doData_intermediate_ad_connection->update();
 
             if($aConversions[$conversionId]['connection_status'] == MAX_CONNECTION_STATUS_APPROVED || $statusId == MAX_CONNECTION_STATUS_APPROVED) {
                 // Connection was changed to conversion (or conversion was changed to connection)
@@ -209,38 +203,21 @@ if (!empty($aConversions))
                 }
 
                 // Update "data_intermediate_ad" table
-                $query = 'UPDATE '.$conf['table']['prefix'].$conf['table']['data_intermediate_ad']
-                    .' SET conversions=conversions'.$operation.'1, '
-                    .' total_basket_value=total_basket_value'.$operation.$basketValue
-                    .', total_num_items=total_num_items'.$operation.$numItems
-                    .', updated = "'.date('Y-m-d H:i:s').'"'
-                    ." WHERE
-                           ad_id=$ad_id
-                       AND creative_id=$creative_id
-                       AND zone_id=$zone_id
-                       AND day='$day'
-                       AND operation_interval_id=$optIntID";
-                $res = phpAds_dbQuery($query) or phpAds_sqlDie();
+                $dalData_intermediate_ad = OA_Dal::factoryDAL('data_intermediate_ad');
+                $dalData_intermediate_ad->addConversion($operation,
+                    $basketValue, $numItems, $ad_id,
+                    $creative_id, $zone_id, $day, $hour);
 
-                // Update "data_summary_ad_hourly" table
-                $query = 'UPDATE '.$conf['table']['prefix'].$conf['table'][$data_summary_table]
-                    .' SET conversions=conversions'.$operation.'1, '
-                    .' total_basket_value=total_basket_value'.$operation.$basketValue
-                    .', total_num_items=total_num_items'.$operation.$numItems
-                    .', updated = "'.date('Y-m-d H:i:s').'"'
-                    ." WHERE
-                           ad_id=$ad_id
-                       AND creative_id=$creative_id
-                       AND zone_id=$zone_id
-                       AND day='$day'
-                       AND hour=$hour";
-                $res = phpAds_dbQuery($query) or phpAds_sqlDie();
+                // Update "$data_summary_table" table
+                $dalData_intermediate_ad->addConversion($operation,
+                    $basketValue, $numItems, $ad_id,
+                    $creative_id, $zone_id, $day, $hour, $data_summary_table);
 
                 // Update finance info
                 $oServiceLocator = &ServiceLocator::instance();
-                $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
+                $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer_mysql');
                 if (!$oDal) {
-                    $oDal = new MAX_Dal_Maintenance_Statistics_AdServer_mysql;
+                    $oDal = new OA_Dal_Maintenance_Statistics_AdServer_mysql;
                 }
                 $oStartDate = new Date($oConnectionDate->format('%Y-%m-%d %H:00:00'));
                 $oEndDate   = new Date($oConnectionDate->format('%Y-%m-%d %H:00:00'));

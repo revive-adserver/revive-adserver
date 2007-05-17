@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
@@ -62,41 +63,34 @@ if (!empty($action)) {
 
     _initCappingVariables();
 
-	// If the capping/blocking values have been changed - update the values
-	if (($aBannerPrev['block_ad'] <> $block) || ($aBannerPrev['cap_ad'] <> $cap) || ($aBannerPrev['session_cap_ad'] <> $session_capping)) {
-	    $values = array();
-	    $acls_updated = false;
-	    $now = date('Y-m-d H:i:s');
+    $values = array();
+    $acls_updated = false;
+    $now = OA::getNow();
 
-	    if ($aBannerPrev['block_ad'] <> $block) {
-	        $values[] = "block={$block}";
-	        $acls_updated = ($block == 0) ? true : $acls_updated;
-	    }
-	    if ($aBannerPrev['cap_ad'] <> $cap) {
-	        $values[] = "capping={$cap}";
-	        $acls_updated = ($cap == 0) ? true : $acls_updated;
-	    }
-	    if ($aBannerPrev['session_cap_ad'] <> $session_capping) {
-	        $values[] = "session_capping={$session_capping}";
-	        $acls_updated = ($session_capping == 0) ? true : $acls_updated;
-	    }
-	    if ($acls_updated) {
-	        $values[] = "acls_updated='{$now}'";
-	    }
+    if ($aBannerPrev['block_ad'] <> $block) {
+        $values['block'] = $block;
+        $acls_updated = ($block == 0) ? true : $acls_updated;
+    }
+    if ($aBannerPrev['cap_ad'] <> $cap) {
+        $values['capping'] = $cap;
+        $acls_updated = ($cap == 0) ? true : $acls_updated;
+    }
+    if ($aBannerPrev['session_cap_ad'] <> $session_capping) {
+        $values['session_capping'] = $session_capping;
+        $acls_updated = ($session_capping == 0) ? true : $acls_updated;
+    }
+    if ($acls_updated) {
+        $values['acls_updated'] = $now;
+    }
 
-	    if (!empty($values)) {
-	        $values[] = "updated='{$now}'";
-	        $query = "
-	           UPDATE
-	               {$conf['table']['prefix']}{$conf['table']['banners']}
-               SET
-                   " . implode(', ', $values) . "
-               WHERE
-                   bannerid = {$bannerid}
-            ";
-	        $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-	    }
-	}
+    if (!empty($values)) {
+        $values['updated'] = $now;
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->get($bannerid);
+        $doBanners->setFrom($values);
+        $doBanners->update();
+    }
+
     header("Location: banner-zone.php?clientid={$clientid}&campaignid={$campaignid}&bannerid={$bannerid}");
     exit;
 }

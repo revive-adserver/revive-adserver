@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package MaxDelivery
+ * @package OpenadsDelivery
  * @subpackage Trackers
  * @author chris@m3.net
  * 
@@ -133,7 +133,7 @@ function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $tracker
         }
     }
     if(!empty($tracker['appendcode'])) {
-        // Add the correct "inherit" parameter if a Max trackercode was found
+        // Add the correct "inherit" parameter if a Openads trackercode was found
         $tracker['appendcode'] = preg_replace('/("\?trackerid=\d+&amp;inherit)=1/', '$1='.$trackerJsCode, $tracker['appendcode']);
         
         $jscode = MAX_javascriptToHTML($tracker['appendcode'], "MAX_{$trackerid}_appendcode");

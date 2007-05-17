@@ -1,100 +1,58 @@
 <?php
-/**
- * @since Max v0.3.30 - 20-Nov-2006
- */
 
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
 
 class MAX_Dal_Admin_Agency extends MAX_Dal_Common
 {
-    /**
-     * Is a banner linked to this agency via campaign and advertiser links?
-     *  
-     * @param int $agencyid
-     * @param int $clientid An advertiser (formerly known as client)
-     * @param int $campaignid A campaign
-     * @param int $bannerid A banner
-     * @return bool True if all the items are linked together
-     * 
-     * @todo Migrate to MAX DB API
-     * @todo Validate as ANSI SQL
-     */
-    function isAgencyLinkedToAdvertiserCampaignAndBanner($agencyid, $clientid, $campaignid, $bannerid)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $query = "
-            SELECT
-                b.bannerid as bannerid
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['clients']} AS c,
-                {$conf['table']['prefix']}{$conf['table']['campaigns']} AS m,
-                {$conf['table']['prefix']}{$conf['table']['banners']} AS b
-            WHERE
-                c.clientid='{$clientid}'
-              AND m.campaignid='{$campaignid}'
-              AND b.bannerid='{$bannerid}'
-              AND b.campaignid=m.campaignid
-              AND m.clientid=c.clientid
-              AND c.agencyid=".$agencyid;
-        $res = $this->dbh->query($query);
-        if (PEAR::isError($res)) {
-            MAX::raiseError($res);
-            return false;
-        }
-        if ($this->_isResultEmpty($res)) {
-            return false;
-        } else {
-            return true;
-        } 
-    }
+    var $table = 'agency';
+
+    var $orderListName = array(
+        'name' => 'name',
+        'id'   => 'agencyid',
+    );
+
 
     /**
-     * Is a campaign linked to this agency via an advertiser link?
-     *  
-     * @param int $agencyid
-     * @param int $clientid An advertiser (formerly known as client)
-     * @param int $campaignid A campaign
-     * @return bool True if all the items are linked together
-     * 
-     * @todo Migrate to MAX DB API
-     * @todo Validate as ANSI SQL
+     * If the agency has set the logout URL in a database, returns this URL
+     * (trimmed).
+     * Otherwise, returns 'index.php'.
+     *
+     * @param string $agencyId
+     * @return string Url for redirection after logout.
      */
-    function isAgencyLinkedToAdvertiserAndCampaign($agencyid, $clientid, $campaignid)
+    function getLogoutUrl($agencyId)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $query = "
-                SELECT
-                    m.campaignid as campaignid
-                FROM
-                    {$conf['table']['prefix']}{$conf['table']['clients']} AS c,
-                    {$conf['table']['prefix']}{$conf['table']['campaigns']} AS m
-                WHERE
-                    c.clientid='{$clientid}'
-                  AND m.campaignid='{$campaignid}'
-                  AND m.clientid=c.clientid
-                  AND c.agencyid={$agencyid}";
-        $res = $this->dbh->query($query);
-        if (PEAR::isError($res)) {
-            MAX::raiseError($res);
-            return false;
+        $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
+        if ($doAgency && !empty($doAgency->logout_url)) {
+            return trim($doAgency->logout_url);
         }
-        if ($this->_isResultEmpty($res)) {
-            return false;
-        } else {
-            return true;
-        } 
-    }
-
-    /**
-     * 
-     * @param   DB_result    $res    A PEAR DB result.
-     * @return  bool        False if the result contains any rows of data.
-     * 
-     * @todo Consider inverting this method; something like isResourcePopulated
-     */
-    function _isResultEmpty($res)
-    {
-        return $res->numRows() == 0;
+        return 'index.php';
     }
 }
 ?>

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -62,10 +62,12 @@ $current  = $strCurrentlyUsing.' '.MAX_PRODUCT_NAME.'&nbsp;'.MAX_VERSION_READABL
 $current .= $strRunningOn.' '.str_replace('/', '&nbsp;', ereg_replace(" .*$", '', $_SERVER["SERVER_SOFTWARE"])).', ';
 $current .= 'PHP&nbsp;'.phpversion().' '.$strAndPlain.' '.phpAds_dbmsname;
 
-$res = phpAds_dbQuery("SELECT VERSION() AS version");
-if ($row = phpAds_dbFetchArray($res)) {
-    $current .= '&nbsp;'.$row['version'];
-}
+// Get the database version number.
+$connection = DBC::getCurrentConnection();
+$connectionId = $connection->getConnectionId();
+$aVersion = $connectionId->getServerVersion();
+$current .= '&nbsp;' . $aVersion['major'] . '.' . $aVersion['minor'] . '.' . $aVersion['patch'] . '-' . $aVersion['extra'];
+
 $current .= '.';
 
 if (!isset($session['maint_update'])) {

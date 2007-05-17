@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -31,65 +31,43 @@ $Id$
 // Require the initialisation file
 require_once '../../init.php';
 
+// Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+MAX_Permission::checkAccess(phpAds_Admin);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$res = phpAds_dbQuery("
-	SELECT
-		storagetype AS type,
-		filename,
-		imageurl,
-		htmltemplate,
-		htmlcache
-	FROM
-		".$conf['table']['prefix'].$conf['table']['banners']."
-");
+$doBanners = OA_Dal::factoryDO('banners');
+$doBanners->storagetype = 'sql';
+$doBanners->find();
 
-while ($current = phpAds_dbFetchArray($res))
+while ($doBanners->fetch())
 {
-	if ($current['type'] == 'sql')
+	// Get the filename
+	$filename = $doBanners->filename;
+
+	// Copy the file
+	$buffer = phpAds_ImageRetrieve('sql', $filename);
+	$doBanners->filename = phpAds_ImageStore('web', $filename, $buffer);
+
+	// TODO: Would be nice if we gave some indication to the user of success or failure!
+	if ($doBanners->filename != false)
 	{
-		// Get the filename
-		$filename = $current['filename'];
-		
-		// Copy the file
-		$buffer = phpAds_ImageRetrieve ('sql', $filename);
-		$current['filename'] = phpAds_ImageStore('web', $filename, $buffer);
-		
-		if ($current['filename'] != false)
-		{
-			// Delete the original file
-			phpAds_ImageDelete ('sql', $filename);
-			
-			// Update fields
-			$current['imageurl'] 	= '';
-			$current['type'] = 'web';
-			
-			// Rebuild banner cache
-			$current['htmltemplate'] = stripslashes($current['htmltemplate']);
-			$current['htmlcache']    = addslashes(phpAds_getBannerCache($current));
-			
-			phpAds_dbQuery("
-				UPDATE
-					".$conf['table']['prefix'].$conf['table']['banners']."
-				SET
-					filename  = '".$current['filename']."',
-					imageurl  = '".$current['imageurl']."',
-					storagetype = '".$current['type']."',
-					htmlcache = '".$current['htmlcache']."',
-					updated = '".date('Y-m-d H:i:s')."'
-				WHERE
-					bannerid = ".$current['bannerid']."
-			");
-		}
+		phpAds_ImageDelete ('sql', $filename);
+
+	    $doBannersClone = clone($doBanners);
+
+		$doBannersClone->imageurl = '';
+		$doBannersClone->storagetype = 'web';
+
+        $doBannersClone->update();
 	}
 }
 

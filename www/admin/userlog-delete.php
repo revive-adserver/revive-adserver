@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
@@ -41,7 +42,10 @@ phpAds_checkAccess(phpAds_Admin);
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-phpAds_dbQuery("DELETE FROM ".$conf['table']['prefix'].$conf['table']['userlog']);
+$doUserLog = OA_Dal::factoryDO('userlog');
+$doUserLog->whereAdd('1=1');
+$doUserLog->delete(DB_DATAOBJECT_WHEREADD_ONLY);
+
 header ("Location: userlog-index.php");
 
 ?>

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -44,6 +44,8 @@ class Plugins_DeliveryLimitations_ArrayData_Test extends UnitTestCase
 
     function test_preCompile()
     {
+        $current_quotes_runtime = get_magic_quotes_runtime();
+
         $oPlugin = new Plugins_DeliveryLimitations_CommaSeparatedData();
         $this->assertEqual('ab,cd,ef,gh', $oPlugin->_preCompile('ab,cd,ef,gh'));
         $this->assertEqual('ab,cd,ef,gh', $oPlugin->_preCompile('aB,cD, ef,gh '));
@@ -51,6 +53,8 @@ class Plugins_DeliveryLimitations_ArrayData_Test extends UnitTestCase
         $this->assertEqual('a\\b,cd,ef,gh', $oPlugin->_preCompile('a\\b,cd,ef,gh'));
         set_magic_quotes_runtime(0);
         $this->assertEqual('a\\\\b,cd,ef,gh', $oPlugin->_preCompile('a\\b,cd,ef,gh'));
+
+        set_magic_quotes_runtime($current_quotes_runtime);
     }
 }
 ?>

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -121,6 +121,7 @@ class Plugins_Reports_Publisher_Advertising extends Plugins_Reports {
     	global $strAffiliate;
 
     	$conf = & $GLOBALS['_MAX']['CONF'];
+        $oDbh = & OA_DB::singleton();
 
     	$reportName = $GLOBALS['strPublisherAdvertisingSummaryReport'];
 
@@ -161,16 +162,19 @@ class Plugins_Reports_Publisher_Advertising extends Plugins_Reports {
                  WHERE z.zoneid = ds.zone_id
                    AND ds.ad_id = b.bannerid
                    AND b.campaignid = c.campaignid
-                   AND z.affiliateid = '".$affiliateid."'
-                   AND ds.day >= '$dbStart'
-                   AND ds.day <= '$dbEnd'
+                   AND z.affiliateid = ". $oDbh->quote($affiliateid, 'integer') ."
+                   AND ds.day >= ". $oDbh->quote($dbStart, 'integer') ."
+                   AND ds.day <= ". $oDbh->quote($dbEnd, 'integer') ."
                  GROUP BY c.priority
                  ORDER BY c.priority ASC";
 
-    	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
+    	$res = $oDbh->query($query);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
 
     	// getting the db result to the temporary table - results needs to be prepared first
-    	while ($row = phpAds_dbFetchArray($res)) {
+    	while ($row = $res->fetchRow()) {
     	    $data[] = $row;
     	}
 
@@ -178,7 +182,7 @@ class Plugins_Reports_Publisher_Advertising extends Plugins_Reports {
 
         // preparing result data
     	$row = $this->prepareData($data);
-    	//var_dump($row);
+
     	$priorityNames = array('0' => $GLOBALS['strPriorityLow']
     	                      ,'1' => $GLOBALS['strPriorityMedium']
     	                      ,'2' => $GLOBALS['strPriorityHigh']

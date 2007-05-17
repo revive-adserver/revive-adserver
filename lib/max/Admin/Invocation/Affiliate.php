@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -57,6 +57,7 @@ class MAX_Admin_Invocation_Affiliate extends MAX_Admin_Invocation {
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $pref = $GLOBALS['_MAX']['PREF'];
+        $oDbh = &OA_DB::singleton();
 
         $globalVariables = array(
             'affiliateid', 'size', 'text', 'dest'
@@ -81,11 +82,11 @@ class MAX_Admin_Invocation_Affiliate extends MAX_Admin_Invocation {
                 $invocationTypes[$pluginKey]->maxInvocation =& $this;
             }
         }
-        
+
         $affiliateid = $this->affiliateid;
-        
+
         $size = isset($size) ? $size : 'all';
-        
+
         if (preg_match('/^(\d+)x(\d+)$/D', $size, $matches)) {
             $width  = $matches[1];
             $height = $matches[2];
@@ -95,8 +96,7 @@ class MAX_Admin_Invocation_Affiliate extends MAX_Admin_Invocation {
             $width  = $height = -1;
             $size   = 'all';
         }
-    
-        $res = phpAds_dbQuery("
+        $query = "
             SELECT
                 zoneid,
                 zonename,
@@ -106,14 +106,17 @@ class MAX_Admin_Invocation_Affiliate extends MAX_Admin_Invocation {
             FROM
                 {$conf['table']['prefix']}{$conf['table']['zones']}
             WHERE
-                affiliateid={$affiliateid}
-            ") or phpAds_sqlDie();
-        
+                affiliateid = ". $oDbh->quote($affiliateid, 'integer');
+        $res = $oDbh->query($query);
+        if (PEAR::isError($res)) {
+            return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
+        }
+
         $aZones = array();
-        while ($row = phpAds_dbFetchArray($res)) {
+        while ($row = $res->fetchRow()) {
             $aZones[$row['zoneid']] = $row;
         }
-    
+
         echo "
             <script type='text/javascript'>
             <!--
@@ -131,7 +134,7 @@ class MAX_Admin_Invocation_Affiliate extends MAX_Admin_Invocation {
                 var oHtml = findObj('bannerhtml_' + id);
                 var oText = findObj('text_' + id);
                 var oDest = findObj('dest_' + id);
-                
+
                 if (ar) {
                     var sep = oDest.value.indexOf('?') >= 0 ? '&' : '?';
                     oCode.value = oCode.value.replace(new RegExp('(<a href=\\').*?(\\\\?|&|&amp;)(m3_data=)', 'g'), '$1' + MAX_htmlspecialchars(oDest.value + sep) + '$3');
@@ -144,24 +147,28 @@ class MAX_Admin_Invocation_Affiliate extends MAX_Admin_Invocation {
             }
             //-->
             </script>
-        ";    
-    
+        ";
+
         if (isset($invocationTypes['ar'])) {
             $arrivalAds[] = array();
-            $res = phpAds_dbQuery("SELECT bannerid AS ad_id FROM {$conf['table']['prefix']}{$conf['table']['banners']} WHERE arrival_capable = 't'");
-            while ($row = phpAds_dbFetchArray($res)) {
+            $query = "SELECT bannerid AS ad_id FROM {$conf['table']['prefix']}{$conf['table']['banners']} WHERE arrival_capable = 't'";
+            $res   = $oDbh->query($query);
+            if (PEAR::isError($res)) {
+                return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
+            }
+            while ($row = $oDbh->fetchRow()) {
                 $arrivalAds[$row['ad_id']] = true;
             }
         }
-    
+
         $aSizes = array();
         $buffer = '';
         foreach ($aZones as $zoneId => $zone) {
-            $zoneAds = MAX_Dal_Delivery_getZoneLinkedAds($zoneId);
-    
+            $zoneAds = OA_Dal_Delivery_getZoneLinkedAds($zoneId);
+
             // Set ZoneID
             $this->zoneid = $zoneId;
-            
+
             $adVarNames = array('xAds', 'ads', 'lAds');
             foreach ($adVarNames as $var) {
                 foreach ($zoneAds[$var] as $adId => $ad) {
@@ -173,42 +180,42 @@ class MAX_Admin_Invocation_Affiliate extends MAX_Admin_Invocation {
                         $aSizes[$bannersize] = array('width' => $ad['width'], 'height' => $ad['height']);
                         $bannersize = 'Banner size: '.$bannersize;
                     }
-                    
+
                     // Exclude not matching banners
                     if (($width > 0 && ($width != $ad['width'] || $height != $ad['height'])) || ($width == 0 && $ad['type'] != 'txt')) {
                         continue;
                     }
-    
+
                     if (isset($invocationTypes['ar']) && isset($arrivalAds[$ad['ad_id']])) {
                         $ad    = $invocationTypes['ar']->prepareBannerForArrivals($ad);
                         $dest  = $invocationTypes['ar']->getDestination($ad);
-    
+
                         $bannercode = MAX_adRender($ad, $zoneId, '', '', '', true, $dest, false, true, '', '', '');
                         $bannerhtml = $bannercode;
-                        
+
                         $regenType = 1;
                     } else {
                         if (empty($ad['url'])) {
                             $ad['url'] = '#';
                         }
-        
+
                         $bannercode = MAX_adRender($ad, $zoneId, '', '', '', true, true, false, true, '', '', '');
                         $bannerhtml = MAX_adRender($ad, $zoneId, '', '', '', true, false, false, true, '', '', '');
-                        
+
                         $regenType = 0;
                     }
-                    
+
                     if ($ad['contenttype'] == 'swf') {
                         $bannercode = MAX_flashGetFlashObjectExternal() . $bannercode;
                         $bannerhtml = MAX_flashGetFlashObjectExternal() . $bannerhtml;
                     }
-    
+
                     if ($ad['url'] == '#') {
                         $ad['url'] = '';
                     }
-    
+
                     $codeId = "{$zoneId}_{$adId}";
-    
+
                     $buffer .= "
                         <table border='1' style='width: 700px; margin-bottom: 2em'>
                             <tr>
@@ -228,7 +235,7 @@ class MAX_Admin_Invocation_Affiliate extends MAX_Admin_Invocation {
                             <tr>
                                 <td><textarea style='width: 350px; height: 250px' class='code-gray' name='bannercode_{$codeId}' id='bannercode_{$codeId}'>" . htmlspecialchars($bannercode) . "</textarea></td>
                                 ";
-                    
+
                     if ($ad['type'] == 'txt') {
                         $buffer .= "
                                 <td align='center'>
@@ -252,9 +259,9 @@ class MAX_Admin_Invocation_Affiliate extends MAX_Admin_Invocation {
                                             <tr><td style='height: 250px' valign='middle'>{$bannerhtml}</td></tr>
                                         </table>
                                     </div>
-                                </td>";            
+                                </td>";
                     }
-                    
+
                     $buffer .= "
                             </tr>
                         </table>
@@ -262,7 +269,7 @@ class MAX_Admin_Invocation_Affiliate extends MAX_Admin_Invocation {
                 }
             }
         }
-        
+
         if (file_exists(MAX_PATH . '/www/admin/affiliate-invocation-help.php')) {
             echo "
                 <br />
@@ -277,7 +284,7 @@ class MAX_Admin_Invocation_Affiliate extends MAX_Admin_Invocation {
                 <br />
             ";
         }
-    
+
         echo "
             <br />
             <form action='' method='get'>
@@ -285,37 +292,37 @@ class MAX_Admin_Invocation_Affiliate extends MAX_Admin_Invocation {
                 <b>Banner type:</b> <select name='size' onchange='this.form.submit()' tabindex='".($tabindex++)."'>
                     <option value='all'".($width == -1 ? ' selected="selected"' : '').">All</option>
             ";
-    
+
         if (isset($aSizes['0x0'])) {
             echo "<option value='text'".($width == 0 ? ' selected="selected"' : '').">Text banner</option>";
             unset($aSizes['0x0']);
         }
-        
+
         foreach (array_keys($phpAds_IAB) as $key)
         {
             if (!isset($aSizes[$phpAds_IAB[$key]['width'].'x'.$phpAds_IAB[$key]['height']])) {
                 continue;
             }
             unset($aSizes[$phpAds_IAB[$key]['width'].'x'.$phpAds_IAB[$key]['height']]);
-            
+
             $selected = $phpAds_IAB[$key]['width'] == $width && $phpAds_IAB[$key]['height'] == $height;
             echo "<option value='".$phpAds_IAB[$key]['width']."x".$phpAds_IAB[$key]['height']."'".
                 ($selected ? 'selected="selected"' : '').">".$key."</option>";
         }
-        
+
         ksort($aSizes);
         foreach ($aSizes as $key => $value) {
             $selected = $value['width'] == $width && $value['height'] == $height;
             echo "<option value='".$key."'".($selected ? 'selected="selected"' : '').">".'Custom'.' ('.str_replace('x', ' x ',$key).")</option>";
         }
-        
+
         echo "
                 </select>
             </form>
             ";
-    
+
         phpAds_ShowBreak();
-    
+
         echo '<br />';
         echo $buffer;
     }

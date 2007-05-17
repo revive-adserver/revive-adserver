@@ -3,14 +3,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -37,16 +34,14 @@ require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 
-//make data loading depending only on period_start & period_end
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
+
+// Make data loading depending only on period_start & period_end
 $tempPeriodPreset = $_REQUEST['period_preset'];
 $_REQUEST['period_preset'] = 'specific';
 $period_preset = 'specific';
 $session['prefs']['GLOBALS']['period_preset'] = 'specific';
 $period_preset = MAX_getStoredValue('period_preset', 'today');
-
-
-
-require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsControllerFactory.php';
 
 phpAds_registerGlobal('breakdown', 'entity', 'agency_id', 'advertiser_id',
                       'clientid', 'campaignid', 'placement_id', 'ad_id',
@@ -57,145 +52,81 @@ phpAds_registerGlobal('breakdown', 'entity', 'agency_id', 'advertiser_id',
                       'listorder'
                      );
 
+if (!isset($listorder)) {
+    $prm['listorder'] = MAX_getStoredValue('listorder', null, 'stats.php');
+}
 
-
-    if(!isset($listorder)) {
-        $prm['listorder'] = MAX_getStoredValue('listorder', null, 'stats.php');    
-    }
-
-
-
-// handle filters
-if(is_numeric($advertiser_id)) {
+// Handle filters
+if (is_numeric($advertiser_id)) {
     $clientid = $advertiser_id;
 }
 
-if(is_numeric($placement_id)) {
+if (is_numeric($placement_id)) {
     $campaignid = $placement_id;
 }
 
-if(is_numeric($ad_id)) {
+if (is_numeric($ad_id)) {
     $bannerid = $ad_id;
 }
 
-if(is_numeric($publisher_id)) {
+if (is_numeric($publisher_id)) {
     $affiliateid = $publisher_id;
 }
 
-if(is_numeric($zone_id)) {
+if (is_numeric($zone_id)) {
       $zoneid = $zone_id;
 }
 
-if(!isset($entity)) {
+if (!isset($entity)) {
     $entity = 'global';
 }
-if(!isset($breakdown)) {
+if (!isset($breakdown)) {
     $breakdown = 'advertiser';
 }
 
-//add all manipulated values to globals
+// Add all manipulated values to globals
 $_REQUEST['zoneid']      = $zoneid;
 $_REQUEST['affiliateid'] = $affiliateid;
 $_REQUEST['bannerid']    = $bannerid;
 $_REQUEST['campaignid']  = $campaignid;
 $_REQUEST['clientid']    = $clientid;
 
-//die($entity." ".$breakdown);
+// Check that the user has access to data he is asking for
 
-//loading non-standard stat files
-if($entity == 'campaign' && $breakdown == 'keywords') {
+// Display stats
 
-    include_once MAX_PATH . '\www\admin\stats-campaign-keywords.php';
-    die;
+// Overwirte file name to load right session data, see MAX_getStoredValue
+$pgName = 'stats.php';
 
-} else if($entity == 'campaign' && $breakdown == 'optimise') {
+$oStats = &OA_Admin_Statistics_Factory::getController($entity . "-" . $breakdown);
+$oStats->start();
 
-    include_once MAX_PATH . '\www\admin\stats-campaign-optimise.php';
-    die;
-
-} else if($entity == 'campaign' && $breakdown == 'sources') {
-
-    include_once MAX_PATH . '\www\admin\stats-campaign-sources.php';
-    die;
-
-} else if($entity == 'conversions') {
-
-    include_once MAX_PATH . '\www\admin\stat-conversions.php';
-    die;
-
-} else if($entity == 'global' && $breakdown == 'misc') {
-
-    include_once MAX_PATH . '\www\admin\stats-global-misc.php';
-    die;
-
-} else if($entity == 'linkedbanner' && $breakdown == 'history') {
-
-    include_once MAX_PATH . '\www\admin\stats-linkedbanner-history.php';
-    die;
-
-} else if($entity == 'optimise') {
-
-    include_once MAX_PATH . '\www\admin\stats-optimise.php';
-    die;
-
-} else if($entity == 'placement' && $breakdown == 'target') {
-
-    include_once MAX_PATH . '\www\admin\stats-placement-target.php';
-    die;
-
-} else if($entity == 'placement' && $breakdown == 'target-daily') {
-
-    include_once MAX_PATH . '\www\admin\stats-placement-target.php';
-    die;
-
-} else if($entity == 'reset') {
-
-    include_once MAX_PATH . '\www\admin\stats-reset.php';
-    die;
-
-} else {
-
-    // Display stats
-
-    //overwirte file name to load right session data, see MAX_getStoredValue
-    $pgName = 'stats.php'; 
-
-    $stats = &StatsControllerFactory::newStatsController($entity . "-" . $breakdown);
-
-
-
-    //create Excel stats report
-    if(isset($plugin) && $plugin != '') {
-        include_once MAX_PATH . '\www\admin\stats-report-execute.php';
-    }
-
-    //remove comas in values greater than 1000
-    foreach($stats->history as $dateKey => $dateRecord) {
-        foreach($dateRecord as $k => $v) {
-            $stats->history[$dateKey][$k] = ereg_replace(",", "", $v);
-        }    
-    }
-
-
-    //output html code
-    $stats->output(null, true);
-
-    //erase stats graph file
-    if(isset($GraphFile) && $GraphFile != '') {
-
-        $dirObject = dir( $conf['store']['webDir'] . '/temp');    
-        while (false !== ($entry = $dirObject->read())) {
-
-            if( filemtime($conf['store']['webDir'] . '/temp/' . $entry) + 60 < time()) {
-                unlink($conf['store']['webDir'] . '/temp/' . $entry);
-            }
-        }
-    }
-
-
-
+// Create Excel stats report
+if (isset($plugin) && $plugin != '') {
+    include_once MAX_PATH . '\www\admin\stats-report-execute.php';
 }
 
+// Remove comas in values greater than 1000
+foreach($oStats->aStatsData as $dateKey => $dateRecord) {
+    foreach($dateRecord as $k => $v) {
+        $oStats->aStatsData[$dateKey][$k] = ereg_replace(",", "", $v);
+    }
+}
+
+// Output html code
+$oStats->output(true);
+
+// Erase stats graph file
+if (isset($GraphFile) && $GraphFile != '') {
+
+    $dirObject = dir( $conf['store']['webDir'] . '/temp');
+    while (false !== ($entry = $dirObject->read())) {
+
+        if (filemtime($conf['store']['webDir'] . '/temp/' . $entry) + 60 < time()) {
+            unlink($conf['store']['webDir'] . '/temp/' . $entry);
+        }
+    }
+}
 
 
 ?>

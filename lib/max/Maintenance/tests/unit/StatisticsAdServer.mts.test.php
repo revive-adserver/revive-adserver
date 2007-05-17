@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -26,8 +26,9 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics/AdServer/mysql.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysql.php';
 
 /**
  * A class for testing the MAX_Maintenance_Statistics_AdServer class.
@@ -46,10 +47,10 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer extends UnitTestCase
     {
         $this->UnitTestCase();
         // Register a mocked DAL in the service locator
-        Mock::generate('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
-        $oDal = new MockMAX_Dal_Maintenance_Statistics_AdServer_mysql($this);
+        Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
+        $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Statistics_AdServer', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
     }
 
     /**

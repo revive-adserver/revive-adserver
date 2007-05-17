@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-size.inc.php';
@@ -41,23 +42,12 @@ require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 // Register input variables
 phpAds_registerGlobal ('listorder', 'orderdirection');
 
-// Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Affiliate)) {
-    $affiliateid = phpAds_getUserID();
-} elseif (phpAds_isUser(phpAds_Agency)) {
-    $query = "SELECT affiliateid FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE affiliateid='".$affiliateid."' AND agencyid=".phpAds_getUserID();
-    $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-    if (phpAds_dbNumRows($res) == 0) {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-}
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/
 /* Get preferences                                       */
@@ -89,44 +79,45 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     } else {
         $navorder = '';
     }
-    
+
     if (isset($session['prefs']['affiliate-index.php']['orderdirection'])) {
         $navdirection = $session['prefs']['affiliate-index.php']['orderdirection'];
     } else {
         $navdirection = '';
     }
-    
+
     // Get other affiliates
+    $doAffiliates = OA_Dal::factoryDO('affiliates');
+    $doAffiliates->addListorderBy($navorder, $navdirection);
     if (phpAds_isUser(phpAds_Admin)) {
-        $query="SELECT * FROM " . $conf['table']['prefix'].$conf['table']['affiliates'] . phpAds_getAffiliateListOrder($navorder, $navdirection);
     } elseif (phpAds_isUser(phpAds_Agency)) {
-        $query="SELECT * FROM " . $conf['table']['prefix'].$conf['table']['affiliates'] . " WHERE agencyid=$agencyid" . phpAds_getAffiliateListOrder($navorder, $navdirection);
+        $doAffiliates->agencyid = $agencyid;
     } elseif (phpAds_isUser(phpAds_Affiliate)) {
-        $query="SELECT * FROM " . $conf['table']['prefix'].$conf['table']['affiliates'] . " WHERE affiliateid=$affiliateid" . phpAds_getAffiliateListOrder($navorder, $navdirection);
+        $doAffiliates->affiliateid = $affiliateid;
     }
-    $res = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
-    
-    while ($row = phpAds_dbFetchArray($res)) {
-        phpAds_PageContext (
+
+    $doAffiliates->find();
+
+    while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
+        phpAds_PageContext(
             phpAds_buildAffiliateName ($row['affiliateid'], $row['name']),
             "affiliate-zones.php?affiliateid=".$row['affiliateid'],
             $affiliateid == $row['affiliateid']
         );
     }
-    
-    phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');    
-    
+
+    phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
+
     phpAds_PageHeader("4.2.3");
     echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
-    
+
     phpAds_ShowSections(array("4.2.2", "4.2.3", "4.2.4", "4.2.5"));
 } else {
     $sections = array();
     $sections[] = "2.1";
     if (phpAds_isAllowed(MAX_AffiliateGenerateCode)) {
         $sections[] = "2.2";
-    }    
+    }
     phpAds_PageHeader('2.1');
     phpAds_ShowSections($sections);
 }
@@ -136,19 +127,10 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
 /*-------------------------------------------------------*/
 
 // Get clients & campaign and build the tree
-
-$res_zones = phpAds_dbQuery("
-        SELECT 
-            *
-        FROM 
-            ".$conf['table']['prefix'].$conf['table']['zones']."
-        WHERE
-            affiliateid = '".$affiliateid."'
-        ".phpAds_getZoneListOrder ($listorder, $orderdirection)."
-        ") or phpAds_sqlDie();
-
-
-
+$doZones = OA_Dal::factoryDO('zones');
+$doZones->affiliateid = $affiliateid;
+$doZones->addListorderBy($navorder, $navdirection);
+$doZones->find();
 
 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_AddZone))
 {
@@ -160,7 +142,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllo
 
 
 echo "<br /><br />";
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";    
+echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
 
 echo "<tr height='25'>";
@@ -224,23 +206,23 @@ echo "</tr>";
 echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 
 
-if (phpAds_dbNumRows($res_zones) == 0)
+if ($doZones->getRowCount() == 0)
 {
     echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='4'>";
     echo "&nbsp;&nbsp;".$strNoZones;
     echo "</td></tr>";
-    
+
     echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
 }
 
 $i=0;
-while ($row_zones = phpAds_dbFetchArray($res_zones))
+while ($doZones->fetch() && $row_zones = $doZones->toArray())
 {
     if ($i > 0) echo "<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
     echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-    
+
     echo "<td height='25'>&nbsp;&nbsp;";
-    
+
     $aZoneAds = MAX_cacheGetZoneLinkedAds($row_zones['zoneid'], false);
     if ($aZoneAds['count_active'] > 0) {
         if ($row_zones['delivery'] == phpAds_ZoneBanner) {
@@ -276,18 +258,18 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
             echo "<img src='images/icon-zone-click-d.gif' align='absmiddle'>&nbsp;";
         }
     }
-    
+
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_EditZone))
         echo "<a href='zone-edit.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>".$row_zones['zonename']."</a>";
     else
         echo $row_zones['zonename'];
-    
+
     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
     echo "</td>";
-    
+
     // ID
     echo "<td height='25'>".$row_zones['zoneid']."</td>";
-    
+
     // Size
     if ($row_zones['delivery'] == phpAds_ZoneText)
     {
@@ -297,28 +279,28 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
     {
         if ($row_zones['width'] == -1) $row_zones['width'] = '*';
         if ($row_zones['height'] == -1) $row_zones['height'] = '*';
-        
+
         echo "<td height='25'>".phpAds_getBannerSize($row_zones['width'], $row_zones['height'])."</td>";
     }
-    
+
     echo "<td>&nbsp;</td>";
     echo "</tr>";
-    
+
     // Description
     echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
     echo "<td>&nbsp;</td>";
     echo "<td height='25' colspan='3'>".stripslashes($row_zones['description'])."</td>";
     echo "</tr>";
-    
+
     echo "<tr height='1'>";
     echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
     echo "<td colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
     echo "</tr>";
     echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-    
+
     // Empty
     echo "<td>&nbsp;</td>";
-    
+
     // Button 1, 2 & 3
     echo "<td height='25' colspan='3'>";
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_LinkBanners)) echo "<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='$strIncludedBanners'>&nbsp;$strIncludedBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -326,11 +308,11 @@ while ($row_zones = phpAds_dbFetchArray($res_zones))
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(MAX_AffiliateGenerateCode)) echo "<a href='zone-invocation.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'><img src='images/icon-generatecode.gif' border='0' align='absmiddle' alt='$strInvocationcode'>&nbsp;$strInvocationcode</a>&nbsp;&nbsp;&nbsp;&nbsp;";
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_DeleteZone)) echo "<a href='zone-delete.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."&returnurl=affiliate-zones.php'".phpAds_DelConfirm($strConfirmDeleteZone)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
     echo "</td></tr>";
-    
+
     $i++;
 }
 
-if (phpAds_dbNumRows($res_zones) > 0)
+if ($doZones->getRowCount() > 0)
 {
     echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 }

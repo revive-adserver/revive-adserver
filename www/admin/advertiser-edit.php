@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,13 +32,14 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
 // Register input variables
-phpAds_registerGlobal (
+phpAds_registerGlobalUnslashed(
 	 'errormessage'
 	,'clientname'
 	,'contact'
@@ -61,31 +62,9 @@ phpAds_registerGlobal (
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-
-/*-------------------------------------------------------*/
-/* Interface security                                    */
-/*-------------------------------------------------------*/
-
-if (phpAds_isUser(phpAds_Client)) {
-	if (!phpAds_isAllowed(phpAds_ModifyInfo)) {
-		phpAds_PageHeader("2");
-		phpAds_Die ($strAccessDenied, $strNotAdmin);
-	}
-	$clientid = phpAds_getUserID();
-} elseif (phpAds_isUser(phpAds_Agency)) {
-	if (isset($clientid) && ($clientid != '')) {
-		$query = "SELECT clientid".
-			" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-			" WHERE clientid='".$clientid."'".
-			" AND agencyid=".phpAds_getUserID();
-		$res = phpAds_dbQuery($query) or phpAds_sqlDie();
-		if (phpAds_dbNumRows($res) == 0) {
-			phpAds_PageHeader("2");
-			phpAds_Die($strAccessDenied, $strNotAdmin);
-		}
-	}
-}
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
+MAX_Permission::checkIsAllowed(phpAds_ModifyInfo);
+MAX_Permission::checkAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -94,14 +73,10 @@ if (phpAds_isUser(phpAds_Client)) {
 if (isset($submit)) {
 	$errormessage = array();
 	// Get previous values
-	if (isset($clientid) && ($clientid != '')) {
-		$res = phpAds_dbQuery(
-			"SELECT *".
-			" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-			" WHERE clientid='".$clientid."'"
-		) or phpAds_sqlDie();
-		if (phpAds_dbNumRows($res)) {
-			$client = phpAds_dbFetchArray($res);
+	if (!empty($clientid)) {
+        $doClients = OA_Dal::factoryDO('clients');
+		if ($doClients->get($clientid)) {
+			$client = $doClients->toArray();
 		}
 	}
 	// Name
@@ -118,7 +93,7 @@ if (isset($submit)) {
 	$client['report'] = isset($clientreport) ? 't' : 'f';
 	$client['reportdeactivate'] = isset($clientreportdeactivate) ? 't' : 'f';
 	$client['reportinterval'] = (int)$clientreportinterval;
-	if ($clientreportlastdate == '' || $clientreportlastdate == '0000-00-00' ||  $clientreportprevious != $clientreport) {
+	if ($clientreportlastdate == '' || $clientreportlastdate == '0000-00-00' ||  $clientreportprevious != $client['report']) {
 		$client['reportlastdate'] = date ("Y-m-d");
 	}
 	if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
@@ -131,43 +106,11 @@ if (isset($submit)) {
 			}
 		}
 		// Username
-		if (isset($clientusername) && $clientusername != '') {
-			$res = phpAds_dbQuery("
-				SELECT
-					*
-				FROM
-					".$conf['table']['prefix'].$conf['table']['affiliates']."
-				WHERE
-					LOWER(username) = '".strtolower($clientusername)."'
-			") or phpAds_sqlDie();
-			$duplicateaffiliate = (phpAds_dbNumRows($res) > 0);
-			$duplicateadmin  = (strtolower($pref['admin']) == strtolower($clientusername));
-			if ($clientid == '') {
-				$res = phpAds_dbQuery("
-					SELECT
-						*
-					FROM
-						".$conf['table']['prefix'].$conf['table']['clients']."
-					WHERE
-						LOWER(clientusername) = '".strtolower($clientusername)."'
-				") or phpAds_sqlDie();
-				if (phpAds_dbNumRows($res) > 0 || $duplicateaffiliate || $duplicateadmin)
-					$errormessage[] = $strDuplicateClientName;
-			} else {
-				$res = phpAds_dbQuery("
-					SELECT
-						*
-					FROM
-						".$conf['table']['prefix'].$conf['table']['clients']."
-					WHERE
-						LOWER(clientusername) = '".strtolower($clientusername)."' AND
-						clientid != '$clientid'
-					") or phpAds_sqlDie();
-				if (phpAds_dbNumRows($res) > 0 || $duplicateaffiliate || $duplicateadmin) {
-					$errormessage[] = $strDuplicateClientName;
-				}
-			}
-			if (count($errormessage) == 0) {
+		if (!empty($clientusername)) {
+		    $oldClientUserName = isset($client['clientusername']) ? $client['clientusername'] : '';
+            if (!MAX_Permission::isUsernameAllowed($oldClientUserName, $clientusername)) {
+                $errormessage[] = $strDuplicateAgencyName;
+            } else {
 				// Set username
 				$client['clientusername'] = $clientusername;
 			}
@@ -205,42 +148,26 @@ if (isset($submit)) {
 	echo "</pre><hr>";
 	*/
 	if (count($errormessage) == 0) {
-		if (!isset($clientid) || $clientid == '') {
-			$keys = array();
-			$values = array();
-			while (list($key, $value) = each($client)) {
-				$keys[] = $key;
-				$values[] = $value;
-			}
-			$keys[] = 'updated';
-			$values[] = date('Y-m-d H:i:s');
+		if (empty($clientid)) {
+            $doClients = OA_Dal::factoryDO('clients');
+            $doClients->setFrom($client);
+            $doClients->updated = OA::getNow();
 
-			$query  = "INSERT INTO ".$conf['table']['prefix'].$conf['table']['clients']." (";
-			$query .= implode(", ", $keys);
-			$query .= ") VALUES ('";
-			$query .= implode("', '", $values);
-			$query .= "')";
 			// Insert
-			phpAds_dbQuery($query)
-				or phpAds_sqlDie();
-			$clientid = phpAds_dbInsertID();
+			$clientid = $doClients->insert();
+
 			// Go to next page
 			MAX_Admin_Redirect::redirect("campaign-edit.php?clientid=$clientid");
 		} else {
-			$pairs = array();
-			while (list($key, $value) = each($client)) {
-				$pairs[] = " ".$key."='".$value."'";
-			}
-			$pairs[] = " updated='".date('Y-m-d H:i:s')."'";
-
-			$query  = "UPDATE ".$conf['table']['prefix'].$conf['table']['clients']." SET ";
-			$query .= trim(implode(",", $pairs))." ";
-			$query .= "WHERE clientid = '".$clientid."'";
+            $doClients = OA_Dal::factoryDO('clients');
+            $doClients->get($clientid);
+            $doClients->setFrom($client);
+            $doClients->updated = OA::getNow();
 
 			// Update
-			phpAds_dbQuery($query)
-				or phpAds_sqlDie();
-			// Go to next page
+			$doClients->update();
+
+            // Go to next page
 			if (phpAds_isUser(phpAds_Client)) {
 				// Set current session to new language
 				$session['language'] = $clientlanguage;
@@ -273,21 +200,20 @@ if ($clientid != "") {
 		} else {
 			$navdirection = '';
 		}
-		if (phpAds_isUser(phpAds_Admin)) {
-			$query = "SELECT *".
-				" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-			phpAds_getClientListOrder($navorder, $navdirection);
-		} elseif (phpAds_isUser(phpAds_Agency)) {
-			$query = "SELECT *".
-				" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-				" WHERE agencyid=".$session['userid'].
-			phpAds_getClientListOrder($navorder, $navdirection);
-		}
+
 		// Get other clients
-		$res = phpAds_dbQuery($query)
-			or phpAds_sqlDie();
-		while ($row = phpAds_dbFetchArray($res)) {
-			phpAds_PageContext (
+		$doClients = OA_Dal::factoryDO('clients');
+
+		// Unless admin, restrict results
+		if (phpAds_isUser(phpAds_Agency)) {
+            $doClients->agencyid = $session['userid'];
+		}
+
+        $doClients->addListorderBy($navorder, $navdirection);
+        $doClients->find();
+
+		while ($doClients->fetch() && $row = $doClients->toArray()) {
+			phpAds_PageContext(
 				phpAds_buildName ($row['clientid'], $row['clientname']),
 				"advertiser-edit.php?clientid=".$row['clientid'],
 				$clientid == $row['clientid']
@@ -300,14 +226,13 @@ if ($clientid != "") {
 	} else {
 		phpAds_PageHeader("4");
 	}
-	
+
 	// Do not get this information if the page
 	// is the result of an error message
 	if (!isset($client)) {
-		$res = phpAds_dbQuery("SELECT * FROM ".$conf['table']['prefix'].$conf['table']['clients']." WHERE clientid='".$clientid."'")
-			or phpAds_sqlDie();
-		if (phpAds_dbNumRows($res)) {
-			$client = phpAds_dbFetchArray($res);
+        $doClients = OA_Dal::factoryDO('clients');
+		if ($doClients->get($clientid)) {
+			$client = $doClients->toArray();
 		}
 
 		// Set password to default value
@@ -324,6 +249,7 @@ if ($clientid != "") {
 	if (!isset($client)) {
 		$client['clientname']			= $strUntitled;
 		$client['contact']				= '';
+		$client['comments']				= '';
 		$client['email']				= '';
 		$client['reportdeactivate'] 	= 't';
 		$client['report'] 				= 'f';
@@ -564,34 +490,10 @@ echo "</form>";
 /*-------------------------------------------------------*/
 
 // Get unique clientname
-$unique_names = array();
-$res = phpAds_dbQuery(
-	"SELECT *".
-	" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-	" WHERE clientid != '".$clientid."'"
-);
+$doClients = OA_Dal::factoryDO('clients');
+$unique_names = $doClients->getUniqueValuesFromColumn('clientname', $client['clientname']);
 
-while ($row = phpAds_dbFetchArray($res)) {
-	$unique_names[] = $row['clientname'];
-}
-
-// Get unique username
-$unique_users = array($pref['admin']);
-$res = phpAds_dbQuery(
-	"SELECT *".
-	" FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-	" WHERE clientusername != ''".
-	" AND clientid != '".$clientid."'"
-);
-
-while ($row = phpAds_dbFetchArray($res)) {
-	$unique_users[] = $row['clientusername'];
-}
-
-$res = phpAds_dbQuery("SELECT * FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE username != ''");
-while ($row = phpAds_dbFetchArray($res)) {
-	$unique_users[] = $row['username'];
-}
+$unique_users = MAX_Permission::getUniqueUserNames($client['clientusername']);
 
 ?>
 

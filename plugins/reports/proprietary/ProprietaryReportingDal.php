@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -31,13 +31,21 @@ require_once MAX_PATH . '/plugins/reports/lib.php';
 require_once MAX_PATH . '/constants.php';
 
 /**
- * Reporting DAL for Max Media Manager (proprietary)
+ * Reporting DAL for Openads (proprietary)
  *
  * @TODO Remove any Excel-specific output
  * @TODO Move all DAL code into the real DAL!!!!!
  */
 class MAX_Dal_Reporting_Proprietary extends MAX_Dal_Reporting
 {
+
+    /**
+     * Local locking object for ensuring MPE only runs once.
+     *
+     * @var OA_DB_AdvisoryLock
+     */
+    var $oLock;
+
     /**
      * Finds the views and clicks for a zone grouped by day.
      *
@@ -51,7 +59,7 @@ class MAX_Dal_Reporting_Proprietary extends MAX_Dal_Reporting
             $end = $oDaySpan->getEndDateString();
             $aWhere[] = "day >= '$start' AND day <= '$end'";
         }
-        $aWhere[] = "zone_id=$zone_id";
+        $aWhere[] = "zone_id=". $this->oDbh->quote($zone_id, 'integer');
         $data_summary_ad_hourly_table = $this->getFullTableName('data_summary_ad_hourly');
         $where = sizeof($aWhere) == 0 ? '' : "
 WHERE
@@ -68,11 +76,11 @@ $where
 GROUP BY
     day
 HAVING
-    sum(impressions) >= $minimum_impressions
+    sum(impressions) >= ". $this->oDbh->quote($minimum_impressions, 'integer') ."
 ORDER BY
     day ASC
 ";
-        $results = $this->dbh->getAll($query);
+        $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
         }
@@ -88,7 +96,7 @@ ORDER BY
             $end = $oDaySpan->getEndDateString();
             $aWhere[] = "day >= '$start' AND day <= '$end'";
         }
-        $aWhere[] = "zone_id=$zone_id";
+        $aWhere[] = "zone_id=". $this->oDbh->quote($zone_id, 'integer');
         $data_summary_zone_domain_page_daily_table = $this->getFullTableName('data_summary_zone_domain_page_daily');
         $where = sizeof($aWhere) == 0 ? '' : "
 WHERE
@@ -104,16 +112,18 @@ $where
 GROUP BY
     domain
 HAVING
-    sum(impressions) >= $minimum_impressions
+    sum(impressions) >= ". $this->oDbh->quote($minimum_impressions, 'integer') ."
 ORDER BY
     impressions DESC,
     domain ASC
 ";
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
+        $res = $this->oDbh->query($query);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
 
         $count = 0;
-        while ($row = phpAds_dbFetchArray($res)) {
+        while ($row = $res->fetchRow()) {
             $effectiveness[$count][0] = $row['domain'];
             $effectiveness[$count][1] = $row['impressions'];
             $count++;
@@ -130,7 +140,7 @@ ORDER BY
             $end = $oDaySpan->getEndDateString();
             $aWhere[] = "day >= '$start' AND day <= '$end'";
         }
-        $aWhere[] = "zone_id=$zone_id";
+        $aWhere[] = "zone_id=". $this->oDbh->quote($zone_id, 'integer');
         $data_summary_zone_domain_page_daily_table = $this->getFullTableName('data_summary_zone_domain_page_daily');
         $where = sizeof($aWhere) == 0 ? '' : "
 WHERE
@@ -150,17 +160,19 @@ GROUP BY
     dszidp.domain,
     dszidp.page
 HAVING
-    sum(dszidp.impressions) >= $minimum_impressions
+    sum(dszidp.impressions) >= ". $this->oDbh->quote($minimum_impressions, 'integer') ."
 ORDER BY
     impressions DESC,
     domain,
     page
 ";
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
+        $res = $this->oDbh->query($query);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
 
         $count = 0;
-        while ($row = phpAds_dbFetchArray($res)) {
+        while ($row = $res->fetchRow()) {
             $effectiveness[$count][0] = $row['domain'];
             $effectiveness[$count][1] = $row['page'];
             $effectiveness[$count][2] = $row['impressions'];
@@ -184,7 +196,7 @@ ORDER BY
             $end = $oDaySpan->getEndDateString();
             $aWhere[] = "day BETWEEN '$start' AND '$end'";
         }
-        $aWhere[] = "zone_id=$zone_id";
+        $aWhere[] = "zone_id=". $this->oDbh->quote($zone_id, 'integer');
         $data_summary_table = $this->getFullTableName('data_summary_zone_domain_page_daily');
         $where = sizeof($aWhere) == 0 ? '' : "
 WHERE
@@ -207,8 +219,8 @@ ORDER BY
     page,
     day
     ";
-        if (is_numeric($row_limit)) $query .= " LIMIT $row_limit";
-        $results = $this->dbh->getAll($query);
+        if (is_numeric($row_limit)) $query .= " LIMIT ". $this->oDbh->quote($row_limit, 'integer', false);
+        $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
         }
@@ -229,7 +241,7 @@ ORDER BY
             $end = $oDaySpan->getEndDateString();
             $aWhere[] = "day BETWEEN '$start' AND '$end'";
         }
-        $aWhere[] = "zone_id=$zone_id";
+        $aWhere[] = "zone_id=". $this->oDbh->quote($zone_id, 'integer');
         $data_summary_table = $this->getFullTableName('data_summary_zone_country_daily');
         $where = sizeof($aWhere) == 0 ? '' : "
 WHERE
@@ -250,8 +262,8 @@ ORDER BY
     country,
     day
     ";
-        if (is_numeric($row_limit)) $query .= " LIMIT $row_limit";
-        $results = $this->dbh->getAll($query);
+        if (is_numeric($row_limit)) $query .= " LIMIT ". $this->oDbh->quote($row_limit, 'integer', false);
+        $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
         }
@@ -272,7 +284,7 @@ ORDER BY
             $end = $oDaySpan->getEndDateString();
             $aWhere[] = "day BETWEEN '$start' AND '$end'";
         }
-        $aWhere[] = "zone_id=$zone_id";
+        $aWhere[] = "zone_id=". $this->oDbh->quote($zone_id, 'integer');
         $data_summary_table = $this->getFullTableName('data_summary_zone_source_daily');
         $where = sizeof($aWhere) == 0 ? '' : "
 WHERE
@@ -293,8 +305,8 @@ ORDER BY
     source,
     day
     ";
-        if (is_numeric($row_limit)) $query .= " LIMIT $row_limit";
-        $results = $this->dbh->getAll($query);
+        if (is_numeric($row_limit)) $query .= " LIMIT ". $this->oDbh->quote($row_limit, 'integer', false);
+        $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
         }
@@ -315,7 +327,7 @@ ORDER BY
             $end = $oDaySpan->getEndDateString();
             $aWhere[] = "day BETWEEN '$start' AND '$end'";
         }
-        $aWhere[] = "zone_id=$zone_id";
+        $aWhere[] = "zone_id=". $this->oDbh->quote($zone_id, 'integer');
         $data_summary_table = $this->getFullTableName('data_summary_zone_site_keyword_daily');
         $where = sizeof($aWhere) == 0 ? '' : "
 WHERE
@@ -338,8 +350,8 @@ ORDER BY
     keyword,
     day
     ";
-        if (is_numeric($row_limit)) $query .= " LIMIT $row_limit";
-        $results = $this->dbh->getAll($query);
+        if (is_numeric($row_limit)) $query .= " LIMIT ". $this->oDbh->quote($row_limit, 'integer', false);
+        $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
         }
@@ -358,13 +370,13 @@ ORDER BY
         $start = str_replace(' ', '', $start);
         $end = str_replace(' ', '', $end);
         if (!empty($start) && !empty($end)) {
-            $aWhere[] = "yearmonth BETWEEN '".str_replace('/','',$start)."' AND '".str_replace('/','',$end)."'";
+            $aWhere[] = "yearmonth BETWEEN ". $this->oDbh->quote(str_replace('/','',$start), 'integer')." AND ". $this->oDbh->quote(str_replace('/','',$end), 'integer');
         } else if (!empty($start)) {
-            $aWhere[] = "yearmonth >= '".str_replace('/','',$start)."'";
+            $aWhere[] = "yearmonth >= ". $this->oDbh->quote(str_replace('/','',$start), 'integer');
         } else if (!empty($end)) {
-            $aWhere[] = "yearmonth <= '".str_replace('/','',$end)."'";
+            $aWhere[] = "yearmonth <= ". $this->oDbh->quote(str_replace('/','',$end), 'integer');
         }
-        $aWhere[] = "zone_id=$zone_id";
+        $aWhere[] = "zone_id=". $this->oDbh->quote($zone_id, 'integer');
         $data_summary_table = $this->getFullTableName('data_summary_zone_domain_page_monthly');
         $where = sizeof($aWhere) == 0 ? '' : "
 WHERE
@@ -387,8 +399,8 @@ ORDER BY
     page,
     yearmonth
     ";
-        if (is_numeric($row_limit)) $query .= " LIMIT $row_limit";
-        $results = $this->dbh->getAll($query);
+        if (is_numeric($row_limit)) $query .= " LIMIT ". $this->oDbh->quote($row_limit, 'integer', false);
+        $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
         }
@@ -407,13 +419,13 @@ ORDER BY
         $start = str_replace(' ', '', $start);
         $end = str_replace(' ', '', $end);
         if (!empty($start) && !empty($end)) {
-            $aWhere[] = "yearmonth BETWEEN '".str_replace('/','',$start)."' AND '".str_replace('/','',$end)."'";
+            $aWhere[] = "yearmonth BETWEEN ". $this->oDbh->quote(str_replace('/','',$start), 'integer')." AND ". $this->oDbh->quote(str_replace('/','',$end), 'integer');
         } else if (!empty($start)) {
-            $aWhere[] = "yearmonth >= '".str_replace('/','',$start)."'";
+            $aWhere[] = "yearmonth >= ". $this->oDbh->quote(str_replace('/','',$start), 'integer');
         } else if (!empty($end)) {
-            $aWhere[] = "yearmonth <= '".str_replace('/','',$end)."'";
+            $aWhere[] = "yearmonth <= ". $this->oDbh->quote(str_replace('/','',$end), 'integer');
         }
-        $aWhere[] = "zone_id=$zone_id";
+        $aWhere[] = "zone_id=". $this->oDbh->quote($zone_id, 'integer');
         $data_summary_table = $this->getFullTableName('data_summary_zone_country_monthly');
         $where = sizeof($aWhere) == 0 ? '' : "
 WHERE
@@ -434,8 +446,8 @@ ORDER BY
     country,
     yearmonth
     ";
-        if (is_numeric($row_limit)) $query .= " LIMIT $row_limit";
-        $results = $this->dbh->getAll($query);
+        if (is_numeric($row_limit)) $query .= " LIMIT ". $this->oDbh->quote($row_limit, 'integer', false);
+        $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
         }
@@ -454,13 +466,13 @@ ORDER BY
         $start = str_replace(' ', '', $start);
         $end = str_replace(' ', '', $end);
         if (!empty($start) && !empty($end)) {
-            $aWhere[] = "yearmonth BETWEEN '".str_replace('/','',$start)."' AND '".str_replace('/','',$end)."'";
+            $aWhere[] = "yearmonth BETWEEN ".$this->oDbh->quote(str_replace('/','',$start), 'integer')." AND ".$this->oDbh->quote(str_replace('/','',$end),'integer');
         } else if (!empty($start)) {
-            $aWhere[] = "yearmonth >= '".str_replace('/','',$start)."'";
+            $aWhere[] = "yearmonth >= ".$this->oDbh->quote(str_replace('/','',$start), 'integer');
         } else if (!empty($end)) {
-            $aWhere[] = "yearmonth <= '".str_replace('/','',$end)."'";
+            $aWhere[] = "yearmonth <= ".$this->oDbh->quote(str_replace('/','',$end), 'integer');
         }
-        $aWhere[] = "zone_id=$zone_id";
+        $aWhere[] = "zone_id=". $this->oDbh->quote($zone_id, 'integer');
         $data_summary_table = $this->getFullTableName('data_summary_zone_source_monthly');
         $where = sizeof($aWhere) == 0 ? '' : "
 WHERE
@@ -481,8 +493,8 @@ ORDER BY
     source,
     yearmonth
     ";
-        if (is_numeric($row_limit)) $query .= " LIMIT $row_limit";
-        $results = $this->dbh->getAll($query);
+        if (is_numeric($row_limit)) $query .= " LIMIT ". $this->oDbh->quote($row_limit, 'integer', false);
+        $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
         }
@@ -501,13 +513,13 @@ ORDER BY
         $start = str_replace(' ', '', $start);
         $end = str_replace(' ', '', $end);
         if (!empty($start) && !empty($end)) {
-            $aWhere[] = "yearmonth BETWEEN '".str_replace('/','',$start)."' AND '".str_replace('/','',$end)."'";
+            $aWhere[] = "yearmonth BETWEEN ".$this->oDbh->quote(str_replace('/','',$start), 'integer')." AND ".$this->oDbh->quote(str_replace('/','',$end), 'integer');
         } else if (!empty($start)) {
-            $aWhere[] = "yearmonth >= '".str_replace('/','',$start)."'";
+            $aWhere[] = "yearmonth >= ".$this->oDbh->quote(str_replace('/','',$start), 'integer');
         } else if (!empty($end)) {
-            $aWhere[] = "yearmonth <= '".str_replace('/','',$end)."'";
+            $aWhere[] = "yearmonth <= ".$this->oDbh->quote(str_replace('/','',$end), 'integer');
         }
-        $aWhere[] = "zone_id=$zone_id";
+        $aWhere[] = "zone_id=". $this->oDbh->quote($zone_id, 'integer');
         $data_summary_table = $this->getFullTableName('data_summary_zone_site_keyword_monthly');
         $where = sizeof($aWhere) == 0 ? '' : "
 WHERE
@@ -530,8 +542,8 @@ ORDER BY
     keyword,
     yearmonth
     ";
-        if (is_numeric($row_limit)) $query .= " LIMIT $row_limit";
-        $results = $this->dbh->getAll($query);
+        if (is_numeric($row_limit)) $query .= " LIMIT ". $this->oDbh->quote($row_limit, 'integer', false);
+        $results = $this->oDbh->getAll($query);
         if (PEAR::isError($results)) {
             MAX::raiseError($results);
         }
@@ -555,12 +567,14 @@ SELECT
 FROM
     $zones_table AS z
 WHERE
-    z.zoneid=$zoneId";
+    z.zoneid=". $this->oDbh->quote($zoneId, 'integer');
 
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
+        $res = $this->oDbh->query($query);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
 
-        if ($row = phpAds_dbFetchArray($res)) {
+        if ($row = $res->fetchRow()) {
             $publisherId = $row['publisher_id'];
         } else {
             $publisherId = false;
@@ -586,12 +600,14 @@ SELECT
 FROM
     $campaigns_table AS c
 WHERE
-    c.campaignid=$campaignId";
+    c.campaignid=". $this->oDbh->quote($campaignId, 'integer');
 
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
+        $res = $this->oDbh->query($query);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
 
-        if ($row = phpAds_dbFetchArray($res)) {
+        if ($row = $res->fetchRow()) {
             $advertiserId = $row['advertiser_id'];
         } else {
             $advertiserId = false;
@@ -622,20 +638,22 @@ FROM
         ON z.zoneid = dszidp.zone_id
 WHERE
     $dateLimitation
-    z.affiliateid = $publisher_id
+    z.affiliateid = ". $this->oDbh->quote($publisher_id, 'integer') ."
 GROUP BY
     domain
 HAVING
-    sum(impressions) >= " . (int) $minimum_impressions . "
+    sum(impressions) >= " . $this->oDbh->quote($minimum_impressions, 'integer') . "
 ORDER BY
     impressions DESC,
     domain
 ";
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
+        $res = $this->oDbh->getAll($query);
+        if (PEAR::isError($res)) {
+            return $res;
+        }
 
         $count = 0;
-        while ($row = phpAds_dbFetchArray($res)) {
+        while ($row = $res->fetchRow()) {
             $effectiveness[$count][0] = $row['domain'];
             $effectiveness[$count][1] = $row['impressions'];
             $count++;
@@ -700,22 +718,24 @@ FROM
         z.zoneid = dszidp.zone_id
 WHERE
     $dateLimitation
-    z.affiliateid = $publisher_id
+    z.affiliateid = ". $this->oDbh->quote($publisher_id, 'integer') ."
 GROUP BY
     dszidp.domain,
     dszidp.page
 HAVING
-    sum(dszidp.impressions) >= $minimum_impressions
+    sum(dszidp.impressions) >= ". $this->oDbh->quote($minimum_impressions, 'integer') ."
 ORDER BY
     impressions DESC,
     domain,
     page
 ";
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
+        $res = $this->oDbh->query($query);
+        if (PEAR::isError($res)) {
+                return $res;
+        }
 
         $count = 0;
-        while ($row = phpAds_dbFetchArray($res)) {
+        while ($row = $res->fetchRow()) {
             $effectiveness[$count][0] = $row['domain'];
             $effectiveness[$count][1] = $row['page'];
             $effectiveness[$count][2] = $row['impressions'];
@@ -726,7 +746,7 @@ ORDER BY
 
     /**
      * @param int $publisher_id
-     * @param DaySpan $oDaySpan
+     * @param OA_Admin_DaySpan $oDaySpan
      * @param int $minimum_impressions
      */
     function getEffectivenessForAllPublisherZonesByDayZoneDomain($publisher_id, $oDaySpan, $minimum_impressions = 0)
@@ -758,7 +778,7 @@ ORDER BY
 
     /**
      * @param int $advertisier_id
-     * @param DaySpan $oDaySpan
+     * @param OA_Admin_DaySpan $oDaySpan
      */
     function getEffictivenessForAllAdvertiserAdsByDay($advertiser_id, $oDaySpan)
     {
@@ -895,7 +915,7 @@ ORDER BY
     /**
      * @access private
      * @param DB_QueryTool_Query $query_builder
-     * @param DaySpan $oDaySpan
+     * @param OA_Admin_DaySpan $oDaySpan
      */
     function _buildQueryForEverythingByZone(&$query_builder, $oDaySpan)
     {
@@ -1004,7 +1024,7 @@ ORDER BY
     /**
      * @access private
      * @param DB_QueryTool_Query $query_builder
-     * @param DaySpan $oDaySpan
+     * @param OA_Admin_DaySpan $oDaySpan
      * @todo Ensure that clickthrough ratio is accurate to at least 3 decimal places
      */
     function _buildQueryForEverythingByCampaign(&$query_builder)
@@ -1048,11 +1068,11 @@ ORDER BY
             FROM
                 $ad_table AS ad
             WHERE
-                ad.campaignid = $campaign_id
+                ad.campaignid = ". $this->oDbh->quote($campaign_id, 'integer') ."
             AND
                 ad.compiledlimitation NOT IN ('', 'true')
         ";
-        $results = $this->dbh->getOne($query);
+        $results = $this->oDbh->getOne($query);
         $targeted_campaigns = $results['targeted_campaigns'];
         if ($targeted_campaigns > 0) {
             return true;
@@ -1084,7 +1104,7 @@ ORDER BY
     }
 
     /**
-     * @param DaySpan $oDaySpan
+     * @param OA_Admin_DaySpan $oDaySpan
      * @param ReportScope $scope
      *
      * @todo Reduce code repetition between this and getEffectivenessForScopeByZone
@@ -1099,7 +1119,7 @@ ORDER BY
     }
 
     /**
-     * @param DaySpan $oDaySpan
+     * @param OA_Admin_DaySpan $oDaySpan
      * @param ReportScope $scope
      *
      * @todo Reduce code repetition between this and getEffectivenessForScopeByCampaign
@@ -1210,13 +1230,15 @@ FROM
         c.campaignid = ct.campaignid
     )
 WHERE
-    t.trackerid = $trackerId
-";
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
+    t.trackerid = ". $this->oDbh->quote($trackerId, 'integer');
+
+        $res = $this->oDbh->query($query);
+        if (PEAR::isError($res)) {
+                return $res;
+        }
 
         $anonymous = false;
-        while ($row = phpAds_dbFetchArray($res)) {
+        while ($row = $res->fetchRow()) {
             if ($row['anonymous'] == 't') {
                 $anonymous = true;
                 break;
@@ -1244,7 +1266,7 @@ WHERE
             $trackerIds = implode(',',array_keys($aTrackers));
             $where = "
 WHERE
-    t.trackerid IN ($trackerIds)";
+    t.trackerid IN (". $this->oDbh->escape($trackerIds) .")";
             $query = "
 SELECT
     t.trackerid AS tracker_id,
@@ -1269,10 +1291,12 @@ $where
 ORDER BY
     tracker_id";
 
-            $res = phpAds_dbQuery($query)
-                or phpAds_sqlDie();
+            $res = $this->oDbh->query($query);
+            if (PEAR::isError($res)) {
+                    return $res;
+            }
 
-            while ($row = phpAds_dbFetchArray($res)) {
+            while ($row = $res->fetchRow()) {
                 $trackerId = $row['tracker_id'];
                 if (!isset($aTrackersVariables[$trackerId])) {
                     $aTrackersVariables[$trackerId]['tracker_id'] = $trackerId;
@@ -1397,11 +1421,13 @@ ORDER BY
     tracker_id,
     data_intermediate_ad_connection_id
 ";
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
+        $res = $this->oDbh->query($query);
+        if (PEAR::isError($res)) {
+                return $res;
+        }
 
         $aConnections = array();
-        while ($row = phpAds_dbFetchArray($res)) {
+        while ($row = $res->fetchRow()) {
             $trackerId = $row['tracker_id'];
             $connectionId = $row['data_intermediate_ad_connection_id'];
 
@@ -1693,7 +1719,7 @@ ORDER BY
     /**
      * Find the full SQL table name to use for a given internal name.
      *
-     * This method handles prefixes and aliasing, based on settings in conf.ini
+     * This method handles prefixes and aliasing, based on settings in conf.php
      *
      * @return string The fully-qualified table name, ready for use in an SQL FROM clause
      * @todo Pull up this method to the common DAL
@@ -1719,11 +1745,11 @@ ORDER BY
                 {$conf['table']['affiliates']} AS p LEFT JOIN
                 {$conf['table']['agency']} AS g USING (agencyid)
             WHERE
-              p.affiliateid = $publisher_id
-        ";
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
-        $row = phpAds_dbFetchArray($res);
+              p.affiliateid = ". $this->oDbh->quote($publisher_id, 'integer');
+        $row = $this->oDbh->queryRow($query);
+        if (PEAR::isError($row)) {
+                return $row;
+        }
         return $row;
     }
 
@@ -1743,9 +1769,9 @@ ORDER BY
             WHERE
                 campaign.campaignid = ?
         ";
-        $result = $this->dbh->getRow($query, array($campaign_id));
+        $result = $this->oDbh->getRow($query, array($campaign_id));
         if (PEAR::isError($result)) {
-            MAX::raiseError('A Max report asked for the name matching a campaign ID number, but the database had no record of that number.');
+            MAX::raiseError('An Openads report asked for the name matching a campaign ID number, but the database had no record of that number.');
         }
         return $result;
     }
@@ -1774,10 +1800,10 @@ ORDER BY
     function getNameForAdvertiser($advertiser_id)
     {
         $advertiser_table = $this->getFullTableName('clients');
-        $query = "SELECT advertiser.clientname AS advertiser_name FROM $advertiser_table AS advertiser WHERE advertiser.clientid = $advertiser_id";
-        $result = $this->dbh->getOne($query);
+        $query = "SELECT advertiser.clientname AS advertiser_name FROM $advertiser_table AS advertiser WHERE advertiser.clientid = ". $this->oDbh->quote($advertiser_id, 'integer');
+        $result = $this->oDbh->getOne($query);
         if (PEAR::isError($result)) {
-            MAX::raiseError('A Max report asked for the name matching an advertiser ID number, but the had no record of that number.');
+            MAX::raiseError('An Openads report asked for the name matching an advertiser ID number, but the had no record of that number.');
         }
         $advertiser_name = $result;
         return $advertiser_name;
@@ -1806,11 +1832,12 @@ ORDER BY
             WHERE
               p.agencyid = g.agencyid
               AND p.affiliateid = z.affiliateid
-              AND z.zoneid=$zoneId
-        ";
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
-        $row = phpAds_dbFetchArray($res);
+              AND z.zoneid=". $this->oDbh->quote($zoneId, 'integer');
+
+        $row = $this->oDbh->queryRow($query);
+        if (PEAR::isError($row)) {
+                return $row;
+        }
         return $row;
     }
 
@@ -1829,17 +1856,18 @@ ORDER BY
                 domain,
                 page
             HAVING
-                SUM(impressions) >= $minimum_impressions
+                SUM(impressions) >= ". $this->oDbh->quote($minimum_impressions, 'impression') ."
             ORDER BY
                 domain,
                 page
         ";
-
-        $res = mysql_query($query)
-            or phpAds_sqlDie();
+        $res = $this->oDbh->query($query);
+        if (PEAR::isError($res)) {
+                return $res;
+        }
 
         $count = 0;
-        while ($row = phpAds_dbFetchArray($res)) {
+        while ($row = $res->fetchRow()) {
             $aInventoryData[$count][0] = $row['domain'];
             $aInventoryData[$count][1] = $row['page'];
             $aInventoryData[$count][2] = $row['impressions'];
@@ -1862,5 +1890,35 @@ ORDER BY
         return $aInventoryData;
     }
 
+    /**
+     * Obtains a database-level lock for a report, to ensure it is not
+     * generated by more than one user at a time.
+     *
+     * @param string $name A report lock name to obtain.
+     * @return boolean True if lock was obtained, false otherwise.
+     */
+    function obtainReportLock($name)
+    {
+        $this->oLock =& OA_DB_AdvisoryLock::factory();
+        return $oLock->get($name, 1);
+    }
+
+    /**
+     * Releases the current database-level report lock.
+     *
+     * @param string $name A report lock name to release.
+     * @return mixed True if lock was released, a PEAR Error otherwise.
+     */
+    function releaseReportLock($name)
+    {
+        if (empty($this->oLock)) {
+            MAX::debug('Lock wasn\'t acquired by the same DB connection', PEAR_LOG_ERR);
+            return false;
+        } elseif (!$this->oLock->hasSameId($name)) {
+            MAX::debug('Lock names to not match', PEAR_LOG_ERR);
+            return false;
+        }
+        return $this->oLock->release();
+    }
 }
 ?>

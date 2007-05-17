@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
@@ -48,43 +49,21 @@ phpAds_registerGlobal ('move', 'name', 'website', 'contact', 'email', 'language'
                        'terms_and_conditions', 'account_type');
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+MAX_Permission::checkIsAllowed(phpAds_ModifyInfo);
+MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
 if (phpAds_isUser(phpAds_Affiliate)) {
-    if (phpAds_isAllowed(phpAds_ModifyInfo)) {
-        $query = "SELECT agencyid".
-            " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
-            " WHERE affiliateid=".phpAds_getUserID();
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
-        if ($row = phpAds_dbFetchArray($res)) {
-            $agencyid = $row['agencyid'];
-            $affiliateid = phpAds_getUserID();
-        } else {
-            phpAds_PageHeader("2");
-            phpAds_Die ($strAccessDenied, $strNotAdmin);
-        }
-    } else {
-        phpAds_PageHeader("1");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
+    $doAffiliates = OA_Dal::factoryDO('affiliates');
+    $affiliateid = phpAds_getUserID();
+    $doAffiliates->get($affiliateid);
+    $agencyid = $doAffiliates->agencyid;
 } elseif (phpAds_isUser(phpAds_Agency)) {
     $agencyid = phpAds_getUserID();
-    if (isset($affiliateid) && ($affiliateid != '')) {
-        $query = "SELECT affiliateid".
-            " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
-            " WHERE affiliateid='".$affiliateid."'".
-            " AND agencyid='".$agencyid."'";
-        $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-        if (phpAds_dbNumRows($res) == 0) {
-            phpAds_PageHeader("2");
-            phpAds_Die ($strAccessDenied, $strNotAdmin);
-        }
-    }
 } else {
     $agencyid = 0;
 }
@@ -97,32 +76,19 @@ if (isset($submit)) {
     $errormessage = array();
     $affiliate = array();
     $affiliate_extra = array();
-    
+
     // Get previous values
     if (isset($affiliateid)) {
-        $res = phpAds_dbQuery("
-            SELECT
-                *
-            FROM
-                ".$conf['table']['prefix'].$conf['table']['affiliates']."
-            WHERE
-                affiliateid = '".$affiliateid."'
-            ") or phpAds_sqlDie();
-        if (phpAds_dbNumRows($res)) {
-            $affiliate = phpAds_dbFetchArray($res);
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
+        if ($doAffiliates->get($affiliateid)) {
+            $affiliate = $doAffiliates->toArray();
         }
-        
-        $res = phpAds_dbQuery("
-            SELECT
-                *
-            FROM
-                ".$conf['table']['prefix'].$conf['table']['affiliates_extra']."
-            WHERE
-                affiliateid = '".$affiliateid."'
-            ") or phpAds_sqlDie();
-        if (phpAds_dbNumRows($res)) {
-            $affiliate_extra = phpAds_dbFetchArray($res);
+
+        $doAffiliatesExtra = OA_Dal::factoryDO('affiliates_extra');
+        if ($doAffiliatesExtra->get($affiliateid)) {
+            $affiliate_extra = $doAffiliatesExtra->toArray();
         }
+
     }
     // Name
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
@@ -141,17 +107,17 @@ if (isset($submit)) {
     $affiliate['email']       = trim($email);
 
     // Non-affiliate fields
-    if (!phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
+    if (!MAX_Permission::isAllowed(MAX_AffiliateIsReallyAffiliate)) {
         $affiliate['language']    = trim($language);
     }
 
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
         // Mnemonic
         $affiliate['mnemonic'] = trim($mnemonic);
-        
+
         // Public
         $affiliate['publiczones'] = isset($publiczones) ? 't' : 'f';
-        
+
         // Password
         if (isset($password)) {
             if ($password == '') {
@@ -161,48 +127,13 @@ if (isset($submit)) {
             }
         }
         // Username
-        if (isset($username) && $username != '') {
-            $res = phpAds_dbQuery("
-                SELECT
-                    *
-                FROM
-                    ".$conf['table']['prefix'].$conf['table']['clients']."
-                WHERE
-                    LOWER(clientusername) = '".strtolower($username)."'
-            ") or phpAds_sqlDie();
-            $duplicateclient = (phpAds_dbNumRows($res) > 0);
-            $duplicateadmin  = (strtolower($pref['admin']) == strtolower($username));
-            if ($affiliateid == '') {
-                $res = phpAds_dbQuery("
-                    SELECT
-                        *
-                    FROM
-                        ".$conf['table']['prefix'].$conf['table']['affiliates']."
-                    WHERE
-                        LOWER(username) = '".strtolower($username)."'
-                ") or phpAds_sqlDie();
-                if (phpAds_dbNumRows($res) > 0 || $duplicateclient || $duplicateadmin) {
-                    $errormessage[] = $strDuplicateClientName;
-                }
-            } else {
-                $res = phpAds_dbQuery("
-                    SELECT
-                        *
-                    FROM
-                        ".$conf['table']['prefix'].$conf['table']['affiliates']."
-                    WHERE
-                        LOWER(username) = '".strtolower($username)."' AND
-                        affiliateid != '$affiliateid'
-                    ") or phpAds_sqlDie();
-                if (phpAds_dbNumRows($res) > 0 || $duplicateclient || $duplicateadmin) {
-                    $errormessage[] = $strDuplicateClientName;
-                }
+        if (!empty($username)) {
+            $oldUserName = (isset($affiliate['username'])) ? $affiliate['username'] : '';
+            if (!MAX_Permission::isUsernameAllowed($oldUserName, $username)) {
+                $errormessage[] = $strDuplicateAgencyName;
             }
-            if (count($errormessage) == 0) {
-                // Set username
-                $affiliate['username'] = $username;
-            }
-        }
+            $affiliate['username'] = $username;
+    	}
         // Permissions
         $affiliate['permissions'] = 0;
         if (isset($account_type) && $account_type == 'affiliate') {
@@ -231,7 +162,7 @@ if (isset($submit)) {
             }
         }
     }
-    
+
     // Extra fields
     $affiliate_extra['address']         = trim($address);
     $affiliate_extra['city']            = trim($city);
@@ -247,107 +178,67 @@ if (isset($submit)) {
     $affiliate_extra['unique_users']    = trim($unique_users);
     $affiliate_extra['unique_views']    = trim($unique_views);
     $affiliate_extra['page_rank']       = trim($page_rank);
-    $affiliate_extra['category']        = trim($category);
-    
+    if (!empty($category)) {
+        $affiliate_extra['category']    = trim($category);
+    }
+
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
         // Extra fields
         $affiliate['comments']    = trim($comments);
-        $affiliate_extra['help_file']       = trim($help_file);
-    }    
-    
+        if (!empty($help_file)) {
+            $affiliate_extra['help_file'] = trim($help_file);
+        }
+    }
+
     if (count($errormessage) == 0) {
         if ($affiliateid && $publiczones != 't' && $publiczones_old == 't') {
             // Reset append codes which called this affiliate's zones
-            $res = phpAds_dbQuery("
-                    SELECT
-                        zoneid
-                    FROM
-                        ".$conf['table']['prefix'].$conf['table']['zones']."
-                    WHERE
-                        affiliateid = '$affiliateid'
-                ");
-            $zones = array();
-            while ($currentrow = phpAds_dbFetchArray($res)) {
-                $zones[] = $currentrow['zoneid'];
-            }
+            $doZones = OA_Dal::factoryDO('zones');
+            $doZones->affiliateid = $affiliateid;
+            $zones = $doZones->getAll(array('zoneid'));
+
             if (count($zones)) {
-                $res = phpAds_dbQuery("
-                        SELECT
-                            zoneid,
-                            append
-                        FROM
-                            ".$conf['table']['prefix'].$conf['table']['zones']."
-                        WHERE
-                            appendtype = ".phpAds_ZoneAppendZone." AND
-                            affiliateid <> '$affiliateid'
-                    ");
-                while ($currentrow = phpAds_dbFetchArray($res)) {
+                $doZones = OA_Dal::factoryDO('zones');
+                $doZones->appendtype = phpAds_ZoneAppendZone;
+                $doZones->whereAdd("affiliateid <> '$affiliateid'");
+                $doZones->find();
+                while ($doZones->fetch() && $currentrow = $doZones->toArray()) {
                     $append = phpAds_ZoneParseAppendCode($currentrow['append']);
                     if (in_array($append[0]['zoneid'], $zones)) {
-                        phpAds_dbQuery("
-                                UPDATE
-                                    ".$conf['table']['prefix'].$conf['table']['zones']."
-                                SET
-                                    appendtype = ".phpAds_ZoneAppendRaw.",
-                                    append = '',
-                                    updated = '".date('Y-m-d H:i:s')."'
-                                WHERE
-                                    zoneid = '".$currentrow['zoneid']."'
-                            ");
+                        $doZones->appendtype = phpAds_ZoneAppendRaw;
+                        $doZones->append = '';
+                        $doZones->update();
                     }
                 }
             }
         }
-        if (!isset($affiliateid) || $affiliateid == '') {
-            $keys = array();
-            $values = array();
-            foreach($affiliate as $key => $value) {
-                $keys[] = $key;
-                $values[] = $value;
-            }
-            $keys[] = 'updated';
-            $values[] = date('Y-m-d H:i:s');
+        if (empty($affiliateid)) {
+            $doAffiliates = OA_Dal::factoryDO('affiliates');
+            $doAffiliates->setFrom($affiliate);
+            $doAffiliates->updated = OA::getNow();
+            $affiliateid = $doAffiliates->insert();
 
-            $query  = "INSERT INTO ".$conf['table']['prefix'].$conf['table']['affiliates']." (";
-            $query .= implode(", ", $keys);
-            $query .= ") VALUES ('";
-            $query .= implode("', '", $values);
-            $query .= "')";
-            // Insert
-            phpAds_dbQuery($query)
-                or phpAds_sqlDie();
-            $affiliateid = phpAds_dbInsertID();
-                        
             // Go to next page
             if (isset($move) && $move == 't') {
                 // Move loose zones to this affiliate
-                $res = phpAds_dbQuery("
-                    UPDATE
-                        ".$conf['table']['prefix'].$conf['table']['zones']."
-                    SET
-                        affiliateid = '".$affiliateid."',
-                        updated = '".date('Y-m-d H:i:s')."'
-                    WHERE
-                        ISNULL(affiliateid) OR
-                        affiliateid = 0
-                ");
+                $doZones = OA_Dal::factoryDO('zones');
+                $doZones->affiliateid = $affiliateid;
+                $doZones->whereAdd('affiliateid = NULL');
+                $doZones->whereAdd('affiliateid = 0', 'OR');
+                $doZones->update();
+
                 $redirect_url = "affiliate-zones.php?affiliateid=$affiliateid";
             } else {
                 $redirect_url = "zone-edit.php?affiliateid=$affiliateid";
             }
         } else {
-            $pairs = array();
-            foreach($affiliate as $key => $value) {
-                $pairs[] = " ".$key."='".$value."'";
-            }
-            $pairs[] = " updated='".date('Y-m-d H:i:s')."'";
+            $doAffiliates = OA_Dal::factoryDO('affiliates');
+            $doAffiliates->get($affiliateid);
+            $doAffiliates->setFrom($affiliate);
 
-            $query  = "UPDATE ".$conf['table']['prefix'].$conf['table']['affiliates']." SET ";
-            $query .= trim(implode(",", $pairs))." ";
-            $query .= "WHERE affiliateid = '".$affiliateid."'";
             // Update
-            phpAds_dbQuery($query)
-                or phpAds_sqlDie();
+            $doAffiliates->update();
+
             // Go to next page
             if (phpAds_isUser(phpAds_Affiliate)) {
                 // Set current session to new language
@@ -362,54 +253,30 @@ if (isset($submit)) {
         }
 
         if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-            // Terms and conditions
-            $legalAgreement = & new MAX_Dal_LegalAgreement();
-            if ($legalAgreement->doesAgreementExistForPublisher($affiliateid)) {
-                if (isset($terms_and_conditions) && !$legalAgreement->hasPublisherAgreed($affiliateid)) {
-                    $legalAgreement->acceptAgreementForPublisher($affiliateid);
-                } elseif (!isset($terms_and_conditions) && $legalAgreement->hasPublisherAgreed($affiliateid)) {
-                    $legalAgreement->unAcceptAgreementForPublisher($affiliateid);
-                }
-            }
 
             // Delete publisher preferences when switching to affiliate
             if (isset($account_type) && $account_type == 'affiliate') {
-                phpAds_dbQuery("DELETE FROM ".$conf['table']['prefix'].$conf['table']['preference_publisher']." WHERE publisher_id = '{$affiliateid}'")
-                    or phpAds_sqlDie();
+                $doPreference_publisher = OA_Dal::factoryDO('preference_publisher');
+                $doPreference_publisher->publisher_id = $affiliateid;
+                $doPreference_publisher->delete();
             }
         }
-               
+
         // Update extra fields
         if (isset($affiliate_extra['affiliateid'])) {
-            $pairs = array();
-            foreach($affiliate_extra as $key => $value) {
-                $pairs[] = " ".$key."='".$value."'";
-            }
+            $doAffiliatesExtra = OA_Dal::factoryDO('affiliates_extra');
+            $doAffiliatesExtra->get($affiliateid);
+            $doAffiliatesExtra->setFrom($affiliate_extra);
 
-            $query  = "UPDATE ".$conf['table']['prefix'].$conf['table']['affiliates_extra']." SET ";
-            $query .= trim(implode(",", $pairs))." ";
-            $query .= "WHERE affiliateid = '".$affiliateid."'";
             // Update
-            phpAds_dbQuery($query)
-                or phpAds_sqlDie();
+            $doAffiliatesExtra->update();
         } else {
-            $keys = array();
-            $values = array();
-            foreach($affiliate_extra as $key => $value) {
-                $keys[] = $key;
-                $values[] = $value;
-            }
-            $keys[] = 'affiliateid';
-            $values[] = $affiliateid;
+            $doAffiliatesExtra = OA_Dal::factoryDO('affiliates_extra');
+            $doAffiliatesExtra->setFrom($affiliate_extra);
+            $doAffiliatesExtra->affiliateid = $affiliateid;
 
-            $query  = "INSERT INTO ".$conf['table']['prefix'].$conf['table']['affiliates_extra']." (";
-            $query .= implode(", ", $keys);
-            $query .= ") VALUES ('";
-            $query .= implode("', '", $values);
-            $query .= "')";
             // Insert
-            phpAds_dbQuery($query)
-                or phpAds_sqlDie();
+            $doAffiliatesExtra->insert();
         }
 
         MAX_Admin_Redirect::redirect($redirect_url);
@@ -437,17 +304,17 @@ if ($affiliateid != "") {
             $navdirection = '';
         }
         // Get other affiliates
-        if (phpAds_isUser(phpAds_Admin)) {
-            $query="SELECT * FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].phpAds_getAffiliateListOrder($navorder, $navdirection);
-        } elseif (phpAds_isUser(phpAds_Agency)) {
-            $query="SELECT * FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE agencyid=$agencyid" . phpAds_getAffiliateListOrder($navorder, $navdirection);
+
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
+        if (phpAds_isUser(phpAds_Agency)) {
+            $doAffiliates->agencyid = $agencyid;
         } elseif (phpAds_isUser(phpAds_Affiliate)) {
-            $query="SELECT * FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE affiliateid=$affiliateid" . phpAds_getAffiliateListOrder($navorder, $navdirection);
+            $doAffiliates->affiliateid = $affiliateid;
         }
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
-        while ($row = phpAds_dbFetchArray($res)) {
-            phpAds_PageContext (
+        $doAffiliates->addListOrderBy($navorder, $navdirection);
+        $doAffiliates->find();
+        while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
+            phpAds_PageContext(
                 phpAds_buildAffiliateName ($row['affiliateid'], $row['name']),
                 "affiliate-edit.php?affiliateid=".$row['affiliateid'],
                 $affiliateid == $row['affiliateid']
@@ -458,12 +325,12 @@ if ($affiliateid != "") {
         echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
         phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5"));
     } else {
-        if (phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
+        if (MAX_Permission::isAllowed(MAX_AffiliateIsReallyAffiliate)) {
             phpAds_PageHeader('4');
         } else {
             $sections = array();
             $sections[] = "4.1";
-            if (phpAds_isAllowed(phpAds_ModifyInfo)) {
+            if (MAX_Permission::isAllowed(phpAds_ModifyInfo)) {
                 $sections[] = "4.2";
             }
             phpAds_PageHeader('4.2');
@@ -473,31 +340,18 @@ if ($affiliateid != "") {
     // Do not get this information if the page
     // is the result of an error message
     if (!isset($affiliate)) {
-        $res = phpAds_dbQuery("
-            SELECT
-                *
-            FROM
-                ".$conf['table']['prefix'].$conf['table']['affiliates']."
-            WHERE
-                affiliateid = '".$affiliateid."'
-            ") or phpAds_sqlDie();
-        if (phpAds_dbNumRows($res)) {
-            $affiliate = phpAds_dbFetchArray($res);
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
+        if ($doAffiliates->get($affiliateid)) {
+            $affiliate = $doAffiliates->toArray();
         }
+
         // Set password to default value
         if ($affiliate['password'] != '') {
             $affiliate['password'] = '********';
         }
-        $res = phpAds_dbQuery("
-            SELECT
-                *
-            FROM
-                ".$conf['table']['prefix'].$conf['table']['affiliates_extra']."
-            WHERE
-                affiliateid = '".$affiliateid."'
-            ") or phpAds_sqlDie();
-        if (phpAds_dbNumRows($res)) {
-            $affiliate_extra = phpAds_dbFetchArray($res);
+        $doAffiliatesExtra = OA_Dal::factoryDO('affiliates_extra');
+        if ($doAffiliatesExtra->get($affiliateid)) {
+            $affiliate_extra = $doAffiliatesExtra->toArray();
         }
     }
 } else {
@@ -516,9 +370,26 @@ if ($affiliateid != "") {
         $affiliate['username']    = '';
         $affiliate['password']    = '';
         $affiliate['permissions'] = 0;
-        
+        $affiliate['comments']    = '';
+
         $affiliate['tax_id_present']                 = $pref['publisher_default_tax_id'];
         $affiliate['last_accepted_agency_agreement'] = $pref['publisher_default_approved'];
+
+        $affiliate_extra = array();
+        $affiliate_extra['address'] = '';
+        $affiliate_extra['city'] = '';
+        $affiliate_extra['postcode'] = '';
+        $affiliate_extra['country'] = '';
+        $affiliate_extra['phone'] = '';
+        $affiliate_extra['fax'] = '';
+        $affiliate_extra['account_contact'] = '';
+        $affiliate_extra['payee_name'] = '';
+        $affiliate_extra['tax_id'] = '';
+        $affiliate_extra['mode_of_payment'] = '';
+        $affiliate_extra['currency'] = '';
+        $affiliate_extra['unique_users'] = '';
+        $affiliate_extra['unique_views'] = '';
+        $affiliate_extra['page_rank'] = '';
     }
 }
 $tabindex = 1;
@@ -554,7 +425,7 @@ echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspac
 // Mnemonic
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strMnemonic."</td><td>";
 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-    echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='mnemonic' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate['mnemonic'])."' tabindex='".($tabindex++)."'>";
+    echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='mnemonic' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate['mnemonic'])."' tabindex='".($tabindex++)."' maxlength='5'>";
 } else {
     echo (isset($affiliate['mnemonic']) ? $affiliate['mnemonic'] : '');
 }
@@ -578,13 +449,13 @@ echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strEMail."</td><td>";
 echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='email' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['email'])."' tabindex='".($tabindex++)."'>";
 echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
 
-if (!phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
+if (!MAX_Permission::isAllowed(MAX_AffiliateIsReallyAffiliate)) {
     // Language
     echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
     echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strLanguage."</td><td>";
     echo "<select name='language' tabindex='".($tabindex++)."'>";
     echo "<option value='' SELECTED>".$strDefault."</option>\n";
-    
+
     $languages = MAX_Admin_Languages::AvailableLanguages();
     while (list($k, $v) = each($languages)) {
         if (isset($affiliate['language']) && $affiliate['language'] == $k) {
@@ -593,7 +464,7 @@ if (!phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
             echo "<option value='$k'>$v</option>\n";
         }
     }
-    
+
     echo "</select></td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
 }
 
@@ -875,7 +746,7 @@ echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>
 
 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-    
+
     // Comments
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strComments."</td>";
@@ -899,18 +770,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     echo "</select>";
     echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
     echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-    
-    // Terms and conditions - show disbaled if the publisher agency doesn't have an agreement
-    $legalAgreement = & new MAX_Dal_LegalAgreement();
-    if ($affiliateid) {
-        $show_agreement = $legalAgreement->doesAgreementExistForPublisher($affiliateid);
-    } else {
-        $show_agreement = $legalAgreement->doesAgreementExistForAgency($agencyid);
-    }
-    echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-    echo "<input type='checkbox' name='terms_and_conditions' value='t'".(!empty($affiliate['last_accepted_agency_agreement']) ? ' checked="checked"' : '').($show_agreement ? '' : ' disabled')." tabindex='".($tabindex++)."'>&nbsp;";
-    echo $strApprovedTandC;
-    echo "</td></tr>";
+
 }
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -931,25 +791,10 @@ echo "</form>";
 /*-------------------------------------------------------*/
 
 // Get unique affiliate
-$unique_names = array();
-
-$res = phpAds_dbQuery("SELECT * FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE affiliateid != '".$affiliateid."'");
-while ($row = phpAds_dbFetchArray($res)) {
-    $unique_names[] = $row['name'];
-}
-
-// Get unique username
-$unique_users = array($pref['admin']);
-
-$res = phpAds_dbQuery("SELECT * FROM ".$conf['table']['prefix'].$conf['table']['affiliates']." WHERE username != '' AND affiliateid != '".$affiliateid."'");
-while ($row = phpAds_dbFetchArray($res)) {
-    $unique_users[] = $row['username'];
-}
-
-$res = phpAds_dbQuery("SELECT * FROM ".$conf['table']['prefix'].$conf['table']['clients']." WHERE clientusername != ''");
-while ($row = phpAds_dbFetchArray($res)) {
-    $unique_users[] = $row['clientusername'];
-}
+// XXX: Although the JS suggests otherwise, this unique_name constraint isn't enforced.
+$doAffiliates = OA_Dal::factoryDO('affiliates');
+$unique_names = $doAffiliates->getUniqueValuesFromColumn('name', $affiliate['name']);
+$unique_users = MAX_Permission::getUniqueUserNames($affiliate['username']);
 
 ?>
 
@@ -963,7 +808,7 @@ while ($row = phpAds_dbFetchArray($res)) {
     max_formSetRequirements('unique_users', '<?php echo addslashes('Unique users/month'); ?>', false, 'number*');
     max_formSetRequirements('unique_views', '<?php echo addslashes('Unique views/month'); ?>', false, 'number*');
     max_formSetRequirements('page_rank', '<?php echo addslashes('Page rank'); ?>', false, 'number*');
-    
+
 <?php if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) { ?>
     max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
     max_formSetRequirements('username', '<?php echo addslashes($strUsername); ?>', false, 'unique');
@@ -976,13 +821,13 @@ while ($row = phpAds_dbFetchArray($res)) {
         var e = findObj('affiliatepermissions_<?php echo phpAds_EditZone; ?>');
         var a = findObj('affiliatepermissions_<?php echo phpAds_AddZone; ?>');
         var d = findObj('affiliatepermissions_<?php echo phpAds_DeleteZone; ?>');
-        
+
         a.disabled = d.disabled = !e.checked;
         if (!e.checked) {
             a.checked = d.checked = false;
         }
     }
-    
+
     MMM_cascadePermissionsChange();
 
     function MMM_accountTypeChange()
@@ -990,7 +835,7 @@ while ($row = phpAds_dbFetchArray($res)) {
         var o = findObj('account_type');
         var e = document.getElementsByTagName('INPUT');
         var i;
-        
+
         for (i = 0; i < e.length; i++) {
             if (e[i].name.match(/^affiliatepermissions/)) {
                 if (e[i].value != <?php echo MAX_AffiliateViewOnlyApprPendConv; ?>) {
@@ -998,12 +843,12 @@ while ($row = phpAds_dbFetchArray($res)) {
                 }
             }
         }
-        
+
         if (!o.selectedIndex) {
             MMM_cascadePermissionsChange();
         }
     }
-    
+
     MMM_accountTypeChange();
 
 <?php } ?>
@@ -1011,16 +856,16 @@ while ($row = phpAds_dbFetchArray($res)) {
     function MMM_taxIdChange(o)
     {
         var t = findObj('tax_id');
-        
+
         if (t) {
             t.disabled = o.form.tax_id_present[0].checked;
-            
+
             if (t.disabled) {
                 max_formValidateElement(t);
             }
         }
     }
-    
+
     MMM_taxIdChange(findObj('tax_id_present_f'));
 
 //-->

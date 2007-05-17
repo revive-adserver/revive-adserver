@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -28,7 +28,7 @@ $Id$
 /**
  * This package contains various utility functions used by Delivery Limitation
  * plugins.
- * 
+ *
  * @package    MaxDelivery
  * @subpackage limitations
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
@@ -82,16 +82,16 @@ function MAX_limitationsMatchString(
     if (empty($aParams)) {
         $aParams = $GLOBALS['_MAX'][$namespace];
     }
-    
+
     $value = $aParams[$paramName];
-    
+
     return MAX_limitationsMatchStringValue($value, $limitation, $op);
 }
 
 /**
  * An utility function which matches the $value with $limitation
  * using $op operator.
- * 
+ *
  * The possible operators are:
  * <ul>
  *   <li>==: true iff $value and $limitation are exactly the same</li>
@@ -112,7 +112,7 @@ function MAX_limitationsMatchStringValue($value, $limitation, $op)
 {
     $limitation = strtolower($limitation);
     $value = strtolower($value);
-    
+
     if ($op == '==') {
         return $limitation == $value;
     } elseif ($op == '!=') {
@@ -170,7 +170,7 @@ function MAX_limitationsMatchArray($paramName, $limitation, $op, $aParams = arra
     if ($limitation == '' || empty($aParams)) {
         return true;
     }
-    
+
     return MAX_limitationsMatchArrayValue($aParams[$paramName], $limitation, $op);
 }
 
@@ -179,10 +179,10 @@ function MAX_limitationsMatchArray($paramName, $limitation, $op, $aParams = arra
  * matches the limitation specified in the $limitation and $op variables.
  * The $value is supposed to be a single string and $limitation is
  * a list of values separated by `,' character.
- * 
+ *
  * The function returns true if the $value matches the limitation,
  * false otherwise.
- * 
+ *
  * The meaning of $op is the following:
  * <ul>
  *   <li>==: true iff $limitation consists of single value and this value
@@ -201,9 +201,9 @@ function MAX_limitationsMatchArrayValue($value, $limitation, $op)
 {
     $limitation = strtolower($limitation);
     $value = strtolower($value);
-    
+
     $aLimitation = MAX_limitationsGetAFromS($limitation);
-    
+
     if ($op == '==') {
         return count($aLimitation) == 1 && $value == $aLimitation[0];
     } elseif ($op == '=~') {
@@ -376,10 +376,10 @@ function _getWhereComponent($sqlOp, $sData, $columnName)
  */
 function MAX_limitationsGetSqlForString($op, $sData, $columnName)
 {
+    $aConf = $GLOBALS['_MAX']['CONF'];
     if (empty($sData)) {
         return !MAX_limitationsIsOperatorPositive($op);
     }
-
     if ($op == '==') {
         return _getWhereComponent('=', "'$sData'", $columnName);
     } elseif ($op == '!=') {
@@ -389,9 +389,17 @@ function MAX_limitationsGetSqlForString($op, $sData, $columnName)
     } elseif ($op == '!~') {
         return _getWhereComponent('NOT LIKE', "'%$sData%'", $columnName);
     } elseif ($op == '=x') {
-        return _getWhereComponent('REGEXP', "'$sData'", $columnName);
+        $operator = '~';
+        if ($aConf['database']['type'] == 'mysql') {
+            $operator = 'REGEXP';
+        }
+        return _getWhereComponent($operator, "'$sData'", $columnName);
     } else {
-        return _getWhereComponent('NOT REGEXP', "'$sData'", $columnName);
+        $operator = '!~';
+        if ($aConf['database']['type'] == 'mysql') {
+            $operator = 'NOT REGEXP';
+        }
+        return _getWhereComponent($operator, "'$sData'", $columnName);
     }
 }
 
@@ -405,7 +413,7 @@ function MAX_limitationsGetSqlForString($op, $sData, $columnName)
  * @param string $sData2
  * @return boolean
  * @see Plugins_DeliveryLimitations#overlap
- * 
+ *
  * @TODO Implementation was postponed for the following pairs of
  * operators because of its complexity:
  * <ul>
@@ -694,6 +702,39 @@ function MAX_limitationsGetAUpgradeForVariable($op, $sData)
     $varValue = substr($sData, $idxBreak + 1);
     $aResult = MAX_limitationsGetAUpgradeForString($op, $varValue);
     $aResult['data'] = $varName . ',' . $aResult['data'];
+    return $aResult;
+}
+
+/**
+ * This function should be used for the following delivery limitations:
+ *   * browser,
+ *   * operating system,
+ *   * useragent.
+ *
+ * @param string $op
+ * @param string $sData
+ */
+function OA_limitationsGetAUpgradeFor20Regexp($op, $sData)
+{
+    $aResult = array();
+    $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=x' : '!x';
+    $aResult['data'] = $sData;
+    return $aResult;
+}
+
+
+/**
+ * This function should be used for the 'referer' delivery limitation.
+ *
+ * @param string $op
+ * @param string $sData
+ * @return array
+ */
+function OA_limitationsGetUpgradeForContains($op, $sData)
+{
+    $aResult = array();
+    $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~';
+    $aResult['data'] = $sData;
     return $aResult;
 }
 

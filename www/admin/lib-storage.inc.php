@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -27,6 +27,9 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
+
+require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once 'DB/DataObject/Cast.php';
 
 // Include FTP emulation library if extension is not present
 if (!function_exists("ftp_connect")) {
@@ -73,19 +76,27 @@ function phpAds_ImageStore($type, $name, $buffer, $overwrite = false)
 		}
 	}
 	if ($type == 'sql') {
-		if ($overwrite == false) {
-			$name = phpAds_SqlUniqueName($name);
-		}
-		$res = phpAds_dbQuery("
-			REPLACE INTO 
-				".$conf['table']['prefix'].$conf['table']['images']."
-			SET
-				filename = '".$name."',
-				contents = '".addslashes($buffer)."',
-				t_stamp = now()
-		");
-		$stored_url = $name;
+	    
+	    // Look for existing image.
+	    $doImages = OA_Dal::staticGetDO('images', $name);
+	    if ($doImages) {
+   			$doImages->contents = DB_DataObject_Cast::blob($buffer);
+	        if ($overwrite == false) {
+                $name = $doImages->getUniqueFileNameForDuplication();
+    			$doImages->filename = $name;
+    			$doImages->insert();
+    		} else {
+    		    $doImages->filename = $name;
+    			$doImages->update();
+    		}
+	    } else {
+	        $doImages = OA_Dal::factoryDO('images');
+    	    $doImages->filename = $name;
+   			$doImages->contents = DB_DataObject_Cast::blob($buffer);
+    		$doImages->insert();
+	    }
 	}
+    $stored_url = $name;
 	if (isset($stored_url) && $stored_url != '') {
 		return $stored_url;
 	} else {
@@ -114,7 +125,7 @@ function phpAds_ImageDuplicate ($type, $name)
 			}
 			$server['user'] = $conf['store']['ftpUsername'];
 			$server['pass'] = $conf['store']['ftpPassword'];
-			$server['passiv'] = !empty( $conf['store']['ftpPassive'] );			
+			$server['passiv'] = !empty( $conf['store']['ftpPassive'] );
 			$stored_url = phpAds_FTPDuplicate($server, $name);
 		} else {
 			// Local mode
@@ -165,19 +176,12 @@ function phpAds_ImageRetrieve($type, $name)
 		}
 	}
 	if ($type == 'sql') {
-		$res = phpAds_dbQuery("
-			SELECT
-				contents
-			FROM
-				".$conf['table']['prefix'].$conf['table']['images']."
-			WHERE
-				filename = '".$name."'
-		");
-		if ($row = phpAds_dbFetchArray($res)) {
-			$result = $row['contents'];
-		}
+        if ($dbImages = OA_Dal::staticGetDO('images', 'filename', $name)) {
+            $result = $dbImages->contents;
+        }
+
 	}
-	if (isset($result) && $result != '') {
+	if (!empty($result)) {
 		return ($result);
 	} else {
 		return false;
@@ -211,12 +215,8 @@ function phpAds_ImageDelete ($type, $name)
 		}
 	}
 	if ($type == 'sql') {
-		$res = phpAds_dbQuery("
-			DELETE FROM 
-				".$conf['table']['prefix'].$conf['table']['images']."
-			WHERE
-				filename = '".$name."'
-		");
+        $doImages = OA_Dal::staticGetDO('images', 'filename', $name);
+        $doImages->delete();
 	}
 }
 
@@ -248,17 +248,9 @@ function phpAds_ImageSize ($type, $name)
 		}
 	}
 	if ($type == 'sql') {
-		$res = phpAds_dbQuery("
-			SELECT
-				contents
-			FROM
-				".$conf['table']['prefix'].$conf['table']['images']."
-			WHERE
-				filename = '".$name."'
-		");
-		if ($row = phpAds_dbFetchArray($res)) {
-			$result = strlen($row['contents']);
-		}
+        if ($doImages = OA_Dal::staticGetDO('images', 'filename', $name)) {
+            $result = strlen($doImages->contents);
+        }
 	}
 	if (isset($result) && $result != '') {
 		return ($result);
@@ -267,36 +259,6 @@ function phpAds_ImageSize ($type, $name)
 	}
 }
 
-/*-------------------------------------------------------*/
-/* SQL storage functions                                 */
-/*-------------------------------------------------------*/
-
-function phpAds_SqlUniqueName($name)
-{
-	$conf = $GLOBALS['_MAX']['CONF'];
-	$extension = substr($name, strrpos($name, ".") + 1);
-	$base	   = substr($name, 0, strrpos($name, "."));
-	$res = phpAds_dbQuery("SELECT filename FROM ".$conf['table']['prefix'].$conf['table']['images']." WHERE filename='".$base.".".$extension."'");
-	if (phpAds_dbNumRows($res) == 0) {
-		return ($base.".".$extension);
-	} else {
-		if (eregi("^(.*)_([0-9]+)$", $base, $matches)) {
-			$base = $matches[1];
-			$i = $matches[2];
-		} else {
-			$i = 1;
-		}
-		$found = false;
-		while ($found == false) {
-			$i++;
-			$res = phpAds_dbQuery ("SELECT filename FROM ".$conf['table']['prefix'].$conf['table']['images']." WHERE filename='".$base."_".$i.".".$extension."'");
-			if (phpAds_dbNumRows($res) == 0) {
-				$found = true;
-			}
-		}
-		return ($base."_".$i.".".$extension);
-	}
-}
 
 /*-------------------------------------------------------*/
 /* Local storage functions                               */

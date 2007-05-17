@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -30,6 +30,9 @@ require_once MAX_PATH . '/lib/max/Entity/Placement.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
+
+require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once 'Date.php';
 
 /**
@@ -54,9 +57,9 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
 
     /**
      * A variable for storing a local instance of the
-     * MAX_Table_Priority class.
+     * Openads_Table_Priority class.
      *
-     * @var MAX_Table_Priority
+     * @var Openads_Table_Priority
      */
     var $oTable;
 
@@ -78,7 +81,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
      */
     function run()
     {
-        MAX::debug('Starting to Get Required Ad Impressions.', PEAR_LOG_DEBUG);
+        OA::debug('Starting to Get Required Ad Impressions.', PEAR_LOG_DEBUG);
         $conf = $GLOBALS['_MAX']['CONF'];
         $aAllPlacements = $this->_getValidPlacements();
         if (is_array($aAllPlacements) && (count($aAllPlacements) > 0)) {
@@ -134,12 +137,12 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
      * in children classes to return an array of MAX_Entity_Placement objects.
      *
      * Essentially a convenience method to convert the results of the
-     * {@link MAX_Dal_Maintenance_Priority::_getPlacements()} method from an array
+     * {@link OA_Dal_Maintenance_Priority::_getPlacements()} method from an array
      * of database records into an array of MAX_Entity_Placement objects.
      *
      * @access private
      * @param array $aFields An optional array of extra fields to select from the database
-     *                       (see the {@link MAX_Dal_Maintenance_Priority::getPlacements()}
+     *                       (see the {@link OA_Dal_Maintenance_Priority::getPlacements()}
      *                       class.)
      * @param array $aWheres An optional array of where statements to limit which placements
      *                      are returned from the database (see the
@@ -325,7 +328,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                 // Get the end of the day from this date
                 $oPlacementExpiryDate = new Date($oDate->format('%Y-%m-%d') . ' 23:59:59');
             } else if (
-                   ($oPlacement->expire != '0000-00-00')
+                   ($oPlacement->expire != OA_Dal::noDateValue())
                    &&
                    (
                        ($oPlacement->impressionTargetTotal > 0)
@@ -347,7 +350,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                 // placement in terms of activation/expiration dates and
                 // either (total) inventory requirements or daily targets
                 $message = "Error calculating the end date for Placement ID {$oPlacement->id}.";
-                MAX::debug($message, PEAR_LOG_ERR);
+                OA::debug($message, PEAR_LOG_ERR);
                 continue;
             }
             // Determine number of remaining operation intervals for placement
@@ -391,7 +394,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                             // Divide number required impressions between active operation intervals
                             $oAd->requiredImpressions = round($requiredAdImpressions / $activeAdOpInts);
                             // Delivery Hack
-                            if ($conf['maintenance']['deliveryHack']) {
+                            if (!empty($conf['maintenance']['deliveryHack'])) {
                                 $oServiceLocator = &ServiceLocator::instance();
                                 $oDateNow = &$oServiceLocator->get('now');
                                 $hour = $oDateNow->getHour();
@@ -503,7 +506,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                 // Get the end of the day from this date
                 $oPlacementExpiryDate = new Date($oDate->format('%Y-%m-%d') . ' 23:59:59');
             } else if (
-                   ($oPlacement->expire != '0000-00-00')
+                   ($oPlacement->expire != OA_Dal::noDateValue())
                    &&
                    (
                        ($oPlacement->impressionTargetTotal > 0)
@@ -525,7 +528,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                 // placement in terms of activation/expiration dates and
                 // either (total) inventory requirements or daily targets
                 $message = "Error calculating the end date for Placement ID {$oPlacement->id}.";
-                MAX::debug($message, PEAR_LOG_ERR);
+                OA::debug($message, PEAR_LOG_ERR);
                 continue;
             }
             // Sum the weights of all ads in placement
@@ -686,7 +689,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         if (empty($adId) || !is_numeric($adId)) {
-            MAX::debug("Invalid advertisement ID argument", PEAR_LOG_ERR);
+            OA::debug("Invalid advertisement ID argument", PEAR_LOG_ERR);
             return false;
         }
         // Get all zones associated with the advertisement

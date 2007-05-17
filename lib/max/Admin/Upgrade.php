@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -25,17 +25,18 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/DB.php';
-require_once MAX_PATH . '/lib/max/Table/Core.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php'; // Needed for the constants at the top of the file...
 require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
 
+require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
+
 /**
  * A class to perform upgrades from phpAdsNew 2.0 or greater, and from previous
- * version of Max.
+ * version of Openads.
  *
  * @package    Max
  * @author     Andrew Hill <andrew@m3.net>
@@ -43,7 +44,7 @@ require_once MAX_PATH . '/lib/max/Plugin.php';
 class MAX_Admin_Upgrade
 {
     var $conf;
-    var $dbh;
+    var $oDbh;
     var $tables;
     var $upgradeFrom;
     var $upgradeTo;
@@ -72,17 +73,17 @@ class MAX_Admin_Upgrade
             @set_time_limit(600);
             @ignore_user_abort(true);
         }
-        $this->dbh =& MAX_DB::singleton();
-        $this->tables = MAX_Table_Core::singleton($this->conf['database']['type']);
+        $this->oDbh = &OA_DB::singleton();
+        $this->tables = &OA_DB_Table_Core::singleton();
         $this->aPlugins = array();
     }
 
     /**
-     * A method to determine if an older version of Max (or phpAdsNew)
+     * A method to determine if an older version of Openads (or phpAdsNew)
      * is currently installed.
      *
-     * @param string $version The version of Max currently being installed.
-     * @return boolean True if a previous version of Max is installed,
+     * @param string $version The version of Openads currently being installed.
+     * @return boolean True if a previous version of Openads is installed,
      *                 false otherwise.
      */
     function previousVersionExists($version)
@@ -91,14 +92,14 @@ class MAX_Admin_Upgrade
         // Does the application variables table exists? Inore any errors
         // while executing the SQL to find the version that is installed
         PEAR::pushErrorHandling(null);
-        $data = $this->dbh->tableInfo($this->conf['table']['prefix'].'application_variable');
+        $data = $this->oDbh->manager->listTableFields($this->conf['table']['prefix'].'application_variable');
         PEAR::popErrorHandling();
         if (PEAR::isError($data)) {
             // Could not find the application variables table,
             // so definately need to upgrade
             return true;
         } else {
-            // What is the current version of Max that is installed?
+            // What is the current version of Openads that is installed?
             $query = "
                 SELECT
                     value AS max_version
@@ -107,7 +108,7 @@ class MAX_Admin_Upgrade
                 WHERE
                     name = 'max_version'
                 ";
-            $row = $this->dbh->getRow($query);
+            $row = $this->oDbh->queryRow($query);
             if (!PEAR::isError($row)) {
                 $this->upgradeFrom = $row['max_version'];
                 return $this->_compareVersions($this->upgradeTo, $this->upgradeFrom);
@@ -129,7 +130,7 @@ class MAX_Admin_Upgrade
         $this->errors = array();
         // Is the upgrageFrom variable defined?
         if (isset($this->upgradeFrom)) {
-            // We are upgrading from Max after v0.1.16-beta,
+            // We are upgrading from Openads after v0.1.16-beta,
             // so just do the required upgrade actions
             if ($this->_compareVersions('v0.2.0-alpha', $this->upgradeFrom)) {
                 // Upgrade to v0.2.0-alpha
@@ -356,7 +357,8 @@ class MAX_Admin_Upgrade
     function setInstalledVersion()
     {
         $query = "INSERT INTO {$this->conf['table']['prefix']}application_variable (name, value) VALUES ('max_version', '" . MAX_VERSION_READABLE . "')";
-        if (PEAR::isError($this->dbh->query($query))) {
+        $rows = $this->oDbh->exec($query);
+        if (PEAR::isError($rows)) {
             return false;
         }
         return true;
@@ -1738,19 +1740,19 @@ class MAX_Admin_Upgrade
                 parent > 0
         ";
         // There may be an error copying the data from the old phpAdsNew
-        // clients table into the new Max campaigns table, because this
-        // might be an upgrade from an early version of Max, in which case
+        // clients table into the new Openads campaigns table, because this
+        // might be an upgrade from an early version of Openads, in which case
         // the data has already been copied. So, don't use a PEAR_Error
         // handler at all for this query.
         PEAR::pushErrorHandling(null);
-        $result = $this->dbh->query($query);
+        $rows = $this->oDbh->exec($query);
         PEAR::popErrorHandling();
-        if (PEAR::isError($result)) {
+        if (PEAR::isError($rows)) {
             // Was this the table doesn't exist error?
-            if ($result->code != DB_ERROR_NOSUCHTABLE) {
+            if ($rows->code != DB_ERROR_NOSUCHTABLE) {
                 // No, the old phpAdsNew clients table existed, so it was
                 // a real error that happened
-                $this->errors[] = MAX::errorObjToString($result);
+                $this->errors[] = MAX::errorObjToString($rows);
             }
         } else {
             // The copy of data worked, so now update the data in the
@@ -1766,7 +1768,7 @@ class MAX_Admin_Upgrade
                     AND clicks = -1
                     AND conversions = -1
                 ";
-            $this->dbh->query($query);
+            $rows = $this->oDbh->exec($query);
         }
 
         // campaigns_trackers table
@@ -1880,7 +1882,7 @@ class MAX_Admin_Upgrade
         // Run some SQL to fix this, but ignore all errors.
         PEAR::pushErrorHandling(null);
         $query = "ALTER TABLE tbl_targetstats RENAME {$this->conf['table']['prefix']}targetstats";
-        $this->dbh->query($query);
+        $this->oDbh->exec($query);
         PEAR::popErrorHandling();
 
         // targetstats table
@@ -1894,7 +1896,7 @@ class MAX_Admin_Upgrade
 
         // userlog table
         $query = "ALTER TABLE {$this->conf['table']['prefix']}userlog CHANGE details details TEXT";
-        $this->dbh->query($query);
+        $this->oDbh->exec($query);
 
         // variables table
         $this->tables->createTable('variables');
@@ -1917,9 +1919,9 @@ class MAX_Admin_Upgrade
             FROM
                 {$this->conf['table']['prefix']}zones
             ";
-        $result = $this->dbh->query($query);
-        if (!PEAR::isError($result)) {
-            while ($row = $result->fetchRow()) {
+        $rc = $this->oDbh->query($query);
+        if (!PEAR::isError($rc)) {
+            while ($row = $rc->fetchRow()) {
                 $newWhat = preg_replace('/clientid:/', 'campaignid:', $row['what']);
                 if ($newWhat!= $row['what']) {
                     $innerQuery = "
@@ -1940,7 +1942,7 @@ class MAX_Admin_Upgrade
                     }
                     $innerQuery = preg_replace('/ AND $/', '', $innerQuery);
                     if (!preg_match('/WHERE $/', $innerQuery)) {
-                        $this->dbh->query($innerQuery);
+                        $rows = $this->oDbh->exec($innerQuery);
                     }
                 }
             }
@@ -1952,18 +1954,18 @@ class MAX_Admin_Upgrade
      *
      * @access private
      * @param string $query A SQL query to run.
-     * @return mixed A {@link DB_Result} or {@link DB_Error} object.
+     * @return mixed The number of rows inserted/updated or a PEAR_Error object.
      */
     function _runQuery($query)
     {
         // Use the Upgrade class' PEAR_Error handler
         PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, array($this, 'pearErrorHandler'));
         // Execute the upgrade SQL statements
-        $result = $this->dbh->query($query);
+        $rows = $this->oDbh->exec($query);
         // Restore the normal PEAR_Error handler
         PEAR::popErrorHandling();
         // Return the result
-        return $result;
+        return $rows;
     }
 
     /**
@@ -1978,7 +1980,7 @@ class MAX_Admin_Upgrade
         PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, array($this, 'pearErrorHandler'));
         // Execute the upgrade SQL statements
         foreach ($queries as $query) {
-            $this->dbh->query($query);
+            $this->oDbh->exec($query);
         }
         // Restore the normal PEAR_Error handler
         PEAR::popErrorHandling();
@@ -2038,10 +2040,10 @@ class MAX_Admin_Upgrade
     function _upgradeDeliveryLimitations($keyColumn, $table, $upgradeMethod)
     {
         $query = "SELECT $keyColumn, type, comparison, data, executionorder FROM $table";
-        $rResult = $this->dbh->query($query);
+        $rc = $this->oDbh->query($query);
         $aQueriesUpgrade = array();
         $i = 0;
-        while ($limitation = $rResult->fetchRow()) {
+        while ($limitation = $rc->fetchRow()) {
             $key = $limitation[$keyColumn];
             $executionOrder = $limitation['executionorder'];
             $oPlugin = $this->_getDeliveryLimitationPlugin($limitation['type']);
@@ -2091,7 +2093,7 @@ class MAX_Admin_Upgrade
     function getVersionSchema()
     {
         PEAR::pushErrorHandling(null);
-        $data = $this->dbh->tableInfo($this->conf['table']['prefix'].'application_variable');
+        $data = $this->oDbh->manager->listTableFields($this->conf['table']['prefix'].'application_variable');
         PEAR::popErrorHandling();
         if (PEAR::isError($data)) {
             // Could not find the application variables table
@@ -2105,7 +2107,7 @@ class MAX_Admin_Upgrade
                 WHERE
                     name = 'max_version'
                 ";
-            $row = $this->dbh->getRow($query);
+            $row = $this->oDbh->queryRow($query);
             if (!PEAR::isError($row)) {
                 return $row['max_version'];
             }

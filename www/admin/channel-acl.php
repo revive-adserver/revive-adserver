@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
 
 // Register input variables
 
-phpAds_registerGlobal ('acl', 'action', 'submit');
+phpAds_registerGlobalUnslashed('acl', 'action', 'submit', 'channelid', 'agencyid');
 
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
@@ -55,7 +55,7 @@ if (phpAds_isUser(phpAds_Admin)) {
 }
 
 if (!empty($affiliateid)) {
-    $aEntities = array('affiliateid' => $affiliateid, 'channelid' => $channelid);
+    $aEntities = array('agencyid' => $agencyId, 'affiliateid' => $affiliateid, 'channelid' => $channelid);
     $aOtherChannels = Admin_DA::getChannels(array('publisher_id' => $affiliateid));
     $aOtherAgencies = array();
     $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));
@@ -81,6 +81,7 @@ if ($channelid && !MAX_checkChannel($agencyId, $channelid)) {
 /*-------------------------------------------------------*/
 
 if (!empty($action)) {
+    if (empty($acl)) $acl = array();
     $acl = MAX_AclAdjust($acl, $action);
 } elseif (!empty($submit)) {
     $acl = (isset($acl)) ? $acl : array();

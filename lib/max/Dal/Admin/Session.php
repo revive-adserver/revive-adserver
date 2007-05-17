@@ -1,88 +1,106 @@
 <?php
-/**
- * @since Max v0.3.30 - 16-Nov-2006
- */
 
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
 
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
 
 /**
  * A data access layer for storing and retrieving persistent Web sessions.
- * 
+ *
  * @todo Factor out the repetitive "session_table_name" calculation
  */
 class MAX_Dal_Admin_Session extends MAX_Dal_Common
 {
-    /**
+    var $table = 'session';
+
+	/**
      * @param string $session_id
      * @return string A serialized array (probably)
-     * 
-     * @todo Consider raise an error when no session is found. 
+     *
+     * @todo Consider raise an error when no session is found.
      */
     function getSerializedSession($session_id)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $session_table_name = $conf['table']['prefix'] . $conf['table']['session'];
-        $query = "
-            SELECT
-                sessiondata
-            FROM
-                $session_table_name
-            WHERE
-                sessionid = ?
-                AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(lastused) < 3600
-            ";
-        $query_params = array($session_id);
-        $serialized_session_data = $this->dbh->getOne($query, $query_params);
-        return $serialized_session_data;
+        $doSession = OA_Dal::staticGetDO('session', $session_id);
+        if ($doSession) {
+            $timeLastUsed = strtotime($doSession->lastused);
+            if (time() - $timeLastUsed < 3600) {
+                return $doSession->sessiondata;
+            }
+        }
+        return false;
     }
 
     /**
      * Reset "last used" timestamp on a session to prevent it from timing out.
-     * 
+     *
      * @param string $session_id
      * @return void
      */
     function refreshSession($session_id)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $session_table_name = $conf['table']['prefix'] . $conf['table']['session']; 
+        $session_table_name = $conf['table']['prefix'] . $conf['table']['session'];
         $query = "
                     UPDATE
                         $session_table_name
                     SET
-                        lastused = NOW()
+                        lastused = '". OA::getNow() ."'
                     WHERE
                         sessionid = ?
                     ";
         $query_params = array($session_id);
-        $result = $this->dbh->query($query, $query_params);
+        $result = $this->oDbh->extended->execParam($query, $query_params);
     }
-    
+
     /**
      * @param string $serialized_session_data
      * @param string $session_id
-     * 
-     * @todo Use ANSI SQL syntax, such as an UPDATE/INSERT cycle.  
+     *
+     * @todo Use ANSI SQL syntax, such as an UPDATE/INSERT cycle.
      * @todo Push down REPLACE INTO into a MySQL-specific DAL.
      */
     function storeSerializedSession($serialized_session_data, $session_id)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $session_table_name = $conf['table']['prefix'] . $conf['table']['session'];
-        $query = "
-            REPLACE INTO $session_table_name
-                (sessionid, sessiondata)
-            VALUES
-                (?, ?)
-            ";
-        $query_params = array($session_id, $serialized_session_data);
-        $this->dbh->query($query, $query_params);
+        $doSession = OA_Dal::staticGetDO('session', $session_id);
+        if ($doSession) {
+            $doSession->sessiondata = $serialized_session_data;
+            $doSession->update();
+        }
+        else {
+            $doSession = OA_Dal::factoryDO('session');
+            $doSession->sessionid = $session_id;
+            $doSession->sessiondata = $serialized_session_data;
+            $doSession->insert();
+        }
     }
 
     /**
      * Remove many unused sessions from storage.
-     * 
+     *
      * @todo Use ANSI SQL syntax, such as NOW() + INTERVAL '12' HOUR
      */
     function pruneOldSessions()
@@ -92,11 +110,11 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
         $query = "
                 DELETE FROM $session_table_name
                 WHERE
-                    UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(lastused) > 43200
+                    UNIX_TIMESTAMP('". OA::getNow() ."') - UNIX_TIMESTAMP(lastused) > 43200
                 ";
-        $this->dbh->query($query);
+        $this->oDbh->query($query);
     }
-    
+
     /**
      * Remove a specific session from storage.
      */
@@ -109,7 +127,7 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
            WHERE sessionid=?
            ";
         $query_params = array($session_id);
-        $this->dbh->query($query, $query_params);
+        $this->oDbh->extended->execParam($query, $query_params);
     }
 
 }

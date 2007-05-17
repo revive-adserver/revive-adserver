@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -45,8 +45,12 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
     {
         $this->UnitTestCase();
         Mock::generate('MAX_Dal_Entities');
-        Mock::generate('MAX_Dal_Maintenance_Priority');
-        Mock::generatePartial('MAX_Entity_Placement', 'MockPartialMAX_Entity_Placement', array('_abort'));
+        Mock::generate('OA_Dal_Maintenance_Priority');
+        Mock::generatePartial(
+            'MAX_Entity_Placement',
+            'MockPartialMAX_Entity_Placement',
+            array('_abort')
+        );
     }
 
     /**
@@ -58,8 +62,8 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
         $oServiceLocator = &ServiceLocator::instance();
         $oMaxDalEntities = new MockMAX_Dal_Entities($this);
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);
-        $oMaxDalMaintenancePriority = new MockMAX_Dal_Maintenance_Priority($this);
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oMaxDalMaintenancePriority);
+        $oMaxDalMaintenancePriority = new MockOA_Dal_Maintenance_Priority($this);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oMaxDalMaintenancePriority);
     }
 
     /**
@@ -71,7 +75,7 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
     {
         $oServiceLocator = &ServiceLocator::instance();
         $oServiceLocator->remove('MAX_Dal_Entities');
-        $oServiceLocator->remove('MAX_Dal_Maintenance_Priority');
+        $oServiceLocator->remove('OA_Dal_Maintenance_Priority');
     }
 
     /**
@@ -246,7 +250,7 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
             'sum_conversions' => 1,
         );
         $oServiceLocator = &ServiceLocator::instance();
-        $oMaxDalMaintenancePriority = &$oServiceLocator->get('MAX_Dal_Maintenance_Priority');
+        $oMaxDalMaintenancePriority = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
         $oMaxDalMaintenancePriority->setReturnValueAt(0, 'getPlacementStats', null);
         $oMaxDalMaintenancePriority->setReturnValueAt(1, 'getPlacementStats', $aPlacementStats);
         $oMaxDalMaintenancePriority->expectArgumentsAt(0, 'getPlacementStats', array(1, false));
@@ -299,7 +303,7 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
             'sum_conversions' => 1,
         );
         $oServiceLocator = &ServiceLocator::instance();
-        $oMaxDalMaintenancePriority = &$oServiceLocator->get('MAX_Dal_Maintenance_Priority');
+        $oMaxDalMaintenancePriority = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
         $oMaxDalMaintenancePriority->setReturnValueAt(0, 'getPlacementStats', null);
         $oMaxDalMaintenancePriority->setReturnValueAt(1, 'getPlacementStats', $aPlacementStats);
         $oMaxDalMaintenancePriority->expectArgumentsAt(0, 'getPlacementStats', array(1, true, '2006-11-10'));

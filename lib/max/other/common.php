@@ -1,11 +1,11 @@
 <?php
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -341,23 +341,108 @@ function MAX_getBannerName($description, $alt)
 }
 
 
-    // +---------------------------------------+
-    // | $_REQUEST methods                     |
-    // |                                       |
-    // | and handling magic quotes             |
-    // +---------------------------------------+
+/**
+ * Retained for backward-compatibility.
+ *
+ * @param string $key
+ * @param object $default
+ * @deprecated Use MAX_commonGetValue() instead.
+ * @see MAX_commonGetValue()
+ */
 function MAX_getValue($key, $default = null)
+{
+    return MAX_commonGetValue($key, $default);
+}
+
+
+/**
+ * This function returns value from the $_REQUEST array stored under
+ * $key key. If magic_quotes_gpc is not enabled it adds the slashes to the
+ * value before returning it. If the value is not defined in the $_REQUEST
+ * then the value passed as $default is returned.
+ *
+ * @param string $key
+ * @param object $default
+ */
+function MAX_commonGetValue($key, $default = null)
 {
     $value = $default;
     if (isset($_REQUEST[$key])) {
         $value = $_REQUEST[$key];
         if (!get_magic_quotes_gpc()) {
-            MAX_addslashes($value);
+            return MAX_commonSlashArray($value);
         }
     }
 
     return $value;
 }
+
+
+/**
+ * This function returns value from the $_REQUEST array stored under
+ * $key key. If magic_quotes_gpc is enabled it removes the slashes to the
+ * value before returning it. If the value is not defined in the $_REQUEST
+ * then the value passed as $default is returned.
+ *
+ * @param string $key
+ * @param object $default
+ */
+function MAX_commonGetValueUnslashed($key, $default = null)
+{
+    return _commonGetValueUnslashed($_REQUEST, $key, $default);
+}
+
+
+/**
+ * Returns value stored under the $key in the $aValues array. If
+ * magic_quotes_gpc is enabled it removes the slashes to the
+ * value before returning it. If the value is not defined in the $aValues
+ * then the value passed as $default is returned.
+ *
+ * @param array $aValues
+ * @param string $sKey
+ * @param object $oDefault
+ * @return object
+ */
+function _commonGetValueUnslashed($aValues, $sKey, $oDefault = null)
+{
+    $value = $oDefault;
+    if (isset($aValues[$sKey])) {
+        $value = $aValues[$sKey];
+        if (get_magic_quotes_gpc()) {
+            return MAX_commonUnslashArray($value);
+        }
+    }
+    return $value;
+}
+
+
+/**
+ * Returns the value stored under the $key in the $_POST. If
+ * magic_quotes_gpc is enabled it removes the slashes from the
+ * value before returning it. If the value is not defined in the $_POST
+ * then the $_GET array is checked. If the value is still not found then
+ * $sDefault is returned. Whichever value is returned, it is trimmed first.
+ *
+ * @param string $sKey
+ * @param string $sDefault
+ * @return string
+ */
+function MAX_commonGetPostValueUnslashed($sKey, $sDefault = null)
+{
+    $value = _commonGetValueUnslashed($_POST, $sKey);
+    if (is_null($value)) {
+        $value = _commonGetValueUnslashed($_GET, $sKey);
+    }
+    if (is_null($value)) {
+        $value = $sDefault;
+    }
+    if (is_null($value)) {
+        return null;
+    }
+    return trim($value);
+}
+
 
 function MAX_getStoredValue($key, $default, $pageName=null)
 {
@@ -410,14 +495,49 @@ function MAX_changeStoredValue($key, $value)
 
 function MAX_addslashes(&$item)
 {
-    if (isset($item)) {
-        if (is_array($item)) {
-            array_walk($item, 'MAX_addslashes');
-        } else {
-            $item = addslashes($item);
+    $item = MAX_commonSlashArray($item);
+}
+
+
+/**
+ * Recursively add slashes to the values in an array.
+*
+ * @param array Input array.
+ * @return array Output array with values slashed.
+ */
+function MAX_commonSlashArray($a)
+{
+    if (is_array($a)) {
+        while (list($k,$v) = each($a)) {
+            $a[$k] = MAX_commonSlashArray($v);
         }
+        reset ($a);
+        return ($a);
+    } else {
+        return is_null($a) ? null : addslashes($a);
     }
 }
+
+
+/**
+ * Recursively removes slashes from the values in an array.
+*
+ * @param array Input array.
+ * @return array Output array with values unslashed.
+ */
+function MAX_commonUnslashArray($a)
+{
+    if (is_array($a)) {
+        while (list($k,$v) = each($a)) {
+            $a[$k] = MAX_commonUnslashArray($v);
+        }
+        reset ($a);
+        return ($a);
+    } else {
+        return stripslashes($a);
+    }
+}
+
 
     // +---------------------------------------+
     // | array utilties                        |
@@ -569,13 +689,12 @@ function MAX_addLinkedAdsToZone($zoneId, $placementId)
     foreach ($aAds as $adId => $aAd) {
         if (!isset($aLinkedAds[$adId])) {
             $ret = Admin_DA::addAdZone(array('zone_id' => $zoneId, 'ad_id' => $adId));
+            if (PEAR::isError($ret)) {
+                return false;
+            }
         }
     }
-    if (PEAR::isError($ret)) {
-        return false;
-    } else {
-        return true;
-    }
+    return true;
 }
 
 // Get ad limitation parameters
@@ -602,7 +721,6 @@ function MAX_getLinkedAdParams($zoneId)
 function MAX_removeFile($adId)
 {
     $aAd =  Admin_DA::getAd($adId);
-#    $aAd = MAX_getEntity('ad', $adId);
     _removeFile($aAd);
 }
 
@@ -658,9 +776,10 @@ function _removeFile($aAd)
     // +---------------------------------------+
 
 function MAX_duplicatePlacement($placementId, $advertiserId) {
+    $oDbh = &OA_DB::singleton();
     $conf = $GLOBALS['_MAX']['CONF'];
     // Copy campaign details
-    $res = phpAds_dbQuery("
+    $query = "
         INSERT INTO {$conf['table']['prefix']}{$conf['table']['campaigns']} (
             campaignname,
             clientid,
@@ -683,7 +802,7 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
             updated
         ) SELECT
             CONCAT('Copy of ', campaignname),
-            $advertiserId,
+            ". $oDbh->quote($advertiserId, 'integer') .",
             views,
             clicks,
             conversions,
@@ -700,18 +819,23 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
             comments,
             revenue,
             revenue_type,
-            '".date('Y-m-d H:i:s')."'
+            '". OA::getNow() ."'
           FROM {$conf['table']['prefix']}{$conf['table']['campaigns']}
           WHERE
-            campaignid = {$placementId}
-    ");
-    $newPlacementId = phpAds_dbInsertID();
+            campaignid = ". $oDbh->quote($placementId, 'integer') ."
+    ";
+    $res = $oDbh->exec($query);
+    if (PEAR::isError($res)) {
+        return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
+    }
+
+    $newPlacementId = $oDbh->lastInsertID();
 
     // Duplicate placement-zone-associations (Do this before duplicating banners to ensure an exact copy of ad-zone-assocs
     MAX_duplicatePlacementZones($placementId, $newPlacementId);
 
     // Duplicate placement-tracker-associations
-    $res = phpAds_dbQuery("
+    $query = "
         INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']}
              (campaignid,
@@ -727,12 +851,19 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
                  clickwindow
              FROM
                  {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']}
-             WHERE campaignid = {$placementId}
-    ");
+             WHERE campaignid = ". $oDbh->quote($placementId, 'integer') ."
+    ";
+    $res = $oDbh->exec($query);
+    if (PEAR::isError($res)) {
+        return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
+    }
 
     // Duplicate banners
-    $res = phpAds_dbQuery("SELECT bannerid FROM {$conf['table']['prefix']}{$conf['table']['banners']} WHERE campaignid = {$placementId}");
-    while ($row = phpAds_dbFetchArray($res)) {
+    $res = $oDbh->query("SELECT bannerid FROM {$conf['table']['prefix']}{$conf['table']['banners']} WHERE campaignid = ". $oDbh->query($placementId, 'integer'));
+    if (PEAR::isError($res)) {
+        return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
+    }
+    while ($row = $res->fetchRow()) {
         $newBannerId = MAX_duplicateAd($row['bannerid'], $newPlacementId);
     }
 
@@ -740,19 +871,23 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
 }
 
 function MAX_duplicateAd($adId, $placementId) {
+    $oDbh = &OA_DB::singleton();
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Duplicate the banner
-    $res = phpAds_dbQuery("
+    $query = "
         SELECT
             *
         FROM
             {$conf['table']['prefix']}{$conf['table']['banners']}
         WHERE
-            bannerid = '{$adId}'
-    ") or phpAds_sqlDie();
+            bannerid = ". $oDbh->qoute($adId, 'integer');
+    $res = $oDbh->query($query);
+    if (PEAR::isError($res)) {
+        return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
+    }
 
-    if ($row = phpAds_dbFetchArray($res)) {
+    if ($row = $res->fetchRow()) {
         // Remove bannerid
         unset($row['bannerid']);
         if ($row['campaignid'] == $placementId) {
@@ -770,26 +905,30 @@ function MAX_duplicateAd($adId, $placementId) {
         $values_fields = '';
         $values = '';
 
-        $row['updated'] = date('Y-m-d H:i:s');
+        $row['updated'] = OA::getNow();
         $row['campaignid'] = $placementId;
 
         while (list($name, $value) = each($row)) {
             $values_fields .= "$name, ";
-            $values .= "'".addslashes($value)."', ";
+            $values .= $oDbh->quote($value) .", ";
         }
 
         $values_fields = ereg_replace(", $", "", $values_fields);
         $values = ereg_replace(", $", "", $values);
 
-        $res = phpAds_dbQuery("
+        $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['banners']}
                 ($values_fields)
             VALUES
                 ($values)
-       ") or phpAds_sqlDie();
+       ";
+        $res = $oDbh->exec($query);
+        if (PEAR::isError($res)) {
+            return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
+        }
 
-        $new_adId = phpAds_dbInsertID();
+        $new_adId = $oDbh->lastInsertID();
 
         // Copy ACLs and capping
         MAX_AclCopy(basename($_SERVER['PHP_SELF']), $adId, $new_adId);

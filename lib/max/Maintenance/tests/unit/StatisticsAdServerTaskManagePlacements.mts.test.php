@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -26,9 +26,10 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Statistics/AdServer/mysql.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer/Task/ManagePlacements.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysql.php';
 require_once 'Date.php';
 
 /**
@@ -69,10 +70,10 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_ManagePlacement
         $oDateNow = new Date();
         $oServiceLocator->register('now', $oDateNow);
         // Mock the DAL, and set expectations
-        Mock::generate('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
-        $oDal = new MockMAX_Dal_Maintenance_Statistics_AdServer_mysql($this);
-        $oDal->expectNever('manageCampaigns');
-        $oServiceLocator->register('MAX_Dal_Maintenance_Statistics_AdServer', $oDal);
+        Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
+        $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
+        $oDal->expectNever('managePlacements');
+        $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Set the controller class
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
@@ -86,10 +87,10 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_ManagePlacement
         $oDateNow = new Date();
         $oServiceLocator->register('now', $oDateNow);
         // Mock the DAL, and set expectations
-        Mock::generate('MAX_Dal_Maintenance_Statistics_AdServer_mysql');
-        $oDal = new MockMAX_Dal_Maintenance_Statistics_AdServer_mysql($this);
-        $oDal->expectOnce('manageCampaigns', array($oDateNow));
-        $oServiceLocator->register('MAX_Dal_Maintenance_Statistics_AdServer', $oDal);
+        Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
+        $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
+        $oDal->expectOnce('managePlacements', array($oDateNow));
+        $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Set the controller class
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);

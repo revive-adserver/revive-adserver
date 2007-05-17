@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -67,16 +67,18 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Time_Date extends UnitTestCase
 
     function testCompile()
     {
+        $current_quotes_runtime = get_magic_quotes_runtime();
         set_magic_quotes_runtime(1);
-        $oPlugin = &MAX_Plugin::factory('deliveryLimitations', 'Time', 'Date');
 
+        $oPlugin = &MAX_Plugin::factory('deliveryLimitations', 'Time', 'Date');
         $oPlugin->init(array('comparison' => '=='));
         $this->assertEqual('MAX_checkTime_Date(\'00000000\', \'==\')', $oPlugin->compile());
-
         $rawData = '20061113';
         $oPlugin->init(array('data' => $rawData, 'comparison' => '=='));
         $this->assertEqual('MAX_checkTime_Date(\'20061113\', \'==\')', $oPlugin->compile());
         $this->assertEqual($rawData, $oPlugin->getData());
+
+        set_magic_quotes_runtime($current_quotes_runtime);
     }
 
     /**

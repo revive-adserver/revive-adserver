@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,33 +32,18 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 
-// Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Affiliate)) {
-    $affiliateid = phpAds_getUserID();
-} elseif (phpAds_isUser(phpAds_Agency)) {
-    $result = phpAds_dbQuery("
-        SELECT
-           affiliateid
-        FROM
-           ".$conf['table']['prefix'].$conf['table']['affiliates']."
-        WHERE
-             agencyid=".phpAds_getUserID()) or phpAds_sqlDie();
-    if (phpAds_dbNumRows($result) == 0) {
-        phpAds_PageHeader("2");
-        phpAds_Die($strAccessDenied, $strNotAdmin);
-    }
-}
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -77,23 +62,20 @@ if (isset($session['prefs']['affiliate-zones.php']['orderdirection'])) {
 
 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     // Get other affiliates
-    if (phpAds_isUser(phpAds_Admin)) {
-        $query="SELECT * FROM {$conf['table']['prefix']}{$conf['table']['affiliates']}" . phpAds_getAffiliateListOrder($navorder, $navdirection);
-    } elseif (phpAds_isUser(phpAds_Agency)) {
-        $query="SELECT * FROM {$conf['table']['prefix']}{$conf['table']['affiliates']} WHERE agencyid=$agencyid" . phpAds_getAffiliateListOrder($navorder, $navdirection);
+    $doAffiliates = OA_Dal::factoryDO('affiliates');
+    $doAffiliates->addListOrderBy($navorder, $navdirection);
+    if (phpAds_isUser(phpAds_Agency)) {
+        $doAffiliates->agencyid = $agencyid;
     }
-    
-    $res = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
-    
-    while ($row = phpAds_dbFetchArray($res)) {
-        phpAds_PageContext (
+    $doAffiliates->find();
+    while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
+        phpAds_PageContext(
             phpAds_buildAffiliateName ($row['affiliateid'], $row['name']),
             "affiliate-invocation.php?affiliateid=".$row['affiliateid'],
             $affiliateid == $row['affiliateid']
         );
     }
-    
+
     phpAds_PageShortcut($strAffiliateProperties, 'affiliate-edit.php?affiliateid='.$affiliateid, 'images/icon-affiliate.gif');
     phpAds_PageShortcut($strZoneHistory, 'stats.php?entity=zone&breakdown=history&affiliateid='.$affiliateid.'&zoneid='.$zoneid, 'images/icon-statistics.gif');
     phpAds_PageHeader("4.2.5");
@@ -107,7 +89,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
         $sections[] = "2.1";
         if (phpAds_isAllowed(MAX_AffiliateGenerateCode)) {
             $sections[] = "2.2";
-        }    
+        }
         phpAds_PageHeader('2.2');
         phpAds_ShowSections($sections);
     }
@@ -117,7 +99,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Affiliate) && phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
+if (phpAds_isUser(phpAds_Affiliate) && MAX_Permission::isAllowed(MAX_AffiliateIsReallyAffiliate)) {
     require_once MAX_PATH . '/lib/max/Admin/Invocation/Affiliate.php';
     $maxInvocation = new MAX_Admin_Invocation_Affiliate();
 } else {

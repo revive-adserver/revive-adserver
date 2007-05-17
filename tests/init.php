@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -34,11 +34,14 @@ $Id$
 define('TEST_ENVIRONMENT_RUNNING', true);
 require_once '../init-parse.php';
 require_once '../constants.php';
+require_once '../variables.php';
 setupConstants();
+setupConfigVariables();
+
 require_once 'PEAR.php';
 
 /**
- * The environment initialisation function for the Max testing environment.
+ * The environment initialisation function for the Openads testing environment.
  */
 function init()
 {

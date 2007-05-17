@@ -132,7 +132,7 @@ class Benchmark_Profiler extends PEAR {
     var $_auto = FALSE;
 
     /**
-     * Max marker name length for non-html output
+     * Openads marker name length for non-html output
      *
      * @var    integer
      * @access private

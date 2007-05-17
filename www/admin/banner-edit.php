@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -32,11 +32,12 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 
-$banner = MAX_getValue('banner');
+$banner = MAX_commonGetValueUnslashed('banner');
 
 // Required files
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
@@ -45,7 +46,6 @@ require_once MAX_PATH . '/www/admin/lib-swf.inc.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
-require_once MAX_PATH . '/lib/max/Dal/Admin/Agency.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
 
 // Load plugins
@@ -57,7 +57,7 @@ foreach($invPlugins as $pluginKey => $plugin) {
 }
 
 // Register input variables
-phpAds_registerGlobal (
+phpAds_registerGlobalUnslashed(
      'alink'
     ,'alink_chosen'
     ,'alt'
@@ -73,6 +73,7 @@ phpAds_registerGlobal (
     ,'description'
     ,'height'
     ,'imageurl'
+    ,'keyword'
     ,'message'
     ,'replaceimage'
     ,'replacealtimage'
@@ -80,6 +81,7 @@ phpAds_registerGlobal (
     ,'type'
     ,'submit'
     ,'target'
+    ,'transparent'
     ,'upload'
     ,'url'
     ,'weight'
@@ -88,54 +90,18 @@ phpAds_registerGlobal (
 
 // Register input variables for plugins
 foreach ($invPlugins as $plugin) {
-    call_user_func_array('phpAds_registerGlobal', $plugin->getGlobalVars());
-}
-
-// Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-
-// Agency interface security
-// TODO: extract this and "client interface security" into a function with a good name  
-if (phpAds_isUser(phpAds_Agency)) {
-    $dal = new MAX_Dal_Admin_Agency();
-    $agencyid = phpAds_getUserID();
-    if (isset($bannerid) && ($bannerid != '')) {
-        $is_allowed = $dal->isAgencyLinkedToAdvertiserCampaignAndBanner($agencyid, $clientid, $campaignid, $bannerid);
-    } else {
-        $is_allowed = $dal->isAgencyLinkedToAdvertiserAndCampaign($agencyid, $clientid, $campaignid);
-    }
-    if (!$is_allowed) {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
+    call_user_func_array('phpAds_registerGlobalUnslashed', $plugin->getGlobalVars());
 }
 
 /*-------------------------------------------------------*/
 /* Client interface security                             */
 /*-------------------------------------------------------*/
-
-if (phpAds_isUser(phpAds_Client)) {
-    if (phpAds_isAllowed(phpAds_ModifyBanner)) {
-        $result = phpAds_dbQuery("
-            SELECT
-                campaignid
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['banners']}
-            WHERE
-                bannerid = '{$bannerid}'
-            ") or phpAds_sqlDie();
-        $row = phpAds_dbFetchArray($result);
-
-        if ($row["campaignid"] == '' || phpAds_getUserID() != phpAds_getCampaignParentClientID ($row["campaignid"])) {
-            phpAds_PageHeader("1");
-            phpAds_Die ($strAccessDenied, $strNotAdmin);
-        } else {
-            $campaignid = $row["campaignid"];
-        }
-    } else {
-        phpAds_PageHeader("1");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
+MAX_Permission::checkIsAllowed(phpAds_ModifyBanner);
+if (!empty($bannerid)) {
+    MAX_Permission::checkAccessToObject('banners', $bannerid);
+} else {
+    MAX_Permission::checkAccessToObject('campaigns', $campaignid);
 }
 
 /*-------------------------------------------------------*/
@@ -143,10 +109,13 @@ if (phpAds_isUser(phpAds_Client)) {
 /*-------------------------------------------------------*/
 
 if (isset($submit)) {
+    $doBanners = OA_Dal::factoryDO('banners');
     // Get the existing banner details (if it is not a new banner)
     if (!empty($bannerid)) {
-        $aBanner = Admin_DA::getAd($bannerid);
-        // check if size has changed        
+        if ($doBanners->get($bannerid)) {
+            $aBanner = $doBanners->toArray();
+        }
+        // check if size has changed
         $size_changed = ($width != $aBanner['width'] || $height != $aBanner['height']) ? true : false;
     }
 
@@ -166,7 +135,6 @@ if (isset($submit)) {
     $aVariables['url']             = (!empty($url) && $url != 'http://') ? $url : '';
     $aVariables['status']          = !empty($status) ? $status : '';
     $aVariables['storagetype']     = $type;
-    $aVariables['htmlcache']       = !empty($aVariables['htmltemplate']) ? (phpAds_getBannerCache($aVariables)) : '';
     $aVariables['filename']        = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
     $aVariables['contenttype']     = !empty($aBanner['contenttype']) ? $aBanner['contenttype'] : '';
     $aVariables['contenttype']     = ($type == 'url') ? _getFileContentType($aVariables['imageurl']) : $aVariables['contenttype'];
@@ -174,6 +142,59 @@ if (isset($submit)) {
     $aVariables['alt_filename']    = !empty($aBanner['alt_filename']) ? $aBanner['alt_filename'] : '';
     $aVariables['alt_contenttype'] = !empty($aBanner['alt_contenttype']) ? $aBanner['alt_contenttype'] : '';
     $aVariables['comments']        = $comments;
+    $aVariables['compiledlimitation'] = '';
+    $aVariables['append'] = '';
+
+    if (isset($keyword) && $keyword != '') {
+        $keywordArray = split('[ ,]+', trim($keyword));
+        $aVariables['keyword'] = implode(' ', $keywordArray);
+    } else {
+        $aVariables['keyword'] = '';
+    }
+
+    // Handle SWF transparency
+    if ($aVariables['contenttype'] == 'swf') {
+        $aVariables['transparent'] = isset($transparent) && $transparent ? 1 : 0;
+    }
+
+    // Update existing hard-coded links
+    if ($aVariables['contenttype'] == 'swf' && isset($alink) && is_array($alink) && count($alink)) {
+        // Prepare the parameters
+        $parameters_complete = array();
+
+        // Prepare targets
+        if (!isset($atar) || !is_array($atar)) {
+            $atar = array();
+        }
+
+        while (list ($key, $val) = each ($alink)) {
+            if (substr($val, 0, 7) == 'http://' && strlen($val) > 7) {
+                if (!isset($atar[$key])) {
+                    $atar[$key] = '';
+                }
+
+                if (isset($alink_chosen) && $alink_chosen == $key) {
+                    $final['url'] = $val;
+                    $final['target'] = $atar[$key];
+                }
+/*
+                if (isset($asource[$key]) && $asource[$key] != '') {
+                    $val .= '|source:'.$asource[$key];
+                }
+*/
+                $parameters_complete[$key] = array(
+                    'link' => $val,
+                    'tar'  => $atar[$key]
+                );
+            }
+        }
+
+        $parameters = array('swf' => $parameters_complete);
+    } else {
+        $parameters = null;
+    }
+
+    $aVariables['parameters'] = serialize($parameters);
 
     $editSwf = false;
 
@@ -220,16 +241,14 @@ if (isset($submit)) {
     }
 
     // File the data
+    $doBanners->setFrom($aVariables);
     if (!empty($bannerid)) {
-        Admin_DA::updateAd($bannerid, $aVariables);
+        $doBanners->update();
         if ($size_changed) {
             MAX_adjustAdZones($bannerid);
         }
     } else {
-        $bannerid = Admin_DA::addAd($aVariables);
-        $aVariables = array('ad_id' => $bannerid, 'zone_id' => 0);
-        Admin_DA::addAdZone($aVariables);
-        MAX_addDefaultPlacementZones($bannerid, $campaignid);
+        $bannerid = $doBanners->insert();
         // Run the Maintenance Priority Engine process
         MAX_Maintenance_Priority::run();
     }
@@ -254,16 +273,10 @@ if (isset($submit)) {
 
 if ($bannerid != '') {
     // Fetch the data from the database
-
-    $res = phpAds_dbQuery("
-        SELECT
-            *
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['banners']}
-        WHERE
-            bannerid = '{$bannerid}'
-    ") or phpAds_sqlDie();
-    $row = phpAds_dbFetchArray($res);
+    $doBanners = OA_Dal::factoryDO('banners');
+    if ($doBanners->get($bannerid)) {
+        $row = $doBanners->toArray();
+    }
 
     if (isset($session['prefs']['campaign-banners.php'][$campaignid]['listorder'])) {
         $navorder = $session['prefs']['campaign-banners.php'][$campaignid]['listorder'];
@@ -282,25 +295,42 @@ if ($bannerid != '') {
     $hardcoded_links   = array();
     $hardcoded_targets = array();
     $hardcoded_sources = array();
+
+    // Check for hard-coded links
+    if (!empty($row['parameters'])) {
+        $aSwfParams = unserialize($row['parameters']);
+        if (!empty($aSwfParams['swf'])) {
+            foreach ($aSwfParams['swf'] as $iKey => $aSwf) {
+                $hardcoded_links[$iKey]   = $aSwf['link'];
+                $hardcoded_targets[$iKey] = $aSwf['tar'];
+                $hardcoded_sources[$iKey] = '';
+            }
+        }
+    }
 } else {
     // Set default values for new banner
     $row['alt']          = '';
-    $row['status']          = '';
-    $row['bannertext']      = '';
+    $row['status']       = '';
+    $row['bannertext']   = '';
     $row['url']          = "http://";
-    $row['target']          = '';
-    $row['imageurl']      = "http://";
-    $row['width']          = '';
-    $row['height']          = '';
+    $row['target']       = '';
+    $row['imageurl']     = "http://";
+    $row['width']        = '';
+    $row['height']       = '';
     $row['htmltemplate'] = '';
     $row['description']  = '';
+    $row['comments']     = '';
+    $row['contenttype']  = '';
+    $row['adserver']     = '';
+    $row['transparent']  = 0;
+    $row['keyword']      = '';
 
     $hardcoded_links = array();
     $hardcoded_targets = array();
 }
 
 $session['htmlerrormsg'] = '';
-    
+
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
@@ -417,7 +447,7 @@ echo ">
         <input type='hidden' name='type' value='{$type}'>
 ";
 
-if(isset($session['htmlerrormsg']) && strlen($session['htmlerrormsg']) > 0) { 
+if(isset($session['htmlerrormsg']) && strlen($session['htmlerrormsg']) > 0) {
     echo '<font color="red">'. $session['htmlerrormsg'] . '</font>';
     echo "&nbsp;<input type='submit' name='submit' value='Save Anyway' tabindex='10'>";
 }
@@ -557,6 +587,18 @@ if ($type == 'sql') {
         echo "<td width='200'>".$strSize."</td>";
         echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
         echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
+    }
+
+    if (!isset($row['contenttype']) || $row['contenttype'] == 'swf')
+    {
+        echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+        echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+        echo "<tr><td width='30'>&nbsp;</td>";
+        echo "<td width='200'>".$strSwfTransparency."</td>";
+        echo "<td><select name='transparent' tabindex='".($tabindex++)."'>";
+            echo "<option value='1'".($row['transparent'] == 1 ? ' selected' : '').">".$strYes."</option>";
+            echo "<option value='0'".($row['transparent'] != 1 ? ' selected' : '').">".$strNo."</option>";
+        echo "</select></td></tr>";
     }
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
@@ -746,6 +788,18 @@ if ($type == 'web') {
         echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
     }
 
+    if (!isset($row['contenttype']) || $row['contenttype'] == 'swf')
+    {
+        echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+        echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+        echo "<tr><td width='30'>&nbsp;</td>";
+        echo "<td width='200'>".$strSwfTransparency."</td>";
+        echo "<td><select name='transparent' tabindex='".($tabindex++)."'>";
+            echo "<option value='1'".($row['transparent'] == 1 ? ' selected' : '').">".$strYes."</option>";
+            echo "<option value='0'".($row['transparent'] != 1 ? ' selected' : '').">".$strNo."</option>";
+        echo "</select></td></tr>";
+    }
+
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
     echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
     echo "</table>";
@@ -907,6 +961,12 @@ if ($type == 'txt') {
 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+
+    echo "<tr><td width='30'>&nbsp;</td>";
+    echo "<td width='200'>".$strKeyword."</td>";
+    echo "<td><input class='flat' size='35' type='text' name='keyword' style='width:350px;' value='".phpAds_htmlQuotes($row["keyword"])."' tabindex='".($tabindex++)."'></td></tr>";
+    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strDescription."</td>";

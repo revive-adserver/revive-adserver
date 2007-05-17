@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -28,13 +28,14 @@ $Id$
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/Entities.php';
 require_once MAX_PATH . '/lib/max/Dal/Statistics.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/Entity/Placement.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressions.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once MAX_PATH . '/lib/max/Plugin/DeliveryLimitations/MatchOverlap.php';
 require_once MAX_PATH . '/plugins/reports/lib.php';
 require_once MAX_PATH . '/plugins/reports/Reports.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 require_once 'Date.php';
 require_once 'Date/Span.php';
 require_once 'Spreadsheet/Excel/Writer.php';
@@ -345,18 +346,18 @@ class Plugins_Reports_Publisher_ChannelAvailability extends Plugins_ExcelReports
     }
 
     /**
-     * A private method to get an instance of the MAX_Dal_Maintenance_Priority class.
+     * A private method to get an instance of the OA_Dal_Maintenance_Priority class.
      *
      * @access private
-     * @return MAX_Dal_Maintenance_Priority
+     * @return OA_Dal_Maintenance_Priority
      */
-    function &_getMAX_Dal_Maintenance_Priority()
+    function &_getOA_Dal_Maintenance_Priority()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Priority');
+        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
         if (!$oDal) {
-            $oDal = new MAX_Dal_Maintenance_Priority();
-            $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+            $oDal = new OA_Dal_Maintenance_Priority();
+            $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         }
         return $oDal;
     }
@@ -518,8 +519,8 @@ class Plugins_Reports_Publisher_ChannelAvailability extends Plugins_ExcelReports
      * @param mixed $zoneId The ID of the zone that the report is being generated for, as an
      *                      integer, or the string "all" if the report should show all zones
      *                      in the publisher.
-     * @param DaySpan $oDaySpan An object representing the start and end dates of the report
-     *                          period.
+     * @param OA_Admin_DaySpan $oDaySpan An object representing the start and end dates of the report
+     *                                   period.
      * @param integer $threshold The minimum count value - don't display values less than this.
      */
     function execute($publisherId, $channelId, $zoneId, $oDaySpan, $threshold)

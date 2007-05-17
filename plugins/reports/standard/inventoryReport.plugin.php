@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -39,7 +39,7 @@ require_once MAX_PATH . '/plugins/reports/lib.php';
 
 class Plugins_Reports_Standard_InventoryReport extends Plugins_ExcelReports
 {
-    /* @var DaySpan */
+    /* @var OA_Admin_DaySpan */
     var $_daySpan;
 
     /* @var int */
@@ -174,7 +174,7 @@ class Plugins_Reports_Standard_InventoryReport extends Plugins_ExcelReports
         //validate impressions input
         $this->_thresholdValidate();
 
-        if (!$this->dal->obtainLock('InventoryReport')) {
+        if (!$this->dal->obtainReportLock('InventoryReport')) {
             echo '
             <script language="javascript">
             alert("This report is currently locked by another user. Please try again later.");
@@ -209,7 +209,7 @@ class Plugins_Reports_Standard_InventoryReport extends Plugins_ExcelReports
         }
 
         $this->closeExcelReport();
-        $this->dal->releaseLock('InventoryReport');
+        $this->dal->releaseReportLock('InventoryReport');
     }
 
     /**

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -57,6 +57,84 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
     }
 
     /**
+     * A private method to insert test run data.
+     *
+     * @access private
+     */
+    function _insertTestRunData()
+    {
+        $oDbh = &OA_DB::singleton();
+        $aTables = array(
+            'max_data_raw_ad_request',
+            'max_data_raw_ad_impression',
+            'max_data_raw_ad_click'
+
+        );
+        foreach ($aTables as $table) {
+            $query = "
+                INSERT INTO
+                    $table
+                    (
+                        ad_id,
+                        creative_id,
+                        zone_id,
+                        date_time
+                    )
+                VALUES
+                    (?, ?, ?, ?)";
+            $aTypes = array(
+                'integer',
+                'integer',
+                'integer',
+                'timestamp'
+            );
+            $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+            $aData = array(
+                0,
+                0,
+                0,
+                '2004-06-06 18:00:00'
+            );
+            $rows = $st->execute($aData);
+            $aData = array(
+                0,
+                0,
+                0,
+                '2004-06-06 17:59:59'
+            );
+            $rows = $st->execute($aData);
+            $aData = array(
+                0,
+                0,
+                0,
+                '2004-06-06 17:00:00'
+            );
+            $rows = $st->execute($aData);
+            $aData = array(
+                0,
+                0,
+                0,
+                '2004-06-06 16:59:59'
+            );
+            $rows = $st->execute($aData);
+            $aData = array(
+                0,
+                0,
+                0,
+                '2004-06-06 16:00:00'
+            );
+            $rows = $st->execute($aData);
+            $aData = array(
+                0,
+                0,
+                0,
+                '2004-06-06 15:59:59'
+            );
+            $rows = $st->execute($aData);
+        }
+    }
+
+    /**
      * A method to test the run() method.
      */
     function testRun()
@@ -65,8 +143,8 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
         $conf['maintenance']['operationInterval'] = 60;
         $conf['table']['prefix'] = 'max_';
         $conf['table']['split'] = false;
-        $tables = MAX_Table_Core::singleton();
-        $dbh = &MAX_DB::singleton();
+        $tables = &OA_DB_Table_Core::singleton();
+        $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
         // Create the required tables
         $tables->createTable('campaigns_trackers');
@@ -74,17 +152,36 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
         $tables->createTable('data_raw_ad_impression');
         $tables->createTable('data_raw_ad_request');
         $tables->createTable('log_maintenance_statistics');
-        // Get the data for the tests
-        include_once MAX_PATH . '/lib/max/Maintenance/data/TestOfMaintenanceStatisticsCommon.php';
         // Insert the test data
-        $result = $dbh->query(COMMON_DELETE_OLD_DATA_CAMPAIGNS_TRACKERS);
-        $result = $dbh->query(COMMON_DELETE_OLD_DATA_AD_CLICKS);
-        $result = $dbh->query(COMMON_DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $result = $dbh->query(COMMON_DELETE_OLD_DATA_AD_REQUESTS);
+        $query = "
+            INSERT INTO
+                max_campaigns_trackers
+                (
+                    viewwindow,
+                    clickwindow
+                )
+            VALUES
+                (?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            0,
+            60
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            0,
+            3600
+        );
+        $rows = $st->execute($aData);
+        $this->_insertTestRunData();
         // Set compact_stats to false
         $conf['maintenance']['compactStats'] = false;
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_DeleteOldData object
         $oDeleteOldData = new MAX_Maintenance_Statistics_Common_Task_DeleteOldData();
@@ -95,22 +192,25 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         // Set compact_stats to true
         $conf['maintenance']['compactStats'] = true;
         // Set compact_stats grace to one hour
@@ -118,7 +218,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
         // Disable the tracker
         $conf['modules']['Tracker'] = false;
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateFinal = false;
         $oMaintenanceStatistics->updateIntermediate = false;
         $oMaintenanceStatistics->updateUsingOI = false;
@@ -132,24 +232,27 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateFinal = true;
         $oMaintenanceStatistics->updateIntermediate = false;
         $oMaintenanceStatistics->updateUsingOI = false;
@@ -163,24 +266,27 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateFinal = false;
         $oMaintenanceStatistics->updateIntermediate = true;
         $oMaintenanceStatistics->updateUsingOI = true;
@@ -194,24 +300,27 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 6);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateFinal = true;
         $oMaintenanceStatistics->updateIntermediate = false;
         $oMaintenanceStatistics->updateUsingOI = true;
@@ -226,22 +335,25 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         // Drop and re-create the tables
         $tables->dropTable($conf['table']['prefix'].$conf['table']['data_raw_ad_click']);
         $tables->dropTable($conf['table']['prefix'].$conf['table']['data_raw_ad_impression']);
@@ -252,11 +364,9 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
         $tables->createTable('data_raw_ad_request');
         $tables->createTable('log_maintenance_statistics');
         // Re-insert the test data
-        $result = $dbh->query(COMMON_DELETE_OLD_DATA_AD_CLICKS);
-        $result = $dbh->query(COMMON_DELETE_OLD_DATA_AD_IMPRESSIONS);
-        $result = $dbh->query(COMMON_DELETE_OLD_DATA_AD_REQUESTS);
+        $this->_insertTestRunData();
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateFinal = false;
         $oMaintenanceStatistics->updateIntermediate = true;
         $oMaintenanceStatistics->updateUsingOI = false;
@@ -271,22 +381,25 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $row = $dbh->getRow($query);
-        $this->assertEqual($row['number'], 3);
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
         // Reset the testing environment
         TestEnv::restoreEnv();
     }

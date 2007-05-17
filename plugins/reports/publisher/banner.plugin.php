@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -117,12 +117,11 @@ class Plugins_Reports_Publisher_Banner extends Plugins_Reports {
     {
         require_once 'Spreadsheet/Excel/Writer.php';
 
-        $conf = & $GLOBALS['_MAX']['CONF'];
-
     	global $date_format;
     	global $phpAds_ThousandsSeperator,$phpAds_DecimalPoint;
 
     	$conf = & $GLOBALS['_MAX']['CONF'];
+        $oDbh = & OA_DB::singleton();
 
     	$reportName = $GLOBALS['strPublisherBannerAnalysisReport'];
 
@@ -154,7 +153,6 @@ class Plugins_Reports_Publisher_Banner extends Plugins_Reports {
         $formatRight->setAlign('right');
         // formatting for excel - end
 
-
         $query = "SELECT
                        c.campaignname
                       ,c.priority
@@ -174,13 +172,16 @@ class Plugins_Reports_Publisher_Banner extends Plugins_Reports {
                    AND ds.ad_id = b.bannerid
                    AND b.campaignid = c.campaignid
                    AND c.clientid = cl.clientid
-                   AND z.affiliateid = '".$affiliateid."'
-                   AND ds.day >= '$dbStart'
-                   AND ds.day <= '$dbEnd'
+                   AND z.affiliateid = ". $oDbh->quote($affiliateid, 'integer') ."
+                   AND ds.day >= ". $oDbh->quote($dbStart, 'date') ."
+                   AND ds.day <= ". $oDbh->quote($dbEnd, 'date') ."
                  GROUP BY campaignname, priority, bannername, zonename
                  ORDER BY priority, clientname, campaignname ASC";
 
-    	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
+        $res = $oDbh->query($query);
+        if (PEAR::isError($res)) {
+                return $res;
+        }
 
     	// if there is any data for this query
     	if (phpAds_dbNumRows($res)) {

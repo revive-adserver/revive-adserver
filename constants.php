@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -29,24 +29,21 @@ $Id$
  * @package    Max
  * @author     Andrew Hill <andrew@m3.net>
  *
- * A file to set up the environment constants for Max.
+ * A file to set up the environment constants for Openads.
  */
 
 /**
- * The environmental constants initialisation function for Max.
+ * The environmental constants initialisation function for Openads.
  */
 function setupConstants()
 {
-    // Define this version of Max's constants
-    define('MAX_VERSION',           '0.3');
-    define('MAX_VERSION_READABLE',  'v0.3.32-alpha');
-    define('MAX_PRODUCT_NAME',      'Max Media Manager');
-    define('MAX_PRODUCT_URL',       'max.m3.net');
+    // Define this version of Openads's constants
+    define('MAX_VERSION',           '2.3');
+    define('OA_VERSION' ,           '2.3.32');
+    define('MAX_VERSION_READABLE',  'v2.3.32-beta');
+    define('MAX_PRODUCT_NAME',      'Openads');
+    define('MAX_PRODUCT_URL',       'www.openads.org');
 
-    // Old PAN "constants" still required
-    // TODO: remove these definitions from the only place that uses them - www/admin/lib-db.inc.php
-    define('phpAds_adminDb',  1);
-    define('phpAds_rawDb',    2);
     // This old PAN constant is used in a couple places but could well conflict with the configured DB
     // TODO: find any uses of this constant and re-think their place.
     define('phpAds_dbmsname', 'MySQL');
@@ -54,7 +51,7 @@ function setupConstants()
     // Database connection constants
     define('MAX_DSN_ARRAY',                 0);
     define('MAX_DSN_STRING',                1);
-    $GLOBALS['_MAX']['CONNECTIONS'] =       array();
+    $GLOBALS['_OA']['CONNECTIONS'] =        array();
 
     // Error codes to use with MAX::raiseError()
     // Start at -100 in order not to conflict with PEAR::DB error codes
@@ -168,10 +165,6 @@ function setupConstants()
         MAX_CONNECTION_TYPE_SIGNUP => 'strConnTypeSignUp',
     );
 
-    define('MAX_DELIVERY_1x1', 'R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==');
-    define('MAX_DELIVERY_MULTIPLE_DELIMITER', '|');
-    define('MAX_COOKIELESS_PREFIX', '__');
-
     // IP Address used to determine which (if any) MaxMind databases are installed
     define('MAX_MIND_TEST_IP', '24.24.24.24');
 
@@ -205,43 +198,42 @@ function setupConstants()
 
     // Ensure that the initialisation has not been run before
     if (!(isset($GLOBALS['_MAX']['CONF']))) {
-        // Define the Max installation base path if not defined
+        // Define the Openads installation base path if not defined
         // since Local mode will pre-define this value
         if (!defined('MAX_PATH')) {
             define('MAX_PATH', dirname(__FILE__));
         }
         // Define the PEAR installation path
-        ini_set('include_path', MAX_PATH . '/lib/pear');
+        $existingPearPath = ini_get('include_path');
+        $newPearPath = MAX_PATH . '/lib/pear';
+        if (!empty($existingPearPath)) {
+            $newPearPath .= PATH_SEPARATOR . $existingPearPath;
+        }
+        ini_set('include_path', $newPearPath);
         // Define the week to start on Sunday (0) so that the PEAR::Date and
         // PEAR::Date_Calc classes agree on what day is the start of the week
         define('DATE_CALC_BEGIN_WEEKDAY', 0);
-        // Set the TZ environment variable, so that PEAR::Date class knows
-        // which timezone we are in, and doesn't screw up the dates after using
-        // the PEAR::compare() method
-        if (getenv('TZ') === false) {
-            $diff = date('O') / 100;
-            putenv('TZ=GMT'.($diff > 0 ? '-' : '+').abs($diff));
-        }
-        // Parse the Max configuration file
+        // Parse the Openads configuration file
         $GLOBALS['_MAX']['CONF'] = parseIniFile();
-        // Define the Max Cache File location path (required trailing slash)
+        // Define the Openads Cache File location path (required trailing slash)
         if (empty($GLOBALS['_MAX']['CONF']['delivery']['cachePath'])) {
             define('MAX_CACHE', MAX_PATH . '/var/cache/');
         } else {
             define('MAX_CACHE', $GLOBALS['_MAX']['CONF']['delivery']['cachePath']);
         }
-        // Define the Max Plugins Cache File location path (required trailing slash)
+        // Define the Openads Plugins Cache File location path (required trailing slash)
         if (empty($GLOBALS['_MAX']['CONF']['delivery']['pluginsCachePath'])) {
             define('MAX_PLUGINS_CACHE', MAX_PATH . '/var/plugins/');
         } else {
             define('MAX_PLUGINS_CACHE', $GLOBALS['_MAX']['CONF']['delivery']['pluginsCachePath']);
         }
         // Set the URL access mechanism
-        if ($GLOBALS['_MAX']['CONF']['max']['requireSSL']) {
+        if (!empty($GLOBALS['_MAX']['CONF']['openads']['requireSSL'])) {
             $GLOBALS['_MAX']['HTTP'] = 'https://';
         } else {
             if (isset($_SERVER['SERVER_PORT'])) {
-                if ($_SERVER['SERVER_PORT'] == $GLOBALS['_MAX']['CONF']['max']['sslPort']) {
+                if (isset($GLOBALS['_MAX']['CONF']['openads']['sslPort']) &&
+                    $_SERVER['SERVER_PORT'] == $GLOBALS['_MAX']['CONF']['openads']['sslPort']) {
                     $GLOBALS['_MAX']['HTTP'] = 'https://';
                 } else {
                     $GLOBALS['_MAX']['HTTP'] = 'http://';
@@ -287,8 +279,5 @@ function mergeConfigFiles($realConfig, $fakeConfig)
     }
     return $realConfig;
 }
-
-// Run the setupConstants() function
-//setupConstants();
 
 ?>

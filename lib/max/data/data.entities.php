@@ -1,4 +1,30 @@
 <?php
+
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
         $entities = array(
          'ad' => array (
                   'd.bannerid' => 'ad_id',
@@ -33,7 +59,9 @@
                   'd.alt_filename' => 'alt_filename',
                   'd.alt_imageurl' => 'alt_imageurl',
                   'd.alt_contenttype' => 'alt_contenttype',
-                  'd.comments' => 'comments'
+                  'd.comments' => 'comments',
+                  'd.transparent' => 'transparent',
+                  'd.parameters' => 'parameters'
                 ),
          'advertiser' => array (
                   'a.clientid' => 'advertiser_id',
@@ -150,7 +178,8 @@
                   't.viewwindow' => 'viewwindow',
                   't.clickwindow' => 'clickwindow',
                   't.blockwindow' => 'blockwindow',
-                  't.variablemethod' => 'variablemethod'
+                  't.variablemethod' => 'variablemethod',
+                  't.appendcode' => 'appendcode'
                 ),
          'variable' => array (
                   'v.variableid' => 'variable_id',
@@ -182,7 +211,9 @@
                   'z.technology_cost_type' => 'technology_cost_type',
                   'z.block' => 'block',
                   'z.capping' => 'capping',
-                  'z.session_capping' => 'session_capping'
+                  'z.session_capping' => 'session_capping',
+                  'z.category' => 'category',
+                  'z.ad_selection' => 'ad_selection'
                 )
          );
 

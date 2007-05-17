@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -26,10 +26,10 @@ $Id:advertisingAnalysisReport.plugin.php 114 2006-03-03 14:32:10Z roh@m3.net $
 */
 
 /**
- * Advertising Analysis report plug-in for Max Media Manager
+ * Advertising Analysis report plug-in for Openads
  *
- * @since 0.3.19 - Feb 20, 2006
- * @copyright 2006 M3 Media Services
+ * @since Openads v2.3.19-alpha - Feb 20, 2006
+ * @copyright 2003-2007 Openads Limited
  * @version $Id:advertisingAnalysisReport.plugin.php 65 2006-02-24 16:51:48Z roh@m3.net $
  */
 
@@ -43,7 +43,7 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends EnhancedReport
     /* @var ReportScope */
     var $_scope;
 
-    /* @var DaySpan */
+    /* @var OA_Admin_DaySpan */
     var $_daySpan;
 
     function initInfo()
@@ -147,8 +147,6 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends EnhancedReport
 
     function addDailyEffectivenessSheet()
     {
-        require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsControllerFactory.php';
-
         if (is_null($this->_daySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
@@ -192,8 +190,6 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends EnhancedReport
 
     function addCampaignEffectivenessSheet()
     {
-        require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsControllerFactory.php';
-
         if (is_null($this->_daySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
@@ -233,8 +229,6 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends EnhancedReport
 
     function addZoneEffectivenessSheet()
     {
-        require_once MAX_PATH . '/lib/max/Admin/Statistics/StatsControllerFactory.php';
-
         if (is_null($this->_daySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {

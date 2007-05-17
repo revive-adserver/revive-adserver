@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -43,19 +43,19 @@ class TestOfPriorityTask extends UnitTestCase
     function TestOfPriorityTask()
     {
         $this->UnitTestCase();
-        Mock::generate('MAX_Dal_Maintenance_Priority');
+        Mock::generate('OA_Dal_Maintenance_Priority');
     }
 
     function testRunnerHasResources()
     {
-        // Mock the MAX_Dal_Maintenance_Priority class used in the constructor method
-        $oDal = new MockMAX_Dal_Maintenance_Priority($this);
+        // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
+        $oDal = new MockOA_Dal_Maintenance_Priority($this);
         $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+        $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         $task = new MAX_Maintenance_Priority_Adserver_Task();
         $this->assertTrue(is_object($task->oDal));
-        $this->assertTrue(is_a($task->oDal, 'MockMAX_Dal_Maintenance_Priority'));
+        $this->assertTrue(is_a($task->oDal, 'MockOA_Dal_Maintenance_Priority'));
     }
 }
 

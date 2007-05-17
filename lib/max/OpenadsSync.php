@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -25,7 +25,8 @@
 $Id$
 */
 
-require_once('XML/RPC.php');
+require_once MAX_PATH . '/lib/OA/DB.php';
+require_once 'XML/RPC.php';
 
 /**
  * A class to deal with the services provided by Openads Sync
@@ -38,8 +39,8 @@ class MAX_OpenadsSync
 {
     var $conf;
     var $pref;
-    var $dbh;
-    
+    var $oDbh;
+
     var $_openadsServer = array(
         'host'   => 'sync.openads.org',
         'script' => '/xmlrpc.php',
@@ -56,8 +57,8 @@ class MAX_OpenadsSync
     {
         $this->conf = is_null($conf) ? $GLOBALS['_MAX']['CONF'] : $conf;
         $this->pref = is_null($pref) ? $GLOBALS['_MAX']['PREF'] : $pref;
-        
-        $this->dbh = &MAX_DB::singleton();
+
+        $this->oDbh = &OA_DB::singleton();
     }
 
     /**
@@ -99,10 +100,10 @@ class MAX_OpenadsSync
             'rc'     => 3,
             'stable' => 4
         );
-        
+
         $v = preg_split('/[.-]/', substr(MAX_VERSION_READABLE, 1));
         $v = array_pad($v, 4, '');
-        
+
         return $v[0] * 100 + $v[1] * 10 + $v[2] / 100 + $a[$v[3]] / 1000;
     }
 
@@ -122,7 +123,7 @@ class MAX_OpenadsSync
         // Create client object
         $client = new XML_RPC_Client($this->_openadsServer['script'],
             $this->_openadsServer['host'], $this->_openadsServer['port']);
-            
+
         $params = array(
             new XML_RPC_Value('MMM-0.3', 'string'),
             new XML_RPC_Value($this->getConfigVersion(), 'string'),
@@ -130,19 +131,19 @@ class MAX_OpenadsSync
             new XML_RPC_Value('', 'string'),
             new XML_RPC_Value($this->pref['instance_id'], 'string')
         );
-        
+
         if ($send_sw_data) {
             // Prepare software data
             $params[] = XML_RPC_Encode(array(
                 'os_type'                    => php_uname('s'),
                 'os_version'                => php_uname('r'),
-                
+
                 'webserver_type'            => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^(.*?)/.*$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
                 'webserver_version'            => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^.*?/(.*?)(?: .*)?$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
-    
+
                 'db_type'                    => $GLOBALS['phpAds_dbmsname'],
-                'db_version'                => $this->dbh->getOne("SELECT VERSION()"),
-                
+                'db_version'                => $this->oDbh->queryOne("SELECT VERSION()"),
+
                 'php_version'                => phpversion(),
                 'php_sapi'                    => ucfirst(php_sapi_name()),
                 'php_extensions'            => get_loaded_extensions(),
@@ -153,19 +154,19 @@ class MAX_OpenadsSync
                 'php_upload_tmp_readable'    => (bool)is_readable(ini_get('upload_tmp_dir').DIRECTORY_SEPARATOR),
             ));
         }
-        
+
         // Create XML-RPC request message
         $msg = new XML_RPC_Message("Openads.Sync", $params);
-    
+
         // Send XML-RPC request message
         if($response = $client->send($msg, 10)) {
             // XML-RPC server found, now checking for errors
             if (!$response->faultCode()) {
                 $ret = array(0, XML_RPC_Decode($response->value()));
-                
+
                 // Save to cache only when additional data was sent
                 if ($send_sw_data) {
-                    $this->dbh->query("
+                    $this->oDbh->exec("
                         UPDATE
                             {$this->conf['table']['prefix']}{$this->conf['table']['preference']}
                         SET
@@ -178,10 +179,10 @@ class MAX_OpenadsSync
             } else {
                 $ret = array($response->faultCode(), $response->faultString());
             }
-            
+
             return $ret;
         }
-        
+
         return array(-1, 'No response from the server');
     }
 }

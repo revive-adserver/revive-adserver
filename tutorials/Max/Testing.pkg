@@ -4,7 +4,7 @@
   <refpurpose>Describes how to write Unit Tests</refpurpose>
  </refnamediv>
  <para>
-  When writing unit tests for Max (in
+  When writing unit tests for Openads (in
   {@link http://www.lastcraft.com/simple_test.php Simple Test}),
   please keep in mind that only classes and functions that actually access
   the database directly (or exist in the data access later to provide a

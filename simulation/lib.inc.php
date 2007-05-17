@@ -1,5 +1,30 @@
 <?php
 
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
 function display_error($message, $data='')
 {
     $error = true;
@@ -14,9 +39,9 @@ function check_environment()
     }
     else
     {
-        if (!file_exists(MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.ini"))
+        if (!file_exists(MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.php"))
         {
-            copy(MAX_PATH.'/etc/sim.conf.ini', MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.ini");
+            copy(MAX_PATH.'/etc/sim.conf.php', MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.php");
         }
     }
     if (!folder_is_writable(SIM_PATH.'/'.FOLDER_DATA))
@@ -39,11 +64,11 @@ function get_conf()
     {
         define('TEST_ENVIRONMENT_RUNNING', true);
     }
-    if (!file_exists(MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.ini"))
+    if (!file_exists(MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.php"))
     {
         if (folder_is_writable(MAX_PATH.'/var'))
         {
-            copy(MAX_PATH.'/etc/sim.conf.ini', MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.ini");
+            copy(MAX_PATH.'/etc/sim.conf.php', MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.php");
         }
     }
     require_once MAX_PATH.'/init-delivery-parse.php';
@@ -117,7 +142,7 @@ function write_sim_ini_file($confAll)
     require_once MAX_PATH.'/lib/max/Delivery/common.php';
     $conf = MAX_commonSlashArray($conf);
     $content = parse_conf_for_ini_file($conf, $content, true);
-    if ($handle = fopen(MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.ini", 'w'))
+    if ($handle = fopen(MAX_PATH."/var/{$_SERVER['HTTP_HOST']}.conf.php", 'w'))
     {
        fwrite($handle, $content);
        fclose($handle);
@@ -202,7 +227,7 @@ function get_var_config_files()
     $rDIR = opendir(MAX_PATH.'/var/');
     while ($file = readdir($rDIR))
     {
-        $i = strpos($file,'.conf.ini');
+        $i = strpos($file,'.conf.php');
         if ($i && ($i+9==strlen($file)))
         {
             $aFiles[] = substr($file,0,$i);
@@ -211,48 +236,6 @@ function get_var_config_files()
     return $aFiles;
 }
 
-function db_connect($dbConf)
-{
-    $dbPort     = isset($dbConf['port']) ? $dbConf['port'] : 3306;
-    $dbHost     = $dbPort != 3306 ? $dbConf['host'].':'.$dbPort : $dbConf['host'];
-    $dbUser     = $dbConf['username'];
-    $dbPassword = $dbConf['password'];
-    $dbName     = $dbConf['name'];
-    $dbLink     = @mysql_connect($dbHost, $dbUser, $dbPassword);
-    if (@mysql_select_db($dbName, $dbLink)) {
-        return $dbLink;
-    }
-    return false;
-}
-
-//function list_tables_like($dbh, $type)
-//{
-//    $query = 'SHOW TABLES LIKE "%'.$type.'%"';
-//    $res = mysql_query($query, $dbh);
-//    while ($tbl = mysql_fetch_row($res))
-//    {
-//    	$aTables[] = $tbl[0];;
-//    }
-//    return $aTables;
-//}
-
-//function list_tables($dbh, $name)
-//{
-//    $res = mysql_list_tables($name, $dbh);
-//    while ($tbl = mysql_fetch_row($res))
-//    {
-//    	$aTables[] = $tbl[0];
-//    }
-//    return $aTables;
-//}
-
-//function list_data_log_tables($dbh, $conf)
-//{
-//    $aData  = list_tables_like($dbh, $conf['simdb']['prefix'].'data_');
-//    $aLog   = list_tables_like($dbh, $conf['simdb']['prefix'].'log_');
-//    $aTables = array_merge($aData, $aLog);
-//    return $aTables;
-//}
 
 function list_core_tables()
 {
@@ -306,13 +289,9 @@ function list_maint_tables()
 
 function get_max_version($dbh, $conf)
 {
-    $result = '';
     $query = "SELECT value FROM {$conf['table']['prefix']}application_variable WHERE name ='max_version'";
-    $res = mysql_query($query, $dbh);
-    while ($val = mysql_fetch_row($res))
-    {
-    	$result = $val[0];;
-    }
+    $result = $dbh->getOne($query);
+
     return $result;
 }
 
@@ -411,7 +390,9 @@ function folder_is_writable($abspath)
 
 function save_scenario($basename, $conf)
 {
-    $dbh = db_connect($conf['database']);
+	$dsn = OA_DB::getDsn($conf);
+    $dbh = &OA_DB::singleton($dsn);
+
     $conf['simdb']['version'] = get_max_version($dbh, $conf);
 
     $versname = $conf['simdb']['version'].'_'.$basename;

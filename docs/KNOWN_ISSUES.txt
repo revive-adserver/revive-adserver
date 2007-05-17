@@ -1,9 +1,9 @@
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -21,12 +21,12 @@
 +---------------------------------------------------------------------------+
 
 Please see http://trac.openads.org/ for the latest known bugs. The following
-is a list of the major features that aren't in Max, as opposed to bugs that
+is a list of the major features that aren't in Openads, as opposed to bugs that
 have been found.
 
 +---------------------------------------------------------------------------+
 
-- Max v0.3 is undergoing major surgery to keywords. If you use keywords,
+- Openads v2.3 is undergoing major surgery to keywords. If you use keywords,
   it is NOT advisable to use this build, as support is incomplete.
 
   (Basically, keywords are becoming categories, which will have
@@ -54,20 +54,20 @@ have been found.
   preference, they agency should get the new admin preference. They
   dont.)
 
-- The version of PEAR::Config used in Max has been patched, but the
+- The version of PEAR::Config used in Openads has been patched, but the
   patch has not yet been accepted by the maintainers yet. As a result,
   the version of PEAR::Config should not be updated.
 
-- The version of PEAR::Cache_Lite used in Max has been patched, but the
+- The version of PEAR::Cache_Lite used in Openads has been patched, but the
   patch has not yet been accepted by the maintainers yet. As a result,
   the version of PEAR::Cache_Lite should not be updated.
 
-- The version of PEAR::DB used in Max has been patched, but the
+- The version of PEAR::DB used in Openads has been patched, but the
   patch has not yet been accepted by the maintainers yet. As a result,
   updates to PEAR::DB could be unstable, although the issue has only
   been replicated in a development environment.
 
-- The version of PEAR::Date used in Max has been patched. See
+- The version of PEAR::Date used in Openads has been patched. See
   http://pear.php.net/bugs/bug.php?id=2338.
 
 - The test suite won't completely work in PHP 5, due to the way mock

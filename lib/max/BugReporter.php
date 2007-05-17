@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -25,8 +25,9 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/DB.php';
 require_once MAX_PATH . '/lib/max/Emailer.php';
+
+require_once MAX_PATH . '/lib/OA/DB.php';
 
 /**
  * Simple class to package server + client environment and email
@@ -38,7 +39,7 @@ class MAX_BugReporter
 {
     var $_clientInfo = array();
     var $_serverInfo = array();
-    
+
     function MAX_BugReporter()
     {
         $this->_clientInfo = $this->getClientInfo();
@@ -50,51 +51,50 @@ class MAX_BugReporter
     {
         $aServerInfo = array();
         //  get db info
-        $dbh = & MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
 
-        $lastQuery = $dbh->last_query;
-        $aServerInfo['lastSql'] = isset($dbh->last_query) ? 
-            $dbh->last_query : null;
-        $aServerInfo['phpSapi'] = php_sapi_name();
-        $aServerInfo['phpOs'] = PHP_OS;
-        $aServerInfo['dbType'] = phpAds_dbmsname;
-        $aServerInfo['phpVersion'] = PHP_VERSION;
-        $aServerInfo['serverPort'] = $_SERVER['SERVER_PORT'];
-        $aServerInfo['serverSoftware'] = $_SERVER['SERVER_SOFTWARE'];   
-        $aServerInfo['maxVersion'] = MAX_VERSION_READABLE;
+        $lastQuery = $oDbh->last_query;
+        $aServerInfo['lastSql']        = isset($oDbh->last_query) ? $oDbh->last_query : null;
+        $aServerInfo['phpSapi']        = php_sapi_name();
+        $aServerInfo['phpOs']          = PHP_OS;
+        $aServerInfo['dbType']         = phpAds_dbmsname;
+        $aServerInfo['phpVersion']     = PHP_VERSION;
+        $aServerInfo['serverPort']     = $_SERVER['SERVER_PORT'];
+        $aServerInfo['serverSoftware'] = $_SERVER['SERVER_SOFTWARE'];
+        $aServerInfo['maxVersion']     = MAX_VERSION_READABLE;
         return $aServerInfo;
     }
-    
-    
+
+
     function getClientInfo()
     {
         $aclientInfo = array();
-        $aclientInfo['callingURL'] = $_SERVER['SCRIPT_NAME'];
-        $aclientInfo['httpReferer'] = $_SERVER['HTTP_REFERER'];
+        $aclientInfo['callingURL']    = $_SERVER['SCRIPT_NAME'];
+        $aclientInfo['httpReferer']   = $_SERVER['HTTP_REFERER'];
         $aclientInfo['httpUserAgent'] = $_SERVER['HTTP_USER_AGENT'];
-        $aclientInfo['remoteAddr'] = $_SERVER['REMOTE_ADDR'];
+        $aclientInfo['remoteAddr']    = $_SERVER['REMOTE_ADDR'];
         return $aclientInfo;
     }
-    
+
     function getCurrentUserInfo()
     {
         // not implemented
     }
-    
+
     function buildEnvironmentReport()
     {
         $html = '';
         $data = array_merge($this->_clientInfo, $this->_serverInfo);
         foreach ($data as $k => $v) {
-            $html .= "[$k] => $v \n";   
+            $html .= "[$k] => $v \n";
         }
         return $html;
     }
-    
+
     function buildEmail($report)
     {
         $body = "The following bug report was submitted: \n\n";
-        
+
         $options = array(
             'toEmail'       => 'developers@m3.net',
             'toRealName'    => 'Bug reports list',
@@ -106,14 +106,14 @@ class MAX_BugReporter
             'template'      => MAX_PATH . '/lib/max/resources/emailBugReport.php',
             'username'      => '',
             'siteUrl'       => MAX::constructURL(MAX_URL_ADMIN),
-            'siteName'      => 'Max Media Manager',
+            'siteName'      => 'Openads',
             'crlf'          => ''
         );
         $email = new MAX_Emailer($options);
         $ret = $email->prepare();
         if (PEAR::isError($ret)) {
-            MAX::debug('There was an error preparing the email object', 
-                $file, $line); 
+            MAX::debug('There was an error preparing the email object',
+                $file, $line);
         } else {
             return $email;
         }
@@ -125,46 +125,47 @@ class MAX_BugReporter
  *
  */
 class MAX_BugReport
-{   
+{
     var $email;
     var $first_name;
     var $last_name;
     var $summary;
-    
+
     function MAX_BugReport($oData)
     {
         foreach ($oData as $k => $v) {
             $this->$k = $v;
         }
     }
-    
+
     function getEmail()
     {
         return isset($this->email) ? $this->email : 'anonymous';
     }
-    
+
     function getName()
     {
-        return isset($this->first_name) 
-            ? $this->first_name .' '. $this->last_name 
+        return isset($this->first_name)
+            ? $this->first_name .' '. $this->last_name
             : 'BugReporter';
     }
-    
+
     function getSummary()
     {
         return isset($this->summary) ? $this->summary : 'no summary';
     }
-    
+
     function toString()
     {
         $str = "{{{\n";
         $data = get_object_vars($this);
         foreach ($data as $k => $v) {
-            $str .= "[$k] => $v \n";   
+            $str .= "[$k] => $v \n";
         }
         $str .= "}}}\n";
         return $str;
     }
+
 }
 
 ?>

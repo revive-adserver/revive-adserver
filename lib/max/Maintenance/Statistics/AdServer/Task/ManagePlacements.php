@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -57,11 +57,11 @@ class MAX_Maintenance_Statistics_AdServer_Task_ManagePlacements extends MAX_Main
         if ($this->oController->updateIntermediate) {
             $oServiceLocator = &ServiceLocator::instance();
             $oDate = &$oServiceLocator->get('now');
-            $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Statistics_AdServer');
+            $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
             $this->oController->report .= "Managing (activating/deactivating) placements.\n";
             $message .= 'Managing (activating/deactivating) placements.';
             MAX::debug($message);
-            $this->report .= $oDal->manageCampaigns($oDate);
+            $this->report .= $oDal->managePlacements($oDate);
         }
     }
 

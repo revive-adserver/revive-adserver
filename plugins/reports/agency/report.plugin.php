@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.1                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -116,9 +116,11 @@ class Plugins_Reports_Agency_Report extends Plugins_Reports {
 
     function execute($delimiter=",", $start_date, $end_date)
     {
-        $conf = & $GLOBALS['_MAX']['CONF'];
     	global $date_format;
     	global $strCampaign, $strTotal, $strDay, $strImpressions, $strClicks, $strCTRShort, $strConversions, $strCNVRShort;
+
+        $conf = & $GLOBALS['_MAX']['CONF'];
+        $oDbh = & OA_DB::singleton();
 
     	// Format the start and end dates
         $dbStart = date("Y-m-d", strtotime($start_date));
@@ -161,9 +163,9 @@ class Plugins_Reports_Agency_Report extends Plugins_Reports {
             z.affiliateid = p.affiliateid
 
     	WHERE
-            s.day >= '".$dbStart."'
+            s.day >= ". $oDbh->quote($dbStart, 'date') ."
           AND
-            s.day <= '".$dbEnd."'
+            s.day <= ". $oDbh->quote($dbEnd, 'date') ."
           AND
             b.bannerid = s.ad_id
           AND
@@ -172,7 +174,7 @@ class Plugins_Reports_Agency_Report extends Plugins_Reports {
             a.clientid = c.clientid
           ";
 
-    	$left_query .= (phpAds_isUser(phpAds_Agency)) ? " AND a.agencyid = '".$clientid."'" : '';
+    	$left_query .= (phpAds_isUser(phpAds_Agency)) ? " AND a.agencyid = ". $oDbh->quote($clientid, 'integer') : '';
 
         $left_query .= "
     	GROUP BY
@@ -186,7 +188,10 @@ class Plugins_Reports_Agency_Report extends Plugins_Reports {
             zonename;
     	";
 
-    	$res_banners = phpAds_dbQuery($left_query) or phpAds_sqlDie();
+    	$res_banners = $oDbh->query($left_query);
+        if (PEAR::isError($res_banners)) {
+            return $res_banners;
+        }
 
     	echo "Advertiser".$delimiter."Campaign".$delimiter."Publisher".$delimiter."Zone".$delimiter."Size".$delimiter;
     	echo "Views".$delimiter."Clicks".$delimiter,"Conversions\n\n";
@@ -196,8 +201,7 @@ class Plugins_Reports_Agency_Report extends Plugins_Reports {
     	$totals['conversions'] = 0;
 
 
-    	while ($row_banners = phpAds_dbFetchArray($res_banners))
-    	{
+    	while ($row_banners = $res_banners->fetchRow()) {
     	    $row_banners = str_replace($delimiter, ' ', $row_banners);
 
     	    ($row_banners['width'] == -1) ? $width = '*' : $width = $row_banners['width'];

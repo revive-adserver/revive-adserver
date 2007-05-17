@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -118,12 +118,11 @@ class Plugins_Reports_Publisher_Bannertype extends Plugins_Reports {
 
         require_once 'Spreadsheet/Excel/Writer.php';
 
-        $conf = & $GLOBALS['_MAX']['CONF'];
-
     	global $date_format;
     	global $strAffiliate;
 
     	$conf = & $GLOBALS['_MAX']['CONF'];
+        $oDbh = &OA_DB::singleton();
 
     	$reportName = $GLOBALS['strPublisherBannerTypeAnalysisReport'];
 
@@ -164,16 +163,19 @@ class Plugins_Reports_Publisher_Bannertype extends Plugins_Reports {
                       ,".$conf['table']['prefix'].$conf['table']['banners']." b
                  WHERE z.zoneid = ds.zone_id
                    AND ds.ad_id = b.bannerid
-                   AND z.affiliateid = '".$affiliateid."'
-                   AND ds.day >= '$dbStart'
-                   AND ds.day <= '$dbEnd'
+                   AND z.affiliateid = ". $oDbh->quote($affiliateid, 'integer') ."
+                   AND ds.day >= ". $oDbh->quote($dbStart, 'date')."
+                   AND ds.day <= ". $oDbh->quote($dbEnd, 'date') ."
                  GROUP BY contenttype, type, adserver
                  ORDER BY type";
 
-    	$res = phpAds_dbQuery($query) or phpAds_sqlDie();
+        $res = $oDbh->query($query);
+        if (PEAR::isError($res)) {
+                return $res;
+        }
 
-    	if (phpAds_dbNumRows($res)) {
-        	while ($row = phpAds_dbFetchArray($res)) {
+    	if ($res->numRows()) {
+        	while ($row = $res->fetchRow()) {
         	    $data[] = $row;
         	}
 
@@ -332,31 +334,31 @@ class Plugins_Reports_Publisher_Bannertype extends Plugins_Reports {
 
                     switch ($adserver) {
                         case "max":
-                            $adtype .= "Max Media Manager Rich Media";
+                            $adtype .= "Rich Media - Openads";
                             break;
                         case "atlas":
-                            $adtype .= "Atlas Rich Media";
+                            $adtype .= "Rich Media - Atlas";
                             break;
                         case "bluestreak":
-                            $adtype .= "Bluestreak Rich Media";
+                            $adtype .= "Rich Media - Bluestreak";
                             break;
                         case "doubleclick":
-                            $adtype .= "Doubleclick Rich Media";
+                            $adtype .= "Rich Media - Doubleclick";
                             break;
                         case "eyeblaster":
-                            $adtype .= "Eyeblaster Rich Media";
+                            $adtype .= "Rich Media - Eyeblaster";
                             break;
                         case "falk":
-                            $adtype .= "Falk Rich Media";
+                            $adtype .= "Rich Media - Falk";
                             break;
                         case "mediaplex":
-                            $adtype .= "Mediaplex Rich Media";
+                            $adtype .= "Rich Media - Mediaplex";
                             break;
                         case "tangozebra":
-                            $adtype .= "Tangozebra Rich Media";
+                            $adtype .= "Rich Media - Tangozebra";
                             break;
                         default:
-                            $adtype .= "Generic Rich Media";
+                            $adtype .= "Rich Media - Generic";
                             break;
                     }
 

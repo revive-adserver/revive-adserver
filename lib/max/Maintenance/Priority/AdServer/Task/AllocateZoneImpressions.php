@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -28,7 +28,9 @@ $Id$
 require_once MAX_PATH . '/lib/max/Entity/Placement.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
-require_once MAX_PATH . '/lib/max/Table/Priority.php';
+
+require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
 
 /**
  * A class to allocate the required impressions for each advertisement to
@@ -43,10 +45,7 @@ require_once MAX_PATH . '/lib/max/Table/Priority.php';
  * @package    MaxMaintenance
  * @subpackage Priority
  * @author     Demian Turner <demian@m3.net>
- * @author     Andrew Hill <andrew@m3.net>
- *
- * @TODO Remove code that emails details about over-subscribed zones - only
- * in place at present to assist with debugging...
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
 {
@@ -71,7 +70,7 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
      */
     function run()
     {
-        MAX::debug('Starting to Allocate Zone Impressions.', PEAR_LOG_DEBUG);
+        OA::debug('Starting to Allocate Zone Impressions.', PEAR_LOG_DEBUG);
         // Set the zone forecast information
         $this->_setZoneForecasts();
         // Set the placement information
@@ -247,10 +246,22 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                     // Iterate over all the advertisements in the placement
                     reset($oPlacement->aAds);
                     while (list($advertKey, $oAd) = each($oPlacement->aAds)) {
+                        // Allocate *all* impressions the ad requires to the Direct Selection zone,
+                        // so that direct selection of HPC ads will be based on a system-wide
+                        // weighting of the number of impressions each HPC ad requires
+                        $this->aAdZoneImpressionAllocations[] = array(
+                            'ad_id'                => $oAd->id,
+                            'zone_id'              => 0,
+                            'required_impressions' => $oAd->requiredImpressions,
+                            'campaign_priority'    => $oPlacement->priority
+                        );
                         // Set the ad/zone association information for the advertisement
+                        if (!isset($this->aAdZoneAssociations[$oPlacement->id][$oPlacement->aAds[$advertKey]->id])) {
+                            continue;
+                        }
                         $oPlacement->aAds[$advertKey]->zones =
                             $this->aAdZoneAssociations[$oPlacement->id][$oPlacement->aAds[$advertKey]->id];
-                        // If the advertisement is linked to at least one zone
+                        // If the advertisement is linked to at least one "real" zone
                         if (is_array($oPlacement->aAds[$advertKey]->zones) && !empty($oPlacement->aAds[$advertKey]->zones)) {
                             // Calculate the total volume of forecast zone impressions
                             // for all zones linked to the advertisement
@@ -270,8 +281,8 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                                         ($zone['availableImpressions'] / $totalAvaiableImpressions));
                                     // Record the ad's required impressions on the zone
                                     $this->aAdZoneImpressionAllocations[] = array(
-                                        'ad_id'       => $oAd->id,
-                                        'zone_id'     => $zone['zone_id'],
+                                        'ad_id'                => $oAd->id,
+                                        'zone_id'              => $zone['zone_id'],
                                         'required_impressions' => $requiredImpressions,
                                         'campaign_priority'    => $oPlacement->priority
                                     );
@@ -307,7 +318,7 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                     $message  = "Found that Zone ID $zoneId was over-subscribed: Want ";
                     $message .= "{$aZoneInfo['desiredImpressions']} in {$aZoneInfo['availableImpressions']}";
                     $globalMessage .= $message . "\n";
-                    MAX::debug($message, PEAR_LOG_DEBUG);
+                    OA::debug($message, PEAR_LOG_DEBUG);
                     // The zone was over-subscribed, set the flag, and calculate
                     // the factor that is needed to be adjusted by
                     $this->aOverSubscribedZones[$zoneId]['oversubscribed'] = true;
@@ -343,10 +354,6 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                     $this->aOverSubscribedZones[$zoneId]['oversubscribed'] = false;
                 }
             }
-            // Email the over-subscribed zones
-            // if ($globalMessage != '') {
-            //     MAX::sendMail('systems@m3.net', 'systems@m3.net', 'Hourly Zone Issues', $globalMessage);
-            // }
         }
     }
 

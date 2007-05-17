@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -27,7 +27,8 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Entity.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
+
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 /**
  * An entity class used to represent ads.
@@ -82,9 +83,9 @@ class MAX_Entity_Ad extends MAX_Entity
     var $pastToBeDelivered;
 
     /**
-     * A local instance of the MAX_Dal_Maintenance_Priority class.
+     * A local instance of the OA_Dal_Maintenance_Priority class.
      *
-     * @var MAX_Dal_Maintenance_Priority
+     * @var OA_Dal_Maintenance_Priority
      */
     var $oMaxDalMaintenancePriority;
 
@@ -139,26 +140,26 @@ class MAX_Entity_Ad extends MAX_Entity
         }
         // Store the required supplied values
         $this->id     = $aParams['ad_id'];
-        $this->active = $aParams['active'];
-        $this->type   = $aParams['type'];
-        $this->weight = $aParams['weight'];
+        $this->active = isset($aParams['active']) ? $aParams['active'] : null;
+        $this->type   = isset($aParams['type']) ? $aParams['type'] : null;
+        $this->weight = isset($aParams['weight']) ? $aParams['weight'] : null;
         // Set the object's data access layer objects
-        $this->oMaxDalMaintenancePriority = &$this->_getMAX_Dal_Maintenance_Priority();
+        $this->oMaxDalMaintenancePriority = &$this->_getOA_Dal_Maintenance_Priority();
     }
 
     /**
-     * A private method to get an instance of the MAX_Dal_Maintenance_Priority class.
+     * A private method to get an instance of the OA_Dal_Maintenance_Priority class.
      *
      * @access private
-     * @return MAX_Dal_Maintenance_Priority
+     * @return OA_Dal_Maintenance_Priority
      */
-    function &_getMAX_Dal_Maintenance_Priority()
+    function &_getOA_Dal_Maintenance_Priority()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Priority');
+        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
         if (!$oDal) {
-            $oDal = new MAX_Dal_Maintenance_Priority();
-            $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+            $oDal = new OA_Dal_Maintenance_Priority();
+            $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         }
         return $oDal;
     }

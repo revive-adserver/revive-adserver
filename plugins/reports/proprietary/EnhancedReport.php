@@ -2,36 +2,36 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
-|                                                                           | 
-| This program is free software; you can redistribute it and/or modify      | 
-| it under the terms of the GNU General Public License as published by      | 
-| the Free Software Foundation; either version 2 of the License, or         | 
-| (at your option) any later version.                                       | 
-|                                                                           | 
-| This program is distributed in the hope that it will be useful,           | 
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            | 
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             | 
-| GNU General Public License for more details.                              | 
-|                                                                           | 
-| You should have received a copy of the GNU General Public License         | 
-| along with this program; if not, write to the Free Software               | 
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
 */
 
 /**
- * Report base class for Max Media Manager
+ * Report base class for Openads
  *
  * @todo Pull up common methods into this class
  *
- * @since 0.3.19 - Feb 28, 2006
- * @copyright 2006 M3 Media Services
+ * @since Openads v2.3.19-alpha - Feb 28, 2006
+ * @copyright 2003-2007 Openads Limited
  * @version $Id$
  */
 
@@ -53,7 +53,7 @@ class EnhancedReport extends Plugins_Reports
 
     /* @var ExcelReportWriter */
     var $_report_writer;
-    
+
     /* @var MAX_Dal_Proprietary */
     var $dal;
 
@@ -110,7 +110,7 @@ class EnhancedReport extends Plugins_Reports
     {
         return array(MAX_Plugin_Translation::translate('Report on', $this->module, $this->package) => MAX_Plugin_Translation::translate('All available data', $this->module, $this->package));
     }
-    
+
     function _useDefaultDal()
     {
         $oServiceLocator = ServiceLocator::instance();
@@ -120,8 +120,8 @@ class EnhancedReport extends Plugins_Reports
         }
         $this->dal =& $dal;
     }
-    
-        
+
+
     /**
      * @todo Consider where to put Excel bits (if anywhere)
      * @todo See if this can be used for all views/clicks/CTR displays
@@ -133,28 +133,28 @@ class EnhancedReport extends Plugins_Reports
         foreach($zones_data as $zone)
         {
             $displayable_zone = array();
-            
+
             $ctr = $this->calculateClickthroughRatioForDisplay($zone, 'zone_');
-            
+
             $campaign = Admin_DA::getPlacement($this->_campaign_id);
             $campaign['anonymous'] == 't' ? $campaignAnonymous = true : $campaignAnonymous = false;
             $displayable_name = MAX_getZoneName($zone['zone_name'], null, $campaignAnonymous, $zone['zone_id']);
-            
+
             $width = $zone['zone_width'];
             $height = $zone['zone_height'];
             $displayable_size = $width . 'x' . $height;
-            
+
             $displayable_zone[] = $displayable_name;
             $displayable_zone[] = $displayable_size;
             $displayable_zone[] = $zone['zone_impressions'];
             $displayable_zone[] = $zone['zone_clicks'];
             $displayable_zone[] = $ctr;
-            
-            $displayable_data[] = $displayable_zone; 
+
+            $displayable_data[] = $displayable_zone;
         }
         return $displayable_data;
     }
-        
+
     /**
      * @todo Consider where to put Excel formula (if anywhere)
      */
@@ -202,7 +202,7 @@ class EnhancedReport extends Plugins_Reports
         }
         return $display_data;
     }
-   
+
     function prepareDailyDomainPageEffectivenessForDisplay($days)
     {
         $days_display = array();
@@ -219,7 +219,7 @@ class EnhancedReport extends Plugins_Reports
         }
         return $days_display;
     }
-    
+
     function prepareDailyCountryEffectivenessForDisplay($days)
     {
         $days_display = array();
@@ -235,7 +235,7 @@ class EnhancedReport extends Plugins_Reports
         }
         return $days_display;
     }
-    
+
     function prepareDailySourceEffectivenessForDisplay($days)
     {
         $days_display = array();
@@ -285,7 +285,7 @@ class EnhancedReport extends Plugins_Reports
         }
         return $months_display;
     }
-    
+
    function prepareMonthlyCountryEffectivenessForDisplay($months)
     {
         $months_display = array();
@@ -301,7 +301,7 @@ class EnhancedReport extends Plugins_Reports
         }
         return $months_display;
     }
-    
+
     function prepareMonthlySourceEffectivenessForDisplay($months)
     {
         $months_display = array();
@@ -317,7 +317,7 @@ class EnhancedReport extends Plugins_Reports
         }
         return $months_display;
     }
-    
+
     function prepareMonthlySiteKeywordEffectivenessForDisplay($months)
     {
         $months_display = array();
@@ -334,7 +334,7 @@ class EnhancedReport extends Plugins_Reports
         }
         return $months_display;
     }
-    
+
     function calculateClickthroughRatioForDisplay($single_line, $prefix = '')
     {
         $views_key = $prefix . 'impressions';
@@ -348,12 +348,12 @@ class EnhancedReport extends Plugins_Reports
         }
         return $ctr;
     }
-    
+
     function useReportWriter(&$writer)
     {
         $this->_report_writer =& $writer;
     }
-    
+
     function formatDateForDisplay($date_string)
     {
         if ($date_string == '0000-00-00') {
@@ -363,7 +363,7 @@ class EnhancedReport extends Plugins_Reports
         $formatted_date = $date_object->format('%Y-%m-%d');
         return $formatted_date;
     }
-    
+
     function getDisplayableParametersFromDaySpan($oDaySpan)
     {
         $aParams = array();
@@ -373,7 +373,7 @@ class EnhancedReport extends Plugins_Reports
         }
         return $aParams;
     }
-    
+
     function getDisplayableParametersFromCampaignId($campaign_id)
     {
         $params = array();
@@ -388,11 +388,11 @@ class EnhancedReport extends Plugins_Reports
         $params[$key] = $campaign_name;
         return $params;
     }
-    
+
     function getDisplayableParametersFromScope($oScope)
     {
         $aParams = array();
-        
+
         $key = MAX_Plugin_Translation::translate('Advertiser', $this->module);
         $advertiserId = $oScope->getAdvertiserId();
         if (!empty($advertiserId)) {
@@ -405,7 +405,7 @@ class EnhancedReport extends Plugins_Reports
                 $aParams[$key] = MAX_Plugin_Translation::translate('All advertisers', $this->module);
             }
         }
-        
+
         $key = MAX_Plugin_Translation::translate('Publisher', $this->module);
         $publisherId = $oScope->getPublisherId();
         if (!empty($publisherId)) {
@@ -418,13 +418,13 @@ class EnhancedReport extends Plugins_Reports
                 $aParams[$key] = MAX_Plugin_Translation::translate('All publishers', $this->module);
             }
         }
-        
+
         return $aParams;
     }
-    
+
     /**
      * Add a value partway through a numberically-indexed array.
-     * 
+     *
      * @param int   $slice_position Zero-based array index at which to insert
      * @param array $array          Array to work on
      * @param mixed $value          Value to insert (can be any type)
@@ -437,20 +437,20 @@ class EnhancedReport extends Plugins_Reports
         $result = array_merge($before, array($value), $after);
         return $result;
     }
-    
+
     /**
      * Return section headers and data from a statsController instance
-     * 
+     *
      * @param string statsController type
      * @return array An array containing headers (key 0) and data (key 1)
      */
     function getHeadersAndDataFromStatsController($controller_type)
     {
-        $statsController = &StatsControllerFactory::newStatsController($controller_type, array(
+        $statsController = &OA_Admin_Statistics_Factory::getController($controller_type, array(
             'skipFormatting' => true,
             'disablePager'   => true
         ));
-        
+
         $stats = $statsController->exportArray();
 
         $aHeaders = array();
@@ -473,7 +473,7 @@ class EnhancedReport extends Plugins_Reports
                     break;
             }
         }
-        
+
         $aData = array();
         foreach ($stats['data'] as $i => $row)
         {
@@ -481,7 +481,7 @@ class EnhancedReport extends Plugins_Reports
                 $aData[$i][] = $stats['formats'][$k] == 'datetime' ? $this->_report_writer->convertToDate($v) : $v;
             }
         }
-        
+
         return array($aHeaders, $aData);
     }
 }

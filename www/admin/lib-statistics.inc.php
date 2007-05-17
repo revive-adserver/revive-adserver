@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -28,8 +28,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
-require_once MAX_PATH . '/lib/max/Dal/Admin/Advertiser.php';
 
 // Define defaults
 $clientCache = array();
@@ -64,32 +64,14 @@ function phpAds_buildName($id, $name)
 
 function phpAds_getClientName($clientid)
 {
+    global $strUntitled;
     if ($clientid != '' && $clientid != 0) {
         $client_details = phpAds_getClientDetails($clientid);
         return (phpAds_BuildName ($clientid, $client_details['clientname']));
     } else {
+        global $strUntitled;
         return ($strUntitled);
     }
-}
-/*-------------------------------------------------------*/
-/* Fetch the agency name from the database               */
-/*-------------------------------------------------------*/
-
-function phpAds_getAgencyName($id)
-{
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $query = "
-        SELECT
-            name
-        FROM
-            {$conf['table']['prefix']}{$conf['table']['agency']}
-        WHERE
-            agencyid = $id
-        ";
-    $res = phpAds_dbQuery($query)
-        or phpAds_sqlDie();
-    $result = phpAds_dbFetchArray($res);
-    return $result['name'];
 }
 
 /*-------------------------------------------------------*/
@@ -136,134 +118,6 @@ function phpAds_getTrackerName($trackerid)
     }
 }
 
-// Get any generic list order...
-function phpAds_getListOrder($listOrder='name',$orderDirection='up', $nameColumn='', $idColumn='', $viewsColumn='', $clicksColumn='', $conversionColumn='', $ctrColumn='', $srColumn='')
-{
-    $direction = ($orderDirection == 'down') ? ' DESC' : ' ASC';
-    $sqlTableOrder = '';
-    switch ($listOrder) {
-        case 'name':
-            if (is_array($nameColumn))
-                $sqlTableOrder = ' ORDER BY ' . implode($direction . ',', $nameColumn) . $direction;
-            else
-                $sqlTableOrder = !empty($nameColumn) ? " ORDER BY $nameColumn $direction" : '';
-            break;
-        case 'id':
-            if (is_array($idColumn))
-                $sqlTableOrder = ' ORDER BY ' . implode($direction . ',', $idColumn) . $direction;
-            else
-                $sqlTableOrder = !empty($idColumn) ? " ORDER BY $idColumn $direction" : '';
-            break;
-        case 'views':
-            if (is_array($viewsColumn))
-                $sqlTableOrder = ' ORDER BY ' . implode($direction . ',', $viewsColumn) . $direction;
-            else
-                $sqlTableOrder = !empty($viewsColumn) ? " ORDER BY $viewsColumn $direction" : '';
-            break;
-        case 'clicks':
-            if (is_array($clicksColumn))
-                $sqlTableOrder = ' ORDER BY ' . implode($direction . ',', $clicksColumn) . $direction;
-            else
-                $sqlTableOrder = !empty($clicksColumn) ? " ORDER BY $clicksColumn $direction" : '';
-            break;
-        case 'conversions':
-            if (is_array($conversionsColumn))
-                $sqlTableOrder = ' ORDER BY ' . implode($direction . ',', $conversionsColumn) . $direction;
-            else
-                $sqlTableOrder = !empty($conversionsColumn) ? " ORDER BY $conversionsColumn $direction" : '';
-            break;
-        case 'ctr':
-            if (is_array($ctrColumn))
-                $sqlTableOrder = ' ORDER BY ' . implode($direction . ',', $ctrColumn) . $direction;
-            else
-                $sqlTableOrder = !empty($ctrColumn) ? " ORDER BY $ctrColumn $direction" : '';
-            break;
-        case 'cnvr':
-            if (is_array($srColumn))
-                $sqlTableOrder = ' ORDER BY ' . implode($direction . ',', $srColumn) . $direction;
-            else
-                $sqlTableOrder = !empty($srColumn) ? " ORDER BY $srColumn $direction" : '';
-            break;
-        default:
-            if (is_array($nameColumn))
-                $sqlTableOrder = ' ORDER BY ' . implode($direction . ',', $nameColumn) . $direction;
-            else
-                $sqlTableOrder = !empty($nameColumn) ? " ORDER BY $nameColumn $direction" : '';
-            break;
-    }
-    return ($sqlTableOrder);
-}
-
-// Order for $conf['table']['prefix'].$conf['table']['clients']
-function phpAds_getClientListOrder($listOrder, $orderDirection)
-{
-    return phpAds_getListOrder($listOrder,$orderDirection,'clientname','clientid');
-}
-// Order for $conf['table']['prefix'].$conf['table']['campaigns']
-function phpAds_getCampaignListOrder($listOrder, $orderDirection)
-{
-    return phpAds_getListOrder($listOrder,$orderDirection,'campaignname',array('clientid','campaignid'));
-}
-
-
-// Order for $conf['table']['prefix'].$conf['table']['banners']
-function phpAds_getBannerListOrder($listOrder, $orderDirection)
-{
-    return phpAds_getListOrder($listOrder,$orderDirection,'description','bannerid','views','clicks','conversions','ctr','cnvr');
-}
-
-function phpAds_getHourListOrder($listOrder, $orderDirection)
-{
-    return phpAds_getListOrder($listOrder,$orderDirection,'hour','hour','views','clicks','conversions','ctr','cnvr');
-}
-
-// Order for $conf['table']['prefix'].$conf['table']['trackers']
-function phpAds_getTrackerListOrder($listOrder, $orderDirection)
-{
-    return phpAds_getListOrder($listOrder,$orderDirection,'trackername',array('clientid','trackerid'));
-}
-
-// Order for $conf['table']['prefix'].$conf['table']['channel']
-function phpAds_getChannelListOrder($listOrder, $orderDirection)
-{
-    $direction = ($orderDirection == 'down') ? 'DESC' : 'ASC';
-    switch ($listOrder) {
-        case 'id':
-            $sqlTableOrder = " ORDER BY channelid $direction";
-            break;
-        case 'name':
-        default:
-            $sqlTableOrder = " ORDER BY name $direction";
-    }
-    return ($sqlTableOrder);
-}
-
-// Order for $conf['table']['prefix'].$conf['table']['zones']
-function phpAds_getZoneListOrder($listOrder, $orderDirection)
-{
-    $direction = ($orderDirection == 'down') ? 'DESC' : 'ASC';
-    switch ($listOrder) {
-        case 'name':
-            $sqlTableOrder = " ORDER BY zonename $direction";
-            break;
-        case 'id':
-            $sqlTableOrder = " ORDER BY zoneid $direction";
-            break;
-        case 'size':
-            $sqlTableOrder = " ORDER BY width $direction";
-            break;
-        default:
-            $sqlTableOrder = " ORDER BY zonename $direction";
-    }
-    return ($sqlTableOrder);
-}
-
-// Order for $conf['table']['prefix'].$conf['table']['affiliates']
-function phpAds_getAffiliateListOrder($listOrder, $orderDirection)
-{
-    return phpAds_getListOrder($listOrder,$orderDirection,'name','affiliateid');
-}
-
 /*-------------------------------------------------------*/
 /* Fetch the ID of the parent of a campaign              */
 /*-------------------------------------------------------*/
@@ -272,25 +126,6 @@ function phpAds_getCampaignParentClientID($campaignid)
 {
     $campaign_details = phpAds_getCampaignDetails($campaignid);
     return $campaign_details['clientid'];
-}
-
-/*-------------------------------------------------------*/
-/* Fetch the ID of the parent of a banner              */
-/*-------------------------------------------------------*/
-
-function phpAds_getBannerParentCampaignID($bannerid)
-{
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $banner_result = phpAds_dbQuery(
-                    "SELECT
-                        campaignid
-                    FROM
-                        ".$conf['table']['prefix'].$conf['table']['banners']."
-                    WHERE
-                        bannerid = '".$bannerid."'"
-                );
-    $result = phpAds_dbFetchArray($banner_result);
-    return $result['campaignid'];
 }
 
 /*-------------------------------------------------------*/
@@ -348,28 +183,18 @@ function phpAds_getBannerName($bannerid, $limit = 30, $id = true, $checkanonymou
     if (isset($bannerCache[$bannerid]) && is_array($bannerCache[$bannerid])) {
         $row = $bannerCache[$bannerid];
     } else {
-        $res = phpAds_dbQuery("
-            SELECT
-                *
-            FROM
-                ".$conf['table']['prefix'].$conf['table']['banners']."
-            WHERE
-                bannerid = '$bannerid'
-        ") or phpAds_sqlDie();
-        $row = phpAds_dbFetchArray($res);
+        $doBanners = OA_Dal::staticGetDO('banners', $bannerid);
+        $row = $doBanners->toArray();
         $bannerCache[$bannerid] = $row;
     }
     if ($checkanonymous) {
         if  (!isset($row['anonymous']) || $row['anonymous'] = '') {
-            $anonres = phpAds_dbQuery(
-                "SELECT anonymous".
-                " FROM ".$conf['table']['prefix'].$conf['table']['campaigns'].
-                ",".$conf['table']['prefix'].$conf['table']['banners'].
-                " WHERE ".$conf['table']['prefix'].$conf['table']['campaigns'].".campaignid=".$conf['table']['prefix'].$conf['table']['banners'].".campaignid".
-                " AND ".$conf['table']['prefix'].$conf['table']['banners'].".bannerid='".$bannerid."'"
-            );
-            $anonrow = phpAds_dbFetchArray($anonres);
-            $anonymous = $anonrow['anonymous'];
+            $doCampaigns = OA_Dal::factoryDO('campaigns');
+            $doCampaigns->addReferenceFilter('banners', $bannerid);
+            $doCampaigns->selectAdd();
+            $doCampaigns->selectAdd('anonymous');
+            $doCampaigns->find(true);
+            $anonymous = $doCampaigns->anonymous;
             $bannerCache[$bannerid]['anonymous'] = $anonymous;
         } else {
             $anonymous = $row['anonymous'];
@@ -404,18 +229,8 @@ function phpAds_getZoneName($zoneid)
         if (isset($zoneCache[$zoneid]) && is_array($zoneCache[$zoneid])) {
             $row = $zoneCache[$zoneid];
         } else {
-            $res = phpAds_dbQuery("
-            SELECT
-                *
-            FROM
-                ".$conf['table']['prefix'].$conf['table']['zones']."
-            WHERE
-                zoneid = '$zoneid'
-            ") or phpAds_sqlDie();
-
-            $row = phpAds_dbFetchArray($res);
-
-            $zoneCache[$zoneid] = $row;
+            $doZones = OA_Dal::staticGetDO('zones', $zoneid);
+            $zoneCache[$zoneid] = $doZones->toArray();
         }
         return (phpAds_BuildZoneName ($zoneid, $row['zonename']));
     } else {
@@ -445,15 +260,8 @@ function phpAds_getAffiliateName($affiliateid)
         if (isset($affiliateCache[$affiliateid]) && is_array($affiliateCache[$affiliateid])) {
             $row = $affiliateCache[$affiliateid];
         } else {
-            $res = phpAds_dbQuery("
-                SELECT
-                    *
-                FROM
-                    ".$conf['table']['prefix'].$conf['table']['affiliates']."
-                WHERE
-                    affiliateid = '$affiliateid'
-            ") or phpAds_sqlDie();
-            $row = phpAds_dbFetchArray($res);
+            $doAffiliates = OA_Dal::staticGetDO('affiliates', $affiliateid);
+            $row = $doAffiliates->toArray();
             $affiliateCache[$affiliateid] = $row;
         }
         return (phpAds_BuildAffiliateName ($affiliateid, $row['name']));
@@ -463,66 +271,12 @@ function phpAds_getAffiliateName($affiliateid)
 }
 
 /*-------------------------------------------------------*/
-/* Replace variables in HTML or external banner          */
-/*-------------------------------------------------------*/
-
-function phpAds_replaceVariablesInBannerCode($htmlcode)
-{
-    $conf = $GLOBALS['_MAX']['CONF'];
-    // Parse for variables
-    $htmlcode = str_replace ('{timestamp}',    time(), $htmlcode);
-    $htmlcode = str_replace ('%7Btimestamp%7D',    time(), $htmlcode);
-    while (preg_match ('#(%7B|\{)random((%3A|:)([0-9]+)){0,1}(%7D|})#i', $htmlcode, $matches)) {
-        if ($matches[4]) {
-            $randomdigits = $matches[4];
-        } else {
-            $randomdigits = 8;
-        }
-        if (isset($lastdigits) && $lastdigits == $randomdigits) {
-            $randomnumber = $lastrandom;
-        } else {
-            $randomnumber = '';
-            for ($r=0; $r<$randomdigits; $r=$r+9) {
-                $randomnumber .= (string)mt_rand (111111111, 999999999);
-            }
-            $randomnumber  = substr($randomnumber, 0 - $randomdigits);
-        }
-        $htmlcode = str_replace ($matches[0], $randomnumber, $htmlcode);
-        $lastdigits = $randomdigits;
-        $lastrandom = $randomnumber;
-    }
-    // Parse PHP code
-    if ($conf['delivery']['execPhp']) {
-        if (preg_match ("#(\<\?php(.*)\?\>)#i", $htmlcode, $parser_regs)) {
-            // Extract PHP script
-            $parser_php     = $parser_regs[2];
-            $parser_result     = '';
-            // Replace output function
-            $parser_php = preg_replace ("#echo([^;]*);#i", '$parser_result .=\\1;', $parser_php);
-            $parser_php = preg_replace ("#print([^;]*);#i", '$parser_result .=\\1;', $parser_php);
-            $parser_php = preg_replace ("#printf([^;]*);#i", '$parser_result .= sprintf\\1;', $parser_php);
-            // Split the PHP script into lines
-            $parser_lines = explode (";", $parser_php);
-            for ($parser_i = 0; $parser_i < sizeof($parser_lines); $parser_i++) {
-                if (trim ($parser_lines[$parser_i]) != '') {
-                    eval(trim ($parser_lines[$parser_i]).';');
-                }
-            }
-            // Replace the script with the result
-            $htmlcode = str_replace ($parser_regs[1], $parser_result, $htmlcode);
-        }
-    }
-    return ($htmlcode);
-}
-
-/*-------------------------------------------------------*/
 /* Build the HTML needed to display a banner             */
 /*-------------------------------------------------------*/
 
 function phpAds_buildBannerCode($bannerid, $fullpreview = false)
 {
     include_once MAX_PATH . '/lib/max/Delivery/adRender.php';
-    include_once MAX_PATH . '/lib/max/other/db_proc.php';
     $aBanner = Admin_DA::getAd($bannerid);
     $aBanner['storagetype'] = $aBanner['type'];
     $aBanner['bannerid'] = $aBanner['ad_id'];
@@ -563,22 +317,11 @@ function phpAds_buildRatioPercentage($numerator, $denominator)
 }
 
 function phpAds_formatNumber($number, $decimals = 0) {
-    global $phpAds_ThousandsSeperator;
+    global $phpAds_ThousandsSeperator, $phpAds_DecimalPoint;
     if (!strcmp($number, '-')) {
         return '-';
     }
     return number_format($number, $decimals, $phpAds_DecimalPoint, $phpAds_ThousandsSeperator);
-}
-
-/*-------------------------------------------------------*/
-/* Delete statistics                                     */
-/*-------------------------------------------------------*/
-
-function phpAds_deleteStatsByTrackerID($trackerid)
-{
-    $conf = $GLOBALS['_MAX']['CONF'];
-    //phpAds_dbQuery("DELETE FROM ".$conf['table']['prefix'].$conf['table']['adconversions']." WHERE trackerid='".$trackerid."' AND t_stamp > date_sub(now(), interval 1 hour)") or phpAds_sqlDie();
-    //phpAds_dbQuery("DELETE FROM ".$conf['table']['prefix'].$conf['table']['conversionlog']." WHERE trackerid='".$trackerid."' AND t_stamp > date_sub(now(), interval 1 hour)") or phpAds_sqlDie();
 }
 
 /*-------------------------------------------------------*/
@@ -590,13 +333,11 @@ function phpAds_totalStats($column, $bannerid, $timeconstraint="")
     $conf = $GLOBALS['_MAX']['CONF'];
     $where = "";
     if (!empty($bannerid)) {
-        $where = "WHERE ad_id = '$bannerid'";
+        $where = "ad_id = '$bannerid'";
     }
     if (!empty($timeconstraint)) {
         if (!empty($bannerid)) {
             $where .= " AND ";
-        } else {
-            $where = "WHERE ";
         }
         if ($timeconstraint == "month") {
             $begin = date('Ymd', mktime(0, 0, 0, date('m'), 1, date('Y')));
@@ -611,12 +352,18 @@ function phpAds_totalStats($column, $bannerid, $timeconstraint="")
             $where .= "day = $begin";
         }
     }
-    $res = phpAds_dbQuery("SELECT SUM($column) as qnt FROM ".$conf['table']['prefix'].$conf['table']['data_summary_ad_hourly']." $where") or phpAds_sqlDie();
-    if (phpAds_dbNumRows ($res)) {
-        $row = phpAds_dbFetchArray($res);
-        return ($row['qnt']);
+    $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+    $doDataSummaryAdHourly->selectAdd();
+    $doDataSummaryAdHourly->selectAdd("SUM($column) AS qnt");
+    if (!empty($where)) {
+        $doDataSummaryAdHourly->whereadd($where);
+    }
+    $doDataSummaryAdHourly->find(true);
+
+    if ($doDataSummaryAdHourly->qnt) {
+        return $doDataSummaryAdHourly->qnt;
     } else {
-        return (0);
+        return 0;
     }
 }
 
@@ -640,22 +387,10 @@ function phpAds_totalViews($bannerid="", $timeconstraint="")
 
 function phpAds_htmlQuotes($string)
 {
-    $string = stripslashes ($string);
+    //$string = stripslashes ($string);
     $string = str_replace ('"', '&quot;', $string);
     $string = str_replace ("'", '&#039;', $string);
     return $string;
-}
-
-/*-------------------------------------------------------*/
-/* Calculates timestamp taking DST into account          */
-/*-------------------------------------------------------*/
-
-function phpAds_makeTimestamp($start, $offset = 0)
-{
-    if (!$offset) {
-        return $start;
-    }
-    return $start + $offset + (date('I', $start) - date('I', $start + $offset)) * 60;
 }
 
 /**
@@ -664,12 +399,12 @@ function phpAds_makeTimestamp($start, $offset = 0)
 function phpAds_getClientDetails($clientid)
 {
     global $clientCache;
-    
+
     if (isset($clientCache[$clientid]) && is_array($clientCache[$clientid])) {
         $client_details = $clientCache[$clientid];
     } else {
-        $dal = new MAX_Dal_Admin_Advertiser();
-        $client_details = $dal->getAdvertiserDetails($clientid);
+        $dalClients = OA_Dal::factoryDAL('clients');
+        $client_details = $dalClients->getAdvertiserDetails($clientid);
         $clientCache[$clientid] = $client_details;
     }
     return ($client_details);
@@ -682,12 +417,8 @@ function phpAds_getCampaignDetails($campaignid)
     if (isset($campaignCache[$campaignid]) && is_array($campaignCache[$campaignid])) {
         $row = $campaignCache[$campaignid];
     } else {
-        $res = phpAds_dbQuery(
-            "SELECT *".
-            " FROM ".$conf['table']['prefix'].$conf['table']['campaigns'].
-            " WHERE campaignid='".$campaignid."'"
-        ) or phpAds_sqlDie();
-        $row = phpAds_dbFetchArray($res);
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignid);
+        $row = $doCampaigns->toArray();
         $campaignCache[$campaignid] = $row;
     }
     return ($row);
@@ -700,14 +431,8 @@ function phpAds_getTrackerDetails($trackerid)
     if (isset($trackerCache[$trackerid]) && is_array($trackerCache[$trackerid])) {
         $row = $trackerCache[$trackerid];
     } else {
-        $res = phpAds_dbQuery(
-            "SELECT *".
-            " FROM ".$conf['table']['prefix'].$conf['table']['trackers'].
-            " WHERE trackerid='".$trackerid."'"
-        ) or phpAds_sqlDie();
-
-        $row = phpAds_dbFetchArray($res);
-
+        $doTrackers = OA_Dal::staticGetDO('trackers', $trackerid);
+        $row = $doTrackers->toArray();
         $trackerCache[$trackerid] = $row;
     }
     return ($row);

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -43,7 +43,7 @@ $errormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
     // Register input variables
-    phpAds_registerGlobal('logging_csvImport','logging_adRequests', 'logging_adImpressions', 
+    phpAds_registerGlobal('logging_csvImport','logging_adRequests', 'logging_adImpressions',
                           'logging_adClicks','logging_trackerImpressions',
                           'logging_reverseLookup', 'logging_proxyLookup', 'logging_sniff',
                           'ignoreHosts',
@@ -56,7 +56,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                           'logging_defaultImpressionConnectionWindow',
                           'logging_defaultClickConnectionWindow',
                           'warn_admin', 'warn_client', 'warn_agency', 'warn_limit',
-                          'admin_email_headers', 'qmail_patch'
+                          'admin_email_headers', 'qmail_patch', 'warn_limit_days'
                           );
     // Set up the configuration .ini file
     $config = new MAX_Admin_Config();
@@ -155,6 +155,13 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $preferences->setPrefChange('warn_limit', $warn_limit);
         }
     }
+    if (isset($warn_limit_days)) {
+        if ((!is_numeric($warn_limit_days)) || ($warn_limit_days <= 0)) {
+            $errormessage[3][] = $strWarnLimitDaysErr;
+        } else {
+            $preferences->setPrefChange('warn_limit_days', $warn_limit_days);
+        }
+    }
     if (isset($admin_email_headers)) {
         $admin_email_headers = trim(ereg_replace('\r?\n', '\\r\\n', $admin_email_headers));
         $preferences->setPrefChange('admin_email_headers', $admin_email_headers);
@@ -249,7 +256,8 @@ $settings = array (
                 'name'    => 'logging_blockAdImpressions',
                 'text'    => $strBlockAdViews,
                 'size'    => 12,
-                'depends' => 'logging_adImpressions==true',
+                //'depends' => 'logging_adImpressions==true',
+                'enabled' => 'false',
                 'check'   => 'number+'
             ),
             array (
@@ -260,7 +268,8 @@ $settings = array (
                 'name'    => 'logging_blockAdClicks',
                 'text'    => $strBlockAdClicks,
                 'size'    => 12,
-                'depends' => 'logging_adClicks==true',
+                //'depends' => 'logging_adClicks==true',
+                'enabled' => 'false',
                 'check'   => 'number+'
             ),
             array (
@@ -271,7 +280,8 @@ $settings = array (
                 'name'    => 'logging_blockTrackerImpressions',
                 'text'    => $strBlockAdConversions,
                 'size'    => 12,
-                'depends' => 'logging_trackerImpressions==true',
+                //'depends' => 'logging_trackerImpressions==true',
+                'enabled' => 'false',
                 'check'   => 'number+'
             )
         )
@@ -381,6 +391,18 @@ $settings = array (
                 'type'    => 'text',
                 'name'    => 'warn_limit',
                 'text'    => $strWarnLimit,
+                'size'    => 12,
+                'depends' => 'warn_client==true || warn_admin==true || warn_agency==true',
+                'req'     => true,
+                'check'   => 'number+'
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'warn_limit_days',
+                'text'    => $strWarnLimitDays,
                 'size'    => 12,
                 'depends' => 'warn_client==true || warn_admin==true || warn_agency==true',
                 'req'     => true,

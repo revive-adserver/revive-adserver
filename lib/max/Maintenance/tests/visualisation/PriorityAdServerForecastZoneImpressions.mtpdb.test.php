@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -73,12 +73,12 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
     function testNewZone()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
+        $oDbh = &OA_DB::singleton();
         $oDal = new MAX_Dal_Maintenance_TestOfForecastZoneImpressions($this);
         // Partially mock the ForecastZoneImpressions class, and set
         // the mocked _getDal() method to return the partially mocked DAL,
         // and the mocked _init() method (simply returns true)
-        $oForecastZoneImpressions = &new PartialMockForecastZoneImpressions($this);
+        $oForecastZoneImpressions = new PartialMockForecastZoneImpressions($this);
         $oForecastZoneImpressions->setReturnReference('_getDal', $oDal);
         $oForecastZoneImpressions->setReturnValue('_init', true);
         $oForecastZoneImpressions->ForecastZoneImpressions();
@@ -89,28 +89,50 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                 (
                     zoneid,
                     zonename,
-                    zonetype
+                    zonetype,
+                    category,
+                    ad_selection,
+                    chain,
+                    prepend,
+                    append
                 )
             VALUES
                 (
                     760,
                     'Sample Real Zone',
-                    0
+                    0,
+                    '',
+                    '',
+                    '',
+                    '',
+                    ''
                 )";
-        $dbh->query($query);
+        $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['banners']}
                 (
                     bannerid,
-                    active
+                    active,
+                    htmltemplate,
+                    htmlcache,
+                    url,
+                    compiledlimitation,
+                    append,
+                    bannertext
                 )
             VALUES
                 (
                     1,
-                    't'
+                    't',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    ''
                 )";
-        $dbh->query($query);
+        $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
@@ -123,23 +145,36 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                     760,
                     1
                 )";
-        $dbh->query($query);
-        $query = "
-            LOAD DATA INFILE
-                '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
-            INTO TABLE
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
-            FIELDS TERMINATED BY
-                '\\t'
-            LINES TERMINATED BY
-                '\\n'";
-        $dbh->query($query);
+        $oDbh->exec($query);
+        switch ($conf['database']['type']) {
+            case 'pgsql':
+                $query = "
+                    COPY
+                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    FROM
+                        '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
+                    WITH DELIMITER
+                        '\t'";
+                break;
+            case 'mysql':
+                $query = "
+                    LOAD DATA INFILE
+                        '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
+                    INTO TABLE
+                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    FIELDS TERMINATED BY
+                        '\\t'
+                    LINES TERMINATED BY
+                        '\\n'";
+                break;
+        }
+        $oDbh->exec($query);
         $query = "
             UPDATE
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
             SET
                 forecast_impressions = NULL";
-        $dbh->query($query);
+        $oDbh->exec($query);
         // Prepare the graph data sets
         $oDataSet_ForecastImpressions = &Image_Graph::factory('dataset');
         $oDataSet_ForecastImpressions->setName('Forecast Impressions');
@@ -162,12 +197,12 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                 $oForecastZoneImpressions->oDateNow
             );
             $oForecastZoneImpressions->oUpdateToDate = $aDates['end'];
-            $oMtceStatsLastRun = &new MockMtceStatsLastRun($this);
+            $oMtceStatsLastRun = new MockMtceStatsLastRun($this);
             $oMtceStatsLastRun->oUpdatedToDate = new Date();
             $oMtceStatsLastRun->oUpdatedToDate->copy($oDate);
             $oMtceStatsLastRun->oUpdatedToDate->subtractSeconds(8); // Take back to end of previous hour
             $oForecastZoneImpressions->mtceStatsLastRun = $oMtceStatsLastRun;
-            $oMtcePriorityLastRun = &new MockMtcePriorityLastRun($this);
+            $oMtcePriorityLastRun = new MockMtcePriorityLastRun($this);
             $oMtcePriorityLastRun->oUpdatedToDate = new Date();
             $oMtcePriorityLastRun->oUpdatedToDate->copy($oDate);
             $oMtcePriorityLastRun->oUpdatedToDate->subtractSeconds(3608); // Take back to end of previous hour - 1 hour
@@ -202,8 +237,8 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                     AND interval_start = '$interval_start'
                     AND interval_end = '$interval_end'
                     AND zone_id = 760";
-            $row = $dbh->getRow($query);
-            $actual = $row['actual_impressions'];
+            $aRow = $oDbh->queryRow($query);
+            $actual = $aRow['actual_impressions'];
             $oDataSet_ActualImpressions->addPoint($counter, $actual);
             $totalImpressions += $actual;
             // Add the error data set
@@ -289,12 +324,12 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
     {
         $initialRun = 2 * 7 * 24;
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
-        $oDal = &new MAX_Dal_Maintenance_TestOfForecastZoneImpressions($this);
+        $oDbh = &OA_DB::singleton();
+        $oDal = new MAX_Dal_Maintenance_TestOfForecastZoneImpressions($this);
         // Partially mock the ForecastZoneImpressions class, and set
         // the mocked _getDal() method to return the partially mocked DAL,
         // and the mociked _init() method to always return true
-        $oForecastZoneImpressions = &new PartialMockForecastZoneImpressions($this);
+        $oForecastZoneImpressions = new PartialMockForecastZoneImpressions($this);
         $oForecastZoneImpressions->setReturnReference('_getDal', $oDal);
         $oForecastZoneImpressions->setReturnValue('_init', true);
         $oForecastZoneImpressions->ForecastZoneImpressions();
@@ -305,28 +340,50 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                 (
                     zoneid,
                     zonename,
-                    zonetype
+                    zonetype,
+                    category,
+                    ad_selection,
+                    chain,
+                    prepend,
+                    append
                 )
             VALUES
                 (
                     760,
                     'Sample Real Zone',
-                    0
+                    0,
+                    '',
+                    '',
+                    '',
+                    '',
+                    ''
                 )";
-        $dbh->query($query);
+        $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['banners']}
                 (
                     bannerid,
-                    active
+                    active,
+                    htmltemplate,
+                    htmlcache,
+                    url,
+                    bannertext,
+                    compiledlimitation,
+                    append
                 )
             VALUES
                 (
                     1,
-                    't'
+                    't',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    ''
                 )";
-        $dbh->query($query);
+        $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
@@ -339,23 +396,37 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                     760,
                     1
                 )";
-        $dbh->query($query);
-        $query = "
-            LOAD DATA INFILE
-                '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
-            INTO TABLE
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
-            FIELDS TERMINATED BY
-                '\\t'
-            LINES TERMINATED BY
-                '\\n'";
-        $dbh->query($query);
+        $oDbh->exec($query);
+
+        switch ($conf['database']['type']) {
+            case "mysql":
+                $query = "
+                    LOAD DATA INFILE
+                        '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
+                    INTO TABLE
+                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    FIELDS TERMINATED BY
+                        '\\t'
+                    LINES TERMINATED BY
+                        '\\n'";
+                break;
+            case "pgsql":
+                $query = "
+                    COPY
+                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    FROM
+                        '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
+                    WITH DELIMITER
+                        '\t'";
+                break;
+        }
+        $oDbh->exec($query);
         $query = "
             UPDATE
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
             SET
                 forecast_impressions = NULL";
-        $dbh->query($query);
+        $oDbh->exec($query);
         // Prepare the graph data sets
         $oDataSet_ForecastImpressions = &Image_Graph::factory('dataset');
         $oDataSet_ForecastImpressions->setName('Forecast Impressions');
@@ -378,12 +449,12 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                 $oForecastZoneImpressions->oDateNow
             );
             $oForecastZoneImpressions->oUpdateToDate = $aDates['end'];
-            $oMtceStatsLastRun = &new MockMtceStatsLastRun($this);
+            $oMtceStatsLastRun = new MockMtceStatsLastRun($this);
             $oMtceStatsLastRun->oUpdatedToDate = new Date();
             $oMtceStatsLastRun->oUpdatedToDate->copy($oDate);
             $oMtceStatsLastRun->oUpdatedToDate->subtractSeconds(8); // Take back to end of previous hour
             $oForecastZoneImpressions->mtceStatsLastRun = $oMtceStatsLastRun;
-            $oMtcePriorityLastRun = &new MockMtcePriorityLastRun($this);
+            $oMtcePriorityLastRun = new MockMtcePriorityLastRun($this);
             $oMtcePriorityLastRun->oUpdatedToDate = new Date();
             $oMtcePriorityLastRun->oUpdatedToDate->copy($oDate);
             $oMtcePriorityLastRun->oUpdatedToDate->subtractSeconds(3608); // Take back to end of previous hour - 1 hour
@@ -420,8 +491,8 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                     AND interval_start = '$interval_start'
                     AND interval_end = '$interval_end'
                     AND zone_id = 760";
-            $row = $dbh->getRow($query);
-            $actual = $row['actual_impressions'];
+            $aRow = $oDbh->queryRow($query);
+            $actual = $aRow['actual_impressions'];
             if ($counter >= $initialRun) {
                 $oDataSet_ActualImpressions->addPoint($counter - $initialRun, $actual);
                 $totalImpressions += $actual;
@@ -510,12 +581,12 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
     function testExistingZoneAsNew()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
-        $oDal = &new MAX_Dal_Maintenance_TestOfForecastZoneImpressions($this);
+        $oDbh = &OA_DB::singleton();
+        $oDal = new MAX_Dal_Maintenance_TestOfForecastZoneImpressions($this);
         // Partially mock the ForecastZoneImpressions class, and set
         // the mocked _getDal() method to return the partially mocked DAL,
         // and the mociked _init() method to always return true
-        $oForecastZoneImpressions = &new PartialMockForecastZoneImpressions($this);
+        $oForecastZoneImpressions = new PartialMockForecastZoneImpressions($this);
         $oForecastZoneImpressions->setReturnReference('_getDal', $oDal);
         $oForecastZoneImpressions->setReturnValue('_init', true);
         $oForecastZoneImpressions->ForecastZoneImpressions();
@@ -526,28 +597,50 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                 (
                     zoneid,
                     zonename,
-                    zonetype
+                    zonetype,
+                    category,
+                    ad_selection,
+                    chain,
+                    prepend,
+                    append
                 )
             VALUES
                 (
                     760,
                     'Sample Real Zone',
-                    0
+                    0,
+                    '',
+                    '',
+                    '',
+                    '',
+                    ''
                 )";
-        $dbh->query($query);
+        $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['banners']}
                 (
                     bannerid,
-                    active
+                    active,
+                    htmltemplate,
+                    htmlcache,
+                    url,
+                    bannertext,
+                    compiledlimitation,
+                    append
                 )
             VALUES
                 (
                     1,
-                    't'
+                    't',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    ''
                 )";
-        $dbh->query($query);
+        $oDbh->exec($query);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
@@ -560,23 +653,37 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                     760,
                     1
                 )";
-        $dbh->query($query);
-        $query = "
-            LOAD DATA INFILE
-                '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
-            INTO TABLE
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
-            FIELDS TERMINATED BY
-                '\\t'
-            LINES TERMINATED BY
-                '\\n'";
-        $dbh->query($query);
+        $oDbh->exec($query);
+
+        switch ($conf['database']['type']) {
+            case 'mysql':
+                $query = "
+                    LOAD DATA INFILE
+                        '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
+                    INTO TABLE
+                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    FIELDS TERMINATED BY
+                        '\\t'
+                    LINES TERMINATED BY
+                        '\\n'";
+                break;
+            case 'pgsql':
+                $query = "
+                    COPY
+                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    FROM
+                        '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
+                    WITH DELIMITER
+                        '\t'";
+                break;
+        }
+        $oDbh->exec($query);
         $query = "
             UPDATE
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
             SET
                 forecast_impressions = NULL";
-        $dbh->query($query);
+        $oDbh->exec($query);
         // Prepare the graph data sets
         $oDataSet_ForecastImpressions = &Image_Graph::factory('dataset');
         $oDataSet_ForecastImpressions->setName('Forecast Impressions');
@@ -594,7 +701,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
             WHERE
                 interval_start < '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "'";
-        $dbh->query($query);
+        $oDbh->exec($query);
         $totalImpressions = 0;
         $totalError = 0;
         $totalAbsError = 0;
@@ -608,12 +715,12 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                 $oForecastZoneImpressions->oDateNow
             );
             $oForecastZoneImpressions->oUpdateToDate = $aDates['end'];
-            $oMtceStatsLastRun = &new MockMtceStatsLastRun($this);
+            $oMtceStatsLastRun = new MockMtceStatsLastRun($this);
             $oMtceStatsLastRun->oUpdatedToDate = new Date();
             $oMtceStatsLastRun->oUpdatedToDate->copy($oDate);
             $oMtceStatsLastRun->oUpdatedToDate->subtractSeconds(8); // Take back to end of previous hour
             $oForecastZoneImpressions->mtceStatsLastRun = $oMtceStatsLastRun;
-            $oMtcePriorityLastRun = &new MockMtcePriorityLastRun($this);
+            $oMtcePriorityLastRun = new MockMtcePriorityLastRun($this);
             $oMtcePriorityLastRun->oUpdatedToDate = new Date();
             $oMtcePriorityLastRun->oUpdatedToDate->copy($oDate);
             $oMtcePriorityLastRun->oUpdatedToDate->subtractSeconds(3608); // Take back to end of previous hour - 1 hour
@@ -648,8 +755,8 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                     AND interval_start = '$interval_start'
                     AND interval_end = '$interval_end'
                     AND zone_id = 760";
-            $row = $dbh->getRow($query);
-            $actual = $row['actual_impressions'];
+            $aRow = $oDbh->queryRow($query);
+            $actual = $aRow['actual_impressions'];
             $oDataSet_ActualImpressions->addPoint($counter, $actual);
             $totalImpressions += $actual;
             // Add the error data set

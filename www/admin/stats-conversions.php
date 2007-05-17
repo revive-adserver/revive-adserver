@@ -2,8 +2,8 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2005 Awarez Ltd.                                       |
 | For contact details, see: http://www.awarez.net/                          |
@@ -70,7 +70,7 @@ if (!empty($day)) {
 
 if (is_numeric($hour) && $hour < 10 && strlen($hour) != 2) {
     $hour = '0' . $hour;
-} 
+}
 
 $expand         = MAX_getValue('expand', '');
 $collapse       = MAX_getValue('collapse');
@@ -148,79 +148,17 @@ if(phpAds_isUser(phpAds_Affiliate)) {
 
     phpAds_PageHeader("1.1");
     echo '<br><br>';
-
-    /* Disabled until we get working tabs for conversions
-    if(!empty($period_preset)) {
-        phpAds_PageHeader("1.1");
-    } else {
-        phpAds_PageHeader("1.2");
-    }
-
-    // Temporarily disabled - Forgot to add the welcome screen to
-    // the new statsController, so this was disabled for consistency
-    // Also this should be publisher welcome, not client
-    if (false && $pref['client_welcome'])
-    {
-        echo "<br /><br />";
-        // Show welcome message
-        if (!empty($phpAds_client_welcome_msg))
-            echo $phpAds_client_welcome_msg;
-        else
-            include('templates/welcome-publisher.html');
-        echo "<br /><br />";
-    }
-
-    /* Disabled until we get working tabs for conversions
-    $sections = array();
-    $sections[] = '1.1';
-    if (phpAds_isAllowed(MAX_AffiliateViewZoneStats)) {
-        $sections[] = '1.2';
-    }
-    $sections[] = '1.3';
-    phpAds_ShowSections($sections);
-    */
 } elseif(phpAds_isUser(phpAds_Client)) {
     // Navigation for advertiser
     $clientid = phpAds_getUserID();
 
     phpAds_PageHeader("1.1");
     echo '<br><br>';
-
-    /* Disabled until we get working tabs for conversions
-    if(!empty($period_preset)) {
-        phpAds_PageHeader("1.2");
-    } else {
-        phpAds_PageHeader("1.1");
-    }
-
-    // Temporarily disabled - Forgot to add the welcome screen to
-    // the new statsController, so this was disabled for consistency
-    if ($pref['client_welcome']) {
-        echo "<br /><br />";
-        // Show welcome message
-        if (!empty($phpAds_client_welcome_msg)) {
-            echo $phpAds_client_welcome_msg;
-        } else {
-            include('templates/welcome-advertiser.html');
-        }
-        echo "<br /><br />";
-    }
-    phpAds_ShowSections(array("1.1", "1.2"));
-    */
 } else {
     // Navigation for admin and agency
 
     phpAds_PageHeader("2.1");
     echo '<br><br>';
-
-    /* Disabled until we get working tabs for conversions
-    if(!empty($period_preset)) {
-        phpAds_PageHeader('2.1');
-    } else {
-        phpAds_PageHeader('2.2');
-    }
-    phpAds_ShowSections(array('2.1', '2.4', '2.2'));
-    */
 }
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
@@ -284,7 +222,8 @@ if (!phpAds_isUser(phpAds_Admin)) {
 $aParams['clientid']    = $clientId;
 $aParams['campaignid']  = $campaignId;
 $aParams['bannerid']    = $bannerId;
-if(empty($zoneId) && !empty($affiliateId)) {
+$aZonesIds = null; // Admin_DA class expects null if no zones to be used
+if (empty($zoneId) && !empty($affiliateId)) {
     $aZonesIds = Admin_DA::fromCache('getZonesIdsByAffiliateId', $affiliateId);
 }
 if(!empty($zoneId)) {
@@ -312,7 +251,7 @@ $aParams['perPage'] = MAX_getStoredValue('setPerPage', 15);
 $pageID = MAX_getStoredValue('pageID', 1);
 
 if (!isset($pageID) || $pageID == 1) {
-    $aParams['startRecord'] = 0;            
+    $aParams['startRecord'] = 0;
 } else {
     $aParams['startRecord'] = (MAX_getStoredValue('pageID', 1) * $aParams['perPage']) - $aParams['perPage'];
 }
@@ -494,79 +433,78 @@ if (!empty($aConversions)) {
         if ($conversionExpanded) {
             $aConVariables = Admin_DA::fromCache('getConnectionVariables', $conversionId);
 
-        echo "
-        <tr height='1'>
-            <td$bgcolor><img src='images/spacer.gif' width='1' height='1'></td>
-            <td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>
-        </tr>";
-
-        switch ($conversion['connection_action']) {
-            case MAX_CONNECTION_AD_CLICK:   $action = 'Click'; break;
-            case MAX_CONNECTION_AD_ARRIVAL: $action = 'Arrival'; break;
-            case MAX_CONNECTION_MANUAL:     $action = 'Manual'; break;
-            default:                        $action = 'View'; break;
-        }
-        
-        $connectionType = $GLOBALS[$GLOBALS['_MAX']['CONN_TYPES'][$conversion['connection_type']]];
-
-        $eventDateStamp = strtotime($conversion['date_time']);
-
-        $secondsLeft = $eventDateStamp - strtotime($conversion['connection_date_time']);
-
-        $days = intval($secondsLeft / 86400);  // 86400 seconds in a day
-        $partDay = $secondsLeft - ($days * 86400);
-        $hours = intval($partDay / 3600);  // 3600 seconds in an hour
-        $partHour = $partDay - ($hours * 3600);
-        $minutes = intval($partHour / 60);  // 60 seconds in a minute
-        $seconds = $partHour - ($minutes * 60);
-
-        $windowDelay = $days."d ".$hours."h ".$minutes."m ".$seconds."s";
-
-        echo "
-        <tr height='25'$bgcolor>
-            <td></td>
-            <td colspan='5'>
-                <table width='100%' border='0' cellspacing='' cellpadding='4'>
-                    <tr valign='top'>
-                        <td width='40%'>
-                            <table border='0' cellspacing='0' cellpadding='0'>
-                                <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>IP Address:</th><td style='padding-left: 8px'>{$conversion['tracker_ip_address']}</td></tr>
-                                <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strCountry']}:</th><td style='padding-left: 8px'>{$conversion['tracker_country']}</td></tr>
-                                <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strStatsAction']}:</th><td style='padding-left: 8px'>{$action}</td></tr>
-                                <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strConnectionType']}:</th><td style='padding-left: 8px'>{$connectionType}</td></tr>
-                                <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strWindowDelay']}:</th><td style='padding-left: 8px'>{$windowDelay}</td></tr>";
-        if (!is_null($conversion['comments'])) {
             echo "
-                                <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strComments']}:</th><td style='padding-left: 8px'>{$conversion['comments']}</td></tr>";
-        }
-        echo "
-                            </table>
-                        </td>
-                        <td width='60%'>
-                            <table border='0' cellspacing='0' cellpadding='0'>
-                                <tr><th scope='col' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strStatsVariables']}:</th><td></td></tr>";
-        foreach($aConVariables as $conVariable) {
-            // Do not show hidden variables to publishers
-            if (phpAds_isUser(phpAds_Affiliate) && $conVariable['hidden'] == 't') {
-                continue;
+            <tr height='1'>
+                <td$bgcolor><img src='images/spacer.gif' width='1' height='1'></td>
+                <td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>
+            </tr>";
+
+            switch ($conversion['connection_action']) {
+                case MAX_CONNECTION_AD_CLICK:   $action = 'Click'; break;
+                case MAX_CONNECTION_AD_ARRIVAL: $action = 'Arrival'; break;
+                case MAX_CONNECTION_MANUAL:     $action = 'Manual'; break;
+                default:                        $action = 'View'; break;
             }
-            
-            echo "<tr><th scope='row' style='text-align: $phpAds_TextAlignLeft; color: darkgrey'>".
-                htmlspecialchars(empty($conVariable['description']) ? $conVariable['name'] : $conVariable['description']).
-                "</th><td style='padding-left: 8px'>".htmlspecialchars($conVariable['value'])."</td></tr>";
-        }
-        echo "
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            ";
+
+            $connectionType = $GLOBALS[$GLOBALS['_MAX']['CONN_TYPES'][$conversion['connection_type']]];
+
+            $eventDateStamp = strtotime($conversion['date_time']);
+
+            $secondsLeft = $eventDateStamp - strtotime($conversion['connection_date_time']);
+
+            $days = intval($secondsLeft / 86400);  // 86400 seconds in a day
+            $partDay = $secondsLeft - ($days * 86400);
+            $hours = intval($partDay / 3600);  // 3600 seconds in an hour
+            $partHour = $partDay - ($hours * 3600);
+            $minutes = intval($partHour / 60);  // 60 seconds in a minute
+            $seconds = $partHour - ($minutes * 60);
+
+            $windowDelay = $days."d ".$hours."h ".$minutes."m ".$seconds."s";
+
             echo "
-            </td>
-        </tr>";
+            <tr height='25'$bgcolor>
+                <td></td>
+                <td colspan='5'>
+                    <table width='100%' border='0' cellspacing='' cellpadding='4'>
+                        <tr valign='top'>
+                            <td width='40%'>
+                                <table border='0' cellspacing='0' cellpadding='0'>
+                                    <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>IP Address:</th><td style='padding-left: 8px'>{$conversion['tracker_ip_address']}</td></tr>
+                                    <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strCountry']}:</th><td style='padding-left: 8px'>{$conversion['tracker_country']}</td></tr>
+                                    <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strStatsAction']}:</th><td style='padding-left: 8px'>{$action}</td></tr>
+                                    <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strConnectionType']}:</th><td style='padding-left: 8px'>{$connectionType}</td></tr>
+                                    <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strWindowDelay']}:</th><td style='padding-left: 8px'>{$windowDelay}</td></tr>";
+            if (!is_null($conversion['comments'])) {
+                echo "
+                                    <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strComments']}:</th><td style='padding-left: 8px'>{$conversion['comments']}</td></tr>";
             }
             echo "
-            <tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+                                </table>
+                            </td>
+                            <td width='60%'>
+                                <table border='0' cellspacing='0' cellpadding='0'>
+                                    <tr><th scope='col' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strStatsVariables']}:</th><td></td></tr>";
+            foreach($aConVariables as $conVariable) {
+                // Do not show hidden variables to publishers
+                if (phpAds_isUser(phpAds_Affiliate) && $conVariable['hidden'] == 't') {
+                    continue;
+                }
+                echo "<tr><th scope='row' style='text-align: $phpAds_TextAlignLeft; color: darkgrey'>".
+                        htmlspecialchars(empty($conVariable['description']) ? $conVariable['name'] : $conVariable['description']).
+                        "</th><td style='padding-left: 8px'>".htmlspecialchars($conVariable['value'])."</td></tr>";
+            }
+            echo "
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                ";
+                echo "
+                </td>
+            </tr>";
+        }
+        echo "
+        <tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
     }
 
     echo "
@@ -588,7 +526,7 @@ if (!empty($aConversions)) {
     foreach ($getValues as $record) {
         $filed = explode('=', $record);
         echo "<input type='hidden' name='". $filed[0]."' value='". $filed[1]."'>";
-    } 
+    }
 
 
     echo "<tr>
@@ -608,10 +546,6 @@ if (!empty($aConversions)) {
         <br /><br />
         </form>
         ";
-
-
-
-
 
     if($editStatuses) {
         echo "<input type='submit' name='submit' value='$strSaveChanges' tabindex='".($tabindex++)."'>"."\n";

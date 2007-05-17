@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -24,6 +24,14 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
+
+$file = '/lib/max/Delivery/remotehost.php';
+###START_STRIP_DELIVERY
+if(isset($GLOBALS['_MAX']['FILES'][$file])) {
+    return;
+}
+###END_STRIP_DELIVERY
+$GLOBALS['_MAX']['FILES'][$file] = true;
 
 /**
  * @package    MaxDelivery
@@ -113,9 +121,8 @@ function MAX_remotehostReverseLookup()
 {
     // Is the remote host name already set?
     if (empty($_SERVER['REMOTE_HOST'])) {
-        $conf = $GLOBALS['_MAX']['CONF'];
         // Should reverse lookups be performed?
-        if ($conf['logging']['reverseLookup']) {
+        if ($GLOBALS['_MAX']['CONF']['logging']['reverseLookup']) {
             $_SERVER['REMOTE_HOST'] = @gethostbyaddr($_SERVER['REMOTE_ADDR']);
         } else {
             $_SERVER['REMOTE_HOST'] = $_SERVER['REMOTE_ADDR'];
@@ -132,7 +139,7 @@ function MAX_remotehostReverseLookup()
 function MAX_remotehostSetClientInfo()
 {
     if ($GLOBALS['_MAX']['CONF']['logging']['sniff'] && isset($_SERVER['HTTP_USER_AGENT'])) {
-        include_once MAX_PATH . '/lib/phpSniff/phpSniff.class.php';
+        include MAX_PATH . '/lib/phpSniff/phpSniff.class.php';
         $client = new phpSniff($_SERVER['HTTP_USER_AGENT']);
         $GLOBALS['_MAX']['CLIENT'] = $client->_browser_info;
     }
@@ -149,19 +156,19 @@ function MAX_remotehostSetClientInfo()
  */
 function MAX_remotehostSetGeoInfo()
 {
-    // Use a reference to $conf so that additional config entries can be added
-    $conf = &$GLOBALS['_MAX']['CONF'];
-    
-    $pluginTypeConfig = parseIniFile(MAX_PATH . '/var/plugins/config/geotargeting', 'plugin');
+    if (!function_exists('parseDeliveryIniFile')) {
+        require_once MAX_PATH . '/init-delivery-parse.php';
+    }
+    $pluginTypeConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting', 'plugin');
     $type = (!empty($pluginTypeConfig['geotargeting']['type'])) ? $pluginTypeConfig['geotargeting']['type'] : null;
     if (!is_null($type) && $type != 'none') {
-        $pluginConfig = parseIniFile(MAX_PATH . '/var/plugins/config/geotargeting/' . $type, 'plugin');
-        $conf['geotargeting'] = array_merge($pluginTypeConfig['geotargeting'], $pluginConfig['geotargeting']);
+        $pluginConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting/' . $type, 'plugin');
+        $GLOBALS['_MAX']['CONF']['geotargeting'] = array_merge($pluginTypeConfig['geotargeting'], $pluginConfig['geotargeting']);
         // There may have been a copy of $conf set in the global scope, this should also be updated
         if (isset($GLOBALS['conf'])) {
-            $GLOBALS['conf']['geotargeting'] = $conf['geotargeting'];
+            $GLOBALS['conf']['geotargeting'] = $GLOBALS['_MAX']['CONF']['geotargeting'];
         }
-        @include_once(MAX_PATH . '/plugins/geotargeting/' . $type . '/' . $type . '.delivery.php');
+        @include(MAX_PATH . '/plugins/geotargeting/' . $type . '/' . $type . '.delivery.php');
         $functionName = 'MAX_Geo_'.$type.'_getInfo';
         if (function_exists($functionName)) {
             $GLOBALS['_MAX']['CLIENT_GEO'] = $functionName();

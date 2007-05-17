@@ -1,5 +1,30 @@
 <?php
 
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 
 /**
@@ -36,6 +61,7 @@ class test_DeliveryAdSelect extends UnitTestCase
 		require_once MAX_PATH . '/lib/max/Delivery/common.php';
 
 		$what         =	'zone:1';
+		$campaignid   = '';
 		$target       = 'http://www.target.com';
 		$source       = 'http://www.source.com';
 		$withText	  =	false;
@@ -45,7 +71,7 @@ class test_DeliveryAdSelect extends UnitTestCase
 		$loc		  =	0;
 		$referer	  = 'http://some.referrer.com/';
 
-	    $return       = MAX_adSelect($what, $target, $source, $withtext, $context, $richmedia, $ct0, $loc, $referer);
+	    $return       = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $context, $richmedia, $ct0, $loc, $referer);
 
 		$this->assertTrue(TRUE);
 	}
@@ -102,11 +128,11 @@ class test_DeliveryAdSelect extends UnitTestCase
 		$this->sendMessage('test_adSelect');
 
 		require_once MAX_PATH . '/lib/max/Delivery/common.php';
-        require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adSelectZone.php';
+        require MAX_PATH . '/lib/max/Delivery/tests/data/test_adSelectZone.php';
 
-//        require_once MAX_PATH . '/lib/max/Dal/Delivery/mysql.php';
-//        MAX_Dal_Delivery_connect();
-//        $aLinkedAds = (array)MAX_Dal_Delivery_getZoneLinkedAds(61);
+//        require_once MAX_PATH . '/lib/OA/Dal/Delivery/'.$GLOBALS['_MAX']['CONF']['database']['type'].'.php';
+//        OA_Dal_Delivery_connect();
+//        $aLinkedAds = (array)OA_Dal_Delivery_getZoneLinkedAds(61);
 //        $prn = var_export($aLinkedAds, TRUE);
 
         // Test1
@@ -151,17 +177,17 @@ class test_DeliveryAdSelect extends UnitTestCase
 		$this->assertIsA($ret[0], 'array');
         $this->assertEqual($ret[0]['=='], 'companionid:55');
 	}
-	
-	
+
+
 	function test_getNextZone()
 	{
 		$arrZone['chain'] = false;
-		
+
 		$this->assertEqual(10, _getNextZone(10, $arrZone));
-		
+
 		$arrZone['chain'] = 'zone:15';
 		$this->assertEqual(15, _getNextZone(10, $arrZone));
-		
+
 		$arrZone['chain'] = 'blabla:15';
 		$this->assertEqual(10, _getNextZone(10, $arrZone));
 	}

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -28,19 +28,12 @@
 $Id$
 */
 
-// Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
-require_once MAX_PATH . '/lib/max/Admin/LegalAgreement.php';
-
-// Define usertypes bitwise, so 1, 2, 4, 8, 16, etc.
-define ("phpAds_Admin", 1);
-define ("phpAds_Client", 2);    // aka advertiser
-define ("phpAds_Advertiser", 2); // formerly known as client
-define ("phpAds_Affiliate", 4); // aka publisher
-define ("phpAds_Publisher", 4); // formerly known as affiliate
-define ("phpAds_Agency", 8);
-
+require_once MAX_PATH . '/lib/max/Permission/User.php';
+require_once MAX_PATH . '/lib/max/Permission/Session.php';
+require_once MAX_PATH . '/lib/max/other/common.php';
 
 // Define client permissions bitwise, so 1, 2, 4, 8, 16, etc.
 define ("phpAds_ModifyInfo", 1);
@@ -71,9 +64,9 @@ function phpAds_Start()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     global $session;
-    
-    // XXX: Why not try loading session data when Max is not installed?  
-    if ($conf['max']['installed']) {
+
+    // XXX: Why not try loading session data when Openads is not installed?
+    if ($conf['openads']['installed']) {
         phpAds_SessionDataFetch();
     }
     if (!phpAds_isLoggedIn() || phpAds_SuppliedCredentials()) {
@@ -94,20 +87,10 @@ function phpAds_Start()
         }
     }
     // Overwrite certain preset preferences
-    if (isset($session['language']) && $session['language'] != '' && $session['language'] != $pref['language']) {
+    if (!empty($session['language']) && $session['language'] != $GLOBALS['pref']['language']) {
         $GLOBALS['_MAX']['CONF']['max']['language'] = $session['language'];
     }
 
-    if ($conf['max']['installed']) {
-        // Show legal agreement (terms & conditions) if necessary
-        $oLegalAgreement = new MAX_Admin_LegalAgreement();
-        if ($oLegalAgreement->doesCurrentUserNeedToSeeAgreement()) {
-            if (!defined('MAX_SKIP_LEGAL_AGREEMENT')) {
-                header("Location: legal-agreement.php");
-                exit;
-            }
-        }
-    }
 }
 
 /*-------------------------------------------------------*/
@@ -116,21 +99,10 @@ function phpAds_Start()
 
 function phpAds_Logout()
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $agencyid = $GLOBALS['agencyid'];
-
-    $redirect_to = 'index.php';
-    // Get the agency logout URL if set
-    if (isset($agencyid) && ($agencyid > 0)) {
-        $res = phpAds_dbQuery("SELECT logout_url FROM {$conf['table']['prefix']}{$conf['table']['agency']} WHERE agencyid={$agencyid}");
-        if (($row = phpAds_dbFetchArray($res)) && ($row['logout_url'] != '')) {
-            $redirect_to = trim($row['logout_url']);
-        }
-    }
     phpAds_SessionDataDestroy();
-    header ("Location: {$redirect_to}");
+    $dalAgency = OA_Dal::factoryDAL('agency');
+    header ("Location: " . $dalAgency->getLogoutUrl($GLOBALS['agencyid']));
 }
-
 
 
 /*-------------------------------------------------------*/
@@ -219,12 +191,12 @@ function phpAds_getAgencyID ()
 function phpAds_getHelpFile ()
 {
     global $session;
-    
+
     if (!empty($session['help_file'])) {
         return $session['help_file'];
     }
-    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-        return 'http://docs.m3.net/';
+    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || defined('phpAds_installing')) {
+        return 'http://docs.openads.org/';
     }
 
     return false;
@@ -234,144 +206,45 @@ function phpAds_getHelpFile ()
 /* Private functions                                     */
 /*-------------------------------------------------------*/
 
+
 function phpAds_Login()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    global $strPasswordWrong, $strEnableCookies, $strEnterBoth;
+    global $strPasswordWrong;
+    // if user is not within the admin folder, redirect them
+    if (strpos($_SERVER['REQUEST_URI'],'admin') === false)
+    {
+        header('location: http://'.$GLOBALS['_MAX']['CONF']['webpath']['admin']);
+        exit();
+    }
+    
     if (phpAds_SuppliedCredentials()) {
-        // Trim spaces from input
-        $username  = trim($_POST['username']);
-        $password  = trim($_POST['password']);
-        $md5digest = trim($_POST['phpAds_md5']);
-        // Add slashes to input if needed
-        if (!ini_get('magic_quotes_gpc')) {
-            $username  = addslashes($username);
-            $password  = addslashes($password);
-            $md5digest = addslashes($md5digest);
-        }
-        // Convert plain text password to md5 digest
-        if ($md5digest == '' && $password != '') {
-            $md5digest = md5($password);
-        }
-        // Exit if not both username and password are given
-        if ($md5digest == '' ||    $md5digest == md5('') || $username  == '') {
-            $_COOKIE['sessionID'] = phpAds_SessionStart();
-            phpAds_LoginScreen($strEnterBoth, $_COOKIE['sessionID']);
-        }
-        // Exit if cookies are disabled
-        if ($_COOKIE['sessionID'] != $_POST['phpAds_cookiecheck']) {
-            $_COOKIE['sessionID'] = phpAds_SessionStart();
-            phpAds_LoginScreen($strEnableCookies, $_COOKIE['sessionID']);
-        }
+        $username  = MAX_commonGetPostValueUnslashed('username');
+        $password  = MAX_commonGetPostValueUnslashed('password');
+        $md5digest = MAX_commonGetPostValueUnslashed('phpAds_md5');
+
+        $md5digest = MAX_Permission_Session::getMd5FromPassword($md5digest, $password);
+
+        MAX_Permission_Session::restartIfUsernameOrPasswordEmpty($md5digest, $username);
+
+        MAX_Permission_Session::restartIfCookiesDisabled();
+
         if (phpAds_isAdmin($username, $md5digest)) {
-            // User is Administrator
-            return (array ("usertype"         => phpAds_Admin,
-                           "loggedin"         => "t",
-                           "agencyid"        => 0,
-                           "username"         => $username)
-                   );
+            return MAX_Permission_User::getAAdminData($username);
+        } elseif ($doUser = MAX_Permission_User::findAndGetDoUser($username, $md5digest)) {
+            return $doUser->getAUserData();
         } else {
-            // Check agency table
-            $query = "
-                SELECT
-                    agencyid,
-                    permissions,
-                    language
-                FROM
-                    {$conf['table']['prefix']}{$conf['table']['agency']}
-                WHERE
-                    username = '$username'
-                    AND password = '$md5digest'
-            ";
-            $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-            if (phpAds_dbNumRows($res) > 0) {
-                // User found with correct password
-                $row = phpAds_dbFetchArray($res);
-                return (array ("usertype"         => phpAds_Agency,
-                               "loggedin"         => "t",
-                               "username"         => $username,
-                               "userid"         => $row['agencyid'],
-                               "agencyid"        => $row['agencyid'],
-                               "permissions"     => $row['permissions'],
-                               "language"         => $row['language'])
-                       );
-            } else {
-                // Check client table
-                $query = "
-                    SELECT
-                        clientid,
-                        agencyid,
-                        permissions,
-                        language
-                    FROM
-                        ".$conf['table']['prefix'].$conf['table']['clients']."
-                    WHERE
-                        clientusername = '".$username."'
-                        AND clientpassword = '".$md5digest."'
-                ";
-                $res = phpAds_dbQuery($query) or phpAds_sqlDie();
-                if (phpAds_dbNumRows($res) > 0) {
-                    // User found with correct password
-                    $row = phpAds_dbFetchArray($res);
-                    return (array ("usertype"         => phpAds_Client,
-                                   "loggedin"         => "t",
-                                   "username"         => $username,
-                                   "userid"         => $row['clientid'],
-                                   "agencyid"        => $row['agencyid'],
-                                   "permissions"     => $row['permissions'],
-                                   "language"         => $row['language'])
-                           );
-                } else {
-                    $res = phpAds_dbQuery("
-                        SELECT
-                            a.affiliateid,
-                            a.agencyid,
-                            a.permissions,
-                            a.language,
-                            IF(a.last_accepted_agency_agreement, 0, 1) AS needs_to_agree,
-                            e.help_file
-                        FROM
-                            ".$conf['table']['prefix'].$conf['table']['affiliates']." a LEFT JOIN
-                            ".$conf['table']['prefix'].$conf['table']['affiliates_extra']." e USING (affiliateid)
-                        WHERE
-                            username = '".$username."'
-                            AND password = '".$md5digest."'
-                        ");
-                    if ($res && phpAds_dbNumRows($res) > 0) {
-                        // User found with correct password
-                        $row = phpAds_dbFetchArray($res);
-                        return (array ("usertype"       => phpAds_Affiliate,
-                                       "loggedin"       => "t",
-                                       "username"       => $username,
-                                       "userid"         => $row['affiliateid'],
-                                       "agencyid"       => $row['agencyid'],
-                                       "permissions"    => $row['permissions'],
-                                       "language"       => $row['language'],
-                                       "needs_to_agree" => $row['needs_to_agree'],
-                                       "help_file"        => $row['help_file'])
-                               );
-                    } else {
-                        // Password is not correct or user is not known
-                        // Set the session ID now, some server do not support setting a cookie during a redirect
-                        $_COOKIE['sessionID'] = phpAds_SessionStart();
-                        phpAds_LoginScreen($strPasswordWrong, $_COOKIE['sessionID']);
-                    }
-                }
-            }
+            // Password is not correct or user is not known
+            // Set the session ID now, some server do not support setting a cookie during a redirect
+            MAX_Permission_Session::restartToLoginScreen($strPasswordWrong);
         }
     } else {
-        // User has not supplied credentials yet
-        if (!$conf['max']['installed']) {
+        if (!$conf['openads']['installed']) {
             // We are trying to install, grant access...
-            return (array ("usertype"         => phpAds_Admin,
-                           "loggedin"         => "t",
-                           "agencyid"        => 0,
-                           "username"         => 'admin')
-                   );
+            return MAX_Permission_User::getAAdminData('admin');
         }
-        // Set the session ID now, some server do not support setting a cookie during a redirect
-        $_COOKIE['sessionID'] = phpAds_SessionStart();
-        phpAds_LoginScreen('', $_COOKIE['sessionID']);
+        // Set the session ID now, some servers do not support setting a cookie during a redirect.
+        MAX_Permission_Session::restartToLoginScreen();
     }
 }
 
@@ -409,7 +282,7 @@ function phpAds_LoginScreen($message='', $sessionID=0, $inLineLogin = false)
         phpAds_PageHeader(phpAds_Login);
     }
     if ($conf['max']['uiEnabled'] == true)
-    { 
+    {
         echo "<br />";
         echo "<form name='login' method='post' action='".basename($_SERVER['PHP_SELF']);
         echo (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != '' ? '?'.htmlentities($_SERVER['QUERY_STRING']) : '')."'>";

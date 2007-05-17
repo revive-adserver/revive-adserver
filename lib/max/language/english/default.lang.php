@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
@@ -41,11 +41,6 @@ $GLOBALS['phpAds_TextAlignRight']       = "right";
 $GLOBALS['phpAds_TextAlignLeft']        = "left";
 $GLOBALS['phpAds_CharSet']              = "UTF-8";
 
-// Set text direction and characterset
-$GLOBALS['phpAds_TextDirection']        = "ltr";
-$GLOBALS['phpAds_TextAlignRight']       = "right";
-$GLOBALS['phpAds_TextAlignLeft']        = "left";
-
 $GLOBALS['phpAds_DecimalPoint']         = '.';
 $GLOBALS['phpAds_ThousandsSeperator']   = ',';
 
@@ -68,6 +63,7 @@ $GLOBALS['excel_decimal_formatting']    = '#,##0.000;-#,##0.000;-';
 
 $GLOBALS['strHome']                     = "Home";
 $GLOBALS['strHelp']                     = "Help";
+$GLOBALS['strStartOver']                = "Start over";
 $GLOBALS['strNavigation']               = "Navigation";
 $GLOBALS['strShortcuts']                = "Shortcuts";
 $GLOBALS['strAdminstration']            = "Inventory";
@@ -287,9 +283,9 @@ $GLOBALS['strInactiveAdvertisersHidden']    = "inactive advertiser(s) hidden";
 $GLOBALS['strContact']                          = "Contact";
 $GLOBALS['strEMail']                            = "E-mail";
 $GLOBALS['strChars']                            = "chars";
-$GLOBALS['strSendAdvertisingReport']            = "Send an advertising report via e-mail";
-$GLOBALS['strNoDaysBetweenReports']             = "Number of days between reports";
-$GLOBALS['strSendDeactivationWarning']          = "Send a warning when a campaign is deactivated";
+$GLOBALS['strSendAdvertisingReport']            = "E-mail campaign delivery reports";
+$GLOBALS['strNoDaysBetweenReports']             = "Number of days between campaign delivery reports";
+$GLOBALS['strSendDeactivationWarning']          = "E-mail when a campaign is automatically activated/deactivated";
 $GLOBALS['strAllowClientModifyInfo']            = "Allow this user to modify his own settings";
 $GLOBALS['strAllowClientModifyBanner']          = "Allow this user to modify his own banners";
 $GLOBALS['strAllowClientAddBanner']             = "Allow this user to add his own banners";
@@ -364,6 +360,7 @@ $GLOBALS['strImpressionsBooked']         = "Impressions Booked";
 $GLOBALS['strClicksBooked']             = "Clicks Booked";
 $GLOBALS['strConversionsBooked']         = "Conversions Booked";
 $GLOBALS['strCampaignWeight']            = "None - Set the campaign weight to";
+$GLOBALS['strTargetLimitAdImpressions'] = "Target Limit Ad Impressions";
 $GLOBALS['strOptimise']                    = "Optimise delivery of this campaign.";
 $GLOBALS['strAnonymous']                = "Hide the advertiser and publisher of this campaign.";
 $GLOBALS['strHighPriority']                = "Show banners in this campaign with high priority.<br />If you use this option ".MAX_PRODUCT_NAME." will try to distribute the number of Impressions evenly over the course of the day.";
@@ -465,6 +462,7 @@ $GLOBALS['strNewBannerFileAlt']     = "Select a backup image you <br />want to u
 $GLOBALS['strNewBannerURL']         = "Image URL (incl. http://)";
 $GLOBALS['strURL']                     = "Destination URL (incl. http://)";
 $GLOBALS['strHTML']                 = "HTML";
+$GLOBALS['strKeyword']              = "Keywords";
 $GLOBALS['strTextBelow']             = "Text below image";
 $GLOBALS['strWeight']                 = "Weight";
 $GLOBALS['strAlt']                     = "Alt text";
@@ -472,7 +470,7 @@ $GLOBALS['strStatusText']            = "Status text";
 $GLOBALS['strBannerWeight']            = "Banner weight";
 $GLOBALS['strBannerType']           = "Ad Type";
 $GLOBALS['strAdserverTypeGeneric']  = "Generic HTML Banner";
-$GLOBALS['strAdserverTypeMax']      = "Rich Media - m3 Max Media Manager";
+$GLOBALS['strAdserverTypeMax']      = "Rich Media - Openads";
 $GLOBALS['strAdserverTypeAtlas']    = "Rich Media - Atlas";
 $GLOBALS['strAdserverTypeBluestreak']   = "Rich Media - Bluestreak";
 $GLOBALS['strAdserverTypeDoubleclick']  = "Rich Media - DoubleClick";
@@ -481,6 +479,7 @@ $GLOBALS['strAdserverTypeFalk']         = "Rich Media - Falk";
 $GLOBALS['strAdserverTypeMediaplex']    = "Rich Media - Mediaplex";
 $GLOBALS['strAdserverTypeTangozebra']   = "Rich Media - Tango Zebra";
 $GLOBALS['strGenericOutputAdServer'] = "Generic";
+$GLOBALS['strSwfTransparency']		= "Transparent background (Flash-only)";
 
 // Banner (swf)
 $GLOBALS['strCheckSWF']                = "Check for hard-coded links inside the Flash file";
@@ -710,54 +709,56 @@ $GLOBALS['strShortcutEditStatuses'] = 'Edit statuses';
 $GLOBALS['strShortcutShowStatuses'] = 'Show statuses';
 
 // Statistics
-$GLOBALS['strStats']                 = "Statistics";
-$GLOBALS['strNoStats']                = "There are currently no statistics available";
-$GLOBALS['strNoStatsForPeriod']        = "There are currently no statistics available for the period %s to %s";
-$GLOBALS['strConfirmResetStats']    = "Do you really want to delete all existing statistics?";
-$GLOBALS['strGlobalHistory']        = "Global history";
-$GLOBALS['strDailyHistory']            = "Daily history";
-$GLOBALS['strDailyStats']             = "Daily statistics";
-$GLOBALS['strWeeklyHistory']        = "Weekly history";
-$GLOBALS['strMonthlyHistory']        = "Monthly history";
-$GLOBALS['strCreditStats']             = "Credit statistics";
-$GLOBALS['strDetailStats']             = "Detailed statistics";
-$GLOBALS['strTotalThisPeriod']        = "Total this period";
-$GLOBALS['strAverageThisPeriod']    = "Average this period";
-$GLOBALS['strPublisherDistribution'] = "Publisher distribution";
-$GLOBALS['strCampaignDistribution'] = "Campaign distribution";
-$GLOBALS['strDistributionBy']        = "Distribution by";
-$GLOBALS['strOptimise']                = "Optimise";
-$GLOBALS['strKeywordStatistics']    = "Keyword Statistics";
-$GLOBALS['strResetStats']             = "Reset statistics";
-$GLOBALS['strSourceStats']            = "Source statistics";
-$GLOBALS['strSources']                = "Sources";
-$GLOBALS['strAvailableSources']        = "Available Sources";
-$GLOBALS['strSelectSource']            = "Select the source you want to view:";
-$GLOBALS['strSizeDistribution']        = "Distribution by size";
-$GLOBALS['strCountryDistribution']    = "Distribution by country";
-$GLOBALS['strEffectivity']            = "Effectivity";
-$GLOBALS['strTargetStats']            = "Targeting statistics";
-$GLOBALS['strCampaignTarget']        = "Target";
-$GLOBALS['strTargetRatio']            = "Target Ratio";
-$GLOBALS['strTargetModifiedDay']    = "Targets were modified during the day, targeting could be not accurate";
-$GLOBALS['strTargetModifiedWeek']    = "Targets were modified during the week, targeting could be not accurate";
-$GLOBALS['strTargetModifiedMonth']    = "Targets were modified during the month, targeting could be not accurate";
-$GLOBALS['strNoTargetStats']        = "There are currently no statistics about targeting available";
-$GLOBALS['strOVerall']                = "Overall";
-$GLOBALS['strByZone']                = "By Zone";
-$GLOBALS['strImpressionsRequestsRatio']   = "View Request Ratio (%)";
-$GLOBALS['strViewBreakdown']        = "View by";
-$GLOBALS['strBreakdownByDay']       = "Day";
-$GLOBALS['strBreakdownByWeek']      = "Week";
-$GLOBALS['strBreakdownByMonth']     = "Month";
-$GLOBALS['strBreakdownByDow']       = "Day of week";
-$GLOBALS['strBreakdownByHour']      = "Hour";
-$GLOBALS['strItemsPerPage']         = "Items per page";
-$GLOBALS['strDistributionHistory']  = "Distribution history";
-$GLOBALS['strShowGraphOfStatistics']  = "Show <u>G</u>raph of Statistics";
-$GLOBALS['strExportStatisticsToExcel']  = "<u>E</u>xport Statistics to Excel";
-$GLOBALS['strGDnotEnabled']         = "You must have GD enabled in PHP to display graphs. <br />Please see <a href='http://www.php.net/gd' target='_blank'>http://www.php.net/gd</a> for more information, including how to install GD on your server.";
-$GLOBALS['strTTFnotEnabled']         = "You have GD enabled in PHP but there is a problem with FreeType support. <br /> Freetype is needed in order to show the graph. <br />Please check your server configuration.";
+$GLOBALS['strStats']                     = "Statistics";
+$GLOBALS['strNoStats']                   = "There are currently no statistics available";
+$GLOBALS['strNoTargetingStats']          = "There are currently no targeting statistics available";
+$GLOBALS['strNoStatsForPeriod']          = "There are currently no statistics available for the period %s to %s";
+$GLOBALS['strNoTargetingStatsForPeriod'] = "There are currently no targeting statistics available for the period %s to %s";
+$GLOBALS['strConfirmResetStats']         = "Do you really want to delete all existing statistics?";
+$GLOBALS['strGlobalHistory']             = "Global history";
+$GLOBALS['strDailyHistory']              = "Daily history";
+$GLOBALS['strDailyStats']                = "Daily statistics";
+$GLOBALS['strWeeklyHistory']             = "Weekly history";
+$GLOBALS['strMonthlyHistory']            = "Monthly history";
+$GLOBALS['strCreditStats']               = "Credit statistics";
+$GLOBALS['strDetailStats']               = "Detailed statistics";
+$GLOBALS['strTotalThisPeriod']           = "Total this period";
+$GLOBALS['strAverageThisPeriod']         = "Average this period";
+$GLOBALS['strPublisherDistribution']     = "Publisher distribution";
+$GLOBALS['strCampaignDistribution']      = "Campaign distribution";
+$GLOBALS['strDistributionBy']            = "Distribution by";
+$GLOBALS['strOptimise']                  = "Optimise";
+$GLOBALS['strKeywordStatistics']         = "Keyword Statistics";
+$GLOBALS['strResetStats']                = "Reset statistics";
+$GLOBALS['strSourceStats']               = "Source statistics";
+$GLOBALS['strSources']                   = "Sources";
+$GLOBALS['strAvailableSources']          = "Available Sources";
+$GLOBALS['strSelectSource']              = "Select the source you want to view:";
+$GLOBALS['strSizeDistribution']          = "Distribution by size";
+$GLOBALS['strCountryDistribution']       = "Distribution by country";
+$GLOBALS['strEffectivity']               = "Effectivity";
+$GLOBALS['strTargetStats']               = "Targeting statistics";
+$GLOBALS['strCampaignTarget']            = "Target";
+$GLOBALS['strTargetRatio']               = "Target Ratio";
+$GLOBALS['strTargetModifiedDay']         = "Targets were modified during the day, targeting could be not accurate";
+$GLOBALS['strTargetModifiedWeek']        = "Targets were modified during the week, targeting could be not accurate";
+$GLOBALS['strTargetModifiedMonth']       = "Targets were modified during the month, targeting could be not accurate";
+$GLOBALS['strNoTargetStats']             = "There are currently no statistics about targeting available";
+$GLOBALS['strOVerall']                   = "Overall";
+$GLOBALS['strByZone']                    = "By Zone";
+$GLOBALS['strImpressionsRequestsRatio']  = "View Request Ratio (%)";
+$GLOBALS['strViewBreakdown']             = "View by";
+$GLOBALS['strBreakdownByDay']            = "Day";
+$GLOBALS['strBreakdownByWeek']           = "Week";
+$GLOBALS['strBreakdownByMonth']          = "Month";
+$GLOBALS['strBreakdownByDow']            = "Day of week";
+$GLOBALS['strBreakdownByHour']           = "Hour";
+$GLOBALS['strItemsPerPage']              = "Items per page";
+$GLOBALS['strDistributionHistory']       = "Distribution history";
+$GLOBALS['strShowGraphOfStatistics']     = "Show <u>G</u>raph of Statistics";
+$GLOBALS['strExportStatisticsToExcel']   = "<u>E</u>xport Statistics to Excel";
+$GLOBALS['strGDnotEnabled']              = "You must have GD enabled in PHP to display graphs. <br />Please see <a href='http://www.php.net/gd' target='_blank'>http://www.php.net/gd</a> for more information, including how to install GD on your server.";
+$GLOBALS['strTTFnotEnabled']             = "You have GD enabled in PHP but there is a problem with FreeType support. <br /> Freetype is needed in order to show the graph. <br />Please check your server configuration.";
 
 // Hosts
 $GLOBALS['strHosts']                = "Hosts";
@@ -768,19 +769,19 @@ $GLOBALS['strRecentHosts']             = "Most recent requesting hosts";
 // Expiration
 $GLOBALS['strExpired']                = "Expired";
 $GLOBALS['strExpiration']             = "Expiration";
-$GLOBALS['strNoExpiration']         = "No expiration date set";
-$GLOBALS['strEstimated']             = "Estimated expiration";
+$GLOBALS['strNoExpiration']           = "No expiration date set";
+$GLOBALS['strEstimated']              = "Estimated expiration";
 
 // Reports
 $GLOBALS['strReports']                = "Reports";
-$GLOBALS['strAdminReports']         = "Admin Reports";
-$GLOBALS['strAdvertiserReports']    = "Advertiser Reports";
-$GLOBALS['strAgencyReports']        = "Agency Reports";
-$GLOBALS['strPublisherReports']     = "Publisher Reports";
-$GLOBALS['strSelectReport']            = "Select the report you want to generate";
-$GLOBALS['strStartDate']            = "Start Date";
+$GLOBALS['strAdminReports']           = "Admin Reports";
+$GLOBALS['strAdvertiserReports']      = "Advertiser Reports";
+$GLOBALS['strAgencyReports']          = "Agency Reports";
+$GLOBALS['strPublisherReports']       = "Publisher Reports";
+$GLOBALS['strSelectReport']           = "Select the report you want to generate";
+$GLOBALS['strStartDate']              = "Start Date";
 $GLOBALS['strEndDate']                = "End Date";
-$GLOBALS['strNoData']                = "There is no data available for this time period";
+$GLOBALS['strNoData']                 = "There is no data available for this time period";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers']            = "All advertisers";
@@ -809,69 +810,76 @@ $GLOBALS['strBackToTheList']            = "Go back to report list";
 $GLOBALS['strGoToReportBuilder']        = "Go to the selected report";
 
 // Errors
-$GLOBALS['strMySQLError']                 = "SQL Error:";
-$GLOBALS['strLogErrorClients']             = "[phpAds] An error occurred while trying to fetch the advertisers from the database.";
-$GLOBALS['strLogErrorBanners']             = "[phpAds] An error occurred while trying to fetch the banners from the database.";
-$GLOBALS['strLogErrorViews']             = "[phpAds] An error occurred while trying to fetch the Impressions from the database.";
-$GLOBALS['strLogErrorClicks']             = "[phpAds] An error occurred while trying to fetch the Clicks from the database.";
-$GLOBALS['strLogErrorConversions']         = "[phpAds] An error occurred while trying to fetch the Conversions from the database.";
-$GLOBALS['strErrorViews']                 = "You must enter the number of impressions or select the unlimited box !";
-$GLOBALS['strErrorNegViews']             = "Negative impressions are not allowed";
-$GLOBALS['strErrorClicks']                 = "You must enter the number of clicks or select the unlimited box !";
-$GLOBALS['strErrorNegClicks']             = "Negative clicks are not allowed";
-$GLOBALS['strErrorConversions']         = "You must enter the number of conversions or select the unlimited box !";
-$GLOBALS['strErrorNegConversions']         = "Negative conversions are not allowed";
-$GLOBALS['strNoMatchesFound']            = "No matches were found";
-$GLOBALS['strErrorOccurred']            = "An error occurred";
-$GLOBALS['strErrorUploadSecurity']        = "Detected a possible security problem, upload halted!";
-$GLOBALS['strErrorUploadBasedir']        = "Could not access uploaded file, probably due to safemode or open_basedir restrictions";
-$GLOBALS['strErrorUploadUnknown']        = "Could not access uploaded file, due to an unknown reason. Please check your PHP configuration";
-$GLOBALS['strErrorStoreLocal']            = "An error occcured while trying to save the banner in the local directory. This is probably the result of a misconfiguration of the local directory path settings";
-$GLOBALS['strErrorStoreFTP']            = "An error occcured while trying to upload the banner to the FTP server. This could be because the server is not available, or because of a misconfiguration of the FTP server settings";
-$GLOBALS['strErrorDBPlain']                = "An error occurred while accessing the database";
-$GLOBALS['strErrorDBSerious']            = "A serious problem with the database has been detected";
-$GLOBALS['strErrorDBNoDataPlain']        = "Due to a problem with the database ".MAX_PRODUCT_NAME." couldn't retrieve or store data. ";
-$GLOBALS['strErrorDBNoDataSerious']        = "Due to a serious problem with the database, ".MAX_PRODUCT_NAME." couldn't retrieve data";
-$GLOBALS['strErrorDBCorrupt']            = "The database table is probably corrupt and needs to be repaired. For more information about repairing corrupted tables please read the chapter <i>Troubleshooting</i> of the <i>Administrator guide</i>.";
-$GLOBALS['strErrorDBContact']            = "Please contact the administrator of this server and notify him or her of the problem.";
-$GLOBALS['strErrorDBSubmitBug']            = "If this problem is reproducable it might be caused by a bug in ".MAX_PRODUCT_NAME.". Please report the following information to the creators of ".MAX_PRODUCT_NAME.". Also try to describe the actions that led to this error as clearly as possible.";
-$GLOBALS['strMaintenanceNotActive']        = "The maintenance script has not been run in the last 24 hours. \\nIn order for ".MAX_PRODUCT_NAME." to function correctly it needs to run \\nevery hour. \\n\\nPlease read the Administrator guide for more information \\nabout configuring the maintenance script.";
-$GLOBALS['strErrorBadUserType']         = "The system was unable to determine your account user type!";
-$GLOBALS['strErrorLinkingBanner']       = "There were errors linking banners to zones:";
-$GLOBALS['strUnableToLinkBanner']       = "Unable to link: ";
-$GLOBALS['strErrorEditingCampaign']     = "Error updating campaign:";
-$GLOBALS['strUnableToChangeCampaign']   = "Cannot apply this change because:";
-$GLOBALS['strDatesConflict']            = "dates conflict with:";
-$GLOBALS['strEmailNoDates']             = 'Email zone campaigns must have a start and end date';
+$GLOBALS['strMySQLError']                       = "SQL Error:";
+$GLOBALS['strLogErrorClients']                  = "[phpAds] An error occurred while trying to fetch the advertisers from the database.";
+$GLOBALS['strLogErrorBanners']                  = "[phpAds] An error occurred while trying to fetch the banners from the database.";
+$GLOBALS['strLogErrorViews']                    = "[phpAds] An error occurred while trying to fetch the Impressions from the database.";
+$GLOBALS['strLogErrorClicks']                   = "[phpAds] An error occurred while trying to fetch the Clicks from the database.";
+$GLOBALS['strLogErrorConversions']              = "[phpAds] An error occurred while trying to fetch the Conversions from the database.";
+$GLOBALS['strErrorViews']                       = "You must enter the number of impressions or select the unlimited box !";
+$GLOBALS['strErrorNegViews']                    = "Negative impressions are not allowed";
+$GLOBALS['strErrorClicks']                      = "You must enter the number of clicks or select the unlimited box !";
+$GLOBALS['strErrorNegClicks']                   = "Negative clicks are not allowed";
+$GLOBALS['strErrorConversions']                 = "You must enter the number of conversions or select the unlimited box !";
+$GLOBALS['strErrorNegConversions']              = "Negative conversions are not allowed";
+$GLOBALS['strNoMatchesFound']                   = "No matches were found";
+$GLOBALS['strErrorOccurred']                    = "An error occurred";
+$GLOBALS['strErrorUploadSecurity']              = "Detected a possible security problem, upload halted!";
+$GLOBALS['strErrorUploadBasedir']               = "Could not access uploaded file, probably due to safemode or open_basedir restrictions";
+$GLOBALS['strErrorUploadUnknown']               = "Could not access uploaded file, due to an unknown reason. Please check your PHP configuration";
+$GLOBALS['strErrorStoreLocal']                  = "An error occcured while trying to save the banner in the local directory. This is probably the result of a misconfiguration of the local directory path settings";
+$GLOBALS['strErrorStoreFTP']                    = "An error occcured while trying to upload the banner to the FTP server. This could be because the server is not available, or because of a misconfiguration of the FTP server settings";
+$GLOBALS['strErrorDBPlain']                     = "An error occurred while accessing the database";
+$GLOBALS['strErrorDBSerious']                   = "A serious problem with the database has been detected";
+$GLOBALS['strErrorDBNoDataPlain']               = "Due to a problem with the database ".MAX_PRODUCT_NAME." couldn't retrieve or store data. ";
+$GLOBALS['strErrorDBNoDataSerious']             = "Due to a serious problem with the database, ".MAX_PRODUCT_NAME." couldn't retrieve data";
+$GLOBALS['strErrorDBCorrupt']                   = "The database table is probably corrupt and needs to be repaired. For more information about repairing corrupted tables please read the chapter <i>Troubleshooting</i> of the <i>Administrator guide</i>.";
+$GLOBALS['strErrorDBContact']                   = "Please contact the administrator of this server and notify him or her of the problem.";
+$GLOBALS['strErrorDBSubmitBug']                 = "If this problem is reproducable it might be caused by a bug in ".MAX_PRODUCT_NAME.". Please report the following information to the creators of ".MAX_PRODUCT_NAME.". Also try to describe the actions that led to this error as clearly as possible.";
+$GLOBALS['strMaintenanceNotActive']             = "The maintenance script has not been run in the last 24 hours. \\nIn order for ".MAX_PRODUCT_NAME." to function correctly it needs to run \\nevery hour. \\n\\nPlease read the Administrator guide for more information \\nabout configuring the maintenance script.";
+$GLOBALS['strErrorBadUserType']                 = "The system was unable to determine your account user type!";
+$GLOBALS['strErrorLinkingBanner']               = "There were errors linking banners to zones:";
+$GLOBALS['strUnableToLinkBanner']               = "Unable to link: ";
+$GLOBALS['strErrorEditingCampaign']             = "Error updating campaign:";
+$GLOBALS['strUnableToChangeCampaign']           = "Cannot apply this change because:";
+$GLOBALS['strDatesConflict']                    = "dates conflict with:";
+$GLOBALS['strEmailNoDates']                     = 'Email zone campaigns must have a start and end date';
 
 // E-mail
-$GLOBALS['strMailSubject']                     = "Advertiser report";
-$GLOBALS['strAdReportSent']                    = "Advertiser report sent";
-$GLOBALS['strMailSubjectDeleted']             = "Deactivated banners";
-$GLOBALS['strMailHeader']                     = "Dear {contact},\n";
-$GLOBALS['strMailBannerStats']                 = "Below you will find the banner statistics for {clientname}:";
-$GLOBALS['strMailFooter']                     = "Regards,\n   {adminfullname}";
-$GLOBALS['strMailClientDeactivated']         = "The following banners have been disabled because";
-$GLOBALS['strMailNothingLeft']                 = "If you would like to continue advertising on our website, please feel free to contact us.\nWe'd be glad to hear from you.";
-$GLOBALS['strClientDeactivated']            = "This campaign is currently not active because";
-$GLOBALS['strBeforeActivate']                = "the activation date has not yet been reached";
-$GLOBALS['strAfterExpire']                    = "the expiration date has been reached";
-$GLOBALS['strNoMoreImpressions']            = "there are no Impressions remaining";
-$GLOBALS['strNoMoreClicks']                    = "there are no Clicks remaining";
-$GLOBALS['strNoMoreConversions']            = "there are no Sales remaining";
-$GLOBALS['strWeightIsNull']                    = "its weight is set to zero";
-$GLOBALS['strWarnClientTxt']                = "The Impressions, Clicks, or Conversions left for your banners are getting below {limit}. \nYour banners will be disabled when there are no Impressions, Clicks, or Conversions left. ";
-$GLOBALS['strImpressionsClicksConversionsLow']    = "Impressions/Clicks/Conversions are low";
-$GLOBALS['strNoViewLoggedInInterval']       = "No Impressions were logged during the span of this report";
-$GLOBALS['strNoClickLoggedInInterval']      = "No Clicks were logged during the span of this report";
-$GLOBALS['strNoConversionLoggedInInterval'] = "No Conversions were logged during the span of this report";
-$GLOBALS['strMailReportPeriod']                = "This report includes statistics from {startdate} up to {enddate}.";
-$GLOBALS['strMailReportPeriodAll']            = "This report includes all statistics up to {enddate}.";
-$GLOBALS['strNoStatsForCampaign']             = "There are no statistics available for this campaign";
+$GLOBALS['strSirMadam']                         = "Sir/Madam";
+$GLOBALS['strMailSubject']                      = "Advertiser report";
+$GLOBALS['strAdReportSent']                     = "Advertiser report sent";
+$GLOBALS['strMailSubjectDeleted']               = "Deactivated banners";
+$GLOBALS['strMailHeader']                       = "Dear {contact},\n";
+$GLOBALS['strMailBannerStats']                  = "Below you will find the banner statistics for {clientname}:";
+$GLOBALS['strMailFooter']                       = "Regards,\n   {adminfullname}";
+$GLOBALS['strMailClientDeactivated']            = "The following banners have been disabled because";
+$GLOBALS['strMailNothingLeft']                  = "If you would like to continue advertising on our website, please feel free to contact us.\nWe'd be glad to hear from you.";
+$GLOBALS['strClientDeactivated']                = "This campaign is currently not active because";
+$GLOBALS['strBeforeActivate']                   = "the activation date has not yet been reached";
+$GLOBALS['strAfterExpire']                      = "the expiration date has been reached";
+$GLOBALS['strNoMoreImpressions']                = "there are no Impressions remaining";
+$GLOBALS['strNoMoreClicks']                     = "there are no Clicks remaining";
+$GLOBALS['strNoMoreConversions']                = "there are no Sales remaining";
+$GLOBALS['strWeightIsNull']                     = "its weight is set to zero";
+$GLOBALS['strWarnClientTxt']                    = "The Impressions, Clicks, or Conversions left for your banners are getting below {limit}. \nYour banners will be disabled when there are no Impressions, Clicks, or Conversions left. ";
+$GLOBALS['strImpressionsClicksConversionsLow']  = "Impressions/Clicks/Conversions are low";
+$GLOBALS['strNoViewLoggedInInterval']           = "No Impressions were logged during the span of this report";
+$GLOBALS['strNoClickLoggedInInterval']          = "No Clicks were logged during the span of this report";
+$GLOBALS['strNoConversionLoggedInInterval']     = "No Conversions were logged during the span of this report";
+$GLOBALS['strMailReportPeriod']                 = "This report includes statistics from {startdate} up to {enddate}.";
+$GLOBALS['strMailReportPeriodAll']              = "This report includes all statistics up to {enddate}.";
+$GLOBALS['strNoStatsForCampaign']               = "There are no statistics available for this campaign";
+$GLOBALS['strImpendingCampaignExpiry']          = "Impending campaign expiration";
+$GLOBALS['strYourCampaign']                     = "Your campaign";
+$GLOBALS['strTheCampiaignBelongingTo']          = "The campaign belonging to";
+$GLOBALS['strImpendingCampaignExpiryDateBody']  = "{clientname} shown below is due to end on {date}.";
+$GLOBALS['strImpendingCampaignExpiryImpsBody']  = "{clientname} shown below has less than {limit} impressions remaining.";
+$GLOBALS['strImpendingCampaignExpiryBody']      = "As a result, the campaign will soon be automatically disabled, and the\nfollowing banners in the campaign will also be disabled:";
 
 // Priority
-$GLOBALS['strPriority']                = "Priority";
-$GLOBALS['strSourceEdit']            = "Edit Sources";
+$GLOBALS['strPriority']                         = "Priority";
+$GLOBALS['strSourceEdit']                       = "Edit Sources";
 
 // Settings
 $GLOBALS['strSettings']             = "Settings";
@@ -909,6 +917,7 @@ $GLOBALS['strEditChannelLimitations']     = "Edit channel limitations";
 $GLOBALS['strChannelProperties']          = "Channel properties";
 $GLOBALS['strChannelLimitations']         = "Delivery options";
 $GLOBALS['strConfirmDeleteChannel']       = "Do you really want to delete this channel?";
+$GLOBALS['strModifychannel']              = "Edit channel";
 
 // Tracker Variables
 $GLOBALS['strVariableName']             = "Variable Name";
@@ -939,7 +948,7 @@ $GLOBALS['strTrackerTypeCustom']    = "Custom JS code";
 $GLOBALS['strVariableCode']         = "Javascript tracking code";
 
 
-//Upload conversions
+// Upload conversions
 $GLOBALS['strRecordLengthTooBig']   = 'Record length too big';
 $GLOBALS['strRecordNonInt']         = 'Value needs to be numeric';
 $GLOBALS['strRecordWasNotInserted'] = 'Record was not inserted';

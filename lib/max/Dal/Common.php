@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -25,9 +25,12 @@
 $Id:Common.php 3884 2005-11-25 10:54:56Z andrew@m3.net $
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/DB.php';
+
+require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/wact/db/db.inc.php';
 require_once 'DB/QueryTool.php';
 
 /**
@@ -41,10 +44,45 @@ require_once 'DB/QueryTool.php';
  */
 class MAX_Dal_Common
 {
-    var $dbh;
+    /**
+     * @var MDB2_Driver_Common
+     */
+    var $oDbh;
     var $queryBuilder;
     var $conf;
     var $prefix;
+
+    /**
+     * Usually most of models will be created to handle persistent operation per
+     * specific table. This variable store that table name and it is used by factoryDO() method
+     *
+     * @var string
+     */
+    var $table;
+
+    /**
+     * @var OA_DB_AdvisoryLock
+     */
+    var $oLock;
+
+    /**
+     * This array is used by getSqlListOrder(), getOrderColumn to decide how to sort
+     * rows. It should be overwritten in child classes.
+     * Format is:
+     *  'name' => 'nameField',
+     *  'id'   => 'idField',
+     *  etc...
+     *  Each value may be an array if ordering by multiple columns is desired.
+     *
+     * It replaces deprecated phpAds_getListOrder
+     *
+     * @see MAX_Dal_Common::getSqlListOrder()
+     * @var array
+     */
+    var $orderListName = array();
+
+    // Default column to order by.
+    var $defaultOrderListName = 'name';
 
     /**
      * The class constructor method.
@@ -53,25 +91,78 @@ class MAX_Dal_Common
     {
         $this->conf = $GLOBALS['_MAX']['CONF'];
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $this->dbh = &$this->_getDbConnection();
-        $dsn = MAX_DB::getDsn(MAX_DSN_STRING);
+        $this->oDbh = &$this->_getDbConnection();
+        $dsn = OA_DB::getDsn();
         $this->queryBuilder = $this->_getQueryTool($dsn);
     }
 
     /**
-     * A private method to manage creation of the utilised MAX_DB class.
+     * Factory method for loading model class
+     *
+     * @param string $modelName
+     * @return object|false
+     */
+    function factory($modelName)
+    {
+        if (empty($modelName)) {
+            PEAR::raiseError("Factory did not recive model name");
+            return false;
+        }
+        $modelName = ucfirst($modelName);
+        $class = MAX_Dal_Common::getClassName($modelName);
+        if (!class_exists($class)) {
+            $class = MAX_Dal_Common::autoLoadClass($modelName);
+            if (!$class) {
+                return false;
+            }
+        }
+
+        return new $class;
+    }
+
+    /**
+     * Autoload class
+     *
+     * @param string $modelName  Class model name
+     * @return boolean  True on success
+     * @access public
+     */
+    function autoLoadClass($modelName)
+    {
+        $path = MAX_PATH . '/lib/max/Dal/Admin/'.$modelName.'.php';
+        if (!file_exists($path)) {
+            PEAR::raiseError("autoload:File doesn't exist {$path}");
+            return false;
+        }
+        include_once $path;
+
+        $class = MAX_Dal_Common::getClassName($modelName);
+        if (!class_exists($class)) {
+            PEAR::raiseError("autoload:Could not autoload {$class}");
+            return false;
+        }
+        return $class;
+    }
+
+    function getClassName($table)
+    {
+        return 'MAX_Dal_Admin_'.ucfirst($table);
+    }
+
+    function getTablePrefix()
+    {
+        return $GLOBALS['_MAX']['CONF']['table']['prefix'];
+    }
+
+    /**
+     * A private method to manage creation of the utilised OA_DB class.
      *
      * @access private
-     * @return mixed An instance of the MAX_DB class.
+     * @return mixed An instance of the OA_DB class.
      */
     function &_getDbConnection()
     {
-        $oServiceLocator = &ServiceLocator::instance();
-        $dbh = $oServiceLocator->get('MAX_DB');
-        if (!$dbh) {
-            $dbh = &MAX_DB::singleton();
-        }
-        return $dbh;
+        return OA_DB::singleton();
     }
 
     /**
@@ -131,7 +222,7 @@ class MAX_Dal_Common
             }
         }
         // Add where conditions
-        if (count($aParams['wheres']) > 0) {
+        if (!empty($aParams['wheres'])) {
             list($constraint, $operator) = $aParams['wheres'][0];
             $this->queryBuilder->setWhere($constraint, $operator);
             if (count($aParams['wheres']) > 1) {
@@ -142,18 +233,18 @@ class MAX_Dal_Common
             }
         }
         // Add joins
-        if (!is_null($aParams['joins'])) {
+        if (!empty($aParams['joins'])) {
             foreach ($aParams['joins'] as $join) {
                 list($table, $joinCond) = $join;
                 $this->queryBuilder->addJoin($table, $joinCond);
             }
         }
         // Add the grouping
-        if (!is_null($aParams['group'])) {
+        if (!empty($aParams['group'])) {
             $this->queryBuilder->setGroup($aParams['group']);
         }
         // Add order by conditions
-        if (count($aParams['orderBys']) > 0) {
+        if (!empty($aParams['orderBys'])) {
             list($field, $direction) = $aParams['orderBys'][0];
             if (!is_bool($direction)) {
                 $direction = ($direction == 'DESC') ? true : false;
@@ -170,7 +261,7 @@ class MAX_Dal_Common
             }
         }
         // Add having conditions
-        if (count($aParams['havings']) > 0) {
+        if (!empty($aParams['havings'])) {
             list($constraint, $operator) = $aParams['havings'][0];
             $this->queryBuilder->setHaving($constraint);
             if (count($aParams['havings']) > 1) {
@@ -181,55 +272,44 @@ class MAX_Dal_Common
             }
         }
         // Run the query and return the result(s)
-        return $this->queryBuilder->getAll();
+        $result = $this->queryBuilder->getAll();
+        return $result;
+    }
+
+    // Get any generic list order...
+    function getSqlListOrder($listOrder, $orderDirection)
+    {
+        $direction = $this->getOrderDirection($this->oDbh->quote($orderDirection, 'text'));
+        $nameColumn = $this->getOrderColumn($this->oDbh->quote($listOrder, 'text'));
+        if (is_array($nameColumn)) {
+            $sqlTableOrder = ' ORDER BY ' . implode($direction . ',', $nameColumn) . $direction;
+        } else {
+            $sqlTableOrder = !empty($nameColumn) ? " ORDER BY $nameColumn $direction" : '';
+        }
+        return $sqlTableOrder;
     }
 
     /**
-     * A method to obtain a database-level lock.
+     * Gets the direction to order by
      *
-     * @param string $lockName Name of the lock to obtain.
-     * @return boolean Returns true if lock was obtained, false otherwise.
+     * @param string $orderDirection the sorting direction ('up' or 'down').
+     * @return string the SQL ORDER BY direction keyword
      */
-    function obtainLock($lockName)
+    function getOrderDirection($orderDirection)
     {
-        $lockName = $GLOBALS['_MAX']['CONF']['database']['name'].".$lockName";
-        $query = "SELECT GET_LOCK('$lockName', 1) AS 'lock'";
-        $result = $this->dbh->query( $query );
-        if( $result->fetchInto( $row ) != DB_OK ) {
-            // couldn't fetch row
-            return false;
-        }
-        
-        if ($row['lock'] == 1) {
-            // Lock obtained successfully
-            return true;
-        }
-        return false;
+        return ($orderDirection == 'down') ? ' DESC' : ' ASC';
     }
 
     /**
-     * A method to release a database-level lock.
+     * Gets the column name(s) to order by.
      *
-     * @param string $lockName Name of the lock to release.
-     * @return boolean Returns true if lock was released, false otherwise.
+     * @param string $listOrder the "type" of column to order by, eg 'name', 'id'.
+     * @return string  the name(s) of the column(s) to order by
      */
-    function releaseLock($lockName)
+    function getOrderColumn($listOrder)
     {
-        $lockName = $GLOBALS['_MAX']['CONF']['database']['name'].".$lockName";
-        $query = "SELECT RELEASE_LOCK('$lockName') AS 'release_lock'";
-        $result = $this->dbh->query( $query );
-        if( $result->fetchInto( $row ) != DB_OK ) {
-            // couldn't fetch row
-            return false;
-        }
-
-        if ($row['release_lock'] == 1) {
-            // Lock released successfully
-            return true;
-        }
-        return false;
+        return isset($this->orderListName[$listOrder]) ? $this->orderListName[$listOrder] : $this->orderListName[$this->defaultOrderListName];
     }
-
 }
 
 ?>

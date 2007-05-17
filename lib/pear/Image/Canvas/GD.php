@@ -830,7 +830,7 @@ class Image_Canvas_GD extends Image_Canvas_WithMap
         
         if (isset($shape)) {
             // output the shape
-            if (($fill = $this->_getFillStyle($params['color'])) !== false) {
+            if (($fill = $this->_getFillStyle($params['color'])) !== false && count($shape) >= 6) {
                 ImageFilledPolygon($this->_canvas, $shape, count($shape)/2, $fill);
             }
         }
@@ -1000,7 +1000,7 @@ class Image_Canvas_GD extends Image_Canvas_WithMap
 
         if ((isset($polygon)) && (is_array($polygon))) {
             if ($connectEnds) {
-                if (($fill = $this->_getFillStyle($fillColor, $low['X'], $low['Y'], $high['X'], $high['Y'])) !== false) {
+                if (($fill = $this->_getFillStyle($fillColor, $low['X'], $low['Y'], $high['X'], $high['Y'])) !== false && count($polygon) >= 6) {
                     ImageFilledPolygon($this->_canvas, $polygon, count($polygon)/2, $fill);
                 }
                 if ($this->_antialias === 'driver') {
@@ -1019,7 +1019,7 @@ class Image_Canvas_GD extends Image_Canvas_WithMap
                     }
                     
                     $this->_antialiasedLine($p0['X'], $p0['Y'], $pfirst['X'], $pfirst['Y'], $lineColor);
-                } elseif (($line = $this->_getLineStyle($lineColor)) !== false) {
+                } elseif (($line = $this->_getLineStyle($lineColor)) !== false && count($polygon) >= 6) {
                     ImagePolygon($this->_canvas, $polygon, count($polygon)/2, $line);
                 }
             } else {
@@ -1209,11 +1209,11 @@ class Image_Canvas_GD extends Image_Canvas_WithMap
             $polygon[] = ($y + $ry * sin(deg2rad(max($v1, $v2) % 360)));
         }
 
-        if (($fill = $this->_getFillStyle($fillColor, $x - $rx - 1, $y - $ry - 1, $x + $rx + 1, $y + $ry + 1)) !== false) {
+        if (($fill = $this->_getFillStyle($fillColor, $x - $rx - 1, $y - $ry - 1, $x + $rx + 1, $y + $ry + 1)) !== false && count($polygon) >= 6) {
             ImageFilledPolygon($this->_canvas, $polygon, count($polygon) / 2, $fill);
         }
 
-        if (($line = $this->_getLineStyle($lineColor)) !== false) {
+        if (($line = $this->_getLineStyle($lineColor)) !== false && count($polygon) >= 6) {
             ImagePolygon($this->_canvas, $polygon, count($polygon) / 2, $line);
         }
 

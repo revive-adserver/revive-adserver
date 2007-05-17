@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -29,7 +29,9 @@ require_once MAX_PATH . '/lib/max/Entity.php';
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/Entities.php';
-require_once MAX_PATH . '/lib/max/Dal/Maintenance/Priority.php';
+
+require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 /**
  * An entity class used to represent placements (used to be campaigns).
@@ -162,9 +164,9 @@ class MAX_Entity_Placement extends MAX_Entity
     var $oMaxDalEntities;
 
     /**
-     * A local instance of the MAX_Dal_Maintenance_Priority class.
+     * A local instance of the OA_Dal_Maintenance_Priority class.
      *
-     * @var MAX_Dal_Maintenance_Priority
+     * @var OA_Dal_Maintenance_Priority
      */
     var $oMaxDalMaintenancePriority;
 
@@ -214,7 +216,7 @@ class MAX_Entity_Placement extends MAX_Entity
     {
         // Convert "old" input value names to "new", if required
         foreach ($this->aNewOldTypes as $newName => $oldName) {
-            if (is_null($aParams[$newName])) {
+            if (empty($aParams[$newName])) {
                 $aParams[$newName] = $aParams[$oldName];
             }
         }
@@ -232,11 +234,13 @@ class MAX_Entity_Placement extends MAX_Entity
         if (!$valid) {
             $this->_abort();
         }
+
         // Store the required supplied values
         $this->id                         = (int)$aParams['placement_id'];
+
         // Store the optional required values
-        $this->activate                   = isset($aParams['activate']) ? $aParams['activate'] : '0000-00-00';
-        $this->expire                     = isset($aParams['expire']) ? $aParams['expire'] : '0000-00-00';
+        $this->activate                   = !empty($aParams['activate']) ? $aParams['activate'] : OA_Dal::noDateValue();
+        $this->expire                     = !empty($aParams['expire']) ? $aParams['expire'] : OA_Dal::noDateValue();
         $this->impressionTargetTotal      = isset($aParams['impression_target_total']) ? (int)$aParams['impression_target_total'] : 0;
         $this->clickTargetTotal           = isset($aParams['click_target_total']) ? (int)$aParams['click_target_total'] : 0;
         $this->conversionTargetTotal      = isset($aParams['conversion_target_total']) ? (int)$aParams['conversion_target_total'] : 0;
@@ -244,9 +248,10 @@ class MAX_Entity_Placement extends MAX_Entity
         $this->clickTargetDaily           = isset($aParams['click_target_daily']) ? (int)$aParams['click_target_daily'] : 0;
         $this->conversionTargetDaily      = isset($aParams['conversion_target_daily']) ? (int)$aParams['conversion_target_daily'] : 0;
         $this->priority                   = isset($aParams['priority']) ? (int)$aParams['priority'] : 0;
+
         // Set the object's data access layer objects
         $this->oMaxDalEntities            = &$this->_getMAX_Dal_Entities();
-        $this->oMaxDalMaintenancePriority = &$this->_getMAX_Dal_Maintenance_Priority();
+        $this->oMaxDalMaintenancePriority = &$this->_getOA_Dal_Maintenance_Priority();
     }
 
     /**
@@ -267,18 +272,18 @@ class MAX_Entity_Placement extends MAX_Entity
     }
 
     /**
-     * A private method to get an instance of the MAX_Dal_Maintenance_Priority class.
+     * A private method to get an instance of the OA_Dal_Maintenance_Priority class.
      *
      * @access private
-     * @return MAX_Dal_Maintenance_Priority
+     * @return OA_Dal_Maintenance_Priority
      */
-    function &_getMAX_Dal_Maintenance_Priority()
+    function &_getOA_Dal_Maintenance_Priority()
     {
         $oServiceLocator = &ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('MAX_Dal_Maintenance_Priority');
+        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
         if (!$oDal) {
-            $oDal = new MAX_Dal_Maintenance_Priority();
-            $oServiceLocator->register('MAX_Dal_Maintenance_Priority', $oDal);
+            $oDal = new OA_Dal_Maintenance_Priority();
+            $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         }
         return $oDal;
     }

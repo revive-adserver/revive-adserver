@@ -1,5 +1,30 @@
 <?php
 
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
 require_once MAX_PATH . '/lib/max/Delivery/adRender.php';
 
 /**
@@ -47,9 +72,9 @@ class test_DeliveryAdRender extends UnitTestCase
         require_once MAX_PATH . '/lib/max/Delivery/common.php';
 
         // note: following code to extract test data from db
-        // require_once MAX_PATH . '/lib/max/Dal/Delivery/mysql.php';
-        // MAX_Dal_Delivery_connect();
-        // $aBanner = (array)MAX_Dal_Delivery_getAd(7);
+        // require_once MAX_PATH . '/lib/OA/Dal/Delivery/'.$GLOBALS['_MAX']['CONF']['database']['type'].'.php';
+        // OA_Dal_Delivery_connect();
+        // $aBanner = (array)OA_Dal_Delivery_getAd(7);
         // $prn    = print_r($aBanner, TRUE);
 
         require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
@@ -75,9 +100,9 @@ class test_DeliveryAdRender extends UnitTestCase
 		require_once MAX_PATH . '/lib/max/Delivery/common.php';
 
 		// note: following code to extract test data from db
-//        require_once MAX_PATH . '/lib/max/Dal/Delivery/mysql.php';
-//        MAX_Dal_Delivery_connect();
-//        $aBanner = (array)MAX_Dal_Delivery_getAd(2);
+//        require_once MAX_PATH . '/lib/OA/Dal/Delivery/'.$GLOBALS['_MAX']['CONF']['database']['type'].'.php';
+//        OA_Dal_Delivery_connect();
+//        $aBanner = (array)OA_Dal_Delivery_getAd(2);
 //        $prn    = print_r($aBanner, TRUE);
 
         require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderFlash.php';
@@ -101,7 +126,40 @@ class test_DeliveryAdRender extends UnitTestCase
    		$i	= preg_match_all('/'.$aPattern['stru'].'/U', $return, $aMatch);
 		$this->assertTrue($i,'structure');
 
-	}
+
+		// Test a converted SWF banner
+        $aBanner['parameters'] = serialize(array(
+            'swf' => array(
+                '1' => array(
+                    'link' => 'http://www.example.com',
+                    'tar'  => '_blank'
+                )
+            )
+		));
+
+	    $return		= _adRenderFlash($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
+
+		$flags		= null;
+		$offset		= null;
+        // is prepended stuff returned?
+        if (array_key_exists('prepend', $aBanner) && (!empty($aBanner['prepend'])))
+        {
+    		$i	= preg_match('/'.$aPattern['pre'].'/', $return, $aMatch);
+    		$this->assertTrue($i,'prepend');
+        }
+        // is appended stuff returned?
+        if (array_key_exists('append', $aBanner) && (!empty($aBanner['append'])))
+        {
+    		$i	= preg_match('/'.$aPattern['app'].'/', $return, $aMatch);
+    		$this->assertTrue($i,'append');
+        }
+        // break known structure into array of individual elements
+   		$i	= preg_match_all('/'.$aPattern['stru'].'/U', $return, $aMatch);
+		$this->assertTrue($i,'structure');
+
+		// Check for converded link
+		$this->assertTrue(preg_match('/alink1=.*example.*&atar1=_blank/', $aMatch['script_content'][0]));
+}
 
 	/**
 	 * NOTE: probably deprecated
@@ -144,7 +202,7 @@ class test_DeliveryAdRender extends UnitTestCase
 <param name='autoplay' value='true'>
 <embed src='' controller='false' autoplay='true' width='104' height='104' pluginspace='http://www.apple.com/quicktime/download/'></embed>
 <noembed><p>before</p><p>after</p></noembed>
-</object><div id='beacon_' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://".$GLOBALS['_MAX']['CONF']['webpath']['delivery']."/".$GLOBALS['_MAX']['CONF']['file']['log']."?bannerid=&amp;campaignid=&amp;zoneid=0&amp;channel_ids=&amp;cb={random}' width='0' height='0' alt='' style='width: 0px; height: 0px;' /></div>$append";
+</object><div id='beacon_' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'><img src='http://".$GLOBALS['_MAX']['CONF']['webpath']['delivery']."/".$GLOBALS['_MAX']['CONF']['file']['log']."?bannerid=&amp;campaignid=&amp;zoneid=0&amp;cb={random}' width='0' height='0' alt='' style='width: 0px; height: 0px;' /></div>$append";
 
 		$ret 	= _adRenderQuicktime($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
         $this->assertEqual($ret, $expect);
@@ -162,10 +220,9 @@ class test_DeliveryAdRender extends UnitTestCase
 	function test_adRenderHtml()
 	{
 		$this->sendMessage('test_adRenderHtml');
-
-        require_once MAX_PATH . '/lib/max/Dal/Delivery/mysql.php';
-        MAX_Dal_Delivery_connect();
-        $aBanner    = (array)MAX_Dal_Delivery_getAd(4);
+        MAX_Dal_Delivery_Include();
+        OA_Dal_Delivery_connect();
+        $aBanner    = (array)OA_Dal_Delivery_getAd(4);
         $prn        = print_r($aBanner, TRUE);
 
         $GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = '';
@@ -187,9 +244,9 @@ class test_DeliveryAdRender extends UnitTestCase
 	{
 		$this->sendMessage('test_adRenderText');
 // note: following code to extract test data from db
-//	      require_once MAX_PATH . '/lib/max/DAL/Delivery/mysql.php';
-//        MAX_Dal_Delivery_connect();
-//        $aBanner = (array)MAX_Dal_Delivery_getAd(5);
+//	      require_once MAX_PATH . '/lib/OA/Dal/Delivery/'.$GLOBALS['_MAX']['CONF']['database']['type'].'.php';
+//        OA_Dal_Delivery_connect();
+//        $aBanner = (array)OA_Dal_Delivery_getAd(5);
 //        $prn    = print_r($aBanner, TRUE);
 
 		$GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = '';
@@ -285,7 +342,7 @@ class test_DeliveryAdRender extends UnitTestCase
 		$referer 	= 'http://www.example.com/referer.php?name=value';
 		$amp 		= '&amp;';
 		$return = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, $amp);
-        $expect = "http://".$GLOBALS['_MAX']['CONF']['webpath']['delivery']."/lg.php?bannerid=&amp;campaignid=&amp;zoneid=1&amp;source=test&amp;channel_ids=&amp;loc=http%3A%2F%2Fwww.example.com%2Fpage.php%3Fname%3Dvalue&amp;referer=http%3A%2F%2Fwww.example.com%2Freferer.php%3Fname%3Dvalue&amp;cb={random}";
+        $expect = "http://".$GLOBALS['_MAX']['CONF']['webpath']['delivery']."/lg.php?bannerid=&amp;campaignid=&amp;zoneid=1&amp;source=test&amp;loc=http%3A%2F%2Fwww.example.com%2Fpage.php%3Fname%3Dvalue&amp;referer=http%3A%2F%2Fwww.example.com%2Freferer.php%3Fname%3Dvalue&amp;cb={random}";
         $this->assertEqual($return, $expect);
 	}
 

@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.3                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -25,11 +25,16 @@
 $Id$
 */
 
-/**
- */
+require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 
-require_once MAX_PATH . '/lib/max/DB.php';
-require_once MAX_PATH . '/lib/max/Table/Core.php';
+require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
+require_once MAX_PATH . '/lib/wact/db/db.inc.php';
+
 require_once MAX_PATH . '/tests/data/DefaultData.php';
 
 /**
@@ -43,36 +48,30 @@ class TestEnv
 {
     /**
      * A method for setting up a test database.
+     *
+     * @param bool $ignore_errors True if setup errors should be ignored.
      */
-    function setupDB()
+    function setupDB($ignore_errors = false)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        // Create a DSN to access the SQL server with
-        $dbType = $conf['database']['type'];
-        if ($dbType == 'mysql') {
-            $dbType = 'mysql_SGL';
+        $oDbh = &OA_DB::singleton();
+        if (PEAR::isError($oDbh)) {
+            $aConf = $GLOBALS['_MAX']['CONF'];
+            $result = OA_DB::createDatabase($aConf['database']['name']);
+            if (PEAR::isError($result) && !$ignore_errors) {
+                PEAR::raiseError("TestEnv unable to create the {$aConf['database']['name']} test database.", PEAR_LOG_ERR);
+                die();
+            }
         }
-    	$protocol = isset($conf['database']['protocol']) ? $conf['database']['protocol'] . '+' : '';
-        $dsn = $dbType . '://' .
-            $conf['database']['username'] . ':' .
-            $conf['database']['password'] . '@' .
-            $protocol .
-            $conf['database']['host'];
-        $dbh = &MAX_DB::singleton($dsn);
-        $query = 'DROP DATABASE IF EXISTS ' . $conf['database']['name'];
-        $result = $dbh->query($query);
-        $query = 'CREATE DATABASE ' . $conf['database']['name'];
-        $result = $dbh->query($query);
     }
 
     /**
-     * A method for setting up the core Max tables in the test database.
+     * A method for setting up the core Openads tables in the test database.
      */
     function setupCoreTables()
     {
-        MAX_Table_Core::destroy();
-        $tables = MAX_Table_Core::singleton();
-        $tables->createAllTables();
+        OA_DB_Table_Core::destroy();
+        $oTable = &OA_DB_Table_Core::singleton();
+        $oTable->createAllTables();
     }
 
     /**
@@ -83,32 +82,6 @@ class TestEnv
         DefaultData::insertDefaultData();
     }
 
-      /**
-       * @todo construct xml_parser to deal with binary and html cdata
-       *
-       */
-//    function getDataSQL($source, $mode)
-//    {
-//        global $parser;
-//
-//        require_once MAX_PATH . '/tests/data/MAX_TestData_XML_Parser_1.php';
-//        $parser = new MAX_TestData_XML_Parser_1($mode);
-//        $parser->setInput($source);
-//        if (is_resource($parser->fp))
-//        {
-//            $error = $parser->parse();
-//            if (!$error)
-//            {
-//                return $parser->aDataset;
-//            }
-//            else
-//            {
-//                return $error;
-//            }
-//        }
-//        return 'error opening xml resource';
-//    }
-
     /**
      * create an xml_parser resource
      * open the given resource
@@ -118,7 +91,7 @@ class TestEnv
      * @param string $mode		Either 'insert' or 'text'.
      * @return array | false    An array of strings, each representing
      *                          a SQL DML query. False on error.
-     * 
+     *
      * @todo Document the returned array format for 'text' mode.
      * @todo Document $mode option, or remove it
      * @todo Consider raising an error instead of returning false.
@@ -162,9 +135,9 @@ class TestEnv
                 switch ($mode)
                 {
                     case 'insert':
-                        $dbh = &MAX_DB::singleton();
-                        $res = $dbh->query($v);
-                        if (!res || PEAR::isError($res))
+                        $oDbh = &OA_DB::singleton();
+                        $res = $oDbh->query($v);
+                        if (!$res || PEAR::isError($res))
                         {
                             MAX::raiseError($res);
                             return;
@@ -181,15 +154,14 @@ class TestEnv
         MAX::raiseError('loadData error: unable to open '.$source);
         return;
     }
+
     /**
      * A method for tearing down (dropping) the test database.
      */
     function teardownDB()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh = &MAX_DB::singleton();
-        $query = 'DROP DATABASE ' . $conf['database']['name'];
-        $result = $dbh->query($query);
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $result = OA_DB::dropDatabase($aConf['database']['name']);
     }
 
     /**
@@ -200,13 +172,43 @@ class TestEnv
     function restoreConfig()
     {
         // Destroy cached table classes
-        MAX_Table_Core::destroy();
+        OA_DB_Table_Core::destroy();
         // Re-parse the config file
-        $newConf = @parse_ini_file(MAX_PATH . '/var/test.conf.ini', true);
+        $newConf = TestEnv::parseConfigFile();
         foreach($newConf as $configGroup => $configGroupSettings) {
             foreach($configGroupSettings as $confName => $confValue) {
                 $GLOBALS['_MAX']['CONF'][$configGroup][$confName] = $confValue;
             }
+        }
+    }
+
+    /**
+     * @todo The way we are importing test.conf.php has to be rethink. Now
+     * it is included in init-parse.php file and here. It should be defined only in one place.
+     *
+     * @return array Return parsed config ini file
+     */
+    function parseConfigFile()
+    {
+        if (isset($_SERVER['SERVER_NAME'])) {
+            // If test runs from web-client first check if host test config exists
+            // This could be used to have different tests for different configurations
+            if (!empty($_SERVER['HTTP_HOST'])) {
+                $host = explode(':', $_SERVER['HTTP_HOST']);
+                $host = $host[0];
+            } else {
+                $host = explode(':', $_SERVER['SERVER_NAME']);
+            	$host = $host[0];
+            }
+            $testFilePath = MAX_PATH . '/var/'.$host.'.test.conf.php';
+            if (file_exists($testFilePath)) {
+                return @parse_ini_file($testFilePath, true);
+            }
+        }
+        // Look into default location
+        $testFilePath = MAX_PATH . '/var/test.conf.php';
+        if (file_exists($testFilePath)) {
+            return @parse_ini_file($testFilePath, true);
         }
     }
 
@@ -220,48 +222,65 @@ class TestEnv
      */
     function restoreEnv()
     {
-        // Disable transactions, so that setting up the test environment works
-        $dbh = &MAX_DB::singleton();
-        $query = 'SET AUTOCOMMIT=1';
-        $result = $dbh->query($query);
-        // Drop the database connection, so that temporary tables will be
-        // removed (hack needed to overcome MySQL keeping temporary tables
-        // if a database is dropped and re-created)
-        $dbh->disconnect();
-        $GLOBALS['_MAX']['CONNECTIONS'] = array();
-        // Destroy cached table classes
-        MAX_Table_Core::destroy();
+        // Rollback any transactions that have not been closed
+        // (Naughty, naughty test!)
+        $oDbh = &OA_DB::singleton();
+        while ($oDbh->inTransaction(true) || $oDbh->inTransaction()) {
+            TestEnv::rollbackTransaction();
+        }
+        // Truncate & drop all known temporary tables
+        $oTable = &OA_DB_Table_Priority::singleton();
+        foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
+            $oTable->truncateTable($tableName);
+            $oTable->dropTable($tableName);
+        }
+        $oTable = &OA_DB_Table_Statistics::singleton();
+        foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
+            $oTable->truncateTable($tableName);
+            $oTable->dropTable($tableName);
+        }
+        // Truncate all known core tables
+        $oTable = &OA_DB_Table_Core::singleton();
+        $oTable->truncateAllTables();
+        // Reset all database sequences
+        $oTable->resetAllSequences();
         // Destroy the service locator
         $oServiceLocator = &ServiceLocator::instance();
         unset($oServiceLocator->aService);
         // Re-set up the test environment
-        TestRunner::setupEnv($GLOBALS['_MAX']['TEST']['layerEnv']);
-    }
-
-    /**
-     * A method for rebuilding the database sequences.
-     */
-    function rebuildSequences()
-    {
-
+        TestRunner::setupEnv($GLOBALS['_MAX']['TEST']['layerEnv'], true);
     }
 
     /**
      * A method for starting a transaction when testing database code.
+     *
+     * DEPRECATED! DO NOT USE.
      */
     function startTransaction()
     {
-        $dbh = &MAX_DB::singleton();
-        $dbh->startTransaction();
     }
 
     /**
      * A method for ending a transaction when testing database code.
+     *
+     * DEPRECATED! DO NOT USE.
      */
     function rollbackTransaction()
     {
-        $dbh = &MAX_DB::singleton();
-        $dbh->rollback();
+    }
+
+    /**
+     * Empties all tables and resets all sequences.
+     * Note: this method is not transaction safe - it is conceiveable another process could
+     * insert data into the tables after they have been truncated but before the sequence is reset.
+     *
+     */
+    function truncateAllTables()
+    {
+        $oTable = &OA_DB_Table_Core::singleton();
+        $oTable->truncateAllTables();
+        $oTable->resetAllSequences();
+
     }
 
 }
