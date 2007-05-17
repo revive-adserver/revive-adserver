@@ -256,7 +256,8 @@ $settings = array (
                 'name'    => 'logging_blockAdImpressions',
                 'text'    => $strBlockAdViews,
                 'size'    => 12,
-                'depends' => 'logging_adImpressions==true',
+                //'depends' => 'logging_adImpressions==true',
+                'enabled' => 'false',
                 'check'   => 'number+'
             ),
             array (
@@ -267,7 +268,8 @@ $settings = array (
                 'name'    => 'logging_blockAdClicks',
                 'text'    => $strBlockAdClicks,
                 'size'    => 12,
-                'depends' => 'logging_adClicks==true',
+                //'depends' => 'logging_adClicks==true',
+                'enabled' => 'false',
                 'check'   => 'number+'
             ),
             array (
@@ -278,7 +280,8 @@ $settings = array (
                 'name'    => 'logging_blockTrackerImpressions',
                 'text'    => $strBlockAdConversions,
                 'size'    => 12,
-                'depends' => 'logging_trackerImpressions==true',
+                //'depends' => 'logging_trackerImpressions==true',
+                'enabled' => 'false',
                 'check'   => 'number+'
             )
         )
