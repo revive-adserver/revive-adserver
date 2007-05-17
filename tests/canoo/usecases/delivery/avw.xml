@@ -2,6 +2,7 @@
 <!DOCTYPE project SYSTEM                    "../../includes/WebTest.dtd" [
   <!ENTITY config SYSTEM               "file:../../includes/config.xml">
   <!ENTITY checkForErrors SYSTEM       "file:../../modules/errors.xml">
+  <!ENTITY checkDeliveryCookies SYSTEM "file:../../modules/cookies.xml">
   <!ENTITY checkForImageGif SYSTEM     "file:../../modules/gif.xml">
 ]
 >
@@ -9,7 +10,7 @@
 <!--
   Test that returned binary data (returns what was in data field of images table)
 -->
-<project name="Openads delivery - ai.php" basedir="../.." default="main">
+<project name="Openads delivery - avw.php" basedir="../.." default="main">
   <import file="../../includes/init.xml"/>
   <import file="${webtest.home}/lib/taskdef.xml"/>
 
@@ -18,8 +19,10 @@
     <testSpec name="Run Delivery">
       &config;
       <steps>
-        <invoke description="Invoke delivery file" url="/delivery/ai.php?filename=468x60.gif&amp;contenttype=gif" />
+        <invoke description="Invoke delivery file" url="/delivery/avw.php?bannerid=3" />
         &checkForErrors;
+        &checkDeliveryCookies;
+        <!-- Check that browser was redirected to aj.php file and that response contains gif -->
         &checkForImageGif;
       </steps>
 
