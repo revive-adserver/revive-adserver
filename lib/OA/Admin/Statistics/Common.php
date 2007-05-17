@@ -676,7 +676,10 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         // Set the Flexy tags to open/close Javascript
         $this->scriptOpen     = "\n<script type=\"text/javascript\"> <!--\n";
         $this->scriptClose    = "\n//--> </script>\n";
-
+        
+        // Set whether to automatically display the Graph div, will return true if user has just changed the 'graphFields' value
+        $this->autoShowGraph  = strpos($_SERVER['QUERY_STRING'], 'graphFields');  
+echo $this->autoShowGraph;
         // Set the language vars for statistics display
         $this->strShowGraphOfStatistics   = $GLOBALS['strShowGraphOfStatistics'];
         $this->strExportStatisticsToExcel = $GLOBALS['strExportStatisticsToExcel'];

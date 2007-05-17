@@ -113,6 +113,11 @@
 		    <br style="clear: both;" />
 		    </div>
 		    </form>
+        {if:autoShowGraph}
+            {scriptOpen:h}
+             myvar = showGraph();
+            {scriptClose:h}
+        {end:} 
     </div>
     {end:}
     </td>

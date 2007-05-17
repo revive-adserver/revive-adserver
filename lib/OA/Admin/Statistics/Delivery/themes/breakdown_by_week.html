@@ -116,6 +116,11 @@
 		    </div>
 		    </form>
     	{end:}
+        {if:autoShowGraph}
+            {scriptOpen:h}
+             myvar = showGraph();
+            {scriptClose:h}
+        {end:} 
     </div>
     </td>
   </tr>
