@@ -102,8 +102,7 @@ class OA_Upgrade_Config
         $path = dirname($_SERVER['PHP_SELF']);
         if (preg_match('#/www/admin$#', $path))
         {
-            // User has web root configured as Max's root directory
-            // so can guess at all locations
+            // User has web root configured as Max's root directory so can guess at all locations
             $subpath = preg_replace('#/www/admin$#', '', $path);
             $basepath = $_SERVER['HTTP_HOST'] . $subpath. '/www/';
             $this->setValue('webpath', 'admin', $basepath.'admin');
@@ -112,21 +111,31 @@ class OA_Upgrade_Config
             $this->setValue('webpath', 'images', $basepath.'images');
             $this->setValue('webpath', 'imagesSSL', $basepath.'images');
         }
+        else if (preg_match('#/admin$#', $path))
+        {
+            // User has web root configured as Max's /www directory so can guess at all locations
+            $subpath = preg_replace('#/admin$#', '', $path);
+            $basepath = $_SERVER['HTTP_HOST'] . $subpath. '';
+            $this->setValue('webpath', 'admin', $basepath.'/admin');
+            $this->setValue('webpath', 'delivery', $basepath.'/delivery');
+            $this->setValue('webpath', 'deliverySSL', $basepath.'/delivery');
+            $this->setValue('webpath', 'images', $basepath.'/images');
+            $this->setValue('webpath', 'imagesSSL', $basepath.'/images');
+        }
         else
         {
-            // User has web root configured as Max's www/admin directory,
-            // so can only guess the admin location
-            $this->setValue('webpath', 'admin'   , $this->getHost()); //.'/admin');
-            $this->setValue('webpath', 'delivery', $this->getHost()); //.'/delivery');
-            $this->setValue('webpath', 'images', $this->getHost()); //.'/images');
-            $this->setValue('webpath', 'deliverySSL', $this->getHost()); //.'/delivery');
-            $this->setValue('webpath', 'imagesSSL', $this->getHost()); //.'/images');
+            // User has web root configured as Max's www/admin directory so can only guess the admin location
+            $this->setValue('webpath', 'admin'   , $this->getHost());
+            $this->setValue('webpath', 'delivery', $this->getHost());
+            $this->setValue('webpath', 'images', $this->getHost());
+            $this->setValue('webpath', 'deliverySSL', $this->getHost());
+            $this->setValue('webpath', 'imagesSSL', $this->getHost());
         }
     }
 
     function writeConfig()
     {
-        return $this->oConfig->writeConfigChange(); //$this->configPath, $this->configFile);
+        return $this->oConfig->writeConfigChange();
     }
 
     function setOpenadsInstalledOn()
