@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM                    "../../includes/WebTest.dtd" [
+  <!ENTITY config SYSTEM               "file:../../includes/config.xml">
+  <!ENTITY checkForErrors SYSTEM       "file:../../modules/errors.xml">
+]
+>
+
+<!--
+  Test that returned binary data (returns what was in data field of images table)
+-->
+<project name="Openads delivery - ai.php" basedir="../.." default="main">
+  <import file="../../includes/init.xml"/>
+  <import file="${webtest.home}/lib/taskdef.xml"/>
+
+  <target name="main">
+
+    <testSpec name="Run Delivery">
+      &config;
+      <steps>
+        <invoke description="Invoke delivery file" url="/delivery/ai.php?filename=468x60.gif&amp;contenttype=gif" />
+        &checkForErrors;
+        <storeHeader description="store content-type"
+            name="Content-Type" property="contentType" />
+        <verifyProperty description="should be a gif image"
+            name="contentType" text="image/gif; name=468x60.gif"/>
+        <verifyText description="Check that content actually contains GIF" regex="true" text="GIF89a" />
+      </steps>
+
+    </testSpec>
+
+</target>
+
+</project>
