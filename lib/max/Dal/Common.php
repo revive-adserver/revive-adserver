@@ -26,11 +26,11 @@ $Id:Common.php 3884 2005-11-25 10:54:56Z andrew@m3.net $
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/wact/db/db.inc.php';
 require_once 'DB/QueryTool.php';
 
 /**

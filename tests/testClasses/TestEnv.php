@@ -27,13 +27,13 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
-require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
+require_once MAX_PATH . '/lib/wact/db/db.inc.php';
 
 require_once MAX_PATH . '/tests/data/DefaultData.php';
 

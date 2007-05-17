@@ -13,20 +13,20 @@
 */
 $GLOBALS['DatabaseConnectionObj'] = NULL;
 
-require_once MAX_PATH . '/lib/max/Dal/db/error.inc.php';
+require_once MAX_PATH . '/lib/wact/db/error.inc.php';
 
 
 class DBC_ConnectionConfiguration {
 
     var $driver_name;
-    
+
     function DBC_ConnectionConfiguration($driver_name) {
         $this->driver_name = $driver_name;
     }
 
     function get($option) {
         $conf = $GLOBALS['_MAX']['CONF'];
-        
+
         $dsn = array(
                 'phptype'  => $conf['database']['type'],
                 'username' => $conf['database']['username'],
@@ -36,7 +36,7 @@ class DBC_ConnectionConfiguration {
                 'database' => $conf['database']['name'],
                 'port'     => $conf['database']['port'],
             );
-        
+
         return $dsn[$option];
     }
 }
@@ -62,18 +62,18 @@ class DBC {
     function &getCurrentConnection() {
         if (!isset($GLOBALS['DatabaseConnectionObj'])) {
             $driver = 'mdb2'; // should we always use mdb2?
-            require_once(MAX_PATH . '/lib/max/Dal/db/drivers/'. $driver .'.inc.php');
+            require_once(MAX_PATH . '/lib/wact/db/drivers/'. $driver .'.inc.php');
             $driverClass = $driver . 'Connection';
-            $GLOBALS['DatabaseConnectionObj'] =& 
+            $GLOBALS['DatabaseConnectionObj'] =&
                 new $driverClass(new DBC_ConnectionConfiguration($driver));
         }
         return $GLOBALS['DatabaseConnectionObj'];
     }
-    
+
     /**
 	* Disconnect from database if there is any current connection in the pool
 	* This method is required for tests
-	* 
+	*
 	* @return void
 	* @access public
 	*/
@@ -85,11 +85,11 @@ class DBC {
             unset($GLOBALS['DatabaseConnectionObj']);
         }
     }
-    
+
     /**
     * Factory function to create a MySQLRecord object
     * @see http://wact.sourceforge.net/index.php/NewRecord
-    * @param DataSpace or subclass (optional) 
+    * @param DataSpace or subclass (optional)
     *   used to initialize the fields of the new record prior to calling insert()
     * @return MySqlRecord reference
     * @access public
@@ -138,7 +138,7 @@ class DBC {
         $connection =& DBC::getCurrentConnection();
         return $connection->getOneColumnArray($query);
     }
-    
+
 	/**
 	* Retreive an associative array where each element of the array is based
 	* on the first column as a key and the second column as data.
@@ -149,7 +149,7 @@ class DBC {
         $connection =& DBC::getCurrentConnection();
         return $connection->getTwoColumnArray($query);
     }
-    
+
 	/**
 	* Retreive a single record from the database based on a query.
 	* @param string SQL Query
@@ -159,7 +159,7 @@ class DBC {
         $connection =& DBC::getCurrentConnection();
         return $connection->FindRecord($query);
     }
- 
+
 	/**
 	* Get a single value from the first column of a single record from
 	* a database query.
@@ -181,7 +181,7 @@ class DBC {
         $connection =& DBC::getCurrentConnection();
         return $connection->execute($query);
     }
-    
+
     /**
 	* EXPERIMENTAL:
 	* Convert a PHP value into an SQL literal.

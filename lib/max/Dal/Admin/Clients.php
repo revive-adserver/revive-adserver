@@ -26,7 +26,7 @@ $Id: Acls.dal.test.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
 */
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/max/Dal/db/db.inc.php';
+require_once MAX_PATH . '/lib/wact/db/db.inc.php';
 
 class MAX_Dal_Admin_Clients extends MAX_Dal_Common
 {

@@ -12,7 +12,7 @@
 * Make sure dataspace is loaded
 */
 if (!class_exists('DataSpace')) {
-	require MAX_PATH . '/lib/max/Dal/db/dataspace.inc.php';
+	require MAX_PATH . '/lib/wact/db/dataspace.inc.php';
 }
 
 /**
@@ -73,7 +73,7 @@ class MDB2Connection {
 	function connect() {
 	    // use existing connection
 	    $dbh = &OA_DB::singleton();
-	    
+
 	    if (PEAR::isError($dbh)) {
 	        $this->RaiseError();
 	    } else {
@@ -280,7 +280,7 @@ class MDB2Connection {
 	    if (!empty($conf['debug']['production'])) {
 		  PEAR::staticPopErrorHandling();
 	    }
-		
+
 		if (MDB2::isError($result)) {
 			$this->RaiseError($result, $sql);
 			return;

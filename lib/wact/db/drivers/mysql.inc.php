@@ -13,7 +13,7 @@
 * Check dataspace is loaded
 */
 if (!class_exists('DataSpace')) {
-	require MAX_PATH . '/lib/max/Dal/db/dataspace.inc.php';
+	require MAX_PATH . '/lib/wact/db/dataspace.inc.php';
 }
 
 /**
@@ -249,7 +249,7 @@ class MySQLConnection {
 	function execute($sql) {
 	    return (Boolean) $this->_execute($sql);
 	}
-	
+
 	/*
 	* For internal driver use only
 	* @param string SQL query
@@ -318,7 +318,7 @@ class MySqlRecord extends DataSpace {
 				$fieldname = $type; // Swap if no type is specified
 				$type = NULL;
 			}
-			$query .= $sep . $fieldname . '=' . 
+			$query .= $sep . $fieldname . '=' .
 				$this->Connection->makeLiteral($this->get($fieldname), $type);
 			$sep = ', ';
 		}
@@ -332,8 +332,8 @@ class MySqlRecord extends DataSpace {
 	}
 
 	/**
-	* INSERT a record into a table with a primary key represented by a 
-	* auto_increment/serial column and return the primary key of the 
+	* INSERT a record into a table with a primary key represented by a
+	* auto_increment/serial column and return the primary key of the
 	* inserted record.
 	* the field list parameter allows expressions to defined in the sql
 	* statements as well as field values defined in the record.
