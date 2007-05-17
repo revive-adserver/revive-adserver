@@ -91,13 +91,15 @@ class TracHtmlReporter extends HtmlReporter
         if (!empty($GLOBALS['_MAX']['CONF']['test']['urlToTracSvnBrowser'])) {
             $pattern = "/in \[(.*)\] line \[(.*)\]/";
             preg_match($pattern, $message, $matches = array());
-            print " <a href='".$GLOBALS['_MAX']['CONF']['test']['urlToTracSvnBrowser'];
-            $path = substr($matches[1], strlen(MAX_PATH)) . '#L' . $matches[2];
-            if (strpos($path, '/') === 0) {
-                $path = substr($path, 1);
+            if (!empty($matches)) {
+                print " <a href='".$GLOBALS['_MAX']['CONF']['test']['urlToTracSvnBrowser'];
+                $path = substr($matches[1], strlen(MAX_PATH)) . '#L' . $matches[2];
+                if (strpos($path, '/') === 0) {
+                    $path = substr($path, 1);
+                }
+                print $path . "'>";
+                print "<img src='images/tutorial.png' border='0'/></a>";
             }
-            print $path . "'>";
-            print "<img src='images/tutorial.png' border='0'/></a>";
         }
         print "<br />\n";
     }
@@ -121,13 +123,15 @@ class TracHtmlReporter extends HtmlReporter
         if (!empty($GLOBALS['_MAX']['CONF']['test']['urlToTracSvnBrowser'])) {
             $pattern = "/\[(.*)\] with error/";
             preg_match($pattern, $message, $matches = array());
-            print " <a href='".$GLOBALS['_MAX']['CONF']['test']['urlToTracSvnBrowser'];
-            $path = substr($matches[1], strlen(MAX_PATH));
-            if (strpos($path, '/') === 0) {
-                $path = substr($path, 1);
+            if (!empty($matches)) {
+                print " <a href='".$GLOBALS['_MAX']['CONF']['test']['urlToTracSvnBrowser'];
+                $path = substr($matches[1], strlen(MAX_PATH));
+                if (strpos($path, '/') === 0) {
+                    $path = substr($path, 1);
+                }
+                print $path . "'>";
+                print "<img src='images/tutorial.png' border='0'/></a>";
             }
-            print $path . "'>";
-            print "<img src='images/tutorial.png' border='0'/></a>";
         }
         
         print "<br />\n";
