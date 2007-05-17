@@ -171,7 +171,7 @@ else if (array_key_exists('btn_adminsetup', $_REQUEST))
             //Hide the IDsetup, instead display the finish page
             //$action = OA_UPGRADE_IDSETUP;
             $message = 'Congratulations you have finished upgrading Openads';
-            $oUpgrader->oConfiguration->setOpenadsInstalledOn();
+            $oUpgrader->setOpenadsInstalledOn();
             $action = OA_UPGRADE_FINISH;
         }
     }
@@ -215,12 +215,12 @@ else if (array_key_exists('btn_finish', $_REQUEST))
     {
         $message = 'Congratulations you have finished upgrading Openads';
     }
-    $oUpgrader->oConfiguration->setOpenadsInstalledOn();
+    $oUpgrader->setOpenadsInstalledOn();
     $action = OA_UPGRADE_FINISH;
 }
 else if (array_key_exists('dirPage', $_REQUEST) && !empty($_POST['dirPage']))
 {
-    $action = $_POST['dirPage'];    
+    $action = $_POST['dirPage'];
     if ($_POST['dirPage'] == OA_UPGRADE_SYSCHECK) {
         $aSysInfo = $oUpgrader->checkEnvironment();
         $halt = !$oUpgrader->canUpgrade();
