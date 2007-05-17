@@ -265,7 +265,10 @@ class Migration
         {
             $fromTable = $this->aObjectMap[$table][$field]['fromTable'];
             $fromField = $this->aObjectMap[$table][$field]['fromField'];
-            return $this->updateColumn($fromTable, $fromField, $table, $field);
+            if ($fromTable.$fromField != $table.$field)
+            {
+                return $this->updateColumn($fromTable, $fromField, $table, $field);
+            }
         }
         return true;
     }
