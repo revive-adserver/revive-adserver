@@ -40,13 +40,13 @@
             $sysinfoarray['actual']['memory_limit'] = ($sysinfoarray['actual']['memory_limit']!='' ? $sysinfoarray['actual']['memory_limit'] : 'Not Set');
             $sysinfoarray['actual']['safe_mode'] = ($sysinfoarray['actual']['safe_mode']==0 ? 'OFF' : 'ON');
             $sysinfoarray['actual']['magic_quotes_runtime'] = ($sysinfoarray['actual']['magic_quotes_runtime']==0 ? 'OFF' : 'ON');
-            $halt = (($halt) && (!$sysinfoarray['error']));
-            $sysinfoheading = 'PHP - '.(!$sysinfoarray['error']? 'no errors' : 'errors detected');
+            $halt = (($sysinfoarray['error']));
+            $sysinfoheading = 'PHP - '.(!$sysinfoarray['error']? 'no errors' : '<span class="red">errors detected</span>');
             include 'templates/install-sysinfosection.html';
-
+            
             $sysinfoarray = $aSysInfo['PERMS'];
-            $halt = (($halt) && (!$sysinfoarray['error']));
-            $sysinfoheading = 'File Permissions - '.(!$sysinfoarray['error']? 'no errors' : 'errors detected');
+            $halt = (($halt) || ($sysinfoarray['error']));
+            $sysinfoheading = 'File Permissions - '.(!$sysinfoarray['error']? 'no errors' : '<span class="red">errors detected</span>');
             include 'templates/install-sysinfosection.html';
 
             /* 

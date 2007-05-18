@@ -104,6 +104,10 @@ div.sysinfoerror {
 	padding-top: 165px;
 }
 
+.red {
+    color: #990000;
+}
+
 #graph_container {
     width: 100%;
     text-align: center;
