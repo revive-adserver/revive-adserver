@@ -211,13 +211,19 @@ function phpAds_Login()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     global $strPasswordWrong;
-    // if user is not within the admin folder, redirect them
-    if (strpos($_SERVER['REQUEST_URI'],'admin') === false)
+    // redirect user if
+    // a) is not within the admin folder
+    // b) does not have admin set as root of host
+    if  (
+         (!preg_match('#/admin$#', dirname($_SERVER['REQUEST_URI'])))
+         &&
+         ($GLOBALS['_MAX']['CONF']['webpath']['admin'] != $_SERVER['HTTP_HOST'])
+        )
     {
         header('location: http://'.$GLOBALS['_MAX']['CONF']['webpath']['admin']);
         exit();
     }
-    
+
     if (phpAds_SuppliedCredentials()) {
         $username  = MAX_commonGetPostValueUnslashed('username');
         $password  = MAX_commonGetPostValueUnslashed('password');
