@@ -1,16 +1,17 @@
 <?php
 
-class prescript_openads_upgrade_1_to_2
+class OA_UpgradePostscript
 {
 
-    function prescript_openads_upgrade_1_to_2()
+    function OA_UpgradePostscript()
     {
 
     }
 
-    function execute($aParams='')
+    function execute()
     {
         return true;
+
     }
 
 }
