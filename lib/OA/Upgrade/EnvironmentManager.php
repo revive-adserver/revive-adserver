@@ -48,6 +48,10 @@ class OA_Environment_Manager
     {
         $this->aInfo['PERMS']['expected'] = array(
                                                   MAX_PATH.'/var/',
+                                                  MAX_PATH.'/var/cache',
+                                                  MAX_PATH.'/var/plugins',
+                                                  MAX_PATH.'/var/templates_compiled',
+                                                  MAX_PATH.'/www/images'
                                                  );
 
         $this->aInfo['PHP']['actual']       = array();
