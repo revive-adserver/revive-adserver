@@ -1098,7 +1098,7 @@ function MAX_cacheGetGoogleJavaScript($cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__);
 if (($output = OA_Delivery_Cache_fetch($sName)) === false) {
-require_once(MAX_PATH . '/lib/max/Delivery/google.php');
+include(MAX_PATH . '/lib/max/Delivery/google.php');
 $output = MAX_googleGetJavaScript();
 $output = OA_Delivery_Cache_store_return($sName, $output);
 }
@@ -1135,7 +1135,6 @@ $newPearPath .= PATH_SEPARATOR . $existingPearPath;
 }
 ini_set('include_path', $newPearPath);
 }
-require(MAX_PATH . '/lib/max/Delivery/cache.php');
 if (!empty($_GET['server_raw_tracker_impression_id']) && !empty($_GET['trackerid'])) {
 $serverRawTrackerImpressionId = $_GET['server_raw_tracker_impression_id'];
 $serverRawIp                  = $_GET['server_raw_ip'];

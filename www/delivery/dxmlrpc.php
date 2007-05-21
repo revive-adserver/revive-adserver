@@ -472,7 +472,6 @@ $conf = $GLOBALS['_MAX']['CONF'];
 if (isset($conf['origin']['type']) && is_readable(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['origin']['type']) . '.php')) {
 require(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['origin']['type']) . '.php');
 } else {
-require(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
 }
 }
 function MAX_Delivery_log_logAdRequest($viewerId, $adId, $creativeId, $zoneId)
@@ -1098,7 +1097,7 @@ function MAX_cacheGetGoogleJavaScript($cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__);
 if (($output = OA_Delivery_Cache_fetch($sName)) === false) {
-require_once(MAX_PATH . '/lib/max/Delivery/google.php');
+include(MAX_PATH . '/lib/max/Delivery/google.php');
 $output = MAX_googleGetJavaScript();
 $output = OA_Delivery_Cache_store_return($sName, $output);
 }

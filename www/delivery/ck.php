@@ -1292,7 +1292,7 @@ function MAX_cacheGetGoogleJavaScript($cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__);
 if (($output = OA_Delivery_Cache_fetch($sName)) === false) {
-require_once(MAX_PATH . '/lib/max/Delivery/google.php');
+include(MAX_PATH . '/lib/max/Delivery/google.php');
 $output = MAX_googleGetJavaScript();
 $output = OA_Delivery_Cache_store_return($sName, $output);
 }
