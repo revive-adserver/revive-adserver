@@ -2,6 +2,7 @@
   <property name="test.conf.xml" value="devel.xml"/>
   <property name="dir.test.results" location="build/test-results"/>
   <property name="dir.test.reports" location="build/test-results"/>
+  <property file="devel.properties"/>
 
   <patternset id="dist.included">
     <!-- Files in the main directory -->
@@ -112,7 +113,7 @@
     depends="generate-delivery"
   >
     <exec dir="${basedir}" executable="svn" failonerror="true">
-      <arg line="commit www/delivery --non-interactive -q -m 'Automatically generated delivery'"/>
+      <arg line="commit www/delivery --non-interactive -q -m 'Automatically generated delivery' --username ${svn.username} --password ${svn.password}"/>
     </exec>
   </target>
 
@@ -167,7 +168,6 @@
     <ant antfile="tests.xml"/>
   </target>
 
-  <!-- @todo add generatedelivery as a last task in depends list -->
   <target name="package" depends="init-release,prepare-version-info">
     <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="." compression="bzip2" longfile="gnu">
       <patternset refid="dist.included"/>
@@ -192,7 +192,6 @@
   <target name="release" depends="package,tag" description="Creates a release packages in tar.bz2, tar.gz and zip formats.">
   </target>
 
-  <!-- @todo add generatedelivery as a second task in depends list -->
   <target name="simpletest" depends="clean, init, test-all, checkconsistency, package" />
 
   <target name="prepare-version-info" if="version">
