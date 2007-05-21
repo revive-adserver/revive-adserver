@@ -2,7 +2,7 @@
 ;---------------------------------------------
 ; Canoo
 ;---------------------------------------------
-webtest.home=/usr/local/canoo  ; path to canoo
+webtest.home=/usr/local/canoo
 
 ;---------------------------------------------
 ; Where Openads is available for testing

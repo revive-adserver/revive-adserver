@@ -107,6 +107,13 @@
     </generatedelivery>
   </target>
 
+  <target name="delivery"
+    description="Generate optimized for speed delivery and commit any automatically commit any changes to SVN" depends="generatedelivery">
+    <exec dir="${basedir}" executable="svn" failonerror="true">
+      <arg line="commit www/delivery --non-interactive -q -m 'Automatically generated delivery'"/>
+    </exec>
+  </target>
+
   <target name="init">
     <touch file="should_not_exist"/>
     <mkdir dir="build/test-results"/>

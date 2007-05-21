@@ -8,7 +8,7 @@
     <ant antfile="usecases/loginTest.xml" />
   </target>
 
-  <target name="init">
+  <target name="initDeliveryDb">
     <sql
         driver="com.mysql.jdbc.Driver"
         url="${sql.url}"
@@ -25,7 +25,7 @@
     </sql>
   </target>
   
-  <target name="delivery" depends="init">
+  <target name="delivery">
     <ant antfile="usecases/delivery/afr.xml" />
     <ant antfile="usecases/delivery/ac.xml" />
     <ant antfile="usecases/delivery/ai.xml" />
