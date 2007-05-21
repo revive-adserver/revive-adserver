@@ -1135,8 +1135,26 @@ $newPearPath .= PATH_SEPARATOR . $existingPearPath;
 }
 ini_set('include_path', $newPearPath);
 }
-require_once(MAX_PATH . '/lib/max/Delivery/cache.php');
-require_once(MAX_PATH . '/lib/max/Delivery/javascript.php');
+function MAX_javascriptToHTML($string, $varName, $output = true)
+{
+$jsLines = array();
+$search[] = "\r"; $replace[] = '';
+$search[] = '"'; $replace[] = '\"';
+$search[] = "'";  $replace[] = "\\'";
+$search[] = '<';  $replace[] = '<"+"';
+$lines = explode("\n", $string);
+foreach ($lines AS $line) {
+if(trim($line) != '') {
+$jsLines[] = $varName . ' += "' . trim(str_replace($search, $replace, $line)) . '\n";';
+}
+}
+$buffer = "var {$varName} = '';\n";
+$buffer .= implode("\n", $jsLines);
+if ($output == true) {
+$buffer .= "\ndocument.write({$varName});\n";
+}
+return $buffer;
+}
 function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $trackerJsCode = null)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
