@@ -334,11 +334,26 @@ $session['htmlerrormsg'] = '';
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
-$agencyId = phpAds_getAgencyID();
 $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid, 'bannerid' => $bannerid);
 
+if (phpAds_getUserType() == phpAds_Advertiser)
+{
+    $entityId = phpAds_getUserID();
+    $entityType = 'advertiser_id';
+}
+else if (phpAds_getUserType() == phpAds_Publisher)
+{
+    $entityId = phpAds_getUserID();
+    $entityType = 'publisher_id';
+}
+else if (phpAds_getUserType() == phpAds_Agency)
+{
+    $entityId = phpAds_getAgencyID();
+    $entityType = 'agency_id';
+}
+
 // Display navigation
-$aOtherCampaigns = Admin_DA::getPlacements(array('agency_id' => $agencyId));
+$aOtherCampaigns = Admin_DA::getPlacements(array($entityType => $entityId));
 $aOtherBanners = Admin_DA::getAds(array('placement_id' => $campaignid), false);
 MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntities);
 
