@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once(MAX_PATH.'/lib/max/other/common.php');
 
 class Migration_127 extends Migration
 {
@@ -379,25 +380,10 @@ class ZoneCampaignHandler extends ZoneAdObjectHandler
         if (PEAR::isError($result)) {
             return $result;
         }
-
-        $sCampaignIds = implode(", ", $this->aAdObjectIds);
-        $tableBanners = $this->prefix . 'banners';
-        $sql = "SELECT bannerid FROM $tableBanners WHERE campaignid IN ($sCampaignIds)";
-        $rsBanners = DBC::NewRecordSet($sql);
-        $result = $rsBanners->find();
-        if (PEAR::isError($result)) {
-            return $result;
+        
+        foreach ($this->aAdObjectIds as $campaignId) {
+            MAX_addLinkedAdsToZone($this->zone_id, $campaignId);
         }
-        $aBannerIds = array();
-        while($result = $rsBanners->fetch()) {
-            if (PEAR::isError($result)) {
-                return $result;
-            }
-            $aBannerIds []= 'bannerid:' . $rsBanners->get('bannerid');
-        }
-        $sBannerIds = implode(",", $aBannerIds);
-        $zoneBannerHandler = new ZoneBannerHandler($this->prefix, $this->zone_id, $sBannerIds);
-        return $zoneBannerHandler->insertAssocs($oDbh);
     }
 }
 
