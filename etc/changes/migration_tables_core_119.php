@@ -175,8 +175,11 @@ class Migration_119 extends Migration
 	       5 => 'geoipOrgLocation',
 	       4 => 'geoipIspLocation',
 	       10 => 'geoipNetspeedLocation',
-	       8 => 'geoipDmaLocation', // GEOIP_PROXY_EDITION
-	       9 => 'geoipAreaLocation' // GEOIP_ASNUM_EDITION
+	       // 8 => 'geoipDmaLocation', // GEOIP_PROXY_EDITION // We're unsure
+	       // 9 => 'geoipAreaLocation' // GEOIP_ASNUM_EDITION // of these two
+	                                                          // and will have
+	                                                          // to check with
+	                                                          // MaxMind
 	    );
 	    $aGeotrackingConf = unserialize($geotracking_conf);
 	    if ($aGeotrackingConf === false) {
@@ -240,11 +243,7 @@ class Migration_119 extends Migration
         if ($result === false) {
             return false;
         }
-        $result = fclose($file);
-        if ($result === false) {
-            return false;
-        }
-	    return true;
+        return fclose($file);
 	}
 }
 
