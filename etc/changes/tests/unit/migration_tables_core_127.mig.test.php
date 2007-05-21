@@ -81,7 +81,10 @@ class migration_tables_core_127Test extends MigrationTest
 
         $this->upgradeToVersion(127);
         
-        $aAssocTables = array('ad_zone_assoc' => 3, 'placement_zone_assoc' => 1);
+        $aAssocTables = array(
+            'ad_zone_assoc WHERE link_type = 1' => 3,
+            'ad_zone_assoc WHERE link_type = 0' => 2,
+            'placement_zone_assoc' => 1);
         foreach($aAssocTables as $assocTable => $cAssocs) {
             $rsCAssocs = DBC::NewRecordSet("SELECT count(*) cassocs FROM $assocTable");
             $this->assertTrue($rsCAssocs->find());

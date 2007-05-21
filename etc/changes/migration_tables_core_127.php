@@ -256,6 +256,17 @@ class Migration_127 extends Migration
 	            return $this->_logErrorAndReturnFalse($result);
 	        }
 	    }
+	    
+	    $tableAdZoneAssoc = "{$prefix}ad_zone_assoc";
+	    $tableBanners = "{$prefix}banners";
+	    $sql = "INSERT INTO $tableAdZoneAssoc (zone_id, ad_id, link_type)
+	     SELECT 0 zone_id, bannerid ad_id, 0 link_type FROM $tableBanners";
+	    $dbh = OA_DB::singleton();
+	    $result = $dbh->exec($sql);
+	    if (PEAR::isError($result)) {
+	        $this->_logErrorAndReturnFalse($result);
+	    }
+	    return true;
 	}
 }
 
