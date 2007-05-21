@@ -1,6 +1,6 @@
 <?php
 
-//require_once MAX_PATH . '/lib/OA/Dal/Mainentance/Statistics/Factory.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Factory.php';
 
 class OA_UpgradePostscript
 {
