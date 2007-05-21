@@ -154,7 +154,8 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
     global $g_append, $g_prepend;
     $g_append = '';
     $g_prepend = '';
-    while (($what != '') && $found == false) {
+    while ($first || ($what != '' && $found == false)) {
+        $first = false;
         // Get first part, store second part
         $ix = strpos($what, '|');
         if ($ix === false) {
