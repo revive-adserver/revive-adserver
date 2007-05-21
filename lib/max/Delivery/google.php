@@ -31,8 +31,6 @@ $Id$
  * @author     Matteo Beccati <matteo.beccati@openads.org>
  */
 
-require_once MAX_PATH . '/lib/max/Delivery/common.php';
-
 /**
  * This function outputs the javascript code to track Google Adsense banners
  *

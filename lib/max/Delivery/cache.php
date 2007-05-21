@@ -360,6 +360,8 @@ function MAX_cacheGetLinkedAds($search, $campaignid, $laspart, $cached = true)
  * Cache-wrapper for OA_Dal_Delivery_getCreative
  *
  * This function gets a creative stored as a BLOB from the database
+ * It also make sure that contents is correctly slashed and serialized before
+ * writing it into cache file
  *
  * @param string $filename  The filename of the creative as stored in the database
  * @param boolean $cached   Should a cache lookup be performed?
@@ -374,7 +376,6 @@ function MAX_cacheGetCreative($filename, $cached = true)
         $aCreative['contents'] = addslashes(serialize($aCreative['contents']));
         $aCreative = OA_Delivery_Cache_store_return($sName, $aCreative);
     }
-
     $aCreative['contents'] = unserialize(stripslashes($aCreative['contents']));
     return $aCreative;
 }
@@ -456,7 +457,7 @@ function MAX_cacheGetGoogleJavaScript($cached = true)
 {
     $sName  = OA_Delivery_Cache_getName(__FUNCTION__);
     if (($output = OA_Delivery_Cache_fetch($sName)) === false) {
-        include(MAX_PATH . '/lib/max/Delivery/google.php');
+        include MAX_PATH . '/lib/max/Delivery/google.php';
         $output = MAX_googleGetJavaScript();
         $output = OA_Delivery_Cache_store_return($sName, $output);
     }

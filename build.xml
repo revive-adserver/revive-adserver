@@ -97,7 +97,7 @@
     </checkdistribution>
   </target>
   
-  <target name="generatedelivery"
+  <target name="generate-delivery"
     description="Generate optimized for speed delivery">
     <generatedelivery outputdir="${basedir}/www/delivery" max_path="${basedir}" template="${basedir}/www/delivery_dev/template.php">
       <deliveryfiles dir="${basedir}/www/delivery_dev">
@@ -107,8 +107,10 @@
     </generatedelivery>
   </target>
 
-  <target name="delivery"
-    description="Generate optimized for speed delivery and commit any automatically commit any changes to SVN" depends="generatedelivery">
+  <target name="delivery-commit"
+    description="Generate optimized for speed delivery and commit any automatically commit any changes to SVN" 
+    depends="generate-delivery"
+  >
     <exec dir="${basedir}" executable="svn" failonerror="true">
       <arg line="commit www/delivery --non-interactive -q -m 'Automatically generated delivery'"/>
     </exec>
