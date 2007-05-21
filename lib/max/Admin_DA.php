@@ -328,7 +328,7 @@ class Admin_DA
      */
     function _deleteEntities($entity, $aParams)
     {
-        $aTable = $this->_getPrimaryTablePrefixed($entity);
+        $aTable = Admin_DA::_getPrimaryTablePrefixed($entity);
         $aOtherTables = SqlBuilder::_getTables($entity, $aParams);
         $aLimitations = array_merge(SqlBuilder::_getLimitations($entity, $aParams),
             SqlBuilder::_getTableLimitations($aOtherTables));
