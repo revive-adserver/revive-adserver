@@ -211,15 +211,23 @@ function phpAds_Login()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     global $strPasswordWrong;
-    // redirect user if
-    // a) is not within the admin folder
-    // b) does not have admin set as root of host
-    if  (
-         (!preg_match('#/admin$#', dirname($_SERVER['REQUEST_URI'])))
-         &&
-         ($GLOBALS['_MAX']['CONF']['webpath']['admin'] != $_SERVER['HTTP_HOST'])
-        )
-    {
+
+    $redirect = false;
+    // Is it possible to detect that we are NOT in the admin directory
+    // via the URL the user is accessing Openads with?
+    if (!preg_match('#/admin/?$#', $_SERVER['REQUEST_URI'])) {
+        $dirName = dirname($_SERVER['REQUEST_URI']);
+        if (!preg_match('#/admin$#', $dirName)) {
+            // The user is not in the "admin" folder directly. Are they
+            // in the admin folder as a result of a "full" virtual host
+            // configuration?
+            if ($GLOBALS['_MAX']['CONF']['webpath']['admin'] != $_SERVER['HTTP_HOST']) {
+                // Not a "full" virtual host setup, so re-direct
+                $redirect = true;
+            }
+        }
+    }
+    if ($redirect) {
         header('location: http://'.$GLOBALS['_MAX']['CONF']['webpath']['admin']);
         exit();
     }
