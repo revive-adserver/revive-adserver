@@ -371,9 +371,11 @@ function MAX_cacheGetCreative($filename, $cached = true)
     if (($aCreative = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aCreative = OA_Dal_Delivery_getCreative($filename);
+        $aCreative['contents'] = addslashes(serialize($aCreative['contents']));
         $aCreative = OA_Delivery_Cache_store_return($sName, $aCreative);
     }
 
+    $aCreative['contents'] = unserialize(stripslashes($aCreative['contents']));
     return $aCreative;
 }
 
