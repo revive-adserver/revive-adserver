@@ -1159,7 +1159,14 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
 
     $aOtherEntities = _multiSort($aOtherEntities, 'name', 'advertiser_id');
     foreach ($aOtherEntities as $aOtherEntity) {
-        $otherEntityId = $aOtherEntity['advertiser_id'];
+        switch ($entity) {
+            case 'advertiser':
+                $otherEntityId = $aOtherEntity['advertiser_id'];
+                break;
+            case 'placement':
+                $otherEntityId = $aOtherEntity['placement_id'];
+                break;
+        }
         $selected = $otherEntityId == $entityId ? ' selected' : '';
 
         if ($entity == 'placement') {
