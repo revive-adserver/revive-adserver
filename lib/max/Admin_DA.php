@@ -598,16 +598,16 @@ class Admin_DA
             $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d %H")='. $oDbh->quote($aParams['day_hour'], 'text');
         }
         if (!empty($aParams['clientid'])) {
-            $where .= ' AND c.clientid="'. $oDbh->quote($aParams['clientid'], 'integer');
+            $where .= ' AND c.clientid='. $oDbh->quote($aParams['clientid'], 'integer');
         }
         if (isset($aParams['zonesIds'])) {
-            $where .= " AND ac.zone_id IN (". $oDbh->escape(implode(',', $aParams['zonesIds'])) .")";
+            $where .= ' AND ac.zone_id IN ('. $oDbh->escape(implode(',', $aParams['zonesIds'])) .")";
         }
         if (!empty($aParams['campaignid'])) {
-            $where .= ' AND m.campaignid="'. $oDbh->quote($aParams['campaignid'], 'integer');
+            $where .= ' AND m.campaignid='. $oDbh->quote($aParams['campaignid'], 'integer');
         }
         if (!empty($aParams['bannerid'])) {
-            $where .= ' AND d.bannerid="'. $oDbh->quote($aParams['bannerid'], 'integer');
+            $where .= ' AND d.bannerid='. $oDbh->quote($aParams['bannerid'], 'integer');
         }
         if (!empty($aParams['statuses'])) {
             $where .= ' AND ac.connection_status IN ('. $oDbh->escape(implode(',', $aParams['statuses'])).')';
