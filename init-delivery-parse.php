@@ -63,7 +63,7 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
     
     // Parse the configuration file
     $conf = @parse_ini_file($configFileName, true);
-    if ($conf !== false) {
+    if (!empty($conf)) {
         return $conf;
     } elseif ($configFile === '.plugin') {
         // For plugins, if no configuration file is found, return the sane default values
@@ -71,6 +71,7 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
         $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
         $conf = parse_ini_file($defaultConfig, $sections);
         if ($conf !== false) {
+            // check for false here - it's possible 
             return $conf;
         }
         exit(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
