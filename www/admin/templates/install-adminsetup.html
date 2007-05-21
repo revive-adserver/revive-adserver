@@ -45,6 +45,7 @@
                             'name'  => 'aAdmin[pword2]',
                             'text'  => $strRepeatPassword,
                             'req'   => true,
+                            'check'	=> 'compare:aAdmin[pword]',
                             'value' => $aAdmin['pword2']
                         ),
                         array (
