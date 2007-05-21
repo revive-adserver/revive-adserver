@@ -165,8 +165,8 @@ class OA_Dummy_Data
 //        $doZones->category    = '';                       // blob(65535)  not_null blob
 //        $doZones->ad_selection    = '';                   // blob(65535)  not_null blob
 //        $doZones->chain    = '';                          // blob(65535)  not_null blob
-//        $doZones->prepend    = '';                        // blob(65535)  not_null blob
-//        $doZones->append    = '';                         // blob(65535)  not_null blob
+        $doZones->prepend    = '';                        // blob(65535)  not_null blob
+        $doZones->append    = '';                         // blob(65535)  not_null blob
         $doZones->appendtype    = '0';
 //        $doZones->inventory_forecast_type    = '';         // int(6)  not_null
 //        $doZones->comments    = '';                        // blob(65535)  blob
@@ -175,10 +175,10 @@ class OA_Dummy_Data
 //        $doZones->cost_variable_id    = '';                // string(255)
 //        $doZones->technology_cost    = '';                 // unknown(12)
 //        $doZones->technology_cost_type    = '';            // int(6)
-//        $doZones->block    = '';                           // int(11)  not_null
-//        $doZones->capping    = '';                         // int(11)  not_null
-//        $doZones->session_capping    = '';                 // int(11)  not_null
-//        $doZones->what    = '';                           // blob(65535)  not_null blob
+        $doZones->block    = 0;                           // int(11)  not_null
+        $doZones->capping    = 0;                         // int(11)  not_null
+        $doZones->session_capping    = 0;                 // int(11)  not_null
+        $doZones->what    = '';                           // blob(65535)  not_null blob
         $this->zoneId1 = DataGenerator::generateOne($doZones);
     }
 
@@ -198,8 +198,8 @@ class OA_Dummy_Data
 //        $doZones->category    = '';                       // blob(65535)  not_null blob
 //        $doZones->ad_selection    = '';                   // blob(65535)  not_null blob
 //        $doZones->chain    = '';                          // blob(65535)  not_null blob
-//        $doZones->prepend    = '';                        // blob(65535)  not_null blob
-//        $doZones->append    = '';                         // blob(65535)  not_null blob
+        $doZones->prepend    = '';                        // blob(65535)  not_null blob
+        $doZones->append    = '';                         // blob(65535)  not_null blob
         $doZones->appendtype    = '0';
 //        $doZones->inventory_forecast_type    = '';         // int(6)  not_null
 //        $doZones->comments    = '';                        // blob(65535)  blob
@@ -208,10 +208,10 @@ class OA_Dummy_Data
 //        $doZones->cost_variable_id    = '';                // string(255)
 //        $doZones->technology_cost    = '';                 // unknown(12)
 //        $doZones->technology_cost_type    = '';            // int(6)
-//        $doZones->block    = '';                           // int(11)  not_null
-//        $doZones->capping    = '';                         // int(11)  not_null
-//        $doZones->session_capping    = '';                 // int(11)  not_null
-//        $doZones->what    = '';                           // blob(65535)  not_null blob
+        $doZones->block    = 0;                           // int(11)  not_null
+        $doZones->capping    = 0;                         // int(11)  not_null
+        $doZones->session_capping    = 0;                 // int(11)  not_null
+        $doZones->what    = '';                           // blob(65535)  not_null blob
         $this->zoneId2 = DataGenerator::generateOne($doZones);
     }
 
