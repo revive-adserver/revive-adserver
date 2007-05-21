@@ -1116,7 +1116,7 @@ function setupDeliveryConfigVariables()
 if (!defined('MAX_PATH')) {
 define('MAX_PATH', dirname(__FILE__).'/../..');
 }
-if (!(isset($GLOBALS['_MAX']['CONF']))) {
+if ( !(isset($GLOBALS['_MAX']['CONF']))) {
 $GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
 }
 setupConfigVariables();
