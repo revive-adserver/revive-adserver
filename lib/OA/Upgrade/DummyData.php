@@ -118,14 +118,14 @@ class OA_Dummy_Data
         $doCampaigns->target_click    = '';                    // int(11)  not_null
         $doCampaigns->target_conversion    = '';               // int(11)  not_null
         $doCampaigns->anonymous    = 'f';                    // string(1)  not_null enum
-//        $doCampaigns->companion    = '';                       // int(1)
-//        $doCampaigns->comments    = '';                        // blob(65535)  blob
-//        $doCampaigns->revenue    = '';                         // unknown(12)
-//        $doCampaigns->revenue_type    = '';                    // int(6)
+        $doCampaigns->companion    = 0;                       // int(1)
+        $doCampaigns->comments    = '';                        // blob(65535)  blob
+        $doCampaigns->revenue    = 0;                         // unknown(12)
+        $doCampaigns->revenue_type    = '';                    // int(6)
         $doCampaigns->updated    = OA::getNow();
-//        $doCampaigns->block    = '';                           // int(11)  not_null
-//        $doCampaigns->capping    = '';                         // int(11)  not_null
-//        $doCampaigns->session_capping    = '';                 // int(11)  not_null
+        $doCampaigns->block    = 0;                           // int(11)  not_null
+        $doCampaigns->capping    = 0;                         // int(11)  not_null
+        $doCampaigns->session_capping    = 0;                 // int(11)  not_null
         $this->campaignId = DataGenerator::generateOne($doCampaigns);
     }
 
