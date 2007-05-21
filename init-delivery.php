@@ -81,7 +81,7 @@ function setupDeliveryConfigVariables()
         define('MAX_PATH', dirname(__FILE__));
     }
     // Ensure that the initialisation has not been run before
-    if (!(isset($GLOBALS['_MAX']['CONF']))) {
+    if ( !(isset($GLOBALS['_MAX']['CONF']))) {
         // Parse the Max configuration file
         $GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
     }
