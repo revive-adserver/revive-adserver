@@ -1681,7 +1681,8 @@ $first = true;
 global $g_append, $g_prepend;
 $g_append = '';
 $g_prepend = '';
-while (($what != '') && $found == false) {
+while ($first || ($what != '' && $found == false)) {
+$first = false;
 $ix = strpos($what, '|');
 if ($ix === false) {
 $remaining = '';
@@ -2077,6 +2078,7 @@ global $cookie_random;
 $cookie[$conf['var']['dest']] = str_replace('{random}', $cookie_random, $row['url']);
 // but this type of ad doesn't work with beacons, so the impression must
 if ($conf['logging']['adImpressions']) {
+$userid = MAX_cookieGetUniqueViewerID();
 MAX_Delivery_log_logAdImpression($userid, $row['bannerid'], null, $zoneid);
 }
 MAX_cookieSet($conf['var']['vars'] . "[$n]", serialize($cookie));

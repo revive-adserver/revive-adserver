@@ -1681,7 +1681,8 @@ $first = true;
 global $g_append, $g_prepend;
 $g_append = '';
 $g_prepend = '';
-while (($what != '') && $found == false) {
+while ($first || ($what != '' && $found == false)) {
+$first = false;
 $ix = strpos($what, '|');
 if ($ix === false) {
 $remaining = '';
