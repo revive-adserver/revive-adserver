@@ -160,7 +160,6 @@ div.boxtitle {
 
 div.boxrow {
     cursor: pointer; 
-    cursor: hand; 
     border-bottom: 1px #DDDDDD solid;
     padding-top: 2px;
     padding-bottom: 2px;
