@@ -1394,9 +1394,9 @@ class OA_Dal_Maintenance_Statistics_Common
                         AND
                         drti.server_raw_ip = drtvv.server_raw_ip
                         AND
-                        diac.tracker_date_time >= " . $oStart->format('%Y-%m-%d %H:%M:%S') . "
+                        diac.tracker_date_time >= " . $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
                         AND
-                        diac.tracker_date_time <= " . $oEnd->format('%Y-%m-%d %H:%M:%S');
+                        diac.tracker_date_time <= " . $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                 OA::debug("Saving the tracker impression variable values from the $innerTable table", PEAR_LOG_DEBUG);
                 OA::disableErrorHandling();
                 $rows = $this->oDbh->exec($query);
