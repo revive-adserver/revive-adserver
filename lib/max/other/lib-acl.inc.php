@@ -30,10 +30,10 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
-require_once(MAX_PATH . '/lib/max/other/lib-db.inc.php');
-require_once(MAX_PATH . '/www/admin/lib-banner.inc.php');
+require_once MAX_PATH . '/lib/max/other/lib-db.inc.php';
+require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
-require_once(MAX_PATH . '/lib/max/Dal/Admin/Acls.php');
+require_once MAX_PATH . '/lib/max/Dal/Admin/Acls.php';
 if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/remotehost.php'])) {
     // Required by PHP5.1.2
     require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
@@ -163,7 +163,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
         return false;
     }
     $aclsObjectId = $aEntities[$fieldId];
-    
+
     $sLimitation = OA_aclGetSLimitationFromAAcls($acls);
 
     $rsAcls = OA_DB_Sql::selectWhereOne($table, $fieldId, $aclsObjectId, array('compiledlimitation'));
@@ -439,7 +439,7 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
     if (PEAR::isError($result)) {
         return $result;
     }
-    
+
     $aAcls = array();
     while ($rsAcls->fetch()) {
         $row = $rsAcls->toArray();
@@ -459,7 +459,7 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
 function OA_aclRecompileBanners($upgrade = false)
 {
     $conf =& $GLOBALS['_MAX']['CONF'];
-    
+
     return
         OA_aclRecompileAclsForTable('acls', 'bannerid', 'banner-acl.php', $conf['table']['banners'], $upgrade);
 }
@@ -467,7 +467,7 @@ function OA_aclRecompileBanners($upgrade = false)
 function OA_aclRecompileCampaigns($upgrade = false)
 {
     $conf =& $GLOBALS['_MAX']['CONF'];
-    
+
     return
         OA_aclRecompileAclsForTable('acls_channel', 'channelid', 'channel-acl.php', $conf['table']['channel'], $upgrade);
 }
