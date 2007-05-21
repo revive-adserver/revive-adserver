@@ -771,38 +771,41 @@ function _removeFile($aAd)
     }
 }
 
-    // +---------------------------------------+
-    // | Duplication functions                 |
-    // +---------------------------------------+
+// +---------------------------------------+
+// | Duplication functions                 |
+// +---------------------------------------+
 
 function MAX_duplicatePlacement($placementId, $advertiserId) {
     $oDbh = &OA_DB::singleton();
     $conf = $GLOBALS['_MAX']['CONF'];
     // Copy campaign details
     $query = "
-        INSERT INTO {$conf['table']['prefix']}{$conf['table']['campaigns']} (
-            campaignname,
-            clientid,
-            views,
-            clicks,
-            conversions,
-            expire,
-            activate,
-            active,
-            priority,
-            weight,
-            target_impression,
-            target_click,
-            target_conversion,
-            anonymous,
-            companion,
-            comments,
-            revenue,
-            revenue_type,
-            updated
-        ) SELECT
+        INSERT INTO
+            {$conf['table']['prefix']}{$conf['table']['campaigns']}
+            (
+                campaignname,
+                clientid,
+                views,
+                clicks,
+                conversions,
+                expire,
+                activate,
+                active,
+                priority,
+                weight,
+                target_impression,
+                target_click,
+                target_conversion,
+                anonymous,
+                companion,
+                comments,
+                revenue,
+                revenue_type,
+                updated
+            )
+        SELECT
             CONCAT('Copy of ', campaignname),
-            ". $oDbh->quote($advertiserId, 'integer') .",
+            " . $oDbh->quote($advertiserId, 'integer') . ",
             views,
             clicks,
             conversions,
@@ -820,10 +823,10 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
             revenue,
             revenue_type,
             '". OA::getNow() ."'
-          FROM {$conf['table']['prefix']}{$conf['table']['campaigns']}
-          WHERE
-            campaignid = ". $oDbh->quote($placementId, 'integer') ."
-    ";
+        FROM
+            {$conf['table']['prefix']}{$conf['table']['campaigns']}
+        WHERE
+            campaignid = ". $oDbh->quote($placementId, 'integer');
     $res = $oDbh->exec($query);
     if (PEAR::isError($res)) {
         return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
@@ -838,28 +841,37 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
     $query = "
         INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']}
-             (campaignid,
-              trackerid,
-              status,
-              viewwindow,
-              clickwindow)
+            (
+                campaignid,
+                trackerid,
+                status,
+                viewwindow,
+                clickwindow
+            )
             SELECT
-                {$newPlacementId},
-                 trackerid,
-                 status,
-                 viewwindow,
-                 clickwindow
-             FROM
-                 {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']}
-             WHERE campaignid = ". $oDbh->quote($placementId, 'integer') ."
-    ";
+                " . $oDbh->quote($newPlacementId, 'integer') . ",
+                trackerid,
+                status,
+                viewwindow,
+                clickwindow
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']}
+            WHERE
+                campaignid = ". $oDbh->quote($placementId, 'integer');
     $res = $oDbh->exec($query);
     if (PEAR::isError($res)) {
         return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
     }
 
     // Duplicate banners
-    $res = $oDbh->query("SELECT bannerid FROM {$conf['table']['prefix']}{$conf['table']['banners']} WHERE campaignid = ". $oDbh->query($placementId, 'integer'));
+    $query = "
+        SELECT
+            bannerid
+        FROM
+            {$conf['table']['prefix']}{$conf['table']['banners']}
+        WHERE
+            campaignid = ". $oDbh->quote($placementId, 'integer');
+    $res = $oDbh->QUERY($query);
     if (PEAR::isError($res)) {
         return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
     }
@@ -881,7 +893,7 @@ function MAX_duplicateAd($adId, $placementId) {
         FROM
             {$conf['table']['prefix']}{$conf['table']['banners']}
         WHERE
-            bannerid = ". $oDbh->qoute($adId, 'integer');
+            bannerid = ". $oDbh->quote($adId, 'integer');
     $res = $oDbh->query($query);
     if (PEAR::isError($res)) {
         return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
