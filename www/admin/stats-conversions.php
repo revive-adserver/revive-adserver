@@ -55,6 +55,7 @@ $day            = MAX_getStoredValue('day', null);
 $howLong        = MAX_getStoredValue('howLong', 'd');
 $hour           = MAX_getStoredValue('hour', null);
 $setPerPage     = MAX_getStoredValue('setPerPage', 15);
+$pageID         = MAX_getStoredValue('pageID', 1);
 
 if (!empty($day)) {
     // Reset period
@@ -100,9 +101,10 @@ $entityIds = array(
     'bannerid'    => $bannerId,
     'affiliateid' => $affiliateId,
     'zoneid'      => $zoneId,
-    'setPerPage'  => $setPerPage
+    'setPerPage'  => $setPerPage,
+    'pageID'      => $pageID
 );
-$addUrl = "entity=conversions&clientid=$clientId&campaignid=$campaignId&bannerid=$bannerId&affiliateid=$affiliateId&zoneid=$zoneId&setPerPage=$setPerPage";
+$addUrl = "entity=conversions&clientid=$clientId&campaignid=$campaignId&bannerid=$bannerId&affiliateid=$affiliateId&zoneid=$zoneId&setPerPage=$setPerPage&pageID=$pageID";
 
 if (!empty($day)) {
     $entityIds += array(
@@ -247,8 +249,6 @@ $aConversions = Admin_DA::fromCache('getConversions', $aParams + $aDates);
 
 $aParams['totalItems'] = count($aConversions);
 $aParams['perPage'] = MAX_getStoredValue('setPerPage', 15);
-
-$pageID = MAX_getStoredValue('pageID', 1);
 
 if (!isset($pageID) || $pageID == 1) {
     $aParams['startRecord'] = 0;
