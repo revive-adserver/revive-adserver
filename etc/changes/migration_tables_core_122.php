@@ -184,7 +184,7 @@ class Migration_122 extends Migration
         INSERT INTO
             $tableCampaigns
             (campaignid, campaignname, clientid, views, clicks, conversions,
-            expire, active, activate, priority, weight, target_impression,
+            expire, activate, active, priority, weight, target_impression,
             target_click, target_conversion, anonymous, companion)
         SELECT
             clientid AS campaignid,
