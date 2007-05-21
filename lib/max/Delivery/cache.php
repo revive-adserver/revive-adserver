@@ -80,7 +80,7 @@ function OA_Delivery_Cache_fetch($name, $isHash = false)
         // The method used to implement cache expiry imposes two cache writes if the cache is
         // expired and the database is available, but avoid the need to check for file existence
         // and modification time.
-        if ( isset($cache_expiry) && $cache_expiry < MAX_commonGetTimeNow() ) {
+        if (isset($cache_expiry) && $cache_expiry < MAX_commonGetTimeNow() ) {
             // Update expiry, needed to enable permanent caching if needed
             OA_Delivery_Cache_store($name, $cache_contents, $isHash);
             return false;
