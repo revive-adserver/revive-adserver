@@ -2,24 +2,26 @@
 
 <project name="Openads" basedir="." default="main">
 
+  <import file="includes/init.xml"/>
+  
   <target name="main">
     <ant antfile="usecases/loginTest.xml" />
   </target>
 
   <target name="init">
-    <classpath>
-      <fileset dir="lib">
-        <include name="**/*.jar"/>
-      </fileset>
-    </classpath>
     <sql
-        driver="org.database.jdbcDriver"
+        driver="com.mysql.jdbc.Driver"
         url="${sql.url}"
         userid="${sql.user}"
         password="${sql.password}"
         >
       <transaction src="sql/dropTables.sql" />
       <transaction src="sql/delivery.sql" />
+      <classpath>
+        <fileset dir="lib">
+          <include name="**/*.jar"/>
+        </fileset>
+      </classpath>
     </sql>
   </target>
   
