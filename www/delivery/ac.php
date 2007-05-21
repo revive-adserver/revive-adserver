@@ -61,13 +61,14 @@ $host = $_SERVER['SERVER_NAME'];
 }
 $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
 $conf = @parse_ini_file($configFileName, true);
-if ($conf !== false) {
+if (!empty($conf)) {
 return $conf;
 } elseif ($configFile === '.plugin') {
 $pluginType = basename($configPath);
 $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
 $conf = parse_ini_file($defaultConfig, $sections);
 if ($conf !== false) {
+// check for false here - it's possible
 return $conf;
 }
 exit(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
@@ -405,13 +406,14 @@ $host = $_SERVER['SERVER_NAME'];
 }
 $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
 $conf = @parse_ini_file($configFileName, true);
-if ($conf !== false) {
+if (!empty($conf)) {
 return $conf;
 } elseif ($configFile === '.plugin') {
 $pluginType = basename($configPath);
 $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
 $conf = parse_ini_file($defaultConfig, $sections);
 if ($conf !== false) {
+// check for false here - it's possible
 return $conf;
 }
 exit(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
@@ -1128,7 +1130,7 @@ $imageTag = "$clickTag<img src='$imageUrl' width='$width' height='$height' alt='
 $imageTag = '';
 }
 $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />$clickTag{$aBanner['bannertext']}$clickTagEnd" : '';
-$beaconTag = _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer);
+$beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
 return $prepend . $imageTag . $bannerText . $beaconTag . $append;
 }
 function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer)
@@ -1172,8 +1174,6 @@ $swfParams = join('&', $swfParams);
 $fileUrl = _adRenderBuildFileUrl($aBanner, false, $swfParams);
 $protocol = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? "https" : "http";
 $rnd = md5(microtime());
-$beaconTag = _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer);
-$altImageAdCode = str_replace($beaconTag, '', $altImageAdCode);
 $code = "
 <div id='m3_$rnd' style='display: inline;'>$altImageAdCode</div>
 <script type='text/javascript'>
@@ -1187,6 +1187,7 @@ $code .= "
 fo.write('m3_$rnd');
 </script>";
 $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$clickTag}{$aBanner['bannertext']}{$clickTagEnd}" : '';
+$beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
 return "{$prepend}{$code}{$bannerText}{$beaconTag}{$append}";
 }
 function _adRenderQuicktime($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer)
@@ -1214,8 +1215,6 @@ $anchorEnd = '';
 }
 $clickTag = _adRenderBuildFileUrl($aBanner, $source, $ct0, $logClick);
 $fileUrl = _adRenderBuildFileUrl($aBanner, false, $swfParams);
-$beaconTag = _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer);
-$altImageBannercode = str_replace($beaconTag, '', $altImageBannercode);
 $code = "
 <object classid='clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B' codebase='http://www.apple.com/qtactivex/qtplugin.cab' width='$width' height='$height'>
 <param name='src' value='$fileUrl'>
@@ -1225,6 +1224,7 @@ $code = "
 <noembed>$altImageBannercode</noembed>
 </object>";
 $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$anchor}{$aBanner['bannertext']}{$anchorEnd}" : '';
+$beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
 return $prepend . $code . $bannerText . $beaconTag . $append;
 }
 function _adRenderHtml($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $loc, $referer)
@@ -1253,7 +1253,7 @@ $code = str_replace ($parser_regs[1], $parser_result, $code);
 }
 $bannerText = !empty($aBanner['bannertext']) ? "$clickTag{$aBanner['bannertext']}$clickTagEnd" : '';
 if ((strpos($code, '{logurl}') === false) && (strpos($code, '{logurl_enc}') === false)) {
-$beaconTag = _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer);
+$beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
 } else {
 $beaconTag = '';
 }
@@ -1275,7 +1275,7 @@ $clickTag = '';
 $clickTagEnd = '';
 }
 $bannerText = !empty($aBanner['bannertext']) ? "$clickTag{$aBanner['bannertext']}$clickTagEnd" : '';
-$beaconTag = _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer);
+$beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
 return $prepend . $bannerText . $beaconTag . $append;
 }
 function _adRenderReal($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $loc, $referer)
@@ -1312,7 +1312,7 @@ $code = "
 <noembed>$altImageBannercode</noembed>
 </object>";
 $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$anchor}{$aBanner['bannertext']}{$anchorEnd}" : '';
-$beaconTag = _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer);
+$beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
 return $prepend . $code . $bannerText . $beaconTag . $append;
 }
 function _adRenderBuildFileUrl($aBanner, $useAlt = false, $params = '')
@@ -1541,6 +1541,18 @@ $output = array('html'       => $outputbuffer,
 'campaignid' => $row['campaignid'],
 );
 $output['context'] = (!empty($row['zone_companion']) && (is_array($row['zone_companion']))) ? _adSelectBuildCompanionContext($row, $context) : array();
+// If ad-logging is disabled, the log beacon won't be sent, so set the capping at request
+if (!$conf['logging']['adImpressions']) {
+if ($row['block_ad'] > 0 || $row['cap_ad'] > 0 || $row['session_cap_ad'] > 0) {
+MAX_Delivery_cookie_setCapping('Ad', $row['bannerid'], $row['block_ad'], $row['cap_ad'], $row['session_cap_ad']);
+}
+if ($row['block_campaign'] > 0 || $row['cap_campaign'] > 0 || $row['session_cap_campaign'] > 0) {
+MAX_Delivery_cookie_setCapping('Campaign', $row['campaign_id'], $row['block_campaign'], $row['cap_campaign'], $row['session_cap_campaign']);
+}
+if ($row['block_zone'] > 0 || $row['cap_zone'] > 0 || $row['session_cap_zone'] > 0) {
+MAX_Delivery_cookie_setCapping('Zone', $row['zoneid'], $row['block_zone'], $row['cap_zone'], $row['session_cap_zone']);
+}
+}
 return $output;
 } else {
 if (!empty($row['default'])) {
@@ -2020,8 +2032,10 @@ $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $filename);
 if (($aCreative = OA_Delivery_Cache_fetch($sName)) === false) {
 MAX_Dal_Delivery_Include();
 $aCreative = OA_Dal_Delivery_getCreative($filename);
+$aCreative['contents'] = addslashes(serialize($aCreative['contents']));
 $aCreative = OA_Delivery_Cache_store_return($sName, $aCreative);
 }
+$aCreative['contents'] = unserialize(stripslashes($aCreative['contents']));
 return $aCreative;
 }
 function MAX_cacheGetTracker($trackerid, $cached = true)

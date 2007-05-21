@@ -61,13 +61,14 @@ $host = $_SERVER['SERVER_NAME'];
 }
 $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
 $conf = @parse_ini_file($configFileName, true);
-if ($conf !== false) {
+if (!empty($conf)) {
 return $conf;
 } elseif ($configFile === '.plugin') {
 $pluginType = basename($configPath);
 $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
 $conf = parse_ini_file($defaultConfig, $sections);
 if ($conf !== false) {
+// check for false here - it's possible
 return $conf;
 }
 exit(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
@@ -405,13 +406,14 @@ $host = $_SERVER['SERVER_NAME'];
 }
 $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
 $conf = @parse_ini_file($configFileName, true);
-if ($conf !== false) {
+if (!empty($conf)) {
 return $conf;
 } elseif ($configFile === '.plugin') {
 $pluginType = basename($configPath);
 $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
 $conf = parse_ini_file($defaultConfig, $sections);
 if ($conf !== false) {
+// check for false here - it's possible
 return $conf;
 }
 exit(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
@@ -1087,8 +1089,10 @@ $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $filename);
 if (($aCreative = OA_Delivery_Cache_fetch($sName)) === false) {
 MAX_Dal_Delivery_Include();
 $aCreative = OA_Dal_Delivery_getCreative($filename);
+$aCreative['contents'] = addslashes(serialize($aCreative['contents']));
 $aCreative = OA_Delivery_Cache_store_return($sName, $aCreative);
 }
+$aCreative['contents'] = unserialize(stripslashes($aCreative['contents']));
 return $aCreative;
 }
 function MAX_cacheGetTracker($trackerid, $cached = true)
