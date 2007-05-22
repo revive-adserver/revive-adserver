@@ -113,7 +113,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         if (file_exists($defaultConfig)) {
             return parse_ini_file($defaultConfig, $sections);
         } else {
-            exit(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
+            die(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
         }
     }
     // Got all this way, and no configuration file yet found - maybe
@@ -144,7 +144,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         {
             return parseIniFile($configPath, $configFile, $sections, '.ini');
         }
-        exit(MAX_PRODUCT_NAME . " has been installed, but no configuration file ".$configPath . '/' . $host . $configFile . '.conf.php'." was found.\n");
+        die(MAX_PRODUCT_NAME . " has been installed, but no configuration file ".$configPath . '/' . $host . $configFile . '.conf.php'." was found.\n");
     }
     // Openads hasn't been installed, so use the distribution .ini file
     return @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', $sections);

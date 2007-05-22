@@ -8,7 +8,7 @@
     <ant antfile="usecases/loginTest.xml" />
   </target>
 
-  <target name="initDeliveryDb">
+  <target name="init-delivery-db">
     <sql
         driver="com.mysql.jdbc.Driver"
         url="${sql.url}"
@@ -23,6 +23,15 @@
         </fileset>
       </classpath>
     </sql>
+  </target>
+  
+  <targe name="clean-delivery-cache">
+    <delete>
+      <fileset dir="./../../var/cache/">
+        <include name="deliverycache_*" />
+        <include name="cache_*" />
+      </fileset>
+    </delete>
   </target>
   
   <target name="delivery">
