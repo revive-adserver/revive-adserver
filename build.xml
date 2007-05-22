@@ -100,7 +100,13 @@
       byline="true"/>
   </target>
 
-  <target name="package" depends="checkconsistency, prepare-version-info">
+  <target name="prepare-package">
+    <chmod perm="a+w" dir="${basedir}" type="dir">
+      <patternset refid="dist.writable"/>
+    </chmod>
+  </target>
+
+  <target name="package" depends="checkconsistency, prepare-package, prepare-version-info">
     <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="." compression="bzip2" longfile="gnu">
       <patternset refid="dist.included"/>
     </tar>
@@ -108,7 +114,12 @@
       <patternset refid="dist.included"/>
     </tar>
     <zip destfile="${dir.test.results}/${release}.zip" basedir=".">
-      <patternset refid="dist.included"/>
+      <zipfileset dir=".">
+        <patternset refid="dist.included"/>
+      </zipfileset>
+      <zipfileset dir="." dirmode="666">
+        <patternset refid="dist.writable"/>
+      </zipfileset>
     </zip>
     <svn-revert file="constants.php"/>
   </target>
@@ -117,7 +128,7 @@
     <svn-tag tag="${release}"/>
   </target>
 
-  <target name="release-beta-rc" depends="svn-update, tag, package, increase-rc" description="Creates a release candidate for beta line."/>
+  <target name="release-beta-rc" depends="clean, svn-update, tag, package, increase-rc" description="Creates a release candidate for beta line."/>
 
   <target name="test-prepare">
     <xslt style="tests.xsl" in="${test.conf.xml}" out="tests.xml"/>
