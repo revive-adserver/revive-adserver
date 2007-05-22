@@ -70,9 +70,11 @@ class DataObjects_ChannelTest extends DalUnitTestCase
 
     function testDuplicate()
     {
+        //  create test channel
         $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->acls_updated = '2007-04-03 19:29:54';
         $channelId = DataGenerator::generateOne($doChannel);
+        $doChannel->insert();
 
 //        $doAcls = OA_Dal::factoryDO('acls');
 //        $doAcls->bannerid = 1;
@@ -84,7 +86,16 @@ class DataObjects_ChannelTest extends DalUnitTestCase
 //        $doAcls->executionorder = 2;
 //        $doAcls->insert();
 
-        $doChannel->duplicate();
+        $newChannelid = $doChannel->duplicate();
+
+        $doDupChannel = OA_DAL::factoryDO('channel');
+        $doDupChannel->get($newChannelid);
+
+        $this->assertEqual($doChannel->logical,          $doDupChannel->logical);
+        $this->assertEqual($doChannel->type,             $doDupChannel->type);
+        $this->assertEqual($doChannel->comparison,       $doDupChannel->comparison);
+        $this->assertEqual($doChannel->data,             $doDupChannel->data);
+        $this->assertEqual($doChannel->executionorder,   $doDupChannel->executionorder);
 
     }
 }
