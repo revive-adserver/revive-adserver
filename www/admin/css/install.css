@@ -67,7 +67,7 @@ td.sysinfoerror, .sysinfoerror {
 }
 
 .floatleft {
- float: left;
+margin-right: 10px;
 }
 
 div.sysinfoerror {
