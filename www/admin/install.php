@@ -100,6 +100,24 @@ function getSupportedTableTypes()
     return $types;
 }
 
+ /**
+ * Checks a folder to make sure it exists and is writable
+ *
+ * @param  int Folder the directory that needs to be tested
+ * @return boolean - true if folder exists and is writable
+ */
+function checkFolderPermissions($folder) {
+    if (!file_exists($folder))
+    {
+        return false;
+    }
+    elseif (!is_writable($folder))
+    {
+        return false;
+    }
+    return true;
+}
+
 if ($oUpgrader->isRecoveryRequired())
 {
     $oUpgrader->recoverUpgrade();
@@ -165,18 +183,24 @@ else if (array_key_exists('btn_adminsetup', $_POST))
 {
     if ($oUpgrader->saveConfig($_POST['aConfig']))
     {
-        if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
-        {
-            //$oUpgrader->getAdmin();
-            $action = OA_UPGRADE_ADMINSETUP;
-        }
-        else
-        {
-            //Hide the IDsetup, instead display the finish page
-            //$action = OA_UPGRADE_IDSETUP;
-            $message = 'Congratulations you have finished upgrading Openads';
-            $oUpgrader->setOpenadsInstalledOn();
-            $action = OA_UPGRADE_FINISH;
+        if (!checkFolderPermissions($_POST['aConfig']['store']['webDir'])) {
+            $aConfig    = $_POST['aConfig'];
+            $errMessage = $strImageDirLockedDetected;
+            $action     = OA_UPGRADE_CONFIGSETUP;
+        } else {
+            if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
+            {
+                //$oUpgrader->getAdmin();
+                $action = OA_UPGRADE_ADMINSETUP;
+            }
+            else
+            {
+                //Hide the IDsetup, instead display the finish page
+                //$action = OA_UPGRADE_IDSETUP;
+                $message = 'Congratulations you have finished upgrading Openads';
+                $oUpgrader->setOpenadsInstalledOn();
+                $action = OA_UPGRADE_FINISH;
+            }
         }
     }
     else

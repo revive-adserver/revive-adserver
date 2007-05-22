@@ -150,6 +150,7 @@ $GLOBALS['strEditConfigPossible']                    = 'It is possible to edit a
                                                        'If you want to secure your system, you need to lock the configuration file for this installation.';
 $GLOBALS['strUnableToWriteConfig']                   = 'Unable to write changes to the config file';
 $GLOBALS['strUnableToWritePrefs']                    = 'Unable to commit preferences to the database';
+$GLOBALS['strImageDirLockedDetected']	             = "The supplied <b>Images Folder</b> is not writeable by the server. <br>You can't proceed until you either change permissions of the folder or create the folder.";
 
 // Configuration Settings
 $GLOBALS['strConfigurationSetup']                    = 'Configuration Setup';
