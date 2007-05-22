@@ -1,112 +1,176 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
-// +-----------------------------------------------------------------------+
-// | Copyright (c) 2002-2003  Richard Heyes                                |
-// | Copyright (c) 2003-2005  The PHP Group                                |
-// | All rights reserved.                                                  |
-// |                                                                       |
-// | Redistribution and use in source and binary forms, with or without    |
-// | modification, are permitted provided that the following conditions    |
-// | are met:                                                              |
-// |                                                                       |
-// | o Redistributions of source code must retain the above copyright      |
-// |   notice, this list of conditions and the following disclaimer.       |
-// | o Redistributions in binary form must reproduce the above copyright   |
-// |   notice, this list of conditions and the following disclaimer in the |
-// |   documentation and/or other materials provided with the distribution.|
-// | o The names of the authors may not be used to endorse or promote      |
-// |   products derived from this software without specific prior written  |
-// |   permission.                                                         |
-// |                                                                       |
-// | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   |
-// | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     |
-// | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR |
-// | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  |
-// | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, |
-// | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      |
-// | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
-// | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY |
-// | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   |
-// | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE |
-// | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  |
-// |                                                                       |
-// +-----------------------------------------------------------------------+
-// | Author: Richard Heyes <richard@phpguru.org>                           |
-// |         Tomas V.V.Cox <cox@idecnet.com> (port to PEAR)                |
-// +-----------------------------------------------------------------------+
-//
-// $Id$
+/**
+ * The Mail_Mime class is used to create MIME E-mail messages
+ *
+ * The Mail_Mime class provides an OO interface to create MIME
+ * enabled email messages. This way you can create emails that
+ * contain plain-text bodies, HTML bodies, attachments, inline
+ * images and specific headers.
+ *
+ * Compatible with PHP versions 4 and 5
+ *
+ * LICENSE: This LICENSE is in the BSD license style.
+ * Copyright (c) 2002-2003, Richard Heyes <richard@phpguru.org>
+ * Copyright (c) 2003-2006, PEAR <pear-group@php.net>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the distribution.
+ * - Neither the name of the authors, nor the names of its contributors 
+ *   may be used to endorse or promote products derived from this 
+ *   software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @category   Mail
+ * @package    Mail_Mime
+ * @author     Richard Heyes  <richard@phpguru.org>
+ * @author     Tomas V.V. Cox <cox@idecnet.com>
+ * @author     Cipriano Groenendal <cipri@php.net>
+ * @author     Sean Coates <sean@php.net>
+ * @copyright  2003-2006 PEAR <pear-group@php.net>
+ * @license    http://www.opensource.org/licenses/bsd-license.php BSD License
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/Mail_mime
+ * @notes      This class is based on HTML Mime Mail class from
+ *             Richard Heyes <richard@phpguru.org> which was based also
+ *             in the mime_mail.class by Tobias Ratschiller <tobias@dnet.it>
+ *             and Sascha Schumann <sascha@schumann.cx>
+ */
 
-require_once('PEAR.php');
-require_once('Mail/mimePart.php');
 
 /**
- * Mime mail composer class. Can handle: text and html bodies, embedded html
- * images and attachments.
- * Documentation and examples of this class are avaible here:
- * http://pear.php.net/manual/
+ * require PEAR
  *
- * @notes This class is based on HTML Mime Mail class from
- *   Richard Heyes <richard@phpguru.org> which was based also
- *   in the mime_mail.class by Tobias Ratschiller <tobias@dnet.it> and
- *   Sascha Schumann <sascha@schumann.cx>
+ * This package depends on PEAR to raise errors.
+ */
+require_once('PEAR.php');
+
+/**
+ * require Mail_mimePart
  *
- * @author   Richard Heyes <richard.heyes@heyes-computing.net>
- * @author   Tomas V.V.Cox <cox@idecnet.com>
- * @package  Mail
- * @access   public
+ * Mail_mimePart contains the code required to
+ * create all the different parts a mail can
+ * consist of.
+ */
+require_once('Mail/mimePart.php');
+
+
+/**
+ * The Mail_Mime class provides an OO interface to create MIME
+ * enabled email messages. This way you can create emails that
+ * contain plain-text bodies, HTML bodies, attachments, inline
+ * images and specific headers.
+ *
+ * @category   Mail
+ * @package    Mail_Mime
+ * @author     Richard Heyes  <richard@phpguru.org>
+ * @author     Tomas V.V. Cox <cox@idecnet.com>
+ * @author     Cipriano Groenendal <cipri@php.net>
+ * @author     Sean Coates <sean@php.net>
+ * @copyright  2003-2006 PEAR <pear-group@php.net>
+ * @license    http://www.opensource.org/licenses/bsd-license.php BSD License
+ * @version    Release: @package_version@
+ * @link       http://pear.php.net/package/Mail_mime
  */
 class Mail_mime
 {
     /**
      * Contains the plain text part of the email
+     *
      * @var string
+     * @access private
      */
     var $_txtbody;
+
     /**
      * Contains the html part of the email
+     *
      * @var string
+     * @access private
      */
     var $_htmlbody;
+
     /**
      * contains the mime encoded text
+     *
      * @var string
+     * @access private
      */
     var $_mime;
+
     /**
      * contains the multipart content
+     *
      * @var string
+     * @access private
      */
     var $_multipart;
+
     /**
      * list of the attached images
+     *
      * @var array
+     * @access private
      */
     var $_html_images = array();
+
     /**
      * list of the attachements
+     *
      * @var array
+     * @access private
      */
     var $_parts = array();
+
     /**
      * Build parameters
+     *
      * @var array
+     * @access private
      */
     var $_build_params = array();
+
     /**
      * Headers for the mail
+     *
      * @var array
+     * @access private
      */
     var $_headers = array();
+
     /**
      * End Of Line sequence (for serialize)
+     *
      * @var string
+     * @access private
      */
     var $_eol;
 
 
     /**
-     * Constructor function
+     * Constructor function.
+     *
+     * @param string $crlf  what type of linebreak to use.
+     *                       Defaults to "\r\n"
+     * @return void
      *
      * @access public
      */
@@ -114,6 +178,7 @@ class Mail_mime
     {
         $this->_setEOL($crlf);
         $this->_build_params = array(
+                                     'head_encoding' => 'quoted-printable',
                                      'text_encoding' => '7bit',
                                      'html_encoding' => 'quoted-printable',
                                      '7bit_wrap'     => 998,
@@ -124,7 +189,7 @@ class Mail_mime
     }
 
     /**
-     * Wakeup (unserialize) - re-sets EOL constant
+     * wakeup function called by unserialize. It re-sets the EOL constant
      *
      * @access private
      */
@@ -133,6 +198,7 @@ class Mail_mime
         $this->_setEOL($this->_eol);
     }
 
+
     /**
      * Accessor function to set the body text. Body text is used if
      * it's not an html mail being sent or else is used to fill the
@@ -140,12 +206,12 @@ class Mail_mime
      * html should show.
      *
      * @param  string  $data   Either a string or
-     *                         the file name with the contents
+     *                          the file name with the contents
      * @param  bool    $isfile If true the first param should be treated
-     *                         as a file name, else as a string (default)
+     *                          as a file name, else as a string (default)
      * @param  bool    $append If true the text or file is appended to
-     *                         the existing body, else the old body is
-     *                         overwritten
+     *                          the existing body, else the old body is
+     *                          overwritten
      * @return mixed   true on success or PEAR_Error object
      * @access public
      */
@@ -172,13 +238,13 @@ class Mail_mime
     }
 
     /**
-     * Adds a html part to the mail
+     * Adds a html part to the mail.
      *
-     * @param  string  $data   Either a string or the file name with the
-     *                         contents
-     * @param  bool    $isfile If true the first param should be treated
-     *                         as a file name, else as a string (default)
-     * @return mixed   true on success or PEAR_Error object
+     * @param  string  $data   either a string or the file name with the
+     *                          contents
+     * @param  bool    $isfile a flag that determines whether $data is a
+     *                          filename, or a string(false, default)
+     * @return bool    true on success
      * @access public
      */
     function setHTMLBody($data, $isfile = false)
@@ -199,24 +265,24 @@ class Mail_mime
     /**
      * Adds an image to the list of embedded images.
      *
-     * @param  string  $file       The image file name OR image data itself
-     * @param  string  $c_type     The content type
-     * @param  string  $name       The filename of the image.
-     *                             Only use if $file is the image data
-     * @param  bool    $isfilename Whether $file is a filename or not
-     *                             Defaults to true
-     * @return mixed   true on success or PEAR_Error object
+     * @param  string  $file       the image file name OR image data itself
+     * @param  string  $c_type     the content type
+     * @param  string  $name       the filename of the image.
+     *                              Only use if $file is the image data.
+     * @param  bool    $isfile     whether $file is a filename or not.
+     *                              Defaults to true
+     * @return bool                true on success
      * @access public
      */
     function addHTMLImage($file, $c_type='application/octet-stream',
-                          $name = '', $isfilename = true)
+                          $name = '', $isfile = true)
     {
-        $filedata = ($isfilename === true) ? $this->_file2str($file)
+        $filedata = ($isfile === true) ? $this->_file2str($file)
                                            : $file;
-        if ($isfilename === true) {
-            $filename = ($name == '' ? basename($file) : basename($name));
+        if ($isfile === true) {
+            $filename = ($name == '' ? $file : $name);
         } else {
-            $filename = basename($name);
+            $filename = $name;
         }
         if (PEAR::isError($filedata)) {
             return $filedata;
@@ -233,32 +299,47 @@ class Mail_mime
     /**
      * Adds a file to the list of attachments.
      *
-     * @param  string  $file       The file name of the file to attach
-     *                             OR the file data itself
-     * @param  string  $c_type     The content type
-     * @param  string  $name       The filename of the attachment
-     *                             Only use if $file is the file data
-     * @param  bool    $isFilename Whether $file is a filename or not
-     *                             Defaults to true
+     * @param  string  $file        The file name of the file to attach
+     *                              OR the file contents itself
+     * @param  string  $c_type      The content type
+     * @param  string  $name        The filename of the attachment
+     *                              Only use if $file is the contents
+     * @param  bool    $isfile      Whether $file is a filename or not
+     *                              Defaults to true
+     * @param  string  $encoding    The type of encoding to use.
+     *                              Defaults to base64.
+     *                              Possible values: 7bit, 8bit, base64, 
+     *                              or quoted-printable.
+     * @param  string  $disposition The content-disposition of this file
+     *                              Defaults to attachment.
+     *                              Possible values: attachment, inline.
+     * @param  string  $charset     The character set used in the filename
+     *                              of this attachment.
+     * @param  string  $language    The language of the attachment
+     * @param  string  $location    The RFC 2557.4 location of the attachment
      * @return mixed true on success or PEAR_Error object
      * @access public
      */
     function addAttachment($file, $c_type = 'application/octet-stream',
-                           $name = '', $isfilename = true,
-                           $encoding = 'base64')
+                           $name = '', $isfile = true,
+                           $encoding = 'base64',
+                           $disposition = 'attachment',
+                           $charset = '', $language = '',
+                           $location = '')
     {
-        $filedata = ($isfilename === true) ? $this->_file2str($file)
+        $filedata = ($isfile === true) ? $this->_file2str($file)
                                            : $file;
-        if ($isfilename === true) {
+        if ($isfile === true) {
             // Force the name the user supplied, otherwise use $file
-            $filename = (!empty($name)) ? $name : $file;
+            $filename = (strlen($name)) ? $name : $file;
         } else {
             $filename = $name;
         }
-        if (empty($filename)) {
-            return PEAR::raiseError(
-              'The supplied filename for the attachment can\'t be empty'
+        if (!strlen($filename)) {
+            $err = PEAR::raiseError(
+              "The supplied filename for the attachment can't be empty"
             );
+            return $err;
         }
         $filename = basename($filename);
         if (PEAR::isError($filedata)) {
@@ -266,10 +347,14 @@ class Mail_mime
         }
 
         $this->_parts[] = array(
-                                'body'     => $filedata,
-                                'name'     => $filename,
-                                'c_type'   => $c_type,
-                                'encoding' => $encoding
+                                'body'        => $filedata,
+                                'name'        => $filename,
+                                'c_type'      => $c_type,
+                                'encoding'    => $encoding,
+                                'charset'     => $charset,
+                                'language'    => $language,
+                                'location'    => $location,
+                                'disposition' => $disposition
                                );
         return true;
     }
@@ -284,16 +369,24 @@ class Mail_mime
     function &_file2str($file_name)
     {
         if (!is_readable($file_name)) {
-            return PEAR::raiseError('File is not readable ' . $file_name);
+            $err = PEAR::raiseError('File is not readable ' . $file_name);
+            return $err;
         }
         if (!$fd = fopen($file_name, 'rb')) {
-            return PEAR::raiseError('Could not open ' . $file_name);
+            $err = PEAR::raiseError('Could not open ' . $file_name);
+            return $err;
         }
         $filesize = filesize($file_name);
         if ($filesize == 0){
             $cont =  "";
         }else{
+            if ($magic_quote_setting = get_magic_quotes_runtime()){
+                set_magic_quotes_runtime(0);
+            }
             $cont = fread($fd, $filesize);
+            if ($magic_quote_setting){
+                set_magic_quotes_runtime($magic_quote_setting);
+            }
         }
         fclose($fd);
         return $cont;
@@ -315,9 +408,11 @@ class Mail_mime
         $params['encoding']     = $this->_build_params['text_encoding'];
         $params['charset']      = $this->_build_params['text_charset'];
         if (is_object($obj)) {
-            return $obj->addSubpart($text, $params);
+            $ret = $obj->addSubpart($text, $params);
+            return $ret;
         } else {
-            return new Mail_mimePart($text, $params);
+            $ret = new Mail_mimePart($text, $params);
+            return $ret;
         }
     }
 
@@ -336,9 +431,11 @@ class Mail_mime
         $params['encoding']     = $this->_build_params['html_encoding'];
         $params['charset']      = $this->_build_params['html_charset'];
         if (is_object($obj)) {
-            return $obj->addSubpart($this->_htmlbody, $params);
+            $ret = $obj->addSubpart($this->_htmlbody, $params);
+            return $ret;
         } else {
-            return new Mail_mimePart($this->_htmlbody, $params);
+            $ret = new Mail_mimePart($this->_htmlbody, $params);
+            return $ret;
         }
     }
 
@@ -353,7 +450,8 @@ class Mail_mime
     function &_addMixedPart()
     {
         $params['content_type'] = 'multipart/mixed';
-        return new Mail_mimePart('', $params);
+        $ret = new Mail_mimePart('', $params);
+        return $ret;
     }
 
     /**
@@ -372,7 +470,8 @@ class Mail_mime
         if (is_object($obj)) {
             return $obj->addSubpart('', $params);
         } else {
-            return new Mail_mimePart('', $params);
+            $ret = new Mail_mimePart('', $params);
+            return $ret;
         }
     }
 
@@ -392,7 +491,8 @@ class Mail_mime
         if (is_object($obj)) {
             return $obj->addSubpart('', $params);
         } else {
-            return new Mail_mimePart('', $params);
+            $ret = new Mail_mimePart('', $params);
+            return $ret;
         }
     }
 
@@ -412,7 +512,9 @@ class Mail_mime
         $params['disposition']  = 'inline';
         $params['dfilename']    = $value['name'];
         $params['cid']          = $value['cid'];
-        $obj->addSubpart($value['body'], $params);
+        $ret = $obj->addSubpart($value['body'], $params);
+        return $ret;
+    
     }
 
     /**
@@ -426,12 +528,53 @@ class Mail_mime
      */
     function &_addAttachmentPart(&$obj, $value)
     {
-        $params['content_type'] = $value['c_type'];
-        $params['encoding']     = $value['encoding'];
-        $params['disposition']  = 'attachment';
         $params['dfilename']    = $value['name'];
-        $obj->addSubpart($value['body'], $params);
+        $params['encoding']     = $value['encoding'];
+        if ($value['charset']) {
+            $params['charset'] = $value['charset'];
+        }
+        if ($value['language']) {
+            $params['language'] = $value['language'];
+        }
+        if ($value['location']) {
+            $params['location'] = $value['location'];
+        }
+        $params['content_type'] = $value['c_type'];
+        $params['disposition']  = isset($value['disposition']) ? 
+                                  $value['disposition'] : 'attachment';
+        $ret = $obj->addSubpart($value['body'], $params);
+        return $ret;
     }
+
+    /**
+     * Returns the complete e-mail, ready to send using an alternative
+     * mail delivery method. Note that only the mailpart that is made
+     * with Mail_Mime is created. This means that,
+     * YOU WILL HAVE NO TO: HEADERS UNLESS YOU SET IT YOURSELF 
+     * using the $xtra_headers parameter!
+     * 
+     * @param  string $separation   The separation etween these two parts.
+     * @param  array  $build_params The Build parameters passed to the
+     *                              &get() function. See &get for more info.
+     * @param  array  $xtra_headers The extra headers that should be passed
+     *                              to the &headers() function.
+     *                              See that function for more info.
+     * @param  bool   $overwrite    Overwrite the existing headers with new.
+     * @return string The complete e-mail.
+     * @access public
+     */
+    function getMessage($separation = null, $build_params = null, $xtra_headers = null, $overwrite = false)
+    {
+        if ($separation === null)
+        {
+            $separation = MAIL_MIME_CRLF;
+        }
+        $body = $this->get($build_params);
+        $head = $this->txtHeaders($xtra_headers, $overwrite);
+        $mail = $head . $separation . $body;
+        return $mail;
+    }
+
 
     /**
      * Builds the multipart message from the list ($this->_parts) and
@@ -439,9 +582,14 @@ class Mail_mime
      *
      * @param  array  Build parameters that change the way the email
      *                is built. Should be associative. Can contain:
+     *                head_encoding  -  What encoding to use for the headers. 
+     *                                  Options: quoted-printable or base64
+     *                                  Default is quoted-printable
      *                text_encoding  -  What encoding to use for plain text
+     *                                  Options: 7bit, 8bit, base64, or quoted-printable
      *                                  Default is 7bit
      *                html_encoding  -  What encoding to use for html
+     *                                  Options: 7bit, 8bit, base64, or quoted-printable
      *                                  Default is quoted-printable
      *                7bit_wrap      -  Number of characters before text is
      *                                  wrapped in 7bit encoding
@@ -463,22 +611,28 @@ class Mail_mime
             }
         }
 
-        if (!empty($this->_html_images) AND isset($this->_htmlbody)) {
-            foreach ($this->_html_images as $value) {
-                $regex = '#(\s)((?i)src|background|href(?-i))\s*=\s*(["\']?)' . preg_quote($value['name'], '#') .
-                         '\3#';
-                $rep = '\1\2=\3cid:' . $value['cid'] .'\3';
+        if (count($this->_html_images) AND isset($this->_htmlbody)) {
+            foreach ($this->_html_images as $key => $value) {
+                $regex = array();
+                $regex[] = '#(\s)((?i)src|background|href(?-i))\s*=\s*(["\']?)' .
+                            preg_quote($value['name'], '#') . '\3#';
+                $regex[] = '#(?i)url(?-i)\(\s*(["\']?)' .
+                            preg_quote($value['name'], '#') . '\1\s*\)#';
+                $rep = array();
+                $rep[] = '\1\2=\3cid:' . $value['cid'] .'\3';
+                $rep[] = 'url(\1cid:' . $value['cid'] . '\2)';
                 $this->_htmlbody = preg_replace($regex, $rep,
                                        $this->_htmlbody
                                    );
+                $this->_html_images[$key]['name'] = basename($this->_html_images[$key]['name']);
             }
         }
 
         $null        = null;
-        $attachments = !empty($this->_parts)                ? true : false;
-        $html_images = !empty($this->_html_images)          ? true : false;
-        $html        = !empty($this->_htmlbody)             ? true : false;
-        $text        = (!$html AND !empty($this->_txtbody)) ? true : false;
+        $attachments = count($this->_parts)                 ? true : false;
+        $html_images = count($this->_html_images)           ? true : false;
+        $html        = strlen($this->_htmlbody)             ? true : false;
+        $text        = (!$html AND strlen($this->_txtbody)) ? true : false;
 
         switch (true) {
         case $text AND !$attachments:
@@ -511,17 +665,16 @@ class Mail_mime
             break;
 
         case $html AND !$attachments AND $html_images:
+            $message =& $this->_addRelatedPart($null);
             if (isset($this->_txtbody)) {
-                $message =& $this->_addAlternativePart($null);
-                $this->_addTextPart($message, $this->_txtbody);
-                $related =& $this->_addRelatedPart($message);
+                $alt =& $this->_addAlternativePart($message);
+                $this->_addTextPart($alt, $this->_txtbody);
+                $this->_addHtmlPart($alt);
             } else {
-                $message =& $this->_addRelatedPart($null);
-                $related =& $message;
+                $this->_addHtmlPart($message);
             }
-            $this->_addHtmlPart($related);
             for ($i = 0; $i < count($this->_html_images); $i++) {
-                $this->_addHtmlImagePart($related, $this->_html_images[$i]);
+                $this->_addHtmlImagePart($message, $this->_html_images[$i]);
             }
             break;
 
@@ -563,10 +716,12 @@ class Mail_mime
             $output = $message->encode();
             $this->_headers = array_merge($this->_headers,
                                           $output['headers']);
-            return $output['body'];
+            $body = $output['body'];
+            return $body;
 
         } else {
-            return false;
+            $ret = false;
+            return $ret;
         }
     }
 
@@ -577,10 +732,11 @@ class Mail_mime
      *
      * @param  array $xtra_headers Assoc array with any extra headers.
      *                             Optional.
+     * @param  bool  $overwrite    Overwrite already existing headers.
      * @return array Assoc array with the mime headers
      * @access public
      */
-    function &headers($xtra_headers = null)
+    function &headers($xtra_headers = null, $overwrite = false)
     {
         // Content-Type header should already be present,
         // So just add mime version header
@@ -588,9 +744,14 @@ class Mail_mime
         if (isset($xtra_headers)) {
             $headers = array_merge($headers, $xtra_headers);
         }
-        $this->_headers = array_merge($headers, $this->_headers);
+        if ($overwrite){
+            $this->_headers = array_merge($this->_headers, $headers);
+        }else{
+            $this->_headers = array_merge($headers, $this->_headers);
+        }
 
-        return $this->_encodeHeaders($this->_headers);
+        $encodedHeaders = $this->_encodeHeaders($this->_headers);
+        return $encodedHeaders;
     }
 
     /**
@@ -599,12 +760,13 @@ class Mail_mime
      *
      * @param  array   $xtra_headers Assoc array with any extra headers.
      *                               Optional.
+     * @param  bool    $overwrite    Overwrite the existing heaers with new.
      * @return string  Plain text headers
      * @access public
      */
-    function txtHeaders($xtra_headers = null)
+    function txtHeaders($xtra_headers = null, $overwrite = false)
     {
-        $headers = $this->headers($xtra_headers);
+        $headers = $this->headers($xtra_headers, $overwrite);
         $ret = '';
         foreach ($headers as $key => $val) {
             $ret .= "$key: $val" . MAIL_MIME_CRLF;
@@ -667,29 +829,188 @@ class Mail_mime
     }
 
     /**
+     * Since the PHP send function requires you to specifiy 
+     * recipients (To: header) separately from the other
+     * headers, the To: header is not properly encoded.
+     * To fix this, you can use this public method to 
+     * encode your recipients before sending to the send
+     * function
+     *
+     * @param  string $recipients A comma-delimited list of recipients
+     * @return string Encoded data
+     * @access public
+     */
+    function encodeRecipients($recipients)
+    {
+        $input = array("To" => $recipients);
+        $retval = $this->_encodeHeaders($input);
+        return $retval["To"] ;
+    }
+
+    /**
      * Encodes a header as per RFC2047
      *
-     * @param  string  $input The header data to encode
-     * @return string  Encoded data
+     * @param  array $input  The header data to encode
+     * @param  array $params Extra build parameters
+     * @return array Encoded data
      * @access private
      */
-    function _encodeHeaders($input)
+    function _encodeHeaders($input, $params = array())
     {
+        
+        $build_params = $this->_build_params;
+        while (list($key, $value) = each($params)) {
+            $build_params[$key] = $value;
+        }
+        //$hdr_name: Name of the heaer
+        //$hdr_value: Full line of header value.
+        //$hdr_value_out: The recombined $hdr_val-atoms, or the encoded string.
         foreach ($input as $hdr_name => $hdr_value) {
-            preg_match_all('/(\w*[\x80-\xFF]+\w*)/', $hdr_value, $matches);
-            foreach ($matches[1] as $value) {
-                $replacement = preg_replace('/([\x80-\xFF])/e',
-                                            '"=" .
-                                            strtoupper(dechex(ord("\1")))',
-                                            $value);
-                $hdr_value = str_replace($value, '=?' .
-                                         $this->_build_params['head_charset'] .
-                                         '?Q?' . $replacement . '?=',
-                                         $hdr_value);
+            if (preg_match('#([\x80-\xFF]){1}#', $hdr_value)){
+                if (function_exists('iconv_mime_encode') && (!isset($build_params['ignore-iconv']) || !$build_params['ignore-iconv'])){
+                    $imePrefs = array();
+                    if ($build_params['head_encoding'] == 'base64'){
+                       $imePrefs['scheme'] = 'B';
+                    }else{
+                       $imePrefs['scheme'] = 'Q';
+                    }
+                    $imePrefs['input-charset']  = $build_params['head_charset'];
+                    $imePrefs['output-charset'] = $build_params['head_charset'];
+                    $imePrefs['line-length'] = 74;
+                    $imePrefs['line-break-chars'] = "\r\n"; //Specified in RFC2047
+                    
+                    $hdr_value = iconv_mime_encode($hdr_name, $hdr_value, $imePrefs);
+                    $hdr_value = preg_replace("#^{$hdr_name}\:\ #", "", $hdr_value);
+                }elseif ($build_params['head_encoding'] == 'base64'){
+                    //Base64 encoding has been selected.
+                    //Base64 encode the entire string
+                    $hdr_value = base64_encode($hdr_value);
+                    
+                    //Generate the header using the specified params and dynamicly 
+                    //determine the maximum length of such strings.
+                    //75 is the value specified in the RFC. The first -2 is there so 
+                    //the later regexp doesn't break any of the translated chars.
+                    //The -2 on the first line-regexp is to compensate for the ": "
+                    //between the header-name and the header value
+                    $prefix = '=?' . $build_params['head_charset'] . '?B?';
+                    $suffix = '?=';
+                    $maxLength = 75 - strlen($prefix . $suffix) - 2;
+                    $maxLength1stLine = $maxLength - strlen($hdr_name) - 2;
+
+                    //We can cut base4 every 4 characters, so the real max we can get must be rounded down.
+                    $maxLength = $maxLength - ($maxLength % 4);
+                    $maxLength1stLine = $maxLength1stLine - ($maxLength1stLine % 4);
+                    
+                    $cutpoint = $maxLength1stLine;
+                    $hdr_value_out = $hdr_value;
+                    $output = "";
+                    while ($hdr_value_out) {
+                        //Split translated string at every $maxLength
+                        $part = substr($hdr_value_out, 0, $cutpoint);
+                        $hdr_value_out = substr($hdr_value_out, $cutpoint);
+                        $cutpoint = $maxLength;
+                        //RFC 2047 specifies that any split header should be seperated
+                        //by a CRLF SPACE. 
+                        if ($output){
+                            $output .=  "\r\n ";
+                        }
+                        $output .= $prefix . $part . $suffix;
+                    }
+                    $hdr_value = $output;
+                }else{
+                    //quoted-printable encoding has been selected
+
+                    //Fix for Bug #10298, Ota Mares <om@viazenetti.de>
+                    //Check if there is a double quote at beginning or end of the string to 
+                    //prevent that an open or closing quote gets ignored because its encapsuled
+                    //by an encoding prefix or suffix. 
+                    //Remove the double quote and set the specific prefix or suffix variable
+                    //so later we can concat the encoded string and the double quotes back 
+                    //together to get the intended string.
+                    $quotePrefix = $quoteSuffix = '';
+                    if ($hdr_value{0} == '"') {
+                        $hdr_value = substr($hdr_value, 1);
+                        $quotePrefix = '"';
+                    }
+                    if ($hdr_value{strlen($hdr_value)-1} == '"') {
+                        $hdr_value = substr($hdr_value, 0, -1);
+                        $quoteSuffix = '"';
+                    }
+                    
+                    //Generate the header using the specified params and dynamicly 
+                    //determine the maximum length of such strings.
+                    //75 is the value specified in the RFC. The -2 is there so 
+                    //the later regexp doesn't break any of the translated chars.
+                    //The -2 on the first line-regexp is to compensate for the ": "
+                    //between the header-name and the header value
+                    $prefix = '=?' . $build_params['head_charset'] . '?Q?';
+                    $suffix = '?=';
+                    $maxLength = 75 - strlen($prefix . $suffix) - 2 - 1;
+                    $maxLength1stLine = $maxLength - strlen($hdr_name) - 2;
+                    $maxLength = $maxLength - 1;
+                    
+                    //Replace all special characters used by the encoder.
+                    $search  = array('=',   '_',   '?',   ' ');
+                    $replace = array('=3D', '=5F', '=3F', '_');
+                    $hdr_value = str_replace($search, $replace, $hdr_value);
+                    
+                    //Replace all extended characters (\x80-xFF) with their
+                    //ASCII values.
+                    $hdr_value = preg_replace(
+                        '#([\x80-\xFF])#e',
+                        '"=" . strtoupper(dechex(ord("\1")))',
+                        $hdr_value
+                    );
+                    //This regexp will break QP-encoded text at every $maxLength
+                    //but will not break any encoded letters.
+                    $reg1st = "|(.{0,$maxLength1stLine}[^\=][^\=])|";
+                    $reg2nd = "|(.{0,$maxLength}[^\=][^\=])|";
+                    //Fix for Bug #10298, Ota Mares <om@viazenetti.de>
+                    //Concat the double quotes if existant and encoded string together
+                    $hdr_value = $quotePrefix . $hdr_value . $quoteSuffix;
+                    
+
+                    $hdr_value_out = $hdr_value;
+                    if (strlen($hdr_value_out) >= ($maxLength1stLine + strlen($prefix . $suffix))){
+                        //Begin with the regexp for the first line.
+                        $reg = $reg1st;
+                        $output = "";
+                        while ($hdr_value_out) {
+                            //Split translated string at every $maxLength
+                            //But make sure not to break any translated chars.
+                            $found = preg_match($reg, $hdr_value_out, $matches);
+                            
+                            //After this first line, we need to use a different
+                            //regexp for the first line.
+                            $reg = $reg2nd;
+                            
+                            //Save the found part and encapsulate it in the
+                            //prefix & suffix. Then remove the part from the
+                            //$hdr_value_out variable.
+                            if ($found){
+                                $part = $matches[0];
+                                $hdr_value_out = substr($hdr_value_out, strlen($matches[0]));
+                            }else{
+                                $part = $hdr_value_out;
+                                $hdr_value_out = "";
+                            }
+                            
+                            //RFC 2047 specifies that any split header should be seperated
+                            //by a CRLF SPACE. 
+                            if ($output){
+                                $output .=  "\r\n ";
+                            }
+                            $output .= $prefix . $part . $suffix;
+                        }
+                        $hdr_value_out = $output;
+                    }else{
+                        $hdr_value_out = $prefix . $hdr_value_out . $suffix;
+                    }
+                    $hdr_value = $hdr_value_out;
+                }
             }
             $input[$hdr_name] = $hdr_value;
         }
-
         return $input;
     }
 
@@ -710,4 +1031,3 @@ class Mail_mime
     
 
 } // End of class
-?>

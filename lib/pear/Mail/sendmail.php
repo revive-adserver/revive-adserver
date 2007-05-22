@@ -20,7 +20,7 @@
  * Sendmail implementation of the PEAR Mail:: interface.
  * @access public
  * @package Mail
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.17 $
  */
 class Mail_sendmail extends Mail {
 
@@ -36,7 +36,7 @@ class Mail_sendmail extends Mail {
      * sendmail wrapper binary.
      * @var string
      */
-    var $sendmail_args = '';
+    var $sendmail_args = '-i';
 
 	/**
      * Constructor.
@@ -58,15 +58,23 @@ class Mail_sendmail extends Mail {
      */
     function Mail_sendmail($params)
     {
-        if (isset($params['sendmail_path'])) $this->sendmail_path = $params['sendmail_path'];
-        if (isset($params['sendmail_args'])) $this->sendmail_args = $params['sendmail_args'];
+        if (isset($params['sendmail_path'])) {
+            $this->sendmail_path = $params['sendmail_path'];
+        }
+        if (isset($params['sendmail_args'])) {
+            $this->sendmail_args = $params['sendmail_args'];
+        }
 
         /*
          * Because we need to pass message headers to the sendmail program on
          * the commandline, we can't guarantee the use of the standard "\r\n"
          * separator.  Instead, we use the system's native line separator.
          */
-        $this->sep = (strpos(PHP_OS, 'WIN') === false) ? "\n" : "\r\n";
+        if (defined('PHP_EOL')) {
+            $this->sep = PHP_EOL;
+        } else {
+            $this->sep = (strpos(PHP_OS, 'WIN') === false) ? "\n" : "\r\n";
+        }
     }
 
 	/**
@@ -102,6 +110,7 @@ class Mail_sendmail extends Mail {
         }
         $recipients = escapeShellCmd(implode(' ', $recipients));
 
+        $this->_sanitizeHeaders($headers);
         $headerElements = $this->prepareHeaders($headers);
         if (PEAR::isError($headerElements)) {
             return $headerElements;
@@ -117,21 +126,22 @@ class Mail_sendmail extends Mail {
             return PEAR::raiseError('From address specified with dangerous characters.');
         }
 
-        $result = 0;
-        if (@is_file($this->sendmail_path)) {
-            $from = escapeShellCmd($from);
-            $mail = popen($this->sendmail_path . (!empty($this->sendmail_args) ? ' ' . $this->sendmail_args : '') . " -f$from -- $recipients", 'w');
-            fputs($mail, $text_headers);
-            fputs($mail, $this->sep);  // newline to end the headers section
-            fputs($mail, $body);
-            $result = pclose($mail);
-            if (version_compare(phpversion(), '4.2.3') == -1) {
-                // With older php versions, we need to shift the
-                // pclose result to get the exit code.
-                $result = $result >> 8 & 0xFF;
-            }
-        } else {
-            return PEAR::raiseError('sendmail [' . $this->sendmail_path . '] is not a valid file');
+        $from = escapeShellCmd($from);
+        $mail = @popen($this->sendmail_path . (!empty($this->sendmail_args) ? ' ' . $this->sendmail_args : '') . " -f$from -- $recipients", 'w');
+        if (!$mail) {
+            return PEAR::raiseError('Failed to open sendmail [' . $this->sendmail_path . '] for execution.');
+        }
+
+        // Write the headers following by two newlines: one to end the headers
+        // section and a second to separate the headers block from the body.
+        fputs($mail, $text_headers . $this->sep . $this->sep);
+
+        fputs($mail, $body);
+        $result = pclose($mail);
+        if (version_compare(phpversion(), '4.2.3') == -1) {
+            // With older php versions, we need to shift the pclose
+            // result to get the exit code.
+            $result = $result >> 8 & 0xFF;
         }
 
         if ($result != 0) {

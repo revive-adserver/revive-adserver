@@ -26,7 +26,7 @@ require_once 'PEAR.php';
  * useful in multiple mailer backends.
  *
  * @access public
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.17 $
  * @package Mail
  */
 class Mail
@@ -87,6 +87,8 @@ class Mail
      */
     function send($recipients, $headers, $body)
     {
+        $this->_sanitizeHeaders($headers);
+
         // if we're passed an array of recipients, implode it.
         if (is_array($recipients)) {
             $recipients = implode(', ', $recipients);
@@ -105,6 +107,24 @@ class Mail
 
         return mail($recipients, $subject, $body, $text_headers);
 
+    }
+
+    /**
+     * Sanitize an array of mail headers by removing any additional header
+     * strings present in a legitimate header's value.  The goal of this
+     * filter is to prevent mail injection attacks.
+     *
+     * @param array $headers The associative array of headers to sanitize.
+     *
+     * @access private
+     */
+    function _sanitizeHeaders(&$headers)
+    {
+        foreach ($headers as $key => $value) {
+            $headers[$key] =
+                preg_replace('=((<CR>|<LF>|0x0A/%0A|0x0D/%0D|\\n|\\r)\S).*=i',
+                             null, $value);
+        }
     }
 
     /**
@@ -169,7 +189,7 @@ class Mail
             }
         }
 
-        return array($from, join($this->sep, $lines) . $this->sep);
+        return array($from, join($this->sep, $lines));
     }
 
     /**
@@ -181,7 +201,8 @@ class Mail
      *              (RFC822 compliant), or an array of recipients,
      *              each RFC822 valid.
      *
-     * @return array An array of forward paths (bare addresses).
+     * @return mixed An array of forward paths (bare addresses) or a PEAR_Error
+     *               object if the address list could not be parsed.
      * @access private
      */
     function parseRecipients($recipients)
@@ -198,6 +219,12 @@ class Mail
         // for smtp recipients, etc. All relevant personal information
         // should already be in the headers.
         $addresses = Mail_RFC822::parseAddressList($recipients, 'localhost', false);
+
+        // If parseAddressList() returned a PEAR_Error object, just return it.
+        if (PEAR::isError($addresses)) {
+            return $addresses;
+        }
+
         $recipients = array();
         if (is_array($addresses)) {
             foreach ($addresses as $ob) {
