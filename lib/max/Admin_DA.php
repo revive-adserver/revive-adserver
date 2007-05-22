@@ -298,7 +298,7 @@ class Admin_DA
         $aTable = SqlBuilder::_getPrimaryTable($entity);
         reset($aTable);
         $tableName = key($aTable);
-        $tableNamePrefixed = $conf = $GLOBALS['_MAX']['CONF'] . $tableName;
+        $tableNamePrefixed = $GLOBALS['_MAX']['CONF']['table']['prefix'] . $tableName;
         $aTable[$tableNamePrefixed] = $aTable[$tableName];
         unset($aTable[$tableName]);
         return $aTable;

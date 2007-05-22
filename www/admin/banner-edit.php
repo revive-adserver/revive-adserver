@@ -115,8 +115,6 @@ if (isset($submit)) {
         if ($doBanners->get($bannerid)) {
             $aBanner = $doBanners->toArray();
         }
-        // check if size has changed
-        $size_changed = ($width != $aBanner['width'] || $height != $aBanner['height']) ? true : false;
     }
 
     $aVariables = array();
@@ -244,7 +242,8 @@ if (isset($submit)) {
     $doBanners->setFrom($aVariables);
     if (!empty($bannerid)) {
         $doBanners->update();
-        if ($size_changed) {
+        // check if size has changed
+        if ($aVariables['width'] != $aBanner['width'] || $aVariables['height'] != $aBanner['height']) {
             MAX_adjustAdZones($bannerid);
         }
     } else {
