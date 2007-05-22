@@ -49,10 +49,11 @@ class OA_DB_Sql
 	    }
         $sColumns = implode(",", array_keys($aValues));
         $sValues = implode(",", $aValues);
-        return "INSERT INTO $table ($sColumns) VALUES ($sValues)";
+        $prefix = OA_DB_Sql::getPrefix();
+        return "INSERT INTO {$prefix}$table ($sColumns) VALUES ($sValues)";
 	}
-    
-    
+
+
     /**
      * Deletes all the rows in the $table having column $idColumn value $id.
      * The operation is performed without data objects, so it can be used during
@@ -70,8 +71,8 @@ class OA_DB_Sql
         $sql = "DELETE FROM {$prefix}$table WHERE $idColumn = $id";
         return $dbh->exec($sql);
     }
-    
-    
+
+
     /**
      * Selects specified columns from the $table and returns
      * initialized (after find()) RecordSet or PEAR::Error
@@ -95,8 +96,8 @@ class OA_DB_Sql
         }
         return $rs;
     }
-    
-    
+
+
     /**
      * Updates the table with the specified $aValues where $idColumn equals
      * $id. Returns number of rows updated on success or PEAR::Error on
@@ -120,7 +121,7 @@ class OA_DB_Sql
         $dbh = &OA_DB::singleton();
         return $dbh->exec($sql);
     }
-    
+
     /**
      * Returns database tables prefix.
      *
