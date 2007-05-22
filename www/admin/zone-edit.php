@@ -63,17 +63,18 @@ phpAds_registerGlobalUnslashed(
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
+
 MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-MAX_Permission::checkIsAllowed(phpAds_AddZone);
 if (!empty($zoneid)) {
     MAX_Permission::checkAccessToObject('zones', $zoneid);
+    MAX_Permission::checkIsAllowed(phpAds_EditZone);
 } else {
     if (phpAds_isUser(phpAds_Affiliate)) {
         $affiliateid = phpAds_getUserID();
     }
     MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
+    MAX_Permission::checkIsAllowed(phpAds_AddZone);
 }
-
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -229,7 +230,7 @@ if (isset($submit))
         if ($cost_type == MAX_FINANCE_ANYVAR || $cost_type == MAX_FINANCE_VARSUM) {
             $doZones->cost_variable_id = $cost_variable_id;
         }
-        
+
         // The following fields are NOT NULL but do not get values set in the form.
         // Should these fields be changed to NULL in the schema or should they have a default value?
         $doZones->category = '';
@@ -237,7 +238,7 @@ if (isset($submit))
         $doZones->chain = '';
         $doZones->prepend = '';
         $doZones->append = '';
-        
+
         $zoneid = $doZones->insert();
     }
 
