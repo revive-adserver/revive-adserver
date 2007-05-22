@@ -71,7 +71,7 @@ foreach ($aLayer as $layer) {
                 $returncode = -1;
                 $output_lines = '';
                 $exec = "run.php --type=$layer --level=file --layer=$subLayer --folder=$dirName"
-                    . " --file=$fileName --format=text";
+                    . " --file=$fileName --format=text --host=test";
                 exec("$php -q $exec", $output_lines, $returncode);
                 $message = "{$fileName}\n" . join($output_lines, "\n");
                 switch ($returncode) {
