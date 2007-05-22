@@ -26,10 +26,7 @@ phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'order
 
 
 // Security check
-if(	
-	!$GLOBALS['pref']['dashboard_enabled'] || // dashboard disabled globally
-	(phpAds_isUser(phpAds_Client) && !phpAds_isAllowed(phpAds_CanViewDashboard)) // user cannot access dashobard
-   ) {
+if (!phpAds_isUser(phpAds_Admin)) {
 	phpAds_PageHeader("1");
 	phpAds_Die ($strAccessDenied, $strNotAdmin);
 	
