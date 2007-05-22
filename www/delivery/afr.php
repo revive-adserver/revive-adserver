@@ -71,14 +71,14 @@ if ($conf !== false) {
 // check for false here - it's possible
 return $conf;
 }
-exit(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
+die(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
 }
 // Check to ensure Max hasn't been installed
 if (file_exists(MAX_PATH . '/var/INSTALLED')) {
-exit(MAX_PRODUCT_NAME . " has been installed, but no configuration file was found.\n");
+die(MAX_PRODUCT_NAME . " has been installed, but no configuration file was found.\n");
 }
 // Max hasn't been installed, so delivery engine can't run
-exit(MAX_PRODUCT_NAME . " has not been installed yet -- please read the INSTALL.txt file.\n");
+die(MAX_PRODUCT_NAME . " has not been installed yet -- please read the INSTALL.txt file.\n");
 }
 function setupConfigVariables()
 {
@@ -416,14 +416,14 @@ if ($conf !== false) {
 // check for false here - it's possible
 return $conf;
 }
-exit(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
+die(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
 }
 // Check to ensure Max hasn't been installed
 if (file_exists(MAX_PATH . '/var/INSTALLED')) {
-exit(MAX_PRODUCT_NAME . " has been installed, but no configuration file was found.\n");
+die(MAX_PRODUCT_NAME . " has been installed, but no configuration file was found.\n");
 }
 // Max hasn't been installed, so delivery engine can't run
-exit(MAX_PRODUCT_NAME . " has not been installed yet -- please read the INSTALL.txt file.\n");
+die(MAX_PRODUCT_NAME . " has not been installed yet -- please read the INSTALL.txt file.\n");
 }
 }
 $pluginTypeConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting', 'plugin');
