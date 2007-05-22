@@ -527,24 +527,14 @@ class TestOfMAX_Plugin extends UnitTestCase {
         // the error handler for PHP for this test.
         $oTestErrorHandler = new TestErrorHandler();
         PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, array(&$oTestErrorHandler, 'handleErrors'));
-        // Test command line use with no host name
-        unset($_SERVER['HTTP_HOST']);
-        unset($GLOBALS['argv'][1]);
-        $result = MAX_Plugin::_getHostName();
-        $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
-        $this->assertEqual(
-            $oTestErrorHandler->aErrors[0]->message,
-            MAX_PRODUCT_NAME . ' was called via the command line, but had no host as a parameter.'
-        );
-        $this->assertFalse($result);
-        $oTestErrorHandler->reset();
         // Test command line use with host name
         unset($_SERVER['HTTP_HOST']);
-        $GLOBALS['argv'][1] = 'fake.host.name';
+        $_SERVER['SERVER_NAME'] = 'fake.host.name';
         $result = MAX_Plugin::_getHostName();
         $this->assertEqual(count($oTestErrorHandler->aErrors), 0);
         $this->assertEqual($result, 'fake.host.name');
         $oTestErrorHandler->reset();
+        $_SERVER['SERVER_NAME'] = $old;
         // Test web access
         $_SERVER['HTTP_HOST'] = 'other.host.name';
         unset($GLOBALS['argv'][1]);
@@ -617,10 +607,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
      */
     function test_mkDirRecursive()
     {
-        // Try to create a directory that should not be creatable
-        $result = MAX_Plugin::_mkDirRecursive(MAX_PATH . '/should_not_exist');
-        $this->assertFalse($result);
-        // Try to create a directory that should be creatable
+        // Try to create a folder
         $result = MAX_Plugin::_mkDirRecursive(MAX_PLUGINS_VAR . '/test');
         $this->assertTrue($result);
         // Remove the created directory
@@ -635,19 +622,6 @@ class TestOfMAX_Plugin extends UnitTestCase {
         // Set the error handling class' handleErrors() method as
         // the error handler for PHP for this test.
         $oTestErrorHandler = new TestErrorHandler();
-        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, array(&$oTestErrorHandler, 'handleErrors'));
-        // Test with a directory that should not be creatable
-        $result = MAX_Plugin::prepareCacheOptions('Maintenance', 'Fake', MAX_PATH . '/should_not_exist');
-        $this->assertFalse($result);
-        $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
-        $this->assertEqual(
-            $oTestErrorHandler->aErrors[0]->message,
-            'Folder: "' . MAX_PATH . '/should_not_exist" is not writeable.'
-        );
-        $this->assertFalse($result);
-        $oTestErrorHandler->reset();
-        // Unset the error handler
-        PEAR::popErrorHandling();
         // Test with directory that should be creatable
         $result = MAX_Plugin::prepareCacheOptions('Maintenance', 'Fake', MAX_PLUGINS_VAR . '/cache/test/');
         $this->assertTrue(is_array($result));

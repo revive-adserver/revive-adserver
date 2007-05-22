@@ -519,18 +519,10 @@ class MAX_Plugin
      */
     function _getHostName()
     {
-        if (is_null($_SERVER['HTTP_HOST'])) {
-            if (is_null($GLOBALS['argv'][1])) {
-                MAX::raiseError(MAX_PRODUCT_NAME . ' was called via the command line, but had no host as a parameter.', PEAR_ERROR_DIE);
-                return false;
-            }
-            $host = $GLOBALS['argv'][1];
+        if (!empty($_SERVER['HTTP_HOST'])) {
+            $host = $_SERVER['HTTP_HOST'];
         } else {
-            if (!empty($_SERVER['HTTP_HOST'])) {
-                $host = $_SERVER['HTTP_HOST'];
-            } else {
-                $host = $_SERVER['SERVER_NAME'];
-            }
+            $host = $_SERVER['SERVER_NAME'];
         }
         return $host;
     }
