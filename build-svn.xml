@@ -1,0 +1,45 @@
+<project name="svn-commands" default="svn-update" basedir=".">
+  <condition property="svn.credentials" value="--username ${svn.username} --password ${svn.password}" else="">
+    <and>
+      <isset property="svn.username"/>
+      <isset property="svn.password"/>
+    </and>
+  </condition>
+  <property name="svn.options" value="--non-interactive -q ${svn.credentials}"/>
+
+
+  <macrodef name="svn-commit">
+    <attribute name="file"/>
+    <attribute name="notes"/>
+    <sequential>
+      <exec dir="${basedir}" executable="svn" failonerror="true">
+        <arg line="commit ${svn.options} -m '@{notes}' @{file}"/>
+      </exec>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="svn-tag">
+    <attribute name="tag"/>
+    <sequential>
+      <exec dir="${basedir}" executable="svn" failonerror="true">
+        <arg line="copy ${svn.options} . -m 'Created the tag: @{tag}.' https://svn.openads.org/openads/tags/max/@{tag}"/>
+      </exec>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="svn-revert">
+    <attribute name="file"/>
+    <sequential>
+      <exec dir="${basedir}" executable="svn" failonerror="true">
+        <arg line="revert -q ${svn.credentials} @{file}"/>
+      </exec>
+    </sequential>
+  </macrodef>
+
+  <target name="svn-update">
+    <exec dir="${basedir}" executable="svn" failonerror="true">
+      <arg line="update ${svn.options}"/> 
+    </exec>
+  </target>
+
+</project>
