@@ -46,13 +46,17 @@ class OA_Environment_Manager
 
     function OA_Environment_Manager()
     {
+        $conf = $GLOBALS['_MAX']['CONF'];
+        
         $this->aInfo['PERMS']['expected'] = array(
                                                   MAX_PATH.'/var/',
                                                   MAX_PATH.'/var/cache',
                                                   MAX_PATH.'/var/plugins',
-                                                  MAX_PATH.'/var/templates_compiled',
-                                                  MAX_PATH.'/www/images'
+                                                  MAX_PATH.'/var/templates_compiled'
                                                  );
+        if ($conf) {
+            $this->aInfo['PERMS']['expected'][] = $conf['store']['webDir'];        
+        }
 
         $this->aInfo['PHP']['actual']       = array();
         $this->aInfo['PERMS']['actual']     = array();

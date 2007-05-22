@@ -34,6 +34,7 @@ require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
 require_once MAX_PATH . '/lib/max/Permission/User.php';
 require_once MAX_PATH . '/lib/max/Permission/Session.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/EnvironmentManager.php';
 
 // Define client permissions bitwise, so 1, 2, 4, 8, 16, etc.
 define ("phpAds_ModifyInfo", 1);
@@ -295,6 +296,25 @@ function phpAds_LoginScreen($message='', $sessionID=0, $inLineLogin = false)
     if (!$inLineLogin) {
         phpAds_PageHeader(phpAds_Login);
     }
+    
+    // Check environment settings
+    $oSystemMgr = new OA_Environment_Manager();
+    $aSysInfo = $oSystemMgr->checkSystem();
+    
+    foreach ($aSysInfo as $env => $vals) {
+        $errDetails = '';
+        if (is_array($vals['error'])) {
+            $errDetails = '<ul>';
+            foreach ($vals['actual'] as $key => $val) {
+                $errDetails .= '<li>' . $key . ' &nbsp; => &nbsp; ' . $val . '</li>';
+            }
+            $errDetails .= '</ul>';
+            foreach ($vals['error'] as $key => $err) {
+                phpAds_Die( ' Error: ' . $err, $errDetails );
+            }
+        }
+    }
+    
     if ($conf['max']['uiEnabled'] == true)
     {
         echo "<br />";
