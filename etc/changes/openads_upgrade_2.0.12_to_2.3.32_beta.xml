@@ -86,7 +86,6 @@
         </package>
         <package>
             <version>199</version>
-            <stamp>513</stamp>
             <schema>tables_core</schema>
             <file>schema_tables_core_199.xml</file>
             <file>changes_tables_core_199.xml</file>
@@ -94,6 +93,7 @@
         </package>
         <package>
             <version>514</version>
+            <stamp>514</stamp>
             <schema>tables_core</schema>
             <file>schema_tables_core_514.xml</file>
             <file>changes_tables_core_514.xml</file>
