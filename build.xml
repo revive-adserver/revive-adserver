@@ -47,6 +47,7 @@
     <include name="tests.xsl"/>
     <include name="*.xml"/>
     <include name="*.properties"/>
+    <include name="*.properties.example"/>
     <include name="should_not_exist"/><!-- Required for one of the tests - ask Andrew -->
 
     <!-- Subdirectory rules -->
