@@ -64,7 +64,7 @@ if (defined('TEST_ENVIRONMENT_NO_CONFIG')) {
 
 if (!empty($runner->host)) {
     // If host was set use it as a default one
-    $_SERVER['HTTP_HOST'] = $runner->host;
+    $_SERVER['SERVER_NAME'] = $runner->host;
 }
 
 $start = microtime();
