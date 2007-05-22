@@ -160,12 +160,13 @@ $GLOBALS['strConfigurationSettings']                    = 'Configuration setting
 $GLOBALS['strAdministratorSettings']                 = 'Administrator Settings';
 $GLOBALS['strAdministratorAccount']                  = 'The Administrator Account';
 $GLOBALS['strLoginCredentials']                      = 'Login Credentials';
-$GLOBALS['strAdminUsername']                         = 'Admin\'s Username';
-$GLOBALS['strAdminPassword']                         = 'Admin\'s Password';
+$GLOBALS['strAdminUsername']                         = 'Administrator  Username';
+$GLOBALS['strAdminPassword']                         = 'Administrator  Password';
 $GLOBALS['strInvalidUsername']                       = 'Invalid Username';
 $GLOBALS['strBasicInformation']                      = 'Basic Information';
 $GLOBALS['strAdminFullName']                         = 'Admin\'s Full Name';
 $GLOBALS['strAdminEmail']                            = 'Admin\'s Email Address';
+$GLOBALS['strAdministratorEmail']                            = 'Administrator Email Address';
 $GLOBALS['strCompanyName']                           = 'Company Name';
 $GLOBALS['strAdminCheckUpdates']                     = 'Check for Updates';
 $GLOBALS['strAdminShareCommunityData']               = 'Participate in Community Intelligence program'; 
@@ -179,7 +180,8 @@ $GLOBALS['strUserlogEmail']                          = 'Log all outgoing email m
 $GLOBALS['strEnableDashboard']                       = "Enable dashboard";
 $GLOBALS['strTimezoneInformation']                   = "Timezone Information (Modifying the timezone will affect statistics)";
 $GLOBALS['strTimezone']                              = "Timezone";
-$GLOBALS['strAdminSettingsIntro']                    = "Before you can continue you need to setup the administrator account. You can use this account to log into the administrator interface and manage your inventory and view statistics.";
+$GLOBALS['strAdminSettingsTitle']                    = "Your Administrator Account";
+$GLOBALS['strAdminSettingsIntro']                    = "The administrator account is used to log into the Openads interface and manage inventory, view statistics, and create tags. Please fill in the username, password, and email address of the administrator.";
 
 // Openads ID Settings
 $GLOBALS['strOpenadsUsername']                       = "Openads Username";
