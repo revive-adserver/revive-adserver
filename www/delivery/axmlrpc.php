@@ -2281,9 +2281,16 @@ require_once 'XML/RPC/Server.php';
 if (empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
 $GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
 }
-$xmlRpcView_sig = array(array($xmlrpcString,
-$xmlrpcString, $xmlrpcString, $xmlrpcString,
-$xmlrpcBoolean, $xmlrpcString, $xmlrpcStruct));
+$xmlRpcView_sig = array(
+array($GLOBALS['XML_RPC_String'],
+$GLOBALS['XML_RPC_String'],
+$GLOBALS['XML_RPC_String'],
+$GLOBALS['XML_RPC_String'],
+$GLOBALS['XML_RPC_Boolean'],
+$GLOBALS['XML_RPC_String'],
+$GLOBALS['XML_RPC_Struct']
+)
+);
 $xmlRpcView_doc = 'When passed the "what", "target", "source", "withText", remote IP address and array ' .
 'of cookies, returns the cookies to be set and the HTML code to display the appropriate ' .
 'advertisement.';
