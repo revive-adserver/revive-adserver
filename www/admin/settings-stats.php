@@ -32,7 +32,6 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/max/Admin/Config.php';
 require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/max/Maintenance.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 

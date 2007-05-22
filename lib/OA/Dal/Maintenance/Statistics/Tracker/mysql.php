@@ -25,8 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance.php';
-
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Common.php';
 require_once 'Date.php';

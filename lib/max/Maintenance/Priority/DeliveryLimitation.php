@@ -25,7 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation/Factory.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
 

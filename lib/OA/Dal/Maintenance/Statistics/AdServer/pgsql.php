@@ -26,7 +26,6 @@ $Id: mysql.php 5411 2007-03-27 16:00:31Z andrew.hill@openads.org $
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Maintenance.php';
 require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 
 require_once MAX_PATH . '/lib/OA.php';

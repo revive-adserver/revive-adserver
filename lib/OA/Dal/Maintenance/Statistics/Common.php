@@ -32,7 +32,6 @@ $Id$
  */
 
 require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-require_once MAX_PATH . '/lib/max/Maintenance.php';
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';

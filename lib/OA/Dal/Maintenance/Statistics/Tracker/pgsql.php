@@ -25,8 +25,6 @@
 $Id: mysql.php 5503 2007-03-30 16:44:45Z andrew.hill@openads.org $
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance.php';
-
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Common.php';
 require_once 'Date.php';

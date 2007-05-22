@@ -59,7 +59,6 @@ require_once $path . '/../../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Maintenance.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
 
