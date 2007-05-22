@@ -81,8 +81,8 @@ function getSupportedDbTypes()
 {
     // These values must be the same as used for the
     // data access layer file names!
-    $types['mysql'] = 'mysql';
-    $types['pgsql'] = 'pgsql';
+    $types['mysql'] = 'MySQL';
+    $types['pgsql'] = 'PostgreSQL';
     return $types;
 }
 
