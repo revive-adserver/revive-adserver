@@ -162,6 +162,82 @@ class Test_OA_Upgrade extends UnitTestCase
      * does not test for absent database
      *
      */
+    function test_checkExistingTables()
+    {
+        $oUpgrade  = new OA_Upgrade();
+        $oUpgrade->initDatabaseConnection();
+        $oUpgrade->prefix = 'test_';
+
+        $this->_createTestTableConfig($oUpgrade->oDbh, 'preference');
+
+        // pan config exists
+        $this->assertFalse($oUpgrade->checkExistingTables(),'');
+        $oUpgrade->oLogger->logClear();
+
+        $this->_createTestTableConfig($oUpgrade->oDbh, 'config');
+
+        // both configs exist
+        $this->assertFalse($oUpgrade->checkExistingTables(),'');
+        $oUpgrade->oLogger->logClear();
+
+        $this->_dropTestTableConfig($oUpgrade->oDbh, 'preference');
+
+        // max config exists
+        $this->assertFalse($oUpgrade->checkExistingTables(),'');
+        $oUpgrade->oLogger->logClear();
+
+        $this->_dropTestTableConfig($oUpgrade->oDbh, 'config');
+
+        // no config exists
+        $this->assertTrue($oUpgrade->checkExistingTables(),'');
+        $oUpgrade->oLogger->logClear();
+
+        $this->_createTestTableConfig($oUpgrade->oDbh, 'other');
+
+        // non-config table with same prefix exists
+        $this->assertFalse($oUpgrade->checkExistingTables(),'');
+        $oUpgrade->oLogger->logClear();
+
+        $this->_dropTestTableConfig($oUpgrade->oDbh, 'other');
+
+    }
+
+    function _createTestTableConfig($oDbh, $name)
+    {
+        //$this->_dropTestTableConfig($oDbh, $name);
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf['table']['prefix'] = 'test_';
+        $conf['table']['split'] = false;
+        $oTable = new OA_DB_Table();
+        $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
+        $oTable->init($testpath.'schema_test_config.xml');
+        $this->assertTrue($oTable->createTable($name),'error creating test_'.$name);
+        $aExistingTables = $oDbh->manager->listTables();
+        $this->assertTrue(in_array('test_'.$name, $aExistingTables), '_createTestTableConfig');
+    }
+
+    function _dropTestTableConfig($oDbh, $name)
+    {
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf['table']['prefix'] = 'test_';
+        $conf['table']['split'] = false;
+        $oTable = new OA_DB_Table();
+        $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
+        $oTable->init($testpath.'schema_test_config.xml');
+        $aExistingTables = $oDbh->manager->listTables();
+        if (in_array('test_'.$name, $aExistingTables))
+        {
+            $this->assertTrue($oTable->dropTable('test_'.$name),'error dropping test test_'.$name);
+        }
+        $aExistingTables = $oDbh->manager->listTables();
+        $this->assertFalse(in_array('test_'.$name, $aExistingTables), '_dropTestTableConfig');
+    }
+
+    /**
+     * testing for invalid version to upgrade and upgrade required
+     * does not test for absent database
+     *
+     */
     function test_detectPAN()
     {
         $oUpgrade  = new OA_Upgrade();

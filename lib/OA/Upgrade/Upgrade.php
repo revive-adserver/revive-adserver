@@ -480,6 +480,11 @@ class OA_Upgrade
         }
         $this->oLogger->log('Connected to database '.$this->oDbh->connected_database_name);
 
+        if (!$this->checkExistingTables)
+        {
+            return false;
+        }
+
         if (!$this->checkPermissionToCreateTable())
         {
             $this->oLogger->logError('Insufficient database permissions to install');
@@ -911,6 +916,38 @@ class OA_Upgrade
             $this->oLogger->logError('Failed to create test privileges table - check your database permissions');
             return false;
         }
+    }
+
+    /**
+     * test if the database username has permissions to create tables
+     *
+     * @return boolean
+     */
+    function checkExistingTables()
+    {
+        $result = true;
+
+        $aExistingTables = $this->oDbh->manager->listTables();
+
+        if (in_array($this->prefix.'config', $aExistingTables))
+        {
+            $this->oLogger->logError('A phpAdsNew configuration table was found: '.$this->prefix.'config_version');
+            return false;
+        }
+        if (in_array($this->prefix.'preference', $aExistingTables))
+        {
+            $this->oLogger->logError('A Max Media Manager configuration table was found: '.$this->prefix.'preference');
+            return false;
+        }
+        foreach ($aExistingTables AS $k => $tablename)
+        {
+            if (substr($tablename, 0, strlen($this->prefix)) == $this->prefix)
+            {
+               $result = false;
+               $this->oLogger->log('Tables with the prefix '.$this->prefix.' were found: '.$tablename);
+            }
+        }
+        return $result;
     }
 
     /**
