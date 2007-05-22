@@ -42,9 +42,8 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affilia
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
-
 if (phpAds_isUser(phpAds_Admin)) {
-    MAX_Admin_Redirect::redirect('advertiser-index.php');
+    MAX_Admin_Redirect::redirect('dashboard.php');
 }
 
 if (phpAds_isUser(phpAds_Agency)) {

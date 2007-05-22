@@ -51,7 +51,7 @@ if (phpAds_isUser(phpAds_Admin))
     $update_check = false;
 
     // Check accordingly to user preferences
-    if ($pref['updates_enabled']) {
+    if ($pref['updates_enabled'] != 'f' && $pref['updates_enabled']) { 
         require_once (MAX_PATH . '/lib/max/OpenadsSync.php');
 
         $oSync = new MAX_OpenadsSync();

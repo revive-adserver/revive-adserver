@@ -63,6 +63,10 @@ require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 unset($session);
 define('phpAds_installing',     true);
 
+// changed form name for javascript dependent fields
+$GLOBALS['settings_formName'] = "frmOpenads";
+
+// setup oUpgrader, determine whether they are installing or that they can Upgrade
 $oUpgrader = new OA_Upgrade();
 
 $imgPath = '';

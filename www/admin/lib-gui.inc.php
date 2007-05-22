@@ -392,6 +392,64 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
             $searchbar .= "\t\t</tr>\n";
             $searchbar .= "\t\t</form>\n";
             $searchbar .= "\t\t</table>\n";
+
+            if ($pref['ad_clicks_sum'] || $pref['ad_views_sum']) {
+
+                $iSecondsFromLastUpdate = 0;
+                if(!empty($pref['ad_cs_data_last_received']) && '0000-00-00' != $pref['ad_cs_data_last_received']){
+                    $iSecondsFromLastUpdate = time() - strtotime($pref['ad_cs_data_last_received']);
+                }
+                $fClicksSum = $pref['ad_clicks_sum']+($iSecondsFromLastUpdate*$pref['ad_clicks_per_second']);
+                $fViewsSum = $pref['ad_views_sum']+($iSecondsFromLastUpdate*$pref['ad_views_per_second']);
+
+                // prepare formatting vars
+                $s4Tab = "\t\t\t\t";
+                $s5Tab = $s4Tab."\t";
+                $s6Tab = $s5Tab."\t";
+                $s7Tab = $s6Tab."\t";
+                $s8Tab = $s7Tab."\t";
+
+                $sCommunityStats = $s4Tab."<div style='margin-right: 30px;text-align: right;'>\n<br />\n" .
+                    $s4Tab."<div id='ad_views_sum' style='font-weight:bold;white-space:nowrap;'>" .
+                    "".number_format($fViewsSum, 0, ' ', ',')."</div>" .
+                    " Ads served.<br />" .
+                    "<a style='font-size: smaller;' href='http://docs.openads.org/openads-2.3-guide/community-statistics.html'>Whats this?</a>" .
+                    "</div>\n";
+
+                $sCommunityStats .= $s4Tab."<script type='text/javascript'><!--// <![CDATA[\n" .
+                        $s5Tab . "var openads_communityStats={ \n" . 
+                        $s6Tab . "clicks_sum:".$fClicksSum.", \n".
+                        $s6Tab . "views_sum:".$fViewsSum.", \n".
+                        $s6Tab . "clicks_per_second:".(float)$pref['ad_clicks_per_second'].", \n".
+                        $s6Tab . "views_per_second:".(float)$pref['ad_views_per_second'].", \n".
+                        $s6Tab . "refreshInterval:1, // in seconds \n".
+                        $s6Tab . "refresh:function(c_sum,v_sum,t){ \n".
+                        $s7Tab . "this.clicks_sum += this.clicks_per_second*this.refreshInterval \n".
+                        $s7Tab . "this.views_sum += this.views_per_second*this.refreshInterval \n\n".
+
+                        $s7Tab . "c_sum = String(Math.round(this.clicks_sum)).reverse().replace(/(\d{3})/g, '$1,').reverse().replace( /^,/,'') \n".
+                        $s7Tab . "v_sum = String(Math.round(this.views_sum)).reverse().replace(/(\d{3})/g, '$1,').reverse().replace( /^,/,'') \n".
+                        $s7Tab . "document.getElementById('ad_views_sum').innerHTML=v_sum \n".
+                        $s7Tab . "// document.getElementById('ad_clicks_sum').innerHTML=c_sum \n".
+                        $s7Tab . "t=this \n".
+                        $s7Tab . "setTimeout(function(){t.refresh();},this.refreshInterval*1000) \n".                   
+                    $s6Tab . "} \n".
+                    $s5Tab . "} \n".
+                    $s5Tab . "String.prototype.reverse = function(){return this.split('').reverse().join('')} \n".
+                    $s5Tab . "openads_communityStats.refresh(); \n".
+                    $s4Tab."// ]]> -->\n" .
+                    $s4Tab."</script>\n";
+
+                    $sidebar .= $s4Tab."<br><br> \n";
+                    $sidebar .= $s4Tab."<table width='160' cellpadding='0' cellspacing='0' border='0'> \n";
+                    $sidebar .= $s4Tab."<tr><td colspan='2' class='nav'><b>Openads Community</b></td></tr> \n";
+                    $sidebar .= $s4Tab."<tr><td colspan='2'><img src='images/break.gif' height='1' width='160' vspace='4'></td></tr> \n";
+                    $sidebar .= $s4Tab."<tr><td colspan='2' width='140' class='nav'> \n";
+                    $sidebar .= $sCommunityStats;
+                    $sidebar .= $s4Tab."</td></tr> \n";
+                    $sidebar .= $s4Tab."</table><br> \n"; 
+
+            }
         } else {
             $searchbar = "\t\t&nbsp;\n";
         }
@@ -438,16 +496,16 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     echo "\t\t<meta name='robots' content='noindex, nofollow'>\n\n";
     echo "\t\t<link rel='stylesheet' href='".$imgPath."images/".$phpAds_TextDirection."/interface.css'>\n";
     echo "\t\t<link rel='stylesheet' type='text/css' media='all' href='js/jscalendar/calendar-openads.css' title='openads'>\n";
-    echo "\t\t<script language='JavaScript' src='".$imgPath."js-gui.js'></script>\n";
-    echo "\t\t<script language='JavaScript' src='".$imgPath."js/sorttable.js'></script>\n";
-    echo "\t\t<script language='JavaScript' src='".$imgPath."js/boxrow.js'></script>\n";
-    echo "\t\t<script language='JavaScript' src='".$imgPath."js/formValidation.php'></script>\n";
+    echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js-gui.js'></script>\n";
+    echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/sorttable.js'></script>\n";
+    echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/boxrow.js'></script>\n";
+    echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/formValidation.php'></script>\n";
 
     echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/jscalendar/calendar.js'></script>\n";
     echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/jscalendar/lang/calendar-en.js'></script>\n";
     echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/jscalendar/calendar-setup.js'></script>\n";
 
-    if ($phpAds_showHelp) echo "\t\t<script language='JavaScript' src='".$imgPath."js-help.js'></script>\n";
+    if ($phpAds_showHelp) echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js-help.js'></script>\n";
     
     if (!defined('phpAds_installing')) {
         // Include the flashObject resource file
@@ -608,7 +666,7 @@ function phpAds_PageFooter($imgPath='')
     if (!ereg("/(index|maintenance-updates|install|upgrade)\.php$", $_SERVER['PHP_SELF'])) {
         // Add Product Update redirector
         if (phpAds_isUser(phpAds_Admin) && function_exists('xml_parser_create') && !isset($session['update_check'])) {
-            echo "<script language='JavaScript' src='maintenance-updates-js.php'></script>\n";
+            echo "<script language='JavaScript' type='text/javascript' src='maintenance-updates-js.php'></script>\n";
         }
         // Check if the maintenance script is running
         if (phpAds_isUser(phpAds_Admin)) {
@@ -616,7 +674,7 @@ function phpAds_PageFooter($imgPath='')
                 if ($pref['maintenance_timestamp'] > 0) {
                     // The maintenance script hasn't run in the
                     // last 24 hours, warn the user
-                    echo "<script language='JavaScript'>\n";
+                    echo "<script language='JavaScript' type='text/javascript'>\n";
                     echo "<!--//\n";
                     echo "\talert('".$strMaintenanceNotActive."');\n";
                     echo "\tlocation.replace('maintenance-maintenance.php');\n";
@@ -773,11 +831,11 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
     echo "\t\t</tr>\n";
     echo "\t\t</table>\n";
     if ($openNewTable==true) {
-	    echo "\t\t<table width='100%' border='0' cellspacing='0' cellpadding='0'>\n";
-	    echo "\t\t<tr>\n";
-	    echo "\t\t\t<td width='40'>&nbsp;</td>\n";
-	    echo "\t\t\t<td>\n";
-	    echo "\t\t\t\t<br>\n";
+        echo "\t\t<table width='100%' border='0' cellspacing='0' cellpadding='0'>\n";
+        echo "\t\t<tr>\n";
+        echo "\t\t\t<td width='40'>&nbsp;</td>\n";
+        echo "\t\t\t<td>\n";
+        echo "\t\t\t\t<br>\n";
     }
 }
 

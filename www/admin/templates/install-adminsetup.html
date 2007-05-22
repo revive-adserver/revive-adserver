@@ -4,7 +4,7 @@
 <td valign='top'><img src='<?php echo $imgPath; ?>images/install-admin.gif'></td>
 <td width='100%' valign='top'>
 <br>
-<span class='tab-s'><?php echo $strAdministratorAccount; ?></span>
+<span class='tab-s'><?php echo $GLOBALS['strAdministrativeSettings']; ?></span>
 <br>
 <img src='<?php echo $imgPath; ?>images/break-el.gif' width='100%' height='1' vspace='8'>
 <span class='install'><?php echo $strAdminSettingsIntro; ?></span>
@@ -18,7 +18,7 @@
 <?php
             phpAds_ShowSettings(array (
                 array (
-                    'text'  => $strAdministratorSettings,
+                    'text'  => $strAdminAccount,
                     'items' => array (
                         array (
                             'type'  => 'text',
@@ -45,7 +45,7 @@
                             'name'  => 'aAdmin[pword2]',
                             'text'  => $strRepeatPassword,
                             'req'   => true,
-                            'check'	=> 'compare:aAdmin[pword]',
+                            'check' => 'compare:aAdmin[pword]',
                             'value' => $aAdmin['pword2']
                         ),
                         array (
@@ -58,6 +58,27 @@
                             'req'   => true,
                             'value' => $aAdmin['email']
                         )
+                    )
+                ),
+                array (
+                    'text'    => $GLOBALS['strSpecifySyncSettings'],
+                    'items'   => array (
+                        array (
+                            'type'    => 'checkbox', 
+                            'name'    => 'aAdmin[updates_enabled]',
+                            'text'    => $strAdminCheckUpdates,
+                            'value'   => true,
+                        ),
+                        array (
+                            'type'    => 'break'
+                        ),
+                        array (
+                            'type'    => 'checkbox',
+                            'name'    => 'aAdmin[updates_cs_data_enabled]',
+                            'text'    => $GLOBALS['strAdminShareCommunityData'],
+                            'depends' => 'updates_enabled==true',
+                            'value'   => true,
+                        ),
                     )
                 )
             ), $errormessage, 0, $imgPath);

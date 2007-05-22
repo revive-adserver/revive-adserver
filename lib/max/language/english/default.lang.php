@@ -81,6 +81,7 @@ $GLOBALS['strSearch']                   = "<u>S</u>earch";
 $GLOBALS['strHistory']                  = "History";
 $GLOBALS['strPreferences']              = "Preferences";
 $GLOBALS['strDetails']                  = "Details";
+$GLOBALS['strSyncSettings']             = "Synchronisation Settings";  
 $GLOBALS['strCompact']                  = "Compact";
 $GLOBALS['strVerbose']                  = "Verbose";
 $GLOBALS['strUser']                     = "User";

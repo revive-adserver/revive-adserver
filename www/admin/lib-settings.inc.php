@@ -314,6 +314,7 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0, $imgPat
 
 function phpAds_ShowSettings_CheckDependancies($data, $item)
 {
+    $formName = empty($GLOBALS['settings_formName'])?'settingsform' :$GLOBALS['settings_formName']; 
     if (isset($item['depends'])) {
         $depends    = split('[ ]+', $item['depends']);
         $javascript = "\tenabled = (";
@@ -326,7 +327,7 @@ function phpAds_ShowSettings_CheckDependancies($data, $item)
                 // Assignment
                 eregi ("^(\(?)([a-z0-9_-]+)([\=\!\<\>]{1,2})([\"\'a-z0-9_-]+)(\)?)$", $word, $regs);
                 $type          = phpAds_ShowSettings_GetType($data, $regs[2]);
-                $javascript .= $regs[1]."document.settingsform.".$regs[2].".";
+                $javascript .= $regs[1]."document.".$formName.".".$regs[2].".";
                 switch ($type){
                     case 'checkbox':    $javascript .= 'checked'; break;
                     case 'select':        $javascript .= 'selectedIndex'; break;
@@ -336,7 +337,7 @@ function phpAds_ShowSettings_CheckDependancies($data, $item)
             }
         }
         $javascript .= ");\n";
-        $javascript .= "\tdocument.settingsform.".$item['name'].".disabled = !enabled;\n";
+        $javascript .= "\tdocument.".$formName.".".$item['name'].".disabled = !enabled;\n";
         $javascript .= "\tobj = findObj('cell_".$item['name']."'); if (enabled) { obj.className = 'cellenabled'; } else { obj.className =  'celldisabled'; }\n";
         $javascript .= "\t\n";
         return ($javascript);
@@ -439,8 +440,25 @@ function phpAds_ShowSettings_Checkbox($item, $value)
     if (isset($item['indent']) && $item['indent']) {
         echo "<img src='images/indent.gif'>\n";
     }
+
+    // make sure that 'f' for enums is also considered
+    $value = !empty($value) && (bool)strcasecmp($value, 'f');
+
     echo "<input type='checkbox' name='".$item['name']."' id='".$item['name']."' value='true'".($value == true ? ' checked' : '').($item['enabled'] ? ' disabled' : '');
     echo " onClick=\"phpAds_refreshEnabled();\" onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>".$item['text'];
+    $sDocPath = '';
+    $iAnchor = 0;
+
+    if ($item['text'] == $GLOBALS['strAdminShareCommunityData']) {
+        $sDocPath = 'http://docs.openads.org/openads-2.3-guide/community-statistics.html';
+    }
+
+    if (!empty($sDocPath)) {
+        $sDocLink = $sDocPath;
+        echo '&nbsp;<a href="' . $sDocLink . '" class="inlineHelp__" ' .
+                "onclick=\"openWindow('$sDocLink','','status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\"".
+                '">&nbsp;<span>What\'s this?</span></a>';	    
+    }
     echo "</td><td>".phpAds_ShowSettings_PadLock($item)."</td></tr>\n";
 }
 

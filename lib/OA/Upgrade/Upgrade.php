@@ -810,6 +810,8 @@ class OA_Upgrade
         $oPrefs->setPrefChange('admin', $aAdmin['name']);
         $oPrefs->setPrefChange('admin_email', $aAdmin['email']);
         $oPrefs->setPrefChange('admin_pw', md5($aAdmin['pword']));
+        $oPrefs->setPrefChange('updates_enabled', isset($aAdmin['updates_enabled'])?'t':'f');
+        $oPrefs->setPrefChange('updates_cs_data_enabled', isset($aAdmin['updates_cs_data_enabled'])?'t':'f');
 
         // Generate a new instance ID if empty
         if (empty($GLOBALS['_MAX']['PREF']['instance_id'])) {
