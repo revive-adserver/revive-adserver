@@ -42,17 +42,17 @@ require_once 'Date.php';
 /**
  * A library class for providing common maintenance process methods.
  *
- * @package    Max
+ * @package    Openads
  * @author     Andrew Hill <andrew.hill@opends.org>
  * @author     Matteo Beccati <matteo.beccati@openads.org>
  */
-class MAX_Maintenance
+class OA_Maintenance
 {
     var $oDbh;
     var $conf;
     var $pref;
 
-    function MAX_Maintenance()
+    function OA_Maintenance()
     {
         $this->conf = $GLOBALS['_MAX']['CONF'];
         $this->pref = $GLOBALS['_MAX']['PREF'];
@@ -287,6 +287,7 @@ class MAX_Maintenance
                 {$sField} = UNIX_TIMESTAMP('". OA::getNow() ."')";
         $rows = $this->oDbh->exec($query);
     }
+
 }
 
 ?>

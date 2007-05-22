@@ -74,9 +74,9 @@ class OA_Maintenance_Auto
 
     		if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE))
     		{
-    			require_once MAX_PATH . '/lib/max/Maintenance.php';
+    			require_once MAX_PATH . '/lib/OA/Maintenance.php';
 
-    			$oMaint =& new MAX_Maintenance();
+    			$oMaint = new OA_Maintenance();
 
     			$oMaint->run();
 
