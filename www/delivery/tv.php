@@ -914,7 +914,7 @@ $cache_complete = false;
 $cache_contents = '';
 $ok = @include($filename);
 if ($ok && $cache_complete == true) {
-if ( isset($cache_expiry) && $cache_expiry < MAX_commonGetTimeNow()) {
+if (isset($cache_expiry) && $cache_expiry < MAX_commonGetTimeNow() ) {
 OA_Delivery_Cache_store($name, $cache_contents, $isHash);
 return false;
 }
@@ -1135,6 +1135,7 @@ $newPearPath .= PATH_SEPARATOR . $existingPearPath;
 }
 ini_set('include_path', $newPearPath);
 }
+require(MAX_PATH . '/lib/max/Delivery/cache.php');
 if (!empty($_GET['server_raw_tracker_impression_id']) && !empty($_GET['trackerid'])) {
 $serverRawTrackerImpressionId = $_GET['server_raw_tracker_impression_id'];
 $serverRawIp                  = $_GET['server_raw_ip'];

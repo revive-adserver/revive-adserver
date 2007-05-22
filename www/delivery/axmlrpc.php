@@ -1662,7 +1662,7 @@ $cache_complete = false;
 $cache_contents = '';
 $ok = @include($filename);
 if ($ok && $cache_complete == true) {
-if ( isset($cache_expiry) && $cache_expiry < MAX_commonGetTimeNow()) {
+if (isset($cache_expiry) && $cache_expiry < MAX_commonGetTimeNow() ) {
 OA_Delivery_Cache_store($name, $cache_contents, $isHash);
 return false;
 }
