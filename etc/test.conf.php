@@ -289,7 +289,6 @@ fileMode            = 0644
 permCookieSeconds   = 31536000      ; 1 year in seconds
 
 [debug]
-benchmark           = false                 ; Is benchmarking turned on?
 logfile             =                       ; The delivery engine debugging file
 production          = false                 ; Is it production server? (do not show backtrace and error sourcecontext)
                                             ; If it is delivery do not show any errors
