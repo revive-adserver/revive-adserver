@@ -550,7 +550,11 @@ function phpAds_ShowSettings_Select($item, $value, $showSubmitButton=0)
         if(isset($item['reload']) && $item['reload'] == 'yes') {
             echo " onChange=\"this.form.field_changed.value=name;this.form.submit();phpAds_refreshEnabled();\"";
         } else {
-            echo " onChange=\"phpAds_refreshEnabled();\"";
+            echo " onChange=\"phpAds_refreshEnabled();";
+            if (isset($item['onchange'])) {
+                echo $item['onchange'];
+            }
+            echo "\"";
         }
         echo ($item['enabled'] ? ' disabled' : '')." onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>\n";
         while (list($k, $v) = each($item['items'])) {

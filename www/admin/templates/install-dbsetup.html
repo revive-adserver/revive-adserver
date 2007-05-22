@@ -21,6 +21,7 @@
     <br />
     <br />
     <script type='text/javascript'>
+    
     function showLoader(f) {
         noerrors = max_formValidate(f);
         if (noerrors == true) {
@@ -29,6 +30,18 @@
             document.getElementById('dbLoader').style.height='570px';
         }        
         return(noerrors);
+    }
+    
+    function switchDbTypes(obj) {
+        var portObj = new getObj('aConfig[database][port]');
+        var TblTypeObj = new getObj('aConfig[table][type]');
+        if (obj.value == 'mysql') {
+            portObj.obj.value = 3306;
+            TblTypeObj.obj.disabled = false;
+        } else if (obj.value == 'pgsql') {        
+            portObj.obj.value = 5432;
+            TblTypeObj.obj.disabled = 'disabled';
+        }
     }
     </script>
 <div id="formContainer" style="display: block; width:100%; height:100%;">
@@ -55,6 +68,7 @@
                     'name'    => 'aConfig[database][type]',
                     'text'    => $strDbType,
                     'enabled' => $disableForm,
+                    'onchange' => 'switchDbTypes(this);',
                     'value'   => $aDatabase['database']['type'],
                     'items'   => getSupportedDbTypes()
                 ),

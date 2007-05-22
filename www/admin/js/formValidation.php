@@ -325,6 +325,30 @@ function max_formValidate(f)
 /**
  * A JavaScript function to validate the HTML contents of a form.
  *
+ * @param {String} name The id of an HTML element. Example use: var x = new getObj('objectid'); You then must refer to any style attributes as x.style, and any object attributes as x.obj.
+ */
+function getObj(name)
+{
+  if (document.getElementById)
+  {
+  	this.obj = document.getElementById(name);
+	this.style = document.getElementById(name).style;
+  }
+  else if (document.all)
+  {
+	this.obj = document.all[name];
+	this.style = document.all[name].style;
+  }
+  else if (document.layers)
+  {
+   	this.obj = document.layers[name];
+   	this.style = document.layers[name];
+  }
+}
+
+/**
+ * A JavaScript function to validate the HTML contents of a form.
+ *
  * @param {String} obj The name of the HTML form element.
  * @return {Boolean} Returns if the form is valid or not: True when there
  *                   are no errors (i.e. the form element data is valid),
