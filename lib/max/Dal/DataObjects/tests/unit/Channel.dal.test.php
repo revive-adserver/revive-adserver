@@ -84,7 +84,7 @@ class DataObjects_ChannelTest extends DalUnitTestCase
 //        $doAcls->executionorder = 2;
 //        $doAcls->insert();
 
-        $doChannel->duplicate()
+        $doChannel->duplicate();
 
     }
 }
