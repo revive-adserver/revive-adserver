@@ -97,6 +97,7 @@ $GLOBALS['strInstallIntro']                 = "We have tried to make the install
 				  and placing banners on your website.</p><p>If you still have questions after reading the documentation, visit the
 				  <a href='http://www.openads.org/support/overview.html' target='_blank'>support</a> section of our website and the
 				  <a href='http://forum.openads.org/' target='_blank'>community forum</a>.</p>";
+$GLOBALS['strTermsIntro']               = "Openads is a free and open source ad server, distributed under the GPL license. Please review this license, and agree to its terms to continue installation.";
 $GLOBALS['strInstallSuccess']               = "<b>The installation of ".MAX_PRODUCT_NAME." is now complete.</b><br /><br />In order for ".MAX_PRODUCT_NAME." to function correctly you also need
                                                 to make sure the maintenance file is run every hour. More information about this subject can be found in the documentation.
                                                 <br /><br />Click <b>Continue</b> to go the configuration page, where you can
