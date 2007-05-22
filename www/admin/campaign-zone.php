@@ -41,76 +41,76 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/other/stats.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
-    // Security check
-    phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+// Security check
+phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
-    // Get input parameters
-    $advertiserId   = MAX_getValue('clientid');
-    $campaignId     = MAX_getValue('campaignid');
-    $aCurrentZones  = MAX_getValue('includezone');
-    $listorder      = MAX_getStoredValue('listorder', 'name');
-    $orderdirection = MAX_getStoredValue('orderdirection', 'up');
-    $submit         = MAX_getValue('submit');
-    
-    // Initialise some parameters
-    $pageName = basename($_SERVER['PHP_SELF']);
-    $tabindex = 1;
-    $agencyId = phpAds_getAgencyID();
-    $aEntities = array('clientid' => $advertiserId, 'campaignid' => $campaignId);
-    
-    // Parameter check
-    if (!MAX_checkPlacement($advertiserId, $campaignId)) {
-        // TODO:  Change the code below to be standard...
-        phpAds_PageHeader('2');
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
+// Get input parameters
+$advertiserId   = MAX_getValue('clientid');
+$campaignId     = MAX_getValue('campaignid');
+$aCurrentZones  = MAX_getValue('includezone');
+$listorder      = MAX_getStoredValue('listorder', 'name');
+$orderdirection = MAX_getStoredValue('orderdirection', 'up');
+$submit         = MAX_getValue('submit');
 
-    // Process submitted form
-    if (isset($submit))
-    {
-        $aPreviousZones = Admin_DA::getPlacementZones(array('placement_id' => $campaignId));
+// Initialise some parameters
+$pageName = basename($_SERVER['PHP_SELF']);
+$tabindex = 1;
+$agencyId = phpAds_getAgencyID();
+$aEntities = array('clientid' => $advertiserId, 'campaignid' => $campaignId);
 
-        // First, remove any zones that should be deleted.
-        if (!empty($aPreviousZones)) {
-            foreach ($aPreviousZones as $aPlacementZone) {
-                $zoneId = $aPlacementZone['zone_id'];
-                if (empty($aCurrentZones[$zoneId])) {
-                    // The user has removed this zone link
-                    $aParams = array('zone_id' => $zoneId, 'placement_id' => $campaignId);
-                    Admin_DA::deletePlacementZones($aParams);
-                } else {
-                    // Remove this key, because it is already there and does not need to be added again.
-                    unset($aCurrentZones[$zoneId]);
-                }
+// Parameter check
+if (!MAX_checkPlacement($advertiserId, $campaignId)) {
+    // TODO:  Change the code below to be standard...
+    phpAds_PageHeader('2');
+    phpAds_Die ($strAccessDenied, $strNotAdmin);
+}
+
+// Process submitted form
+if (isset($submit))
+{
+    $aPreviousZones = Admin_DA::getPlacementZones(array('placement_id' => $campaignId));
+
+    // First, remove any zones that should be deleted.
+    if (!empty($aPreviousZones)) {
+        foreach ($aPreviousZones as $aPlacementZone) {
+            $zoneId = $aPlacementZone['zone_id'];
+            if (empty($aCurrentZones[$zoneId])) {
+                // The user has removed this zone link
+                $aParams = array('zone_id' => $zoneId, 'placement_id' => $campaignId);
+                Admin_DA::deletePlacementZones($aParams);
+            } else {
+                // Remove this key, because it is already there and does not need to be added again.
+                unset($aCurrentZones[$zoneId]);
             }
         }
-        
-        if (!empty($aCurrentZones)) {
-            foreach ($aCurrentZones as $zoneId => $value) {
-                $aVariables = array('zone_id' => $zoneId, 'placement_id' => $campaignId);
-                Admin_DA::addPlacementZone($aVariables);
-            }
-        }
-                
-        // Move on to the next page
-        Header("Location: campaign-banners.php?clientid=$advertiserId&campaignid=$campaignId");
-        exit;
     }
-    
-    // Display navigation
-    $aOtherAdvertisers = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
-    $aOtherCampaigns = Admin_DA::getPlacements(array('advertiser_id' => $advertiserId));
-    MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCampaigns, $aEntities);
-    
-    echo "
+
+    if (!empty($aCurrentZones)) {
+        foreach ($aCurrentZones as $zoneId => $value) {
+            $aVariables = array('zone_id' => $zoneId, 'placement_id' => $campaignId);
+            Admin_DA::addPlacementZone($aVariables);
+        }
+    }
+
+    // Move on to the next page
+    Header("Location: campaign-banners.php?clientid=$advertiserId&campaignid=$campaignId");
+    exit;
+}
+
+// Display navigation
+$aOtherAdvertisers = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
+$aOtherCampaigns = Admin_DA::getPlacements(array('advertiser_id' => $advertiserId));
+MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCampaigns, $aEntities);
+
+echo "
 <br /><br />
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 <form name='zones' action='$pageName' method='post'>
 <input type='hidden' name='clientid' value='$advertiserId'>
 <input type='hidden' name='campaignid' value='$campaignId'>";
-    
+
     MAX_displayZoneHeader($pageName, $listorder, $orderdirection, $aEntities);
-    
+
     $aParams = array('placement_id' => $campaignId);
     $aLinkedZones = Admin_DA::getPlacementZones($aParams, false, 'zone_id');
     $pAdIds = implode(',', array_keys(Admin_DA::getAds(array('placement_id' => $campaignId))));
@@ -142,7 +142,7 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
             $publisherName = $aPublisher['name'];
             $aParams = array('publisher_id' => $aPublisher['publisher_id']);
             $aZones = Admin_DA::getZones($aParams, true);
-            
+
             if (!empty($aZones)) {
                 $zoneToSelect = true;
                 $bgcolor = ($i % 2 == 0) ? " bgcolor='#F6F6F6'" : '';
@@ -193,7 +193,7 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
                         $checked = isset($aLinkedZones[$zoneId]) ? ' checked' : '';
                         // If any ads from this campaign are linked, then use partial highlight colour...
                         $bgcolor = (isset($aLinkedAdZones[$zoneId])) ? " bgcolor='#d8d8ff'" : $bgcolorSave;
-                        // Override the above highlight if this banner is linked at the campaign level... 
+                        // Override the above highlight if this banner is linked at the campaign level...
                         $bgcolor = ($checked == ' checked') ? " bgcolor='#ffd8d8'" : $bgcolor;
                         $disabled = ($aZone['type'] == MAX_ZoneEmail) ? ' disabled' : '';
                         if ($aZone['width'] == -1 && $aZone['height'] == -1) {
@@ -232,10 +232,10 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 </tr>
 <tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
     }
-    
+
     echo "
 </table>";
-    
+
 
     echo "
 <br /><br />
@@ -244,15 +244,15 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
     echo "
 </form>";
-    
 
-    
+
+
     /*-------------------------------------------------------*/
     /* Form requirements                                     */
     /*-------------------------------------------------------*/
-    
+
     ?>
-    
+
     <script language='Javascript'>
     <!--
         affiliates = new Array();
@@ -267,7 +267,7 @@ affiliates[$publisherId] = $num;";
             }
         }
     ?>
-        
+
         function showMessage(message)
         {
             var result = confirm(message);
@@ -275,7 +275,7 @@ affiliates[$publisherId] = $num;";
             if (result)
             {
 	             return true ;
-            } 
+            }
             else
             {
 	             return false ;
@@ -287,24 +287,24 @@ affiliates[$publisherId] = $num;";
         {
             var count = 0;
             var affiliate;
-            
+
             for (var i=0; i<document.zones.elements.length; i++)
             {
                 if (document.zones.elements[i].name == 'affiliate[' + affiliateid + ']')
                     affiliate = i;
-                
+
                 if (document.zones.elements[i].id == 'a' + affiliateid + '' &&
                     document.zones.elements[i].checked)
                     count++;
             }
-            
+
             document.zones.elements[affiliate].checked = (count == affiliates[affiliateid]);
         }
-        
+
         function toggleZones(affiliateid)
         {
             var checked
-            
+
             for (var i=0; i<document.zones.elements.length; i++)
             {
                 if (document.zones.elements[i].name == 'affiliate[' + affiliateid + ']') {
@@ -312,7 +312,7 @@ affiliates[$publisherId] = $num;";
                         checked = document.zones.elements[i].checked;
                     }
                 }
-                
+
                 if (document.zones.elements[i].id == 'a' + affiliateid + '') {
                     if (!document.zones.elements[i].disabled) {
                         document.zones.elements[i].checked = checked;
@@ -326,7 +326,7 @@ affiliates[$publisherId] = $num;";
             var zonesArray, checked, selectAllField;
 
             selectAllField = document.getElementById('selectAllField');
-            
+
             zonesArray = zonesList.split('|');
 
             for (var i=0; i<document.zones.elements.length; i++) {
@@ -334,29 +334,29 @@ affiliates[$publisherId] = $num;";
                 if (selectAllField.checked == true) {
                     document.zones.elements[i].checked = true;
                 } else {
-                    document.zones.elements[i].checked = false;                
+                    document.zones.elements[i].checked = false;
                 }
             }
         }
-    
+
     //-->
     </script>
 
 <?php
-    
-    /*-------------------------------------------------------*/
-    /* Store preferences                                     */
-    /*-------------------------------------------------------*/
-    
-    $session['prefs'][$pageName]['listorder'] = $listorder;
-    $session['prefs'][$pageName]['orderdirection'] = $orderdirection;
-    
-    phpAds_SessionDataStore();
-    
-    /*-------------------------------------------------------*/
-    /* HTML framework                                        */
-    /*-------------------------------------------------------*/
-    
-    phpAds_PageFooter();
+
+/*-------------------------------------------------------*/
+/* Store preferences                                     */
+/*-------------------------------------------------------*/
+
+$session['prefs'][$pageName]['listorder'] = $listorder;
+$session['prefs'][$pageName]['orderdirection'] = $orderdirection;
+
+phpAds_SessionDataStore();
+
+/*-------------------------------------------------------*/
+/* HTML framework                                        */
+/*-------------------------------------------------------*/
+
+phpAds_PageFooter();
 
 ?>
