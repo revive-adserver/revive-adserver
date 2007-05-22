@@ -215,7 +215,7 @@ $GLOBALS['strDatabaseOptimalisations']               = 'Global Database Optimisa
 $GLOBALS['strPersistentConnections']                 = 'Use Persistent Connections';
 $GLOBALS['strCantConnectToDb']                       = 'Can\'t Connect to Database';
 $GLOBALS['strDemoDataInstall']                       = 'Install Demo Data';
-$GLOBALS['strDemoDataIntro']                         = 'If you wish, you can choose now to install demo inventory into your database to get an idea of how Advertisers, Publishers, Banners, and Zones can be setup. This is highly recommended for first time users.';
+$GLOBALS['strDemoDataIntro']                         = 'Default setup data can be loaded into Openads to help you get started serving online advertising. The most common banner types, as well as some initial campaigns can be loaded and pre-configured. This is highly recommended for new installations.';
 
 // Debug Logging Settings
 $GLOBALS['strDebugSettings']                         = 'Debug Logging';
