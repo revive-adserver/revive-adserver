@@ -190,7 +190,8 @@ div.boxrow input {
 }
 
 .install { 
-    line-height: 18px;
+    font-size: 1.1em;
+    line-height: 21px;
     color: #000066; 
 }
 
