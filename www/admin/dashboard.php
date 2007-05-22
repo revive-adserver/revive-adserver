@@ -53,7 +53,7 @@ function iframeLoaded(e,elem,d){
 		border: 1px solid #fff;
 		height: 800px;
 		width: 800px;
-		background: #fff url(images/dashboard_teaser_trasnparent.jpg) no-repeat top center;		
+		background: #fff url(images/dashboard_teaser_transparent.jpg) no-repeat top center;		
 	}
 	#dashboardError .inner{
 		text-align: center;
