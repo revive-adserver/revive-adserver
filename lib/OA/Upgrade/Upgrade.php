@@ -480,7 +480,7 @@ class OA_Upgrade
         }
         $this->oLogger->log('Connected to database '.$this->oDbh->connected_database_name);
 
-        if (!$this->checkExistingTables)
+        if (!$this->checkExistingTables())
         {
             return false;
         }
