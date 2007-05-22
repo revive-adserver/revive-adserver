@@ -185,6 +185,7 @@ else if (array_key_exists('btn_adminsetup', $_POST))
     {
         if (!checkFolderPermissions($_POST['aConfig']['store']['webDir'])) {
             $aConfig    = $_POST['aConfig'];
+            $aConfig['store']['webDir'] = stripslashes($aConfig['store']['webDir']);
             $errMessage = $strImageDirLockedDetected;
             $action     = OA_UPGRADE_CONFIGSETUP;
         } else {
