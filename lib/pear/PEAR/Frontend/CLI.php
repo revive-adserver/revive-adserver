@@ -1,27 +1,43 @@
 <?php
-/*
-  +----------------------------------------------------------------------+
-  | PHP Version 5                                                        |
-  +----------------------------------------------------------------------+
-  | Copyright (c) 1997-2004 The PHP Group                                |
-  +----------------------------------------------------------------------+
-  | This source file is subject to version 3.0 of the PHP license,       |
-  | that is bundled with this package in the file LICENSE, and is        |
-  | available through the world-wide-web at the following url:           |
-  | http://www.php.net/license/3_0.txt.                                  |
-  | If you did not receive a copy of the PHP license and are unable to   |
-  | obtain it through the world-wide-web, please send a note to          |
-  | license@php.net so we can mail you a copy immediately.               |
-  +----------------------------------------------------------------------+
-  | Author: Stig Sæther Bakken <ssb@php.net>                             |
-  +----------------------------------------------------------------------+
+/**
+ * PEAR_Frontend_CLI
+ *
+ * PHP versions 4 and 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   pear
+ * @package    PEAR
+ * @author     Stig Bakken <ssb@php.net>
+ * @author     Greg Beaver <cellog@php.net>
+ * @copyright  1997-2006 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/PEAR
+ * @since      File available since Release 0.1
+ */
+/**
+ * base class
+ */
+require_once 'PEAR/Frontend.php';
 
-  $Id$
-*/
-
-require_once "PEAR.php";
-
-class PEAR_Frontend_CLI extends PEAR
+/**
+ * Command-line Frontend for the PEAR Installer
+ * @category   pear
+ * @package    PEAR
+ * @author     Stig Bakken <ssb@php.net>
+ * @author     Greg Beaver <cellog@php.net>
+ * @copyright  1997-2006 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    Release: 1.5.4
+ * @link       http://pear.php.net/package/PEAR
+ * @since      Class available since Release 0.1
+ */
+class PEAR_Frontend_CLI extends PEAR_Frontend
 {
     // {{{ properties
 
@@ -110,6 +126,40 @@ class PEAR_Frontend_CLI extends PEAR
     function displayFatalError($eobj)
     {
         $this->displayError($eobj);
+        if (class_exists('PEAR_Config')) {
+            $config = &PEAR_Config::singleton();
+            if ($config->get('verbose') > 5) {
+                if (function_exists('debug_print_backtrace')) {
+                    debug_print_backtrace();
+                } elseif (function_exists('debug_backtrace')) {
+                    $trace = debug_backtrace();
+                    $raised = false;
+                    foreach ($trace as $i => $frame) {
+                        if (!$raised) {
+                            if (isset($frame['class']) && strtolower($frame['class']) ==
+                                  'pear' && strtolower($frame['function']) == 'raiseerror') {
+                                $raised = true;
+                            } else {
+                                continue;
+                            }
+                        }
+                        if (!isset($frame['class'])) {
+                            $frame['class'] = '';
+                        }
+                        if (!isset($frame['type'])) {
+                            $frame['type'] = '';
+                        }
+                        if (!isset($frame['function'])) {
+                            $frame['function'] = '';
+                        }
+                        if (!isset($frame['line'])) {
+                            $frame['line'] = '';
+                        }
+                        $this->_displayLine("#$i: $frame[class]$frame[type]$frame[function] $frame[line]");
+                    }
+                }
+            }
+        }
         exit(1);
     }
 
@@ -128,35 +178,246 @@ class PEAR_Frontend_CLI extends PEAR
     }
 
     // }}}
+
+    /**
+     * Instruct the runInstallScript method to skip a paramgroup that matches the
+     * id value passed in.
+     *
+     * This method is useful for dynamically configuring which sections of a post-install script
+     * will be run based on the user's setup, which is very useful for making flexible
+     * post-install scripts without losing the cross-Frontend ability to retrieve user input
+     * @param string
+     */
+    function skipParamgroup($id)
+    {
+        $this->_skipSections[$id] = true;
+    }
+
+    function runPostinstallScripts(&$scripts)
+    {
+        foreach ($scripts as $i => $script) {
+            $this->runInstallScript($scripts[$i]->_params, $scripts[$i]->_obj);
+        }
+    }
+
+    /**
+     * @param array $xml contents of postinstallscript tag
+     * @param object $script post-installation script
+     * @param string install|upgrade
+     */
+    function runInstallScript($xml, &$script)
+    {
+        $this->_skipSections = array();
+        if (!is_array($xml) || !isset($xml['paramgroup'])) {
+            $script->run(array(), '_default');
+        } else {
+            $completedPhases = array();
+            if (!isset($xml['paramgroup'][0])) {
+                $xml['paramgroup'] = array($xml['paramgroup']);
+            }
+            foreach ($xml['paramgroup'] as $group) {
+                if (isset($this->_skipSections[$group['id']])) {
+                    // the post-install script chose to skip this section dynamically
+                    continue;
+                }
+                if (isset($group['name'])) {
+                    $paramname = explode('::', $group['name']);
+                    if ($lastgroup['id'] != $paramname[0]) {
+                        continue;
+                    }
+                    $group['name'] = $paramname[1];
+                    if (isset($answers)) {
+                        if (isset($answers[$group['name']])) {
+                            switch ($group['conditiontype']) {
+                                case '=' :
+                                    if ($answers[$group['name']] != $group['value']) {
+                                        continue 2;
+                                    }
+                                break;
+                                case '!=' :
+                                    if ($answers[$group['name']] == $group['value']) {
+                                        continue 2;
+                                    }
+                                break;
+                                case 'preg_match' :
+                                    if (!@preg_match('/' . $group['value'] . '/',
+                                          $answers[$group['name']])) {
+                                        continue 2;
+                                    }
+                                break;
+                                default :
+                                return;
+                            }
+                        }
+                    } else {
+                        return;
+                    }
+                }
+                $lastgroup = $group;
+                if (isset($group['instructions'])) {
+                    $this->_display($group['instructions']);
+                }
+                if (!isset($group['param'][0])) {
+                    $group['param'] = array($group['param']);
+                }
+                if (isset($group['param'])) {
+                    if (method_exists($script, 'postProcessPrompts')) {
+                        $prompts = $script->postProcessPrompts($group['param'], $group['id']);
+                        if (!is_array($prompts) || count($prompts) != count($group['param'])) {
+                            $this->outputData('postinstall', 'Error: post-install script did not ' .
+                                'return proper post-processed prompts');
+                            $prompts = $group['param'];
+                        } else {
+                            foreach ($prompts as $i => $var) {
+                                if (!is_array($var) || !isset($var['prompt']) ||
+                                      !isset($var['name']) ||
+                                      ($var['name'] != $group['param'][$i]['name']) ||
+                                      ($var['type'] != $group['param'][$i]['type'])) {
+                                    $this->outputData('postinstall', 'Error: post-install script ' .
+                                        'modified the variables or prompts, severe security risk. ' .
+                                        'Will instead use the defaults from the package.xml');
+                                    $prompts = $group['param'];
+                                }
+                            }
+                        }
+                        $answers = $this->confirmDialog($prompts);
+                    } else {
+                        $answers = $this->confirmDialog($group['param']);
+                    }
+                }
+                if ((isset($answers) && $answers) || !isset($group['param'])) {
+                    if (!isset($answers)) {
+                        $answers = array();
+                    }
+                    array_unshift($completedPhases, $group['id']);
+                    if (!$script->run($answers, $group['id'])) {
+                        $script->run($completedPhases, '_undoOnError');
+                        return;
+                    }
+                } else {
+                    $script->run($completedPhases, '_undoOnError');
+                    return;
+                }
+            }
+        }
+    }
+
+    /**
+     * Ask for user input, confirm the answers and continue until the user is satisfied
+     * @param array an array of arrays, format array('name' => 'paramname', 'prompt' =>
+     *              'text to display', 'type' => 'string'[, default => 'default value'])
+     * @return array
+     */
+    function confirmDialog($params)
+    {
+        $answers = array();
+        $prompts = $types = array();
+        foreach ($params as $param) {
+            $prompts[$param['name']] = $param['prompt'];
+            $types[$param['name']] = $param['type'];
+            if (isset($param['default'])) {
+                $answers[$param['name']] = $param['default'];
+            } else {
+                $answers[$param['name']] = '';
+            }
+        }
+        $tried = false;
+        do {
+            if ($tried) {
+                $i = 1;
+                foreach ($answers as $var => $value) {
+                    if (!strlen($value)) {
+                        echo $this->bold("* Enter an answer for #" . $i . ": ({$prompts[$var]})\n");
+                    }
+                    $i++;
+                }
+            }
+            $answers = $this->userDialog('', $prompts, $types, $answers);
+            $tried = true;
+        } while (is_array($answers) && count(array_filter($answers)) != count($prompts));
+        return $answers;
+    }
     // {{{ userDialog(prompt, [type], [default])
 
-    function userDialog($command, $prompts, $types = array(), $defaults = array())
+    function userDialog($command, $prompts, $types = array(), $defaults = array(),
+                        $screensize = 20)
     {
-        $result = array();
-        if (is_array($prompts)) {
-            $fp = fopen("php://stdin", "r");
+        if (!is_array($prompts)) {
+            return array();
+        }
+        $testprompts = array_keys($prompts);
+        $result = $defaults;
+        if (!defined('STDIN')) {
+            $fp = fopen('php://stdin', 'r');
+        } else {
+            $fp = STDIN;
+        }
+        reset($prompts);
+        if (count($prompts) == 1 && $types[key($prompts)] == 'yesno') {
             foreach ($prompts as $key => $prompt) {
                 $type = $types[$key];
                 $default = @$defaults[$key];
-                if ($type == 'password') {
-                    system('stty -echo');
-                }
-                print "$this->lp$prompt ";
+                print "$prompt ";
                 if ($default) {
                     print "[$default] ";
                 }
                 print ": ";
-                $line = fgets($fp, 2048);
-                if ($type == 'password') {
-                    system('stty echo');
-                    print "\n";
+                if (version_compare(phpversion(), '5.0.0', '<')) {
+                    $line = fgets($fp, 2048);
+                } else {
+                    if (!defined('STDIN')) {
+                        define('STDIN', fopen('php://stdin', 'r'));
+                    }
+                    $line = fgets(STDIN, 2048);
                 }
                 if ($default && trim($line) == "") {
                     $result[$key] = $default;
                 } else {
-                    $result[$key] = $line;
+                    $result[$key] = trim($line);
                 }
             }
+            return $result;
+        }
+        while (true) {
+            $descLength = max(array_map('strlen', $prompts));
+            $descFormat = "%-{$descLength}s";
+            $last = count($prompts);
+
+            $i = 0;
+            foreach ($prompts as $n => $var) {
+                printf("%2d. $descFormat : %s\n", ++$i, $prompts[$n], isset($result[$n]) ?
+                    $result[$n] : null);
+            }
+
+            print "\n1-$last, 'all', 'abort', or Enter to continue: ";
+            $tmp = trim(fgets($fp, 1024));
+            if (empty($tmp)) {
+                break;
+            }
+            if ($tmp == 'abort') {
+                return false;
+            }
+            if (isset($testprompts[(int)$tmp - 1])) {
+                $var = $testprompts[(int)$tmp - 1];
+                $desc = $prompts[$var];
+                $current = @$result[$var];
+                print "$desc [$current] : ";
+                $tmp = trim(fgets($fp, 1024));
+                if (trim($tmp) !== '') {
+                    $result[$var] = trim($tmp);
+                }
+            } elseif ($tmp == 'all') {
+                foreach ($prompts as $var => $desc) {
+                    $current = $result[$var];
+                    print "$desc [$current] : ";
+                    $tmp = trim(fgets($fp, 1024));
+                    if (trim($tmp) !== '') {
+                        $result[$var] = trim($tmp);
+                    }
+                }
+            }
+        }
+        if (!defined('STDIN')) {
             fclose($fp);
         }
         return $result;
@@ -235,12 +496,17 @@ class PEAR_Frontend_CLI extends PEAR
             } else {
                 $w = strlen($col);
             }
-            if ($w > @$this->params['widest'][$i]) {
+
+            if (isset($this->params['widest'][$i])) {
+                if ($w > $this->params['widest'][$i]) {
+                    $this->params['widest'][$i] = $w;
+                }
+            } else {
                 $this->params['widest'][$i] = $w;
             }
             $tmp = count_chars($columns[$i], 1);
             // handle unix, mac and windows formats
-            $lines = (isset($tmp[10]) ? $tmp[10] : @$tmp[13]) + 1;
+            $lines = (isset($tmp[10]) ? $tmp[10] : (isset($tmp[13]) ? $tmp[13] : 0)) + 1;
             if ($lines > $highest) {
                 $highest = $lines;
             }
@@ -369,6 +635,14 @@ class PEAR_Frontend_CLI extends PEAR
     function outputData($data, $command = '_default')
     {
         switch ($command) {
+            case 'channel-info':
+                foreach ($data as $type => $section) {
+                    if ($type == 'main') {
+                        $section['data'] = array_values($section['data']);
+                    }
+                    $this->outputData($section);
+                }
+                break;
             case 'install':
             case 'upgrade':
             case 'upgrade-all':
@@ -398,6 +672,10 @@ class PEAR_Frontend_CLI extends PEAR
                 $this->_endTable();
                 break;
             case 'list-all':
+                if (!isset($data['data'])) {
+                      $this->_displayLine('No packages in channel');
+                      break;
+                }
                 $this->_startTable($data);
                 if (isset($data['headline']) && is_array($data['headline'])) {
                     $this->_tableRow($data['headline'], array('bold' => true), array(1 => array('wrap' => 55)));
@@ -405,8 +683,8 @@ class PEAR_Frontend_CLI extends PEAR
 
                 foreach($data['data'] as $category) {
                     foreach($category as $pkg) {
-                        unset($pkg[3]);
                         unset($pkg[4]);
+                        unset($pkg[5]);
                         $this->_tableRow($pkg, null, array(1 => array('wrap' => 55)));
                     }
                 };
@@ -434,6 +712,7 @@ class PEAR_Frontend_CLI extends PEAR
                 $this->_endTable();
                 break;
             case 'remote-info':
+                $d = $data;
                 $data = array(
                     'caption' => 'Package details:',
                     'border' => false,
@@ -447,6 +726,12 @@ class PEAR_Frontend_CLI extends PEAR
                         array("Description", $data['description']),
                         ),
                     );
+                    if (isset($d['deprecated']) && $d['deprecated']) {
+                        $conf = &PEAR_Config::singleton();
+                        $reg = $conf->getRegistry();
+                        $name = $reg->parsedPackageNameToString($d['deprecated'], true);
+                        $data['data'][] = array('Deprecated! use', $name);
+                    }
             default: {
                 if (is_array($data)) {
                     $this->_startTable($data);

@@ -1,29 +1,47 @@
 <?php
-//
-// +----------------------------------------------------------------------+
-// | PHP Version 5                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2004 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available through the world-wide-web at the following url:           |
-// | http://www.php.net/license/3_0.txt.                                  |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Authors: Stig Sæther Bakken <ssb@php.net>                            |
-// +----------------------------------------------------------------------+
-//
-// $Id$
+/**
+ * PEAR_Builder for building PHP extensions (PECL packages)
+ *
+ * PHP versions 4 and 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   pear
+ * @package    PEAR
+ * @author     Stig Bakken <ssb@php.net>
+ * @author     Greg Beaver <cellog@php.net>
+ * @copyright  1997-2006 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/PEAR
+ * @since      File available since Release 0.1
+ * 
+ * TODO: log output parameters in PECL command line
+ * TODO: msdev path in configuration
+ */
 
+/**
+ * Needed for extending PEAR_Builder
+ */
 require_once 'PEAR/Common.php';
-
+require_once 'PEAR/PackageFile.php';
 /**
  * Class to handle building (compiling) extensions.
  *
- * @author Stig Sæther Bakken <ssb@php.net>
+ * @category   pear
+ * @package    PEAR
+ * @author     Stig Bakken <ssb@php.net>
+ * @author     Greg Beaver <cellog@php.net>
+ * @copyright  1997-2006 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    Release: 1.5.4
+ * @link       http://pear.php.net/package/PEAR
+ * @since      Class available since PHP 4.0.2
+ * @see        http://pear.php.net/manual/en/core.ppm.pear-builder.php
  */
 class PEAR_Builder extends PEAR_Common
 {
@@ -35,6 +53,10 @@ class PEAR_Builder extends PEAR_Common
 
     var $extensions_built = array();
 
+    /**
+     * @var string Used for reporting when it is not possible to pass function
+     *             via extra parameter, e.g. log, msdevCallback
+     */
     var $current_callback = null;
 
     // used for msdev builds
@@ -66,25 +88,41 @@ class PEAR_Builder extends PEAR_Common
      */
     function _build_win32($descfile, $callback = null)
     {
-        if (PEAR::isError($info = $this->infoFromDescriptionFile($descfile))) {
-            return $info;
+        if (is_object($descfile)) {
+            $pkg = $descfile;
+            $descfile = $pkg->getPackageFile();
+        } else {
+            $pf = &new PEAR_PackageFile($this->config, $this->debug);
+            $pkg = &$pf->fromPackageFile($descfile, PEAR_VALIDATE_NORMAL);
+            if (PEAR::isError($pkg)) {
+                return $pkg;
+            }
         }
         $dir = dirname($descfile);
         $old_cwd = getcwd();
 
-        if (!@chdir($dir)) {
+        if (!file_exists($dir) || !is_dir($dir) || !chdir($dir)) {
             return $this->raiseError("could not chdir to $dir");
         }
+        // packages that were in a .tar have the packagefile in this directory
+        $vdir = $pkg->getPackage() . '-' . $pkg->getVersion();
+        if (file_exists($dir) && is_dir($vdir)) {
+            if (chdir($vdir)) {
+                $dir = getcwd();
+            } else {
+                return $this->raiseError("could not chdir to " . realpath($vdir));
+            }
+        }
+
         $this->log(2, "building in $dir");
 
-        $dsp = $info['package'].'.dsp';
-        if (!@is_file("$dir/$dsp")) {
+        $dsp = $pkg->getPackage().'.dsp';
+        if (!file_exists("$dir/$dsp")) {
             return $this->raiseError("The DSP $dsp does not exist.");
         }
         // XXX TODO: make release build type configurable
-        $command = 'msdev '.$dsp.' /MAKE "'.$info['package']. ' - Release"';
+        $command = 'msdev '.$dsp.' /MAKE "'.$pkg->getPackage(). ' - Release"';
 
-        $this->current_callback = $callback;
         $err = $this->_runCommand($command, array(&$this, 'msdevCallback'));
         if (PEAR::isError($err)) {
             return $err;
@@ -93,7 +131,7 @@ class PEAR_Builder extends PEAR_Common
         // figure out the build platform and type
         $platform = 'Win32';
         $buildtype = 'Release';
-        if (preg_match('/.*?'.$info['package'].'\s-\s(\w+)\s(.*?)-+/i',$this->_firstline,$matches)) {
+        if (preg_match('/.*?'.$pkg->getPackage().'\s-\s(\w+)\s(.*?)-+/i',$this->_firstline,$matches)) {
             $platform = $matches[1];
             $buildtype = $matches[2];
         }
@@ -115,7 +153,7 @@ class PEAR_Builder extends PEAR_Common
         // this regex depends on the build platform and type having been
         // correctly identified above.
         $regex ='/.*?!IF\s+"\$\(CFG\)"\s+==\s+("'.
-                    $info['package'].'\s-\s'.
+                    $pkg->getPackage().'\s-\s'.
                     $platform.'\s'.
                     $buildtype.'").*?'.
                     '\/out:"(.*?)"/is';
@@ -126,7 +164,8 @@ class PEAR_Builder extends PEAR_Common
         } else {
             return $this->raiseError("Could not retrieve output information from $dsp.");
         }
-        if (@copy($outfile, "$dir/$out")) {
+        // realpath returns false if the file doesn't exist
+        if ($outfile && copy($outfile, "$dir/$out")) {
             $outfile = "$dir/$out";
         }
 
@@ -147,6 +186,7 @@ class PEAR_Builder extends PEAR_Common
         if (!$this->_firstline)
             $this->_firstline = $data;
         $this->_lastline = $data;
+        call_user_func($this->current_callback, $what, $data);
     }
     // }}}
 
@@ -200,7 +240,8 @@ class PEAR_Builder extends PEAR_Common
      * directory, but compiles in a temporary directory
      * (/var/tmp/pear-build-USER/PACKAGE-VERSION).
      *
-     * @param string $descfile path to XML package description file
+     * @param string|PEAR_PackageFile_v* $descfile path to XML package description file, or
+     *               a PEAR_PackageFile object
      *
      * @param mixed $callback callback function used to report output,
      * see PEAR_Builder::_runCommand for details
@@ -216,31 +257,37 @@ class PEAR_Builder extends PEAR_Common
      * @access public
      *
      * @see PEAR_Builder::_runCommand
-     * @see PEAR_Common::infoFromDescriptionFile
      */
     function build($descfile, $callback = null)
     {
+        $this->current_callback = $callback;
         if (PEAR_OS == "Windows") {
             return $this->_build_win32($descfile,$callback);
         }
         if (PEAR_OS != 'Unix') {
             return $this->raiseError("building extensions not supported on this platform");
         }
-        if (PEAR::isError($info = $this->infoFromDescriptionFile($descfile))) {
-            return $info;
+        if (is_object($descfile)) {
+            $pkg = $descfile;
+            $descfile = $pkg->getPackageFile();
+        } else {
+            $pf = &new PEAR_PackageFile($this->config);
+            $pkg = &$pf->fromPackageFile($descfile, PEAR_VALIDATE_NORMAL);
+            if (PEAR::isError($pkg)) {
+                return $pkg;
+            }
         }
         $dir = dirname($descfile);
         $old_cwd = getcwd();
-        if (!@chdir($dir)) {
+        if (!file_exists($dir) || !is_dir($dir) || !chdir($dir)) {
             return $this->raiseError("could not chdir to $dir");
         }
-        $vdir = "$info[package]-$info[version]";
+        $vdir = $pkg->getPackage() . '-' . $pkg->getVersion();
         if (is_dir($vdir)) {
             chdir($vdir);
         }
         $dir = getcwd();
         $this->log(2, "building in $dir");
-        $this->current_callback = $callback;
         putenv('PATH=' . $this->config->get('bin_dir') . ':' . getenv('PATH'));
         $err = $this->_runCommand("phpize", array(&$this, 'phpizeCallback'));
         if (PEAR::isError($err)) {
@@ -252,12 +299,14 @@ class PEAR_Builder extends PEAR_Common
 
         // {{{ start of interactive part
         $configure_command = "$dir/configure";
-        if (isset($info['configure_options'])) {
-            foreach ($info['configure_options'] as $o) {
+        $configure_options = $pkg->getConfigureOptions();
+        if ($configure_options) {
+            foreach ($configure_options as $o) {
+                $default = array_key_exists('default', $o) ? $o['default'] : null;
                 list($r) = $this->ui->userDialog('build',
                                                  array($o['prompt']),
                                                  array('text'),
-                                                 array(@$o['default']));
+                                                 array($default));
                 if (substr($o['name'], 0, 5) == 'with-' &&
                     ($r == 'yes' || $r == 'autodetect')) {
                     $configure_command .= " --$o[name]";
@@ -273,8 +322,8 @@ class PEAR_Builder extends PEAR_Common
             $user='defaultuser';
         }
         $build_basedir = "/var/tmp/pear-build-$user";
-        $build_dir = "$build_basedir/$info[package]-$info[version]";
-        $inst_dir = "$build_basedir/install-$info[package]-$info[version]";
+        $build_dir = "$build_basedir/$vdir";
+        $inst_dir = "$build_basedir/install-$vdir";
         $this->log(1, "building in $build_dir");
         if (is_dir($build_dir)) {
             System::rm(array('-rf', $build_dir));
@@ -299,10 +348,10 @@ class PEAR_Builder extends PEAR_Common
             "$make_command INSTALL_ROOT=\"$inst_dir\" install",
             "find \"$inst_dir\" -ls"
             );
-        if (!@chdir($build_dir)) {
+        if (!file_exists($build_dir) || !is_dir($build_dir) || !chdir($build_dir)) {
             return $this->raiseError("could not chdir to $build_dir");
         }
-        putenv('PHP_PEAR_VERSION=1.3.6');
+        putenv('PHP_PEAR_VERSION=1.5.4');
         foreach ($to_run as $cmd) {
             $err = $this->_runCommand($cmd, $callback);
             if (PEAR::isError($err)) {
@@ -383,7 +432,7 @@ class PEAR_Builder extends PEAR_Common
     function _runCommand($command, $callback = null)
     {
         $this->log(1, "running: $command");
-        $pp = @popen("$command 2>&1", "r");
+        $pp = popen("$command 2>&1", "r");
         if (!$pp) {
             return $this->raiseError("failed to run `$command'");
         }
@@ -402,7 +451,11 @@ class PEAR_Builder extends PEAR_Common
         if ($callback && isset($olddbg)) {
             $callback[0]->debug = $olddbg;
         }
-        $exitcode = @pclose($pp);
+        if (is_resource($pp)) {
+            $exitcode = pclose($pp);
+        } else {
+            $exitcode = -1;
+        }
         return ($exitcode == 0);
     }
 
