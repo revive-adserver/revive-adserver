@@ -66,9 +66,9 @@ return $conf;
 } elseif ($configFile === '.plugin') {
 $pluginType = basename($configPath);
 $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
-$conf = parse_ini_file($defaultConfig, $sections);
+$conf = @parse_ini_file($defaultConfig, $sections);
 if ($conf !== false) {
-// check for false here - it's possible
+// check for false here - it's possible file doesn't exist
 return $conf;
 }
 echo MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin";
@@ -414,9 +414,9 @@ return $conf;
 } elseif ($configFile === '.plugin') {
 $pluginType = basename($configPath);
 $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
-$conf = parse_ini_file($defaultConfig, $sections);
+$conf = @parse_ini_file($defaultConfig, $sections);
 if ($conf !== false) {
-// check for false here - it's possible
+// check for false here - it's possible file doesn't exist
 return $conf;
 }
 echo MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin";
