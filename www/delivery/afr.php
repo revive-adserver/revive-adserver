@@ -2116,10 +2116,10 @@ if (isset($banner['contenttype']) && $banner['contenttype'] == 'swf') {
 $outputHtml .= MAX_flashGetFlashObjectExternal();
 }
 if (isset($refresh) && is_numeric($refresh) && $refresh > 0) {
-$dest = MAX_commonGetDeliveryUrl() . substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], basename($_SERVER['SCRIPT_FILENAME'])));
+$dest = MAX_commonGetDeliveryUrl($conf['file']['frame']).'?'.$_SERVER['QUERY_STRING'];
 parse_str($_SERVER['QUERY_STRING'], $qs);
 $dest .= (!array_key_exists('loc', $qs)) ? "&loc=" . urlencode($loc) : '';
-$outputHtml .= "<meta http-equiv='refresh' content='".$refresh.";url=$dest'>\n";
+$outputHtml .= "<meta http-equiv='refresh' content='".$refresh.";url=".htmlspecialchars($dest)."'>\n";
 }
 if (isset($resize) && $resize == 1) {
 $outputHtml .= "<script type='text/javascript'>\n";
