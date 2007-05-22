@@ -81,4 +81,15 @@
     <include name="**/.*.swp"/><!-- Vim swap files -->
   </patternset>
 
+  <!-- List of all directories that should be set to globally
+       writable as part of the packaging process -->
+  <patternset id="dist.writable">
+    <include name="var"/>
+    <include name="var/cache"/>
+    <include name="var/plugins/cache"/>
+    <include name="var/plugins/config"/>
+    <include name="var/templates_compiled"/>
+    <include name="www/images"/>
+  </patternset>
+
 </project>
