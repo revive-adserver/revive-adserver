@@ -61,16 +61,33 @@ class Pager_Jumping extends Pager_Common
     /**
      * Constructor
      *
-     * @param mixed $options    An associative array of option names
+     * @param array $options    An associative array of option names
      *                          and their values
      * @access public
      */
     function Pager_Jumping($options = array())
     {
-        $err = $this->_setOptions($options);
+        $err = $this->setOptions($options);
         if ($err !== PAGER_OK) {
             return $this->raiseError($this->errorMessage($err), $err);
         }
+        $this->build();
+    }
+
+    // }}}
+    // {{{ build()
+
+    /**
+     * Generate or refresh the links and paged data after a call to setOptions()
+     *
+     * @access public
+     */
+    function build()
+    {
+        //reset
+        $this->_pageData = array();
+        $this->links = '';
+
         $this->_generatePageData();
         $this->_setFirstLastText();
 
