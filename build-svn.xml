@@ -22,7 +22,7 @@
     <attribute name="tag"/>
     <sequential>
       <exec dir="${basedir}" executable="svn" failonerror="true">
-        <arg line="copy ${svn.options} . -m 'Created the tag: @{tag}.' https://svn.openads.org/openads/tags/max/@{tag}"/>
+        <arg line="copy ${svn.options} . -m 'Created the tag: @{tag}.' https://svn.openads.org/openads/branches/max/branches/QA/@{tag}"/>
       </exec>
     </sequential>
   </macrodef>
