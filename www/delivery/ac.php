@@ -1889,7 +1889,7 @@ $cache_complete = false;
 $cache_contents = '';
 $ok = @include($filename);
 if ($ok && $cache_complete == true) {
-if (isset($cache_expiry) && $cache_expiry < MAX_commonGetTimeNow()) {
+if ( isset($cache_expiry) && $cache_expiry < MAX_commonGetTimeNow() ) {
 OA_Delivery_Cache_store($name, $cache_contents, $isHash);
 return false;
 }
@@ -1984,7 +1984,7 @@ function OA_Delivery_Cache_getName($functionName)
 {
 $args = func_get_args();
 $args[0] = strtolower(str_replace('MAX_cacheGet', '', $args[0]));
-return join('???', $args);
+return join('�', $args);
 }
 function MAX_cacheGetAd($ad_id, $cached = true)
 {
