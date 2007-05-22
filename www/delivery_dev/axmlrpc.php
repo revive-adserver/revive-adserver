@@ -28,6 +28,8 @@ $Id$
 // Require the initialisation file
 require_once '../../init-delivery.php';
 
+setupIncludePath();
+
 // Required files
 require_once MAX_PATH . '/lib/max/Delivery/XML-RPC.php';
 

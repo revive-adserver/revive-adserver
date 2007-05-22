@@ -37,6 +37,11 @@ require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 
 require_once 'XML/RPC/Server.php';
 
+// Workaround for PHP bug #41293 (PHP-5.2.2)
+if (empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
+    $GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
+}
+
 $xmlRpcView_sig = array(array($xmlrpcString,
                               $xmlrpcString, $xmlrpcString, $xmlrpcString,
                               $xmlrpcBoolean, $xmlrpcString, $xmlrpcStruct));
