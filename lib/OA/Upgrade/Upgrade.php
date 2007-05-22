@@ -929,22 +929,27 @@ class OA_Upgrade
 
         $aExistingTables = $this->oDbh->manager->listTables();
 
-        if (in_array($this->prefix.'config', $aExistingTables))
+        if (in_array($this->aDsn['table']['prefix'].'config', $aExistingTables))
         {
-            $this->oLogger->logError('A phpAdsNew configuration table was found: '.$this->prefix.'config_version');
+            $this->oLogger->logError('A phpAdsNew configuration table was found: '.$this->aDsn['table']['prefix'].'config_version. Please either choose a new Table Prefix, copy your config file to the Var folder and restart as an Upgrade, or clear your database of phpAdsNew data to create a new install.');
             return false;
         }
-        if (in_array($this->prefix.'preference', $aExistingTables))
+        if (in_array($this->aDsn['table']['prefix'].'preference', $aExistingTables))
         {
-            $this->oLogger->logError('A Max Media Manager configuration table was found: '.$this->prefix.'preference');
+            $this->oLogger->logError('A Max Media Manager configuration table was found: '.$this->aDsn['table']['prefix'].'preference. Please either choose a new Table Prefix, copy your config file to the Var folder and restart as an Upgrade, or clear your database of Max Media Manager data to create a new install.');
             return false;
         }
+        $tablePrefixError = false;
         foreach ($aExistingTables AS $k => $tablename)
         {
-            if (substr($tablename, 0, strlen($this->prefix)) == $this->prefix)
+            if (substr($tablename, 0, strlen($this->aDsn['table']['prefix'])) == $this->aDsn['table']['prefix'])
             {
                $result = false;
-               $this->oLogger->log('Tables with the prefix '.$this->prefix.' were found: '.$tablename);
+               $this->oLogger->log('Tables with the prefix '.$this->aDsn['table']['prefix'].' were found: '.$tablename);
+               if ($tablePrefixError == false) {
+                   $this->oLogger->logError('The Database you have chosen already contains Tables with the Prefix "'.$this->aDsn['table']['prefix'].'". <br>Please either remove these Tables or choose a new Prefix.');
+                   $tablePrefixError = true;
+               }
             }
         }
         return $result;
