@@ -41,7 +41,7 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 phpAds_registerGlobal('newaffiliateid', 'returnurl', 'duplicate');
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
 
 if (!MAX_checkZone($affiliateid, $zoneid)) {
     phpAds_Die($strAccessDenied, $strNotAdmin);
@@ -52,33 +52,41 @@ if (!MAX_checkZone($affiliateid, $zoneid)) {
 /*-------------------------------------------------------*/
 
 if (isset($zoneid) && $zoneid != '') {
+
+    MAX_Permission::checkAccessToObject('zones', $zoneid);
+
     if (isset($newaffiliateid) && $newaffiliateid != '') {
-        // Move the zone
-        // Needs to ensure that the publisher the zone is being moved to is
-        // owned by the agency, if an agency is logged in.
-        if (phpAds_isUser(phpAds_Agency)) {
+        // A publisher cannot move a zone to another publisher!
+        if (phpAds_isUser(phpAds_Affiliate)) {
+            phpAds_Die($strAccessDenied, $strNotAdmin);
+        }
+        // Needs to ensure that the publisher the zone is being moved
+        // to is owned by the agency, if an agency is logged in
+        if (phpAds_isUser(phpAds_Agency + phpAds_Affiliate)) {
             if (!MAX_checkPublisher($newaffiliateid)) {
                 phpAds_Die($strAccessDenied, $strNotAdmin);
             }
         }
-
         // Move the zone to the new Publisher/Affiliate
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->get($zoneid);
         $doZones->affiliateid = $newaffiliateid;
         $doZones->update();
-
-        Header ("Location: ".$returnurl."?affiliateid=".$newaffiliateid."&zoneid=".$zoneid);
+        Header("Location: ".$returnurl."?affiliateid=".$newaffiliateid."&zoneid=".$zoneid);
         exit;
 
     } elseif (isset($duplicate) && $duplicate == 'true') {
+        // Can the user add new zones?
+        MAX_Permission::checkIsAllowed(phpAds_AddZone);
         // Duplicate the zone
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->get($zoneid);
         $new_zoneid = $doZones->duplicate();
-        Header ("Location: ".$returnurl."?affiliateid=".$affiliateid."&zoneid=".$new_zoneid);
+        Header("Location: ".$returnurl."?affiliateid=".$affiliateid."&zoneid=".$new_zoneid);
         exit;
+
     }
+
 }
 
 Header("Location: ".$returnurl."?affiliateid=".$affiliateid."&zoneid=".$zoneid);
