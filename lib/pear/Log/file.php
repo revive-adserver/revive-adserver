@@ -1,8 +1,8 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log/file.php,v 1.37 2004/01/19 08:02:40 jon Exp $
+ * $Header: /repository/pear/Log/Log/file.php,v 1.46 2006/12/07 04:15:02 jon Exp $
  *
- * @version $Revision: 1.37 $
+ * @version $Revision: 1.46 $
  * @package Log
  */
 
@@ -42,11 +42,26 @@ class Log_file extends Log
     var $_append = true;
 
     /**
+     * Should advisory file locking (i.e., flock()) be used?
+     * @var boolean
+     * @access private
+     */
+    var $_locking = false;
+
+    /**
      * Integer (in octal) containing the log file's permissions mode.
      * @var integer
      * @access private
      */
     var $_mode = 0644;
+
+    /**
+     * Integer (in octal) specifying the file permission mode that will be
+     * used when creating directories that do not already exist.
+     * @var integer
+     * @access private
+     */
+    var $_dirmode = 0755;
 
     /**
      * String containing the format of a log line.
@@ -63,18 +78,6 @@ class Log_file extends Log
      * @access private
      */
     var $_timeFormat = '%b %d %H:%M:%S';
-
-    /**
-     * Hash that maps canonical format keys to position arguments for the
-     * "line format" string.
-     * @var array
-     * @access private
-     */
-    var $_formatMap = array('%{timestamp}'  => '%1$s',
-                            '%{ident}'      => '%2$s',
-                            '%{priority}'   => '%3$s',
-                            '%{message}'    => '%4$s',
-                            '%\{'           => '%%{');
 
     /**
      * String containing the end-on-line character sequence.
@@ -104,8 +107,24 @@ class Log_file extends Log
             $this->_append = $conf['append'];
         }
 
+        if (isset($conf['locking'])) {
+            $this->_locking = $conf['locking'];
+        }
+
         if (!empty($conf['mode'])) {
-            $this->_mode = $conf['mode'];
+            if (is_string($conf['mode'])) {
+                $this->_mode = octdec($conf['mode']);
+            } else {
+                $this->_mode = $conf['mode'];
+            }
+        }
+
+        if (!empty($conf['dirmode'])) {
+            if (is_string($conf['dirmode'])) {
+                $this->_dirmode = octdec($conf['dirmode']);
+            } else {
+                $this->_dirmode = $conf['dirmode'];
+            }
         }
 
         if (!empty($conf['lineFormat'])) {
@@ -141,6 +160,8 @@ class Log_file extends Log
      * Creates the given directory path.  If the parent directories don't
      * already exist, they will be created, too.
      *
+     * This implementation is inspired by Python's os.makedirs function.
+     *
      * @param   string  $path       The full directory path to create.
      * @param   integer $mode       The permissions mode with which the
      *                              directories will be created.
@@ -152,33 +173,23 @@ class Log_file extends Log
      */
     function _mkpath($path, $mode = 0700)
     {
-        static $depth = 0;
+        /* Separate the last pathname component from the rest of the path. */
+        $head = dirname($path);
+        $tail = basename($path);
 
-        /* Guard against potentially infinite recursion. */
-        if ($depth++ > 25) {
-            trigger_error("_mkpath(): Maximum recursion depth (25) exceeded",
-                          E_USER_WARNING);
-            return false;
+        /* Make sure we've split the path into two complete components. */
+        if (empty($tail)) {
+            $head = dirname($path);
+            $tail = basename($path);
         }
 
-        /* We're only interested in the directory component of the path. */
-        $path = dirname($path);
-
-        /* If the directory already exists, return success immediately. */
-        if (is_dir($path)) {
-            $depth = 0;
-            return true;
+        /* Recurse up the path if our current segment does not exist. */
+        if (!empty($head) && !empty($tail) && !is_dir($head)) {
+            $this->_mkpath($head, $mode);
         }
 
-        /*
-         * In order to understand recursion, you must first understand
-         * recursion ...
-         */
-        if ($this->_mkpath($path, $mode) === false) {
-            return false;
-        }
-
-        return @mkdir($path, $mode);
+        /* Create this segment of the path. */
+        return @mkdir($head, $mode);
     }
 
     /**
@@ -195,16 +206,22 @@ class Log_file extends Log
         if (!$this->_opened) {
             /* If the log file's directory doesn't exist, create it. */
             if (!is_dir(dirname($this->_filename))) {
-                $this->_mkpath($this->_filename);
+                $this->_mkpath($this->_filename, $this->_dirmode);
             }
+
+            /* Determine whether the log file needs to be created. */
+            $creating = !file_exists($this->_filename);
 
             /* Obtain a handle to the log file. */
             $this->_fp = fopen($this->_filename, ($this->_append) ? 'a' : 'w');
 
+            /* We consider the file "opened" if we have a valid file pointer. */
             $this->_opened = ($this->_fp !== false);
 
-            /* Attempt to set the log file's mode. */
-            @chmod($this->_filename, $this->_mode);
+            /* Attempt to set the file's permissions if we just created it. */
+            if ($creating && $this->_opened) {
+                chmod($this->_filename, $this->_mode);
+            }
         }
 
         return $this->_opened;
@@ -233,7 +250,11 @@ class Log_file extends Log
      */
     function flush()
     {
-        return fflush($this->_fp);
+        if (is_resource($this->_fp)) {
+            return fflush($this->_fp);
+        }
+
+        return false;
     }
 
     /**
@@ -269,18 +290,27 @@ class Log_file extends Log
         $message = $this->_extractMessage($message);
 
         /* Build the string containing the complete log line. */
-        $line = sprintf($this->_lineFormat, strftime($this->_timeFormat),
-                $this->_ident, $this->priorityToString($priority),
-                $message) . $this->_eol;
+        $line = $this->_format($this->_lineFormat,
+                               strftime($this->_timeFormat),
+                               $priority, $message) . $this->_eol;
+
+        /* If locking is enabled, acquire an exclusive lock on the file. */
+        if ($this->_locking) {
+            flock($this->_fp, LOCK_EX);
+        }
 
         /* Write the log line to the log file. */
         $success = (fwrite($this->_fp, $line) !== false);
+
+        /* Unlock the file now that we're finished writing to it. */ 
+        if ($this->_locking) {
+            flock($this->_fp, LOCK_UN);
+        }
 
         /* Notify observers about this log message. */
         $this->_announce(array('priority' => $priority, 'message' => $message));
 
         return $success;
     }
-}
 
-?>
+}

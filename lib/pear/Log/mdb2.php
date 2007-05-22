@@ -1,28 +1,21 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log/sql.php,v 1.40 2006/01/03 04:12:45 jon Exp $
- * $Horde: horde/lib/Log/sql.php,v 1.12 2000/08/16 20:27:34 chuck Exp $
+ * $Header: /repository/pear/Log/Log/mdb2.php,v 1.5 2006/01/08 03:35:44 jon Exp $
  *
- * @version $Revision: 1.40 $
+ * @version $Revision: 1.5 $
  * @package Log
  */
 
-/*
- * We require the PEAR DB class.  This is generally defined in the DB.php file,
- * but it's possible that the caller may have provided the DB class, or a
- * compatible wrapper (such as the one shipped with MDB2), so we first check
- * for an existing 'DB' class before including 'DB.php'.
- */
-if (!class_exists('DB')) {
-    require_once 'DB.php';
-}
+/** PEAR's MDB2 package */
+require_once 'MDB2.php';
+MDB2::loadFile('Date');
 
 /**
- * The Log_sql class is a concrete implementation of the Log::
- * abstract class which sends messages to an SQL server.  Each entry
- * occupies a separate row in the database.
+ * The Log_mdb2 class is a concrete implementation of the Log:: abstract class
+ * which sends messages to an SQL server.  Each entry occupies a separate row
+ * in the database.
  *
- * This implementation uses PHP's PEAR database abstraction layer.
+ * This implementation uses PEAR's MDB2 database abstraction layer.
  *
  * CREATE TABLE log_table (
  *  id          INT NOT NULL,
@@ -33,14 +26,12 @@ if (!class_exists('DB')) {
  *  PRIMARY KEY (id)
  * );
  *
+ * @author  Lukas Smith <smith@backendmedia.com>
  * @author  Jon Parise <jon@php.net>
- * @since   Horde 1.3
- * @since   Log 1.0
+ * @since   Log 1.9.0
  * @package Log
- *
- * @example sql.php     Using the SQL handler.
  */
-class Log_sql extends Log
+class Log_mdb2 extends Log
 {
     /**
      * Variable containing the DSN information.
@@ -48,14 +39,6 @@ class Log_sql extends Log
      * @access private
      */
     var $_dsn = '';
-
-    /**
-     * String containing the SQL insertion statement.
-     *
-     * @var string
-     * @access private
-     */
-    var $_sql = '';
 
     /**
      * Array containing our set of DB configuration options.
@@ -107,6 +90,18 @@ class Log_sql extends Log
      */
     var $_identLimit = 16;
 
+    /**
+     * Set of field types used in the database table.
+     * @var array
+     * @access private
+     */
+    var $_types = array(
+        'id'        => 'integer',
+        'logtime'   => 'timestamp',
+        'ident'     => 'text',
+        'priority'  => 'text',
+        'message'   => 'clob'
+    );
 
     /**
      * Constructs a new sql logging object.
@@ -117,21 +112,12 @@ class Log_sql extends Log
      * @param int $level           Log messages up to and including this level.
      * @access public
      */
-    function Log_sql($name, $ident = '', $conf = array(),
+    function Log_mdb2($name, $ident = '', $conf = array(),
                      $level = PEAR_LOG_DEBUG)
     {
         $this->_id = md5(microtime());
         $this->_table = $name;
         $this->_mask = Log::UPTO($level);
-
-        /* Now that we have a table name, assign our SQL statement. */
-        if (!empty($this->_sql)) {
-            $this->_sql = $conf['sql'];
-        } else {
-            $this->_sql = 'INSERT INTO ' . $this->_table .
-                          ' (id, logtime, ident, priority, message)' .
-                          ' VALUES(?, CURRENT_TIMESTAMP, ?, ?, ?)';
-        }
 
         /* If an options array was provided, use it. */
         if (isset($conf['options']) && is_array($conf['options'])) {
@@ -156,6 +142,10 @@ class Log_sql extends Log
             $this->_db = &$conf['db'];
             $this->_existingConnection = true;
             $this->_opened = true;
+        } elseif (isset($conf['singleton'])) {
+            $this->_db = &MDB2::singleton($conf['singleton'], $this->_options);
+            $this->_existingConnection = true;
+            $this->_opened = true;
         } else {
             $this->_dsn = $conf['dsn'];
         }
@@ -172,8 +162,8 @@ class Log_sql extends Log
     {
         if (!$this->_opened) {
             /* Use the DSN and options to create a database connection. */
-            $this->_db = &DB::connect($this->_dsn, $this->_options);
-            if (DB::isError($this->_db)) {
+            $this->_db = &MDB2::connect($this->_dsn, $this->_options);
+            if (PEAR::isError($this->_db)) {
                 return false;
             }
 
@@ -199,9 +189,15 @@ class Log_sql extends Log
      */
     function close()
     {
+        /* If we have a statement object, free it. */
+        if (is_object($this->_statement)) {
+            $this->_statement->free();
+            $this->_statement = null;
+        }
+
+        /* If we opened the database connection, disconnect it. */
         if ($this->_opened && !$this->_existingConnection) {
             $this->_opened = false;
-            $this->_db->freePrepared($this->_statement);
             return $this->_db->disconnect();
         }
 
@@ -253,7 +249,7 @@ class Log_sql extends Log
             return false;
         }
 
-        /* If we don't already have our statement object yet, create it. */
+        /* If we don't already have a statement object, create one. */
         if (!is_object($this->_statement) && !$this->_prepareStatement()) {
             return false;
         }
@@ -262,16 +258,80 @@ class Log_sql extends Log
         $message = $this->_extractMessage($message);
 
         /* Build our set of values for this log entry. */
-        $id = $this->_db->nextId($this->_sequence);
-        $values = array($id, $this->_ident, $priority, $message);
+        $values = array(
+            'id'       => $this->_db->nextId($this->_sequence),
+            'logtime'  => MDB2_Date::mdbNow(),
+            'ident'    => $this->_ident,
+            'priority' => $priority,
+            'message'  => $message
+        );
 
         /* Execute the SQL query for this log entry insertion. */
-        $result =& $this->_db->execute($this->_statement, $values);
-        if (DB::isError($result)) {
-            return false;
+        $this->_db->expectError(MDB2_ERROR_NOSUCHTABLE);
+        $result = &$this->_statement->execute($values);
+        $this->_db->popExpect();
+
+        /* Attempt to handle any errors. */
+        if (PEAR::isError($result)) {
+            /* We can only handle MDB2_ERROR_NOSUCHTABLE errors. */
+            if ($result->getCode() != MDB2_ERROR_NOSUCHTABLE) {
+                return false;
+            }
+
+            /* Attempt to create the target table. */
+            if (!$this->_createTable()) {
+                return false;
+            }
+
+            /* Recreate our prepared statement resource. */
+            $this->_statement->free();
+            if (!$this->_prepareStatement()) {
+                return false;
+            }
+
+            /* Attempt to re-execute the insertion query. */
+            $result = $this->_statement->execute($values);
+            if (PEAR::isError($result)) {
+                return false;
+            }
         }
 
         $this->_announce(array('priority' => $priority, 'message' => $message));
+
+        return true;
+    }
+
+    /**
+     * Create the log table in the database.
+     *
+     * @return boolean  True on success or false on failure.
+     * @access private
+     */
+    function _createTable()
+    {
+        $this->_db->loadModule('Manager', null, true);
+        $result = $this->_db->manager->createTable(
+            $this->_table,
+            array(
+                'id'        => array('type' => $this->_types['id']),
+                'logtime'   => array('type' => $this->_types['logtime']),
+                'ident'     => array('type' => $this->_types['ident']),
+                'priority'  => array('type' => $this->_types['priority']),
+                'message'   => array('type' => $this->_types['message'])
+            )
+        );
+        if (PEAR::isError($result)) {
+            return false;
+        }
+
+        $result = $this->_db->manager->createIndex(
+            $this->_table,
+            'unique_id',
+            array('fields' => array('id' => true), 'unique' => true)
+        );
+        if (PEAR::isError($result)) {
+            return false;
+        }
 
         return true;
     }
@@ -282,13 +342,17 @@ class Log_sql extends Log
      * @return boolean  True if the statement was successfully created.
      *
      * @access  private
-     * @since   Log 1.9.1
+     * @since   Log 1.9.0
      */
     function _prepareStatement()
     {
-        $this->_statement = $this->_db->prepare($this->_sql);
+        $this->_statement = &$this->_db->prepare(
+                'INSERT INTO ' . $this->_table .
+                ' (id, logtime, ident, priority, message)' .
+                ' VALUES(:id, :logtime, :ident, :priority, :message)',
+                $this->_types, MDB2_PREPARE_MANIP);
 
         /* Return success if we didn't generate an error. */
-        return (DB::isError($this->_statement) === false);
+        return (PEAR::isError($this->_statement) === false);
     }
 }

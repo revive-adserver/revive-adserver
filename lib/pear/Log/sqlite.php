@@ -1,22 +1,10 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
-// +----------------------------------------------------------------------+
-// | PHP version 4.0                                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2004 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 2.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
-// | http://www.php.net/license/2_02.txt.                                 |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Authors: Bertrand Mansion <bmansion@mamasam.com>                     |
-// +----------------------------------------------------------------------+
-//
-// $Id$
+/**
+ * $Header: /repository/pear/Log/Log/sqlite.php,v 1.5 2005/12/05 05:38:31 jon Exp $
+ *
+ * @version $Revision: 1.5 $
+ * @package Log
+ */
 
 /**
  * The Log_sqlite class is a concrete implementation of the Log::
@@ -81,7 +69,7 @@ class Log_sqlite extends Log
      *                             to open a new database connection
      *                             or an already opened sqlite connection.
      * @param int    $level        Log messages up to and including this level.
-     * @access public     
+     * @access public
      */
     function Log_sqlite($name, $ident = '', &$conf, $level = PEAR_LOG_DEBUG)
     {
@@ -106,7 +94,7 @@ class Log_sqlite extends Log
      * been opened. This is implicitly called by log(), if necessary.
      *
      * @return boolean   True on success, false on failure.
-     * @access public     
+     * @access public
      */
     function open()
     {
@@ -139,7 +127,7 @@ class Log_sqlite extends Log
      * existing connection that was passed to us via $conf['db'].
      *
      * @return boolean   True on success, false on failure.
-     * @access public     
+     * @access public
      */
     function close()
     {
@@ -167,7 +155,7 @@ class Log_sqlite extends Log
      *                  PEAR_LOG_CRIT, PEAR_LOG_ERR, PEAR_LOG_WARNING,
      *                  PEAR_LOG_NOTICE, PEAR_LOG_INFO, and PEAR_LOG_DEBUG.
      * @return boolean  True on success or false on failure.
-     * @access public     
+     * @access public
      */
     function log($message, $priority = null)
     {
@@ -233,6 +221,5 @@ class Log_sqlite extends Log
 
         return true;
     }
-}
 
-?>
+}

@@ -1,70 +1,70 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log/mcal.php,v 1.17 2004/01/19 08:02:40 jon Exp $
+ * $Header: /repository/pear/Log/Log/mcal.php,v 1.18 2005/02/26 14:48:58 chagenbu Exp $
  * $Horde: horde/lib/Log/mcal.php,v 1.2 2000/06/28 21:36:13 jon Exp $
  *
- * @version $Revision: 1.17 $
- * @package Log 
+ * @version $Revision: 1.18 $
+ * @package Log
  */
 
 /**
  * The Log_mcal class is a concrete implementation of the Log::
  * abstract class which sends messages to a local or remote calendar
  * store accessed through MCAL.
- * 
+ *
  * @author  Chuck Hagenbuch <chuck@horde.org>
  * @since Horde 1.3
  * @since Log 1.0
- * @package Log 
+ * @package Log
  */
-class Log_mcal extends Log {
-
+class Log_mcal extends Log
+{
     /**
-    * holding the calendar specification to connect to. 
-    * @var string
-    * @access private
-    */
+     * holding the calendar specification to connect to.
+     * @var string
+     * @access private
+     */
     var $_calendar = '{localhost/mstore}';
 
-    /** 
-    * holding the username to use. 
-    * @var string
-    * @access private
-    */
+    /**
+     * holding the username to use.
+     * @var string
+     * @access private
+     */
     var $_username = '';
 
-    /** 
-    * holding the password to use. 
-    * @var string
-    * @access private
-    */
+    /**
+     * holding the password to use.
+     * @var string
+     * @access private
+     */
     var $_password = '';
 
-    /** 
-    * holding the options to pass to the calendar stream. 
-    * @var integer
-    * @access private
-    */
+    /**
+     * holding the options to pass to the calendar stream.
+     * @var integer
+     * @access private
+     */
     var $_options = 0;
 
-    /** 
-    * ResourceID of the MCAL stream. 
-    * @var string
-    * @access private
-    */
+    /**
+     * ResourceID of the MCAL stream.
+     * @var string
+     * @access private
+     */
     var $_stream = '';
 
-    /** 
-    * Integer holding the log facility to use. 
-    * @var string
-    * @access private
-    */
+    /**
+     * Integer holding the log facility to use.
+     * @var string
+     * @access private
+     */
     var $_name = LOG_SYSLOG;
 
 
     /**
      * Constructs a new Log_mcal object.
-     * 
+     *
      * @param string $name     The category to use for our events.
      * @param string $ident    The identity string.
      * @param array  $conf     The configuration array.
@@ -91,10 +91,6 @@ class Log_mcal extends Log {
      */
     function open()
     {
-        if(!function_exists(mcal_open)) {
-            return false;
-        }
-
         if (!$this->_opened) {
             $this->_stream = mcal_open($this->_calendar, $this->_username,
                 $this->_password, $this->_options);
@@ -123,7 +119,7 @@ class Log_mcal extends Log {
      * calendar stream. Calls open() if necessary. Also passes the
      * message along to any Log_observer instances that are observing
      * this Log.
-     * 
+     *
      * @param mixed  $message  String or object containing the message to log.
      * @param string $priority The priority of the message. Valid
      *                  values are: PEAR_LOG_EMERG, PEAR_LOG_ALERT,
@@ -170,6 +166,5 @@ class Log_mcal extends Log {
 
         return true;
     }
-}
 
-?>
+}

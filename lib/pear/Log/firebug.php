@@ -1,30 +1,25 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log/console.php,v 1.24 2006/12/07 04:15:02 jon Exp $
+ * $Header: /repository/pear/Log/Log/firebug.php,v 1.3 2007/02/19 10:52:25 tuupola Exp $
  *
- * @version $Revision: 1.24 $
+ * @version $Revision: 1.3 $
  * @package Log
  */
 
 /**
- * The Log_console class is a concrete implementation of the Log::
- * abstract class which writes message to the text console.
- * 
- * @author  Jon Parise <jon@php.net>
- * @since   Log 1.1
+ * The Log_firebug class is a concrete implementation of the Log::
+ * abstract class which writes message into Firebug console.
+ *
+ * http://www.getfirebug.com/
+ *
+ * @author  Mika Tuupola <tuupola@appelsiini.net>
+ * @since   Log 1.x.x
  * @package Log
  *
- * @example console.php     Using the console handler.
+ * @example firebug.php     Using the firebug handler.
  */
-class Log_console extends Log
+class Log_firebug extends Log
 {
-    /**
-     * Handle to the current output stream.
-     * @var resource
-     * @access private
-     */
-    var $_stream = STDOUT;
-
     /**
      * Should the output be buffered or displayed immediately?
      * @var string
@@ -37,46 +32,64 @@ class Log_console extends Log
      * @var string
      * @access private
      */
-    var $_buffer = '';
+    var $_buffer = array();
 
     /**
      * String containing the format of a log line.
      * @var string
      * @access private
      */
-    var $_lineFormat = '%1$s %2$s [%3$s] %4$s';
+    var $_lineFormat = '%2$s [%3$s] %4$s';
 
     /**
      * String containing the timestamp format.  It will be passed directly to
      * strftime().  Note that the timestamp string will generated using the
      * current locale.
+     *
+     * Note! Default lineFormat of this driver does not display time.
+     *
      * @var string
      * @access private
      */
     var $_timeFormat = '%b %d %H:%M:%S';
 
     /**
-     * Constructs a new Log_console object.
-     * 
+     * Mapping of log priorities to Firebug methods.
+     * @var array
+     * @access private
+     */
+    var $_methods = array(
+                        PEAR_LOG_EMERG   => 'error',
+                        PEAR_LOG_ALERT   => 'error',
+                        PEAR_LOG_CRIT    => 'error',
+                        PEAR_LOG_ERR     => 'error',
+                        PEAR_LOG_WARNING => 'warn',
+                        PEAR_LOG_NOTICE  => 'info',
+                        PEAR_LOG_INFO    => 'info',
+                        PEAR_LOG_DEBUG   => 'debug'
+                    );
+
+    /**
+     * Constructs a new Log_firebug object.
+     *
      * @param string $name     Ignored.
      * @param string $ident    The identity string.
      * @param array  $conf     The configuration array.
      * @param int    $level    Log messages up to and including this level.
      * @access public
      */
-    function Log_console($name, $ident = '', $conf = array(),
+    function Log_firebug($name = '', $ident = 'PHP', $conf = array(),
                          $level = PEAR_LOG_DEBUG)
     {
         $this->_id = md5(microtime());
         $this->_ident = $ident;
         $this->_mask = Log::UPTO($level);
-
-        if (!empty($conf['stream'])) {
-            $this->_stream = $conf['stream'];
-        }
-
         if (isset($conf['buffering'])) {
             $this->_buffering = $conf['buffering'];
+        }
+
+        if ($this->_buffering) {
+            register_shutdown_function(array(&$this, '_Log_firebug'));
         }
 
         if (!empty($conf['lineFormat'])) {
@@ -88,29 +101,12 @@ class Log_console extends Log
         if (!empty($conf['timeFormat'])) {
             $this->_timeFormat = $conf['timeFormat'];
         }
-
-        /*
-         * If output buffering has been requested, we need to register a
-         * shutdown function that will dump the buffer upon termination.
-         */
-        if ($this->_buffering) {
-            register_shutdown_function(array(&$this, '_Log_console'));
-        }
     }
 
     /**
-     * Destructor
-     */
-    function _Log_console()
-    {
-        $this->close();
-    }
-
-    /**
-     * Open the output stream.
+     * Opens the firebug handler.
      *
-     * @access public
-     * @since Log 1.9.7
+     * @access  public
      */
     function open()
     {
@@ -119,12 +115,17 @@ class Log_console extends Log
     }
 
     /**
-     * Closes the output stream.
+     * Destructor
+     */
+    function _Log_firebug()
+    {
+        $this->close();
+    }
+
+    /**
+     * Closes the firebug handler.
      *
-     * This results in a call to flush().
-     *
-     * @access public
-     * @since Log 1.9.0
+     * @access  public
      */
     function close()
     {
@@ -134,33 +135,25 @@ class Log_console extends Log
     }
 
     /**
-     * Flushes all pending ("buffered") data to the output stream.
+     * Flushes all pending ("buffered") data.
      *
      * @access public
-     * @since Log 1.8.2
      */
-    function flush()
-    {
-        /*
-         * If output buffering is enabled, dump the contents of the buffer to
-         * the output stream.
-         */
-        if ($this->_buffering && (strlen($this->_buffer) > 0)) {
-            fwrite($this->_stream, $this->_buffer);
-            $this->_buffer = '';
-        }
- 
-        if (is_resource($this->_stream)) {
-            return fflush($this->_stream);
-        }
-
-        return false;
+    function flush() {
+        if (count($this->_buffer)) {
+            print '<script type="text/javascript">' . "\n";
+            foreach ($this->_buffer as $line) {
+                print "$line\n";
+            }
+            print "</script>\n";
+        };
+        $this->_buffer = array();
     }
 
     /**
-     * Writes $message to the text console. Also, passes the message
+     * Writes $message to Firebug console. Also, passes the message
      * along to any Log_observer instances that are observing this Log.
-     * 
+     *
      * @param mixed  $message    String or object containing the message to log.
      * @param string $priority The priority of the message.  Valid
      *                  values are: PEAR_LOG_EMERG, PEAR_LOG_ALERT,
@@ -183,22 +176,31 @@ class Log_console extends Log
 
         /* Extract the string representation of the message. */
         $message = $this->_extractMessage($message);
-
+        $method  = $this->_methods[$priority];
+        
+        /* normalize line breaks */
+        $message = str_replace("\r\n", "\n", $message);
+        
+        /* escape line breaks */
+        $message = str_replace("\n", "\\n\\\n", $message);
+        
+        /* escape quotes */
+        $message = str_replace('"', '\\"', $message);
+        
         /* Build the string containing the complete log line. */
         $line = $this->_format($this->_lineFormat,
                                strftime($this->_timeFormat),
-                               $priority, $message) . "\n";
+                               $priority, 
+                               $message);
 
-        /*
-         * If buffering is enabled, append this line to the output buffer.
-         * Otherwise, print the line to the output stream immediately.
-         */
         if ($this->_buffering) {
-            $this->_buffer .= $line;
+            $this->_buffer[] = sprintf('console.%s("%s");', $method, $line);
         } else {
-            fwrite($this->_stream, $line);
+            print '<script type="text/javascript">';
+            /* Build and output the complete log line. */
+            printf('console.%s("%s");', $method, $line);
+            print "</script>\n";
         }
-
         /* Notify observers about this log message. */
         $this->_announce(array('priority' => $priority, 'message' => $message));
 
