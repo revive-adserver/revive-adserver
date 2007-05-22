@@ -164,6 +164,13 @@ class XML_Parser extends PEAR
      */
     var $_handlerObj;
 
+    /**
+     * valid encodings
+     *
+     * @var array
+     */
+    var $_validEncodings = array('ISO-8859-1', 'UTF-8', 'US-ASCII');
+
     // }}}
     // {{{ constructor
 
@@ -221,7 +228,7 @@ class XML_Parser extends PEAR
      *
      * @access  public
      * @param   string          mode, either 'func' or 'event'
-     * @return  boolean|object  true on success, PEAR_Error otherwise   
+     * @return  boolean|object  true on success, PEAR_Error otherwise
      */
     function setMode($mode)
     {
@@ -332,8 +339,10 @@ class XML_Parser extends PEAR
                 return $result;
             }
             xml_parser_set_option($xp, XML_OPTION_CASE_FOLDING, $this->folding);
-
             return true;
+        }
+        if (!in_array(strtoupper($this->srcenc), $this->_validEncodings)) {
+            return $this->raiseError('invalid source encoding', XML_PARSER_ERROR_INVALID_ENCODING);
         }
         return $this->raiseError('Unable to create XML parser resource.', XML_PARSER_ERROR_NO_RESOURCE);
     }
@@ -381,7 +390,7 @@ class XML_Parser extends PEAR
             	return $this->raiseError('Remote files cannot be parsed, as safe mode is enabled.', XML_PARSER_ERROR_REMOTE);
             }
         }
-        
+
         $fp = @fopen($file, 'rb');
         if (is_resource($fp)) {
             $this->fp = $fp;
@@ -392,12 +401,12 @@ class XML_Parser extends PEAR
 
     // }}}
     // {{{ setInputString()
-    
+
     /**
      * XML_Parser::setInputString()
-     * 
+     *
      * Sets the xml input from a string
-     * 
+     *
      * @param string $data a string containing the XML document
      * @return null
      **/
@@ -406,7 +415,7 @@ class XML_Parser extends PEAR
         $this->fp = $data;
         return null;
     }
-    
+
     // }}}
     // {{{ setInput()
 
@@ -414,7 +423,7 @@ class XML_Parser extends PEAR
      * Sets the file handle to use with parse().
      *
      * You should use setInputFile() or setInputString() if you
-     * pass a string 
+     * pass a string
      *
      * @param    mixed  $fp  Can be either a resource returned from fopen(),
      *                       a URL, a local filename or a string.
@@ -465,7 +474,7 @@ class XML_Parser extends PEAR
         }
         // if $this->fp was fopened previously
         if (is_resource($this->fp)) {
-        
+
             while ($data = fread($this->fp, 4096)) {
                 if (!$this->_parseString($data, feof($this->fp))) {
                     $error = &$this->raiseError();
@@ -488,7 +497,7 @@ class XML_Parser extends PEAR
 
     /**
      * XML_Parser::_parseString()
-     * 
+     *
      * @param string $data
      * @param boolean $eof
      * @return bool
@@ -499,13 +508,13 @@ class XML_Parser extends PEAR
     {
         return xml_parse($this->parser, $data, $eof);
     }
-    
+
     // }}}
     // {{{ parseString()
 
     /**
      * XML_Parser::parseString()
-     * 
+     *
      * Parses a string.
      *
      * @param    string  $data XML data
@@ -519,7 +528,7 @@ class XML_Parser extends PEAR
         if (!isset($this->parser) || !is_resource($this->parser)) {
             $this->reset();
         }
-        
+
         if (!$this->_parseString($data, $eof)) {
            $error = &$this->raiseError();
            $this->free();
@@ -531,12 +540,12 @@ class XML_Parser extends PEAR
         }
         return true;
     }
-    
+
     /**
      * XML_Parser::free()
-     * 
+     *
      * Free the internal resources associated with the parser
-     * 
+     *
      * @return null
      **/
     function free()
@@ -551,15 +560,15 @@ class XML_Parser extends PEAR
         unset($this->fp);
         return null;
     }
-    
+
     /**
      * XML_Parser::raiseError()
-     * 
+     *
      * Throws a XML_Parser_Error
-     * 
+     *
      * @param string  $msg   the error message
      * @param integer $ecode the error message code
-     * @return XML_Parser_Error 
+     * @return XML_Parser_Error
      **/
     function raiseError($msg = null, $ecode = 0)
     {
@@ -567,16 +576,14 @@ class XML_Parser extends PEAR
         $err = &new XML_Parser_Error($msg, $ecode);
         return parent::raiseError($err);
     }
-    
+
     // }}}
     // {{{ funcStartHandler()
 
     function funcStartHandler($xp, $elem, $attribs)
     {
         $func = 'xmltag_' . $elem;
-        if (strchr($func, '.')) {
-            $func = str_replace('.', '_', $func);
-        }
+        $func = str_replace(array('.', '-', ':'), '_', $func);
         if (method_exists($this->_handlerObj, $func)) {
             call_user_func(array(&$this->_handlerObj, $func), $xp, $elem, $attribs);
         } elseif (method_exists($this->_handlerObj, 'xmltag')) {
@@ -590,9 +597,7 @@ class XML_Parser extends PEAR
     function funcEndHandler($xp, $elem)
     {
         $func = 'xmltag_' . $elem . '_';
-        if (strchr($func, '.')) {
-            $func = str_replace('.', '_', $func);
-        }
+        $func = str_replace(array('.', '-', ':'), '_', $func);
         if (method_exists($this->_handlerObj, $func)) {
             call_user_func(array(&$this->_handlerObj, $func), $xp, $elem);
         } elseif (method_exists($this->_handlerObj, 'xmltag_')) {
@@ -651,7 +656,7 @@ class XML_Parser_Error extends PEAR_Error
     * prefix for all messages
     *
     * @var      string
-    */    
+    */
     var $error_message_prefix = 'XML_Parser: ';
 
     // }}}
@@ -668,14 +673,15 @@ class XML_Parser_Error extends PEAR_Error
     * @param    integer             error code
     * @param    integer             error handling
     * @param    integer             error level
-    */    
+    */
     function XML_Parser_Error($msgorparser = 'unknown error', $code = 0, $mode = PEAR_ERROR_RETURN, $level = E_USER_NOTICE)
     {
         if (is_resource($msgorparser)) {
             $code = xml_get_error_code($msgorparser);
-            $msgorparser = sprintf('%s at XML input line %d',
+            $msgorparser = sprintf('%s at XML input line %d:%d',
                                    xml_error_string($code),
-                                   xml_get_current_line_number($msgorparser));
+                                   xml_get_current_line_number($msgorparser),
+                                   xml_get_current_column_number($msgorparser));
         }
         $this->PEAR_Error($msgorparser, $code, $mode, $level);
     }
