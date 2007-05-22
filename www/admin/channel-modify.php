@@ -7,6 +7,9 @@
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -21,71 +24,50 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: zone-modify.php 6710 2007-05-22 08:56:28Z andrew.hill@openads.org $
 */
 
+// Require the initialisation file
+require_once '../../init.php';
+
+// Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
+require_once MAX_PATH . '/www/admin/config.php';
 
-/**
- * A class for testing non standard DataObjects_Channel methods
- *
- * @package    MaxDal
- * @subpackage TestSuite
- *
- */
-class DataObjects_ChannelTest extends DalUnitTestCase
-{
-    /**
-     * The constructor method.
-     */
-    function DataObjects_ChannelTest()
-    {
-        $this->UnitTestCase();
-    }
+// Register input variables
+phpAds_registerGlobal('newaffiliateid', 'returnurl', 'duplicate');
 
+// Security check
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+if (isset($channelid) && $channelid != '') {
 
-    function testDelete()
-    {
+    MAX_Permission::checkAccessToObject('channel', $channelid);
+
+    if (isset($newaffiliateid) && $newaffiliateid != '') {
+        // A agency cannot move a channel
+        if (phpAds_isUser(phpAds_Agency)) {
+            phpAds_Die($strAccessDenied, $strNotAdmin);
+        }
+        // Move the channel to the new Publisher/Affiliate
         $doChannel = OA_Dal::factoryDO('channel');
-        $doChannel->acls_updated = '2007-04-03 19:29:54';
-        $channelId = DataGenerator::generateOne($doChannel);
+        $doChannel->get($channelid);
+        $doChannel->affiliateid = $newaffiliateid;
+        $doChannel->update();
+        Header("Location: ".$returnurl."?affiliateid=".$newaffiliateid."&channelid=".$channelid);
+        exit;
 
-        $doAcls = OA_Dal::factoryDO('acls');
-        $doAcls->bannerid = 1;
-        $doAcls->type = 'Site:Channel';
-        $doAcls->data = "$channelId";
-        $doAcls->executionorder = 1;
-        $doAcls->insert();
-        $doAcls->data = "$channelId, 196";
-        $doAcls->executionorder = 2;
-        $doAcls->insert();
-
-        $doChannel->channelid = $channelId;
-        $doChannel->delete();
-
-        $doAcls = OA_Dal::factoryDO('acls');
-        $this->assertEqual(1, $doAcls->count());
-    }
-
-    function testDuplicate()
-    {
+    } elseif (isset($duplicate) && $duplicate == 'true') {
+        // Duplicate the channel
         $doChannel = OA_Dal::factoryDO('channel');
-        $doChannel->acls_updated = '2007-04-03 19:29:54';
-        $channelId = DataGenerator::generateOne($doChannel);
-
-//        $doAcls = OA_Dal::factoryDO('acls');
-//        $doAcls->bannerid = 1;
-//        $doAcls->type = 'Site:Channel';
-//        $doAcls->data = "$channelId";
-//        $doAcls->executionorder = 1;
-//        $doAcls->insert();
-//        $doAcls->data = "$channelId, 196";
-//        $doAcls->executionorder = 2;
-//        $doAcls->insert();
-
-        $doChannel->duplicate()
+        $doChannel->get($channelid);
+        $new_channelid = $doChannel->duplicate();
+        Header("Location: ".$returnurl."?affiliateid=".$affiliateid."&channelid=".$new_channelid);
+        exit;
 
     }
+
 }
+
+Header("Location: ".$returnurl."?affiliateid=".$affiliateid."&channelid=".$channelid);
+
 ?>

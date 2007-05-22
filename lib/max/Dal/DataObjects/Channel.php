@@ -116,6 +116,27 @@ class DataObjects_Channel extends DB_DataObjectCommon
 
     	return parent::delete($useWhere, $cascade);
     }
+
+    function duplicate()
+    {
+        // Get channel acls
+        $doAcls = OA_Dal::factoryDO('acls');
+        $doAcls->channelid = $this->channelid;
+        $doAcls->find();
+
+        // Get unique name
+        $this->name = $this->getUniqueNameForDuplication('name');
+
+        // Duplicate channel
+        $this->channelid = null;
+        $newChannelid = $this->insert();
+
+        // Duplicate channel acls
+//        $doAcls->channelid = $newChannelid;
+//        $doAcls->insert();
+      
+        return $newChannelid;
+    }
 }
 
 ?>

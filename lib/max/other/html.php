@@ -1013,9 +1013,7 @@ function MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublish
         phpAds_PageShortcut($GLOBALS['strAffiliateProperties'], "affiliate-edit.php?affiliateid=$publisherId", 'images/icon-affiliate.gif');
         phpAds_PageShortcut($GLOBALS['strAffiliateHistory'], "stats.php?entity=affiliate&breakdown=history&affiliateid=$publisherId", 'images/icon-statistics.gif');
     }
-/*
-// channel-modify.php does not exist
-// ticket #80 is request for enhancement not defect
+
     $extra  = "
 <form action='channel-modify.php'>
 <input type='hidden' name='affiliateid' value='$publisherId'>
@@ -1024,8 +1022,8 @@ function MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublish
 <br /><br />
 <b>{$GLOBALS['strChannel']}</b><br />
 <img src='images/break.gif' height='1' width='160' vspace='4'><br />
-<img src='images/icon-duplicate-channel.gif' align='absmiddle'>&nbsp;<a href='channel-modify.php?duplicate=true&$entityString&returnurl=$pageName'>{$GLOBALS['strDuplicate']}</a><br />";
-*/
+<img src='images/icon-duplicate-channel.gif' align='absmiddle'>&nbsp;<a href='channel-modify.php?duplicate=true&{$entityString}returnurl=$pageName'>{$GLOBALS['strDuplicate']}</a><br />";
+
     $deleteReturlUrl = '';
     if ($channelType == 'publisher') {
         $deleteReturlUrl = 'affiliate-channels.php';
@@ -1078,7 +1076,7 @@ function MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublish
     $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteChannel']);
     $extra .= "
 <img src='images/break.gif' height='1' width='160' vspace='4'><br />
-<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='channel-delete.php?$entityString&returnurl={$deleteReturlUrl}'{$deleteConfirm}>{$GLOBALS['strDelete']}</a><br />
+<img src='images/icon-recycle.gif' align='absmiddle'>&nbsp;<a href='channel-delete.php?{$entityString}returnurl={$deleteReturlUrl}'{$deleteConfirm}>{$GLOBALS['strDelete']}</a><br />
 </form>";
 
     if (!empty($publisherId)) {
