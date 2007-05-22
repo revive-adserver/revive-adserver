@@ -41,16 +41,7 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 phpAds_registerGlobal('newaffiliateid', 'returnurl', 'duplicate');
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-MAX_Permission::checkIsAllowed(phpAds_AddZone);
-if (!empty($zoneid)) {
-    MAX_Permission::checkAccessToObject('zones', $zoneid);
-} else {
-    if (phpAds_isUser(phpAds_Affiliate)) {
-        $affiliateid = phpAds_getUserID();
-    }
-    MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
-}
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
 
 if (!MAX_checkZone($affiliateid, $zoneid)) {
     phpAds_Die($strAccessDenied, $strNotAdmin);
