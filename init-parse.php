@@ -58,7 +58,8 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
     // Is this a web, or a cli call?
     if (is_null($configFile) && !isset($_SERVER['SERVER_NAME'])) {
         if (!isset($GLOBALS['argv'][1])) {
-            exit(MAX_PRODUCT_NAME . " was called via the command line, but had no host as a parameter.\n");
+            echo MAX_PRODUCT_NAME . " was called via the command line, but had no host as a parameter.\n";
+            exit(1);
         }
         $host = trim($GLOBALS['argv'][1]);
     } else {
@@ -113,7 +114,8 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         if (file_exists($defaultConfig)) {
             return parse_ini_file($defaultConfig, $sections);
         } else {
-            die(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
+            MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin";
+            exit(1);
         }
     }
     // Got all this way, and no configuration file yet found - maybe
@@ -144,7 +146,8 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         {
             return parseIniFile($configPath, $configFile, $sections, '.ini');
         }
-        die(MAX_PRODUCT_NAME . " has been installed, but no configuration file ".$configPath . '/' . $host . $configFile . '.conf.php'." was found.\n");
+        echo MAX_PRODUCT_NAME . " has been installed, but no configuration file ".$configPath . '/' . $host . $configFile . '.conf.php'." was found.\n";
+        exit(1);
     }
     // Openads hasn't been installed, so use the distribution .ini file
     return @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', $sections);
