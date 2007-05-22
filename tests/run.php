@@ -62,6 +62,11 @@ if (defined('TEST_ENVIRONMENT_NO_CONFIG')) {
     exit();
 }
 
+if (!empty($runner->host)) {
+    // If host was set use it as a default one
+    $_SERVER['HTTP_HOST'] = $runner->host;
+}
+
 $start = microtime();
 
 // Store the type of test being run globally, to save passing

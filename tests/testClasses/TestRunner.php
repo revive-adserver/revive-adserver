@@ -84,6 +84,11 @@ class TestRunner
      */
     var $test_file_name;
 
+    /**
+     * @var string The host which should be used for tests
+     */
+    var $host;
+    
     /** @var int The number of times any run has failed.
      * @todo Consider querying report object instead of storing failures.
      */
@@ -332,6 +337,9 @@ class TestRunner
                     break;
                 case 'file':
                     $this->test_file_name = $value;
+                    break;
+                case 'host':
+                    $this->host = $value;
                     break;
             }
             // For compatibility with legacy Web runner, pretend that commandline arguments came in through GET

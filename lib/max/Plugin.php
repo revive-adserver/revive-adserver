@@ -524,6 +524,7 @@ class MAX_Plugin
         } else {
             $host = $_SERVER['SERVER_NAME'];
         }
+        
         return $host;
     }
 
