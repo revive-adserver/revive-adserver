@@ -31,6 +31,7 @@
     <include name="scripts/.htaccess"/>
     <include name="var/cache/README.txt"/>
     <include name="var/plugins/**"/>
+    <include name="var/templates_compiled"/>
     <include name="var/.htaccess"/>
     <include name="www/**"/>
     <exclude name="www/devel**"/>
@@ -67,6 +68,7 @@
     <include name="var/INSTALLED"/>
     <include name="var/cache/deliverycache_*"/><!-- Cache files -->
     <include name="var/cache/cache_*"/>
+    <include name="var/templates_compiled/**"/>
     <include name="www/devel/**"/>
     <include name="www/delivery_dev/**"/>
     <include name="www/upgrade_dev/**"/>
