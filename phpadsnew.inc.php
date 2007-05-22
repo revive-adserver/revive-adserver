@@ -46,12 +46,26 @@ if (!defined('PHPADSNEW_INCLUDED'))
 	// Required files
 	require MAX_PATH . '/lib/max/Delivery/adSelect.php';
 
+
 	function view_raw($what, $clientid = 0, $target = '', $source = '', $withtext = 0, $context = 0, $richmedia = true)
 	{
 		$output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, $richmedia, '', '', '');
 
 		return $output;
 	}
+
+	function view($what, $clientid = 0, $target = '', $source = '', $withtext = 0, $context = 0, $richmedia = true)
+    {
+        $output = view_raw($what, $clientid, "$target", "$source", $withtext, $context, $richmedia);
+
+        if (is_array($output))
+        {
+        	echo $output['html'];
+        	return $output['bannerid'];
+        }
+
+        return false;
+    }
 
 	// Prevent duplicate includes
 	define ('PHPADSNEW_INCLUDED', true);
