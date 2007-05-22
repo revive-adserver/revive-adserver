@@ -76,7 +76,7 @@ function OA_Delivery_Cache_fetch($name, $isHash = false)
     // We are assuming that most of the time cache will exists
     $ok = @include($filename);
 
-    if ( $ok &&  $cache_complete == true) {
+    if ($ok && $cache_complete == true) {
         // The method used to implement cache expiry imposes two cache writes if the cache is
         // expired and the database is available, but avoid the need to check for file existence
         // and modification time.
