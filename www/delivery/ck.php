@@ -71,14 +71,17 @@ if ($conf !== false) {
 // check for false here - it's possible
 return $conf;
 }
-die(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
+echo MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin";
+exit(1);
 }
 // Check to ensure Max hasn't been installed
 if (file_exists(MAX_PATH . '/var/INSTALLED')) {
-die(MAX_PRODUCT_NAME . " has been installed, but no configuration file was found.\n");
+echo MAX_PRODUCT_NAME . " has been installed, but no configuration file was found.\n";
+exit(1);
 }
 // Max hasn't been installed, so delivery engine can't run
-die(MAX_PRODUCT_NAME . " has not been installed yet -- please read the INSTALL.txt file.\n");
+echo MAX_PRODUCT_NAME . " has not been installed yet -- please read the INSTALL.txt file.\n";
+exit(1);
 }
 function setupConfigVariables()
 {
@@ -416,14 +419,17 @@ if ($conf !== false) {
 // check for false here - it's possible
 return $conf;
 }
-die(MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin");
+echo MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin";
+exit(1);
 }
 // Check to ensure Max hasn't been installed
 if (file_exists(MAX_PATH . '/var/INSTALLED')) {
-die(MAX_PRODUCT_NAME . " has been installed, but no configuration file was found.\n");
+echo MAX_PRODUCT_NAME . " has been installed, but no configuration file was found.\n";
+exit(1);
 }
 // Max hasn't been installed, so delivery engine can't run
-die(MAX_PRODUCT_NAME . " has not been installed yet -- please read the INSTALL.txt file.\n");
+echo MAX_PRODUCT_NAME . " has not been installed yet -- please read the INSTALL.txt file.\n";
+exit(1);
 }
 }
 $pluginTypeConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting', 'plugin');
@@ -1093,7 +1099,6 @@ header ("Location: $destination");
 function _getZoneAd($zoneId)
 {
 $conf = $GLOBALS['conf'];
-ll
 $file = '/lib/max/Delivery/cache.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
