@@ -40,7 +40,7 @@ require_once $path . '/../../init.php';
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Maintenance.php';
 
-$oMaint =& new MAX_Maintenance();
+$oMaint = new MAX_Maintenance();
 $oMaint->run();
 
 // Update scheduled maintenance last run record
