@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
 +---------------------------------------------------------------------------+
 | Openads v2.3                                                              |
 | ============                                                              |
@@ -86,7 +86,7 @@ class MAX_Emailer
 
     function send()
     {
-        $mime = & new Mail_mime($this->options['crlf']);
+        $mime = new Mail_mime($this->options['crlf']);
         $mime->setHTMLBody($this->html);
         $body = $mime->get();
         $hdrs = $mime->headers($this->headers);
