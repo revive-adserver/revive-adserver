@@ -5,7 +5,7 @@
  <name>openads</name>
  <create>true</create>
  <overwrite>false</overwrite>
- <version>514</version>
+ <version>515</version>
  <status>final</status>
 
  <table>
@@ -6526,10 +6526,10 @@
 
    <field>
     <name>gui_invocation_3rdparty_default</name>
-    <type>openads_smallint</type>
-    <length>6</length>
-    <notnull>false</notnull>
-    <default>0</default>
+    <type>openads_varchar</type>
+    <length>50</length>
+    <notnull>true</notnull>
+    <default></default>
    </field>
 
    <field>

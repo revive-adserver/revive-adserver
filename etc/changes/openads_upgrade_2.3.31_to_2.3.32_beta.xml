@@ -46,11 +46,18 @@
         </package>
         <package>
             <version>514</version>
-            <stamp>514</stamp>
             <schema>tables_core</schema>
             <file>schema_tables_core_514.xml</file>
             <file>changes_tables_core_514.xml</file>
             <file>migration_tables_core_514.php</file>
+        </package>
+        <package>
+            <version>515</version>
+            <stamp>515</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_515.xml</file>
+            <file>changes_tables_core_515.xml</file>
+            <file>migration_tables_core_515.php</file>
         </package>
     </database>
 
