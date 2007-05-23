@@ -32,6 +32,9 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Configuration.php';
 require_once MAX_PATH . '/lib/util/file/file.php';
 
 define('TMP_GEOCONFIG_PATH', GEOCONFIG_PATH . '.tmp');
+define('TEST_CONFIG_PATH', MAX_PATH . '/etc/changes/tests/data/config_2_0_12.inc.php');
+define('CONFIG_PATH', MAX_PATH . '/var/config.inc.php');
+define('TMP_CONFIG_PATH', MAX_PATH . '/var/config.inc.php.tmp');
 
 /**
  * Test for migration class #127.
@@ -46,10 +49,11 @@ class Migration_119Test extends MigrationTest
     {
         $this->initDatabase(119, array('config', 'preference'));
 
-        copy(
-           MAX_PATH.'/etc/changes/tests/data/config_2_0_12.inc.php',
-           MAX_PATH.'/var/config.inc.php'
-        );
+        if (file_exists(CONFIG_PATH)) {
+            rename(CONFIG_PATH, TMP_CONFIG_PATH);
+        }
+        
+        copy(TEST_CONFIG_PATH, CONFIG_PATH);
 
         $migration = new Migration_119();
         $migration->init($this->oDbh);
@@ -76,17 +80,16 @@ class Migration_119Test extends MigrationTest
             $this->assertEqual($value, $aDataPreference[$column]);
         }
 
-        unlink(MAX_PATH.'/var/config.inc.php');
+        unlink(CONFIG_PATH);
+        
+        if (file_exists(TMP_CONFIG_PATH)) {
+            rename(TMP_CONFIG_PATH, CONFIG_PATH);
+        }
     }
 
 
     function testCreateGeoTargetingConfiguration()
     {
-        copy(
-           MAX_PATH.'/etc/changes/tests/data/config_2_0_12.inc.php',
-           MAX_PATH.'/var/config.inc.php'
-        );
-
         if (file_exists(GEOCONFIG_PATH)) {
             rename(GEOCONFIG_PATH, TMP_GEOCONFIG_PATH);
         }
@@ -106,8 +109,6 @@ class Migration_119Test extends MigrationTest
         if (file_exists(TMP_GEOCONFIG_PATH)) {
             rename(TMP_GEOCONFIG_PATH, GEOCONFIG_PATH);
         }
-
-        unlink(MAX_PATH.'/var/config.inc.php');
     }
 
     /**
