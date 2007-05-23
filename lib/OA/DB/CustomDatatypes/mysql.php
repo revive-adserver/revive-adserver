@@ -1176,7 +1176,7 @@ function nativetype_char_callback(&$db, $aFields)
     // No unsigned value needed
     $unsigned = null;
     // Set fixed to false
-    $fixed = true;
+    $fixed = null;
     return array($aType, $length, $unsigned, $fixed);
 }
 
