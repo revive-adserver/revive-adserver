@@ -187,7 +187,7 @@ function _limitationsIsZoneCapped($zoneId, $cap, $sessionCap = 0, $block)
 function _limitationsIsCapped($type, $id, $cap, $sessionCap, $block)
 {
     // Always return true (capped) if cookies have been disabled by the viewer
-    if (_areCookiesDisabled(($cap > 0) || ($sessionCap > 0))) {
+    if (_areCookiesDisabled(($cap > 0) || ($sessionCap > 0) || ($block > 0))) {
         return true;
     }
     // Get the capping cookie name from the configuration file
@@ -208,7 +208,7 @@ function _limitationsIsCapped($type, $id, $cap, $sessionCap, $block)
     if (isset($_COOKIE[$cookieName][$id])) {
         $lastSeen = $_COOKIE[$cookieName][$id];
     }
-    
+
     // If the ad has been seen the requisite number of times...
     if ((($cap > 0) && isset($totalImpressions) && ($totalImpressions >= $cap)) ||
         (($sessionCap > 0) && isset($sessionImpressions) && ($sessionImpressions >= $sessionCap))) {
@@ -219,7 +219,7 @@ function _limitationsIsCapped($type, $id, $cap, $sessionCap, $block)
         } else {
             return true;
         }
-    } else if ($block > 0 && MAX_commonGetTimeNow() <= $lastSeen + $block) {
+    } else if ($block > 0  && ($cap == 0 && $sessionCap == 0) && MAX_commonGetTimeNow() <= $lastSeen + $block) {
         return true;
     } else {
         return false;

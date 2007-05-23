@@ -302,21 +302,19 @@ function MAX_cookieSendP3PHeaders() {
 function MAX_Delivery_cookie_setCapping($type, $id, $block = 0, $cap = 0, $sessionCap = 0)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    if ($block > 0 && $cap == 0 && $sessionCap == 0) {
-        // This blocking cookie is limited to 30 days
-        // Store a cookie using the current time so that the system knows when
-        // the last time this viewer saw this ad, an ad in this campaign or an
-        // ad in this zone
-        MAX_cookieSet("_{$conf['var']['block' . $type]}[{$id}]", MAX_commonGetTimeNow(), _getTimeThirtyDaysFromNow());
-    }
+    $setBlock = false;
+
     if ($cap > 0) {
         // This capping cookie requires a "permanent" expiration time
         $expire = MAX_commonGetTimeNow() + $conf['cookie']['permCookieSeconds'];
         // The unpack capping cookies function adds this value to the counter, so to reset it we add a negative number
-        if ($_COOKIE[$conf['var']['cap' . $type]][$id] >= $cap) {
+        if (!isset($_COOKIE[$conf['var']['cap' . $type]][$id])) {
+            $value = 1;
+            $setBlock = true;
+        } else if ($_COOKIE[$conf['var']['cap' . $type]][$id] >= $cap) {
             $value = -$_COOKIE[$conf['var']['cap' . $type]][$id]+1;
             // Also reset the last-seen when resetting the frequency counter
-            MAX_cookieSet("_{$conf['var']['block' . $type]}[{$id}]", MAX_commonGetTimeNow(), _getTimeThirtyDaysFromNow());
+            $setBlock = true;
         } else {
             $value = 1;
         }
@@ -326,14 +324,24 @@ function MAX_Delivery_cookie_setCapping($type, $id, $block = 0, $cap = 0, $sessi
         // The unpack capping cookies function deals with imcrementing the counter
         // The expiry is set to 0 to make a session cookie
         // The unpack capping cookies function adds this value to the counter, so to reset it we add a negative number
-        if ($_COOKIE[$conf['var']['sessionCap' . $type]][$id] >= $sessionCap) {
+        if (!isset($_COOKIE[$conf['var']['sessionCap' . $type]][$id])) {
+            $value = 1;
+            $setBlock = true;
+        } else if ($_COOKIE[$conf['var']['sessionCap' . $type]][$id] >= $sessionCap) {
             $value = -$_COOKIE[$conf['var']['sessionCap' . $type]][$id]+1;
             // Also reset the last-seen when resetting the frequency counter
-             MAX_cookieSet("_{$conf['var']['block' . $type]}[{$id}]", MAX_commonGetTimeNow(), _getTimeThirtyDaysFromNow());
+             $setBlock = true;
         } else {
             $value = 1;
         }
         MAX_cookieSet("_{$conf['var']['sessionCap' . $type]}[{$id}]", $value, 0);
+    }
+    if ($block > 0 || $setBlock) {
+        // This blocking cookie is limited to 30 days
+        // Store a cookie using the current time so that the system knows when
+        // the last time this viewer saw this ad, an ad in this campaign or an
+        // ad in this zone
+        MAX_cookieSet("_{$conf['var']['block' . $type]}[{$id}]", MAX_commonGetTimeNow(), _getTimeThirtyDaysFromNow());
     }
 }
 
