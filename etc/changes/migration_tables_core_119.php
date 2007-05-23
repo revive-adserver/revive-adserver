@@ -114,7 +114,7 @@ class Migration_119 extends Migration
                 $aPanConfig['geotracking_stats'],
                 $aPanConfig['geotracking_conf']);
 
-	        $sql = OA_DB_SQL::sqlForInsert($tablePreference, $aValues);
+	        $sql = OA_DB_SQL::sqlForInsert('preference', $aValues);
 	        $result = $this->oDBH->exec($sql);
 	        return (!PEAR::isError($result));
 	    }
