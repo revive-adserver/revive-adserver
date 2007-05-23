@@ -300,29 +300,29 @@ errorOverride       = true                  ; If true do not show notices
 showBacktrace       = false                 ; If true print backtrace
 
 [var]
-prefix              = MAX_          ; Used to prefix some variables and used in invocation codes
+prefix              = OA_           ; Used to prefix some variables and used in invocation codes
 cookieTest          = ct            ; Used for the forced cookie test redirect
 cacheBuster         = cb            ; Cache buster
 channel             = source        ; Channel of the website
-dest                = maxdest
-logClick            = log
-n                   = n
-params              = maxparams
-viewerId            = MAXID         ; Used for passing viewer ID cookie value
+dest                = oadest        ; Used to pass in a URL to redirect to after action
+logClick            = log           ; Used to indicate if a click should be logged
+n                   = n             ; Used to name a cookie containing displayed banner information
+params              = oaparams      ; Used to pass in custom delimited key=value pairs into an ad-call
+viewerId            = OAID          ; Used for passing viewer ID cookie value
 campaignId          = campaignid    ; Used for passing campaign ID cookie value
 adId                = bannerid      ; Used for passing ad ID cookie value
 creativeId          = cid           ; Used for passing creative ID cookie value
 zoneId              = zoneid        ; Used for passing zone ID cookie value
-blockAd             = MAXBLOCK      ; Used for passing banner blocking cookie value
-capAd               = MAXCAP        ; Used for passing banner capping cookie value
-sessionCapAd        = MAXSCAP       ; Used for passing session banner capping cookie value
-blockCampaign       = MAXCBLOCK     ; Used for passing campaign blocking cookie value
-capCampaign         = MAXCCAP       ; Used for passing campaign capping cookie value
-sessionCapCampaign  = MAXSCCAP      ; Used for passing session campaign capping cookie value
-blockZone           = MAXZBLOCK     ; Used for passing zone blocking cookie value
-capZone             = MAXZCAP       ; Used for passing zone capping cookie value
-sessionCapZone      = MAXSZCAP      ; Used for passing session zone capping cookie value
-vars                = MAXVARS       ; Used for passing variables
+blockAd             = OABLOCK       ; Used for passing banner blocking cookie value
+capAd               = OACAP         ; Used for passing banner capping cookie value
+sessionCapAd        = OASCAP        ; Used for passing session banner capping cookie value
+blockCampaign       = OACBLOCK      ; Used for passing campaign blocking cookie value
+capCampaign         = OACCAP        ; Used for passing campaign capping cookie value
+sessionCapCampaign  = OASCCAP       ; Used for passing session campaign capping cookie value
+blockZone           = OAZBLOCK      ; Used for passing zone blocking cookie value
+capZone             = OAZCAP        ; Used for passing zone capping cookie value
+sessionCapZone      = OASZCAP       ; Used for passing session zone capping cookie value
+vars                = OAVARS        ; Used for passing variables
 trackonly           = trackonly     ; Used to avoid redirecting after a click
 openads             = openads       ; Used as identifier for the adsense click tracking comments
 
