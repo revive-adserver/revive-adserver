@@ -670,7 +670,8 @@ function phpAds_PageFooter($imgPath='')
         }
         // Check if the maintenance script is running
         if (phpAds_isUser(phpAds_Admin)) {
-            if ($pref['maintenance_timestamp'] < time() - (60 * 60 * 24)) {
+            if (($pref['maintenance_timestamp'] < time() - (60 * 60 * 24)) && 
+                (!$conf['maintenance']['autoMaintenance'])) {
                 if ($pref['maintenance_timestamp'] > 0) {
                     // The maintenance script hasn't run in the
                     // last 24 hours, warn the user
