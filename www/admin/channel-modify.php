@@ -37,6 +37,10 @@ require_once MAX_PATH . '/www/admin/config.php';
 // Register input variables
 phpAds_registerGlobal('newaffiliateid', 'returnurl', 'duplicate');
 
+$affiliateid    = (int) $affiliateid;
+$agencyid       = (int) $agencyid;
+$channelid      = (int) $channelid;
+
 // Security check
 MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
 if (isset($channelid) && $channelid != '') {
@@ -58,10 +62,11 @@ if (isset($channelid) && $channelid != '') {
 
     } elseif (isset($duplicate) && $duplicate == 'true') {
         // Duplicate the channel
-        $doChannel = OA_Dal::factoryDO('channel');
-        $doChannel->get($channelid);
-        $new_channelid = $doChannel->duplicate();
-        Header("Location: ".$returnurl."?affiliateid=".$affiliateid."&channelid=".$new_channelid);
+        $newChannelId = OA_Dal::staticDuplicate('channel', $channelid);
+        $params = (!$affiliateid)
+            ? "?agencyid=".$agencyid."&channelid=".$newChannelId
+            : "?affiliateid=".$affiliateid."&channelid=".$newChannelId;
+        Header("Location: ".$returnurl.$params);
         exit;
 
     }

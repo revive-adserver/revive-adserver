@@ -123,6 +123,31 @@ class OA_Dal
     }
 
     /**
+     * A method to duplicate an existing row
+     *
+     * Example use:
+     *     $doBanners = OA_Dal::staticDuplicate('banners', 12, 1);
+     *
+     * @static
+     * @param string $table The name of the table for which a DB_DataObject is required.
+     * @param int $origId   The id of the row to copy
+     * @param int $newId    The id to be assigned as the id of the row copied (optional)
+     * @return mixed        Returns the restults returned from the duplicate method
+     */
+    function staticDuplicate($table, $origId, $newId = null)
+    {
+        OA_DAL::_setupDataObjectOptions();
+        $do = OA_Dal::factoryDO($table);
+        if (PEAR::isError($do)) {
+            return false;
+        }
+        if (!$result = $do->duplicate($origId, $newId)) {
+            return false;
+        }
+        return $result;
+    }
+
+    /**
      * A factory method to load the appropriate MAX_Dal_Admin class for a
      * given table name.
      *

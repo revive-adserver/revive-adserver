@@ -60,6 +60,33 @@ class DataObjects_Acls_channel extends DB_DataObjectCommon
     function sequenceKey() {
         return array(false, false, false);
     }
+
+    /**
+     * Duplicate a channels acls
+     *
+     * @param int $origChannelId    channel id of acls to copy
+     * @param int $newChannelId     channel id to assign copy of original
+     *                              channel acls
+     * @return boolean              true on success or if no acls exist else
+     *                              false  is returned
+     */
+    function duplicate($origChannelId, $newChannelId)
+    {
+        $this->channelid = $origChannelId;
+        if ($this->find()) {
+            while ($this->fetch()) {
+                //  copy the current acl, change the channel id, and insert
+                $oNewChannelAcl = clone($this);
+                $oNewChannelAcl->channelid = $newChannelId;
+                $result = $oNewChannelAcl->insert();
+
+                if (PEAR::isError($result)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
 
 ?>

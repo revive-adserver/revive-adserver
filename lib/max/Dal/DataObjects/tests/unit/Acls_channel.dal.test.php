@@ -21,7 +21,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: Channel.dal.test.php 6839 2007-05-22 20:08:04Z aj@seagullproject.org $
 */
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
@@ -34,50 +34,21 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  * @subpackage TestSuite
  *
  */
-class DataObjects_ChannelTest extends DalUnitTestCase
+class DataObjects_Acls_channelTest extends DalUnitTestCase
 {
     /**
      * The constructor method.
      */
-    function DataObjects_ChannelTest()
+    function DataObjects_Acls_channelTest()
     {
         $this->UnitTestCase();
     }
 
-
-    function testDelete()
-    {
-        $doChannel = OA_Dal::factoryDO('channel');
-        $doChannel->acls_updated = '2007-04-03 19:29:54';
-        $channelId = DataGenerator::generateOne($doChannel);
-
-        $doAcls = OA_Dal::factoryDO('acls');
-        $doAcls->bannerid = 1;
-        $doAcls->type = 'Site:Channel';
-        $doAcls->data = "$channelId";
-        $doAcls->executionorder = 1;
-        $doAcls->insert();
-        $doAcls->data = "$channelId, 196";
-        $doAcls->executionorder = 2;
-        $doAcls->insert();
-
-        $doChannel->channelid = $channelId;
-        $doChannel->delete();
-
-        $doAcls = OA_Dal::factoryDO('acls');
-        $this->assertEqual(1, $doAcls->count());
-    }
-
     function testDuplicate()
     {
-        //  create test channel
-        $doChannel = OA_Dal::factoryDO('channel');
-        $doChannel->acls_updated = '2007-04-03 19:29:54';
-        $channelId = DataGenerator::generateOne($doChannel);
-
         //  create test acls
         $doAcls = OA_Dal::factoryDO('acls_channel');
-        $doAcls->channelid = $channelId;
+        $doAcls->channelid = 5;
         $doAcls->type = 'Client:Ip';
         $doAcls->comparison = '==';
         $doAcls->data = '127.0.0.1';
@@ -85,7 +56,7 @@ class DataObjects_ChannelTest extends DalUnitTestCase
         $doAcls->insert();
 
         $doAcls = OA_Dal::factoryDO('acls_channel');
-        $doAcls->channelid = $channelId;
+        $doAcls->channelid = 5;
         $doAcls->type = 'Client:Domain';
         $doAcls->comparison = '==';
         $doAcls->data = 'example.com';
@@ -93,25 +64,13 @@ class DataObjects_ChannelTest extends DalUnitTestCase
         $doAcls->insert();
 
         // duplicate
-        $newChannelId = OA_Dal::staticDuplicate('channel', $channelId);
-
-        // retrieve original and duplicate channel
-        $doChannel = OA_Dal::staticGetDO('channel', $channelId);
-        $doNewChannel = OA_Dal::staticGetDO('channel', $newChannelId);
-
-        // assert they are not equal including primary keys - name column should not match
-        $this->assertNotEqualDataObjects($this->stripKeys($doChannel), $this->stripKeys($doNewChannel));
-
-        // assert they are equal excluding primary keys
-        $doChannel->name = $doNewChannel->name = null;
-        $this->assertEqualDataObjects($this->stripKeys($doChannel), $this->stripKeys($doNewChannel));
+        $newChannelId = OA_Dal::staticDuplicate('acls_channel', $channelId, $newChannelId);
 
         //  retrieve acls for original and duplicate channel
         $doAcls = OA_Dal::factoryDO('acls_channel');
         $doAcls->channelid = $channelId;
         $doAcls->orderBy('executionorder');
         if ($doAcls->find()) {
-            $aAcls = $doAcls->toArray();
             while ($doAcls->fetch()) {
                 $aAcls[] = clone($doAcls);
             }
@@ -129,7 +88,14 @@ class DataObjects_ChannelTest extends DalUnitTestCase
         //  iterate through acls ensuring they were properly copied
         if ($this->assertEqual(count($aAcls), count($aNewAcls))) {
             for ($x = 0; $x < count($aAcls); $x++) {
+                // assert channel ids are not equal
                 $this->assertNotEqual($aAcls[$x]->channelid, $aNewAcls[$x]->channelid);
+
+                // assert acl has proper channel id
+                $this->assertEqual($aAcls[$x]->channelid, $channelId);
+                $this->assertEqual($aNewAcls[$x]->channelid, $newChannelId);
+
+                // assert acl matches acl which it was copied from
                 $this->assertEqualDataObjects($this->stripKeys($aAcls[$x]), $this->stripKeys($aNewAcls[$x]));
             }
         }

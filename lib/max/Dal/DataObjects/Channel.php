@@ -117,27 +117,22 @@ class DataObjects_Channel extends DB_DataObjectCommon
     	return parent::delete($useWhere, $cascade);
     }
 
-    function duplicate()
+    function duplicate($channelId)
     {
-        // Get the channel's acls before duplication
-        $doAclsChannel = OA_Dal::factoryDO('acls_channel');
-        $doAclsChannel->channelid = $this->channelid;
-        $doAclsChannel->find();
+        //  Populate $this with channel data
+        $this->get($channelId);
 
-        // Prepare the new name for the channel
+        // Prepare a new name for the channel
         $this->name = $this->getUniqueNameForDuplication('name');
 
-        // Duplicate the channel
+        // Duplicate channel
         $this->channelid = null;
-        $newChannelid = $this->insert();
+        $newChannelId = $this->insert();
 
         // Duplicate channel's acls
-        while ($doAclsChannel->fetch()) {
-            $doAclsChannel->channelid = $newChannelid;
-            $doAclsChannel->insert();
-        }
+        $result = OA_Dal::staticDuplicate('acls_channel', $channelId, $newChannelId);
 
-        return $newChannelid;
+        return $newChannelId;
     }
 }
 
