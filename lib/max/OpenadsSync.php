@@ -141,7 +141,7 @@ class MAX_OpenadsSync
                 'webserver_type'            => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^(.*?)/.*$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
                 'webserver_version'            => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^.*?/(.*?)(?: .*)?$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
 
-                'db_type'                    => $GLOBALS['phpAds_dbmsname'],
+                'db_type'                    => phpAds_dbmsname,
                 'db_version'                => $this->oDbh->queryOne("SELECT VERSION()"),
 
                 'php_version'                => phpversion(),
@@ -152,25 +152,25 @@ class MAX_OpenadsSync
                 'php_safe_mode'                => (bool)ini_get('safe_mode'),
                 'php_open_basedir'            => (bool)strlen(ini_get('open_basedir')),
                 'php_upload_tmp_readable'    => (bool)is_readable(ini_get('upload_tmp_dir').DIRECTORY_SEPARATOR),
-                
+
                 'updates_cs_data_enabled'   => ($this->pref['updates_cs_data_enabled'] != 'f' && $this->pref['updates_cs_data_enabled']),
             ));
         }
-        
+
         if ($this->pref['updates_cs_data_enabled'] != 'f' && $this->pref['updates_cs_data_enabled']) {
             $iLastUpdate = 0;
             if (!empty($this->pref['ad_cs_data_last_sent']) && $this->pref['ad_cs_data_last_sent'] != '0000-00-00') {
-                $iLastUpdate = strtotime($this->pref['ad_cs_data_last_sent']); 
+                $iLastUpdate = strtotime($this->pref['ad_cs_data_last_sent']);
             }
-            
+
             // make sure there's only one report on clicks/impressions a day
             if ($send_sw_data && $iLastUpdate+86400 < time()){
-            
-                // get ratios for clicks and views 
-                // move start and end timestamp one hour back in the past so it's possible to fetch 
+
+                // get ratios for clicks and views
+                // move start and end timestamp one hour back in the past so it's possible to fetch
                 // clicks/views generated when update was running
                 $aData = $this->_getSummaries($iLastUpdate-3600, time()-3600);
-                
+
                 // send community-size data only if there has been some data served from this installation
                 if ($aData['ad_views_sum'] || $aData['ad_clicks_sum']){
                     $aHost = parse_url('http://'.$this->pref['webpath']['admin']);
@@ -192,16 +192,16 @@ class MAX_OpenadsSync
             // XML-RPC server found, now checking for errors
             if (!$response->faultCode()) {
                 $ret = array(0, XML_RPC_Decode($response->value()));
-                
+
                 // Prepare cache
                 $cache = $ret[1];
             } else {
                 $ret = array($response->faultCode(), $response->faultString());
-                
+
                 // Prepare cache
                 $cache = false;
             }
-            
+
             // prepare update query
             $sUpdate = "
                 UPDATE
@@ -240,12 +240,12 @@ class MAX_OpenadsSync
                     }
                 }
             }
-            
-            $sUpdate .=" 
+
+            $sUpdate .="
                 WHERE
                     agencyid = 0
             ";
-            
+
             $this->oDbh->exec($sUpdate);
 
             return $ret;
@@ -253,19 +253,19 @@ class MAX_OpenadsSync
 
         return array(-1, 'No response from the server');
     }
-    
+
     /**
      * Private method for getting summaries/ratios about ads
-     * 
+     *
      * This method generates ratios about ad views/clicks and summarizes these
-     * It generates ratios based on the interval period that's counted by subtracting 
+     * It generates ratios based on the interval period that's counted by subtracting
      * start and enddate so the outcome is given in "per seconds" basis
-     * 
+     *
      * @param int $iStartDate
      * @param int $iEndDate
-     * 
+     *
      * @access private
-     * 
+     *
      * @return array counted values in form of array('ad_clicks_per_second' => 'double', 'ad_views_per_second' => 'double', 'ad_clicks_sum' => 'integer', 'ad_views_sum' => 'integer');
      */
     function _getSummaries($iStartDate, $iEndDate){
@@ -275,16 +275,16 @@ class MAX_OpenadsSync
             if (PEAR::isError($res)){
                 return array();
             }
-            
+
             $row = $res->fetchRow();
             if ($row['start_date']){
-                $iStartDate = $row['start_date']; 
+                $iStartDate = $row['start_date'];
             }
             else {
                 return array();
             }
         }
-        
+
         $sMysqlStartDay = date('Y-m-d', $iStartDate );
         $sMysqlEndDay = date('Y-m-d', $iEndDate );
 
