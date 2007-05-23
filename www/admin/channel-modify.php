@@ -24,7 +24,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: zone-modify.php 6710 2007-05-22 08:56:28Z andrew.hill@openads.org $
+$Id$
 */
 
 // Require the initialisation file
