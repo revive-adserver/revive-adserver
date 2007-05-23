@@ -2,7 +2,6 @@
 <!DOCTYPE project SYSTEM                    "../../includes/WebTest.dtd" [
   <!ENTITY config SYSTEM               "file:../../includes/config.xml">
   <!ENTITY checkForErrors SYSTEM       "file:../../modules/errors.xml">
-  <!ENTITY checkDeliveryCookies SYSTEM "file:../../modules/cookies.xml">
   <!ENTITY verifyLinks SYSTEM          "file:../../modules/links.xml">
 ]
 >
@@ -14,34 +13,22 @@
   <import file="${webtest.home}/lib/taskdef.xml"/>
 
   <target name="main">
-
+    <!-- additional preparation - copy alocal.php into www folder -->
+    <copy file="php/alocal.php" todir="../../www" />
+    
     <testSpec name="Run Delivery">
       &config;
       <steps>
-        <invoke description="Invoke delivery file" url="/delivery/afr.php?what=bannerid:2" />
+        <invoke description="Invoke delivery file" url="alocal.php" />
         &checkForErrors;
-        &checkDeliveryCookies;
-        <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
-        <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />
-        &verifyLinks;
-        
-        <invoke description="Invoke delivery file" url="/delivery/afr.php?what=bannerid:3" />
-        &checkForErrors;
-        &checkDeliveryCookies;
-        <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
-        <verifyText description="Check that ad contains a gif" regex="true" text="ai.php\?filename=468x60.gif&amp;contenttype=gif" />
-        &verifyLinks;
-        
-        <invoke description="Invoke delivery file" url="/delivery/afr.php?what=zone:1" />
-        &checkForErrors;
-        &checkDeliveryCookies;
-        <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
-        <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />        
+        <verifyText description="Check that image is included" regex="true" text="img src=.*ai.php" />
         &verifyLinks;
       </steps>
 
     </testSpec>
 
+    <!-- remove copied file after testing it -->
+    <delete file="../www/alocal.php" />
 </target>
 
 </project>
