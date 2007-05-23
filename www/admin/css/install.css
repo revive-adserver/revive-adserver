@@ -91,7 +91,7 @@ div.sysinfoerror {
     background-image:    url('../images/loading.gif');
     background-repeat:   no-repeat;
     background-position: 50% 185px;
-    position: relative;
+    position: absolute;
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;

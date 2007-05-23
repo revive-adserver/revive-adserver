@@ -2,11 +2,13 @@
     <table border='0' cellpadding='0' cellspacing='0' width='100%'>
     <tr>
         <td colspan='2' align='center'>
+            <div id='displayDbError' style='display:block'>
         <?php
             if ($displayError == true) {  
             	include 'install-messages.html';
             }        
         ?>
+            </div>
         </td>
     </tr>
     <tr>
@@ -25,9 +27,11 @@
     function showLoader(f) {
         noerrors = max_formValidate(f);
         if (noerrors == true) {
-            document.getElementById('dbLoader').style.display='block';
-            document.getElementById('dbLoader').style.top='-510px';
-            document.getElementById('dbLoader').style.height='570px';
+            var errObj = new getObj('displayDbError');
+            var dbLoader = new getObj('dbLoader');
+            errObj.style.display='none';
+            dbLoader.style.display='block';
+            dbLoader.style.height='570px';
         }        
         return(noerrors);
     }
@@ -45,7 +49,10 @@
     }
     </script>
 <div id="formContainer" style="display: block; width:100%; height:100%;">
-<form name="frmOpenads" id="frmOpenads" method="POST" action="install.php" onSubmit='return showLoader(this);' style="display:block; margin:0; padding:0;">
+
+<div id="dbLoader" class="pageLoader tab-s" style="display: none;"><div>Processing...</div></div>
+
+<form name="frmOpenads" id="frmOpenads" method="POST" action="install.php" onSubmit='return showLoader(this);' style="margin:0; padding:0;">
 
 <?php            
 
@@ -160,12 +167,9 @@
                 <input type="hidden" name="dirPage" id="dirPage" value="" />
 </form>
 
-<form name="frmOpenads2" id="frmOpenads2" method="POST" action="install.php" style="display:block; margin:0; padding:0;">
+<form name="frmOpenads2" id="frmOpenads2" method="POST" action="install.php" style="margin:0; padding:0;">
                 <input type="submit" class="button floatleft" name="btn_syscheck" value="<?php echo $strBtnGoBack; ?>" />
 </form>
-
-<div id="dbLoader" class="pageLoader tab-s" style="display: none;"><div>Processing...</div></div>
-
 </div>
 <form>
                 
