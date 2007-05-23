@@ -30,69 +30,69 @@ $conf = $GLOBALS['_MAX']['CONF'];
 $words = array(
     'Remove Comments Note' => "
 <!-- Hinweis: Sie koennen die umfangreichen Kommentare in dieser Seite entfernen, wenn Sie diese Seite
-  --          unter Produktionsbedingungen nutzen und das Gewicht der Seite reduzieren moechten.
+              unter Produktionsbedingungen nutzen und das Gewicht der Seite reduzieren moechten.
   -->",
 
     'Publisher JS Channel Script Comment 1' => "
 <!-- Openads Channel Script
-  --
-  -- Erstellt mit Openads " . MAX_VERSION_READABLE . "
-  --
-  -- Fuegen Sie dieses Script unmittelbar UEBER dem Openads Header Script
-  -- (wie unten definiert) in den <head>-Tag Ihrer Site ein.
-  --
-  -- Das untenstehende Script definiert die Variable az_channel. Diese Variable
-  -- enthaelt den Namen des 'virtuellen Verzeichnisses' der Web-Site.
-  --
-  -- Beispiel: Wenn Sie sich auf der Fussball-Uebersichtsseite des Sportbereiches einer
-  -- einer Magazin-Web-Site befinden, sollte das folgende Verzeichnis mit der Variable verknuepft werden:
-  --   var az_channel = '",
+    
+     Erstellt mit Openads " . MAX_VERSION_READABLE . "
+    
+     Fuegen Sie dieses Script unmittelbar UEBER dem Openads Header Script
+     (wie unten definiert) in den <head>-Tag Ihrer Site ein.
+    
+     Das untenstehende Script definiert die Variable az_channel. Diese Variable
+     enthaelt den Namen des 'virtuellen Verzeichnisses' der Web-Site.
+    
+     Beispiel: Wenn Sie sich auf der Fussball-Uebersichtsseite des Sportbereiches einer
+     einer Magazin-Web-Site befinden, sollte das folgende Verzeichnis mit der Variable verknuepft werden:
+       var az_channel = '",
 
     'Publisher JS Channel Script Comment 2' => "/sport/fussball';
-  -- Umgekehrt, wenn Sie sich auf der Homepage der Site befinden, sollte die Variable wie folgt aussehen:
-  --   var az_channel = '",
+     Umgekehrt, wenn Sie sich auf der Homepage der Site befinden, sollte die Variable wie folgt aussehen:
+       var az_channel = '",
 
     'Publisher JS Channel Script Comment 3' => "';
 -->",
 
     'Publisher JS Header Script Comment' => "
 <!-- Openads Header Script
-  --
-  -- Erstellt mit Openads " . MAX_VERSION_READABLE . "
-  --
-  -- Fuegen Sie dieses Script UNTERHALB des Openads Channel Scipts (aber dennoch
-  -- innerhalb des <head>-Tags Ihrer Site ein). Jede Seite Ihrer Web-Site, auf der Sie
-  -- Werbung ausliefern moechten muss dieses Script enthalten.
-  --
-  -- Hinweis: Dieses Script bleibt immer gleich, egal auf welcher Seite Sie es einbinden.
-  --    Sie sollten diese Datei deshalb am besten in eine externe .js-Datei auslagern, anstatt
-  --    jede Seite mit dem gesammten Code zu belasten. Kopieren Sie den untenstehenden Code und
-  --    speichern Sie ihn in einer Datei namens 'mmm.js'. Damm muessen Sie in Ihre Seiten nur noch
-  --    den untenstehden Code integrieren (und evtl. den Pfad anpassen).
-  --
-  -- <script type='text/javascript' src='mmm.js'></script>
+    
+     Erstellt mit Openads " . MAX_VERSION_READABLE . "
+    
+     Fuegen Sie dieses Script UNTERHALB des Openads Channel Scipts (aber dennoch
+     innerhalb des <head>-Tags Ihrer Site ein). Jede Seite Ihrer Web-Site, auf der Sie
+     Werbung ausliefern moechten muss dieses Script enthalten.
+    
+     Hinweis: Dieses Script bleibt immer gleich, egal auf welcher Seite Sie es einbinden.
+        Sie sollten diese Datei deshalb am besten in eine externe .js-Datei auslagern, anstatt
+        jede Seite mit dem gesammten Code zu belasten. Kopieren Sie den untenstehenden Code und
+        speichern Sie ihn in einer Datei namens 'mmm.js'. Damm muessen Sie in Ihre Seiten nur noch
+        den untenstehden Code integrieren (und evtl. den Pfad anpassen).
+    
+     <script type='text/javascript' src='mmm.js'></script>
   -->",
 
     'Publisher JS Ad Tag Script(s) Comment' => "
 <!-- Openads Ad Tag Script(s)
-  --
-  -- Erstellt mit Openads " . MAX_VERSION_READABLE . "
-  --
-  -- Im folgenden finden Sie die Script(e) fuer jede Zone(n).
-  -- Bitte beachten Sie die folgenden Dinge:
-  --
-  -- 1. Jeder Tag hat eine unterschiedliche Zonennummer (var 1) und eine , and eine unterschiedliche ID (var 2).
-  --    Jede ID darf nur genau einmal vergeben werden. Haben 2 Zonen die gleiche ID, kommt es zu Problemem beim Klick auf
-  --    das Werbemittel.
-  -- 2. Jeder Tag hat eine <noscript>-Section. If this tag is on an SSL page, change the
-  --    'http://{$conf['webpath']['delivery']}/...' to 'https://{$conf['webpath']['deliverySSL']}/...'
-  --    Note that the <noscript> section cannot dynamically choose between SSL and non-SSL.
-  -- 3. The <noscript> section will only show image banners. There is no width or height in
-  --    these banners, so if you want these tags to allocate space for the ad before it shows,
-  --    you need to add this information to the <img> tag.
-  -- 4. If you do not want to deal with the intricities of the <noscript> section, delete the
-  --    tag (from <noscript>... to </noscript>). On average, the <noscript> tag is called from
-  --    less than 1% of internet users.
+    
+     Erstellt mit Openads " . MAX_VERSION_READABLE . "
+    
+     Im folgenden finden Sie die Script(e) fuer jede Zone(n).
+     Bitte beachten Sie die folgenden Dinge:
+    
+     1. Jeder Tag hat eine unterschiedliche Zonennummer (var 1) und eine , and eine unterschiedliche ID (var 2).
+        Jede ID darf nur genau einmal vergeben werden. Haben 2 Zonen die gleiche ID, kommt es zu Problemem beim Klick auf
+        das Werbemittel.
+     2. Jeder Tag hat eine <noscript>-Section. If this tag is on an SSL page, change the
+        'http://{$conf['webpath']['delivery']}/...' to 'https://{$conf['webpath']['deliverySSL']}/...'
+        Note that the <noscript> section cannot dynamically choose between SSL and non-SSL.
+     3. The <noscript> section will only show image banners. There is no width or height in
+        these banners, so if you want these tags to allocate space for the ad before it shows,
+        you need to add this information to the <img> tag.
+     4. If you do not want to deal with the intricities of the <noscript> section, delete the
+        tag (from <noscript>... to </noscript>). On average, the <noscript> tag is called from
+        less than 1% of internet users.
   -->"
 );
 
