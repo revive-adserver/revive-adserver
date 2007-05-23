@@ -99,11 +99,6 @@ class Migration_119 extends Migration
 	            }
 	        }
 
-	        copy(
-	           MAX_PATH.'/etc/changes/tests/data/config_2_0_12.inc.php',
-	           MAX_PATH.'/var/config.inc.php'
-	        );
-
 	        // Migrate PAN config variables
 	        $phpAdsNew = new OA_phpAdsNew();
             $aPanConfig = $phpAdsNew->_getPANConfig();
@@ -118,8 +113,6 @@ class Migration_119 extends Migration
                 $aPanConfig['geotracking_location'],
                 $aPanConfig['geotracking_stats'],
                 $aPanConfig['geotracking_conf']);
-            
-            unlink(MAX_PATH.'/var/config.inc.php');
 
 	        $sql = OA_DB_SQL::sqlForInsert($tablePreference, $aValues);
 	        $result = $this->oDBH->exec($sql);
@@ -129,14 +122,14 @@ class Migration_119 extends Migration
 	        return false;
 	    }
 	}
-	
-	
+
+
 	function createGeoTargetingConfiguration(
 	   $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf)
 	{
 	    $upgradeConfig = new OA_Upgrade_Config();
 	    $host = $upgradeConfig->getHost();
-	    
+
 	    if (empty($geotracking_type)) {
 	        return $this->writeGeoPluginConfig('"none"', $geotracking_stats, $host);
 	    }
@@ -155,7 +148,7 @@ class Migration_119 extends Migration
 	    }
 	    return false;
 	}
-	
+
 	function getDatabaseSetting($geotracking_conf, $geotracking_location)
 	{
 	    $sDatabaseType = $this->getDatabaseType($geotracking_conf);
@@ -164,8 +157,8 @@ class Migration_119 extends Migration
 	    }
 	    return "$sDatabaseType=$geotracking_location\n";
 	}
-	
-	
+
+
 	function getDatabaseType($geotracking_conf)
 	{
 	    $aLocationStrings = array(
@@ -196,8 +189,8 @@ class Migration_119 extends Migration
 	    }
 	    return $aLocationStrings[$databaseType];
 	}
-	
-	
+
+
 	function writeGeoPluginConfig($type, $geotracking_stats, $host)
 	{
 	    $result = $this->createConfigDirectory(GEOCONFIG_PATH);
@@ -209,8 +202,8 @@ class Migration_119 extends Migration
         $pluginConfigContents = "[geotargeting]\ntype=$type\nsaveStats=$saveStats\nshowUnavailable=false";
         return $this->writeContents($pluginConfigPath, $pluginConfigContents);
 	}
-	
-	
+
+
 	function writeGeoSpecificConfig($type, $append, $host)
 	{
 	    $pluginConfigDir = MAX_PATH . "/var/plugins/config/geotargeting/$type";
@@ -219,8 +212,8 @@ class Migration_119 extends Migration
         $pluginConfigContents = "[geotargeting]\ntype=$type\n$append";
         return $result && $this->writeContents($pluginConfigPath, $pluginConfigContents);
 	}
-	
-	
+
+
 	function createConfigDirectory($dir)
 	{
 	    if (file_exists($dir) && !is_dir($dir)) {
@@ -231,7 +224,7 @@ class Migration_119 extends Migration
 	    }
 	    return mkdir($dir, 0700);
 	}
-	
+
 	/**
 	 * Reimplements file_put_contents for PHP4, but works only for text
 	 * content.

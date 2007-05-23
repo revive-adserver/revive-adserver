@@ -45,10 +45,15 @@ class Migration_119Test extends MigrationTest
     function testMigrateData()
     {
         $this->initDatabase(119, array('config', 'preference'));
-        
+
+        copy(
+           MAX_PATH.'/etc/changes/tests/data/config_2_0_12.inc.php',
+           MAX_PATH.'/var/config.inc.php'
+        );
+
         $migration = new Migration_119();
         $migration->init($this->oDbh);
-        
+
         $aValues = array(
             'gui_show_parents' => 't',
             'updates_enabled'  => 'f'
@@ -62,7 +67,7 @@ class Migration_119Test extends MigrationTest
         );
 
         $migration->migrateData();
-        
+
         $rsPreference = DBC::NewRecordSet("SELECT * from preference");
         $rsPreference->find();
         $this->assertTrue($rsPreference->fetch());
@@ -70,32 +75,41 @@ class Migration_119Test extends MigrationTest
         foreach($aValues as $column => $value) {
             $this->assertEqual($value, $aDataPreference[$column]);
         }
+
+        unlink(MAX_PATH.'/var/config.inc.php');
     }
-    
-    
+
+
     function testCreateGeoTargetingConfiguration()
     {
+        copy(
+           MAX_PATH.'/etc/changes/tests/data/config_2_0_12.inc.php',
+           MAX_PATH.'/var/config.inc.php'
+        );
+
         if (file_exists(GEOCONFIG_PATH)) {
             rename(GEOCONFIG_PATH, TMP_GEOCONFIG_PATH);
         }
-        
+
         $upgradeConfig = new OA_Upgrade_Config();
         $host = $upgradeConfig->getHost();
 
         $migration = new Migration_119();
         $migration->init($this->oDbh);
-        
+
         $this->checkNoGeoTargeting($migration, $host);
         $this->checkGeoIp($migration, $host);
         $this->checkModGeoIP($migration, $host);
-        
+
         Util_File_remove(GEOCONFIG_PATH);
-        
+
         if (file_exists(TMP_GEOCONFIG_PATH)) {
             rename(TMP_GEOCONFIG_PATH, GEOCONFIG_PATH);
         }
+
+        unlink(MAX_PATH.'/var/config.inc.php');
     }
-    
+
     /**
      * @param Migration_119 $migration
      * @param string $host
@@ -110,8 +124,8 @@ class Migration_119Test extends MigrationTest
             $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf));
         $this->checkGeoPluginConfig('"none"', $geotracking_stats, '', $host);
     }
-    
-    
+
+
     function checkGeoIp(&$migration, $host)
     {
         $geotracking_type = 'geoip';
@@ -124,34 +138,34 @@ class Migration_119Test extends MigrationTest
         $configContent = "[geotargeting]\ntype=GeoIP\ngeoipCountryLocation=/path/to/geoip/database.dat\n";
         $this->checkGeoPluginConfig('GeoIP', $geotracking_stats, $configContent, $host);
     }
-    
-    
+
+
     function checkModGeoIP(&$migration, $host)
     {
         $geotracking_type = 'mod_geoip';
         $geotracking_location = '';
         $geotracking_stats = false;
         $geotracking_conf = '';
-        
+
         $this->assertTrue($migration->createGeoTargetingConfiguration(
             $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf));
         $this->checkGeoPluginConfig('ModGeoIP', $geotracking_stats, "[geotargeting]\ntype=ModGeoIP\n", $host);
     }
-    
-    
+
+
     function checkGeoPluginConfig($type, $geotracking_stats, $configContent = '', $host)
     {
         $saveStats = $geotracking_stats ? 'true' : 'false';
         $pluginConfigPath = MAX_PATH . "/var/plugins/config/geotargeting/$host.plugin.conf.php";
         $pluginConfigContents = "[geotargeting]\ntype=$type\nsaveStats=$saveStats\nshowUnavailable=false";
         $this->checkFileContents($pluginConfigPath, $pluginConfigContents);
-        
+
         if (!empty($configContent)) {
             $configPath = MAX_PATH . "/var/plugins/config/geotargeting/$type/$host.plugin.conf.php";
             $this->checkFileContents($configPath, $configContent);
         }
     }
-    
+
     function checkFileContents($filename, $contents)
     {
         if ($this->assertTrue(file_exists($filename), "File: '$filename' should exist!")) {
@@ -159,5 +173,5 @@ class Migration_119Test extends MigrationTest
             $this->assertEqual($contents, $actualContents);
         }
     }
-    
+
 }
