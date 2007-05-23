@@ -115,7 +115,7 @@ $GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PROD
                                                 please consult the supplied documentation.";
 $GLOBALS['strSystemCheck']                  = "System check";
 $GLOBALS['strSystemCheckIntro']             = "Openads has certain requirements which will now be checked. We will warn you if any settings need to be changed.";
-$GLOBALS['strDbSuccessIntro']               = "It is important that you complete the rest of the steps. Openads has not been properly configured yet.";
+$GLOBALS['strDbSuccessIntro']               = "The Openads database has been successfully installed. Please click the 'Continue' button to continue the installation.";
 $GLOBALS['strErrorOccured']                 = "The following error occured:";
 $GLOBALS['strErrorInstallDatabase']         = "The database structure could not be created.";
 $GLOBALS['strErrorInstallPrefs']            = "The administrator user preferences could not be written to the database.";
