@@ -244,6 +244,7 @@ function MAX_AclGetCompiled($aAcls) {
     if (empty($aAcls)) {
         return "true";
     } else {
+        ksort($aAcls);
         foreach ($aAcls as $acl) {
             $deliveryLimitationPlugin = &OA_aclGetPluginFromRow($acl);
             $compiled = $deliveryLimitationPlugin->compile();
@@ -261,6 +262,7 @@ function MAX_AclGetPlugins($acls) {
         return '';
     }
     $acl_plugins = array();
+    ksort($acls);
     foreach ($acls as $acl) {
         if (!in_array($acl['type'], $acl_plugins)) {
             $acl_plugins[] = $acl['type'];
