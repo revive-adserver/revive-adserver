@@ -281,7 +281,7 @@ class OA_Upgrade
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_OAD_NOT_INSTALLED:
-                $this->oLogger->log('Openads installation not detected');
+                $this->oLogger->log('No previous version of Openads detected. Proceeding with a new installation.');
                 return true;
             case OA_STATUS_OAD_CONFIG_DETECTED:
                 $this->oLogger->logError('Openads'.$strDetected);
