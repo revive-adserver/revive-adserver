@@ -259,11 +259,29 @@ class Migration_127 extends Migration
 	    }
 	    
 	    $tableAdZoneAssoc = "{$prefix}ad_zone_assoc";
+	    $tablePlacementZoneAssoc = "{$prefix}placement_zone_assoc";
 	    $tableBanners = "{$prefix}banners";
+	    $tableZones = "{$prefix}zones";
+	    
+	    $sql = "
+	    INSERT INTO $tableAdZoneAssoc (zone_id, ad_id)
+	    SELECT zoneid, bannerid
+	       FROM $tableBanners, $tableZones, $tablePlacementZoneAssoc
+    	   WHERE campaignid = placement_id
+    	   AND zoneid = zone_id
+    	   AND ((delivery = 3 AND storagetype = 'txt')
+    	       OR (delivery <> 3 AND storagetype <> 'txt'
+    	           AND (zones.height < 0 OR zones.height = banners.height)
+    	           AND (zones.width < 0 OR zones.width = banners.width)))";
+	    $result = $this->oDBH->exec($sql);
+	    if (PEAR::isError($result)) {
+	        $this->_logErrorAndReturnFalse($result);
+	    }
+	    
 	    $sql = "INSERT INTO $tableAdZoneAssoc (zone_id, ad_id, link_type)
 	     SELECT 0 zone_id, bannerid ad_id, 0 link_type FROM $tableBanners";
-	    $dbh = OA_DB::singleton();
-	    $result = $dbh->exec($sql);
+	    
+	    $result = $this->oDBH->exec($sql);
 	    if (PEAR::isError($result)) {
 	        $this->_logErrorAndReturnFalse($result);
 	    }
@@ -371,19 +389,6 @@ class ZoneCampaignHandler extends ZoneAdObjectHandler
     function getAdObjectColumn()
     {
         return 'placement_id';
-    }
-
-
-    function insertAssocs($oDbh)
-    {
-        $result = parent::insertAssocs($oDbh);
-        if (PEAR::isError($result)) {
-            return $result;
-        }
-        
-        foreach ($this->aAdObjectIds as $campaignId) {
-            MAX_addLinkedAdsToZone($this->zone_id, $campaignId);
-        }
     }
 }
 
