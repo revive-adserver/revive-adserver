@@ -88,7 +88,7 @@ $GLOBALS['strTablesType']                   = "Table type";
 
 $GLOBALS['strInstallWelcome']               = "Welcome to ".MAX_PRODUCT_NAME;
 $GLOBALS['strInstallMessage']               = "Before you can use ".MAX_PRODUCT_NAME." it needs to be configured and <br /> the database needs to be created. Click <b>Proceed</b> to continue.";
-$GLOBALS['strInstallIntro']                 = "We have tried to make the installation of Openads as easy as possible, but
+$GLOBALS['strInstallIntro']                 = "We have tried to make the installation of " . MAX_PRODUCT_NAME . " as easy as possible, but
 				  keep in mind that setting up an ad server is not trivial. If you haven't read the documentation at
 				  this point, we <a href='http://docs.openads.org' target='_blank'><strong>strongly recommend</strong></a> that you do so before you proceed with the installation.</p>
                   <p>
@@ -114,12 +114,13 @@ $GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PROD
                                                 first step of the install process. If you want to know more on what the error message below means, and how to solve it,
                                                 please consult the supplied documentation.";
 $GLOBALS['strSystemCheck']                  = "System check";
-$GLOBALS['strSystemCheckIntro']             = "Openads has certain requirements which will now be checked. We will warn you if any settings need to be changed.";
-$GLOBALS['strDbSuccessIntro']               = "The Openads database has now been created. Please click the 'Continue' button to proceed with configuring Openads' Administrator and Delivery settings.";
+$GLOBALS['strSystemCheckIntro']             = MAX_PRODUCT_NAME . " has certain requirements which will now be checked. We will warn you if any settings need to be changed.";
+$GLOBALS['strDbSuccessIntro']               = "The " . MAX_PRODUCT_NAME . " database has now been created. Please click the 'Continue' button to proceed with configuring Openads' Administrator and Delivery settings.";
+$GLOBALS['strDbSuccessIntroUpgrade']        = "The " . MAX_PRODUCT_NAME . " database has now been updated.  Please click the 'Continue' button to proceed with reviewing the " . MAX_PRODUCT_NAME . " Administrator and Delivery settings.";
 $GLOBALS['strErrorOccured']                 = "The following error occured:";
 $GLOBALS['strErrorInstallDatabase']         = "The database structure could not be created.";
 $GLOBALS['strErrorInstallPrefs']            = "The administrator user preferences could not be written to the database.";
-$GLOBALS['strErrorInstallVersion']          = "The Openads version number could not be written to the database.";
+$GLOBALS['strErrorInstallVersion']          = "The " . MAX_PRODUCT_NAME . " version number could not be written to the database.";
 $GLOBALS['strErrorUpgrade']                 = 'The existing installation\'s database could not be upgraded.';
 $GLOBALS['strErrorInstallDbConnect']        = "It was not possible to open a connection to the database.";
 
@@ -181,12 +182,12 @@ $GLOBALS['strEnableDashboard']                       = "Enable dashboard";
 $GLOBALS['strTimezoneInformation']                   = "Timezone Information (Modifying the timezone will affect statistics)";
 $GLOBALS['strTimezone']                              = "Timezone";
 $GLOBALS['strAdminSettingsTitle']                    = "Your Administrator Account";
-$GLOBALS['strAdminSettingsIntro']                    = "The administrator account is used to log into the Openads interface and manage inventory, view statistics, and create tags. Please fill in the username, password, and email address of the administrator.";
+$GLOBALS['strAdminSettingsIntro']                    = "The administrator account is used to log into the " . MAX_PRODUCT_NAME . " interface and manage inventory, view statistics, and create tags. Please fill in the username, password, and email address of the administrator.";
 
 // Openads ID Settings
-$GLOBALS['strOpenadsUsername']                       = "Openads Username";
-$GLOBALS['strOpenadsPassword']                       = "Openads Password";
-$GLOBALS['strOpenadsEmail']                          = "Openads Email";
+$GLOBALS['strOpenadsUsername']                       = MAX_PRODUCT_NAME . " Username";
+$GLOBALS['strOpenadsPassword']                       = MAX_PRODUCT_NAME . " Password";
+$GLOBALS['strOpenadsEmail']                          = MAX_PRODUCT_NAME . " Email";
 
 // Banner Settings
 $GLOBALS['strBannerSettings']                        = 'Banner Settings';
@@ -217,7 +218,7 @@ $GLOBALS['strDatabaseOptimalisations']               = 'Global Database Optimisa
 $GLOBALS['strPersistentConnections']                 = 'Use Persistent Connections';
 $GLOBALS['strCantConnectToDb']                       = 'Can\'t Connect to Database';
 $GLOBALS['strDemoDataInstall']                       = 'Install Demo Data';
-$GLOBALS['strDemoDataIntro']                         = 'Default setup data can be loaded into Openads to help you get started serving online advertising. The most common banner types, as well as some initial campaigns can be loaded and pre-configured. This is highly recommended for new installations.';
+$GLOBALS['strDemoDataIntro']                         = 'Default setup data can be loaded into " . MAX_PRODUCT_NAME . " to help you get started serving online advertising. The most common banner types, as well as some initial campaigns can be loaded and pre-configured. This is highly recommended for new installations.';
 
 // Debug Logging Settings
 $GLOBALS['strDebugSettings']                         = 'Debug Logging';
