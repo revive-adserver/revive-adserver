@@ -45,7 +45,6 @@ require_once MAX_PATH . '/tests/testClasses/TestRunner.php';
 $runner = new TestRunner();
 $runner->findDefaults();
 
-
 /* TODO: Extract this to the paintHeader() method of a reporter */
 if ($runner->output_format_name == 'html') {
     echo "<style type=\"text/css\">\n";
@@ -66,6 +65,9 @@ if (!empty($runner->host)) {
     // If host was set use it as a default one
     $_SERVER['SERVER_NAME'] = $runner->host;
 }
+
+// Ensure emails are not sent due to activation/deactivation effect
+define('DISABLE_ALL_EMAILS', 1);
 
 $start = microtime();
 
