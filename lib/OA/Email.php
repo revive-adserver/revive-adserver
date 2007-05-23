@@ -43,7 +43,8 @@ class OA_Email
 {
 
     /**
-     * A static method for preparing an advertiser's "placement delivery" report.
+     * A static method for preparing an advertiser's "placement delivery" report
+     * email.
      *
      * @static
      * @param integer    $advertiserId The advertiser's ID.
@@ -62,43 +63,12 @@ class OA_Email
     function preparePlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate)
     {
         OA::debug('   - Preparing "placement delivery" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
-
-        $aPref = $GLOBALS['_MAX']['PREF'];
-        if (is_null($aPref)) {
-            $aPref = MAX_Admin_Preferences::loadPrefs();
-        }
-
+        $aPref = OA_Email::_loadPrefs();
         Language_Default::load();
-        global $phpAds_CharSet, $date_format, $strBanner, $strCampaign, $strImpressions,
-               $strClicks, $strConversions, $strLinkedTo, $strMailSubject, $strMailHeader,
-               $strMailBannerStats, $strMailFooter, $strMailReportPeriod, $strMailReportPeriodAll,
-               $strLogErrorBanners, $strLogErrorClients, $strLogErrorViews, $strLogErrorClicks,
-               $strLogErrorConversions, $strNoStatsForCampaign, $strNoViewLoggedInInterval,
-               $strNoClickLoggedInInterval, $strNoCampaignLoggedInInterval, $strTotal,
-               $strTotalThisPeriod;
 
-        $oDbh =& OA_DB::singleton();
-
-        // Prepare some strings & formatting options
-        $strCampaignLength = strlen($strCampaign);
-        $strBannerLength   = strlen($strBanner);
-
-        $headingPrintfLength = max($strCampaignLength, $strBannerLength);
-        $strCampaignPrint = '%-'  . $headingPrintfLength . 's';
-        $headingPrintfLength--;
-        $strBannerPrint   = ' %-'  . $headingPrintfLength . 's';
-
-        $strTotalImpressions = $strImpressions . ' (' . $strTotal . ')';
-        $strTotalClicks      = $strClicks      . ' (' . $strTotal . ')';
-        $strTotalConversions = $strConversions . ' (' . $strTotal . ')';
-
-        $strTotalImpressionsLength = strlen($strTotalImpressions);
-        $strTotalClicksLength      = strlen($strTotalClicks);
-        $strTotalConversionsLength = strlen($strTotalConversions);
-        $strTotalThisPeriodLength  = strlen($strTotalThisPeriod);
-
-        $adTextPrintfLength = max($strTotalImpressionsLength, $strTotalClicksLength, $strTotalConversionsLength, $strTotalThisPeriodLength);
-        $adTextPrint = ' %'  . $adTextPrintfLength . 's';
+        // Load the required strings
+        global $strMailHeader, $strSirMadam, $strMailBannerStats, $strMailReportPeriodAll,
+               $strMailReportPeriod, $date_format, $strMailSubject;
 
         // Prepare the result array
         $aResult = array(
@@ -109,24 +79,114 @@ class OA_Email
         );
 
         // Get the advertiser's details
-        $doClients = OA_Dal::factoryDO('clients');
-        $doClients->clientid = $advertiserId;
-        $doClients->find();
-        if (!$doClients->fetch()) {
-            OA::debug('   - Error obtaining details for advertiser ID ' . $advertiserId . '.', PEAR_LOG_ERR);
+        $aAdvertiser = OA_Email::_loadAdvertiser($advertiserId);
+        if ($aAdvertiser === false) {
             return false;
         }
-        $aAdvertiser = $doClients->toArray();
-        // Does the advertiser have an email address?
-        if (empty($aAdvertiser['email'])) {
-            OA::debug('   - No email for advertiser ID ' . $advertiserId . '.', PEAR_LOG_ERR);
-            return false;
-        }
+
         // Check the advertiser wants to have reports sent
         if ($aAdvertiser['report'] != 't') {
             OA::debug('   - Reports disabled for advertiser ID ' . $advertiserId . '.', PEAR_LOG_ERR);
             return false;
         }
+        // Does the advertiser have an email address?
+        if (empty($aAdvertiser['email'])) {
+            OA::debug('   - No email for advertiser ID ' . $advertiserId . '.', PEAR_LOG_ERR);
+            return false;
+        }
+
+        // Prepare the email body
+        $emailBody = OA_Email::_preparePlacementDeliveryEmailBody($advertiserId, $oStartDate, $oEndDate);
+
+        // Was anything found?
+        if ($emailBody == '') {
+            OA::debug('   - No placements with delivery for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
+            return false;
+        }
+
+        // Prepare the final email - add the greeting to the advertiser
+        $email = "$strMailHeader\n";
+        if (!empty($aAdvertiser['contact'])) {
+            $greetingTo = $aAdvertiser['contact'];
+        } else if (!empty($aAdvertiser['clientname'])) {
+            $greetingTo = $aAdvertiser['clientname'];
+        } else {
+            $greetingTo = $strSirMadam;
+        }
+        $email = str_replace("{contact}", $greetingTo, $email);
+
+        // Prepare the final email - add the report type description
+        // and the name of the advertiser the report is about
+        $email .= "$strMailBannerStats\n";
+        $email = str_replace("{clientname}", $aAdvertiser['clientname'], $email);
+
+        // Prepare the final email - add the report period span
+        if (is_null($oStartDate)) {
+            $email .= "$strMailReportPeriodAll\n\n";
+        } else {
+            $email .= "$strMailReportPeriod\n\n";
+        }
+        $email = str_replace("{startdate}", (is_null($oStartDate) ? '' : $oStartDate->format($date_format)), $email);
+        $email = str_replace("{enddate}", $oEndDate->format($date_format), $email);
+
+        // Prepare the final email - add the report body
+        $email .= "$emailBody\n";
+
+        // Prepare the final email - add the "regards" signature
+        $email .= OA_Email::_prepareRegards($aAdvertiser['agencyid']);
+
+        // Prepare & return the final email array
+        $aResult['subject']   = $strMailSubject . ': ' . $aAdvertiser['clientname'];
+        $aResult['contents']  = $email;
+        $aResult['userEmail'] = $aAdvertiser['email'];
+        $aResult['userName']  = $aAdvertiser['contact'];
+        return $aResult;
+    }
+
+    /**
+     * A private, static method to prepare the body of an advertiser's "placement delivery"
+     * report email.
+     *
+     * @access private
+     * @static
+     * @param integer    $advertiserId The advertiser's ID.
+     * @param PEAR::Date $oStartDate   The start date of the report, inclusive.
+     * @param PEAR::Date $oEndDate     The end date of the report, inclusive.
+     */
+    function _preparePlacementDeliveryEmailBody($advertiserId, $oStartDate, $oEndDate)
+    {
+        // Load the preferences and default language
+        $aPref = OA_Email::_loadPrefs();
+        Language_Default::load();
+
+        // Load the "Campaign" and "Banner" strings, and prepare formatting strings
+        global $strCampaign, $strBanner;
+        $strCampaignLength = strlen($strCampaign);
+        $strBannerLength   = strlen($strBanner);
+        $maxLength         = max($strCampaignLength, $strBannerLength);
+        $strCampaignPrint  = '%-'  . $maxLength . 's';
+        $strBannerPrint    = ' %-'  . ($maxLength - 1) . 's';
+
+        // Load the impression, click and conversion delivery strings, and
+        // prepare formatting strings
+        global $strImpressions, $strClicks, $strConversions, $strTotal,
+               $strTotalThisPeriodLength;
+        $strTotalImpressions       = $strImpressions . ' (' . $strTotal . ')';
+        $strTotalClicks            = $strClicks      . ' (' . $strTotal . ')';
+        $strTotalConversions       = $strConversions . ' (' . $strTotal . ')';
+        $strTotalImpressionsLength = strlen($strTotalImpressions);
+        $strTotalClicksLength      = strlen($strTotalClicks);
+        $strTotalConversionsLength = strlen($strTotalConversions);
+        $strTotalThisPeriodLength  = strlen($strTotalThisPeriod);
+        $maxLength   = max($strTotalImpressionsLength, $strTotalClicksLength, $strTotalConversionsLength, $strTotalThisPeriodLength);
+        $adTextPrint = ' %'  . $maxLength . 's';
+
+        // Load remaining required strings
+        global $strLinkedTo, $strNoStatsForCampaign;
+
+        // Prepare the result
+        $emailBody = '';
+
         // Fetch all the advertiser's placements
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId;
@@ -134,9 +194,14 @@ class OA_Email
         if ($doPlacements->getRowCount() > 0) {
             while ($doPlacements->fetch()) {
                 $aPlacement = $doPlacements->toArray();
-                $aResult['contents'] .= "\n" . sprintf($strCampaignPrint, $strCampaign) . ' ' .
-                                        strip_tags(phpAds_buildName($aPlacement['campaignid'], $aPlacement['campaignname'])) . "\n";
-                $aResult['contents'] .= "=======================================================\n\n";
+                // Add the name of the placement to the report
+                $emailBody .= "\n" . sprintf($strCampaignPrint, $strCampaign) . ' ';
+                $emailBody .= strip_tags(phpAds_buildName($aPlacement['campaignid'], $aPlacement['campaignname'])) . "\n";
+                // Add a URL link to the placement
+                $page = 'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $aPlacement['campaignid'];
+                $emailBody .= MAX::constructURL(MAX_URL_ADMIN, $page) . "\n";
+                // Add a nice divider
+                $emailBody .= "=======================================================\n\n";
                 // Fetch all ads in the placement
                 $doBanners = OA_Dal::factoryDO('banners');
                 $doBanners->campaignid = $aPlacement['campaignid'];
@@ -145,154 +210,141 @@ class OA_Email
                     $adsWithDelivery = false;
                     while ($doBanners->fetch()) {
                         $aAd = $doBanners->toArray();
-                        OA::debug('   - Preparing report details for ad ID ' . $aAd['bannerid'] . '.', PEAR_LOG_DEBUG);
                         // Get the total impressions, clicks and conversions delivered by this ad
                         $adImpressions = phpAds_totalViews($aAd['bannerid']);
                         $adClicks      = phpAds_totalClicks($aAd['bannerid']);
                         $adConversions = phpAds_totalConversions($aAd['bannerid']);
                         if ($adImpressions > 0 || $adClicks > 0 || $adConversions > 0) {
-                            // This ad has delivered at some stage, so report on the ad for the report period
-                            $aResult['contents'] .= sprintf($strBannerPrint, $strBanner) . ' ' .
-                                strip_tags(phpAds_buildBannerName($aAd['bannerid'], $aAd['description'], $aAd['alt'])) . "\n";
+                            $adsWithDelivery = true;
+                            // This ad has delivered at some stage, add the name of the ad to the report
+                            $emailBody .= sprintf($strBannerPrint, $strBanner) . ' ';
+                            $emailBody .= strip_tags(phpAds_buildBannerName($aAd['bannerid'], $aAd['description'], $aAd['alt'])) . "\n";
+                            // If the ad has a URL, add the URL the add is linked to to the report
                             if (!empty($aAd['URL'])) {
-                                $aResult['contents'] .= $strLinkedTo . ': ' . $aAd['URL'] . "\n";
+                                $emailBody .= $strLinkedTo . ': ' . $aAd['URL'] . "\n";
                             }
-                            $aResult['contents'] .= " ------------------------------------------------------\n";
+                            // Add a divider before the ad's stats
+                            $emailBody .= " ------------------------------------------------------\n";
                             $adHasStats = false;
                             if ($adImpressions > 0) {
+                                // The ad has impressions
                                 $adHasStats = true;
-                                $aResult['contents'] .=  sprintf($adTextPrint, $strTotalImpressions) . ': ' .
-                                                         sprintf('%15s', phpAds_formatNumber($adImpressions)) . "\n";
+                                $emailBody .= sprintf($adTextPrint, $strTotalImpressions) . ': ';
+                                $emailBody .= sprintf('%15s', phpAds_formatNumber($adImpressions)) . "\n";
                                 // Fetch the ad's impressions for the report period, grouped by day
-                                $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
-                                $doDataSummaryAdHourly->selectAdd('SUM(impressions) as quantity');
-                                $doDataSummaryAdHourly->selectAdd("DATE_FORMAT(day, '$date_format') as t_stamp_f");
-                                $doDataSummaryAdHourly->ad_id = $aAd['bannerid'];
-                                $doDataSummaryAdHourly->whereAdd('impressions > 0');
-                                if (!is_null($oStartDate)) {
-                                    $doDataSummaryAdHourly->whereAdd('day >= ' . $oDbh->quote($oStartDate->format('%Y-%m-%d'), 'timestamp'));
-                                }
-                                $doDataSummaryAdHourly->whereAdd('day <= ' . $oDbh->quote($oEndDate->format('%Y-%m-%d'), 'timestamp'));
-                                $doDataSummaryAdHourly->groupBy('day');
-                                $doDataSummaryAdHourly->orderBy('day DESC');
-                                $doDataSummaryAdHourly->find();
-                                if ($doDataSummaryAdHourly->getRowCount() > 0) {
-                                    $total = 0;
-                                    while ($doDataSummaryAdHourly->fetch()) {
-                                        $aAdImpressions = $doDataSummaryAdHourly->toArray();
-                                        $aResult['contents'] .= sprintf($adTextPrint, $aAdImpressions['t_stamp_f']) . ': ' .
-                                                                sprintf('%15s', phpAds_formatNumber($aAdImpressions['quantity'])) . "\n";
-                                        $total += $aAdImpressions['quantity'];
-                                    }
-                                    $aResult['contents'] .= sprintf($adTextPrint, $strTotalThisPeriod) . ': ' .
-                                                            sprintf('%15s', phpAds_formatNumber($total)) . "\n";
-                                } else {
-                                    $aResult['contents'] .= '  ' . $strNoViewLoggedInInterval . "\n";
-                                }
+                                $emailBody .= OA_Email::_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'impressions', $adTextPrint);
                             }
                             if ($adClicks > 0) {
+                                // The ad has clicks
                                 $adHasStats = true;
-                                $aResult['contents'] .= "\n" . sprintf($adTextPrint, $strTotalClicks) . ': ' .
-                                                         sprintf('%15s', phpAds_formatNumber($adClicks)) . "\n";
+                                $emailBody .= "\n" . sprintf($adTextPrint, $strTotalClicks) . ': ';
+                                $emailBody .= sprintf('%15s', phpAds_formatNumber($adClicks)) . "\n";
                                 // Fetch the ad's clicks for the report period, grouped by day
-                                $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
-                                $doDataSummaryAdHourly->selectAdd('SUM(clicks) as quantity');
-                                $doDataSummaryAdHourly->selectAdd("DATE_FORMAT(day, '$date_format') as t_stamp_f");
-                                $doDataSummaryAdHourly->ad_id = $aAd['bannerid'];
-                                $doDataSummaryAdHourly->whereAdd('clicks > 0');
-                                if (!is_null($oStartDate)) {
-                                    $doDataSummaryAdHourly->whereAdd('day >= ' . $oDbh->quote($oStartDate->format('%Y-%m-%d'), 'timestamp'));
-                                }
-                                $doDataSummaryAdHourly->whereAdd('day <= ' . $oDbh->quote($oEndDate->format('%Y-%m-%d'), 'timestamp'));
-                                $doDataSummaryAdHourly->groupBy('day');
-                                $doDataSummaryAdHourly->orderBy('day DESC');
-                                $doDataSummaryAdHourly->find();
-                                if ($doDataSummaryAdHourly->getRowCount() > 0) {
-                                    $total = 0;
-                                    while ($doDataSummaryAdHourly->fetch()) {
-                                        $aAdClicks = $doDataSummaryAdHourly->toArray();
-                                        $aResult['contents'] .= sprintf($adTextPrint, $aAdClicks['t_stamp_f']) . ': ' .
-                                                                sprintf('%15s', phpAds_formatNumber($aAdClicks['quantity'])) . "\n";
-                                        $total += $aAdClicks['quantity'];
-                                    }
-                                    $aResult['contents'] .= sprintf($adTextPrint, $strTotalThisPeriod) . ': ' .
-                                                            sprintf('%15s', phpAds_formatNumber($total)) . "\n";
-                                } else {
-                                    $aResult['contents'] .= '  ' . $strNoClickLoggedInInterval . "\n";
-                                }
+                                $emailBody .= OA_Email::_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'clicks', $adTextPrint);
                             }
                             if ($adConversions > 0) {
+                                // The ad has conversions
                                 $adHasStats = true;
-                                $aResult['contents'] .= "\n" . sprintf($adTextPrint, $strTotalConversions) . ': ' .
-                                                         sprintf('%15s', phpAds_formatNumber($adConversions)) . "\n";
+                                $emailBody .= "\n" . sprintf($adTextPrint, $strTotalConversions) . ': ';
+                                $emailBody .= sprintf('%15s', phpAds_formatNumber($adConversions)) . "\n";
                                 // Fetch the ad's conversions for the report period, grouped by day
-                                $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
-                                $doDataSummaryAdHourly->selectAdd('SUM(conversions) as quantity');
-                                $doDataSummaryAdHourly->selectAdd("DATE_FORMAT(day, '$date_format') as t_stamp_f");
-                                $doDataSummaryAdHourly->ad_id = $aAd['bannerid'];
-                                $doDataSummaryAdHourly->whereAdd('conversions > 0');
-                                if (!is_null($oStartDate)) {
-                                    $doDataSummaryAdHourly->whereAdd('day >= ' . $oDbh->quote($oStartDate->format('%Y-%m-%d'), 'timestamp'));
-                                }
-                                $doDataSummaryAdHourly->whereAdd('day <= ' . $oDbh->quote($oEndDate->format('%Y-%m-%d'), 'timestamp'));
-                                $doDataSummaryAdHourly->groupBy('day');
-                                $doDataSummaryAdHourly->orderBy('day DESC');
-                                $doDataSummaryAdHourly->find();
-                                if ($doDataSummaryAdHourly->getRowCount() > 0) {
-                                    $total = 0;
-                                    while ($doDataSummaryAdHourly->fetch()) {
-                                        $aAdConversions = $doDataSummaryAdHourly->toArray();
-                                        $aResult['contents'] .= sprintf($adTextPrint, $aAdConversions['t_stamp_f']) . ': ' .
-                                                                sprintf('%15s', phpAds_formatNumber($aAdConversions['quantity'])) . "\n";
-                                        $total += $aAdConversions['quantity'];
-                                    }
-                                    $aResult['contents'] .= sprintf($adTextPrint, $strTotalThisPeriod) . ': ' .
-                                                            sprintf('%15s', phpAds_formatNumber($total)) . "\n";
-                                } else {
-                                    $aResult['contents'] .= '  ' . $strNoConversionLoggedInInterval . "\n";
-                                }
+                                $emailBody .= OA_Email::_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'conversions', $adTextPrint);
                             }
-                            $aResult['contents'] .= "\n";
-                        }
-                        if ($adHasStats == true) {
-                            $adsWithDelivery = true;
+                            $emailBody .= "\n";
                         }
                     }
                 }
+                // Did the placement have any stats?
                 if ($adsWithDelivery != true) {
-                    $aResult['contents'] .= $strNoStatsForCampaign . "\n\n\n";
+                    $emailBody .= $strNoStatsForCampaign . "\n\n\n";
                 }
             }
         }
-        // Was anything found?
-        if ($aResult['contents'] == '') {
-            OA::debug('   - No placements with delivery for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
-            return false;
-        }
-        // Prepare the remaining email details
-        $aResult['subject'] = $strMailSubject . ': ' . $aAdvertiser['clientname'];
-        $body  = "$strMailHeader\n";
-        $body .= "$strMailBannerStats\n";
-        if (is_null($oStartDate)) {
-            $body .= "$strMailReportPeriodAll\n\n";
-        } else {
-            $body .= "$strMailReportPeriod\n\n";
-        }
-        $body .= "{$aResult['contents']}\n";
-        $body .= "$strMailFooter";
-        $body  = str_replace("{clientname}",    $aAdvertiser['clientname'], $body);
-        $body  = str_replace("{contact}",       $aAdvertiser['contact'], $body);
-        $body  = str_replace("{adminfullname}", $aPref['admin_fullname'], $body);
-        $body  = str_replace("{startdate}",     (is_null($oStartDate) ? '' : $oStartDate->format($date_format)), $body);
-        $body  = str_replace("{enddate}",       $oEndDate->format($date_format), $body);
-        $aResult['contents']  = $body;
-        $aResult['userEmail'] = $aAdvertiser['email'];
-        $aResult['userName']  = $aAdvertiser['contact'];
-        return $aResult;
+
+        // Return the email body
+        return $emailBody;
     }
 
     /**
-     * A static method for preparing an advertiser's "impending expiry" report.
+     * A private, static method to prepare the statistics part of the body of an
+     * advertiser's "placement delivery" report email.
+     *
+     * @access private
+     * @static
+     * @param integer    $advertiserId The advertiser's ID.
+     * @param PEAR::Date $oStartDate   The start date of the report, inclusive.
+     * @param PEAR::Date $oEndDate     The end date of the report, inclusive.
+     * @param string     $type         One of "impressions", "clicks" or "conversions".
+     * @param string     $adTextPrint  An sprintf compatible formatting string for use
+     *                                 with the $strTotalThisPeriod global string.
+     * @return string The ad statistics part of the report.
+     */
+    function _preparePlacementDeliveryEmailBodyStats($adId, $oStartDate, $oEndDate, $type, $adTextPrint)
+    {
+        $oDbh =& OA_DB::singleton();
+
+        // Load the preferences and default language
+        $aPref = OA_Email::_loadPrefs();
+        Language_Default::load();
+
+        // Obtain the required date format
+        global $date_format;
+
+        // Obtain the impressions, clicks and conversions string, and prepare
+        // these strings for use, including formatting strings
+        global $strNoViewLoggedInInterval, $strNoClickLoggedInInterval, $strNoConversionLoggedInInterval,
+               $strTotalThisPeriod;
+
+        if ($type == 'impressions') {
+            $nothingLogged = $strNoViewLoggedInInterval;
+        } else if ($type == 'clicks') {
+            $nothingLogged = $strNoClickLoggedInInterval;
+        } else if ($type == 'conversions') {
+            $nothingLogged = $strNoConversionLoggedInInterval;
+        } else {
+            return '';
+        }
+
+        // Prepare the result
+        $emailBodyStats = '';
+
+        // Fetch the ad's stats for the report period, grouped by day
+        $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->selectAdd("SUM($type) as quantity");
+        $doDataSummaryAdHourly->selectAdd("DATE_FORMAT(day, '$date_format') as t_stamp_f");
+        $doDataSummaryAdHourly->ad_id = $adId;
+        $doDataSummaryAdHourly->whereAdd('impressions > 0');
+        if (!is_null($oStartDate)) {
+            $doDataSummaryAdHourly->whereAdd('day >= ' . $oDbh->quote($oStartDate->format('%Y-%m-%d'), 'timestamp'));
+        }
+        $doDataSummaryAdHourly->whereAdd('day <= ' . $oDbh->quote($oEndDate->format('%Y-%m-%d'), 'timestamp'));
+        $doDataSummaryAdHourly->groupBy('day');
+        $doDataSummaryAdHourly->orderBy('day DESC');
+        $doDataSummaryAdHourly->find();
+        if ($doDataSummaryAdHourly->getRowCount() > 0) {
+            // The ad has statistics this period, add them to the report
+            $total = 0;
+            while ($doDataSummaryAdHourly->fetch()) {
+                // Add this day's statistics
+                $aAdQuantity = $doDataSummaryAdHourly->toArray();
+                $emailBodyStats .= sprintf($adTextPrint, $aAdQuantity['t_stamp_f']) . ': ';
+                $emailBodyStats .= sprintf('%15s', phpAds_formatNumber($aAdQuantity['quantity'])) . "\n";
+                $total += $aAdQuantity['quantity'];
+            }
+            // Add the total statistics for the period
+            $emailBodyStats .= sprintf($adTextPrint, $strTotalThisPeriod) . ': ';
+            $emailBodyStats .= sprintf('%15s', phpAds_formatNumber($total)) . "\n";
+        } else {
+            // Simply note that there were no statistics this period
+            $emailBodyStats .= '  ' . $nothingLogged . "\n";
+        }
+
+        // Return the result for the ad's stats
+        return $emailBodyStats;
+    }
+
+    /**
+     * A static method for preparing an advertiser's "impending placement expiry" report.
      *
      * @static
      * @param integer $advertiserId The advertiser's ID.
@@ -312,19 +364,13 @@ class OA_Email
     function prepareplacementImpendingExpiryEmail($advertiserId, $placementId, $reason, $value)
     {
         OA::debug('   - Preparing "impending expiry" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
-
-        $aPref = $GLOBALS['_MAX']['PREF'];
-        if (is_null($aPref)) {
-            $aPref = MAX_Admin_Preferences::loadPrefs();
-        }
-
+        $aPref = OA_Email::_loadPrefs();
         Language_Default::load();
-        global $strSirMadam, $strImpendingCampaignExpiry, $strMailHeader, $strMailFooter,
-               $strImpendingCampaignExpiryDateBody, $strImpendingCampaignExpiryImpsBody,
-               $strYourCampaign, $strTheCampiaignBelongingTo, $strImpendingCampaignExpiryBody,
-               $strCampaign, $strBanner, $strLinkedTo, $strNoBanners;
 
-        $oDbh =& OA_DB::singleton();
+        // Load the required strings
+        global $strImpendingCampaignExpiryDateBody, $strImpendingCampaignExpiryImpsBody, $strMailHeader,
+               $strSirMadam, $strTheCampiaignBelongingTo, $strYourCampaign, $strImpendingCampaignExpiryBody,
+               $strMailFooter, $strImpendingCampaignExpiry;
 
         // Prepare the result array
         $aResult = array();
@@ -362,14 +408,10 @@ class OA_Email
         }
 
         // Get the advertiser's details
-        $doClients = OA_Dal::factoryDO('clients');
-        $doClients->clientid = $advertiserId;
-        $doClients->find();
-        if (!$doClients->fetch()) {
-            OA::debug('   - Error obtaining details for advertiser ID ' . $advertiserId . '.', PEAR_LOG_ERR);
+        $aAdvertiser = OA_Email::_loadAdvertiser($advertiserId);
+        if ($aAdvertiser === false) {
             return false;
         }
-        $aAdvertiser = $doClients->toArray();
 
         // Is warning the agency is set, is the agency ID the same as the admin ID?
         if (isset($aUsers['agency']) && $aAdvertiser['agencyid'] == 0) {
@@ -380,39 +422,23 @@ class OA_Email
 
         // Get & test the admin user's email address details, if required
         if (isset($aUsers['admin'])) {
-            $doPreference = OA_Dal::factoryDO('preference');
-            $doPreference->agencyid = 0;
-            $doPreference->find();
-            if (!$doPreference->fetch()) {
+            $aAdminOwner = OA_Email::_loadAdminPreferences();
+            if ($aAdminOwner === false) {
                 unset($aUsers['admin']);
-            } else {
-                $aAdminOwner = $doPreference->toArray();
-                if (empty($aAdminOwner['admin_email'])) {
-                    OA::debug('   - No email for admin.', PEAR_LOG_ERR);
-                    unset($aUsers['admin']);
-                }
-                if (empty($aAdminOwner['admin_fullname'])) {
-                    $aAdminOwner['admin_fullname'] = $strSirMadam;
-                }
+            } else if (empty($aAdminOwner['admin_email'])) {
+                OA::debug('   - No email for admin.', PEAR_LOG_ERR);
+                unset($aUsers['admin']);
             }
         }
 
         // Get & test the agency user's email address details, if required
         if (isset($aUsers['agency'])) {
-            $doPreference = OA_Dal::factoryDO('preference');
-            $doPreference->agencyid = $aAdvertiser['agencyid'];
-            $doPreference->find();
-            if (!$doPreference->fetch()) {
+            $aAgencyOwner = OA_Email::_loadAgency($aAdvertiser['agencyid']);
+            if ($aAgencyOwner === false) {
                 unset($aUsers['agency']);
-            } else {
-                $aAgencyOwner = $doPreference->toArray();
-                if (empty($aAgencyOwner['admin_email'])) {
-                    OA::debug('   - No email for agency.', PEAR_LOG_ERR);
-                    unset($aUsers['agency']);
-                }
-                if (empty($aAgencyOwner['admin_fullname'])) {
-                    $aAgencyOwner['admin_fullname'] = $strSirMadam;
-                }
+            } else if (empty($aAgencyOwner['email'])) {
+                OA::debug('   - No email for agency.', PEAR_LOG_ERR);
+                unset($aUsers['agency']);
             }
         }
 
@@ -424,8 +450,7 @@ class OA_Email
             }
         }
 
-        // Re-test that there is a user to report to, and
-        // that they have an email address to mail
+        // Re-test that there is still at least one user to report to
         if (empty($aUsers)) {
             return false;
         }
@@ -442,72 +467,146 @@ class OA_Email
             return false;
         }
 
-        $aSubResult['subject'] = $strImpendingCampaignExpiry . ': ' . $aAdvertiser['clientname'];
-        $body  = $strMailHeader . "\n\n";
-        $body .= $reason . "\n\n";
-        $body .= $strImpendingCampaignExpiryBody . "\n\n";
-        $body .= $strCampaign . ' ' .
-                 strip_tags(phpAds_buildName($aPlacement['campaignid'], $aPlacement['campaignname'])) . "\n";
-        $body .= "-------------------------------------------------------\n\n";
+        // Prepare the email body
+        $emailBody  = OA_Email::_prepareplacementImpendingExpiryEmailBody($advertiserId, $aPlacement);
 
-        // Get the ads in the placement
-        $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->campaignid = $placementId;
-        $doBanners->find();
-        if ($doBanners->getRowCount() > 0) {
-            // List the ads
-            while ($doBanners->fetch()) {
-                $aAd = $doBanners->toArray();
-                $body .= ' ' . $strBanner . ' ' .
-                         strip_tags(phpAds_buildBannerName($aAd['bannerid'], $aAd['description'], $aAd['alt'])) . "\n";
-                if (!empty($aAd['url'])) {
-                    $body .= '  ' . $strLinkedTo . ': ' . $aAd['url'] . "\n";
-                }
-                $body .= "\n";
-            }
-        } else {
-            // No ads!
-            $body .= ' ' . $strNoBanners . "\n\n";
+        // Was anything found?
+        if ($emailBody == '') {
+            OA::debug('   - No placements with delivery for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
+            return false;
         }
 
-        $body .= "-------------------------------------------------------\n\n";
-        $body .= "$strMailFooter";
-
-        if (empty($aAdvertiser['clientname'])) {
-        } else {
-        }
-        $body = str_replace("{date}",  $value, $body);
-        $body = str_replace("{limit}", $value, $body);
-        $body = str_replace("{adminfullname}", $aPref['admin_fullname'], $body);
         foreach ($aUsers as $user) {
-            $realBody = $body;
+            // Prepare the final email - add the greeting to the user
+            $email = "$strMailHeader\n";
+            if ($user == 'admin') {
+                if (!empty($aAdminOwner['admin_fullname'])) {
+                    $contactName = $aAdminOwner['admin_fullname'];
+                } else if (!empty($aAdminOwner['company_name'])) {
+                    $contactName = $aAdminOwner['company_name'];
+                } else {
+                    $contactName = $strSirMadam;
+                }
+            } else if ($user == 'agency') {
+                if (!empty($aAgencyOwner['contact'])) {
+                    $contactName = $aAgencyOwner['contact'];
+                } else if (!empty($aAgencyOwner['name'])) {
+                    $contactName = $aAgencyOwner['name'];
+                } else {
+                    $contactName = $strSirMadam;
+                }
+            } else if ($user == 'advertiser') {
+                if (!empty($aAdvertiser['contact'])) {
+                    $contactName = $aAdvertiser['contact'];
+                } else if (!empty($aAdvertiser['clientname'])) {
+                    $contactName = $aAdvertiser['clientname'];
+                } else {
+                    $contactName = $strSirMadam;
+                }
+            }
+            $email = str_replace("{contact}", $contactName, $email);
+
+            // Prepare the final email - add the report type description
+            // and the name of the advertiser the report is about
+            $email .= $reason . "\n\n";
             if ($user == 'admin') {
                 $campaignReplace = $strTheCampiaignBelongingTo . ' ' . trim($aAdvertiser['clientname']);
-                $realBody = str_replace("{clientname}", $campaignReplace, $realBody);
-                $realBody = str_replace("{contact}", $aAdminOwner['admin_fullname'], $realBody);
             } else if ($user == 'agency') {
                 $campaignReplace = $strTheCampiaignBelongingTo . ' ' . trim($aAdvertiser['clientname']);
-                $realBody = str_replace("{clientname}", $campaignReplace, $realBody);
-                $realBody = str_replace("{contact}", $aAgencyOwner['admin_fullname'], $realBody);
             } else if ($user == 'advertiser') {
                 $campaignReplace = $strYourCampaign;
-                $realBody = str_replace("{clientname}", $campaignReplace, $realBody);
-                $realBody = str_replace("{contact}", $aAdvertiser['contact'], $realBody);
             }
-            $aSubResult['contents'] = $realBody;
+            $email = str_replace("{clientname}", $campaignReplace, $email);
+            $email = str_replace("{date}",  $value, $email);
+            $email = str_replace("{limit}", $value, $email);
+            $email .= $strImpendingCampaignExpiryBody . "\n\n";
+
+            // Prepare the final email - add the report body
+            $email .= "$emailBody\n";
+
+            // Prepare the final email - add the "regards" signature
+            if ($user == 'admin') {
+                $email .= OA_Email::_prepareRegards(0);
+            } else {
+                $email .= OA_Email::_prepareRegards($aAdvertiser['agencyid']);
+            }
+
+            // Prepare the user's final email array
+            $aSubResult['subject']   = $strImpendingCampaignExpiry . ': ' . $aAdvertiser['clientname'];
+            $aSubResult['contents']  = $email;
             if ($user == 'admin') {
                 $aSubResult['userEmail'] = $aAdminOwner['admin_email'];
                 $aSubResult['userName']  = $aAdminOwner['admin_fullname'];
             } else if ($user == 'agency') {
-                $aSubResult['userEmail'] = $aAgencyOwner['admin_email'];
-                $aSubResult['userName']  = $aAgencyOwner['admin_fullname'];
+                $aSubResult['userEmail'] = $aAgencyOwner['email'];
+                $aSubResult['userName']  = $aAgencyOwner['contact'];
             } else if ($user == 'advertiser') {
                 $aSubResult['userEmail'] = $aAdvertiser['email'];
                 $aSubResult['userName']  = $aAdvertiser['contact'];
             }
+
+            // Store the final email array
             $aResult[] = $aSubResult;
         }
+
+        // Return the emails to be sent
         return $aResult;
+    }
+
+    /**
+     * A private, static method to prepare the body of an advertiser's "impending placement
+     * expiry" report email.
+     *
+     * @access private
+     * @static
+     * @param integer $advertiserId The advertiser's ID.
+     * @param array   $aPlacement   The placement details.
+     */
+    function _prepareplacementImpendingExpiryEmailBody($advertiserId, $aPlacement)
+    {
+        // Load the preferences and default language
+        $aPref = OA_Email::_loadPrefs();
+        Language_Default::load();
+
+        // Load required strings
+        global $strCampaign, $strBanner, $strLinkedTo, $strNoBanners;
+
+        // Prepare the result
+        $emailBody = '';
+
+        // Add the name of the placement to the report
+        $emailBody .= $strCampaign . ' ';
+        $emailBody .= strip_tags(phpAds_buildName($aPlacement['campaignid'], $aPlacement['campaignname'])) . "\n";
+        // Add a URL link to the placement
+        $page = 'campaign-edit.php?clientid=' . $advertiserId . '&campaignid=' . $aPlacement['campaignid'];
+        $emailBody .= MAX::constructURL(MAX_URL_ADMIN, $page) . "\n";
+        // Add a separator after the placement and before the ads
+        $emailBody .= "-------------------------------------------------------\n\n";
+        // Get the ads in the placement
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $aPlacement['campaignid'];
+        $doBanners->find();
+        if ($doBanners->getRowCount() > 0) {
+            // List the ads that will be deactivated along with the placement
+            while ($doBanners->fetch()) {
+                $aAd = $doBanners->toArray();
+                $emailBody .= ' ' . $strBanner . ' ';
+                $emailBody .= strip_tags(phpAds_buildBannerName($aAd['bannerid'], $aAd['description'], $aAd['alt'])) . "\n";
+                // If the ad has a URL, add the URL the add is linked to to the report
+                if (!empty($aAd['url'])) {
+                    $emailBody .= '  ' . $strLinkedTo . ': ' . $aAd['url'] . "\n";
+                }
+                $emailBody .= "\n";
+            }
+        } else {
+            // No ads in the placement!
+            $emailBody .= ' ' . $strNoBanners . "\n\n";
+        }
+        // Add closing divider
+        $emailBody .= "-------------------------------------------------------\n\n";
+
+        // Return the email body
+        return $emailBody;
     }
 
     /**
@@ -524,10 +623,9 @@ class OA_Email
      */
     function prepareActivatePlacementEmail($contactName, $placementName, $aAds)
     {
-        $aPref = $GLOBALS['_MAX']['PREF'];
-        if (is_null($aPref)) {
-            $aPref = MAX_Admin_Preferences::loadPrefs();
-        }
+        OA::debug('   - Preparing "placement activation" email for advertiser ID ' . $placementId. '.', PEAR_LOG_DEBUG);
+        $aPref = OA_Email::_loadPrefs();
+        Language_Default::load();
 
         $message  = "Dear $contactName,\n\n";
         $message .= 'The following ads have been activated because ' . "\n";
@@ -573,10 +671,9 @@ class OA_Email
      */
     function prepareDeactivatePlacementEmail($contactName, $placementName, $reason, $aAds)
     {
-        $aPref = $GLOBALS['_MAX']['PREF'];
-        if (is_null($aPref)) {
-            $aPref = MAX_Admin_Preferences::loadPrefs();
-        }
+        OA::debug('   - Preparing "placement deactivation" email for advertiser ID ' . $placementId. '.', PEAR_LOG_DEBUG);
+        $aPref = OA_Email::_loadPrefs();
+        Language_Default::load();
 
         $message  = "Dear $contactName,\n\n";
         $message .= 'The following ads have been disabled because:' . "\n";
@@ -613,6 +710,139 @@ class OA_Email
         $message .= 'Regards,' . "\n\n";
         $message .= "{$aPref['admin_fullname']}";
         return $message;
+    }
+
+    /**
+     * A private, static method to load the preferences required when generating reports.
+     *
+     * @access private
+     * @static
+     * @return array The loaded preference array.
+     */
+    function _loadPrefs()
+    {
+        $aPref = $GLOBALS['_MAX']['PREF'];
+        if (is_null($aPref)) {
+            $aPref = MAX_Admin_Preferences::loadPrefs();
+        }
+        return $aPref;
+    }
+
+    /**
+     * A private, static method to load the details of an advertiser from the database.
+     *
+     * @param integer $advertiserId The ID of the advertiser to load.
+     * @return false|array False if the advertiser cannot be loaded, an array of the
+     *                     advertiser's details from the database otherwise.
+     */
+    function _loadAdvertiser($advertiserId)
+    {
+        // Get the advertiser's details
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->clientid = $advertiserId;
+        $doClients->find();
+        if (!$doClients->fetch()) {
+            OA::debug('   - Error obtaining details for advertiser ID ' . $advertiserId . '.', PEAR_LOG_ERR);
+            return false;
+        }
+        $aAdvertiser = $doClients->toArray();
+        return $aAdvertiser;
+    }
+
+    /**
+     * A private, static method to load the details of an agency from the database.
+     *
+     * @param integer $agencyId The ID of the agency to load.
+     * @return false|array False if the agency cannot be loaded, an array of the
+     *                     agency's details from the database otherwise.
+     */
+    function _loadAgency($agencyId)
+    {
+        // Get the agency's details
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->agencyid = $agencyId;
+        $doAgency->find();
+        if (!$doAgency->fetch()) {
+            OA::debug('   - Error obtaining details for agency ID ' . $agencyId . '.', PEAR_LOG_ERR);
+            return false;
+        }
+        $aAgency = $doAgency->toArray();
+        return $aAgency;
+    }
+
+    /**
+     * A private, static method to load the admin user's preferences.
+     *
+     * @return false|array False if the preferences cannot be loaded, an array of the
+     *                     admin user's preferences from the database otherwise.
+     */
+    function _loadAdminPreferences()
+    {
+        $doPreference = OA_Dal::factoryDO('preference');
+        $doPreference->agencyid = 0;
+        $doPreference->find();
+        if (!$doPreference->fetch()) {
+            OA::debug('   - Error obtaining preferences for the admin user.', PEAR_LOG_ERR);
+            return false;
+        }
+        $aAdminPrefs = $doPreference->toArray();
+        return $aAdminPrefs;
+    }
+
+    /**
+     * A private, static method to prepare the "regards" sign off for email reports,
+     * based on the "owning" agnecy ID (which can be 0, in the case the "owner" is
+     * the admin user).
+     *
+     * @param integer $agencyId The owning agency ID.
+     * @return string The "regards" string to sign off an email with.
+     */
+    function _prepareRegards($agencyId)
+    {
+        $aPref = OA_Email::_loadPrefs();
+        Language_Default::load();
+        global $strMailFooter, $strDefaultMailFooter;
+
+        $regards   = '';
+        $useAgency = false;
+        if ($agencyId != 0) {
+            // Send regards of the owning agency
+            $aAgency = OA_Email::_loadAgency($agencyId);
+            if ($aAgency !== false) {
+                if (!empty($aAgency['contact'])) {
+                    $regards .= $aAgency['contact'];
+                }
+                if (!empty($aAgency['name'])) {
+                    if (!empty($regards)) {
+                        $regards .= ', ';
+                    }
+                    $regards .= $aAgency['name'];
+                }
+            }
+            if (empty($regards)) {
+                // Didn't find any agency details! Send
+                // regards of admin user
+                $useAgency = true;
+            }
+        }
+        if ($agencyId == 0 || $useAgency) {
+            // Send regards of the admin user
+            if (!empty($aPref['admin_fullname'])) {
+                $regards .= $aPref['admin_fullname'];
+            }
+            if (!empty($aPref['company_name'])) {
+                if (!empty($regards)) {
+                    $regards .= ', ';
+                }
+                $regards .= $aPref['company_name'];
+            }
+        }
+        if (!empty($regards)) {
+            $result = str_replace("{adminfullname}", $regards, $strMailFooter);
+        } else {
+            $result = $strDefaultMailFooter;
+        }
+        return $result;
     }
 
     /**
