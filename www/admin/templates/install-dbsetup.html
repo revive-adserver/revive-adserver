@@ -45,7 +45,7 @@
     }
     </script>
 <div id="formContainer" style="display: block; width:100%; height:100%;">
-<form name="frmOpenads" id="frmOpenads" method="POST" action="install.php" onSubmit='return showLoader(this);' style="display: block;">
+<form name="frmOpenads" id="frmOpenads" method="POST" action="install.php" onSubmit='return showLoader(this);' style="display:block; margin:0; padding:0;">
 
 <?php            
 
@@ -156,8 +156,11 @@
         )
     ), $errormessage, 0, $imgPath);
 ?>
-                <input type="submit" class="button" name="btn_upgrade" value="<?php echo $strBtnContinue; ?>">
+                <input type="submit" class="button" name="btn_upgrade" value="<?php echo ($displayError ? $strBtnRetry : $strBtnContinue); ?>">
                 <input type="hidden" name="dirPage" id="dirPage" value="" />
+</form>
+
+<form name="frmOpenads2" id="frmOpenads2" method="POST" action="install.php" style="display:block; margin:0; padding:0;">
                 <input type="submit" class="button floatleft" name="btn_syscheck" value="<?php echo $strBtnGoBack; ?>" />
 </form>
 
