@@ -194,7 +194,7 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0, $imgPat
                         // Page is the result of an error message, get values from the input
                         $value = '';
                         if (isset($item['name']) && isset($GLOBALS[$item['name']])) {
-                            $value = '';
+                            $value = $GLOBALS[$item['name']];
                             if ($errors[0] != MAX_ERROR_YOU_HAVE_NO_TRACKERS && $errors[0] != MAX_ERROR_YOU_HAVE_NO_CAMPAIGNS) {
                                 if (isset($GLOBALS[$item['name'].'_defVal'])) {
                                     $value = $GLOBALS[$item['name'].'_defVal'];
@@ -314,7 +314,7 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0, $imgPat
 
 function phpAds_ShowSettings_CheckDependancies($data, $item)
 {
-    $formName = empty($GLOBALS['settings_formName'])?'settingsform' :$GLOBALS['settings_formName']; 
+    $formName = empty($GLOBALS['settings_formName'])?'settingsform' :$GLOBALS['settings_formName'];
     if (isset($item['depends'])) {
         $depends    = split('[ ]+', $item['depends']);
         $javascript = "\tenabled = (";
@@ -457,7 +457,7 @@ function phpAds_ShowSettings_Checkbox($item, $value)
         $sDocLink = $sDocPath;
         echo '&nbsp;<a href="' . $sDocLink . '" class="inlineHelp__" ' .
                 "onclick=\"openWindow('$sDocLink','','status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\"".
-                '">&nbsp;<span>What\'s this?</span></a>';	    
+                '">&nbsp;<span>What\'s this?</span></a>';
     }
     echo "</td><td>".phpAds_ShowSettings_PadLock($item)."</td></tr>\n";
 }
