@@ -44,12 +44,12 @@ class OA_DB_Sql
      */
 	function sqlForInsert($table, $aValues)
 	{
+        $prefix = OA_DB_Sql::getPrefix();
 	    foreach($aValues as $column => $value) {
 	        $aValues[$column] = DBC::makeLiteral($value);
 	    }
         $sColumns = implode(",", array_keys($aValues));
         $sValues = implode(",", $aValues);
-        $prefix = OA_DB_Sql::getPrefix();
         return "INSERT INTO {$prefix}$table ($sColumns) VALUES ($sValues)";
 	}
 
