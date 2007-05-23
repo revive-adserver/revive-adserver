@@ -209,6 +209,11 @@ else if (array_key_exists('btn_adminsetup', $_POST))
         $action = OA_UPGRADE_ERROR;
     }
 }
+else if (array_key_exists('btn_adminsetup_back', $_POST))
+{
+    $aAdmin = unserialize(stripslashes($_POST['aAdminPost']));
+    $action = OA_UPGRADE_ADMINSETUP;
+}
 else if (array_key_exists('btn_oaidsetup', $_POST))
 {
     $action = OA_UPGRADE_IDSETUP;

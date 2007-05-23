@@ -29,4 +29,6 @@
 </table>                    
                     
 <input type="submit" class="button" name="btn_finish" value="<?php echo $strBtnContinue; ?>" />
-<input type="submit" class="button floatleft" name="btn_adminsetup" value="<?php echo $strBtnGoBack; ?>" />
+
+<input type="hidden" name="aAdminPost" id="aAdminPost" value='<?php echo serialize($_POST['aAdmin']); ?>'>
+<input type="submit" class="button floatleft" name="btn_adminsetup_back" value="<?php echo $strBtnGoBack; ?>" />
