@@ -111,7 +111,6 @@ class DataObjects_ChannelTest extends DalUnitTestCase
         $doAcls->channelid = $channelId;
         $doAcls->orderBy('executionorder');
         if ($doAcls->find()) {
-            $aAcls = $doAcls->toArray();
             while ($doAcls->fetch()) {
                 $aAcls[] = clone($doAcls);
             }

@@ -46,9 +46,14 @@ class DataObjects_Acls_channelTest extends DalUnitTestCase
 
     function testDuplicate()
     {
+        //  create test channel
+        $doChannel = OA_Dal::factoryDO('channel');
+        $doChannel->acls_updated = '2007-04-03 19:29:54';
+        $channelId = DataGenerator::generateOne($doChannel);
+
         //  create test acls
         $doAcls = OA_Dal::factoryDO('acls_channel');
-        $doAcls->channelid = 5;
+        $doAcls->channelid = $channelId;
         $doAcls->type = 'Client:Ip';
         $doAcls->comparison = '==';
         $doAcls->data = '127.0.0.1';
@@ -56,7 +61,7 @@ class DataObjects_Acls_channelTest extends DalUnitTestCase
         $doAcls->insert();
 
         $doAcls = OA_Dal::factoryDO('acls_channel');
-        $doAcls->channelid = 5;
+        $doAcls->channelid = $channelId;
         $doAcls->type = 'Client:Domain';
         $doAcls->comparison = '==';
         $doAcls->data = 'example.com';
@@ -64,7 +69,7 @@ class DataObjects_Acls_channelTest extends DalUnitTestCase
         $doAcls->insert();
 
         // duplicate
-        $newChannelId = OA_Dal::staticDuplicate('acls_channel', $channelId, $newChannelId);
+        $newChannelId = OA_Dal::staticDuplicate('channel', $channelId);
 
         //  retrieve acls for original and duplicate channel
         $doAcls = OA_Dal::factoryDO('acls_channel');
@@ -88,14 +93,7 @@ class DataObjects_Acls_channelTest extends DalUnitTestCase
         //  iterate through acls ensuring they were properly copied
         if ($this->assertEqual(count($aAcls), count($aNewAcls))) {
             for ($x = 0; $x < count($aAcls); $x++) {
-                // assert channel ids are not equal
                 $this->assertNotEqual($aAcls[$x]->channelid, $aNewAcls[$x]->channelid);
-
-                // assert acl has proper channel id
-                $this->assertEqual($aAcls[$x]->channelid, $channelId);
-                $this->assertEqual($aNewAcls[$x]->channelid, $newChannelId);
-
-                // assert acl matches acl which it was copied from
                 $this->assertEqualDataObjects($this->stripKeys($aAcls[$x]), $this->stripKeys($aNewAcls[$x]));
             }
         }
