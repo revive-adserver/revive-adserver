@@ -200,12 +200,10 @@ class Migration_119 extends Migration
 	
 	function writeGeoPluginConfig($type, $geotracking_stats, $host)
 	{
-	    if (!file_exists(GEOCONFIG_PATH)) {
-	        $result = mkdir(GEOCONFIG_PATH);
-	        if ($result === false) {
-	            return false;
-	        }
-	    }
+	    $result = $this->createConfigDirectory(GEOCONFIG_PATH);
+        if ($result === false) {
+            return false;
+        }
 	    $saveStats = $geotracking_stats ? 'true' : 'false';
 	    $pluginConfigPath = MAX_PATH . "/var/plugins/config/geotargeting/$host.plugin.conf.php";
         $pluginConfigContents = "[geotargeting]\ntype=$type\nsaveStats=$saveStats\nshowUnavailable=false";
@@ -231,7 +229,7 @@ class Migration_119 extends Migration
 	    elseif (file_exists($dir)) {
 	        return true;
 	    }
-	    return mkdir($dir, 0700, true);
+	    return mkdir($dir, 0700);
 	}
 	
 	/**
