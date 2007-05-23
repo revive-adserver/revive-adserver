@@ -119,22 +119,24 @@ class DataObjects_Channel extends DB_DataObjectCommon
 
     function duplicate()
     {
-        // Get channel acls
-        $doAcls = OA_Dal::factoryDO('acls');
-        $doAcls->channelid = $this->channelid;
-        $doAcls->find();
+        // Get the channel's acls before duplication
+        $doAclsChannel = OA_Dal::factoryDO('acls_channel');
+        $doAclsChannel->channelid = $this->channelid;
+        $doAclsChannel->find();
 
-        // Get unique name
+        // Prepare the new name for the channel
         $this->name = $this->getUniqueNameForDuplication('name');
 
-        // Duplicate channel
+        // Duplicate the channel
         $this->channelid = null;
         $newChannelid = $this->insert();
 
-        // Duplicate channel acls
-//        $doAcls->channelid = $newChannelid;
-//        $doAcls->insert();
-      
+        // Duplicate channel's acls
+        while ($doAclsChannel->fetch()) {
+            $doAclsChannel->channelid = $newChannelid;
+            $doAclsChannel->insert();
+        }
+
         return $newChannelid;
     }
 }
