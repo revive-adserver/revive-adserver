@@ -3,3 +3,10 @@
       name="cookie_viewerId"
       text="[a-z]+[0-9]+"
       regex="true" />
+      
+<!-- check that cookie is 32 characters long -->
+<!--
+<groovy description="check cookie length" >
+    def viewerId = 
+</groovy>
+-->

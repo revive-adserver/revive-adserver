@@ -42,6 +42,7 @@
     <ant antfile="usecases/delivery/avw.xml" />
     <ant antfile="usecases/delivery/ck.xml" />
     <ant antfile="usecases/delivery/alocal.xml" />
+    <ant antfile="usecases/delivery/lg.xml" />
   </target>
   
 </project>

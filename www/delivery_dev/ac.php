@@ -71,7 +71,7 @@ if ($timeout > 0) {
 <!--// <![CDATA[
   window.setTimeout(\"window.close()\",$timeoutMs);
 // ]]> -->
-</script>";			
+</script>";
 }
 
 // Include the FlashObject script if required
