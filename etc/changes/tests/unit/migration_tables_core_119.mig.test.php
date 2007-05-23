@@ -29,6 +29,9 @@ require_once MAX_PATH . '/etc/changes/migration_tables_core_119.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/Configuration.php';
+require_once MAX_PATH . '/lib/util/file/file.php';
+
+define('TMP_GEOCONFIG_PATH', GEOCONFIG_PATH . '.tmp');
 
 /**
  * Test for migration class #127.
@@ -72,6 +75,9 @@ class Migration_119Test extends MigrationTest
     
     function testCreateGeoTargetingConfiguration()
     {
+        if (file_exists(GEOCONFIG_PATH)) {
+            rename(GEOCONFIG_PATH, TMP_GEOCONFIG_PATH);
+        }
         
         $upgradeConfig = new OA_Upgrade_Config();
         $host = $upgradeConfig->getHost();
@@ -83,8 +89,17 @@ class Migration_119Test extends MigrationTest
         $this->checkGeoIp($migration, $host);
         $this->checkModGeoIP($migration, $host);
         
+        Util_File_remove(GEOCONFIG_PATH);
+        
+        if (file_exists(TMP_GEOCONFIG_PATH)) {
+            rename(TMP_GEOCONFIG_PATH, GEOCONFIG_PATH);
+        }
     }
     
+    /**
+     * @param Migration_119 $migration
+     * @param string $host
+     */
     function checkNoGeoTargeting(&$migration, $host)
     {
         $geotracking_type = '';
