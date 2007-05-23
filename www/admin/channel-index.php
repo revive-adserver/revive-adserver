@@ -62,11 +62,11 @@ if (phpAds_isUser(phpAds_Admin)) {
 	}
 } else {
 	$agencyId = phpAds_getAgencyID();
-	
+
 	if (!MAX_checkAgency($agencyId)) {
 		phpAds_Die($strAccessDenied, $strNotAdmin);
 	}
-	
+
 	phpAds_PageHeader("5.2");
 	phpAds_ShowSections(array("5.1", "5.2"));
 }
@@ -82,9 +82,11 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
 }
 
 if (phpAds_isUser(phpAds_Admin)) {
-    if (isset($agencyId) && $agencyId != 0) { // if we are looking at a specific agency's channels as admin
+    if (isset($agencyId) && $agencyId != 0) {
+        // Looking at a specific agency's channels as admin
         $channels = Admin_DA::getChannels(array('agency_id' => $agencyId, 'channel_type' => 'agency'), true);
-    } else { // else we are looking at all channels as admin
+    } else {
+        // Looking at all channels as admin
         $channels = Admin_DA::getChannels(array('channel_type' => 'admin'), true);
     }
 } elseif (phpAds_isUser(phpAds_Agency)) {
