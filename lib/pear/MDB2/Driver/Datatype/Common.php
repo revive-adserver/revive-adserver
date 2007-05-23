@@ -1052,7 +1052,16 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
      */
     function _compareFloatDefinition($current, $previous)
     {
-        return array();
+        $change = array();
+        $previous['length'] = (isset($previous['length']) ? $previous['length'] : null);
+        $current['length'] = (isset($current['length']) ? $current['length'] : null);
+        if (isset($previous['length']) != $current['length'])
+        {
+            if ($previous['length'] != $current['length']) {
+                $change['length'] = true;
+            }
+        }
+        return $change;
     }
 
     // }}}
@@ -1068,7 +1077,16 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
      */
     function _compareDecimalDefinition($current, $previous)
     {
-        return array();
+        $change = array();
+        $previous['length'] = (isset($previous['length']) ? $previous['length'] : null);
+        $current['length'] = (isset($current['length']) ? $current['length'] : null);
+        if (isset($previous['length']) != $current['length'])
+        {
+            if ($previous['length'] != $current['length']) {
+                $change['length'] = true;
+            }
+        }
+        return $change;
     }
 
     // }}}

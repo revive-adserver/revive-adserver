@@ -241,7 +241,12 @@ class MDB2_Driver_Reverse_mysql extends MDB2_Driver_Reverse_Common
         // and coming in as <tablename>_pkey
         if (strtolower($index_name)==strtolower($table).'_pkey')
         {
-            $index_name = 'primary';
+            $index_name = 'PRIMARY';
+            if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
+                if ($db->options['field_case'] == CASE_LOWER) {
+                   $index_name = 'primary';
+                }
+            }
         }
         if (strtolower($index_name) != 'primary') {
             $index_name = $db->getIndexName($index_name);

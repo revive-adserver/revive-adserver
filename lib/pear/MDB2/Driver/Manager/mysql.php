@@ -755,13 +755,16 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
 
         $key_name = 'Key_name';
         $non_unique = 'Non_unique';
+        $table_name = 'Table';
         if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
             if ($db->options['field_case'] == CASE_LOWER) {
                 $key_name = strtolower($key_name);
                 $non_unique = strtolower($non_unique);
+                $table_name = strtolower($table_name);
             } else {
                 $key_name = strtoupper($key_name);
                 $non_unique = strtoupper($non_unique);
+                $table_name = strtoupper($table_name);
             }
         }
 
@@ -778,7 +781,7 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
                 if ($index_data[$key_name] !== 'PRIMARY') {
                     $index = $this->_fixIndexName($index_data[$key_name]);
                 } else {
-                    $index = $index_data['table'] . '_pkey';
+                    $index = $index_data[$table_name] . '_pkey';
                 }
                 if (!empty($index)) {
                     $result[$index] = true;
