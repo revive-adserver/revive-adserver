@@ -149,14 +149,14 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $preferences->setPrefChange('warn_agency', isset($warn_agency));
     if (isset($warn_limit)) {
         if ((!is_numeric($warn_limit)) || ($warn_limit <= 0)) {
-            $errormessage[3][] = $strWarnLimitErr;
+            $errormessage[4][] = $strWarnLimitErr;
         } else {
             $preferences->setPrefChange('warn_limit', $warn_limit);
         }
     }
     if (isset($warn_limit_days)) {
         if ((!is_numeric($warn_limit_days)) || ($warn_limit_days <= 0)) {
-            $errormessage[3][] = $strWarnLimitDaysErr;
+            $errormessage[4][] = $strWarnLimitDaysErr;
         } else {
             $preferences->setPrefChange('warn_limit_days', $warn_limit_days);
         }
