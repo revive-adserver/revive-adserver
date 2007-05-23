@@ -414,6 +414,105 @@ class OA_DB_Upgrade
     }
 
     /**
+     *
+     */
+    function checkSchemaIntegrity()
+    {
+        $this->_log('running integrity check');
+        $this->_log('comparing database '.$this->oSchema->db->connected_database_name.' with schema '.$this->file_schema);
+        OA_DB::setCaseSensitive();
+        // compare the schema and implemented definitions
+        $aDefinitionOld = $this->oSchema->getDefinitionFromDatabase();
+        if ($this->_isPearError($result, 'error getting database definition'))
+        {
+            OA_DB::disableCaseSensitive();
+            return false;
+        }
+        $aDiffs = $this->oSchema->compareDefinitions($this->aDefinitionNew, $aDefinitionOld);
+        if ($this->_isPearError($result, 'error comparing definitions'))
+        {
+            OA_DB::disableCaseSensitive();
+            return false;
+        }
+
+        OA_DB::disableCaseSensitive();
+        $aOptions = array (
+                            'output_mode'   =>    'file',
+                            'output'        =>    MAX_PATH.'/var/schema_integ_check.xml',
+                            'end_of_line'   =>    "\n",
+                            'xsl_file'      =>    "xsl/mdb2_schema.xsl",
+                            'custom_tags'   =>    array(),
+                            'split'         =>    true,
+                          );
+        if ($this->_isPearError($this->oSchema->dumpChangeset($aDiffs, $aOptions), 'error writing changeset'))
+        {
+            return false;
+        }
+
+        $aChanges  = $this->oSchema->parseChangesetDefinitionFile($aOptions['output']);
+        if ($this->_isPearError($aChanges, 'error parsing changeset'))
+        {
+            return false;
+        }
+
+        if (array_key_exists('change', $aChanges['constructive']['tables']))
+        {
+            foreach ($aChanges['constructive']['tables']['change'] AS $k => $v)
+            {
+                // empty arrays should not exist
+                // suspect problem with the compare function somewhere (probably in driver)
+                if (count($v)>0)
+                {
+                    if (isset($v['add']))
+                    {
+                        foreach ($v['add'] AS $column => $bool)
+                        {
+                            $this->_log('column is from table: '.$k.'.'.$column);
+                        }
+                    }
+                    if (isset($v['change']))
+                    {
+                        $this->_log('column definition does not match: '.$k.'.'.$v['change']);
+                    }
+                }
+            }
+        }
+        if (array_key_exists('change', $aChanges['destructive']['tables']))
+        {
+            foreach ($aChanges['destructive']['tables']['change'] AS $k => $v)
+            {
+                // empty arrays should not exist
+                // suspect problem with the compare function somewhere (probably in driver)
+                if (count($v)>0)
+                {
+                    if (isset($v['remove']))
+                    {
+                        foreach ($v['remove'] AS $column => $bool)
+                        {
+                            $this->_log('column is not part of table schema: '.$k.'.'.$column);
+                        }
+                    }
+                }
+            }
+        }
+        if (array_key_exists('remove',$aChanges['destructive']['tables']))
+        {
+            foreach ($aChanges['destructive']['tables']['remove'] AS $k => $v)
+            {
+                $this->_log('table is not part of schema: '.$k);
+            }
+        }
+        if (array_key_exists('add',$aChanges['constructive']['tables']))
+        {
+            foreach ($aChanges['constructive']['tables']['add'] AS $k => $v)
+            {
+                $this->_log('table is missing: '.$k);
+            }
+        }
+        return $aChanges;
+    }
+
+    /**
      * create uniquely named copies of affected tables
      * audit each backup
      *
@@ -1384,7 +1483,8 @@ class OA_DB_Upgrade
                     }
                     else
                     {
-                        $aDBFields = $this->oSchema->db->manager->listTableFields($this->prefix.$table);
+
+                        $aDBFields = $this->_listTableFields($table);
                         foreach ($aTable_tasks['fields'] AS $field => $aField_tasks)
                         {
                             $this->_log('checking field: '.$field);
@@ -1962,6 +2062,22 @@ class OA_DB_Upgrade
         $aDBTables = $this->oSchema->db->manager->listTables(null, $this->prefix.$prefix);
         OA_DB::disableCaseSensitive();
         return $aDBTables;
+    }
+
+    /**
+     * retrieve an array of table names from currently connected database
+     * uses the conf table prefix to search only for tables from the openads schema
+     *
+     *
+     * @param string : any additional (post-prefix) string to search for
+     * @return array
+     */
+    function _listTableFields($table)
+    {
+        OA_DB::setCaseSensitive();
+        $aDBFields = $this->oSchema->db->manager->listTableFields($this->prefix.$table);
+        OA_DB::disableCaseSensitive();
+        return $aDBFields;
     }
 
     //    /**

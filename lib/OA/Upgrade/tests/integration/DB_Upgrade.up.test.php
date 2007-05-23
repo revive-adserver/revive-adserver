@@ -80,6 +80,54 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertIsA($oDB_Upgrade->oSchema->db, 'MDB2_Driver_Common', 'MDB2 Driver not instantiated');
     }
 
+    function test_checkSchemaIntegrity()
+    {
+        $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
+
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        // new tables table1 and table2
+
+        $oTable = new OA_DB_Table();
+
+        // get the current definition
+        $oTable->init(MAX_PATH.'/etc/tables_core.xml');
+        $oDB_Upgrade->aDefinitionNew = $oTable->aDefinition;
+        $oTable->dropAllTables();
+
+        // get a changed definition and implement it
+        $oTable->init($this->path.'test_tables_core.xml');
+        $oTable->createAllTables();
+
+        // now the following have changed
+        // to *imitate* a broken/tweaked database
+        // missing password_recovery table
+        // new column preference.user_custom_field1
+        // missing column preference.updates_enabled
+        // changed column zones.cost from dec 10,4 to dec 12,2
+        $aChanges = $oDB_Upgrade->checkSchemaIntegrity();
+        $this->_dropTestTables($oDB_Upgrade->oSchema->db);
+        $aConstructive = $aChanges['constructive']['tables'];
+        $aDestructive = $aChanges['destructive']['tables'];
+
+        $this->assertTrue(isset($aConstructive['add']),'array of add tables not found');
+        $this->assertTrue(isset($aConstructive['add']['password_recovery']),'password_recovery not found in array of add tables');
+
+        $this->assertTrue(isset($aConstructive['change']),'change tables not found');
+        $this->assertTrue(isset($aConstructive['change']['zones']),'zones table not found in change array');
+        $this->assertTrue(isset($aConstructive['change']['zones']['change']['fields']['cost']['length']),'zones field changes not found in change array');
+        $this->assertTrue(isset($aConstructive['change']['preference']),'preference table not found in change array');
+        $this->assertTrue(isset($aConstructive['change']['preference']['add']['fields']['updates_enabled']),'preference field changes not found in change array');
+
+        $this->assertTrue(isset($aDestructive['remove']),'remove tables not found');
+        $this->assertTrue(isset($aDestructive['remove']['table1']),'table1 not found in remove tables array');
+        $this->assertTrue(isset($aDestructive['remove']['table2']),'table2 not found in remove tables array');
+
+        $this->assertTrue(isset($aDestructive['change']),'change tables not found');
+        $this->assertTrue(isset($aConstructive['change']['preference']),'preference table not found in change array');
+        $this->assertTrue(isset($aConstructive['change']['preference']['remove']['fields']['user_custom_field1']),'preference field changes not found in change array');
+    }
+
+
 ///*
 //seems to be a problem with LIKE in an MDB2 query
 //works in phpMyAdmin on MySQL 5.0.22 but not via this routine
@@ -101,69 +149,7 @@ class Test_DB_Upgrade extends UnitTestCase
 //        $this->assertIsA($aBackupTables,'array','backup array not an array');
 //        $this->assertEqual(count($aBackupTables),3,'wrong number of backups found in database: expected 3 got '.count($aBackupTables));
 //    }
-//
-    /**
-     * this test fakes an upgrade that is interrupted
-     * then recovered in a separate session
-     *
-     */
-/*    function test_recover()
-    {
-        $oDB_Upgrade = $this->_newDBUpgradeObject();
 
-        // emulate a partial upgrade...
-        $this->assertTrue($oDB_Upgrade->_dropRecoveryFile(),'failed to write recovery file');
-        $oDB_Upgrade->aChanges['affected_tables']['constructive'] = array('table1','table2');
-        $oDB_Upgrade->oAuditor->logDatabaseAction(array('info1'=>'UPGRADE STARTED',
-                                                          'action'=>DB_UPGRADE_ACTION_UPGRADE_STARTED,
-                                                         )
-                                                   );
-        $this->assertTrue($oDB_Upgrade->_backup(),'_backup failed');
-        // ...which has stopped for some reason
-        // check that a recovery file was dropped and returns an array of info
-        $aRecovery = $oDB_Upgrade->seekRecoveryFile();
-        $this->assertIsA($aRecovery,'array','recovery file not found');
-        $this->assertEqual($aRecovery['schema_name'],$oDB_Upgrade->schema,'wrong recovery schema_name');
-        $this->assertEqual($aRecovery['timingInt'],$oDB_Upgrade->timingInt,'wrong recovery timing');
-        $this->assertEqual($aRecovery['versionTo'],$oDB_Upgrade->versionTo,'wrong recovery version');
-        $this->assertTrue($aRecovery['updated'],$oDB_Upgrade->versionTo,'recovery timestamp error');
-        // save the in-memory restore array for comparison
-        $aRestoreTables = $oDB_Upgrade->aRestoreTables;
-        // remove it from memory
-        $oDB_Upgrade->aRestoreTables = array();
-        // prepare the recovery data....
-        $this->assertTrue($oDB_Upgrade->getRecoveryData(),'recovery preparation failed');
-        $this->assertEqual(count($oDB_Upgrade->aRestoreTables),2,'wrong number of tables to restore');
-        $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['table1']),'table1 not found in restore array');
-        $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['table2']),'table2 not found in restore array');
-        // save the old definitions for comparison
-        $aTblDefsOriginal = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1','table2'));
-        $oTable = new OA_DB_Table();
-        // these actually get dropped by the rollback method but still....
-        $this->assertTrue($oTable->dropTable('table1'),'error dropping table1');
-        $this->assertTrue($oTable->dropTable('table2'),'error dropping table2');
-        // now restore those tables
-        $this->assertTrue($oDB_Upgrade->doRecovery(), 'rollback failed');
-        // the recovery file should have been deleted
-        $this->assertFalse($oDB_Upgrade->seekRecoveryFile(),'recovery file not deleted');
-
-        $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $this->assertTrue(in_array('table1',$oDB_Upgrade->aDBTables), 'table1 was not restored');
-        $this->assertTrue(in_array('table2',$oDB_Upgrade->aDBTables), 'table2 was not restored');
-        // get the new definitions
-        $aTblDefsRestored = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1','table2'));
-
-        // now test the comparisons....
-        $aDiff = $oDB_Upgrade->oSchema->compareDefinitions($aTblDefsRestored, $aTblDefsOriginal);
-        $this->assertEqual(count($aDiff['tables']),0, 'table definitions mismatch');
-
-        // drop the backup tables
-        OA_DB::setQuoteIdentifier();
-        $this->assertTrue($oTable->dropTable($aRestoreTables['table1']['bak']),'error dropping test backup for table1');
-        $this->assertTrue($oTable->dropTable($aRestoreTables['table2']['bak']),'error dropping test backup for table2');
-        OA_DB::disabledQuoteIdentifier();
-    }
-*/
     /**
      * this test calls backup method then immediately rollsback
      * emulating an upgrade error without interrupt (can recover in same session)
