@@ -1,0 +1,124 @@
+<html>
+<head>
+    <title>Openads Schema Integrity Utilities</title>
+    <link rel="stylesheet" type="text/css" href="css/upgrade.css"/>
+</head>
+<body>
+<div class="tablediv">
+    <h2>Openads Schema Integrity Utilities</h2>
+    <form name="frmInteg" method="POST" action="integ.php">
+        <button name="btn_integ_check">run an integrity check against schema version 500</button>
+    </form>
+</div>
+<form name="frmInteg" method="POST" action="integ.php">
+<?php
+if (count($aTasksConstructive)>0)
+{
+    $tickAll = true;
+?>
+<div class="tablediv">
+    <table class="tablebody">
+        <tr><th colspan="4">Constructive Changes</th></tr>
+        <tr>
+            <td style="vertical-align:top;">
+                <table class="tablebody">
+                    <tr><th colspan="2">Add Tables</th></tr>
+                    <?php
+                        $aTasks = $aTasksConstructive['tables']['add'];
+                        include 'tpl/integtaskssection.html';
+                    ?>
+                </table>
+            </td>
+            <td style="vertical-align:top;">
+                <table class="tablebody">
+                    <tr><th colspan="2">Add Fields</th></tr>
+                    <?php
+                        $aTasks = $aTasksConstructive['fields']['add'];
+                        include 'tpl/integtaskssection.html';
+                    ?>
+                </table>
+            </td>
+            <td style="vertical-align:top;">
+                <table class="tablebody">
+                    <tr><th colspan="2">Alter Fields</th></tr>
+                    <?php
+                        $aTasks = $aTasksConstructive['fields']['change'];
+                        //$showCargo = true;
+                        include 'tpl/integtaskssection.html';
+                    ?>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+<?php
+}
+?>
+
+<?php
+if (count($aTasksDestructive)>0)
+{
+    $tickAll = false;
+?>
+<div class="tablediv">
+    <table class="tablebody">
+        <tr><th colspan="4">Destructive Changes</th></tr>
+        <tr>
+            <td style="vertical-align:top;">
+                <table class="tablebody">
+                    <tr><th colspan="2">Remove Tables</th></tr>
+                    <?php
+                        $aTasks = $aTasksDestructive['tables']['remove'];
+                        include 'tpl/integtaskssection.html';
+                    ?>
+                </table>
+            </td>
+            <td style="vertical-align:top;">
+                <table class="tablebody">
+                    <tr><th colspan="2">Remove Fields</th></tr>
+                    <?php
+                        $aTasks = $aTasksDestructive['fields']['remove'];
+                        include 'tpl/integtaskssection.html';
+                    ?>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+<?php
+}
+?>
+
+<?php
+$aErrors = $oUpgrader->getErrors();
+if (count($aErrors)>0)
+{
+?>
+<div class="tablediv" style="background-color:pink;">
+    <?php
+        foreach ($aErrors AS $k => $err)
+        {
+            echo $err.'<br />';
+        }
+    ?>
+</div>
+<?php
+}
+$aMessages = $oUpgrader->getMessages();
+if (count($aMessages)>0)
+{
+?>
+<div class="tablediv">
+    <?php
+        foreach ($aMessages AS $k => $msg)
+        {
+            echo $msg.'<br />';
+        }
+    ?>
+</div>
+<?php
+}
+?>
+</form>
+</body>
+</html>

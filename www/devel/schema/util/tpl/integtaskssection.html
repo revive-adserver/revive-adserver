@@ -1,0 +1,29 @@
+    <?php
+        foreach ($aTasks AS $k => $v)
+        {
+    ?>
+            <tr>
+                <td>
+                    <?php
+                        $id = $v['name'];
+                        if (isset($v['field']))
+                        {
+                            $id.= '.'.$v['field'];
+                        }
+                        echo $id;
+                        if ($showCargo)
+                        {
+                            echo '<br />';
+                            foreach ($v['cargo']['change'][$v['field']]['definition'] AS $dk => $dv)
+                            {
+                                echo $dk.' = '.$dv.'<br />';
+                            }
+                        }
+                    ?>
+                </td>
+                <td><input type="checkbox" name="aRemoveTable[<?php echo $id ?>]" value="1" <?php if ($tickAll) { echo 'checked';} ?>/></td>
+            </tr>
+
+    <?php
+        }
+    ?>
