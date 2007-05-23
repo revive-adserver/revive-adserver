@@ -1157,7 +1157,7 @@ function nativetype_bigint_callback(&$db, $aFields)
  *                  2 => A boolean value indicating the "unsigned" nature of numeric
  *                       fields. Always null in this case, as the type is not numeric.
  *                  3 => A boolean value indicating the "fixed" nature of text
- *                       fields. Always true in this case, as char is  of fixed length.
+ *                       fields. Always null in this case, as the type is not text.
  */
 function nativetype_char_callback(&$db, $aFields)
 {
@@ -1175,7 +1175,7 @@ function nativetype_char_callback(&$db, $aFields)
     }
     // No unsigned value needed
     $unsigned = null;
-    // Set fixed to false
+    // No fixed value needed
     $fixed = null;
     return array($aType, $length, $unsigned, $fixed);
 }

@@ -1038,13 +1038,13 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
                 0 => array('openads_char'),
                 1 => null,
                 2 => null,
-                3 => true
+                3 => null
             ),
             'char_test2' => array(
                 0 => array('openads_char'),
                 1 => 5,
                 2 => null,
-                3 => true
+                3 => null
             )
         );
         foreach ($aTestData as $testKey => $aFields) {
