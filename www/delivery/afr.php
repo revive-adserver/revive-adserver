@@ -118,7 +118,11 @@ $conf = $GLOBALS['_MAX']['CONF'];
 if ($conf['debug']['logfile']) {
 @ini_set('error_log', MAX_PATH . '/var/' . $conf['debug']['logfile']);
 }
+if ($conf['debug']['production']) {
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+} else {
+error_reporting(E_ALL);
+}
 $file = '/lib/max/Delivery/common.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 $file = '/lib/max/Delivery/cookie.php';
