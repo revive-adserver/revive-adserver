@@ -1183,7 +1183,10 @@ _limitationsIsCampaignCapped($campaignId, $aAd['cap_campaign'], $aAd['session_ca
 }
 function MAX_limitationsIsZoneForbidden($zoneId, $aCapping)
 {
-return (_limitationsIsZoneCapped($zoneId, $aCapping['cap_zone'], $aCapping['session_cap_zone'], $aCapping['block_zone']));
+$capZone = isset($aCapping['cap_zone']) ? $aCapping['cap_zone'] : null;
+$sessionCapZone = isset($aCapping['session_cap_zone']) ? $aCapping['session_cap_zone'] : null;
+$blockZone = isset($aCapping['block_zone']) ? $aCapping['block_zone'] : null;
+return (_limitationsIsZoneCapped($zoneId, $capZone, $sessionCapZone, $blockZone));
 }
 function _limitationsIsAdCapped($adId, $cap, $sessionCap = 0, $block)
 {
@@ -2027,7 +2030,7 @@ $zoneId = _getNextZone($zoneId, $aZoneLinkedAds);
 continue;
 }
 if (is_array($aZoneLinkedAds)) {
-if ($aZoneLinkedAds['forceappend'] == 't') {
+if (isset($aZoneLinkedAds['forceappend']) && $aZoneLinkedAds['forceappend'] == 't') {
 $g_prepend .= $aZoneLinkedAds['prepend'];
 $g_append = $aZoneLinkedAds['append'] . $g_append;
 $appendedThisZone = true;
