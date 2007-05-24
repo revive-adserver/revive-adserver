@@ -62,6 +62,7 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
      *                         start/end dates of the process run are
      *                         relevant.
      * @param string $tableName The name of the log_matinenance_* table to log into.
+     *                          Must NOT be a complete table name, ie. no prefix.
      * @param boolean $setOperationInterval Should the operation intverval value be
      *                                      logged, or not?
      * @param string $runTypeField Optional name of DB field to hold $type value.
