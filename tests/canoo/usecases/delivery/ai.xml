@@ -7,7 +7,7 @@
 >
 
 <!--
-  Test that returned binary data (returns what was in data field of images table)
+  Test that ai.php returns binary data (returns what was in data field of images table)
 -->
 <project name="Openads delivery - ai.php" basedir="../.." default="main">
   <import file="../../includes/init.xml"/>
@@ -25,7 +25,7 @@
     </testSpec>
   </target>
 
-  <!-- clean cache, run a canoo test (without cache), and do again (with cache) -->
+  <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
   <target name="main" depends="clean-delivery-cache, canoo-test, canoo-test" />
   
 </project>

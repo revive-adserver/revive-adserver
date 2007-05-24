@@ -8,7 +8,7 @@
 >
 
 <!--
-  Test that page redirects user to ai.php
+  Test that avw.php redirects user to ai.php which sends a banner image
 -->
 <project name="Openads delivery - avw.php" basedir="../.." default="main">
   <import file="../../includes/init.xml"/>

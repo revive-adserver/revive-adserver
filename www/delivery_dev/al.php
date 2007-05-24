@@ -45,7 +45,7 @@ if (!isset($layerstyle) || empty($layerstyle)) $layerstyle = 'geocities';
 
 // Include layerstyle
 if (file_exists(MAX_PATH . '/plugins/invocationTags/adlayer/layerstyles/'.$layerstyle.'/layerstyle.inc.php')) {
-    include_once MAX_PATH . '/plugins/invocationTags/adlayer/layerstyles/'.$layerstyle.'/layerstyle.inc.php';
+    include MAX_PATH . '/plugins/invocationTags/adlayer/layerstyles/'.$layerstyle.'/layerstyle.inc.php';
 }
 
 $limitations = MAX_layerGetLimitations();

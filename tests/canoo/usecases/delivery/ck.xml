@@ -6,7 +6,7 @@
 >
 
 <!--
-  Test that user is redirected after clicking to a destination page
+  Test that user is redirected after clicking on a destination page
 -->
 <project name="Openads delivery - ck.php" basedir="../.." default="main">
   <import file="../../includes/init.xml"/>

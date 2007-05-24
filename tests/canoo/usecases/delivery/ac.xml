@@ -3,36 +3,31 @@
   <!ENTITY config SYSTEM               "file:../../includes/config.xml">
   <!ENTITY checkForErrors SYSTEM       "file:../../modules/errors.xml">
   <!ENTITY verifyLinks SYSTEM          "file:../../modules/links.xml">
-  <!ENTITY loginBeacon SYSTEM          "file:../../modules/loginBeacon.xml">
+  <!ENTITY verifyLoginBeacon SYSTEM          "file:../../modules/loginBeacon.xml">
 ]
 >
 
-<!-- Similar test to afr.php, the only difference is that ???
-     TODO: refactor afr.php and ac.php so they should use the same base for tests
--->
+<!-- Test that ac.php prints the banner 
+  @TODO and that it wraps it into <html><head><body> tags -->
 <project name="Openads delivery - ac.php" basedir="../.." default="main">
   <import file="../../includes/init.xml"/>
   <import file="${webtest.home}/lib/taskdef.xml"/>
 
-  <target name="main">
-
+  <target name="canoo-test">
     <testSpec name="Run Delivery">
       &config;
       <steps>
-        <clean-delivery-cache />
-        <invoke description="Invoke delivery file" url="/delivery/ac.php?bannerid=2" />
-        &checkForErrors;
-        
         <invoke description="Invoke delivery file" url="/delivery/ac.php?bannerid=2" />
         &checkForErrors;
         &verifyLinks;
         <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
         <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />
-        &loginBeacon;
+        &verifyLoginBeacon;
       </steps>
-
     </testSpec>
+  </target>
 
-</target>
+  <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
+  <target name="main" depends="clean-delivery-cache, canoo-test, canoo-test" />
 
 </project>

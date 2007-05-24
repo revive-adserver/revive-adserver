@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 
+  <!-- TODO:
+             * add a check to ensure that returned HTML is a valid XHTML
+  -->
 <project name="delivery" basedir="." default="main">
 
   <property name="openads.path" value="${basedir}/../.."/>
@@ -28,8 +31,9 @@
   </target>
   
   <target name="delivery">
-    <ant antfile="usecases/delivery/afr.xml" />
     <ant antfile="usecases/delivery/ac.xml" />
+    <ant antfile="usecases/delivery/ag.xml" />
+    <ant antfile="usecases/delivery/afr.xml" />
     <ant antfile="usecases/delivery/ai.xml" />
     <ant antfile="usecases/delivery/ajs.xml" />
     <ant antfile="usecases/delivery/avw.xml" />
