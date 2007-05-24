@@ -52,10 +52,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function testGetMaintenanceStatisticsLastRunInfo()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['maintenance']['operationInterval'] = 60;
-        $conf['table']['split'] = false;
+        $aConf['maintenance']['operationInterval'] = 60;
+        $aConf['table']['split'] = false;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -68,7 +68,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert ad impressions
         $query = "
             INSERT INTO
-                data_raw_ad_impression
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}
                 (
                     ad_id,
                     creative_id,
@@ -113,7 +113,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert an hourly (only) update
         $query = "
             INSERT INTO
-                log_maintenance_statistics
+                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_statistics']}
                 (
                     start_run,
                     end_run,
@@ -250,14 +250,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function test_summariseData()
     {
+        $aConf = &$GLOBALS['_MAX']['CONF'];
+
         // Types to be tested
         $aType = array(
-            'request'    => 'data_raw_ad_request',
-            'impression' => 'data_raw_ad_impression',
-            'click'      => 'data_raw_ad_click',
+            'request'    => $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_request'],
+            'impression' => $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_impression'],
+            'click'      => $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_click'],
         );
-
-        $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
@@ -265,8 +265,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
 
         foreach ($aType as $type => $table) {
 
-            $conf['table']['split'] = false;
-            $conf['maintenance']['operationInterval'] = 30;
+            $aConf['table']['split'] = false;
+            $aConf['maintenance']['operationInterval'] = 30;
 
             $returnColumnName = $type . 's';
             // Test with no data
@@ -378,10 +378,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function testSummariseConnections()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['modules']['Tracker'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['modules']['Tracker'] = true;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -403,7 +403,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // impressions, ad clicks, and tracker impressions
         $query = "
             INSERT INTO
-                banners
+                {$aConf['table']['prefix']}{$aConf['table']['banners']}
                 (
                     bannerid,
                     description,
@@ -479,7 +479,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                campaigns_trackers
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns_trackers']}
                 (
                     campaignid,
                     trackerid,
@@ -523,7 +523,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $rows = $st->execute($aData);
         $queryImpressions = "
             INSERT INTO
-                data_raw_ad_impression
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}
                 (
                     viewer_id,
                     viewer_session_id,
@@ -550,7 +550,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $queryClicks = "
             INSERT INTO
-                data_raw_ad_click
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}
                 (
                     viewer_id,
                     viewer_session_id,
@@ -697,7 +697,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $rows = $stClicks->execute($aData);
         $query = "
             INSERT INTO
-                data_raw_tracker_impression
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']}
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -1005,7 +1005,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Drop the temporary table
         $dsa->tempTables->dropTable('tmp_ad_connection');
         // Test with the data present, but the tracker module uninstalled
-        $conf['modules']['Tracker'] = false;
+        $aConf['modules']['Tracker'] = false;
         $dsa = $oMDMSF->factory("AdServer");
         // Summarise where the other connections are
         $start = new Date('2004-06-06 18:00:00');
@@ -1086,7 +1086,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function test_saveIntermediateDeduplicateConversions()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
 
         // Test 0
@@ -1101,7 +1101,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 0);
@@ -1113,7 +1113,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -1152,7 +1152,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
@@ -1160,7 +1160,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -1174,7 +1174,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -1210,7 +1210,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -1249,7 +1249,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -1257,7 +1257,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -1271,7 +1271,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -1291,7 +1291,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -1327,7 +1327,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -1348,7 +1348,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
@@ -1356,7 +1356,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -1370,7 +1370,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -1390,7 +1390,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -1426,7 +1426,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -1447,7 +1447,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
@@ -1455,7 +1455,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -1469,7 +1469,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -1489,7 +1489,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -1525,7 +1525,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -1546,7 +1546,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
@@ -1554,7 +1554,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -1568,7 +1568,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -1588,7 +1588,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -1624,7 +1624,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -1642,7 +1642,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -1678,7 +1678,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -1699,7 +1699,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -1707,7 +1707,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -1721,7 +1721,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -1741,7 +1741,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -1777,7 +1777,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -1795,7 +1795,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -1831,7 +1831,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -1852,7 +1852,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -1860,7 +1860,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -1874,7 +1874,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -1894,7 +1894,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -1930,7 +1930,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -1948,7 +1948,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -1984,7 +1984,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2005,7 +2005,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -2013,7 +2013,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -2027,7 +2027,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -2047,7 +2047,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2083,7 +2083,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2101,7 +2101,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2137,7 +2137,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2158,7 +2158,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -2166,7 +2166,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -2180,7 +2180,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -2200,7 +2200,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2236,7 +2236,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2254,7 +2254,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2290,7 +2290,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2311,7 +2311,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -2319,7 +2319,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -2333,7 +2333,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -2353,7 +2353,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2389,7 +2389,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2407,7 +2407,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2443,7 +2443,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2464,7 +2464,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -2472,7 +2472,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -2486,7 +2486,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -2506,7 +2506,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2542,7 +2542,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2563,7 +2563,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
@@ -2571,7 +2571,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -2585,7 +2585,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -2605,7 +2605,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2641,7 +2641,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2662,7 +2662,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
@@ -2670,7 +2670,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -2684,7 +2684,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -2704,7 +2704,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2740,7 +2740,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2761,7 +2761,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
@@ -2769,7 +2769,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -2783,7 +2783,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -2803,7 +2803,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2839,7 +2839,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2857,7 +2857,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2893,7 +2893,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2914,7 +2914,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -2922,7 +2922,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -2936,7 +2936,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -2956,7 +2956,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2992,7 +2992,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3010,7 +3010,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3046,7 +3046,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3067,7 +3067,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -3075,7 +3075,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -3089,7 +3089,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -3109,7 +3109,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3145,7 +3145,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3163,7 +3163,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3199,7 +3199,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3220,7 +3220,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -3228,7 +3228,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -3242,7 +3242,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -3262,7 +3262,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3300,7 +3300,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3318,7 +3318,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3356,7 +3356,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3377,7 +3377,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -3385,7 +3385,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -3397,7 +3397,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 comments
 
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -3408,7 +3408,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_DUPLICATE;
         $aRow = $oDbh->queryRow($query);
@@ -3420,7 +3420,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 comments
 
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -3435,7 +3435,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -3455,7 +3455,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3493,7 +3493,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3511,7 +3511,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3549,7 +3549,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3570,7 +3570,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -3578,7 +3578,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -3592,7 +3592,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -3612,7 +3612,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3650,7 +3650,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3668,7 +3668,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3706,7 +3706,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3727,7 +3727,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -3735,7 +3735,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -3749,7 +3749,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -3769,7 +3769,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3807,7 +3807,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3825,7 +3825,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3863,7 +3863,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3884,7 +3884,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -3892,7 +3892,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -3904,7 +3904,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 comments
 
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -3915,7 +3915,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_DUPLICATE;
         $aRow = $oDbh->queryRow($query);
@@ -3927,7 +3927,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 comments
 
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -3940,7 +3940,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Prepare the variable values for the tracker
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -3959,7 +3959,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -3978,7 +3978,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['variables']}
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -3999,7 +3999,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // using tracker ID 1 (two variable values)
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4037,7 +4037,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4054,7 +4054,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4073,7 +4073,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // using tracker ID 2 (one variable value)
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4111,7 +4111,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4136,7 +4136,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -4144,7 +4144,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -4156,7 +4156,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 comments
 
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -4169,7 +4169,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 comments
 
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -4180,7 +4180,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // using tracker ID 1 (two variable values)
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4218,7 +4218,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4235,7 +4235,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4254,7 +4254,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // using tracker ID 1 (two variable values)
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4292,7 +4292,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4309,7 +4309,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4334,7 +4334,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 4);
@@ -4342,7 +4342,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -4352,7 +4352,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_DUPLICATE;
         $aRow = $oDbh->queryRow($query);
@@ -4364,7 +4364,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 comments
 
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -4377,7 +4377,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 comments
 
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -4390,7 +4390,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 comments
 
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -4403,7 +4403,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 comments
 
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 4";
         $aRow = $oDbh->queryRow($query);
@@ -4414,7 +4414,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // using tracker ID 1 (two variable values)
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4452,7 +4452,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4469,7 +4469,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4488,7 +4488,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // using tracker ID 2 (one variable value)
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4526,7 +4526,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4551,7 +4551,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 6);
@@ -4559,7 +4559,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -4569,7 +4569,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_DUPLICATE;
         $aRow = $oDbh->queryRow($query);
@@ -4581,7 +4581,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 comments
 
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -4594,7 +4594,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 comments
 
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -4607,7 +4607,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 comments
 
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -4620,7 +4620,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 comments
 
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 4";
         $aRow = $oDbh->queryRow($query);
@@ -4633,7 +4633,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 comments
 
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 5";
         $aRow = $oDbh->queryRow($query);
@@ -4646,7 +4646,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
                 comments
 
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 data_intermediate_ad_connection_id = 6";
         $aRow = $oDbh->queryRow($query);
@@ -4876,10 +4876,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function _insertTestSaveIntermediateTrackerImpressionAndTmpAdConnection()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                data_raw_tracker_impression
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']}
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -5004,10 +5005,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function _insertTestSaveIntermedaiteVariable()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                variables
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid
@@ -5027,10 +5029,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function _insertTestSaveIntermedaiteVariableAsBasket()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                variables
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -5053,10 +5056,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function _insertTestSaveIntermedaiteVariableValue()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                data_raw_tracker_variable_value
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_variable_value']}
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -5121,11 +5125,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function testSaveIntermediate()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
 
         // Test 1
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['modules']['Tracker'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
@@ -5153,7 +5157,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $aRow = $oDbh->queryRow($query);
@@ -5162,21 +5166,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
 
         // Test 2
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['modules']['Tracker'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
@@ -5191,14 +5195,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -5220,7 +5224,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -5242,21 +5246,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
 
         // Test 3
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['modules']['Tracker'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
@@ -5271,14 +5275,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -5300,7 +5304,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -5322,21 +5326,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
 
         // Test 4
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['modules']['Tracker'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
@@ -5351,14 +5355,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -5380,7 +5384,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -5402,7 +5406,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -5424,21 +5428,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
 
         // Test 5
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['modules']['Tracker'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
@@ -5455,14 +5459,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -5484,7 +5488,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -5506,7 +5510,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -5528,21 +5532,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
 
         // Test 6
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['modules']['Tracker'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
@@ -5557,14 +5561,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -5614,21 +5618,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -5649,8 +5653,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         TestEnv::restoreEnv();
 
         // Test 7
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['modules']['Tracker'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
@@ -5666,14 +5670,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -5723,21 +5727,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -5758,8 +5762,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         TestEnv::restoreEnv();
 
         // Test 8
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['modules']['Tracker'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
@@ -5776,14 +5780,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -5833,14 +5837,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 value
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -5849,14 +5853,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -5877,8 +5881,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         TestEnv::restoreEnv();
 
         // Test 9
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['modules']['Tracker'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
@@ -5894,14 +5898,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -5951,21 +5955,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -5986,8 +5990,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         TestEnv::restoreEnv();
 
         // Test 10
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['modules']['Tracker'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
@@ -6004,14 +6008,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -6061,14 +6065,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 value
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -6077,14 +6081,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -6105,8 +6109,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         TestEnv::restoreEnv();
 
         // Test 11
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['modules']['Tracker'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['modules']['Tracker'] = true;
         $oDbh = &OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
@@ -6118,7 +6122,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->_insertTestSaveIntermediateClickData();
         $query = "
             INSERT INTO
-                variables
+                {$aConf['table']['prefix']}{$aConf['table']['variables']}
                 (
                     variableid,
                     trackerid,
@@ -6206,7 +6210,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                data_raw_tracker_impression
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']}
                 (
                     server_raw_tracker_impression_id, server_raw_ip, viewer_id, viewer_session_id,
                     date_time, tracker_id, channel, language, ip_address, host_name, country,
@@ -6412,7 +6416,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                data_raw_tracker_variable_value
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_variable_value']}
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -6485,14 +6489,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 9);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -6542,7 +6546,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 server_raw_tracker_impression_id = 3
                 AND server_raw_ip = '127.0.0.3'";
@@ -6592,7 +6596,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 server_raw_tracker_impression_id = 4
                 AND server_raw_ip = '127.0.0.3'";
@@ -6642,7 +6646,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 server_raw_tracker_impression_id = 5
                 AND server_raw_ip = '127.0.0.3'";
@@ -6692,7 +6696,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 server_raw_tracker_impression_id = 6
                 AND server_raw_ip = '127.0.0.6'";
@@ -6742,7 +6746,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 server_raw_tracker_impression_id = 7
                 AND server_raw_ip = '127.0.0.6'";
@@ -6792,7 +6796,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 server_raw_tracker_impression_id = 8
                 AND server_raw_ip = '127.0.0.8'";
@@ -6842,7 +6846,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 server_raw_tracker_impression_id = 9
                 AND server_raw_ip = '127.0.0.9'";
@@ -6892,7 +6896,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 server_raw_tracker_impression_id = 10
                 AND server_raw_ip = '127.0.0.10'";
@@ -6942,14 +6946,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 12);
         $query = "
             SELECT
                 value
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -6958,7 +6962,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 value
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -6967,7 +6971,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 value
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -6976,7 +6980,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 value
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 4";
         $aRow = $oDbh->queryRow($query);
@@ -6985,7 +6989,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 value
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 5";
         $aRow = $oDbh->queryRow($query);
@@ -6994,7 +6998,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 value
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 6";
         $aRow = $oDbh->queryRow($query);
@@ -7003,7 +7007,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 value
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 7";
         $aRow = $oDbh->queryRow($query);
@@ -7012,7 +7016,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 value
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 8";
         $aRow = $oDbh->queryRow($query);
@@ -7021,7 +7025,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 value
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 9";
         $aRow = $oDbh->queryRow($query);
@@ -7030,7 +7034,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 value
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 10";
         $aRow = $oDbh->queryRow($query);
@@ -7039,7 +7043,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 value
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 11";
         $aRow = $oDbh->queryRow($query);
@@ -7048,7 +7052,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 value
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}
             WHERE
                 tracker_variable_id = 12";
         $aRow = $oDbh->queryRow($query);
@@ -7057,14 +7061,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -7087,7 +7091,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -7110,7 +7114,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -7137,9 +7141,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function testSaveHistory()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['maintenance']['operationInterval'] = 30;
+        $aConf['maintenance']['operationInterval'] = 30;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -7152,13 +7156,13 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         // Insert the test data
         $query = "
             INSERT INTO
-                data_intermediate_ad
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
                 (
                     day, hour, operation_interval, operation_interval_id, interval_start, interval_end,
                     ad_id, creative_id, zone_id, impressions, clicks, conversions, total_basket_value
@@ -7205,14 +7209,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['operation_interval'], '30');
         $this->assertEqual($aRow['operation_interval_id'], 36);
@@ -7246,14 +7250,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
             WHERE
                 operation_interval_id = 37";
         $aRow = $oDbh->queryRow($query);
@@ -7267,7 +7271,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert some predicted values into the data_summary_zone_impression_history table
         $query = "
             INSERT INTO
-                data_summary_zone_impression_history
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
                 (
                     operation_interval, operation_interval_id, interval_start, interval_end, zone_id, actual_impressions
                 )
@@ -7291,14 +7295,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
             WHERE
                 operation_interval_id = 38";
         $aRow = $oDbh->queryRow($query);
@@ -7334,14 +7338,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
             WHERE
                 operation_interval_id = 38";
         $aRow = $oDbh->queryRow($query);
@@ -7364,10 +7368,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function _insertTestSaveSummaryPlacement()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = & OA_DB::singleton();
         $query = "
             INSERT INTO
-                campaigns
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
                 (
                     campaignid,
                     revenue,
@@ -7403,10 +7408,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function _insertTestSaveSummaryAd()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = & OA_DB::singleton();
         $query = "
             INSERT INTO
-                banners
+                {$aConf['table']['prefix']}{$aConf['table']['banners']}
                 (
                     bannerid,
                     campaignid,
@@ -7456,10 +7462,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function _insertTestSaveSummaryZone()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = & OA_DB::singleton();
         $query = "
             INSERT INTO
-                zones
+                {$aConf['table']['prefix']}{$aConf['table']['zones']}
                 (
                     zoneid,
                     cost,
@@ -7519,7 +7526,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function testSaveSummary()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
@@ -7544,7 +7551,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
 
@@ -7555,7 +7562,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $this->_insertTestSaveSummaryZone();
         $query = "
             INSERT INTO
-                data_intermediate_ad
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
                 (
                     day, hour, operation_interval, operation_interval_id, interval_start, interval_end,
                     ad_id, creative_id, zone_id, impressions, clicks, conversions, total_basket_value, total_num_items
@@ -7623,14 +7630,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 8);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']}
             WHERE
                 ad_id = 1
                 AND creative_id = 1";
@@ -7648,7 +7655,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']}
             WHERE
                 ad_id = 1
                 AND creative_id = 2";
@@ -7666,7 +7673,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']}
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -7684,7 +7691,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']}
             WHERE
                 ad_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -7702,7 +7709,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']}
             WHERE
                 ad_id = 4
             ORDER BY
@@ -7788,14 +7795,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']}
             WHERE
                 ad_id = 1
                 AND creative_id = 1";
@@ -7813,7 +7820,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']}
             WHERE
                 ad_id = 1
                 AND creative_id = 2";
@@ -7831,7 +7838,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']}
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -7854,9 +7861,9 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function testmanagePlacements()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['maintenance']['operationInterval'] = 60;
+        $aConf['maintenance']['operationInterval'] = 60;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -7865,7 +7872,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the base test data
         $query = "
             INSERT INTO
-                campaigns
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
                 (
                     campaignid, campaignname, clientid, views, clicks, conversions, expire, activate, active
                 )
@@ -7913,7 +7920,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                clients
+                {$aConf['table']['prefix']}{$aConf['table']['clients']}
                 (
                     clientid,
                     contact,
@@ -7928,7 +7935,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                banners
+                {$aConf['table']['prefix']}{$aConf['table']['banners']}
                 (
                     bannerid,
                     campaignid,
@@ -7994,7 +8001,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
             WHERE
                 campaignid = 1";
         $aRow = $oDbh->queryRow($query);
@@ -8008,7 +8015,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
             WHERE
                 campaignid = 2";
         $aRow = $oDbh->queryRow($query);
@@ -8022,7 +8029,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
             WHERE
                 campaignid = 3";
         $aRow = $oDbh->queryRow($query);
@@ -8036,7 +8043,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
             WHERE
                 campaignid = 4";
         $aRow = $oDbh->queryRow($query);
@@ -8050,7 +8057,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
             WHERE
                 campaignid = 5";
         $aRow = $oDbh->queryRow($query);
@@ -8064,7 +8071,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
             WHERE
                 campaignid = 6";
         $aRow = $oDbh->queryRow($query);
@@ -8078,7 +8085,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
             WHERE
                 campaignid = 7";
         $aRow = $oDbh->queryRow($query);
@@ -8091,7 +8098,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // Insert the summary test data - Part 1
         $query = "
             INSERT INTO
-                data_intermediate_ad
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
                 (
                     operation_interval,
                     operation_interval_id,
@@ -8159,7 +8166,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
             WHERE
                 campaignid = 1";
         $aRow = $oDbh->queryRow($query);
@@ -8173,7 +8180,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
             WHERE
                 campaignid = 2";
         $aRow = $oDbh->queryRow($query);
@@ -8187,7 +8194,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
             WHERE
                 campaignid = 3";
         $aRow = $oDbh->queryRow($query);
@@ -8201,7 +8208,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
             WHERE
                 campaignid = 4";
         $aRow = $oDbh->queryRow($query);
@@ -8215,7 +8222,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
             WHERE
                 campaignid = 5";
         $aRow = $oDbh->queryRow($query);
@@ -8229,7 +8236,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
             WHERE
                 campaignid = 6";
         $aRow = $oDbh->queryRow($query);
@@ -8243,7 +8250,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
             WHERE
                 campaignid = 7";
         $aRow = $oDbh->queryRow($query);
@@ -8258,7 +8265,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         // not re-activated in the event that their expiration date has not yet been reached
         $query = "
             INSERT INTO
-                campaigns
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
                     (
                         campaignid,
                         campaignname,
@@ -8285,7 +8292,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                clients
+                {$aConf['table']['prefix']}{$aConf['table']['clients']}
                     (
                         clientid,
                         contact,
@@ -8300,7 +8307,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                banners
+                {$aConf['table']['prefix']}{$aConf['table']['banners']}
                     (
                         bannerid,
                         campaignid,
@@ -8325,7 +8332,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                data_intermediate_ad
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
                     (
                         operation_interval,
                         operation_interval_id,
@@ -8360,7 +8367,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns']}
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
             WHERE
                 campaignid = 1";
         $aRow = $oDbh->queryRow($query);
@@ -8382,10 +8389,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function _insertTestDeleteOldDataCampaignsTrackers()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = & OA_DB::singleton();
         $query = "
             INSERT INTO
-                campaigns_trackers
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns_trackers']}
                 (
                     viewwindow,
                     clickwindow
@@ -8485,20 +8493,20 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
      */
     function testDeleteOldData()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
 
         // Enable the tracker
-        $conf['modules']['Tracker'] = true;
-        $conf['maintenance']['compactStatsGrace'] = 0;
+        $aConf['modules']['Tracker'] = true;
+        $aConf['maintenance']['compactStatsGrace'] = 0;
         // Insert the test data
         $this->_insertTestDeleteOldDataCampaignsTrackers();
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_request');
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_impression');
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_click');
+        $this->_insertTestDeleteOldDataAdItems($aConf['table']['prefix'] . $aConf['table']['data_raw_ad_request']);
+        $this->_insertTestDeleteOldDataAdItems($aConf['table']['prefix'] . $aConf['table']['data_raw_ad_impression']);
+        $this->_insertTestDeleteOldDataAdItems($aConf['table']['prefix'] . $aConf['table']['data_raw_ad_click']);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -8506,33 +8514,33 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         TestEnv::restoreEnv();
 
         // Disable the tracker
-        $conf['modules']['Tracker'] = false;
-        $conf['maintenance']['compactStatsGrace'] = 0;
+        $aConf['modules']['Tracker'] = false;
+        $aConf['maintenance']['compactStatsGrace'] = 0;
         $dsa = $oMDMSF->factory("AdServer");
         // Insert the test data
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_request');
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_impression');
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_click');
+        $this->_insertTestDeleteOldDataAdItems($aConf['table']['prefix'] . $aConf['table']['data_raw_ad_request']);
+        $this->_insertTestDeleteOldDataAdItems($aConf['table']['prefix'] . $aConf['table']['data_raw_ad_impression']);
+        $this->_insertTestDeleteOldDataAdItems($aConf['table']['prefix'] . $aConf['table']['data_raw_ad_click']);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -8540,34 +8548,34 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         TestEnv::restoreEnv();
 
         // Enable the tracker
-        $conf['modules']['Tracker'] = true;
-        $conf['maintenance']['compactStatsGrace'] = 3600;
+        $aConf['modules']['Tracker'] = true;
+        $aConf['maintenance']['compactStatsGrace'] = 3600;
         $dsa = $oMDMSF->factory("AdServer");
         // Insert the test data
         $this->_insertTestDeleteOldDataCampaignsTrackers();
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_request');
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_impression');
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_click');
+        $this->_insertTestDeleteOldDataAdItems($aConf['table']['prefix'] . $aConf['table']['data_raw_ad_request']);
+        $this->_insertTestDeleteOldDataAdItems($aConf['table']['prefix'] . $aConf['table']['data_raw_ad_impression']);
+        $this->_insertTestDeleteOldDataAdItems($aConf['table']['prefix'] . $aConf['table']['data_raw_ad_click']);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -8575,33 +8583,33 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 5);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 5);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         TestEnv::restoreEnv();
 
         // Disable the tracker
-        $conf['modules']['Tracker'] = false;
-        $conf['maintenance']['compactStatsGrace'] = 3600;
+        $aConf['modules']['Tracker'] = false;
+        $aConf['maintenance']['compactStatsGrace'] = 3600;
         $dsa = $oMDMSF->factory("AdServer");
         // Insert the test data
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_request');
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_impression');
-        $this->_insertTestDeleteOldDataAdItems('data_raw_ad_click');
+        $this->_insertTestDeleteOldDataAdItems($aConf['table']['prefix'] . $aConf['table']['data_raw_ad_request']);
+        $this->_insertTestDeleteOldDataAdItems($aConf['table']['prefix'] . $aConf['table']['data_raw_ad_impression']);
+        $this->_insertTestDeleteOldDataAdItems($aConf['table']['prefix'] . $aConf['table']['data_raw_ad_click']);
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
@@ -8609,21 +8617,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         TestEnv::restoreEnv();
