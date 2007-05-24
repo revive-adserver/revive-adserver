@@ -172,6 +172,6 @@ class DalUnitTestCase extends SharedFixtureTestCase
     
     function getPrefix()
     {
-        return $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        return OA_Dal::getTablePrefix();
     }
 }
