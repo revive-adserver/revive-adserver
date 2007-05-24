@@ -1,1 +1,1 @@
-/usr/local/mysql5/bin/mysqldump --compact -u root -p delivery acls ad_zone_assoc affiliates affiliates_extra agency banners campaigns channel clients images placement_zone_assoc preference zones  > delivery.sql
+/usr/local/mysql5/bin/mysqldump --compact -u root -p delivery acls ad_zone_assoc affiliates affiliates_extra agency banners campaigns channel clients images log_maintenance_statistics placement_zone_assoc preference zones  > delivery.sql

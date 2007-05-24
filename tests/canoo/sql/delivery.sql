@@ -165,7 +165,7 @@ CREATE TABLE `preference` (
   `maintenance_cron_timestamp` int(11) default NULL,
   PRIMARY KEY  (`agencyid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `preference` VALUES (0,'0.000',NULL,NULL,NULL,'english',NULL,'www.openads.org',NULL,0,2,'t','t','f','t','t','t','admin','5f4dcc3b5aa765d61d8327deb882cf99','Andrew Hill','andrew.hill@openads.org','t','t','t',100,NULL,'t',1,1,NULL,NULL,'t',NULL,'t',NULL,'f','t','t','t','t','t','t','t','t','t','t',50,NULL,NULL,NULL,NULL,0,'f','t',NULL,0,NULL,'f','t','t','f','f','t','t','t','t','f',5,'f',5,'t',-1,1179411168,'t','0000-00-00',0,1,1,'f','f',NULL,'','','','','t','t',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1179299106),(1,'0.000',NULL,NULL,NULL,'','Test Agency','www.openads.org',NULL,0,2,'t','t','f','t','t','t','admin','5f4dcc3b5aa765d61d8327deb882cf99','Andrew Hill','andrew.hill@openads.org','t','t','t',100,NULL,'t',1,1,NULL,NULL,'t',NULL,'t',NULL,'f','t','t','t','t','t','t','t','t','t','t',50,NULL,NULL,NULL,NULL,0,'f','t',NULL,0,NULL,'f','t','t','f','f','t','t','t','t','f',5,'f',5,'t',-1,1179411168,'t','0000-00-00',0,1,1,'f','f',NULL,'','','','','t','t',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1179299106);
+INSERT INTO `preference` VALUES (0,'0.000',NULL,NULL,NULL,'english',NULL,'www.openads.org',NULL,0,2,'t','t','f','t','t','t','admin','5f4dcc3b5aa765d61d8327deb882cf99','Andrew Hill','andrew.hill@openads.org','t','t','t',100,NULL,'t',1,1,NULL,NULL,'t',NULL,'t',NULL,'f','t','t','t','t','t','t','t','t','t','t',50,NULL,NULL,NULL,NULL,0,'f','t',NULL,0,NULL,'f','t','t','f','f','t','t','t','t','f',5,'f',5,'t',-1,1180017378,'t','0000-00-00',0,1,1,'f','f',NULL,'','','','','t','t',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1179299106),(1,'0.000',NULL,NULL,NULL,'','Test Agency','www.openads.org',NULL,0,2,'t','t','f','t','t','t','admin','5f4dcc3b5aa765d61d8327deb882cf99','Andrew Hill','andrew.hill@openads.org','t','t','t',100,NULL,'t',1,1,NULL,NULL,'t',NULL,'t',NULL,'f','t','t','t','t','t','t','t','t','t','t',50,NULL,NULL,NULL,NULL,0,'f','t',NULL,0,NULL,'f','t','t','f','f','t','t','t','t','f',5,'f',5,'t',-1,1180017378,'t','0000-00-00',0,1,1,'f','f',NULL,'','','','','t','t',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1179299106);
 CREATE TABLE `affiliates_extra` (
   `affiliateid` mediumint(9) NOT NULL,
   `address` text,
@@ -187,34 +187,21 @@ CREATE TABLE `affiliates_extra` (
   PRIMARY KEY  (`affiliateid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 INSERT INTO `affiliates_extra` VALUES (1,'','','','','','','','','','Cheque by post','GBP',0,0,0,'',''),(2,'','','','','','','','','','Cheque by post','GBP',0,0,0,NULL,NULL);
-CREATE TABLE `campaigns` (
-  `campaignid` mediumint(9) NOT NULL auto_increment,
-  `campaignname` varchar(255) NOT NULL default '',
-  `clientid` mediumint(9) NOT NULL default '0',
-  `views` int(11) default '-1',
-  `clicks` int(11) default '-1',
-  `conversions` int(11) default '-1',
-  `expire` date default '0000-00-00',
-  `activate` date default '0000-00-00',
-  `active` enum('t','f') NOT NULL default 't',
-  `priority` int(11) NOT NULL default '0',
-  `weight` tinyint(4) NOT NULL default '1',
-  `target_impression` int(11) NOT NULL default '0',
-  `target_click` int(11) NOT NULL default '0',
-  `target_conversion` int(11) NOT NULL default '0',
-  `anonymous` enum('t','f') NOT NULL default 'f',
-  `companion` smallint(1) default '0',
+CREATE TABLE `channel` (
+  `channelid` mediumint(9) NOT NULL auto_increment,
+  `agencyid` mediumint(9) NOT NULL default '0',
+  `affiliateid` mediumint(9) NOT NULL default '0',
+  `name` varchar(255) default NULL,
+  `description` varchar(255) default NULL,
+  `compiledlimitation` text NOT NULL,
+  `acl_plugins` text,
+  `active` smallint(1) default NULL,
   `comments` text,
-  `revenue` decimal(10,4) default NULL,
-  `revenue_type` smallint(6) default NULL,
   `updated` datetime NOT NULL,
-  `block` int(11) NOT NULL default '0',
-  `capping` int(11) NOT NULL default '0',
-  `session_capping` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`campaignid`),
-  KEY `campaigns_clientid` (`clientid`)
+  `acls_updated` datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (`channelid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `campaigns` VALUES (1,'Advertiser 1 - Default Campaign',1,100000000,-1,-1,'2007-07-01','0000-00-00','t',10,0,0,0,0,'f',0,'',NULL,NULL,'2007-05-15 09:54:06',0,0,0),(2,'test campaign',1,-1,-1,-1,'0000-00-00','0000-00-00','t',-1,1,0,0,0,'t',0,'',NULL,NULL,'2007-05-16 12:55:24',0,0,0),(3,'campaign 2 (gif)',1,-1,-1,-1,'0000-00-00','0000-00-00','t',0,1,0,0,0,'t',0,'',NULL,NULL,'2007-05-17 13:14:43',0,0,0);
+INSERT INTO `channel` VALUES (7,0,0,'Test Admin Channel 2','','true','true',1,'','0000-00-00 00:00:00','0000-00-00 00:00:00');
 CREATE TABLE `ad_zone_assoc` (
   `ad_zone_assoc_id` mediumint(9) NOT NULL auto_increment,
   `zone_id` mediumint(9) default NULL,
@@ -227,15 +214,19 @@ CREATE TABLE `ad_zone_assoc` (
   KEY `ad_zone_assoc_zone_id` (`zone_id`),
   KEY `ad_id` (`ad_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `ad_zone_assoc` VALUES (1,0,1,1,0,1670960,1),(2,1,1,0.9,1,1,1),(3,0,2,0,0,1,1),(4,1,2,0,1,1,1),(5,2,1,0.9,1,1,1),(6,0,3,0,0,0,1),(7,1,3,0,1,1,1);
-CREATE TABLE `images` (
-  `image_id` int(11) NOT NULL auto_increment,
-  `filename` varchar(128) NOT NULL default '',
-  `contents` longblob NOT NULL,
-  `t_stamp` datetime default NULL,
-  PRIMARY KEY  (`image_id`)
+INSERT INTO `ad_zone_assoc` VALUES (1,0,1,1,0,1670960,1),(2,1,1,0.9,1,100,1),(3,0,2,0,0,1,1),(4,1,2,0,1,1,1),(5,2,1,0.9,1,100,1),(6,0,3,0,0,0,1),(7,1,3,0,1,1,1);
+CREATE TABLE `log_maintenance_statistics` (
+  `log_maintenance_statistics_id` int(11) NOT NULL auto_increment,
+  `start_run` datetime NOT NULL,
+  `end_run` datetime NOT NULL,
+  `duration` int(11) NOT NULL,
+  `adserver_run_type` int(2) default NULL,
+  `search_run_type` int(2) default NULL,
+  `tracker_run_type` int(2) default NULL,
+  `updated_to` datetime default NULL,
+  PRIMARY KEY  (`log_maintenance_statistics_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `images` VALUES (1,'468x60.gif','GIF89aÔ<\0³\0\0uuuºººDDDîîîÎÎÎ™™™000ŞŞŞ   eee‰‰‰UUUªªªÿÿÿ\0\0\0!ù\0\0\0\0\0,\0\0\0\0Ô<\0\0ÿğÉI«½8ëÍ»ÿ`(dihª®lë¾p,Ïtmßx®ï|ï?„cH\nPÅ\"€(\nBŠÀX6\rÀá§JZPéªÊ$Q®zÍnW\ZÅø±$0ÄïÃÆ–$€ãï\0bnuqz\'	B‡C	„’“”.s\"	xƒ›x\0•¢£EŸ$\0ª¬§³´µA˜#\n¯°C ¼½À”»ÄD¿!~ÉË¶ÑÒ’Î™ÉqĞ\nÚwÜ”Ùß¾ÆäæÓîï6—×vê¾÷E§ö÷>ü#Áƒ.pÍ`Sç®8t\0QRÃ‰5xsØ¡Ç(ÿª¢§AÀD\"‘0\\<ÉN’É“R¦$È›81leó‰dÀ¨SÇ[4ã\0 @@•¤E2®ùÙI(\0¢P‰Å0î\0¤s0§Ù³d•ãaåYÜŞ ÓÑ\0’\"$÷\\	}‹ĞéHª°\\hßä«g…¨tÄà‚^Á{,;’©2É©<ùT	ú5PÌ\Z¡hk^SÔ\04ÎÖ	Œñœ¦@6Ù»\'Ôæ—a8‘\0.áÜºy-µÄS‹Á†×e+8j7¡ëà<¨ïÕ€CG Q¡wÎ¾VîÆÎJ!µ™\0KwÊAn6òE¶ÿ}Cœ‘_il \"í5H‰l¾‘·\00 \0s‚Ü/ı·†lÜÅe!†ˆäÄu‡æàŠk@—Œt˜xœPmX’i@ˆ@ˆ€uršŒCØÈBVàIĞ!™±¨$ï± [éB“fP8ÒOÆ±À€ğ7”-ˆiç¬·ä™9¼Fà0Šy™+¨¹•D˜·–Òei†nÆ§\nG²ÉAahZƒ‹ß=€X$©BŸ3f(qu9b‚Zà’.€ÈA\Z*j –µ(¦wTp\0Qø°€\"(÷H}YIäC¬yÇj¡9¢*«ø½ê¨•‡t\0ªBª,\nr*z¥ÿŞÅ¡¢Æ\r\0}ñe@’¸rÈ–\ZôvÈ°zØN´‚M@­WØjp¬Æúºì¼&èŠ«§^p,r©t‚ÀŸ\ZlJ\n~å–ÃÁ¤ÛT\0¡cû>Ğ¯¥\0ë›b=òÒkqz\n™¯ûp§– qù8Â«¸«¡ÇÄ€«òÉ¢\ZÇÅ4·gWP.ßq›ÜI\0$O×Éââá¥;÷lÛÄÜë³5Wm½CH•30QêÁºÄ\\«ÉZ¡‹Ô]ÏšAÔ±mm5Í[à6¾igıÁ\"É4\0c¥ª™Œvİà±Ml„o[-Ú\0Îíl/à§ÊŞ˜\rK\0$npë(¼ş\rKÿãïÑ“à(R]xÍXÏ&·èô\0g`ÿ±´ªÕö2@ÄáÆnWÑª³nûë‹ã!uŠ.jÜ©£~zUÃñ.í°<Q»~Ã¼v£<ËsÛÆ¿ìá•+şø9åşî™ï¯Ğ¹ÓOİ‹ËƒòD¾†ÚûÎ=áŞ/[zàİsmTô‡ Ñå\ZÀœÈİcŒ+\Zİñ³\n l‰£ßàğ°·ü±Û[[ÿ&0Šäél>x \Z(à„@ÔÑ@ĞA”«] “Ğ-¸$É!NŠ{×¥Bç	í‡‡x¨\\Lˆ#èğ~~ña˜*\Z*ëĞóş”¸ÄUÑaÁ‹]‘Jä/ÿ¼ëw” µC\r\\Î‰ÊÚW«Ö¸F²°1YïÚ¢ e-…ı’s\0ï^F(#öqtt@%ğ®x¢ZßIìXÄø%ˆ·’ãDÁƒ2‹Š*ÖNf aˆ4”\"\'ÂÈ?H²wMœ@¹ÚÇÁq} tàPà€³ÉCR@6(_(EY·GìšKå)XË)b\0ƒïû€OéÉJ8lä.—4J‡<&†Ñôå0ÕàI 3ä\r65¨MÔ(\0fš&5{‰Änõ¹c+ÿÀJ xS„)Rà;;Pº×ó\"Ä¤:SÍ}X@VäÀ3#5OğBœÀùz‘¹\r 4ÿ&\nãUÃÄt\rtìœYˆ9æQ*ÇÚã-›yË\"Š#ıçN:Ó	}’£URAïq‹ÒæºhD%;•J`¡E8LŠ†jÏ|n vCê`\ZHÀ4§­9@S¶ÊÕ®zu™^ÕÌ!P8K›ªkœ1ı ×²%©†Š%«§.x–,€XŞ=ÿ—«¬TTèd`œgÌzE.•#>IHØ]%G¦ÍsÄ_óZ5o> s”SØZlâRC©°ëJ5Ñ8”Cc·6KÓM\0´Ä¤lá,‹Ï ]Å\0¶Cj;\0(4\0B³*Ğ:?gv‰GµEÖmsFÔZ\n,bÿé’lGgÙ€S˜¼®6ŒZ°YÀ¥Å­)LNÛÚèLw¶áäMpaQ$dNÄzĞZRä;?Œ Qd=ï²ª§	v@şíÄUË(Ÿfù¥ÀEUQı^Œ¿Í[ïX=p€ÜªâªI›Kˆ\\:Ù«Iø	®ÀNÏæ`«AXyä8%`Gl-¸}¥-ÂUWœâ,Øu§-ñ¨N˜\0# ‚h]/<ŒNtXSUaê,}äÀvÑ1ÍxØÕ’eÆP€„\rã›Ë.m.o¬¼,s [Ó›”×ìdõå	«[A`€2(c)%%àf0Ä™|¶ó:Ğ g6úĞˆN´\n¢ÍèF;\Z\0\0;','2007-05-17 12:01:02');
+INSERT INTO `log_maintenance_statistics` VALUES (1,'2007-05-17 18:47:35','2007-05-17 17:47:36',3599,1,NULL,NULL,'2007-05-17 17:59:59'),(2,'2007-05-21 10:15:39','2007-05-21 10:15:41',2,2,NULL,NULL,'2007-05-22 09:59:59'),(3,'2007-05-21 11:16:25','2007-05-21 11:16:27',2,2,NULL,NULL,'2007-05-22 10:59:59'),(4,'2007-05-21 12:15:33','2007-05-21 12:15:36',3,2,NULL,NULL,'2007-05-22 11:59:59'),(5,'2007-05-21 18:18:03','2007-05-21 18:18:06',3,2,NULL,NULL,'2007-05-22 17:59:59'),(6,'2007-05-22 15:01:22','2007-05-22 15:01:24',2,2,NULL,NULL,'2007-05-23 14:59:59'),(7,'2007-05-23 09:46:11','2007-05-23 09:46:13',2,2,NULL,NULL,'2007-05-24 08:59:59'),(8,'2007-05-23 10:20:11','2007-05-23 10:20:13',2,2,NULL,NULL,'2007-05-24 09:59:59'),(9,'2007-05-23 11:01:23','2007-05-23 11:01:24',1,2,NULL,NULL,'2007-05-24 10:59:59'),(10,'2007-05-23 13:47:15','2007-05-23 13:47:17',2,2,NULL,NULL,'2007-05-24 12:59:59'),(11,'2007-05-23 18:28:57','2007-05-23 18:28:58',1,2,NULL,NULL,'2007-05-24 17:59:59'),(12,'2007-05-23 19:00:16','2007-05-23 19:00:18',2,2,NULL,NULL,'2007-05-24 18:59:59'),(13,'2007-05-24 15:36:18','2007-05-24 15:36:19',1,2,NULL,NULL,'2007-05-25 14:59:59');
 CREATE TABLE `agency` (
   `agencyid` mediumint(9) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
@@ -294,7 +285,7 @@ CREATE TABLE `banners` (
   PRIMARY KEY  (`bannerid`),
   KEY `banners_campaignid` (`campaignid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `banners` VALUES (1,1,'t','',0,'html','','','Test HTML Banner!','',468,60,1,0,'','','','','','','t','',0,0,0,'(MAX_checkSite_Channel(\'7\', \'=~\'))','Site:Channel','',0,0,'','','','','2007-05-15 15:01:43','2007-05-15 15:01:43','',0,'N;'),(2,2,'t','',0,'html','','','html test banner','html test banner',468,60,1,0,'','http://www.example.com','','','','test banner','t','',0,0,0,'',NULL,'',0,0,'','','','','2007-05-16 13:03:46','0000-00-00 00:00:00','',0,'N;'),(3,3,'t','gif',0,'sql','468x60.gif','','','',468,60,1,0,'','http://www.example.com','','','','sample gif banner','f','',0,0,0,'',NULL,'',0,0,'','','','','2007-05-17 13:15:25','0000-00-00 00:00:00','',0,'N;');
+INSERT INTO `banners` VALUES (1,1,'t','',0,'html','','','Test HTML Banner!','',468,60,1,0,'','','','','','','t','',0,0,0,'(MAX_checkSite_Channel(\'7\', \'=~\'))','Site:Channel','',0,0,'','','','','2007-05-15 15:01:43','2007-05-15 15:01:43','',0,'N;'),(2,2,'t','',0,'html','','','html test banner','html test banner',468,60,1,0,'','http://www.example.com','','','','test banner','t','',0,0,0,'',NULL,'',0,0,'','','','','2007-05-16 13:03:46','0000-00-00 00:00:00','',0,'N;'),(3,3,'t','gif',0,'sql','468x60.gif','','','',468,60,1,0,'','http://www.example.com','alt text','','','sample gif banner','f','',0,0,0,'',NULL,'',0,0,'','','','','2007-05-23 10:21:58','0000-00-00 00:00:00','',0,'N;');
 CREATE TABLE `affiliates` (
   `affiliateid` mediumint(9) NOT NULL auto_increment,
   `agencyid` mediumint(9) NOT NULL default '0',
@@ -324,21 +315,14 @@ CREATE TABLE `placement_zone_assoc` (
   KEY `placement_id` (`placement_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 INSERT INTO `placement_zone_assoc` VALUES (1,1,1),(2,1,2),(3,2,3);
-CREATE TABLE `channel` (
-  `channelid` mediumint(9) NOT NULL auto_increment,
-  `agencyid` mediumint(9) NOT NULL default '0',
-  `affiliateid` mediumint(9) NOT NULL default '0',
-  `name` varchar(255) default NULL,
-  `description` varchar(255) default NULL,
-  `compiledlimitation` text NOT NULL,
-  `acl_plugins` text,
-  `active` smallint(1) default NULL,
-  `comments` text,
-  `updated` datetime NOT NULL,
-  `acls_updated` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`channelid`)
+CREATE TABLE `images` (
+  `image_id` int(11) NOT NULL auto_increment,
+  `filename` varchar(128) NOT NULL default '',
+  `contents` longblob NOT NULL,
+  `t_stamp` datetime default NULL,
+  PRIMARY KEY  (`image_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `channel` VALUES (7,0,0,'Test Admin Channel 2','','true','true',1,'','0000-00-00 00:00:00','0000-00-00 00:00:00');
+INSERT INTO `images` VALUES (1,'468x60.gif','GIF89aÔ<\0³\0\0uuuºººDDDîîîÎÎÎ™™™000ŞŞŞ   eee‰‰‰UUUªªªÿÿÿ\0\0\0!ù\0\0\0\0\0,\0\0\0\0Ô<\0\0ÿğÉI«½8ëÍ»ÿ`(dihª®lë¾p,Ïtmßx®ï|ï?„cH\nPÅ\"€(\nBŠÀX6\rÀá§JZPéªÊ$Q®zÍnW\ZÅø±$0ÄïÃÆ–$€ãï\0bnuqz\'	B‡C	„’“”.s\"	xƒ›x\0•¢£EŸ$\0ª¬§³´µA˜#\n¯°C ¼½À”»ÄD¿!~ÉË¶ÑÒ’Î™ÉqĞ\nÚwÜ”Ùß¾ÆäæÓîï6—×vê¾÷E§ö÷>ü#Áƒ.pÍ`Sç®8t\0QRÃ‰5xsØ¡Ç(ÿª¢§AÀD\"‘0\\<ÉN’É“R¦$È›81leó‰dÀ¨SÇ[4ã\0 @@•¤E2®ùÙI(\0¢P‰Å0î\0¤s0§Ù³d•ãaåYÜŞ ÓÑ\0’\"$÷\\	}‹ĞéHª°\\hßä«g…¨tÄà‚^Á{,;’©2É©<ùT	ú5PÌ\Z¡hk^SÔ\04ÎÖ	Œñœ¦@6Ù»\'Ôæ—a8‘\0.áÜºy-µÄS‹Á†×e+8j7¡ëà<¨ïÕ€CG Q¡wÎ¾VîÆÎJ!µ™\0KwÊAn6òE¶ÿ}Cœ‘_il \"í5H‰l¾‘·\00 \0s‚Ü/ı·†lÜÅe!†ˆäÄu‡æàŠk@—Œt˜xœPmX’i@ˆ@ˆ€uršŒCØÈBVàIĞ!™±¨$ï± [éB“fP8ÒOÆ±À€ğ7”-ˆiç¬·ä™9¼Fà0Šy™+¨¹•D˜·–Òei†nÆ§\nG²ÉAahZƒ‹ß=€X$©BŸ3f(qu9b‚Zà’.€ÈA\Z*j –µ(¦wTp\0Qø°€\"(÷H}YIäC¬yÇj¡9¢*«ø½ê¨•‡t\0ªBª,\nr*z¥ÿŞÅ¡¢Æ\r\0}ñe@’¸rÈ–\ZôvÈ°zØN´‚M@­WØjp¬Æúºì¼&èŠ«§^p,r©t‚ÀŸ\ZlJ\n~å–ÃÁ¤ÛT\0¡cû>Ğ¯¥\0ë›b=òÒkqz\n™¯ûp§– qù8Â«¸«¡ÇÄ€«òÉ¢\ZÇÅ4·gWP.ßq›ÜI\0$O×Éââá¥;÷lÛÄÜë³5Wm½CH•30QêÁºÄ\\«ÉZ¡‹Ô]ÏšAÔ±mm5Í[à6¾igıÁ\"É4\0c¥ª™Œvİà±Ml„o[-Ú\0Îíl/à§ÊŞ˜\rK\0$npë(¼ş\rKÿãïÑ“à(R]xÍXÏ&·èô\0g`ÿ±´ªÕö2@ÄáÆnWÑª³nûë‹ã!uŠ.jÜ©£~zUÃñ.í°<Q»~Ã¼v£<ËsÛÆ¿ìá•+şø9åşî™ï¯Ğ¹ÓOİ‹ËƒòD¾†ÚûÎ=áŞ/[zàİsmTô‡ Ñå\ZÀœÈİcŒ+\Zİñ³\n l‰£ßàğ°·ü±Û[[ÿ&0Šäél>x \Z(à„@ÔÑ@ĞA”«] “Ğ-¸$É!NŠ{×¥Bç	í‡‡x¨\\Lˆ#èğ~~ña˜*\Z*ëĞóş”¸ÄUÑaÁ‹]‘Jä/ÿ¼ëw” µC\r\\Î‰ÊÚW«Ö¸F²°1YïÚ¢ e-…ı’s\0ï^F(#öqtt@%ğ®x¢ZßIìXÄø%ˆ·’ãDÁƒ2‹Š*ÖNf aˆ4”\"\'ÂÈ?H²wMœ@¹ÚÇÁq} tàPà€³ÉCR@6(_(EY·GìšKå)XË)b\0ƒïû€OéÉJ8lä.—4J‡<&†Ñôå0ÕàI 3ä\r65¨MÔ(\0fš&5{‰Änõ¹c+ÿÀJ xS„)Rà;;Pº×ó\"Ä¤:SÍ}X@VäÀ3#5OğBœÀùz‘¹\r 4ÿ&\nãUÃÄt\rtìœYˆ9æQ*ÇÚã-›yË\"Š#ıçN:Ó	}’£URAïq‹ÒæºhD%;•J`¡E8LŠ†jÏ|n vCê`\ZHÀ4§­9@S¶ÊÕ®zu™^ÕÌ!P8K›ªkœ1ı ×²%©†Š%«§.x–,€XŞ=ÿ—«¬TTèd`œgÌzE.•#>IHØ]%G¦ÍsÄ_óZ5o> s”SØZlâRC©°ëJ5Ñ8”Cc·6KÓM\0´Ä¤lá,‹Ï ]Å\0¶Cj;\0(4\0B³*Ğ:?gv‰GµEÖmsFÔZ\n,bÿé’lGgÙ€S˜¼®6ŒZ°YÀ¥Å­)LNÛÚèLw¶áäMpaQ$dNÄzĞZRä;?Œ Qd=ï²ª§	v@şíÄUË(Ÿfù¥ÀEUQı^Œ¿Í[ïX=p€ÜªâªI›Kˆ\\:Ù«Iø	®ÀNÏæ`«AXyä8%`Gl-¸}¥-ÂUWœâ,Øu§-ñ¨N˜\0# ‚h]/<ŒNtXSUaê,}äÀvÑ1ÍxØÕ’eÆP€„\rã›Ë.m.o¬¼,s [Ó›”×ìdõå	«[A`€2(c)%%àf0Ä™|¶ó:Ğ g6úĞˆN´\n¢ÍèF;\Z\0\0;','2007-05-17 12:01:02');
 CREATE TABLE `clients` (
   `clientid` mediumint(9) NOT NULL auto_increment,
   `agencyid` mediumint(9) NOT NULL default '0',
@@ -360,3 +344,31 @@ CREATE TABLE `clients` (
   KEY `clients_agencyid` (`agencyid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 INSERT INTO `clients` VALUES (1,0,'Advertiser 1','advertiser','example@example.com','advertiser1','fe1f4b7940d69cf3eb289fad37c3ae40',0,'','f',7,'2007-04-27','t','','2007-05-16 12:54:09',0);
+CREATE TABLE `campaigns` (
+  `campaignid` mediumint(9) NOT NULL auto_increment,
+  `campaignname` varchar(255) NOT NULL default '',
+  `clientid` mediumint(9) NOT NULL default '0',
+  `views` int(11) default '-1',
+  `clicks` int(11) default '-1',
+  `conversions` int(11) default '-1',
+  `expire` date default '0000-00-00',
+  `activate` date default '0000-00-00',
+  `active` enum('t','f') NOT NULL default 't',
+  `priority` int(11) NOT NULL default '0',
+  `weight` tinyint(4) NOT NULL default '1',
+  `target_impression` int(11) NOT NULL default '0',
+  `target_click` int(11) NOT NULL default '0',
+  `target_conversion` int(11) NOT NULL default '0',
+  `anonymous` enum('t','f') NOT NULL default 'f',
+  `companion` smallint(1) default '0',
+  `comments` text,
+  `revenue` decimal(10,4) default NULL,
+  `revenue_type` smallint(6) default NULL,
+  `updated` datetime NOT NULL,
+  `block` int(11) NOT NULL default '0',
+  `capping` int(11) NOT NULL default '0',
+  `session_capping` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`campaignid`),
+  KEY `campaigns_clientid` (`clientid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `campaigns` VALUES (1,'Advertiser 1 - Default Campaign',1,100000000,-1,-1,'2007-07-01','0000-00-00','t',10,0,0,0,0,'f',0,'',NULL,NULL,'2007-05-15 09:54:06',0,0,0),(2,'test campaign',1,-1,-1,-1,'0000-00-00','0000-00-00','t',-1,1,0,0,0,'t',0,'',NULL,NULL,'2007-05-16 12:55:24',0,0,0),(3,'campaign 2 (gif)',1,-1,-1,-1,'0000-00-00','0000-00-00','t',0,1,0,0,0,'t',0,'',NULL,NULL,'2007-05-17 13:14:43',0,0,0);

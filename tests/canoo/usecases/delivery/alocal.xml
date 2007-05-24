@@ -28,7 +28,7 @@
     </testSpec>
 
     <!-- remove copied file after testing it -->
-    <delete file="../www/alocal.php" />
+    <delete file="../../www/alocal.php" />
 </target>
 
 </project>

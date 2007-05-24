@@ -77,7 +77,7 @@ class OA_DB
         }
         
         // Check if we are installing, otherwise $aConf will have default values.
-        if ($GLOBALS['installing']) {
+        if (!empty($GLOBALS['installing'])) {
                 $aConf['database']['type'] = $this->aDsn['database']['type'];
         }
 

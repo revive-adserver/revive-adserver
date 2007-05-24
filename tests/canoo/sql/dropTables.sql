@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS
     channel, 
     clients, 
     images, 
+    log_maintenance_statistics,
     placement_zone_assoc, 
     preference, 
     zones;

@@ -381,6 +381,10 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
             return null;
         }
     }
+    $aRows['count_active'] = 0;
+    $totals = array();
+    $totals['xAds'] = 0;
+    $totals['lAds'] = 0;
     while ($aAd = mysql_fetch_assoc($rAds)) {
         // Is the ad Exclusive, Low, or Normal Priority?
         if ($aAd['campaign_priority'] == -1) {
@@ -417,20 +421,20 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
     }
     // If there are paid ads, prepare array of priority totals
     // to allow delivery to do the scaling work later
-    if (is_array($aRows['ads'])) {
+    if (isset($aRows['ads']) && is_array($aRows['ads'])) {
         $totals['ads'] = _mysqlGetTotalPrioritiesByCP($aRows['ads']);
     }
     // If there are low priority ads, sort by priority
-    if (is_array($aRows['lAds'])) {
+    if (isset($aRows['lAds']) && is_array($aRows['lAds'])) {
         uasort($aRows['lAds'], '_mysqlSortArrayPriority');
     }
     // If there are paid companion ads, prepare array of priority totals
     // to allow delivery to do the scaling work later
-    if (is_array($aRows['cAds'])) {
+    if (isset($aRows['cAds']) && is_array($aRows['cAds'])) {
         $totals['cAds'] = _mysqlGetTotalPrioritiesByCP($aRows['ads']);
     }
     // If there are low priority companion ads, sort by priority
-    if (is_array($aRows['clAds'])) {
+    if (isset($aRows['clAds']) && is_array($aRows['clAds'])) {
         uasort($aRows['clAds'], '_mysqlSortArrayPriority');
     }
     $aRows['priority'] = $totals;

@@ -172,7 +172,7 @@ function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $wit
     }
     $search = array('{timestamp}','{random}','{target}','{url_prefix}','{bannerid}','{zoneid}','{source}', '{pageurl}', '{width}', '{height}');
     $locReplace = isset($GLOBALS['loc']) ? $GLOBALS['loc'] : '';
-    $replace = array($time, $random, $target, $urlPrefix, $aBanner['bannerid'], $zoneId, $source, urlencode($locReplace), $aBanner['width'], $aBanner['height']);
+    $replace = array($time, $random, $target, $urlPrefix, $aBanner['ad_id'], $zoneId, $source, urlencode($locReplace), $aBanner['width'], $aBanner['height']);
 
     // Arrival URLs
     if (preg_match('#^\?(m3_data=[a-z0-9]+)#i', $logClick, $arrivalClick)) {
