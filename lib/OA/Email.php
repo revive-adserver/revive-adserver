@@ -361,7 +361,7 @@ class OA_Email
      *                          'userEmail' => The email address to send the report to.
      *                          'userName'  => The real name of the email address, or null.
      */
-    function prepareplacementImpendingExpiryEmail($advertiserId, $placementId, $reason, $value)
+    function preparePlacementImpendingExpiryEmail($advertiserId, $placementId, $reason, $value)
     {
         OA::debug('   - Preparing "impending expiry" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
         $aPref = OA_Email::_loadPrefs();
@@ -468,7 +468,7 @@ class OA_Email
         }
 
         // Prepare the email body
-        $emailBody  = OA_Email::_prepareplacementImpendingExpiryEmailBody($advertiserId, $aPlacement);
+        $emailBody  = OA_Email::_preparePlacementImpendingExpiryEmailBody($advertiserId, $aPlacement);
 
         // Was anything found?
         if ($emailBody == '') {
@@ -562,7 +562,7 @@ class OA_Email
      * @param integer $advertiserId The advertiser's ID.
      * @param array   $aPlacement   The placement details.
      */
-    function _prepareplacementImpendingExpiryEmailBody($advertiserId, $aPlacement)
+    function _preparePlacementImpendingExpiryEmailBody($advertiserId, $aPlacement)
     {
         // Load the preferences and default language
         $aPref = OA_Email::_loadPrefs();
@@ -610,45 +610,125 @@ class OA_Email
     }
 
     /**
-     * A static method for premaring e-mails, advising of the activation of a
-     * placement.
+     * A static method for preparing an advertiser's "placement activated" report.
      *
      * @static
-     * @param string $contactName   The name of the placement contact.
-     * @param string $placementName The name of the deactivated placement.
-     * @param array  $aAds          An array of ads in the placement, indexed by
-     *                              ad_id, of an array containing the description,
-     *                              alt description, and destination URL of the ad.
-     * @return string The email that has been prepared.
+     * @param string $placementId The ID of the activated placement.
+     * @return boolean|array False, if the report could not be created, otherwise
+     *                       an array of four elements:
+     *                          'subject'   => The email subject line.
+     *                          'contents'  => The body of the email report.
+     *                          'userEmail' => The email address to send the report to.
+     *                          'userName'  => The real name of the email address, or null.
      */
-    function prepareActivatePlacementEmail($contactName, $placementName, $aAds)
+    function preparePlacementActivatedEmail($placementId)
     {
-        OA::debug('   - Preparing "placement activation" email for advertiser ID ' . $placementId. '.', PEAR_LOG_DEBUG);
+        OA::debug('   - Preparing "placement activation" email for placement ID ' . $placementId. '.', PEAR_LOG_DEBUG);
         $aPref = OA_Email::_loadPrefs();
         Language_Default::load();
 
-        $message  = "Dear $contactName,\n\n";
-        $message .= 'The following ads have been activated because ' . "\n";
-        $message .= 'the campaign activation date has been reached.';
-        $message .= "\n\n";
-        $message .= "-------------------------------------------------------\n";
-        foreach ($aAds as $ad_id => $aData) {
-            $message .= "Ad [ID $ad_id] ";
-            if ($aData[0] != '') {
-                $message .= $aData[0];
-            } elseif ($aData[1] != '') {
-                $message .= $aData[1];
-            } else {
-                $message .= 'Untitled';
-            }
-            $message .= "\n";
-            $message .= "Linked to: {$aData[2]}\n";
-            $message .= "-------------------------------------------------------\n";
+        // Load the required strings
+        global $strMailHeader, $strSirMadam, $strMailBannerActivated, $strMailBannerActivatedSubject;
+
+        // Fetch the placement
+        $aPlacement = OA_Email::_loadPlacement($placementId);
+        if ($aPlacement === false) {
+            return false;
         }
-        $message .= "\nThank you for advertising with us.\n\n";
-        $message .= "Regards,\n\n";
-        $message .= $aPref['admin_fullname'];
-        return $message;
+
+        // Fetch the placement's owning advertiser
+        $aAdvertiser = OA_Email::_loadAdvertiser($aPlacement['clientid']);
+        if ($aAdvertiser === false) {
+            return false;
+        }
+
+        // Prepare the email body
+        $emailBody = OA_Email::_preparePlacementActivatedEmailBody($aPlacement);
+
+        // Prepare the final email - add the greeting to the advertiser
+        $email = "$strMailHeader\n";
+        if (!empty($aAdvertiser['contact'])) {
+            $greetingTo = $aAdvertiser['contact'];
+        } else if (!empty($aAdvertiser['clientname'])) {
+            $greetingTo = $aAdvertiser['clientname'];
+        } else {
+            $greetingTo = $strSirMadam;
+        }
+        $email = str_replace("{contact}", $greetingTo, $email);
+
+        // Prepare the final email - add the report type description
+        // and the name of the advertiser the report is about
+        $email .= "$strMailBannerActivated\n";
+
+        // Prepare the final email - add the report body
+        $email .= "$emailBody\n";
+
+        // Prepare the final email - add the "regards" signature
+        $email .= OA_Email::_prepareRegards($aAdvertiser['agencyid']);
+
+        // Prepare & return the final email array
+        $aResult['subject']   = $strMailBannerActivatedSubject . ': ' . $aAdvertiser['clientname'];
+        $aResult['contents']  = $email;
+        $aResult['userEmail'] = $aAdvertiser['email'];
+        $aResult['userName']  = $aAdvertiser['contact'];
+        return $aResult;
+    }
+
+    /**
+     * A private, static method to prepare the body of an advertiser's "placement activated"
+     * report email.
+     *
+     * @access private
+     * @static
+     * @param integer $advertiserId The advertiser's ID.
+     * @param array   $aPlacement   The placement details.
+     */
+    function _preparePlacementActivatedEmailBody($aPlacement)
+    {
+        // Load the preferences and default language
+        $aPref = OA_Email::_loadPrefs();
+        Language_Default::load();
+
+        // Load the "Campaign" and "Banner" strings, and prepare formatting strings
+        global $strCampaign, $strBanner;
+        $strCampaignLength = strlen($strCampaign);
+        $strBannerLength   = strlen($strBanner);
+        $maxLength         = max($strCampaignLength, $strBannerLength);
+        $strCampaignPrint  = '%-'  . $maxLength . 's';
+        $strBannerPrint    = ' %-'  . ($maxLength - 1) . 's';
+
+        // Load remaining strings
+        global $strLinkedTo;
+
+        // Prepare the result
+        $emailBody = '';
+
+        // Add the name of the placement to the report
+        $emailBody .= "\n" . sprintf($strCampaignPrint, $strCampaign) . ' ';
+        $emailBody .= strip_tags(phpAds_buildName($aPlacement['campaignid'], $aPlacement['campaignname'])) . "\n";
+        // Add a URL link to the placement
+        $page = 'campaign-edit.php?clientid=' . $aPlacement['clientid'] . '&campaignid=' . $aPlacement['campaignid'];
+        $emailBody .= MAX::constructURL(MAX_URL_ADMIN, $page) . "\n";
+        // Add a nice divider
+        $emailBody .= "=======================================================\n\n";
+        // Fetch all ads in the placement
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $aPlacement['campaignid'];
+        $doBanners->find();
+        if ($doBanners->getRowCount() > 0) {
+            while ($doBanners->fetch()) {
+                $aAd = $doBanners->toArray();
+                // Add the name of the ad to the report
+                $emailBody .= sprintf($strBannerPrint, $strBanner) . ' ';
+                $emailBody .= strip_tags(phpAds_buildBannerName($aAd['bannerid'], $aAd['description'], $aAd['alt'])) . "\n";
+                // If the ad has a URL, add the URL the add is linked to to the report
+                if (!empty($aAd['url'])) {
+                    $emailBody .= '  ' . $strLinkedTo . ': ' . $aAd['url'] . "\n";
+                }
+                $emailBody .= "\n";
+            }
+        }
+        return $emailBody;
     }
 
     /**
@@ -726,6 +806,27 @@ class OA_Email
             $aPref = MAX_Admin_Preferences::loadPrefs();
         }
         return $aPref;
+    }
+
+    /**
+     * A private, static method to load the details of an placement from the database.
+     *
+     * @param integer $placementId The ID of the placement to load.
+     * @return false|array False if the placement cannot be loaded, an array of the
+     *                     placement's details from the database otherwise.
+     */
+    function _loadPlacement($placementId)
+    {
+        // Get the placement's details
+        $doPlacements = OA_Dal::factoryDO('campaigns');
+        $doPlacements->campaignid = $placementId;
+        $doPlacements->find();
+        if (!$doPlacements->fetch()) {
+            OA::debug('   - Error obtaining details for placement ID ' . $placementId . '.', PEAR_LOG_ERR);
+            return false;
+        }
+        $aPlacement = $doPlacements->toArray();
+        return $aPlacement;
     }
 
     /**

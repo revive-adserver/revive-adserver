@@ -402,9 +402,9 @@ class Test_OA_Email extends UnitTestCase
         $agencyId = DataGenerator::generateOne($oAgency);
 
         // Test with no advertiser in the database and ensure false is returned
-        $result = OA_Email::prepareplacementImpendingExpiryEmail(1, 1, $dateReason, $dateValue);
+        $result = OA_Email::preparePlacementImpendingExpiryEmail(1, 1, $dateReason, $dateValue);
         $this->assertFalse($result);
-        $result = OA_Email::prepareplacementImpendingExpiryEmail(1, 1, $impReason, $impValue);
+        $result = OA_Email::preparePlacementImpendingExpiryEmail(1, 1, $impReason, $impValue);
         $this->assertFalse($result);
 
         // Generate an advertiser owned by the agency with no email adddress,
@@ -414,9 +414,9 @@ class Test_OA_Email extends UnitTestCase
         $doClients->clientname = $clientName;
         $doClients->email      = '';
         $advertiserId1 = DataGenerator::generateOne($doClients);
-        $result = OA_Email::prepareplacementImpendingExpiryEmail($advertiserId1, 1, $dateReason, $dateValue);
+        $result = OA_Email::preparePlacementImpendingExpiryEmail($advertiserId1, 1, $dateReason, $dateValue);
         $this->assertFalse($result);
-        $result = OA_Email::prepareplacementImpendingExpiryEmail($advertiserId1, 1, $impReason, $impValue);
+        $result = OA_Email::preparePlacementImpendingExpiryEmail($advertiserId1, 1, $impReason, $impValue);
         $this->assertFalse($result);
 
         // Generate a placement owned by the advertiser, and test with a
@@ -424,14 +424,14 @@ class Test_OA_Email extends UnitTestCase
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId1;
         $placementId1 = DataGenerator::generateOne($doPlacements);
-        $result = OA_Email::prepareplacementImpendingExpiryEmail($advertiserId1, $placementId1 + 1, $dateReason, $dateValue);
+        $result = OA_Email::preparePlacementImpendingExpiryEmail($advertiserId1, $placementId1 + 1, $dateReason, $dateValue);
         $this->assertFalse($result);
-        $result = OA_Email::prepareplacementImpendingExpiryEmail($advertiserId1, $placementId1 + 1, $impReason, $impValue);
+        $result = OA_Email::preparePlacementImpendingExpiryEmail($advertiserId1, $placementId1 + 1, $impReason, $impValue);
         $this->assertFalse($result);
 
         // Test with the matching advertiser and placement IDs, and
         // ensure the expected email is generated
-        $aResult = OA_Email::prepareplacementImpendingExpiryEmail($advertiserId1, $placementId1, $dateReason, $dateValue);
+        $aResult = OA_Email::preparePlacementImpendingExpiryEmail($advertiserId1, $placementId1, $dateReason, $dateValue);
 
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -472,7 +472,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult[1]['subject'],   $expectedSubject);
         $this->assertEqual($aResult[1]['contents'],  $expectedContents);
 
-        $aResult = OA_Email::prepareplacementImpendingExpiryEmail($advertiserId1, $placementId1, $impReason, $impValue);
+        $aResult = OA_Email::preparePlacementImpendingExpiryEmail($advertiserId1, $placementId1, $impReason, $impValue);
 
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -536,7 +536,7 @@ class Test_OA_Email extends UnitTestCase
         $doBanners->url        = 'http://www.fornax.net/';
         $bannerId2 = DataGenerator::generateOne($doBanners);
 
-        $aResult = OA_Email::prepareplacementImpendingExpiryEmail($advertiserId1, $placementId1, $dateReason, $dateValue);
+        $aResult = OA_Email::preparePlacementImpendingExpiryEmail($advertiserId1, $placementId1, $dateReason, $dateValue);
 
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -581,7 +581,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult[1]['subject'],   $expectedSubject);
         $this->assertEqual($aResult[1]['contents'],  $expectedContents);
 
-        $aResult = OA_Email::prepareplacementImpendingExpiryEmail($advertiserId1, $placementId1, $impReason, $impValue);
+        $aResult = OA_Email::preparePlacementImpendingExpiryEmail($advertiserId1, $placementId1, $impReason, $impValue);
 
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -634,7 +634,7 @@ class Test_OA_Email extends UnitTestCase
         $doClients->email      = $advertiserMail;
         $doClients->update();
 
-        $aResult = OA_Email::prepareplacementImpendingExpiryEmail($advertiserId1, $placementId1, $dateReason, $dateValue);
+        $aResult = OA_Email::preparePlacementImpendingExpiryEmail($advertiserId1, $placementId1, $dateReason, $dateValue);
 
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 3);
@@ -699,7 +699,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertEqual($aResult[2]['subject'],   $expectedSubject);
         $this->assertEqual($aResult[2]['contents'],  $expectedContents);
 
-        $aResult = OA_Email::prepareplacementImpendingExpiryEmail($advertiserId1, $placementId1, $impReason, $impValue);
+        $aResult = OA_Email::preparePlacementImpendingExpiryEmail($advertiserId1, $placementId1, $impReason, $impValue);
 
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 3);
@@ -773,44 +773,68 @@ class Test_OA_Email extends UnitTestCase
      */
     function testPrepareActivatePlacementEmail()
     {
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $aConf['webpath']['admin'] = 'example.com';
+
         unset($GLOBALS['_MAX']['PREF']);
+
+        $email        = 'andrew.hill@openads.org';
+        $name         = 'Andrew Hill';
+        $clientName   = 'Foo Client';
 
         // Prepare the admin email address and name
         $oPreference = OA_Dal::factoryDO('preference');
         $oPreference->agencyid       = 0;
-        $oPreference->admin_fullname = 'Openads Ltd.';
+        $oPreference->admin_fullname = 'Andrew Hill';
+        $oPreference->company_name   = 'Openads Ltd.';
         $oPreference->admin_email    = 'send@example.com';
         DataGenerator::generateOne($oPreference);
 
-        $contactName = 'Andrew Hill';
-        $placementName = 'Test Activation Placement';
-        $ads[0] = array('First Test Banner', '', 'http://example.com/');
-        $ads[1] = array('Second Test Banner', 'Alt. Description', 'http://example.com/');
-        $ads[2] = array('', 'Third Test Banner', 'http://example.com/foo/bar.html');
-        $ads[3] = array('', '', 'http://example.com/foo.html');
-        $email = OA_Email::prepareActivatePlacementEmail($contactName, $placementName, $ads);
-        $desiredEmail  = 'Dear Andrew Hill,' . "\n\n";
-        $desiredEmail .= 'The following ads have been activated because '. "\n";
-        $desiredEmail .= 'the campaign activation date has been reached.' . "\n\n";
-        $desiredEmail .= "-------------------------------------------------------\n";
-        $desiredEmail .= 'Ad [ID 0] First Test Banner' . "\n";
-        $desiredEmail .= 'Linked to: http://example.com/' . "\n";
-        $desiredEmail .= "-------------------------------------------------------\n";
-        $desiredEmail .= 'Ad [ID 1] Second Test Banner' . "\n";
-        $desiredEmail .= 'Linked to: http://example.com/' . "\n";
-        $desiredEmail .= "-------------------------------------------------------\n";
-        $desiredEmail .= 'Ad [ID 2] Third Test Banner' . "\n";
-        $desiredEmail .= 'Linked to: http://example.com/foo/bar.html' . "\n";
-        $desiredEmail .= "-------------------------------------------------------\n";
-        $desiredEmail .= 'Ad [ID 3] Untitled' . "\n";
-        $desiredEmail .= 'Linked to: http://example.com/foo.html' . "\n";
-        $desiredEmail .= "-------------------------------------------------------\n";
-        $desiredEmail .= "\nThank you for advertising with us.\n\n";
-        $desiredEmail .= "Regards,\n\n";
-        $desiredEmail .= 'Openads Ltd.';
-        $this->assertEqual($email, $desiredEmail);
+        // Prepare an advertiser
+        $doClients = OA_Dal::factoryDO('clients');
+        $doClients->clientname = $clientName;
+        $doClients->email      = $email;
+        $doClients->contact    = $name;
+        $doClients->report     = 't';
+        $advertiserId = DataGenerator::generateOne($doClients);
 
-        DataGenerator::cleanUp();
+        // Prepare a placement
+        $doPlacements = OA_Dal::factoryDO('campaigns');
+        $doPlacements->clientid = $advertiserId;
+        $placementId = DataGenerator::generateOne($doPlacements);
+
+        // Prepare banners
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $placementId;
+        $doBanners->url        = '';
+        $bannerId1 = DataGenerator::generateOne($doBanners);
+
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $placementId;
+        $doBanners->url        = 'http://www.fornax.net/';
+        $bannerId2 = DataGenerator::generateOne($doBanners);
+
+        $aResult = OA_Email::preparePlacementActivatedEmail($placementId);
+        $expectedSubject = 'Campiagn activation: Foo Client';
+        $expectedContents  = "Dear $name,\n\n";
+        $expectedContents .= 'Your campaign shown below has been activated because'. "\n";
+        $expectedContents .= 'the campaign activation date has been reached.' . "\n";
+        $expectedContents .= "\nCampaign [id$placementId] 1\n";
+        $expectedContents .= "http://example.com/campaign-edit.php?clientid=$advertiserId&campaignid=$placementId\n";
+        $expectedContents .= "=======================================================\n\n";
+        $expectedContents .= " Banner  [id$bannerId1] 1\n\n";
+        $expectedContents .= " Banner  [id$bannerId2] 1\n";
+        $expectedContents .= "  linked to: http://www.fornax.net/\n\n";
+        $expectedContents .= "\n";
+        $expectedContents .= "Regards,\n   Andrew Hill, Openads Ltd.";
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 4);
+        $this->assertEqual($aResult['userEmail'], $email);
+        $this->assertEqual($aResult['userName'],  $name);
+        $this->assertEqual($aResult['subject'],   $expectedSubject);
+        $this->assertEqual($aResult['contents'],  $expectedContents);
+
+        TestEnv::restoreEnv();
     }
 
     /**

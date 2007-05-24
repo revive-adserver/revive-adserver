@@ -2585,7 +2585,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                     // Yes! This is the operation interval that the boundary
                                     // was crossed to the point where it's about to expire,
                                     // so send that email, baby!
-                                    $aEmail =& OA_Email::prepareplacementImpendingExpiryEmail(
+                                    $aEmail =& OA_Email::preparePlacementImpendingExpiryEmail(
                                         $aPlacement['advertiser_id'],
                                         $aPlacement['campaign_id'],
                                         'date',
@@ -2619,7 +2619,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                     // Yes! This is the operation interval that the boundary
                                     // was crossed to the point where it's about to expire,
                                     // so send that email, baby!
-                                    $aEmail =& OA_Email::prepareplacementImpendingExpiryEmail(
+                                    $aEmail =& OA_Email::preparePlacementImpendingExpiryEmail(
                                         $aPlacement['advertiser_id'],
                                         $aPlacement['campaign_id'],
                                         'impressions',
@@ -2734,17 +2734,13 @@ class OA_Dal_Maintenance_Statistics_Common
                                     $advertisementRow['url']);
                         }
                         if ($aPlacement['send_activate_deactivate_email']) {
-                            $message =& OA_Email::prepareActivatePlacementEmail(
-                                $aPlacement['contact'],
-                                $aPlacement['campaign_name'],
-                                $advertisements
-                            );
-                            if ($message !== false) {
+                            $aEmail =& OA_Email::preparePlacementActivatedEmail($aPlacement['campaignid']);
+                            if ($aEmail !== false) {
                                 OA_Email::sendMail(
-                                    "Activated Banners: {$aPlacement['campaign_name']}",
-                                    $message,
-                                    $aPlacement['email'],
-                                    $aPlacement['contact']
+                                    $aEmail['subject'],
+                                    $aEmail['contents'],
+                                    $aEmail['userEmail'],
+                                    $aEmail['userName']
                                 );
                             }
                         }

@@ -81,7 +81,7 @@ $GLOBALS['strSearch']                   = "<u>S</u>earch";
 $GLOBALS['strHistory']                  = "History";
 $GLOBALS['strPreferences']              = "Preferences";
 $GLOBALS['strDetails']                  = "Details";
-$GLOBALS['strSyncSettings']             = "Synchronisation Settings";  
+$GLOBALS['strSyncSettings']             = "Synchronisation Settings";
 $GLOBALS['strCompact']                  = "Compact";
 $GLOBALS['strVerbose']                  = "Verbose";
 $GLOBALS['strUser']                     = "User";
@@ -850,9 +850,12 @@ $GLOBALS['strEmailNoDates']                     = 'Email zone campaigns must hav
 $GLOBALS['strSirMadam']                         = "Sir/Madam";
 $GLOBALS['strMailSubject']                      = "Advertiser report";
 $GLOBALS['strAdReportSent']                     = "Advertiser report sent";
-$GLOBALS['strMailSubjectDeleted']               = "Deactivated banners";
 $GLOBALS['strMailHeader']                       = "Dear {contact},\n";
 $GLOBALS['strMailBannerStats']                  = "Below you will find the banner statistics for {clientname}:";
+
+$GLOBALS['strMailBannerActivated']              = "Your campaign shown below has been activated because\nthe campaign activation date has been reached.";
+$GLOBALS['strMailBannerActivatedSubject']       = "Campiagn activation";
+
 $GLOBALS['strMailFooter']                       = "Regards,\n   {adminfullname}";
 $GLOBALS['strMailClientDeactivated']            = "The following banners have been disabled because";
 $GLOBALS['strMailNothingLeft']                  = "If you would like to continue advertising on our website, please feel free to contact us.\nWe'd be glad to hear from you.";
