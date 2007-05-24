@@ -65,7 +65,7 @@
                     'items'   => array (
                         array (
                             'type'    => 'checkbox', 
-                            'name'    => 'aAdmin[updates_enabled]',
+                            'name'    => 'updates_enabled',
                             'text'    => $strAdminCheckUpdates,
                             'value'   => true,
                         ),
@@ -74,8 +74,8 @@
                         ),
                         array (
                             'type'    => 'checkbox',
-                            'name'    => 'aAdmin[updates_cs_data_enabled]',
-                            'text'    => $GLOBALS['strAdminShareCommunityData'],
+                            'name'    => 'updates_cs_data_enabled',
+                            'text'    => $strAdminShareCommunityData,
                             'depends' => 'updates_enabled==true',
                             'value'   => true,
                         ),

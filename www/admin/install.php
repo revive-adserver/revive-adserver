@@ -222,6 +222,8 @@ else if (array_key_exists('btn_datasetup', $_POST))
 {
     if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
     {
+        $_POST['aAdmin']['updates_enabled'] = $_POST['updates_enabled'];
+        $_POST['aAdmin']['updates_cs_data_enabled'] = $_POST['updates_cs_data_enabled'];
         $oUpgrader->putAdmin($_POST['aAdmin']);
         $action = OA_UPGRADE_DATASETUP;
     }
