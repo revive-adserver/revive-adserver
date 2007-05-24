@@ -353,7 +353,7 @@ function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = t
         }
 
         if (is_array($aZoneLinkedAds)) {
-            if ($aZoneLinkedAds['forceappend'] == 't') {
+            if (isset($aZoneLinkedAds['forceappend']) && $aZoneLinkedAds['forceappend'] == 't') {
                 $g_prepend .= $aZoneLinkedAds['prepend'];
                 $g_append = $aZoneLinkedAds['append'] . $g_append;
                 $appendedThisZone = true;
