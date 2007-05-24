@@ -55,10 +55,11 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
      */
     function _insertTestDeleteImpressions($oDate)
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                data_raw_tracker_impression_" . $oDate->format('%Y%m%d') . "
+                {$aConf['table']['prefix']}data_raw_tracker_impression_" . $oDate->format('%Y%m%d') . "
                 (
                     server_raw_tracker_impression_id,
                     tracker_id,
@@ -119,10 +120,11 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
      */
     function _insertTestDeleteClicks($oDate)
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                data_raw_tracker_click_" . $oDate->format('%Y%m%d') . "
+                {$aConf['table']['prefix']}data_raw_tracker_click_" . $oDate->format('%Y%m%d') . "
                 (
                     tracker_id,
                     date_time
@@ -175,10 +177,11 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
      */
     function _insertTestDeleteVariableValues($oDate)
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                data_raw_tracker_variable_value_" . $oDate->format('%Y%m%d') . "
+                {$aConf['table']['prefix']}data_raw_tracker_variable_value_" . $oDate->format('%Y%m%d') . "
                 (
                     server_raw_tracker_impression_id,
                     tracker_variable_id,
@@ -245,10 +248,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
      */
     function testGetMaintenanceStatisticsLastRunInfo()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['table']['split'] = true;
-        $conf['maintenance']['operationInterval'] = 60;
+        $aConf['table']['split'] = true;
+        $aConf['maintenance']['operationInterval'] = 60;
         $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
         // Create the required tables
         $now = new Date();
@@ -264,7 +267,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $now->setSecond(10);
         $query = "
             INSERT INTO
-                data_raw_tracker_impression_". $now->format('%Y%m%d') ."
+                {$aConf['table']['prefix']}data_raw_tracker_impression_". $now->format('%Y%m%d') ."
                 (
                     tracker_id,
                     date_time
@@ -280,7 +283,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $now->setSecond(56);
         $query = "
             INSERT INTO
-                data_raw_tracker_impression_". $now->format('%Y%m%d') ."
+                {$aConf['table']['prefix']}data_raw_tracker_impression_". $now->format('%Y%m%d') ."
                 (
                     tracker_id,
                     date_time
@@ -296,7 +299,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $now->setSecond(11);
         $query = "
             INSERT INTO
-                data_raw_tracker_impression_". $now->format('%Y%m%d') ."
+                {$aConf['table']['prefix']}data_raw_tracker_impression_". $now->format('%Y%m%d') ."
                 (
                     tracker_id,
                     date_time
@@ -318,7 +321,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         // Insert an hourly (only) update
         $query = "
             INSERT INTO
-                log_maintenance_statistics
+                {$aConf['table']['prefix']}log_maintenance_statistics
                 (
                     start_run,
                     end_run,
@@ -401,10 +404,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
      */
     function testDeleteOldData()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['table']['split'] = true;
-        $conf['maintenance']['compactStatsGrace'] = 0;
+        $aConf['table']['split'] = true;
+        $aConf['maintenance']['compactStatsGrace'] = 0;
         $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
         // Create the required tables
         $now = new Date('2004-06-05');
@@ -432,7 +435,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -442,7 +445,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_click']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
@@ -450,7 +453,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -460,7 +463,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
@@ -468,7 +471,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -478,17 +481,17 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
 
         TestEnv::restoreEnv();
 
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['table']['split'] = true;
+        $aConf['table']['split'] = true;
         // Set a compact_stats_grace window
-        $conf['maintenance']['compactStatsGrace'] = 3600;
+        $aConf['maintenance']['compactStatsGrace'] = 3600;
         $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
         // Create the required tables
         $now = new Date('2004-06-05');
@@ -516,7 +519,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -526,7 +529,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_click']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
@@ -534,7 +537,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -544,7 +547,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
@@ -552,7 +555,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -562,7 +565,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
 
