@@ -37,6 +37,9 @@ if (array_key_exists('btn_integ_check', $_REQUEST))
 {
     $oUpgrader->initDatabaseConnection();
     $oUpgrader->oDBUpgrader->init('constructive', 'tables_core', 500);
+    $oUpgrader->oDBUpgrader->prefix   = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+    $oUpgrader->oDBUpgrader->database = $GLOBALS['_MAX']['CONF']['database']['name'];
+//    $oUpgrader->oDBUpgrader->file_schema = MAX_PATH.'/etc/changes/schema_tables_core_500.xml';
     $oUpgrader->oLogger->logClear();
     $aChanges = $oUpgrader->oDBUpgrader->checkSchemaIntegrity();
     $oUpgrader->oDBUpgrader->aChanges = $aChanges;
