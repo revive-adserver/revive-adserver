@@ -293,7 +293,7 @@ class MAX_OpenadsSync
 
         $aReturn = array();
 
-        $res = $this->dbh->query("
+        $res = $this->oDbh->query("
             SELECT
                 SUM(dsah.impressions) AS ad_views_sum,
                 SUM(dsah.clicks) AS ad_clicks_sum
@@ -319,7 +319,7 @@ class MAX_OpenadsSync
 
         if(!PEAR::isError($res)){
 
-            $this->dbh->fetchInto($res, $row);
+            $this->oDbh->fetchInto($res, $row);
             $iTimeDiff = $iEndDate-$iStartDate;
 
             $aReturn['ad_clicks_sum']        = $row['ad_clicks_sum'];
