@@ -51,10 +51,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function testGetMaintenanceStatisticsLastRunInfo()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['table']['split'] = true;
-        $conf['maintenance']['operationInterval'] = 60;
+        $aConf['table']['split'] = true;
+        $aConf['maintenance']['operationInterval'] = 60;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -73,7 +73,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $now->setSecond(10);
         $query = "
             INSERT INTO
-                data_raw_ad_impression_". $now->format('%Y%m%d') ."
+                {$aConf['table']['prefix']}data_raw_ad_impression_". $now->format('%Y%m%d') ."
                 (
                     ad_id,
                     creative_id,
@@ -93,7 +93,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $now->setSecond(56);
         $query = "
             INSERT INTO
-                data_raw_ad_impression_". $now->format('%Y%m%d') ."
+                {$aConf['table']['prefix']}data_raw_ad_impression_". $now->format('%Y%m%d') ."
                 (
                     ad_id,
                     creative_id,
@@ -113,7 +113,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $now->setSecond(11);
         $query = "
             INSERT INTO
-                data_raw_ad_impression_". $now->format('%Y%m%d') ."
+                {$aConf['table']['prefix']}data_raw_ad_impression_". $now->format('%Y%m%d') ."
                 (
                     ad_id,
                     creative_id,
@@ -139,7 +139,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // Insert an hourly (only) update
         $query = "
             INSERT INTO
-                log_maintenance_statistics
+                {$aConf['table']['prefix']}log_maintenance_statistics
                 (
                     start_run,
                     end_run,
@@ -222,10 +222,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function testSummariseRequests()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['table']['split'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['table']['split'] = true;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -250,7 +250,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // Insert 3 ad requests
         $query = "
             INSERT INTO
-                data_raw_ad_request_20040506
+                {$aConf['table']['prefix']}data_raw_ad_request_20040506
                 (
                     ad_id,
                     creative_id,
@@ -275,7 +275,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                data_raw_ad_request_20040606
+                {$aConf['table']['prefix']}data_raw_ad_request_20040606
                 (
                     ad_id,
                     creative_id,
@@ -369,10 +369,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function testSummariseImpressions()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['table']['split'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['table']['split'] = true;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -397,7 +397,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // Insert 3 ad impressions
         $query = "
             INSERT INTO
-                data_raw_ad_impression_20040506
+                {$aConf['table']['prefix']}data_raw_ad_impression_20040506
                 (
                     ad_id,
                     creative_id,
@@ -422,7 +422,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                data_raw_ad_impression_20040606
+                {$aConf['table']['prefix']}data_raw_ad_impression_20040606
                 (
                     ad_id,
                     creative_id,
@@ -516,10 +516,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function testSummariseClicks()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['table']['split'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['table']['split'] = true;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -544,7 +544,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // Insert 3 ad clicks
         $query = "
             INSERT INTO
-                data_raw_ad_click_20040506
+                {$aConf['table']['prefix']}data_raw_ad_click_20040506
                 (
                     ad_id,
                     creative_id,
@@ -569,7 +569,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                data_raw_ad_click_20040606
+                {$aConf['table']['prefix']}data_raw_ad_click_20040606
                 (
                     ad_id,
                     creative_id,
@@ -663,11 +663,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function testSummariseConnections()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['table']['split'] = true;
-        $conf['modules']['Tracker'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['table']['split'] = true;
+        $aConf['modules']['Tracker'] = true;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -699,7 +699,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // impressions, ad clicks, and tracker impressions
         $query = "
             INSERT INTO
-                banners
+                {$aConf['table']['prefix']}banners
                 (
                     bannerid,
                     description,
@@ -775,7 +775,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                campaigns_trackers
+                {$aConf['table']['prefix']}campaigns_trackers
                 (
                     campaignid,
                     trackerid,
@@ -819,7 +819,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $queryImpressions = "
             INSERT INTO
-                data_raw_ad_impression_20040606
+                {$aConf['table']['prefix']}data_raw_ad_impression_20040606
                 (
                     viewer_id,
                     viewer_session_id,
@@ -846,7 +846,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $queryClicks = "
             INSERT INTO
-                data_raw_ad_click_20040606
+                {$aConf['table']['prefix']}data_raw_ad_click_20040606
                 (
                     viewer_id,
                     viewer_session_id,
@@ -969,7 +969,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $stClicks->execute($aData);
         $queryImpressions = "
             INSERT INTO
-                data_raw_ad_impression_20040506
+                {$aConf['table']['prefix']}data_raw_ad_impression_20040506
                 (
                     viewer_id,
                     viewer_session_id,
@@ -996,7 +996,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $queryClicks = "
             INSERT INTO
-                data_raw_ad_click_20040506
+                {$aConf['table']['prefix']}data_raw_ad_click_20040506
                 (
                     viewer_id,
                     viewer_session_id,
@@ -1071,7 +1071,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $stClicks->execute($aData);
         $query = "
             INSERT INTO
-                data_raw_tracker_impression_20040606
+                {$aConf['table']['prefix']}data_raw_tracker_impression_20040606
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -1115,7 +1115,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                data_raw_tracker_impression_20040506
+                {$aConf['table']['prefix']}data_raw_tracker_impression_20040506
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -1399,7 +1399,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // Drop the temporary table
         $dsa->tempTables->dropTable('tmp_ad_connection');
         // Test with the data present, but the tracker module uninstalled
-        $conf['modules']['Tracker'] = false;
+        $aConf['modules']['Tracker'] = false;
         $dsa = $oMDMSF->factory("AdServer");
         // Summarise where the other connections are
         $start = new Date('2004-06-06 18:00:00');
@@ -1417,10 +1417,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function _insertTestSaveIntermedaiteVariable()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                variables
+                {$aConf['table']['prefix']}variables
                 (
                     variableid, trackerid, purpose
                 )
@@ -1537,11 +1538,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function testSaveIntermediate()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['table']['split'] = true;
-        $conf['modules']['Tracker'] = true;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['table']['split'] = true;
+        $aConf['modules']['Tracker'] = true;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -1575,21 +1576,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         // Re-create dropped tables
@@ -1603,7 +1604,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $this->_insertTestSaveIntermedaiteAdClick();
         $query = "
             INSERT INTO
-                data_raw_tracker_impression_20040606
+                {$aConf['table']['prefix']}data_raw_tracker_impression_20040606
                 (
                     server_raw_tracker_impression_id, server_raw_ip, viewer_id, viewer_session_id,
                     date_time, tracker_id, channel, language, ip_address, host_name, country,
@@ -1648,7 +1649,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                data_raw_tracker_variable_value_20040606
+                {$aConf['table']['prefix']}data_raw_tracker_variable_value_20040606
                 (
                     server_raw_tracker_impression_id, server_raw_ip, tracker_variable_id, date_time, value
                 )
@@ -1676,7 +1677,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                data_raw_tracker_variable_value_20040607
+                {$aConf['table']['prefix']}data_raw_tracker_variable_value_20040607
                 (
                     server_raw_tracker_impression_id, server_raw_ip, tracker_variable_id, date_time, value
                 )
@@ -1773,14 +1774,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 server_raw_tracker_impression_id = 1
                 AND server_raw_ip = '127.0.0.1'";
@@ -1831,7 +1832,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.2'";
@@ -1883,15 +1884,15 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 4);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']} AS diavv,
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']} AS diac
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv,
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} AS diac
             WHERE
                 diac.server_raw_tracker_impression_id = 1
                 AND diac.server_raw_ip = '127.0.0.1'
@@ -1902,7 +1903,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 diavv.*
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']} AS diavv
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv
             WHERE
                 diavv.tracker_variable_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -1911,7 +1912,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 diavv.*
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']} AS diavv
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv
             WHERE
                 diavv.tracker_variable_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -1920,8 +1921,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']} AS diavv,
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']} AS diac
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv,
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} AS diac
             WHERE
                 diac.server_raw_tracker_impression_id = 2
                 AND diac.server_raw_ip = '127.0.0.2'
@@ -1932,7 +1933,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 diavv.*
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']} AS diavv
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv
             WHERE
                 diavv.tracker_variable_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -1941,7 +1942,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 diavv.*
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']} AS diavv
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv
             WHERE
                 diavv.tracker_variable_id = 4";
         $aRow = $oDbh->queryRow($query);
@@ -1950,14 +1951,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -1976,7 +1977,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -1993,11 +1994,11 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $this->assertEqual($aRow['total_basket_value'], 3);
         // Restore the testing environment
         TestEnv::restoreEnv();
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['maintenance']['operationInterval'] = 30;
-        $conf['table']['split'] = true;
-        $conf['modules']['Tracker'] = false;
+        $aConf['maintenance']['operationInterval'] = 30;
+        $aConf['table']['split'] = true;
+        $aConf['modules']['Tracker'] = false;
         $dsa = $oMDMSF->factory("AdServer");
         // Create the (minimum set of) required tables
         $dsa->tempTables->createTable('tmp_ad_click');
@@ -2011,7 +2012,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         // Re-create dropped tables
@@ -2035,14 +2036,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -2061,7 +2062,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}
+                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -2087,6 +2088,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function _insertTestDeleteOldDataAdItems()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = & OA_DB::singleton();
         $aTables = array(
             'request',
@@ -2101,7 +2103,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             foreach ($aDates AS $tableDate => $date) {
                 $query = "
                     INSERT INTO
-                        data_raw_ad_{$table}_{$tableDate}
+                        {$aConf['table']['prefix']}data_raw_ad_{$table}_{$tableDate}
                         (
                             ad_id,
                             creative_id,
@@ -2168,12 +2170,12 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function testDeleteOldData()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['table']['split'] = true;
-        $conf['maintenance']['compactStatsGrace'] = 0;
+        $aConf['table']['split'] = true;
+        $aConf['maintenance']['compactStatsGrace'] = 0;
         // Enable the tracker
-        $conf['modules']['Tracker'] = true;
+        $aConf['modules']['Tracker'] = true;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -2189,7 +2191,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // Insert the test data
         $query = "
             INSERT INTO
-                campaigns_trackers
+                {$aConf['table']['prefix']}campaigns_trackers
                 (
                     viewwindow, clickwindow
                 )
@@ -2217,7 +2219,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2227,7 +2229,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
@@ -2235,7 +2237,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2245,7 +2247,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
@@ -2253,7 +2255,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2263,17 +2265,17 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         // Restore the testing environment
         TestEnv::restoreEnv();
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['table']['split'] = true;
-        $conf['maintenance']['compactStatsGrace'] = 0;
+        $aConf['table']['split'] = true;
+        $aConf['maintenance']['compactStatsGrace'] = 0;
         // Disable the tracker
-        $conf['modules']['Tracker'] = false;
+        $aConf['modules']['Tracker'] = false;
         $dsa = $oMDMSF->factory("AdServer");
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);
@@ -2293,7 +2295,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2303,7 +2305,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
@@ -2311,7 +2313,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2321,7 +2323,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
@@ -2329,7 +2331,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2339,17 +2341,17 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         // Restore the testing environment
         TestEnv::restoreEnv();
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['table']['split'] = true;
-        $conf['maintenance']['compactStatsGrace'] = 0;
+        $aConf['table']['split'] = true;
+        $aConf['maintenance']['compactStatsGrace'] = 0;
         // Disable the tracker
-        $conf['modules']['Tracker'] = false;
+        $aConf['modules']['Tracker'] = false;
         $dsa = $oMDMSF->factory("AdServer");
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);
@@ -2369,7 +2371,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2379,7 +2381,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2389,7 +2391,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2399,7 +2401,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2409,7 +2411,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2419,20 +2421,20 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         // Restore the testing environment
         TestEnv::restoreEnv();
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['table']['split'] = true;
+        $aConf['table']['split'] = true;
         // Set a compact_stats_grace window
-        $conf['maintenance']['compactStatsGrace'] = 3600;
+        $aConf['maintenance']['compactStatsGrace'] = 3600;
         // Enable the tracker
-        $conf['modules']['Tracker'] = true;
+        $aConf['modules']['Tracker'] = true;
         $dsa = $oMDMSF->factory("AdServer");
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);
@@ -2452,7 +2454,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2462,7 +2464,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
@@ -2470,7 +2472,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2480,7 +2482,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
@@ -2488,7 +2490,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2498,18 +2500,18 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         // Restore the testing environment
         TestEnv::restoreEnv();
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['table']['split'] = true;
+        $aConf['table']['split'] = true;
         // Set a compact_stats_grace window
-        $conf['maintenance']['compactStatsGrace'] = 3600;
+        $aConf['maintenance']['compactStatsGrace'] = 3600;
         // Disable the tracker
-        $conf['modules']['Tracker'] = false;
+        $aConf['modules']['Tracker'] = false;
         $dsa = $oMDMSF->factory("AdServer");
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);
@@ -2529,7 +2531,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2539,7 +2541,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
@@ -2547,7 +2549,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2557,7 +2559,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
@@ -2565,7 +2567,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2575,18 +2577,18 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         // Restore the testing environment
         TestEnv::restoreEnv();
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['table']['split'] = true;
+        $aConf['table']['split'] = true;
         // Set a compact_stats_grace window
-        $conf['maintenance']['compactStatsGrace'] = 3600;
+        $aConf['maintenance']['compactStatsGrace'] = 3600;
         // Disable the tracker
-        $conf['modules']['Tracker'] = false;
+        $aConf['modules']['Tracker'] = false;
         $dsa = $oMDMSF->factory("AdServer");
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);
@@ -2606,7 +2608,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2616,7 +2618,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
@@ -2624,7 +2626,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2634,7 +2636,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
@@ -2642,7 +2644,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2652,7 +2654,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         TestEnv::restoreEnv();
