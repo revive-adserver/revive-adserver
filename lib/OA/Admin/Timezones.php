@@ -45,18 +45,55 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
      */
     function AvailableTimezones($addBlank = false)
     {
+        global $_DATE_TIMEZONE_DATA;
+
         // Load global array of timezones
         require_once MAX_PATH .'/lib/pear/Date/TimeZone.php';
         $aTimezoneKey = Date_TimeZone::getAvailableIDs();
+        sort($aTimezoneKey);
+
+        foreach ($aTimezoneKey as $key) {
+            //  calculate timezone offset
+            $offset = ((($_DATE_TIMEZONE_DATA[$key]['offset'] / 1000 ) / 60 ) / 60);
+
+            //  calculate offset hours
+            $offsetHours = str_pad((int) abs($offset), 2, 0, STR_PAD_LEFT);
+
+            // caculate offset minutes
+            list(,$offsetMinutes) = explode('.', $offset);
+            $offsetMinutes = (strlen($offsetMinutes) >= 2) ? substr($offsetMinutes, 0, 2) : $offsetMinutes;
+
+            //  if minutes < 2 characters add leading zero
+            $offsetMinutes = str_pad((int) (60 * ($offsetMinutes / 100)), 2, 0, STR_PAD_LEFT);
+
+            //  build offset
+            $offset = $offsetHours . $offsetMinutes;
+
+            //  build arrays used for sorting time zones
+            $origOffset = $_DATE_TIMEZONE_DATA[$key]['offset'];
+            if ($origOffset >= 0) {
+                $aTimezone[$key] = "(GMT+$offset) $key";
+            } else {
+                $aNegTimezone[$key] = "(GMT-$offset) $key";
+            }
+        }
+
+        //  sort timezones with positive offset desc and negative offests asc
         // Add empty key/value pair
         if ($addBlank) {
-            $aTimezone[] = '';
+            $aResult[] = '';
         }
-        foreach ($aTimezoneKey as $key) {
-            $aTimezone[$key] = $key;
+
+        //  sort time zones
+        arsort($aTimezone); asort($aNegTimezone);
+
+        //  build result array
+        $aResult = $aTimezone;
+        foreach ($aNegTimezone as $key => $value) {
+            $aResult[$key] = $value;
         }
-        asort($aTimezone);
-        return $aTimezone;
+
+        return $aResult;
     }
 
     /**
@@ -126,7 +163,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
     }
 
     /**
-     * A method to calculate the timezon value to write out
+     * A method to calculate the timezone value to write out
      * to the configuration file, based on a user selected
      * timezone value.
      *
@@ -164,3 +201,5 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
     }
 
 }
+
+?>
