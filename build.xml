@@ -26,6 +26,7 @@
     <checkdistribution>
       <includeset dir="${basedir}">
         <patternset refid="dist.included"/>
+        <patternset refid="dist.writable"/>
       </includeset>
       <excludeset dir="${basedir}">
         <patternset refid="dist.excluded"/>
@@ -66,6 +67,7 @@
   </target>
 
   <target name="increase-rc">
+    <echo message="Increasing the openads.version.rc number (${openads.version.rc}) by 1."/>
     <propertyfile file="etc/version.properties">
       <entry key="openads.version.rc" type="int" operation="+" value="1"/>
     </propertyfile>
@@ -83,6 +85,7 @@
      -->
     <property name="linetag" value="-beta-rc${openads.version.rc}"/>
     <property name="version" value="${version.number}${linetag}"/>
+    <echo message="Initialized version to: ${version}"/>
   </target>
 
   <target name="init-version" unless="version" depends="prepare-line-info, init-timestamp, init-label">
@@ -91,9 +94,11 @@
 
   <target name="init-release" unless="release" depends="init,init-version">
     <property name="release" value="openads-${version}"/>
+    <echo message="Initialized release: ${release}."/>
   </target>
 
   <target name="prepare-version-info" if="version" depends="init-release">
+    <echo message="Setting MAX_VERSION_READABLE to 'v${version}'."/>
     <replaceregexp file="constants.php"
       match="^.*MAX_VERSION_READABLE.*$"
       replace="    define('MAX_VERSION_READABLE', 'v${version}');"
@@ -114,17 +119,13 @@
       <patternset refid="dist.included"/>
     </tar>
     <zip destfile="${dir.test.results}/${release}.zip" basedir=".">
-      <zipfileset dir=".">
-        <patternset refid="dist.included"/>
-      </zipfileset>
-      <zipfileset dir="." dirmode="666">
-        <patternset refid="dist.writable"/>
-      </zipfileset>
+      <patternset refid="dist.included"/>
     </zip>
     <svn-revert file="constants.php"/>
   </target>
 
   <target name="tag" depends="checkconsistency, prepare-version-info">
+    <echo message="Tagging release: ${release}."/>
     <svn-tag tag="${release}"/>
   </target>
 

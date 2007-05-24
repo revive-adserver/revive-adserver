@@ -5,7 +5,7 @@
       <isset property="svn.password"/>
     </and>
   </condition>
-  <property name="svn.options" value="--non-interactive -q ${svn.credentials}"/>
+  <property name="svn.options" value="--non-interactive ${svn.credentials}"/>
 
 
   <macrodef name="svn-commit">
@@ -31,7 +31,7 @@
     <attribute name="file"/>
     <sequential>
       <exec dir="${basedir}" executable="svn" failonerror="true">
-        <arg line="revert -q ${svn.credentials} @{file}"/>
+        <arg line="revert ${svn.credentials} @{file}"/>
       </exec>
     </sequential>
   </macrodef>
