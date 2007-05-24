@@ -811,7 +811,6 @@ class OA_Upgrade
         // Load preferences, needed below to check instance_id existance
         $oPrefs->loadPrefs();
 
-        $oPrefs->setPrefChange('config_version', OA_VERSION);
         $oPrefs->setPrefChange('admin', $aAdmin['name']);
         $oPrefs->setPrefChange('admin_email', $aAdmin['email']);
         $oPrefs->setPrefChange('admin_pw', md5($aAdmin['pword']));

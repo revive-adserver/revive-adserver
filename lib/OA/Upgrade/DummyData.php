@@ -109,8 +109,8 @@ class OA_Dummy_Data
         $doCampaigns->views    = '-1';                           // int(11)
         $doCampaigns->clicks    = '-1';                          // int(11)
         $doCampaigns->conversions    = '-1';                     // int(11)
-        $doCampaigns->expire    = '0000-00-00';                          // date(10)  binary
-        $doCampaigns->activate    = '0000-00-00';                        // date(10)  binary
+        $doCampaigns->expire    = OA_Dal::noDateString();
+        $doCampaigns->activate  = OA_Dal::noDateString();
         $doCampaigns->active    = 't';                       // string(1)  not_null enum
         $doCampaigns->priority    = '-1';                        // int(11)  not_null
         $doCampaigns->weight    = '1';                          // int(4)  not_null

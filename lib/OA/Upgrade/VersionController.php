@@ -181,7 +181,7 @@ class OA_Version_Controller
 
     function _getQueryInsert($name, $value)
     {
-        return sprintf("INSERT INTO {$GLOBALS['_MAX']['CONF']['table']['prefix']}application_variable (`name`,`value`) VALUES ('%s', '%s')", $name, $value);
+        return sprintf("INSERT INTO {$GLOBALS['_MAX']['CONF']['table']['prefix']}application_variable (name,value) VALUES ('%s', '%s')", $name, $value);
     }
 
     function _getQuerySelect($name)
