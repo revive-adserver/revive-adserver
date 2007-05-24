@@ -153,6 +153,8 @@ class OA_Upgrade
         $this->oVersioner->init($this->oDbh);
         $this->oDBAuditor->init($this->oDbh, $this->oLogger);
         $this->oDBUpgrader->oAuditor = &$this->oDBAuditor;
+        $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
+        $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
         return true;
     }
 
@@ -771,6 +773,7 @@ class OA_Upgrade
             }
         }
         $aConfig['database'] = $GLOBALS['_MAX']['CONF']['database'];
+        $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
         $aConfig = $this->initDatabaseParameters($aConfig);
         $this->saveConfigDB($aConfig);
         if (!$this->runScript($this->aPackage['postscript']))
@@ -912,7 +915,8 @@ class OA_Upgrade
             $result = $this->oDbh->exec('DROP TABLE '.$tblTmp);
             $this->oLogger->log('Database permissions are OK');
             return true;
-        } else
+        }
+        else
         {
             $this->oLogger->logError('Failed to create test privileges table - check your database permissions');
             return false;
@@ -932,7 +936,7 @@ class OA_Upgrade
 
         if (in_array($this->aDsn['table']['prefix'].'config', $aExistingTables))
         {
-            $this->oLogger->logError('A phpAdsNew configuration table was found: '.$this->aDsn['table']['prefix'].'config_version. Please either choose a new Table Prefix, copy your config file to the Var folder and restart as an Upgrade, or clear your database of phpAdsNew data to create a new install.');
+            $this->oLogger->logError('A phpAdsNew configuration table was found: '.$this->aDsn['table']['prefix'].'config. Please either choose a new Table Prefix, copy your config file to the Var folder and restart as an Upgrade, or clear your database of phpAdsNew data to create a new install.');
             return false;
         }
         if (in_array($this->aDsn['table']['prefix'].'preference', $aExistingTables))
@@ -946,9 +950,11 @@ class OA_Upgrade
             if (substr($tablename, 0, strlen($this->aDsn['table']['prefix'])) == $this->aDsn['table']['prefix'])
             {
                $result = false;
-               $this->oLogger->log('Tables with the prefix '.$this->aDsn['table']['prefix'].' were found: '.$tablename);
-               if ($tablePrefixError == false) {
-                   $this->oLogger->logError('The Database you have chosen already contains Tables with the Prefix "'.$this->aDsn['table']['prefix'].'". <br>Please either remove these Tables or choose a new Prefix.');
+               $this->oLogger->log('Table with the prefix '.$this->aDsn['table']['prefix'].' found: '.$tablename);
+               if ($tablePrefixError == false)
+               {
+                   $this->oLogger->logError('The database you have chosen already contains tables with the prefix '.$this->aDsn['table']['prefix']);
+                   $this->oLogger->logError('Please either remove these tables or choose a new prefix');
                    $tablePrefixError = true;
                }
             }
@@ -1097,7 +1103,7 @@ class OA_Upgrade
                     {
                         return false;
                     }
-                    if (!$this->oDBUpgrader->init('constructive', $aPkg['schema'], $aPkg['version']))
+                    if (!$this->oDBUpgrader->init('constructive', $aPkg['schema'], $aPkg['version'], true))
                     {
                         return false;
                     }

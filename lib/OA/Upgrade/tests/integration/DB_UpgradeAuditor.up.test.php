@@ -57,7 +57,7 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
     function test_init()
     {
         $oAuditor = $this->_getAuditObject();
-        $this->_dropDBAuditTable($oAuditor->logTable);
+        $this->_dropDBAuditTable($oAuditor->prefix.$oAuditor->logTable);
         $this->assertTrue($oAuditor->init($oAuditor->oDbh),'failed to initialise upgrade auditor');
         $aDBTables = $oAuditor->oDbh->manager->listTables();
         $this->assertTrue(in_array($oAuditor->prefix.$oAuditor->logTable, $aDBTables));
@@ -85,7 +85,7 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
     function test_createAuditTable()
     {
         $oAuditor = $this->_getAuditObject();
-        $this->_dropDBAuditTable($oAuditor->logTable);
+        $this->_dropDBAuditTable($oAuditor->prefix.$oAuditor->logTable);
         $this->assertTrue($oAuditor->_createAuditTable(),'failed to createAuditTable');
         $aDBTables = $oAuditor->oDbh->manager->listTables();
         $this->assertTrue(in_array($oAuditor->prefix.$oAuditor->logTable, $aDBTables));
@@ -94,7 +94,7 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
     function test_checkCreateAuditTable()
     {
         $oAuditor = $this->_getAuditObject();
-        $this->_dropDBAuditTable($oAuditor->logTable);
+        $this->_dropDBAuditTable($oAuditor->prefix.$oAuditor->logTable);
         // test1 : table does not exist, should create table
         $this->assertTrue($oAuditor->_checkCreateAuditTable(),'failed to createAuditTable');
         $aDBTables = $oAuditor->oDbh->manager->listTables();
@@ -313,9 +313,9 @@ works in phpMyAdmin on MySQL 5.0.22 but not via this routine
         $this->assertTrue($oTable->createTable('z_test2'),'error creating test backup z_test2');
         $this->assertTrue($oTable->createTable('z_test3'),'error creating test backup z_test3');
         $aExistingTables = $oTable->oDbh->manager->listTables();
-        $this->assertTrue(in_array('z_test1', $aExistingTables), '_listBackups');
-        $this->assertTrue(in_array('z_test2', $aExistingTables), '_listBackups');
-        $this->assertTrue(in_array('z_test3', $aExistingTables), '_listBackups');
+        $this->assertTrue(in_array($oAuditor->prefix.'z_test1', $aExistingTables), '_listBackups');
+        $this->assertTrue(in_array($oAuditor->prefix.'z_test2', $aExistingTables), '_listBackups');
+        $this->assertTrue(in_array($oAuditor->prefix.'z_test3', $aExistingTables), '_listBackups');
 
         $aBackupTables = $oAuditor->_listBackups();
         $this->assertIsA($aBackupTables,'array','backup array not an array');

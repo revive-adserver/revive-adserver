@@ -422,14 +422,14 @@ class OA_DB_Upgrade
         $this->_log('comparing database '.$this->oSchema->db->connected_database_name.' with schema '.$this->file_schema);
         OA_DB::setCaseSensitive();
         // compare the schema and implemented definitions
-        $aDefinitionOld = $this->oSchema->getDefinitionFromDatabase();
-        if ($this->_isPearError($result, 'error getting database definition'))
+        $aDefinitionOld = $this->_getDefinitionFromDatabase();
+        if ($this->_isPearError($aDefinitionOld, 'error getting database definition'))
         {
             OA_DB::disableCaseSensitive();
             return false;
         }
         $aDiffs = $this->oSchema->compareDefinitions($this->aDefinitionNew, $aDefinitionOld);
-        if ($this->_isPearError($result, 'error comparing definitions'))
+        if ($this->_isPearError($aDiffs, 'error comparing definitions'))
         {
             OA_DB::disableCaseSensitive();
             return false;
@@ -544,18 +544,18 @@ class OA_DB_Upgrade
                     {
                         $this->_halt();
                         $this->oAuditor->logDatabaseAction(array('info1'=>'BACKUP FAILED',
-                                                                 'info2'=>'creating backup table'.$this->prefix.$table_bak,
+                                                                 'info2'=>'creating backup table'.$table_bak,
                                                                  'action'=>DB_UPGRADE_ACTION_BACKUP_FAILED,
                                                                 )
                                                           );
                         return false;
                     }
-                    $aDef = $this->oSchema->getDefinitionFromDatabase(array($this->prefix.$table));
-                    $aBakDef = $aDef['tables'][$this->prefix.$table];
+                    $aDef = $this->_getDefinitionFromDatabase($table);
+                    $aBakDef = $aDef['tables'][$table];
                     $this->aRestoreTables[$table] = array(
-                    'bak'=>$table_bak,
-                    'def'=>$aBakDef
-                    );
+                                                            'bak'=>$table_bak,
+                                                            'def'=>$aBakDef
+                                                         );
                     $this->oAuditor->logDatabaseAction(array('info1'=>'copied table',
                                                              'tablename'=>$table,
                                                              'tablename_backup'=>$table_bak,
@@ -592,7 +592,7 @@ class OA_DB_Upgrade
     function rollback()
     {
         $this->aDBTables = $this->_listTables();
-        if ($this->_isPearError($result, 'error listing tables during rollback'))
+        if ($this->_isPearError($this->aDBTables, 'error listing tables during rollback'))
         {
             return false;
         }
@@ -614,17 +614,17 @@ class OA_DB_Upgrade
                                                   );
                 foreach ($this->aRestoreTables AS $table => $aTable_bak)
                 {
-                    if (in_array($aTable_bak['bak'], $this->aDBTables))
+                    if (in_array($this->prefix.$aTable_bak['bak'], $this->aDBTables))
                     {
                         $dropfirst = (in_array($this->prefix.$table, $this->aDBTables));
-                        $result = $this->_restoreFromBackup($this->prefix.$table, $aTable_bak['bak'], $aTable_bak['def'], $dropfirst);
+                        $result = $this->_restoreFromBackup($table, $aTable_bak['bak'], $aTable_bak['def'], $dropfirst);
                         if (!$result)
                         {
-                            $this->_logError("failed to restore backup table: {$aTable_bak['bak']} => {$this->prefix}{$table}");
+                            $this->_logError("failed to restore backup table: {$this->prefix}{$aTable_bak['bak']} => {$this->prefix}{$table}");
                             $this->_halt();
                             $this->oAuditor->logDatabaseAction(array('info1'=>'ROLLBACK FAILED',
                                                                      'info2'=>'failed to restore table',
-                                                                     'tablename'=>$this->prefix.$table,
+                                                                     'tablename'=>$table,
                                                                      'action'=>DB_UPGRADE_ACTION_ROLLBACK_FAILED,
                                                                     )
                                                               );
@@ -632,7 +632,7 @@ class OA_DB_Upgrade
                         }
                         $this->_log("backup table restored: {$aTable_bak['bak']} => {$this->prefix}{$table}");
                         $this->oAuditor->logDatabaseAction(array('info1'=>'reverted table',
-                                                                 'tablename'=>$this->prefix.$table,
+                                                                 'tablename'=>$table,
                                                                  'tablename_backup'=>$aTable_bak['bak'],
                                                                  'action'=>DB_UPGRADE_ACTION_ROLLBACK_TABLE_RESTORED,
                                                                 )
@@ -641,7 +641,7 @@ class OA_DB_Upgrade
                     else
                     {
                         $this->_halt();
-                        $this->_logError("backup table not found during rollback: {$aTable_bak['bak']}");
+                        $this->_logError("backup table not found during rollback: {$this->prefix}{$aTable_bak['bak']}");
                         $this->oAuditor->logDatabaseAction(array('info1'=>'ROLLBACK FAILED',
                                                                  'info2'=>"backup table not found: {$aTable_bak['bak']}",
                                                                  'action'=>DB_UPGRADE_ACTION_ROLLBACK_FAILED,
@@ -757,7 +757,7 @@ class OA_DB_Upgrade
             $result = $this->dropTable($table);
             if (!$result)
             {
-                $this->_logError('dropping '.$table. ' during rollback');
+                $this->_logError('dropping '.$this->prefix.$table. ' during rollback');
                 return false;
             }
             //            $result = $this->oSchema->db->manager->dropTable($table);
@@ -767,21 +767,21 @@ class OA_DB_Upgrade
             //            }
         }
         $statement = $this->aSQLStatements['table_copy'];
-        $query  = sprintf($statement, $table, $table_bak);
+        $query  = sprintf($statement, $this->prefix.$table, $this->prefix.$table_bak);
         $result = $this->oSchema->db->exec($query);
         if ($this->_isPearError($result, 'error creating table during rollback'))
         {
             $this->_halt();
             return false;
         }
-        if (!$this->_createAllIndexes($aDef_bak, $table))
+        if (!$this->_createAllIndexes($aDef_bak, $this->prefix.$table))
         {
             $this->_halt();
             return false;
         }
 
         // compare the original and the restored definitions
-        $aRestoredDef = $this->oSchema->getDefinitionFromDatabase(array($table));
+        $aRestoredDef = $this->_getDefinitionFromDatabase($table);
         $aPreviousDef = array('tables'=>array($table=>$aDef_bak));
         $aDiffs       = $this->oSchema->compareDefinitions($aPreviousDef, $aRestoredDef);
         // not expecting any diffs other than autoincrement property
@@ -813,10 +813,11 @@ class OA_DB_Upgrade
     function _restoreAutoIncrement($table_name, $field_name, $aFldDiff)
     {
         $aTask['cargo'] =  array(
-        'change'=>array(
-        $field_name=>$aFldDiff
-        )
-        );
+                                 'change'=>array(
+                                                $field_name=>$aFldDiff
+                                                )
+                                );
+        $table_name = $this->prefix.$table_name;
         $result = $this->oSchema->db->manager->alterTable($table_name, $aTask['cargo'], false);
         if ($this->_isPearError($result, 'error restoring autoincrement field during rollback: '.$table_name.'.'.$field_name))
         {
@@ -1319,7 +1320,7 @@ class OA_DB_Upgrade
                 $table = $aTask['table'];
                 $index = $aTask['name'];
                 $aIndex_def = $aTask['cargo'];
-                $result = $this->_createAllIndexes($aIndex_def, $table);
+                $result = $this->_createAllIndexes($aIndex_def, $this->prefix.$table);
                 if (!$result)
                 {
                     $this->_logError('error adding constraint '.$index);
@@ -1935,7 +1936,7 @@ class OA_DB_Upgrade
     {
         if (isset($aDef['indexes']))
         {
-            $table_name = $this->prefix.$table_name;
+            $table_name = $table_name;
             $aDBIndexes = $this->_listIndexes($table_name);
             $aDBConstraints = $this->_listConstraints($table_name);
             foreach ($aDef['indexes'] as $index => $aIndex_def)
@@ -1944,6 +1945,10 @@ class OA_DB_Upgrade
                 if (array_key_exists('primary', $aIndex_def) || array_key_exists('unique', $aIndex_def))
                 {
                     $primary = array_key_exists('primary', $aIndex_def);
+                    if ($primary)
+                    {
+                        $index = $this->prefix.$index;
+                    }
                     if (in_array($index, $aDBConstraints))
                     {
                         $result = $this->oSchema->db->manager->dropConstraint($table_name, $index, $primary);
@@ -2174,51 +2179,16 @@ class OA_DB_Upgrade
             fclose($log);
         }
     }
-//    /**
-//     * write the version, timing and timestamp to a small temp file in the var folder
-//     * this will be written when an upgrade starts and deleted when it ends
-//     * if this file is present outside of the upgrade process it indicates that
-//     * the upgrade was interrupted
-//     *
-//     * @return boolean
-//     */
-//    function _dropRecoveryFile()
-//    {
-//        $log = fopen($this->recoveryFile, 'a');
-//        $date = date('Y-m-d h:i:s');
-//        fwrite($log, "{$this->schema};{$this->versionTo};{$this->timingInt};{$date}");
-//        fclose($log);
-//        return file_exists($this->recoveryFile);
-//    }
-//
-//    function _pickupRecoveryFile()
-//    {
-//        if (file_exists($this->recoveryFile))
-//        {
-//            unlink($this->recoveryFile);
-//            return true;
-//        }
-//        return true;
-//    }
-//
-//    function seekRecoveryFile()
-//    {
-//        if (file_exists($this->recoveryFile))
-//        {
-//            $contents               = file_get_contents($this->recoveryFile);
-//            $aVars                  = explode(';', $contents);
-//            $aResult['schema_name'] = $aVars[0];
-//            $aResult['versionTo']   = $aVars[1];
-//            $aResult['timingInt']   = $aVars[2];
-//            $aResult['updated']     = $aVars[3];
-//            return $aResult;
-//        }
-//        return false;
-//    }
-//
+
+    /**
+     *
+     *
+     * @param unknown_type $table
+     * @return unknown
+     */
     function dropBackupTable($table)
     {
-        if (!$this->dropTable($table))
+        if (!$this->dropTable($this->prefix.$table))
         {
             return false;
         }
@@ -2229,12 +2199,65 @@ class OA_DB_Upgrade
     function dropTable($table)
     {
         //$result = $this->oSchema->db->manager->dropTable($table);
-        $result = $this->oTable->dropTable($table);
+        $this->aDBTables = $this->_listTables();
+        if (in_array($this->prefix.$table, $this->aDBTables))
+        {
+            $result = $this->oTable->dropTable($this->prefix.$table);
+        }
+        else
+        {
+            $this->_logError('wanted to drop table '.$this->prefix.$table.' but it wasn\'t there');
+            $result = true;
+        }
+        if (!$result)
+        {
+            $this->_logError('error dropping '.$this->prefix.$table);
+            return false;
+        }
         if ($this->_isPearError($result, 'error dropping '.$this->prefix.$table))
         {
             return false;
         }
         return true;
+    }
+
+    function _getDefinitionFromDatabase($table=null)
+    {
+        $aParams = null;
+        if ($table)
+        {
+            $aParams = array($this->prefix.$table);
+        }
+        $aDef = $this->oSchema->getDefinitionFromDatabase($aParams);
+        if (!$this->_isPearError($aDef, 'error getting database definition'))
+        {
+            $aDef = $this->_stripPrefixesFromDatabaseDefinition($aDef);
+        }
+        return $aDef;
+    }
+
+    function _stripPrefixesFromDatabaseDefinition($aDefinition)
+    {
+        foreach ($aDefinition['tables'] AS $tablename => $aDef)
+        {
+            $strippedname = str_replace($this->prefix, '', $tablename);
+            if (isset($aDef['indexes']))
+            {
+                foreach ($aDef['indexes'] AS $indexname => $aIndex)
+                {
+                    if (isset($aIndex['primary']))
+                    {
+                        $strippedidx = str_replace($this->prefix, '', $indexname);
+                        $aDef['indexes'][$strippedidx] = $aIndex;
+                        unset($aDef['indexes'][$indexname]);
+                    }
+                }
+            }
+            $aTables[$strippedname] = $aDef;
+        }
+        unset($aDefinition['tables']);
+        $aDefinition['tables'] = $aTables;
+        return $aDefinition;
     }
 
 }

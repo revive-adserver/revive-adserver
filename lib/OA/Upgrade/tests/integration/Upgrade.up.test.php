@@ -38,6 +38,7 @@ require_once MAX_PATH.'/lib/OA/Dal/DataGenerator.php';
  */
 class Test_OA_Upgrade extends UnitTestCase
 {
+    var $prefix;
 
     /**
      * The constructor method.
@@ -45,6 +46,7 @@ class Test_OA_Upgrade extends UnitTestCase
     function Test_OA_Upgrade()
     {
         $this->UnitTestCase();
+        $this->prefix  = $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
 
     function test_constructor()
@@ -166,7 +168,6 @@ class Test_OA_Upgrade extends UnitTestCase
     {
         $oUpgrade  = new OA_Upgrade();
         $oUpgrade->initDatabaseConnection();
-        $oUpgrade->prefix = 'test_';
 
         $this->_createTestTableConfig($oUpgrade->oDbh, 'preference');
 
@@ -188,49 +189,48 @@ class Test_OA_Upgrade extends UnitTestCase
 
         $this->_dropTestTableConfig($oUpgrade->oDbh, 'config');
 
-        // no config exists
-        $this->assertTrue($oUpgrade->checkExistingTables(),'');
-        $oUpgrade->oLogger->logClear();
-
+        // no config exists but other prefixed tables do exist
         $this->_createTestTableConfig($oUpgrade->oDbh, 'other');
-
-        // non-config table with same prefix exists
         $this->assertFalse($oUpgrade->checkExistingTables(),'');
         $oUpgrade->oLogger->logClear();
-
         $this->_dropTestTableConfig($oUpgrade->oDbh, 'other');
 
+        // no config or other prefixed tables exist
+        $prefix = $oUpgrade->aDsn['table']['prefix'];
+        $oUpgrade->aDsn['table']['prefix'] = 'xxx_';
+        $this->assertTrue($oUpgrade->checkExistingTables(),'');
+        $oUpgrade->oLogger->logClear();
     }
 
     function _createTestTableConfig($oDbh, $name)
     {
         //$this->_dropTestTableConfig($oDbh, $name);
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['table']['prefix'] = 'test_';
-        $conf['table']['split'] = false;
+        //$conf = &$GLOBALS['_MAX']['CONF'];
+        //$conf['table']['prefix'] = 'test_';
+        //$conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
         $oTable->init($testpath.'schema_test_config.xml');
-        $this->assertTrue($oTable->createTable($name),'error creating test_'.$name);
+        $this->assertTrue($oTable->createTable($name),'error creating '.$this->prefix.$name);
         $aExistingTables = $oDbh->manager->listTables();
-        $this->assertTrue(in_array('test_'.$name, $aExistingTables), '_createTestTableConfig');
+        $this->assertTrue(in_array($this->prefix.$name, $aExistingTables), '_createTestTableConfig');
     }
 
     function _dropTestTableConfig($oDbh, $name)
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['table']['prefix'] = 'test_';
-        $conf['table']['split'] = false;
+        //$conf = &$GLOBALS['_MAX']['CONF'];
+        //$conf['table']['prefix'] = 'test_';
+        //$conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
         $oTable->init($testpath.'schema_test_config.xml');
         $aExistingTables = $oDbh->manager->listTables();
-        if (in_array('test_'.$name, $aExistingTables))
+        if (in_array($this->prefix.$name, $aExistingTables))
         {
-            $this->assertTrue($oTable->dropTable('test_'.$name),'error dropping test test_'.$name);
+            $this->assertTrue($oTable->dropTable($this->prefix.$name),'error dropping test '.$this->prefix.$name);
         }
         $aExistingTables = $oDbh->manager->listTables();
-        $this->assertFalse(in_array('test_'.$name, $aExistingTables), '_dropTestTableConfig');
+        $this->assertFalse(in_array($this->prefix.$name, $aExistingTables), '_dropTestTableConfig');
     }
 
     /**
@@ -261,7 +261,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oPAN->oDbh = null;
 
         // save the global database settings as we will lose them soon...
-        $aDsn = $GLOBALS['_MAX']['CONF']['database'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
 
         $this->assertFalse($oUpgrade->detectPAN(),'');
         $this->assertEqual($oUpgrade->versionInitialApplication,'200.311','wrong initial application version');
@@ -275,7 +275,7 @@ class Test_OA_Upgrade extends UnitTestCase
 
         $this->assertEqual($GLOBALS['_MAX']['CONF']['database']['name'], 'pan_test', '');
 
-        $GLOBALS['_MAX']['CONF']['database'] = $aDsn;
+        $GLOBALS['_MAX']['CONF'] = $aConf;
     }
 
     /**
@@ -286,6 +286,8 @@ class Test_OA_Upgrade extends UnitTestCase
     function test_detectMax()
     {
         $oUpgrade  = new OA_Upgrade();
+        $oUpgrade->initDatabaseConnection();
+        //$oUpgrade->aDsn['table']['prefix'] = $this->prefix;
 
         $this->_createTestAppVarRecord('max_version','v0.3.30-alpha');
         $this->assertFalse($oUpgrade->detectMAX(),'');
@@ -310,6 +312,7 @@ class Test_OA_Upgrade extends UnitTestCase
     function test_detectOpenads()
     {
         $oUpgrade  = new OA_Upgrade();
+        //$oUpgrade->initDatabaseConnection();
 
         $this->_createTestAppVarRecord('oa_version','2.3.31-beta');
         $this->assertTrue($oUpgrade->detectOpenads(),'');
@@ -355,7 +358,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->_checkTablesUpgraded($oUpgrade);
         $this->assertEqual($this->_getTestAppVarValue('tables_core', '999'), '999', '');
 
-        $this->assertTrue($oUpgrade->rollbackSchemas().'rollbackSchemas');
+        $this->assertTrue($oUpgrade->rollbackSchemas(),'rollbackSchemas');
 
         $this->assertEqual($this->_getTestAppVarValue('tables_core', '997'), '997', '');
 
@@ -376,8 +379,10 @@ class Test_OA_Upgrade extends UnitTestCase
      */
     function test_recover()
     {
-        $this->_createTestAppVarRecord('tables_core', '997');
-        $this->assertEqual($this->_getTestAppVarValue('tables_core', '997'), '997', '');
+        $schema = 'tables_core';
+
+        $this->_createTestAppVarRecord($schema, '997');
+        $this->assertEqual($this->_getTestAppVarValue($schema, '997'), '997', '');
 
         $oUpgrade  = new OA_Upgrade();
 
@@ -391,8 +396,8 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->_pickupRecoveryFile();
 
         // fake the versions we are starting with
-        $this->_createTestAppVarRecord('tables_core', '2.3.97');
-        $oUpgrade->versionInitialSchema['tables_core'] = 997;
+        $this->_createTestAppVarRecord('oa_version', '2.3.97');
+        $oUpgrade->versionInitialSchema[$schema] = 997;
         $oUpgrade->versionInitialApplication = '0.3.31';
 
         // perform a good upgrade
@@ -400,22 +405,22 @@ class Test_OA_Upgrade extends UnitTestCase
 
         // check the upgraded tables
         $this->_checkTablesUpgraded($oUpgrade);
-        $this->assertEqual($this->_getTestAppVarValue('tables_core', '999'), '999', '');
+        $this->assertEqual($this->_getTestAppVarValue($schema, '999'), '999', '');
 
         // emulate a partial upgrade...
-        $this->assertTrue($oUpgrade->_writeRecoveryFile('tables_core', 998),'failed to write recovery file');
-        $this->assertTrue($oUpgrade->_writeRecoveryFile('tables_core', 999),'failed to write recovery file');
+        $this->assertTrue($oUpgrade->_writeRecoveryFile($schema, 998),'failed to write recovery file');
+        $this->assertTrue($oUpgrade->_writeRecoveryFile($schema, 999),'failed to write recovery file');
 
         // perform recovery
         $this->assertTrue($oUpgrade->recoverUpgrade(),'recoverUpgrade');
 
         // check the restored tables
         $this->_checkTablesRolledBack($oUpgrade);
-        $this->assertEqual($this->_getTestAppVarValue('tables_core', '997'), '997', '');
+        $this->assertEqual($this->_getTestAppVarValue($schema, '997'), '997', '');
 
         // remove the fake application variable records
         $this->_deleteTestAppVarRecordAllNames('oa_version');
-        $this->_deleteTestAppVarRecordAllNames('tables_core');
+        $this->_deleteTestAppVarRecordAllNames($schema);
 
         // just in case of error, lose this so we can continue afresh
         $oUpgrade->_pickupRecoveryFile();
@@ -424,16 +429,16 @@ class Test_OA_Upgrade extends UnitTestCase
     function _checkTablesUpgraded($oUpgrade)
     {
         $aDBTables = $oUpgrade->oDBUpgrader->_listTables();
-        $this->assertTrue(in_array('aardvark',$aDBTables), 'aardvark was not found');
-        $this->assertTrue(in_array('bandicoot',$aDBTables), 'bandicoot was not found');
-        $this->assertFalse(in_array('affiliates',$aDBTables), 'affiliates was found');
+        $this->assertTrue(in_array($this->prefix.'aardvark',$aDBTables), 'aardvark was not found');
+        $this->assertTrue(in_array($this->prefix.'bandicoot',$aDBTables), 'bandicoot was not found');
+        $this->assertFalse(in_array($this->prefix.'affiliates',$aDBTables), 'affiliates was found');
 
-        $aDBFields = $oUpgrade->oDBUpgrader->oSchema->db->manager->listTableFields('campaigns');
+        $aDBFields = $oUpgrade->oDBUpgrader->oSchema->db->manager->listTableFields($this->prefix.'campaigns');
 
         $this->assertFalse(in_array('campaignid',$aDBFields), 'campaignid was found');
         $this->assertTrue(in_array('campaign_id',$aDBFields), 'campaign_id was not found');
 
-        $aDBFields = $oUpgrade->oDBUpgrader->oSchema->db->manager->listTableFields('acls_channel');
+        $aDBFields = $oUpgrade->oDBUpgrader->oSchema->db->manager->listTableFields($this->prefix.'acls_channel');
 
         $this->assertFalse(in_array('channelid',$aDBFields), 'channelid was found');
         $this->assertTrue(in_array('channel_id',$aDBFields), 'channel_id was not found');
@@ -445,16 +450,16 @@ class Test_OA_Upgrade extends UnitTestCase
     {
         $aDBTables = $oUpgrade->oDBUpgrader->_listTables();
 
-        $this->assertFalse(in_array('aardvark',$aDBTables), 'aardvark was not found');
-        $this->assertFalse(in_array('bandicoot',$aDBTables), 'bandicoot was not found');
-        $this->assertTrue(in_array('affiliates',$aDBTables), 'affiliates was found');
+        $this->assertFalse(in_array($this->prefix.'aardvark',$aDBTables), 'aardvark was not found');
+        $this->assertFalse(in_array($this->prefix.'bandicoot',$aDBTables), 'bandicoot was not found');
+        $this->assertTrue(in_array($this->prefix.'affiliates',$aDBTables), 'affiliates was found');
 
-        $aDBFields = $oUpgrade->oDBUpgrader->oSchema->db->manager->listTableFields('campaigns');
+        $aDBFields = $oUpgrade->oDBUpgrader->oSchema->db->manager->listTableFields($this->prefix.'campaigns');
 
         $this->assertTrue(in_array('campaignid',$aDBFields), 'campaignid was not found');
         $this->assertFalse(in_array('campaign_id',$aDBFields), 'campaign_id was found');
 
-        $aDBFields = $oUpgrade->oDBUpgrader->oSchema->db->manager->listTableFields('acls_channel');
+        $aDBFields = $oUpgrade->oDBUpgrader->oSchema->db->manager->listTableFields($this->prefix.'acls_channel');
 
         $this->assertTrue(in_array('channelid',$aDBFields), 'channelid was not found');
         $this->assertFalse(in_array('channel_id',$aDBFields), 'channel_id was found');

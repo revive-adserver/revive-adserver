@@ -47,6 +47,7 @@ class Test_DB_Upgrade extends UnitTestCase
 
     var $aChangesVars;
     var $aOptions;
+    var $prefix;
 
     /**
      * The constructor method.
@@ -62,6 +63,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['output']            = MAX_PATH.'/var/changes_test.xml';
         $this->aOptions['xsl_file']          = "";
         $this->aOptions['output_mode']       = 'file';
+        $this->prefix                        = $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
 
     function test_constructor()
@@ -84,18 +86,21 @@ class Test_DB_Upgrade extends UnitTestCase
     {
         $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
 
-        $oDB_Upgrade = $this->_newDBUpgradeObject();
+       $oDB_Upgrade = $this->_newDBUpgradeObject();
+//        $this->_dropTestTables($oDB_Upgrade->oSchema->db);
         // new tables table1 and table2
 
         $oTable = new OA_DB_Table();
-
-        // get the current definition
         $oTable->init(MAX_PATH.'/etc/tables_core.xml');
-        $oDB_Upgrade->aDefinitionNew = $oTable->aDefinition;
         $oTable->dropAllTables();
 
+        // get the current definition
+        $oTable->init($this->path.'schema_test_tables_core2.xml');
+        $oDB_Upgrade->aDefinitionNew = $oTable->aDefinition;
+        //$oTable->dropAllTables();
+
         // get a changed definition and implement it
-        $oTable->init($this->path.'test_tables_core.xml');
+        $oTable->init($this->path.'schema_test_tables_core1.xml');
         $oTable->createAllTables();
 
         // now the following have changed
@@ -105,7 +110,7 @@ class Test_DB_Upgrade extends UnitTestCase
         // missing column preference.updates_enabled
         // changed column zones.cost from dec 10,4 to dec 12,2
         $aChanges = $oDB_Upgrade->checkSchemaIntegrity();
-        $this->_dropTestTables($oDB_Upgrade->oSchema->db);
+
         $aConstructive = $aChanges['constructive']['tables'];
         $aDestructive = $aChanges['destructive']['tables'];
 
@@ -123,8 +128,8 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(isset($aDestructive['remove']['table2']),'table2 not found in remove tables array');
 
         $this->assertTrue(isset($aDestructive['change']),'change tables not found');
-        $this->assertTrue(isset($aConstructive['change']['preference']),'preference table not found in change array');
-        $this->assertTrue(isset($aConstructive['change']['preference']['remove']['fields']['user_custom_field1']),'preference field changes not found in change array');
+        $this->assertTrue(isset($aDestructive['change']['preference']),'preference table not found in change array');
+        $this->assertTrue(isset($aDestructive['change']['preference']['remove']['user_custom_field1']),'preference field changes not found in change array');
     }
 
 
@@ -160,10 +165,11 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade = $this->_newDBUpgradeObject();
         $oDB_Upgrade->aChanges['affected_tables']['constructive'] = array('table1');
 
-        $aTbl_def_orig = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1'));
+        $aTbl_def_orig = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
 
         $this->assertTrue($oDB_Upgrade->_backup(),'_backup failed');
         $this->assertIsA($oDB_Upgrade->aRestoreTables, 'array', 'aRestoreTables not an array');
+        // the aRestoreTables array holds the tablenames without a prefix
         $this->assertTrue(array_key_exists('table1', $oDB_Upgrade->aRestoreTables), 'table not found in aRestoreTables');
         $this->assertTrue(array_key_exists('bak', $oDB_Upgrade->aRestoreTables['table1']), 'backup table name not found for table table1');
         $this->assertTrue(array_key_exists('def', $oDB_Upgrade->aRestoreTables['table1']), 'definition array not found for table table1');
@@ -171,32 +177,32 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
 
         $table_bak = $oDB_Upgrade->aRestoreTables['table1']['bak'];
-        $this->assertTrue(in_array($table_bak, $oDB_Upgrade->aDBTables), 'backup table not found in database');
+        $this->assertTrue($this->_tableExists($table_bak, $oDB_Upgrade->aDBTables), 'backup table not found in database');
 
         OA_DB::setQuoteIdentifier();
-        $aTbl_def_bak = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($table_bak));
+        $aTbl_def_bak = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.$table_bak));
         OA_DB::disabledQuoteIdentifier();
 
-        $aTbl_def_orig = $aTbl_def_orig['tables']['table1'];
-        $aTbl_def_bak  = $aTbl_def_bak['tables'][$table_bak];
+        $aTbl_def_orig = $aTbl_def_orig['tables'][$this->prefix.'table1'];
+        $aTbl_def_bak  = $aTbl_def_bak['tables'][$this->prefix.$table_bak];
 
         foreach ($aTbl_def_orig['fields'] AS $name=>$aType)
         {
             $this->assertTrue(array_key_exists($name, $aTbl_def_bak['fields']), 'field missing from backup table');
         }
 
-        $oDB_Upgrade->oSchema->db->manager->dropTable('table1');
+        $oDB_Upgrade->oSchema->db->manager->dropTable($this->prefix.'table1');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $this->assertFalse(in_array('table1', $oDB_Upgrade->aDBTables), 'could not drop test table');
+        $this->assertFalse($this->_tableExists('table1', $oDB_Upgrade->aDBTables), 'could not drop test table');
 
         $this->assertTrue($oDB_Upgrade->rollback(), 'rollback failed');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $this->assertTrue(in_array('table1',$oDB_Upgrade->aDBTables), 'test table was not restored');
+        $this->assertTrue($this->_tableExists('table1',$oDB_Upgrade->aDBTables), 'test table was not restored');
 
-        $aTbl_def_rest = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1'));
-        $aTbl_def_rest = $aTbl_def_rest['tables']['table1'];
+        $aTbl_def_rest = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
+        $aTbl_def_rest = $aTbl_def_rest['tables'][$this->prefix.'table1'];
 
         // also test field definition properties?
         foreach ($aTbl_def_orig['fields'] AS $field=>$aDef)
@@ -224,7 +230,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oTable = new OA_DB_Table();
         // drop the backup tables
         OA_DB::setQuoteIdentifier();
-        $this->assertTrue($oTable->dropTable($oDB_Upgrade->aRestoreTables['table1']['bak']),'error dropping test backup for table1');
+        $this->assertTrue($oTable->dropTable($this->prefix.$oDB_Upgrade->aRestoreTables['table1']['bak']),'error dropping test backup for table1');
         OA_DB::disabledQuoteIdentifier();
     }
 
@@ -244,7 +250,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue($oDB_Upgrade->rollback(), 'rollback failed');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $this->assertFalse(in_array('table2',$oDB_Upgrade->aDBTables), 'table2 was not dropped');
+        $this->assertFalse($this->_tableExists('table2',$oDB_Upgrade->aDBTables), 'table2 was not dropped');
 
     }
 
@@ -268,12 +274,12 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue($oDB_Upgrade->rollback(), 'rollback failed');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $this->assertTrue(in_array('table1',$oDB_Upgrade->aDBTables), 'table1 was not restored');
+        $this->assertTrue($this->_tableExists('table1',$oDB_Upgrade->aDBTables), 'table1 was not restored');
 
         $oTable = new OA_DB_Table();
         // drop the backup tables
         OA_DB::setQuoteIdentifier();
-        $this->assertTrue($oTable->dropTable($oDB_Upgrade->aRestoreTables['table1']['bak']),'error dropping test backup for table1');
+        $this->assertTrue($oTable->dropTable($this->prefix.$oDB_Upgrade->aRestoreTables['table1']['bak']),'error dropping test backup for table1');
         OA_DB::disabledQuoteIdentifier();
 
     }
@@ -291,7 +297,7 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $oDB_Upgrade->aChanges['affected_tables']['constructive'] = array('table1_autoinc');
 
-        $aTbl_def_orig = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1_autoinc'));
+        $aTbl_def_orig = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1_autoinc'));
         $this->assertTrue($oDB_Upgrade->_backup(),'_backup failed');
         $this->assertIsA($oDB_Upgrade->aRestoreTables, 'array', 'aRestoreTables not an array');
         $this->assertTrue(array_key_exists('table1_autoinc', $oDB_Upgrade->aRestoreTables), 'table not found in aRestoreTables');
@@ -301,31 +307,31 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
 
         $table_bak = $oDB_Upgrade->aRestoreTables['table1_autoinc']['bak'];
-        $this->assertTrue(in_array($table_bak, $oDB_Upgrade->aDBTables), 'backup table not found in database');
+        $this->assertTrue($this->_tableExists($table_bak, $oDB_Upgrade->aDBTables), 'backup table not found in database');
 
         OA_DB::setQuoteIdentifier();
-        $aTbl_def_bak = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($table_bak));
+        $aTbl_def_bak = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.$table_bak));
         OA_DB::disabledQuoteIdentifier();
 
-        $aTbl_def_orig = $aTbl_def_orig['tables']['table1_autoinc'];
-        $aTbl_def_bak  = $aTbl_def_bak['tables'][$table_bak];
+        $aTbl_def_orig = $aTbl_def_orig['tables'][$this->prefix.'table1_autoinc'];
+        $aTbl_def_bak  = $aTbl_def_bak['tables'][$this->prefix.$table_bak];
 
         foreach ($aTbl_def_orig['fields'] AS $name=>$aType)
         {
             $this->assertTrue(array_key_exists($name, $aTbl_def_bak['fields']), 'field missing from backup table');
         }
 
-        $oDB_Upgrade->oSchema->db->manager->dropTable('table1_autoinc');
+        $oDB_Upgrade->oSchema->db->manager->dropTable($this->prefix.'table1_autoinc');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $this->assertFalse(in_array('table1_autoinc', $oDB_Upgrade->aDBTables), 'could not drop test table');
+        $this->assertFalse($this->_tableExists('table1_autoinc', $oDB_Upgrade->aDBTables), 'could not drop test table');
 
         $this->assertTrue($oDB_Upgrade->rollback(), 'rollback failed');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $this->assertTrue(in_array('table1_autoinc',$oDB_Upgrade->aDBTables), 'test table was not restored');
+        $this->assertTrue($this->_tableExists('table1_autoinc',$oDB_Upgrade->aDBTables), 'test table was not restored');
 
-        $aTbl_def_rest = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1_autoinc'));
+        $aTbl_def_rest = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1_autoinc'));
         $aTbl_def_rest = $aTbl_def_rest['tables']['table1_autoinc'];
 
         // also test field definition properties?
@@ -336,7 +342,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oTable = new OA_DB_Table();
         // drop the backup tables
         OA_DB::setQuoteIdentifier();
-        $this->assertTrue($oTable->dropTable($oDB_Upgrade->aRestoreTables['table1_autoinc']['bak']),'error dropping test backup for table1_autoinc');
+        $this->assertTrue($oTable->dropTable($this->prefix.$oDB_Upgrade->aRestoreTables['table1_autoinc']['bak']),'error dropping test backup for table1_autoinc');
         OA_DB::disabledQuoteIdentifier();
 
     }
@@ -632,12 +638,12 @@ class Test_DB_Upgrade extends UnitTestCase
 
         // no migration callbacks on index events
 
-        $aConstraints = $oDB_Upgrade->oSchema->db->manager->listTableConstraints('table1');
+        $aConstraints = $oDB_Upgrade->oSchema->db->manager->listTableConstraints($this->prefix.'table1');
         $this->assertTrue(in_array('index2', $aConstraints),'index2 not found');
 
         $this->assertTrue($oDB_Upgrade->_executeTasksIndexesRemove(),'failed _executeTasksIndexesRemove');
 
-        $aConstraints = $oDB_Upgrade->oSchema->db->manager->listTableConstraints('table1');
+        $aConstraints = $oDB_Upgrade->oSchema->db->manager->listTableConstraints($this->prefix.'table1');
         $this->assertFalse(in_array('index2', $aConstraints),'index2 found');
     }
 
@@ -661,18 +667,18 @@ class Test_DB_Upgrade extends UnitTestCase
 
         // no migration callbacks on index events
 
-        $aConstraints   = $oDB_Upgrade->oSchema->db->manager->listTableConstraints('table2');
-        $this->assertFalse(in_array('table2_pkey', $aConstraints),'table2_pkey found');
+        $aConstraints   = $oDB_Upgrade->oSchema->db->manager->listTableConstraints($this->prefix.'table2');
+        $this->assertFalse(in_array($this->prefix.'table2_pkey', $aConstraints),'table2_pkey found');
         $this->assertFalse(in_array('index_unique', $aConstraints),'index_unique found');
-        $aIndexes       = $oDB_Upgrade->oSchema->db->manager->listTableIndexes('table2');
+        $aIndexes       = $oDB_Upgrade->oSchema->db->manager->listTableIndexes($this->prefix.'table2');
         $this->assertFalse(in_array('index_new', $aIndexes),'index_new found');
 
         $this->assertTrue($oDB_Upgrade->_executeTasksIndexesAdd(),'failed _executeTasksIndexesAdd');
 
-        $aConstraints   = $oDB_Upgrade->oSchema->db->manager->listTableConstraints('table2');
-        $this->assertTrue(in_array('table2_pkey', $aConstraints),'table2_pkey not found');
+        $aConstraints   = $oDB_Upgrade->oSchema->db->manager->listTableConstraints($this->prefix.'table2');
+        $this->assertTrue(in_array($this->prefix.'table2_pkey', $aConstraints),'table2_pkey not found');
         $this->assertTrue(in_array('index_unique', $aConstraints),'index_unique not found');
-        $aIndexes       = $oDB_Upgrade->oSchema->db->manager->listTableIndexes('table2');
+        $aIndexes       = $oDB_Upgrade->oSchema->db->manager->listTableIndexes($this->prefix.'table2');
         $this->assertTrue(in_array('index_new', $aIndexes),'index_new not found');
     }
 
@@ -708,7 +714,8 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->oMigrator->tally();
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $this->assertTrue(in_array($oDB_Upgrade->prefix.'table_new', $oDB_Upgrade->aDBTables),'table_new not found');
+        $this->assertTrue($this->_tableExists('table_new', $oDB_Upgrade->aDBTables),'table_new not found');
+        //$this->assertTrue(in_array($oDB_Upgrade->prefix.'table_new', $oDB_Upgrade->aDBTables),'table_new not found');
         $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table_new');
         $this->assertTrue(in_array('b_id_field_new', $aDBFields),'b_id_field_new not found in table_new');
         $this->assertTrue(in_array('a_text_field_new', $aDBFields),'a_text_field_new not found in table_new');
@@ -741,13 +748,13 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->oMigrator->expectOnce('afterRemoveTable__table2');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $this->assertTrue(in_array($oDB_Upgrade->prefix.'table2', $oDB_Upgrade->aDBTables),'table2 not found');
+        $this->assertTrue($this->_tableExists('table2', $oDB_Upgrade->aDBTables),'table2 not found');
 
         $this->assertTrue($oDB_Upgrade->_executeTasksTablesRemove(),'failed _executeTasksTablesRemove');
         $oDB_Upgrade->oMigrator->tally();
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $this->assertFalse(in_array($oDB_Upgrade->prefix.'table2', $oDB_Upgrade->aDBTables),'table2 found');
+        $this->assertFalse($this->_tableExists('table2', $oDB_Upgrade->aDBTables),'table2 found');
     }
 
     function test_executeTasksTablesRename()
@@ -775,8 +782,8 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesRename(),'failed test_verifyTasksTablesRename');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $this->assertFalse(in_array($oDB_Upgrade->prefix.'table1_rename', $oDB_Upgrade->aDBTables),'table1_rename found');
-        $this->assertTrue(in_array($oDB_Upgrade->prefix.'table1', $oDB_Upgrade->aDBTables),'table1 not found');
+        $this->assertFalse($this->_tableExists('table1_rename', $oDB_Upgrade->aDBTables),'table1_rename found');
+        $this->assertTrue($this->_tableExists('table1', $oDB_Upgrade->aDBTables),'table1 not found');
 
         Mock::generatePartial(
             'Migration',
@@ -794,11 +801,11 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->oMigrator->tally();
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $this->assertTrue(in_array($oDB_Upgrade->prefix.'table1_rename', $oDB_Upgrade->aDBTables),'table1_rename not found');
-        $this->assertFalse(in_array($oDB_Upgrade->prefix.'table1', $oDB_Upgrade->aDBTables),'table1 found');
+        $this->assertTrue($this->_tableExists('table1_rename', $oDB_Upgrade->aDBTables),'table1_rename not found');
+        $this->assertFalse($this->_tableExists('table1', $oDB_Upgrade->aDBTables),'table1 found');
 
         $oTable = new OA_DB_Table();
-        $this->assertTrue($oTable->dropTable('table1_rename'),'error dropping table1_rename');
+        $this->assertTrue($oTable->dropTable($this->prefix.'table1_rename'),'error dropping table1_rename');
     }
 
     /**
@@ -822,7 +829,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: add field');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $this->assertTrue(in_array($oDB_Upgrade->prefix.'table1', $oDB_Upgrade->aDBTables),'table1 not found');
+        $this->assertTrue($this->_tableExists('table1', $oDB_Upgrade->aDBTables),'table1 not found');
         $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table1');
         $this->assertFalse(in_array('c_date_field_new', $aDBFields),'c_date_field_new found in table1');
 
@@ -842,7 +849,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->oMigrator->tally();
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $this->assertTrue(in_array($oDB_Upgrade->prefix.'table1', $oDB_Upgrade->aDBTables),'table1 not found');
+        $this->assertTrue($this->_tableExists('table1', $oDB_Upgrade->aDBTables),'table1 not found');
         $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table1');
         $this->assertTrue(in_array('c_date_field_new', $aDBFields),'c_date_field_new not found in table1');
 
@@ -856,9 +863,9 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->aTaskList = array();
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: change field');
 
-        $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1'));
-        $this->assertEqual($aDef['tables']['table1']['fields']['a_text_field']['default'],'','wrong original default value');
-        $this->assertEqual($aDef['tables']['table1']['fields']['a_text_field']['length'],32,'wrong original length value');
+        $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
+        $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['a_text_field']['default'],'','wrong original default value');
+        $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['a_text_field']['length'],32,'wrong original length value');
 
         Mock::generatePartial(
             'Migration',
@@ -874,9 +881,9 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $this->assertTrue($oDB_Upgrade->_executeTasksTablesAlter(),'failed _executeTasksTablesAlter: change field');
         $oDB_Upgrade->oMigrator->tally();
-        $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1'));
-        $this->assertEqual($aDef['tables']['table1']['fields']['a_text_field']['default'],'foo','wrong assigned default value');
-        $this->assertEqual($aDef['tables']['table1']['fields']['a_text_field']['length'],64,'wrong assigned length value');
+        $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
+        $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['a_text_field']['default'],'foo','wrong assigned default value');
+        $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['a_text_field']['length'],64,'wrong assigned length value');
 
 // OWING TO A BUG IN MDB2 manager mysql driver this will fail (wrong query declaration)
 /*        // Test 5 : change primary key field
@@ -886,7 +893,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
 
-        $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1'));
+        $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
         $this->assertFalse($aDef['tables']['table1']['fields']['b_id_field']['autoincrement'],'','wrong original autoincrement value');
         $this->assertEqual($aDef['tables']['table1']['fields']['b_id_field']['length'],9,'wrong original length value');
 
@@ -904,7 +911,7 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $this->assertTrue($oDB_Upgrade->_executeTasksTablesAlter(),'failed _executeTasksTablesAlter: change field');
         $oDB_Upgrade->oMigrator->tally();
-        $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array('table1'));
+        $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
         $this->assertTrue($aDef['tables']['table1']['fields']['b_id_field']['autoincrement'],'wrong assigned autoincrement value');
         $this->assertEqual($aDef['tables']['table1']['fields']['b_id_field']['length'],11,'wrong assigned length value');
 */
@@ -928,7 +935,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: rename field');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $this->assertTrue(in_array($oDB_Upgrade->prefix.'table1', $oDB_Upgrade->aDBTables),'table1 not found');
+        $this->assertTrue($this->_tableExists('table1', $oDB_Upgrade->aDBTables),'table1 not found');
         $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table1');
         $this->assertTrue(in_array('b_id_field', $aDBFields),'b_id_field not found in table1');
         $this->assertFalse(in_array('b_id_field_renamed', $aDBFields),'b_id_field_renamed found in table1');
@@ -949,7 +956,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->oMigrator->tally();
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
-        $this->assertTrue(in_array($oDB_Upgrade->prefix.'table1', $oDB_Upgrade->aDBTables),'table1 not found');
+        $this->assertTrue($this->_tableExists('table1', $oDB_Upgrade->aDBTables),'table1 not found');
         $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table1');
         $this->assertFalse(in_array('b_id_field', $aDBFields),'b_id_field found in table1');
         $this->assertTrue(in_array('b_id_field_renamed', $aDBFields),'b_id_field_renamed not found in table1');
@@ -987,6 +994,11 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertFalse(in_array('a_text_field', $aDBFields),'a_text_field found in table1');
     }
 
+    function _tableExists($tablename, $aExistingTables)
+    {
+        return in_array($this->prefix.$tablename, $aExistingTables);
+    }
+
     /**
      * internal function to set up some test tables
      *
@@ -996,36 +1008,36 @@ class Test_DB_Upgrade extends UnitTestCase
     {
         $this->_dropTestTables($oDbh);
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['table']['prefix'] = '';
+        //$conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $oTable->init($this->path.'schema_test_original.xml');
         $this->assertTrue($oTable->createTable('table1'),'error creating test table1');
         $this->assertTrue($oTable->createTable('table2'),'error creating test table2');
         $aExistingTables = $oDbh->manager->listTables();
-        $this->assertTrue(in_array('table1', $aExistingTables), '_createTestTables');
-        $this->assertTrue(in_array('table2', $aExistingTables), '_createTestTables');
+        $this->assertTrue($this->_tableExists('table1', $aExistingTables), '_createTestTables');
+        $this->assertTrue($this->_tableExists('table2', $aExistingTables), '_createTestTables');
     }
 
     function _dropTestTables($oDbh)
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['table']['prefix'] = '';
+        //$conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $oTable->init($this->path.'schema_test_original.xml');
         $aExistingTables = $oDbh->manager->listTables();
-        if (in_array('table1', $aExistingTables))
+        if ($this->_tableExists('table1', $aExistingTables))
         {
-            $this->assertTrue($oTable->dropTable('table1'),'error dropping test table1');
+            $this->assertTrue($oTable->dropTable($this->prefix.'table1'),'error dropping test table1');
         }
-        if (in_array('table2', $aExistingTables))
+        if ($this->_tableExists('table2', $aExistingTables))
         {
-            $this->assertTrue($oTable->dropTable('table2'),'error dropping test table2');
+            $this->assertTrue($oTable->dropTable($this->prefix.'table2'),'error dropping test table2');
         }
         $aExistingTables = $oDbh->manager->listTables();
-        $this->assertFalse(in_array('table1', $aExistingTables), '_dropTestTables');
-        $this->assertFalse(in_array('table2', $aExistingTables), '_dropTestTables');
+        $this->assertFalse($this->_tableExists('table1', $aExistingTables), '_dropTestTables');
+        $this->assertFalse($this->_tableExists('table2', $aExistingTables), '_dropTestTables');
     }
 
     /**
@@ -1037,29 +1049,29 @@ class Test_DB_Upgrade extends UnitTestCase
     {
         $this->_dropTestTables($oDbh);
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['table']['prefix'] = '';
+        //$conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $oTable->init($this->path.'schema_test_autoinc.xml');
         $this->assertTrue($oTable->createTable('table1_autoinc'),'error creating test table1_autoinc');
         $aExistingTables = $oDbh->manager->listTables();
-        $this->assertTrue(in_array('table1_autoinc', $aExistingTables), '_createTestTableAutoInc');
+        $this->assertTrue($this->_tableExists('table1_autoinc', $aExistingTables), '_createTestTableAutoInc');
     }
 
     function _dropTestTableAutoInc($oDbh)
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['table']['prefix'] = '';
+        //$conf['table']['prefix'] = 'test_';
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $oTable->init($this->path.'schema_test_autoinc.xml');
         $aExistingTables = $oDbh->manager->listTables();
-        if (in_array('table1_autoinc', $aExistingTables))
+        if ($this->_tableExists('table1_autoinc', $aExistingTables))
         {
-            $this->assertTrue($oTable->dropTable('table1_autoinc'),'error dropping test table1_autoinc');
+            $this->assertTrue($oTable->dropTable($this->prefix.'table1_autoinc'),'error dropping test table1_autoinc');
         }
         $aExistingTables = $oDbh->manager->listTables();
-        $this->assertFalse(in_array('table1_autoinc', $aExistingTables), '_dropTestTableAutoInc');
+        $this->assertFalse($this->_tableExists('table1_autoinc', $aExistingTables), '_dropTestTableAutoInc');
     }
     /**
      * internal function to return an initialised db_upgrade object for testing
@@ -1073,7 +1085,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->initMDB2Schema();
         $oDB_Upgrade->timingStr = $timing;
         $oDB_Upgrade->timingInt = ($timing ? 0 : 1);
-        $oDB_Upgrade->prefix = '';
+        $oDB_Upgrade->prefix = $this->prefix;
         $oDB_Upgrade->schema = 'tables_core';
         $oDB_Upgrade->versionFrom = 1;
         $oDB_Upgrade->versionTo = 2;
