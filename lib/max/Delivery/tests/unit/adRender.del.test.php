@@ -243,12 +243,14 @@ class test_DeliveryAdRender extends UnitTestCase
 	function test_adRenderText()
 	{
 		$this->sendMessage('test_adRenderText');
-// note: following code to extract test data from db
-//	      require_once MAX_PATH . '/lib/OA/Dal/Delivery/'.$GLOBALS['_MAX']['CONF']['database']['type'].'.php';
-//        OA_Dal_Delivery_connect();
-//        $aBanner = (array)OA_Dal_Delivery_getAd(5);
-//        $prn    = print_r($aBanner, TRUE);
 
+        // Test that it should generate ad without beacon
+		$GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = '';
+        require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderText.php';
+		$return = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
+        $this->assertEqual($return, $expectNoBeacon);
+        
+		// Test that it should generate ad beacon
 		$GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = true;
         require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderText.php';
 		$return = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
