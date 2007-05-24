@@ -39,11 +39,34 @@ class Test_OA_Email extends UnitTestCase
 {
 
     /**
+     * Local storage for retaining the value of $GLOBALS['_MAX']['HTTP']
+     * during testing.
+     *
+     * @var string
+     */
+    var $http;
+
+    /**
      * The constructor method.
      */
     function Test_OA_Email()
     {
         $this->UnitTestCase();
+
+    }
+
+    function setUp()
+    {
+        // Store the current value of $GLOBALS['_MAX']['HTTP']
+        // and set the required value for testing
+        $this->http = $GLOBALS['_MAX']['HTTP'];
+        $GLOBALS['_MAX']['HTTP'] = 'http://';
+    }
+
+    function tearDown()
+    {
+        // Restore the original value of $GLOBALS['_MAX']['HTTP']
+        $GLOBALS['_MAX']['HTTP'] = $this->http;
     }
 
     /**
