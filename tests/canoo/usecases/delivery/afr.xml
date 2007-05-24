@@ -13,31 +13,44 @@
   <import file="../../includes/init.xml"/>
   <import file="${webtest.home}/lib/taskdef.xml"/>
 
+  
+   <macrodef name="invoke-delivery-file">
+     <attribute name="file"/>
+     <attribute name="query"/>
+     <sequential>
+        <invoke description="Invoke delivery file @{file}" url="/delivery/@{file}?@{query}" />
+        &checkForErrors;
+        &checkDeliveryCookies;
+	 </sequential>
+    </macrodef>  
+  
   <target name="main">
 
     <testSpec name="Run Delivery">
       &config;
       <steps>
-        <invoke description="Invoke delivery file" url="/delivery/afr.php?what=bannerid:2" />
-        &checkForErrors;
-        &checkDeliveryCookies;
-        <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
+        <clean-delivery-cache/>
+        <invoke-delivery-file file="afr.php" query="what=bannerid:2" />
         <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />
+        <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
+        &verifyLinks;
+
+        <!-- check the same file again but this time without deleting the cache -->
+        <invoke-delivery-file file="afr.php" query="what=bannerid:2" />
+        <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />
+        <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
         &verifyLinks;
         
-        <invoke description="Invoke delivery file" url="/delivery/afr.php?what=bannerid:3" />
-        &checkForErrors;
-        &checkDeliveryCookies;
+        <!-- check image banner -->
+        <invoke-delivery-file file="afr.php" query="what=bannerid:3" />
         <verifyTitle description="Check that title contains alt test 'alt text'" text="alt text" />
         <verifyText description="Check that ad contains a gif" regex="true" text="ai.php\?filename=468x60.gif&amp;contenttype=gif" />
         &verifyLinks;
         
-        <invoke description="Invoke delivery file" url="/delivery/afr.php?what=zone:1" />
-        &checkForErrors;
-        &checkDeliveryCookies;
+        <!-- check zone invocation -->
+        <invoke-delivery-file file="afr.php" query="what=zone:1" />
         <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
-        <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />        
-        &verifyLinks;
+        <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />               &verifyLinks;
       </steps>
 
     </testSpec>

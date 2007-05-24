@@ -19,6 +19,10 @@
     <testSpec name="Run Delivery">
       &config;
       <steps>
+        <clean-delivery-cache />
+        <invoke description="Invoke delivery file" url="/delivery/ac.php?bannerid=2" />
+        &checkForErrors;
+        
         <invoke description="Invoke delivery file" url="/delivery/ac.php?bannerid=2" />
         &checkForErrors;
         &verifyLinks;

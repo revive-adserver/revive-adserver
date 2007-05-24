@@ -12,8 +12,7 @@
   <import file="../../includes/init.xml"/>
   <import file="${webtest.home}/lib/taskdef.xml"/>
 
-  <target name="main">
-
+  <target name="canoo-test">
     <testSpec name="Run Delivery">
       &config;
       <steps>
@@ -21,9 +20,10 @@
         &checkForErrors;
         <verifyTitle description="Check that browser was redirected to www.example.com" text="Example Web Page" />
       </steps>
-
     </testSpec>
+  </target>
 
-</target>
+  <!-- clean cache, run a canoo test (without cache), and do again (with cache) -->
+  <target name="main" depends="clean-delivery-cache, canoo-test, canoo-test" />
 
 </project>

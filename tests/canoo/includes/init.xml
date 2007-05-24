@@ -1,4 +1,20 @@
 <?xml version="1.0"?>
 <project name="Init Openads Web Tests" basedir=".." default="main">
   <property file="properties/user.properties"/>
+    
+   <macrodef name="clean-delivery-cache">
+     <sequential>
+        <delete>
+          <fileset dir="./../../var/cache/">
+            <include name="deliverycache_*" />
+            <include name="cache_*" />
+          </fileset>
+        </delete>
+	  </sequential>
+    </macrodef>
+    
+    <target name="clean-delivery-cache">
+      <clean-delivery-cache />
+    </target>
+
 </project>

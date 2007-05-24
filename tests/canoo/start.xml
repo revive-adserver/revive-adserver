@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 
-<project name="Openads" basedir="." default="main">
+<project name="delivery" basedir="." default="main">
+
+  <property name="openads.path" value="${basedir}/../.."/>
 
   <import file="includes/init.xml"/>
   
@@ -23,15 +25,6 @@
         </fileset>
       </classpath>
     </sql>
-  </target>
-  
-  <target name="clean-delivery-cache">
-    <delete>
-      <fileset dir="./../../var/cache/">
-        <include name="deliverycache_*" />
-        <include name="cache_*" />
-      </fileset>
-    </delete>
   </target>
   
   <target name="delivery">

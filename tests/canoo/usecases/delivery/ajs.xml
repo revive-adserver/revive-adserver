@@ -12,19 +12,23 @@
   <import file="../../includes/init.xml"/>
   <import file="${webtest.home}/lib/taskdef.xml"/>
 
-  <target name="main">
-
+  <target name="canoo-test">
     <testSpec name="Run Delivery">
       &config;
       <steps>
+        <clean-delivery-cache/>
+        <invoke description="Invoke delivery file" url="/delivery/ajs.php?what=bannerid:2" />
+        &checkForErrors;
+        
         <invoke description="Invoke delivery file" url="/delivery/ajs.php?what=bannerid:2" />
         &checkForErrors;
         <verifyText description="Check that it contains JavaScript" text="document.write" />
         <verifyText description="Check that JS prints: 'html test banner'" regex="true" text="html test banner" />        
       </steps>
-
     </testSpec>
-
-</target>
+  </target>
+  
+  <!-- clean cache, run a canoo test (without cache), and do again (with cache) -->
+  <target name="main" depends="clean-delivery-cache, canoo-test, canoo-test" />
 
 </project>
