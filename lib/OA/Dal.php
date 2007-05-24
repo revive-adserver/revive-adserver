@@ -162,6 +162,16 @@ class OA_Dal
         include_once MAX_PATH . '/lib/max/Dal/Common.php';
         return MAX_Dal_Common::factory($table);
     }
+    
+    /**
+     * Returns table prefix (see config [table][prefix]
+     *
+     * @return string  Table prefix
+     */
+    function getTablePrefix()
+    {
+        return $GLOBALS['_MAX']['CONF']['table']['prefix'];
+    }
 
     /**
      * Set up the required DB_DataObject options.

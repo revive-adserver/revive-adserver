@@ -635,7 +635,7 @@ class DB_DataObjectCommon extends DB_DataObject
     function _addPrefixToTableName()
     {
         if (empty($this->_tableName)) {
-            $this->_prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+            $this->_prefix = OA_Dal::getTablePrefix();
             $this->_tableName = $this->__table;
             $this->__table = $this->_prefix . $this->__table;
         }

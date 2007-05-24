@@ -90,7 +90,7 @@ class MAX_Dal_Common
     function MAX_Dal_Common()
     {
         $this->conf = $GLOBALS['_MAX']['CONF'];
-        $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $this->prefix = $this->getTablePrefix();
         $this->oDbh = &$this->_getDbConnection();
         $dsn = OA_DB::getDsn();
         $this->queryBuilder = $this->_getQueryTool($dsn);
@@ -151,7 +151,7 @@ class MAX_Dal_Common
 
     function getTablePrefix()
     {
-        return $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        return OA_Dal::getTablePrefix();
     }
 
     /**

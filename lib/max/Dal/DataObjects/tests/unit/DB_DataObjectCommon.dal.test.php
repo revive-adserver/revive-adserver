@@ -447,7 +447,8 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
     
     function testAutoincrementsVsSerial()
     {
-        $sqlInsert = 'INSERT INTO ad_category_assoc (category_id, ad_id) VALUES (1, 1)';
+        $prefix = OA_Dal::getTablePrefix();
+        $sqlInsert = 'INSERT INTO '.$prefix.'ad_category_assoc (category_id, ad_id) VALUES (1, 1)';
         DBC::execute($sqlInsert);
         
         // Take generated primary key
