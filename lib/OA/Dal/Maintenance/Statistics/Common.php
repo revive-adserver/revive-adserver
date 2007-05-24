@@ -2448,21 +2448,21 @@ class OA_Dal_Maintenance_Statistics_Common
                             if ($aPlacement['targetimpressions'] <= $valuesRow['impressions']) {
                                 // The placement has an impressions target, and this has been
                                 // passed, so update and disable the placement
-                                $disableReason |= MAX_PLACEMENT_DISABLED_IMPRESSIONS;
+                                $disableReason |= OA_PLACEMENT_DISABLED_IMPRESSIONS;
                             }
                         }
                         if ($aPlacement['targetclicks'] > 0) {
                             if ($aPlacement['targetclicks'] <= $valuesRow['clicks']) {
                                 // The placement has a click target, and this has been
                                 // passed, so update and disable the placement
-                                $disableReason |= MAX_PLACEMENT_DISABLED_CLICKS;
+                                $disableReason |= OA_PLACEMENT_DISABLED_CLICKS;
                             }
                         }
                         if ($aPlacement['targetconversions'] > 0) {
                             if ($aPlacement['targetconversions'] <= $valuesRow['conversions']) {
                                 // The placement has a target limitation, and this has been
                                 // passed, so update and disable the placement
-                                $disableReason |= MAX_PLACEMENT_DISABLED_CONVERSIONS;
+                                $disableReason |= OA_PLACEMENT_DISABLED_CONVERSIONS;
                             }
                         }
                         if ($disableReason) {
@@ -2490,7 +2490,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 if ($aPlacement['end'] != OA_Dal::noDateValue()) {
                     $oEndDate = new Date($aPlacement['end'] . ' 23:59:59');  // Convert day to end of Date
                     if ($oDate->after($oEndDate)) {
-                        $disableReason |= MAX_PLACEMENT_DISABLED_DATE;
+                        $disableReason |= OA_PLACEMENT_DISABLED_DATE;
                         $query = "
                             UPDATE
                                 {$aConf['table']['prefix']}{$aConf['table']['campaigns']}
@@ -2537,18 +2537,13 @@ class OA_Dal_Maintenance_Statistics_Common
                         );
                     }
                     if ($aPlacement['send_activate_deactivate_email']) {
-                        $message =& OA_Email::prepareDeactivatePlacementEmail(
-                            $aPlacement['contact'],
-                            $aPlacement['campaign_name'],
-                            $disableReason,
-                            $advertisements
-                        );
-                        if ($message !== false) {
+                        $aEmail =& OA_Email::preparePlacementActivatedDeactivatedEmail($aPlacement['campaignid'], $disableReason);
+                        if ($aEmail !== false) {
                             OA_Email::sendMail(
-                                "Deactivated Banners: {$aPlacement['campaign_name']}",
-                                $message,
-                                $aPlacement['email'],
-                                $aPlacement['contact']
+                                $aEmail['subject'],
+                                $aEmail['contents'],
+                                $aEmail['userEmail'],
+                                $aEmail['userName']
                             );
                         }
                     }
@@ -2734,7 +2729,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                     $advertisementRow['url']);
                         }
                         if ($aPlacement['send_activate_deactivate_email']) {
-                            $aEmail =& OA_Email::preparePlacementActivatedEmail($aPlacement['campaignid']);
+                            $aEmail =& OA_Email::preparePlacementActivatedDeactivatedEmail($aPlacement['campaignid']);
                             if ($aEmail !== false) {
                                 OA_Email::sendMail(
                                     $aEmail['subject'],

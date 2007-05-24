@@ -105,10 +105,10 @@ function setupConstants()
 
     // Campaign deactivation reasons
     // Values must be x^2, as used as binary flags
-    define('MAX_PLACEMENT_DISABLED_IMPRESSIONS',  2);
-    define('MAX_PLACEMENT_DISABLED_CLICKS',       4);
-    define('MAX_PLACEMENT_DISABLED_CONVERSIONS',  8);
-    define('MAX_PLACEMENT_DISABLED_DATE',        16);
+    define('OA_PLACEMENT_DISABLED_IMPRESSIONS',  2);
+    define('OA_PLACEMENT_DISABLED_CLICKS',       4);
+    define('OA_PLACEMENT_DISABLED_CONVERSIONS',  8);
+    define('OA_PLACEMENT_DISABLED_DATE',        16);
 
     // Active, inactive agency values
     define('MAX_AGENCY_INACTIVE', 1);

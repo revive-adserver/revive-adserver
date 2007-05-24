@@ -852,10 +852,10 @@ $GLOBALS['strMailSubject']                      = "Advertiser report";
 $GLOBALS['strAdReportSent']                     = "Advertiser report sent";
 $GLOBALS['strMailHeader']                       = "Dear {contact},\n";
 $GLOBALS['strMailBannerStats']                  = "Below you will find the banner statistics for {clientname}:";
-
+$GLOBALS['strMailBannerActivatedSubject']       = "Campiagn activated";
+$GLOBALS['strMailBannerDeactivatedSubject']     = "Campiagn deactivated";
 $GLOBALS['strMailBannerActivated']              = "Your campaign shown below has been activated because\nthe campaign activation date has been reached.";
-$GLOBALS['strMailBannerActivatedSubject']       = "Campiagn activation";
-
+$GLOBALS['strMailBannerDeactivated']            = "Your campaign shown below has been deactivated because";
 $GLOBALS['strMailFooter']                       = "Regards,\n   {adminfullname}";
 $GLOBALS['strMailClientDeactivated']            = "The following banners have been disabled because";
 $GLOBALS['strMailNothingLeft']                  = "If you would like to continue advertising on our website, please feel free to contact us.\nWe'd be glad to hear from you.";

@@ -610,10 +610,18 @@ class OA_Email
     }
 
     /**
-     * A static method for preparing an advertiser's "placement activated" report.
+     * A static method for preparing an advertiser's "placement activated" or
+     * "placement deactivated" report.
      *
      * @static
-     * @param string $placementId The ID of the activated placement.
+     * @param string  $placementId The ID of the activated placement.
+     * @param integer $reason      An optional binary flag field containting the
+     *                             representation of the reason(s) the placement
+     *                             was deactivated:
+     *                                   2  - No more impressions
+     *                                   4  - No more clicks
+     *                                   8  - No more conversions
+     *                                   16 - Placement ended (due to date)
      * @return boolean|array False, if the report could not be created, otherwise
      *                       an array of four elements:
      *                          'subject'   => The email subject line.
@@ -621,14 +629,22 @@ class OA_Email
      *                          'userEmail' => The email address to send the report to.
      *                          'userName'  => The real name of the email address, or null.
      */
-    function preparePlacementActivatedEmail($placementId)
+    function preparePlacementActivatedDeactivatedEmail($placementId, $reason = null)
     {
-        OA::debug('   - Preparing "placement activation" email for placement ID ' . $placementId. '.', PEAR_LOG_DEBUG);
+        if (is_null($reason)) {
+            OA::debug('   - Preparing "placement activated" email for placement ID ' . $placementId. '.', PEAR_LOG_DEBUG);
+        } else {
+            OA::debug('   - Preparing "placement deactivated" email for placement ID ' . $placementId. '.', PEAR_LOG_DEBUG);
+        }
         $aPref = OA_Email::_loadPrefs();
         Language_Default::load();
 
         // Load the required strings
-        global $strMailHeader, $strSirMadam, $strMailBannerActivated, $strMailBannerActivatedSubject;
+        global $strMailHeader, $strSirMadam,
+               $strMailBannerActivatedSubject, $strMailBannerDeactivatedSubject,
+               $strMailBannerActivated, $strMailBannerDeactivated,
+               $strNoMoreImpressions, $strNoMoreClicks, $strNoMoreConversions,
+               $strAfterExpire;
 
         // Fetch the placement
         $aPlacement = OA_Email::_loadPlacement($placementId);
@@ -643,7 +659,7 @@ class OA_Email
         }
 
         // Prepare the email body
-        $emailBody = OA_Email::_preparePlacementActivatedEmailBody($aPlacement);
+        $emailBody = OA_Email::_preparePlacementActivatedDeactivatedEmailBody($aPlacement);
 
         // Prepare the final email - add the greeting to the advertiser
         $email = "$strMailHeader\n";
@@ -658,7 +674,24 @@ class OA_Email
 
         // Prepare the final email - add the report type description
         // and the name of the advertiser the report is about
-        $email .= "$strMailBannerActivated\n";
+        if (is_null($reason)) {
+            $email .= "$strMailBannerActivated\n";
+        } else {
+            $email .= "$strMailBannerDeactivated:";
+            if ($reason & OA_PLACEMENT_DISABLED_IMPRESSIONS) {
+                $email .= "\n  - " . $strNoMoreImpressions;
+            }
+            if ($reason & OA_PLACEMENT_DISABLED_CLICKS) {
+                $email .= "\n  - " . $strNoMoreClicks;
+            }
+            if ($reason & OA_PLACEMENT_DISABLED_CONVERSIONS) {
+                $email .= "\n  - " . $strNoMoreConversions;
+            }
+            if ($reason & OA_PLACEMENT_DISABLED_DATE) {
+                $email .= "\n  - " . $strAfterExpire;
+            }
+            $email .= ".\n";
+        }
 
         // Prepare the final email - add the report body
         $email .= "$emailBody\n";
@@ -667,7 +700,11 @@ class OA_Email
         $email .= OA_Email::_prepareRegards($aAdvertiser['agencyid']);
 
         // Prepare & return the final email array
-        $aResult['subject']   = $strMailBannerActivatedSubject . ': ' . $aAdvertiser['clientname'];
+        if (is_null($reason)) {
+            $aResult['subject']   = $strMailBannerActivatedSubject . ': ' . $aAdvertiser['clientname'];
+        } else {
+            $aResult['subject']   = $strMailBannerDeactivatedSubject . ': ' . $aAdvertiser['clientname'];
+        }
         $aResult['contents']  = $email;
         $aResult['userEmail'] = $aAdvertiser['email'];
         $aResult['userName']  = $aAdvertiser['contact'];
@@ -676,14 +713,14 @@ class OA_Email
 
     /**
      * A private, static method to prepare the body of an advertiser's "placement activated"
-     * report email.
+     * or "placement deactivated" report email.
      *
      * @access private
      * @static
      * @param integer $advertiserId The advertiser's ID.
      * @param array   $aPlacement   The placement details.
      */
-    function _preparePlacementActivatedEmailBody($aPlacement)
+    function _preparePlacementActivatedDeactivatedEmailBody($aPlacement)
     {
         // Load the preferences and default language
         $aPref = OA_Email::_loadPrefs();
@@ -729,67 +766,6 @@ class OA_Email
             }
         }
         return $emailBody;
-    }
-
-    /**
-     * A static method for preparing e-mails, advising of the deactivation of a
-     * placement.
-     *
-     * @static
-     * @param string  $contactName   The name of the placement contact.
-     * @param string  $placementName The name of the deactivated placement.
-     * @param integer $reason        A binary flag field containting the reason(s) the
-     *                               placement was deactivated:
-     *                                   2  - No more impressions
-     *                                   4  - No more clicks
-     *                                   8  - No more conversions
-     *                                   16 - Placement ended (due to date)
-     * @param array   $aAds          An array of ads in the placement, indexed by
-     *                               ad_id, of an array containing the description,
-     *                               alt description, and destination URL of the ad.
-     * @return string The email that has been prepared.
-     */
-    function prepareDeactivatePlacementEmail($contactName, $placementName, $reason, $aAds)
-    {
-        OA::debug('   - Preparing "placement deactivation" email for advertiser ID ' . $placementId. '.', PEAR_LOG_DEBUG);
-        $aPref = OA_Email::_loadPrefs();
-        Language_Default::load();
-
-        $message  = "Dear $contactName,\n\n";
-        $message .= 'The following ads have been disabled because:' . "\n";
-        if ($reason & MAX_PLACEMENT_DISABLED_IMPRESSIONS) {
-            $message .= '  - There are no impressions remaining' . "\n";
-        }
-        if ($reason & MAX_PLACEMENT_DISABLED_CLICKS) {
-            $message .= '  - There are no clicks remaining' . "\n";
-        }
-        if ($reason & MAX_PLACEMENT_DISABLED_CONVERSIONS) {
-            $message .= '  - There are no conversions remaining' . "\n";
-        }
-        if ($reason & MAX_PLACEMENT_DISABLED_DATE) {
-            $message .= '  - The campaign deactivation date has been reached' . "\n";
-        }
-        $message .= "\n";
-        $message .= '-------------------------------------------------------' . "\n";
-        foreach ($aAds as $ad_id => $aData) {
-            $message .= "Ad [ID $ad_id] ";
-            if ($aData[0] != '') {
-                $message .= $aData[0];
-            } elseif ($aData[1] != '') {
-                $message .= $aData[1];
-            } else {
-                $message .= 'Untitled';
-            }
-            $message .= "\n";
-            $message .= "Linked to: {$aData[2]}\n";
-            $message .= '-------------------------------------------------------' . "\n";
-        }
-        $message .= "\n" . 'If you would like to continue advertising on our website,' . "\n";
-        $message .= 'please feel free to contact us.' . "\n";
-        $message .= 'We\'d be glad to hear from you.' . "\n\n";
-        $message .= 'Regards,' . "\n\n";
-        $message .= "{$aPref['admin_fullname']}";
-        return $message;
     }
 
     /**
