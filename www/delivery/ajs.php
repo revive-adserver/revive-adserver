@@ -1308,7 +1308,7 @@ $code = str_replace('{clickurlparams}', $maxparams, $code);  // This step needs 
 }
 $search = array('{timestamp}','{random}','{target}','{url_prefix}','{bannerid}','{zoneid}','{source}', '{pageurl}', '{width}', '{height}');
 $locReplace = isset($GLOBALS['loc']) ? $GLOBALS['loc'] : '';
-$replace = array($time, $random, $target, $urlPrefix, $aBanner['bannerid'], $zoneId, $source, urlencode($locReplace), $aBanner['width'], $aBanner['height']);
+$replace = array($time, $random, $target, $urlPrefix, $aBanner['ad_id'], $zoneId, $source, urlencode($locReplace), $aBanner['width'], $aBanner['height']);
 if (preg_match('#^\?(m3_data=[a-z0-9]+)#i', $logClick, $arrivalClick)) {
 $arrivalClick = $arrivalClick[1];
 preg_match_all('#{arrivalurl:(.*?)}#', $code, $arrivals);
