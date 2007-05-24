@@ -345,6 +345,6 @@ persistent          = false
 ;------------------------------------------------------------------------------------------;
 
 [test]
-urlToTracSvnBrowser = https://developer.openads.org/browser/branches/max/branches/erasmus/
+urlToTracSvnBrowser = https://developer.openads.org/browser/branches/max/trunk/
 
 ;------------------------------------------------------------------------------------------;

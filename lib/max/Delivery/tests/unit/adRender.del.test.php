@@ -249,7 +249,7 @@ class test_DeliveryAdRender extends UnitTestCase
 //        $aBanner = (array)OA_Dal_Delivery_getAd(5);
 //        $prn    = print_r($aBanner, TRUE);
 
-		$GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = '';
+		$GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = true;
         require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderText.php';
 		$return = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
         $this->assertEqual($return, $expect);
