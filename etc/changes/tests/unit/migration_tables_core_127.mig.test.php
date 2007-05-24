@@ -59,6 +59,7 @@ class migration_tables_core_127Test extends MigrationTest
     
     function testMigrateData()
     {
+        $prefix = $this->getPrefix();
         $this->initDatabase(126, array('zones', 'ad_zone_assoc', 'placement_zone_assoc', 'banners'));
         
         $aAValues = array(
@@ -90,9 +91,9 @@ class migration_tables_core_127Test extends MigrationTest
         $this->upgradeToVersion(127);
         
         $aAssocTables = array(
-            'ad_zone_assoc WHERE link_type = 1' => 5,
-            'ad_zone_assoc WHERE link_type = 0' => 7,
-            'placement_zone_assoc' => 3);
+            "{$prefix}ad_zone_assoc WHERE link_type = 1" => 5,
+            "{$prefix}ad_zone_assoc WHERE link_type = 0" => 7,
+            "{$prefix}placement_zone_assoc" => 3);
         foreach($aAssocTables as $assocTable => $cAssocs) {
             $rsCAssocs = DBC::NewRecordSet("SELECT count(*) cassocs FROM $assocTable");
             $this->assertTrue($rsCAssocs->find());

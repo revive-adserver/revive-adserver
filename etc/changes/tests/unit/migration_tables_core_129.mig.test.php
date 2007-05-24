@@ -40,7 +40,10 @@ class Migration_129Test extends MigrationTest
 {
     function testMigrateData()
     {
+        $prefix = $this->getPrefix();
         $this->initDatabase(129, array('config', 'preference'));
+        
+        $this->setupPanConfig();
         
         $migration = new Migration_129();
         $migration->init($this->oDbh);
@@ -49,12 +52,14 @@ class Migration_129Test extends MigrationTest
         
         $migration->migrateData();
         
-        $rsPreference = DBC::NewRecordSet("SELECT * from preference");
+        $rsPreference = DBC::NewRecordSet("SELECT * from {$prefix}preference");
         $rsPreference->find();
         $this->assertTrue($rsPreference->fetch());
         $aDataPreference = $rsPreference->toArray();
         foreach($aValues as $column => $value) {
             $this->assertEqual($value, $aDataPreference[$column]);
         }
+        
+        $this->restorePanConfig();
     }
 }

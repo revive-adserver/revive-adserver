@@ -32,9 +32,6 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Configuration.php';
 require_once MAX_PATH . '/lib/util/file/file.php';
 
 define('TMP_GEOCONFIG_PATH', GEOCONFIG_PATH . '.tmp');
-define('TEST_CONFIG_PATH', MAX_PATH . '/etc/changes/tests/data/config_2_0_12.inc.php');
-define('CONFIG_PATH', MAX_PATH . '/var/config.inc.php');
-define('TMP_CONFIG_PATH', MAX_PATH . '/var/config.inc.php.tmp');
 
 /**
  * Test for migration class #127.
@@ -47,13 +44,10 @@ class Migration_119Test extends MigrationTest
 {
     function testMigrateData()
     {
+        $prefix = $this->getPrefix();
         $this->initDatabase(119, array('config', 'preference'));
 
-        if (file_exists(CONFIG_PATH)) {
-            rename(CONFIG_PATH, TMP_CONFIG_PATH);
-        }
-        
-        copy(TEST_CONFIG_PATH, CONFIG_PATH);
+        $this->setupPanConfig();
 
         $migration = new Migration_119();
         $migration->init($this->oDbh);
@@ -72,19 +66,15 @@ class Migration_119Test extends MigrationTest
 
         $migration->migrateData();
 
-        $rsPreference = DBC::NewRecordSet("SELECT * from preference");
+        $rsPreference = DBC::NewRecordSet("SELECT * from {$prefix}preference");
         $rsPreference->find();
         $this->assertTrue($rsPreference->fetch());
         $aDataPreference = $rsPreference->toArray();
         foreach($aValues as $column => $value) {
             $this->assertEqual($value, $aDataPreference[$column]);
         }
-
-        unlink(CONFIG_PATH);
         
-        if (file_exists(TMP_CONFIG_PATH)) {
-            rename(TMP_CONFIG_PATH, CONFIG_PATH);
-        }
+        $this->restorePanConfig();
     }
 
 

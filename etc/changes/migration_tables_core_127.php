@@ -266,13 +266,13 @@ class Migration_127 extends Migration
 	    $sql = "
 	    INSERT INTO $tableAdZoneAssoc (zone_id, ad_id)
 	    SELECT zoneid, bannerid
-	       FROM $tableBanners, $tableZones, $tablePlacementZoneAssoc
+	       FROM $tableBanners b, $tableZones z, $tablePlacementZoneAssoc
     	   WHERE campaignid = placement_id
     	   AND zoneid = zone_id
     	   AND ((delivery = 3 AND storagetype = 'txt')
     	       OR (delivery <> 3 AND storagetype <> 'txt'
-    	           AND (zones.height < 0 OR zones.height = banners.height)
-    	           AND (zones.width < 0 OR zones.width = banners.width)))";
+    	           AND (z.height < 0 OR z.height = b.height)
+    	           AND (z.width < 0 OR z.width = b.width)))";
 	    $result = $this->oDBH->exec($sql);
 	    if (PEAR::isError($result)) {
 	        $this->_logErrorAndReturnFalse($result);

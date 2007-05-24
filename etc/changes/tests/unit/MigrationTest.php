@@ -28,6 +28,11 @@ $Id$
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/DB_Upgrade.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/DB_UpgradeAuditor.php';
+require_once MAX_PATH . '/tests/testClasses/DbTestCase.php';
+
+define('TEST_CONFIG_PATH', MAX_PATH . '/etc/changes/tests/data/config_2_0_12.inc.php');
+define('CONFIG_PATH', MAX_PATH . '/var/config.inc.php');
+define('TMP_CONFIG_PATH', MAX_PATH . '/var/config.inc.php.tmp');
 
 /**
  * Test for migration class #127.
@@ -36,7 +41,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/DB_UpgradeAuditor.php';
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  */
-class MigrationTest extends UnitTestCase
+class MigrationTest extends DbTestCase
 {
     /**
      * The MDB2 driver handle.
@@ -45,31 +50,26 @@ class MigrationTest extends UnitTestCase
      */
     var $oDbh;
     
-    /**
-     * The OA_DB_Table handle.
-     *
-     * @var OA_DB_Table
-     */
-    var $oTable;
-    
     function setUp()
     {
         $this->oDbh = &OA_DB::singleton();
-        $this->oTable = new OA_DB_Table();
     }
     
     
     function tearDown()
     {
-        $this->oTable->dropAllTables();
+        if (isset($this->oaTable)) {
+            $this->oaTable->dropAllTables();
+        }
     }
     
     function initDatabase($schemaVersion, $aTables)
     {
-        $this->oTable->init(MAX_PATH . "/etc/changes/schema_tables_core_{$schemaVersion}.xml");
+        $prefix = $this->getPrefix();
+        $this->initOaTable("/etc/changes/schema_tables_core_{$schemaVersion}.xml");
         foreach($aTables as $table) {
-            $this->oTable->createTable($table);
-            $this->oTable->truncateTable($table);
+            $this->oaTable->createTable($table);
+            $this->oaTable->truncateTable($prefix . $table);
         }
     }
     
@@ -82,6 +82,25 @@ class MigrationTest extends UnitTestCase
         $this->assertTrue($auditor->init($upgrader->oSchema->db), 'error initialising upgrade auditor, probable error creating database action table');
         $upgrader->init('constructive', 'tables_core', $version);
         $this->assertTrue($upgrader->upgrade());
+    }
+    
+    function setupPanConfig()
+    {
+        if (file_exists(CONFIG_PATH)) {
+            rename(CONFIG_PATH, TMP_CONFIG_PATH);
+        }
+        
+        copy(TEST_CONFIG_PATH, CONFIG_PATH);
+    }
+    
+    
+    function restorePanConfig()
+    {
+        unlink(CONFIG_PATH);
+        
+        if (file_exists(TMP_CONFIG_PATH)) {
+            rename(TMP_CONFIG_PATH, CONFIG_PATH);
+        }
     }
 }
 ?>

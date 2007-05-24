@@ -39,6 +39,7 @@ class migration_tables_core_122Test extends MigrationTest
 {
     function testMigrateData()
     {
+        $prefix = $this->getPrefix();
         $this->initDatabase(121, array('clients', 'campaigns'));
         
         $aCampaigns = array(
@@ -59,7 +60,7 @@ class migration_tables_core_122Test extends MigrationTest
 
         $this->upgradeToVersion(122);
         
-        $rsCampaigns = DBC::NewRecordSet("SELECT * from campaigns");
+        $rsCampaigns = DBC::NewRecordSet("SELECT * from {$prefix}campaigns");
         $this->assertTrue($rsCampaigns->find());
         $this->assertEqual($cCampaigns, $rsCampaigns->getRowCount());
         for ($idxCampaign = 0; $idxCampaign < $cCampaigns; $idxCampaign++) {
@@ -71,7 +72,7 @@ class migration_tables_core_122Test extends MigrationTest
             $this->assertEqual($priority, $rsCampaigns->get('priority'));
         }
         
-        $rsClients = DBC::NewRecordSet("SELECT count(*) nclients FROM clients");
+        $rsClients = DBC::NewRecordSet("SELECT count(*) nclients FROM {$prefix}clients");
         $this->assertTrue($rsClients->find());
         $this->assertTrue($rsClients->fetch());
         $this->assertEqual(count($aAValues) - $cCampaigns, $rsClients->get('nclients'));

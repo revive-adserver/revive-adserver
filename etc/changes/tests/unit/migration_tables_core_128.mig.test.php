@@ -41,6 +41,7 @@ class Migration_128Test extends MigrationTest
 {
     function testMigrateData()
     {
+        $prefix = $this->getPrefix();
         $this->initDatabase(127, array('banners', 'acls', 'channel', 'acls_channel'));
         
         $toInt['f'] = 0;
@@ -64,7 +65,10 @@ EOF
         
         $this->upgradeToVersion(128);
 
-        $rsBanners = DBC::NewRecordSet("SELECT bannerid, transparent, parameters FROM banners ORDER BY bannerid");
+        $rsBanners = DBC::NewRecordSet("
+            SELECT bannerid, transparent, parameters
+            FROM {$prefix}banners
+            ORDER BY bannerid");
         $rsBanners->find();
         $this->assertEqual(count($aAValues), $rsBanners->getRowCount());
         for ($idxBanner = 0; $idxBanner < count($aAValues); $idxBanner++) {
@@ -92,6 +96,7 @@ EOF
     
     function testMigrateAcls()
     {
+        $prefix = $this->getPrefix();
         $this->initDatabase(127, array('banners', 'acls', 'channel', 'acls_channel'));
         
         
@@ -156,7 +161,10 @@ EOF
         
         $this->upgradeToVersion(128);
         
-        $rsAcls = DBC::NewRecordSet("SELECT type, comparison, data FROM acls ORDER BY executionorder");
+        $rsAcls = DBC::NewRecordSet("
+        SELECT type, comparison, data
+        FROM {$prefix}acls
+        ORDER BY executionorder");
         $this->assertTrue($rsAcls->find());
         
         for ($idx = 0; $idx < $cLimitations; $idx++) {
