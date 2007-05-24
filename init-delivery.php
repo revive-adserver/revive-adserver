@@ -57,7 +57,12 @@ if ($conf['debug']['logfile']) {
 
 // Disable all notices and warnings, as some PAN code still
 // generates PHP warnings in places
-error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+if ($conf['debug']['production']) {
+    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+} else {
+    // show all errors when developing
+    error_reporting(E_ALL);
+}
 
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
