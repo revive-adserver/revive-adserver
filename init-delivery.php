@@ -55,6 +55,10 @@ if ($conf['debug']['logfile']) {
     @ini_set('error_log', MAX_PATH . '/var/' . $conf['debug']['logfile']);
 }
 
+// Disable all notices and warnings, as some PAN code still
+// generates PHP warnings in places
+error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 
