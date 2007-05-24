@@ -423,7 +423,7 @@ class OA_Upgrade
      */
     function detectOpenads()
     {
-        if ($GLOBALS['_MAX']['CONF']['max']['installed'])
+        if ($GLOBALS['_MAX']['CONF']['openads']['installed'])
         {
             $this->existing_installation_status = OA_STATUS_CONFIG_FOUND;
             if (!$this->initDatabaseConnection())
