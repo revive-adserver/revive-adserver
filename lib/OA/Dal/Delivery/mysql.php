@@ -789,8 +789,9 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
         $query .= "
                 '{$zoneInfo['channel_ids']}',";
     }
+    $httpLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
     $query .= "
-                '".substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 32)."',
+                '".substr($httpLanguage, 0, 32)."',
                 '{$_SERVER['REMOTE_ADDR']}',
                 '{$_SERVER['REMOTE_HOST']}',";
     if (isset($geotargeting['country_code'])) {
