@@ -46,7 +46,7 @@ class LibAclTest extends DalUnitTestCase
 
     function tearDown()
     {
-        // DataGenerator::cleanUp();
+         DataGenerator::cleanUp();
     }
 
 
@@ -168,8 +168,7 @@ class LibAclTest extends DalUnitTestCase
 
     function test_MAX_aclRecompileAll()
     {
-        $oaTable = new OA_DB_Table();
-        $oaTable->truncateTable('acls');
+        DataGenerator::cleanUp(array('acls'));
 
         $generator = new DataGenerator();
         $bannerid = $generator->generateOne('banners');
@@ -191,6 +190,7 @@ class LibAclTest extends DalUnitTestCase
             "MAX_checkClient_Domain('openads.org', '!~') and MAX_checkTime_Day('0,1', '=~')",
             $doBanners->compiledlimitation);
         $this->assertEqual("Client:Domain,Time:Day", $doBanners->acl_plugins);
+        
     }
 }
 ?>
