@@ -4,7 +4,7 @@
 
   <import file="includes/init.xml"/>
   
-  <target name="main">
+  <target name="www-admin">
     <ant antfile="usecases/loginTest.xml" />
   </target>
 
@@ -44,5 +44,7 @@
     <ant antfile="usecases/delivery/alocal.xml" />
     <ant antfile="usecases/delivery/lg.xml" />
   </target>
+  
+  <target name="main" depends="init-delivery-db, delivery" />
   
 </project>
