@@ -426,8 +426,9 @@ function &OA_aclGetPluginFromRow($row)
 function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable, $upgrade = false)
 {
     $dbh = &OA_DB::singleton();
+    $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
 
-    $result = $dbh->exec("UPDATE $objectTable SET compiledlimitation = 'true', acl_plugins = ''");
+    $result = $dbh->exec("UPDATE $prefix$objectTable SET compiledlimitation = 'true', acl_plugins = ''");
     if (PEAR::isError($result)) {
         return $result;
     }
