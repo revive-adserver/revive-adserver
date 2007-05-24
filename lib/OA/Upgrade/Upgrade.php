@@ -597,12 +597,6 @@ class OA_Upgrade
         $GLOBALS['_MAX']['CONF']['table']['type']     = $this->aDsn['table']['type'];
         if (PEAR::isError($this->oDbh))
         {
-            if ($this->oDbh->getCode()==MDB2_ERROR_CONNECT_FAILED)
-            {
-                $this->oLogger->logError($this->oDbh->getMessage());
-                return false;
-            }
-
             $GLOBALS['_OA']['CONNECTIONS']  = array();
             $GLOBALS['_MDB2_databases']     = array();
 
