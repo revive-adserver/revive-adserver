@@ -82,6 +82,7 @@ class OA_Upgrade
 
     var $versionInitialApplication;
     var $versionInitialSchema = array();
+    var $versionInitialAppOpenads;
 
     var $package_file = '';
     var $recoveryFile;
@@ -254,6 +255,7 @@ class OA_Upgrade
         }
 
         $this->detectMAX();
+        $this->versionInitialAppOpenads = preg_replace('/v0.3/', 'v2.3', $this->versionInitialApplication);
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_MAX_NOT_INSTALLED:
@@ -267,12 +269,12 @@ class OA_Upgrade
                 break;
             case OA_STATUS_MAX_VERSION_FAILED:
                 $database = $GLOBALS['_MAX']['CONF']['database']['name'];
-                $this->oLogger->logError('Max Media Manager '.$this->versionInitialApplication.' detected');
+                $this->oLogger->logError('Openads '.$this->versionInitialAppOpenads.' detected');
                 $this->oLogger->logError($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strNoUpgrade);
                 break;
             case OA_STATUS_CAN_UPGRADE:
-                $this->oLogger->log('Max Media Manager '.$this->versionInitialApplication.' detected');
+                $this->oLogger->log('Openads '.$this->versionInitialAppOpenads.' detected');
                 $this->oLogger->log($strCanUpgrade);
                 return true;
         }
