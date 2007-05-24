@@ -38,8 +38,9 @@ class Test_OA_DB_Sql extends DbTestCase
 {
     function testSqlForInsert()
     {
+        $prefix = $this->getPrefix();
         $sql = OA_DB_Sql::sqlForInsert('zones', array('zonetype' => 1, 'name' => "120x72"));
-        $this->assertEqual("INSERT INTO zones (zonetype,name) VALUES (1,'120x72')", $sql);
+        $this->assertEqual("INSERT INTO {$prefix}zones (zonetype,name) VALUES (1,'120x72')", $sql);
     }
 
     function testDeleteWhereOne()

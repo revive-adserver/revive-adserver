@@ -87,5 +87,11 @@ class DbTestCase extends UnitTestCase
             $this->oaTable->truncateTable($table);
         }
     }
+    
+    
+    function getPrefix()
+    {
+        return $GLOBALS['_MAX']['CONF']['table']['prefix'];
+    }
 }
 ?>
