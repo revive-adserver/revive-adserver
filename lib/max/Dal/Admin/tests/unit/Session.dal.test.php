@@ -98,7 +98,8 @@ class MAX_Dal_Admin_SessionTest extends DalUnitTestCase
         $this->dalSession->storeSerializedSession(SDATA2, SESSIONID);
         $actualSerializedData = $this->dalSession->getSerializedSession(SESSIONID);
         $this->assertEqual(SDATA2, $actualSerializedData);
-        $this->dbh->exec("DELETE FROM session");
+        $prefix = OA_Dal::getTablePrefix();
+        $this->dbh->exec("DELETE FROM {$prefix}session");
     }
     
     
@@ -112,7 +113,8 @@ class MAX_Dal_Admin_SessionTest extends DalUnitTestCase
         $actualSerializedData = $this->dalSession->getSerializedSession(SESSIONID);
         $this->assertFalse($actualSerializedData, 'The serialized data is false for non-existent session id.');
         $this->dalSession->pruneOldSessions();
-        $cSessions = $this->dbh->queryOne("SELECT count(*) AS c FROM session");
+        $prefix = OA_Dal::getTablePrefix();
+        $cSessions = $this->dbh->queryOne("SELECT count(*) AS c FROM {$prefix}session");
         $this->assertEqual(0, $cSessions);
     }
     
@@ -121,7 +123,8 @@ class MAX_Dal_Admin_SessionTest extends DalUnitTestCase
     {
         $this->generateSession();
         $this->dalSession->deleteSession(SESSIONID);
-        $cSessions = $this->dbh->queryOne("SELECT count(*) AS c FROM session");
+        $prefix = OA_Dal::getTablePrefix();
+        $cSessions = $this->dbh->queryOne("SELECT count(*) AS c FROM {$prefix}session");
         $this->assertEqual(0, $cSessions);
     }
     
@@ -138,15 +141,14 @@ class MAX_Dal_Admin_SessionTest extends DalUnitTestCase
         $dg = new DataGenerator();
         $dg->setDataOne('session', array('sessionid' => SESSIONID, 'sessiondata' => SDATA));
         $dg->generateOne('session');
-//        $doSession = OA_Dal::staticGetDO('session', SESSIONID);
-//        $doSession->update();
     }
     
     
     function outdateSession()
     {
         $sessionId = SESSIONID;
-        $this->dbh->exec("UPDATE session set lastused = '2005-01-01 01:00:00' WHERE sessionid = '$sessionId'");
+        $prefix = OA_Dal::getTablePrefix();
+        $this->dbh->exec("UPDATE {$prefix}session set lastused = '2005-01-01 01:00:00' WHERE sessionid = '$sessionId'");
     }
 }
 ?>

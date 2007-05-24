@@ -62,11 +62,10 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
      */
     function refreshSession($session_id)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $session_table_name = $conf['table']['prefix'] . $conf['table']['session'];
+        $prefix = $this->getTablePrefix();
         $query = "
                     UPDATE
-                        $session_table_name
+                        {$prefix}session
                     SET
                         lastused = '". OA::getNow() ."'
                     WHERE
@@ -105,10 +104,9 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
      */
     function pruneOldSessions()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $session_table_name = $conf['table']['prefix'] . $conf['table']['session'];
+        $prefix = $this->getTablePrefix();
         $query = "
-                DELETE FROM $session_table_name
+                DELETE FROM {$prefix}session
                 WHERE
                     UNIX_TIMESTAMP('". OA::getNow() ."') - UNIX_TIMESTAMP(lastused) > 43200
                 ";
@@ -120,10 +118,9 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
      */
     function deleteSession($session_id)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $session_table_name = $conf['table']['prefix'] . $conf['table']['session'];
+        $prefix = $this->getTablePrefix();
         $query="
-           DELETE FROM $session_table_name
+           DELETE FROM {$prefix}session
            WHERE sessionid=?
            ";
         $query_params = array($session_id);

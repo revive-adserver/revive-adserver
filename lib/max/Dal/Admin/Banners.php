@@ -225,7 +225,8 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
     function moveBannerToCampaign($bannerId, $campaignId)
     {
         $Record = DBC::NewRecord();
-        return $Record->update('banners',
+        $prefix = $this->getTablePrefix();
+        return $Record->update($prefix.'banners',
             array(),
             "bannerid=". DBC::makeLiteral($bannerId),
             array('campaignid' => DBC::makeLiteral($campaignId)));
