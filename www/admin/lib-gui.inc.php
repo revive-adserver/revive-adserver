@@ -97,16 +97,17 @@ function phpAds_writeHeader($displaySearch = true, $fromSearchWindow = false, $c
         }
         $searchbar  = "\t\t<table cellpadding='0' cellspacing='0' border='0' bgcolor='#$headerForegroundColor'>\n";
         $searchbar .= $form;
-        $searchbar .= "\t\t<tr height='24'>\n";
-        $searchbar .= "\t\t\t\t\t<td width='1'><table border='0' cellspacing='0' cellpadding='0'><tr height='17'><td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='17' width='1'></td></tr><tr height='7'><td width='1' bgcolor='#$headerBackgroundColor'><img src='".$imgPath."images/spacer.gif' height='7' width='1'></td></tr></table></td>\n";
-        $searchbar .= "\t\t\t<td valign='bottom'><img src='".$imgPath."images/$phpAds_TextDirection/tab-bottomleftcorner-$headerBackgroundColor.gif' height='21' width='7'></td>\n";
+        $searchbar .= "\t\t<tr height='24' width='1'>\n";
+        $searchbar .= "\t\t\t\t\t<td width='1' align='right'><table border='0' cellspacing='0' cellpadding='0' width='1'><tr height='17'><td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='17' width='1'></td></tr><tr height='7'><td width='1' bgcolor='#$headerBackgroundColor'><img src='".$imgPath."images/spacer.gif' height='7' width='1'></td></tr></table></td>\n";
+        $searchbar .= "\t\t\t<td width='7' valign='bottom'><img src='".$imgPath."images/$phpAds_TextDirection/tab-bottomleftcorner-$headerBackgroundColor.gif' height='21' width='7'></td>\n";
         $searchbar .= "\t\t\t<td class='tab-u'><img src='".$imgPath."images/spacer.gif' width='4'>$strSearch:</td>\n";
         $searchbar .= "\t\t\t<td>&nbsp;&nbsp;<input type='text' name='keyword' size='15' class='search' accesskey='".$keySearch."'>&nbsp;&nbsp;</td>\n";
         $searchbar .= "\t\t\t<td><a href=\"javascript:search_window(document.search.keyword.value,'".MAX::constructURL(MAX_URL_ADMIN, $searchUrl)."');\"><img src='".$imgPath."images/".$phpAds_TextDirection."/go.gif' border='0'></a></td>\n";
         $searchbar .= "\t\t\t<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
         $searchbar .= "\t\t</tr>\n";
         $searchbar .= "\t\t<tr height='1'>\n";
-        $searchbar .= "\t\t\t<td colspan='2' bgcolor='#$headerBackgroundColor'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
+        $searchbar .= "\t\t\t<td width='1' bgcolor='#$headerBackgroundColor'><img src='".$imgPath."images/spacer.gif' width='1' height='1'></td>\n";
+        $searchbar .= "\t\t\t<td width='7' bgcolor='#$headerBackgroundColor'><img src='".$imgPath."images/spacer.gif' height='1' width='7'></td>\n";
         $searchbar .= "\t\t\t<td colspan='4' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
         $searchbar .= "\t\t</tr>\n";
         $searchbar .= "\t\t</form>\n";
@@ -343,13 +344,15 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
             if (strpos($key, ".") == 0) {
                 list($filename, $title) = each($pages[$key]);
                 if ($i > 0) {
-                    $tabtop .= "\t\t\t\t\t<td bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
+                    $tabtop .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1' width='1'></td>\n";
                     $tabtop .= "\t\t\t\t\t<td width='2'><img src='".$imgPath."images/spacer.gif' height='1' width='2'></td>\n";
-                    $tabtop .= "\t\t\t\t\t<td bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
+                    $tabtop .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1' width='1'></td>\n";
                     $tabbar .= "\t\t\t\t\t<td bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
                     $tabbar .= "\t\t\t\t\t<td width='2'><img src='".$imgPath."images/spacer.gif' height='1' width='2'></td>\n";
                     $tabbar .= "\t\t\t\t\t<td bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
-                    $tabbottom .= "\t\t\t\t\t<td colspan='3' bgcolor='#$headerForegroundColor'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
+                    $tabbottom .= "\t\t\t\t\t<td width='1' bgcolor='#$headerForegroundColor'><img src='".$imgPath."images/spacer.gif' height='1' width='1'></td>\n";
+                    $tabbottom .= "\t\t\t\t\t<td width='2' bgcolor='#$headerForegroundColor'><img src='".$imgPath."images/spacer.gif' height='1' width='2'></td>\n";
+                    $tabbottom .= "\t\t\t\t\t<td width='1' bgcolor='#$headerForegroundColor'><img src='".$imgPath."images/spacer.gif' height='1' width='1'></td>\n";
                 } else {
                     $tabtop .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1' width='1'></td>\n";
                     $tabbar .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
@@ -370,21 +373,21 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
             $i++;
         }
         if ($lastselected) {
-            $tabbar .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor' align='right' valign='top'><img src='".$imgPath."images/$phpAds_TextDirection/tab-toprightcorner-$headerBackgroundColor.gif' width='7' height='21'></td>\n";
+            $tabbar .= "\t\t\t\t\t<td width='7' bgcolor='#$headerActiveTabColor' align='left' valign='top'><img src='".$imgPath."images/$phpAds_TextDirection/tab-toprightcorner-$headerBackgroundColor.gif' width='7' height='21'></td>\n";
             $tabbar .= "\t\t\t\t\t<td><table border='0' cellspacing='0' cellpadding='0'><tr height='7'><td width='1'><img src='".$imgPath."images/spacer.gif' height='7' width='1'></td></tr><tr height='14'><td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='14' width='1'></td></tr></table></td>\n";
-            $tabbottom .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor'><img src='".$imgPath."images/spacer.gif' height='4'></td>\n";
+            $tabbottom .= "\t\t\t\t\t<td width='7' bgcolor='#$headerActiveTabColor'><img src='".$imgPath."images/spacer.gif' width='7' height='4'></td>\n";
             $tabbottom .= "\t\t\t\t\t<td bgcolor='#$keyLineColor' width='1'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
         } else {
-            $tabbar .= "\t\t\t\t\t<td bgcolor='#$headerForegroundColor' align='right' valign='top'><img src='".$imgPath."images/$phpAds_TextDirection/tab-toprightcorner-$headerBackgroundColor.gif' width='7' height='21'></td>\n";
+            $tabbar .= "\t\t\t\t\t<td width='7' bgcolor='#$headerForegroundColor' align='left' valign='top'><img src='".$imgPath."images/$phpAds_TextDirection/tab-toprightcorner-$headerBackgroundColor.gif' width='7' height='21'></td>\n";
             $tabbar .= "\t\t\t\t\t<td><table border='0' cellspacing='0' cellpadding='0'><tr height='7'><td width='1'><img src='".$imgPath."images/spacer.gif' height='7' width='1'></td></tr><tr height='14'><td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='14' width='1'></td></tr></table></td>\n";
-            $tabbottom .= "\t\t\t\t\t<td bgcolor='#$headerForegroundColor'><img src='".$imgPath."images/spacer.gif' height='4'></td>\n";
+            $tabbottom .= "\t\t\t\t\t<td width='7' bgcolor='#$headerForegroundColor'><img src='".$imgPath."images/spacer.gif' width='7' height='4'></td>\n";
             $tabbottom .= "\t\t\t\t\t<td bgcolor='#$keyLineColor' width='1'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
         }
         if (phpAds_isLoggedIn() && ( phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) ) && !defined('phpAds_installing')) {
             $searchbar  = "\t\t<table cellpadding='0' cellspacing='0' border='0' bgcolor='#$headerForegroundColor' height='24'>\n";
             $searchbar .= "\t\t<form name='search' action='admin-search.php' target='SearchWindow' onSubmit=\"search_window(document.search.keyword.value,'".MAX::constructURL(MAX_URL_ADMIN, 'admin-search.php')."'); return false;\">\n";
             $searchbar .= "\t\t<tr>\n";
-            $searchbar .= "\t\t\t<td valign='bottom'><img src='".$imgPath."images/$phpAds_TextDirection/tab-bottomleftcorner-$headerBackgroundColor.gif' height='21' width='7'></td>\n";
+            $searchbar .= "\t\t\t<td valign='bottom'>arlen<img src='".$imgPath."images/$phpAds_TextDirection/tab-bottomleftcorner-$headerBackgroundColor.gif' height='21' width='7'></td>\n";
             $searchbar .= "\t\t\t<td class='tab-u'><img src='".$imgPath."images/spacer.gif' width='4'>$strSearch:</td>\n";
             $searchbar .= "\t\t\t<td>&nbsp;&nbsp;<input type='text' name='keyword' size='15' class='search' accesskey='".$keySearch."'>&nbsp;&nbsp;</td>\n";
             $searchbar .= "\t\t\t<td><a href=\"javascript:search_window(document.search.keyword.value,'".MAX::constructURL(MAX_URL_ADMIN, 'admin-search.php')."');\"><img src='".$imgPath."images/".$phpAds_TextDirection."/go.gif' border='0'></a></td>\n";
