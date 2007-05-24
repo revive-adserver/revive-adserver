@@ -118,6 +118,7 @@ $conf = $GLOBALS['_MAX']['CONF'];
 if ($conf['debug']['logfile']) {
 @ini_set('error_log', MAX_PATH . '/var/' . $conf['debug']['logfile']);
 }
+error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 $file = '/lib/max/Delivery/common.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 $file = '/lib/max/Delivery/cookie.php';
@@ -2121,7 +2122,7 @@ include_once MAX_PATH . '/plugins/invocationTags/adlayer/layerstyles/'.$layersty
 $limitations = MAX_layerGetLimitations();
 header("Content-type: application/x-javascript");
 if ($limitations['compatible']) {
-$output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, $limitations['richmedia'], $GLOBALS['loc'], $GLOBALS['referer']);
+$output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, $limitations['richmedia'], $GLOBALS['ct0'], $GLOBALS['loc'], $GLOBALS['referer']);
 MAX_cookieFlush();
 if (!$output) {
 exit;
