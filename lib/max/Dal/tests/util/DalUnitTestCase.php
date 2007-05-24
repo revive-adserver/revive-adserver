@@ -168,4 +168,10 @@ class DalUnitTestCase extends SharedFixtureTestCase
         }
         return $do;
     }
+    
+    
+    function getPrefix()
+    {
+        return $GLOBALS['_MAX']['CONF']['table']['prefix'];
+    }
 }

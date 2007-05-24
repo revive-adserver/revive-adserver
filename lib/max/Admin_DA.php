@@ -1086,68 +1086,7 @@ class Admin_DA
     {
         return Admin_DA::_addEntity('agency', $aParams);
     }
-
-   /**
-    * Method to change active status of a given
-    * agency to active.
-    *
-    * @param $id agency id
-    * @return bool true on success false on failure
-    * @access public
-    */
-    function enableAgency($id)
-    {
-        return Admin_DA::_updateAgencyActiveStatus($id, true);
-    }
-
-   /**
-    * Method to change active status of a given
-    * agency to inactive.
-    *
-    * @param $id agency id
-    * @return bool true on success false on failure
-    * @access public
-    */
-    function disableAgency($id)
-    {
-        return Admin_DA::_updateAgencyActiveStatus($id, false);
-    }
-
-   /**
-    * Method to change the active status of a given
-    * agency to inactive.
-    *
-    * @param    $id agency id
-    * @param    bool $active true active false inactive
-    * @return   mixed true for successful update, false on no change,
-    *           PAR::Error on failure
-    * @access   private
-    */
-    function _updateAgencyActiveStatus($id, $active)
-    {
-        // XXX The error returning behaviour when $result == 0 is only possible
-        // in mysql. In other databases exec() returns the number of updated
-        // rows, not of the affected
-        if (!empty($id) && is_bool($active)) {
-            $status = ($active === true) ? 1 : 0;
-            $dbh =& OA_DB::singleton();
-            $result = $dbh->exec('UPDATE agency SET active = ' . $status . ' WHERE agencyid = ' . $id);
-            if (PEAR::isError($result)) {
-                return $result;
-            }
-            if ($result > 0) {
-                return true;
-            } else {
-                // no rows affected by update - nothing to change
-                return PEAR::raiseError('No affected rows.', MAX_ERROR_NOAFFECTEDROWS);
-            }
-        } else {
-            // ERROR - id or status args missing
-            return PEAR::raiseError("Invalid arguments passed to " . __CLASS__ . '::' . __FUNCTION__ ,
-                MAX_ERROR_INVALIDARGS);
-        }
-    }
-
+    
    /**
     * Method to return the total number of clicks and impressions
     * received by an agencies ads for hours inclusive of a given date range.
@@ -1176,80 +1115,6 @@ class Admin_DA
         } else {
             return MAX::raiseError("Invalid arguments passed to " . __CLASS__ . '::' . __FUNCTION__ , MAX_ERROR_INVALIDARGS);
         }
-    }
-
-   /**
-    * Mathod to return ad click and impression hourly totals
-    * for an array of agency ids over a given date range.
-    *
-    * Please note stats are evaluated once per hour, the start and end
-    * date objects should span the hours you wish to get stats for.
-    *
-    * Example:
-    *   Single hour - 2005-05-23 10:00:00 - 2005-05-23 10:59:59
-    *   Single hour - 2005-05-23 10:00:00 - 2005-05-23 10:00:01
-    *   Two hours   - 2005-05-23 10:00:00 - 2005-05-23 11:00:00
-    *
-    * @param array $aAds ad ids
-    * @param object $oStart start of date range
-    * @param object $oEnd end of date range
-    */
-    function getAgenciesCampaignStats($aAgencyId, $startDate, $endDate)
-    {
-        require_once 'Date.php';
-        $oStart = new Date($startDate);
-        $oEnd = new Date($endDate);
-        if (is_array($aAgencyId) && count($aAgencyId)) {
-            $aAgencyStats = array();
-            if (!$oEnd->after($oStart)) {
-                return PEAR::raiseError("Invalid arguments passed to " . __CLASS__ . '::' . __FUNCTION__ .
-                    'end date is before or equal to start date.', MAX_ERROR_INVALIDARGS);
-            }
-            $db = &OA_DB::singleton();
-            // Get list of ad ids to include
-            $agencyIds = implode(',', $aAgencyId);
-            // Is start and end date in same day? - different operator required
-            // in SQL for start and end date spanning multiple days
-            if ($oStart->format('%Y-%m-%e') == $oEnd->format('%Y-%m-%e')) {
-                $operator = 'AND';
-            } else {
-                $operator = 'OR';
-            }
-            $query = '
-            SELECT
-                clients.agencyid, clients.clientid,
-                campaigns.campaignid,
-                data_summary_ad_hourly.day, data_summary_ad_hourly.hour,
-                SUM(data_summary_ad_hourly.impressions) AS totalImpressions, SUM(data_summary_ad_hourly.clicks) AS totalClicks
-            FROM clients, campaigns, banners, data_summary_ad_hourly
-            WHERE
-                clients.agencyid in (' . $agencyIds . ')
-                AND clients.clientid = campaigns.clientid
-                AND campaigns.campaignid = banners.campaignid
-                AND banners.bannerid = data_summary_ad_hourly.ad_id
-                AND (
-                        (data_summary_ad_hourly.day = \'' . $oStart->format('%Y-%m-%e')  . '\'
-                            AND data_summary_ad_hourly.hour >= \'' . $oStart->getHour()  .'\')
-
-                        ' . $operator . ' (data_summary_ad_hourly.day = \'' . $oEnd->format('%Y-%m-%e')  . '\'
-                            AND data_summary_ad_hourly.hour <= \'' . $oEnd->getHour()  .'\')
-
-                        OR (data_summary_ad_hourly.day > \'' . $oStart->format('%Y-%m-%e')  . '\'
-                            AND data_summary_ad_hourly.day < \'' . $oEnd->format('%Y-%m-%e')  .'\')
-                    )
-            GROUP BY clients.agencyid, clients.clientid, campaigns.campaignid, data_summary_ad_hourly.day, data_summary_ad_hourly.hour';
-            $aCampaigns = $db->queryAll($query);
-            if (PEAR::isError($aCampaigns)) {
-                return $aCampaigns;
-            }
-            foreach($aCampaigns as $campaign) {
-                $aAgencyStats[$campaign['day']][$campaign['hour']][$campaign['agencyid']]['totalImpressions'] += $campaign['totalimpressions'];
-                $aAgencyStats[$campaign['day']][$campaign['hour']][$campaign['agencyid']]['totalClicks'] += $campaign['totalclicks'];
-            }
-        } else {
-            return PEAR::raiseError("Invalid arguments passed to " . __CLASS__ . '::' . __FUNCTION__ , MAX_ERROR_INVALIDARGS);
-        }
-        return $aAgencyStats;
     }
 
 
@@ -1577,6 +1442,11 @@ class Admin_DA
     function getPublishersChildren($aParams, $allFields = false)
     {
         return Admin_DA::_getEntitiesChildren('publisher', $aParams, $allFields);
+    }
+    
+    function getPrefix()
+    {
+        return $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
 }
 
