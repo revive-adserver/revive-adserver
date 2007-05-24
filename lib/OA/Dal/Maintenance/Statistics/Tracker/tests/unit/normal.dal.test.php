@@ -54,10 +54,11 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
      */
     function _insertTestDeleteImpressions()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                data_raw_tracker_impression
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']}
                 (
                     server_raw_tracker_impression_id,
                     tracker_id,
@@ -117,10 +118,11 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
      */
     function _insertTestDeleteClicks()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                data_raw_tracker_click
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_click']}
                 (
                     tracker_id,
                     date_time
@@ -172,10 +174,11 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
      */
     function _insertTestDeleteVariableValues()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                data_raw_tracker_variable_value
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_variable_value']}
                 (
                     server_raw_tracker_impression_id,
                     tracker_variable_id,
@@ -242,10 +245,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
      */
     function testGetMaintenanceStatisticsLastRunInfo()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['maintenance']['operationInterval'] = 60;
-        $conf['table']['split'] = false;
+        $aConf['maintenance']['operationInterval'] = 60;
+        $aConf['table']['split'] = false;
         $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
         // Test with no data
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI);
@@ -255,7 +258,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         // Insert tracker impressions
         $query = "
             INSERT INTO
-                data_raw_tracker_impression
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']}
                 (
                     tracker_id,
                     date_time
@@ -290,7 +293,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         // Insert an hourly (only) update
         $query = "
             INSERT INTO
-                log_maintenance_statistics
+                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_statistics']}
                 (
                     start_run,
                     end_run,
@@ -373,9 +376,9 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
      */
     function testDeleteOldData()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf['maintenance']['compactStatsGrace'] = 0;
+        $aConf['maintenance']['compactStatsGrace'] = 0;
         $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
         // Insert the test data
         $this->_insertTestDeleteImpressions();
@@ -388,26 +391,26 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_click']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_click']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         TestEnv::restoreEnv();
         // Set a compact_stats_grace window
-        $conf['maintenance']['compactStatsGrace'] = 3600;
+        $aConf['maintenance']['compactStatsGrace'] = 3600;
         $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
         // Insert the test data
         $this->_insertTestDeleteImpressions();
@@ -420,21 +423,21 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_click']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_click']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}";
+                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_variable_value']}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         TestEnv::restoreConfig();
