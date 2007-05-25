@@ -49,9 +49,6 @@ phpAds_registerGlobal (
     ,'appenddelivery'
     ,'forceappend'
     ,'inventory_forecast_type'
-    ,'inventory_forecast_type_page_url'
-    ,'inventory_forecast_type_country'
-    ,'inventory_forecast_type_source'
     ,'inventory_forecast_type_channel'
     ,'appendid'
     ,'appendsave'
@@ -145,9 +142,6 @@ if (isset($submitbutton))
         }
 
         $inventory_forecast_type = 0;
-        if (isset($inventory_forecast_type_page_url)) $inventory_forecast_type += $inventory_forecast_type_page_url;
-        if (isset($inventory_forecast_type_country)) $inventory_forecast_type += $inventory_forecast_type_country;
-        if (isset($inventory_forecast_type_source)) $inventory_forecast_type += $inventory_forecast_type_source;
         if (isset($inventory_forecast_type_channel)) $inventory_forecast_type += $inventory_forecast_type_channel;
         if (isset($inventory_forecast_type)) {
             $doZones->inventory_forecast_type = $inventory_forecast_type;
@@ -332,9 +326,6 @@ echo "
             <td width='30'>&nbsp;</td>
             <td width='200'>Inventory Forecasting</td>
             <td width='100%'>
-                <input type='checkbox' name='inventory_forecast_type_page_url' value='1'".($zone['inventory_forecast_type'] & 1 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;Page URL<br />
-                <input type='checkbox' name='inventory_forecast_type_country' value='2'".($zone['inventory_forecast_type'] & 2 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;Country<br />
-                <input type='checkbox' name='inventory_forecast_type_source' value='4'".($zone['inventory_forecast_type'] & 4 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;Source<br />
                 <input type='checkbox' name='inventory_forecast_type_channel' value='8'".($zone['inventory_forecast_type'] & 8 ? ' checked' : '')." tabindex='".($tabindex++)."'>&nbsp;Channel<br />
             </td>
         </tr>
