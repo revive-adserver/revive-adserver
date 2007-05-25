@@ -2105,7 +2105,10 @@ if (!isset($status))	 $status     = 0;
 if (!isset($resizable))  $resizable  = 0;
 if (!isset($scrollbars)) $scrollbars = 0;
 $row = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
-if (isset($zoneid)) { $row['zoneid'] = $zoneid; }
+$row['zoneid'] = 0;
+if (isset($zoneid)) {
+$row['zoneid'] = $zoneid;
+}
 if (!$row['bannerid']) {
 exit;
 }
