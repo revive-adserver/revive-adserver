@@ -108,6 +108,11 @@ div.sysinfoerror {
     color: #990000;
 }
 
+.errLink {
+    color: #fff;
+    text-decoration: underline;
+}
+
 #graph_container {
     width: 100%;
     text-align: center;

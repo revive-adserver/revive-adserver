@@ -212,7 +212,7 @@ class OA_Environment_Manager
         {
             if ($v!='OK')
             {
-                $this->aInfo['PERMS']['error'][] = 'Some folders and files require write permissions';
+                $this->aInfo['PERMS']['error'][] = sprintf($GLOBALS['strErrorWritePermissions'], $k);;
                 return false;
             }
         }
