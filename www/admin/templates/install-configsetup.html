@@ -35,10 +35,11 @@ if ($errMessage) {
             
             // Setup list of all timezones, calculate selected timezone
             require_once('../../lib/OA/Admin/Timezones.php');
-            $aTimezone       = OA_Admin_Timezones::AvailableTimezones(true);
-            $selTimezoneArr  = OA_Admin_Timezones::getTimezone();
-            $selTimezone     = $selTimezoneArr['tz'];
+            $aTimezone     = OA_Admin_Timezones::AvailableTimezones(true);
+            $selTimezone   = OA_Admin_Timezones::getTimezone();
             
+            $errorImage = "<img src='".$imgPath."images/icon-x.gif' width='10' height='9'>";
+            $timezoneTitle = ($selTimezone['calculated'] ? $strTimezoneEstimated.'<br><small class="red">'.$errorImage.' '.$strTimezoneGuessedValue.'</small>' : $strTimezone);
             // For language, setup English as first choice
             $langVal = 'english';
             
@@ -60,9 +61,9 @@ if ($errMessage) {
                         array (
                             'type'  => 'select',
                             'name'  => 'aConfig[timezone][location]',
-                            'text'  => $strTimezone,
+                            'text'  => $timezoneTitle,
                             'req'   => true,
-                            'value' => $selTimezone,
+                            'value' => $selTimezone['tz'],
                             'items' => $aTimezone
                         ),
                         array (
