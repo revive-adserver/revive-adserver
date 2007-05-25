@@ -69,7 +69,10 @@ if (!isset($scrollbars)) $scrollbars = 0;
 
 // Get the banner
 $row = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
-if (isset($zoneid)) { $row['zoneid'] = $zoneid; }
+$row['zoneid'] = 0;
+if (isset($zoneid)) { 
+    $row['zoneid'] = $zoneid; 
+}
 
 // Do not pop a window if not banner was found..
 if (!$row['bannerid']) {
