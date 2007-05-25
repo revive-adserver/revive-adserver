@@ -420,7 +420,7 @@ class test_DeliveryAdRender extends UnitTestCase
 		$logClick	= true;
 		$overrideDest = false;
 		$ret = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick, $overrideDest);
-        $this->assertEqual($ret, 'http://'.$GLOBALS['_MAX']['CONF']['webpath']['delivery'].'/ck.php?maxparams=2__bannerid=9999__zoneid=0__cb={random}__maxdest=http://www.somewhere.com');
+        $this->assertEqual($ret, 'http://'.$GLOBALS['_MAX']['CONF']['webpath']['delivery'].'/ck.php?oaparams=2__bannerid=9999__zoneid=0__cb={random}__maxdest=http://www.somewhere.com');
 	}
 }
 
