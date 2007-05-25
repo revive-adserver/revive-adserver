@@ -43,6 +43,8 @@ function setupConstants()
     define('MAX_VERSION_READABLE',  'v2.3.32-beta');
     define('MAX_PRODUCT_NAME',      'Openads');
     define('MAX_PRODUCT_URL',       'www.openads.org');
+    define('MAX_PRODUCT_DOCSURL',   'docs.openads.org');
+    define('MAX_PRODUCT_FORUMURL',  'forum.openads.org');
 
     // This old PAN constant is used in a couple places but could well conflict with the configured DB
     // TODO: find any uses of this constant and re-think their place.
