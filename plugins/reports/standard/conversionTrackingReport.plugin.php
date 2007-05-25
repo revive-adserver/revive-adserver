@@ -24,28 +24,26 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/reports/proprietary/EnhancedReport.php';
+require_once MAX_PATH . '/plugins/reports/ScopeReports.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/plugins/reports/proprietary/TrackerVariable.php';
 
-require_once MAX_PATH . '/lib/OA/Admin/Reports/ReportScope.php';
-
-class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
+class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ScopeReports
 {
-    /* @var ReportScope */
-    var $_scope;
 
-    /* @var OA_Admin_DaySpan */
-    var $_daySpan;
-
+    /**
+     * The local implementation of the initInfo() method to set all of the
+     * required values for this report.
+     */
     function initInfo()
     {
-        $this->_name = MAX_Plugin_Translation::translate('Conversion Tracking Report', $this->module, $this->package);
-        $this->_category = 'standard';
+        $this->_name         = MAX_Plugin_Translation::translate('Conversion Tracking Report', $this->module, $this->package);
+        $this->_description  = MAX_Plugin_Translation::translate('A detailed breakdown of all conversion activity by advertiser or publisher.', $this->module, $this->package);
+        $this->_category     = 'standard';
         $this->_categoryName = MAX_Plugin_Translation::translate('Standard Reports', $this->module, $this->package);
-        $this->_description = MAX_Plugin_Translation::translate('A detailed breakdown of all conversion activity by advertiser or publisher.', $this->module, $this->package);
-
+        $this->_author       = 'Scott Switzer';
+        $this->_export       = 'xls';
         if ($this->_hasTrackers()) {
             $this->_authorize = phpAds_Publisher | phpAds_Advertiser | phpAds_Agency | phpAds_Admin;
         }
@@ -53,99 +51,97 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
         $this->_import = $this->getDefaults();
         $this->saveDefaults();
     }
-    /**
-     * Check to see if any trackers are associated with traffic...
-     *
-     */
-    function _hasTrackers()
-    {
-        if (phpAds_isUser(phpAds_Advertiser)) {
-            $aParams = array('advertiser_id' => phpAds_getUserID());
-            $aTrackers = Admin_DA::getTrackers($aParams);
-        } elseif (phpAds_isUser(phpAds_Agency)) {
-            $aParams = array('agency_id' => phpAds_getUserID());
-            $aTrackers = Admin_DA::getTrackers($aParams);
-        } elseif (phpAds_isUser(phpAds_Admin)) {
-            $aTrackers = Admin_DA::getTrackers(array());
-        } elseif (phpAds_isUser(phpAds_Publisher)) {
-            $aTrackers = array();
-            $aParams = array('publisher_id' => phpAds_getUserID());
-            $aPlacementZones = Admin_DA::getPlacementZones($aParams, false, 'placement_id');
-            if (!empty($aPlacementZones)) {
-                $aParams = array('placement_id' => implode(',', array_keys($aPlacementZones)));
-                $aTrackers = array_merge($aTrackers, Admin_DA::getTrackers($aParams));
-            }
-            $aAdZones = Admin_DA::getAdZones($aParams, false, 'ad_id');
-            if (!empty($aAdZones)) {
-                $aParams = array('ad_id' => implode(',', array_keys($aAdZones)));
-                $aTrackers = array_merge($aTrackers, Admin_DA::getTrackers($aParams));
-            }
-        }
-        return (!empty($aTrackers));
-    }
 
+    /**
+     * The local implementation of the getDefaults() method to prepare the
+     * required information for laying out the plugin's report generation
+     * screen/the variables required for generating the report.
+     */
     function getDefaults()
     {
+        // Obtain the user's session-based default values for the report
         global $session;
-
-        $aImport = array();
-
+        $default_period_preset    = isset($session['prefs']['GLOBALS']['report_period_preset'])    ? $session['prefs']['GLOBALS']['report_period_preset']    : 'last_month';
         $default_scope_advertiser = isset($session['prefs']['GLOBALS']['report_scope_advertiser']) ? $session['prefs']['GLOBALS']['report_scope_advertiser'] : '';
-        $default_scope_publisher = isset($session['prefs']['GLOBALS']['report_scope_publisher']) ? $session['prefs']['GLOBALS']['report_scope_publisher'] : '';
-        $aImport['scope'] = array(
-            'title' => MAX_Plugin_Translation::translate('Limitations', $this->module, $this->package),
-            'type' => 'scope',
-            'filter' => 'tracker-present',
-            'scope_advertiser' => $default_scope_advertiser,
-            'scope_publisher' => $default_scope_publisher
-        );
-
-        $default_period_preset = isset($session['prefs']['GLOBALS']['report_period_preset']) ? $session['prefs']['GLOBALS']['report_period_preset'] : 'last_month';
-        $aImport['period'] = array(
-            'title' => MAX_Plugin_Translation::translate('Period', $this->module, $this->package),
-            'type' => 'date-month',
-            'default' => $default_period_preset
-        );
-
-        $aImport['sheets'] = array(
-            'title'  => MAX_Plugin_Translation::translate('Worksheets', $this->module, $this->package),
-            'type'   => 'sheet',
+        $default_scope_publisher  = isset($session['prefs']['GLOBALS']['report_scope_publisher'])  ? $session['prefs']['GLOBALS']['report_scope_publisher']  : '';
+        // Prepare the array for displaying the generation page
+        $aImport = array(
+            'period' => array(
+                'title'            => MAX_Plugin_Translation::translate('Period', $this->module, $this->package),
+                'type'             => 'date-month',
+                'default'          => $default_period_preset
+            ),
+            'scope'  => array(
+                'title'            => MAX_Plugin_Translation::translate('Limitations', $this->module, $this->package),
+                'type'             => 'scope',
+                'filter'           => 'tracker-present',
+                'scope_advertiser' => $default_scope_advertiser,
+                'scope_publisher'  => $default_scope_publisher
+            ),
             'sheets' => array(
-                'performance_by_day'   => MAX_Plugin_Translation::translate('Performance by Day', $this->module, $this->package),
-                'connection_by_day'    => MAX_Plugin_Translation::translate('Connection Summary by Day', $this->module, $this->package),
-                'variable_by_day'      => MAX_Plugin_Translation::translate('Variable Summary by Day', $this->module, $this->package),
-                'variable_by_variable' => MAX_Plugin_Translation::translate('Variable Summary by Variable', $this->module, $this->package),
-                'conversion_detail'    => MAX_Plugin_Translation::translate('Conversion Detail', $this->module, $this->package)
+                'title'            => MAX_Plugin_Translation::translate('Worksheets', $this->module, $this->package),
+                'type'             => 'sheet',
+                'sheets'           => array(
+                    'performance_by_day'   => MAX_Plugin_Translation::translate('Performance by Day', $this->module, $this->package),
+                    'connection_by_day'    => MAX_Plugin_Translation::translate('Connection Summary by Day', $this->module, $this->package),
+                    'variable_by_day'      => MAX_Plugin_Translation::translate('Variable Summary by Day', $this->module, $this->package),
+                    'variable_by_variable' => MAX_Plugin_Translation::translate('Variable Summary by Variable', $this->module, $this->package),
+                    'conversion_detail'    => MAX_Plugin_Translation::translate('Conversion Detail', $this->module, $this->package)
+                )
             )
         );
-
         return $aImport;
     }
 
+    /**
+     * The local implementation of the saveDefaults() method to save the
+     * values used for the report by the user to the user's session
+     * preferences, so that they can be re-used in other reports.
+     */
     function saveDefaults()
     {
         global $session;
-
+        if (isset($_REQUEST['period_preset'])) {
+            $session['prefs']['GLOBALS']['report_period_preset']    = $_REQUEST['period_preset'];
+        }
         if (isset($_REQUEST['scope_advertiser'])) {
             $session['prefs']['GLOBALS']['report_scope_advertiser'] = $_REQUEST['scope_advertiser'];
         }
         if (isset($_REQUEST['scope_publisher'])) {
-            $session['prefs']['GLOBALS']['report_scope_publisher'] = $_REQUEST['scope_publisher'];
-        }
-        if (isset($_REQUEST['period_preset'])) {
-            $session['prefs']['GLOBALS']['report_period_preset'] = $_REQUEST['period_preset'];
+            $session['prefs']['GLOBALS']['report_scope_publisher']  = $_REQUEST['scope_publisher'];
         }
         phpAds_SessionDataStore();
     }
 
-    function execute($scope, $oDaySpan, $sheets)
+    /**
+     * The local implementation of the execute() method to generate the report.
+     *
+     * @param OA_Admin_DaySpan       $oDaySpan The OA_Admin_DaySpan object for the report.
+     * @param OA_Admin_Reports_Scope $oScope   ???
+     * @param array                  $aSheets  An array of sheets that should be in the report.
+     */
+    function execute($oDaySpan, $oScope, $aSheets)
     {
-        $this->_scope = $scope;
-        $this->_daySpan = $oDaySpan;
-        $startDate = !empty($oDaySpan) ? date('Y-M-d', strtotime($oDaySpan->getStartDateString())): 'Beginning';
-        $endDate = !empty($oDaySpan) ? date('Y-M-d', strtotime($oDaySpan->getEndDateString())): date('Y-M-d');
-        $reportName = $this->_name . ' from ' . $startDate . ' to ' . $endDate . '.xls';
-        $this->_report_writer->openWithFilename($reportName);
+        // Save the scope for use later
+        $this->_oScope = $oScope;
+        // Prepare the range information for the report
+        $this->_prepareReportRange($oDaySpan);
+        // Prepare the report name
+        $reportFileName = $this->_getReportFileName();
+        // Prepare the output writer for generation
+        $this->_oReportWriter->openWithFilename($reportFileName);
+
+        // Close the report writer and send the report to the user
+        $this->_oReportWriter->closeAndSend();
+
+
+
+
+
+
+
+
+
         $aConnections = $this->dal->getTrackerConnections($scope, $oDaySpan);
         $aTrackers = $this->dal->getTrackersVariablesByTrackerId($aConnections);
 
@@ -200,13 +196,62 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
         if (isset($sheets['conversion_detail'])) {
             $this->addConversionDetailSheet($aTrackers, $aConnections);
         }
-        $this->_report_writer->closeAndSend();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Check to see if any trackers are associated with traffic...
+     *
+     */
+    function _hasTrackers()
+    {
+        if (phpAds_isUser(phpAds_Advertiser)) {
+            $aParams = array('advertiser_id' => phpAds_getUserID());
+            $aTrackers = Admin_DA::getTrackers($aParams);
+        } elseif (phpAds_isUser(phpAds_Agency)) {
+            $aParams = array('agency_id' => phpAds_getUserID());
+            $aTrackers = Admin_DA::getTrackers($aParams);
+        } elseif (phpAds_isUser(phpAds_Admin)) {
+            $aTrackers = Admin_DA::getTrackers(array());
+        } elseif (phpAds_isUser(phpAds_Publisher)) {
+            $aTrackers = array();
+            $aParams = array('publisher_id' => phpAds_getUserID());
+            $aPlacementZones = Admin_DA::getPlacementZones($aParams, false, 'placement_id');
+            if (!empty($aPlacementZones)) {
+                $aParams = array('placement_id' => implode(',', array_keys($aPlacementZones)));
+                $aTrackers = array_merge($aTrackers, Admin_DA::getTrackers($aParams));
+            }
+            $aAdZones = Admin_DA::getAdZones($aParams, false, 'ad_id');
+            if (!empty($aAdZones)) {
+                $aParams = array('ad_id' => implode(',', array_keys($aAdZones)));
+                $aTrackers = array_merge($aTrackers, Admin_DA::getTrackers($aParams));
+            }
+        }
+        return (!empty($aTrackers));
     }
 
     function addConversionSummaryByDaySheet($aTrackers, $aConnections)
     {
         $worksheetName = MAX_Plugin_Translation::translate('Connection Summary by Day', $this->module, $this->package);
-        $this->_report_writer->createReportWorksheet($worksheetName, $this->_name, $this->getReportParametersForDisplay());
+        $this->_oReportWriter->createReportWorksheet($worksheetName, $this->_name, $this->getReportParametersForDisplay());
 
         // Create a subsection for each tracker
         foreach ($aTrackers as $trackerId => $aTracker) {
@@ -279,7 +324,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
                 }
                 $row++;
             }
-            $this->_report_writer->createReportSection($worksheetName, $trackerName, $aHeaders, $aData, 30);
+            $this->_oReportWriter->createReportSection($worksheetName, $trackerName, $aHeaders, $aData, 30);
             $aDays = array(); // reset data
         }
     }
@@ -287,7 +332,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
     function addVariableSummaryByDaySheet($aTrackers, $aConnections)
     {
         $worksheetName = MAX_Plugin_Translation::translate('Variable Summary by Day', $this->module, $this->package);
-        $this->_report_writer->createReportWorksheet($worksheetName, $this->_name, $this->getReportParametersForDisplay());
+        $this->_oReportWriter->createReportWorksheet($worksheetName, $this->_name, $this->getReportParametersForDisplay());
 
         // Create a subsection for each tracker
         foreach ($aTrackers as $trackerId => $aTracker) {
@@ -383,7 +428,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
                 }
                 $row++;
             }
-            $this->_report_writer->createReportSection($worksheetName, $trackerName, $aHeaders, $aData, 30);
+            $this->_oReportWriter->createReportSection($worksheetName, $trackerName, $aHeaders, $aData, 30);
             $aDays = array(); // reset data
         }
     }
@@ -391,7 +436,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
     function addVariableSummaryByVariableSheet($aTrackers, $aConnections)
     {
         $worksheetName = MAX_Plugin_Translation::translate('Variable Summary by Variable', $this->module, $this->package);
-        $this->_report_writer->createReportWorksheet($worksheetName, $this->_name, $this->getReportParametersForDisplay());
+        $this->_oReportWriter->createReportWorksheet($worksheetName, $this->_name, $this->getReportParametersForDisplay());
 
         // Create a subsection for each tracker
         foreach ($aTrackers as $trackerId => $aTracker) {
@@ -443,7 +488,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
                     $aData = array();
                     $row = 0;
                     foreach ($aVariables as $value => $aVariable) {
-                        $aData[$row][0] = $aBdVariable['tracker_variable_data_type'] == 'date' ? $this->_report_writer->convertToDate($value) : $value;
+                        $aData[$row][0] = $aBdVariable['tracker_variable_data_type'] == 'date' ? $this->_oReportWriter->convertToDate($value) : $value;
                         $aData[$row][1] = $aVariable['status'][MAX_CONNECTION_STATUS_APPROVED];
                         $col = 2;
                         if (!empty($aTracker['variables'])) {
@@ -461,7 +506,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
                         $row++;
                     }
 
-                    $this->_report_writer->createReportSection($worksheetName, $trackerName, $aHeaders, $aData, 30);
+                    $this->_oReportWriter->createReportSection($worksheetName, $trackerName, $aHeaders, $aData, 30);
                 }
             }
         }
@@ -470,7 +515,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
     function addConversionDetailSheet($aTrackers, $aConnections)
     {
         $worksheetName = MAX_Plugin_Translation::translate('Conversion Detail', $this->module, $this->package);
-        $this->_report_writer->createReportWorksheet($worksheetName, $this->_name, $this->getReportParametersForDisplay());
+        $this->_oReportWriter->createReportWorksheet($worksheetName, $this->_name, $this->getReportParametersForDisplay());
 
         $aStatus = $this->getConnectionStatuses();
 
@@ -545,7 +590,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
                                 $value = $aConnection['variables'][$trackerVariableId]['tracker_variable_value'];
                                 if ($aTrackerVariable['tracker_variable_data_type'] == 'date') {
                                     // Change value to match Excel format
-                                    $value = $this->_report_writer->convertToDate($value);
+                                    $value = $this->_oReportWriter->convertToDate($value);
                                 }
                                 $aData[$row][] = $value;
                             }
@@ -574,14 +619,14 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
                 }
             }
 
-            $this->_report_writer->createReportSection($worksheetName, $trackerName, $aHeaders, $aData, 30);
+            $this->_oReportWriter->createReportSection($worksheetName, $trackerName, $aHeaders, $aData, 30);
         }
     }
 
     function addPerformanceSheet()
     {
         $worksheetName = MAX_Plugin_Translation::translate('Performance by Day', $this->module, $this->package);
-        $this->_report_writer->createReportWorksheet($worksheetName, $this->_name, $this->getReportParametersForDisplay());
+        $this->_oReportWriter->createReportWorksheet($worksheetName, $this->_name, $this->getReportParametersForDisplay());
 
         if (is_null($this->_daySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
@@ -593,17 +638,17 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
         $_REQUEST['breakdown'] = 'day';
 
         if (phpAds_isUser(phpAds_Admin|phpAds_Agency)) {
-            if (!empty($this->_scope->_advertiserId) && !empty($this->_scope->_publisherId)) {
+            if (!empty($this->_oScope->_advertiserId) && !empty($this->_oScope->_publisherId)) {
                 $controller_type = 'advertiser-affiliate-history';
-            } elseif (!empty($this->_scope->_advertiserId)) {
+            } elseif (!empty($this->_oScope->_advertiserId)) {
                 $controller_type = 'advertiser-history';
-            } elseif (!empty($this->_scope->_publisherId)) {
+            } elseif (!empty($this->_oScope->_publisherId)) {
                 $controller_type = 'affiliate-history';
             } else {
                 $controller_type = 'global-history';
             }
         } elseif (phpAds_isUser(phpAds_Client)) {
-            if (!empty($this->_scope->_publisherId)) {
+            if (!empty($this->_oScope->_publisherId)) {
                 $controller_type = 'advertiser-affiliate-history';
             } else {
                 $controller_type = 'advertiser-history';
@@ -612,16 +657,16 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
             $controller_type = 'affiliate-history';
         }
 
-        if (!empty($this->_scope->_advertiserId)) {
-            $_REQUEST['clientid'] = $this->_scope->_advertiserId;
+        if (!empty($this->_oScope->_advertiserId)) {
+            $_REQUEST['clientid'] = $this->_oScope->_advertiserId;
         }
-        if (!empty($this->_scope->_publisherId)) {
-            $_REQUEST['affiliateid'] = $this->_scope->_publisherId;
+        if (!empty($this->_oScope->_publisherId)) {
+            $_REQUEST['affiliateid'] = $this->_oScope->_publisherId;
         }
 
         list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controller_type);
 
-        $this->_report_writer->createReportSection($worksheetName, $worksheetName, $aHeaders, $aData, 30);
+        $this->_oReportWriter->createReportSection($worksheetName, $worksheetName, $aHeaders, $aData, 30);
     }
 
     function prepareTrackerSummaryForDisplay($oDaySpan, $aTrackers)
@@ -712,7 +757,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
     function getReportParametersForDisplay()
     {
         $aParams = array();
-        $aParams += $this->getDisplayableParametersFromScope($this->_scope);
+        $aParams += $this->getDisplayableParametersFromScope($this->_oScope);
         $aParams += $this->getDisplayableParametersFromDaySpan($this->_daySpan);
         return $aParams;
     }

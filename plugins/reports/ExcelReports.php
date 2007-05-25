@@ -32,7 +32,7 @@ $Id$
  */
 
 require_once MAX_PATH . '/plugins/reports/proprietary/EnhancedReport.php';
-require_once MAX_PATH . '/plugins/reportWriter/output/ExcelReportWriter.plugin.php';
+require_once MAX_PATH . '/lib/OA/Admin/ExcelWriter.php';
 require_once 'Date.php';
 
 /**
@@ -49,7 +49,7 @@ class Plugins_ExcelReports extends EnhancedReport
         parent::EnhancedReport();
         $this->_export = 'xls';
         //$this->_report_writer = new HtmlReportWriter();
-        $this->_report_writer = new Plugins_ReportWriter_Output_ExcelReportWriter();
+        $this->_report_writer = new OA_Admin_ExcelWriter();
     }
 
     /**

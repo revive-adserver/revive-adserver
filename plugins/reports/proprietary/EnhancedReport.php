@@ -37,22 +37,10 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/plugins/reports/Reports.php';
-require_once MAX_PATH . '/plugins/reportWriter/output/NullReportWriter.plugin.php';
 require_once MAX_PATH . '/plugins/reports/proprietary/ProprietaryReportingDal.php';
 
 class EnhancedReport extends Plugins_Reports
 {
-    var $_name;
-    var $_description;
-    var $_category;
-    var $_categoryName;
-    var $_author;
-    var $_export;
-    var $_authorize;
-    var $_import;
-
-    /* @var ExcelReportWriter */
-    var $_report_writer;
 
     /* @var MAX_Dal_Proprietary */
     var $dal;
@@ -62,28 +50,7 @@ class EnhancedReport extends Plugins_Reports
      */
     function EnhancedReport()
     {
-        $this->_export = 'xls';
         $this->_useDefaultDal();
-        $this->_report_writer = new Plugins_ReportWriter_Output_NullReportWriter();
-    }
-
-    /**
-     * Fill a new worksheet with tabular data.
-     *
-     * @param string $title Name of the worksheet and title of the sub-report
-     * @param array $headers Column headings
-     * @param array $data Actual data (with no headings)
-     *
-     * @todo Replace createReportWorksheet() etc with calls to the report writer
-     */
-    function createSubReport($worksheet, $headers, $data, $title = '')
-    {
-        if ($title == '') {
-            $title = $worksheet;
-        }
-
-        $this->_report_writer->createReportWorksheet($worksheet, $this->_name, $this->getReportParametersForDisplay());
-        $this->_report_writer->createReportSection($worksheet, $title, $headers, $data, 30);
     }
 
     /**
@@ -106,10 +73,6 @@ class EnhancedReport extends Plugins_Reports
         }
     }
 
-    function getReportParametersForDisplay()
-    {
-        return array(MAX_Plugin_Translation::translate('Report on', $this->module, $this->package) => MAX_Plugin_Translation::translate('All available data', $this->module, $this->package));
-    }
 
     function _useDefaultDal()
     {
@@ -349,11 +312,6 @@ class EnhancedReport extends Plugins_Reports
         return $ctr;
     }
 
-    function useReportWriter(&$writer)
-    {
-        $this->_report_writer =& $writer;
-    }
-
     function formatDateForDisplay($date_string)
     {
         if ($date_string == '0000-00-00') {
@@ -436,53 +394,6 @@ class EnhancedReport extends Plugins_Reports
         $after = array_slice($array, $slice_position);
         $result = array_merge($before, array($value), $after);
         return $result;
-    }
-
-    /**
-     * Return section headers and data from a statsController instance
-     *
-     * @param string statsController type
-     * @return array An array containing headers (key 0) and data (key 1)
-     */
-    function getHeadersAndDataFromStatsController($controller_type)
-    {
-        $statsController = &OA_Admin_Statistics_Factory::getController($controller_type, array(
-            'skipFormatting' => true,
-            'disablePager'   => true
-        ));
-
-        $stats = $statsController->exportArray();
-
-        $aHeaders = array();
-        foreach ($stats['headers'] as $k => $v) {
-            switch ($stats['formats'][$k]) {
-                case 'default':
-                    $aHeaders[$v] = 'numeric';
-                    break;
-                case 'currency':
-                    $aHeaders[$v] = 'decimal';
-                    break;
-                case 'percent':
-                case 'date':
-                case 'time':
-                    $aHeaders[$v] = $stats['formats'][$k];
-                    break;
-                case 'text':
-                default:
-                    $aHeaders[$v] = 'text';
-                    break;
-            }
-        }
-
-        $aData = array();
-        foreach ($stats['data'] as $i => $row)
-        {
-            foreach ($row as $k => $v) {
-                $aData[$i][] = $stats['formats'][$k] == 'datetime' ? $this->_report_writer->convertToDate($v) : $v;
-            }
-        }
-
-        return array($aHeaders, $aData);
     }
 }
 ?>

@@ -25,172 +25,197 @@
 $Id:advertisingAnalysisReport.plugin.php 114 2006-03-03 14:32:10Z roh@m3.net $
 */
 
-/**
- * Advertising Analysis report plug-in for Openads
- *
- * @since Openads v2.3.19-alpha - Feb 20, 2006
- * @copyright 2003-2007 Openads Limited
- * @version $Id:advertisingAnalysisReport.plugin.php 65 2006-02-24 16:51:48Z roh@m3.net $
- */
-
-require_once MAX_PATH . '/plugins/reports/proprietary/EnhancedReport.php';
+require_once MAX_PATH . '/plugins/reports/ScopeReports.php';
 require_once MAX_PATH . '/plugins/reports/ExcelReports.php';
 require_once MAX_PATH . '/plugins/reports/lib.php';
 
-require_once MAX_PATH . '/lib/OA/Admin/Reports/ReportScope.php';
-
-class Plugins_Reports_Standard_AdvertisingAnalysisReport extends EnhancedReport
+class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_ScopeReports
 {
-    /* @var ReportScope */
-    var $_scope;
 
-    /* @var OA_Admin_DaySpan */
-    var $_daySpan;
-
+    /**
+     * The local implementation of the initInfo() method to set all of the
+     * required values for this report.
+     */
     function initInfo()
     {
-        $this->_name = MAX_Plugin_Translation::translate('Advertising Analysis Report', $this->module, $this->package);
-        $this->_description = MAX_Plugin_Translation::translate('This report shows a breakdown of advertising for a particular advertiser or publisher, by day, campaign, and zone.', $this->module, $this->package);
-        $this->_category = 'standard';
+        $this->_name         = MAX_Plugin_Translation::translate('Advertising Analysis Report', $this->module, $this->package);
+        $this->_description  = MAX_Plugin_Translation::translate('This report shows a breakdown of advertising for a particular advertiser or publisher, by day, campaign, and zone.', $this->module, $this->package);
+        $this->_category     = 'standard';
         $this->_categoryName = MAX_Plugin_Translation::translate('Standard Reports', $this->module, $this->package);
-        $this->_author = 'Rob Hunter';
-        $this->_authorize = phpAds_Admin + phpAds_Agency + phpAds_Affiliate;
+        $this->_author       = 'Rob Hunter';
+        $this->_export       = 'xls';
+        $this->_authorize    = phpAds_Admin + phpAds_Agency + phpAds_Affiliate;
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();
     }
 
+    /**
+     * The local implementation of the getDefaults() method to prepare the
+     * required information for laying out the plugin's report generation
+     * screen/the variables required for generating the report.
+     */
     function getDefaults()
     {
+        // Obtain the user's session-based default values for the report
         global $session;
-
-        $aImport = array();
-
+        $default_period_preset    = isset($session['prefs']['GLOBALS']['report_period_preset'])    ? $session['prefs']['GLOBALS']['report_period_preset']    : 'last_month';
         $default_scope_advertiser = isset($session['prefs']['GLOBALS']['report_scope_advertiser']) ? $session['prefs']['GLOBALS']['report_scope_advertiser'] : '';
-        $default_scope_publisher = isset($session['prefs']['GLOBALS']['report_scope_publisher']) ? $session['prefs']['GLOBALS']['report_scope_publisher'] : '';
-        $aImport['scope'] = array(
-            'title' => MAX_Plugin_Translation::translate('Limitations', $this->module, $this->package),
-            'type' => 'scope',
-            'scope_advertiser' => $default_scope_advertiser,
-            'scope_publisher' => $default_scope_publisher
-        );
-
-        $default_period_preset = isset($session['prefs']['GLOBALS']['report_period_preset']) ? $session['prefs']['GLOBALS']['report_period_preset'] : 'last_month';
-        $aImport['period'] = array(
-            'title' => MAX_Plugin_Translation::translate('Period', $this->module, $this->package),
-            'type' => 'date-month',
-            'default' => $default_period_preset
-        );
-
-        $sheets = array(
+        $default_scope_publisher  = isset($session['prefs']['GLOBALS']['report_scope_publisher'])  ? $session['prefs']['GLOBALS']['report_scope_publisher']  : '';
+        // Prepare which worksheets can be in the report
+        $aSheets = array(
             'daily_breakdown'    => MAX_Plugin_Translation::translate('Daily breakdown', $this->module, $this->package),
             'campaign_breakdown' => MAX_Plugin_Translation::translate('Campaign breakdown', $this->module, $this->package)
         );
         if (!phpAds_isUser(phpAds_Affiliate) || phpAds_isAllowed(MAX_AffiliateViewZoneStats)) {
-            $sheets['zone_breakdown'] = MAX_Plugin_Translation::translate('Zone breakdown', $this->module, $this->package);
+            $aSheets['zone_breakdown'] = MAX_Plugin_Translation::translate('Zone breakdown', $this->module, $this->package);
         }
-        $aImport['sheets'] = array(
-            'title'  => MAX_Plugin_Translation::translate('Worksheets', $this->module, $this->package),
-            'type'   => 'sheet',
-            'sheets' => $sheets
+        // Prepare the array for displaying the generation page
+        $aImport = array(
+            'period' => array(
+                'title'            => MAX_Plugin_Translation::translate('Period', $this->module, $this->package),
+                'type'             => 'date-month',
+                'default'          => $default_period_preset
+            ),
+            'scope'  => array(
+                'title'            => MAX_Plugin_Translation::translate('Limitations', $this->module, $this->package),
+                'type'             => 'scope',
+                'scope_advertiser' => $default_scope_advertiser,
+                'scope_publisher'  => $default_scope_publisher
+            ),
+            'sheets' => array(
+                'title'            => MAX_Plugin_Translation::translate('Worksheets', $this->module, $this->package),
+                'type'             => 'sheet',
+                'sheets'           => $aSheets
+            )
         );
-
         return $aImport;
     }
 
+    /**
+     * The local implementation of the saveDefaults() method to save the
+     * values used for the report by the user to the user's session
+     * preferences, so that they can be re-used in other reports.
+     */
     function saveDefaults()
     {
         global $session;
-
+        if (isset($_REQUEST['period_preset'])) {
+            $session['prefs']['GLOBALS']['report_period_preset']    = $_REQUEST['period_preset'];
+        }
         if (isset($_REQUEST['scope_advertiser'])) {
             $session['prefs']['GLOBALS']['report_scope_advertiser'] = $_REQUEST['scope_advertiser'];
         }
         if (isset($_REQUEST['scope_publisher'])) {
-            $session['prefs']['GLOBALS']['report_scope_publisher'] = $_REQUEST['scope_publisher'];
-        }
-        if (isset($_REQUEST['period_preset'])) {
-            $session['prefs']['GLOBALS']['report_period_preset'] = $_REQUEST['period_preset'];
+            $session['prefs']['GLOBALS']['report_scope_publisher']  = $_REQUEST['scope_publisher'];
         }
         phpAds_SessionDataStore();
+    }
+
+    /**
+     * The local implementation of the execute() method to generate the report.
+     *
+     * @param OA_Admin_DaySpan $oDaySpan The OA_Admin_DaySpan object for the report.
+     * @param Admin_UI_OrganisationScope $oScope The advertiser/publisher scope limitation object.
+     * @param array $aSheets  An array of sheets that should be in the report.
+     */
+    function execute($oDaySpan, $oScope, $aSheets)
+    {
+        // Save the scope for use later
+        $this->_oScope = $oScope;
+        // Prepare the range information for the report
+        $this->_prepareReportRange($oDaySpan);
+        // Prepare the report name
+        $reportFileName = $this->_getReportFileName();
+        // Prepare the output writer for generation
+        $this->_oReportWriter->openWithFilename($reportFileName);
+        // Add the worksheets to the report, as required
+        if (isset($aSheets['daily_breakdown'])) {
+            $this->_addDailyBreakdownWorksheet();
+        }
+        if (isset($aSheets['campaign_breakdown'])) {
+            $this->_addCampaignBreakdownWorksheet();
+        }
+        if (isset($aSheets['zone_breakdown'])) {
+            if (!phpAds_isUser(phpAds_Affiliate) || phpAds_isAllowed(MAX_AffiliateViewZoneStats)) {
+                $this->_addZoneBreakdownWorksheet();
+            }
+        }
+        // Close the report writer and send the report to the user
+        $this->_oReportWriter->closeAndSend();
     }
 
     function getReportParametersForDisplay()
     {
         $aParams = array();
-        $aParams += $this->getDisplayableParametersFromScope($this->_scope);
-        $aParams += $this->getDisplayableParametersFromDaySpan($this->_daySpan);
+        $aParams += $this->getDisplayableParametersFromScope($this->_oScope);
+        $aParams += $this->getDisplayableParametersFromDaySpan($this->_oDaySpan);
         return $aParams;
     }
 
-    function execute($scope, $oDaySpan, $sheets)
+    /**
+     * A private method to create and add the "daily breakdown" worksheet
+     * of the report.
+     *
+     * @access private
+     */
+    function _addDailyBreakdownWorksheet()
     {
-        $this->_scope = $scope;
-        $this->_daySpan = $oDaySpan;
-        $startDate = !empty($oDaySpan) ? date('Y-M-d', strtotime($oDaySpan->getStartDateString())): 'Beginning';
-        $endDate = !empty($oDaySpan) ? date('Y-M-d', strtotime($oDaySpan->getEndDateString())): date('Y-M-d');
-        $reportName = $this->_name . ' from ' . $startDate . ' to ' . $endDate . '.xls';
-        $this->_report_writer->openWithFilename($reportName);
-
-        if (isset($sheets['daily_breakdown']) || !count($sheets)) {
-            $this->addDailyEffectivenessSheet();
-        }
-        if (isset($sheets['campaign_breakdown'])) {
-            $this->addCampaignEffectivenessSheet();
-        }
-        if (isset($sheets['zone_breakdown'])) {
-            if (!phpAds_isUser(phpAds_Affiliate) || phpAds_isAllowed(MAX_AffiliateViewZoneStats)) {
-                $this->addZoneEffectivenessSheet();
-            }
-        }
-
-        $this->_report_writer->closeAndSend();
-    }
-
-    function addDailyEffectivenessSheet()
-    {
-        if (is_null($this->_daySpan)) {
+        // Prepare the $_REQUEST array as if it was set up via the stats.php page
+        if (is_null($this->_oDaySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
             $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start']  = $this->_daySpan->getStartDateString();
-            $_REQUEST['period_end']    = $this->_daySpan->getEndDateString();
+            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
         }
         $_REQUEST['breakdown'] = 'day';
-
+        // Select the correct statistics page controller type
         if (phpAds_isUser(phpAds_Admin|phpAds_Agency)) {
-            if (!empty($this->_scope->_advertiserId) && !empty($this->scope->_publisherId)) {
-                $controller_type = 'advertiser-affiliate-history';
-            } elseif (!empty($this->_scope->_advertiserId)) {
-                $controller_type = 'advertiser-history';
-            } elseif (!empty($this->_scope->_publisherId)) {
-                $controller_type = 'affiliate-history';
+            if (!empty($this->_oScope->_advertiserId) && !empty($this->_oScope->_publisherId)) {
+                $controllerType = 'advertiser-affiliate-history';
+            } elseif (!empty($this->_oScope->_advertiserId)) {
+                $controllerType = 'advertiser-history';
+            } elseif (!empty($this->_oScope->_publisherId)) {
+                $controllerType = 'affiliate-history';
             } else {
-                $controller_type = 'global-history';
+                $controllerType = 'global-history';
             }
         } elseif (phpAds_isUser(phpAds_Client)) {
-            if (!empty($this->_scope->_publisherId)) {
-                $controller_type = 'advertiser-affiliate-history';
+            if (!empty($this->_oScope->_publisherId)) {
+                $controllerType = 'advertiser-affiliate-history';
             } else {
-                $controller_type = 'advertiser-history';
+                $controllerType = 'advertiser-history';
             }
         } else {
-            $controller_type = 'affiliate-history';
+            $controllerType = 'affiliate-history';
         }
-
-        if (!empty($this->_scope->_advertiserId)) {
-            $_REQUEST['clientid'] = $this->_scope->_advertiserId;
+        if (!empty($this->_oScope->_advertiserId)) {
+            $_REQUEST['clientid'] = $this->_oScope->_advertiserId;
         }
-        if (!empty($this->_scope->_publisherId)) {
-            $_REQUEST['affiliateid'] = $this->_scope->_publisherId;
+        if (!empty($this->_oScope->_publisherId)) {
+            $_REQUEST['affiliateid'] = $this->_oScope->_publisherId;
         }
-
-        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controller_type);
-
-        $this->createSubReport(MAX_Plugin_Translation::translate('Daily breakdown', $this->module, $this->package), $aHeaders, $aData);
+        // Get the header and data arrays from the same statistics controllers
+        // that prepare stats for the user interface stats pages
+        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
+        // Add the worksheet
+        $this->createSubReport(
+            MAX_Plugin_Translation::translate('Daily breakdown', $this->module, $this->package),
+            $aHeaders,
+            $aData
+        );
     }
 
-    function addCampaignEffectivenessSheet()
+    /**
+     * A private method to create and add the "camapign breakdown" worksheet
+     * of the report.
+     *
+     * @access private
+     */
+    function _addCampaignBreakdownWorksheet()
     {
+        // Prepare the $_REQUEST array as if it was set up via the stats.php page
         if (is_null($this->_daySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
@@ -200,36 +225,47 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends EnhancedReport
         }
         $_REQUEST['expand']     = 'none';
         $_REQUEST['startlevel'] = 0;
-
+        // Select the correct statistics page controller type
         if (phpAds_isUser(phpAds_Admin|phpAds_Agency)) {
-            if (!empty($this->_scope->_advertiserId)) {
-                $controller_type = 'advertiser-campaigns';
-            } elseif (!empty($this->_scope->_publisherId)) {
-                $controller_type = 'affiliate-campaigns';
+            if (!empty($this->_oScope->_advertiserId)) {
+                $controllerType = 'advertiser-campaigns';
+            } elseif (!empty($this->_oScope->_publisherId)) {
+                $controllerType = 'affiliate-campaigns';
             } else {
-                $controller_type = 'global-advertiser';
+                $controllerType = 'global-advertiser';
                 $_REQUEST['startlevel'] = 1;
             }
         } elseif (phpAds_isUser(phpAds_Client)) {
-            $controller_type = 'advertiser-campaigns';
+            $controllerType = 'advertiser-campaigns';
         } else {
-            $controller_type = 'affiliate-campaigns';
+            $controllerType = 'affiliate-campaigns';
         }
-
-        if (!empty($this->_scope->_advertiserId)) {
-            $_REQUEST['clientid'] = $this->_scope->_advertiserId;
+        if (!empty($this->_oScope->_advertiserId)) {
+            $_REQUEST['clientid'] = $this->_oScope->_advertiserId;
         }
-        if (!empty($this->_scope->_publisherId)) {
-            $_REQUEST['affiliateid'] = $this->_scope->_publisherId;
+        if (!empty($this->_oScope->_publisherId)) {
+            $_REQUEST['affiliateid'] = $this->_oScope->_publisherId;
         }
-
-        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controller_type);
-
-        $this->createSubReport(MAX_Plugin_Translation::translate('Campaign breakdown', $this->module, $this->package), $aHeaders, $aData);
+        // Get the header and data arrays from the same statistics controllers
+        // that prepare stats for the user interface stats pages
+        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
+        // Add the worksheet
+        $this->createSubReport(
+            MAX_Plugin_Translation::translate('Campaign breakdown', $this->module, $this->package),
+            $aHeaders,
+            $aData
+        );
     }
 
-    function addZoneEffectivenessSheet()
+    /**
+     * A private method to create and add the "zone breakdown" worksheet
+     * of the report.
+     *
+     * @access private
+     */
+    function _addZoneBreakdownWorksheet()
     {
+        // Prepare the $_REQUEST array as if it was set up via the stats.php page
         if (is_null($this->_daySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
@@ -239,34 +275,40 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends EnhancedReport
         }
         $_REQUEST['expand']     = 'none';
         $_REQUEST['startlevel'] = 0;
-
+        // Select the correct statistics page controller type
         if (phpAds_isUser(phpAds_Admin|phpAds_Agency)) {
-            if (!empty($this->_scope->_advertiserId)) {
-                $controller_type = 'advertiser-affiliates';
+            if (!empty($this->_oScope->_advertiserId)) {
+                $controllerType = 'advertiser-affiliates';
                 $_REQUEST['startlevel'] = 1;
-            } elseif (!empty($this->_scope->_publisherId)) {
-                $controller_type = 'affiliate-zones';
+            } elseif (!empty($this->_oScope->_publisherId)) {
+                $controllerType = 'affiliate-zones';
             } else {
-                $controller_type = 'global-affiliates';
+                $controllerType = 'global-affiliates';
                 $_REQUEST['startlevel'] = 1;
             }
         } elseif (phpAds_isUser(phpAds_Client)) {
-            $controller_type = 'advertiser-affiliates';
+            $controllerType = 'advertiser-affiliates';
             $_REQUEST['startlevel'] = 1;
         } else {
-            $controller_type = 'affiliate-zones';
+            $controllerType = 'affiliate-zones';
         }
-
-        if (!empty($this->_scope->_advertiserId)) {
-            $_REQUEST['clientid'] = $this->_scope->_advertiserId;
+        if (!empty($this->_oScope->_advertiserId)) {
+            $_REQUEST['clientid'] = $this->_oScope->_advertiserId;
         }
-        if (!empty($this->_scope->_publisherId)) {
-            $_REQUEST['affiliateid'] = $this->_scope->_publisherId;
+        if (!empty($this->_oScope->_publisherId)) {
+            $_REQUEST['affiliateid'] = $this->_oScope->_publisherId;
         }
-
-        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controller_type);
-
-        $this->createSubReport(MAX_Plugin_Translation::translate('Zone breakdown', $this->module, $this->package), $aHeaders, $aData);
+        // Get the header and data arrays from the same statistics controllers
+        // that prepare stats for the user interface stats pages
+        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
+        // Add the worksheet
+        $this->createSubReport(
+            MAX_Plugin_Translation::translate('Zone breakdown', $this->module, $this->package),
+            $aHeaders,
+            $aData
+        );
     }
+
 }
+
 ?>

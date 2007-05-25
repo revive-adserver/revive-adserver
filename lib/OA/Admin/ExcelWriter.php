@@ -33,7 +33,7 @@ require_once 'Spreadsheet/Excel/Writer.php';
  *
  * @TODO Clean up code, document, and make generic for OSS release.
  */
-class Plugins_ReportWriter_Output_ExcelReportWriter extends MAX_Plugin_Common
+class OA_Admin_ExcelWriter
 {
     /**
      * ???

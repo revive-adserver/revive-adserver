@@ -39,83 +39,82 @@ require_once MAX_PATH . '/plugins/reports/Reports.php';
 
 class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
 {
-    // Public info function
-    function info()
+
+    /**
+     * The local implementation of the initInfo() method to set all of the
+     * required values for this report.
+     */
+    function initInfo()
     {
-        include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
-        MAX_Plugin_Translation::init($this->module, $this->package);
+        $this->_name         = MAX_Plugin_Translation::translate('Agency Breakdown', $this->module, $this->package);
+        $this->_description  = MAX_Plugin_Translation::translate('Lists Adviews/AdClicks/AdSales totals for a given month.', $this->module, $this->package);
+        $this->_category     = 'admin';
+        $this->_categoryName = MAX_Plugin_Translation::translate('Admin Reports', $this->module, $this->package);
+        $this->_author       = 'Chris Nutting';
+        $this->_export       = 'xls';
+        $this->_authorize    = phpAds_Admin;
 
-        $plugininfo = array (
-            'plugin-name'             => MAX_Plugin_Translation::translate('Agency Breakdown', $this->module, $this->package),
-            'plugin-description'      => MAX_Plugin_Translation::translate('Lists Adviews/AdClicks/AdSales totals for a given month',
-                                          $this->module, $this->package),
-            'plugin-category'         => 'admin',
-            'plugin-category-name'    => MAX_Plugin_Translation::translate('Admin Reports', $this->module, $this->package),
-            'plugin-author'           => 'Chris Nutting',
-            'plugin-export'           => 'csv',
-            'plugin-authorize'        => phpAds_Admin,
-            'plugin-import'           => $this->getDefaults()
-        );
-
+        $this->_import = $this->getDefaults();
         $this->saveDefaults();
-
-        return ($plugininfo);
     }
 
+    /**
+     * The local implementation of the getDefaults() method to prepare the
+     * required information for laying out the plugin's report generation
+     * screen/the variables required for generating the report.
+     */
     function getDefaults()
     {
-        global $session, $strStartDate, $strEndDate, $strDelimiter;
-
-        $default_delimiter = isset($session['prefs']['GLOBALS']['report_delimiter']) ? $session['prefs']['GLOBALS']['report_delimiter'] : ',';
-        $default_start_date  = isset($session['prefs']['GLOBALS']['report_start_date']) ? $session['prefs']['GLOBALS']['report_start_date'] : date("Y/m/d", mktime(0,0,0,date("m")-1,1,date("Y")));
-        $default_end_date  = isset($session['prefs']['GLOBALS']['report_end_date']) ? $session['prefs']['GLOBALS']['report_end_date'] : date("Y/m/d", (mktime(0,0,0,date("m"),1,date("Y")))-(24*60*60));
-
+        global $strStartDate, $strEndDate, $strDelimiter;
+        // Obtain the user's session-based default values for the report
+        global $session;
+        $default_period_preset = isset($session['prefs']['GLOBALS']['report_period_preset']) ? $session['prefs']['GLOBALS']['report_period_preset'] : 'last_month';
+        // Prepare the array for displaying the generation page
         $aImport = array (
-            'delimiter'     => array (
-                'title'            => MAX_Plugin_Translation::translate($strDelimiter, $this->module, $this->package),
-                'type'          => 'edit',
-                'size'          => 1,
-                'default'       => $default_delimiter
+            'period' => array(
+                'title'   => MAX_Plugin_Translation::translate('Period', $this->module, $this->package),
+                'type'    => 'date-month',
+                'default' => $default_period_preset
             ),
-            'start_date'    => array (
-                'title'         => MAX_Plugin_Translation::translate($strStartDate, $this->module, $this->package),
-                'type'          => 'edit',
-                'size'          => 10,
-                'default'       => $default_start_date
-            ),
-            'end_date'        => array (
-                'title'         => MAX_Plugin_Translation::translate($strEndDate, $this->module, $this->package),
-                'type'          => 'edit',
-                'size'          => 10,
-                'default'       => $default_end_date
-            )
         );
-
         return $aImport;
     }
 
+    /**
+     * The local implementation of the saveDefaults() method to save the
+     * values used for the report by the user to the user's session
+     * preferences, so that they can be re-used in other reports.
+     */
     function saveDefaults()
     {
         global $session;
-
-        if (isset($_REQUEST['delimiter'])) {
-            $session['prefs']['GLOBALS']['report_delimiter'] = $_REQUEST['delimiter'];
-        }
-        if (isset($_REQUEST['start_date'])) {
-            $session['prefs']['GLOBALS']['report_start_date'] = $_REQUEST['start_date'];
-        }
-        if (isset($_REQUEST['end_date'])) {
-            $session['prefs']['GLOBALS']['report_end_date'] = $_REQUEST['end_date'];
+        if (isset($_REQUEST['period_preset'])) {
+            $session['prefs']['GLOBALS']['report_period_preset']    = $_REQUEST['period_preset'];
         }
         phpAds_SessionDataStore();
     }
 
-    /*********************************************************/
-    /* Private plugin function                               */
-    /*********************************************************/
-
-    function execute($delimiter=",", $start_date, $end_date)
+    function execute($oDaySpan)
     {
+        // Prepare the range information for the report
+        $this->_prepareReportRange($oDaySpan);
+        // Prepare the report name
+        $reportFileName = $this->_getReportFileName();
+        // Prepare the output writer for generation
+        $this->_oReportWriter->openWithFilename($reportFileName);
+        // Add the worksheets to the report, as required
+
+        // Close the report writer and send the report to the user
+        $this->_oReportWriter->closeAndSend();
+
+
+
+
+
+
+
+
+
     	global $date_format;
     	global $strGlobalHistory, $strTotal, $strDay, $strImpressions, $strClicks, $strCTRShort;
 
@@ -173,45 +172,6 @@ class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
     	while ($row_banners = $res_banners->fetchRow()) {
     	    echo $row_banners['AgencyId'].$delimiter.$row_banners['AgencyName'].$delimiter.$row_banners['TotalViews'].$delimiter.$row_banners['TotalClicks'].$delimiter.$row_banners['TotalConversions']."\n";
     	}
-
-    	/*
-    	while ($row_banners = phpAds_dbFetchArray($res_banners))
-    	{
-    		$stats [$row_banners['day']]['views'] = $row_banners['adviews'];
-    		$stats [$row_banners['day']]['clicks'] = $row_banners['adclicks'];
-    		$stats [$row_banners['day']]['sales'] = $row_banners['TotalConversions'];
-    	}
-
-    	echo $strGlobalHistory."\n\n";
-
-    	echo $strDay.$delimiter.$strImpressions.$delimiter.$strClicks.$delimiter.$strCTRShort."\n";
-
-    	$totalclicks = 0;
-    	$totalviews = 0;
-
-    	if (isset($stats) && is_array($stats))
-    	{
-    		foreach (array_keys($stats) as $key)
-    		{
-    			$row = array();
-
-    			//$key = implode('/',array_reverse(split('[-]',$key)));
-
-    			$row[] = $key;
-    			$row[] = $stats[$key]['views'];
-    			$row[] = $stats[$key]['clicks'];
-    			$row[] = phpAds_buildCTR ($stats[$key]['views'], $stats[$key]['clicks']);
-
-    			echo implode ($delimiter, $row)."\n";
-
-    			$totalclicks += $stats[$key]['clicks'];
-    			$totalviews += $stats[$key]['views'];
-    		}
-    	}
-
-    	echo "\n";
-    	echo $strTotal.$delimiter.$totalviews.$delimiter.$totalclicks.$delimiter.phpAds_buildCTR ($totalviews, $totalclicks)."\n";
-    	*/
     }
 }
 

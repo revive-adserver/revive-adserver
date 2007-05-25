@@ -25,43 +25,35 @@
 $Id:inventoryReport.plugin.php 114 2006-03-03 14:32:10Z roh@m3.net $
 */
 
-/**
- * @package    Plugins
- * @subpackage Reports
- * @author     Scott Switzer <scott@m3.net>
- */
-
 require_once MAX_PATH . '/plugins/reports/proprietary/EnhancedReport.php';
 require_once MAX_PATH . '/plugins/reports/ExcelReports.php';
 require_once MAX_PATH . '/plugins/reports/lib.php';
-
 require_once MAX_PATH . '/lib/OA/Admin/Reports/ZoneScope.php';
-
 
 class Plugins_Reports_Standard_InventoryReport extends Plugins_ExcelReports
 {
-    /* @var OA_Admin_DaySpan */
-    var $_daySpan;
 
     /* @var int */
     var $_threshold;
 
     /* @var ZoneScope */
     var $_zoneId;
+
     /* @var PublisherId */
     var $_publisherId;
 
     /**
-     * Provide plugin summary information to the framework when queried.
+     * The local implementation of the initInfo() method to set all of the
+     * required values for this report.
      */
     function initInfo()
     {
-        $this->_name = 'Inventory Report';
-        $this->_description = 'This report shows inventory by zone, domain, and page URL for the specified period.';
-        $this->_category = 'standard';
-        $this->_categoryName = 'Standard Reports';
-        $this->_author = 'Scott Switzer';
-
+        $this->_name         = MAX_Plugin_Translation::translate('Inventory Report', $this->module, $this->package);
+        $this->_description  = MAX_Plugin_Translation::translate('This report shows inventory by zone, domain, and page URL for the specified period.', $this->module, $this->package);
+        $this->_category     = 'standard';
+        $this->_categoryName = MAX_Plugin_Translation::translate('Standard Reports', $this->module, $this->package);
+        $this->_author       = 'Scott Switzer';
+        $this->_export       = 'xls';
         if ($this->hasZoneDomainPageForecasts()) {
             $this->_authorize = phpAds_Admin + phpAds_Agency + phpAds_Publisher;
         }
@@ -70,86 +62,75 @@ class Plugins_Reports_Standard_InventoryReport extends Plugins_ExcelReports
         $this->saveDefaults();
     }
 
-    function hasZoneDomainPageForecasts()
-    {
-        if (phpAds_isUser(phpAds_Admin)) {
-            $aParams = array();
-        } elseif (phpAds_isUser(phpAds_Agency)) {
-            $aParams = array('agency_id' => phpAds_getUserID());
-        } elseif (phpAds_isUser(phpAds_Publisher)) {
-            $aParams = array('publisher_id' => phpAds_getUserID());
-        }
-
-        $aParams['zone_inventory_forecast_type'] = 1;
-        $aZones = Admin_DA::getZones($aParams);
-        $hasZoneDomainPageForecasts = (sizeof($aZones) > 0);
-        return $hasZoneDomainPageForecasts;
-    }
-
     function getDefaults()
     {
+        // Obtain the user's session-based default values for the report
         global $session;
-
-        $aImport = array();
-
-        $default_zone = isset($session['prefs']['GLOBALS']['report_zone']) ? $session['prefs']['GLOBALS']['report_zone'] : '';
-        $aImport['zone'] = array(
-            'title' => MAX_Plugin_Translation::translate($GLOBALS['strZone'], $this->module, $this->package),
-            'type' => 'zoneid-dropdown',
-            'filter' => 'zone-inventory-domain-page-indexed',
-            'default' => $default_zone
-        );
-
         $default_period_preset = isset($session['prefs']['GLOBALS']['report_period_preset']) ? $session['prefs']['GLOBALS']['report_period_preset'] : 'yesterday';
-        $aImport['period'] = array(
-            'title' => MAX_Plugin_Translation::translate('Period', $this->module, $this->package),
-            'type' => 'date-month',
-            'default' => $default_period_preset
+        $default_zone          = isset($session['prefs']['GLOBALS']['report_zone'])          ? $session['prefs']['GLOBALS']['report_zone']          : '';
+        $default_threshold     = isset($session['prefs']['GLOBALS']['report_threshold'])     ? $session['prefs']['GLOBALS']['report_threshold']     : 1000;
+        // Prepare the array for displaying the generation page
+        $aImport = array(
+            'period'    => array(
+                'title'   => MAX_Plugin_Translation::translate('Period', $this->module, $this->package),
+                'type'    => 'date-month',
+                'default' => $default_period_preset
+            ),
+            'zone'      => array(
+                'title'   => MAX_Plugin_Translation::translate($GLOBALS['strZone'], $this->module, $this->package),
+                'type'    => 'zoneid-dropdown',
+                'filter'  => 'zone-inventory-domain-page-indexed',
+                'default' => $default_zone
+            ),
+            'threshold' => array(
+                'title'   => MAX_Plugin_Translation::translate('Suppress items with impressions less than this:', $this->module, $this->package),
+                'type'    => 'edit',
+                'default' => $default_threshold,
+                'size'    => 10
+            )
         );
-
-        $default_threshold = isset($session['prefs']['GLOBALS']['report_threshold']) ? $session['prefs']['GLOBALS']['report_threshold'] : 1000;
-        $aImport['threshold'] = array(
-            'title' => MAX_Plugin_Translation::translate('Suppress items with impressions less than this:', $this->module, $this->package),
-            'type' => 'edit',
-            'default' => $default_threshold,
-            'size' => 10
-        );
-
         return $aImport;
     }
 
+    /**
+     * The local implementation of the saveDefaults() method to save the
+     * values used for the report by the user to the user's session
+     * preferences, so that they can be re-used in other reports.
+     */
     function saveDefaults()
     {
         global $session;
-
-        if (isset($_REQUEST['zone'])) {
-            $session['prefs']['GLOBALS']['report_zone'] = $_REQUEST['zone'];
-        }
         if (isset($_REQUEST['period_preset'])) {
             $session['prefs']['GLOBALS']['report_period_preset'] = $_REQUEST['period_preset'];
         }
+        if (isset($_REQUEST['zone'])) {
+            $session['prefs']['GLOBALS']['report_zone']          = $_REQUEST['zone'];
+        }
         if (isset($_REQUEST['threshold'])) {
-            $session['prefs']['GLOBALS']['report_threshold'] = $_REQUEST['threshold'];
+            $session['prefs']['GLOBALS']['report_threshold']     = $_REQUEST['threshold'];
         }
         phpAds_SessionDataStore();
     }
 
-    /**
-     * Validate $threshold value.
-     */
-    function _thresholdValidate()
+    function execute($oDaySpan, $zoneScope, $threshold)
     {
-        if(!is_numeric($this->_threshold) || $this->_threshold < 0 || is_null($this->_threshold)) {
-            $this->_threshold = 0;
-        }
-    }
+        // Prepare the range information for the report
+        $this->_prepareReportRange($oDaySpan);
+        // Prepare the report name
+        $reportFileName = $this->_getReportFileName();
+        // Prepare the output writer for generation
+        $this->_oReportWriter->openWithFilename($reportFileName);
+
+        // Close the report writer and send the report to the user
+        $this->_oReportWriter->closeAndSend();
 
 
-    /**
-     * Deliver the report to a browser.
-     */
-    function execute($zoneScope, $oDaySpan, $threshold)
-    {
+
+
+
+
+
+
 
         //check if user is allowed to see zone data
         if(phpAds_isUser(phpAds_Admin)) {
@@ -168,7 +149,6 @@ class Plugins_Reports_Standard_InventoryReport extends Plugins_ExcelReports
         }
 
         // Get variables
-        $this->_daySpan = $oDaySpan;
         $this->_threshold = $threshold;
         $this->_publisherId = $this->dal->getPublisherIdByZoneId($this->_zoneId);
 
@@ -212,6 +192,51 @@ class Plugins_Reports_Standard_InventoryReport extends Plugins_ExcelReports
         $this->closeExcelReport();
         $this->dal->releaseReportLock('InventoryReport');
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function hasZoneDomainPageForecasts()
+    {
+        if (phpAds_isUser(phpAds_Admin)) {
+            $aParams = array();
+        } elseif (phpAds_isUser(phpAds_Agency)) {
+            $aParams = array('agency_id' => phpAds_getUserID());
+        } elseif (phpAds_isUser(phpAds_Publisher)) {
+            $aParams = array('publisher_id' => phpAds_getUserID());
+        }
+
+        $aParams['zone_inventory_forecast_type'] = 1;
+        $aZones = Admin_DA::getZones($aParams);
+        $hasZoneDomainPageForecasts = (sizeof($aZones) > 0);
+        return $hasZoneDomainPageForecasts;
+    }
+
+    /**
+     * Validate $threshold value.
+     */
+    function _thresholdValidate()
+    {
+        if(!is_numeric($this->_threshold) || $this->_threshold < 0 || is_null($this->_threshold)) {
+            $this->_threshold = 0;
+        }
+    }
+
+
 
     /**
      * Collects a displayable array of parameter values used for this report.

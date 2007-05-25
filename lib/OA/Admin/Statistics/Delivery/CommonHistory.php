@@ -96,7 +96,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
     /**
      * PHP5-style constructor
      */
-    function __construct($params)
+    function __construct($aParams)
     {
         // Set the output type "history" style delivery statistcs
         $this->outputType = 'deliveryHistory';
@@ -108,7 +108,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
         // Ensure the history class is prepared
         $this->useHistoryClass = true;
 
-        parent::__construct($params);
+        parent::__construct($aParams);
 
         // Store the preferences
         $this->aPagePrefs['listorder']      = $this->listOrderField;

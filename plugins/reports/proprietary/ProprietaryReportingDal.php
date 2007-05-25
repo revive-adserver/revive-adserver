@@ -584,39 +584,6 @@ WHERE
     }
 
 
-    /**
-     * Get the parent advertiser ID for a given campaign ID.
-     *
-     * @param unknown_type $campaignId
-     * @todo This method should not be here - a quick fix for the campaignAnalysisReport
-     * @return $advertiserId
-     */
-    function getAdvertiserIdByCampaignId($campaignId)
-    {
-        $campaigns_table = $this->getFullTableName('campaigns');
-        $query = "
-SELECT
-    clientid AS advertiser_id
-FROM
-    $campaigns_table AS c
-WHERE
-    c.campaignid=". $this->oDbh->quote($campaignId, 'integer');
-
-        $res = $this->oDbh->query($query);
-        if (PEAR::isError($res)) {
-            return $res;
-        }
-
-        if ($row = $res->fetchRow()) {
-            $advertiserId = $row['advertiser_id'];
-        } else {
-            $advertiserId = false;
-        }
-
-        return $advertiserId;
-    }
-
-
     function getEffectivenessForAllPublisherZonesByDomain($publisher_id, $oDaySpan, $minimum_impressions = 0)
     {
         if (!is_null($oDaySpan)) {

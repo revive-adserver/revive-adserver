@@ -25,119 +25,156 @@
 $Id$
 */
 
-/**
- * Campaign Analysis report for Openads
- *
- * @since Openads v2.3.19-alpha - Mar 3, 2006
- * @copyright 2003-2007 Openads Limited
- * @version $Id$
- */
-
-require_once MAX_PATH . '/plugins/reports/proprietary/EnhancedReport.php';
+require_once MAX_PATH . '/plugins/reports/Reports.php';
 require_once MAX_PATH . '/plugins/reports/ExcelReports.php';
 
-class Plugins_Reports_Standard_CampaignAnalysisReport extends EnhancedReport //Plugins_ExcelReports
+class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
 {
-    /* @var int */
-    var $_campaign_id;
-    /* @var OA_Admin_DaySpan */
-    var $_daySpan;
 
-    function info()
+    /**
+     * Local storage variable for the placement ID.
+     *
+     * @var integer
+     */
+    var $_placementId;
+
+    /**
+     * Local storage variable for the advertiser ID.
+     *
+     * @var integer
+     */
+    var $_advertiserId;
+
+    /**
+     * The local implementation of the initInfo() method to set all of the
+     * required values for this report.
+     */
+    function initInfo()
     {
-        $this->_name = 'Campaign Analysis Report';
-        $this->_description = 'This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone.';
-        $this->_category = 'standard';
-        $this->_categoryName = 'Standard Reports';
-        $this->_author = 'Rob Hunter';
-        $this->_authorize = phpAds_Admin + phpAds_Agency + phpAds_Advertiser;
+        $this->_name         = MAX_Plugin_Translation::translate('Campaign Analysis Report', $this->module, $this->package);
+        $this->_description  = MAX_Plugin_Translation::translate('This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone.', $this->module, $this->package);
+        $this->_category     = 'standard';
+        $this->_categoryName = MAX_Plugin_Translation::translate('Standard Reports', $this->module, $this->package);
+        $this->_author       = 'Rob Hunter';
+        $this->_export       = 'xls';
+        $this->_authorize    = phpAds_Admin + phpAds_Agency + phpAds_Advertiser;
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();
-
-        return $this->infoArray();
     }
 
+    /**
+     * The local implementation of the getDefaults() method to prepare the
+     * required information for laying out the plugin's report generation
+     * screen/the variables required for generating the report.
+     */
     function getDefaults()
     {
+        // Obtain the user's session-based default values for the report
         global $session;
-
-        $aImport = array();
-
-        $default_campaign = isset($session['prefs']['GLOBALS']['report_campaign']) ? $session['prefs']['GLOBALS']           ['report_campaign'] : '';
-        $aImport['campaign'] = array(
-            'title' => MAX_Plugin_Translation::translate('Campaign', $this->module, $this->package),
-            'type' => 'campaignid-dropdown',
-            'default' =>  $default_campaign
-        );
-
         $default_period_preset = isset($session['prefs']['GLOBALS']['report_period_preset']) ? $session['prefs']['GLOBALS']['report_period_preset'] : 'last_month';
-        $aImport['period'] = array(
-            'title' => MAX_Plugin_Translation::translate('Period', $this->module, $this->package),
-            'type' => 'date-month',
-            'default' => $default_period_preset
-        );
-
-        $aImport['sheets'] = array(
-            'title'  => MAX_Plugin_Translation::translate('Worksheets', $this->module, $this->package),
-            'type'   => 'sheet',
-            'sheets' => array(
-                'daily_breakdown' => MAX_Plugin_Translation::translate('Daily breakdown', $this->module, $this->package),
-                'ad_breakdown'    => MAX_Plugin_Translation::translate('Ad breakdown', $this->module, $this->package),
-                'zone_breakdown'  => MAX_Plugin_Translation::translate('Zone breakdown', $this->module, $this->package)
+        $default_campaign      = isset($session['prefs']['GLOBALS']['report_campaign'])      ? $session['prefs']['GLOBALS']['report_campaign']      : '';
+        // Prepare the array for displaying the generation page
+        $aImport = array(
+            'period'   => array(
+                'title'   => MAX_Plugin_Translation::translate('Period', $this->module, $this->package),
+                'type'    => 'date-month',
+                'default' => $default_period_preset
+            ),
+            'campaign' => array(
+                'title'   => MAX_Plugin_Translation::translate('Campaign', $this->module, $this->package),
+                'type'    => 'campaignid-dropdown',
+                'default' =>  $default_campaign
+            ),
+            'sheets'   => array(
+                'title'   => MAX_Plugin_Translation::translate('Worksheets', $this->module, $this->package),
+                'type'    => 'sheet',
+                'sheets'  => array(
+                    'daily_breakdown' => MAX_Plugin_Translation::translate('Daily breakdown', $this->module, $this->package),
+                    'ad_breakdown'    => MAX_Plugin_Translation::translate('Ad breakdown', $this->module, $this->package),
+                    'zone_breakdown'  => MAX_Plugin_Translation::translate('Zone breakdown', $this->module, $this->package)
+                )
             )
         );
-
         return $aImport;
     }
 
+    /**
+     * The local implementation of the saveDefaults() method to save the
+     * values used for the report by the user to the user's session
+     * preferences, so that they can be re-used in other reports.
+     */
     function saveDefaults()
     {
         global $session;
-
-        if (isset($_REQUEST['campaign'])) {
-            $session['prefs']['GLOBALS']['report_campaign'] = $_REQUEST['campaign'];
-        }
         if (isset($_REQUEST['period_preset'])) {
             $session['prefs']['GLOBALS']['report_period_preset'] = $_REQUEST['period_preset'];
         }
+        if (isset($_REQUEST['campaign'])) {
+            $session['prefs']['GLOBALS']['report_campaign']      = $_REQUEST['campaign'];
+        }
         phpAds_SessionDataStore();
+    }
+
+    /**
+     * The local implementation of the execute() method to generate the report.
+     *
+     * @param OA_Admin_DaySpan $oDaySpan    The OA_Admin_DaySpan object for the report.
+     * @param integer          $placementId The ID of the placement the report is for.
+     * @param array            $aSheets     An array of sheets that should be in the report.
+     */
+    function execute($oDaySpan, $placementId, $aSheets)
+    {
+        // Save the placement ID for use later
+        $this->_placementId = $placementId;
+        // Locate and save the placement's owning advertiser
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->campaignid = $this->_placementId;
+        $doCampaigns->find();
+        if (!$doCampaigns->fetch()) {
+            $this->_advertiserId = false;
+        } else {
+            $aPlacement = $doCampaigns->toArray();
+            $this->_advertiserId = $aPlacement['clientid'];
+        }
+
+        // Prepare the range information for the report
+        $this->_prepareReportRange($oDaySpan);
+        // Prepare the report name
+        $reportFileName = $this->_getReportFileName();
+        // Prepare the output writer for generation
+        $this->_oReportWriter->openWithFilename($reportFileName);
+        // Add the worksheets to the report, as required
+        if (isset($aSheets['daily_breakdown'])) {
+            $this->_addDailyBreakdownWorksheet();
+        }
+        if (isset($aSheets['ad_breakdown'])) {
+            $this->_addAdBreakdownWorksheet();
+        }
+        if (isset($aSheets['zone_breakdown'])) {
+            $this->_addZoneBreakdownWorksheet();
+        }
+        // Close the report writer and send the report to the user
+        $this->_oReportWriter->closeAndSend();
     }
 
     function getReportParametersForDisplay()
     {
         $params = array();
-        $params += $this->getDisplayableParametersFromCampaignId($this->_campaign_id);
-        $params += $this->getDisplayableParametersFromDaySpan($this->_daySpan);
+        $params += $this->getDisplayableParametersFromCampaignId($this->_placementId);
+        $params += $this->getDisplayableParametersFromDaySpan($this->_oDaySpan);
         return $params;
     }
 
-
-    function execute($campaign_id, $oDaySpan, $sheets)
+    /**
+     * A private method to create and add the "daily breakdown" worksheet
+     * of the report.
+     *
+     * @access private
+     */
+    function _addDailyBreakdownWorksheet()
     {
-        $this->_campaign_id = $campaign_id;
-        $this->_daySpan = $oDaySpan;
-        $startDate = !empty($oDaySpan) ? date('Y-M-d', strtotime($oDaySpan->getStartDateString())): 'Beginning';
-        $endDate = !empty($oDaySpan) ? date('Y-M-d', strtotime($oDaySpan->getEndDateString())): date('Y-M-d');
-
-        $reportName = $this->_name . ' from ' . $startDate . ' to ' . $endDate . '.xls';
-        $this->_report_writer->openWithFilename($reportName);
-
-        if (isset($sheets['daily_breakdown']) || !count($sheets)) {
-            $this->addDailyEffectivenessSheet();
-        }
-        if (isset($sheets['ad_breakdown'])) {
-            $this->addBannerEffectivenessSheet();
-        }
-        if (isset($sheets['zone_breakdown'])) {
-            $this->addZoneEffectivenessSheet();
-        }
-
-        $this->_report_writer->closeAndSend();
-    }
-
-    function addDailyEffectivenessSheet()
-    {
+        // Prepare the $_REQUEST array as if it was set up via the stats.php page
         if (is_null($this->_daySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
@@ -146,23 +183,34 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends EnhancedReport //P
             $_REQUEST['period_end']    = $this->_daySpan->getEndDateString();
         }
         $_REQUEST['breakdown'] = 'day';
-
+        $_REQUEST['clientid'] = $this->_advertiserId;
+        $_REQUEST['campaignid'] = $this->_placementId;
+        // Select the correct statistics page controller type
         if (phpAds_isUser(phpAds_Affiliate)) {
             $controller_type = 'affiliate-campaign-history';
         } else {
             $controller_type = 'campaign-history';
         }
-
-        $_REQUEST['clientid'] = $this->dal->getAdvertiserIdByCampaignId($this->_campaign_id);
-        $_REQUEST['campaignid'] = $this->_campaign_id;
-
+        // Get the header and data arrays from the same statistics controllers
+        // that prepare stats for the user interface stats pages
         list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controller_type);
-
-        $this->createSubReport('Daily breakdown', $aHeaders, $aData);
+        // Add the worksheet
+        $this->createSubReport(
+            MAX_Plugin_Translation::translate('Daily breakdown', $this->module, $this->package),
+            $aHeaders,
+            $aData
+        );
     }
 
-    function addBannerEffectivenessSheet()
+    /**
+     * A private method to create and add the "ad breakdown" worksheet
+     * of the report.
+     *
+     * @access private
+     */
+    function _addAdBreakdownWorksheet()
     {
+        // Prepare the $_REQUEST array as if it was set up via the stats.php page
         if (is_null($this->_daySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
@@ -172,24 +220,35 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends EnhancedReport //P
         }
         $_REQUEST['expand']     = 'none';
         $_REQUEST['startlevel'] = 0;
-
+        $_REQUEST['clientid'] = $this->_advertiserId;
+        $_REQUEST['campaignid'] = $this->_placementId;
+        // Select the correct statistics page controller type
         if (phpAds_isUser(phpAds_Affiliate)) {
             $controller_type = 'affiliate-campaigns';
             $_REQUEST['startlevel'] = 1;
         } else {
             $controller_type = 'campaign-banners';
         }
-
-        $_REQUEST['clientid'] = $this->dal->getAdvertiserIdByCampaignId($this->_campaign_id);
-        $_REQUEST['campaignid'] = $this->_campaign_id;
-
+        // Get the header and data arrays from the same statistics controllers
+        // that prepare stats for the user interface stats pages
         list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controller_type);
-
-        $this->createSubReport('Ad breakdown', $aHeaders, $aData);
+        // Add the worksheet
+        $this->createSubReport(
+            MAX_Plugin_Translation::translate('Ad breakdown', $this->module, $this->package),
+            $aHeaders,
+            $aData
+        );
     }
 
-    function addZoneEffectivenessSheet()
+    /**
+     * A private method to create and add the "zone breakdown" worksheet
+     * of the report.
+     *
+     * @access private
+     */
+    function _addZoneBreakdownWorksheet()
     {
+        // Prepare the $_REQUEST array as if it was set up via the stats.php page
         if (is_null($this->_daySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
@@ -199,39 +258,26 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends EnhancedReport //P
         }
         $_REQUEST['expand']     = 'none';
         $_REQUEST['startlevel'] = 0;
-
+        $_REQUEST['clientid'] = $this->_advertiserId;
+        $_REQUEST['campaignid'] = $this->_placementId;
+        // Select the correct statistics page controller type
         if (phpAds_isUser(phpAds_Affiliate)) {
             $controller_type = 'affiliate-zones';
         } else {
             $controller_type = 'campaign-affiliates';
             $_REQUEST['startlevel'] = 1;
         }
-
-        $_REQUEST['clientid'] = $this->dal->getAdvertiserIdByCampaignId($this->_campaign_id);
-        $_REQUEST['campaignid'] = $this->_campaign_id;
-
+        // Get the header and data arrays from the same statistics controllers
+        // that prepare stats for the user interface stats pages
         list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controller_type);
-
-        $this->createSubReport('Zone breakdown', $aHeaders, $aData);
+        // Add the worksheet
+        $this->createSubReport(
+            MAX_Plugin_Translation::translate('Zone breakdown', $this->module, $this->package),
+            $aHeaders,
+            $aData
+        );
     }
 
-    function prepareAdvertEffectivenessForDisplay($ads_data)
-    {
-        $count = 0;
-        $effectiveness = array();
-        $campaign = Admin_DA::getPlacement($this->_campaign_id);
-        $campaign['anonymous'] == 't' ? $campaignAnonymous = true : $campaignAnonymous = false;
-        foreach ($ads_data as $ad) {
-            $ctr = $this->calculateClickthroughRatioForDisplay($ad);
-            $effectiveness[$count][0] = $ad['id'];
-            $adDescription = MAX_getAdName($ad['description'], null, null, $campaignAnonymous);
-            $effectiveness[$count][1] = $adDescription;
-            $effectiveness[$count][2] = $ad['impressions'];
-            $effectiveness[$count][3] = $ad['clicks'];
-            $effectiveness[$count][4] = $ctr;
-            $count++;
-        }
-        return $effectiveness;
-    }
 }
+
 ?>

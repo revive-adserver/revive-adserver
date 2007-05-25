@@ -31,6 +31,15 @@ require_once MAX_PATH . '/lib/max/language/Report.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
+/**
+ * A class for displaying the list of report plugins that a user can run,
+ * as well as for displaying the report generation pages for the report
+ * plugins.
+ *
+ * @package    OpenadsAdmin
+ * @subpackage Reports
+ * @author     Andrew Hill <andrew.hill@openads.org>
+ */
 class OA_Admin_Reports_Index
 {
 
@@ -90,7 +99,7 @@ class OA_Admin_Reports_Index
         $aPlugins = &MAX_Plugin::getPlugins('reports', null, false);
         // Check the user's authorization level
         foreach ($aPlugins as $pluginType => $oPlugin) {
-            if (!$oPlugin->isAllowedToDisplay()) {
+            if (!$oPlugin->isAllowedToExecute()) {
                 continue;
             }
             $aDisplayablePlugins[$pluginType] = $oPlugin;
@@ -152,7 +161,7 @@ class OA_Admin_Reports_Index
      * category heading.
      *
      * @access private
-     * @param unknown_type $pluginCategoryName
+     * @param string $pluginCategoryName The report plugin category name.
      */
     function _printCategoryTitle($groupName)
     {
@@ -169,7 +178,7 @@ class OA_Admin_Reports_Index
      * report plugin.
      *
      * @access private
-     * @param object $oPlugin A report plugin.
+     * @param Plugins_Reports $oPlugin A report plugin.
      * @param string $pluginType The report plugin type.
      */
     function _printPluginSummary($oPlugin, $pluginType)
@@ -188,7 +197,7 @@ class OA_Admin_Reports_Index
      * report plugin to the UI.
      *
      * @access private
-     * @param obejct $oPlugin The plugin to display.
+     * @param Plugins_Reports $oPlugin The plugin to display.
      * @param string $reportIdentifier The string identifying the report.
      */
     function _groupReportPluginGeneration($oPlugin, $reportIdentifier)
@@ -246,7 +255,7 @@ class OA_Admin_Reports_Index
     {
         echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
         echo "<tr><td height='25' colspan='3'>";
-        if ($export == 'csv') {
+        if ($export == 'xls') {
             echo "<img src='images/excel.gif' align='absmiddle'>&nbsp;&nbsp;";
         }
         echo "<b>".$name."</b></td></tr>";
@@ -279,7 +288,7 @@ class OA_Admin_Reports_Index
     function _displayParameterListHeader()
     {
         echo "
-        <form action='report-execute.php' method='get'>";
+        <form action='report-generate.php' method='get'>";
     }
 
     /**

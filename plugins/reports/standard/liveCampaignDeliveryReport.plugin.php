@@ -25,85 +25,125 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/reports/proprietary/EnhancedReport.php';
+require_once MAX_PATH . '/plugins/reports/ScopeReports.php';
 
-require_once MAX_PATH . '/lib/OA/Admin/DaySpan.php';
-
-class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends EnhancedReport
+class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_ScopeReports
 {
+
+    /**
+     * The local implementation of the initInfo() method to set all of the
+     * required values for this report.
+     */
     function initInfo()
     {
-        $this->_name = 'Campaign Delivery Report';
-        $this->_description = 'This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming.';
-        $this->_category = 'standard';
-        $this->_categoryName = 'Standard Reports';
-        $this->_authorize = phpAds_Admin + phpAds_Agency;
+        $this->_name         = MAX_Plugin_Translation::translate('Campaign Delivery Report', $this->module, $this->package);
+        $this->_description  = MAX_Plugin_Translation::translate('This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming.', $this->module, $this->package);
+        $this->_category     = 'standard';
+        $this->_categoryName = MAX_Plugin_Translation::translate('Standard Reports', $this->module, $this->package);
+        $this->_author       = 'Scott Switzer';
+        $this->_export       = 'xls';
+        $this->_authorize    = phpAds_Admin + phpAds_Agency;
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();
     }
 
+    /**
+     * The local implementation of the getDefaults() method to prepare the
+     * required information for laying out the plugin's report generation
+     * screen/the variables required for generating the report.
+     */
     function getDefaults()
     {
+        // Obtain the user's session-based default values for the report
         global $session;
-
-        $aImport = array();
-
+        $default_period_preset    = isset($session['prefs']['GLOBALS']['report_period_preset'])    ? $session['prefs']['GLOBALS']['report_period_preset']    : 'last_month';
         $default_scope_advertiser = isset($session['prefs']['GLOBALS']['report_scope_advertiser']) ? $session['prefs']['GLOBALS']['report_scope_advertiser'] : '';
-        $default_scope_publisher = isset($session['prefs']['GLOBALS']['report_scope_publisher']) ? $session['prefs']['GLOBALS']['report_scope_publisher'] : '';
-        $aImport['scope'] = array(
-            'title' => MAX_Plugin_Translation::translate('Limitations', $this->module, $this->package),
-            'type' => 'scope',
-            'scope_advertiser' => $default_scope_advertiser,
-            'scope_publisher' => $default_scope_publisher
+        $default_scope_publisher  = isset($session['prefs']['GLOBALS']['report_scope_publisher'])  ? $session['prefs']['GLOBALS']['report_scope_publisher']  : '';
+        // Prepare the array for displaying the generation page
+        $aImport = array(
+            'period' => array(
+                'title'            => MAX_Plugin_Translation::translate('Period', $this->module, $this->package),
+                'type'             => 'date-month',
+                'default'          => $default_period_preset
+            ),
+            'scope'  => array(
+                'title'            => MAX_Plugin_Translation::translate('Limitations', $this->module, $this->package),
+                'type'             => 'scope',
+                'scope_advertiser' => $default_scope_advertiser,
+                'scope_publisher'  => $default_scope_publisher
+            )
         );
-
-        $default_period_preset = isset($session['prefs']['GLOBALS']['report_period_preset']) ? $session['prefs']['GLOBALS']['report_period_preset'] : 'last_month';
-        $aImport['period'] = array(
-            'title' => MAX_Plugin_Translation::translate('Period', $this->module, $this->package),
-            'type' => 'date-month',
-            'default' => $default_period_preset
-        );
-
         return $aImport;
     }
 
+    /**
+     * The local implementation of the saveDefaults() method to save the
+     * values used for the report by the user to the user's session
+     * preferences, so that they can be re-used in other reports.
+     */
     function saveDefaults()
     {
         global $session;
-
+        if (isset($_REQUEST['period_preset'])) {
+            $session['prefs']['GLOBALS']['report_period_preset']    = $_REQUEST['period_preset'];
+        }
         if (isset($_REQUEST['scope_advertiser'])) {
             $session['prefs']['GLOBALS']['report_scope_advertiser'] = $_REQUEST['scope_advertiser'];
         }
         if (isset($_REQUEST['scope_publisher'])) {
-            $session['prefs']['GLOBALS']['report_scope_publisher'] = $_REQUEST['scope_publisher'];
-        }
-        if (isset($_REQUEST['period_preset'])) {
-            $session['prefs']['GLOBALS']['report_period_preset'] = $_REQUEST['period_preset'];
+            $session['prefs']['GLOBALS']['report_scope_publisher']  = $_REQUEST['scope_publisher'];
         }
         phpAds_SessionDataStore();
     }
 
+    /**
+     * The local implementation of the execute() method to generate the report.
+     *
+     * @param OA_Admin_DaySpan       $oDaySpan The OA_Admin_DaySpan object for the report.
+     * @param OA_Admin_Reports_Scope $oScope   ???
+     */
+    function execute($oDaySpan, $oScope)
+    {
+        // Save the scope for use later
+        $this->_oScope = $oScope;
+        // Prepare the range information for the report
+        $this->_prepareReportRange($oDaySpan);
+        // Prepare the report name
+        $reportFileName = $this->_getReportFileName();
+        // Prepare the output writer for generation
+        $this->_oReportWriter->openWithFilename($reportFileName);
+        // Add the worksheets to the report, as required
+        $this->addSummarySheet();
+        // Close the report writer and send the report to the user
+        $this->_oReportWriter->closeAndSend();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     function getReportParametersForDisplay()
     {
         $aParams = array();
-        $aParams = $this->getDisplayableParametersFromScope($this->_scope);
+        $aParams = $this->getDisplayableParametersFromScope($this->_oScope);
         $aParams += $this->getDisplayableParametersFromDaySpan($this->_daySpan);
         return $aParams;
-    }
-
-    function execute($scope, $oDaySpan)
-    {
-        $this->_daySpan = $oDaySpan;
-        $this->_scope = $scope;
-
-        $startDate = !empty($oDaySpan) ? date('Y-M-d', strtotime($oDaySpan->getStartDateString())): 'Beginning';
-        $endDate = !empty($oDaySpan) ? date('Y-M-d', strtotime($oDaySpan->getEndDateString())): date('Y-M-d');
-        $reportName = $this->_name . ' from ' . $startDate . ' to ' . $endDate . '.xls';
-
-        $this->_report_writer->openWithFilename($reportName);
-        $this->addSummarySheet();
-        $this->_report_writer->closeAndSend();
     }
 
     function addSummarySheet()
@@ -423,9 +463,9 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends EnhancedReport
     {
         $today = new OA_Admin_DaySpan('today');
         $yesterday = new OA_Admin_DaySpan('yesterday');
-        $delivery_data_for_period = $this->dal->getCampaignDeliveryPerformanceForScopeByCampaignsActiveWithinPeriod($this->_scope, $this->_period);
-        $delivery_data_for_today = $this->dal->getCampaignDeliveryPerformanceForScopeByCampaign($this->_scope, $today);
-        $delivery_data_for_yesterday = $this->dal->getCampaignDeliveryPerformanceForScopeByCampaign($this->_scope, $yesterday);
+        $delivery_data_for_period = $this->dal->getCampaignDeliveryPerformanceForScopeByCampaignsActiveWithinPeriod($this->_oScope, $this->_period);
+        $delivery_data_for_today = $this->dal->getCampaignDeliveryPerformanceForScopeByCampaign($this->_oScope, $today);
+        $delivery_data_for_yesterday = $this->dal->getCampaignDeliveryPerformanceForScopeByCampaign($this->_oScope, $yesterday);
         $combined_delivery_data = $this->injectRecentImpressionsIntoCampaignData($delivery_data_for_period , $delivery_data_for_today, $delivery_data_for_yesterday, $today, $yesterday);
 
         return $combined_delivery_data;

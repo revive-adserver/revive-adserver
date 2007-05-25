@@ -25,28 +25,37 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Plugin/Common.php';
+// Require the initialisation file
+require_once '../../init.php';
 
-/**
- * Report writer base class for Openads.
- *
- * (Not abstract, used for cases where no writer exists.)
- *
- * @package    MaxPlugin
- * @subpackage ReportWriter
- * @author     Rob Hunter <roh@m3.net>
- */
-class Plugins_ReportWriter_Output_NullReportWriter extends MAX_Plugin_Common
-{
+// Include required files
+require_once MAX_PATH . '/lib/max/language/Report.php';
+require_once MAX_PATH . '/www/admin/config.php';
+require_once MAX_PATH . '/lib/OA/Admin/Reports/Generate.php';
 
-    function openWithFilename($filename) {}
+global $session;
 
-    function createReportWorksheet($worksheet, $name, $params) {}
-
-    function createReportSection($worksheet, $title, $headers, $data, $width) {}
-
-    function closeAndSend() {}
-
+if (isset($_REQUEST['submit_type']) && $_REQUEST['submit_type'] == 'change') {
+    // Store any values we need to pass to the next page
+    switch ($_REQUEST['changed_field']) {
+    case 'publisher' :
+        if (isset($_REQUEST['publisherId'])) {
+            $session['prefs']['GLOBALS']['report_publisher'] = $_REQUEST['publisherId'];
+            phpAds_SessionDataStore();
+        }
+    default :
+        break;
+    }
+    echo "<script type='text/javascript'>window.location='".$_REQUEST['refresh_page']."'</script>";
 }
+
+// Load the required language files
+Language_Report::load();
+
+// Register input variables
+phpAds_registerGlobal('plugin');
+
+$oModule = new OA_Admin_Reports_Generate();
+$oModule->generate($plugin);
 
 ?>
