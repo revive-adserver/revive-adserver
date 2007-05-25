@@ -26,65 +26,175 @@ $Id:IndexModule.php 4204 2006-02-10 09:55:36Z roh@m3.net $
 */
 
 require_once MAX_PATH . '/lib/max/language/Report.php';
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';
+require_once MAX_PATH . '/www/admin/config.php';
+require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
-class ReportIndexModule
+class OA_Admin_Reports_Index
 {
 
     /**
      * @var FieldFactory
      */
-    var $field_factory;
+    var $oFieldFactory;
 
-    function ReportIndexModule()
+    /**
+     * The constructor method.
+     *
+     * @return OA_Admin_Reports_Index
+     */
+    function OA_Admin_Reports_Index()
     {
-        $this->field_factory = new FieldFactory();
+        $this->oFieldFactory = new FieldFactory();
         $this->tabindex = 1;
     }
 
     /**
-     * @todo Stop the redundant info reading/writing back to the object
+     * A method to display all reports that the user has permissions
+     * to run to the UI.
+     */
+    function displayReports()
+    {
+        $aDisplayablePlugins = $this->_findDisplayableReports();
+        $aGroupedPlugins = $this->_groupReportPlugins($aDisplayablePlugins);
+        if (!empty($aDisplayablePlugins)) {
+            $this->_displayPluginList($aGroupedPlugins);
+        }
+    }
+
+    /**
+     * A method to display a report's generation screen to the UI.
+     *
+     * @param string $report_identifier
+     */
+    function displayReportSpecifics($reportIdentifier)
+    {
+        $aDisplayablePlugins = $this->_findDisplayableReports();
+        $plugin = $aDisplayablePlugins[$reportIdentifier];
+        $this->displayReportPluginInformation($plugin, $reportIdentifier);
+    }
+
+    /**
+     * A private method to find all report plugins with can be executed
+     * by the current user.
+     *
+     * @access private
+     * @return array An array of all the plugins that the user has
+     *               access to excute, indexed by the plugin type.
      */
     function _findDisplayableReports()
     {
-        $all_plugins = &MAX_Plugin::getPlugins('reports', null, false);
-        // authorization
-        foreach ($all_plugins as $pluginType => $plugin) {
-            if (!$plugin->isAllowedToDisplay()) {
+        $aDisplayablePlugins = array();
+        // Get all the report plugins.
+        $aPlugins = &MAX_Plugin::getPlugins('reports', null, false);
+        // Check the user's authorization level
+        foreach ($aPlugins as $pluginType => $oPlugin) {
+            if (!$oPlugin->isAllowedToDisplay()) {
                 continue;
             }
-            $info = $plugin->info();
-            $category = $info['plugin-category-name'];
-
-            $plugin->info = $info;
-            $groupedPlugins[$category][$pluginType] = $plugin;
-            $displayable_plugins[$pluginType] = $plugin;
+            $aDisplayablePlugins[$pluginType] = $oPlugin;
         }
-        return $displayable_plugins;
+        return $aDisplayablePlugins;
     }
 
-    function _categoriseReportPlugins($flat_plugins, $required_category_names = null)
+    /**
+     * A private method to group an array of report plugins according
+     * to their category information.
+     *
+     * @access private
+     * @param array $aPlugins An array of plugins that the user has
+     *               access to excute, indexed by the plugin type.
+     * @return array An array of all the plugins that the user has
+     *               access to excute, indexed by category, then plugin
+     *               type.
+     */
+    function _groupReportPlugins($aPlugins)
     {
-        if (count($required_category_names) > 0) {
-            $only_specific_categories = true;
-        } else {
-        	$only_specific_categories = false;
-        }
-        $categories = array();
-        foreach ($flat_plugins as $identifier => $plugin)
+        $aGroupedPlugins = array();
+        foreach ($aPlugins as $pluginType => $oPlugin)
         {
-            $category_id = $plugin->info['plugin-category'];
-            $category_name = $plugin->info['plugin-category-name'];
-            if ($only_specific_categories && !in_array($category_id, $required_category_names)) {
-                continue;
-            }
-            $categories[$category_name][$identifier] = $plugin;
+            $aInfo = $oPlugin->info();
+            $groupName = $aInfo['plugin-category-name'];
+            $aGroupedPlugins[$groupName][$pluginType] = $oPlugin;
         }
-        return $categories;
+        return $aGroupedPlugins;
     }
+
+    /**
+     * A private method to display a groupd array of plugins reports
+     * to the UI.
+     *
+     * @access private
+     * @param array An array plugins that the user has access to excute,
+     *              indexed by category, then plugin type.
+     */
+    function _displayPluginList($aGroupedPlugins)
+    {
+        // Print the table start
+        echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+        foreach ($aGroupedPlugins as $groupName => $aPluginsInGroup) {
+            // Print the plugin category
+            $this->_printCategoryTitle($groupName);
+            // Print all the plugins in the category
+            foreach ($aPluginsInGroup as $pluginType => $oPlugin) {
+                $this->_printPluginSummary($oPlugin, $pluginType);
+            }
+            // Print a spacer row
+            echo "<tr><td colspan='3'>&nbsp;</td></tr>";
+        }
+        // Print the table end
+        echo "</table>";
+    }
+
+    /**
+     * A private method to print the table row required for a report
+     * category heading.
+     *
+     * @access private
+     * @param unknown_type $pluginCategoryName
+     */
+    function _printCategoryTitle($groupName)
+    {
+        echo "<tr><td height='25' colspan='3'><b>{$groupName}</b></td></tr>
+              <tr height='1'>
+                <td width='30'><img src='images/break.gif' height='1' width='30'></td>
+                <td width='200'><img src='images/break.gif' height='1' width='200'></td>
+                <td width='100%'><img src='images/break.gif' height='1' width='100%'></td>
+              </tr>";
+    }
+
+    /**
+     * A private method to print the table row required for a
+     * report plugin.
+     *
+     * @access private
+     * @param object $oPlugin A report plugin.
+     * @param string $pluginType The report plugin type.
+     */
+    function _printPluginSummary($oPlugin, $pluginType)
+    {
+        $aInfo = $oPlugin->info();
+        echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>
+              <tr>
+                <td width='30'>&nbsp;</td>
+                <td width='200'><a href='report-specifics.php?selection=$pluginType'>{$aInfo['plugin-name']}</a></td>
+                <td width='100%'>{$aInfo['plugin-description']}</td>
+              </tr>";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      *
@@ -95,25 +205,6 @@ class ReportIndexModule
         $config = MAX_Plugin::getConfig('reports', null, null, true);
         $categories = $config['commonReportCategories'];
         return $categories;
-    }
-
-    function displayReports()
-    {
-        $displayable_plugins = $this->_findDisplayableReports();
-        $groupedPlugins = $this->_categoriseReportPlugins($displayable_plugins);
-        if (!empty($displayable_plugins)) {
-            $this->displayPluginList($groupedPlugins);
-        }
-    }
-
-    /**
-     * @param string $report_identifier
-     */
-    function displayReportSpecifics($report_identifier)
-    {
-        $displayable_plugins = $this->_findDisplayableReports();
-        $plugin = $displayable_plugins[$report_identifier];
-        $this->displayReportPluginInformation($plugin, $report_identifier);
     }
 
     /**
@@ -134,7 +225,7 @@ class ReportIndexModule
             foreach ($pluginInfo as $key=>$fieldParameters)
             {
                 $field_type = $fieldParameters['type'];
-                $field =& $this->field_factory->newField($field_type);
+                $field =& $this->oFieldFactory->newField($field_type);
                 $field->_name = $key;
                 if (!is_null($fieldParameters['default'])) {
                     $field->setValue($fieldParameters['default']);
@@ -219,54 +310,6 @@ class ReportIndexModule
     function _displayReportInformationFooter()
     {
         echo "</table>";
-    }
-
-    /**
-     * Displays an HTML list of reports available to the logged-in user.
-     *
-     * Reports show as a title with a description,
-     * and are grouped into categories.
-     */
-    function displayPluginList($groupedPlugins)
-    {
-        echo "
-            <table border='0' width='100%' cellpadding='0' cellspacing='0'>
-                ";
-        foreach ($groupedPlugins as $pluginCategoryName => $pluginsInGroup) {
-            $this->_printCategoryTitle($pluginCategoryName);
-
-            foreach ($pluginsInGroup as $key => $plugin) {
-                $this->_printPluginSummary($plugin, $key);
-            }
-            echo "
-        <tr><td colspan='3'>&nbsp;</td></tr>";
-        }
-        echo "</table>";
-    }
-
-    function _printCategoryTitle($pluginCategoryName)
-    {
-        echo "
-            <tr>
-                <td height='25' colspan='3'><b>{$pluginCategoryName}</b></td>
-            </tr>
-            <tr height='1'>
-                <td width='30'><img src='images/break.gif' height='1' width='30'></td>
-                <td width='200'><img src='images/break.gif' height='1' width='200'></td>
-                <td width='100%'><img src='images/break.gif' height='1' width='100%'></td>
-            </tr>
-            ";
-    }
-
-    function _printPluginSummary($plugin, $key)
-    {
-        echo "
-            <tr><td height='10' colspan='3'>&nbsp;</td></tr>
-            <tr>
-                <td width='30'>&nbsp;</td>
-                <td width='200'><a href='report-specifics.php?selection=$key'>{$plugin->info['plugin-name']}</a></td>
-                <td width='100%'>{$plugin->info['plugin-description']}</td>
-            </tr>";
     }
 }
 

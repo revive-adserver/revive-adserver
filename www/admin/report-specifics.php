@@ -31,11 +31,13 @@ $Id:report-specifics.php 4488 2006-03-22 16:32:06Z roh@m3.net $
 // Require the initialisation file
 require_once '../../init.php';
 
+// Include required files
 require_once MAX_PATH . '/lib/max/language/Report.php';
+require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/max/Plugin.php';
-require_once MAX_PATH . '/lib/max/Admin/Reporting.php';
+
+require_once MAX_PATH . '/lib/OA/Admin/Reports/Index.php';
 
 // Register input variables
 phpAds_registerGlobal ('selection');
@@ -55,8 +57,8 @@ phpAds_PageHeader("3");
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
-$module = new ReportIndexModule();
-$module->displayReportSpecifics($selection);
+$oModule = new OA_Admin_Reports_Index();
+$oModule->displayReportSpecifics($selection);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
