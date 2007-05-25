@@ -13,9 +13,13 @@
 }
 
 .button {
+ color: #333;
+ font-size: 12px;
  float: right;
  margin-top:5px;
  margin-bottom:5px;
+ padding: 2px;
+ font-weight: bold;
 }
 
 .smallbutton {
@@ -67,7 +71,9 @@ td.sysinfoerror, .sysinfoerror {
 }
 
 .floatleft {
-margin-right: 10px;
+    color: #333;
+    margin-right: 10px;
+    font-weight: normal;
 }
 
 div.sysinfoerror {

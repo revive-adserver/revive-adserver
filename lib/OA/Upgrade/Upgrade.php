@@ -817,19 +817,9 @@ class OA_Upgrade
         // Insert basic preferences into database
         $oPrefs = new MAX_Admin_Preferences();
 
-        // Load preferences, needed below to check instance_id existance
-        $oPrefs->loadPrefs();
-
         $oPrefs->setPrefChange('admin', $aAdmin['name']);
         $oPrefs->setPrefChange('admin_email', $aAdmin['email']);
         $oPrefs->setPrefChange('admin_pw', md5($aAdmin['pword']));
-        $oPrefs->setPrefChange('updates_enabled', isset($aAdmin['updates_enabled'])?'t':'f');
-        $oPrefs->setPrefChange('updates_cs_data_enabled', isset($aAdmin['updates_cs_data_enabled'])?'t':'f');
-
-        // Generate a new instance ID if empty
-        if (empty($GLOBALS['_MAX']['PREF']['instance_id'])) {
-            $oPrefs->setPrefChange('instance_id',  sha1(uniqid('', true)));
-        }
 
         if (!$oPrefs->writePrefChange())
         {
@@ -839,6 +829,36 @@ class OA_Upgrade
         return true;
     }
 
+    /**
+     * insert CommunitySharing and UpdatesEnabled values into Preferences
+     *
+     * @param array $aAdmin
+     * @return boolean
+     */
+    function putCommunityPreferences($aCommunity)
+    {
+        require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+        // Insert basic preferences into database
+        $oPrefs = new MAX_Admin_Preferences();
+
+        // Load preferences, needed below to check instance_id existance
+        $oPrefs->loadPrefs();
+
+        $oPrefs->setPrefChange('updates_enabled', isset($aCommunity['updates_enabled'])?'t':'f');
+        $oPrefs->setPrefChange('updates_cs_data_enabled', isset($aCommunity['updates_cs_data_enabled'])?'t':'f');
+        // Generate a new instance ID if empty
+        if (empty($GLOBALS['_MAX']['PREF']['instance_id'])) {
+            $oPrefs->setPrefChange('instance_id',  sha1(uniqid('', true)));
+        }
+
+        if (!$oPrefs->writePrefChange())
+        {
+            $this->oLogger->log('Error inserting Community Preferences into database');
+            return false;
+        }
+        return true;
+    }
+    
     /**
      * calls the dummy data class insert() method
      * which uses the DataGenerator to insert some data

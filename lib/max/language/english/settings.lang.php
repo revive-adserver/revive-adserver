@@ -54,6 +54,8 @@ $GLOBALS['strFatalError']                   = "A fatal error occurred";
 $GLOBALS['strUpdateError']                  = "An error occured while updating";
 $GLOBALS['strBtnContinue']                  = "Continue &raquo;";
 $GLOBALS['strBtnGoBack']                    = "&laquo; Go Back";
+$GLOBALS['strBtnAgree']                     = "I Agree &raquo;";
+$GLOBALS['strBtnDontAgree']                 = "&laquo; I Don't Agree";
 $GLOBALS['strBtnRetry']                     = "Retry";
 $GLOBALS['strUpdateDatabaseError']          = "Due to unknown reasons the update of the database structure wasn't succesful. The recommended way to proceed is to click <b>Retry updating</b> to try to correct these potential problems. If you are sure these errors won't affect the functionality of ".MAX_PRODUCT_NAME." you can click <b>Ignore errors</b> to continue. Ignoring these errors may cause serious problems and is not recommended!";
 $GLOBALS['strAlreadyInstalled']             = MAX_PRODUCT_NAME." is already installed on this system. If you want to configure it go to <a href='settings-index.php'>settings interface</a>";
@@ -92,7 +94,10 @@ $GLOBALS['strInstallIntro']                 = "Welcome to <a href='http://".MAX_
 <p>We try very hard to make this installation or upgrade process as simple as possible. Please follow the instructions on the screen, and if you need more help, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
 <p>If you still have questions after reading the documentation, visit the <a href='http://".MAX_PRODUCT_URL."/support/overview.html' target='_blank'><strong>support</strong></a> section of our website and the Openads <a href='".MAX_PRODUCT_FORUMURL."' target='_blank'><strong>community forum</strong></a>.</p>
 <p>Thank you for choosing Openads.</p>";
+$GLOBALS['strTermsTitle']               = "License information";
 $GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " is a free and open source ad server, distributed under the GPL license. Please review this license, and agree to its terms to continue installation.";
+$GLOBALS['strPolicyTitle']               = "Privacy and Data Usage Policy";
+$GLOBALS['strPolicyIntro']               = "Please review the Privacy and Data Usage Policy before agreeing to continue the installation.";
 $GLOBALS['strDbSetupTitle']               = "Database Setup";
 $GLOBALS['strDbSetupIntro']               = MAX_PRODUCT_NAME . " uses either a MySQL or a PostgreSQL database to store all of its data.  Please fill in the address of your server, as well as the database name, username and password.  If you do not know which information you should provide here, please contact the administrator of your server.";
 $GLOBALS['strInstallSuccess']               = "Congratulations - Welcome to the Openads community! The installation of " . MAX_PRODUCT_NAME . " " . MAX_VERSION_READABLE ." is now nearly complete. There are two last steps that you need to do to get the most out of " . MAX_PRODUCT_NAME . ".

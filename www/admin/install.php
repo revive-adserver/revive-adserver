@@ -28,6 +28,7 @@ define('OA_UPGRADE_RECOVERY',                 -2);
 define('OA_UPGRADE_ERROR',                    -1);
 define('OA_UPGRADE_WELCOME',                   0);
 define('OA_UPGRADE_TERMS',                     1);
+define('OA_UPGRADE_POLICY',                    5);
 define('OA_UPGRADE_SYSCHECK',                  10);
 define('OA_UPGRADE_APPCHECK',                  20);
 define('OA_UPGRADE_DBSETUP',                   30);
@@ -125,6 +126,11 @@ if ($oUpgrader->isRecoveryRequired())
 }
 else if (array_key_exists('btn_syscheck', $_POST))
 {
+    // store updates_enabled and updates_cs_data_enabled values into session, so that they can be inserted into DB once DB has been created
+    session_start();
+    $_SESSION['updates_enabled']         = $_POST['updates_enabled'];
+    $_SESSION['updates_cs_data_enabled'] = $_POST['updates_cs_data_enabled'];
+
     $halt = $oUpgrader->canUpgrade();
     $installStatus = $oUpgrader->existing_installation_status;
     $aSysInfo = $oUpgrader->checkEnvironment();
@@ -144,6 +150,8 @@ else if (array_key_exists('btn_dbsetup', $_POST))
     {
         $aDatabase = $oUpgrader->aDsn;
         $action    = OA_UPGRADE_DBSETUP;
+    } else {
+        $action    = OA_UPGRADE_ERROR;
     }
 }
 else if (array_key_exists('btn_upgrade', $_POST))
@@ -181,13 +189,19 @@ else if (array_key_exists('btn_configsetup', $_POST))
 }
 else if (array_key_exists('btn_adminsetup', $_POST))
 {
-    if ($oUpgrader->saveConfig($_POST['aConfig']))
+    // acquire the community preferences from session in order to add them to preferences table using putCommunityPreferences
+    $aCommunity = array();
+    session_start();
+    $aCommunity['updates_enabled']         = $_SESSION['updates_enabled'];
+    $aCommunity['updates_cs_data_enabled'] = $_SESSION['updates_cs_data_enabled'];
+    
+    if ($oUpgrader->saveConfig($_POST['aConfig']) && $oUpgrader->putCommunityPreferences($aCommunity))
     {
         if (!checkFolderPermissions($_POST['aConfig']['store']['webDir'])) {
-            $aConfig    = $_POST['aConfig'];
+            $aConfig                    = $_POST['aConfig'];
             $aConfig['store']['webDir'] = stripslashes($aConfig['store']['webDir']);
-            $errMessage = $strImageDirLockedDetected;
-            $action     = OA_UPGRADE_CONFIGSETUP;
+            $errMessage                 = $strImageDirLockedDetected;
+            $action                     = OA_UPGRADE_CONFIGSETUP;
         } else {
             if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
             {
@@ -237,6 +251,10 @@ else if (array_key_exists('btn_terms', $_POST))
 {
     $action = OA_UPGRADE_TERMS;
 }
+else if (array_key_exists('btn_policy', $_POST))
+{
+    $action = OA_UPGRADE_POLICY;
+}
 else if (array_key_exists('btn_finish', $_POST))
 {
     if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
@@ -280,21 +298,22 @@ if ($installStatus == OA_STATUS_OAD_NOT_INSTALLED)
 
 // Used to detmine which page is active in nav
 $activeNav = array (
-    OA_UPGRADE_WELCOME        =>      '1',
-    OA_UPGRADE_TERMS          =>      '2',
-    OA_UPGRADE_SYSCHECK       =>      '3',
-    OA_UPGRADE_APPCHECK       =>      '3',
-    OA_UPGRADE_DBSETUP        =>      '5',
-    OA_UPGRADE_UPGRADE        =>      '5',
-    OA_UPGRADE_INSTALL        =>      '5',
-    OA_UPGRADE_CONFIGSETUP    =>      '6'
+    OA_UPGRADE_WELCOME        =>      '10',
+    OA_UPGRADE_TERMS          =>      '20',
+    OA_UPGRADE_POLICY         =>      '25',
+    OA_UPGRADE_SYSCHECK       =>      '30',
+    OA_UPGRADE_APPCHECK       =>      '30',
+    OA_UPGRADE_DBSETUP        =>      '50',
+    OA_UPGRADE_UPGRADE        =>      '50',
+    OA_UPGRADE_INSTALL        =>      '50',
+    OA_UPGRADE_CONFIGSETUP    =>      '60'
 );
 if ($_COOKIE['oat'] != OA_UPGRADE_UPGRADE) {
-    $activeNav[OA_UPGRADE_ADMINSETUP]     =      '7';
-    $activeNav[OA_UPGRADE_IDSETUP]        =      '7';
-    $activeNav[OA_UPGRADE_DATASETUP]      =      '9';
+    $activeNav[OA_UPGRADE_ADMINSETUP]     =      '70';
+    $activeNav[OA_UPGRADE_IDSETUP]        =      '70';
+    $activeNav[OA_UPGRADE_DATASETUP]      =      '90';
 }
-$activeNav[OA_UPGRADE_FINISH] =      '10';
+$activeNav[OA_UPGRADE_FINISH] =      '100';
 
 // setup the nav to determine whether or not to show a valid link
 $navLinks = array();
@@ -308,16 +327,17 @@ foreach ($activeNav as $key=>$val) {
 
 // Setup array for navigation
 $phpAds_nav = array (
-    '1'     =>  array($navLinks[OA_UPGRADE_WELCOME]     => 'Welcome'),
-    '2'     =>  array($navLinks[OA_UPGRADE_TERMS]       => 'Terms'),
-    '3'     =>  array($navLinks[OA_UPGRADE_SYSCHECK]    => 'System Check'),
-    '4'     =>  array($navLinks[OA_UPGRADE_APPCHECK]    => 'Application Check'),
-    '5'     =>  array($navLinks[OA_UPGRADE_DBSETUP]     => 'Database Setup'),
-    '6'     =>  array($navLinks[OA_UPGRADE_CONFIGSETUP] => 'Configuration Setup'),
-    '7'     =>  array($navLinks[OA_UPGRADE_ADMINSETUP]  => 'Admin Setup'),
-    '8'     =>  array($navLinks[OA_UPGRADE_IDSETUP]     => 'Openads ID'),
-    '9'     =>  array($navLinks[OA_UPGRADE_DATASETUP]   => 'Data Setup'),
-    '10'    =>  array('' => 'Finished')
+    '10'     =>  array($navLinks[OA_UPGRADE_WELCOME]     => 'Welcome'),
+    '20'     =>  array($navLinks[OA_UPGRADE_TERMS]       => 'Terms'),
+    '25'     =>  array($navLinks[OA_UPGRADE_POLICY]      => 'Policy'),
+    '30'     =>  array($navLinks[OA_UPGRADE_SYSCHECK]    => 'System Check'),
+    '40'     =>  array($navLinks[OA_UPGRADE_APPCHECK]    => 'Application Check'),
+    '50'     =>  array($navLinks[OA_UPGRADE_DBSETUP]     => 'Database Setup'),
+    '60'     =>  array($navLinks[OA_UPGRADE_CONFIGSETUP] => 'Configuration Setup'),
+    '70'     =>  array($navLinks[OA_UPGRADE_ADMINSETUP]  => 'Admin Setup'),
+    '80'     =>  array($navLinks[OA_UPGRADE_IDSETUP]     => 'Openads ID'),
+    '90'     =>  array($navLinks[OA_UPGRADE_DATASETUP]   => 'Data Setup'),
+    '100'    =>  array('' => 'Finished')
 );
 
 // display header, with proper 'active page' marked using $activeNav[$action]
