@@ -96,15 +96,11 @@ $GLOBALS['strInstallIntro']                 = "Welcome to <a href='http://".MAX_
 $GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " is a free and open source ad server, distributed under the GPL license. Please review this license, and agree to its terms to continue installation.";
 $GLOBALS['strDbSetupTitle']               = "Database Setup";
 $GLOBALS['strDbSetupIntro']               = MAX_PRODUCT_NAME . " uses either a MySQL or a PostgreSQL database to store all of its data.  Please fill in the address of your server, as well as the database name, username and password.  If you do not know which information you should provide here, please contact the administrator of your server.";
-$GLOBALS['strInstallSuccess']               = "<b>The installation of ".MAX_PRODUCT_NAME." is now complete.</b><br /><br />In order for ".MAX_PRODUCT_NAME." to function correctly you also need
-                                                to make sure the maintenance file is run every hour. More information about this subject can be found in the documentation.
-                                                <br /><br />Click <b>Continue</b> to go the configuration page, where you can
-                                                modify more settings. Please do not forget to lock the max.conf.php file when you are finished to prevent security
-                                                breaches, ie, make it read-only by the webserver.";
-$GLOBALS['strUpdateSuccess']                = "<b>The upgrade of ".MAX_PRODUCT_NAME." was succesful.</b><br /><br />In order for ".MAX_PRODUCT_NAME." to function correctly you also need
-                                                to make sure the maintenance file is run every hour (previously this was every day). More information about this subject can be found in the documentation.
-                                                <br /><br />Click <b>Proceed</b> to go to the administration interface. Please do not forget to lock the config.inc.php file
-                                                to prevent security breaches.";
+$GLOBALS['strInstallSuccess']               = "Congratulations - Welcome to the Openads community! The installation of " . MAX_PRODUCT_NAME . " " . MAX_VERSION_READABLE ." is now nearly complete. There are two last steps that you need to do to get the most out of " . MAX_PRODUCT_NAME . ".
+<p><strong>Maintenance</strong><br>Openads is configured to automatically run some maintenance tasks every hour as long as ads are being served. To speed up ad delivery, you can set this up by automatically calling a maintenance file every hour (e.g a cron job). This is not required, but is highly recommended. For more information about this, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
+<p><strong>Security</strong><br> The " . MAX_PRODUCT_NAME . " installation needs the configuration file to be writable by the server. After making your configuration changes, it is highly recommended to enable read-only access to this file, to provide higher security. For more information, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.
+
+Please click Continue to go the configuration page, where you can modify more settings. ";
 $GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PRODUCT_NAME." was not succesful</b><br /><br />Some portions of the install process could not be completed.
                                                 It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
                                                 first step of the install process. If you want to know more on what the error message below means, and how to solve it,
