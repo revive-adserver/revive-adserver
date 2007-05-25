@@ -32,11 +32,6 @@ $Id$
 require_once '../../init.php';
 
 // Include required files
-require_once MAX_PATH . '/lib/max/language/Report.php';
-require_once MAX_PATH . '/lib/max/Plugin.php';
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-
 require_once MAX_PATH . '/lib/OA/Admin/Reports/Index.php';
 
 // Register input variables

@@ -25,11 +25,11 @@
 $Id:IndexModule.php 4204 2006-02-10 09:55:36Z roh@m3.net $
 */
 
+// Include required files
+require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';
 require_once MAX_PATH . '/lib/max/language/Report.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
-require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
 class OA_Admin_Reports_Index
 {
@@ -68,11 +68,11 @@ class OA_Admin_Reports_Index
      *
      * @param string $report_identifier
      */
-    function displayReportSpecifics($reportIdentifier)
+    function displayReportGeneration($reportIdentifier)
     {
         $aDisplayablePlugins = $this->_findDisplayableReports();
-        $plugin = $aDisplayablePlugins[$reportIdentifier];
-        $this->displayReportPluginInformation($plugin, $reportIdentifier);
+        $oPlugin = $aDisplayablePlugins[$reportIdentifier];
+        $this->_groupReportPluginGeneration($oPlugin, $reportIdentifier);
     }
 
     /**
@@ -178,87 +178,138 @@ class OA_Admin_Reports_Index
         echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>
               <tr>
                 <td width='30'>&nbsp;</td>
-                <td width='200'><a href='report-specifics.php?selection=$pluginType'>{$aInfo['plugin-name']}</a></td>
+                <td width='200'><a href='report-generation.php?selection=$pluginType'>{$aInfo['plugin-name']}</a></td>
                 <td width='100%'>{$aInfo['plugin-description']}</td>
               </tr>";
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
+     * A private method to display the report generation screen for a
+     * report plugin to the UI.
      *
-     * @return array of strings
+     * @access private
+     * @param obejct $oPlugin The plugin to display.
+     * @param string $reportIdentifier The string identifying the report.
      */
-    function getCommonReportCategories()
+    function _groupReportPluginGeneration($oPlugin, $reportIdentifier)
     {
-        $config = MAX_Plugin::getConfig('reports', null, null, true);
-        $categories = $config['commonReportCategories'];
-        return $categories;
-    }
-
-    /**
-     * Displays full information about a report plugin.
-     *
-     * Includes title, description, and all parameters required to
-     * execute it.
-     *
-     */
-    function displayReportPluginInformation($plugin, $selection)
-    {
-        $this->_displayReportIntroduction($plugin->info);
-
-        if ($pluginInfo = $plugin->info['plugin-import'])
-        {
+        $aInfo = $oPlugin->info();
+        // Print the report introduction
+        $this->_displayReportIntroduction($aInfo['plugin-export'], $aInfo['plugin-name'], $aInfo['plugin-description']);
+        // Get the plugins generation parameter details
+        if ($aPluginInfo = $aInfo['plugin-import']) {
+            // Print the start of the report execution submission form
             $this->_displayParameterListHeader();
-
-            foreach ($pluginInfo as $key=>$fieldParameters)
-            {
-                $field_type = $fieldParameters['type'];
-                $field =& $this->oFieldFactory->newField($field_type);
-                $field->_name = $key;
-                if (!is_null($fieldParameters['default'])) {
-                    $field->setValue($fieldParameters['default']);
+            foreach ($aPluginInfo as $key => $aParameters) {
+                // Print the report generation parameter
+                $oField =& $this->oFieldFactory->newField($aParameters['type']);
+                $oField->_name = $key;
+                if (!is_null($aParameters['default'])) {
+                    $oField->setValue($aParameters['default']);
                 }
-                $field->setValueFromArray($fieldParameters);
-                if (!is_null($fieldParameters['field_selection_names'])) {
-                    $field->_fieldSelectionNames = $fieldParameters['field_selection_names'];
+                $oField->setValueFromArray($aParameters);
+                if (!is_null($aParameters['field_selection_names'])) {
+                    $oField->_fieldSelectionNames = $aParameters['field_selection_names'];
                 }
-                if (!is_null($fieldParameters['size'])) {
-                    $field->_size = $fieldParameters['size'];
+                if (!is_null($aParameters['size'])) {
+                    $oField->_size = $aParameters['size'];
                 }
-                if (!is_null($fieldParameters['filter'])) {
-                    $field->setFilter($fieldParameters['filter']);
+                if (!is_null($aParameters['filter'])) {
+                    $oField->setFilter($aParameters['filter']);
                 }
                 $this->_displayParameterBreak();
-                echo "
-                <tr>
-                    <td width='30'>&nbsp;</td>
-                    <td>{$fieldParameters['title']}</td>
-                    <td>";
-                $field->_tabIndex = $this->tabindex;
-                $field->display();
-                $this->tabindex = $field->_tabIndex;
-                echo "
-                    </td>
-                </tr>";
+                echo "<tr><td width='30'>&nbsp;</td><td>{$aParameters['title']}</td><td>";
+                $oField->_tabIndex = $this->tabindex;
+                $oField->display();
+                $this->tabindex = $oField->_tabIndex;
+                echo "</td></tr>";
             }
+            // Print a parameter break line
             $this->_displayParameterBreak();
-            $this->_displayParameterListFooter($selection, $fields);
+            // Print the end of the report execution submission form
+            $this->_displayParameterListFooter($reportIdentifier);
         }
+        // Print the closing table info
         $this->_displayReportInformationFooter();
     }
 
+    /**
+     * A private method to display the introduction part of a report generation
+     * page.
+     *
+     * @access private
+     * @param string $export The export type of the report (eg. "csv").
+     * @param string $name   The name of the report.
+     * @param string $desc   The report's description.
+     */
+    function _displayReportIntroduction($export, $name, $desc)
+    {
+        echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+        echo "<tr><td height='25' colspan='3'>";
+        if ($export == 'csv') {
+            echo "<img src='images/excel.gif' align='absmiddle'>&nbsp;&nbsp;";
+        }
+        echo "<b>".$name."</b></td></tr>";
+        echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+        echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+        echo "<tr><td width='30'>&nbsp;</td>";
+        echo "<td height='25' colspan='2'>";
+        echo nl2br($desc);
+        echo "</td></tr>";
+        echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+    }
+
+    /**
+     * A private method to close off the table started by the
+     * _displayReportIntroduction() method.
+     *
+     * @access private
+     */
+    function _displayReportInformationFooter()
+    {
+        echo "</table>";
+    }
+
+    /**
+     * A private method to display the start of the form item required
+     * for executing a report plugin.
+     *
+     * @access private
+     */
+    function _displayParameterListHeader()
+    {
+        echo "
+        <form action='report-execute.php' method='get'>";
+    }
+
+    /**
+     * A private method to display the end of the form item required
+     * for executing a report plugin.
+     *
+     * @param string $reportIdentifier The string identifying the report.
+     */
+    function _displayParameterListFooter($reportIdentifier)
+    {
+        $generateTabIndex = $this->tabindex++;
+        echo "
+        <tr>
+          <td height='25' colspan='3'>
+            <br /><br />
+            <input type='hidden' name='plugin' value='$reportIdentifier'>
+            <input type='button' value='{$GLOBALS['strBackToTheList']}' onClick='javascript:document.location.href=\"report-index.php\"' tabindex='".($this->tabindex++)."'>
+            &nbsp;&nbsp;
+            <input type='submit' value='{$GLOBALS['strGenerate']}' tabindex='".($generateTabIndex)."'>
+          </td>
+        </tr>
+        </form>";
+    }
+
+    /**
+     * A private method to display a break line between parameters
+     * in the report plugins generation page.
+     *
+     * @access private
+     */
     function _displayParameterBreak()
     {
         echo "
@@ -267,50 +318,7 @@ class OA_Admin_Reports_Index
             <td><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
         </tr>";
     }
-    function _displayParameterListHeader()
-    {
-        echo "
-        <form action='report-execute.php' method='get'>";
-    }
 
-    function _displayParameterListFooter($selection, $fields)
-    {
-        echo "
-        <tr>
-            <td height='25' colspan='3'>
-                <br><br>
-                <input type='hidden' name='plugin' value='$selection'>
-                <input type='submit' value='{$GLOBALS['strGenerate']}' tabindex='".($this->tabindex++)."'>
-                &nbsp;
-                <input type='button' value='{$GLOBALS['strBackToTheList']}' onClick='javascript:document.location.href=\"report-index.php\"' tabindex='".($this->tabindex++)."'>
-            </td>
-        </tr>
-        </form>";
-    }
-
-    function _displayReportIntroduction($info)
-    {
-        echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-        echo "<tr><td height='25' colspan='3'>";
-
-        if ($info['plugin-export'] == 'csv')
-            echo "<img src='images/excel.gif' align='absmiddle'>&nbsp;";
-
-        echo "<b>".$info['plugin-name']."</b></td></tr>";
-        echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-
-        echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-        echo "<tr><td width='30'>&nbsp;</td>";
-        echo "<td height='25' colspan='2'>";
-        echo nl2br($info['plugin-description']);
-        echo "</td></tr>";
-        echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-    }
-
-    function _displayReportInformationFooter()
-    {
-        echo "</table>";
-    }
 }
 
 ?>

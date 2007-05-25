@@ -8,9 +8,6 @@
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -32,11 +29,6 @@ $Id:report-specifics.php 4488 2006-03-22 16:32:06Z roh@m3.net $
 require_once '../../init.php';
 
 // Include required files
-require_once MAX_PATH . '/lib/max/language/Report.php';
-require_once MAX_PATH . '/lib/max/Plugin.php';
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-
 require_once MAX_PATH . '/lib/OA/Admin/Reports/Index.php';
 
 // Register input variables
@@ -58,7 +50,7 @@ phpAds_PageHeader("3");
 /* Main code                                             */
 /*-------------------------------------------------------*/
 $oModule = new OA_Admin_Reports_Index();
-$oModule->displayReportSpecifics($selection);
+$oModule->displayReportGeneration($selection);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
