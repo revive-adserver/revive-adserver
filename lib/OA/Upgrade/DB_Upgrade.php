@@ -35,6 +35,7 @@ class OA_DB_Upgrade
     var $schema;
     var $versionTo;
 
+    var $path_schema;
     var $path_changes;
     var $file_schema;
     var $file_changes;
@@ -106,6 +107,7 @@ class OA_DB_Upgrade
     {
         //this->__construct();
         $this->path_changes = MAX_PATH.'/etc/changes/';
+        $this->path_schema = $this->path_changes;
         //$this->recoveryFile = MAX_PATH.'/var/recover.log';
 
         // so that this class can log to the caller's log
@@ -116,6 +118,7 @@ class OA_DB_Upgrade
         }
         $this->schema = 'tables_core';
         $this->_setTiming('constructive');
+
     }
 
     /**
@@ -154,8 +157,8 @@ class OA_DB_Upgrade
         }
 
         $this->aTaskList = array();
-        $this->aDBTables = array();
-        $this->aDefinitionNew = array();
+        $this->aRestoreTables = array();
+        $this->aAddedTables = array();
 
         $this->versionTo    = $versionTo;
         $this->schema       = $schema;
@@ -163,60 +166,33 @@ class OA_DB_Upgrade
         $this->oAuditor->setKeyParams(array('schema_name'=>$this->schema,
                                             'version'=>$this->versionTo,
                                             'timing'=>$this->timingInt
-                                            ));
+                                            )
+                                     );
         $this->_log('to version: '.$this->versionTo);
         $this->_log('timing: '.$this->timingStr);
 
+        // if only switching the timing
+        // it should not be necessary to reparse the definitions
         if (!$switchTimingOnly)
         {
+            $this->aDBTables = array();
             $this->aChanges = array();
-            $this->aRestoreTables = array();
-            $this->aAddedTables = array();
+            $this->aDefinitionNew = array();
 
-            $this->file_schema  = "{$this->path_changes}schema_{$schema}_{$this->versionTo}.xml";
+            $this->file_schema  = "{$this->path_schema}schema_{$schema}_{$this->versionTo}.xml";
             $this->file_changes  = "{$this->path_changes}changes_{$schema}_{$this->versionTo}.xml";
             $this->file_migrate  = "{$this->path_changes}migration_{$schema}_{$this->versionTo}.php";
 
-            if (!file_exists($this->file_schema))
-            {
-                $this->_logError('schema file not found: '.$this->file_schema);
-                return false;
-            }
             // this will parse the schema definition file
-            $this->_log('schema file found: '.$this->file_schema);
-            $this->oTable->init($this->file_schema);
-
-            if (!is_array($this->oTable->aDefinition))
-            {
-                $this->_logError('problem with parsing schema definition');
-                return false;
-            }
-
-            $this->aDefinitionNew = $this->oTable->aDefinition;
-            $this->_log('successfully parsed the schema');
-            $this->_log('schema name: '.$this->aDefinitionNew['name']);
-            $this->_log('schema version: '.$this->aDefinitionNew['version']);
-            $this->_log('schema status: '.$this->aDefinitionNew['status']);
-
-            if (!file_exists($this->file_changes))
-            {
-                $this->_logError('changes file not found: '.$this->file_changes);
-                return false;
-            }
-
-            $this->aChanges = $this->oSchema->parseChangesetDefinitionFile($this->file_changes);
-            if ($this->_isPearError($this->aChanges, 'failed to parse changeset ('.$this->file_changes.')'))
+            if (!$this->buildSchemaDefinition())
             {
                 return false;
             }
 
-            $this->_log('successfully parsed the changeset');
-            $this->_log('changeset name: '.$this->aChanges['name']);
-            $this->_log('changeset version: '.$this->aChanges['version']);
-            $this->_log('changeset comments: '.$this->aChanges['comments']);
-            $this->_log(($this->aDefinitionNew['version']==$this->aChanges['version'] ? 'schema and changeset versions match' : 'hmmm.. schema and changeset versions don\'t match'));
-            $this->_log(($this->aChanges['constructive'] ? 'constructive changes found' : 'constructive changes not found'));
-            $this->_log(($this->aChanges['destructive'] ? 'destructive changes found' : 'destructive changes not found'));
+            if (!$this->buildChangesetDefinition())
+            {
+                return false;
+            }
 
             if (!file_exists($this->file_migrate))
             {
@@ -250,6 +226,55 @@ class OA_DB_Upgrade
         $this->_log('table prefix: '.$this->prefix);
 
         $this->_log('successfully initialised DB Upgrade');
+        return true;
+    }
+
+    function buildSchemaDefinition()
+    {
+        if (!file_exists($this->file_schema))
+        {
+            $this->_logError('schema file not found: '.$this->file_schema);
+            return false;
+        }
+        $this->_log('schema file found: '.$this->file_schema);
+
+        $this->oTable->init($this->file_schema);
+
+        if (!is_array($this->oTable->aDefinition))
+        {
+            $this->_logError('problem with parsing schema definition');
+            return false;
+        }
+
+        $this->aDefinitionNew = $this->oTable->aDefinition;
+        $this->_log('successfully parsed the schema');
+        $this->_log('schema name: '.$this->aDefinitionNew['name']);
+        $this->_log('schema version: '.$this->aDefinitionNew['version']);
+        $this->_log('schema status: '.$this->aDefinitionNew['status']);
+        return true;
+    }
+
+    function buildChangesetDefinition()
+    {
+        if (!file_exists($this->file_changes))
+        {
+            $this->_logError('changes file not found: '.$this->file_changes);
+            return false;
+        }
+
+        $this->aChanges = $this->oSchema->parseChangesetDefinitionFile($this->file_changes);
+        if ($this->_isPearError($this->aChanges, 'failed to parse changeset ('.$this->file_changes.')'))
+        {
+            return false;
+        }
+
+        $this->_log('successfully parsed the changeset');
+        $this->_log('changeset name: '.$this->aChanges['name']);
+        $this->_log('changeset version: '.$this->aChanges['version']);
+        $this->_log('changeset comments: '.$this->aChanges['comments']);
+        $this->_log(($this->aDefinitionNew['version']==$this->aChanges['version'] ? 'schema and changeset versions match' : 'hmmm.. schema and changeset versions don\'t match'));
+        $this->_log(($this->aChanges['constructive'] ? 'constructive changes found' : 'constructive changes not found'));
+        $this->_log(($this->aChanges['destructive'] ? 'destructive changes found' : 'destructive changes not found'));
         return true;
     }
 
@@ -416,7 +441,7 @@ class OA_DB_Upgrade
     /**
      *
      */
-    function checkSchemaIntegrity()
+    function checkSchemaIntegrity($filename='changes_tables_core')
     {
         $this->_log('running integrity check');
         $this->_log('comparing database '.$this->oSchema->db->connected_database_name.' with schema '.$this->file_schema);
@@ -438,7 +463,7 @@ class OA_DB_Upgrade
         OA_DB::disableCaseSensitive();
         $aOptions = array (
                             'output_mode'   =>    'file',
-                            'output'        =>    MAX_PATH.'/var/schema_integ_check.xml',
+                            'output'        =>    $filename,
                             'end_of_line'   =>    "\n",
                             'xsl_file'      =>    "xsl/mdb2_schema.xsl",
                             'custom_tags'   =>    array(),
@@ -482,7 +507,8 @@ class OA_DB_Upgrade
             foreach ($aChanges['destructive']['tables']['change'] AS $k => $v)
             {
                 // empty arrays should not exist
-                // suspect problem with the compare function somewhere (probably in driver)
+                // if they do then its most likely a
+                // problem with the compare function somewhere (probably in mdb2 driver)
                 if (count($v)>0)
                 {
                     if (isset($v['remove']))
@@ -509,7 +535,8 @@ class OA_DB_Upgrade
                 $this->_log('table is missing: '.$k);
             }
         }
-        return $aChanges;
+        $this->aChanges = $aChanges;
+        return true;
     }
 
     /**
@@ -955,6 +982,7 @@ class OA_DB_Upgrade
     function _verifyTasks()
     {
         $this->_log('verifying/creating '.$this->timingStr.' tasklist');
+        $this->aDBTables = $this->_listTables();
         if ($this->continue)
         {
             $this->_verifyTasksTablesAdd();

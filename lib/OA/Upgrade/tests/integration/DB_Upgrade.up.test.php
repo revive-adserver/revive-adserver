@@ -109,10 +109,10 @@ class Test_DB_Upgrade extends UnitTestCase
         // new column preference.user_custom_field1
         // missing column preference.updates_enabled
         // changed column zones.cost from dec 10,4 to dec 12,2
-        $aChanges = $oDB_Upgrade->checkSchemaIntegrity();
+        $this->assertTrue($oDB_Upgrade->checkSchemaIntegrity(),'');
 
-        $aConstructive = $aChanges['constructive']['tables'];
-        $aDestructive = $aChanges['destructive']['tables'];
+        $aConstructive = $oDB_Upgrade->aChanges['constructive']['tables'];
+        $aDestructive = $oDB_Upgrade->aChanges['destructive']['tables'];
 
         $this->assertTrue(isset($aConstructive['add']),'array of add tables not found');
         $this->assertTrue(isset($aConstructive['add']['password_recovery']),'password_recovery not found in array of add tables');

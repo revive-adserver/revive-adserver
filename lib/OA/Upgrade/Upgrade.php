@@ -369,10 +369,13 @@ class OA_Upgrade
                     $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
                     return true;
                 }
-                $valid = (version_compare($this->versionInitialApplication,'200.314')>=0);
+                $valid = ( (version_compare($this->versionInitialApplication,'200.313')>=0)
+                          ||
+                           (version_compare($this->versionInitialApplication,'200.314')>=0)
+                         );
                 if ($valid)
                 {
-                    $this->versionInitialSchema['tables_core'] = '90';
+                    $this->versionInitialSchema['tables_core'] = '99';
                     $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
                     $this->package_file = 'openads_upgrade_2.0.11_to_2.3.32_beta.xml';
                     $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];

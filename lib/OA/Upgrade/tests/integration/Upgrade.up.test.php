@@ -314,6 +314,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade  = new OA_Upgrade();
         //$oUpgrade->initDatabaseConnection();
 
+        $GLOBALS['_MAX']['CONF']['openads']['installed'] = true;
         $this->_createTestAppVarRecord('oa_version','2.3.31-beta');
         $this->assertTrue($oUpgrade->detectOpenads(),'');
         $this->assertEqual($oUpgrade->versionInitialApplication,'2.3.31-beta','wrong initial application version');
@@ -348,7 +349,8 @@ class Test_OA_Upgrade extends UnitTestCase
 
         $oUpgrade  = new OA_Upgrade();
         $oUpgrade->upgradePath = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
-        $oUpgrade->oDBUpgrader->path_changes = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
+        $oUpgrade->oDBUpgrader->path_changes = $oUpgrade->upgradePath;
+        $oUpgrade->oDBUpgrader->path_schema = $oUpgrade->upgradePath;
         $input_file = 'openads_upgrade_2.3.97_to_2.3.99_beta.xml';
         $oUpgrade->initDatabaseConnection();
         $oUpgrade->_parseUpgradePackageFile($oUpgrade->upgradePath.$input_file);
@@ -389,6 +391,7 @@ class Test_OA_Upgrade extends UnitTestCase
         // divert objects to test data
         $oUpgrade->upgradePath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
         $oUpgrade->oDBUpgrader->path_changes = $oUpgrade->upgradePath;
+        $oUpgrade->oDBUpgrader->path_schema = $oUpgrade->upgradePath;
         $oUpgrade->package_file = 'openads_upgrade_2.3.97_to_2.3.99_beta.xml';
         $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.dev.test.log";
 
