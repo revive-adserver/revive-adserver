@@ -112,11 +112,13 @@ class MAX_Maintenance_Statistics_Common_Task_DeleteOldData extends MAX_Maintenan
      */
     function _deleteOldData($oSummarisedToDate)
     {
+        $conf = $GLOBALS['_MAX']['CONF'];
         $time = time();
         $oServiceLocator = &ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_' . $this->oController->module);
         $rows = $oDal->deleteOldData($oSummarisedToDate);
         $time = time() - $time;
+        $this->report = !empty($this->report) ? $this->report : '';
         if ($conf['table']['split']) {
             $message = "Dropped $rows " . $this->oController->module .
                        " raw data tables of old data in $time seconds.";

@@ -65,7 +65,7 @@ class OA
             return true;
         }
         // Grab DSN if we are logging to a database
-        $dsn = ($conf['log']['type'] == 'sql') ? Base::getDsn() : '';
+        $dsn = ($aConf['log']['type'] == 'sql') ? Base::getDsn() : '';
         // Instantiate a logger object based on logging options
         $oLogger = &Log::singleton(
             $aConf['log']['type'],

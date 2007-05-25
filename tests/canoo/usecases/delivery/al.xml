@@ -9,7 +9,7 @@
   Test that page generate the JavaScript which contains the ad
   @TODO Check that returned JavaScript is valid
 -->
-<project name="Openads delivery - ajs.php" basedir="../.." default="main">
+<project name="Openads delivery - al.php" basedir="../.." default="main">
   <import file="../../includes/init.xml"/>
   <import file="${webtest.home}/lib/taskdef.xml"/>
 

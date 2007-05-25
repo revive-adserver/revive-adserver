@@ -2379,7 +2379,7 @@ class OA_Dal_Maintenance_Statistics_Common
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         global $date_format;
-        $report .= "\n";
+        $report = "\n";
         $aPreviousOIDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         // Select all placements in the system
         $query = "
@@ -2561,7 +2561,9 @@ class OA_Dal_Maintenance_Statistics_Common
                     if ($aPrefs['warn_admin'] == 't' || $aPrefs['warn_agency'] == 't' || $aPrefs['warn_client'] == 't') {
                         // Test the placement to see if the expiration is imminent,
                         // or not, based on the placement's expiration date
-                        if ($aPrefs['warn_limit_days'] > 0 && $aPlacement['end'] != OA_Dal::noDateValue()) {
+                        if (isset($aPrefs['warn_limit_days']) && 
+                            $aPrefs['warn_limit_days'] > 0 && $aPlacement['end'] != OA_Dal::noDateValue()) 
+                        {
                             // One day is added to the warn days limit, so that it warns at the start of the day
                             // before the warn limit - eg, if warn days is 1 day, warn at the start of the day
                             // before the day the placement ends. If that makes sense.... :-)

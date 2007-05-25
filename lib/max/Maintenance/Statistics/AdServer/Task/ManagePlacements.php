@@ -59,7 +59,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_ManagePlacements extends MAX_Main
             $oDate = &$oServiceLocator->get('now');
             $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
             $this->oController->report .= "Managing (activating/deactivating) placements.\n";
-            $message .= 'Managing (activating/deactivating) placements.';
+            $message = 'Managing (activating/deactivating) placements.';
             MAX::debug($message);
             $this->report .= $oDal->managePlacements($oDate);
         }

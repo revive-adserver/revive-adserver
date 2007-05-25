@@ -170,7 +170,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                     $oAd->deliveryLimitationChanged = true;
                 }
                 // Add the Advert object to the appropriate Zone object
-                if ($aZones[$aZoneImpAlloc['zone_id']]) {
+                if (!empty($aZones[$aZoneImpAlloc['zone_id']])) {
                     $aZones[$aZoneImpAlloc['zone_id']]->addAdvert($oAd);
                 } else {
                     $message  = 'Attempted to link Ad ID ' . $oAd->id . ' ';

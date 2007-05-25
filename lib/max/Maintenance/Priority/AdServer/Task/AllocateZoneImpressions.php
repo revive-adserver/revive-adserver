@@ -272,6 +272,9 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                                 $totalAvaiableImpressions +=
                                     $oPlacement->aAds[$advertKey]->zones[$zoneKey]['availableImpressions'];
                             }
+                            if (!isset($this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressionsByCP'])) {
+                                $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressionsByCP'] = 0;
+                            }
                             // Iterate over each of the zones the advertisement is linked to
                             foreach ($oPlacement->aAds[$advertKey]->zones as $zone) {
                                 // If there are impressions available to the advertisement
@@ -289,6 +292,9 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                                     $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressions'] +=
                                         $requiredImpressions;
                                     if ($oPlacement->priority > 0) {
+                                        if (!isset($this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressionsByCP'][$oPlacement->priority])) {
+                                            $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressionsByCP'][$oPlacement->priority] = 0;
+                                        }
                                         $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressionsByCP'][$oPlacement->priority] +=
                                             $requiredImpressions;
                                     }

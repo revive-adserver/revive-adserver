@@ -34,6 +34,8 @@ $Id$
 
 function MAX_layerGetLimitations()
 {
+	//$richmedia  = $agent['platform'] == 'Win' ? true : false;
+	$richmedia = true;
 	$compatible = true;
 	
     if (isset($GLOBALS['_MAX']['CLIENT'])) {
@@ -46,9 +48,6 @@ function MAX_layerGetLimitations()
     				  ? false : true;
 	}
 				  
-	//$richmedia  = $agent['platform'] == 'Win' ? true : false;
-	$richmedia = true;
-	
 	return array (
 		'richmedia'  => $richmedia,
 		'compatible' => $compatible
