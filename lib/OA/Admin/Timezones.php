@@ -72,12 +72,18 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
         require_once MAX_PATH .'/lib/pear/Date/TimeZone.php';
         $aTimezoneKey = Date_TimeZone::getAvailableIDs();
 
+        if (!defined('MAX_PATH')) {
+            $aSysTimezone = OA_Admin_Timezones::getTimezone();
+            $tz = $aSysTimezone['tz'];
+        } else {
+            $tz =$GLOBALS['_MAX']['CONF']['timezone']['location'];
+        }
+
         foreach ($aTimezoneKey as $key) {
-            if ((in_array(OA_Admin_Timezones::getTimezone(), $_aTimezoneBcData) && $key == OA_Admin_Timezones::getTimezone())
+            if ((in_array($tz, $_aTimezoneBcData) && $key == $tz)
                  || !in_array($key, $_aTimezoneBcData)) {
                 //  calculate timezone offset
                 $offset = OA_Admin_Timezones::_convertOffset($_DATE_TIMEZONE_DATA[$key]['offset']);
-
                 //  build arrays used for sorting time zones
                 $origOffset = $_DATE_TIMEZONE_DATA[$key]['offset'];
                 if ($origOffset >= 0) {
