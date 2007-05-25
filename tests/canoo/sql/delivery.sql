@@ -1,37 +1,4 @@
-CREATE TABLE `zones` (
-  `zoneid` mediumint(9) NOT NULL auto_increment,
-  `affiliateid` mediumint(9) default NULL,
-  `zonename` varchar(245) NOT NULL default '',
-  `description` varchar(255) NOT NULL default '',
-  `delivery` smallint(6) NOT NULL default '0',
-  `zonetype` smallint(6) NOT NULL default '0',
-  `category` text NOT NULL,
-  `width` smallint(6) NOT NULL default '0',
-  `height` smallint(6) NOT NULL default '0',
-  `ad_selection` text NOT NULL,
-  `chain` text NOT NULL,
-  `prepend` text NOT NULL,
-  `append` text NOT NULL,
-  `appendtype` tinyint(4) NOT NULL default '0',
-  `forceappend` enum('t','f') default 'f',
-  `inventory_forecast_type` smallint(6) NOT NULL default '0',
-  `comments` text,
-  `cost` decimal(10,4) default NULL,
-  `cost_type` smallint(6) default NULL,
-  `cost_variable_id` varchar(255) default NULL,
-  `technology_cost` decimal(10,4) default NULL,
-  `technology_cost_type` smallint(6) default NULL,
-  `updated` datetime NOT NULL,
-  `block` int(11) NOT NULL default '0',
-  `capping` int(11) NOT NULL default '0',
-  `session_capping` int(11) NOT NULL default '0',
-  `what` text NOT NULL,
-  PRIMARY KEY  (`zoneid`),
-  KEY `zonenameid` (`zonename`,`zoneid`),
-  KEY `affiliateid` (`affiliateid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `zones` VALUES (1,1,'Publisher 1 - Default','',0,3,'',468,60,'','','','',0,'f',0,'',NULL,NULL,NULL,NULL,NULL,'2007-04-27 15:37:19',0,0,0,''),(2,2,'Agency Publisher 1 - Default','',0,3,'',468,60,'','','','',0,'f',0,'',NULL,NULL,NULL,NULL,NULL,'2007-05-15 13:41:44',0,0,0,'');
-CREATE TABLE `acls` (
+CREATE TABLE `oa_acls` (
   `bannerid` mediumint(9) NOT NULL default '0',
   `logical` varchar(3) NOT NULL default 'and',
   `type` varchar(32) NOT NULL default '',
@@ -41,8 +8,806 @@ CREATE TABLE `acls` (
   UNIQUE KEY `bannerid_executionorder` (`bannerid`,`executionorder`),
   KEY `bannerid` (`bannerid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `acls` VALUES (1,'and','Site:Channel','=~','7',0);
-CREATE TABLE `preference` (
+INSERT INTO `oa_acls` VALUES (1,'and','Site:Channel','=~','7',0);
+CREATE TABLE `oa_acls_channel` (
+  `channelid` mediumint(9) NOT NULL default '0',
+  `logical` varchar(3) NOT NULL default 'and',
+  `type` varchar(32) NOT NULL default '',
+  `comparison` char(2) NOT NULL default '==',
+  `data` text NOT NULL,
+  `executionorder` int(10) unsigned NOT NULL default '0',
+  UNIQUE KEY `channelid_executionorder` (`channelid`,`executionorder`),
+  KEY `channelid` (`channelid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_ad_category_assoc` (
+  `ad_category_assoc_id` int(10) unsigned NOT NULL auto_increment,
+  `category_id` int(10) unsigned NOT NULL,
+  `ad_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`ad_category_assoc_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_ad_zone_assoc` (
+  `ad_zone_assoc_id` mediumint(9) NOT NULL auto_increment,
+  `zone_id` mediumint(9) default NULL,
+  `ad_id` mediumint(9) default NULL,
+  `priority` double default '0',
+  `link_type` smallint(6) NOT NULL default '1',
+  `priority_factor` double default '0',
+  `to_be_delivered` tinyint(1) NOT NULL default '1',
+  PRIMARY KEY  (`ad_zone_assoc_id`),
+  KEY `ad_zone_assoc_zone_id` (`zone_id`),
+  KEY `ad_id` (`ad_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `oa_ad_zone_assoc` VALUES (1,0,1,1,0,1670960,1),(2,1,1,0.9,1,100,1),(3,0,2,0,0,1,1),(4,1,2,0,1,1,1),(5,2,1,0.9,1,100,1),(6,0,3,0,0,0,1),(7,1,3,0,1,1,1);
+CREATE TABLE `oa_affiliates` (
+  `affiliateid` mediumint(9) NOT NULL auto_increment,
+  `agencyid` mediumint(9) NOT NULL default '0',
+  `name` varchar(255) NOT NULL default '',
+  `mnemonic` varchar(5) NOT NULL default '',
+  `comments` text,
+  `contact` varchar(255) default NULL,
+  `email` varchar(64) NOT NULL default '',
+  `website` varchar(255) default NULL,
+  `username` varchar(64) default NULL,
+  `password` varchar(64) default NULL,
+  `permissions` mediumint(9) default NULL,
+  `language` varchar(64) default NULL,
+  `publiczones` enum('t','f') NOT NULL default 'f',
+  `last_accepted_agency_agreement` datetime default NULL,
+  `updated` datetime NOT NULL,
+  PRIMARY KEY  (`affiliateid`),
+  KEY `affiliates_agencyid` (`agencyid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `oa_affiliates` VALUES (1,0,'Publisher 1','','','Andrew Hill','andrew.hill@openads.org','http://www.fornax.net/blog/','publisher','5f4dcc3b5aa765d61d8327deb882cf99',0,'','f',NULL,'2007-05-15 13:29:57'),(2,1,'Agency Publisher 1','','','Andrew Hill','andrew.hill@openads.org','http://fornax.net',NULL,'',0,NULL,'f',NULL,'2007-05-15 13:41:40');
+CREATE TABLE `oa_affiliates_extra` (
+  `affiliateid` mediumint(9) NOT NULL,
+  `address` text,
+  `city` varchar(255) default NULL,
+  `postcode` varchar(64) default NULL,
+  `country` varchar(255) default NULL,
+  `phone` varchar(64) default NULL,
+  `fax` varchar(64) default NULL,
+  `account_contact` varchar(255) default NULL,
+  `payee_name` varchar(255) default NULL,
+  `tax_id` varchar(64) default NULL,
+  `mode_of_payment` varchar(64) default NULL,
+  `currency` varchar(64) default NULL,
+  `unique_users` int(11) default NULL,
+  `unique_views` int(11) default NULL,
+  `page_rank` int(11) default NULL,
+  `category` varchar(255) default NULL,
+  `help_file` varchar(255) default NULL,
+  PRIMARY KEY  (`affiliateid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `oa_affiliates_extra` VALUES (1,'','','','','','','','','','Cheque by post','GBP',0,0,0,'',''),(2,'','','','','','','','','','Cheque by post','GBP',0,0,0,NULL,NULL);
+CREATE TABLE `oa_agency` (
+  `agencyid` mediumint(9) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL default '',
+  `contact` varchar(255) default NULL,
+  `email` varchar(64) NOT NULL default '',
+  `username` varchar(64) default NULL,
+  `password` varchar(64) default NULL,
+  `permissions` mediumint(9) default NULL,
+  `language` varchar(64) default NULL,
+  `logout_url` varchar(255) default NULL,
+  `active` smallint(1) default '0',
+  `updated` datetime NOT NULL,
+  PRIMARY KEY  (`agencyid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `oa_agency` VALUES (1,'Test Agency','Andrew Hill','andrew.hill@openads.org','agency','5f4dcc3b5aa765d61d8327deb882cf99',0,'','',0,'2007-05-15 12:54:16');
+CREATE TABLE `oa_application_variable` (
+  `name` varchar(255) NOT NULL default '',
+  `value` varchar(255) NOT NULL default ''
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `oa_application_variable` VALUES ('tables_core','512');
+CREATE TABLE `oa_banners` (
+  `bannerid` mediumint(9) NOT NULL auto_increment,
+  `campaignid` mediumint(9) NOT NULL default '0',
+  `active` enum('t','f') NOT NULL default 't',
+  `contenttype` enum('gif','jpeg','png','html','swf','dcr','rpm','mov','txt') NOT NULL default 'gif',
+  `pluginversion` mediumint(9) NOT NULL default '0',
+  `storagetype` enum('sql','web','url','html','network','txt') NOT NULL default 'sql',
+  `filename` varchar(255) NOT NULL default '',
+  `imageurl` varchar(255) NOT NULL default '',
+  `htmltemplate` text NOT NULL,
+  `htmlcache` text NOT NULL,
+  `width` smallint(6) NOT NULL default '0',
+  `height` smallint(6) NOT NULL default '0',
+  `weight` tinyint(4) NOT NULL default '1',
+  `seq` tinyint(4) NOT NULL default '0',
+  `target` varchar(16) NOT NULL default '',
+  `url` text NOT NULL,
+  `alt` varchar(255) NOT NULL default '',
+  `status` varchar(255) NOT NULL default '',
+  `bannertext` text NOT NULL,
+  `description` varchar(255) NOT NULL default '',
+  `autohtml` enum('t','f') NOT NULL default 't',
+  `adserver` varchar(50) NOT NULL default '',
+  `block` int(11) NOT NULL default '0',
+  `capping` int(11) NOT NULL default '0',
+  `session_capping` int(11) NOT NULL default '0',
+  `compiledlimitation` text NOT NULL,
+  `acl_plugins` text,
+  `append` text NOT NULL,
+  `appendtype` tinyint(4) NOT NULL default '0',
+  `bannertype` tinyint(4) NOT NULL default '0',
+  `alt_filename` varchar(255) NOT NULL default '',
+  `alt_imageurl` varchar(255) NOT NULL default '',
+  `alt_contenttype` enum('gif','jpeg','png') NOT NULL default 'gif',
+  `comments` text,
+  `updated` datetime NOT NULL,
+  `acls_updated` datetime NOT NULL default '0000-00-00 00:00:00',
+  `keyword` varchar(255) NOT NULL default '',
+  `transparent` tinyint(1) NOT NULL default '0',
+  `parameters` text,
+  PRIMARY KEY  (`bannerid`),
+  KEY `banners_campaignid` (`campaignid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `oa_banners` VALUES (1,1,'t','',0,'html','','','Test HTML Banner!','',468,60,1,0,'','','','','','','t','',0,0,0,'(MAX_checkSite_Channel(\'7\', \'=~\'))','Site:Channel','',0,0,'','','','','2007-05-15 15:01:43','2007-05-15 15:01:43','',0,'N;'),(2,2,'t','',0,'html','','','html test banner','html test banner',468,60,1,0,'','http://www.example.com','','','','test banner','t','',0,0,0,'',NULL,'',0,0,'','','','','2007-05-16 13:03:46','0000-00-00 00:00:00','',0,'N;'),(3,3,'t','gif',0,'sql','468x60.gif','','','',468,60,1,0,'','http://www.example.com','alt text','','','sample gif banner','f','',0,0,0,'',NULL,'',0,0,'','','','','2007-05-23 10:21:58','0000-00-00 00:00:00','',0,'N;');
+CREATE TABLE `oa_campaigns` (
+  `campaignid` mediumint(9) NOT NULL auto_increment,
+  `campaignname` varchar(255) NOT NULL default '',
+  `clientid` mediumint(9) NOT NULL default '0',
+  `views` int(11) default '-1',
+  `clicks` int(11) default '-1',
+  `conversions` int(11) default '-1',
+  `expire` date default '0000-00-00',
+  `activate` date default '0000-00-00',
+  `active` enum('t','f') NOT NULL default 't',
+  `priority` int(11) NOT NULL default '0',
+  `weight` tinyint(4) NOT NULL default '1',
+  `target_impression` int(11) NOT NULL default '0',
+  `target_click` int(11) NOT NULL default '0',
+  `target_conversion` int(11) NOT NULL default '0',
+  `anonymous` enum('t','f') NOT NULL default 'f',
+  `companion` smallint(1) default '0',
+  `comments` text,
+  `revenue` decimal(10,4) default NULL,
+  `revenue_type` smallint(6) default NULL,
+  `updated` datetime NOT NULL,
+  `block` int(11) NOT NULL default '0',
+  `capping` int(11) NOT NULL default '0',
+  `session_capping` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`campaignid`),
+  KEY `campaigns_clientid` (`clientid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `oa_campaigns` VALUES (1,'Advertiser 1 - Default Campaign',1,100000000,-1,-1,'2007-07-01','0000-00-00','t',10,0,0,0,0,'f',0,'',NULL,NULL,'2007-05-15 09:54:06',0,0,0),(2,'test campaign',1,-1,-1,-1,'0000-00-00','0000-00-00','t',-1,1,0,0,0,'t',0,'',NULL,NULL,'2007-05-16 12:55:24',0,0,0),(3,'campaign 2 (gif)',1,-1,-1,-1,'0000-00-00','0000-00-00','t',0,1,0,0,0,'t',0,'',NULL,NULL,'2007-05-17 13:14:43',0,0,0);
+CREATE TABLE `oa_campaigns_trackers` (
+  `campaign_trackerid` mediumint(9) NOT NULL auto_increment,
+  `campaignid` mediumint(9) NOT NULL default '0',
+  `trackerid` mediumint(9) NOT NULL default '0',
+  `viewwindow` mediumint(9) NOT NULL default '0',
+  `clickwindow` mediumint(9) NOT NULL default '0',
+  `status` smallint(1) unsigned NOT NULL default '4',
+  PRIMARY KEY  (`campaign_trackerid`),
+  KEY `campaigns_trackers_campaignid` (`campaignid`),
+  KEY `campaigns_trackers_trackerid` (`trackerid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_category` (
+  `category_id` int(10) unsigned NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  PRIMARY KEY  (`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_channel` (
+  `channelid` mediumint(9) NOT NULL auto_increment,
+  `agencyid` mediumint(9) NOT NULL default '0',
+  `affiliateid` mediumint(9) NOT NULL default '0',
+  `name` varchar(255) default NULL,
+  `description` varchar(255) default NULL,
+  `compiledlimitation` text NOT NULL,
+  `acl_plugins` text,
+  `active` smallint(1) default NULL,
+  `comments` text,
+  `updated` datetime NOT NULL,
+  `acls_updated` datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (`channelid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `oa_channel` VALUES (7,0,0,'Test Admin Channel 2','','true','true',1,'','0000-00-00 00:00:00','0000-00-00 00:00:00');
+CREATE TABLE `oa_clients` (
+  `clientid` mediumint(9) NOT NULL auto_increment,
+  `agencyid` mediumint(9) NOT NULL default '0',
+  `clientname` varchar(255) NOT NULL default '',
+  `contact` varchar(255) default NULL,
+  `email` varchar(64) NOT NULL default '',
+  `clientusername` varchar(64) NOT NULL default '',
+  `clientpassword` varchar(64) NOT NULL default '',
+  `permissions` mediumint(9) default NULL,
+  `language` varchar(64) default NULL,
+  `report` enum('t','f') NOT NULL default 't',
+  `reportinterval` mediumint(9) NOT NULL default '7',
+  `reportlastdate` date NOT NULL default '0000-00-00',
+  `reportdeactivate` enum('t','f') NOT NULL default 't',
+  `comments` text,
+  `updated` datetime NOT NULL,
+  `lb_reporting` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`clientid`),
+  KEY `clients_agencyid` (`agencyid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `oa_clients` VALUES (1,0,'Advertiser 1','advertiser','example@example.com','advertiser1','fe1f4b7940d69cf3eb289fad37c3ae40',0,'','f',7,'2007-04-27','t','','2007-05-16 12:54:09',0);
+CREATE TABLE `oa_data_intermediate_ad` (
+  `data_intermediate_ad_id` bigint(20) NOT NULL auto_increment,
+  `day` date NOT NULL,
+  `hour` int(10) unsigned NOT NULL,
+  `operation_interval` int(10) unsigned NOT NULL,
+  `operation_interval_id` int(10) unsigned NOT NULL,
+  `interval_start` datetime NOT NULL,
+  `interval_end` datetime NOT NULL,
+  `ad_id` int(10) unsigned NOT NULL,
+  `creative_id` int(10) unsigned NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `requests` int(10) unsigned NOT NULL default '0',
+  `impressions` int(10) unsigned NOT NULL default '0',
+  `clicks` int(10) unsigned NOT NULL default '0',
+  `conversions` int(10) unsigned NOT NULL default '0',
+  `total_basket_value` decimal(10,4) NOT NULL default '0.0000',
+  `total_num_items` int(11) NOT NULL default '0',
+  `updated` datetime NOT NULL,
+  PRIMARY KEY  (`data_intermediate_ad_id`),
+  KEY `data_intermediate_ad_day` (`day`),
+  KEY `data_intermediate_ad_operation_interval_id` (`operation_interval_id`),
+  KEY `data_intermediate_ad_ad_id` (`ad_id`),
+  KEY `data_intermediate_ad_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_intermediate_ad_connection` (
+  `data_intermediate_ad_connection_id` bigint(20) NOT NULL auto_increment,
+  `server_raw_ip` varchar(16) NOT NULL default '',
+  `server_raw_tracker_impression_id` bigint(20) NOT NULL,
+  `viewer_id` varchar(32) default NULL,
+  `viewer_session_id` varchar(32) default NULL,
+  `tracker_date_time` datetime NOT NULL,
+  `connection_date_time` datetime default NULL,
+  `tracker_id` int(10) unsigned NOT NULL,
+  `ad_id` int(10) unsigned NOT NULL,
+  `creative_id` int(10) unsigned NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `tracker_channel` varchar(255) default NULL,
+  `connection_channel` varchar(255) default NULL,
+  `tracker_channel_ids` varchar(64) default NULL,
+  `connection_channel_ids` varchar(64) default NULL,
+  `tracker_language` varchar(13) default NULL,
+  `connection_language` varchar(13) default NULL,
+  `tracker_ip_address` varchar(16) default NULL,
+  `connection_ip_address` varchar(16) default NULL,
+  `tracker_host_name` varchar(255) default NULL,
+  `connection_host_name` varchar(255) default NULL,
+  `tracker_country` char(2) default NULL,
+  `connection_country` char(2) default NULL,
+  `tracker_https` int(10) unsigned default NULL,
+  `connection_https` int(10) unsigned default NULL,
+  `tracker_domain` varchar(255) default NULL,
+  `connection_domain` varchar(255) default NULL,
+  `tracker_page` varchar(255) default NULL,
+  `connection_page` varchar(255) default NULL,
+  `tracker_query` varchar(255) default NULL,
+  `connection_query` varchar(255) default NULL,
+  `tracker_referer` varchar(255) default NULL,
+  `connection_referer` varchar(255) default NULL,
+  `tracker_search_term` varchar(255) default NULL,
+  `connection_search_term` varchar(255) default NULL,
+  `tracker_user_agent` varchar(255) default NULL,
+  `connection_user_agent` varchar(255) default NULL,
+  `tracker_os` varchar(32) default NULL,
+  `connection_os` varchar(32) default NULL,
+  `tracker_browser` varchar(32) default NULL,
+  `connection_browser` varchar(32) default NULL,
+  `connection_action` int(10) unsigned default NULL,
+  `connection_window` int(10) unsigned default NULL,
+  `connection_status` int(10) unsigned NOT NULL default '4',
+  `inside_window` tinyint(1) NOT NULL default '0',
+  `comments` text,
+  `updated` datetime NOT NULL,
+  PRIMARY KEY  (`data_intermediate_ad_connection_id`),
+  KEY `data_intermediate_ad_connection_tracker_date_time` (`tracker_date_time`),
+  KEY `data_intermediate_ad_connection_tracker_id` (`tracker_id`),
+  KEY `data_intermediate_ad_connection_ad_id` (`ad_id`),
+  KEY `data_intermediate_ad_connection_zone_id` (`zone_id`),
+  KEY `data_intermediate_ad_connection_viewer_id` (`viewer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_intermediate_ad_variable_value` (
+  `data_intermediate_ad_variable_value_id` bigint(20) NOT NULL auto_increment,
+  `data_intermediate_ad_connection_id` bigint(20) NOT NULL,
+  `tracker_variable_id` int(11) NOT NULL,
+  `value` varchar(50) default NULL,
+  PRIMARY KEY  (`data_intermediate_ad_variable_value_id`),
+  KEY `data_intermediate_ad_connection_id` (`data_intermediate_ad_connection_id`),
+  KEY `data_intermediate_ad_variable_value_tracker_variable_id` (`tracker_variable_id`),
+  KEY `data_intermediate_ad_variable_value_tracker_value` (`value`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_raw_ad_click` (
+  `viewer_id` varchar(32) default NULL,
+  `viewer_session_id` varchar(32) default NULL,
+  `date_time` datetime NOT NULL,
+  `ad_id` int(10) unsigned NOT NULL,
+  `creative_id` int(10) unsigned NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `channel` varchar(255) default NULL,
+  `channel_ids` varchar(64) default NULL,
+  `language` varchar(32) default NULL,
+  `ip_address` varchar(16) default NULL,
+  `host_name` varchar(255) default NULL,
+  `country` char(2) default NULL,
+  `https` tinyint(1) default NULL,
+  `domain` varchar(255) default NULL,
+  `page` varchar(255) default NULL,
+  `query` varchar(255) default NULL,
+  `referer` varchar(255) default NULL,
+  `search_term` varchar(255) default NULL,
+  `user_agent` varchar(255) default NULL,
+  `os` varchar(32) default NULL,
+  `browser` varchar(32) default NULL,
+  `max_https` tinyint(1) default NULL,
+  `geo_region` varchar(50) default NULL,
+  `geo_city` varchar(50) default NULL,
+  `geo_postal_code` varchar(10) default NULL,
+  `geo_latitude` decimal(8,4) default NULL,
+  `geo_longitude` decimal(8,4) default NULL,
+  `geo_dma_code` varchar(50) default NULL,
+  `geo_area_code` varchar(50) default NULL,
+  `geo_organisation` varchar(50) default NULL,
+  `geo_netspeed` varchar(20) default NULL,
+  `geo_continent` varchar(13) default NULL,
+  KEY `data_raw_ad_click_viewer_id` (`viewer_id`),
+  KEY `data_raw_ad_click_date_time` (`date_time`),
+  KEY `data_raw_ad_click_ad_id` (`ad_id`),
+  KEY `data_raw_ad_click_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_raw_ad_impression` (
+  `viewer_id` varchar(32) default NULL,
+  `viewer_session_id` varchar(32) default NULL,
+  `date_time` datetime NOT NULL,
+  `ad_id` int(10) unsigned NOT NULL,
+  `creative_id` int(10) unsigned NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `channel` varchar(255) default NULL,
+  `channel_ids` varchar(64) default NULL,
+  `language` varchar(32) default NULL,
+  `ip_address` varchar(16) default NULL,
+  `host_name` varchar(255) default NULL,
+  `country` char(2) default NULL,
+  `https` tinyint(1) default NULL,
+  `domain` varchar(255) default NULL,
+  `page` varchar(255) default NULL,
+  `query` varchar(255) default NULL,
+  `referer` varchar(255) default NULL,
+  `search_term` varchar(255) default NULL,
+  `user_agent` varchar(255) default NULL,
+  `os` varchar(32) default NULL,
+  `browser` varchar(32) default NULL,
+  `max_https` tinyint(1) default NULL,
+  `geo_region` varchar(50) default NULL,
+  `geo_city` varchar(50) default NULL,
+  `geo_postal_code` varchar(10) default NULL,
+  `geo_latitude` decimal(8,4) default NULL,
+  `geo_longitude` decimal(8,4) default NULL,
+  `geo_dma_code` varchar(50) default NULL,
+  `geo_area_code` varchar(50) default NULL,
+  `geo_organisation` varchar(50) default NULL,
+  `geo_netspeed` varchar(20) default NULL,
+  `geo_continent` varchar(13) default NULL,
+  KEY `data_raw_ad_impression_viewer_id` (`viewer_id`),
+  KEY `data_raw_ad_impression_date_time` (`date_time`),
+  KEY `data_raw_ad_impression_ad_id` (`ad_id`),
+  KEY `data_raw_ad_impression_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_raw_ad_request` (
+  `viewer_id` varchar(32) default NULL,
+  `viewer_session_id` varchar(32) default NULL,
+  `date_time` datetime NOT NULL,
+  `ad_id` int(10) unsigned NOT NULL,
+  `creative_id` int(10) unsigned NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `channel` varchar(255) default NULL,
+  `channel_ids` varchar(64) default NULL,
+  `language` varchar(32) default NULL,
+  `ip_address` varchar(16) default NULL,
+  `host_name` varchar(255) default NULL,
+  `country` char(2) default NULL,
+  `https` tinyint(1) default NULL,
+  `domain` varchar(255) default NULL,
+  `page` varchar(255) default NULL,
+  `query` varchar(255) default NULL,
+  `referer` varchar(255) default NULL,
+  `search_term` varchar(255) default NULL,
+  `user_agent` varchar(255) default NULL,
+  `os` varchar(32) default NULL,
+  `browser` varchar(32) default NULL,
+  `max_https` tinyint(1) default NULL,
+  `geo_region` varchar(50) default NULL,
+  `geo_city` varchar(50) default NULL,
+  `geo_postal_code` varchar(10) default NULL,
+  `geo_latitude` decimal(8,4) default NULL,
+  `geo_longitude` decimal(8,4) default NULL,
+  `geo_dma_code` varchar(50) default NULL,
+  `geo_area_code` varchar(50) default NULL,
+  `geo_organisation` varchar(50) default NULL,
+  `geo_netspeed` varchar(20) default NULL,
+  `geo_continent` varchar(13) default NULL,
+  KEY `data_raw_ad_request_viewer_id` (`viewer_id`),
+  KEY `data_raw_ad_request_date_time` (`date_time`),
+  KEY `data_raw_ad_request_ad_id` (`ad_id`),
+  KEY `data_raw_ad_request_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_raw_tracker_click` (
+  `viewer_id` varchar(32) default NULL,
+  `viewer_session_id` varchar(32) NOT NULL default '',
+  `date_time` datetime NOT NULL,
+  `tracker_id` int(10) unsigned NOT NULL,
+  `channel` varchar(255) default NULL,
+  `channel_ids` varchar(64) default NULL,
+  `language` varchar(32) default NULL,
+  `ip_address` varchar(16) default NULL,
+  `host_name` varchar(255) default NULL,
+  `country` char(2) default NULL,
+  `https` tinyint(1) default NULL,
+  `domain` varchar(255) default NULL,
+  `page` varchar(255) default NULL,
+  `query` varchar(255) default NULL,
+  `referer` varchar(255) default NULL,
+  `search_term` varchar(255) default NULL,
+  `user_agent` varchar(255) default NULL,
+  `os` varchar(32) default NULL,
+  `browser` varchar(32) default NULL,
+  `max_https` tinyint(1) default NULL,
+  `geo_region` varchar(50) default NULL,
+  `geo_city` varchar(50) default NULL,
+  `geo_postal_code` varchar(10) default NULL,
+  `geo_latitude` decimal(8,4) default NULL,
+  `geo_longitude` decimal(8,4) default NULL,
+  `geo_dma_code` varchar(50) default NULL,
+  `geo_area_code` varchar(50) default NULL,
+  `geo_organisation` varchar(50) default NULL,
+  `geo_netspeed` varchar(20) default NULL,
+  `geo_continent` varchar(13) default NULL,
+  KEY `data_raw_tracker_click_viewer_id` (`viewer_id`),
+  KEY `data_raw_tracker_click_date_time` (`date_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_raw_tracker_impression` (
+  `server_raw_tracker_impression_id` bigint(20) NOT NULL auto_increment,
+  `server_raw_ip` varchar(16) NOT NULL default '',
+  `viewer_id` varchar(32) NOT NULL default '',
+  `viewer_session_id` varchar(32) default NULL,
+  `date_time` datetime NOT NULL,
+  `tracker_id` int(10) unsigned NOT NULL,
+  `channel` varchar(255) default NULL,
+  `channel_ids` varchar(64) default NULL,
+  `language` varchar(32) default NULL,
+  `ip_address` varchar(16) default NULL,
+  `host_name` varchar(255) default NULL,
+  `country` char(2) default NULL,
+  `https` int(10) unsigned default NULL,
+  `domain` varchar(255) default NULL,
+  `page` varchar(255) default NULL,
+  `query` varchar(255) default NULL,
+  `referer` varchar(255) default NULL,
+  `search_term` varchar(255) default NULL,
+  `user_agent` varchar(255) default NULL,
+  `os` varchar(32) default NULL,
+  `browser` varchar(32) default NULL,
+  `max_https` int(10) unsigned default NULL,
+  `geo_region` varchar(50) default NULL,
+  `geo_city` varchar(50) default NULL,
+  `geo_postal_code` varchar(10) default NULL,
+  `geo_latitude` decimal(8,4) default NULL,
+  `geo_longitude` decimal(8,4) default NULL,
+  `geo_dma_code` varchar(50) default NULL,
+  `geo_area_code` varchar(50) default NULL,
+  `geo_organisation` varchar(50) default NULL,
+  `geo_netspeed` varchar(20) default NULL,
+  `geo_continent` varchar(13) default NULL,
+  PRIMARY KEY  (`server_raw_tracker_impression_id`,`server_raw_ip`),
+  KEY `data_raw_tracker_impression_viewer_id` (`viewer_id`),
+  KEY `data_raw_tracker_impression_date_time` (`date_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_raw_tracker_variable_value` (
+  `server_raw_tracker_impression_id` bigint(20) NOT NULL,
+  `server_raw_ip` varchar(16) NOT NULL default '',
+  `tracker_variable_id` int(11) NOT NULL,
+  `date_time` datetime default NULL,
+  `value` varchar(50) default NULL,
+  PRIMARY KEY  (`server_raw_tracker_impression_id`,`server_raw_ip`,`tracker_variable_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_summary_ad_hourly` (
+  `data_summary_ad_hourly_id` bigint(20) NOT NULL auto_increment,
+  `day` date NOT NULL,
+  `hour` int(10) unsigned NOT NULL,
+  `ad_id` int(10) unsigned NOT NULL,
+  `creative_id` int(10) unsigned NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `requests` int(10) unsigned NOT NULL default '0',
+  `impressions` int(10) unsigned NOT NULL default '0',
+  `clicks` int(10) unsigned NOT NULL default '0',
+  `conversions` int(10) unsigned NOT NULL default '0',
+  `total_basket_value` decimal(10,4) default NULL,
+  `total_num_items` int(11) default NULL,
+  `total_revenue` decimal(10,4) default NULL,
+  `total_cost` decimal(10,4) default NULL,
+  `total_techcost` decimal(10,4) default NULL,
+  `updated` datetime NOT NULL,
+  PRIMARY KEY  (`data_summary_ad_hourly_id`),
+  KEY `data_summary_ad_hourly_day` (`day`),
+  KEY `data_summary_ad_hourly_hour` (`hour`),
+  KEY `data_summary_ad_hourly_ad_id` (`ad_id`),
+  KEY `data_summary_ad_hourly_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_summary_ad_zone_assoc` (
+  `data_summary_ad_zone_assoc_id` bigint(20) NOT NULL auto_increment,
+  `operation_interval` int(10) unsigned NOT NULL,
+  `operation_interval_id` int(10) unsigned NOT NULL,
+  `interval_start` datetime NOT NULL,
+  `interval_end` datetime NOT NULL,
+  `ad_id` int(10) unsigned NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `required_impressions` int(10) unsigned NOT NULL,
+  `requested_impressions` int(10) unsigned NOT NULL,
+  `priority` double NOT NULL,
+  `priority_factor` double default NULL,
+  `priority_factor_limited` smallint(6) NOT NULL default '0',
+  `past_zone_traffic_fraction` double default NULL,
+  `created` datetime NOT NULL,
+  `created_by` int(10) unsigned NOT NULL,
+  `expired` datetime default NULL,
+  `expired_by` int(10) unsigned default NULL,
+  `to_be_delivered` tinyint(1) NOT NULL default '1',
+  PRIMARY KEY  (`data_summary_ad_zone_assoc_id`),
+  KEY `data_summary_ad_zone_assoc_interval_start` (`interval_start`),
+  KEY `data_summary_ad_zone_assoc_interval_end` (`interval_end`),
+  KEY `data_summary_ad_zone_assoc_ad_id` (`ad_id`),
+  KEY `data_summary_ad_zone_assoc_zone_id` (`zone_id`),
+  KEY `expired` (`expired`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_summary_channel_daily` (
+  `data_summary_channel_daily_id` bigint(20) NOT NULL auto_increment,
+  `day` date NOT NULL,
+  `channel_id` int(10) unsigned NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `forecast_impressions` int(10) unsigned NOT NULL default '0',
+  `actual_impressions` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`data_summary_channel_daily_id`),
+  KEY `data_summary_channel_daily_day` (`day`),
+  KEY `data_summary_channel_daily_channel_id` (`channel_id`),
+  KEY `data_summary_channel_daily_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_summary_zone_country_daily` (
+  `data_summary_zone_country_daily_id` bigint(20) NOT NULL auto_increment,
+  `day` date NOT NULL default '0000-00-00',
+  `zone_id` int(10) unsigned NOT NULL default '0',
+  `country` char(2) default NULL,
+  `impressions` int(10) unsigned default NULL,
+  `clicks` int(10) unsigned default NULL,
+  PRIMARY KEY  (`data_summary_zone_country_daily_id`),
+  KEY `data_summary_zone_country_daily_day` (`day`),
+  KEY `data_summary_zone_country_daily_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_summary_zone_country_forecast` (
+  `data_summary_zone_country_forecast_id` bigint(20) NOT NULL auto_increment,
+  `day_of_week` smallint(6) NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `country` varchar(2) default NULL,
+  `impressions` int(10) unsigned default NULL,
+  PRIMARY KEY  (`data_summary_zone_country_forecast_id`),
+  KEY `data_summary_zone_country_forecast_day_of_week` (`day_of_week`),
+  KEY `data_summary_zone_country_forecast_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_summary_zone_country_monthly` (
+  `data_summary_zone_country_monthly_id` bigint(20) NOT NULL auto_increment,
+  `yearmonth` mediumint(6) NOT NULL default '0',
+  `zone_id` int(10) unsigned NOT NULL default '0',
+  `country` char(2) default NULL,
+  `impressions` int(10) unsigned default NULL,
+  `clicks` int(10) unsigned default NULL,
+  PRIMARY KEY  (`data_summary_zone_country_monthly_id`),
+  KEY `data_summary_zone_country_monthly_yearmonth` (`yearmonth`),
+  KEY `data_summary_zone_country_monthly_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_summary_zone_domain_page_daily` (
+  `data_summary_zone_domain_page_daily_id` bigint(20) NOT NULL auto_increment,
+  `day` date NOT NULL default '0000-00-00',
+  `zone_id` int(10) unsigned NOT NULL default '0',
+  `domain` varchar(255) default NULL,
+  `page` varchar(255) default NULL,
+  `impressions` int(10) unsigned default NULL,
+  `clicks` int(10) unsigned default NULL,
+  PRIMARY KEY  (`data_summary_zone_domain_page_daily_id`),
+  KEY `data_summary_zone_domain_page_daily_day` (`day`),
+  KEY `data_summary_zone_domain_page_daily_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_summary_zone_domain_page_forecast` (
+  `data_summary_zone_domain_page_forecast_id` bigint(20) NOT NULL auto_increment,
+  `day_of_week` smallint(6) NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `domain` varchar(255) default NULL,
+  `page` varchar(255) default NULL,
+  `impressions` int(10) unsigned default NULL,
+  PRIMARY KEY  (`data_summary_zone_domain_page_forecast_id`),
+  KEY `data_summary_zone_domain_page_forecast_day_of_week` (`day_of_week`),
+  KEY `data_summary_zone_domain_page_forecast_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_summary_zone_domain_page_monthly` (
+  `data_summary_zone_domain_page_monthly_id` bigint(20) NOT NULL auto_increment,
+  `yearmonth` mediumint(6) NOT NULL default '0',
+  `zone_id` int(10) unsigned NOT NULL default '0',
+  `domain` varchar(255) default NULL,
+  `page` varchar(255) default NULL,
+  `impressions` int(10) unsigned default NULL,
+  `clicks` int(10) unsigned default NULL,
+  PRIMARY KEY  (`data_summary_zone_domain_page_monthly_id`),
+  KEY `data_summary_zone_domain_page_monthly_yearmonth` (`yearmonth`),
+  KEY `data_summary_zone_domain_page_monthly_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_summary_zone_impression_history` (
+  `data_summary_zone_impression_history_id` bigint(20) NOT NULL auto_increment,
+  `operation_interval` int(10) unsigned NOT NULL,
+  `operation_interval_id` int(10) unsigned NOT NULL,
+  `interval_start` datetime NOT NULL,
+  `interval_end` datetime NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `forecast_impressions` int(10) unsigned default NULL,
+  `actual_impressions` int(10) unsigned default NULL,
+  PRIMARY KEY  (`data_summary_zone_impression_history_id`),
+  KEY `data_summary_zone_impression_history_operation_interval_id` (`operation_interval_id`),
+  KEY `data_summary_zone_impression_history_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_summary_zone_site_keyword_daily` (
+  `data_summary_zone_site_keyword_daily_id` bigint(20) NOT NULL auto_increment,
+  `day` date NOT NULL default '0000-00-00',
+  `zone_id` int(10) unsigned NOT NULL default '0',
+  `site` varchar(255) default NULL,
+  `keyword` varchar(255) default NULL,
+  `impressions` int(10) unsigned default NULL,
+  `clicks` int(10) unsigned default NULL,
+  PRIMARY KEY  (`data_summary_zone_site_keyword_daily_id`),
+  KEY `data_summary_zone_site_keyword_daily_day` (`day`),
+  KEY `data_summary_zone_site_keyword_daily_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_summary_zone_site_keyword_forecast` (
+  `data_summary_zone_site_keyword_forecast_id` bigint(20) NOT NULL auto_increment,
+  `day_of_week` smallint(6) NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `site` varchar(255) default NULL,
+  `keyword` varchar(255) default NULL,
+  `impressions` int(10) unsigned default NULL,
+  PRIMARY KEY  (`data_summary_zone_site_keyword_forecast_id`),
+  KEY `data_summary_zone_site_keyword_forecast_day_of_week` (`day_of_week`),
+  KEY `data_summary_zone_site_keyword_forecast_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_summary_zone_site_keyword_monthly` (
+  `data_summary_zone_site_keyword_monthly_id` bigint(20) NOT NULL auto_increment,
+  `yearmonth` mediumint(6) NOT NULL default '0',
+  `zone_id` int(10) unsigned NOT NULL default '0',
+  `site` varchar(255) default NULL,
+  `keyword` varchar(255) default NULL,
+  `impressions` int(10) unsigned default NULL,
+  `clicks` int(10) unsigned default NULL,
+  PRIMARY KEY  (`data_summary_zone_site_keyword_monthly_id`),
+  KEY `data_summary_zone_site_keyword_monthly_yearmonth` (`yearmonth`),
+  KEY `data_summary_zone_site_keyword_monthly_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_summary_zone_source_daily` (
+  `data_summary_zone_source_daily_id` bigint(20) NOT NULL auto_increment,
+  `day` date NOT NULL default '0000-00-00',
+  `zone_id` int(10) unsigned NOT NULL default '0',
+  `source` varchar(255) default NULL,
+  `impressions` int(10) unsigned default NULL,
+  `clicks` int(10) unsigned default NULL,
+  PRIMARY KEY  (`data_summary_zone_source_daily_id`),
+  KEY `data_summary_zone_source_daily_day` (`day`),
+  KEY `data_summary_zone_source_daily_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_summary_zone_source_forecast` (
+  `data_summary_zone_source_forecast_id` bigint(20) NOT NULL auto_increment,
+  `day_of_week` smallint(6) NOT NULL,
+  `zone_id` int(10) unsigned NOT NULL,
+  `source` varchar(255) default NULL,
+  `impressions` int(10) unsigned default NULL,
+  PRIMARY KEY  (`data_summary_zone_source_forecast_id`),
+  KEY `data_summary_zone_source_forecast_day_of_week` (`day_of_week`),
+  KEY `data_summary_zone_source_forecast_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_data_summary_zone_source_monthly` (
+  `data_summary_zone_source_monthly_id` bigint(20) NOT NULL auto_increment,
+  `yearmonth` mediumint(6) NOT NULL default '0',
+  `zone_id` int(10) unsigned NOT NULL default '0',
+  `source` varchar(255) default NULL,
+  `impressions` int(10) unsigned default NULL,
+  `clicks` int(10) unsigned default NULL,
+  PRIMARY KEY  (`data_summary_zone_source_monthly_id`),
+  KEY `data_summary_zone_source_monthly_yearmonth` (`yearmonth`),
+  KEY `data_summary_zone_source_monthly_zone_id` (`zone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_database_action` (
+  `schema_name` varchar(64) default NULL,
+  `version` int(11) NOT NULL,
+  `timing` int(2) NOT NULL,
+  `action` int(2) NOT NULL,
+  `info1` varchar(255) default NULL,
+  `info2` varchar(255) default NULL,
+  `tablename` varchar(32) default NULL,
+  `tablename_backup` varchar(32) default NULL,
+  `table_backup_schema` text,
+  `updated` datetime default NULL,
+  KEY `schema_version_timing_action` (`schema_name`,`version`,`timing`,`action`),
+  KEY `updated` (`updated`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_images` (
+  `image_id` int(11) NOT NULL auto_increment,
+  `filename` varchar(128) NOT NULL default '',
+  `contents` longblob NOT NULL,
+  `t_stamp` datetime default NULL,
+  PRIMARY KEY  (`image_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `oa_images` VALUES (1,'468x60.gif',0x474946383961D4013C00B30000757575BABABA444444EEEEEE101010CECECE999999303030DEDEDE202020656565898989555555AAAAAAFFFFFF00000021F90400000000002C00000000D4013C000004FFF0C949ABBD38EBCDBBFF60288E64699E68AAAE6CEBBE702CCF746DDF78AEEF7CEF3F848163481C0A5004C5228028060C0A428AC058369D0DC0E1A74A5A9D50E9AACA240E9E51AE7ACD6E571AC5F8B12430C4EFC3C6962480E3EF0800626E1D757F717A2709064287430609849293942E0C8E732209018E780B831E9B9D7803009517A2A3459F24008DAA0EACA7B3B4B5164198230AAFB04305A01B0CBCBD8FC094BBC444BF21047EC9CBB6D1D292CE7F991F0BC971D01B0ADA77DC94D9DFBEC6190405E40E03E6D3EEEF36979DD71D76EABE1C07F74506A7F6F7053EFC23170E9EC1832E70CD0301601F1153E7AE3874005152C38915357873D80FA1C78F28FFAA1DA2A741C0442291305C3CC94E92C9930E529E1BA68E24C89B38316C1C65F30201897F066401C0A853C75B34E3040020404095A44532AEF9D9492800A250891CC530EE1002030016A4731430A7D9B313126495E361E51F5913DCDE19A0D3D100920406022224F70E5C097D8BD09DE948AAB05C6813DFE404AB6705857F14A874C4E0825EC17B2C3B92A906321EC9170213A93CF9905409FA0E3550CC1AA1686B1D5E53D40034CED6098CF19CA64015361BD9BB27D4E69761389100192E17E1DCBA792DB5C41C53188B07C186D7652B386A37A1EB9DE03CA8EFD5801D430247A051A177CEBE56EEC61CCE1F4A8F21B599004B771FCA9E419E6E36F245B681FF7D439C915F697F6C201E22ED3548896CBE91B71D070030200073181C82DC062FFDB7866CDCC56521861888E4C475870CE6E08A6B40978C741298789C0B506D58926916408840888075729A8C43D8C84256E049D0211E99B1A8240FEF15B1205B1B10E94293665038D2054FC6B1C0809DF03781942D04880769E7ACB7E49939BC46E01D308A7907992BA8B901954498B79603D2656906866EC601A70A47B2C9416168165A838BDF3D80587F8E24A9429F33661028717539621D82025AE01F922E80C8019D411A2A6A0CA096B528A67754700051F805B080162228F7487D594907E44317AC79C76AA139A22AABF8BDEAA895877400AA03428EAA2C0A722A7AA5FF06DEC5A1A202C60D81007DF16515409204B872C8961AF476C8B07A16D84EB4824D40AD57D86A70AC03C6FABAECBC26E88AAB04A75E702C72A97482C09F1A6C4A0A7EE596C3C1A4DB5400A163FB3ED0AFA500EB9B623DF2D26B71087A0A99AF05FB1E70A7961F2003108F71F93801C2ABB8ABA1C7C480ABF21FC9A21AC7C534B71514671B57502E021FDF719B060714DC4900244FD7C916E2E2E1A5053BF76CDB068EC4DCEBB335576D81BD43489533053051EAC1BAC45CABC95A01A18B19D45DCF9A41D4B16D6D35CD195BE036BE6967FDC122C9340063A5AA998C76DDE0B14D6C846F5B2DDA0018CEED6C2F05E0A7CADE04980D4B00246E70EB28BCFE0D4BFFE3EF12D193E028525D78CD58CF26B7E817F402006760FFB1B4AAD5F63240C4E1C66E57D1AAB36EFBEB8BE321758E8A8F2E6ADCA9A37E7A55C302F12EED0FB03C51BB1C7EC3BC76A30C903C01CB170F73DBC60BBFECE1952BFEF839E5FEEE99EFAF02D0B903D34FDD8BCB83F244BE86DAFBCE3DE1DE2F5B7AE0DD736D54F48720D1E51AC09CC8DD0E638C2B1ADD1CF1B30AA06C0889A3DFE0F0B0B7FCB1081DDB5B5BFF26308AE4E96C3E1678A0031A28819DE081841940D4D140D0410E94AB5DA093D0062DB824C9214E038A7BD7A542E7098EED878778A85C064C882310E8F07E7EF1610681982A1A2AEB81D0F31FFE94B8C41B55D161C18B5D914AE42F11FFBCEB770E9420058EB5430D5CCE89CADA57ABD6B846B2B03159EFDAA20420652D85FD9003927300EF5E462823F671037474401925F0AE78150B8DA25ADF49EC58C4F8258802B792E3034418020811C183328B8A072AD61D4E66A0618834942227C2C83F48B2774D9C40B9DAC7C1717DA074E050E00380B3C9435240361D285F284559B7479EEC8F9A4BE5022958CB29620083EFFB80084FE9C907080C4A386CE42E97344A873C2686D1F4E53005D581E049208F33E40D3635A84DD4288E00669A26357B89070BC46E90F5B9632BFFC04A207853842952E03B3B50BAD701F30222C4A43A9D53CD7D58405610E4C03323354F0F01F00F429CC0F97A91B90D2034FF260A15E31855C3C4740D749DEC9C590588180739E6512AC7DAE32D9B7981CB8D228A23FDE7054E3AD3097D92A31F555241EF718B03D2E6107FBA684425103B954A60A145384C8A866ACF7C6E20761143EA10601A4807C034A7AD394053B6CAD5AE7A75995ED5CC2150384B9BAA6B9C31FD1620D7B225A9868A031725ABA72E901578962C805815DE3DFF97ABAC545402E86460069C67CC8D7A450C2E95233E4948D85D2547A6CD73C45FF35A356F3EA0739453D85A6CE252031843A97FB0EB4A1735D13808949043638EB736084BD34D00B4C4A46CE12C8BCF205DC500B64316066A3B002834050042B32AD03A013F67768947B545D66D730B46D45A0A2C62FFE9926C4767D90780531B98BCAE368C5AB01D59C0A5C5AD294C4EDBDAE84C77B6E1E44D70615124644EC47AD05A0852E43B3F8C20511D643DEFB2AA0B04A7097640FEEDC45517CB289F12661FF9A5C045555110FD5E8CBFCD5BEF583D7080DCAAE2AA499B4B885C3AD9AB49F80F09AEC04ECFE660AB415879E4382560476C06182DB87DA52DC255579CE2112CD875A72DF1A84E0C980023A08216685D2F3C1B8C4E7458535561EA2C7D0CE40BC076147FD131CD780CD8D59265C61C5080840D90E3189BCB032E6D2E6FACBC1F2C73A05B1FD39B94D7EC64F501E509AB5B4102146080322863290C90252518E06630C499057CB6F33AD0A067361BFAD0884EB40AA217CDE8463B1A061100003B,'2007-05-17 12:01:02');
+CREATE TABLE `oa_lb_local` (
+  `last_run` int(11) default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_log_maintenance_forecasting` (
+  `log_maintenance_forecasting_id` int(11) NOT NULL auto_increment,
+  `start_run` datetime NOT NULL,
+  `end_run` datetime NOT NULL,
+  `operation_interval` int(11) NOT NULL,
+  `duration` int(11) NOT NULL,
+  `updated_to` datetime default NULL,
+  PRIMARY KEY  (`log_maintenance_forecasting_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_log_maintenance_priority` (
+  `log_maintenance_priority_id` int(11) NOT NULL auto_increment,
+  `start_run` datetime NOT NULL,
+  `end_run` datetime NOT NULL,
+  `operation_interval` int(11) NOT NULL,
+  `duration` int(11) NOT NULL,
+  `run_type` tinyint(3) unsigned NOT NULL,
+  `updated_to` datetime default NULL,
+  PRIMARY KEY  (`log_maintenance_priority_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_log_maintenance_statistics` (
+  `log_maintenance_statistics_id` int(11) NOT NULL auto_increment,
+  `start_run` datetime NOT NULL,
+  `end_run` datetime NOT NULL,
+  `duration` int(11) NOT NULL,
+  `adserver_run_type` int(2) default NULL,
+  `search_run_type` int(2) default NULL,
+  `tracker_run_type` int(2) default NULL,
+  `updated_to` datetime default NULL,
+  PRIMARY KEY  (`log_maintenance_statistics_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_password_recovery` (
+  `user_type` varchar(64) NOT NULL default '',
+  `user_id` int(10) NOT NULL,
+  `recovery_id` varchar(64) NOT NULL default '',
+  `updated` datetime NOT NULL,
+  PRIMARY KEY  (`user_type`,`user_id`),
+  UNIQUE KEY `recovery_id` (`recovery_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_placement_zone_assoc` (
+  `placement_zone_assoc_id` mediumint(9) NOT NULL auto_increment,
+  `zone_id` mediumint(9) default NULL,
+  `placement_id` mediumint(9) default NULL,
+  PRIMARY KEY  (`placement_zone_assoc_id`),
+  KEY `placement_zone_assoc_zone_id` (`zone_id`),
+  KEY `placement_id` (`placement_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `oa_placement_zone_assoc` VALUES (1,1,1),(2,1,2),(3,2,3);
+CREATE TABLE `oa_plugins_channel_delivery_assoc` (
+  `rule_id` int(10) unsigned NOT NULL default '0',
+  `domain_id` int(10) unsigned NOT NULL default '0',
+  `rule_order` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`rule_id`,`domain_id`),
+  KEY `domain_id` (`domain_id`),
+  KEY `rule_id` (`rule_id`),
+  KEY `rule_order` (`rule_order`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_plugins_channel_delivery_domains` (
+  `domain_id` int(10) unsigned NOT NULL auto_increment,
+  `domain_name` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`domain_id`),
+  KEY `domain_name` (`domain_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_plugins_channel_delivery_rules` (
+  `rule_id` int(10) unsigned NOT NULL auto_increment,
+  `modifier` varchar(100) NOT NULL default '',
+  `client` varchar(100) NOT NULL default '',
+  `rule` text NOT NULL,
+  PRIMARY KEY  (`rule_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_preference` (
   `agencyid` mediumint(9) NOT NULL default '0',
   `config_version` decimal(7,3) NOT NULL default '0.000',
   `my_header` varchar(255) default NULL,
@@ -165,210 +930,123 @@ CREATE TABLE `preference` (
   `maintenance_cron_timestamp` int(11) default NULL,
   PRIMARY KEY  (`agencyid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `preference` VALUES (0,'0.000',NULL,NULL,NULL,'english',NULL,'www.openads.org',NULL,0,2,'t','t','f','t','t','t','admin','5f4dcc3b5aa765d61d8327deb882cf99','Andrew Hill','andrew.hill@openads.org','t','t','t',100,NULL,'t',1,1,NULL,NULL,'t',NULL,'t',NULL,'f','t','t','t','t','t','t','t','t','t','t',50,NULL,NULL,NULL,NULL,0,'f','t',NULL,0,NULL,'f','t','t','f','f','t','t','t','t','f',5,'f',5,'t',-1,1180017378,'t','0000-00-00',0,1,1,'f','f',NULL,'','','','','t','t',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1179299106),(1,'0.000',NULL,NULL,NULL,'','Test Agency','www.openads.org',NULL,0,2,'t','t','f','t','t','t','admin','5f4dcc3b5aa765d61d8327deb882cf99','Andrew Hill','andrew.hill@openads.org','t','t','t',100,NULL,'t',1,1,NULL,NULL,'t',NULL,'t',NULL,'f','t','t','t','t','t','t','t','t','t','t',50,NULL,NULL,NULL,NULL,0,'f','t',NULL,0,NULL,'f','t','t','f','f','t','t','t','t','f',5,'f',5,'t',-1,1180017378,'t','0000-00-00',0,1,1,'f','f',NULL,'','','','','t','t',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1179299106);
-CREATE TABLE `affiliates_extra` (
-  `affiliateid` mediumint(9) NOT NULL,
-  `address` text,
-  `city` varchar(255) default NULL,
-  `postcode` varchar(64) default NULL,
-  `country` varchar(255) default NULL,
-  `phone` varchar(64) default NULL,
-  `fax` varchar(64) default NULL,
-  `account_contact` varchar(255) default NULL,
-  `payee_name` varchar(255) default NULL,
-  `tax_id` varchar(64) default NULL,
-  `mode_of_payment` varchar(64) default NULL,
-  `currency` varchar(64) default NULL,
-  `unique_users` int(11) default NULL,
-  `unique_views` int(11) default NULL,
-  `page_rank` int(11) default NULL,
-  `category` varchar(255) default NULL,
-  `help_file` varchar(255) default NULL,
-  PRIMARY KEY  (`affiliateid`)
+INSERT INTO `oa_preference` VALUES (0,'0.000',NULL,NULL,NULL,'english',NULL,'www.openads.org',NULL,0,2,'t','t','f','t','t','t','admin','5f4dcc3b5aa765d61d8327deb882cf99','Andrew Hill','andrew.hill@openads.org','t','t','t',100,NULL,'t',1,1,NULL,NULL,'t',NULL,'t',NULL,'f','t','t','t','t','t','t','t','t','t','t',50,NULL,NULL,NULL,NULL,0,'f','t',NULL,0,NULL,'f','t','t','f','f','t','t','t','t','f',5,'f',5,'t',-1,1180088476,'t','0000-00-00',0,1,1,'f','f',NULL,'','','','','t','t',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1179299106),(1,'0.000',NULL,NULL,NULL,'','Test Agency','www.openads.org',NULL,0,2,'t','t','f','t','t','t','admin','5f4dcc3b5aa765d61d8327deb882cf99','Andrew Hill','andrew.hill@openads.org','t','t','t',100,NULL,'t',1,1,NULL,NULL,'t',NULL,'t',NULL,'f','t','t','t','t','t','t','t','t','t','t',50,NULL,NULL,NULL,NULL,0,'f','t',NULL,0,NULL,'f','t','t','f','f','t','t','t','t','f',5,'f',5,'t',-1,1180088476,'t','0000-00-00',0,1,1,'f','f',NULL,'','','','','t','t',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1179299106);
+CREATE TABLE `oa_preference_advertiser` (
+  `advertiser_id` int(11) NOT NULL,
+  `preference` varchar(255) NOT NULL default '',
+  `value` text NOT NULL,
+  PRIMARY KEY  (`advertiser_id`,`preference`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `affiliates_extra` VALUES (1,'','','','','','','','','','Cheque by post','GBP',0,0,0,'',''),(2,'','','','','','','','','','Cheque by post','GBP',0,0,0,NULL,NULL);
-CREATE TABLE `channel` (
-  `channelid` mediumint(9) NOT NULL auto_increment,
-  `agencyid` mediumint(9) NOT NULL default '0',
-  `affiliateid` mediumint(9) NOT NULL default '0',
-  `name` varchar(255) default NULL,
-  `description` varchar(255) default NULL,
-  `compiledlimitation` text NOT NULL,
-  `acl_plugins` text,
-  `active` smallint(1) default NULL,
-  `comments` text,
-  `updated` datetime NOT NULL,
-  `acls_updated` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`channelid`)
+CREATE TABLE `oa_preference_publisher` (
+  `publisher_id` int(11) NOT NULL,
+  `preference` varchar(255) NOT NULL default '',
+  `value` text NOT NULL,
+  PRIMARY KEY  (`publisher_id`,`preference`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `channel` VALUES (7,0,0,'Test Admin Channel 2','','true','true',1,'','0000-00-00 00:00:00','0000-00-00 00:00:00');
-CREATE TABLE `ad_zone_assoc` (
-  `ad_zone_assoc_id` mediumint(9) NOT NULL auto_increment,
-  `zone_id` mediumint(9) default NULL,
-  `ad_id` mediumint(9) default NULL,
-  `priority` double default '0',
-  `link_type` smallint(6) NOT NULL default '1',
-  `priority_factor` double default '0',
-  `to_be_delivered` tinyint(1) NOT NULL default '1',
-  PRIMARY KEY  (`ad_zone_assoc_id`),
-  KEY `ad_zone_assoc_zone_id` (`zone_id`),
-  KEY `ad_id` (`ad_id`)
+CREATE TABLE `oa_session` (
+  `sessionid` varchar(32) NOT NULL default '',
+  `sessiondata` text NOT NULL,
+  `lastused` datetime default NULL,
+  PRIMARY KEY  (`sessionid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `ad_zone_assoc` VALUES (1,0,1,1,0,1670960,1),(2,1,1,0.9,1,100,1),(3,0,2,0,0,1,1),(4,1,2,0,1,1,1),(5,2,1,0.9,1,100,1),(6,0,3,0,0,0,1),(7,1,3,0,1,1,1);
-CREATE TABLE `log_maintenance_statistics` (
-  `log_maintenance_statistics_id` int(11) NOT NULL auto_increment,
-  `start_run` datetime NOT NULL,
-  `end_run` datetime NOT NULL,
-  `duration` int(11) NOT NULL,
-  `adserver_run_type` int(2) default NULL,
-  `search_run_type` int(2) default NULL,
-  `tracker_run_type` int(2) default NULL,
-  `updated_to` datetime default NULL,
-  PRIMARY KEY  (`log_maintenance_statistics_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `log_maintenance_statistics` VALUES (1,'2007-05-17 18:47:35','2007-05-17 17:47:36',3599,1,NULL,NULL,'2007-05-17 17:59:59'),(2,'2007-05-21 10:15:39','2007-05-21 10:15:41',2,2,NULL,NULL,'2007-05-22 09:59:59'),(3,'2007-05-21 11:16:25','2007-05-21 11:16:27',2,2,NULL,NULL,'2007-05-22 10:59:59'),(4,'2007-05-21 12:15:33','2007-05-21 12:15:36',3,2,NULL,NULL,'2007-05-22 11:59:59'),(5,'2007-05-21 18:18:03','2007-05-21 18:18:06',3,2,NULL,NULL,'2007-05-22 17:59:59'),(6,'2007-05-22 15:01:22','2007-05-22 15:01:24',2,2,NULL,NULL,'2007-05-23 14:59:59'),(7,'2007-05-23 09:46:11','2007-05-23 09:46:13',2,2,NULL,NULL,'2007-05-24 08:59:59'),(8,'2007-05-23 10:20:11','2007-05-23 10:20:13',2,2,NULL,NULL,'2007-05-24 09:59:59'),(9,'2007-05-23 11:01:23','2007-05-23 11:01:24',1,2,NULL,NULL,'2007-05-24 10:59:59'),(10,'2007-05-23 13:47:15','2007-05-23 13:47:17',2,2,NULL,NULL,'2007-05-24 12:59:59'),(11,'2007-05-23 18:28:57','2007-05-23 18:28:58',1,2,NULL,NULL,'2007-05-24 17:59:59'),(12,'2007-05-23 19:00:16','2007-05-23 19:00:18',2,2,NULL,NULL,'2007-05-24 18:59:59'),(13,'2007-05-24 15:36:18','2007-05-24 15:36:19',1,2,NULL,NULL,'2007-05-25 14:59:59');
-CREATE TABLE `agency` (
-  `agencyid` mediumint(9) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL default '',
-  `contact` varchar(255) default NULL,
-  `email` varchar(64) NOT NULL default '',
-  `username` varchar(64) default NULL,
-  `password` varchar(64) default NULL,
-  `permissions` mediumint(9) default NULL,
-  `language` varchar(64) default NULL,
-  `logout_url` varchar(255) default NULL,
-  `active` smallint(1) default '0',
-  `updated` datetime NOT NULL,
-  PRIMARY KEY  (`agencyid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `agency` VALUES (1,'Test Agency','Andrew Hill','andrew.hill@openads.org','agency','5f4dcc3b5aa765d61d8327deb882cf99',0,'','',0,'2007-05-15 12:54:16');
-CREATE TABLE `banners` (
-  `bannerid` mediumint(9) NOT NULL auto_increment,
+INSERT INTO `oa_session` VALUES ('phpads464b36ce6f27f1.40712191','a:5:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:12:\"update_check\";b:0;}','2007-05-24 17:24:15'),('phpads46570a08e6de87.60066277','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:5:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}s:19:\"affiliate-index.php\";a:3:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}s:19:\"affiliate-zones.php\";a:2:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";}s:24:\"advertiser-campaigns.php\";a:1:{i:1;a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}s:20:\"campaign-banners.php\";a:1:{i:2;a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}}s:12:\"update_check\";b:0;}','2007-05-25 17:19:55');
+CREATE TABLE `oa_targetstats` (
+  `day` date NOT NULL default '0000-00-00',
   `campaignid` mediumint(9) NOT NULL default '0',
-  `active` enum('t','f') NOT NULL default 't',
-  `contenttype` enum('gif','jpeg','png','html','swf','dcr','rpm','mov','txt') NOT NULL default 'gif',
-  `pluginversion` mediumint(9) NOT NULL default '0',
-  `storagetype` enum('sql','web','url','html','network','txt') NOT NULL default 'sql',
-  `filename` varchar(255) NOT NULL default '',
-  `imageurl` varchar(255) NOT NULL default '',
-  `htmltemplate` text NOT NULL,
-  `htmlcache` text NOT NULL,
+  `target` int(11) NOT NULL default '0',
+  `views` int(11) NOT NULL default '0',
+  `modified` tinyint(4) NOT NULL default '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_tracker_append` (
+  `tracker_append_id` int(11) NOT NULL auto_increment,
+  `tracker_id` mediumint(9) NOT NULL default '0',
+  `rank` int(11) NOT NULL default '0',
+  `tagcode` text NOT NULL,
+  `paused` enum('t','f') NOT NULL default 'f',
+  `autotrack` enum('t','f') NOT NULL default 'f',
+  PRIMARY KEY  (`tracker_append_id`),
+  KEY `tracker_id` (`tracker_id`,`rank`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_trackers` (
+  `trackerid` mediumint(9) NOT NULL auto_increment,
+  `trackername` varchar(255) NOT NULL default '',
+  `description` varchar(255) NOT NULL default '',
+  `clientid` mediumint(9) NOT NULL default '0',
+  `viewwindow` mediumint(9) NOT NULL default '0',
+  `clickwindow` mediumint(9) NOT NULL default '0',
+  `blockwindow` mediumint(9) NOT NULL default '0',
+  `status` smallint(1) unsigned NOT NULL default '4',
+  `type` smallint(1) unsigned NOT NULL default '1',
+  `linkcampaigns` enum('t','f') NOT NULL default 'f',
+  `variablemethod` enum('default','js','dom','custom') NOT NULL default 'default',
+  `appendcode` text NOT NULL,
+  `updated` datetime NOT NULL,
+  PRIMARY KEY  (`trackerid`),
+  KEY `trackers_clientid` (`clientid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_userlog` (
+  `userlogid` mediumint(9) NOT NULL auto_increment,
+  `timestamp` int(11) NOT NULL default '0',
+  `usertype` tinyint(4) NOT NULL default '0',
+  `userid` mediumint(9) NOT NULL default '0',
+  `action` mediumint(9) NOT NULL default '0',
+  `object` mediumint(9) default NULL,
+  `details` mediumtext,
+  PRIMARY KEY  (`userlogid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_variable_publisher` (
+  `variable_id` int(11) NOT NULL,
+  `publisher_id` int(11) NOT NULL,
+  `visible` tinyint(1) NOT NULL,
+  PRIMARY KEY  (`variable_id`,`publisher_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_variables` (
+  `variableid` mediumint(9) unsigned NOT NULL auto_increment,
+  `trackerid` mediumint(9) NOT NULL default '0',
+  `name` varchar(250) NOT NULL default '',
+  `description` varchar(250) default NULL,
+  `datatype` enum('numeric','string','date') NOT NULL default 'numeric',
+  `purpose` enum('basket_value','num_items','post_code') default NULL,
+  `reject_if_empty` smallint(1) unsigned NOT NULL default '0',
+  `is_unique` int(11) NOT NULL default '0',
+  `unique_window` int(11) NOT NULL default '0',
+  `variablecode` varchar(255) NOT NULL default '',
+  `hidden` enum('t','f') NOT NULL default 'f',
+  `updated` datetime NOT NULL,
+  PRIMARY KEY  (`variableid`),
+  KEY `variables_is_unique` (`is_unique`),
+  KEY `variables_trackerid` (`trackerid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `oa_zones` (
+  `zoneid` mediumint(9) NOT NULL auto_increment,
+  `affiliateid` mediumint(9) default NULL,
+  `zonename` varchar(245) NOT NULL default '',
+  `description` varchar(255) NOT NULL default '',
+  `delivery` smallint(6) NOT NULL default '0',
+  `zonetype` smallint(6) NOT NULL default '0',
+  `category` text NOT NULL,
   `width` smallint(6) NOT NULL default '0',
   `height` smallint(6) NOT NULL default '0',
-  `weight` tinyint(4) NOT NULL default '1',
-  `seq` tinyint(4) NOT NULL default '0',
-  `target` varchar(16) NOT NULL default '',
-  `url` text NOT NULL,
-  `alt` varchar(255) NOT NULL default '',
-  `status` varchar(255) NOT NULL default '',
-  `bannertext` text NOT NULL,
-  `description` varchar(255) NOT NULL default '',
-  `autohtml` enum('t','f') NOT NULL default 't',
-  `adserver` varchar(50) NOT NULL default '',
-  `block` int(11) NOT NULL default '0',
-  `capping` int(11) NOT NULL default '0',
-  `session_capping` int(11) NOT NULL default '0',
-  `compiledlimitation` text NOT NULL,
-  `acl_plugins` text,
+  `ad_selection` text NOT NULL,
+  `chain` text NOT NULL,
+  `prepend` text NOT NULL,
   `append` text NOT NULL,
   `appendtype` tinyint(4) NOT NULL default '0',
-  `bannertype` tinyint(4) NOT NULL default '0',
-  `alt_filename` varchar(255) NOT NULL default '',
-  `alt_imageurl` varchar(255) NOT NULL default '',
-  `alt_contenttype` enum('gif','jpeg','png') NOT NULL default 'gif',
+  `forceappend` enum('t','f') default 'f',
+  `inventory_forecast_type` smallint(6) NOT NULL default '0',
   `comments` text,
-  `updated` datetime NOT NULL,
-  `acls_updated` datetime NOT NULL default '0000-00-00 00:00:00',
-  `keyword` varchar(255) NOT NULL default '',
-  `transparent` tinyint(1) NOT NULL default '0',
-  `parameters` text,
-  PRIMARY KEY  (`bannerid`),
-  KEY `banners_campaignid` (`campaignid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `banners` VALUES (1,1,'t','',0,'html','','','Test HTML Banner!','',468,60,1,0,'','','','','','','t','',0,0,0,'(MAX_checkSite_Channel(\'7\', \'=~\'))','Site:Channel','',0,0,'','','','','2007-05-15 15:01:43','2007-05-15 15:01:43','',0,'N;'),(2,2,'t','',0,'html','','','html test banner','html test banner',468,60,1,0,'','http://www.example.com','','','','test banner','t','',0,0,0,'',NULL,'',0,0,'','','','','2007-05-16 13:03:46','0000-00-00 00:00:00','',0,'N;'),(3,3,'t','gif',0,'sql','468x60.gif','','','',468,60,1,0,'','http://www.example.com','alt text','','','sample gif banner','f','',0,0,0,'',NULL,'',0,0,'','','','','2007-05-23 10:21:58','0000-00-00 00:00:00','',0,'N;');
-CREATE TABLE `affiliates` (
-  `affiliateid` mediumint(9) NOT NULL auto_increment,
-  `agencyid` mediumint(9) NOT NULL default '0',
-  `name` varchar(255) NOT NULL default '',
-  `mnemonic` varchar(5) NOT NULL default '',
-  `comments` text,
-  `contact` varchar(255) default NULL,
-  `email` varchar(64) NOT NULL default '',
-  `website` varchar(255) default NULL,
-  `username` varchar(64) default NULL,
-  `password` varchar(64) default NULL,
-  `permissions` mediumint(9) default NULL,
-  `language` varchar(64) default NULL,
-  `publiczones` enum('t','f') NOT NULL default 'f',
-  `last_accepted_agency_agreement` datetime default NULL,
-  `updated` datetime NOT NULL,
-  PRIMARY KEY  (`affiliateid`),
-  KEY `affiliates_agencyid` (`agencyid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `affiliates` VALUES (1,0,'Publisher 1','','','Andrew Hill','andrew.hill@openads.org','http://www.fornax.net/blog/','publisher','5f4dcc3b5aa765d61d8327deb882cf99',0,'','f',NULL,'2007-05-15 13:29:57'),(2,1,'Agency Publisher 1','','','Andrew Hill','andrew.hill@openads.org','http://fornax.net',NULL,'',0,NULL,'f',NULL,'2007-05-15 13:41:40');
-CREATE TABLE `placement_zone_assoc` (
-  `placement_zone_assoc_id` mediumint(9) NOT NULL auto_increment,
-  `zone_id` mediumint(9) default NULL,
-  `placement_id` mediumint(9) default NULL,
-  PRIMARY KEY  (`placement_zone_assoc_id`),
-  KEY `placement_zone_assoc_zone_id` (`zone_id`),
-  KEY `placement_id` (`placement_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `placement_zone_assoc` VALUES (1,1,1),(2,1,2),(3,2,3);
-CREATE TABLE `images` (
-  `image_id` int(11) NOT NULL auto_increment,
-  `filename` varchar(128) NOT NULL default '',
-  `contents` longblob NOT NULL,
-  `t_stamp` datetime default NULL,
-  PRIMARY KEY  (`image_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `images` VALUES (1,'468x60.gif',0x474946383961D4013C00B30000757575BABABA444444EEEEEE101010CECECE999999303030DEDEDE202020656565898989555555AAAAAAFFFFFF00000021F90400000000002C00000000D4013C000004FFF0C949ABBD38EBCDBBFF60288E64699E68AAAE6CEBBE702CCF746DDF78AEEF7CEF3F848163481C0A5004C5228028060C0A428AC058369D0DC0E1A74A5A9D50E9AACA240E9E51AE7ACD6E571AC5F8B12430C4EFC3C6962480E3EF0800626E1D757F717A2709064287430609849293942E0C8E732209018E780B831E9B9D7803009517A2A3459F24008DAA0EACA7B3B4B5164198230AAFB04305A01B0CBCBD8FC094BBC444BF21047EC9CBB6D1D292CE7F991F0BC971D01B0ADA77DC94D9DFBEC6190405E40E03E6D3EEEF36979DD71D76EABE1C07F74506A7F6F7053EFC23170E9EC1832E70CD0301601F1153E7AE3874005152C38915357873D80FA1C78F28FFAA1DA2A741C0442291305C3CC94E92C9930E529E1BA68E24C89B38316C1C65F30201897F066401C0A853C75B34E3040020404095A44532AEF9D9492800A250891CC530EE1002030016A4731430A7D9B313126495E361E51F5913DCDE19A0D3D100920406022224F70E5C097D8BD09DE948AAB05C6813DFE404AB6705857F14A874C4E0825EC17B2C3B92A906321EC9170213A93CF9905409FA0E3550CC1AA1686B1D5E53D40034CED6098CF19CA64015361BD9BB27D4E69761389100192E17E1DCBA792DB5C41C53188B07C186D7652B386A37A1EB9DE03CA8EFD5801D430247A051A177CEBE56EEC61CCE1F4A8F21B599004B771FCA9E419E6E36F245B681FF7D439C915F697F6C201E22ED3548896CBE91B71D070030200073181C82DC062FFDB7866CDCC56521861888E4C475870CE6E08A6B40978C741298789C0B506D58926916408840888075729A8C43D8C84256E049D0211E99B1A8240FEF15B1205B1B10E94293665038D2054FC6B1C0809DF03781942D04880769E7ACB7E49939BC46E01D308A7907992BA8B901954498B79603D2656906866EC601A70A47B2C9416168165A838BDF3D80587F8E24A9429F33661028717539621D82025AE01F922E80C8019D411A2A6A0CA096B528A67754700051F805B080162228F7487D594907E44317AC79C76AA139A22AABF8BDEAA895877400AA03428EAA2C0A722A7AA5FF06DEC5A1A202C60D81007DF16515409204B872C8961AF476C8B07A16D84EB4824D40AD57D86A70AC03C6FABAECBC26E88AAB04A75E702C72A97482C09F1A6C4A0A7EE596C3C1A4DB5400A163FB3ED0AFA500EB9B623DF2D26B71087A0A99AF05FB1E70A7961F2003108F71F93801C2ABB8ABA1C7C480ABF21FC9A21AC7C534B71514671B57502E021FDF719B060714DC4900244FD7C916E2E2E1A5053BF76CDB068EC4DCEBB335576D81BD43489533053051EAC1BAC45CABC95A01A18B19D45DCF9A41D4B16D6D35CD195BE036BE6967FDC122C9340063A5AA998C76DDE0B14D6C846F5B2DDA0018CEED6C2F05E0A7CADE04980D4B00246E70EB28BCFE0D4BFFE3EF12D193E028525D78CD58CF26B7E817F402006760FFB1B4AAD5F63240C4E1C66E57D1AAB36EFBEB8BE321758E8A8F2E6ADCA9A37E7A55C302F12EED0FB03C51BB1C7EC3BC76A30C903C01CB170F73DBC60BBFECE1952BFEF839E5FEEE99EFAF02D0B903D34FDD8BCB83F244BE86DAFBCE3DE1DE2F5B7AE0DD736D54F48720D1E51AC09CC8DD0E638C2B1ADD1CF1B30AA06C0889A3DFE0F0B0B7FCB1081DDB5B5BFF26308AE4E96C3E1678A0031A28819DE081841940D4D140D0410E94AB5DA093D0062DB824C9214E038A7BD7A542E7098EED878778A85C064C882310E8F07E7EF1610681982A1A2AEB81D0F31FFE94B8C41B55D161C18B5D914AE42F11FFBCEB770E9420058EB5430D5CCE89CADA57ABD6B846B2B03159EFDAA20420652D85FD9003927300EF5E462823F671037474401925F0AE78150B8DA25ADF49EC58C4F8258802B792E3034418020811C183328B8A072AD61D4E66A0618834942227C2C83F48B2774D9C40B9DAC7C1717DA074E050E00380B3C9435240361D285F284559B7479EEC8F9A4BE5022958CB29620083EFFB80084FE9C907080C4A386CE42E97344A873C2686D1F4E53005D581E049208F33E40D3635A84DD4288E00669A26357B89070BC46E90F5B9632BFFC04A207853842952E03B3B50BAD701F30222C4A43A9D53CD7D58405610E4C03323354F0F01F00F429CC0F97A91B90D2034FF260A15E31855C3C4740D749DEC9C590588180739E6512AC7DAE32D9B7981CB8D228A23FDE7054E3AD3097D92A31F555241EF718B03D2E6107FBA684425103B954A60A145384C8A866ACF7C6E20761143EA10601A4807C034A7AD394053B6CAD5AE7A75995ED5CC2150384B9BAA6B9C31FD1620D7B225A9868A031725ABA72E901578962C805815DE3DFF97ABAC545402E86460069C67CC8D7A450C2E95233E4948D85D2547A6CD73C45FF35A356F3EA0739453D85A6CE252031843A97FB0EB4A1735D13808949043638EB736084BD34D00B4C4A46CE12C8BCF205DC500B64316066A3B002834050042B32AD03A013F67768947B545D66D730B46D45A0A2C62FFE9926C4767D90780531B98BCAE368C5AB01D59C0A5C5AD294C4EDBDAE84C77B6E1E44D70615124644EC47AD05A0852E43B3F8C20511D643DEFB2AA0B04A7097640FEEDC45517CB289F12661FF9A5C045555110FD5E8CBFCD5BEF583D7080DCAAE2AA499B4B885C3AD9AB49F80F09AEC04ECFE660AB415879E4382560476C06182DB87DA52DC255579CE2112CD875A72DF1A84E0C980023A08216685D2F3C1B8C4E7458535561EA2C7D0CE40BC076147FD131CD780CD8D59265C61C5080840D90E3189BCB032E6D2E6FACBC1F2C73A05B1FD39B94D7EC64F501E509AB5B4102146080322863290C90252518E06630C499057CB6F33AD0A067361BFAD0884EB40AA217CDE8463B1A061100003B,'2007-05-17 12:01:02');
-CREATE TABLE `clients` (
-  `clientid` mediumint(9) NOT NULL auto_increment,
-  `agencyid` mediumint(9) NOT NULL default '0',
-  `clientname` varchar(255) NOT NULL default '',
-  `contact` varchar(255) default NULL,
-  `email` varchar(64) NOT NULL default '',
-  `clientusername` varchar(64) NOT NULL default '',
-  `clientpassword` varchar(64) NOT NULL default '',
-  `permissions` mediumint(9) default NULL,
-  `language` varchar(64) default NULL,
-  `report` enum('t','f') NOT NULL default 't',
-  `reportinterval` mediumint(9) NOT NULL default '7',
-  `reportlastdate` date NOT NULL default '0000-00-00',
-  `reportdeactivate` enum('t','f') NOT NULL default 't',
-  `comments` text,
-  `updated` datetime NOT NULL,
-  `lb_reporting` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`clientid`),
-  KEY `clients_agencyid` (`agencyid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `clients` VALUES (1,0,'Advertiser 1','advertiser','example@example.com','advertiser1','fe1f4b7940d69cf3eb289fad37c3ae40',0,'','f',7,'2007-04-27','t','','2007-05-16 12:54:09',0);
-CREATE TABLE `campaigns` (
-  `campaignid` mediumint(9) NOT NULL auto_increment,
-  `campaignname` varchar(255) NOT NULL default '',
-  `clientid` mediumint(9) NOT NULL default '0',
-  `views` int(11) default '-1',
-  `clicks` int(11) default '-1',
-  `conversions` int(11) default '-1',
-  `expire` date default '0000-00-00',
-  `activate` date default '0000-00-00',
-  `active` enum('t','f') NOT NULL default 't',
-  `priority` int(11) NOT NULL default '0',
-  `weight` tinyint(4) NOT NULL default '1',
-  `target_impression` int(11) NOT NULL default '0',
-  `target_click` int(11) NOT NULL default '0',
-  `target_conversion` int(11) NOT NULL default '0',
-  `anonymous` enum('t','f') NOT NULL default 'f',
-  `companion` smallint(1) default '0',
-  `comments` text,
-  `revenue` decimal(10,4) default NULL,
-  `revenue_type` smallint(6) default NULL,
+  `cost` decimal(10,4) default NULL,
+  `cost_type` smallint(6) default NULL,
+  `cost_variable_id` varchar(255) default NULL,
+  `technology_cost` decimal(10,4) default NULL,
+  `technology_cost_type` smallint(6) default NULL,
   `updated` datetime NOT NULL,
   `block` int(11) NOT NULL default '0',
   `capping` int(11) NOT NULL default '0',
   `session_capping` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`campaignid`),
-  KEY `campaigns_clientid` (`clientid`)
+  `what` text NOT NULL,
+  PRIMARY KEY  (`zoneid`),
+  KEY `zonenameid` (`zonename`,`zoneid`),
+  KEY `affiliateid` (`affiliateid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `campaigns` VALUES (1,'Advertiser 1 - Default Campaign',1,100000000,-1,-1,'2007-07-01','0000-00-00','t',10,0,0,0,0,'f',0,'',NULL,NULL,'2007-05-15 09:54:06',0,0,0),(2,'test campaign',1,-1,-1,-1,'0000-00-00','0000-00-00','t',-1,1,0,0,0,'t',0,'',NULL,NULL,'2007-05-16 12:55:24',0,0,0),(3,'campaign 2 (gif)',1,-1,-1,-1,'0000-00-00','0000-00-00','t',0,1,0,0,0,'t',0,'',NULL,NULL,'2007-05-17 13:14:43',0,0,0);
+INSERT INTO `oa_zones` VALUES (1,1,'Publisher 1 - Default','',0,3,'',468,60,'','','','',0,'f',0,'',NULL,NULL,NULL,NULL,NULL,'2007-04-27 15:37:19',0,0,0,''),(2,2,'Agency Publisher 1 - Default','',0,3,'',468,60,'','','','',0,'f',0,'',NULL,NULL,NULL,NULL,NULL,'2007-05-15 13:41:44',0,0,0,'');
