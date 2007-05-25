@@ -330,15 +330,11 @@ function MMM_buildNavigation()
               "5.2.1"                   =>  array("channel-edit.php" => $GLOBALS['strAddNewChannel']),
               "5.2.2"                   =>  array("channel-edit.php?channelid=$channelid" => $GLOBALS['strChannelProperties']),
               "5.2.3"                   =>  array("channel-acl.php?channelid=$channelid" => $GLOBALS['strChannelLimitations']),
-              "5.3"                     =>  array("maintenance-index.php" => $GLOBALS['strMaintenance']),
-            "6"                         =>  array("dashboard.php" => $GLOBALS['strDashboardCommunity']),
-                "6.1"                   =>  array("dashboard.php" => $GLOBALS['strDashboardDashboard']),
-                "6.2"                   =>  array("http://forum.openads.org" => $GLOBALS['strDashboardForum']),
-                "6.3"                   =>  array("http://docs.openads.org" => $GLOBALS['strDashboardDocs'])
+              "5.3"                     =>  array("maintenance-index.php" => $GLOBALS['strMaintenance'])
         ),
 
         "client" => array (
-            "1"                         =>  array("stats.php?entity=advertiser&breakdown=history&clientid=$clientid" => $GLOBALS['strHome']),
+            "1"                         =>  array("stats.php?entity=advertiser&breakdown=history&clientid=$clientid" => $GLOBALS['strStats']),
               "1.1"                     =>  array("stats.php?entity=advertiser&breakdown=history&clientid=$clientid" => $GLOBALS['strClientHistory']),
                 "1.1.1"                 =>  array("stats.php?entity=advertiser&breakdown=daily&clientid=$clientid&day=$day" => $GLOBALS['strDailyStats']),
               "1.2"                     =>  array("stats.php?entity=advertiser&breakdown=campaigns&clientid=$clientid" => $GLOBALS['strCampaignOverview']),
@@ -375,11 +371,7 @@ function MMM_buildNavigation()
             */
             "3"                         =>  array("report-index.php?clientid=$clientid" => $GLOBALS['strReports']),
             "4"                         =>  array("settings-index.php?clientid=$clientid" => $GLOBALS['strSettings']),
-              "4.1"                     =>  array("settings-index.php?clientid=$clientid" => $GLOBALS['strMainSettings']),
-            "6"                         =>  array("dashboard.php" => $GLOBALS['strDashboardCommunity']),
-                "6.1"                   =>  array("dashboard.php" => $GLOBALS['strDashboardDashboard']),
-                "6.2"                   =>  array("http://forum.openads.org" => $GLOBALS['strDashboardForum']),
-                "6.3"                   =>  array("http://docs.openads.org" => $GLOBALS['strDashboardDocs'])
+              "4.1"                     =>  array("settings-index.php?clientid=$clientid" => $GLOBALS['strMainSettings'])
         ),
 
         "affiliate" => array (
@@ -399,11 +391,7 @@ function MMM_buildNavigation()
                   "1.3.1.1"         =>  array("stats.php?entity=affiliate&breakdown=daily&affiliateid=$affiliateid&campaignid=$campaignid&day=$day" => $GLOBALS['strDailyStats']),
                 "1.3.2"             =>  array("stats.php?entity=affiliate&breakdown=banner-history&affiliateid=$affiliateid&campaignid=$campaignid&bannerid=$bannerid" => $GLOBALS['strDistributionHistory']),
                   "1.3.2.1"         =>  array("stats.php?entity=affiliate&breakdown=daily&affiliateid=$affiliateid&campaignid=$campaignid&bannerid=$bannerid&day=$day" => $GLOBALS['strDailyStats']),
-            "3"                     =>  array("report-index.php?affiliateid=$affiliateid" => $GLOBALS['strReports']),
-            "6"                     =>  array("dashboard.php" => $GLOBALS['strDashboardCommunity']),
-                "6.1"               =>  array("dashboard.php" => $GLOBALS['strDashboardDashboard']),
-                "6.2"               =>  array("http://forum.openads.org" => $GLOBALS['strDashboardForum']),
-                "6.3"               =>  array("http://docs.openads.org" => $GLOBALS['strDashboardDocs'])
+            "3"                     =>  array("report-index.php?affiliateid=$affiliateid" => $GLOBALS['strReports'])
 
         )
     );
