@@ -139,7 +139,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
             // Boo, we have to rely on the dodgy old TZ
             // environment variable stuff
             $tz = getenv('TZ');
-            if ($tz === false) {
+            if ($tz === false || $tz === '') {
                 // Even worse! The user doesn't have a TZ
                 // variable, so we have to try and calcuate
                 // the timezone for the user
@@ -152,8 +152,11 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
                 $offset = (($diffHour * 60) + ($diffMin)) * 60 * 1000; // Milliseconds
                 // Deliberately require via direct path, not using MAX_PATH,
                 // as this method should be called before the ini scripts!
-                require_once '../../lib/pear/Date/TimeZone.php';
                 global $_DATE_TIMEZONE_DATA;
+                if (!isset($_DATE_TIMEZONE_DATA)) {
+                    require_once '../../lib/pear/Date/TimeZone.php';
+                    global $_DATE_TIMEZONE_DATA;
+                }
                 reset($_DATE_TIMEZONE_DATA);
                 foreach (array_keys($_DATE_TIMEZONE_DATA) as $key) {
                     if ($_DATE_TIMEZONE_DATA[$key]['offset'] == $offset) {

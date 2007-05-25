@@ -80,41 +80,28 @@ class Test_OA_Admin_Timezones extends UnitTestCase
             $aTimezone = OA_Admin_Timezones::getTimezone();
             $this->assertTrue(is_array($aTimezone));
             $this->assertEqual(count($aTimezone), 2);
-            $this->assertEqual('America/Detroit', $aTimezone['tz']);
-            $this->assertEqual(false, $aTimezone['calculated']);
+            $this->assertEqual($aTimezone['tz'], 'America/Detroit');
+            $this->assertEqual($aTimezone['calculated'], false);
 
             putenv("TZ=");
-            $calculated = true;
+            $aTimezone = OA_Admin_Timezones::getTimezone();
             $diff = date('O');
             $diffSign = substr($diff, 0, 1);
             $diffHour = (int) substr($diff, 1, 2);
             $diffMin  = (int) substr($diff, 3, 2);
-            if ($diffMin != 0) {
-                // Dang. Half-hour offsets can't be done
-                // via a GMT offset. Guess!
-                $offset = (($diffHour * 60) + ($diffMin)) * 60 * 1000; // Milliseconds
-                // Deliberately require via direct path, not using MAX_PATH,
-                // as this method should be called before the ini scripts!
-                require_once MAX_PATH .'/lib/pear/Date/TimeZone.php';
-                global $_DATE_TIMEZONE_DATA;
-                reset($_DATE_TIMEZONE_DATA);
-                foreach (array_keys($_DATE_TIMEZONE_DATA) as $key) {
-                    if ($_DATE_TIMEZONE_DATA[$key]['offset'] == $offset) {
-                        $tz = $key;
-                        break;
-                    }
+            $offset = (($diffHour * 60) + ($diffMin)) * 60 * 1000; // Milliseconds
+            global $_DATE_TIMEZONE_DATA;
+            reset($_DATE_TIMEZONE_DATA);
+            foreach (array_keys($_DATE_TIMEZONE_DATA) as $key) {
+                if ($_DATE_TIMEZONE_DATA[$key]['offset'] == $offset) {
+                    $tz = $key;
+                    break;
                 }
             }
-            if (!isset($tz)) {
-                // Just set the time zone as an offset from GMT
-                $tz = 'Etc/GMT'. $diffSign . $diffHour;
-            }
-
-            $aTimezone = OA_Admin_Timezones::getTimezone();
             $this->assertTrue(is_array($aTimezone));
             $this->assertEqual(count($aTimezone), 2);
-            $this->assertEqual($tz, $aTimezone['tz']);
-            $this->assertEqual(true, $aTimezone['calculated']);
+            $this->assertEqual($aTimezone['tz'], $tz);
+            $this->assertEqual($aTimezone['calculated'], true);
         }
     }
 
