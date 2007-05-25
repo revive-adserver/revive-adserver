@@ -8,9 +8,6 @@
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -36,7 +33,10 @@ require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';
 
 class ReportIndexModule
 {
-    /* @var FieldFactory */
+
+    /**
+     * @var FieldFactory
+     */
     var $field_factory;
 
     function ReportIndexModule()
@@ -97,42 +97,12 @@ class ReportIndexModule
         return $categories;
     }
 
-    /**
-     * @todo Form a template method with this and displayAllAvailableReports()
-     */
-    function displayCommonReports()
-    {
-        $common_categories = $this->getCommonReportCategories();
-        $displayable_plugins = $this->_findDisplayableReports();
-        $groupedPlugins = $this->_categoriseReportPlugins($displayable_plugins, $common_categories);
-
-        $this->displayPluginList($groupedPlugins);
-
-        if (phpAds_isUser(phpAds_Agency)) {
-            if ($GLOBALS['_MAX']['PREF']['more_reports'] == 't') {
-                echo '<a href="report-index-all.php">More reports...</a>';
-            }
-        } else {
-            echo '<a href="report-index-all.php">More reports...</a>';        
-        }
-        
-    }
-
-    function displayAllAvailableReports()
+    function displayReports()
     {
         $displayable_plugins = $this->_findDisplayableReports();
         $groupedPlugins = $this->_categoriseReportPlugins($displayable_plugins);
-
         if (!empty($displayable_plugins)) {
             $this->displayPluginList($groupedPlugins);
-        }
-
-        if (phpAds_isUser(phpAds_Agency)) {
-            if ($GLOBALS['_MAX']['PREF']['more_reports'] == 't') {
-                echo '<a href="report-index.php">Less reports...</a>';
-            }
-        } else {
-            echo '<a href="report-index.php">Less reports...</a>';
         }
     }
 

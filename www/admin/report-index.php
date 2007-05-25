@@ -35,7 +35,8 @@ require_once MAX_PATH . '/lib/max/language/Report.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
-require_once MAX_PATH . '/lib/max/Admin/Reporting.php';
+
+require_once MAX_PATH . '/lib/OA/Admin/Reports/IndexModule.php';
 
 // Register input variables
 phpAds_registerGlobal ('selection');
@@ -55,8 +56,8 @@ phpAds_PageHeader("3");
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
-$module = new ReportIndexModule();
-$module->displayCommonReports();
+$oModule = new ReportIndexModule();
+$oModule->displayReports();
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

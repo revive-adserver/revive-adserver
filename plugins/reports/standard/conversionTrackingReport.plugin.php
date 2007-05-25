@@ -26,9 +26,10 @@ $Id$
 
 require_once MAX_PATH . '/plugins/reports/proprietary/EnhancedReport.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
-require_once MAX_PATH . '/lib/max/Admin/Reporting/ReportScope.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/plugins/reports/proprietary/TrackerVariable.php';
+
+require_once MAX_PATH . '/lib/OA/Admin/Reports/ReportScope.php';
 
 class Plugins_Reports_Standard_ConversionTrackingReport extends EnhancedReport
 {

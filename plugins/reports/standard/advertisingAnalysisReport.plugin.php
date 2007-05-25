@@ -35,8 +35,9 @@ $Id:advertisingAnalysisReport.plugin.php 114 2006-03-03 14:32:10Z roh@m3.net $
 
 require_once MAX_PATH . '/plugins/reports/proprietary/EnhancedReport.php';
 require_once MAX_PATH . '/plugins/reports/ExcelReports.php';
-require_once MAX_PATH . '/lib/max/Admin/Reporting/ReportScope.php';
 require_once MAX_PATH . '/plugins/reports/lib.php';
+
+require_once MAX_PATH . '/lib/OA/Admin/Reports/ReportScope.php';
 
 class Plugins_Reports_Standard_AdvertisingAnalysisReport extends EnhancedReport
 {

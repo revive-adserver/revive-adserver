@@ -26,15 +26,16 @@ $Id$
 */
 
 // Include required files
-require_once(MAX_PATH . '/lib/max/Admin/Reporting/ReportScope.php');
-require_once(MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php');
-require_once(MAX_PATH . '/plugins/reportWriter/output/NullReportWriter.plugin.php');
-require_once('Date.php');
+require_once MAX_PATH . '/lib/max/OA/Reports/Scope.php';
+require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';
+require_once MAX_PATH . '/plugins/reportWriter/output/NullReportWriter.plugin.php';
+require_once 'Date.php';
 
-class ReportExecuteModule
+class OA_Admin_Reports_Execute
 {
+
     /* @var Date */
-    var $now;
+    var $oNow;
 
     function main($plugin_identifier)
     {

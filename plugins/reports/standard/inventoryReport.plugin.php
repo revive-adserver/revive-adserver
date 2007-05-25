@@ -31,10 +31,11 @@ $Id:inventoryReport.plugin.php 114 2006-03-03 14:32:10Z roh@m3.net $
  * @author     Scott Switzer <scott@m3.net>
  */
 
-require_once MAX_PATH . '/lib/max/Admin/Reporting/ZoneScope.php';
 require_once MAX_PATH . '/plugins/reports/proprietary/EnhancedReport.php';
 require_once MAX_PATH . '/plugins/reports/ExcelReports.php';
 require_once MAX_PATH . '/plugins/reports/lib.php';
+
+require_once MAX_PATH . '/lib/OA/Admin/Reports/ZoneScope.php';
 
 
 class Plugins_Reports_Standard_InventoryReport extends Plugins_ExcelReports
