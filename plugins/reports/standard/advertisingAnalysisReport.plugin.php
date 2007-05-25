@@ -25,12 +25,19 @@
 $Id:advertisingAnalysisReport.plugin.php 114 2006-03-03 14:32:10Z roh@m3.net $
 */
 
-require_once MAX_PATH . '/plugins/reports/ScopeReports.php';
+require_once MAX_PATH . '/plugins/reports/Reports.php';
 require_once MAX_PATH . '/plugins/reports/ExcelReports.php';
 require_once MAX_PATH . '/plugins/reports/lib.php';
 
-class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_ScopeReports
+class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
 {
+
+    /**
+     * A local copy of the advertiser/publisher limitation object.
+     *
+     * @var Admin_UI_OrganisationScope
+     */
+    var $_oScope;
 
     /**
      * The local implementation of the initInfo() method to set all of the

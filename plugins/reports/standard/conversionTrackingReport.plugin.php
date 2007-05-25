@@ -24,13 +24,20 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/reports/ScopeReports.php';
+require_once MAX_PATH . '/plugins/reports/Reports.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/plugins/reports/proprietary/TrackerVariable.php';
 
-class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ScopeReports
+class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_Reports
 {
+
+    /**
+     * A local copy of the advertiser/publisher limitation object.
+     *
+     * @var Admin_UI_OrganisationScope
+     */
+    var $_oScope;
 
     /**
      * The local implementation of the initInfo() method to set all of the
