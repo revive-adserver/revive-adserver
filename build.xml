@@ -105,24 +105,37 @@
       byline="true"/>
   </target>
 
-  <target name="prepare-package">
+  <target name="prepare-package" depends="prepare-version-info">
     <chmod perm="a+w" dir="${basedir}" type="dir">
       <patternset refid="dist.writable"/>
     </chmod>
   </target>
 
-  <target name="package" depends="checkconsistency, prepare-package, prepare-version-info">
+  <target name="package-bzip2" depends="prepare-package">
     <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="." compression="bzip2" longfile="gnu">
       <patternset refid="dist.included"/>
     </tar>
+  </target>
+
+  <target name="package-gz" depends="prepare-package">
     <tar destfile="${dir.test.results}/${release}.tar.gz" basedir="." compression="gzip" longfile="gnu">
       <patternset refid="dist.included"/>
     </tar>
+  </target>
+
+  <target name="package-zip" depends="prepare-package">
     <zip destfile="${dir.test.results}/${release}.zip" basedir=".">
       <patternset refid="dist.included"/>
     </zip>
+  </target>
+
+  <target name="revert-after-packaging">
     <svn-revert file="constants.php"/>
   </target>
+
+  <target name="package-canoo" depends="checkconsistency, package-bzip2,revert-after-packaging"/>
+
+  <target name="package" depends="checkconsistency, prepare-package, package-bzip2, package-gz, package-zip, revert-after-packaging"/>
 
   <target name="tag" depends="checkconsistency, prepare-version-info">
     <echo message="Tagging release: ${release}."/>

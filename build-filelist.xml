@@ -12,6 +12,7 @@
     <include name="LICENSE.txt"/>
     <include name="README.txt"/>
     <include name="UPGRADE.txt"/>
+    <include name="POLICY.txt"/>
     <include name="*.php"/>
     <include name="*.js"/>
     <include name="robots.txt"/>
