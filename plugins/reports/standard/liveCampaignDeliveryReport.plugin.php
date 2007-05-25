@@ -148,7 +148,7 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
     function getReportParametersForDisplay()
     {
         $aParams = array();
-        $aParams = $this->getDisplayableParametersFromScope($this->_oScope);
+        $aParams = $this->_getDisplayableParametersFromScope($this->_oScope);
         $aParams += $this->getDisplayableParametersFromDaySpan($this->_daySpan);
         return $aParams;
     }

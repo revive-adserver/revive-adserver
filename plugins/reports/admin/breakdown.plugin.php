@@ -96,6 +96,7 @@ class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
 
     function execute($oDaySpan)
     {
+        $this->isAllowedToExecute();
         // Prepare the range information for the report
         $this->_prepareReportRange($oDaySpan);
         // Prepare the report name
@@ -103,75 +104,119 @@ class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
         // Prepare the output writer for generation
         $this->_oReportWriter->openWithFilename($reportFileName);
         // Add the worksheets to the report, as required
-
+        $this->_addAgencyBreakdownWorksheet();
         // Close the report writer and send the report to the user
         $this->_oReportWriter->closeAndSend();
+    }
 
+    /**
+     * The local implementation of the _getReportParametersForDisplay() method
+     * to return a string to display the date range of the report.
+     *
+     * @access private
+     * @return array The array of index/value sub-headings.
+     */
+    function _getReportParametersForDisplay()
+    {
+        $aParams = array();
+        $aParams += $this->_getDisplayableParametersFromDaySpan();
+        return $aParams;
+    }
 
+    /**
+     * A private method to create and add the "agency breakdown" worksheet
+     * of the report.
+     *
+     * @access private
+     */
+    function _addAgencyBreakdownWorksheet()
+    {
+        // Manually prepare the header array
+        global $strImpressions, $strClicks, $strConversions;
+        $aHeaders = array(
+            MAX_Plugin_Translation::translate('Agency', $this->module, $this->package) => 'text',
+            $strImpressions => 'decimal',
+            $strClicks      => 'decimal',
+            $strConversions => 'decimal'
+        );
+        // Manually prepare the data array
+        $aData = $this->_fetchData();
+        // Add the worksheet
+        $this->createSubReport(
+            MAX_Plugin_Translation::translate('Agency breakdown', $this->module, $this->package),
+            $aHeaders,
+            $aData
+        );
+    }
 
-
-
-
-
-
-
-    	global $date_format;
-    	global $strGlobalHistory, $strTotal, $strDay, $strImpressions, $strClicks, $strCTRShort;
-
+    function _fetchData()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-    	$start_date_save   = $start_date;
-    	$end_date_save     = $end_date;
-    	$start_date    = str_replace('/', '', $start_date);
-    	$end_date      = str_replace('/', '', $end_date);
-
-    	$reportName = 'm3 Agency Breakdown from ' . date('Y-M-d', strtotime($start_date)) . ' to ' . date('Y-M-d', strtotime($end_date)) . '.csv';
-        header("Content-type: application/csv\nContent-Disposition: inline; filename=\"".$reportName."\"");
-
-    	if(phpAds_isUser(phpAds_Admin))
-    	{
-    		$res_query = "
-                SELECT
-                    g.agencyid AS AgencyId,
-                    g.name AS AgencyName,
-                    SUM(s.impressions) AS TotalViews,
-                    SUM(s.clicks) AS TotalClicks,
-                    SUM(s.conversions) AS TotalConversions
-                FROM
-                    {$conf['table']['prefix']}{$conf['table']['agency']} AS g,
-                    {$conf['table']['prefix']}{$conf['table']['clients']} AS c,
-                    {$conf['table']['prefix']}{$conf['table']['campaigns']} AS m,
-                    {$conf['table']['prefix']}{$conf['table']['banners']} AS b,
-                    {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']} AS s
-                WHERE
-                    g.agencyid=c.agencyid
-                  AND
-                    c.clientid=m.clientid
-                  AND
-                    m.campaignid=b.campaignid
-                  AND
-                    b.bannerid=s.ad_id
-                  AND
-                    s.day >= ". $oDbh->quote($start_date, 'date') ."
-                  AND
-                    s.day <= ". $oDbh->quote($end_date, 'date') ."
-                GROUP BY AgencyId, AgencyName
-    		";
-
-    	}
-
-    	$res_banners = $oDbh->query($res_query);
-        if (PEAR::isError($res_banners)) {
-            return $res_banners;
-        }
-
-    	echo "Agency Breakdown - ".$start_date_save." - ".$end_date_save."\n";
-    	echo "AgencyID".$delimiter."Agency Name".$delimiter."Total Views".$delimiter."Total Clicks".$delimiter."Total Sales"."\n";
-
-    	while ($row_banners = $res_banners->fetchRow()) {
-    	    echo $row_banners['AgencyId'].$delimiter.$row_banners['AgencyName'].$delimiter.$row_banners['TotalViews'].$delimiter.$row_banners['TotalClicks'].$delimiter.$row_banners['TotalConversions']."\n";
-    	}
+        // Get the "admin" agency data
+		$query = "
+            SELECT
+                '" . MAX_Plugin_Translation::translate('Admin User', $this->module, $this->package) . "' AS agency_name,
+                SUM(s.impressions) AS impressions,
+                SUM(s.clicks) AS clicks,
+                SUM(s.conversions) AS conversions
+            FROM
+                {$aConf['table']['prefix']}{$aConf['table']['clients']} AS c,
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS m,
+                {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']} AS s
+            WHERE
+                c.agencyid = 0
+                AND
+                c.clientid = m.clientid
+                AND
+                m.campaignid = b.campaignid
+                AND
+                b.bannerid = s.ad_id
+                AND
+                s.day >= ". $oDbh->quote($this->_oDaySpan->getStartDateString(), 'date') ."
+                AND
+                s.day <= ". $oDbh->quote($this->_oDaySpan->getEndDateString(), 'date') ."
+            GROUP BY
+                agency_name";
+		$aAdminData = $oDbh->queryAll($query);
+		if (PEAR::isError($aData)) {
+		    $aAdminData = array();;
+		}
+		// Get "real" agency data
+		$query = "
+            SELECT
+                g.name AS agency_name,
+                SUM(s.impressions) AS impressions,
+                SUM(s.clicks) AS clicks,
+                SUM(s.conversions) AS conversions
+            FROM
+                {$aConf['table']['prefix']}{$aConf['table']['agency']} AS g,
+                {$aConf['table']['prefix']}{$aConf['table']['clients']} AS c,
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS m,
+                {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']} AS s
+            WHERE
+                g.agencyid = c.agencyid
+                AND
+                c.clientid = m.clientid
+                AND
+                m.campaignid = b.campaignid
+                AND
+                b.bannerid = s.ad_id
+                AND
+                s.day >= ". $oDbh->quote($this->_oDaySpan->getStartDateString(), 'date') ."
+                AND
+                s.day <= ". $oDbh->quote($this->_oDaySpan->getEndDateString(), 'date') ."
+            GROUP BY
+                agency_name";
+		$aAgencyData = $oDbh->queryAll($query);
+		if (PEAR::isError($aData)) {
+		    $aAgencyData = array();;
+		}
+        // Merge and return!
+        $aData = $aAdminData + $aAgencyData;
+		return $aData;
     }
 }
 

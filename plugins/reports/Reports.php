@@ -183,6 +183,17 @@ class Plugins_Reports extends MAX_Plugin_Common
     function execute() {}
 
     /**
+     * An abstract method that MUST be implemented in every plugin, to return
+     * an array of index/value strings to display as sub-headings in report
+     * worksheets.
+     *
+     * @abstract
+     * @access private
+     * @return array The array of index/value sub-headings.
+     */
+    function _getReportParametersForDisplay() {}
+
+    /**
      * A public method to return the required information about the report plugin.
      *
      * @return array An array providing information about the report class.
@@ -311,12 +322,24 @@ class Plugins_Reports extends MAX_Plugin_Common
     }
 
     /**
-     * @TODO Document!
-     * @return unknown
+     * A private method to return an array containing the start and end dates
+     * of a report in a format that is suitable for display in a worksheet's
+     * sub-heading.
+     *
+     * @access private
+     * @return array An array containing the Start Date and End Date, if required.
      */
-    function _getReportParametersForDisplay()
+    function _getDisplayableParametersFromDaySpan()
     {
-        return array(MAX_Plugin_Translation::translate('Report on', $this->module, $this->package) => MAX_Plugin_Translation::translate('All available data', $this->module, $this->package));
+        $aParams = array();
+        if (!is_null($this->_oDaySpan)) {
+            global $date_format;
+            $aParams[MAX_Plugin_Translation::translate('Start Date', $this->module, $this->package)] =
+                $this->_oDaySpan->getStartDateString($date_format);
+            $aParams[MAX_Plugin_Translation::translate('End Date', $this->module, $this->package)] =
+                $this->_oDaySpan->getEndDateString($date_format);
+        }
+        return $aParams;
     }
 
     /**

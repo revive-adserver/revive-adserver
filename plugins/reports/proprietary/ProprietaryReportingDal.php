@@ -27,7 +27,6 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Admin/Reports/ReportScope.php';
 require_once MAX_PATH . '/lib/max/Dal/Reporting.php';
-require_once MAX_PATH . '/plugins/reports/lib.php';
 require_once MAX_PATH . '/constants.php';
 
 /**

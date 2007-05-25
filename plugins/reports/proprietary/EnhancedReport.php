@@ -322,64 +322,6 @@ class EnhancedReport extends Plugins_Reports
         return $formatted_date;
     }
 
-    function getDisplayableParametersFromDaySpan($oDaySpan)
-    {
-        $aParams = array();
-        if (!is_null($oDaySpan)) {
-            $aParams['Start date'] = $oDaySpan->getStartDateString();
-            $aParams['End date'] = $oDaySpan->getEndDateString();
-        }
-        return $aParams;
-    }
-
-    function getDisplayableParametersFromCampaignId($campaign_id)
-    {
-        $params = array();
-        $campaign = Admin_DA::getPlacement($campaign_id);
-        $campaign_name = MAX_getPlacementName($campaign);
-        $advertiser_name = $this->dal->getAdvertiserNameForCampaign($campaign_id);
-        $campaign['anonymous'] == 't' ? $campaignAnonymous = true : $campaignAnonymous = false;
-        $advertiser_name = MAX_getAdvertiserName($advertiser_name, null, $campaignAnonymous);
-        $key = MAX_Plugin_Translation::translate('Advertiser', $this->module);
-        $params[$key] = $advertiser_name;
-        $key = MAX_Plugin_Translation::translate('Campaign', $this->module);
-        $params[$key] = $campaign_name;
-        return $params;
-    }
-
-    function getDisplayableParametersFromScope($oScope)
-    {
-        $aParams = array();
-
-        $key = MAX_Plugin_Translation::translate('Advertiser', $this->module);
-        $advertiserId = $oScope->getAdvertiserId();
-        if (!empty($advertiserId)) {
-            $advertiser_name = $this->dal->getNameForAdvertiser($advertiserId);
-            $aParams[$key] = $advertiser_name;
-        } else {
-            if ($oScope->getAnonymous()) {
-                $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous advertisers', $this->module);
-            } else {
-                $aParams[$key] = MAX_Plugin_Translation::translate('All advertisers', $this->module);
-            }
-        }
-
-        $key = MAX_Plugin_Translation::translate('Publisher', $this->module);
-        $publisherId = $oScope->getPublisherId();
-        if (!empty($publisherId)) {
-            $publisher_name = $this->dal->getNameForPublisher($publisherId);
-            $aParams[$key] = $publisher_name;
-        } else {
-            if ($oScope->getAnonymous()) {
-                $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous publishers', $this->module);
-            } else {
-                $aParams[$key] = MAX_Plugin_Translation::translate('All publishers', $this->module);
-            }
-        }
-
-        return $aParams;
-    }
-
     /**
      * Add a value partway through a numberically-indexed array.
      *

@@ -25,11 +25,62 @@
 $Id:advertisingAnalysisReport.plugin.php 114 2006-03-03 14:32:10Z roh@m3.net $
 */
 
-require_once MAX_PATH . '/plugins/reports/Reports.php';
-require_once MAX_PATH . '/plugins/reports/ExcelReports.php';
-require_once MAX_PATH . '/plugins/reports/lib.php';
+// Include required files
+require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
 
-class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
+/**
+ * A plugin to generate a report showing the breakdown of delivery for a
+ * given advertiser and/or publisher, for the supplied date range. The report
+ * can contain up to three worksheets:
+ *
+ * Daily Breakdown:
+ *  - A breakdown of the delivery grouped by day.
+ * Campaign Breakdown:
+ *  - A breakdown of the delivery grouped by campaign name.
+ * Zone Breakdown:
+ *  - A breakdown of the delivery grouped by zone name.
+ *
+ * In all cases, "delivery" is the set of all data selected to be displayed
+ * by the user's preferences, and can consist of the following items:
+ *  - Requests
+ *  - Impressions
+ *  - Clicks
+ *  - CTR: The click through ratio
+ *  - Conversions
+ *  - Pending Conversions
+ *  - Impression SR: The impressions to sales ratio
+ *  - Click SR: The clicks to sales ratio
+ *  - Revenue
+ *  - Cost
+ *  - Basket Value: Of conversions
+ *  - Number of Items: In conversions
+ *  - Revenue CPC: Revenue per click
+ *  - Cost CPC: Cost per click
+ *  - Technology Cost
+ *  - Income
+ *  - Income Margin
+ *  - Profit
+ *  - Margin
+ *  - ERPM
+ *  - ERPC
+ *  - ERPS
+ *  - EIPM
+ *  - EIPC
+ *  - EIPS
+ *  - EPPM
+ *  - EPPC
+ *  - EPPS
+ *  - ECPM
+ *  - ECPC
+ *  - ECPS
+ *
+ * @abstract
+ * @package    MaxPlugin
+ * @subpackage Reports
+ * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Robert Hunter <roh@m3.net>
+ */
+class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_ReportsScope
 {
 
     /**
@@ -152,11 +203,18 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
         $this->_oReportWriter->closeAndSend();
     }
 
-    function getReportParametersForDisplay()
+    /**
+     * The local implementation of the _getReportParametersForDisplay() method
+     * to return a string to display the date range of the report.
+     *
+     * @access private
+     * @return array The array of index/value sub-headings.
+     */
+    function _getReportParametersForDisplay()
     {
         $aParams = array();
-        $aParams += $this->getDisplayableParametersFromScope($this->_oScope);
-        $aParams += $this->getDisplayableParametersFromDaySpan($this->_oDaySpan);
+        $aParams += $this->_getDisplayableParametersFromScope($this->_oScope);
+        $aParams += $this->_getDisplayableParametersFromDaySpan();
         return $aParams;
     }
 

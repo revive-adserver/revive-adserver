@@ -122,9 +122,9 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_Reports
     /**
      * The local implementation of the execute() method to generate the report.
      *
-     * @param OA_Admin_DaySpan       $oDaySpan The OA_Admin_DaySpan object for the report.
-     * @param OA_Admin_Reports_Scope $oScope   ???
-     * @param array                  $aSheets  An array of sheets that should be in the report.
+     * @param OA_Admin_DaySpan $oDaySpan The OA_Admin_DaySpan object for the report.
+     * @param Admin_UI_OrganisationScope $oScope The advertiser/publisher scope limitation object.
+     * @param array $aSheets  An array of sheets that should be in the report.
      */
     function execute($oDaySpan, $oScope, $aSheets)
     {
@@ -136,32 +136,47 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_Reports
         $reportFileName = $this->_getReportFileName();
         // Prepare the output writer for generation
         $this->_oReportWriter->openWithFilename($reportFileName);
-
+        // Prepare the tracker and conversion data required for the report
+        $aTrackers = $this->_prepareTrackers();
+        $aConversions = $this->_prepareConversions();
+        // Add the worksheets to the report, as required
+        if (isset($aSheets['performance_by_day'])) {
+            $this->addPerformanceSheet();
+        }
+        if (isset($aSheets['connection_by_day'])) {
+            $this->addConversionSummaryByDaySheet($aTrackers, $aConnections);
+        }
+        if (isset($aSheets['variable_by_day'])) {
+            $this->addVariableSummaryByDaySheet($aTrackers, $aConnections);
+        }
+        if (isset($aSheets['variable_by_variable'])) {
+            $this->addVariableSummaryByVariableSheet($aTrackers, $aConnections);
+        }
+        if (isset($aSheets['conversion_detail'])) {
+            $this->addConversionDetailSheet($aTrackers, $aConnections);
+        }
         // Close the report writer and send the report to the user
         $this->_oReportWriter->closeAndSend();
+    }
 
-
-
-
-
-
-
-
-
-        $aConnections = $this->dal->getTrackerConnections($scope, $oDaySpan);
+    function _prepareTrackers()
+    {
         $aTrackers = $this->dal->getTrackersVariablesByTrackerId($aConnections);
-
         // reformat Ticketmaster 'Date of Event' fields
         // a) find relevant tracker variable ids
         // b) reformat the values of these variables wherever they occur in the connections data
         foreach ($aTrackers as $tracker) {
-
             foreach ($tracker['variables'] as $variable) {
                 if ($variable['tracker_variable_name'] == 'dateofevent') {
                     $ids_to_format[] = $variable['tracker_variable_id'];
                 }
             }
         }
+    }
+
+    function _prepareConversions()
+    {
+        $aConnections = $this->dal->getTrackerConnections($scope, $oDaySpan);
         foreach($aConnections as $tracker_id => $tracker) {
             foreach($tracker['connections'] as $connection_id => $connection) {
                 foreach($ids_to_format as $id) {
@@ -172,8 +187,8 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_Reports
                         $aConnections[$tracker_id]['connections'][$connection_id]['variables'][$id]['tracker_variable_value'] = $new_datestring;
                     }
                 }
-                //count window delay
-   	        $eventDateSt = strtotime($connection['tracker_date_time']." ");
+                // count window delay
+   	            $eventDateSt = strtotime($connection['tracker_date_time']." ");
                 $secondsLeft = $eventDateSt - strtotime($connection['connection_date_time']." ");
                 $days = intval($secondsLeft / 86400);  // 86400 seconds in a day
                 $partDay = $secondsLeft - ($days * 86400);
@@ -182,26 +197,21 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_Reports
                 $minutes = intval($partHour / 60);  // 60 seconds in a minute
                 $seconds = $partHour - ($minutes * 60);
                 $windowDelay = $days."d ".$hours."h ".$minutes."m ".$seconds."s";
-	        $aConnections[$tracker_id]['connections'][$connection_id]['window_delay'] = $windowDelay;
-
+                $aConnections[$tracker_id]['connections'][$connection_id]['window_delay'] = $windowDelay;
             }
         }
+    }
 
-        if (isset($sheets['performance_by_day']) || !count($sheets)) {
-            $this->addPerformanceSheet();
-        }
-        if (isset($sheets['connection_by_day'])) {
-            $this->addConversionSummaryByDaySheet($aTrackers, $aConnections);
-        }
-        if (isset($sheets['variable_by_day'])) {
-            $this->addVariableSummaryByDaySheet($aTrackers, $aConnections);
-        }
-        if (isset($sheets['variable_by_variable'])) {
-            $this->addVariableSummaryByVariableSheet($aTrackers, $aConnections);
-        }
-        if (isset($sheets['conversion_detail'])) {
-            $this->addConversionDetailSheet($aTrackers, $aConnections);
-        }
+    /**
+     * @TODO Document!
+     * @return unknown
+     */
+    function getReportParametersForDisplay()
+    {
+        $aParams = array();
+        $aParams += $this->_getDisplayableParametersFromScope($this->_oScope);
+        $aParams += $this->getDisplayableParametersFromDaySpan($this->_daySpan);
+        return $aParams;
     }
 
 
@@ -758,14 +768,6 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_Reports
     {
         $aStatus = $this->getConnectionStatuses();
         return $aStatus[$code];
-    }
-
-    function getReportParametersForDisplay()
-    {
-        $aParams = array();
-        $aParams += $this->getDisplayableParametersFromScope($this->_oScope);
-        $aParams += $this->getDisplayableParametersFromDaySpan($this->_daySpan);
-        return $aParams;
     }
 }
 

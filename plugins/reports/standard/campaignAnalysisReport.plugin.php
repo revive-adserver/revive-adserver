@@ -90,11 +90,25 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
     var $_placementId;
 
     /**
+     * Local storage variable for the placement name.
+     *
+     * @var string
+     */
+    var $_placementName;
+
+    /**
      * Local storage variable for the advertiser ID.
      *
      * @var integer
      */
     var $_advertiserId;
+
+    /**
+     * Local storage variable for the advertiser name.
+     *
+     * @var string
+     */
+    var $_advertiserName;
 
     /**
      * The local implementation of the initInfo() method to set all of the
@@ -178,15 +192,32 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
     {
         // Save the placement ID for use later
         $this->_placementId = $placementId;
-        // Locate and save the placement's owning advertiser
+        // Locate and save the placement's name & owning advertiser
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignid = $this->_placementId;
         $doCampaigns->find();
         if (!$doCampaigns->fetch()) {
-            $this->_advertiserId = false;
+            $this->_placementName  = false;
+            $this->_advertiserId   = false;
+            $this->_advertiserName = false;
         } else {
             $aPlacement = $doCampaigns->toArray();
-            $this->_advertiserId = $aPlacement['clientid'];
+            $this->_placementName = MAX_getPlacementName($aPlacement);
+            $this->_advertiserId  = $aPlacement['clientid'];
+            if ($aPlacement['anonymous'] == 't') {
+                $campaignAnonymous = true;
+            } else {
+                $campaignAnonymous = false;
+            }
+
+
+            /**
+             * @TODO Fix! Can't use this DAL, it's rubbish.
+             */
+            $advertiser_name = $this->dal->getAdvertiserNameForCampaign($campaign_id);
+
+
+            $this->_advertiserName = MAX_getAdvertiserName($advertiserName, null, $campaignAnonymous);
         }
 
         // Prepare the range information for the report
@@ -209,12 +240,26 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
         $this->_oReportWriter->closeAndSend();
     }
 
-    function getReportParametersForDisplay()
+    /**
+     * The local implementation of the _getReportParametersForDisplay() method
+     * to return a string to display the date range of the report.
+     *
+     * @access private
+     * @return array The array of index/value sub-headings.
+     */
+    function _getReportParametersForDisplay()
     {
-        $params = array();
-        $params += $this->getDisplayableParametersFromCampaignId($this->_placementId);
-        $params += $this->getDisplayableParametersFromDaySpan($this->_oDaySpan);
-        return $params;
+        $aParams = array();
+        if ($this->_advertiserName !== false) {
+            $key = MAX_Plugin_Translation::translate('Advertiser', $this->module, $this->package);
+            $aParams[$key] = $this->_advertiserName;
+        }
+        if ($this->_placementName !== false) {
+            $key = MAX_Plugin_Translation::translate('Campaign', $this->module, $this->package);
+            $aParams[$key] = $this->_placementName;
+        }
+        $aParams += $this->_getDisplayableParametersFromDaySpan();
+        return $aParams;
     }
 
     /**
