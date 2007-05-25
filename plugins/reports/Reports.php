@@ -27,10 +27,11 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Admin/DaySpan.php';
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
+require_once MAX_PATH . '/plugins/reports/ExcelReports.php';
+require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 
 /**
  * Plugins_Reports is an abstract class that defines an interface for every

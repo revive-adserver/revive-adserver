@@ -26,8 +26,59 @@ $Id$
 */
 
 require_once MAX_PATH . '/plugins/reports/Reports.php';
-require_once MAX_PATH . '/plugins/reports/ExcelReports.php';
 
+/**
+ * A plugin to generate a report showing the breakdown of delivery for a
+ * given placement, for the supplied date range. The report can contain up
+ * to three worksheets:
+ *
+ * Daily Breakdown:
+ *  - A breakdown of the delivery grouped by day.
+ * Ad Breakdown:
+ *  - A breakdown of the delivery grouped by ad name.
+ * Zone Breakdown:
+ *  - A breakdown of the delivery grouped by zone name.
+ *
+ * In all cases, "delivery" is the set of all data selected to be displayed
+ * by the user's preferences, and can consist of the following items:
+ *  - Requests
+ *  - Impressions
+ *  - Clicks
+ *  - CTR: The click through ratio
+ *  - Conversions
+ *  - Pending Conversions
+ *  - Impression SR: The impressions to sales ratio
+ *  - Click SR: The clicks to sales ratio
+ *  - Revenue
+ *  - Cost
+ *  - Basket Value: Of conversions
+ *  - Number of Items: In conversions
+ *  - Revenue CPC: Revenue per click
+ *  - Cost CPC: Cost per click
+ *  - Technology Cost
+ *  - Income
+ *  - Income Margin
+ *  - Profit
+ *  - Margin
+ *  - ERPM
+ *  - ERPC
+ *  - ERPS
+ *  - EIPM
+ *  - EIPC
+ *  - EIPS
+ *  - EPPM
+ *  - EPPC
+ *  - EPPS
+ *  - ECPM
+ *  - ECPC
+ *  - ECPS
+ *
+ * @abstract
+ * @package    MaxPlugin
+ * @subpackage Reports
+ * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Robert Hunter <roh@m3.net>
+ */
 class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
 {
 
