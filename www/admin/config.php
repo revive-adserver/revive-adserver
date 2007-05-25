@@ -122,10 +122,6 @@ function MMM_buildNavigation()
 
     $GLOBALS['phpAds_nav'] = array (
         "admin" => array (
-            "6"                         =>  array("dashboard.php" => "Home"),
-                "6.1"                   =>  array("dashboard.php" => "Dashboard"),
-                "6.2"                   =>  array("http://forum.openads.org" => "Openads Forum"),
-                "6.3"                   =>  array("http://docs.openads.org" => "Openads Docs"),
             "2"                         =>  array("stats.php" => $GLOBALS['strStats']),
               "2.1"                     =>  array("stats.php?1=1" => $GLOBALS['strClientsAndCampaigns']),
                 "2.1.1"                 =>  array("stats.php?entity=advertiser&breakdown=history&clientid=$clientid" => $GLOBALS['strClientHistory']),
@@ -233,13 +229,13 @@ function MMM_buildNavigation()
                 "5.6.1"                 =>  array("channel-edit.php?agencyid=$agencyid" => $GLOBALS['strAddNewChannel']),
                 "5.6.2"                 =>  array("channel-edit.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelProperties']),
                 "5.6.3"                 =>  array("channel-acl.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelLimitations']),
+            "6"                         =>  array("dashboard.php" => $GLOBALS['strDashboardCommunity']),
+                "6.1"                   =>  array("dashboard.php" => $GLOBALS['strDashboardDashboard']),
+                "6.2"                   =>  array("http://forum.openads.org" => $GLOBALS['strDashboardForum']),
+                "6.3"                   =>  array("http://docs.openads.org" => $GLOBALS['strDashboardDocs'])
         ),
 
         "agency"    => array (
-            "6"                         =>  array("dashboard.php" => "Home"),
-                "6.1"                   =>  array("dashboard.php" => "Dashboard"),
-                "6.2"                   =>  array("http://forum.openads.org" => "Openads Forum"),
-                "6.3"                   =>  array("http://docs.openads.org" => "Openads Docs"),
             "2"                         =>  array("stats.php" => $GLOBALS['strStats']),
               "2.1"                     =>  array("stats.php?1=1" => $GLOBALS['strClientsAndCampaigns']),
                 "2.1.1"                 =>  array("stats.php?entity=advertiser&breakdown=history&clientid=$clientid" => $GLOBALS['strClientHistory']),
@@ -335,13 +331,13 @@ function MMM_buildNavigation()
               "5.2.2"                   =>  array("channel-edit.php?channelid=$channelid" => $GLOBALS['strChannelProperties']),
               "5.2.3"                   =>  array("channel-acl.php?channelid=$channelid" => $GLOBALS['strChannelLimitations']),
               "5.3"                     =>  array("maintenance-index.php" => $GLOBALS['strMaintenance']),
+            "6"                         =>  array("dashboard.php" => $GLOBALS['strDashboardCommunity']),
+                "6.1"                   =>  array("dashboard.php" => $GLOBALS['strDashboardDashboard']),
+                "6.2"                   =>  array("http://forum.openads.org" => $GLOBALS['strDashboardForum']),
+                "6.3"                   =>  array("http://docs.openads.org" => $GLOBALS['strDashboardDocs'])
         ),
 
         "client" => array (
-            "6"                         =>  array("dashboard.php" => "Home"),
-                "6.1"                   =>  array("dashboard.php" => "Dashboard"),
-                "6.2"                   =>  array("http://forum.openads.org" => "Openads Forum"),
-                "6.3"                   =>  array("http://docs.openads.org" => "Openads Docs"),
             "1"                         =>  array("stats.php?entity=advertiser&breakdown=history&clientid=$clientid" => $GLOBALS['strHome']),
               "1.1"                     =>  array("stats.php?entity=advertiser&breakdown=history&clientid=$clientid" => $GLOBALS['strClientHistory']),
                 "1.1.1"                 =>  array("stats.php?entity=advertiser&breakdown=daily&clientid=$clientid&day=$day" => $GLOBALS['strDailyStats']),
@@ -379,14 +375,14 @@ function MMM_buildNavigation()
             */
             "3"                         =>  array("report-index.php?clientid=$clientid" => $GLOBALS['strReports']),
             "4"                         =>  array("settings-index.php?clientid=$clientid" => $GLOBALS['strSettings']),
-              "4.1"                     =>  array("settings-index.php?clientid=$clientid" => $GLOBALS['strMainSettings'])
+              "4.1"                     =>  array("settings-index.php?clientid=$clientid" => $GLOBALS['strMainSettings']),
+            "6"                         =>  array("dashboard.php" => $GLOBALS['strDashboardCommunity']),
+                "6.1"                   =>  array("dashboard.php" => $GLOBALS['strDashboardDashboard']),
+                "6.2"                   =>  array("http://forum.openads.org" => $GLOBALS['strDashboardForum']),
+                "6.3"                   =>  array("http://docs.openads.org" => $GLOBALS['strDashboardDocs'])
         ),
 
         "affiliate" => array (
-            "6"                     =>  array("dashboard.php" => "Home"),
-                "6.1"               =>  array("dashboard.php" => "Dashboard"),
-                "6.2"               =>  array("http://forum.openads.org" => "Openads Forum"),
-                "6.3"               =>  array("http://docs.openads.org" => "Openads Docs"),
             "1"                     =>  array("stats.php?entity=affiliate&breakdown=history&affiliateid=$affiliateid" => $GLOBALS['strStats']),
               "1.1"                 =>  array("stats.php?entity=affiliate&breakdown=history&affiliateid=$affiliateid" => $GLOBALS['strAffiliateHistory']),
                 "1.1.1"             =>  array("stats.php?entity=affiliate&breakdown=daily&affiliateid=$affiliateid&day=$day" => $GLOBALS['strDailyStats']),
@@ -403,11 +399,15 @@ function MMM_buildNavigation()
                   "1.3.1.1"         =>  array("stats.php?entity=affiliate&breakdown=daily&affiliateid=$affiliateid&campaignid=$campaignid&day=$day" => $GLOBALS['strDailyStats']),
                 "1.3.2"             =>  array("stats.php?entity=affiliate&breakdown=banner-history&affiliateid=$affiliateid&campaignid=$campaignid&bannerid=$bannerid" => $GLOBALS['strDistributionHistory']),
                   "1.3.2.1"         =>  array("stats.php?entity=affiliate&breakdown=daily&affiliateid=$affiliateid&campaignid=$campaignid&bannerid=$bannerid&day=$day" => $GLOBALS['strDailyStats']),
-            "3"                     =>  array("report-index.php?affiliateid=$affiliateid" => $GLOBALS['strReports'])
+            "3"                     =>  array("report-index.php?affiliateid=$affiliateid" => $GLOBALS['strReports']),
+            "6"                     =>  array("dashboard.php" => $GLOBALS['strDashboardCommunity']),
+                "6.1"               =>  array("dashboard.php" => $GLOBALS['strDashboardDashboard']),
+                "6.2"               =>  array("http://forum.openads.org" => $GLOBALS['strDashboardForum']),
+                "6.3"               =>  array("http://docs.openads.org" => $GLOBALS['strDashboardDocs'])
 
         )
     );
-    
+
     if (phpAds_isUser(phpAds_Client)) {
         if (phpAds_isAllowed(phpAds_ActivateBanner) || phpAds_isAllowed(phpAds_ModifyBanner)) {
             $GLOBALS['phpAds_nav']['client']['2'] = array("advertiser-campaigns.php?clientid=$clientid" => $GLOBALS['strAdminstration']);

@@ -128,27 +128,33 @@ $GLOBALS['strCheckAllNone']             = "Check all / none";
 $GLOBALS['strKiloByte']                 = "KB";
 $GLOBALS['strExpandAll']                = "<u>E</u>xpand all";
 $GLOBALS['strCollapseAll']              = "<u>C</u>ollapse all";
-$GLOBALS['strShowAll']                    = "Show All";
-$GLOBALS['strNoAdminInteface']            = "The admin screen has been turned off for maintenance.  This does not affect the delivery of your campaigns.";
-$GLOBALS['strFilterBySource']            = "filter by source";
-$GLOBALS['strFieldContainsErrors']        = "The following fields contain errors:";
-$GLOBALS['strFieldFixBeforeContinue1']    = "Before you can continue you need";
-$GLOBALS['strFieldFixBeforeContinue2']    = "to correct these errors.";
+$GLOBALS['strShowAll']                  = "Show All";
+$GLOBALS['strNoAdminInteface']          = "The admin screen has been turned off for maintenance.  This does not affect the delivery of your campaigns.";
+$GLOBALS['strFilterBySource']           = "filter by source";
+$GLOBALS['strFieldContainsErrors']      = "The following fields contain errors:";
+$GLOBALS['strFieldFixBeforeContinue1']  = "Before you can continue you need";
+$GLOBALS['strFieldFixBeforeContinue2']  = "to correct these errors.";
 $GLOBALS['strDelimiter']                = "Delimiter";
 $GLOBALS['strMiscellaneous']            = "Miscellaneous";
 $GLOBALS['strCollectedAllStats']        = "All statistics";
-$GLOBALS['strCollectedToday']            = "Today";
+$GLOBALS['strCollectedToday']           = "Today";
 $GLOBALS['strCollectedYesterday']       = "Yesterday";
 $GLOBALS['strCollectedThisWeek']        = "This week";
 $GLOBALS['strCollectedLastWeek']        = "Last week";
 $GLOBALS['strCollectedThisMonth']       = "This month";
 $GLOBALS['strCollectedLastMonth']       = "Last month";
-$GLOBALS['strCollectedLast7Days']        = "Last 7 days";
+$GLOBALS['strCollectedLast7Days']       = "Last 7 days";
 $GLOBALS['strCollectedSpecificDates']   = "Specific dates";
 $GLOBALS['strDifference']               = 'Difference (%)';
 $GLOBALS['strPercentageOfTotal']        = '% Total';
 $GLOBALS['strValue']                    = 'Value';
-$GLOBALS['strAdmin']                    = "Admin";
+$GLOBALS['strAdmin']                    = 'Admin';
+
+// Dashboard
+$GLOBALS['strDashboardCommunity']       = 'Community';
+$GLOBALS['strDashboardDashboard']       = 'Dashboard';
+$GLOBALS['strDashboardForum']           = 'Openads Forum';
+$GLOBALS['strDashboardDocs']            = 'Openads Docs';
 
 // Priority
 $GLOBALS['strPriority']                 = "Priority";
@@ -199,7 +205,6 @@ $GLOBALS['strRepeatPassword']           = "Repeat Password";
 $GLOBALS['strOldPassword']              = "Old Password";
 $GLOBALS['strNewPassword']              = "New Password";
 $GLOBALS['strNoBannerId']               = "No banner ID";
-
 
 // General advertising
 $GLOBALS['strRequests']                 = 'Requests';
