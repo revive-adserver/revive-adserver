@@ -16,5 +16,13 @@
     <target name="clean-delivery-cache">
       <clean-delivery-cache />
     </target>
+    
+    <target name="test-cache">
+        <clean-delivery-cache />
+        <!-- first run the test without delivery cache -->
+        <antcall target="canoo-test" />
+        <!-- then run it again using previously generated cache -->
+        <antcall target="canoo-test" />
+    </target>
 
 </project>

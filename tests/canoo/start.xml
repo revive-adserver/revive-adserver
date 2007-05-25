@@ -32,10 +32,11 @@
   
   <target name="delivery">
     <ant antfile="usecases/delivery/ac.xml" />
-    <ant antfile="usecases/delivery/ag.xml" />
     <ant antfile="usecases/delivery/afr.xml" />
+    <ant antfile="usecases/delivery/ag.xml" />
     <ant antfile="usecases/delivery/ai.xml" />
     <ant antfile="usecases/delivery/ajs.xml" />
+    <ant antfile="usecases/delivery/al.xml" />
     <ant antfile="usecases/delivery/avw.xml" />
     <ant antfile="usecases/delivery/ck.xml" />
     <ant antfile="usecases/delivery/alocal.xml" />

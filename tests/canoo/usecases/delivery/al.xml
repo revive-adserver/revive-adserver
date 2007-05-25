@@ -6,9 +6,10 @@
 >
 
 <!--
-  Test that ag.php returns valid JavaScript
+  Test that page generate the JavaScript which contains the ad
+  @TODO Check that returned JavaScript is valid
 -->
-<project name="Openads delivery - ac.php" basedir="../.." default="main">
+<project name="Openads delivery - ajs.php" basedir="../.." default="main">
   <import file="../../includes/init.xml"/>
   <import file="${webtest.home}/lib/taskdef.xml"/>
 
@@ -16,12 +17,15 @@
     <testSpec name="Run Delivery">
       &config;
       <steps>
-        <invoke description="Invoke delivery file" url="/delivery/ag.php" />
+        <invoke description="Invoke delivery file" url="/delivery/al.php?what=bannerid:2" />
         &checkForErrors;
+        <verifyText description="Check that it contains JavaScript" text="document.write" />
+        <verifyText description="Check that JS prints: 'html test banner'" regex="true" text="html test banner" />        
       </steps>
     </testSpec>
   </target>
-
+  
   <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
   <target name="main" depends="test-cache" />
+
 </project>

@@ -17,10 +17,6 @@
     <testSpec name="Run Delivery">
       &config;
       <steps>
-        <clean-delivery-cache/>
-        <invoke description="Invoke delivery file" url="/delivery/ajs.php?what=bannerid:2" />
-        &checkForErrors;
-        
         <invoke description="Invoke delivery file" url="/delivery/ajs.php?what=bannerid:2" />
         &checkForErrors;
         <verifyText description="Check that it contains JavaScript" text="document.write" />
@@ -30,6 +26,6 @@
   </target>
   
   <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
-  <target name="main" depends="clean-delivery-cache, canoo-test, canoo-test" />
+  <target name="main" depends="test-cache" />
 
 </project>

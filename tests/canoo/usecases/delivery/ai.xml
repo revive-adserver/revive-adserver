@@ -26,6 +26,6 @@
   </target>
 
   <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
-  <target name="main" depends="clean-delivery-cache, canoo-test, canoo-test" />
+  <target name="main" depends="test-cache" />
   
 </project>

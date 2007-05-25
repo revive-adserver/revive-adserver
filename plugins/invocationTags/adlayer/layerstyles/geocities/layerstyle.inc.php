@@ -34,13 +34,17 @@ $Id$
 
 function MAX_layerGetLimitations()
 {
-	$agent = $GLOBALS['_MAX']['CLIENT'];
+	$compatible = true;
 	
-	$compatible = $agent['browser'] == 'ie' && $agent['maj_ver'] < 5 ||
-				  $agent['browser'] == 'mz' && $agent['maj_ver'] < 1 ||
-				  $agent['browser'] == 'fx' && $agent['maj_ver'] < 1 ||
-				  $agent['browser'] == 'op' && $agent['maj_ver'] < 5 
-				  ? false : true;
+    if (isset($GLOBALS['_MAX']['CLIENT'])) {
+        $agent = $GLOBALS['_MAX']['CLIENT'];
+    	
+    	$compatible = $agent['browser'] == 'ie' && $agent['maj_ver'] < 5 ||
+    				  $agent['browser'] == 'mz' && $agent['maj_ver'] < 1 ||
+    				  $agent['browser'] == 'fx' && $agent['maj_ver'] < 1 ||
+    				  $agent['browser'] == 'op' && $agent['maj_ver'] < 5 
+    				  ? false : true;
+	}
 				  
 	//$richmedia  = $agent['platform'] == 'Win' ? true : false;
 	$richmedia = true;
