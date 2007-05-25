@@ -107,7 +107,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $preferences->setPrefChange('updates_cs_data_enabled', isset($updates_cs_data_enabled));
     $preferences->setPrefChange('admin_novice', isset($admin_novice));
     $preferences->setPrefChange('userlog_email', isset($userlog_email));
-        
+
     if (!count($errormessage)) {
         if (!$preferences->writePrefChange()) {
             // Unable to update the preferences
@@ -136,6 +136,12 @@ if (empty($configTimezone)) {
     // is not required (ie. the TZ comes from the environment) -
     // so set that environment value in the config file now
     $GLOBALS['_MAX']['CONF']['timezone']['location'] = $aTimezone['tz'];
+}
+// What display string do we need to show for the timezone?
+if (empty($configTimezone) && $aTimezone['calculated']) {
+    $strTimezoneToDisplay = $strTimezoneEstimated . '<br />' . $strTimezoneGuessedValue;
+} else {
+    $strTimezoneToDisplay = $strTimezone;
 }
 
 $settings = array (
@@ -221,9 +227,6 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'break'
-            ),
-            array (
                 'type'    => 'checkbox',
                 'name'    => 'admin_novice',
                 'text'    => $strAdminNovice
@@ -242,7 +245,7 @@ $settings = array (
         'text'    => $GLOBALS['strSyncSettings'],
         'items'   => array (
             array (
-                'type'    => 'checkbox', 
+                'type'    => 'checkbox',
                 'name'    => 'updates_enabled',
                 'text'    => $strAdminCheckUpdates,
             ),
@@ -256,14 +259,14 @@ $settings = array (
                 'depends' => 'updates_enabled==true',
             ),
         )
-    ),    
+    ),
     array (
         'text'  => $strTimezoneInformation,
         'items' => array (
             array (
                 'type'    => 'select',
                 'name'    => 'timezone_location',
-                'text'    => $strTimezone,
+                'text'    => $strTimezoneToDisplay,
                 'items'   => $aTimezones
             )
         )
