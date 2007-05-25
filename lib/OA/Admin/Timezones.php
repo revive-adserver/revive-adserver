@@ -35,9 +35,10 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
  */
  class OA_Admin_Timezones
  {
-
     /**
      * Returns an array of available timezones.
+     *
+     * @static
      *
      * @param boolean $addBlank If set to true an empty entry will be added
      *                          to the beginning of the array.
@@ -47,34 +48,42 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
     {
         global $_DATE_TIMEZONE_DATA;
 
+        $_aTimezoneBcData = array(
+            'Brazil/Acre', 'Brazil/DeNoronha', 'Brazil/East', 'Brazil/West', 'Canada/Atlantic',
+            'Canada/Central', 'Canada/East-Saskatchewan', 'Canada/Eastern', 'Canada/Mountain',
+            'Canada/Newfoundland', 'Canada/Pacific', 'Canada/Saskatchewan', 'Canada/Yukon',
+            'CET', 'Chile/Continental', 'Chile/EasterIsland', 'CST6CDT', 'Cuba', 'EET',
+            'Egypt', 'Eire', 'EST', 'EST5EDT', 'Etc/GMT', 'Etc/GMT+0', 'Etc/GMT+1', 'Etc/GMT+10',
+            'Etc/GMT+11', 'Etc/GMT+12', 'Etc/GMT+2', 'Etc/GMT+3', 'Etc/GMT+4', 'Etc/GMT+5',
+            'Etc/GMT+6', 'Etc/GMT+7', 'Etc/GMT+8', 'Etc/GMT+9', 'Etc/GMT-0', 'Etc/GMT-1',
+            'Etc/GMT-10', 'Etc/GMT-11', 'Etc/GMT-12', 'Etc/GMT-13', 'Etc/GMT-14', 'Etc/GMT-2',
+            'Etc/GMT-3', 'Etc/GMT-4', 'Etc/GMT-5', 'Etc/GMT-6', 'Etc/GMT-7', 'Etc/GMT-8',
+            'Etc/GMT-9', 'Etc/GMT0', 'Etc/Greenwich', 'Etc/UCT', 'Etc/Universal', 'Etc/UTC',
+            'Etc/Zulu', 'Factory GB', 'GB-Eire', 'GMT', 'GMT+0', 'GMT-0', 'GMT0', 'Greenwich',
+            'Hongkong', 'HST', 'Iceland', 'Iran', 'Israel', 'Jamaica', 'Japan', 'Kwajalein',
+            'Libya', 'MET', 'Mexico/BajaNorte', 'Mexico/BajaSur', 'Mexico/General',
+            'MST', 'MST7MDT', 'Navajo', 'NZ', 'NZ-CHAT', 'Poland', 'Portugal', 'PRC',
+            'PST8PDT', 'ROC', 'ROK', 'Singapore', 'Turkey', 'UCT', 'Universal', 'US/Alaska',
+            'US/Aleutian', 'US/Arizona', 'US/Central', 'US/East-Indiana', 'US/Eastern',
+            'US/Hawaii', 'US/Indiana-Starke', 'US/Michigan', 'US/Mountain', 'US/Pacific',
+            'US/Pacific-New', 'US/Samoa', 'UTC', 'W-SU', 'WET', 'Zulu');
+
         // Load global array of timezones
         require_once MAX_PATH .'/lib/pear/Date/TimeZone.php';
         $aTimezoneKey = Date_TimeZone::getAvailableIDs();
-        sort($aTimezoneKey);
 
         foreach ($aTimezoneKey as $key) {
-            //  calculate timezone offset
-            $offset = ((($_DATE_TIMEZONE_DATA[$key]['offset'] / 1000 ) / 60 ) / 60);
+            if (!in_array($key, $_aTimezoneBcData)) {
+                //  calculate timezone offset
+                $offset = OA_Admin_Timezones::_convertOffset($_DATE_TIMEZONE_DATA[$key]['offset']);
 
-            //  calculate offset hours
-            $offsetHours = str_pad((int) abs($offset), 2, 0, STR_PAD_LEFT);
-
-            // caculate offset minutes
-            list(,$offsetMinutes) = explode('.', $offset);
-            $offsetMinutes = (strlen($offsetMinutes) >= 2) ? substr($offsetMinutes, 0, 2) : $offsetMinutes;
-
-            //  if minutes < 2 characters add leading zero
-            $offsetMinutes = str_pad((int) (60 * ($offsetMinutes / 100)), 2, 0, STR_PAD_LEFT);
-
-            //  build offset
-            $offset = $offsetHours . $offsetMinutes;
-
-            //  build arrays used for sorting time zones
-            $origOffset = $_DATE_TIMEZONE_DATA[$key]['offset'];
-            if ($origOffset >= 0) {
-                $aTimezone[$key] = "(GMT+$offset) $key";
-            } else {
-                $aNegTimezone[$key] = "(GMT-$offset) $key";
+                //  build arrays used for sorting time zones
+                $origOffset = $_DATE_TIMEZONE_DATA[$key]['offset'];
+                if ($origOffset >= 0) {
+                    $aTimezone[$key] = "(GMT+$offset) $key";
+                } else {
+                    $aNegTimezone[$key] = "(GMT-$offset) $key";
+                }
             }
         }
 
@@ -128,31 +137,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
                 // variable, so we have to try and calcuate
                 // the timezone for the user
                 $calculated = true;
-                unset($tz);
-                $diff = date('O');
-                $diffSign = substr($diff, 0, 1);
-                $diffHour = (int) substr($diff, 1, 2);
-                $diffMin  = (int) substr($diff, 3, 2);
-                if ($diffMin != 0) {
-                    // Dang. Half-hour offsets can't be done
-                    // via a GMT offset. Guess!
-                    $offset = (($diffHour * 60) + ($diffMin)) * 60 * 1000; // Milliseconds
-                    // Deliberately require via direct path, not using MAX_PATH,
-                    // as this method should be called before the ini scripts!
-                    require_once '../../lib/pear/Date/TimeZone.php';
-                    global $_DATE_TIMEZONE_DATA;
-                    reset($_DATE_TIMEZONE_DATA);
-                    foreach (array_keys($_DATE_TIMEZONE_DATA) as $key) {
-                        if ($_DATE_TIMEZONE_DATA[$key]['offset'] == $offset) {
-                            $tz = $key;
-                            break;
-                        }
-                    }
-                }
-                if (!isset($tz)) {
-                    // Just set the time zone as an offset from GMT
-                    $tz = 'Etc/GMT'. $diffSign . $diffHour;
-                }
+				$tz = date('T');
             }
         }
         $aReturn = array(
@@ -200,6 +185,36 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
         return $return;
     }
 
+    /**
+     * Convert an offset in milliseconds into human readable form (hours and minutes)
+     *
+     * @access private
+     *
+     * @param float $offset A float in hours of the time zone offset (i.e. 9.5, 10.75)
+     * @return string       Human read able timezone offset
+     */
+    function _convertOffset($offset)
+    {
+        $offset = ((($offset / 1000 ) / 60 ) / 60);
+
+        //  calculate offset hours
+        $offsetHours = str_pad((int) abs($offset), 2, 0, STR_PAD_LEFT);
+
+        // retrieve percentage and if only one character add ending 0
+        $offsetMinutes = strstr($offset, '.');
+        $offsetMinutes = (strlen($offsetMinutes) >= 2) ? $offsetMinutes : str_pad($offsetMinutes, 2, 0);
+
+        //  caculate minutes
+        $offsetMinutes = round((60 * $offsetMinutes), 0);
+
+        //  if minutes < 2 characters add leading zero
+        $offsetMinutes = str_pad(((int) $offsetMinutes), 2, 0, STR_PAD_LEFT);
+
+        //  build offset
+        $offset = $offsetHours . $offsetMinutes;
+
+        return $offset;
+    }
 }
 
 ?>
