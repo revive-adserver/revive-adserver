@@ -73,7 +73,8 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
         $aTimezoneKey = Date_TimeZone::getAvailableIDs();
 
         foreach ($aTimezoneKey as $key) {
-            if (!in_array($key, $_aTimezoneBcData)) {
+            if ((in_array(OA_Admin_Timezones::getTimezone(), $_aTimezoneBcData) && $key == OA_Admin_Timezones::getTimezone())
+                 || !in_array($key, $_aTimezoneBcData)) {
                 //  calculate timezone offset
                 $offset = OA_Admin_Timezones::_convertOffset($_DATE_TIMEZONE_DATA[$key]['offset']);
 
@@ -137,7 +138,31 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
                 // variable, so we have to try and calcuate
                 // the timezone for the user
                 $calculated = true;
-				$tz = date('T');
+                unset($tz);
+                $diff = date('O');
+                $diffSign = substr($diff, 0, 1);
+                $diffHour = (int) substr($diff, 1, 2);
+                $diffMin  = (int) substr($diff, 3, 2);
+                if ($diffMin != 0) {
+                    // Dang. Half-hour offsets can't be done
+                    // via a GMT offset. Guess!
+                    $offset = (($diffHour * 60) + ($diffMin)) * 60 * 1000; // Milliseconds
+                    // Deliberately require via direct path, not using MAX_PATH,
+                    // as this method should be called before the ini scripts!
+                    require_once '../../lib/pear/Date/TimeZone.php';
+                    global $_DATE_TIMEZONE_DATA;
+                    reset($_DATE_TIMEZONE_DATA);
+                    foreach (array_keys($_DATE_TIMEZONE_DATA) as $key) {
+                        if ($_DATE_TIMEZONE_DATA[$key]['offset'] == $offset) {
+                            $tz = $key;
+                            break;
+                        }
+                    }
+                }
+                if (!isset($tz)) {
+                    // Just set the time zone as an offset from GMT
+                    $tz = 'Etc/GMT'. $diffSign . $diffHour;
+                }
             }
         }
         $aReturn = array(
