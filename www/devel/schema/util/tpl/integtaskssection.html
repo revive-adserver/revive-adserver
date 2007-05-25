@@ -5,12 +5,18 @@
             <tr>
                 <td>
                     <?php
-                        $id = $v['name'];
+                        $name = '['.$v['name'].']';
+                        $label = $v['name'];
                         if (isset($v['field']))
                         {
-                            $id.= '.'.$v['field'];
+                            $label.= '.'.$v['field'];
+                            $value = $v['field'];
                         }
-                        echo $id;
+                        else
+                        {
+                            $value = 1;
+                        }
+                        echo $label;
                         if ($showCargo)
                         {
                             echo '<br />';
@@ -21,7 +27,7 @@
                         }
                     ?>
                 </td>
-                <td><input type="checkbox" name="aRemoveTable[<?php echo $id ?>]" value="1" <?php if ($tickAll) { echo 'checked';} ?>/></td>
+                <td><input type="checkbox" name="<?php echo $fieldname.$name ?>" value="<?php echo $value; ?>" <?php if ($tickAll) { echo 'checked';} ?>/></td>
             </tr>
 
     <?php

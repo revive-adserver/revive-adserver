@@ -25,34 +25,48 @@ $Id$
 */
 
 /**
- * db upgrade class demonstration script
+ * integrity check utility
  */
 
 require_once '../../../../init.php';
-require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
+define('MAX_DEV', MAX_PATH.'/www/devel');
 
-$oUpgrader = new OA_Upgrade();
+require_once MAX_PATH.'/lib/OA/Upgrade/DB_Integrity.php';
 
-if (array_key_exists('btn_integ_check', $_REQUEST))
+require_once MAX_PATH.'/www/devel/lib/xajax.inc.php';
+
+$oIntegrity = new OA_DB_Integrity();
+
+if (array_key_exists('btn_integ_check', $_POST))
 {
-    $oUpgrader->initDatabaseConnection();
-    $oUpgrader->oDBUpgrader->init('constructive', 'tables_core', 500);
-    $oUpgrader->oDBUpgrader->prefix   = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-    $oUpgrader->oDBUpgrader->database = $GLOBALS['_MAX']['CONF']['database']['name'];
-//    $oUpgrader->oDBUpgrader->file_schema = MAX_PATH.'/etc/changes/schema_tables_core_500.xml';
-    $oUpgrader->oLogger->logClear();
-    $aChanges = $oUpgrader->oDBUpgrader->checkSchemaIntegrity();
-    $oUpgrader->oDBUpgrader->aChanges = $aChanges;
-    $oUpgrader->oDBUpgrader->aDBTables = $oUpgrader->oDBUpgrader->_listTables();
-    if ($oUpgrader->oDBUpgrader->_verifyTasks())
+    $version = $_POST['version'];
+    if ($oIntegrity->init($version))
     {
-        $aTasksConstructive = $oUpgrader->oDBUpgrader->aTaskList;
+        $oIntegrity->checkIntegrity();
+        $aTasksConstructive = $oIntegrity->aTasksConstructiveAll;
+        $aTasksDestructive  = $oIntegrity->aTasksDestructiveAll;
+        $aMessages          = $oIntegrity->getMessages();
+        $file_schema        = $oIntegrity->getFileSchema();
+        $file_changes       = $oIntegrity->getFileChanges();
     }
-    $oUpgrader->oDBUpgrader->init('destructive', 'tables_core', 500, true);
-    $oUpgrader->oDBUpgrader->aDBTables = $oUpgrader->oDBUpgrader->_listTables();
-    if ($oUpgrader->oDBUpgrader->_verifyTasks())
+}
+else if (array_key_exists('btn_integ_exec', $_POST))
+{
+    $version = $_POST['changes_version'];
+    if ($oIntegrity->init($version))
     {
-        $aTasksDestructive = $oUpgrader->oDBUpgrader->aTaskList;
+        $oIntegrity->aTasksConstructiveSelected = (isset($_POST['constructive']) ? $_POST['constructive'] : array());
+        $oIntegrity->aTasksDestructiveSelected  = (isset($_POST['destructive']) ? $_POST['destructive'] : array());
+        $oIntegrity->compileExecuteTasklist('prune', 'execute');
+    }
+    if ($oIntegrity->init($version))
+    {
+        $oIntegrity->checkIntegrity();
+        $aTasksConstructive = $oIntegrity->aTasksConstructiveAll;
+        $aTasksDestructive  = $oIntegrity->aTasksDestructiveAll;
+        $aMessages          = $oIntegrity->getMessages();
+        $file_schema        = $oIntegrity->getFileSchema();
+        $file_changes       = $oIntegrity->getFileChanges();
     }
 }
 include 'tpl/integ.html';

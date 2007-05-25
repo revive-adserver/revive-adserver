@@ -2,15 +2,33 @@
 <head>
     <title>Openads Schema Integrity Utilities</title>
     <link rel="stylesheet" type="text/css" href="css/upgrade.css"/>
+
+    <script type="text/javascript" src="schema.js"></script>
+    <script type="text/javascript" src="../../lib/xajax/xajax_js/xajax.js"></script>
+    <script type="text/javascript">
+        window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ../lib/xajax/xajax_js/xajax.js'); } }, 6000);
+    </script>
+
 </head>
 <body>
 <div class="tablediv">
     <h2>Openads Schema Integrity Utilities</h2>
     <form name="frmInteg" method="POST" action="integ.php">
-        <button name="btn_integ_check">run an integrity check against schema version 500</button>
+        <button name="btn_integ_check">run an integrity check on <?php echo $GLOBALS['_MAX']['CONF']['database']['name']; ?> against schema version =></button>
+        <select name="version">
+            <option value="500" <?php echo ($version==500 ? 'selected' : '')?>>500</option>
+            <option value="100" <?php echo ($version==100 ? 'selected' : '')?>>100</option>
+        </select>
     </form>
 </div>
 <form name="frmInteg" method="POST" action="integ.php">
+    <div class="tablediv">
+        <button name="btn_integ_exec" value="<?php echo $file_changes; ?>">execute the selected tasks using <?php echo $file_changes; ?></button>
+        <input name="changes_version" type="hidden" value="<?php echo $version; ?>" />
+    </div>
+    <table class="tablebody">
+    <tr>
+    <td class="tablebody" style="width:50%">
 <?php
 if (count($aTasksConstructive)>0)
 {
@@ -25,6 +43,7 @@ if (count($aTasksConstructive)>0)
                     <tr><th colspan="2">Add Tables</th></tr>
                     <?php
                         $aTasks = $aTasksConstructive['tables']['add'];
+                        $fieldname = 'constructive[tables][add][]';
                         include 'tpl/integtaskssection.html';
                     ?>
                 </table>
@@ -34,6 +53,7 @@ if (count($aTasksConstructive)>0)
                     <tr><th colspan="2">Add Fields</th></tr>
                     <?php
                         $aTasks = $aTasksConstructive['fields']['add'];
+                        $fieldname = 'constructive[fields][add][]';
                         include 'tpl/integtaskssection.html';
                     ?>
                 </table>
@@ -43,6 +63,7 @@ if (count($aTasksConstructive)>0)
                     <tr><th colspan="2">Alter Fields</th></tr>
                     <?php
                         $aTasks = $aTasksConstructive['fields']['change'];
+                        $fieldname = 'constructive[fields][change][]';
                         //$showCargo = true;
                         include 'tpl/integtaskssection.html';
                     ?>
@@ -50,17 +71,14 @@ if (count($aTasksConstructive)>0)
             </td>
         </tr>
     </table>
-</div>
+    </td>
+    <td class="tablebody" style="width:50%">
 <?php
 }
-?>
-
-<?php
 if (count($aTasksDestructive)>0)
 {
     $tickAll = false;
 ?>
-<div class="tablediv">
     <table class="tablebody">
         <tr><th colspan="4">Destructive Changes</th></tr>
         <tr>
@@ -69,6 +87,7 @@ if (count($aTasksDestructive)>0)
                     <tr><th colspan="2">Remove Tables</th></tr>
                     <?php
                         $aTasks = $aTasksDestructive['tables']['remove'];
+                        $fieldname = 'destructive[tables][remove][]';
                         include 'tpl/integtaskssection.html';
                     ?>
                 </table>
@@ -78,47 +97,37 @@ if (count($aTasksDestructive)>0)
                     <tr><th colspan="2">Remove Fields</th></tr>
                     <?php
                         $aTasks = $aTasksDestructive['fields']['remove'];
+                        $fieldname = 'destructive[fields][remove][]';
                         include 'tpl/integtaskssection.html';
                     ?>
                 </table>
             </td>
         </tr>
     </table>
+    </td>
+    </tr>
+    </table>
 </div>
 <?php
 }
-?>
-
-<?php
-$aErrors = $oUpgrader->getErrors();
-if (count($aErrors)>0)
-{
-?>
-<div class="tablediv" style="background-color:pink;">
-    <?php
-        foreach ($aErrors AS $k => $err)
-        {
-            echo $err.'<br />';
-        }
-    ?>
-</div>
-<?php
-}
-$aMessages = $oUpgrader->getMessages();
-if (count($aMessages)>0)
-{
 ?>
 <div class="tablediv">
-    <?php
-        foreach ($aMessages AS $k => $msg)
-        {
-            echo $msg.'<br />';
-        }
-    ?>
-</div>
+        <img id="img_expand_debugdiv" src="../../img/triangle-d.gif" alt="click to view debug info" onclick="xajax_expandTable('debugdiv');"/>
+        <img id="img_collapse_debugdiv" src="../../img/triangle-u.gif" style="display:none" alt="click to hide debug info" onclick="xajax_collapseTable('debugdiv');"/>
+<table id="debugdiv">
+<tr><th>debug info
+</th></tr>
 <?php
+if (count($aMessages)>0)
+{
+    foreach ($aMessages AS $k => $msg)
+    {
+        echo '<tr><td>'.$msg.'</td></tr>';
+    }
 }
 ?>
+</table>
+</div>
 </form>
 </body>
 </html>
