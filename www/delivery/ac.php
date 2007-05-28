@@ -1342,20 +1342,23 @@ $conf = $GLOBALS['_MAX']['CONF'];
 $fileUrl = '';
 if ($aBanner['type'] == 'url') {
 $fileUrl = $aBanner['imageurl'];
+if (!empty($params)) {
+$fileUrl .= "?{$params}";
+}
 } else {
 $fileName = $useAlt ? $aBanner['alt_filename'] : $aBanner['filename'];
 $params = !empty($params) ? $params : '';
 if (!empty($fileName)) {
 if ($aBanner['type'] == 'web') {
-$fileUrl = _adRenderBuildImageUrlPrefix() . "/$fileName";
-if (!empty($params))
-$fileUrl .= "?$params";
-} elseif ($aBanner['type'] == 'url') {
-$fileUrl = $aBanner['imageurl'];
+$fileUrl = _adRenderBuildImageUrlPrefix() . "/{$fileName}";
+if (!empty($params)) {
+$fileUrl .= "?{$params}";
+}
 } elseif ($aBanner['type'] == 'sql') {
-$fileUrl = MAX_commonGetDeliveryUrl($conf['file']['image']) . "?filename=$fileName&contenttype={$aBanner['contenttype']}";
-if (!empty($params))
-$fileUrl .= "&$params";
+$fileUrl = MAX_commonGetDeliveryUrl($conf['file']['image']) . "?filename={$fileName}&contenttype={$aBanner['contenttype']}";
+if (!empty($params)) {
+$fileUrl .= "&{$params}";
+}
 }
 }
 }
