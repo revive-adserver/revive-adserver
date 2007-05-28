@@ -26,6 +26,7 @@ $Id$
 */
 
 $conf = $GLOBALS['_MAX']['CONF'];
+$pref = $GLOBALS['_MAX']['PREF'];
 
 $words = array(
     'Remove Comments Note' => "
@@ -34,16 +35,16 @@ $words = array(
   -->",
 
     'Publisher JS Channel Script Comment 1' => "
-<!-- Openads Channel Script
-    
-     Erstellt mit Openads " . MAX_VERSION_READABLE . "
-    
-     Fuegen Sie dieses Script unmittelbar UEBER dem Openads Header Script
+<!-- {$pref['name']} Channel Script
+
+     Erstellt mit {$pref['name']} " . MAX_VERSION_READABLE . "
+
+     Fuegen Sie dieses Script unmittelbar UEBER dem {$pref['name']} Header Script
      (wie unten definiert) in den <head>-Tag Ihrer Site ein.
-    
+
      Das untenstehende Script definiert die Variable az_channel. Diese Variable
      enthaelt den Namen des 'virtuellen Verzeichnisses' der Web-Site.
-    
+
      Beispiel: Wenn Sie sich auf der Fussball-Uebersichtsseite des Sportbereiches einer
      einer Magazin-Web-Site befinden, sollte das folgende Verzeichnis mit der Variable verknuepft werden:
        var az_channel = '",
@@ -56,31 +57,31 @@ $words = array(
 -->",
 
     'Publisher JS Header Script Comment' => "
-<!-- Openads Header Script
-    
-     Erstellt mit Openads " . MAX_VERSION_READABLE . "
-    
-     Fuegen Sie dieses Script UNTERHALB des Openads Channel Scipts (aber dennoch
+<!-- {$pref['name']} Header Script
+
+     Erstellt mit {$pref['name']} " . MAX_VERSION_READABLE . "
+
+     Fuegen Sie dieses Script UNTERHALB des {$pref['name']} Channel Scipts (aber dennoch
      innerhalb des <head>-Tags Ihrer Site ein). Jede Seite Ihrer Web-Site, auf der Sie
      Werbung ausliefern moechten muss dieses Script enthalten.
-    
+
      Hinweis: Dieses Script bleibt immer gleich, egal auf welcher Seite Sie es einbinden.
         Sie sollten diese Datei deshalb am besten in eine externe .js-Datei auslagern, anstatt
         jede Seite mit dem gesammten Code zu belasten. Kopieren Sie den untenstehenden Code und
         speichern Sie ihn in einer Datei namens 'mmm.js'. Damm muessen Sie in Ihre Seiten nur noch
         den untenstehden Code integrieren (und evtl. den Pfad anpassen).
-    
+
      <script type='text/javascript' src='mmm.js'></script>
   -->",
 
     'Publisher JS Ad Tag Script(s) Comment' => "
-<!-- Openads Ad Tag Script(s)
-    
-     Erstellt mit Openads " . MAX_VERSION_READABLE . "
-    
+<!-- {$pref['name']} Ad Tag Script(s)
+
+     Erstellt mit {$pref['name']} " . MAX_VERSION_READABLE . "
+
      Im folgenden finden Sie die Script(e) fuer jede Zone(n).
      Bitte beachten Sie die folgenden Dinge:
-    
+
      1. Jeder Tag hat eine unterschiedliche Zonennummer (var 1) und eine , and eine unterschiedliche ID (var 2).
         Jede ID darf nur genau einmal vergeben werden. Haben 2 Zonen die gleiche ID, kommt es zu Problemem beim Klick auf
         das Werbemittel.

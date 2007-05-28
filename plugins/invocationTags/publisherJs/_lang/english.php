@@ -26,6 +26,7 @@ $Id$
 */
 
 $conf = $GLOBALS['_MAX']['CONF'];
+$pref = $GLOBALS['_MAX']['PREF'];
 
 $words = array(
     'Remove Comments Note' => "
@@ -34,16 +35,16 @@ $words = array(
 -->",
 
     'Publisher JS Channel Script Comment 1' => "
-<!-- Openads Channel Script
-  
-   Generated with Openads " . MAX_VERSION_READABLE . "
-  
-   Include this script directly ABOVE the Openads Header Script
+<!-- {$pref['name']} Channel Script
+
+   Generated with {$pref['name']} " . MAX_VERSION_READABLE . "
+
+   Include this script directly ABOVE the {$pref['name']} Header Script
    (defined below), in the <head> tag.
-  
+
    The script below should define a variable, az_channel. This variable
    should contain the name of the 'virtual directory' of the site.
-  
+
    For example, if you are on the football summary page of the sports section
    of a news site, the following should be included:
      var az_channel = '",
@@ -56,29 +57,29 @@ $words = array(
 -->",
 
     'Publisher JS Header Script Comment' => "
-<!-- Openads Header Script
-  
-   Generated with Openads " . MAX_VERSION_READABLE . "
-  
-   Include this script below the Openads Channel Scipt (but still
+<!-- {$pref['name']} Header Script
+
+   Generated with {$pref['name']} " . MAX_VERSION_READABLE . "
+
+   Include this script below the {$pref['name']} Channel Scipt (but still
    in the <head> tag) of every page on your site.
-  
+
    NOTE: This script does not change for any page on your site, so it may be
        more efficient to include it as a .js file rather than putting the
        entire text on every page. For example, if you cut and paste the code
        below and store it in a file called 'mmm.js', the code below should
        call the script:
-  
+
    <script type='text/javascript' src='mmm.js'></script>
 -->",
 
     'Publisher JS Ad Tag Script(s) Comment' => "
-<!-- Openads Ad Tag Script(s)
-  
-   Generated with Openads " . MAX_VERSION_READABLE . "
-  
+<!-- {$pref['name']} Ad Tag Script(s)
+
+   Generated with {$pref['name']} " . MAX_VERSION_READABLE . "
+
    The following are the script(s) for each ad tag. There are a couple of items to watch out for:
-  
+
    1. Each tag has a different zone number (var 1), and a different key value (var 2). If the
       key value is the same for any two zone tags, the clickthrough URL may not work correctly.
    2. Each tag has a <noscript> section. If this tag is on an SSL page, change the
