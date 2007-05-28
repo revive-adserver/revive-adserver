@@ -103,6 +103,7 @@ class Plugins_InvocationTags_local_local extends Plugins_InvocationTags
         parent::prepareCommonInvocationData();
 
         $conf = $GLOBALS['_MAX']['CONF'];
+        $pref = $GLOBALS['_MAX']['PREF'];
         $mi = &$this->maxInvocation;
 
         $buffer = $mi->buffer;
@@ -117,7 +118,7 @@ class Plugins_InvocationTags_local_local extends Plugins_InvocationTags
         if (!isset($mi->bannerid)   || $mi->bannerid == '')   $mi->bannerid = 0;
 
         $buffer .= "<"."?php\n";
-        $buffer .= "  // The MAX_PATH below should point to the base of your MAX installation\n";
+        $buffer .= "  // The MAX_PATH below should point to the base of your {$pref['name']} installation\n";
         $buffer .= "  define('MAX_PATH', '" . MAX_PATH . "');\n";
         $buffer .= "  if (@include_once(MAX_PATH . '/www/delivery/{$conf['file']['local']}')) {\n";
         $buffer .= "    if (!isset($"."phpAds_context)) {\n      $"."phpAds_context = array();\n    }\n";

@@ -155,6 +155,7 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
     function prepareCommonInvocationData()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
+        $pref = $GLOBALS['_MAX']['PREF'];
         $mi = &$this->maxInvocation;
 
         // Check if affiliate is on the same server
@@ -181,10 +182,10 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
             }
         }
         $mi->parameters = array();
-        
+
         // UniqueID is only necessary for a couple of plugins, so it is not "common"
         //$mi->uniqueid = 'a'.substr(md5(uniqid('', 1)), 0, 7);
-        
+
         if (!isset($mi->withtext)) {
             $mi->withtext = 0;
         }
@@ -217,14 +218,14 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
         if (!empty($mi->thirdpartytrack)) {
            $mi->parameters['ct0'] = "ct0=" . $mi->macros['clickurl'];
         }
-        
+
         // Set $mi->buffer to the initial comment
-        $buffer = '<!--/* Openads ' . $this->getName() . ' ' . MAX_VERSION_READABLE;
+        $buffer = '<!--/* '. $pref['name'] .' '. $this->getName() . ' ' . MAX_VERSION_READABLE;
         if (!empty($thirdpartyname)) {
             $buffer .= " (".$thirdpartyname.")";
         }
         $buffer .= " */-->\n\n";
-        
+
         if (!empty($mi->comments)) {
             $comment = '';
             if ((!empty($mi->cachebuster)) && ($mi->thirdpartytrack == 'generic' || $mi->thirdpartytrack === 0)) {
@@ -239,13 +240,13 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
             $comment .= MAX_Plugin_Translation::translate('SSL Delivery Comment', $this->module, $this->package);
             $comment .= MAX_Plugin_Translation::translate('SSL Backup Comment', $this->module, $this->package);
             $comment .= MAX_Plugin_Translation::translate('Comment', $this->module, $this->package);
-            
+
             if ($comment != '') {
                 $buffer .= "<!--/*" . $comment . "\n  */-->\n\n";
             }
         }
         $mi->buffer = $buffer;
-        
+
         // Set $mi->backupImage to the HTML for the backup image (same as used by adview)
         $hrefParams = array();
         $imgParams = $mi->parameters;
@@ -265,9 +266,9 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
         unset($imgParams['ct0']);
         if (!empty($mi->thirdpartytrack)) {
            $imgParams[] = "ct0=" . $mi->macros['clickurl'];
-        }     
+        }
         $backup = "<a href='".MAX_commonConstructDeliveryUrl($conf['file']['click'])."?".implode("&amp;", $hrefParams)."'";
-        
+
         if (isset($mi->target) && $mi->target != '') {
             $backup .= " target='".$mi->target."'";
         } else {
@@ -276,7 +277,7 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
         $backup .= "><img src='".MAX_commonConstructDeliveryUrl($conf['file']['view']);
         // Remove any paramaters that should not be passed into the IMG call
         unset($imgParams['target']);
-        
+
         if (sizeof($imgParams) > 0) {
             $backup .= "?".implode ("&amp;", $imgParams);
         }
@@ -294,7 +295,7 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
     function generateOptions(&$maxInvocation)
     {
         $this->setInvocation($maxInvocation);
-        
+
         // Here I would like to set commonOptions on the invocationTag option prior to calling getOptionList
         // This means that within the invocationTag option I can remove common options where necessary
         $this->defaultOptions = $maxInvocation->getDefaultOptionsList();
