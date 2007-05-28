@@ -43,30 +43,68 @@ class Migration_128Test extends MigrationTest
     {
         $prefix = $this->getPrefix();
         $this->initDatabase(127, array('banners', 'acls', 'channel', 'acls_channel'));
-        
+
         $toInt['f'] = 0;
         $toInt['t'] = 1;
         $aAValues = array(
             array('bannerid' => 1, 'transparent' => "f",
                 'contenttype' => 'swf',
                 'htmlcache' => <<<EOF
-<!--[if !IE]> --><object type='application/x-shockwave-flash' data='{url_prefix}/adimage.php?filename=test.swf&amp;contenttype=swf&amp;alink1={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openads.org&amp;atar1=_blank&amp;alink2={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openads.org&amp;atar2=_self' width='468' height='60'> <!-- <![endif]--> <!--[if IE]> <object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0' width='468' height='60'> <param name='movie' value='{url_prefix}/adimage.php?filename=test.swf&amp;contenttype=swf&amp;alink1={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openads.org&amp;atar1=_blank&amp;alink2={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openads.org&amp;atar2=_self' /> <!--><!----> <param name='quality' value='high' /> <param name='allowScriptAccess' value='always' />  <p>This is <strong>alternative</strong> content.</p> </object> <!-- <![endif]--> 
+<!--[if !IE]> --><object type='application/x-shockwave-flash' data='{url_prefix}/adimage.php?filename=test.swf&amp;contenttype=swf&amp;alink1={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openads.org&amp;atar1=_blank&amp;alink2={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openads.org&amp;atar2=_self' width='468' height='60'> <!-- <![endif]--> <!--[if IE]> <object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0' width='468' height='60'> <param name='movie' value='{url_prefix}/adimage.php?filename=test.swf&amp;contenttype=swf&amp;alink1={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openads.org&amp;atar1=_blank&amp;alink2={url_prefix}/adclick.php%3Fbannerid={bannerid}%26zoneid={zoneid}%26source={source}%26dest=http%3A%2F%2Fwww.openads.org&amp;atar2=_self' /> <!--><!----> <param name='quality' value='high' /> <param name='allowScriptAccess' value='always' />  <p>This is <strong>alternative</strong> content.</p> </object> <!-- <![endif]-->
 EOF
             ),
             array('bannerid' => 2, 'transparent' => "t"),
             array('bannerid' => 3, 'transparent' => "f"),
             array('bannerid' => 4, 'transparent' => "f"),
-            array('bannerid' => 5, 'transparent' => "t")
+            array('bannerid' => 5, 'transparent' => "t"),
+            array('bannerid' => 6,
+                'storagetype' => 'html',
+                'autohtml' => 't',
+                'htmltemplate' => <<<EOF
+<script type="text/javascript"><!--
+google_ad_client = "pub-XXXX";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_channel ="";
+google_color_border = "0066cc";
+google_color_bg = "FFFFFF";
+google_color_link = "000000";
+google_color_url = "666666";
+google_color_text = "333333";
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+EOF
+            ),
+            array('bannerid' => 7,
+                'storagetype' => 'html',
+                'autohtml' => 'f',
+                'htmltemplate' => <<<EOF
+<script type="text/javascript"><!--
+google_ad_client = "pub-XXXX";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_channel ="";
+google_color_border = "0066cc";
+google_color_bg = "FFFFFF";
+google_color_link = "000000";
+google_color_url = "666666";
+google_color_text = "333333";
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+EOF
+            ),
         );
         foreach ($aAValues as $aValues) {
             $sql = OA_DB_Sql::sqlForInsert('banners', $aValues);
             $this->oDbh->exec($sql);
         }
-        
+
         $this->upgradeToVersion(128);
 
         $rsBanners = DBC::NewRecordSet("
-            SELECT bannerid, transparent, parameters
+            SELECT bannerid, transparent, parameters, autohtml, htmlcache, adserver
             FROM {$prefix}banners
             ORDER BY bannerid");
         $rsBanners->find();
@@ -74,32 +112,45 @@ EOF
         for ($idxBanner = 0; $idxBanner < count($aAValues); $idxBanner++) {
             $this->assertTrue($rsBanners->fetch());
             $this->assertEqual($aAValues[$idxBanner]['bannerid'], $rsBanners->get('bannerid'));
-            $this->assertEqual($toInt[$aAValues[$idxBanner]['transparent']], $rsBanners->get('transparent'));
-            if ($idxBanner == 0) {
-                $params = $rsBanners->get('parameters');
-                $this->assertNotEqual($params, '');
-                $params = unserialize($params);
-                $this->assertEqual($params, array(
-                    1 => array(
-                        'link' => 'http://www.openads.org',
-                        'tar'  => '_blank'
-                    ),
-                    2 => array(
-                        'link' => 'http://www.openads.org',
-                        'tar'  => '_self'
-                    )
-                ));
+            if ($idxBanner < 5) {
+                // SWF tests
+                $this->assertEqual($toInt[$aAValues[$idxBanner]['transparent']], $rsBanners->get('transparent'));
+                if ($idxBanner == 0) {
+                    $params = $rsBanners->get('parameters');
+                    $this->assertNotEqual($params, '');
+                    $params = unserialize($params);
+                    $this->assertEqual($params, array(
+                        1 => array(
+                            'link' => 'http://www.openads.org',
+                            'tar'  => '_blank'
+                        ),
+                        2 => array(
+                            'link' => 'http://www.openads.org',
+                            'tar'  => '_self'
+                        )
+                    ));
+                }
+            } else {
+                // HTML tests
+                $this->assertEqual($aAValues[$idxBanner]['autohtml'], $rsBanners->get('autohtml'));
+                if ($aAValues[$idxBanner]['autohtml'] == 't') {
+                    $this->assertTrue(preg_match("#src='{url_prefix}/ag.php'#", $rsBanners->get('htmlcache')));
+                    $this->assertEqual($rsBanners->get('adserver'), 'google');
+                } else {
+                    $this->assertFalse(preg_match("#src='{url_prefix}/ag.php'#", $rsBanners->get('htmlcache')));
+                    $this->assertNotEqual($rsBanners->get('adserver'), 'google');
+                }
             }
         }
         $this->assertFalse($rsBanners->fetch());
     }
-    
+
     function testMigrateAcls()
     {
         $prefix = $this->getPrefix();
         $this->initDatabase(127, array('banners', 'acls', 'channel', 'acls_channel'));
-        
-        
+
+
         $aTestData = array(
             array('weekday', '==', '0,1'),
             array('weekday', '==', '0,1,4'),
@@ -140,10 +191,10 @@ EOF
             array('Site:Referingpage', '=~', 'blabblah'),
             array('Site:Source', '=x', 'www.openads.org'),
         );
-        
+
         $sql = OA_DB_Sql::sqlForInsert('banners', array('bannerid' => 1));
         $this->oDbh->exec($sql);
-        
+
         $aValues = array();
         $idx = 0;
         foreach ($aTestData as $testData) {
@@ -158,15 +209,15 @@ EOF
             $this->oDbh->exec($sql);
         }
         $cLimitations = $idx;
-        
+
         $this->upgradeToVersion(128);
-        
+
         $rsAcls = DBC::NewRecordSet("
         SELECT type, comparison, data
         FROM {$prefix}acls
         ORDER BY executionorder");
         $this->assertTrue($rsAcls->find());
-        
+
         for ($idx = 0; $idx < $cLimitations; $idx++) {
             $expected = $aExpectedData[$idx][0] . "|" . $aExpectedData[$idx][1] . "|" . $aExpectedData[$idx][2];
             $this->assertTrue($rsAcls->fetch());

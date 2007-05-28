@@ -80,7 +80,7 @@ class Migration_128 extends Migration
 
 	function migrateData()
 	{
-	    return $this->migrateSwfProperties() && $this->migrateAcls();
+	    return $this->migrateSwfProperties() && $this->migrateAcls() && $this->migrateGoogleAdSense();
 	}
 
 	function migrateSwfProperties()
@@ -125,6 +125,48 @@ class Migration_128 extends Migration
                 $sql = "
         	       UPDATE {$prefix}banners
         	       SET parameters = '".$this->oDBH->escape($params)."'
+        	       WHERE bannerid = '{$bannerId}'
+                ";
+        	    $result = $this->oDBH->exec($sql);
+        	    if (PEAR::isError($result)) {
+        	        return $this->_logErrorAndReturnFalse($result);
+        	    }
+            }
+	    }
+	    return true;
+	}
+
+	function migrateGoogleAdSense()
+	{
+	    $prefix = $this->getPrefix();
+
+	    $sql = "
+	       SELECT
+	           bannerid,
+	           htmltemplate
+	       FROM
+	           {$prefix}banners
+	       WHERE
+	           storagetype = 'html' AND
+	           autohtml = 't'
+	    ";
+	    $aBanners = $this->oDBH->getAssoc($sql);
+	    if (PEAR::isError($aBanners)) {
+	        return $this->_logErrorAndReturnFalse($aBanners);
+	    }
+
+	    foreach ($aBanners as $bannerId => $code) {
+            if (preg_match('/<script.*?src=".*?googlesyndication\.com/is', $code)) {
+                $buffer = "<span>".
+                          "<script type='text/javascript'><!--// <![CDATA[\n".
+                          "/* openads={url_prefix} bannerid={bannerid} zoneid={zoneid} source={source} */\n".
+                          "// ]]> --></script>".
+                          $code.
+                          "<script type='text/javascript' src='{url_prefix}/ag.php'></script>".
+                          "</span>";
+                $sql = "
+        	       UPDATE {$prefix}banners
+        	       SET adserver = 'google', htmlcache = '".$this->oDBH->escape($buffer)."'
         	       WHERE bannerid = '{$bannerId}'
                 ";
         	    $result = $this->oDBH->exec($sql);
