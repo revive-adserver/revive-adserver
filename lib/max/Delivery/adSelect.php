@@ -469,9 +469,6 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
     // If there are no linked ads, we can return
     if (!is_array($aLinkedAds)) { return; }
 
-    // Build preconditions
-    $aContext = _adSelectBuildContextArray($aLinkedAds, $context);
-
     if (!is_null($cp) && isset($aLinkedAds[$adArrayVar][$cp])) {
         $aAds = $aLinkedAds[$adArrayVar][$cp];
     } elseif (isset($aLinkedAds[$adArrayVar])) {
@@ -479,6 +476,12 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
     } else {
         $aAds = array();
     }
+
+    // If there are no linked ads of the specified type, we can return
+    if (count($aAds) == 0) { return; }
+
+    // Build preconditions
+    $aContext = _adSelectBuildContextArray($aAds, $context);
 
     // New delivery algorithm: discard all invalid ads before iterating over them
     $aAds = _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia);
@@ -629,6 +632,7 @@ function _adSelectBuildContextArray(&$aLinkedAds, $context)
         'campaign' => array('exclude' => array(), 'include' => array()),
         'banner'   => array('exclude' => array(), 'include' => array()),
     );
+
     if (is_array($context) && !empty($context)) {
         $cContext = count($context);
         for ($i=0; $i < $cContext; $i++) {
@@ -645,13 +649,13 @@ function _adSelectBuildContextArray(&$aLinkedAds, $context)
             switch($type) {
                 case 'campaignid':
                     switch ($key) {
-                        case '!=': $excludeCampaignID[$value] = true; break;
-                        case '==': $includeCampaignID[$value] = true; break;
+                        case '!=': $aContext['campaign']['exclude'][$value] = true; break;
+                        case '==': $aContext['campaign']['include'][$value] = true; break;
                     }
                 break;
                 case 'companionid':
                     switch ($key) {
-                        case '!=': $excludeCampaignID[$value]   = true; break;
+                        case '!=': $aContext['campaign']['exclude'][$value]   = true; break;
                         case '==':
                          if ($adArrayVar == 'cAds') {
                              $includeCampaignID[$value] = true;
@@ -676,12 +680,14 @@ function _adSelectBuildContextArray(&$aLinkedAds, $context)
                 break;
                 default:
                     switch ($key) {
-                        case '!=': $excludeBannerID[$value] = true; break;
-                        case '==': $includeBannerID[$value] = true; break;
+                        case '!=': $aContext['banner']['exclude'][$value] = true; break;
+                        case '==': $aContext['banner']['include'][$value] = true; break;
                     }
             }
         }
     }
+
+    return $aContext;
 }
 
 /**
