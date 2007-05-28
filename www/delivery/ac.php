@@ -1702,7 +1702,6 @@ return false;
 function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'ads', $cp = null)
 {
 if (!is_array($aLinkedAds)) { return; }
-$aContext = _adSelectBuildContextArray($aLinkedAds, $context);
 if (!is_null($cp) && isset($aLinkedAds[$adArrayVar][$cp])) {
 $aAds = $aLinkedAds[$adArrayVar][$cp];
 } elseif (isset($aLinkedAds[$adArrayVar])) {
@@ -1710,6 +1709,8 @@ $aAds = $aLinkedAds[$adArrayVar];
 } else {
 $aAds = array();
 }
+if (count($aAds) == 0) { return; }
+$aContext = _adSelectBuildContextArray($aAds, $context);
 $aAds = _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia);
 if (count($aAds) == 0) { return; }
 if (!is_null($cp)) {
@@ -1820,13 +1821,13 @@ list($type, $value) = $valueArray;
 switch($type) {
 case 'campaignid':
 switch ($key) {
-case '!=': $excludeCampaignID[$value] = true; break;
-case '==': $includeCampaignID[$value] = true; break;
+case '!=': $aContext['campaign']['exclude'][$value] = true; break;
+case '==': $aContext['campaign']['include'][$value] = true; break;
 }
 break;
 case 'companionid':
 switch ($key) {
-case '!=': $excludeCampaignID[$value]   = true; break;
+case '!=': $aContext['campaign']['exclude'][$value]   = true; break;
 case '==':
 if ($adArrayVar == 'cAds') {
 $includeCampaignID[$value] = true;
@@ -1850,12 +1851,13 @@ break;
 break;
 default:
 switch ($key) {
-case '!=': $excludeBannerID[$value] = true; break;
-case '==': $includeBannerID[$value] = true; break;
+case '!=': $aContext['banner']['exclude'][$value] = true; break;
+case '==': $aContext['banner']['include'][$value] = true; break;
 }
 }
 }
 }
+return $aContext;
 }
 function _adSelectBuildCompanionContext($aBanner, $context) {
 if (count($aBanner['zone_companion']) > 0) {
