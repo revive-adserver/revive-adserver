@@ -238,48 +238,51 @@ class OA_Upgrade
 
         $this->oLogger->logClear();
         $this->detectPAN();
+        $strProductName = 'Openads 2.0';
+        
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_PAN_NOT_INSTALLED:
                 break;
             case OA_STATUS_PAN_CONFIG_DETECTED:
-                $this->oLogger->logError('phpAdsNew'.$strDetected);
+                $this->oLogger->logError($strProductName.$strDetected);
                 break;
             case OA_STATUS_PAN_DBCONNECT_FAILED:
-                $this->oLogger->logError('phpAdsNew'.$strDetected);
+                $this->oLogger->logError($strProductName.$strDetected);
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 break;
             case OA_STATUS_PAN_DBTABLES_FAILED:
-                $this->oLogger->log('phpAdsNew'.$strDetected);
+                $this->oLogger->log($strProductName.$strDetected);
                 $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strTableError);
                 break;                
             case OA_STATUS_PAN_VERSION_FAILED:
-                $this->oLogger->log('phpAdsNew '.$this->versionInitialApplication.' detected');
+                $this->oLogger->log($strProductName.$this->versionInitialApplication.' detected');
                 $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strNoUpgrade);
                 return false;
             case OA_STATUS_CAN_UPGRADE:
-                $this->oLogger->log('phpAdsNew '.$this->versionInitialApplication.' detected');
+                $this->oLogger->log($strProductName.' version '.$this->versionInitialApplication.' detected');
                 $this->oLogger->log($strCanUpgrade);
                 return true;
         }
 
         $this->detectMAX();
+        $strProductName  = 'Openads 2.3';
         $this->versionInitialAppOpenads = preg_replace('/v0.3/', 'v2.3', $this->versionInitialApplication);
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_MAX_NOT_INSTALLED:
                 break;
             case OA_STATUS_MAX_CONFIG_DETECTED:
-                $this->oLogger->logError('Max Media Manager'.$strDetected);
+                $this->oLogger->logError($strProductName.$strDetected);
                 break;
             case OA_STATUS_MAX_DBCONNECT_FAILED:
-                $this->oLogger->logError('Max Media Manager'.$strDetected);
+                $this->oLogger->logError($strProductName.$strDetected);
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 break;
             case OA_STATUS_MAX_DBTABLES_FAILED:
-                $this->oLogger->log('Max Media Manager'.$strDetected);
+                $this->oLogger->log($strProductName.$strDetected);
                 $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strTableError);
                 break;
