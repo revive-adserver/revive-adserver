@@ -36,14 +36,17 @@ define('OA_STATUS_PAN_NOT_INSTALLED',      -1);
 define('OA_STATUS_PAN_CONFIG_DETECTED',     1);
 define('OA_STATUS_PAN_DBCONNECT_FAILED',    2);
 define('OA_STATUS_PAN_VERSION_FAILED',      3);
+define('OA_STATUS_PAN_DBTABLES_FAILED',     4);
 define('OA_STATUS_MAX_NOT_INSTALLED',      -1);
 define('OA_STATUS_MAX_CONFIG_DETECTED',     1);
 define('OA_STATUS_MAX_DBCONNECT_FAILED',    2);
 define('OA_STATUS_MAX_VERSION_FAILED',      3);
+define('OA_STATUS_MAX_DBTABLES_FAILED',     4);
 define('OA_STATUS_OAD_NOT_INSTALLED',      -1);
 define('OA_STATUS_OAD_CONFIG_DETECTED',     1);
 define('OA_STATUS_OAD_DBCONNECT_FAILED',    2);
 define('OA_STATUS_OAD_VERSION_FAILED',      3);
+define('OA_STATUS_OAD_DBTABLES_FAILED',     4);
 define('OA_STATUS_CAN_UPGRADE',            10);
 
 
@@ -231,6 +234,7 @@ class OA_Upgrade
         $strNoConnect   = 'Could not connect to the database';
         $strConnected   = 'Connected to the database ok';
         $strNoUpgrade   = 'This version cannot be upgraded';
+        $strTableError  = 'There was a problem accessing the tables of your database. Either your table prefix is wrongly configured or some tables are missing from your database.';
 
         $this->oLogger->logClear();
         $this->detectPAN();
@@ -245,6 +249,11 @@ class OA_Upgrade
                 $this->oLogger->logError('phpAdsNew'.$strDetected);
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 break;
+            case OA_STATUS_PAN_DBTABLES_FAILED:
+                $this->oLogger->log('phpAdsNew'.$strDetected);
+                $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
+                $this->oLogger->logError($strTableError);
+                break;                
             case OA_STATUS_PAN_VERSION_FAILED:
                 $this->oLogger->log('phpAdsNew '.$this->versionInitialApplication.' detected');
                 $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
@@ -269,6 +278,11 @@ class OA_Upgrade
                 $this->oLogger->logError('Max Media Manager'.$strDetected);
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 break;
+            case OA_STATUS_MAX_DBTABLES_FAILED:
+                $this->oLogger->log('Max Media Manager'.$strDetected);
+                $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
+                $this->oLogger->logError($strTableError);
+                break;
             case OA_STATUS_MAX_VERSION_FAILED:
                 $database = $GLOBALS['_MAX']['CONF']['database']['name'];
                 $this->oLogger->logError('Openads '.$this->versionInitialAppOpenads.' detected');
@@ -285,8 +299,12 @@ class OA_Upgrade
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_OAD_NOT_INSTALLED:
-                $this->oLogger->log('No previous version of Openads detected. Proceeding with a new installation.');
-                return true;
+                if (!$this->oLogger->errorExists)
+                {
+                    $this->oLogger->log('No previous version of Openads detected. Proceeding with a new installation.');
+                    return true;
+                }
+                break;
             case OA_STATUS_OAD_CONFIG_DETECTED:
                 $this->oLogger->logError('Openads'.$strDetected);
                 break;
@@ -294,6 +312,11 @@ class OA_Upgrade
                 $this->oLogger->logError('Openads'.$strDetected);
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 return false;
+            case OA_STATUS_OAD_DBTABLES_FAILED:
+                $this->oLogger->log('Openads'.$strDetected);
+                $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
+                $this->oLogger->logError($strTableError);
+                break;
             case OA_STATUS_OAD_VERSION_FAILED:
                 $database = $GLOBALS['_MAX']['CONF']['database']['name'];
                 $this->oLogger->logError('Openads '.$this->versionInitialApplication.' detected');
@@ -385,6 +408,11 @@ class OA_Upgrade
                 $this->existing_installation_status = OA_STATUS_PAN_VERSION_FAILED;
                 return false;
             }
+            else
+            {
+                $this->existing_installation_status = OA_STATUS_PAN_DBTABLES_FAILED;
+                return false;
+            }
         }
         $this->existing_installation_status = OA_STATUS_PAN_NOT_INSTALLED;
         return false;
@@ -421,6 +449,11 @@ class OA_Upgrade
                     return true;
                 }
                 $this->existing_installation_status = OA_STATUS_MAX_VERSION_FAILED;
+                return false;
+            }
+            else
+            {
+                $this->existing_installation_status = OA_STATUS_MAX_DBTABLES_FAILED;
                 return false;
             }
         }
@@ -468,6 +501,11 @@ class OA_Upgrade
                     return true;
                 }
                 $this->existing_installation_status = OA_STATUS_OAD_VERSION_FAILED;
+                return false;
+            }
+            else
+            {
+                $this->existing_installation_status = OA_STATUS_OAD_DBTABLES_FAILED;
                 return false;
             }
         }

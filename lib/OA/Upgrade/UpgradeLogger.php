@@ -32,8 +32,9 @@
 
 class OA_UpgradeLogger
 {
-    var $aErrors    = array();
-    var $aMessages  = array();
+    var $aErrors     = array();
+    var $aMessages   = array();
+    var $errorExists = false;
     var $logFile;
 
     /**
@@ -113,6 +114,7 @@ class OA_UpgradeLogger
     {
         $this->aMessages[] = "#! {$message}";
         $this->_logWrite("#! {$message}");
+        $this->errorExists = true;
     }
 
 

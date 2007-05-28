@@ -80,7 +80,6 @@ div.sysinfoerror {
     background-image:    url('../images/install-error-small.gif');
     background-repeat:   no-repeat;
     background-position: 10px 50%;
-    height: 45px;
     color: #990000;
 	background-color: #FFFFE1;
 	border: 1px dashed #990000;
@@ -91,6 +90,10 @@ div.sysinfoerror {
 	width: 65%;
 	margin-left: auto;
 	margin-right: auto;
+	text-align: left;
+}
+div.sysinfoerror li {
+    margin-bottom: 5px;
 }
 
 .pageLoader {

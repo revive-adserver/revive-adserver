@@ -22,7 +22,7 @@
     </table>
         
         <?php
-            if (!$halt)
+            if (!$halt && !$canUpgrade)
             {
         ?>
                 <input type="submit" class="button" name="btn_dbsetup" value="<?php echo $strBtnContinue; ?>" />                                <?php

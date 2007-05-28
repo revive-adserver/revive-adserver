@@ -17,17 +17,17 @@
                         {
                             $msg = str_replace($c, '', $msg);
                             if ($errorOpen == false) {
-                                echo '<div class="sysmessage sysinfoerror">';
+                                echo '<div class="sysmessage sysinfoerror"><ul>';
                                 $errorOpen = true;
                             }
-                            echo $msg . '<br>';
+                            echo '<li>'.$msg . '</li>';
 
                         }
                         else
                         {   
                             if ($displayError != true) {
                                 if ($errorOpen == true) {
-                                    echo '</div><br />';
+                                    echo '</ul></div><br />';
                                     $errorOpen = false;
                                 }
                                 echo '<span class="sysmessage">'.$msg.'</span><br />';
