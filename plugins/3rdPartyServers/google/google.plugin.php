@@ -64,7 +64,6 @@ class Plugins_3rdPartyServers_google_google extends Plugins_3rdPartyServers
     function getBannerCache($buffer, &$noScript)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $buffer = stripslashes($buffer);
         if (preg_match('/<script.*?src=".*?googlesyndication\.com/is', $buffer))
         {
             $buffer = "<span>".
@@ -76,7 +75,7 @@ class Plugins_3rdPartyServers_google_google extends Plugins_3rdPartyServers
                       "</span>";
         }
 
-        return addslashes($buffer);
+        return $buffer;
     }
 
 }
