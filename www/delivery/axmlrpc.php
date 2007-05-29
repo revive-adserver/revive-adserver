@@ -2348,7 +2348,11 @@ $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
 }
 if (count($output) > 0) {
 foreach ($output as $key => $value) {
+if (is_array($value)) {
+$output[$key] = new XML_RPC_Value($value, $XML_RPC_Struct);
+} else {
 $output[$key] = new XML_RPC_Value($value, $XML_RPC_String);
+}
 }
 $outputValue = new XML_RPC_Value($output, $XML_RPC_Struct);
 }
@@ -2359,9 +2363,9 @@ $cookie = array();
 foreach ($value as $ikey => $ivalue) {
 $cookie[$ikey] = new XML_RPC_Value($ivalue, $XML_RPC_String);
 }
-$cookies[$key] = new XML_RPC_Value($cookie, $XML_RPC_Array);
+$cookies[$key] = new XML_RPC_Value($cookie, $XML_RPC_Struct);
 }
-$cookieValue = new XML_RPC_Value($cookies, $XML_RPC_Array);
+$cookieValue = new XML_RPC_Value($cookies, $XML_RPC_Struct);
 }
 $returnArray = array();
 if (count($output) > 0) {
