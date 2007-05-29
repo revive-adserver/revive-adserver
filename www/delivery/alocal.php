@@ -1488,14 +1488,17 @@ $GLOBALS['OA_Delivery_Cache'] = array(
 'prefix' => 'deliverycache_',
 'expiry' => $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire']
 );
-function OA_Delivery_Cache_fetch($name, $isHash = false)
+function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
 {
 $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
 $cache_complete = false;
 $cache_contents = '';
 $ok = @include($filename);
 if ($ok && $cache_complete == true) {
-if (isset($cache_time) && $cache_time < MAX_commonGetTimeNow() - $GLOBALS['OA_Delivery_Cache']['expiry']) {
+if ($expiryTime === null) {
+$expiryTime = $GLOBALS['OA_Delivery_Cache']['expiry'];
+}
+if (isset($cache_time) && $cache_time < MAX_commonGetTimeNow() - $expiryTime) {
 OA_Delivery_Cache_store($name, $cache_contents, $isHash);
 return false;
 }
