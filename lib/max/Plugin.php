@@ -312,7 +312,9 @@ class MAX_Plugin
         foreach ($aPlugins as $key => $oPlugin) {
             // Check that the method name can be called
             if (!is_callable(array($oPlugin, $methodName))) {
-                MAX::raiseError("Method '$methodName()' not defined in class '".get_class($oPlugin)."'.", MAX_ERROR_INVALIDARGS);
+                $message = "Method '$methodName()' not defined in class '" .
+                            MAX_Plugin::_getPluginClassName($oPlugin->module, $oPlugin->package, $oPlugin->name) . "'.";
+                MAX::raiseError($message, MAX_ERROR_INVALIDARGS);
                 return false;
             }
             if (is_null($aParams)) {

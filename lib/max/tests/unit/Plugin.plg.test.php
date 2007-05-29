@@ -138,12 +138,12 @@ class TestOfMAX_Plugin extends UnitTestCase {
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
         // Test correct creation of a plugin object
-        $result = MAX_Plugin::factory('reportWriter', 'output', 'NullReportWriter');
+        $result = MAX_Plugin::factory('reports', 'standard', 'advertisingAnalysisReport');
         $this->assertEqual(count($oTestErrorHandler->aErrors), 0);
-        $this->assertTrue(is_a($result, 'Plugins_ReportWriter_Output_NullReportWriter'));
-        $this->assertEqual($result->module, 'reportWriter');
-        $this->assertEqual($result->package, 'output');
-        $this->assertEqual($result->name, 'NullReportWriter');
+        $this->assertTrue(is_a($result, 'Plugins_Reports_Standard_AdvertisingAnalysisReport'));
+        $this->assertEqual($result->module, 'reports');
+        $this->assertEqual($result->package, 'standard');
+        $this->assertEqual($result->name, 'advertisingAnalysisReport');
         $oTestErrorHandler->reset();
         // Unset the error handler
         PEAR::popErrorHandling();
@@ -183,7 +183,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
          * _getPluginClassName() method can be mocked to return an invalid class name.
          */
         // Test correct inclusion of a plugin
-        $result = MAX_Plugin::_includePluginFile('reportWriter', 'output', 'NullReportWriter');
+        $result = MAX_Plugin::_includePluginFile('reports', 'standard', 'advertisingAnalysisReport');
         $this->assertEqual(count($oTestErrorHandler->aErrors), 0);
         $this->assertTrue($result);
         $oTestErrorHandler->reset();
@@ -215,45 +215,45 @@ class TestOfMAX_Plugin extends UnitTestCase {
         $this->assertEqual(count($result), 0);
         // Test on a plugin module with plugins, but with a search depth
         // that doesn't reach down to the level where the plugins are stored
-        $result = MAX_Plugin::getPlugins('reportWriter', null, true, 0);
+        $result = MAX_Plugin::getPlugins('reports', null, true, 0);
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 0);
         // Test on a plugin module with plugins, but with a search depth
         // that does reach down to the level where the plugins are stored
-        $result = MAX_Plugin::getPlugins('reportWriter', null, true, 1);
+        $result = MAX_Plugin::getPlugins('reports', null, true, 1);
         $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 2);
-        $this->assertTrue(is_a($result['NullReportWriter'], 'Plugins_ReportWriter_Output_NullReportWriter'));
-        $this->assertEqual($result['NullReportWriter']->module, 'reportWriter');
-        $this->assertEqual($result['NullReportWriter']->package, 'output');
-        $this->assertEqual($result['NullReportWriter']->name, 'NullReportWriter');
+        $this->assertEqual(count($result), 6);
+        $this->assertTrue(is_a($result['advertisingAnalysisReport'], 'Plugins_Reports_Standard_AdvertisingAnalysisReport'));
+        $this->assertEqual($result['advertisingAnalysisReport']->module, 'reports');
+        $this->assertEqual($result['advertisingAnalysisReport']->package, 'standard');
+        $this->assertEqual($result['advertisingAnalysisReport']->name, 'advertisingAnalysisReport');
         // Test on a plugin module with plugins, but with a search depth
         // that does reach down to the level where the plugins are stored
-        $result = MAX_Plugin::getPlugins('reportWriter', null, false, 1);
+        $result = MAX_Plugin::getPlugins('reports', null, false, 1);
         $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 2);
-        $this->assertTrue(is_a($result['output:NullReportWriter'], 'Plugins_ReportWriter_Output_NullReportWriter'));
-        $this->assertEqual($result['output:NullReportWriter']->module, 'reportWriter');
-        $this->assertEqual($result['output:NullReportWriter']->package, 'output');
-        $this->assertEqual($result['output:NullReportWriter']->name, 'NullReportWriter');
+        $this->assertEqual(count($result), 6);
+        $this->assertTrue(is_a($result['standard:advertisingAnalysisReport'], 'Plugins_Reports_Standard_AdvertisingAnalysisReport'));
+        $this->assertEqual($result['standard:advertisingAnalysisReport']->module, 'reports');
+        $this->assertEqual($result['standard:advertisingAnalysisReport']->package, 'standard');
+        $this->assertEqual($result['standard:advertisingAnalysisReport']->name, 'advertisingAnalysisReport');
         // Test on a plugin module and package with plugins, but with a search
         // depth that does reach down to the level where the plugins are stored
-        $result = MAX_Plugin::getPlugins('reportWriter', 'output', true, 0);
+        $result = MAX_Plugin::getPlugins('reports', 'standard', true, 0);
         $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 2);
-        $this->assertTrue(is_a($result['NullReportWriter'], 'Plugins_ReportWriter_Output_NullReportWriter'));
-        $this->assertEqual($result['NullReportWriter']->module, 'reportWriter');
-        $this->assertEqual($result['NullReportWriter']->package, 'output');
-        $this->assertEqual($result['NullReportWriter']->name, 'NullReportWriter');
+        $this->assertEqual(count($result), 5);
+        $this->assertTrue(is_a($result['advertisingAnalysisReport'], 'Plugins_Reports_Standard_AdvertisingAnalysisReport'));
+        $this->assertEqual($result['advertisingAnalysisReport']->module, 'reports');
+        $this->assertEqual($result['advertisingAnalysisReport']->package, 'standard');
+        $this->assertEqual($result['advertisingAnalysisReport']->name, 'advertisingAnalysisReport');
         // Test on a plugin module and package with plugins, but with a search
         // depth that does reach down to the level where the plugins are stored
-        $result = MAX_Plugin::getPlugins('reportWriter', 'output', false, 0);
+        $result = MAX_Plugin::getPlugins('reports', 'standard', false, 0);
         $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 2);
-        $this->assertTrue(is_a($result['output:NullReportWriter'], 'Plugins_ReportWriter_Output_NullReportWriter'));
-        $this->assertEqual($result['output:NullReportWriter']->module, 'reportWriter');
-        $this->assertEqual($result['output:NullReportWriter']->package, 'output');
-        $this->assertEqual($result['output:NullReportWriter']->name, 'NullReportWriter');
+        $this->assertEqual(count($result), 5);
+        $this->assertTrue(is_a($result['standard:advertisingAnalysisReport'], 'Plugins_Reports_Standard_AdvertisingAnalysisReport'));
+        $this->assertEqual($result['standard:advertisingAnalysisReport']->module, 'reports');
+        $this->assertEqual($result['standard:advertisingAnalysisReport']->package, 'standard');
+        $this->assertEqual($result['standard:advertisingAnalysisReport']->name, 'advertisingAnalysisReport');
     }
 
     /**
@@ -267,19 +267,19 @@ class TestOfMAX_Plugin extends UnitTestCase {
         $this->assertEqual(count($result), 0);
         // Test on a plugin module with plugins, but with a search depth
         // that doesn't reach down to the level where the plugins are stored
-        $result = MAX_Plugin::_getPluginsFiles('reportWriter', null, 0);
+        $result = MAX_Plugin::_getPluginsFiles('reports', null, 0);
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 0);
         // Test on a plugin module with plugins, but with a search depth
         // that does reach down to the level where the plugins are stored
-        $result = MAX_Plugin::_getPluginsFiles('reportWriter', null, 1);
+        $result = MAX_Plugin::_getPluginsFiles('reports', null, 1);
         $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 2);
+        $this->assertEqual(count($result), 6);
         // Test on a plugin module and package with plugins, but with a search
         // depth that does reach down to the level where the plugins are stored
-        $result = MAX_Plugin::_getPluginsFiles('reportWriter', 'output', 0);
+        $result = MAX_Plugin::_getPluginsFiles('reports', 'standard', 0);
         $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 2);
+        $this->assertEqual(count($result), 5);
     }
 
     /**
@@ -297,17 +297,17 @@ class TestOfMAX_Plugin extends UnitTestCase {
         $this->assertEqual(count($result), 0);
         // Test on a directory with plugins, but with a search depth that doesn't
         // reach down to the level where the plugins are stored
-        $result = MAX_Plugin::_getPluginsFilesFromDirectory(MAX_PATH . '/plugins/reportWriter', 0);
+        $result = MAX_Plugin::_getPluginsFilesFromDirectory(MAX_PATH . '/plugins/reports', 0);
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), 0);
         // Test on a directory with plugins, with a search depth that does
         // reach down to the level where the plugins are stored
-        $result = MAX_Plugin::_getPluginsFilesFromDirectory(MAX_PATH . '/plugins/reportWriter', 1);
+        $result = MAX_Plugin::_getPluginsFilesFromDirectory(MAX_PATH . '/plugins/reports', 1);
         $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 2);
+        $this->assertEqual(count($result), 6);
         $this->assertEqual(
-            $result['output:NullReportWriter'],
-            MAX_PATH.'/plugins/reportWriter/output/NullReportWriter'.MAX_PLUGINS_EXTENSION
+            $result['standard:advertisingAnalysisReport'],
+            MAX_PATH.'/plugins/reports/standard/advertisingAnalysisReport'.MAX_PLUGINS_EXTENSION
         );
     }
 
@@ -336,21 +336,22 @@ class TestOfMAX_Plugin extends UnitTestCase {
         $oTestErrorHandler = new TestErrorHandler();
         PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, array(&$oTestErrorHandler, 'handleErrors'));
         // Test with a bad method
-        $return = MAX_Plugin::callStaticMethod('reportWriter', 'output', 'NullReportWriter', 'foo');
+        $return = MAX_Plugin::callStaticMethod('reports', 'standard', 'advertisingAnalysisReport', 'foo');
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            "Method 'foo()' not defined in class 'Plugins_ReportWriter_Output_NullReportWriter'."
+            "Method 'foo()' not defined in class 'Plugins_Reports_Standard_AdvertisingAnalysisReport'."
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
         // Unset the error handler
         PEAR::popErrorHandling();
         // Test with a real method, no parameters
-        $return = MAX_Plugin::callStaticMethod('reportWriter', 'output', 'NullReportWriter', 'closeAndSend');
-        $this->assertNull($return);
+        $return = MAX_Plugin::callStaticMethod('reports', 'standard', 'advertisingAnalysisReport', 'getDefaults');
+        $this->assertTrue(is_array($return));
+        $this->assertEqual(count($return), 3);
         // Test with a real method, with parameters
-        $return = MAX_Plugin::callStaticMethod('reportWriter', 'output', 'NullReportWriter', 'createReportWorksheet', array('foo', 'bar', 'baz'));
+        $return = MAX_Plugin::callStaticMethod('reports', 'standard', 'advertisingAnalysisReport', 'useReportWriter', array('foo'));
         $this->assertNull($return);
     }
 
@@ -386,25 +387,31 @@ class TestOfMAX_Plugin extends UnitTestCase {
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
         // Prepare an array of plugins
-        $aPlugins = MAX_Plugin::getPlugins('reportWriter', 'output', true, 0);
+        $aPlugins = MAX_Plugin::getPlugins('reports', 'standard', true, 0);
         // Test with a bad method
         $result = MAX_Plugin::callOnPlugins($aPlugins, 'foo');
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            "Method 'foo()' not defined in class 'plugins_reportwriter_output_excelreportwriter'."
+            "Method 'foo()' not defined in class 'Plugins_Reports_Standard_AdvertisingAnalysisReport'."
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
         // Unset the error handler
         PEAR::popErrorHandling();
         // Test with a real method, no parameters
-        $result = MAX_Plugin::callOnPlugins($aPlugins, 'closeAndSend');
+        $result = MAX_Plugin::callOnPlugins($aPlugins, 'getDefaults');
         foreach ($aPlugins as $key => $oPlugin) {
-            $this->assertNull($result[$key]);
+            if (is_a($oPlugin, 'Plugins_Reports_Standard_LiveCampaignDeliveryReport')) {
+                $this->assertTrue(is_array($result[$key]));
+                $this->assertEqual(count($result[$key]), 2);
+            } else {
+                $this->assertTrue(is_array($result[$key]));
+                $this->assertEqual(count($result[$key]), 3);
+            }
         }
         // Test with a real method, with parameters
-        $result = MAX_Plugin::callOnPlugins($aPlugins, 'createReportWorksheet', array('foo', 'bar', 'baz'));
+        $result = MAX_Plugin::callOnPlugins($aPlugins, 'useReportWriter', array('foo'));
         foreach ($aPlugins as $key => $oPlugin) {
             $this->assertNull($result[$key]);
         }
