@@ -133,7 +133,7 @@ class Plugins_InvocationTags_adframe_adframe extends Plugins_InvocationTags
         }
         if (isset($mi->resize) && $mi->resize == '1') {
             if (is_array($mi->parameters)) {
-                $mi->parameters = array('resize' => "resize=1") + $mi->paramters;
+                $mi->parameters = array('resize' => "resize=1") + $mi->parameters;
             } else {
                 $mi->parameters['resize'] = "resize=1";
             }
