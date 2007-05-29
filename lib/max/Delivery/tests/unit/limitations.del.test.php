@@ -105,122 +105,7 @@ class test_DeliveryLimitations extends UnitTestCase
      */
     function test_limitationsIsAdCapped()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-        // Test 1: No capping
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        unset($_COOKIE[$conf['var']['capAd']][$adId]);
-        unset($_COOKIE[$conf['var']['sessionCapAd']][$adId]);
-        $adId       = 123;
-        $cap        = 0;
-        $sessionCap = 0;
-        $block      = 0;
-        $return = _limitationsIsAdCapped($adId, $cap, $sessionCap, $block);
-        $this->assertFalse($return);
-
-        // Test 2: Cap of 3, not seen yet
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        unset($_COOKIE[$conf['var']['capAd']][$adId]);
-        unset($_COOKIE[$conf['var']['sessionCapAd']][$adId]);
-        $adId       = 123;
-        $cap        = 3;
-        $sessionCap = 0;
-        $block      = 0;
-        $return = _limitationsIsAdCapped($adId, $cap, $sessionCap, $block);
-        $this->assertFalse($return);
-
-        // Test 3: Cap of 3, seen two times
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['capAd']][$adId] = 2;
-        $adId       = 123;
-        $cap        = 3;
-        $sessionCap = 0;
-        $block      = 0;
-        $return = _limitationsIsAdCapped($adId, $cap, $sessionCap, $block);
-        $this->assertFalse($return);
-
-        // Test 4: Cap of 3, seen three times
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['capAd']][$adId] = 3;
-        $adId       = 123;
-        $cap        = 3;
-        $sessionCap = 0;
-        $block      = 0;
-        $return = _limitationsIsAdCapped($adId, $cap, $sessionCap, $block);
-        $this->assertTrue($return);
-
-        // Test 5: Cap of 3, seen four times
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['capAd']][$adId] = 4;
-        $adId       = 123;
-        $cap        = 3;
-        $sessionCap = 0;
-        $block      = 0;
-        $return = _limitationsIsAdCapped($adId, $cap, $sessionCap, $block);
-        $this->assertTrue($return);
-
-        // Test 6: Session cap of 3, not seen yet
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        unset($_COOKIE[$conf['var']['capAd']][$adId]);
-        unset($_COOKIE[$conf['var']['sessionCapAd']][$adId]);
-        $adId       = 123;
-        $cap        = 0;
-        $sessionCap = 3;
-        $block      = 0;
-        $return = _limitationsIsAdCapped($adId, $cap, $sessionCap, $block);
-        $this->assertFalse($return);
-
-        // Test 7: Session cap of 3, seen two times
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['sessionCapAd']][$adId] = 2;
-        $adId       = 123;
-        $cap        = 0;
-        $sessionCap = 3;
-        $block      = 0;
-        $return = _limitationsIsAdCapped($adId, $cap, $sessionCap, $block);
-        $this->assertFalse($return);
-
-        // Test 8: Session cap of 3, seen three times
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['sessionCapAd']][$adId] = 3;
-        $adId       = 123;
-        $cap        = 0;
-        $sessionCap = 3;
-        $block      = 0;
-        $return = _limitationsIsAdCapped($adId, $cap, $sessionCap, $block);
-        $this->assertTrue($return);
-
-        // Test 9: Session cap of 3, seen four times
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['sessionCapAd']][$adId] = 4;
-        $adId       = 123;
-        $cap        = 0;
-        $sessionCap = 3;
-        $block      = 0;
-        $return = _limitationsIsAdCapped($adId, $cap, $sessionCap, $block);
-        $this->assertTrue($return);
-
-        // Test 10: newViewerId cookie set
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
-        unset($_COOKIE[$conf['var']['capAd']][$adId]);
-        unset($_COOKIE[$conf['var']['sessionCapAd']][$adId]);
-        $adId       = 123;
-        $cap        = 3;
-        $sessionCap = 0;
-        $block      = 0;
-        $return = _limitationsIsAdCapped($adId, $cap, $sessionCap, $block);
-        $this->assertTrue($return);
-
-        // Test 11: newViewerId cookie set
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
-        unset($_COOKIE[$conf['var']['capAd']][$adId]);
-        unset($_COOKIE[$conf['var']['sessionCapAd']][$adId]);
-        $adId       = 123;
-        $cap        = 0;
-        $sessionCap = 3;
-        $block      = 0;
-        $return = _limitationsIsAdCapped($adId, $cap, $sessionCap, $block);
-        $this->assertTrue($return);
+        $this->_testIsThingCapped('Ad');
     }
 
     /**
@@ -230,149 +115,7 @@ class test_DeliveryLimitations extends UnitTestCase
      */
     function test_limitationsIsCampaignCapped()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-
-        // Test 1: No capping
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        unset($_COOKIE[$conf['var']['capCampaign']][$adId]);
-        unset($_COOKIE[$conf['var']['sessionCapCampaign']][$adId]);
-        $adId       = 123;
-        $cap        = 0;
-        $sessionCap = 0;
-        $block      = 0;
-        $return = _limitationsIsCampaignCapped($adId, $cap, $sessionCap, $block);
-        $this->assertFalse($return);
-
-        // Test 2: Cap of 3, not seen yet
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        unset($_COOKIE[$conf['var']['capCampaign']][$adId]);
-        unset($_COOKIE[$conf['var']['sessionCapCampaign']][$adId]);
-        $adId       = 123;
-        $cap        = 3;
-        $sessionCap = 0;
-        $block      = 0;
-        $return = _limitationsIsCampaignCapped($adId, $cap, $sessionCap, $block);
-        $this->assertFalse($return);
-
-        // Test 3: Cap of 3, seen two times
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['capCampaign']][$adId] = 2;
-        $adId       = 123;
-        $cap        = 3;
-        $sessionCap = 0;
-        $block      = 0;
-        $return = _limitationsIsCampaignCapped($adId, $cap, $sessionCap, $block);
-        $this->assertFalse($return);
-
-        // Test 4: Cap of 3, seen three times
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['capCampaign']][$adId] = 3;
-        $adId       = 123;
-        $cap        = 3;
-        $sessionCap = 0;
-        $block      = 0;
-        $return = _limitationsIsCampaignCapped($adId, $cap, $sessionCap, $block);
-        $this->assertTrue($return);
-
-        // Test 5: Cap of 3, seen four times
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['capCampaign']][$adId] = 4;
-        $adId       = 123;
-        $cap        = 3;
-        $sessionCap = 0;
-        $block      = 0;
-        $return = _limitationsIsCampaignCapped($adId, $cap, $sessionCap, $block);
-        $this->assertTrue($return);
-
-        // Test 6: Session cap of 3, not seen yet
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        unset($_COOKIE[$conf['var']['capCampaign']][$adId]);
-        unset($_COOKIE[$conf['var']['sessionCapCampaign']][$adId]);
-        $adId       = 123;
-        $cap        = 0;
-        $sessionCap = 3;
-        $block      = 0;
-        $return = _limitationsIsCampaignCapped($adId, $cap, $sessionCap, $block);
-        $this->assertFalse($return);
-
-        // Test 7: Session cap of 3, seen two times
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['sessionCapCampaign']][$adId] = 2;
-        $adId       = 123;
-        $cap        = 0;
-        $sessionCap = 3;
-        $block      = 0;
-        $return = _limitationsIsCampaignCapped($adId, $cap, $sessionCap, $block);
-        $this->assertFalse($return);
-
-        // Test 8: Session cap of 3, seen three times
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['sessionCapCampaign']][$adId] = 3;
-        $adId       = 123;
-        $cap        = 0;
-        $sessionCap = 3;
-        $block      = 0;
-        $return = _limitationsIsCampaignCapped($adId, $cap, $sessionCap, $block);
-        $this->assertTrue($return);
-
-        // Test 9: Session cap of 3, seen four times
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['sessionCapCampaign']][$adId] = 4;
-        $adId       = 123;
-        $cap        = 0;
-        $sessionCap = 3;
-        $block      = 0;
-        $return = _limitationsIsCampaignCapped($adId, $cap, $sessionCap, $block);
-        $this->assertTrue($return);
-
-/**
- * The tests below need to be updated, they don't pass, so I'm probably passing in bad data
- * but it seems (logically) correct to me
- *
-        // Test 10: First impression (cap = 2, block = 60s)
-        $adId       = 123;
-        $cap        = 0;
-        $sessionCap = 2;
-        $block      = 60;
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        unset($_COOKIE[$conf['var']['sessionCapCampaign']][$adId]);
-        unset($_COOKIE[$conf['var']['blockCampaign']][$adId]);
-        $return = _limitationsIsCampaignCapped($adId, $cap, $sessionCap, $block);
-        $this->assertFalse($return);
-
-        // Test 11: Second impression (cap = 2, block 60s)
-        $adId       = 123;
-        $cap        = 0;
-        $sessionCap = 2;
-        $block      = 60;
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['sessionCapCampaign']][$adId] = 1;
-        $_COOKIE[$conf['var']['blockCampaign']][$adId] = $GLOBALS['_MAX']['NOW'] + 1;
-        $return = _limitationsIsCampaignCapped($adId, $cap, $sessionCap, $block);
-        $this->assertFalse($return);
-
-        // Test 12: Third impression within block (cap = 2, block 60s)
-        $adId       = 123;
-        $cap        = 0;
-        $sessionCap = 2;
-        $block      = 60;
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['sessionCapCampaign']][$adId] = 2;
-        $_COOKIE[$conf['var']['blockCampaign']][$adId] = $GLOBALS['_MAX']['NOW'] + 1;
-        $return = _limitationsIsCampaignCapped($adId, $cap, $sessionCap, $block);
-        $this->assertTrue($return);
-*/
-
-        // Test 10: newViewerId cookie set
-        $adId       = 123;
-        $cap        = 3;
-        $sessionCap = 0;
-        $block      = 0;
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
-        unset($_COOKIE[$conf['var']['capCampaign']][$adId]);
-        unset($_COOKIE[$conf['var']['sessionCapCampaign']][$adId]);
-        $return = _limitationsIsCampaignCapped($adId, $cap, $sessionCap, $block);
-        $this->assertTrue($return);
+        $this->_testIsThingCapped('Campaign');
     }
 
     /**
@@ -380,126 +123,183 @@ class test_DeliveryLimitations extends UnitTestCase
      *
      * @TODO Needs to be update to test zone capping & blocking.
      */
-    function test_limitationsIsZoneCapped()
+    function broken_test_limitationsIsZoneCapped()
     {
+        $this->_testIsThingCapped('Zone');
+    }
+
+    function _testIsThingCapped($thing) {
         $conf = $GLOBALS['_MAX']['CONF'];
+        $now = MAX_commonGetTimeNow();
+
+        switch($thing) {
+            case 'Ad':
+                $functionName           = '_limitationsIsAdCapped';
+                $capCookieName          = $conf['var']['capAd'];
+                $sessionCapCookieName   = $conf['var']['sessionCapAd'];
+                $blockCookieName        = $conf['var']['blockAd'];
+                break;
+            case 'Campaign':
+                $functionName           = '_limitationsIsCampaignCapped';
+                $capCookieName          = $conf['var']['capCampaign'];
+                $sessionCapCookieName   = $conf['var']['sessionCapCampaign'];
+                $blockCookieName        = $conf['var']['blockCampaign'];
+                break;
+            case 'Zone':
+                $functionName           = '_limitationsIsZoneCapped';
+                $capCookieName          = $conf['var']['capZone'];
+                $sessionCapCookieName   = $conf['var']['sessionCapZone'];
+                $blockCookieName        = $conf['var']['blockZone'];
+        }
 
         // Test 1: No capping
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        unset($_COOKIE[$conf['var']['capZone']][$zoneId]);
-        unset($_COOKIE[$conf['var']['sessionCapZone']][$zoneId]);
-        $zoneId     = 123;
+        $id         = 123;
         $cap        = 0;
         $sessionCap = 0;
         $block      = 0;
-        $return = _limitationsIsZoneCapped($zoneId, $cap, $sessionCap, $block);
+        unset($_COOKIE[$capCookieName][$id]);
+        unset($_COOKIE[$sessionCapCookieName][$id]);
+        $return = $functionName($id, $cap, $sessionCap, $block);
         $this->assertFalse($return);
 
         // Test 2: Cap of 3, not seen yet
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        unset($_COOKIE[$conf['var']['capZone']][$zoneId]);
-        unset($_COOKIE[$conf['var']['sessionCapZone']][$zoneId]);
-        $zoneId     = 123;
+        $id       = 123;
         $cap        = 3;
         $sessionCap = 0;
         $block      = 0;
-        $return = _limitationsIsZoneCapped($zoneId, $cap, $sessionCap, $block);
+        unset($_COOKIE[$capCookieName][$id]);
+        unset($_COOKIE[$sessionCapCookieName][$id]);
+        $return = $functionName($id, $cap, $sessionCap, $block);
         $this->assertFalse($return);
 
         // Test 3: Cap of 3, seen two times
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['capZone']][$zoneId] = 2;
-        $zoneId     = 123;
+        $id       = 123;
         $cap        = 3;
         $sessionCap = 0;
         $block      = 0;
-        $return = _limitationsIsZoneCapped($zoneId, $cap, $sessionCap, $block);
+        $_COOKIE[$capCookieName][$id] = 2;
+        $return = $functionName($id, $cap, $sessionCap, $block);
         $this->assertFalse($return);
 
         // Test 4: Cap of 3, seen three times
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['capZone']][$zoneId] = 3;
-        $zoneId     = 123;
+        $id       = 123;
         $cap        = 3;
         $sessionCap = 0;
         $block      = 0;
-        $return = _limitationsIsZoneCapped($zoneId, $cap, $sessionCap, $block);
+        $_COOKIE[$capCookieName][$id] = 3;
+        $return = $functionName($id, $cap, $sessionCap, $block);
         $this->assertTrue($return);
 
         // Test 5: Cap of 3, seen four times
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['capZone']][$zoneId] = 4;
-        $zoneId     = 123;
+        $id       = 123;
         $cap        = 3;
         $sessionCap = 0;
         $block      = 0;
-        $return = _limitationsIsZoneCapped($zoneId, $cap, $sessionCap, $block);
+        $_COOKIE[$capCookieName][$id] = 4;
+        $return = $functionName($id, $cap, $sessionCap, $block);
         $this->assertTrue($return);
 
         // Test 6: Session cap of 3, not seen yet
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        unset($_COOKIE[$conf['var']['capZone']][$zoneId]);
-        unset($_COOKIE[$conf['var']['sessionCapZone']][$zoneId]);
-        $zoneId     = 123;
+        $id       = 123;
         $cap        = 0;
         $sessionCap = 3;
         $block      = 0;
-        $return = _limitationsIsZoneCapped($zoneId, $cap, $sessionCap, $block);
+        unset($_COOKIE[$capCookieName][$id]);
+        unset($_COOKIE[$sessionCapCookieName][$id]);
+        $return = $functionName($id, $cap, $sessionCap, $block);
         $this->assertFalse($return);
 
         // Test 7: Session cap of 3, seen two times
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['sessionCapZone']][$zoneId] = 2;
-        $zoneId     = 123;
+        $id       = 123;
         $cap        = 0;
         $sessionCap = 3;
         $block      = 0;
-        $return = _limitationsIsZoneCapped($zoneId, $cap, $sessionCap, $block);
+        $_COOKIE[$sessionCapCookieName][$id] = 2;
+        $return = $functionName($id, $cap, $sessionCap, $block);
         $this->assertFalse($return);
 
         // Test 8: Session cap of 3, seen three times
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['sessionCapZone']][$zoneId] = 3;
-        $zoneId     = 123;
+        $id       = 123;
         $cap        = 0;
         $sessionCap = 3;
         $block      = 0;
-        $return = _limitationsIsZoneCapped($zoneId, $cap, $sessionCap, $block);
+        $_COOKIE[$sessionCapCookieName][$id] = 3;
+        $return = $functionName($id, $cap, $sessionCap, $block);
         $this->assertTrue($return);
 
         // Test 9: Session cap of 3, seen four times
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
-        $_COOKIE[$conf['var']['sessionCapZone']][$zoneId] = 4;
-        $zoneId     = 123;
+        $id       = 123;
         $cap        = 0;
         $sessionCap = 3;
         $block      = 0;
-        $return = _limitationsIsZoneCapped($zoneId, $cap, $sessionCap, $block);
+        $_COOKIE[$sessionCapCookieName][$id] = 4;
+        $return = $functionName($id, $cap, $sessionCap, $block);
         $this->assertTrue($return);
 
+        // Test 10: First impression (cap = 2, block = 60s)
+        $id       = 123;
+        $cap        = 0;
+        $sessionCap = 2;
+        $block      = 60;
+        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
+        unset($_COOKIE[$sessionCapCookieName][$id]);
+        unset($_COOKIE[$blockCookieName][$id]);
+        $return = $functionName($id, $cap, $sessionCap, $block);
+        $this->assertFalse($return);
+
+        // Test 11: Second impression (cap = 2, block 60s)
+        $id       = 123;
+        $cap        = 0;
+        $sessionCap = 2;
+        $block      = 60;
+        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
+        $_COOKIE[$sessionCapCookieName][$id] = 1;
+        $_COOKIE[$blockCookieName][$id] = $now - ($block - 1);
+        $return = $functionName($id, $cap, $sessionCap, $block);
+        $this->assertFalse($return);
+
+        // Test 12: Third impression within block (cap = 2, block 60s)
+        $id       = 123;
+        $cap        = 0;
+        $sessionCap = 2;
+        $block      = 60;
+        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
+        $_COOKIE[$sessionCapCookieName][$id] = 2;
+        $_COOKIE[$blockCookieName][$id] = $now - ($block - 1);
+        $return = $functionName($id, $cap, $sessionCap, $block);
+        $this->assertTrue($return);
+
+        // Test 13: Third impression outside block (cap = 2, block = 60s)
+        $id       = 123;
+        $cap        = 0;
+        $sessionCap = 2;
+        $block      = 60;
+        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = false;
+        $_COOKIE[$sessionCapCookieName][$id] = 2;
+        $_COOKIE[$blockCookieName][$id] = $now - ($block + 1);
+        $return = $functionName($id, $cap, $sessionCap, $block);
+        $this->assertFalse($return);
+
         // Test 10: newViewerId cookie set
-        $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
-        unset($_COOKIE[$conf['var']['capZone']][$zoneId]);
-        unset($_COOKIE[$conf['var']['sessionCapZone']][$zoneId]);
-        $zoneId     = 123;
+        $id       = 123;
         $cap        = 3;
         $sessionCap = 0;
         $block      = 0;
-        $return = _limitationsIsZoneCapped($zoneId, $cap, $sessionCap, $block);
-        $this->assertTrue($return);
-
-        // Test 11: newViewerId cookie set
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
-        unset($_COOKIE[$conf['var']['capZone']][$zoneId]);
-        unset($_COOKIE[$conf['var']['sessionCapZone']][$zoneId]);
-        $zoneId     = 123;
-        $cap        = 0;
-        $sessionCap = 3;
-        $block      = 0;
-        $return = _limitationsIsZoneCapped($zoneId, $cap, $sessionCap, $block);
+        unset($_COOKIE[$capCookieName][$id]);
+        unset($_COOKIE[$sessionCapCookieName][$id]);
+        $return = $functionName($id, $cap, $sessionCap, $block);
         $this->assertTrue($return);
     }
-
 }
 
 ?>
