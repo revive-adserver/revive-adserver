@@ -1483,6 +1483,9 @@ return $clickUrl;
 function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $withtext = 0, $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = '')
 {
 $conf = $GLOBALS['_MAX']['CONF'];
+if (empty($GLOBALS['source'])) {
+$GLOBALS['source'] = $source;
+}
 if (strpos($what,'zone:') === 0) {
 $originalZoneId = intval(substr($what,5));
 } elseif (strpos($what,'campaignid:') === 0) {
