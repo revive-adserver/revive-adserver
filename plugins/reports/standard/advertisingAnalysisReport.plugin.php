@@ -33,11 +33,13 @@ require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
  * given advertiser and/or publisher, for the supplied date range. The report
  * can contain up to three worksheets:
  *
- * Daily Breakdown:
+ * 1. Daily Breakdown:
  *  - A breakdown of the delivery grouped by day.
- * Campaign Breakdown:
+ *
+ * 2. Campaign Breakdown:
  *  - A breakdown of the delivery grouped by campaign name.
- * Zone Breakdown:
+ *
+ * 3. Zone Breakdown:
  *  - A breakdown of the delivery grouped by zone name.
  *
  * In all cases, "delivery" is the set of all data selected to be displayed
@@ -74,7 +76,6 @@ require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
  *  - ECPC
  *  - ECPS
  *
- * @abstract
  * @package    MaxPlugin
  * @subpackage Reports
  * @author     Andrew Hill <andrew.hill@openads.org>
@@ -274,12 +275,12 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
     function _addCampaignBreakdownWorksheet()
     {
         // Prepare the $_REQUEST array as if it was set up via the stats.php page
-        if (is_null($this->_daySpan)) {
+        if (is_null($this->_oDaySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
             $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start']  = $this->_daySpan->getStartDateString();
-            $_REQUEST['period_end']    = $this->_daySpan->getEndDateString();
+            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
         }
         $_REQUEST['expand']     = 'none';
         $_REQUEST['startlevel'] = 0;
@@ -324,12 +325,12 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
     function _addZoneBreakdownWorksheet()
     {
         // Prepare the $_REQUEST array as if it was set up via the stats.php page
-        if (is_null($this->_daySpan)) {
+        if (is_null($this->_oDaySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
             $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start']  = $this->_daySpan->getStartDateString();
-            $_REQUEST['period_end']    = $this->_daySpan->getEndDateString();
+            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
         }
         $_REQUEST['expand']     = 'none';
         $_REQUEST['startlevel'] = 0;

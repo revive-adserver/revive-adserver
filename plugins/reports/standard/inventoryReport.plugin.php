@@ -168,16 +168,16 @@ class Plugins_Reports_Standard_InventoryReport extends Plugins_ExcelReports
 
         // fetch data
         if ($this->_zoneId) {
-            $days_data = $this->dal->getEffectivenessForZoneByDay($this->_zoneId, $this->_daySpan, $this->_threshold);
-            $domain_data = $this->dal->getEffectivenessForZoneByDomain($this->_zoneId, $this->_daySpan, $this->_threshold);
-            $page_data = $this->dal->getEffectivenessForZoneByPage($this->_zoneId, $this->_daySpan, $this->_threshold);
+            $days_data = $this->dal->getEffectivenessForZoneByDay($this->_zoneId, $this->_oDaySpan, $this->_threshold);
+            $domain_data = $this->dal->getEffectivenessForZoneByDomain($this->_zoneId, $this->_oDaySpan, $this->_threshold);
+            $page_data = $this->dal->getEffectivenessForZoneByPage($this->_zoneId, $this->_oDaySpan, $this->_threshold);
         } else {
-            $days_data = $this->dal->getEffectivenessForAllPublisherZonesByDay($this->_publisherId, $this->_daySpan, $this->_threshold);
-            $domain_data = $this->dal->getEffectivenessForAllPublisherZonesByDomain($this->_publisherId, $this->_daySpan, $this->_threshold);
-            $page_data = $this->dal->getEffectivenessForAllPublisherZonesByPage($this->_publisherId, $this->_daySpan, $this->_threshold);
-            $allzone_data = $this->dal->getEffectivenessForAllPublisherZonesByZone($this->_publisherId, $this->_daySpan, $this->_threshold);
+            $days_data = $this->dal->getEffectivenessForAllPublisherZonesByDay($this->_publisherId, $this->_oDaySpan, $this->_threshold);
+            $domain_data = $this->dal->getEffectivenessForAllPublisherZonesByDomain($this->_publisherId, $this->_oDaySpan, $this->_threshold);
+            $page_data = $this->dal->getEffectivenessForAllPublisherZonesByPage($this->_publisherId, $this->_oDaySpan, $this->_threshold);
+            $allzone_data = $this->dal->getEffectivenessForAllPublisherZonesByZone($this->_publisherId, $this->_oDaySpan, $this->_threshold);
         }
-        $dayzone_data = $this->dal->getEffectivenessForAllPublisherZonesByDayZoneDomain($this->_publisherId, $this->_daySpan, $this->_threshold);
+        $dayzone_data = $this->dal->getEffectivenessForAllPublisherZonesByDayZoneDomain($this->_publisherId, $this->_oDaySpan, $this->_threshold);
 
         // Create the worksheets
         $this->addDailyEffectivenessSheet($days_data);
@@ -254,9 +254,9 @@ class Plugins_Reports_Standard_InventoryReport extends Plugins_ExcelReports
             'Publisher Name' => $aPublisherInfo['publisher_name'],
             'Zone Name' => $aPublisherInfo['zone_name']
         );
-        if (!is_null($this->_daySpan)) {
-            $aReportParameters['Start Date'] = $this->_daySpan->getStartDateString();
-            $aReportParameters['End Date'] = $this->_daySpan->getEndDateString();
+        if (!is_null($this->_oDaySpan)) {
+            $aReportParameters['Start Date'] = $this->_oDaySpan->getStartDateString();
+            $aReportParameters['End Date'] = $this->_oDaySpan->getEndDateString();
         }
         $aReportParameters['Minimum Impression Count'] = $this->_threshold;
         return $aReportParameters;

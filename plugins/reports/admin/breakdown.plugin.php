@@ -35,10 +35,10 @@ require_once MAX_PATH . '/plugins/reports/Reports.php';
  * admin user and any agencies in the system. The report contains a single
  * worksheet:
  *
- * Agency Breakdown:
+ * 1. Agency Breakdown:
  *  - A breakdown of the delivery grouped by agency.
  *
- * In all cases, "delivery" is:
+ * In the above, "delivery" is:
  *  - Impressions
  *  - Clicks
  *  - Conversions

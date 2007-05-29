@@ -32,11 +32,13 @@ require_once MAX_PATH . '/plugins/reports/Reports.php';
  * given placement, for the supplied date range. The report can contain up
  * to three worksheets:
  *
- * Daily Breakdown:
+ * 1. Daily Breakdown:
  *  - A breakdown of the delivery grouped by day.
- * Ad Breakdown:
+ *
+ * 2. Ad Breakdown:
  *  - A breakdown of the delivery grouped by ad name.
- * Zone Breakdown:
+ *
+ * 3. Zone Breakdown:
  *  - A breakdown of the delivery grouped by zone name.
  *
  * In all cases, "delivery" is the set of all data selected to be displayed
@@ -73,7 +75,6 @@ require_once MAX_PATH . '/plugins/reports/Reports.php';
  *  - ECPC
  *  - ECPS
  *
- * @abstract
  * @package    MaxPlugin
  * @subpackage Reports
  * @author     Andrew Hill <andrew.hill@openads.org>
@@ -184,7 +185,7 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
     /**
      * The local implementation of the execute() method to generate the report.
      *
-     * @param OA_Admin_DaySpan $oDaySpan    The OA_Admin_DaySpan object for the report.
+     * @param OA_Admin_oDaySpan $oDaySpan    The OA_Admin_oDaySpan object for the report.
      * @param integer          $placementId The ID of the placement the report is for.
      * @param array            $aSheets     An array of sheets that should be in the report.
      */
@@ -278,25 +279,25 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
     function _addDailyBreakdownWorksheet()
     {
         // Prepare the $_REQUEST array as if it was set up via the stats.php page
-        if (is_null($this->_daySpan)) {
+        if (is_null($this->_oDaySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
             $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start']  = $this->_daySpan->getStartDateString();
-            $_REQUEST['period_end']    = $this->_daySpan->getEndDateString();
+            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
         }
         $_REQUEST['breakdown'] = 'day';
         $_REQUEST['clientid'] = $this->_advertiserId;
         $_REQUEST['campaignid'] = $this->_placementId;
         // Select the correct statistics page controller type
         if (phpAds_isUser(phpAds_Affiliate)) {
-            $controller_type = 'affiliate-campaign-history';
+            $controllerType = 'affiliate-campaign-history';
         } else {
-            $controller_type = 'campaign-history';
+            $controllerType = 'campaign-history';
         }
         // Get the header and data arrays from the same statistics controllers
         // that prepare stats for the user interface stats pages
-        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controller_type);
+        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
         // Add the worksheet
         $this->createSubReport(
             MAX_Plugin_Translation::translate('Daily Breakdown', $this->module, $this->package),
@@ -314,12 +315,12 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
     function _addAdBreakdownWorksheet()
     {
         // Prepare the $_REQUEST array as if it was set up via the stats.php page
-        if (is_null($this->_daySpan)) {
+        if (is_null($this->_oDaySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
             $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start']  = $this->_daySpan->getStartDateString();
-            $_REQUEST['period_end']    = $this->_daySpan->getEndDateString();
+            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
         }
         $_REQUEST['expand']     = 'none';
         $_REQUEST['startlevel'] = 0;
@@ -327,14 +328,14 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
         $_REQUEST['campaignid'] = $this->_placementId;
         // Select the correct statistics page controller type
         if (phpAds_isUser(phpAds_Affiliate)) {
-            $controller_type = 'affiliate-campaigns';
+            $controllerType = 'affiliate-campaigns';
             $_REQUEST['startlevel'] = 1;
         } else {
-            $controller_type = 'campaign-banners';
+            $controllerType = 'campaign-banners';
         }
         // Get the header and data arrays from the same statistics controllers
         // that prepare stats for the user interface stats pages
-        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controller_type);
+        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
         // Add the worksheet
         $this->createSubReport(
             MAX_Plugin_Translation::translate('Ad Breakdown', $this->module, $this->package),
@@ -352,12 +353,12 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
     function _addZoneBreakdownWorksheet()
     {
         // Prepare the $_REQUEST array as if it was set up via the stats.php page
-        if (is_null($this->_daySpan)) {
+        if (is_null($this->_oDaySpan)) {
             $_REQUEST['period_preset'] = 'all_stats';
         } else {
             $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start']  = $this->_daySpan->getStartDateString();
-            $_REQUEST['period_end']    = $this->_daySpan->getEndDateString();
+            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
         }
         $_REQUEST['expand']     = 'none';
         $_REQUEST['startlevel'] = 0;
@@ -365,14 +366,14 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
         $_REQUEST['campaignid'] = $this->_placementId;
         // Select the correct statistics page controller type
         if (phpAds_isUser(phpAds_Affiliate)) {
-            $controller_type = 'affiliate-zones';
+            $controllerType = 'affiliate-zones';
         } else {
-            $controller_type = 'campaign-affiliates';
+            $controllerType = 'campaign-affiliates';
             $_REQUEST['startlevel'] = 1;
         }
         // Get the header and data arrays from the same statistics controllers
         // that prepare stats for the user interface stats pages
-        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controller_type);
+        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
         // Add the worksheet
         $this->createSubReport(
             MAX_Plugin_Translation::translate('Zone Breakdown', $this->module, $this->package),

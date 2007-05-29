@@ -25,17 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/reports/Reports.php';
+require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
 
-class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Reports
+class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_ReportsScope
 {
-
-    /**
-     * A local copy of the advertiser/publisher limitation object.
-     *
-     * @var Admin_UI_OrganisationScope
-     */
-    var $_oScope;
 
     /**
      * The local implementation of the initInfo() method to set all of the
@@ -126,32 +119,30 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
         $this->_oReportWriter->closeAndSend();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * The local implementation of the _getReportParametersForDisplay() method
+     * to return a string to display the date range of the report.
+     *
+     * @access private
+     * @return array The array of index/value sub-headings.
+     */
     function getReportParametersForDisplay()
     {
         $aParams = array();
-        $aParams = $this->_getDisplayableParametersFromScope($this->_oScope);
-        $aParams += $this->getDisplayableParametersFromDaySpan($this->_daySpan);
+        $aParams += $this->_getDisplayableParametersFromScope();
+        $aParams += $this->_getDisplayableParametersFromDaySpan();
         return $aParams;
     }
+
+
+
+
+
+
+
+
+
+
 
     function addSummarySheet()
     {

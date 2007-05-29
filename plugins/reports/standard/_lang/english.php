@@ -26,42 +26,64 @@ $Id$
 */
 
 $words = array(
+    // Report Type String
     'Standard Reports'              => 'Standard Reports',
 
+    // Advertising Analysis Report
     'Advertising Analysis Report'   => 'Advertising Analysis Report',
     'This report shows a breakdown of advertising for a particular advertiser or publisher, by day, campaign, and zone.' => 'This report shows a breakdown of advertising for a particular advertiser or publisher, by day, campaign, and zone.',
 
+    // Campaign Analysis Report
     'Campaign Analysis Report'      => 'Campaign Analysis Report',
     'This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone.' => 'This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone.',
 
+    // Conversion Tracking Report
     'Conversion Tracking Report'    => 'Conversion Tracking Report',
     'A detailed breakdown of all conversion activity by advertiser or publisher.' => 'A detailed breakdown of all conversion activity by advertiser or publisher.',
 
+    // Report Generation Screen Items
     'Period'                        => 'Period',
     'Limitations'                   => 'Limitations',
     'Worksheets'                    => 'Worksheets',
     'Campaign'                      => 'Campaign',
 
+    // Worksheets
+    'Ad Breakdown'                  => 'Ad Breakdown',
+    'Campaign Breakdown'            => 'Campaign Breakdown',
+    'Connection Detail'             => 'Connection Detail',
+    'Connection Summary by Day'     => 'Connection Summary by Day',
+    'Daily Breakdown'               => 'Daily Breakdown',
+    'Performance by Day'            => 'Performance by Day',
+    'Variable Summary by Day'       => 'Variable Summary by Day',
+    'Variable Summary by Variable'  => 'Variable Summary by Variable',
+    'Zone Breakdown'                => 'Zone Breakdown',
 
-
+    // Advertiser and Publisher Sub-Headings
     'Advertiser'                    => 'Advertiser',
     'Advertiser Name'               => 'Advertiser Name',
     'All Advertisers'               => 'All Advertisers',
     'Anonymous Advertisers'         => 'Anonymous Advertisers',
-
     'Publisher'                     => 'Publisher',
     'Publisher Name'                => 'Publisher Name',
     'All Publishers'                => 'All Publishers',
     'Anonymous Publishers'          => 'Anonymous Publishers',
 
-    'Ad Breakdown'                  => 'Ad Breakdown',
-    'Campaign Breakdown'            => 'Campaign Breakdown',
-    'Daily Breakdown'               => 'Daily Breakdown',
-    'Zone Breakdown'                => 'Zone Breakdown',
+    // Connection Types
+    'Impression'                    => 'Impression',
+    'Click'                         => 'Click',
+    'Manual'                        => 'Manual',
+    'Arrival'                       => 'Arrival',
+    'Unknown'                       => 'Unknown',
+
+    // Connection Statuses
+    'Pending'                       => 'Pending',
+    'Approved'                      => 'Approved',
+    'Duplicate'                     => 'Duplicate',
+    'Disapproved'                   => 'Disapproved',
+    'On Hold'                       => 'On Hold',
+    'Ignored'                       => 'Ignored',
 
     '% CTR'                         => '% CTR',
-
-    'Conversion Detail'             => 'Conversion Detail',
     'Conversion Date / Time'        => 'Conversion Date / Time'
 );
 
