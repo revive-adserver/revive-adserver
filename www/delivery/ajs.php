@@ -932,7 +932,7 @@ $cache_complete = false;
 $cache_contents = '';
 $ok = @include($filename);
 if ($ok && $cache_complete == true) {
-if (isset($cache_expiry) && $cache_expiry < MAX_commonGetTimeNow()) {
+if (isset($cache_time) && $cache_time < MAX_commonGetTimeNow() - $GLOBALS['OA_Delivery_Cache']['expiry']) {
 OA_Delivery_Cache_store($name, $cache_contents, $isHash);
 return false;
 }
@@ -950,11 +950,11 @@ if (!is_writable($GLOBALS['OA_Delivery_Cache']['path'])) {
 return false;
 }
 $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
-$expiry   = MAX_commonGetTimeNow() + $GLOBALS['OA_Delivery_Cache']['expiry'];
+// $GLOBALS['OA_Delivery_Cache']['expiry']
 $cache_literal  = "<"."?php\n\n";
 $cache_literal .= "$"."cache_contents = ".var_export($cache, true).";\n\n";
 $cache_literal .= "$"."cache_name     = '".addcslashes($name, "'")."';\n";
-$cache_literal .= "$"."cache_expiry   = ".$expiry.";\n";
+$cache_literal .= "$"."cache_time     = ".MAX_commonGetTimeNow().";\n";
 $cache_literal .= "$"."cache_complete = true;\n\n";
 $cache_literal .= "?".">";
 $tmp_filename = tempnam($GLOBALS['OA_Delivery_Cache']['path'], $GLOBALS['OA_Delivery_Cache']['prefix'].'tmp_');
