@@ -914,6 +914,14 @@
     <default>t</default>
    </field>
 
+   <field>
+    <name>lb_reporting</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>false</notnull>
+    <default>f</default>
+   </field>
+
    <index>
     <name>clients_pkey</name>
     <primary>true</primary>
@@ -1574,6 +1582,24 @@
      <sorting>ascending</sorting>
     </field>
    </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>lb_local</name>
+
+  <declaration>
+
+   <field>
+    <name>last_run</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
 
   </declaration>
 
