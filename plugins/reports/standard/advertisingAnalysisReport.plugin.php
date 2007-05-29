@@ -84,13 +84,6 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
 {
 
     /**
-     * A local copy of the advertiser/publisher limitation object.
-     *
-     * @var Admin_UI_OrganisationScope
-     */
-    var $_oScope;
-
-    /**
      * The local implementation of the initInfo() method to set all of the
      * required values for this report.
      */
@@ -213,7 +206,7 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
     function _getReportParametersForDisplay()
     {
         $aParams = array();
-        $aParams += $this->_getDisplayableParametersFromScope($this->_oScope);
+        $aParams += $this->_getDisplayableParametersFromScope();
         $aParams += $this->_getDisplayableParametersFromDaySpan();
         return $aParams;
     }
