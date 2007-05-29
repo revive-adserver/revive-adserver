@@ -64,9 +64,11 @@ $GLOBALS['OA_Delivery_Cache'] = array(
  *
  * @param string $name The cache entry name
  * @param bool $isHash Is $name a hash already or should hash be created from it?
+ * @param bool $expiryTime If null uses default expiry time (from config) but
+ *                         Determine how long cache is valid
  * @return mixed False on error, or the cache content as a string
  */
-function OA_Delivery_Cache_fetch($name, $isHash = false)
+function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
 {
     $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
 
@@ -80,7 +82,10 @@ function OA_Delivery_Cache_fetch($name, $isHash = false)
         // The method used to implement cache expiry imposes two cache writes if the cache is
         // expired and the database is available, but avoid the need to check for file existence
         // and modification time.
-        if (isset($cache_time) && $cache_time < MAX_commonGetTimeNow() - $GLOBALS['OA_Delivery_Cache']['expiry']) {
+        if ($expiryTime === null) {
+            $expiryTime = $GLOBALS['OA_Delivery_Cache']['expiry'];
+        }
+        if (isset($cache_time) && $cache_time < MAX_commonGetTimeNow() - $expiryTime) {
             // Update expiry, needed to enable permanent caching if needed
             OA_Delivery_Cache_store($name, $cache_contents, $isHash);
             return false;
