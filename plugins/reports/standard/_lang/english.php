@@ -39,9 +39,20 @@ $words = array(
 
     'Period'                        => 'Period',
     'Limitations'                   => 'Limitations',
+    'Worksheets'                    => 'Worksheets',
     'Campaign'                      => 'Campaign',
+
+
+
+    'Advertiser'                    => 'Advertiser',
     'Advertiser Name'               => 'Advertiser Name',
+    'All Advertisers'               => 'All Advertisers',
+    'Anonymous Advertisers'         => 'Anonymous Advertisers',
+
+    'Publisher'                     => 'Publisher',
     'Publisher Name'                => 'Publisher Name',
+    'All Publishers'                => 'All Publishers',
+    'Anonymous Publishers'          => 'Anonymous Publishers',
 
     'Ad Breakdown'                  => 'Ad Breakdown',
     'Campaign Breakdown'            => 'Campaign Breakdown',

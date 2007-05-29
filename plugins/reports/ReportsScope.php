@@ -40,36 +40,58 @@ require_once MAX_PATH . '/plugins/reports/Reports.php';
 class Plugins_ReportsScope extends Plugins_Reports
 {
 
-    function _getDisplayableParametersFromScope($oScope)
+    /**
+     * A local copy of the advertiser/publisher limitation object.
+     *
+     * @var Admin_UI_OrganisationScope
+     */
+    var $_oScope;
+
+    /**
+     * A private method to get the required sub-heading parameters for the reports
+     * for a given advertiser/publisher limitation scope.
+     *
+     * @return array An array of parameters that can be used in the
+     *               {@link Plugins_Reports::_getReportParametersForDisplay()} method.
+     */
+    function _getDisplayableParametersFromScope()
     {
         $aParams = array();
-
         $key = MAX_Plugin_Translation::translate('Advertiser', $this->module);
-        $advertiserId = $oScope->getAdvertiserId();
+        $advertiserId = $this->_oScope->getAdvertiserId();
         if (!empty($advertiserId)) {
-            $advertiser_name = $this->dal->getNameForAdvertiser($advertiserId);
-            $aParams[$key] = $advertiser_name;
+            // Get the name of the advertiser
+            $doClients = OA_Dal::factoryDO('clients');
+            $doClients->clientid = $advertiserId;
+            $doClients->find();
+            if ($doClients->fetch()) {
+                $aAdvertiser = $doClients->toArray();
+                $aParams[$key] = $aAdvertiser['clientname'];
+            }
         } else {
-            if ($oScope->getAnonymous()) {
-                $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous advertisers', $this->module);
+            if ($this->_oScope->getAnonymous()) {
+                $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous Advertisers', $this->module);
             } else {
-                $aParams[$key] = MAX_Plugin_Translation::translate('All advertisers', $this->module);
+                $aParams[$key] = MAX_Plugin_Translation::translate('All Advertisers', $this->module);
             }
         }
-
         $key = MAX_Plugin_Translation::translate('Publisher', $this->module);
-        $publisherId = $oScope->getPublisherId();
+        $publisherId = $this->_oScope->getPublisherId();
         if (!empty($publisherId)) {
-            $publisher_name = $this->dal->getNameForPublisher($publisherId);
-            $aParams[$key] = $publisher_name;
+            $doAffiliates = OA_Dal::factoryDO('affiliates');
+            $doAffiliates->affiliateid = $publisherId;
+            $doAffiliates->find();
+            if ($doAffiliates->fetch()) {
+                $aPublisher = $doAffiliates->toArray();
+                $aParams[$key] = $aPublisher['name'];
+            }
         } else {
-            if ($oScope->getAnonymous()) {
-                $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous publishers', $this->module);
+            if ($this->_oScope->getAnonymous()) {
+                $aParams[$key] = MAX_Plugin_Translation::translate('Anonymous Publishers', $this->module);
             } else {
-                $aParams[$key] = MAX_Plugin_Translation::translate('All publishers', $this->module);
+                $aParams[$key] = MAX_Plugin_Translation::translate('All Publishers', $this->module);
             }
         }
-
         return $aParams;
     }
 
