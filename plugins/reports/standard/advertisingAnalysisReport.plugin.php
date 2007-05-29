@@ -122,11 +122,11 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
         $default_scope_publisher  = isset($session['prefs']['GLOBALS']['report_scope_publisher'])  ? $session['prefs']['GLOBALS']['report_scope_publisher']  : '';
         // Prepare which worksheets can be in the report
         $aSheets = array(
-            'daily_breakdown'    => MAX_Plugin_Translation::translate('Daily breakdown', $this->module, $this->package),
-            'campaign_breakdown' => MAX_Plugin_Translation::translate('Campaign breakdown', $this->module, $this->package)
+            'daily_breakdown'    => MAX_Plugin_Translation::translate('Daily Breakdown', $this->module, $this->package),
+            'campaign_breakdown' => MAX_Plugin_Translation::translate('Campaign Breakdown', $this->module, $this->package)
         );
         if (!phpAds_isUser(phpAds_Affiliate) || phpAds_isAllowed(MAX_AffiliateViewZoneStats)) {
-            $aSheets['zone_breakdown'] = MAX_Plugin_Translation::translate('Zone breakdown', $this->module, $this->package);
+            $aSheets['zone_breakdown'] = MAX_Plugin_Translation::translate('Zone Breakdown', $this->module, $this->package);
         }
         // Prepare the array for displaying the generation page
         $aImport = array(
@@ -266,7 +266,7 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
         list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
         // Add the worksheet
         $this->createSubReport(
-            MAX_Plugin_Translation::translate('Daily breakdown', $this->module, $this->package),
+            MAX_Plugin_Translation::translate('Daily Breakdown', $this->module, $this->package),
             $aHeaders,
             $aData
         );
@@ -316,7 +316,7 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
         list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
         // Add the worksheet
         $this->createSubReport(
-            MAX_Plugin_Translation::translate('Campaign breakdown', $this->module, $this->package),
+            MAX_Plugin_Translation::translate('Campaign Breakdown', $this->module, $this->package),
             $aHeaders,
             $aData
         );
@@ -368,7 +368,7 @@ class Plugins_Reports_Standard_AdvertisingAnalysisReport extends Plugins_Reports
         list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
         // Add the worksheet
         $this->createSubReport(
-            MAX_Plugin_Translation::translate('Zone breakdown', $this->module, $this->package),
+            MAX_Plugin_Translation::translate('Zone Breakdown', $this->module, $this->package),
             $aHeaders,
             $aData
         );

@@ -155,9 +155,9 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
                 'title'   => MAX_Plugin_Translation::translate('Worksheets', $this->module, $this->package),
                 'type'    => 'sheet',
                 'sheets'  => array(
-                    'daily_breakdown' => MAX_Plugin_Translation::translate('Daily breakdown', $this->module, $this->package),
-                    'ad_breakdown'    => MAX_Plugin_Translation::translate('Ad breakdown', $this->module, $this->package),
-                    'zone_breakdown'  => MAX_Plugin_Translation::translate('Zone breakdown', $this->module, $this->package)
+                    'daily_breakdown' => MAX_Plugin_Translation::translate('Daily Breakdown', $this->module, $this->package),
+                    'ad_breakdown'    => MAX_Plugin_Translation::translate('Ad Breakdown', $this->module, $this->package),
+                    'zone_breakdown'  => MAX_Plugin_Translation::translate('Zone Breakdown', $this->module, $this->package)
                 )
             )
         );
@@ -197,10 +197,15 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
         $doCampaigns->campaignid = $this->_placementId;
         $doCampaigns->find();
         if (!$doCampaigns->fetch()) {
+            // Could not find the placement, set false
+            // for the placement name, and the owning
+            // advertiser ID and advertiser name
             $this->_placementName  = false;
             $this->_advertiserId   = false;
             $this->_advertiserName = false;
         } else {
+            // Get and store the placement name and the
+            // owning advertiser ID
             $aPlacement = $doCampaigns->toArray();
             $this->_placementName = MAX_getPlacementName($aPlacement);
             $this->_advertiserId  = $aPlacement['clientid'];
@@ -209,17 +214,19 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
             } else {
                 $campaignAnonymous = false;
             }
-
-
-            /**
-             * @TODO Fix! Can't use this DAL, it's rubbish.
-             */
-            $advertiser_name = $this->dal->getAdvertiserNameForCampaign($campaign_id);
-
-
-            $this->_advertiserName = MAX_getAdvertiserName($advertiserName, null, $campaignAnonymous);
+            // Get the owning advertiser's name
+            $doClients = OA_Dal::factoryDO('clients');
+            $doClients->clientid = $this->_advertiserId;
+            $doClients->find();
+            if (!$doClients->fetch()) {
+                // Coule not find the owning advertiser name
+                $this->_advertiserName = false;
+            } else {
+                // Store the owning advertiser name
+                $aAdvertiser = $doClients->toArray();
+                $this->_advertiserName = MAX_getAdvertiserName($aAdvertiser['clientname'], null, $campaignAnonymous);
+            }
         }
-
         // Prepare the range information for the report
         $this->_prepareReportRange($oDaySpan);
         // Prepare the report name
@@ -292,7 +299,7 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
         list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controller_type);
         // Add the worksheet
         $this->createSubReport(
-            MAX_Plugin_Translation::translate('Daily breakdown', $this->module, $this->package),
+            MAX_Plugin_Translation::translate('Daily Breakdown', $this->module, $this->package),
             $aHeaders,
             $aData
         );
@@ -330,7 +337,7 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
         list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controller_type);
         // Add the worksheet
         $this->createSubReport(
-            MAX_Plugin_Translation::translate('Ad breakdown', $this->module, $this->package),
+            MAX_Plugin_Translation::translate('Ad Breakdown', $this->module, $this->package),
             $aHeaders,
             $aData
         );
@@ -368,7 +375,7 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
         list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controller_type);
         // Add the worksheet
         $this->createSubReport(
-            MAX_Plugin_Translation::translate('Zone breakdown', $this->module, $this->package),
+            MAX_Plugin_Translation::translate('Zone Breakdown', $this->module, $this->package),
             $aHeaders,
             $aData
         );
