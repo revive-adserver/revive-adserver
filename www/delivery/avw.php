@@ -1104,6 +1104,16 @@ $aVariables = OA_Delivery_Cache_store_return($sName, $aVariables);
 }
 return $aVariables;
 }
+function MAX_cacheGetMaintenanceInfo($cached = true)
+{
+$cName  = OA_Delivery_Cache_getName(__FUNCTION__);
+if (!$cached || ($output = OA_Delivery_Cache_fetch($cName, false, 30)) === false) {
+MAX_Dal_Delivery_Include();
+$output = OA_Dal_Delivery_getMaintenanceInfo();
+$output = OA_Delivery_Cache_store_return($cName, $output);
+}
+return $output;
+}
 function MAX_cacheGetChannelLimitations($channelid, $cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $channelid);
@@ -2121,8 +2131,10 @@ MAX_cookieFlush();
 MAX_commonDisplay1x1();
 }
 if (!empty($GLOBALS['_MAX']['CONF']['maintenance']['autoMaintenance']) && empty($GLOBALS['_MAX']['CONF']['lb']['enabled'])) {
+if (time() >= MAX_cacheGetMaintenanceInfo() + 3600) {
 include MAX_PATH . '/lib/OA/Maintenance/Auto.php';
 OA_Maintenance_Auto::run();
+}
 }
 
 
