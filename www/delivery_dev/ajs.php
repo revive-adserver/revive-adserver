@@ -63,9 +63,10 @@ if (isset($exclude) && $exclude != '' && $exclude != ',') {
 // Get the banner
 $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
-// Save the context array into a javascript variable
+// Append any data to the context array
 if (isset($output['context']) && is_array($output['context'])) {
-    $JScontext = "<script type='text/javascript'>document.context='".base64_encode(serialize($output['context']))."'; </script>";
+    $aContext = array_merge($context, $output['context']);
+    $JScontext = "<script type='text/javascript'>document.context='".base64_encode(serialize($aContext))."'; </script>";
 } else { $JScontext = ''; }
 
 MAX_cookieFlush();
