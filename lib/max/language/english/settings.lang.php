@@ -462,12 +462,13 @@ $GLOBALS['strGuiHeaderTextColor']                    = 'Color of the text in the
 $GLOBALS['strColorError']                            = 'Please enter colors in an RGB format, like \'0066CC\'';
 
 $GLOBALS['strGzipContentCompression']                = 'Use GZIP Content Compression';
-$GLOBALS['strClientInterface']                       = 'Advertiser Interface';
+$GLOBALS['strClientInterface']                       = 'Advertiser Settings';
 $GLOBALS['strReportsInterface']                      = 'Reports Interface';
 $GLOBALS['strClientWelcomeEnabled']                  = 'Enable Advertiser Welcome Message';
 $GLOBALS['strClientWelcomeText']                     = 'Welcome Text<br />(HTML Tags Allowed)';
+$GLOBALS['strClientEnableConversionTracking']        = 'Enable Conversion Tracking';
 
-$GLOBALS['strPublisherInterface']                    = 'Publisher interface';
+$GLOBALS['strPublisherInterface']                    = 'Publisher Settings';
 $GLOBALS['strPublisherAgreementEnabled']             = 'Enable login control for publishers who haven\'t accepted Terms and Conditions';
 $GLOBALS['strPublisherAgreementText']                = 'Login text (HTML tags allowed)';
 

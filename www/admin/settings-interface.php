@@ -45,10 +45,10 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     phpAds_registerGlobal('name', 'my_header', 'my_footer', 'my_logo',
                           'gui_header_foreground_color', 'gui_header_background_color',
                           'gui_header_active_tab_color', 'gui_header_text_color',
-                          'client_welcome', 'client_welcome_msg',
+                          'client_welcome', 'client_welcome_msg', 'client_enable_conversion_tracking',
                           'publisher_welcome', 'publisher_welcome_msg',
                           'content_gzip_compression', 'default_tracker_status',
-                          'default_tracker_type', 'default_tracker_linkcampaigns', 
+                          'default_tracker_type', 'default_tracker_linkcampaigns',
                           'publisher_agreement', 'publisher_agreement_text', 'more_reports');
     // Set up the preferences object
     $preferences = new MAX_Admin_Preferences();
@@ -120,6 +120,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     if (isset($client_welcome_msg)) {
         $preferences->setPrefChange('client_welcome_msg', $client_welcome_msg);
     }
+    $preferences->setPrefChange('client_enable_conversion_tracking', isset($client_enable_conversion_tracking));
     $preferences->setPrefChange('publisher_welcome', isset($publisher_welcome));
     if (isset($publisher_welcome_msg)) {
         $preferences->setPrefChange('publisher_welcome_msg', $publisher_welcome_msg);
@@ -166,7 +167,7 @@ $settings = array (
         'text'  => $strGeneralSettings,
         'items' => array (
             array (
-                'type'    => 'text', 
+                'type'    => 'text',
                 'name'    => 'name',
                 'text'    => $strAppName,
                 'size'    => 35
@@ -175,7 +176,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'text', 
+                'type'    => 'text',
                 'name'    => 'my_header',
                 'text'    => $strMyHeader,
                 'size'    => 35
@@ -184,7 +185,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'text', 
+                'type'    => 'text',
                 'name'    => 'my_footer',
                 'text'    => $strMyFooter,
                 'size'    => 35
@@ -256,10 +257,47 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'textarea', 
+                'type'    => 'textarea',
                 'name'    => 'client_welcome_msg',
                 'text'    => $strClientWelcomeText,
                 'depends' => 'client_welcome==true'
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'checkbox',
+                'name'    => 'client_enable_conversion_tracking',
+                'text'    => $strClientEnableConversionTracking
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'select',
+                'name'    => 'default_tracker_status',
+                'text'    => $strDefaultTrackerStatus,
+                'items'   => $statuses,
+                'depends' => 'client_enable_conversion_tracking==true'
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'select',
+                'name'    => 'default_tracker_type',
+                'text'    => $strDefaultTrackerType,
+                'items'   => $trackerTypes,
+                'depends' => 'client_enable_conversion_tracking==true'
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'checkbox',
+                'name'    => 'default_tracker_linkcampaigns',
+                'text'    => $strLinkCampaignsByDefault,
+                'depends' => 'client_enable_conversion_tracking==true'
             )
         )
     ),
@@ -275,7 +313,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'textarea', 
+                'type'    => 'textarea',
                 'name'    => 'publisher_welcome_msg',
                 'text'    => $strClientWelcomeText,
                 'depends' => 'publisher_welcome==true'
@@ -292,38 +330,10 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'textarea', 
+                'type'    => 'textarea',
                 'name'    => 'publisher_agreement_text',
                 'text'    => $strPublisherAgreementText,
                 'depends' => 'publisher_agreement==true'
-            )
-        )
-    ),
-    array (
-        'text'  => $strTracker,
-        'items' => array (
-            array (
-                'type'    => 'select', 
-                'name'    => 'default_tracker_status',
-                'text'    => $strDefaultTrackerStatus,
-                'items'   => $statuses
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'select', 
-                'name'    => 'default_tracker_type',
-                'text'    => $strDefaultTrackerType,
-                'items'   => $trackerTypes
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'checkbox', 
-                'name'    => 'default_tracker_linkcampaigns',
-                'text'    => $strLinkCampaignsByDefault
             )
         )
     ),
@@ -336,7 +346,7 @@ $settings = array (
                 'text'    => $strAllowMoreReports
             )
         )
-    )    
+    )
 );
 
 phpAds_ShowSettings($settings, $errormessage);
