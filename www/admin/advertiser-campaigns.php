@@ -87,10 +87,15 @@ while ($doClients->fetch() && $row = $doClients->toArray()) {
 
 phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
 
+$pref = &$GLOBALS['_MAX']['PREF'];
 if (phpAds_isUser(phpAds_Agency) || phpAds_isUser(phpAds_Admin)) {
     phpAds_PageHeader("4.1.3");
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
-	phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.4"));
+    if ($pref['client_enable_conversion_tracking'] == '') {
+        phpAds_ShowSections(array("4.1.2", "4.1.3"));
+    } else {
+    	phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.4"));
+    }
 } else {
     phpAds_PageHeader("2");
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
@@ -103,10 +108,9 @@ if (phpAds_isUser(phpAds_Agency) || phpAds_isUser(phpAds_Admin)) {
 
 if (!isset($hideinactive)) {
 	if (isset($session['prefs']['advertiser-campaigns.php'][$clientid]['hideinactive'])) {
-		$hideinactive = $session['prefs']['advertiser-campaigns.php'][$clientid]['hideinactive'];
+        $hideinactive = $session['prefs']['advertiser-campaigns.php'][$clientid]['hideinactive'];
 	} else {
-	   $pref = &$GLOBALS['_MAX']['PREF'];
-	   $hideinactive = ($pref['gui_hide_inactive'] == 't');
+        $hideinactive = ($pref['gui_hide_inactive'] == 't');
 	}
 }
 
