@@ -480,6 +480,13 @@ class OA_DB_Upgrade
             return false;
         }
 
+        if (array_key_exists('add',$aChanges['constructive']['tables']))
+        {
+            foreach ($aChanges['constructive']['tables']['add'] AS $k => $v)
+            {
+                $this->_log('table is missing: '.$k);
+            }
+        }
         if (array_key_exists('change', $aChanges['constructive']['tables']))
         {
             foreach ($aChanges['constructive']['tables']['change'] AS $k => $v)
@@ -492,30 +499,21 @@ class OA_DB_Upgrade
                     {
                         foreach ($v['add'] AS $column => $bool)
                         {
-                            $this->_log('column is from table: '.$k.'.'.$column);
+                            $this->_log('column missing from table: '.$k.'.'.$column);
                         }
                     }
                     if (isset($v['change']))
                     {
-                        $this->_log('column definition does not match: '.$k.'.'.$v['change']);
+                        $this->_log('column definition does not match: '.$k.'.'.key($v['change']['fields']));
                     }
-                }
-            }
-        }
-        if (array_key_exists('change', $aChanges['destructive']['tables']))
-        {
-            foreach ($aChanges['destructive']['tables']['change'] AS $k => $v)
-            {
-                // empty arrays should not exist
-                // if they do then its most likely a
-                // problem with the compare function somewhere (probably in mdb2 driver)
-                if (count($v)>0)
-                {
-                    if (isset($v['remove']))
+                    if (isset($v['indexes']))
                     {
-                        foreach ($v['remove'] AS $column => $bool)
+                        if (isset($v['indexes']['add']))
                         {
-                            $this->_log('column is not part of table schema: '.$k.'.'.$column);
+                            foreach ($v['indexes']['add'] AS $index => $def)
+                            {
+                                $this->_log('index missing from table: '.$k.'.'.$index);
+                            }
                         }
                     }
                 }
@@ -526,13 +524,6 @@ class OA_DB_Upgrade
             foreach ($aChanges['destructive']['tables']['remove'] AS $k => $v)
             {
                 $this->_log('table is not part of schema: '.$k);
-            }
-        }
-        if (array_key_exists('add',$aChanges['constructive']['tables']))
-        {
-            foreach ($aChanges['constructive']['tables']['add'] AS $k => $v)
-            {
-                $this->_log('table is missing: '.$k);
             }
         }
         $this->aChanges = $aChanges;
@@ -2266,25 +2257,28 @@ class OA_DB_Upgrade
 
     function _stripPrefixesFromDatabaseDefinition($aDefinition)
     {
-        foreach ($aDefinition['tables'] AS $tablename => $aDef)
+        if ($this->prefix !== '')
         {
-            $strippedname = str_replace($this->prefix, '', $tablename);
-            if (isset($aDef['indexes']))
+            foreach ($aDefinition['tables'] AS $tablename => $aDef)
             {
-                foreach ($aDef['indexes'] AS $indexname => $aIndex)
+                $strippedname = str_replace($this->prefix, '', $tablename);
+                if (isset($aDef['indexes']))
                 {
-                    if (isset($aIndex['primary']))
+                    foreach ($aDef['indexes'] AS $indexname => $aIndex)
                     {
-                        $strippedidx = str_replace($this->prefix, '', $indexname);
-                        $aDef['indexes'][$strippedidx] = $aIndex;
-                        unset($aDef['indexes'][$indexname]);
+                        if (isset($aIndex['primary']))
+                        {
+                            $strippedidx = str_replace($this->prefix, '', $indexname);
+                            $aDef['indexes'][$strippedidx] = $aIndex;
+                            unset($aDef['indexes'][$indexname]);
+                        }
                     }
                 }
+                $aTables[$strippedname] = $aDef;
             }
-            $aTables[$strippedname] = $aDef;
+            unset($aDefinition['tables']);
+            $aDefinition['tables'] = $aTables;
         }
-        unset($aDefinition['tables']);
-        $aDefinition['tables'] = $aTables;
         return $aDefinition;
     }
 
