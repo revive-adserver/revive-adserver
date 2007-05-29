@@ -133,6 +133,11 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
 {
     $conf = $GLOBALS['_MAX']['CONF'];
 
+    // For local mode and XML-RPC calls the $source parameter is not set in the global scope
+    // So we need to override the empty (global) $source with the value passed into this function.
+    if (empty($GLOBALS['source'])) {
+        $GLOBALS['source'] = $source;
+    }
     // Store the original zone, campaign or banner IDs for later use
     if (strpos($what,'zone:') === 0) {
         $originalZoneId = intval(substr($what,5));
