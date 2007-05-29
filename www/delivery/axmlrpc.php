@@ -2107,7 +2107,7 @@ $aAds = $aLinkedAds[$adArrayVar];
 $aAds = array();
 }
 if (count($aAds) == 0) { return; }
-$aContext = _adSelectBuildContextArray($aAds, $context);
+$aContext = _adSelectBuildContextArray($aAds, $adArrayVar, $context);
 $aAds = _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia);
 if (count($aAds) == 0) { return; }
 if (!is_null($cp)) {
@@ -2199,7 +2199,7 @@ return false;
 }
 return true;
 }
-function _adSelectBuildContextArray(&$aLinkedAds, $context)
+function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context)
 {
 $aContext = array(
 'campaign' => array('exclude' => array(), 'include' => array()),
