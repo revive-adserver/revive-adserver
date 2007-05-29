@@ -26,6 +26,7 @@ $Id:IndexModule.php 4204 2006-02-10 09:55:36Z roh@m3.net $
 */
 
 // Include required files
+require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';
 require_once MAX_PATH . '/lib/max/language/Report.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
@@ -81,6 +82,11 @@ class OA_Admin_Reports_Index
     {
         $aDisplayablePlugins = $this->_findDisplayableReports();
         $oPlugin = $aDisplayablePlugins[$reportIdentifier];
+        if (is_null($oPlugin)) {
+            // Cannot use this plugin! display the reports instead
+            $this->displayReports();
+            return;
+        }
         $this->_groupReportPluginGeneration($oPlugin, $reportIdentifier);
     }
 
