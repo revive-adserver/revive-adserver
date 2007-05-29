@@ -523,11 +523,12 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
     while ($prioritysum && sizeof($aAds) > 0) {
         $low = 0;
         $high = 0;
+        $paidPriorityCounter = 0;
         if (($adArrayVar == 'ads') || ($adArrayVar == 'cAds')) {
             // Paid campaigns have a sum of priorities of unity, so pick
             // a random number between 0 and $prioritysum, inclusive.
             $ranweight = (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) / $GLOBALS['_MAX']['MAX_RAND']) * $prioritysum;
-            $paidPriorityCounter = 0;
+
         } else {
             // All other campaigns have integer-based priority values, so
             // select a random number between 0 and the sum of all the
