@@ -31,12 +31,24 @@ $Id$
 require_once MAX_PATH . '/plugins/reports/Reports.php';
 
 /**
+ * A plugin to generate a report showing the breakdown of delivery for the
+ * admin user and any agencies in the system. The report contains a single
+ * worksheet:
+ *
+ * Agency Breakdown:
+ *  - A breakdown of the delivery grouped by agency.
+ *
+ * In all cases, "delivery" is:
+ *  - Impressions
+ *  - Clicks
+ *  - Conversions
+ *
  * @package    MaxPlugin
  * @subpackage Reports
+ * @author     Andrew Hill <andrew.hill@openads.org>
  * @author     Chris Nutting <chris@m3.net>
  * @author     Radek Maciaszek <radek@m3.net>
  */
-
 class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
 {
 
