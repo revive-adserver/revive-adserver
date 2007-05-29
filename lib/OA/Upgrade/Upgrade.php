@@ -239,7 +239,7 @@ class OA_Upgrade
         $this->oLogger->logClear();
         $this->detectPAN();
         $strProductName = 'Openads 2.0';
-        
+
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_PAN_NOT_INSTALLED:
@@ -255,7 +255,7 @@ class OA_Upgrade
                 $this->oLogger->log($strProductName.$strDetected);
                 $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strTableError);
-                break;                
+                break;
             case OA_STATUS_PAN_VERSION_FAILED:
                 $this->oLogger->log($strProductName.$this->versionInitialApplication.' detected');
                 $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
@@ -401,7 +401,7 @@ class OA_Upgrade
                          );
                 if ($valid)
                 {
-                    $this->versionInitialSchema['tables_core'] = '99';
+                    $this->versionInitialSchema['tables_core'] = '099';
                     $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
                     $this->package_file = 'openads_upgrade_2.0.11_to_2.3.32_beta.xml';
                     $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
@@ -902,7 +902,7 @@ class OA_Upgrade
         }
         return true;
     }
-    
+
     /**
      * calls the dummy data class insert() method
      * which uses the DataGenerator to insert some data
