@@ -635,10 +635,10 @@ class OA_Upgrade
      */
     function _createDatabase()
     {
-        $this->oDbh = &OA_DB::singleton(OA_DB::getDsn($this->aDsn));
         $GLOBALS['_MAX']['CONF']['database']          = $this->aDsn['database'];
         $GLOBALS['_MAX']['CONF']['table']['prefix']   = $this->aDsn['table']['prefix'];
         $GLOBALS['_MAX']['CONF']['table']['type']     = $this->aDsn['table']['type'];
+        $this->oDbh = &OA_DB::singleton(OA_DB::getDsn($this->aDsn));
         if (PEAR::isError($this->oDbh))
         {
             $GLOBALS['_OA']['CONNECTIONS']  = array();

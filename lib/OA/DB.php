@@ -75,11 +75,6 @@ class OA_DB
         if (strpos($dsn, '//:@') !== false) {
             return false;
         }
-        
-        // Check if we are installing, otherwise $aConf will have default values.
-        if (!empty($GLOBALS['installing'])) {
-                $aConf['database']['type'] = $this->aDsn['database']['type'];
-        }
 
         // Create an MD5 checksum of the DSN
         $dsnMd5 = md5($dsn);
