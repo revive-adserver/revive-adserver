@@ -481,7 +481,7 @@ function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'a
     if (count($aAds) == 0) { return; }
 
     // Build preconditions
-    $aContext = _adSelectBuildContextArray($aAds, $context);
+    $aContext = _adSelectBuildContextArray($aAds, $adArrayVar, $context);
 
     // New delivery algorithm: discard all invalid ads before iterating over them
     $aAds = _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia);
@@ -627,7 +627,7 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
     return true;
 }
 
-function _adSelectBuildContextArray(&$aLinkedAds, $context)
+function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context)
 {
     $aContext = array(
         'campaign' => array('exclude' => array(), 'include' => array()),
