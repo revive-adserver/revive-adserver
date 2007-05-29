@@ -473,6 +473,8 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
         case 'float':
         case 'double':
         case 'real':
+        case 'float4':
+        case 'float8':
             $type[] = 'float';
             break;
         case 'decimal':
