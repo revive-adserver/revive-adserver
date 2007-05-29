@@ -142,7 +142,7 @@ CREATE TABLE `oa_banners` (
   PRIMARY KEY  (`bannerid`),
   KEY `banners_campaignid` (`campaignid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `oa_banners` VALUES (1,1,'t','',0,'html','','','Test HTML Banner!','',468,60,1,0,'','','','','','','t','',0,0,0,'(MAX_checkSite_Channel(\'7\', \'=~\'))','Site:Channel','',0,0,'','','','','2007-05-15 15:01:43','2007-05-15 15:01:43','',0,'N;'),(2,2,'t','',0,'html','','','html test banner','html test banner',468,60,1,0,'','http://www.example.com','','','','test banner','t','',0,0,0,'',NULL,'',0,0,'','','','','2007-05-16 13:03:46','0000-00-00 00:00:00','',0,'N;'),(3,3,'t','gif',0,'sql','468x60.gif','','','',468,60,1,0,'','http://www.example.com','alt text','','','sample gif banner','f','',0,0,0,'',NULL,'',0,0,'','','','','2007-05-23 10:21:58','0000-00-00 00:00:00','',0,'N;');
+INSERT INTO `oa_banners` VALUES (1,1,'t','',0,'html','','','Test HTML Banner!','',468,60,1,0,'','','','','','','t','',0,0,0,'(MAX_checkSite_Channel(\'7\', \'=~\'))','Site:Channel','',0,0,'','','','','2007-05-15 15:01:43','2007-05-15 15:01:43','',0,'N;'),(2,2,'t','',0,'html','','','html test banner','html test banner',468,60,1,0,'','http://localhost','','','','test banner','t','',0,0,0,'',NULL,'',0,0,'','','','','2007-05-16 13:03:46','0000-00-00 00:00:00','',0,'N;'),(3,3,'t','gif',0,'sql','468x60.gif','','','',468,60,1,0,'','http://localhost','alt text','','','sample gif banner','f','',0,0,0,'',NULL,'',0,0,'','','','','2007-05-23 10:21:58','0000-00-00 00:00:00','',0,'N;');
 CREATE TABLE `oa_campaigns` (
   `campaignid` mediumint(9) NOT NULL auto_increment,
   `campaignname` varchar(255) NOT NULL default '',

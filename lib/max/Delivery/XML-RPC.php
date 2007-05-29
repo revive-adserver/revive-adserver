@@ -129,7 +129,11 @@ function xmlRpcView($params)
     // Convert the output and cookies into XML_RPC_Values
     if (count($output) > 0) {
         foreach ($output as $key => $value) {
-            $output[$key] = new XML_RPC_Value($value, $XML_RPC_String);
+            if (is_array($value)) {
+                $output[$key] = new XML_RPC_Value($value, $XML_RPC_Struct);
+            } else {
+                $output[$key] = new XML_RPC_Value($value, $XML_RPC_String);
+            }
         }
         $outputValue = new XML_RPC_Value($output, $XML_RPC_Struct);
     }
@@ -140,9 +144,9 @@ function xmlRpcView($params)
             foreach ($value as $ikey => $ivalue) {
                 $cookie[$ikey] = new XML_RPC_Value($ivalue, $XML_RPC_String);
             }
-            $cookies[$key] = new XML_RPC_Value($cookie, $XML_RPC_Array);
+            $cookies[$key] = new XML_RPC_Value($cookie, $XML_RPC_Struct);
         }
-        $cookieValue = new XML_RPC_Value($cookies, $XML_RPC_Array);
+        $cookieValue = new XML_RPC_Value($cookies, $XML_RPC_Struct);
     }
     // Return the output and cookies
     $returnArray = array();
