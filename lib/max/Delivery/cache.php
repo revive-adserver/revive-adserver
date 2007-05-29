@@ -80,7 +80,7 @@ function OA_Delivery_Cache_fetch($name, $isHash = false)
         // The method used to implement cache expiry imposes two cache writes if the cache is
         // expired and the database is available, but avoid the need to check for file existence
         // and modification time.
-        if (isset($cache_expiry) && $cache_expiry < MAX_commonGetTimeNow()) {
+        if (isset($cache_time) && $cache_time < MAX_commonGetTimeNow() - $GLOBALS['OA_Delivery_Cache']['expiry']) {
             // Update expiry, needed to enable permanent caching if needed
             OA_Delivery_Cache_store($name, $cache_contents, $isHash);
             return false;
@@ -111,12 +111,12 @@ function OA_Delivery_Cache_store($name, $cache, $isHash = false)
     }
     
     $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
-    $expiry   = MAX_commonGetTimeNow() + $GLOBALS['OA_Delivery_Cache']['expiry'];
+    // $GLOBALS['OA_Delivery_Cache']['expiry']
 
     $cache_literal  = "<"."?php\n\n";
     $cache_literal .= "$"."cache_contents = ".var_export($cache, true).";\n\n";
     $cache_literal .= "$"."cache_name     = '".addcslashes($name, "'")."';\n";
-    $cache_literal .= "$"."cache_expiry   = ".$expiry.";\n";
+    $cache_literal .= "$"."cache_time     = ".MAX_commonGetTimeNow().";\n";
     $cache_literal .= "$"."cache_complete = true;\n\n";
     $cache_literal .= "?".">";
 
