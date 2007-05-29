@@ -1229,8 +1229,7 @@ return join('???', $args);
 function MAX_cacheGetAd($ad_id, $cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $ad_id);
-if (($aRows = OA_Delivery_Cache_fetch($sName)) !== false) {
-} else {
+if (!$cached || ($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
 MAX_Dal_Delivery_Include();
 $aRows = OA_Dal_Delivery_getAd($ad_id);
 $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
@@ -1240,7 +1239,7 @@ return $aRows;
 function MAX_cacheGetZoneLinkedAds($zoneId, $cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
-if (($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
+if (!$cached || ($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
 MAX_Dal_Delivery_Include();
 $aRows = OA_Dal_Delivery_getZoneLinkedAds($zoneId);
 $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
@@ -1250,7 +1249,7 @@ return $aRows;
 function MAX_cacheGetZoneInfo($zoneId, $cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
-if (($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
+if (!$cached || ($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
 MAX_Dal_Delivery_Include();
 $aRows = OA_Dal_Delivery_getZoneInfo($zoneId);
 $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
@@ -1260,7 +1259,7 @@ return $aRows;
 function MAX_cacheGetLinkedAds($search, $campaignid, $laspart, $cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $search, $campaignid, $laspart);
-if (($aAds = OA_Delivery_Cache_fetch($sName)) === false) {
+if (!$cached || ($aAds = OA_Delivery_Cache_fetch($sName)) === false) {
 MAX_Dal_Delivery_Include();
 $aAds = OA_Dal_Delivery_getLinkedAds($search, $campaignid, $laspart);
 $aAds = OA_Delivery_Cache_store_return($sName, $aAds);
@@ -1270,7 +1269,7 @@ return $aAds;
 function MAX_cacheGetCreative($filename, $cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $filename);
-if (($aCreative = OA_Delivery_Cache_fetch($sName)) === false) {
+if (!$cached || ($aCreative = OA_Delivery_Cache_fetch($sName)) === false) {
 MAX_Dal_Delivery_Include();
 $aCreative = OA_Dal_Delivery_getCreative($filename);
 $aCreative['contents'] = addslashes(serialize($aCreative['contents']));
@@ -1282,7 +1281,7 @@ return $aCreative;
 function MAX_cacheGetTracker($trackerid, $cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
-if (($aTracker = OA_Delivery_Cache_fetch($sName)) === false) {
+if (!$cached || ($aTracker = OA_Delivery_Cache_fetch($sName)) === false) {
 MAX_Dal_Delivery_Include();
 $aTracker = OA_Dal_Delivery_getTracker($trackerid);
 $aTracker = OA_Delivery_Cache_store_return($sName, $aTracker, $isHash = true);
@@ -1292,7 +1291,7 @@ return $aTracker;
 function MAX_cacheGetTrackerVariables($trackerid, $cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $trackerid);
-if (($aVariables = OA_Delivery_Cache_fetch($sName)) === false) {
+if (!$cached || ($aVariables = OA_Delivery_Cache_fetch($sName)) === false) {
 MAX_Dal_Delivery_Include();
 $aVariables = OA_Dal_Delivery_getTrackerVariables($trackerid);
 $aVariables = OA_Delivery_Cache_store_return($sName, $aVariables);
@@ -1302,7 +1301,7 @@ return $aVariables;
 function MAX_cacheGetChannelLimitations($channelid, $cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $channelid);
-if (($limitations = OA_Delivery_Cache_fetch($sName)) === false) {
+if (!$cached || ($limitations = OA_Delivery_Cache_fetch($sName)) === false) {
 MAX_Dal_Delivery_Include();
 $limitations = OA_Dal_Delivery_getChannelLimitations($channelid);
 $limitations = OA_Delivery_Cache_store_return($sName, $limitations);
@@ -1312,7 +1311,7 @@ return $limitations;
 function MAX_cacheGetGoogleJavaScript($cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__);
-if (($output = OA_Delivery_Cache_fetch($sName)) === false) {
+if (!$cached || ($output = OA_Delivery_Cache_fetch($sName)) === false) {
 include MAX_PATH . '/lib/max/Delivery/google.php';
 $output = MAX_googleGetJavaScript();
 $output = OA_Delivery_Cache_store_return($sName, $output);
