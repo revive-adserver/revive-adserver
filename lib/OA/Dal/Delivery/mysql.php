@@ -641,6 +641,33 @@ function OA_Dal_Delivery_getTrackerVariables($trackerid)
 }
 
 /**
+ * This function retrieves the last run timestamp from auto maintenance
+ *
+ * @return string            The timestamp for the last time auto maintenance ran
+ */
+function OA_Dal_Delivery_getMaintenanceInfo()
+{
+    $conf = $GLOBALS['_MAX']['CONF'];
+    $result = OA_Dal_Delivery_query("
+        SELECT
+            maintenance_timestamp
+        FROM
+            {$conf['table']['prefix']}{$conf['table']['preference']}
+    ");
+    if (!is_resource($result)) {
+        if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
+            return OA_DELIVERY_CACHE_FUNCTION_ERROR;
+        } else {
+            return null;
+        }
+    } else {
+        $result = mysql_fetch_assoc($result);
+
+        return $result['maintenance_timestamp'];
+    }
+}
+
+/**
  * A function to insert ad requests, ad impressions, ad clicks
  * and tracker clicks into the raw tables. Does NOT work with
  * tracker impressions.

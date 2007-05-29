@@ -427,6 +427,26 @@ function MAX_cacheGetTrackerVariables($trackerid, $cached = true)
 }
 
 /**
+ * Cache-wrapper for OA_Dal_Delivery_getMaintenanceInfo
+ *
+ * This function gets maintenance's last run info
+ *
+ * @param boolean $cached   Should a cache lookup be performed?
+ * @return array            The array of tracker properties
+ */
+function MAX_cacheGetMaintenanceInfo($cached = true)
+{
+    $cName  = OA_Delivery_Cache_getName(__FUNCTION__);
+    if (!$cached || ($output = OA_Delivery_Cache_fetch($cName, false, 30)) === false) {
+        MAX_Dal_Delivery_Include();
+        $output = OA_Dal_Delivery_getMaintenanceInfo();
+        $output = OA_Delivery_Cache_store_return($cName, $output);
+    }
+
+    return $output;
+}
+
+/**
  * Cache-wrapper for OA_Dal_Delivery_getChannelLimitations
  *
  * The function to get delivery limitations for a channel
