@@ -1739,9 +1739,9 @@ $prioritysum += $aAd['priority'];
 while ($prioritysum && sizeof($aAds) > 0) {
 $low = 0;
 $high = 0;
+$paidPriorityCounter = 0;
 if (($adArrayVar == 'ads') || ($adArrayVar == 'cAds')) {
 $ranweight = (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) / $GLOBALS['_MAX']['MAX_RAND']) * $prioritysum;
-$paidPriorityCounter = 0;
 } else {
 $ranweight = ($prioritysum > 1) ? mt_rand(0, $prioritysum - 1) : 0;
 }
