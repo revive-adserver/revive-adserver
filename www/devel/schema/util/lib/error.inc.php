@@ -11,8 +11,9 @@ function getSchemas()
     $opts = '';
     $dh = opendir(MAX_VAR);
     if ($dh) {
-        while (false !== ($schema_file = readdir($dh))) {
-            if (strpos($schema_file, 'mdbs_')===0)
+        while (false !== ($schema_file = readdir($dh)))
+        {
+            if (preg_match('/(\.xml)/', $schema_file))
             {
                 $opts.= '<option value="'.$schema_file.'">'.$schema_file.'</option>';
             }
@@ -39,7 +40,9 @@ function getChangesets()
     $dh = opendir(MAX_VAR);
     if ($dh) {
         while (false !== ($change_file = readdir($dh))) {
-            if (strpos($change_file, 'mdbc_')===0)
+//            if (strpos($change_file, 'mdbc_')===0)
+//            {
+            if (preg_match('/(\.xml)/', $change_file))
             {
                 $opts.= '<option value="'.$change_file.'">'.$change_file.'</option>';
             }

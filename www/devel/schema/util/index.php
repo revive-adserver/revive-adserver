@@ -26,8 +26,7 @@ if (array_key_exists('dump', $_POST) ||
 
     $mdb = &OA_DB::singleton(OA_DB::getDsn($aConf));
 
-    $options = array(   'force_defaults'=>false,
-                     );
+    $options = array(   'force_defaults'=>false );
 
     $schema = & MDB2_Schema::factory($mdb, $options);
 
@@ -37,7 +36,7 @@ if (array_key_exists('dump', $_POST) ||
         $dumpfile_mdbs = $_POST['dumpfile_mdbs'];
         $options = array (
                             'output_mode'   =>    'file',
-                            'output'        =>    MAX_VAR.'/mdbs_'.$dumpfile_mdbs.'.xml',
+                            'output'        =>    MAX_VAR.'/'.$dumpfile_mdbs.'.xml',
                             'end_of_line'   =>    "\n",
                             'xsl_file'      =>    "/devel/schema/util/xsl/mdb2_schema.xsl",
                             'custom_tags'   => array('version'=>'0', 'status'=>'transitional')
@@ -59,7 +58,7 @@ if (array_key_exists('dump', $_POST) ||
         $changes    = $schema->compareDefinitions($parse_curr, $parse_prev);
 
         $dumpfile_mdbc = $_POST['dumpfile_mdbc'];
-        $changes['name'] = 'mdbc_'.$dumpfile_mdbc.'.xml';
+        $changes['name'] = $dumpfile_mdbc;
         $options = array (
                             'output_mode'   =>    'file',
                             'output'        =>    MAX_VAR.'/'.$changes['name'],
