@@ -5,10 +5,12 @@
   -->
 <project name="delivery" basedir="." default="main">
 
-  <property name="openads.path" value="${basedir}/../.."/>
-
   <import file="includes/init.xml"/>
   
+  <property name="openads.path" value="${basedir}/../.."/>
+  <property name="openads.url" value="${protocol}://${host}:80${basepath}"/>
+  <property name="openads.example_url" value="${openads.url}/example.php"/>
+
   <target name="www-admin">
     <ant antfile="usecases/loginTest.xml" />
   </target>
@@ -27,6 +29,9 @@
           <include name="**/*.jar"/>
         </fileset>
       </classpath>
+      <transaction>
+        UPDATE oa_banners SET url = "${openads.url}" WHERE url = "http://www.example.com"
+      </transaction>
     </sql>
   </target>
   
@@ -38,7 +43,7 @@
     <ant antfile="usecases/delivery/ajs.xml" />
     <ant antfile="usecases/delivery/al.xml" />
     <ant antfile="usecases/delivery/alocal.xml" />
-    <ant antfile="usecases/delivery/apu.xml" />
+    <!-- <ant antfile="usecases/delivery/apu.xml" /> -->
     <ant antfile="usecases/delivery/avw.xml" />
     <ant antfile="usecases/delivery/axmlrpc.xml" />
     <ant antfile="usecases/delivery/ck.xml" />

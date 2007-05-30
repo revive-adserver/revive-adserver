@@ -20,9 +20,10 @@
     
     // resolve axmlrpc.php location
     $xmlrpcPath = substr($_SERVER['REQUEST_URI'], 0, 
-        strlen($_SERVER['REQUEST_URI']) - strlen('axmlrpc.php')) . 'delivery_dev/axmlrpc.php';
-    
-//    $xmlrpcPath .= '?start_debug=1&debug_port=10000&debug_host=127.0.0.1&debug_stop=1';
+        strlen($_SERVER['REQUEST_URI']) - strlen('axmlrpc.php')) . 'delivery/axmlrpc.php';
+
+    // Left for future debugging
+    // $xmlrpcPath .= '?start_debug=1&debug_port=10000&debug_host=127.0.0.1&debug_stop=1';
     require_once 'XML/RPC.php';
 
     global $XML_RPC_String, $XML_RPC_Boolean;
@@ -30,7 +31,8 @@
 
     // Create an XML-RPC client to talk to the XML-RPC server
     $client = new XML_RPC_Client($xmlrpcPath, $_SERVER['HTTP_HOST']);
-//    $client->debug = true;
+    // Left for future debugging
+    // $client->debug = true;
 
     // A function to serialise cookie data
     function serialiseCookies($cookies = array())

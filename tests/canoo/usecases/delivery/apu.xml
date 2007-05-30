@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<!DOCTYPE project SYSTEM                    "../../includes/WebTest.dtd" [
-  <!ENTITY config SYSTEM               "file:../../includes/config.xml">
-  <!ENTITY checkForErrors SYSTEM       "file:../../modules/errors.xml">
+<!DOCTYPE project SYSTEM          "../../includes/WebTest.dtd" [
+  <!ENTITY config SYSTEM          "../../includes/config.xml">
+  <!ENTITY checkForErrors SYSTEM  "../../modules/errors.xml">
 ]
 >
 
@@ -12,19 +12,26 @@
 <project name="Openads delivery - apu.php" basedir="../.." default="main">
   <import file="../../includes/init.xml"/>
   <import file="${webtest.home}/lib/taskdef.xml"/>
+  
+  <property name="delivery_file" value="apu.php"/>
 
   <target name="canoo-test">
+    <!-- additional preparation - copy alocal.php into www folder -->
+    <copy file="php/${delivery_file}" todir="${openads.path}/www" />
+    
     <testSpec name="Run Delivery">
       &config;
       <steps>
         <invoke description="Invoke delivery file" url="/delivery/apu.php?what=bannerid:2" />
         &checkForErrors;
-        <verifyText description="Check that it contains JavaScript" text="document.write" />
         <!-- check that its JavaScript opens the window -->
         <verifyText description="Check that it contains JavaScript" text="window.open" />
         <verifyText description="Check that JS prints: 'html test banner'" regex="true" text="html test banner" />        
       </steps>
     </testSpec>
+    
+    <!-- remove copied file after testing it -->
+    <!-- <delete file="${openads.path}/www/${delivery_file}" /> -->
   </target>
   
   <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<!DOCTYPE project SYSTEM                    "../../includes/WebTest.dtd" [
-  <!ENTITY config SYSTEM               "file:../../includes/config.xml">
-  <!ENTITY checkForErrors SYSTEM       "file:../../modules/errors.xml">
+<!DOCTYPE project SYSTEM          "../../includes/WebTest.dtd" [
+  <!ENTITY config SYSTEM          "../../includes/config.xml">
+  <!ENTITY checkForErrors SYSTEM  "../../modules/errors.xml">
 ]
 >
 
@@ -12,15 +12,23 @@
   <import file="../../includes/init.xml"/>
   <import file="${webtest.home}/lib/taskdef.xml"/>
 
+  <property name="destination_file" value="example.php"/>
+  
   <target name="canoo-test">
+    <!-- additional preparation - copy alocal.php into www folder -->
+    <copy file="php/${destination_file}" todir="${openads.path}/www" />
+    
     <testSpec name="Run Delivery">
       &config;
       <steps>
-        <invoke description="Invoke delivery file" url="/delivery/ck.php?maxparams=2__bannerid=3__zoneid=0__cb=5ec806661f__maxdest=http://www.example.com" />
+        <invoke description="Invoke delivery file" url="/delivery/ck.php?maxparams=2__bannerid=3__zoneid=0__cb=5ec806661f__maxdest=${openads.example_url}" />
         &checkForErrors;
-        <verifyTitle description="Check that browser was redirected to www.example.com" text="Example Web Page" />
+        <verifyTitle description="Check that browser was redirected to example page" text="Example Web Page" />
       </steps>
     </testSpec>
+    
+    <!-- remove copied file after testing it -->
+    <delete file="${openads.path}/www/${destination_file}" />
   </target>
 
   <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->

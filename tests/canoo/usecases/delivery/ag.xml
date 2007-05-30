@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<!DOCTYPE project SYSTEM                    "../../includes/WebTest.dtd" [
-  <!ENTITY config SYSTEM               "file:../../includes/config.xml">
-  <!ENTITY checkForErrors SYSTEM       "file:../../modules/errors.xml">
+<!DOCTYPE project SYSTEM           "../../includes/WebTest.dtd" [
+  <!ENTITY config SYSTEM           "../../includes/config.xml">
+  <!ENTITY checkForErrors SYSTEM   "../../modules/errors.xml">
 ]
 >
 
