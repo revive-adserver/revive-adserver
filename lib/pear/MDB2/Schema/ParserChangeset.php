@@ -48,7 +48,7 @@ class MDB2_Changeset_Parser extends XML_Parser
 
     var $constructive_changeset_definition = array('name'=>'','version'=>'', 'tables' => array());
     var $destructive_changeset_definition = array('name'=>'','version'=>'', 'tables' => array());
-    var $test;
+//    var $test;
 
     var $tasks = array();
     var $hooks = array();
@@ -260,7 +260,7 @@ class MDB2_Changeset_Parser extends XML_Parser
             case 'instructionset':
                 $this->instructionset['tasks'] = $this->tasks;
                 $this->instructionset['hooks'] = $this->hooks;
-                $this->instructionset['test'] = $this->test;
+//                $this->instructionset['test'] = $this->test;
                 $this->instructionset['objectmap'] = $this->objectmap;
             	break;
             case 'instructionset-name':
@@ -494,11 +494,7 @@ class MDB2_Changeset_Parser extends XML_Parser
             }
             $data = $this->variables[$data];
         }
-//        $i = array_search($this->element, $this->instructionset);
-//        if (!$i)
-//        {
-            $this->test[] = $this->element;
-//        }
+//            $this->test[] = $this->element;
         switch ($this->element)
         {
             case 'instructionset':
