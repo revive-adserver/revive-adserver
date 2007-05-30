@@ -46,7 +46,7 @@ $installing = true;
 
 require_once '../../init.php';
 
-if (array_key_exists('btn_openads', $_POST))
+if (array_key_exists('btn_openads', $_POST) || $GLOBALS['_MAX']['CONF']['openads']['installed'])
 {
     header('location: http://'.$GLOBALS['_MAX']['CONF']['webpath']['admin']);
     exit();
