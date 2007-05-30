@@ -5509,15 +5509,6 @@
   <declaration>
 
    <field>
-    <name>image_id</name>
-    <type>openads_int</type>
-    <length>11</length>
-    <notnull>true</notnull>
-    <default>0</default>
-    <autoincrement>1</autoincrement>
-   </field>
-
-   <field>
     <name>filename</name>
     <type>openads_varchar</type>
     <length>128</length>
@@ -5542,7 +5533,7 @@
     <name>images_pkey</name>
     <primary>true</primary>
     <field>
-     <name>image_id</name>
+     <name>filename</name>
      <sorting>ascending</sorting>
     </field>
    </index>
