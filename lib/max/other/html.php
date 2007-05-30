@@ -1166,6 +1166,9 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
             case 'placement':
                 $otherEntityId = $aOtherEntity['placement_id'];
                 break;
+            case 'ad':
+                $otherEntityId = $aOtherEntity['ad_id'];
+                break;
         }
         $selected = $otherEntityId == $entityId ? ' selected' : '';
 
