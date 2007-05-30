@@ -46,14 +46,17 @@ $aBanner['bannerid'] = $aBanner['ad_id'];
 
 if (!empty($aBanner))
 {
-    $bannerName = strip_tags(phpAds_buildBannerName ($bannerid, $aBanner['name'], $aBanner['alt']));
-    $sizeDescription = ($aBanner['type'] == 'txt') ? '&nbsp;' : "&nbsp;&nbsp;&nbsp;width: {$aBanner['width']}&nbsp;&nbsp;height: {$aBanner['height']}";
-    $bannerCode = MAX_adRender($aBanner, 0, '', '', '', true, false, false);
+    $conf               = $GLOBALS['_MAX']['CONF'];
+    $bannerName         = strip_tags(phpAds_buildBannerName ($bannerid, $aBanner['name'], $aBanner['alt']));
+    $sizeDescription    = ($aBanner['type'] == 'txt') ? '&nbsp;' : "&nbsp;&nbsp;&nbsp;width: {$aBanner['width']}&nbsp;&nbsp;height: {$aBanner['height']}";
+    $bannerCode         = MAX_adRender($aBanner, 0, '', '', '', true, false, false);
+    $deliveryUrl        = substr($GLOBALS['_MAX']['HTTP'], 0, -2) . MAX_commonConstructPartialDeliveryUrl($conf['file']['flash']);
     echo "
 <html>
 <head>
 <title>$bannerName</title>
 <link rel='stylesheet' href='images/$phpAds_TextDirection/interface.css'>
+<script type='text/javascript' src='$deliveryUrl'></script>
 </head>
 <body marginheight='0' marginwidth='0' leftmargin='0' topmargin='0' bgcolor='#EFEFEF'>
 <table cellpadding='0' cellspacing='0' border='0'>
