@@ -89,6 +89,8 @@ class Plugins_InvocationTags_xmlrpc_xmlrpc extends Plugins_InvocationTags
             'target'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'source'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'withtext'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'block'         => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'blockcampaign' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'hostlanguage'  => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'xmlrpcproto'   => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'xmlrpctimeout' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
@@ -144,7 +146,9 @@ class Plugins_InvocationTags_xmlrpc_xmlrpc extends Plugins_InvocationTags
                 $buffer .= '    ini_set(\'include_path\', \'/usr/local/lib/php\');' . "\n";
                 $buffer .= '    require_once \'XML/RPC.php\';' . "\n\n";
                 $buffer .= '    global $XML_RPC_String, $XML_RPC_Boolean;' . "\n";
-                $buffer .= '    global $XML_RPC_Array, $XML_RPC_Struct;' . "\n\n";
+                $buffer .= '    global $XML_RPC_Array, $XML_RPC_Struct;' . "\n";
+                $buffer .= '    global $phpAds_context;' . "\n\n";
+                $buffer .= "    if (!isset($"."phpAds_context)) {\n      $"."phpAds_context = array();\n    }\n\n";
                 $buffer .= '    // Create an XML-RPC client to talk to the XML-RPC server' . "\n";
                 $buffer .= '    $client = new XML_RPC_Client(\'' . $mi->params['path'] . '\', \'' . $mi->params['host'] . '\'';
                 if (isset($mi->params['port'])) {
@@ -176,7 +180,8 @@ class Plugins_InvocationTags_xmlrpc_xmlrpc extends Plugins_InvocationTags
                 $buffer .= '    $message->addParam(new XML_RPC_Value(\'' . $mi->source . '\', $XML_RPC_String));' . "\n";
                 $buffer .= '    $message->addParam(new XML_RPC_Value(\'' . $mi->withtext . '\', $XML_RPC_Boolean));' . "\n";
                 $buffer .= '    $message->addParam(new XML_RPC_Value($_SERVER[\'REMOTE_ADDR\'], $XML_RPC_String));' . "\n";
-                $buffer .= '    $message->addParam(new XML_RPC_Value($cookiesStruct, $XML_RPC_Struct));' . "\n\n";
+                $buffer .= '    $message->addParam(new XML_RPC_Value($cookiesStruct, $XML_RPC_Struct));' . "\n";
+                $buffer .= '    $message->addParam(XML_RPC_encode($phpAds_context));' . "\n\n";
                 $buffer .= '    // Send the XML-RPC message to the server' . "\n";
                 if ($mi->xmlrpcproto) {
                     $buffer .= '    $response = $client->send($message, ' . $mi->timeout . ', \'https\');' . "\n\n";
@@ -216,6 +221,16 @@ class Plugins_InvocationTags_xmlrpc_xmlrpc extends Plugins_InvocationTags
                 $buffer .= '        if ($advertisement->kindOf() == $XML_RPC_Struct) {' . "\n";
                 $buffer .= '            $htmlValue = $advertisement->structmem(\'html\');' . "\n";
                 $buffer .= '            $adArray[] = $htmlValue->scalarval();' . "\n";
+                if (isset($mi->block) && $mi->block == '1') {
+                    $buffer .= "\n";
+                    $buffer .= '            $bannerId = $advertisement->structmem(\'bannerid\');' . "\n";
+                    $buffer .= "            $"."phpAds_context[] = array('!=' => 'bannerid:'.$"."bannerId->scalarval());\n";
+                }
+                if (isset($mi->blockcampaign) && $mi->blockcampaign == '1') {
+                    $buffer .= "\n";
+                    $buffer .= '            $campaignId = $advertisement->structmem(\'campaignid\');' . "\n";
+                    $buffer .= "            $"."phpAds_context[] = array('!=' => 'campaignid:'.$"."campaignId->scalarval());\n";
+                }
                 $buffer .= '        }' . "\n";
                 $buffer .= '        // Example display code - remove before use' . "\n";
                 $buffer .= '        if (isset($adArray)) {' . "\n";
