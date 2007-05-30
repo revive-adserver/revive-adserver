@@ -26,7 +26,7 @@ $Id$
 */
 
 $conf = $GLOBALS['_MAX']['CONF'];
-$pref = $GLOBALS['_MAX']['PREF'];
+$name = (!empty($GLOBALS['_MAX']['PREF']['name'])) ? $GLOBALS['_MAX']['PREF']['name'] : MAX_PRODUCT_NAME;
 
 $words = array(
     'Remove Comments Note' => "
@@ -35,11 +35,11 @@ $words = array(
 -->",
 
     'Publisher JS Channel Script Comment 1' => "
-<!-- {$pref['name']} Channel Script
+<!-- {$name} Channel Script
 
-   Generated with {$pref['name']} " . MAX_VERSION_READABLE . "
+   Generated with {$name} " . MAX_VERSION_READABLE . "
 
-   Include this script directly ABOVE the {$pref['name']} Header Script
+   Include this script directly ABOVE the {$name} Header Script
    (defined below), in the <head> tag.
 
    The script below should define a variable, az_channel. This variable
@@ -57,11 +57,11 @@ $words = array(
 -->",
 
     'Publisher JS Header Script Comment' => "
-<!-- {$pref['name']} Header Script
+<!-- {$name} Header Script
 
-   Generated with {$pref['name']} " . MAX_VERSION_READABLE . "
+   Generated with {$name} " . MAX_VERSION_READABLE . "
 
-   Include this script below the {$pref['name']} Channel Scipt (but still
+   Include this script below the {$name} Channel Scipt (but still
    in the <head> tag) of every page on your site.
 
    NOTE: This script does not change for any page on your site, so it may be
@@ -74,9 +74,9 @@ $words = array(
 -->",
 
     'Publisher JS Ad Tag Script(s) Comment' => "
-<!-- {$pref['name']} Ad Tag Script(s)
+<!-- {$name} Ad Tag Script(s)
 
-   Generated with {$pref['name']} " . MAX_VERSION_READABLE . "
+   Generated with {$name} " . MAX_VERSION_READABLE . "
 
    The following are the script(s) for each ad tag. There are a couple of items to watch out for:
 

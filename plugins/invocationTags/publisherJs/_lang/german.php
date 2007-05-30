@@ -26,7 +26,7 @@ $Id$
 */
 
 $conf = $GLOBALS['_MAX']['CONF'];
-$pref = $GLOBALS['_MAX']['PREF'];
+$name = (!empty($GLOBALS['_MAX']['PREF']['name'])) ? $GLOBALS['_MAX']['PREF']['name'] : MAX_PRODUCT_NAME;
 
 $words = array(
     'Remove Comments Note' => "
@@ -35,11 +35,11 @@ $words = array(
   -->",
 
     'Publisher JS Channel Script Comment 1' => "
-<!-- {$pref['name']} Channel Script
+<!-- {$name} Channel Script
 
-     Erstellt mit {$pref['name']} " . MAX_VERSION_READABLE . "
+     Erstellt mit {$name} " . MAX_VERSION_READABLE . "
 
-     Fuegen Sie dieses Script unmittelbar UEBER dem {$pref['name']} Header Script
+     Fuegen Sie dieses Script unmittelbar UEBER dem {$name} Header Script
      (wie unten definiert) in den <head>-Tag Ihrer Site ein.
 
      Das untenstehende Script definiert die Variable az_channel. Diese Variable
@@ -57,11 +57,11 @@ $words = array(
 -->",
 
     'Publisher JS Header Script Comment' => "
-<!-- {$pref['name']} Header Script
+<!-- {$name} Header Script
 
-     Erstellt mit {$pref['name']} " . MAX_VERSION_READABLE . "
+     Erstellt mit {$name} " . MAX_VERSION_READABLE . "
 
-     Fuegen Sie dieses Script UNTERHALB des {$pref['name']} Channel Scipts (aber dennoch
+     Fuegen Sie dieses Script UNTERHALB des {$name} Channel Scipts (aber dennoch
      innerhalb des <head>-Tags Ihrer Site ein). Jede Seite Ihrer Web-Site, auf der Sie
      Werbung ausliefern moechten muss dieses Script enthalten.
 
@@ -75,9 +75,9 @@ $words = array(
   -->",
 
     'Publisher JS Ad Tag Script(s) Comment' => "
-<!-- {$pref['name']} Ad Tag Script(s)
+<!-- {$name} Ad Tag Script(s)
 
-     Erstellt mit {$pref['name']} " . MAX_VERSION_READABLE . "
+     Erstellt mit {$name} " . MAX_VERSION_READABLE . "
 
      Im folgenden finden Sie die Script(e) fuer jede Zone(n).
      Bitte beachten Sie die folgenden Dinge:

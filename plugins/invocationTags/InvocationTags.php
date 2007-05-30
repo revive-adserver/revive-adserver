@@ -155,7 +155,6 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
     function prepareCommonInvocationData()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $pref = $GLOBALS['_MAX']['PREF'];
         $mi = &$this->maxInvocation;
 
         // Check if affiliate is on the same server
@@ -220,7 +219,8 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
         }
 
         // Set $mi->buffer to the initial comment
-        $buffer = '<!--/* '. $pref['name'] .' '. $this->getName() . ' ' . MAX_VERSION_READABLE;
+        $name = (!empty($GLOBALS['_MAX']['PREF']['name'])) ? $GLOBALS['_MAX']['PREF']['name'] : MAX_PRODUCT_NAME;
+        $buffer = '<!--/* '. $name .' '. $this->getName() . ' ' . MAX_VERSION_READABLE;
         if (!empty($thirdpartyname)) {
             $buffer .= " (".$thirdpartyname.")";
         }
