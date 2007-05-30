@@ -69,9 +69,30 @@ if (count($aTasksConstructive)>0)
                     ?>
                 </table>
             </td>
+            <td style="vertical-align:top;">
+                <table class="tablebody">
+                    <tr><th colspan="2">Remove Indexes</th></tr>
+                    <?php
+                        $aTasks = $aTasksConstructive['indexes']['remove'];
+                        $fieldname = 'constructive[indexes][remove][]';
+                        include 'tpl/integtaskssection.html';
+                    ?>
+                </table>
+            </td>
+            <td style="vertical-align:top;">
+                <table class="tablebody">
+                    <tr><th colspan="2">Add Indexes</th></tr>
+                    <?php
+                        $aTasks = $aTasksConstructive['indexes']['add'];
+                        $fieldname = 'constructive[indexes][add][]';
+                        include 'tpl/integtaskssection.html';
+                    ?>
+                </table>
+            </td>
         </tr>
     </table>
     </td>
+    <tr>
     <td class="tablebody" style="width:50%">
 <?php
 }

@@ -5,16 +5,27 @@
             <tr>
                 <td>
                     <?php
-                        $name = '['.$v['name'].']';
-                        $label = $v['name'];
-                        if (isset($v['field']))
+                        if (isset($v['table'])) // we have a tablename and indexname
                         {
-                            $label.= '.'.$v['field'];
-                            $value = $v['field'];
+                            $name = '['.$v['table'].']';
+                            $label = $v['table'];
+
+                            $label.= '.'.$v['name'];
+                            $value = $v['name'];
                         }
-                        else
+                        else // we have a tablename and perhaps a fieldname
                         {
-                            $value = 1;
+                            $name = '['.$v['name'].']';
+                            $label = $v['name'];
+                            if (isset($v['field']))
+                            {
+                                $label.= '.'.$v['field'];
+                                $value = $v['field'];
+                            }
+                            else
+                            {
+                                $value = 1;
+                            }
                         }
                         echo $label;
                         if ($showCargo)
