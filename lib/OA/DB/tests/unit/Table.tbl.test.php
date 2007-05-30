@@ -299,7 +299,7 @@ class Test_OA_DB_Table extends UnitTestCase
             $this->assertEqual($actual, 1);
             
             // Change the charset of the database to something really weird.
-            $query = "ALTER DATABASE oa_simpletest CHARACTER SET koi8u";
+            $query = "ALTER DATABASE {$conf['database']['name']} CHARACTER SET koi8u";
             $oDbh->query($query);
             
             // Re-create the temp table
@@ -338,7 +338,7 @@ class Test_OA_DB_Table extends UnitTestCase
             $this->assertEqual($actual, 1);
             
             // Clean up
-            $query = "ALTER DATABASE oa_simpletest CHARACTER SET DEFAULT";
+            $query = "ALTER DATABASE {$conf['database']['name']} CHARACTER SET DEFAULT";
             $oDbh->query($query);
             unlink(MAX_PATH . '/var/test.xml');
             $oTable->dropTable('test_table');
