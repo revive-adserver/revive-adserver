@@ -2143,7 +2143,7 @@ $loc = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http'
 $_SERVER['REQUEST_URI'];
 $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 $output = MAX_adSelect($what, '', $target, $source, $withtext, $context, true, '', $loc, $referer);
-if ($output['contenttype'] == 'swf') {
+if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
 $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
 }
 return $output;
