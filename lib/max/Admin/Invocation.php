@@ -460,7 +460,8 @@ class MAX_Admin_Invocation {
         if (!empty($variables)) {
             foreach ($variables as $id => $variable) {
                 if (($variablemethod == 'default' || $variablemethod == 'js') && $variable['variablecode']) {
-                    $varbuffer .=  "    {$variable['variablecode']};\n";
+                    $varcode    = stripslashes($variable['variablecode']);
+                    $varbuffer .= "    {$varcode};\n";
                 }
                 $variablesQuerystring .= "&amp;{$variable['name']}=%%" . strtoupper($variable['name']) . "_VALUE%%";
             }
