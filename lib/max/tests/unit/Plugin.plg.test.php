@@ -222,7 +222,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
         // that does reach down to the level where the plugins are stored
         $result = MAX_Plugin::getPlugins('reports', null, true, 1);
         $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 6);
+        $this->assertEqual(count($result), 5);
         $this->assertTrue(is_a($result['advertisingAnalysisReport'], 'Plugins_Reports_Standard_AdvertisingAnalysisReport'));
         $this->assertEqual($result['advertisingAnalysisReport']->module, 'reports');
         $this->assertEqual($result['advertisingAnalysisReport']->package, 'standard');
@@ -231,7 +231,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
         // that does reach down to the level where the plugins are stored
         $result = MAX_Plugin::getPlugins('reports', null, false, 1);
         $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 6);
+        $this->assertEqual(count($result), 5);
         $this->assertTrue(is_a($result['standard:advertisingAnalysisReport'], 'Plugins_Reports_Standard_AdvertisingAnalysisReport'));
         $this->assertEqual($result['standard:advertisingAnalysisReport']->module, 'reports');
         $this->assertEqual($result['standard:advertisingAnalysisReport']->package, 'standard');
@@ -240,7 +240,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
         // depth that does reach down to the level where the plugins are stored
         $result = MAX_Plugin::getPlugins('reports', 'standard', true, 0);
         $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 5);
+        $this->assertEqual(count($result), 4);
         $this->assertTrue(is_a($result['advertisingAnalysisReport'], 'Plugins_Reports_Standard_AdvertisingAnalysisReport'));
         $this->assertEqual($result['advertisingAnalysisReport']->module, 'reports');
         $this->assertEqual($result['advertisingAnalysisReport']->package, 'standard');
@@ -249,7 +249,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
         // depth that does reach down to the level where the plugins are stored
         $result = MAX_Plugin::getPlugins('reports', 'standard', false, 0);
         $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 5);
+        $this->assertEqual(count($result), 4);
         $this->assertTrue(is_a($result['standard:advertisingAnalysisReport'], 'Plugins_Reports_Standard_AdvertisingAnalysisReport'));
         $this->assertEqual($result['standard:advertisingAnalysisReport']->module, 'reports');
         $this->assertEqual($result['standard:advertisingAnalysisReport']->package, 'standard');
@@ -274,12 +274,12 @@ class TestOfMAX_Plugin extends UnitTestCase {
         // that does reach down to the level where the plugins are stored
         $result = MAX_Plugin::_getPluginsFiles('reports', null, 1);
         $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 6);
+        $this->assertEqual(count($result), 5);
         // Test on a plugin module and package with plugins, but with a search
         // depth that does reach down to the level where the plugins are stored
         $result = MAX_Plugin::_getPluginsFiles('reports', 'standard', 0);
         $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 5);
+        $this->assertEqual(count($result), 4);
     }
 
     /**
@@ -304,7 +304,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
         // reach down to the level where the plugins are stored
         $result = MAX_Plugin::_getPluginsFilesFromDirectory(MAX_PATH . '/plugins/reports', 1);
         $this->assertTrue(is_array($result));
-        $this->assertEqual(count($result), 6);
+        $this->assertEqual(count($result), 5);
         $this->assertEqual(
             $result['standard:advertisingAnalysisReport'],
             MAX_PATH.'/plugins/reports/standard/advertisingAnalysisReport'.MAX_PLUGINS_EXTENSION
