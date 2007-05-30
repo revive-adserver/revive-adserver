@@ -130,19 +130,13 @@ function xmlRpcView($params)
     while (list($key, $value) = $cookiesXmlRpcValue->structeach()) {
         $_COOKIE[$key] = $value->scalarval();
     }
-    // Extract context
     if ($numParams >= 7) {
         $context = XML_RPC_decode($params->getParam(6));
     } else {
         $context = array();
     }
-    // Prepare loc and referer variables
-    $loc = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-		(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']).
-		$_SERVER['REQUEST_URI'];
-	$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
     // Find the ad display code
-    $output = MAX_adSelect($what, '', $target, $source, $withText, $context, true, '', $loc, $referer);
+    $output = MAX_adSelect($what, '', $target, $source, $withText, $context);
     if ($output['contenttype'] == 'swf') {
         $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
     }
