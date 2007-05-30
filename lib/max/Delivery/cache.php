@@ -85,7 +85,10 @@ function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
         if ($expiryTime === null) {
             $expiryTime = $GLOBALS['OA_Delivery_Cache']['expiry'];
         }
-        if (isset($cache_time) && $cache_time < MAX_commonGetTimeNow() - $expiryTime) {
+        $now = MAX_commonGetTimeNow();
+        if (    (isset($cache_time) && $cache_time < $now - $expiryTime)
+             || (isset($cache_expire) && $cache_expire > $now) )
+        {
             // Update expiry, needed to enable permanent caching if needed
             OA_Delivery_Cache_store($name, $cache_contents, $isHash);
             return false;
@@ -103,9 +106,10 @@ function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
  * @param string $name  The cache entry name
  * @param string $cache The cache content
  * @param string $isHash Define if $name is already a cached value or not
+ * @param int $expireAt  Define the exact time when cache is expired
  * @return bool True if the entry was succesfully stored
  */
-function OA_Delivery_Cache_store($name, $cache, $isHash = false)
+function OA_Delivery_Cache_store($name, $cache, $isHash = false, $expireAt = null)
 {
     if ($cache === OA_DELIVERY_CACHE_FUNCTION_ERROR) {
         // Don't store the result to enable permanent caching
@@ -117,12 +121,14 @@ function OA_Delivery_Cache_store($name, $cache, $isHash = false)
     }
 
     $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
-    // $GLOBALS['OA_Delivery_Cache']['expiry']
 
     $cache_literal  = "<"."?php\n\n";
-    $cache_literal .= "$"."cache_contents = ".var_export($cache, true).";\n\n";
-    $cache_literal .= "$"."cache_name     = '".addcslashes($name, "'")."';\n";
-    $cache_literal .= "$"."cache_time     = ".MAX_commonGetTimeNow().";\n";
+    $cache_literal .= "$"."cache_contents   = ".var_export($cache, true).";\n\n";
+    $cache_literal .= "$"."cache_name       = '".addcslashes($name, "'")."';\n";
+    $cache_literal .= "$"."cache_time       = ".MAX_commonGetTimeNow().";\n";
+    if ($expireAt !== null) {
+        $cache_literal .= "$"."cache_expire = ".$expireAt.";\n";
+    }
     $cache_literal .= "$"."cache_complete = true;\n\n";
     $cache_literal .= "?".">";
 
@@ -156,11 +162,13 @@ function OA_Delivery_Cache_store($name, $cache, $isHash = false)
  *
  * @param string $name  The cache entry name
  * @param string $cache The cache content
+ * @param bool $isHash  true indicates that $name is already hash, else the hash is created from it
+ * @param int $expireAt Time when the cache should expire
  * @return string The cache content
  */
-function OA_Delivery_Cache_store_return($name, $cache, $isHash = false)
+function OA_Delivery_Cache_store_return($name, $cache, $isHash = false, $expireAt = null)
 {
-    if (OA_Delivery_Cache_store($name, $cache, $isHash)) {
+    if (OA_Delivery_Cache_store($name, $cache, $isHash, $expireAt)) {
         return $cache;
     }
 
@@ -438,9 +446,12 @@ function MAX_cacheGetTrackerVariables($trackerid, $cached = true)
 function MAX_cacheGetMaintenanceInfo($cached = true)
 {
     $cName  = OA_Delivery_Cache_getName(__FUNCTION__);
-    if (!$cached || ($output = OA_Delivery_Cache_fetch($cName, false, 30)) === false) {
+    // maximum cache expire time = 3600 seconds
+    if (!$cached || ($output = OA_Delivery_Cache_fetch($cName, false, 3600)) === false) {
         MAX_Dal_Delivery_Include();
         $output = OA_Dal_Delivery_getMaintenanceInfo();
+        // calculate exact expire time
+//        $nextMaintenanceAt = MAX_commonGetTimeNow() % 3600;
         $output = OA_Delivery_Cache_store_return($cName, $output);
     }
 
