@@ -50,6 +50,15 @@ $xmlRpcView_sig = array(
                           $GLOBALS['XML_RPC_Boolean'],
                           $GLOBALS['XML_RPC_String'],
                           $GLOBALS['XML_RPC_Struct']
+                    ),
+                    array($GLOBALS['XML_RPC_String'],
+                          $GLOBALS['XML_RPC_String'],
+                          $GLOBALS['XML_RPC_String'],
+                          $GLOBALS['XML_RPC_String'],
+                          $GLOBALS['XML_RPC_Boolean'],
+                          $GLOBALS['XML_RPC_String'],
+                          $GLOBALS['XML_RPC_Struct'],
+                          $GLOBALS['XML_RPC_Struct']
                     )
                   );
 
@@ -68,7 +77,8 @@ $xmlRpcView_doc = 'When passed the "what", "target", "source", "withText", remot
  *                              - An XML_RPC_Value of type "boolean" containing the "withText" value;
  *                              - An XML_RPC_Value of type "string" containing the viewer's IP address; and
  *                              - An XML_RPC_Value of type "struct" containing the viewer's cookie values
- *                                (indexed by cookie name).
+ *                                (indexed by cookie name);
+ *                              - An XML_RPC_Value of type "struct" containing the "context" value.
  * @return XML_RPC_Response The response. The XML_RPC_Value of the response can be one of
  *                          a number of different values:
  *                          - Error Code 1: The $params variable was not an XML_RPC_Value of
@@ -94,7 +104,7 @@ function xmlRpcView($params)
     global $XML_RPC_String, $XML_RPC_Struct, $XML_RPC_Array;
     // Check the parameters exist
     $numParams = $params->getNumParams();
-    if ($numParams != 6) {
+    if ($numParams < 6) {
         // Return an error
         $errorCode = $XML_RPC_erruser + 2;
         $errorMsg  = 'Incorrect number of parameters';
@@ -120,8 +130,13 @@ function xmlRpcView($params)
     while (list($key, $value) = $cookiesXmlRpcValue->structeach()) {
         $_COOKIE[$key] = $value->scalarval();
     }
+    if ($numParams >= 7) {
+        $context = XML_RPC_decode($params->getParam(6));
+    } else {
+        $context = array();
+    }
     // Find the ad display code
-    $output = MAX_adSelect($what, '', $target, $source, $withText);
+    $output = MAX_adSelect($what, '', $target, $source, $withText, $context);
     if ($output['contenttype'] == 'swf') {
         $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
     }
