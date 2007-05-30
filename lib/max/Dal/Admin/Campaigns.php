@@ -41,6 +41,26 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     );
 
     /**
+     * A method to determine if a campaign is targeted - that is, if the
+     * campaign as any child ads that have delivery limitations.
+     *
+     * @param integer $campaignId The campaign ID.
+     * @return boolean True if the campaign is targeted, false otherwise.
+     */
+    function isTargeted($campaignId)
+    {
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid = $campaignId;
+        $doBanners->whereAdd("compiledlimitation NOT IN ('', 'true')");
+        $doBanners->find();
+        if ($doBanners->getRowCount() > 0) {
+            // There are banners in the campaign with delivery limitations
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * A method to determine the lifetime ad impressions left before expiration.
      *
      * @param integer    $campaignId The campaign ID.

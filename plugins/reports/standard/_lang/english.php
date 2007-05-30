@@ -50,6 +50,7 @@ $words = array(
     // Worksheets
     'Ad Breakdown'                  => 'Ad Breakdown',
     'Campaign Breakdown'            => 'Campaign Breakdown',
+    'Campaign Delivery'             => 'Campaign Delivery',
     'Connection Detail'             => 'Connection Detail',
     'Connection Summary by Day'     => 'Connection Summary by Day',
     'Daily Breakdown'               => 'Daily Breakdown',
@@ -81,10 +82,7 @@ $words = array(
     'Duplicate'                     => 'Duplicate',
     'Disapproved'                   => 'Disapproved',
     'On Hold'                       => 'On Hold',
-    'Ignored'                       => 'Ignored',
-
-    '% CTR'                         => '% CTR',
-    'Conversion Date / Time'        => 'Conversion Date / Time'
+    'Ignored'                       => 'Ignored'
 );
 
 ?>

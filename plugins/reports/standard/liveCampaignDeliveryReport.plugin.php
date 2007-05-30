@@ -27,6 +27,10 @@ $Id$
 
 require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
 
+/**
+ * @TODO Consider replacing the calculations in this report with better values derived
+ *       from the MPE.
+ */
 class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_ReportsScope
 {
 
@@ -114,7 +118,7 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
         // Prepare the output writer for generation
         $this->_oReportWriter->openWithFilename($reportFileName);
         // Add the worksheets to the report, as required
-        $this->addSummarySheet();
+        $this->_addSummaryWorksheet();
         // Close the report writer and send the report to the user
         $this->_oReportWriter->closeAndSend();
     }
@@ -126,7 +130,7 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
      * @access private
      * @return array The array of index/value sub-headings.
      */
-    function getReportParametersForDisplay()
+    function _getReportParametersForDisplay()
     {
         $aParams = array();
         $aParams += $this->_getDisplayableParametersFromScope();
@@ -134,339 +138,180 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
         return $aParams;
     }
 
-
-
-
-
-
-
-
-
-
-
-    function addSummarySheet()
+    /**
+     * A private method to create and add the "campaign delivery" worksheet
+     * of the report.
+     *
+     * @access private
+     */
+    function _addSummaryWorksheet()
     {
-        $headers = array(
-            'Campaign Name' => 'text',
-            'Type' => 'text',
-            'Status' => 'text',
-            'Priority' => 'text',
-            'Start Date' => 'date',
-            'End Date' => 'date',
-            'Booked Views' => 'number',
-            'Delivered Views' => 'number',
-            '% Complete' => 'percent',
-            'Overall +/-' => 'percent',
-            'Current +/-' => 'percent'
+        // Prepare the headers for the worksheet
+        $aHeaders = array();
+        $key = MAX_Plugin_Translation::translate('Campaign Name', $this->module, $this->package);
+        $aHeaders[$key] = 'text';
+        $key = MAX_Plugin_Translation::translate('Type', $this->module, $this->package);
+        $aHeaders[$key] = 'text';
+        $key = MAX_Plugin_Translation::translate('Status', $this->module, $this->package);
+        $aHeaders[$key] = 'text';
+        $key = MAX_Plugin_Translation::translate('Priority', $this->module, $this->package);
+        $aHeaders[$key] = 'text';
+        $key = MAX_Plugin_Translation::translate('Start Date', $this->module, $this->package);
+        $aHeaders[$key] = 'date';
+        $key = MAX_Plugin_Translation::translate('End Date', $this->module, $this->package);
+        $aHeaders[$key] = 'date';
+        $key = MAX_Plugin_Translation::translate('Booked Impressions', $this->module, $this->package);
+        $aHeaders[$key] = 'number';
+        $key = MAX_Plugin_Translation::translate('Delivered Impressions', $this->module, $this->package);
+        $aHeaders[$key] = 'number';
+        $key = MAX_Plugin_Translation::translate('% Complete', $this->module, $this->package);
+        $aHeaders[$key] = 'percent';
+        $key = MAX_Plugin_Translation::translate('Overall +/-', $this->module, $this->package);
+        $aHeaders[$key] = 'percent';
+        $key = MAX_Plugin_Translation::translate('Current +/-', $this->module, $this->package);
+        $aHeaders[$key] = 'percent';
+        // Get the raw data for the worksheet
+        $aData = $this->_getDeliveryPerformanceData();
+        // Format the raw data ready for display
+        $aData = $this->_prepareDeliveryPerformanceData($aData);
+        // Add the worksheet
+        $this->createSubReport(
+            MAX_Plugin_Translation::translate('Campaign Delivery', $this->module, $this->package),
+            $aHeaders,
+            $aData
         );
-        $delivery_data = $this->getDeliveryData();
-        $delivery_display = $this->prepareCampaignDeliveryForDisplay($delivery_data);
-        $this->createSubReport('Campaigns', $headers, $delivery_display);
     }
 
     /**
-     * Organises named campaign data into appropriately ordered columns.
+     * A private method to retrieve the campaign delivery performance statistics for report's
+     * date range, as well as for "yesterday" and "today", and to return the combined data.
      *
-     * Several columns only make sense for campaigns with impression targets
-     * (ie, high priority campaigns) so they will appear blank for campaigns
-     * without targets.
-     *
-     * @param array $campaigns Array of campaign-data arrays
-     *
-     * @return array of arrays Ready for output to report writers
+     * @access private
+     * @return array
      */
-    function prepareCampaignDeliveryForDisplay($campaigns)
+    function _getDeliveryPerformanceData()
     {
-        $campaigns_display = array();
-        foreach ($campaigns as $campaign) {
-            $campaign_display = array();
-            $campaign_display[] = $campaign['campaign_name'];
-            $campaign_display[] = $this->calculateCampaignType($campaign);
-            $campaign_display[] = $this->decodeStatusDescription($campaign['campaign_is_active']);
-            $campaign_display[] = $this->decodePriority($campaign['campaign_priority']);
-            $campaign_display[] = $this->formatDateForDisplay($campaign['campaign_start']);
-            $campaign_display[] = $this->formatDateForDisplay($campaign['campaign_end']);
-            $campaign_display[] = $campaign['campaign_booked_views'];
-            $campaign_display[] = $campaign['campaign_impressions'];
-            if ($this->isCampaignHighPriority($campaign)) {
-                $campaign_display[] = $this->calculateCompletionPercentage($campaign);
-                $campaign_display[] = $this->calculateOverallMisdelivery($campaign);
-                $campaign_display[] = $this->calculateTodaysMisdelivery($campaign);
-            } else {
-                $campaign_display[] = false;
-                $campaign_display[] = false;
-                $campaign_display[] = false;
-            }
-
-            $campaigns_display[] = $campaign_display;
-        }
-        return $campaigns_display;
-    }
-
-    function decodeStatusDescription($is_active)
-    {
-        if ($is_active == 't') {
-            return 'Running'; //FIXME: Translatable string
-        }
-        return 'Stopped'; //FIXME: Translatable string
-    }
-
-    function decodePriority($priority_code)
-    {
-        if ($priority_code == -1) {
-            return '1-exclusive'; //FIXME: Translatable string
-        }
-        if ($priority_code == 0) {
-            return '3-low'; //FIXME: Translatable string
-        }
-        return '2-high'; //FIXME: Translatable string
+        // Get the report period raw performance data
+        $aReportData    = $this->_getDeliveryPerformanceDataRange($this->_oScope, $this->_oDaySpan, true);
+        // Get the raw performance data for "yesterday"
+        $oSpanYesterday = new OA_Admin_DaySpan('yesterday');
+        $aYesterdayData = $this->_getDeliveryPerformanceDataRange($this->_oScope, $oSpanYesterday);
+        // Get the raw performance data for "today"
+        $oSpanToday     = new OA_Admin_DaySpan('today');
+        $aTodayData     = $this->_getDeliveryPerformanceDataRange($this->_oScope, $oSpanToday);
+        // Merge the above data, injecting today's delivery at the same time
+        $aData = $this->_mergeDeliveryPerformanceData($aReportData, $aYesterdayData, $oSpanYesterday, $aTodayData, $oSpanToday);
+        return $aData;
     }
 
     /**
-     * Find the appropriate label for "campaign type".
+     * A private method to obtain the raw delivery performance data for a given date range.
      *
-     * Possible values are:
-     *    * 'Run of site' (if there are no limitations set
-     *      for any of the adverts linked to the campaign)
-     *
-     *    * 'Targeted' (if when there are any limitations
-     *      for any of the adverts linked to the campaign)
-     *
-     * @param array $campaign
-     * @return string A label for Campaign Type.
-     *                Either 'Run of site' or 'Targeted'.
-     * @todo Integrate this into the live campaign summary DAL call
+     * @access private
+     * @param Admin_UI_OrganisationScope $oScope The Admin_UI_OrganisationScope limitation object for
+     *                                           the report.
+     * @param OA_Admin_DaySpan $oDaySpan The OA_Admin_DaySpan day range limitation object for the report,
+     *                                   or for "yesterday" or "today" as required.
+     * @param boolean $spanIsForPlacementDates If true, $oDaySpan is used for the start/end date limitaion
+     *                                         of the placements, otherwise it is used to limit the
+     *                                         data to delivery that happened in the $oDaySpan range.
+     * @return array
      */
-    function calculateCampaignType($campaign)
+    function _getDeliveryPerformanceDataRange($oScope, $oDaySpan, $spanIsForPlacementDates = false)
     {
-        $campaign_id = $campaign['campaign_id'];
-        $is_targeted = $this->dal->isCampaignTargeted($campaign_id);
-        if ($is_targeted) {
-            return 'Targeted'; //FIXME: Translatable string
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $startDateString = $oDaySpan->getStartDateString();
+        $endDateString   = $oDaySpan->getEndDateString();
+        $advertiserId    = $oScope->getAdvertiserId();
+        $publisherId     = $oScope->getPublisherId();
+        $agencyId        = $oScope->getAgencyId();
+        $query = "
+            SELECT
+                c.campaignid AS campaign_id,
+                c.campaignname AS campaign_name,
+                c.priority AS campaign_priority,
+                c.active AS campaign_is_active,
+                c.activate AS campaign_start,
+                c.expire AS campaign_end,
+                c.views AS campaign_booked_impressions,
+                SUM(dsah.impressions) AS campaign_impressions,
+                MAX(dsah.day) AS stats_most_recent_day,
+                MAX(dsah.hour) AS stats_most_recent_hour
+            FROM
+                {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS c,
+                {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
+                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']} AS dsah";
+        if ($publisherId) {
+            $query .= ",
+                {$aConf['table']['prefix']}{$aConf['table']['zones']} AS z";
+        }
+        if ($agencyId) {
+            $query .= ",
+                {$aConf['table']['prefix']}{$aConf['table']['clients']} AS a";
+        }
+        $query .= "
+            WHERE
+                c.campaignid = b.campaignid
+                AND
+                b.bannerid = dsah.ad_id
+                AND
+                c.views > 0";
+        if ($spanIsForPlacementDates) {
+            $query .= "
+                AND
+                (
+                    c.activate <= " . DBC::makeLiteral($endDateString, 'string') . "
+                    OR
+                    c.activate " . OA_Dal::equalNoDateString() . "
+                )
+                AND
+                (
+                    c.expire >= " . DBC::makeLiteral($startDateString, 'string') . "
+                    OR
+                    c.expire " . OA_Dal::equalNoDateString() . "
+                )";
         } else {
-            return 'Run of site'; //FIXME: Translatable string
+            $query .= "
+                AND
+                dsah.day >= " . DBC::makeLiteral($startDateString, 'string') . "
+                AND
+                dsah.day <= " . DBC::makeLiteral($endDateString, 'string') . "
+            ";
         }
-    }
-
-    /**
-     * How many of the requested impressions have been delivered so far, as a proportion?
-     *
-     * @param array $campaign An array representing campaign information
-     * @return float 1.0 when all requested impressions have been delivered.
-     */
-    function calculateCompletionRatio($campaign)
-    {
-        $delivered = $campaign['campaign_impressions'];
-        $target = $campaign['campaign_booked_views'];
-
-        if (($delivered > 0) && ($target > 0)) {
-            return $delivered / $target;
+        if ($advertiserId) {
+            $query .= "
+                AND
+                c.clientid = " . DBC::makeLiteral($advertiserId, 'integer');
         }
-        return false;
-    }
-
-    /**
-     * How many of the requested impressions have been delivered so far, as a percentage?
-     *
-     * @param array $campaign An array representing campaign information
-     * @return float 100.0 when all requested impressions have been delivered.
-     */
-    function calculateCompletionPercentage($campaign)
-    {
-        $delivered = $campaign['campaign_impressions'];
-        $target = $campaign['campaign_booked_views'];
-
-        if (($delivered > 0) && ($target > 0)) {
-            return ($delivered / $target) * 100;
+        if ($publisherId) {
+            $query .= "
+                AND
+                dsah.zone_id = z.zoneid
+                AND
+                z.affiliateid = " . DBC::makeLiteral($publisherId, 'integer');
         }
-        return false;
-    }
-
-    /**
-     * High-priority campaigns have a target for impression delivery, but
-     * targets can be missed.
-     *
-     * @param array $campaign An array representing campaign information
-     * @return float Negative on underdelivery, positive on overdelivery
-     */
-    function calculateOverallMisdelivery($campaign)
-    {
-        // Only high-priority campaigns have targets, so it doesn't make sense
-        // to calculate performance against target for other campaigns
-        if (!$this->isCampaignHighPriority($campaign)) {
-            return 0;
+        if ($agencyId) {
+            $query .= "
+                AND
+                c.clientid = a.clientid
+                AND
+                a.agencyid = " . DBC::makeLiteral($agencyId, 'integer');
         }
-
-        $campaign_range =& $this->rangeFromCampaign($campaign);
-        $campaign_days = $campaign_range->getDaysInSpan();
-
-        $most_recent_day_string = $campaign['stats_most_recent_day'];
-        $most_recent_day = new Date($most_recent_day_string);
-
-        $running_range = new OA_Admin_DaySpan();
-        $oBeginDate = new Date($campaign['campaign_start']);
-        $oEndDate = new Date($most_recent_day_string);
-        $running_range->setSpanDays($oBeginDate,$oEndDate);
-        $running_days = $running_range->getDaysInSpan() - 1;
-
-        if ($running_days <= 0) {
-            return 0;
-        }
-        if ($running_days > $campaign_days) {
-            $running_days = $campaign_days;
-            $running_hours = 0;
-        } else {
-            $running_hours = $campaign['stats_most_recent_hour'];
-        }
-
-        $campaign_impressions_to_last_night = $campaign['campaign_impressions'] - $campaign['todays_impressions'];
-
-        $percent_diff = $this->calculateOverallPercentDifference($campaign_days, $running_days, $running_hours, $campaign['campaign_booked_views'], $campaign_impressions_to_last_night);
-        return $percent_diff;
-    }
-
-    /**
-     * @return float positive for over-delivery, negative for under-delivery
-     */
-    function calculateOverallPercentDifference($campaign_days, $running_days, $running_hours, $desired_impressions, $actual_impressions)
-    {
-        $expected_impressions_per_day = $desired_impressions / $campaign_days;
-        $expected_impressions_to_previous_night = ($expected_impressions_per_day * $running_days);
-        $expected_percent_delivered = ($running_days / $campaign_days) * 100;
-        $actual_percent_delivered = ($actual_impressions / $desired_impressions) * 100;
-
-        $percent_diff = $actual_percent_delivered - $expected_percent_delivered;
-        return $percent_diff;
-    }
-
-    /**
-     * @param $campaign An array representing campaign information
-     * @return float Positive for overdelivery, negative for underdelivery
-     */
-    function calculateTodaysMisdelivery($campaign)
-    {
-        // If there's no record of impressions for today,
-        // we can't calculate how close it is to target
-        if (!($campaign['todays_impressions']) > 0) {
-            return false;
-        }
-
-        $campaign_range =& $this->rangeFromCampaign($campaign);
-        $campaign_days = $campaign_range->getDaysInSpan();
-
-        $most_recent_day_string = $campaign['stats_most_recent_day'];
-        $most_recent_day = new Date($most_recent_day_string);
-
-        $running_range = new OA_Admin_DaySpan();
-        $oBeginDate = new Date($campaign['campaign_start']);
-        $oEndDate = new Date($most_recent_day_string);
-        $running_range->setSpanDays($oBeginDate,$oEndDate);
-        $running_days = $running_range->getDaysInSpan() - 1;
-
-        if ($running_days <= 0) {
-            return 0;
-        }
-        if ($running_days > $campaign_days) {
-            $running_days = $campaign_days;
-            $running_hours = 0;
-        } else {
-            $running_hours = $campaign['stats_most_recent_hour'];
-        }
-
-        $running_hours = $campaign['stats_most_recent_hour']; // CC - Why is this overriding what we just did?
-        $todays_impressions = $campaign['todays_impressions'];
-        $campaign_impressions_to_last_night = $campaign['campaign_impressions'] - $todays_impressions;
-        $yesterdays_impressions = $campaign['yesterdays_impressions'];
-        $yesterdays_impressions_by_hour = $campaign['yesterdays_impressions_by_hour'];
-        $today_hours = $campaign_range->_now->hour;
-
-        // work out how many impressions there were at this time yesterday
-        $cnt = 1;
-        foreach ($yesterdays_impressions_by_hour as $hour) {
-            $yesterdays_impressions_at_this_hour += $hour['sum_views'];
-            $cnt++;
-            if ($cnt > $today_hours) break;
-        }
-
-        $remaining_days = $campaign_days - $running_days;
-
-        $percent_diff = $this->calculateTodaysPercentDifference($campaign_impressions_to_last_night, $todays_impressions, $yesterdays_impressions_at_this_hour, $yesterdays_impressions, $remaining_days, $campaign['campaign_booked_views']);
-
-        // if campaign looks set to be fully delivered, return message to that effect
-        // else return the predicted % difference
-        if ($percent_diff >= 0) {
-            return $GLOBALS['strCampaignPredictedFullDeliveryMessage'];
-        } else {
-            return $percent_diff;
-        }
-    }
-
-    /**
-     * @return float positive for over-delivery, negative for under-delivery
-     */
-    function calculateTodaysPercentDifference($campaign_impressions_to_last_night, $todays_impressions, $yesterdays_impressions_at_this_hour, $yesterdays_impressions, $remaining_days, $desired_impressions)
-    {
-        $predicted_daily_volume = ($todays_impressions / $yesterdays_impressions_at_this_hour) * $yesterdays_impressions;
-        $predicted_end_volume = $predicted_daily_volume * $remaining_days + $campaign_impressions_to_last_night;
-        $percent_diff = (($predicted_end_volume / $desired_impressions) - 1) * 100;
-
-        return $percent_diff;
-    }
-
-    /**
-     * @return float 1.0 for perfect delivery, 2.0 for double delivery
-     */
-    function calculateAccuracyRatio($campaign_days, $running_days, $running_hours, $desired_impressions, $actual_impressions)
-    {
-        $expected_impressions_per_day = $desired_impressions / $campaign_days;
-        $expected_impressions_to_previous_night = ($expected_impressions_per_day * $running_days);
-        $expected_impressions_today = $expected_impressions_per_day * ($running_hours / 24);
-        $expected_impressions_so_far = $expected_impressions_to_previous_night + $expected_impressions_today;
-
-        $accuracy_ratio = $actual_impressions / $expected_impressions_so_far;
-        return $accuracy_ratio;
-    }
-
-    /**
-     * @param array campaign An array representing campaign information
-     * @return bool True if the campaign is high-priority
-     */
-    function isCampaignHighPriority($campaign)
-    {
-        if ($campaign['campaign_priority'] > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return OA_Admin_DaySpan A date range from the campaign's activation date to its expiry date.
-     */
-    function &rangeFromCampaign($campaign)
-    {
-        $campaign_range = new OA_Admin_DaySpan();
-        $oBeginDate = new Date($campaign['campaign_start']);
-        $oEndDate = new Date($campaign['campaign_end']);
-        $campaign_range->setSpanDays($oBeginDate,$oEndDate);
-
-        return $campaign_range;
-    }
-
-    /**
-     * Retrieve activity statistics for the date range and for today, then mix them together.
-     *
-     * @return array Each element is an array representing a campaign.
-     */
-    function getDeliveryData()
-    {
-        $today = new OA_Admin_DaySpan('today');
-        $yesterday = new OA_Admin_DaySpan('yesterday');
-        $delivery_data_for_period = $this->dal->getCampaignDeliveryPerformanceForScopeByCampaignsActiveWithinPeriod($this->_oScope, $this->_period);
-        $delivery_data_for_today = $this->dal->getCampaignDeliveryPerformanceForScopeByCampaign($this->_oScope, $today);
-        $delivery_data_for_yesterday = $this->dal->getCampaignDeliveryPerformanceForScopeByCampaign($this->_oScope, $yesterday);
-        $combined_delivery_data = $this->injectRecentImpressionsIntoCampaignData($delivery_data_for_period , $delivery_data_for_today, $delivery_data_for_yesterday, $today, $yesterday);
-
-        return $combined_delivery_data;
+        $query .= "
+            GROUP BY
+                campaign_id,
+                campaign_name,
+                campaign_priority,
+                campaign_is_active,
+                campaign_start,
+                campaign_end,
+                campaign_booked_impressions
+            ORDER BY
+                campaign_impressions";
+        $rsDeliveryPerformanceData = DBC::NewRecordSet($query);
+        $rsDeliveryPerformanceData->find();
+        $aDeliveryPerformanceData = $rsDeliveryPerformanceData->getAll();
+        return $aDeliveryPerformanceData;
     }
 
     /**
@@ -476,99 +321,435 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
      * joining a table to itself, which would be necessary to gather today's impressions
      * at the same time as those for the whole period.
      *
-     * @param array $period_data
-     * @param array $todays_data
-     * @param array $yesterdays_data
-     * @param dayspan $today
-     * @param dayspan $yesterday
-     * @return array An array of campaign information including 'todays_impressions' and 'yesterdays_impressions'
-     * elements in each, plus hourly breakdowns
+     * @access private
+     * @param array $aReportData The result of
+     *                           {@link Plugins_Reports_Standard_LiveCampaignDeliveryReport::_getDeliveryPerformanceDataRange()}
+     *                           for the report period.
+     * @param array $aYesterdayData The result of
+     *                              {@link Plugins_Reports_Standard_LiveCampaignDeliveryReport::_getDeliveryPerformanceDataRange()}
+     *                              for "yesterday".
+     * @param OA_Admin_DaySpan $oSpanYesterday The OA_Admin_DaySpan object for "yesterday".
+     * @param array $aTodayData The result of
+     *                          {@link Plugins_Reports_Standard_LiveCampaignDeliveryReport::_getDeliveryPerformanceDataRange()}
+     *                          for "today".
+     * @param OA_Admin_DaySpan $oSpanToday The OA_Admin_DaySpan object for "today".
+     * @return array An array of campaign information as per the $aReportData array, but also
+     *               including 'yesterdays_impressions' and 'todays_impressions', as well as
+     *               an hourly breakdown of "yesterday's" and "today's" impressions in hourly
+     *               format in 'yesterdays_impressions_by_hour' and 'todays_impressions_by_hour'.
      */
-    function injectRecentImpressionsIntoCampaignData($period_data, $todays_data, $yesterdays_data, $today, $yesterday)
+    function _mergeDeliveryPerformanceData($aReportData, $aYesterdayData, $oSpanYesterday, $aTodayData, $oSpanToday)
     {
-        $combined_data = array();
-        foreach ($period_data as $overall_campaign)
+        $aData = array();
+        foreach ($aReportData as $aCampaignData)
         {
-            $campaign_id = $overall_campaign['campaign_id'];
-
-            $campaign_today = $this->_findMatchingCampaignData($campaign_id, $todays_data);
-            $todays_impressions = $campaign_today['campaign_impressions'];
-            $overall_campaign['todays_impressions'] = $todays_impressions;
-
-            $today_datestr = $today->_startDate->year.'-'.$today->_startDate->month.'-'.$today->_startDate->day;
-            $todays_impressions_by_hour = Admin_DA::getHourHistory(array('placement_id' => $campaign_id, 'day_begin' => $today_datestr, 'day_end' => $today_datestr));
-            $overall_campaign['todays_impressions_by_hour'] = $todays_impressions_by_hour;
-
-            $campaign_yesterday = $this->_findMatchingCampaignData($campaign_id, $yesterdays_data);
-            $yesterdays_impressions = $campaign_yesterday['campaign_impressions'];
-            $overall_campaign['yesterdays_impressions'] = $yesterdays_impressions;
-
-            $yesterday_datestr = $yesterday->_startDate->year.'-'.$yesterday->_startDate->month.'-'.$yesterday->_startDate->day;
-            $yesterdays_impressions_by_hour = Admin_DA::getHourHistory(array('placement_id' => $campaign_id, 'day_begin' => $yesterday_datestr, 'day_end' => $yesterday_datestr));
-            $overall_campaign['yesterdays_impressions_by_hour'] = $yesterdays_impressions_by_hour;
-
-            $combined_data[] = $overall_campaign;
+            $campaignId = $aCampaignData['campaign_id'];
+            // Add yesterday's impressions to the campaign report period data
+            $aCampaignDataYesterday = $this->_findMatchingCampaignData($campaignId, $aYesterdayData);
+            $yesterdaysImpressions  = $aCampaignDataYesterday['campaign_impressions'];
+            $aCampaignData['yesterdays_impressions'] = $yesterdaysImpressions;
+            // Get and add yesterday's impressions by hour
+            $yesterdayDateString = $oSpanYesterday->getStartDateString();
+            $yesterdaysImpressionsByHour = Admin_DA::getHourHistory(
+                array(
+                    'placement_id' => $campaignId,
+                    'day_begin'    => $yesterdayDateString,
+                    'day_end'      => $yesterdayDateString
+                )
+            );
+            $aCampaignData['yesterdays_impressions_by_hour'] = $yesterdaysImpressionsByHour;
+            // Add today's impressions to the campaign report period data
+            $aCampaignDataToday = $this->_findMatchingCampaignData($campaignId, $aTodayData);
+            $todaysImpressions  = $aCampaignDataToday['campaign_impressions'];
+            $aCampaignData['todays_impressions'] = $todaysImpressions;
+            // Get and add today's impressions by hour
+            $todayDateString = $oSpanToday->getStartDateString();
+            $todaysImpressionsByHour = Admin_DA::getHourHistory(
+                array(
+                    'placement_id' => $campaignId,
+                    'day_begin'    => $todayDateString,
+                    'day_end'      => $todayDateString
+                )
+            );
+            $aCampaignData['todays_impressions_by_hour'] = $todaysImpressionsByHour;
+            // Add the newly merged data for this campaign to the return array
+            $aData[] = $aCampaignData;
         }
-        return $combined_data;
+        return $aData;
     }
 
     /**
-     * Take impressions from today's statistics and use them to augment the overall statistics.
+     * A private method to find campaign delivery performance information in an
+     * unordered array resulting from a call to
+     * {@link Plugins_Reports_Standard_LiveCampaignDeliveryReport::_getDeliveryPerformanceDataRange()}.
      *
-     * This step is only necessary because the underlying query builder is incapable of
-     * joining a table to itself, which would be necessary to gather today's impressions
-     * at the same time as those for the whole period.
-     *
-     * @param array $period_data
-     * @param array $todays_data
-     * @return array An array of campaign information including 'todays_impressions' element in each
+     * @access private
+     * @param integer $campaignId The campaign ID to search for.
+     * @param array $aData An array of campaign delivery performance information arrays from a
+     *                     call to
+     *                     {@link Plugins_Reports_Standard_LiveCampaignDeliveryReport::_getDeliveryPerformanceDataRange()}.
+     * @return array The matching campaign information array, if found; an empty array otherwise.
      */
-    function injectTodaysImpressionsIntoCampaignData($period_data, $todays_data)
+    function _findMatchingCampaignData($campaignId, $aData)
     {
-        $combined_data = array();
-        foreach ($period_data as $overall_campaign)
-        {
-            $campaign_id = $overall_campaign['campaign_id'];
-            $campaign_today = $this->_findMatchingCampaignData($campaign_id, $todays_data);
-            $todays_impressions = $campaign_today['campaign_impressions'];
-            $overall_campaign['todays_impressions'] = $todays_impressions;
-            $combined_data[] = $overall_campaign;
-        }
-        return $combined_data;
-    }
-
-    /**
-     * Find campaign information in an unordered array.
-     *
-     * @param int $needle The campaign ID to search for
-     * @param array $haystack An array of campaign arrays
-     * @return array The matching campaign information, otherwise an empty array.
-     */
-    function _findMatchingCampaignData($needle, $haystack)
-    {
-        foreach ($haystack as $campaign) {
-            if ($campaign['campaign_id'] == $needle) {
-                return $campaign;
+        foreach ($aData as $aCampaignData) {
+            if ($aCampaignData['campaign_id'] == $campaignId) {
+                return $aCampaignData;
             }
         }
         return array();
     }
 
     /**
-     * Check if report is allowed to display.
-     * Hardcoded to prevent display for Ticketmaster.
+     * A private method to organise named campaign data into appropriately ordered
+     * columns, ready for display.
      *
-     * @return true if allowed to display, false otherwise
+     * Several columns only make sense for campaigns with impression targets
+     * (ie, high priority campaigns) so they will appear blank for campaigns
+     * without targets.
+     *
+     * @access private
+     * @param array $aData
+     * @return array
      */
-    function isAllowedToDisplay()
+    function _prepareDeliveryPerformanceData($aData)
     {
-        // prevent display if Ticketmaster login
-        if (phpAds_getUserID() != 31 && parent::isAllowedToDisplay()) {
-            return true;
+        $aDisplayData = array();
+        foreach ($aData as $aCampaignData) {
+            $aCampaignDisplayData = array();
+            $campaignId = $aCampaignData['campaign_id'];
+            $aCampaignDisplayData[] = $aCampaignData['campaign_name'];
+            $aCampaignDisplayData[] = $this->_calculateCampaignType($campaignId);
+            $aCampaignDisplayData[] = $this->_decodeStatusDescription($aCampaignData['campaign_is_active']);
+            $aCampaignDisplayData[] = $this->_decodePriority($aCampaignData['campaign_priority']);
+            $aCampaignDisplayData[] = $this->_formatDateForDisplay($aCampaignData['campaign_start']);
+            $aCampaignDisplayData[] = $this->_formatDateForDisplay($aCampaignData['campaign_end']);
+            $aCampaignDisplayData[] = $aCampaignData['campaign_booked_impressions'];
+            $aCampaignDisplayData[] = $aCampaignData['campaign_impressions'];
+            if ($aCampaignData['campaign_priority'] > 0) {
+                // Campaign is a high priority campaign...
+                $aCampaignDisplayData[] = $this->_calculateCompletionPercentage($aCampaignData);
+                $aCampaignDisplayData[] = $this->_calculateOverallMisdelivery($aCampaignData);
+                $aCampaignDisplayData[] = $this->_calculateTodaysMisdelivery($aCampaignData);
+            } else {
+                // Campaign is either exclusive or low priority
+                $aCampaignDisplayData[] = false;
+                $aCampaignDisplayData[] = false;
+                $aCampaignDisplayData[] = false;
+            }
+            $aDisplayData[] = $aCampaignDisplayData;
+        }
+        return $aDisplayData;
+    }
+
+    /**
+     * A private method to calculate the appropriate label for the
+     * "campaign type".
+     *
+     * Possible values are:
+     *  - 'Run of site' (if there are no limitations set
+     *     for any of the adverts linked to the campaign)
+     *  - 'Targeted' (if when there are any limitations
+     *     for any of the adverts linked to the campaign)
+     *
+     * @access private
+     * @param integer $campaignId The campaign ID.
+     * @return string The translated label for the campaign type.
+     */
+    function _calculateCampaignType($campaignId)
+    {
+        $dalCampaigns = OA_Dal::factoryDAL('campaigns');
+        $isTargeted = $dalCampaigns->isTargeted($campaignId);
+        if ($isTargeted) {
+            $type = MAX_Plugin_Translation::translate('Targeted', $this->module, $this->package);
         } else {
+            $type = MAX_Plugin_Translation::translate('Run of Site', $this->module, $this->package);
+        }
+        return $type;
+    }
+
+    /**
+     * A private method to decode the selected "campaign_is_active" value into
+     * a string for display in the report.
+     *
+     * @access private
+     * @param string $isActive The selected "campaign_is_active" value.
+     * @return string The appropriate return string for the value
+     */
+    function _decodeStatusDescription($isActive)
+    {
+        if ($isActive == 't') {
+            $type = MAX_Plugin_Translation::translate('Running', $this->module, $this->package);
+        } else {
+            $type = MAX_Plugin_Translation::translate('Stopped', $this->module, $this->package);
+
+        }
+        return $type;
+    }
+
+    /**
+     * A private method to decode the selected "campaign_priority" value into
+     * a string for display in the report.
+     *
+     * @access private
+     * @param string $priorityCode The selected "campaign_priority" value.
+     * @return string The appropriate return string for the value
+     */
+    function _decodePriority($priorityCode)
+    {
+        if ($priorityCode == -1) {
+            $type = MAX_Plugin_Translation::translate('1: Exclusive', $this->module, $this->package);
+        } else if ($priorityCode == 0) {
+            $type = MAX_Plugin_Translation::translate('3: Low', $this->module, $this->package);
+        } else {
+            $type = MAX_Plugin_Translation::translate('2: High', $this->module, $this->package);
+        }
+        return $type;
+    }
+
+    /**
+     * A private method for formatting date strings for the report.
+     *
+     * @access private
+     * @param string $dateString The date in string format to format.
+     * @return string The formatting date string for the report, or false if
+     *                the date should not be shown.
+     */
+    function _formatDateForDisplay($dateString)
+    {
+        if ($dateString == OA_DAL::noDateValue()) {
             return false;
         }
+        global $date_format;
+        $oDate = new Date($dateString);
+        $formattedDate = $oDate->format($date_format);
+        return $formattedDate;
+    }
+
+    /**
+     * A private method to calculate the percentage of a high priority campaign delivered so far.
+     *
+     * @access private
+     * @param array $aCampaignData An array of campaign data.
+     * @return float The percentage (between 0.00 and 100.00) of the campaign delivered so far.
+     */
+    function _calculateCompletionPercentage($aCampaignData)
+    {
+        $delivered = $aCampaignData['campaign_impressions'];
+        $target = $aCampaignData['campaign_booked_impressions'];
+        if (($delivered > 0) && ($target > 0)) {
+            return ($delivered / $target) * 100;
+        }
+        return false;
+    }
+
+    /**
+     * A private method to calculate an approximate value of how badly a
+     * high-priority campaign is mis-delivering so far over the campaign's
+     * lifetime.
+     *
+     * @access private
+     * @param array $aCampaignData An array of campaign data.
+     * @return float The difference in actual percentage of the campaign's delivered impressions and the
+     *               desired precentage of the campaign's delivered impressions. Positive for over-delivery,
+     *               negative for under-delivery.
+     */
+    function _calculateOverallMisdelivery($aCampaignData)
+    {
+        // Only calculate mis-delivery if start and end dates present
+        if (($aCampaignData['campaign_start'] == OA_DAL::noDateValue()) ||
+            ($aCampaignData['campaign_end'] == OA_DAL::noDateValue())) {
+            return false;
+        }
+
+        // Calculate the number of days the campaign should run over
+        $oCampaignDaySpan =& $this->_rangeFromCampaign($aCampaignData);
+        $campaignDays = $oCampaignDaySpan->getDaysInSpan();
+
+        // Calulate the number of days over which the campaign has been running
+        $oCampaignRunningDaySpan = new OA_Admin_DaySpan();
+        $oBeginDate = new Date($aCampaignData['campaign_start']);
+        $oEndDate   = new Date($aCampaignData['stats_most_recent_day']);
+        $oCampaignRunningDaySpan->setSpanDays($oBeginDate, $oEndDate);
+        $runningDays = $oCampaignRunningDaySpan->getDaysInSpan() - 1;
+
+        if ($runningDays <= 0) {
+            // The campaign has not started running yet
+            $percentDiff = 0;
+            return $percentDiff;
+        }
+
+        // Ensure the number of days the campaign has been running for makes sense
+        if ($runningDays > $campaignDays) {
+            // The campaign has been running longer than it was expected to!
+            $runningDays = $campaignDays;
+        }
+
+        // Calculate how many impressions were delivered up until the end
+        // of "yesterday"
+        $campaignImpressionsToLastNight = $aCampaignData['campaign_impressions'] - $aCampaignData['todays_impressions'];
+
+        // Calculate the percent difference and return
+        $percentDiff = $this->_calculateOverallPercentDifference(
+            $campaignDays,
+            $runningDays,
+            $aCampaignData['campaign_booked_impressions'],
+            $campaignImpressionsToLastNight
+        );
+        return $percentDiff;
+    }
+
+    /**
+     * A private method to calculate an approximate value of how badly a
+     * high-priority campaign is mis-delivering so far "today".
+     *
+     * @access private
+     * @param array $aCampaignData An array of campaign data.
+     * @return float The difference in the predicted final delivered impressions of a high-priority
+     *               campaign (based on "today's" data) and booked number of impressions the campaign
+     *               has. Positive for over-delivery, negative for under-delivery.
+     */
+    function _calculateTodaysMisdelivery($aCampaignData)
+    {
+        // Only calculate mis-delivery if start and end dates present
+        if (($aCampaignData['campaign_start'] == OA_DAL::noDateValue()) ||
+            ($aCampaignData['campaign_end'] == OA_DAL::noDateValue())) {
+            return false;
+        }
+
+        // Calculate the number of days the campaign should run over
+        $oCampaignDaySpan =& $this->_rangeFromCampaign($aCampaignData);
+        $campaignDays = $oCampaignDaySpan->getDaysInSpan();
+
+        // Calulate the number of days over which the campaign has been running
+        $oCampaignRunningDaySpan = new OA_Admin_DaySpan();
+        $oBeginDate = new Date($aCampaignData['campaign_start']);
+        $oEndDate   = new Date($aCampaignData['stats_most_recent_day']);
+        $oCampaignRunningDaySpan->setSpanDays($oBeginDate, $oEndDate);
+        $runningDays = $oCampaignRunningDaySpan->getDaysInSpan() - 1;
+
+        if ($runningDays <= 0) {
+            // The campaign has not started running yet
+            $percentDiff = 0;
+            return $percentDiff;
+        }
+
+        // Ensure the number of days the campaign has been running for makes
+        // sense, and also set the number or hours that the campaign has been
+        // running for "today"
+        if ($runningDays > $campaignDays) {
+            // The campaign has been running longer than it was expected to!
+            $runningDays = $campaignDays;
+            $runningHours = 0;
+        } else {
+            $runningHours = $aCampaignData['stats_most_recent_hour'];
+        }
+
+        // Calculate how many impressions were delivered "yesterday" up to the same point
+        // in time as we are at "now"
+        $counter = 1;
+        $yesterdaysImpressionsToSameHourAsNow = 0;
+        foreach ($aCampaignData['yesterdays_impressions_by_hour'] as $aHour) {
+            if ($counter > $runningHours) {
+                // Have gone past the same hour as "now", stop adding
+                break;
+            }
+            $yesterdaysImpressionsToSameHourAsNow += $aHour['campaign_impressions'];
+        }
+
+        // Calculate how many days are remaining for the campaign
+        $remainingDays = $campaignDays - $runningDays;
+
+        // Calculate how many impressions were delivered up until the end
+        // of "yesterday"
+        $campaignImpressionsToLastNight = $aCampaignData['campaign_impressions'] - $aCampaignData['todays_impressions'];
+
+        // Calculate the percent difference and return
+        $percentDiff = $this->_calculateTodaysPercentDifference(
+            $aCampaignData['todays_impressions'],
+            $aCampaignData['yesterdays_impressions'],
+            $yesterdaysImpressionsToSameHourAsNow,
+            $remainingDays,
+            $campaignImpressionsToLastNight,
+            $aCampaignData['campaign_booked_impressions']
+        );
+        return $percentDiff;
+    }
+
+    /**
+     * A private method to create an OA_Admin_DaySpan object with the campaign's
+     * start and end date values.
+     *
+     * @access private
+     * @param array $aCampaignData An array of campaign data.
+     * @return OA_Admin_DaySpan The date range of the campaign's activation date and
+     *                          expiry date.
+     */
+    function &_rangeFromCampaign($aCampaignData)
+    {
+        $oCampaignDaySpan = new OA_Admin_DaySpan();
+        $oBeginDate = new Date($aCampaignData['campaign_start']);
+        $oEndDate   = new Date($aCampaignData['campaign_end']);
+        $oCampaignDaySpan->setSpanDays($oBeginDate, $oEndDate);
+        return $oCampaignDaySpan;
+    }
+
+    /**
+     * A private method to calculate the difference in actual percentage of a high-priority
+     * campaign's delivered impressions and desired precentage of campaign's delivered
+     * impressions.
+     *
+     * @access private
+     * @param integer $campaignDays The number of days the campaign is expected to run for.
+     * @param integer $runningDays The number of days the campaign has been running for.
+     * @param integer $desiredImpressions The number of impressions the campaign has been booked to deliver.
+     * @param integer $actualImpressions The number of impressions the campaign has delivered so far.
+     * @return float The difference in actual percentage of the campaign's delivered impressions and the
+     *               desired precentage of the campaign's delivered impressions. Positive for over-delivery,
+     *               negative for under-delivery.
+     */
+    function _calculateOverallPercentDifference($campaignDays, $runningDays, $desiredImpressions, $actualImpressions)
+    {
+        // The expected campaign delivery percentage is the number of days the campaign has been
+        // running divided by the total campaign lifetime, assuming even daily delivery
+        $expectedPercentDelivered = ($runningDays / $campaignDays) * 100;
+        // The actual campaign delivery percentage is the number of impressions delivered
+        // divided by the number of impressions booked
+        $actualPercentDelivered = ($actualImpressions / $desiredImpressions) * 100;
+        // Calculate and return the percentage difference
+        $percentDiff = $actualPercentDelivered - $expectedPercentDelivered;
+        return $percentDiff;
+    }
+
+    /**
+     * A private method to calculate the difference in the predicted final delivered impressions
+     * of a high-priority campaign (based on "today's" data) and booked number of impressions the
+     * campaign has.
+     *
+     * @access private
+     * @param integer $campaignDays The number of days the campaign is expected to run for.
+     * @param integer $runningDays The number of days the campaign has been running for.
+     * @param integer $desiredImpressions The number of impressions the campaign has been booked to deliver.
+     * @param integer $actualImpressions The number of impressions the campaign has delivered so far.
+     * @return float The difference in the predicted final delivered impressions of a high-priority
+     *               campaign (based on "today's" data) and booked number of impressions the campaign
+     *               has. Positive for over-delivery, negative for under-delivery.
+     */
+    function _calculateTodaysPercentDifference($todaysImpressions, $yesterdaysImpressions, $yesterdaysImpressionsToSameHourAsNow, $remainingDays, $campaignImpressionsToLastNight, $desiredImpressions)
+    {
+        // The number of impressions that are predicted to happen "today" is the number of impressions delivered so
+        // far today, multiplied by the total number of impressions delivered yesterday divided by how many of those
+        // impressions had been delivered so far at the same point in time yesterday
+        $predictedImpressionsToday = $todaysImpressions * ($yesterdaysImpressions / $yesterdaysImpressionsToSameHourAsNow);
+        // At this predicted daily rate of delivery, the total impressions that will be delivered is this number
+        // of impressions multiplied by the days remaining for the campaign, plus how many impressions have been
+        // delivered before today
+        $predictedTotalImpressions = ($predictedImpressionsToday * $remainingDays) + $campaignImpressionsToLastNight;
+        // Calculate and return the percentage difference
+        $percentDiff = (($predictedTotalImpressions / $desiredImpressions) - 1) * 100;
+        return $percentDiff;
     }
 
 }
+
 ?>

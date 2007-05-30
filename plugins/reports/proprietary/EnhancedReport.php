@@ -312,16 +312,6 @@ class EnhancedReport extends Plugins_Reports
         return $ctr;
     }
 
-    function formatDateForDisplay($date_string)
-    {
-        if ($date_string == '0000-00-00') {
-            return false;
-        }
-        $date_object = new Date($date_string);
-        $formatted_date = $date_object->format('%Y-%m-%d');
-        return $formatted_date;
-    }
-
     /**
      * Add a value partway through a numberically-indexed array.
      *

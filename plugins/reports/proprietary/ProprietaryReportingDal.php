@@ -954,7 +954,6 @@ ORDER BY
 
     function getCampaignDeliveryPerformanceForScopeByCampaignsActiveWithinPeriod($scope, $oDaySpan)
     {
-        $this->_buildQueryForEverythingByCampaign($this->queryBuilder);
         $this->_restrictEffectivenessQueryCampaignsActiveDuringPeriod($oDaySpan);
         $this->_restrictEffectivenessQueryToScope($scope);
         $this->_addSelectionForCampaignDeliveryPerformanceFields();
@@ -964,7 +963,6 @@ ORDER BY
 
     function getCampaignDeliveryPerformanceForScopeByCampaign($scope, $oDaySpan)
     {
-        $this->_buildQueryForEverythingByCampaign($this->queryBuilder);
         $this->_restrictEffectivenessQueryToDataCollectedDuringPeriod($oDaySpan);
         $this->_restrictEffectivenessQueryToScope($scope);
         $this->_addSelectionForCampaignDeliveryPerformanceFields();
