@@ -12,12 +12,7 @@
   <import file="../../includes/init.xml"/>
   <import file="${webtest.home}/lib/taskdef.xml"/>
 
-  <property name="destination_file" value="example.php"/>
-  
   <target name="canoo-test">
-    <!-- additional preparation - copy alocal.php into www folder -->
-    <copy file="php/${destination_file}" todir="${openads.path}/www" />
-    
     <testSpec name="Run Delivery">
       &config;
       <steps>
@@ -26,9 +21,6 @@
         <verifyTitle description="Check that browser was redirected to example page" text="Example Web Page" />
       </steps>
     </testSpec>
-    
-    <!-- remove copied file after testing it -->
-    <delete file="${openads.path}/www/${destination_file}" />
   </target>
 
   <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
