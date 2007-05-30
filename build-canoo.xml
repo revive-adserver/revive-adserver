@@ -1,0 +1,119 @@
+<!--
+  This script contains the targets required to set up and run canoo web tests
+  on the EC2 machine.
+
+  Dependencies:
+    * The directory '/var/www/html/openads' on the remote EC2 machine.
+      Moreover, it is owned and writable by the 'admin' user.
+    * The '/tests/canoo/properties/user.properties' file contains a proper
+      EC2 configuration for canoo testing.
+    * The 'ec2.properties' contains the proper ec2 connection properties.
+    * The ssh/scp required jsch-0.1.33.jar from http://www.jcraft.com/jsch/index.html
+      is available for ant (e.g. in the ant's lib directory)
+    * For the canoo tests to work ant-contrib is required:
+      http://ant-contrib.sourceforge.net/
+      You have to put it into canoo lib directory
+-->
+<project name="canoo" default="prepare-dir" basedir=".">
+  <property name="ec2.openads.dir" value="/var/www/html/openads"/>
+  <property name="canoo.log" value="${basedir}/canoo.log"/>
+  <property name="timeout" value="60000"/>
+  <property file="${basedir}/tests/canoo/properties/user.properties" prefix="canoo"/>
+  <property file="${basedir}/ec2.properties"/>
+  <property name="ec2.openads.config" value="${canoo.host}.conf.php"/>
+  <property name="ec2.openads.database" value="openads"/>
+
+  <macrodef name="canoo-ssh" description="Executes ssh command on the currently configured ec2 machine.">
+    <attribute name="command" description="Command to be executed."/>
+    <attribute name="username" default="admin"/>
+    <attribute name="password" default="${ec2.admin.password}"/>
+    <sequential>
+      <sshexec host="${canoo.host}" username="admin" password="${ec2.admin.password}" trust="yes" output="${canoo.log}" append="true" timeout="${timeout}" command="@{command}"/>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="canoo-ssh-root" description="Executes ssh command on the currently configured ec2 machine.">
+    <attribute name="command" description="Command to be executed."/>
+    <sequential>
+      <canoo-ssh command="@{command}" username="root" password="${ec2.root.password}"/>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="clean-delivery-cache-remote">
+    <sequential>
+      <canoo-ssh-root command="rm -f ${ec2.openads.dir}/var/cache/deliverycache_* ${ec2.openads.dir}/var/cache/cache_*"/>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="canoo-scp" description="Copies the specified file to the ec2 machine.">
+    <attribute name="dir" description="Directory to copy the file to." default=""/>
+    <element name="files" description="Fileset to be copied."/>
+    <sequential>
+      <scp todir="admin@@${canoo.host}:@{dir}" trust="yes" password="${ec2.admin.password}">
+        <files/>
+      </scp>
+    </sequential>
+  </macrodef>
+
+  <!-- Cleans up the old Openads directory. -->
+  <target name="canoo-prepare-dir">
+    <echo message="rm -rf ${ec2.openads.dir}/*"/>
+    <canoo-ssh-root command="rm -rf ${ec2.openads.dir}/*"/>
+  </target>
+
+  <target name="canoo-copy-package">
+    <canoo-scp>
+      <files>
+        <fileset dir="${dir.test.results}" includes="${canoo.package}"/>
+      </files>
+    </canoo-scp>
+  </target>
+
+  <target name="canoo-unpack-package">
+    <canoo-ssh command="tar xjf ${canoo.package} -C ${ec2.openads.dir}"/>
+    <canoo-ssh command="touch ${ec2.openads.dir}/var/INSTALLED"/>
+    <canoo-ssh command="chmod -R a+w ${ec2.openads.dir}/var"/>
+    <canoo-scp dir="${ec2.openads.dir}/www">
+      <files>
+        <fileset dir="${basedir}/tests/canoo/php/" includes="*"/>
+      </files>
+    </canoo-scp>
+  </target>
+
+  <target name="canoo-create-openads-configuration">
+    <property name="openads.url" value="${canoo.host}/openads/www"/>
+    <exec dir="${basedir}/tests" executable="php" failonerror="true">
+      <arg value="create-config-file.php" />
+      <arg value="${ec2.openads.config}" />
+      <arg value="database.host=${canoo.host}"/>
+      <arg value="database.username=${canoo.sql.user}"/>
+      <arg value="database.password=${canoo.sql.password}"/>
+      <arg value="database.name=${ec2.openads.database}"/>
+      <arg value="debug.production=0"/>
+      <arg value="webpath.admin=${openads.url}/admin"/>
+      <arg value="webpath.delivery=${openads.url}/delivery"/>
+      <arg value="webpath.deliverySSL=${openads.url}/delivery"/>
+      <arg value="webpath.images=${openads.url}/images"/>
+      <arg value="webpath.imagesSSL=${openads.url}/images"/>
+      <arg value="openads.installed=1"/>
+      <arg value="table.prefix=oa_"/>
+      <arg value="maintenance.autoMaintenance=0"/>
+    </exec>
+    <canoo-scp dir="${ec2.openads.dir}/var">
+      <files>
+        <fileset dir="tests" includes="${ec2.openads.config}"/>
+      </files>
+    </canoo-scp>
+  </target>
+
+  <target name="run-test-canoo">
+    <exec executable="webtest.sh" failonerror="true">
+      <arg line="-f ${basedir}/tests/canoo/start.xml init-delivery-db"/>
+    </exec>
+    <!-- output="${basedir}/build/test-reports/canoo.log" -->
+    <exec executable="webtest.sh" failonerror="true">
+      <arg line="-f ${basedir}/tests/canoo/start.xml -Dcanoo.host=${canoo.host} delivery -Dec2.admin.password=${ec2.admin.password}"/>
+    </exec>
+  </target>
+</project>
+

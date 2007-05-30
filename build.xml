@@ -9,6 +9,8 @@
   <import file="build-filelist.xml"/>
   <!-- Import the svn commands -->
   <import file="build-svn.xml"/>
+  <!-- Import the canoo scripts -->
+  <import file="build-canoo.xml"/>
 
   <!-- Openads Package Integrity Plugin -->
   <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
@@ -111,31 +113,43 @@
     </chmod>
   </target>
 
-  <target name="package-bzip2" depends="prepare-package">
-    <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="." compression="bzip2" longfile="gnu">
+  <target name="prepare-distribution" depends="prepare-package">
+    <mkdir dir="${release}"/>
+    <copy todir="${release}" includeEmptyDirs="true">
+      <fileset dir=".">
+        <patternset refid="dist.included"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="package-bzip2" depends="prepare-distribution">
+    <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="." includes="${release}/**" compression="bzip2" longfile="gnu"/>
+  </target>
+
+  <!-- Used for canoo package -->
+  <target name="package-bzip2-flat" depends="prepare-package">
+    <property name="canoo.package" value="openads-canoo.tar.bz2"/>
+    <property name="canoo.package.file" value="${dir.test.results}/${canoo.package}"/>
+    <tar destfile="${canoo.package.file}" basedir="." compression="bzip2" longfile="gnu">
       <patternset refid="dist.included"/>
     </tar>
   </target>
 
-  <target name="package-gz" depends="prepare-package">
-    <tar destfile="${dir.test.results}/${release}.tar.gz" basedir="." compression="gzip" longfile="gnu">
-      <patternset refid="dist.included"/>
-    </tar>
+  <target name="package-gz" depends="prepare-distribution">
+    <tar destfile="${dir.test.results}/${release}.tar.gz" includes="${release}/**" basedir="." compression="gzip" longfile="gnu"/>
   </target>
 
-  <target name="package-zip" depends="prepare-package">
-    <zip destfile="${dir.test.results}/${release}.zip" basedir=".">
-      <patternset refid="dist.included"/>
-    </zip>
+  <target name="package-zip" depends="prepare-distribution">
+    <zip destfile="${dir.test.results}/${release}.zip" basedir="."  includes="${release}/**"/>
   </target>
 
   <target name="revert-after-packaging">
     <svn-revert file="constants.php"/>
   </target>
 
-  <target name="package-canoo" depends="checkconsistency, package-bzip2,revert-after-packaging"/>
+  <target name="package-canoo" depends="svn-update, checkconsistency, package-bzip2, revert-after-packaging"/>
 
-  <target name="package" depends="checkconsistency, prepare-package, package-bzip2, package-gz, package-zip, revert-after-packaging"/>
+  <target name="package" depends="checkconsistency, package-bzip2, package-gz, package-zip, revert-after-packaging"/>
 
   <target name="tag" depends="checkconsistency, prepare-version-info">
     <echo message="Tagging release: ${release}."/>
@@ -151,6 +165,10 @@
   <target name="test-all" depends="init, test-prepare">
     <ant antfile="tests.xml"/>
   </target>
+
+  <target name="test-canoo" depends="svn-update, checkconsistency, package-bzip2-flat, revert-after-packaging, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openads-configuration, run-test-canoo"/>
+
+  <target name="test-canoo-prepare" depends="svn-update, checkconsistency, package-bzip2-flat, revert-after-packaging, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openads-configuration"/>
 
 
   <target name="simpletest" depends="clean, init, test-all, package" />

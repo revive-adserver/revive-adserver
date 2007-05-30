@@ -1,22 +1,37 @@
 <?xml version="1.0"?>
 <project name="Init Openads Web Tests" basedir=".." default="main">
   <property file="properties/user.properties"/>
+  <property name="cache.clean.macro" value="target-cache-local"/>
+
+  <import file="${basedir}/../../build-canoo.xml"/>
     
-   <macrodef name="clean-delivery-cache">
-     <sequential>
-        <delete>
-          <fileset dir="./../../var/cache/">
-            <include name="deliverycache_*" />
-            <include name="cache_*" />
-          </fileset>
-        </delete>
-	  </sequential>
+  <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+
+  <macrodef name="clean-delivery-cache-local">
+    <sequential>
+      <delete>
+        <fileset dir="./../../var/cache/">
+          <include name="deliverycache_*" />
+          <include name="cache_*" />
+        </fileset>
+      </delete>
+    </sequential>
+  </macrodef>
+
+    <macrodef name="clean-delivery-cache">
+      <sequential>
+        <if>
+          <istrue value="${run.remote}"/>
+          <then>
+            <clean-delivery-cache-local/>
+          </then>
+          <else>
+            <clean-delivery-cache-remote/>
+          </else>
+        </if>
+      </sequential>
     </macrodef>
-    
-    <target name="clean-delivery-cache">
-      <clean-delivery-cache />
-    </target>
-    
+
     <target name="test-cache">
         <clean-delivery-cache />
         <!-- first run the test without delivery cache -->

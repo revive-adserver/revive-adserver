@@ -27,6 +27,9 @@ $Id: TestEnv.php 5447 2007-03-28 14:33:48Z andrew.hill@openads.org $
 
 require_once(MAX_PATH . '/lib/pear/Config.php');
 
+define('CONFIG_TEMPLATE', MAX_PATH . '/etc/test.conf.php');
+define('CONFIG_PATH', MAX_PATH . '/var/test.conf.php');
+
 /**
  * CCConfigWriter (short name for CruiseControlConfigWriter)
  *
@@ -35,10 +38,8 @@ class CCConfigWriter
 {
     function configureTest($type, $host, $port, $username, $password, $name, $tableType)
     {
-        $fTestConfigSource = MAX_PATH . '/etc/test.conf.php';
-        $fTestConfigDestination = MAX_PATH . '/var/test.conf.php';
         $config = new Config();
-        $configContainer = &$config->parseConfig($fTestConfigSource, 'inifile');
+        $configContainer = &$config->parseConfig(CONFIG_TEMPLATE, 'inifile');
 
         $sectionDatabase = &$configContainer->getItem('section', 'database');
         $sectionDatabase->setDirective('type', $type);
@@ -52,7 +53,24 @@ class CCConfigWriter
         $sectionTable = &$configContainer->getItem('section', 'table');
         $sectionTable->setDirective('type', $tableType);
         
-        $config->writeConfig($fTestConfigDestination, 'inifile');
+        $config->writeConfig(CONFIG_PATH, 'inifile');
+    }
+    
+    
+    function configureTestFromArray($aConfigurationEntries, $configFilename)
+    {
+        $config = new Config();
+        $configContainer = &$config->parseConfig(CONFIG_TEMPLATE, 'inifile');
+        
+        foreach($aConfigurationEntries as $configurationEntry) {
+            $aConfigurationEntry = explode("=", $configurationEntry);
+            list($configurationKey, $configurationValue) = $aConfigurationEntry;
+            list($sectionName, $variableName) = explode('.', $configurationKey);
+            $section = &$configContainer->getItem('section', $sectionName);
+            $section->setDirective($variableName, $configurationValue);
+        }
+        
+        $config->writeConfig($configFilename, 'inifile');
     }
 }
 

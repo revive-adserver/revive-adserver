@@ -10,6 +10,7 @@
   <property name="openads.path" value="${basedir}/../.."/>
   <property name="openads.url" value="${protocol}://${host}${basepath}"/>
   <property name="openads.example_url" value="${openads.url}/example.php"/>
+  <property name="uc" value="afr"/>
 
   <target name="www-admin">
     <ant antfile="usecases/loginTest.xml" />
@@ -57,7 +58,7 @@
   </target>
   
   <target name="testing" depends="clean, init-delivery-db">
-    <ant antfile="usecases/delivery/apu.xml" />
+    <ant antfile="usecases/delivery/${uc}.xml" />
   </target>
   
   <target name="clean">
