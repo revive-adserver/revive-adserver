@@ -5,8 +5,8 @@
  <name>openads</name>
  <create>true</create>
  <overwrite>false</overwrite>
- <version>500</version>
- <status>final</status>
+ <version>505</version>
+ <status>transitional</status>
 
  <table>
 
@@ -103,10 +103,10 @@
 
    <field>
     <name>logical</name>
-    <type>text</type>
-    <length>'and'</length>
+    <type>openads_varchar</type>
+    <length>3</length>
     <notnull>true</notnull>
-    <default></default>
+    <default>and</default>
    </field>
 
    <field>
@@ -260,7 +260,7 @@
    </field>
 
    <index>
-    <name>zone_id</name>
+    <name>ad_zone_assoc_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -413,7 +413,7 @@
    </field>
 
    <index>
-    <name>agencyid</name>
+    <name>affiliates_agencyid</name>
     <field>
      <name>agencyid</name>
      <sorting>ascending</sorting>
@@ -1006,7 +1006,7 @@
    </field>
 
    <index>
-    <name>campaignid</name>
+    <name>banners_campaignid</name>
     <field>
      <name>campaignid</name>
      <sorting>ascending</sorting>
@@ -1189,8 +1189,32 @@
     <default></default>
    </field>
 
+   <field>
+    <name>block</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>capping</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>session_capping</name>
+    <type>openads_int</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
    <index>
-    <name>clientid</name>
+    <name>campaigns_clientid</name>
     <field>
      <name>clientid</name>
      <sorting>ascending</sorting>
@@ -1267,7 +1291,7 @@
    </field>
 
    <index>
-    <name>campaignid</name>
+    <name>campaigns_trackers_campaignid</name>
     <field>
      <name>campaignid</name>
      <sorting>ascending</sorting>
@@ -1275,7 +1299,7 @@
    </index>
 
    <index>
-    <name>trackerid</name>
+    <name>campaigns_trackers_trackerid</name>
     <field>
      <name>trackerid</name>
      <sorting>ascending</sorting>
@@ -1560,7 +1584,7 @@
    </field>
 
    <index>
-    <name>agencyid</name>
+    <name>clients_agencyid</name>
     <field>
      <name>agencyid</name>
      <sorting>ascending</sorting>
@@ -1717,8 +1741,7 @@
    <field>
     <name>total_num_items</name>
     <type>openads_int</type>
-    <unsigned>true</unsigned>
-    <length>10</length>
+    <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
@@ -1884,6 +1907,22 @@
     <name>connection_channel</name>
     <type>openads_varchar</type>
     <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>tracker_channel_ids</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_channel_ids</name>
+    <type>openads_varchar</type>
+    <length>64</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -2340,7 +2379,15 @@
     <default></default>
    </field>
 
-  <field>
+   <field>
+    <name>channel_ids</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
     <name>language</name>
     <type>openads_varchar</type>
     <length>32</length>
@@ -2628,6 +2675,14 @@
     <name>channel</name>
     <type>openads_varchar</type>
     <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>channel_ids</name>
+    <type>openads_varchar</type>
+    <length>64</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -2925,6 +2980,14 @@
    </field>
 
    <field>
+    <name>channel_ids</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
     <name>language</name>
     <type>openads_varchar</type>
     <length>32</length>
@@ -3194,6 +3257,14 @@
     <name>channel</name>
     <type>openads_varchar</type>
     <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>channel_ids</name>
+    <type>openads_varchar</type>
+    <length>64</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -3469,6 +3540,14 @@
     <name>channel</name>
     <type>openads_varchar</type>
     <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>channel_ids</name>
+    <type>openads_varchar</type>
+    <length>64</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -3871,10 +3950,9 @@
    <field>
     <name>total_num_items</name>
     <type>openads_int</type>
-    <unsigned>true</unsigned>
-    <length>10</length>
-    <notnull>true</notnull>
-    <default>0</default>
+    <length>11</length>
+    <notnull>false</notnull>
+    <default></default>
    </field>
 
    <field>
@@ -4303,7 +4381,7 @@
    </field>
 
    <index>
-    <name>day</name>
+    <name>data_summary_zone_country_daily_day</name>
     <field>
      <name>day</name>
      <sorting>ascending</sorting>
@@ -4311,7 +4389,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_country_daily_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -4381,7 +4459,7 @@
    </field>
 
    <index>
-    <name>day_of_week</name>
+    <name>data_summary_zone_country_forecast_day_of_week</name>
     <field>
      <name>day_of_week</name>
      <sorting>ascending</sorting>
@@ -4389,7 +4467,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_country_forecast_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -4468,7 +4546,7 @@
    </field>
 
    <index>
-    <name>yearmonth</name>
+    <name>data_summary_zone_country_monthly_yearmonth</name>
     <field>
      <name>yearmonth</name>
      <sorting>ascending</sorting>
@@ -4476,7 +4554,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_country_monthly_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -4562,7 +4640,7 @@
    </field>
 
    <index>
-    <name>day</name>
+    <name>data_summary_zone_domain_page_daily_day</name>
     <field>
      <name>day</name>
      <sorting>ascending</sorting>
@@ -4570,7 +4648,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_domain_page_daily_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -4648,7 +4726,7 @@
    </field>
 
    <index>
-    <name>day_of_week</name>
+    <name>data_summary_zone_domain_page_forecast_day_of_week</name>
     <field>
      <name>day_of_week</name>
      <sorting>ascending</sorting>
@@ -4656,7 +4734,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_domain_page_forecast_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -4743,7 +4821,7 @@
    </field>
 
    <index>
-    <name>yearmonth</name>
+    <name>data_summary_zone_domain_page_monthly_yearmonth</name>
     <field>
      <name>yearmonth</name>
      <sorting>ascending</sorting>
@@ -4751,7 +4829,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_domain_page_monthly_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -4854,6 +4932,14 @@
    </index>
 
    <index>
+    <name>data_summary_zone_impression_history_zone_id</name>
+    <field>
+     <name>zone_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
     <name>data_summary_zone_impression_history_pkey</name>
     <primary>true</primary>
     <field>
@@ -4932,7 +5018,7 @@
    </field>
 
    <index>
-    <name>day</name>
+    <name>data_summary_zone_site_keyword_daily_day</name>
     <field>
      <name>day</name>
      <sorting>ascending</sorting>
@@ -4940,7 +5026,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_site_keyword_daily_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5018,7 +5104,7 @@
    </field>
 
    <index>
-    <name>day_of_week</name>
+    <name>data_summary_zone_site_keyword_forecast_day_of_week</name>
     <field>
      <name>day_of_week</name>
      <sorting>ascending</sorting>
@@ -5026,7 +5112,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_site_keyword_forecast_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5113,7 +5199,7 @@
    </field>
 
    <index>
-    <name>yearmonth</name>
+    <name>data_summary_zone_site_keyword_monthly_yearmonth</name>
     <field>
      <name>yearmonth</name>
      <sorting>ascending</sorting>
@@ -5121,7 +5207,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_site_keyword_monthly_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5199,7 +5285,7 @@
    </field>
 
    <index>
-    <name>day</name>
+    <name>data_summary_zone_source_daily_day</name>
     <field>
      <name>day</name>
      <sorting>ascending</sorting>
@@ -5207,7 +5293,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_source_daily_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5277,7 +5363,7 @@
    </field>
 
    <index>
-    <name>day_of_week</name>
+    <name>data_summary_zone_source_forecast_day_of_week</name>
     <field>
      <name>day_of_week</name>
      <sorting>ascending</sorting>
@@ -5285,7 +5371,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_source_forecast_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5364,7 +5450,7 @@
    </field>
 
    <index>
-    <name>yearmonth</name>
+    <name>data_summary_zone_source_monthly_yearmonth</name>
     <field>
      <name>yearmonth</name>
      <sorting>ascending</sorting>
@@ -5372,7 +5458,7 @@
    </index>
 
    <index>
-    <name>zone_id</name>
+    <name>data_summary_zone_source_monthly_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5747,7 +5833,7 @@
    </field>
 
    <index>
-    <name>zone_id</name>
+    <name>placement_zone_assoc_zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -7250,7 +7336,7 @@
    </field>
 
    <index>
-    <name>clientid</name>
+    <name>trackers_clientid</name>
     <field>
      <name>clientid</name>
      <sorting>ascending</sorting>
@@ -7505,7 +7591,7 @@
    </index>
 
    <index>
-    <name>trackerid</name>
+    <name>variables_trackerid</name>
     <field>
      <name>trackerid</name>
      <sorting>ascending</sorting>
