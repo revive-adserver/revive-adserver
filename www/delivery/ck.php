@@ -1309,6 +1309,7 @@ $cName  = OA_Delivery_Cache_getName(__FUNCTION__);
 if (!$cached || ($output = OA_Delivery_Cache_fetch($cName, false, 3600)) === false) {
 MAX_Dal_Delivery_Include();
 $output = OA_Dal_Delivery_getMaintenanceInfo();
+//        $interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'];
 $output = OA_Delivery_Cache_store_return($cName, $output);
 }
 return $output;
