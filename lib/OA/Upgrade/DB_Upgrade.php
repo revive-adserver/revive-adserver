@@ -497,7 +497,7 @@ class OA_DB_Upgrade
                 {
                     if (isset($v['add']))
                     {
-                        foreach ($v['add'] AS $column => $bool)
+                        foreach ($v['add']['fields'] AS $column => $bool)
                         {
                             $this->_log('column missing from table: '.$k.'.'.$column);
                         }
