@@ -2177,10 +2177,14 @@ echo MAX_flashGetFlashObjectInline();
 $uniqid = substr(md5(uniqid('', 1)), 0, 8);
 echo MAX_javascriptToHTML($output['html'] . $JScontext, "MAX_{$uniqid}");
 if (!empty($block) && !empty($output['bannerid'])) {
+$varprefix = $GLOBALS['_MAX']['CONF']['var']['prefix'];
+echo "\nif (document.{$varprefix}used) document.{$varprefix}_used += 'bannerid:".$output['bannerid'].",';\n";
 echo "\nif (document.MAX_used) document.MAX_used += 'bannerid:".$output['bannerid'].",';\n";
 echo "\nif (document.phpAds_used) document.phpAds_used += 'bannerid:".$output['bannerid'].",';\n";
 }
 if (!empty($blockcampaign) && !empty($output['campaignid'])) {
+$varprefix = $GLOBALS['_MAX']['CONF']['var']['prefix'];
+echo "\nif (document.{$varprefix}used) document.{$varprefix}used += 'campaignid:".$output['campaignid'].",';\n";
 echo "\nif (document.MAX_used) document.MAX_used += 'campaignid:".$output['campaignid'].",';\n";
 echo "\nif (document.phpAds_used) document.phpAds_used += 'campaignid:".$output['campaignid'].",';\n";
 }
