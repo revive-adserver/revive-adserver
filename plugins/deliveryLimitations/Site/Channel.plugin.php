@@ -131,8 +131,15 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
             phpAds_sqlDie();
         }
 
+        $aChannels = array();
+
         // Get all of the admin channels that could be used for this banner
-        $aChannels = Admin_DA::getChannels(array('channel_type' => 'admin'), true);
+        if ($this->agencyid == 0) {
+            $aChannels = array_merge(
+                $aChannels,
+                Admin_DA::getChannels(array('channel_type' => 'admin'), true)
+            );
+        }
 
         // Get all of the agency channels that could be used for this banner
         if ($this->agencyid != 0) {
@@ -143,10 +150,12 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
         }
 
         // Get all of the publisher channels that could be used for this banner
-        $aChannels = array_merge(
-            $aChannels,
-            Admin_DA::getChannels(array('agency_id' => $this->agencyid, 'channel_type' => 'publisher'), true)
-        );
+        if ($this->agencyid != 0) {
+            $aChannels = array_merge(
+                $aChannels,
+                Admin_DA::getChannels(array('agency_id' => $this->agencyid, 'channel_type' => 'publisher'), true)
+            );
+        }
 
         $aSelectedChannels = array();
         // Sort the list, and move selected items to the top of the list
