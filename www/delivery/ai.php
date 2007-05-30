@@ -966,7 +966,10 @@ if ($ok && $cache_complete == true) {
 if ($expiryTime === null) {
 $expiryTime = $GLOBALS['OA_Delivery_Cache']['expiry'];
 }
-if (isset($cache_time) && $cache_time < MAX_commonGetTimeNow() - $expiryTime) {
+$now = MAX_commonGetTimeNow();
+if (    (isset($cache_time) && $cache_time < $now - $expiryTime)
+|| (isset($cache_expire) && $cache_expire > $now) )
+{
 OA_Delivery_Cache_store($name, $cache_contents, $isHash);
 return false;
 }
@@ -974,7 +977,7 @@ return $cache_contents;
 }
 return false;
 }
-function OA_Delivery_Cache_store($name, $cache, $isHash = false)
+function OA_Delivery_Cache_store($name, $cache, $isHash = false, $expireAt = null)
 {
 if ($cache === OA_DELIVERY_CACHE_FUNCTION_ERROR) {
 // Don't store the result to enable permanent caching
@@ -984,11 +987,13 @@ if (!is_writable($GLOBALS['OA_Delivery_Cache']['path'])) {
 return false;
 }
 $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
-// $GLOBALS['OA_Delivery_Cache']['expiry']
 $cache_literal  = "<"."?php\n\n";
-$cache_literal .= "$"."cache_contents = ".var_export($cache, true).";\n\n";
-$cache_literal .= "$"."cache_name     = '".addcslashes($name, "'")."';\n";
-$cache_literal .= "$"."cache_time     = ".MAX_commonGetTimeNow().";\n";
+$cache_literal .= "$"."cache_contents   = ".var_export($cache, true).";\n\n";
+$cache_literal .= "$"."cache_name       = '".addcslashes($name, "'")."';\n";
+$cache_literal .= "$"."cache_time       = ".MAX_commonGetTimeNow().";\n";
+if ($expireAt !== null) {
+$cache_literal .= "$"."cache_expire = ".$expireAt.";\n";
+}
 $cache_literal .= "$"."cache_complete = true;\n\n";
 $cache_literal .= "?".">";
 $tmp_filename = tempnam($GLOBALS['OA_Delivery_Cache']['path'], $GLOBALS['OA_Delivery_Cache']['prefix'].'tmp_');
@@ -1006,9 +1011,9 @@ return true;
 }
 return false;
 }
-function OA_Delivery_Cache_store_return($name, $cache, $isHash = false)
+function OA_Delivery_Cache_store_return($name, $cache, $isHash = false, $expireAt = null)
 {
-if (OA_Delivery_Cache_store($name, $cache, $isHash)) {
+if (OA_Delivery_Cache_store($name, $cache, $isHash, $expireAt)) {
 return $cache;
 }
 return OA_Delivery_Cache_fetch($name, $isHash);
@@ -1138,7 +1143,7 @@ return $aVariables;
 function MAX_cacheGetMaintenanceInfo($cached = true)
 {
 $cName  = OA_Delivery_Cache_getName(__FUNCTION__);
-if (!$cached || ($output = OA_Delivery_Cache_fetch($cName, false, 30)) === false) {
+if (!$cached || ($output = OA_Delivery_Cache_fetch($cName, false, 3600)) === false) {
 MAX_Dal_Delivery_Include();
 $output = OA_Dal_Delivery_getMaintenanceInfo();
 $output = OA_Delivery_Cache_store_return($cName, $output);
