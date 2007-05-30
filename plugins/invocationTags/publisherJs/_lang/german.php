@@ -42,16 +42,16 @@ $words = array(
      Fuegen Sie dieses Script unmittelbar UEBER dem {$name} Header Script
      (wie unten definiert) in den <head>-Tag Ihrer Site ein.
 
-     Das untenstehende Script definiert die Variable az_channel. Diese Variable
+     Das untenstehende Script definiert die Variable {$varprefix}channel. Diese Variable
      enthaelt den Namen des 'virtuellen Verzeichnisses' der Web-Site.
 
      Beispiel: Wenn Sie sich auf der Fussball-Uebersichtsseite des Sportbereiches einer
      einer Magazin-Web-Site befinden, sollte das folgende Verzeichnis mit der Variable verknuepft werden:
-       var az_channel = '",
+       var {$varprefix}channel = '",
 
     'Publisher JS Channel Script Comment 2' => "/sport/fussball';
      Umgekehrt, wenn Sie sich auf der Homepage der Site befinden, sollte die Variable wie folgt aussehen:
-       var az_channel = '",
+       var {$varprefix}channel = '",
 
     'Publisher JS Channel Script Comment 3' => "';
 -->",

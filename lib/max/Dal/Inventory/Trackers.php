@@ -105,13 +105,14 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
 
     function generateAppendCode($codes)
     {
+        $vaprefix   = $GLOBALS['_MAX']['CONF']['var']['prefix'];
         $appendcode = array();
 
         foreach ($codes as $v) {
             if ($v['paused'] == 'f') {
                 if ($v['autotrack'] == 't') {
                     // Prepare the code for auto-tracking using the inherit technique and variable templates
-                    $v['tagcode'] = preg_replace('/("\?trackerid=\d+)(&amp;r="\+az_r\+"\'><\" \+ "\/script>")/', '$1&amp;inherit=1$2', $v['tagcode']);
+                    $v['tagcode'] = preg_replace('/("\?trackerid=\d+)(&amp;r="\+{$varprefix}r\+"\'><\" \+ "\/script>")/', '$1&amp;inherit=1$2', $v['tagcode']);
                     $v['tagcode'] = preg_replace('/\{variable:(.+?)\}/', '{m3_trackervariable:$1}', $v['tagcode']);
                 }
 

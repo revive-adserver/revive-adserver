@@ -27,6 +27,7 @@ $Id$
 
 $conf = $GLOBALS['_MAX']['CONF'];
 $name = (!empty($GLOBALS['_MAX']['PREF']['name'])) ? $GLOBALS['_MAX']['PREF']['name'] : MAX_PRODUCT_NAME;
+$varprefix = $conf['var']['prefix'];
 
 $words = array(
     'Remove Comments Note' => "
@@ -42,16 +43,16 @@ $words = array(
    Include this script directly ABOVE the {$name} Header Script
    (defined below), in the <head> tag.
 
-   The script below should define a variable, az_channel. This variable
+   The script below should define a variable, {$varprefix}channel. This variable
    should contain the name of the 'virtual directory' of the site.
 
    For example, if you are on the football summary page of the sports section
    of a news site, the following should be included:
-     var az_channel = '",
+     var {$varprefix}channel = '",
 
     'Publisher JS Channel Script Comment 2' => "/sports/football';
    Conversely, if you are on the home page of the site, the variable should be:
-     var az_channel = '",
+     var {$varprefix}channel = '",
 
     'Publisher JS Channel Script Comment 3' => "';
 -->",

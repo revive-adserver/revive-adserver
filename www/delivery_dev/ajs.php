@@ -82,15 +82,19 @@ echo MAX_javascriptToHTML($output['html'] . $JScontext, "MAX_{$uniqid}");
 
 // Block this banner for next invocation
 if (!empty($block) && !empty($output['bannerid'])) {
-    echo "\nif (document.MAX_used) document.MAX_used += 'bannerid:".$output['bannerid'].",';\n";
+    $varprefix = $GLOBALS['_MAX']['CONF']['var']['prefix'];
+    echo "\nif (document.{$varprefix}used) document.{$varprefix}_used += 'bannerid:".$output['bannerid'].",';\n";
     // Provide backwards compatibility for the time-being
+    echo "\nif (document.MAX_used) document.MAX_used += 'bannerid:".$output['bannerid'].",';\n";
     echo "\nif (document.phpAds_used) document.phpAds_used += 'bannerid:".$output['bannerid'].",';\n";
 }
 
 // Block this campaign for next invocation
 if (!empty($blockcampaign) && !empty($output['campaignid'])) {
-    echo "\nif (document.MAX_used) document.MAX_used += 'campaignid:".$output['campaignid'].",';\n";
+    $varprefix = $GLOBALS['_MAX']['CONF']['var']['prefix'];
+    echo "\nif (document.{$varprefix}used) document.{$varprefix}used += 'campaignid:".$output['campaignid'].",';\n";
     // Provide backwards compatibility for the time-being
+    echo "\nif (document.MAX_used) document.MAX_used += 'campaignid:".$output['campaignid'].",';\n";
     echo "\nif (document.phpAds_used) document.phpAds_used += 'campaignid:".$output['campaignid'].",';\n";
 }
 

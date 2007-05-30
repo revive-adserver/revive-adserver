@@ -118,6 +118,7 @@ class Plugins_InvocationTags_publisherJS_publisherJS extends Plugins_InvocationT
         if (!isset($aZoneId) || !is_array($aZoneId)) {
             return MAX_Plugin_Translation::translate('No Zones Available!', $this->module, $this->package);
         }
+        $varprefix = $conf['var']['prefix'];
         $script = "
 <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 <html>
@@ -129,22 +130,22 @@ class Plugins_InvocationTags_publisherJS_publisherJS extends Plugins_InvocationT
 
 <script type='text/javascript'>
 <!--// <![CDATA[
-  var az_channel = '{$mnemonic}/test/preview';
+  var {$varprefix}channel = '{$mnemonic}/test/preview';
 // ]]> -->
 </script>
 ".MAX_Plugin_Translation::translate('Publisher JS Header Script Comment', $this->module, $this->package)."
 
 <script type='text/javascript'>
 <!--// <![CDATA[
-var az_p=location.protocol=='https:'?'https:':'http:';
-var az_r=Math.floor(Math.random()*99999999);
-if (!document.phpAds_used) document.phpAds_used = ',';
-function az_adjs(z,n)
+var {$varprefix}p=location.protocol=='https:'?'https:':'http:';
+var {$varprefix}r=Math.floor(Math.random()*99999999);
+if (!document.{$varprefix}used) document.{$varprefix}used = ',';
+function {$varprefix}adjs(z,n)
 {
   if (z>-1) {
     var az=\"<\"+\"script language='JavaScript' type='text/javascript' \";
-    az+=\"src='\"+az_p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['js'])."?n=\"+n+\"&zoneid=\"+z;
-    az+=\"&source=\"+az_channel+\"&exclude=\"+document.phpAds_used+\"&r=\"+az_r;
+    az+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['js'])."?n=\"+n+\"&zoneid=\"+z;
+    az+=\"&source=\"+{$varprefix}channel+\"&exclude=\"+document.{$varprefix}used+\"&r=\"+{$varprefix}r;
     az+=\"&mmm_fo=\"+(document.mmm_fo)?'1':'0';
     if (window.location) az+=\"&loc=\"+escape(window.location);
     if (document.referrer) az+=\"&referer=\"+escape(document.referrer);
@@ -152,12 +153,12 @@ function az_adjs(z,n)
     document.write(az);
   }
 }
-function az_adpop(z,n)
+function {$varprefix}adpop(z,n)
 {
   if (z>-1) {
     var az=\"<\"+\"script language='JavaScript' type='text/javascript' \";
-    az+=\"src='\"+az_p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['popup'])."?n=\"+n+\"&zoneid=\"+z;
-    az+=\"&source=\"+az_channel+\"&exclude=\"+document.phpAds_used+\"&r=\"+az_r;
+    az+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['popup'])."?n=\"+n+\"&zoneid=\"+z;
+    az+=\"&source=\"+{$varprefix}channel+\"&exclude=\"+document.{$varprefix}used+\"&r=\"+{$varprefix}r;
     if (window.location) az+=\"&loc=\"+escape(window.location);
     if (document.referrer) az+=\"&referer=\"+escape(document.referrer);
     az+=\"'><\"+\"/script>\";
@@ -179,7 +180,7 @@ function az_adpop(z,n)
 
 <script type='text/javascript'>
 <!--// <![CDATA[
-az_adjs({$aZoneId[$key]},'{$aN[$key]}');
+{$varprefix}adjs({$aZoneId[$key]},'{$aN[$key]}');
 // ]]> -->
 
 </script>
@@ -198,7 +199,7 @@ az_adjs({$aZoneId[$key]},'{$aN[$key]}');
 
 <script type='text/javascript'>
 <!--// <![CDATA[
-az_adpop({$aZoneId[$key]},'{$aN[$key]}');
+{$varprefix}adpop({$aZoneId[$key]},'{$aN[$key]}');
 // ]]> -->
 </script>
 ";

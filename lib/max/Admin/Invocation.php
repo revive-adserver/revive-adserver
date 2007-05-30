@@ -468,6 +468,7 @@ class MAX_Admin_Invocation {
         }
 
         if (!empty($varbuffer)) {
+            $varprefix = $conf['var']['prefix'];
             $buffer .= "
 <!--/*
   *
@@ -503,12 +504,12 @@ class MAX_Admin_Invocation {
   */-->
 
 <script type='text/javascript'><!--//<![CDATA[
-    var az_p=location.protocol=='https:'?'https:':'http:';
-    var az_r=Math.floor(Math.random()*999999);
+    var {$varprefix}p=location.protocol=='https:'?'https:':'http:';
+    var {$varprefix}r=Math.floor(Math.random()*999999);
     document.write (\"<\" + \"script language='JavaScript' \");
-    document.write (\"type='text/javascript' src='\"+az_p);
+    document.write (\"type='text/javascript' src='\"+{$varprefix}p);
     document.write (\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['conversionjs'])."\");
-    document.write (\"?trackerid={$trackerId}&amp;r=\"+az_r+\"'><\" + \"/script>\");
+    document.write (\"?trackerid={$trackerId}&amp;r=\"+{$varprefix}r+\"'><\" + \"/script>\");
 //]]>--></script><noscript>" . $this->_generateTrackerImageBeacon($trackerId) . "</noscript>";
         $buffer .= "\n";
         return $buffer;
