@@ -25,7 +25,7 @@ $Id $
 */
 
 /**
- * db upgrade class demonstration script
+ * database vs schema integrity methods
  */
 require_once MAX_PATH.'/lib/simpletest/mock_objects.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
@@ -42,6 +42,7 @@ class OA_DB_Integrity
     var $aMigrationMethods;
 
     var $version;
+    var $OK = true;
 
     function OA_DB_Integrity()
     {
@@ -50,10 +51,7 @@ class OA_DB_Integrity
 
     function init($version)
     {
-        $this->aTasksConstructiveAll        = array();
-        $this->aTasksDestructiveAll         = array();
-        $this->aTasksConstructiveSelected   = array();
-        $this->aTasksDestructiveSelected    = array();
+        $this->_clearProperties();
         $this->version                      = $version;
         $this->oUpgrader                    = new OA_Upgrade();
         if (!$this->oUpgrader->initDatabaseConnection())
@@ -61,12 +59,7 @@ class OA_DB_Integrity
             return false;
         }
         $this->oDBUpgrader                  = & $this->oUpgrader->oDBUpgrader;
-        $this->oDBUpgrader->prefix          = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $this->oDBUpgrader->database        = $GLOBALS['_MAX']['CONF']['database']['name'];
-        $this->oDBUpgrader->path_schema     = MAX_PATH.'/etc/changes/';
-        $this->oDBUpgrader->file_schema     = $this->oDBUpgrader->path_schema.'schema_tables_core_'.$version.'.xml';
-        $this->oDBUpgrader->path_changes    = MAX_PATH.'/var/';
-        $this->oDBUpgrader->file_changes    = $this->oDBUpgrader->path_changes.'changes_tables_core_'.$version.'.xml';
+        $this->_initDBUpgrader();
         $this->oUpgrader->oLogger->logClear();
         if (!$this->oDBUpgrader->buildSchemaDefinition())
         {
@@ -75,6 +68,38 @@ class OA_DB_Integrity
         return true;
     }
 
+    // this one is called from within OA_Upgrade during detectMax
+    // OA_Upgrade assigns itself after instantiation
+    // compiles constructive tasks but does not prune or execute
+    function checkIntegrityQuick($version)
+    {
+        $this->_clearProperties();
+        $this->version                      = $version;
+        $this->oDBUpgrader                  = & $this->oUpgrader->oDBUpgrader;
+        $this->_initDBUpgrader();
+        if (!$this->oDBUpgrader->buildSchemaDefinition())
+        {
+            return false;
+        }
+        if (! $this->oDBUpgrader->checkSchemaIntegrity($this->getFileChanges()))
+        {
+            return false;
+        }
+        if (!$this->oDBUpgrader->init('constructive', 'tables_core', $this->version, 'switchTiming'))
+        {
+            return false;
+        }
+        if (!$this->oDBUpgrader->_verifyTasks())
+        {
+            return false;
+        }
+        $this->aTasksConstructiveAll = $this->oDBUpgrader->aTaskList;
+        return true;
+    }
+
+    // this one is called via standalone util
+    // which calls the init method to instantiate OA_Upgrade
+    // compiles, prunes and executes constructive and destructive tasks
     function checkIntegrity()
     {
         if (! $this->oDBUpgrader->checkSchemaIntegrity($this->getFileChanges()))
@@ -99,6 +124,7 @@ class OA_DB_Integrity
             return false;
         }
         $this->aTasksDestructiveAll = $this->oDBUpgrader->aTaskList;
+
         return true;
     }
 
@@ -239,6 +265,40 @@ class OA_DB_Integrity
                     }
                 }
             }
+            if (isset($this->aTasksConstructiveSelected['indexes']['remove']))
+            {
+                foreach ($this->aTasksConstructiveAll['indexes']['remove'] AS $kAll => $vAll)
+                {
+                    foreach ($this->aTasksConstructiveSelected['indexes']['remove'] AS $kSel => $vSel)
+                    {
+                        $table = key($vSel);
+                        $index = $vSel[$table];
+                        if ((($vAll['table']==$table) && (($vAll['name']==$index))))
+                        {
+                            $aTasks['indexes']['remove'][] = $vAll;
+                            $this->aMigrationMethods[$this->oDBUpgrader->aChanges['hooks']['constructive']['tables'][$table]['indexes'][$index]['beforeRemoveIndex']] = 1;
+                            $this->aMigrationMethods[$this->oDBUpgrader->aChanges['hooks']['constructive']['tables'][$table]['indexes'][$index]['afterRemoveIndex']] = 1;
+                        }
+                    }
+                }
+            }
+            if (isset($this->aTasksConstructiveSelected['indexes']['add']))
+            {
+                foreach ($this->aTasksConstructiveAll['indexes']['add'] AS $kAll => $vAll)
+                {
+                    foreach ($this->aTasksConstructiveSelected['indexes']['add'] AS $kSel => $vSel)
+                    {
+                        $table = key($vSel);
+                        $index = $vSel[$table];
+                        if ((($vAll['table']==$table) && (($vAll['name']==$index))))
+                        {
+                            $aTasks['indexes']['add'][] = $vAll;
+                            $this->aMigrationMethods[$this->oDBUpgrader->aChanges['hooks']['constructive']['tables'][$table]['indexes'][$index]['beforeAddIndex']] = 1;
+                            $this->aMigrationMethods[$this->oDBUpgrader->aChanges['hooks']['constructive']['tables'][$table]['indexes'][$index]['afterAddIndex']] = 1;
+                        }
+                    }
+                }
+            }
         }
         else if ($timing=='destructive')
         {
@@ -293,6 +353,46 @@ class OA_DB_Integrity
     {
         return $this->oDBUpgrader->file_changes;
     }
+
+    function getConstructiveOK()
+    {
+        return empty($this->aTasksConstructiveAll);
+    }
+
+    function getDestructiveOK()
+    {
+        return empty($this->aTasksDestructiveAll);
+    }
+
+    function _clearProperties()
+    {
+        $this->aTasksConstructiveAll        = array();
+        $this->aTasksDestructiveAll         = array();
+        $this->aTasksConstructiveSelected   = array();
+        $this->aTasksDestructiveSelected    = array();
+        $this->version                      = '';
+    }
+
+    function _initDBUpgrader()
+    {
+        $this->oDBUpgrader->prefix          = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $this->oDBUpgrader->database        = $GLOBALS['_MAX']['CONF']['database']['name'];
+        $this->oDBUpgrader->path_schema     = MAX_PATH.'/etc/changes/';
+        $this->oDBUpgrader->file_schema     = $this->oDBUpgrader->path_schema.'schema_tables_core_'.$this->version.'.xml';
+        $this->oDBUpgrader->path_changes    = MAX_PATH.'/var/';
+        $this->oDBUpgrader->file_changes    = $this->oDBUpgrader->path_changes.'changes_tables_core_'.$this->version.'.xml';
+    }
+
+    function _resetDBUpgrader()
+    {
+        $this->oDBUpgrader->prefix          = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $this->oDBUpgrader->database        = $GLOBALS['_MAX']['CONF']['database']['name'];
+        $this->oDBUpgrader->path_schema     = MAX_PATH.'/etc/changes/';
+        $this->oDBUpgrader->file_schema     = $this->oDBUpgrader->path_schema.'schema_tables_core_'.$this->version.'.xml';
+        $this->oDBUpgrader->path_changes    = MAX_PATH.'/var/';
+        $this->oDBUpgrader->file_changes    = $this->oDBUpgrader->path_changes.'changes_tables_core_'.$this->version.'.xml';
+    }
+
 }
 
 

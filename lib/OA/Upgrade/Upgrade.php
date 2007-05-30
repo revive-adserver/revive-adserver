@@ -319,7 +319,7 @@ class OA_Upgrade
                 $this->oLogger->log('Openads'.$strDetected);
                 $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strTableError);
-                break;
+                return false;
             case OA_STATUS_OAD_VERSION_FAILED:
                 $database = $GLOBALS['_MAX']['CONF']['database']['name'];
                 $this->oLogger->logError('Openads '.$this->versionInitialApplication.' detected');
@@ -444,6 +444,7 @@ class OA_Upgrade
                 if ($valid)
                 {
                     $this->versionInitialSchema['tables_core'] = '500';
+                    //$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']);
                     $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
                     $this->remove_max_version = true;
                     $this->package_file     = 'openads_upgrade_2.3.31_to_2.3.32_beta.xml';
@@ -463,6 +464,31 @@ class OA_Upgrade
         $this->existing_installation_status = OA_STATUS_MAX_NOT_INSTALLED;
         return false;
     }
+
+    function _checkDBIntegrity($version)
+    {
+        $path_schema = $this->oDBUpgrader->path_schema;
+        $file_schema = $this->oDBUpgrader->file_schema;
+        $path_changes = $this->oDBUpgrader->path_changes;
+        $file_changes = $this->oDBUpgrader->file_changes;
+
+        require_once MAX_PATH.'/lib/OA/Upgrade/DB_Integrity.php';
+        $oIntegrity = new OA_DB_Integrity();
+        $oIntegrity->oUpgrader = $this;
+        $result =$oIntegrity->checkIntegrityQuick($version);
+
+        $this->oDBUpgrader->path_schema     = $path_schema;
+        $this->oDBUpgrader->file_schema     = $file_schema;
+        $this->oDBUpgrader->path_changes    = $path_changes;
+        $this->oDBUpgrader->file_changes    = $file_changes;
+
+        if (!$result)
+        {
+            return false;
+        }
+        return $oIntegrity->aTasksConstructiveAll;
+    }
+
 
     /**
      * search for an existing Openads installation
@@ -783,7 +809,7 @@ class OA_Upgrade
                     $this->message = 'Failed to replace MAX configuration file with Openads configuration file';
                     return false;
                 }
-                $this->oLogger->logError('Replaced MAX configuration file with Openads configuration file');
+                $this->oLogger->log('Replaced MAX configuration file with Openads configuration file');
                 $this->oConfiguration->setMaxInstalledOff();
                 $this->oConfiguration->writeConfig();
             }
