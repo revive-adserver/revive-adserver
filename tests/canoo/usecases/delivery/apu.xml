@@ -22,11 +22,12 @@
     <testSpec name="Run Delivery">
       &config;
       <steps>
-        <invoke description="Invoke delivery file" url="/delivery/apu.php?what=bannerid:2" />
+        <invoke description="Invoke delivery file" url="apu.php" />
         &checkForErrors;
-        <!-- check that its JavaScript opens the window -->
-        <verifyText description="Check that it contains JavaScript" text="window.open" />
-        <verifyText description="Check that JS prints: 'html test banner'" regex="true" text="html test banner" />        
+        <!-- check that its JavaScript opens the window MAX_2 -->
+        <selectWindow index="3" />
+        <!-- check that pop-up window contains a test banner -->
+        <verifyText description="Check banner 'html test banner'" regex="true" text="html test banner" />
       </steps>
     </testSpec>
     

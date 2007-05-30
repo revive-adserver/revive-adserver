@@ -8,7 +8,7 @@
   <import file="includes/init.xml"/>
   
   <property name="openads.path" value="${basedir}/../.."/>
-  <property name="openads.url" value="${protocol}://${host}:80${basepath}"/>
+  <property name="openads.url" value="${protocol}://${host}${basepath}"/>
   <property name="openads.example_url" value="${openads.url}/example.php"/>
 
   <target name="www-admin">
@@ -30,10 +30,16 @@
         </fileset>
       </classpath>
       <transaction>
-        UPDATE oa_banners SET url = "${openads.url}" WHERE url = "http://www.example.com"
+        UPDATE oa_banners SET url = "${openads.example_url}" WHERE url = "http://www.example.com"
       </transaction>
     </sql>
   </target>
+  
+  <target name="init-delivery-files">
+    <copy file="php/example.php" todir="${openads.path}/www" />
+  </target>
+  
+  <target name="init-delivery" depends="init-delivery-db, init-delivery-files" />
   
   <target name="delivery">
     <ant antfile="usecases/delivery/ac.xml" />
@@ -50,6 +56,14 @@
     <ant antfile="usecases/delivery/lg.xml" />
   </target>
   
-  <target name="main" depends="init-delivery-db, delivery" />
+  <target name="testing" depends="clean, init-delivery-db">
+    <ant antfile="usecases/delivery/apu.xml" />
+  </target>
+  
+  <target name="clean">
+    <delete dir="target" />
+  </target>
+  
+  <target name="main" depends="clean, init-delivery, delivery" />
   
 </project>
