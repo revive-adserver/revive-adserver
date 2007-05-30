@@ -253,12 +253,20 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oPAN->expectOnce('init');
         $oUpgrade->oPAN->setReturnValueAt(0, 'getPANversion', '200.311');
         $oUpgrade->oPAN->expectCallCount('getPANversion',2);
-        $oUpgrade->oPAN->setReturnValueAt(1, 'getPANversion', '200.500');
-
+        $oUpgrade->oPAN->setReturnValueAt(1, 'getPANversion', '200.313');
 
         $oUpgrade->oPAN->detected = true;
         $oUpgrade->oPAN->aDsn['database']['name'] = 'pan_test';
         $oUpgrade->oPAN->oDbh = null;
+
+        Mock::generatePartial(
+            'OA_DB_Integrity',
+            $mockInteg = 'OA_DB_Integrity'.rand(),
+            array('checkIntegrityQuick')
+        );
+        $oUpgrade->oIntegrity = new $mockInteg($this);
+        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
+        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
 
         // save the global database settings as we will lose them soon...
         $aConf = $GLOBALS['_MAX']['CONF'];
@@ -269,9 +277,9 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->package_file, '', 'wrong package file assigned');
 
         $this->assertTrue($oUpgrade->detectPAN(),'');
-        $this->assertEqual($oUpgrade->versionInitialApplication,'200.500','wrong initial application version');
+        $this->assertEqual($oUpgrade->versionInitialApplication,'200.313','wrong initial application version');
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code');
-        $this->assertEqual($oUpgrade->package_file, 'openads_upgrade_2.0.12_to_2.3.32_beta.xml','wrong package file assigned');
+        $this->assertEqual($oUpgrade->package_file, 'openads_upgrade_2.0.11_to_2.3.32_beta.xml','wrong package file assigned');
 
         $this->assertEqual($GLOBALS['_MAX']['CONF']['database']['name'], 'pan_test', '');
 
@@ -288,6 +296,15 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade  = new OA_Upgrade();
         $oUpgrade->initDatabaseConnection();
         //$oUpgrade->aDsn['table']['prefix'] = $this->prefix;
+
+        Mock::generatePartial(
+            'OA_DB_Integrity',
+            $mockInteg = 'OA_DB_Integrity'.rand(),
+            array('checkIntegrityQuick')
+        );
+        $oUpgrade->oIntegrity = new $mockInteg($this);
+        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
+        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
 
         $this->_createTestAppVarRecord('max_version','v0.3.30-alpha');
         $this->assertFalse($oUpgrade->detectMAX(),'');
@@ -313,6 +330,16 @@ class Test_OA_Upgrade extends UnitTestCase
     {
         $oUpgrade  = new OA_Upgrade();
         //$oUpgrade->initDatabaseConnection();
+
+        Mock::generatePartial(
+            'OA_DB_Integrity',
+            $mockInteg = 'OA_DB_Integrity'.rand(),
+            array('checkIntegrityQuick')
+        );
+        $oUpgrade->oIntegrity = new $mockInteg($this);
+        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
+        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
+
 
         $GLOBALS['_MAX']['CONF']['openads']['installed'] = true;
         $this->_createTestAppVarRecord('oa_version','2.3.31-beta');

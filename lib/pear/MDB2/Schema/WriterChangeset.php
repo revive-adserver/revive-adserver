@@ -147,14 +147,14 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
                     {
                         foreach ($aTable['add'] as $field => $fld_def)
                         {
-                            if (isset($fld_def['autoincrement']) && $fld_def['autoincrement'] )
-                            {
-                                $constructive['tables']['change'][$table]['rename'][$field] = $fld_def;
-                            }
-                            else
-                            {
+//                            if (isset($fld_def['autoincrement']) && $fld_def['autoincrement'] )
+//                            {
+//                                $constructive['tables']['change'][$table]['rename'][$field] = $fld_def;
+//                            }
+//                            else
+//                            {
                                 $constructive['tables']['change'][$table]['add'][$field] = $fld_def;
-                            }
+//                            }
                         }
                         //$constructive['tables']['change'][$table]['add'] = $changes['tables']['change'][$table]['add'];
                     }

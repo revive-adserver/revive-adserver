@@ -1012,6 +1012,10 @@ class OA_DB_Upgrade
         $this->_log('executing '.$this->timingStr.' tasks');
         if ($this->continue)
         {
+            $this->_executeTasksIndexesRemove();
+        }
+        if ($this->continue)
+        {
             $this->_executeTasksTablesAdd();
         }
         if ($this->continue)
@@ -1025,10 +1029,6 @@ class OA_DB_Upgrade
         if ($this->continue)
         {
             $this->_executeTasksTablesRemove();
-        }
-        if ($this->continue)
-        {
-            $this->_executeTasksIndexesRemove();
         }
         if ($this->continue)
         {

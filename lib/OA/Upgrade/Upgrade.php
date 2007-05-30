@@ -65,6 +65,7 @@ require_once(MAX_PATH.'/lib/OA/Upgrade/VersionController.php');
 require_once MAX_PATH.'/lib/OA/Upgrade/EnvironmentManager.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php';
 require_once(MAX_PATH.'/lib/OA/Upgrade/Configuration.php');
+require_once MAX_PATH.'/lib/OA/Upgrade/DB_Integrity.php';
 
 class OA_Upgrade
 {
@@ -81,6 +82,7 @@ class OA_Upgrade
     var $oDbh;
     var $oPAN;
     var $oConfiguration;
+    var $oIntegrity;
 
     var $aPackage    = array();
     var $aDBPackages = array();
@@ -112,6 +114,7 @@ class OA_Upgrade
         $this->oSystemMgr   = new OA_Environment_Manager();
         $this->oConfiguration = new OA_Upgrade_Config();
         $this->oTable       = new OA_DB_Table();
+        $this->oIntegrity   = new OA_DB_Integrity();
 
         $this->oDBUpgrader->path_changes = $this->upgradePath;
 
@@ -498,10 +501,10 @@ class OA_Upgrade
         $path_changes = $this->oDBUpgrader->path_changes;
         $file_changes = $this->oDBUpgrader->file_changes;
 
-        require_once MAX_PATH.'/lib/OA/Upgrade/DB_Integrity.php';
-        $oIntegrity = new OA_DB_Integrity();
-        $oIntegrity->oUpgrader = $this;
-        $result =$oIntegrity->checkIntegrityQuick($version);
+//        require_once MAX_PATH.'/lib/OA/Upgrade/DB_Integrity.php';
+//        $oIntegrity = new OA_DB_Integrity();
+        $this->oIntegrity->oUpgrader = $this;
+        $result =$this->oIntegrity->checkIntegrityQuick($version);
 
         $this->oDBUpgrader->path_schema     = $path_schema;
         $this->oDBUpgrader->file_schema     = $file_schema;
@@ -514,10 +517,10 @@ class OA_Upgrade
             return false;
         }
         $this->oLogger->logClear();
-        if (count($oIntegrity->aTasksConstructiveAll)>0)
+        if (count($this->oIntegrity->aTasksConstructiveAll)>0)
         {
             $this->oLogger->logError('database integrity check detected problems with the database');
-            foreach ($oIntegrity->aTasksConstructiveAll AS $elem => $aTasks)
+            foreach ($this->oIntegrity->aTasksConstructiveAll AS $elem => $aTasks)
             {
                 foreach ($aTasks AS $task => $aItems)
                 {
@@ -554,13 +557,12 @@ class OA_Upgrade
                 $valid   = (version_compare($this->versionInitialApplication,OA_VERSION)<0);
                 if ($valid)
                 {
-                     // NEED TO GET SCHEMA VERSION
-//                    $this->versionInitialSchema['tables_core'] = '099';
-//                    if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
-//                    {
-//                        $this->existing_installation_status = OA_STATUS_OAD_DBINTEG_FAILED;
-//                        return false;
-//                    }
+                    $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
+                    if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
+                    {
+                        $this->existing_installation_status = OA_STATUS_OAD_DBINTEG_FAILED;
+                        return false;
+                    }
 //                    there are no openads upgrade packages yet
 //                    the first will probably be openads_upgrade_2.3.32_to_2.3.33_beta
 //                    by the time the first package is ready
@@ -734,13 +736,13 @@ class OA_Upgrade
             $this->oLogger->log('Database created '.$this->aDsn['database']['name']);
             $this->can_drop_database = true;
         }
-        
+
         $result = OA_DB::createFunctions();
         if (PEAR::isError($result)) {
             $this->oLogger->logError($result->getMessage());
             return false;
         }
-        
+
         return true;
     }
 
@@ -1448,6 +1450,11 @@ class OA_Upgrade
     function _getUpgradeLogFileName($input_file, $timing)
     {
         return str_replace('.xml', '', $input_file).'_'.$timing.'_'.OA::getNow('Y_m_d_h_i_s').'.log';
+    }
+
+    function getLogFileName()
+    {
+        return $this->oLogger->logFile;
     }
 
 
