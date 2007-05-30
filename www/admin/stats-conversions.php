@@ -276,7 +276,7 @@ $pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="this.form
 if (!empty($aConversions)) {
 
     if($editStatuses) {
-        echo "<form action='connections-modify.php' method='POST'>"."\n";
+        echo "<form action='connections-modify.php' name='connectionsmodify' id='connectionsmodify' method='POST'>"."\n";
         echo "<input type='hidden' name='clientid' value='$clientId'>"."\n";
         echo "<input type='hidden' name='campaignid' value='$campaignId'>"."\n";
         echo "<input type='hidden' name='bannerid' value='$bannerId'>"."\n";
@@ -548,7 +548,7 @@ if (!empty($aConversions)) {
         ";
 
     if($editStatuses) {
-        echo "<input type='submit' name='submit' value='$strSaveChanges' tabindex='".($tabindex++)."'>"."\n";
+        echo "<input type='submit' name='submit' value='$strSaveChanges' tabindex='".($tabindex++)."' onClick='document.connectionsmodify.submit()'>"."\n";
         echo "</form>"."\n";
     }
 } else {
