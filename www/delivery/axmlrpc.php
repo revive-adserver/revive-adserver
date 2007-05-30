@@ -2324,6 +2324,15 @@ $GLOBALS['XML_RPC_String'],
 $GLOBALS['XML_RPC_Boolean'],
 $GLOBALS['XML_RPC_String'],
 $GLOBALS['XML_RPC_Struct']
+),
+array($GLOBALS['XML_RPC_String'],
+$GLOBALS['XML_RPC_String'],
+$GLOBALS['XML_RPC_String'],
+$GLOBALS['XML_RPC_String'],
+$GLOBALS['XML_RPC_Boolean'],
+$GLOBALS['XML_RPC_String'],
+$GLOBALS['XML_RPC_Struct'],
+$GLOBALS['XML_RPC_Struct']
 )
 );
 $xmlRpcView_doc = 'When passed the "what", "target", "source", "withText", remote IP address and array ' .
@@ -2335,7 +2344,7 @@ $cookieCache =& $GLOBALS['_MAX']['COOKIE']['CACHE'];
 global $XML_RPC_erruser;
 global $XML_RPC_String, $XML_RPC_Struct, $XML_RPC_Array;
 $numParams = $params->getNumParams();
-if ($numParams != 6) {
+if ($numParams < 6) {
 $errorCode = $XML_RPC_erruser + 2;
 $errorMsg  = 'Incorrect number of parameters';
 return new XML_RPC_Response(0, $errorCode, $errorMsg);
@@ -2354,7 +2363,12 @@ $cookiesXmlRpcValue = $params->getParam(5);
 while (list($key, $value) = $cookiesXmlRpcValue->structeach()) {
 $_COOKIE[$key] = $value->scalarval();
 }
-$output = MAX_adSelect($what, '', $target, $source, $withText);
+if ($numParams >= 7) {
+$context = XML_RPC_decode($params->getParam(6));
+} else {
+$context = array();
+}
+$output = MAX_adSelect($what, '', $target, $source, $withText, $context);
 if ($output['contenttype'] == 'swf') {
 $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
 }
