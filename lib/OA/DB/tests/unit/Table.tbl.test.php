@@ -122,6 +122,45 @@ class Test_OA_DB_Table extends UnitTestCase
         fwrite($fp, '</database>');
         fclose($fp);
     }
+    
+    /**
+     * A private method to write out a test database schema with string types in XML.
+     *
+     * @access private
+     */
+    function _writeStringTestDatabaseSchema()
+    {
+        $fp = fopen(MAX_PATH . '/var/test.xml', 'w');
+        fwrite($fp, '<?xml version="1.0" encoding="ISO-8859-1" ?>');
+        fwrite($fp, '<database>');
+        fwrite($fp, ' <name>test_db</name>');
+        fwrite($fp, ' <create>true</create>');
+        fwrite($fp, ' <overwrite>false</overwrite>');
+        fwrite($fp, ' <table>');
+        fwrite($fp, '  <name>test_table</name>');
+        fwrite($fp, '  <declaration>');
+        fwrite($fp, '   <field>');
+        fwrite($fp, '    <name>test_column</name>');
+        fwrite($fp, '    <type>openads_varchar</type>');
+        fwrite($fp, '    <length>10</length>');
+        fwrite($fp, '    <notnull>true</notnull>');
+        fwrite($fp, '   </field>');
+        fwrite($fp, '  </declaration>');
+        fwrite($fp, ' </table>');
+        fwrite($fp, ' <table>');
+        fwrite($fp, '  <name>the_second_table</name>');
+        fwrite($fp, '  <declaration>');
+        fwrite($fp, '   <field>');
+        fwrite($fp, '    <name>test_column</name>');
+        fwrite($fp, '    <type>openads_varchar</type>');
+        fwrite($fp, '    <length>10</length>');
+        fwrite($fp, '    <notnull>true</notnull>');
+        fwrite($fp, '   </field>');
+        fwrite($fp, '  </declaration>');
+        fwrite($fp, ' </table>');
+        fwrite($fp, '</database>');
+        fclose($fp);
+    }
 
     /**
      * A method to test the constructor method.
@@ -193,6 +232,7 @@ class Test_OA_DB_Table extends UnitTestCase
      * Requirements:
      * Test 1: Test that a table can be created.
      * Test 2: Test that a split table can be created.
+     * Test 3: Test character sets are set correctly (mysql specific).
      */
     function testCreateTable()
     {
@@ -224,6 +264,86 @@ class Test_OA_DB_Table extends UnitTestCase
         $this->assertEqual($aExistingTables[0], 'test_table_' . $oDate->format('%Y%m%d'));
         unlink(MAX_PATH . '/var/test.xml');
         $oTable->dropTable('test_table_' . $oDate->format('%Y%m%d'));
+        
+        // Test 3
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        if ($conf['database']['type'] == 'pgsql') {
+            $this->assertTrue(true);
+        } else {
+            $oDbh = &OA_DB::singleton();
+            $this->_writeStringTestDatabaseSchema();
+            $conf['table']['prefix'] = '';
+            $conf['table']['split'] = false;
+            
+            // Create tables with default character set.
+            $oTable = new OA_DB_Table();
+            $oTable->temporary = false;
+            $oTable->init(MAX_PATH . '/var/test.xml');
+            $oTable->createTable('test_table');
+            
+            $oTempTable = new OA_DB_Table();
+            $oTempTable->temporary = true;
+            $oTempTable->init(MAX_PATH . '/var/test.xml');
+            $oTempTable->createTable('the_second_table');
+            
+            // Insert data
+            $query = "INSERT INTO test_table (test_column) VALUES ('foo')";
+            $oDbh->query($query);
+            $query = "INSERT INTO the_second_table (test_column) VALUES ('foo')";
+            $oDbh->query($query);
+            
+            // Check the values can be compared.
+            $query = "SELECT * FROM test_table JOIN the_second_table USING (test_column)";
+            $result = $oDbh->query($query);
+            $actual = $result->numRows();
+            $this->assertEqual($actual, 1);
+            
+            // Change the charset of the database to something really weird.
+            $query = "ALTER DATABASE oa_simpletest CHARACTER SET koi8u";
+            $oDbh->query($query);
+            
+            // Re-create the temp table
+            $oTempTable->dropTable('the_second_table');
+            $oTempTable = new OA_DB_Table();
+            $oTempTable->temporary = true;
+            $oTempTable->init(MAX_PATH . '/var/test.xml');
+            $oTempTable->createTable('the_second_table');
+            
+            // Insert data
+            $query = "INSERT INTO the_second_table (test_column) VALUES ('foo')";
+            $oDbh->query($query);
+            
+            // Check the values cannot be compared.
+            $query = "SELECT * FROM test_table JOIN the_second_table USING (test_column)";
+            OA::disableErrorHandling();
+            $result = $oDbh->query($query);
+            OA::enableErrorHandling();
+            $this->assertIsA($result, 'PEAR_Error');
+          
+            // Re-create the normal table
+            $oTable->dropTable('test_table');
+            $oTable = new OA_DB_Table();
+            $oTable->temporary = false;
+            $oTable->init(MAX_PATH . '/var/test.xml');
+            $oTable->createTable('test_table');
+            
+            // Insert data
+            $query = "INSERT INTO test_table (test_column) VALUES ('foo')";
+            $oDbh->query($query);
+            
+            // Check the values can be compared in the funky charset.
+            $query = "SELECT * FROM test_table JOIN the_second_table USING (test_column)";
+            $result = $oDbh->query($query);
+            $actual = $result->numRows();
+            $this->assertEqual($actual, 1);
+            
+            // Clean up
+            $query = "ALTER DATABASE oa_simpletest CHARACTER SET DEFAULT";
+            $oDbh->query($query);
+            unlink(MAX_PATH . '/var/test.xml');
+            $oTable->dropTable('test_table');
+            $oTable->dropTable('the_second_table');	
+        }
     }
 
     /**
