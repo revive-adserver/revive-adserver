@@ -28,8 +28,23 @@ $Id$
 require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
 
 /**
+ * A plugin to generate a report showing conversion tracking information,
+ * for the supplied date range. The report contains a single worksheet:
+ *
+ * 1. Campaign Delivery:
+ *  - A breakdown of all campaigns where the campaign has booked impressions, showing
+ *    details of the campaign, how much of the campaign has been delivered so far, and,
+ *    where start/end dates for the campaign exist, how well the campaign is delivering.
+ *
+ * @TODO Consider extending the report to also cover booked clicks and conversions.
+ *
  * @TODO Consider replacing the calculations in this report with better values derived
  *       from the MPE.
+ *
+ * @package    MaxPlugin
+ * @subpackage Reports
+ * @author     Andrew Hill <andrew.hill@openads.org>
+ * @author     Scott Switzer <scott@switzer.org>
  */
 class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_ReportsScope
 {
