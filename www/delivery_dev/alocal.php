@@ -57,7 +57,7 @@ function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target 
 	$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 
     $output = MAX_adSelect($what, '', $target, $source, $withtext, $context, true, '', $loc, $referer);
-    if ($output['contenttype'] == 'swf') {
+    if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
         $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
     }
     return $output;
