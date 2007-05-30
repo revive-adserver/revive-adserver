@@ -40,14 +40,14 @@ class DataObjects_Agency extends DataObjects_AbstractUser
     var $__table = 'agency';                          // table name
     var $agencyid;                        // int(9)  not_null primary_key auto_increment
     var $name;                            // string(255)  not_null
-    var $contact;                         // string(255)
+    var $contact;                         // string(255)  
     var $email;                           // string(64)  not_null
-    var $username;                        // string(64)
-    var $password;                        // string(64)
-    var $permissions;                     // int(9)
-    var $language;                        // string(64)
-    var $logout_url;                      // string(255)
-    var $active;                          // int(1)
+    var $username;                        // string(64)  
+    var $password;                        // string(64)  
+    var $permissions;                     // int(9)  
+    var $language;                        // string(64)  
+    var $logout_url;                      // string(255)  
+    var $active;                          // int(1)  
     var $updated;                         // datetime(19)  not_null binary
 
     /* ZE2 compatibility trick*/

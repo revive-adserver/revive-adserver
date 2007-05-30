@@ -41,7 +41,7 @@ class DataObjects_Variables extends DB_DataObjectCommon
     var $variableid;                      // int(9)  not_null primary_key unsigned auto_increment
     var $trackerid;                       // int(9)  not_null multiple_key
     var $name;                            // string(250)  not_null
-    var $description;                     // string(250)
+    var $description;                     // string(250)  
     var $datatype;                        // string(7)  not_null enum
     var $purpose;                         // string(12)  enum
     var $reject_if_empty;                 // int(1)  not_null unsigned

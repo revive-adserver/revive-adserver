@@ -39,9 +39,9 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
     var $ad_zone_assoc_id;                // int(9)  not_null primary_key auto_increment
     var $zone_id;                         // int(9)  multiple_key
     var $ad_id;                           // int(9)  multiple_key
-    var $priority;                        // real(22)
+    var $priority;                        // real(22)  
     var $link_type;                       // int(6)  not_null
-    var $priority_factor;                 // real(22)
+    var $priority_factor;                 // real(22)  
     var $to_be_delivered;                 // int(1)  not_null
 
     /* ZE2 compatibility trick*/

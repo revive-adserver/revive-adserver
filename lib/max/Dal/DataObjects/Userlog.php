@@ -41,7 +41,7 @@ class DataObjects_Userlog extends DB_DataObjectCommon
     var $usertype;                        // int(4)  not_null
     var $userid;                          // int(9)  not_null
     var $action;                          // int(9)  not_null
-    var $object;                          // int(9)
+    var $object;                          // int(9)  
     var $details;                         // blob(16777215)  blob
 
     /* ZE2 compatibility trick*/

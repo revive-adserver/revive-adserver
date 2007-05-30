@@ -40,9 +40,9 @@ class DataObjects_Log_maintenance_statistics extends DB_DataObjectCommon
     var $start_run;                       // datetime(19)  not_null binary
     var $end_run;                         // datetime(19)  not_null binary
     var $duration;                        // int(11)  not_null
-    var $adserver_run_type;               // int(2)
-    var $search_run_type;                 // int(2)
-    var $tracker_run_type;                // int(2)
+    var $adserver_run_type;               // int(2)  
+    var $search_run_type;                 // int(2)  
+    var $tracker_run_type;                // int(2)  
     var $updated_to;                      // datetime(19)  binary
 
     /* ZE2 compatibility trick*/

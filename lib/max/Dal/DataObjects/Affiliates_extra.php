@@ -38,21 +38,21 @@ class DataObjects_Affiliates_extra extends DB_DataObjectCommon
     var $__table = 'affiliates_extra';                // table name
     var $affiliateid;                     // int(9)  not_null primary_key
     var $address;                         // blob(65535)  blob
-    var $city;                            // string(255)
-    var $postcode;                        // string(64)
-    var $country;                         // string(255)
-    var $phone;                           // string(64)
-    var $fax;                             // string(64)
-    var $account_contact;                 // string(255)
-    var $payee_name;                      // string(255)
-    var $tax_id;                          // string(64)
-    var $mode_of_payment;                 // string(64)
-    var $currency;                        // string(64)
-    var $unique_users;                    // int(11)
-    var $unique_views;                    // int(11)
-    var $page_rank;                       // int(11)
-    var $category;                        // string(255)
-    var $help_file;                       // string(255)
+    var $city;                            // string(255)  
+    var $postcode;                        // string(64)  
+    var $country;                         // string(255)  
+    var $phone;                           // string(64)  
+    var $fax;                             // string(64)  
+    var $account_contact;                 // string(255)  
+    var $payee_name;                      // string(255)  
+    var $tax_id;                          // string(64)  
+    var $mode_of_payment;                 // string(64)  
+    var $currency;                        // string(64)  
+    var $unique_users;                    // int(11)  
+    var $unique_views;                    // int(11)  
+    var $page_rank;                       // int(11)  
+    var $category;                        // string(255)  
+    var $help_file;                       // string(255)  
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}

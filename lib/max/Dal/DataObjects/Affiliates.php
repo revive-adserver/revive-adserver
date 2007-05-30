@@ -43,13 +43,13 @@ class DataObjects_Affiliates extends DataObjects_AbstractUser
     var $name;                            // string(255)  not_null
     var $mnemonic;                        // string(5)  not_null
     var $comments;                        // blob(65535)  blob
-    var $contact;                         // string(255)
+    var $contact;                         // string(255)  
     var $email;                           // string(64)  not_null
-    var $website;                         // string(255)
-    var $username;                        // string(64)
-    var $password;                        // string(64)
-    var $permissions;                     // int(9)
-    var $language;                        // string(64)
+    var $website;                         // string(255)  
+    var $username;                        // string(64)  
+    var $password;                        // string(64)  
+    var $permissions;                     // int(9)  
+    var $language;                        // string(64)  
     var $publiczones;                     // string(1)  not_null enum
     var $last_accepted_agency_agreement;    // datetime(19)  binary
     var $updated;                         // datetime(19)  not_null binary

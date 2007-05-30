@@ -36,8 +36,7 @@ class DataObjects_Images extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     var $__table = 'images';                          // table name
-    var $image_id;                        // int(11)  not_null primary_key auto_increment
-    var $filename;                        // string(128)  not_null
+    var $filename;                        // string(128)  not_null primary_key
     var $contents;                        // blob(16777215)  not_null blob binary
     var $t_stamp;                         // datetime(19)  binary
 
