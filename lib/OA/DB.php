@@ -245,33 +245,73 @@ class OA_DB
         if (PEAR::isError($result)) {
             return $result;
         }
-        return OA_DB::createFunctions();
+        return true;
     }
 
 
     /**
      * This sets up all the required PL/SQL functions for the database.
      *
-     * @return boolean True on success, false otherwise.
+     * @return mixed True on success, PEAR_Error otherwise.
      */
     function createFunctions()
     {
         $oDbh = &OA_DB::singleton();
         $functionsFile = MAX_PATH . '/etc/core.' . $oDbh->dsn['phptype'] . '.php';
         if (is_readable($functionsFile)) {
+            if ($oDbh->dsn['phptype'] == 'pgsql') {
+                $result = OA_DB::_createLanguage();
+                if (PEAR::isError($result)) {
+                    return $result;
+                }
+            }
             include $functionsFile;
             OA_DB::disconnectAll();
             $oDbh = &OA_DB::singleton();
             foreach ($aCustomFunctions as $customFunction) {
                 $rows = $oDbh->exec($customFunction);
                 if (PEAR::isError($rows)) {
-                    return false;
+                    return $rows;
                 }
             }
         }
         return true;
     }
 
+    /**
+     * Loads a new procedural language into the database.
+     * This is postgresql specific.
+     *
+     * @static 
+     * @access private
+     * @param string $lang the name of the language to load.
+     * @return mixed true if the language is successfully loaded, otherwise PEAR_Error.
+     */
+    function _createLanguage($lang = 'plpgsql')
+    {
+        $oDbh = &OA_DB::singleton();
+        
+        // Check if the language has been loaded.
+        $query = "SELECT COUNT(*) FROM pg_catalog.pg_language WHERE lanname = '$lang'";
+        OA::disableErrorHandling();
+        $result = $oDbh->queryOne($query);
+        OA::enableErrorHandling();
+        if (PEAR::isError($result)) {
+            return $result;
+        } elseif ($result) {
+            return true;
+        }
+        
+        // Otherwise load the language.
+        $query = 'CREATE LANGUAGE ' . $lang;
+        OA::disableErrorHandling();
+        $result = $oDbh->exec($query);
+        OA::enableErrorHandling();
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        return true;
+    }
 
     /**
      * A method for dropping a database. Connects to the database server using

@@ -686,7 +686,14 @@ class OA_Upgrade
             $this->oLogger->log('Database created '.$this->aDsn['database']['name']);
             $this->can_drop_database = true;
         }
-        return OA_DB::createFunctions();
+        
+        $result = OA_DB::createFunctions();
+        if (PEAR::isError($result)) {
+            $this->oLogger->logError($result->getMessage());
+            return false;
+        }
+        
+        return true;
     }
 
     /**
