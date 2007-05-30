@@ -27,8 +27,8 @@ $Id$
 require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
 
 /**
- * A plugin to generate a report showing ...., for the supplied date range. The report
- * can contain up to five worksheets:
+ * A plugin to generate a report showing conversion tracking details, for the
+ * supplied date range. The report can contain up to five worksheets:
  *
  *
  * 1. Performance by Day:
