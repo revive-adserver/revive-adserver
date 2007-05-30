@@ -48,12 +48,18 @@ class MAX_Core_Task_Runner
     /**
      * A method to run the run() method of each task in the collection,
      * in the registered order.
+     *
+     * @return boolean True if all tasks ran correctly, false otherwise.
      */
     function runTasks()
     {
         foreach ($this->aTasks as $oTask) {
             $return = $oTask->run();
+            if ($return === false || PEAR::isError($return)) {
+                return false;
+            }
         }
+        return true;
     }
 
     /**

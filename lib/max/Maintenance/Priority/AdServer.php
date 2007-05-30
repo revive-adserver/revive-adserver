@@ -72,11 +72,14 @@ class MAX_Maintenance_Priority_AdServer
 
     /**
      * The method to run the Maintenance Priority process.
+     *
+     * @return boolean True if the MPE ran correctly, false otherwise.
      */
     function updatePriorities()
     {
         // Run the required tasks
-        $this->oTaskRunner->runTasks();
+        $result = $this->oTaskRunner->runTasks();
+        return $result;
     }
 
 }

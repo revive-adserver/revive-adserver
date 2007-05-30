@@ -28,6 +28,7 @@ $Id$
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/Max.php';
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 require_once 'Date.php';
 
@@ -51,6 +52,7 @@ class MAX_Maintenance_Priority
      *                           instant priority updates have been disabled in the
      *                           configuration. Used to ensure that the maintenance
      *                           script process can always update priorities.
+     * @return boolean True on MPE running correctly, false otherwise.
      */
     function run($alwaysRun = false)
     {
@@ -61,11 +63,11 @@ class MAX_Maintenance_Priority
             // Is instant update for priority set?
             if (!$conf['priority']['instantUpdate']) {
                 MAX::debug('Instant update of priorities disabled, not running MPE', PEAR_LOG_INFO);
-                return;
+                return false;
             }
         }
         // Log the start of the process
-        MAX::debug('Running Maintenance Priority Engine', PEAR_LOG_INFO);
+        OA::debug('Running Maintenance Priority Engine', PEAR_LOG_INFO);
         // Set longer time out, and ignore user abort
         if (!ini_get('safe_mode')) {
             @set_time_limit($conf['maintenance']['timeLimitScripts']);
@@ -76,8 +78,8 @@ class MAX_Maintenance_Priority
         // Try to get the MPE database-level lock
         $lock = $oDal->obtainPriorityLock();
         if (!$lock) {
-            MAX::debug('Unable to obtain database-level lock, not running MPE', PEAR_LOG_INFO);
-            return;
+            OA::debug('Unable to obtain database-level lock, not running MPE', PEAR_LOG_ERR);
+            return false;
         }
         // Ensure the the current time is registered with the ServiceLocator
         $oServiceLocator = &ServiceLocator::instance();
@@ -94,17 +96,22 @@ class MAX_Maintenance_Priority
                 // and run the prioritisation process
                 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer.php';
                 $oMaintenancePriority = new MAX_Maintenance_Priority_AdServer();
-                $oMaintenancePriority->updatePriorities();
+                $result = $oMaintenancePriority->updatePriorities();
+                if ($result === false) {
+                    return false;
+                }
             }
         }
         // Release the MPE database-level lock
         $result = $oDal->releasePriorityLock();
         if (PEAR::isError($result)) {
             // Unable to continue!
-            MAX::raiseError($result, null, PEAR_ERROR_DIE);
+            OA::debug('Unable to release database-level lock', PEAR_LOG_ERR);
+            return false;
         }
         // Log the end of the process
-        MAX::debug('Maintenance Priority Engine Completed', PEAR_LOG_INFO);
+        OA::debug('Maintenance Priority Engine Completed', PEAR_LOG_INFO);
+        return true;
     }
 
 }
