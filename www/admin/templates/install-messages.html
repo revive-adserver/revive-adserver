@@ -39,7 +39,23 @@
                         $errorOpen = false;
                     }
                     if ($displayError != true) {
-                ?>                
+                        if ($oUpgrader->oLogger->errorExists) {
+                ?>       
+                            <b>Errors were found during the install proccess.</b> Please resolve these errors before continuing.
+                <?php            
+                            if ($oUpgrader->existing_installation_status == OA_STATUS_MAX_DBINTEG_FAILED) {
+                ?>
+                            <p>
+                            We have detected integrity issues with your database. This means that the layout of your database differs from what we expect it to be. This could be due to customization of your database.
+                            </p>
+                <?php
+                            }
+                ?>
+                            <p>
+                            For Beta support, please send a copy of your install log to betasupport@openads.org</p>
+                <?php
+                        }
+                ?>
                         </td>
                     </tr>
                 </table>

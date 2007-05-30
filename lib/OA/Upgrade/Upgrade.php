@@ -232,12 +232,12 @@ class OA_Upgrade
      */
     function canUpgrade()
     {
-        $strDetected    = ' configuration file detected';
-        $strCanUpgrade  = 'This version can be upgraded';
-        $strNoConnect   = 'Could not connect to the database';
-        $strConnected   = 'Connected to the database ok';
-        $strNoUpgrade   = 'This version cannot be upgraded';
-        $strTableError  = 'There was a problem accessing the tables of your database. Either your table prefix is wrongly configured or some tables are missing from your database.';
+        $strDetected       = ' configuration file detected';
+        $strCanUpgrade     = 'This version can be upgraded';
+        $strNoConnect      = 'Could not connect to the database';
+        $strConnected      = 'Connected to the database ok';
+        $strNoUpgrade      = 'This version cannot be upgraded';
+        $strTableError     = 'Error accessing Database Tables';
 
         $this->oLogger->logClear();
         $this->detectPAN();
@@ -290,9 +290,6 @@ class OA_Upgrade
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 break;
             case OA_STATUS_MAX_DBINTEG_FAILED:
-                $this->oLogger->log($strProductName.$strDetected);
-                $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
-                $this->oLogger->logError($strTableError);
                 return false;
             case OA_STATUS_MAX_DBTABLES_FAILED:
                 $this->oLogger->log($strProductName.$strDetected);
@@ -329,9 +326,6 @@ class OA_Upgrade
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 return false;
             case OA_STATUS_OAD_DBINTEG_FAILED:
-                $this->oLogger->log('Openads'.$strDetected);
-                $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
-                $this->oLogger->logError($strTableError);
                 return false;
             case OA_STATUS_OAD_DBTABLES_FAILED:
                 $this->oLogger->log('Openads'.$strDetected);
