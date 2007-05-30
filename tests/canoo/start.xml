@@ -49,7 +49,7 @@
     <ant antfile="usecases/delivery/ajs.xml" />
     <ant antfile="usecases/delivery/al.xml" />
     <ant antfile="usecases/delivery/alocal.xml" />
-    <!-- <ant antfile="usecases/delivery/apu.xml" /> -->
+    <ant antfile="usecases/delivery/apu.xml" />
     <ant antfile="usecases/delivery/avw.xml" />
     <ant antfile="usecases/delivery/axmlrpc.xml" />
     <ant antfile="usecases/delivery/ck.xml" />

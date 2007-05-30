@@ -102,6 +102,7 @@ function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
  *
  * @param string $name  The cache entry name
  * @param string $cache The cache content
+ * @param string $isHash Define if $name is already a cached value or not
  * @return bool True if the entry was succesfully stored
  */
 function OA_Delivery_Cache_store($name, $cache, $isHash = false)

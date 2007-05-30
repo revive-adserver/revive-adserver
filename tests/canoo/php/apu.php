@@ -7,6 +7,10 @@
 <title>Example Web Page</title>
 </head>
 <body>
-<script type='text/javascript' src='http://<?php echo $_SERVER['HTTP_HOST'].$webPath; ?>?n=&bannerid=2&cb=<?php echo rand(1, 123456);?>'></script>
+<script type='text/javascript'>
+<?php
+echo file_get_contents('http://'.$_SERVER['HTTP_HOST'].$webPath.'?n=&bannerid=2');
+?>
+</script>
 </body>
 </html>
