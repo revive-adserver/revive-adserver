@@ -13,16 +13,17 @@ if (array_key_exists('dump', $_POST) ||
     array_key_exists('parsec', $_POST) ||
     array_key_exists('show', $_POST))
 {
-    $dsn = $_POST['dsn'];
     $options = array(
                         'idxname_format' => '%s',
                      );
 
+    $dsn = $_POST['database'];
+    $GLOBALS['_MAX']['CONF']['database'] = $dsn;
     $GLOBALS['_MAX']['CONF']['database']['type'] = $dsn['phptype'];
 
 	// Use a conf-like array to genarate a string DSN
 	$aConf = array('database' => $dsn);
-	$aConf['database']['type'] = $aConf['database']['phptype'];
+	//$aConf['database']['type'] = $aConf['database']['phptype'];
 
     $mdb = &OA_DB::singleton(OA_DB::getDsn($aConf));
 
