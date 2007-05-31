@@ -348,18 +348,23 @@ class Plugins_Reports extends MAX_Plugin_Common
      * the section headers and data independently.
      *
      * @param string $controllerType The required OA_Admin_Statistics_Common type.
+     * @param OA_Admin_Statistics_Common $oStatsController An optional parameter to pass in a
+     *              ready-prepared stats controller object, to be used instead of creating
+     *              and populating the stats.
      * @return array An array containing headers (key 0) and data (key 1)
      */
-    function getHeadersAndDataFromStatsController($controllerType)
+    function getHeadersAndDataFromStatsController($controllerType, $oStatsController = null)
     {
-        $oStatsController = &OA_Admin_Statistics_Factory::getController(
-            $controllerType,
-            array(
-                'skipFormatting' => true,
-                'disablePager'   => true
-            )
-        );
-        $oStatsController->start();
+        if (is_null($oStatsController)) {
+            $oStatsController = &OA_Admin_Statistics_Factory::getController(
+                $controllerType,
+                array(
+                    'skipFormatting' => true,
+                    'disablePager'   => true
+                )
+            );
+            $oStatsController->start();
+        }
         $aStats = $oStatsController->exportArray();
         $aHeaders = array();
         foreach ($aStats['headers'] as $k => $v) {
