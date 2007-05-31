@@ -27,7 +27,6 @@ $Id $
 /**
  * database vs schema integrity methods
  */
-require_once MAX_PATH.'/lib/simpletest/mock_objects.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
 
 class OA_DB_Integrity
@@ -195,6 +194,7 @@ class OA_DB_Integrity
 
     function mockMigration()
     {
+        require_once MAX_PATH.'/lib/simpletest/mock_objects.php';
         require_once MAX_PATH.'/lib/OA/Upgrade/Migration.php';
         Mock::generatePartial(
             'Migration',
