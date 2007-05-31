@@ -919,7 +919,7 @@ function phpAds_sqlDie()
             $message .= $GLOBALS['strErrorDBSubmitBug'];
             $last_query = $phpAds_last_query;
             $message .= "<br><br><table cellpadding='0' cellspacing='0' border='0'>";
-            $message .= "<tr><td valign='top' nowrap><b>Version:</b>&nbsp;&nbsp;&nbsp;</td><td>".MAX_PRODUCT_NAME." ".MAX_VERSION_READABLE." (".MAX_VERSION.")</td></tr>";
+            $message .= "<tr><td valign='top' nowrap><b>Version:</b>&nbsp;&nbsp;&nbsp;</td><td>".MAX_PRODUCT_NAME." v".OA_VERSION.")</td></tr>";
             $message .= "<tr><td valien='top' nowrap><b>PHP/DB:</b></td><td>PHP ".phpversion()." / ".phpAds_dbmsname." " . $dbVersion . "</td></tr>";
             $message .= "<tr><td valign='top' nowrap><b>Page:</b></td><td>".$_SERVER['PHP_SELF']."</td></tr>";
             $message .= "<tr><td valign='top' nowrap><b>Error:</b></td><td>".$error."</td></tr>";

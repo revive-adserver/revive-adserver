@@ -63,7 +63,7 @@ class OA_Maintenance_Auto
 
     	if (time() >= $iLastRun + 3600)
     	{
-    	    if (!defined('MAX_VERSION')) {
+    	    if (!defined('OA_VERSION')) {
     	        // If the code is executed inside delivery, the constants
     	        // need to be initialized
         	    require_once MAX_PATH . '/constants.php';
