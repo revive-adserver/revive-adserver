@@ -47,15 +47,15 @@ class OA_Environment_Manager
     function OA_Environment_Manager()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        
+
         $this->aInfo['PERMS']['expected'] = array(
-                                                  MAX_PATH.'/var/',
+                                                  MAX_PATH.'/var',
                                                   MAX_PATH.'/var/cache',
                                                   MAX_PATH.'/var/plugins',
                                                   MAX_PATH.'/var/templates_compiled'
                                                  );
         if ($conf) {
-            $this->aInfo['PERMS']['expected'][] = $conf['store']['webDir'];        
+            $this->aInfo['PERMS']['expected'][] = $conf['store']['webDir'];
         }
 
         $this->aInfo['PHP']['actual']       = array();
@@ -177,8 +177,8 @@ class OA_Environment_Manager
         }
 
         $memlim = $this->aInfo['PHP']['actual']['memory_limit'];
-        
-        // Double the required mem if PHP >= 5.2.0 - memory handling has changed and 
+
+        // Double the required mem if PHP >= 5.2.0 - memory handling has changed and
         // memory occupation info is mora accurate. The default has been raised
         if (version_compare($this->aInfo['PHP']['actual']['version'], '5.2.0', '>=')) {
             $memlim *= 2;
