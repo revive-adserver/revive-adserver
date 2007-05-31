@@ -32,6 +32,8 @@ $Id$
 require_once '../../init-delivery.php';
 
 // Required files
+require_once(MAX_PATH . '/lib/max/Delivery/cache.php');
+require_once(MAX_PATH . '/lib/max/Delivery/javascript.php');
 require_once MAX_PATH . '/lib/max/Delivery/tracker.php';
 
 //Register any script specific input variables

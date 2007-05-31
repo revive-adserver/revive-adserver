@@ -29,21 +29,18 @@ $Id$
  * @package OpenadsDelivery
  * @subpackage Trackers
  * @author chris@m3.net
- * 
+ *
  */
-
-require_once(MAX_PATH . '/lib/max/Delivery/cache.php');
-require_once(MAX_PATH . '/lib/max/Delivery/javascript.php');
 
 /**
  * This function builds the JavaScript to track variables for a tracker-impression via JavaScript
  *
  * @todo Ask Matteo what the $trackerJsCode is for
- * 
+ *
  * @param int $trackerid                The ID of the tracker
  * @param array $conversionInfo         An array of the information from the tracker impression
  * @param unknown_type $trackerJsCode   Unknown
- * 
+ *
  * @return string   The JavaScript to pick up the variables from the page, and pass them in to the
  *                  conversionvars script
  */
@@ -67,7 +64,7 @@ function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $tracker
     function MAX_extractTextDom(o)
     {
         var txt = '';
-        
+
         if (o.nodeType == 3) {
             txt = o.data;
         } else {
@@ -75,14 +72,14 @@ function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $tracker
                 txt += MAX_extractTextDom(o.childNodes[i]);
             }
         }
-        
+
         return txt;
     }
 
     function MAX_TrackVarDom(id, v)
     {
         if (max_trv[id][v]) { return; }
-        var o = document.getElementById(v);    
+        var o = document.getElementById(v);
         if (o) {
             max_trv[id][v] = escape(o.tagName == 'INPUT' ? o.value : MAX_extractTextDom(o));
         }
@@ -110,11 +107,11 @@ function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $tracker
     }";
             $funcName = 'MAX_TrackVarJs';
         }
-        
+
         $buffer .= "
     if (!max_trv) { var max_trv = new Array(); }
     if (!max_trv['{$trackerJsCode}']) { max_trv['{$trackerJsCode}'] = new Array(); }";
-        
+
         foreach($variables as $key => $variable) {
             $variableQuerystring .= "&{$variable['name']}=\"+max_trv['{$trackerJsCode}']['{$variable['name']}']+\"";
             if ($tracker['variablemethod'] == 'custom') {
@@ -135,12 +132,12 @@ function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $tracker
     if(!empty($tracker['appendcode'])) {
         // Add the correct "inherit" parameter if a Openads trackercode was found
         $tracker['appendcode'] = preg_replace('/("\?trackerid=\d+&amp;inherit)=1/', '$1='.$trackerJsCode, $tracker['appendcode']);
-        
+
         $jscode = MAX_javascriptToHTML($tracker['appendcode'], "MAX_{$trackerid}_appendcode");
-        
+
         // Replace template style variables
         $jscode = preg_replace("/\{m3_trackervariable:(.+?)\}/", "\"+max_trv['{$trackerJsCode}']['$1']+\"", $jscode);
-        
+
         $buffer .= "\n".preg_replace('/^/m', "\t", $jscode)."\n";
     }
     if (empty($buffer)) {
