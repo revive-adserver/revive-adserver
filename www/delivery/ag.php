@@ -54,11 +54,7 @@ $configPath = MAX_PATH . '/var';
 if ($configFile) {
 $configFile = '.' . $configFile;
 }
-if (isset($_SERVER['HTTP_HOST'])) {
-$host = $_SERVER['HTTP_HOST'];
-} else {
-$host = $_SERVER['SERVER_NAME'];
-}
+$host = getHostName();
 $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
 $conf = @parse_ini_file($configFileName, true);
 if (!empty($conf)) {
@@ -112,6 +108,17 @@ date_default_timezone_set($location);
 } else {
 putenv("TZ={$location}");
 }
+}
+function getHostName()
+{
+if (!empty($_SERVER['HTTP_HOST'])) {
+$host = explode(':', $_SERVER['HTTP_HOST']);
+$host = $host[0];
+} else {
+$host = explode(':', $_SERVER['SERVER_NAME']);
+$host = $host[0];
+}
+return $host;
 }
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
@@ -414,11 +421,7 @@ $configPath = MAX_PATH . '/var';
 if ($configFile) {
 $configFile = '.' . $configFile;
 }
-if (isset($_SERVER['HTTP_HOST'])) {
-$host = $_SERVER['HTTP_HOST'];
-} else {
-$host = $_SERVER['SERVER_NAME'];
-}
+$host = getHostName();
 $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
 $conf = @parse_ini_file($configFileName, true);
 if (!empty($conf)) {
