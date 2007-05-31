@@ -1,17 +1,29 @@
-<?php // $Revision: 3830 $
+<?php
 
-/************************************************************************/
-/* Openads 2.0                                                          */
-/* ===========                                                          */
-/*                                                                      */
-/* Copyright (c) 2000-2007 by the Openads developers                    */
-/* For more information visit: http://www.openads.org                   */
-/*                                                                      */
-/* This program is free software. You can redistribute it and/or modify */
-/* it under the terms of the GNU General Public License as published by */
-/* the Free Software Foundation; either version 2 of the License.       */
-/************************************************************************/
-
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: connections-modify.php 6374 2007-05-11 07:03:11Z aj@seagullproject.org $
+*/
 
 // Include required files
 require_once '../../init.php';
@@ -29,7 +41,7 @@ phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'order
 if (!phpAds_isUser(phpAds_Admin)) {
 	phpAds_PageHeader("1");
 	phpAds_Die ($strAccessDenied, $strNotAdmin);
-	
+
 }
 
 /*********************************************************/
@@ -50,7 +62,7 @@ function iframeLoaded(e,elem,d){
 		border: 1px solid #fff;
 		height: 800px;
 		width: 800px;
-		background: #fff url(images/dashboard_teaser_transparent.jpg) no-repeat top center;		
+		background: #fff url(images/dashboard_teaser_transparent.jpg) no-repeat top center;
 	}
 	#dashboardError .inner{
 		text-align: center;
@@ -69,12 +81,12 @@ function iframeLoaded(e,elem,d){
 		margin-top: 5px;
 		margin-bottom: 8px;
 		padding-left: 5px;
-		text-align: left;		
+		text-align: left;
 	}
 	#dashboardError .header span{
 		float:right;background: #e9e9e9 url(images/ltr/tab-eb.gif) no-repeat top right;
 		width: 10px;
-		height: 20px;		
+		height: 20px;
 	}
 	#dashboardError .errorMsg{
 		background:#fcfcfc;
@@ -106,7 +118,7 @@ function iframeLoaded(e,elem,d){
 		background:url(images/ajax-loader-clock.gif) no-repeat 200px 100px;
 		text-align: center;
 		font-size: 11px;
-		font-weight: bold;		
+		font-weight: bold;
 	}
 </style>";
 
@@ -132,7 +144,7 @@ if (!$fp) {
     		"\n" .'number: '. $errno . ', string: ' . $errstr .
     		"\n" .'-->' .
     		"\n" .'';
-} 
+}
 else {
 	// opening connection was ok so now try
 	// a sample GET request to make URL of the iframe's src
@@ -145,7 +157,7 @@ else {
 
 	// send request
     fwrite($fp, $out);
-    
+
     // read response
     $aResponse = array();
     while (!feof($fp)) {
@@ -154,15 +166,15 @@ else {
         if(!strcasecmp($sHeaderName, 'x-Openads-height')){
         	$iIframeHeight = $sHeaderValue;
         }
-        
+
         if(!strcasecmp($sHeaderName, 'x-Openads-width')){
         	$iIframeWidth = $sHeaderValue;
         }
-        
+
         $aResponse[] = $sLine;
     }
-    
-    // check first line of the response 
+
+    // check first line of the response
     // should be 200 - ok header
     // otherwise report an error
     if( !preg_match( '#HTTP/1.1 200 OK#', $aResponse[0] ) ) {
@@ -177,43 +189,43 @@ else {
 }
 
 // connection attempt was ok - go ahead and display iframe
-if( empty($sConnectionProblems) ) {
+if (empty($sConnectionProblems) ) {
 	// initialize extra query params array
 	$aQuery = array();
-	//echo '<pre>',print_r($GLOBALS['conf'],1),'</pre>';
+	// echo '<pre>',print_r($GLOBALS['conf'],1),'</pre>';
 	// add info about data sharing
-	if($GLOBALS['pref']['updates_cs_data_enabled']) {	
+	if (!empty($GLOBALS['pref']['updates_cs_data_enabled']) && $GLOBALS['pref']['updates_cs_data_enabled'] == 't') {
 		$aQuery[] = 'updates_cs_data_enabled=1';
 	}
-	
+
 	// add admin info
 	if(!phpAds_isAllowed(phpAds_Admin)){
 		$aQuery[] = 'instance_id='.$GLOBALS['pref']['instance_id'];
 	}
-	
-	$aQuery[] = 'admin_path=http://'.$GLOBALS['conf']['webpath']['admin'];	
+
+	$aQuery[] = 'admin_path=http://'.$GLOBALS['conf']['webpath']['admin'];
 	// build src for iframe
 	$src = 	$GLOBALS['aDashboardServer']['protocol'].$GLOBALS['aDashboardServer']['host'].$GLOBALS['aDashboardServer']['path'];
-	
-	// append query to the src 
+
+	// append query to the src
 	$src .= '?'.base64_encode(join('|', $aQuery));
 
 	// display iframe - hide it for loading purposes
-	echo 
+	echo
 			"<div>" .
 				"<iframe width='".(empty($iIframeWidth)?'750':$iIframeWidth)."' height='".(empty($iIframeHeight)?'750':$iIframeHeight)."' frameborder='0' style='position: absolute; top: -100000px;' src='".$src."' onload='iframeLoaded(event,this);' />" .
 					"<noframes>We're really sorry but your browser does not support frames. Please enable them or upgrade.</noframes>" .
 			"</div>";
 }
 else { // errors during connection
-	
+
 	// hide loading div
 	echo "<script type='text/javascript'>" .
 		"iframeLoaded('',1);" .
 		"</script>";
-	
+
 	// display info about problems
-	echo 
+	echo
 		"<div id='dashboardError'>" .
 			"<div class='inner'>" .
 				"<p class='header'><span></span>Openads Dashboard</p>" .
