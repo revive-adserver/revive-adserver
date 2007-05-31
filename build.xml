@@ -114,8 +114,9 @@
   </target>
 
   <target name="prepare-distribution" depends="prepare-package">
-    <mkdir dir="${release}"/>
-    <copy todir="${release}" includeEmptyDirs="true">
+    <property name="release.dir" value="${dir.test.results}/${release}"/>
+    <mkdir dir="${release.dir}"/>
+    <copy todir="${release.dir}" includeEmptyDirs="true">
       <fileset dir=".">
         <patternset refid="dist.included"/>
       </fileset>
@@ -123,7 +124,7 @@
   </target>
 
   <target name="package-bzip2" depends="prepare-distribution">
-    <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="." includes="${release}/**" compression="bzip2" longfile="gnu"/>
+    <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="${dir.test.results}" includes="${release}/**" compression="bzip2" longfile="gnu"/>
   </target>
 
   <!-- Used for canoo package -->
@@ -136,11 +137,11 @@
   </target>
 
   <target name="package-gz" depends="prepare-distribution">
-    <tar destfile="${dir.test.results}/${release}.tar.gz" includes="${release}/**" basedir="." compression="gzip" longfile="gnu"/>
+    <tar destfile="${dir.test.results}/${release}.tar.gz" includes="${release}/**" basedir="${dir.test.results}" compression="gzip" longfile="gnu"/>
   </target>
 
   <target name="package-zip" depends="prepare-distribution">
-    <zip destfile="${dir.test.results}/${release}.zip" basedir="."  includes="${release}/**"/>
+    <zip destfile="${dir.test.results}/${release}.zip" basedir="${dir.test.results}"  includes="${release}/**"/>
   </target>
 
   <target name="revert-after-packaging">
