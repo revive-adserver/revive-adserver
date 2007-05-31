@@ -8,7 +8,7 @@
   <import file="includes/init.xml"/>
   
   <property name="openads.path" value="${basedir}/../.."/>
-  <property name="openads.url" value="${protocol}://${host}${basepath}"/>
+  <property name="openads.url" value="${protocol}://${host}/${basepath}"/>
   <property name="openads.example_url" value="${openads.url}/example.php"/>
   <property name="uc" value="afr"/>
 
@@ -57,7 +57,7 @@
     <ant antfile="usecases/delivery/lg.xml" />
   </target>
   
-  <target name="testing" depends="clean, init-delivery-db">
+  <target name="delivery-one" depends="clean, init-delivery-db">
     <ant antfile="usecases/delivery/${uc}.xml" />
   </target>
   

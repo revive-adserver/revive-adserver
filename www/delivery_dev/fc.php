@@ -44,26 +44,24 @@ require_once '../../init-delivery.php';
 /**
  * Invocation tag (plugin) name
  */
-define('MAX_PLUGINS_AD_PLUGIN_NAME', 'MAX_type');
+$MAX_PLUGINS_AD_PLUGIN_NAME = 'MAX_type';
 
-if(!isset($_GET[MAX_PLUGINS_AD_PLUGIN_NAME])) {
-    setupIncludePath();
-    include_once MAX_PATH . '/lib/Max.php';
-    MAX::raiseError(MAX_PLUGINS_AD_PLUGIN_NAME . ' is not specified', MAX_ERROR_NODATA, PEAR_ERROR_DIE);
+if(!isset($_GET[$MAX_PLUGINS_AD_PLUGIN_NAME])) {
+    echo $MAX_PLUGINS_AD_PLUGIN_NAME . ' is not specified';
+    exit(1);
 }
 
-$tagName = $_GET[MAX_PLUGINS_AD_PLUGIN_NAME];
+$tagName = $_GET[$MAX_PLUGINS_AD_PLUGIN_NAME];
 $tagFileName = MAX_PATH . '/plugins/invocationTags/'.$tagName.'/'.$tagName.'.delivery.php';
 
 if(!file_exists($tagFileName)) {
-    setupIncludePath();
-    include_once MAX_PATH . '/lib/Max.php';
-    MAX::raiseError('Invocation plugin delivery file "' . $tagFileName . '" doesn\'t exists', MAX_ERROR_NOFILE, PEAR_ERROR_DIE);
+    echo 'Invocation plugin delivery file "' . $tagFileName . '" doesn\'t exists';
+    exit(1);
 }
 
 // include plugin specific delivery script
 // (we are not using MAX_Plugin interface for it because it has to be as fast as possible)
-include_once $tagFileName;
+include $tagFileName;
 
 
 ?>

@@ -1,5 +1,5 @@
 <verifyText 
     description="Check for the presence of login beacon"
     regex="true"
-    text="img src=.*/lg.php\?bannerid=\d&amp;amp;campaignid=\d&amp;amp;zoneid=\d*&amp;amp;cb=" 
+    text="img src=.*/lg.php" 
 />
