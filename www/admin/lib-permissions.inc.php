@@ -175,6 +175,23 @@ function phpAds_getUserType ()
     return ($session['usertype']);
 }
 
+function phpAds_getUserTypeAsString ()
+{
+    global $session;
+    if ($session['usertype'] == phpAds_Admin) {
+        return 'admin';
+    }
+    if ($session['usertype'] == phpAds_Affiliate) {
+        return 'affiliate';
+    }
+    if ($session['usertype'] == phpAds_Agency) {
+        return 'agency';
+    }
+    if ($session['usertype'] == phpAds_Client) {
+        return 'client';
+    }
+}
+
 /*-------------------------------------------------------*/
 /* Get the ID of the current user                        */
 /*-------------------------------------------------------*/
@@ -296,11 +313,11 @@ function phpAds_LoginScreen($message='', $sessionID=0, $inLineLogin = false)
     if (!$inLineLogin) {
         phpAds_PageHeader(phpAds_Login);
     }
-    
+
     // Check environment settings
     $oSystemMgr = new OA_Environment_Manager();
     $aSysInfo = $oSystemMgr->checkSystem();
-    
+
     foreach ($aSysInfo as $env => $vals) {
         $errDetails = '';
         if (is_array($vals['error'])) {
@@ -314,7 +331,7 @@ function phpAds_LoginScreen($message='', $sessionID=0, $inLineLogin = false)
             }
         }
     }
-    
+
     if ($conf['max']['uiEnabled'] == true)
     {
         echo "<br />";

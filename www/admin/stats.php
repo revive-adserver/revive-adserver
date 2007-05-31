@@ -84,29 +84,23 @@ phpAds_registerGlobal('breakdown', 'entity', 'agency_id', 'advertiser_id',
                       'listorder', 'orderdirection'
                      );
 
-
 if (isset($graphFilter) && is_array($graphFilter)) {
-
-    //remove old filter fileds from link
+    // Remove old filter fileds from link
     $REQUEST_URI = $_SERVER['REQUEST_URI'];
     $REQUEST_URI = preg_replace('/graphFields\[\]=(.*)$/', '', $REQUEST_URI);
-
     $redirectUrl = 'http://'
                    . $_SERVER['SERVER_NAME']
                    . $REQUEST_URI;
-
     foreach($graphFilter as $k => $v) {
         $redirectUrl .= '&graphFields[]=' . $v;
     }
-
-
     header("Location: $redirectUrl");
     die;
 } else {
     $graphFilter = isset($graphFields) ? $graphFields : null;
 }
 
-// handle filters
+// Handle filters
 if (!empty($advertiser_id)) {
     $clientid = (int) $advertiser_id;
 }
@@ -141,34 +135,43 @@ $_REQUEST['bannerid']    = $bannerid;
 $_REQUEST['campaignid']  = $campaignid;
 $_REQUEST['clientid']    = $clientid;
 
-// Display stats
+// If displaying conversion statistics, hand over control to a different file
 if ($entity == 'conversions') {
     include_once MAX_PATH . '/www/admin/stats-conversions.php';
     exit;
 }
 
-$oStats = &OA_Admin_Statistics_Factory::getController($entity . "-" . $breakdown);
-$oStats->start();
-
-// Create Excel stats report
+// Prepare the parameters for display or export to XLS
+$aParams = null;
 if (isset($plugin) && $plugin != '') {
-    include_once MAX_PATH . '/www/admin/stats-report-execute.php';
+    $aParams = array(
+        'skipFormatting' => true,
+        'disablePager'   => true
+    );
 }
 
-//output html code
-$oStats->output();
+// Prepare the stats controller, and populate with the stats
+$oStatsController = &OA_Admin_Statistics_Factory::getController($entity . "-" . $breakdown, $aParams);
+$oStatsController->start();
 
-//erase stats graph file
+// Export to XLS...
+if (isset($plugin) && $plugin != '') {
+    require_once MAX_PATH . '/lib/OA/Admin/Reports/Export.php';
+    $oModule = new OA_Admin_Reports_Export($oStatsController);
+    $oModule->export();
+}
+
+// ... otherwise, output in HTML
+$oStatsController->output();
+
+// Erase stats graph file
 if (isset($GraphFile) && $GraphFile != '') {
-
     $dirObject = dir($conf['store']['webDir'] . '/temp');
     while (false !== ($entry = $dirObject->read())) {
-
         if (filemtime($conf['store']['webDir'] . '/temp/' . $entry) + 60 < time()) {
             unlink($conf['store']['webDir'] . '/temp/' . $entry);
         }
     }
 }
-
 
 ?>
