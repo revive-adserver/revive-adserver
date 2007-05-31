@@ -36,13 +36,14 @@
         return(noerrors);
     }
 
-    function switchDbTypes(obj) {
-        var portObj = new getObj('aConfig[database][port]');
+    function switchDbTypes() {
+        var dbType     = new getObj('aConfig[database][type]');
+        var portObj    = new getObj('aConfig[database][port]');
         var TblTypeObj = new getObj('aConfig[table][type]');
-        if (obj.value == 'mysql') {
+        if (dbType.obj.value == 'mysql') {
             portObj.obj.value = 3306;
             TblTypeObj.obj.disabled = false;
-        } else if (obj.value == 'pgsql') {
+        } else if (dbType.obj.value == 'pgsql') {
             portObj.obj.value = 5432;
             TblTypeObj.obj.disabled = 'disabled';
         }
@@ -163,6 +164,9 @@
         )
     ), $errormessage, 0, $imgPath);
 ?>
+                <script type='text/javascript'>
+                    switchDbTypes();
+                </script>
                 <input type="submit" class="button" name="btn_upgrade" value="<?php echo ($displayError ? $strBtnRetry : $strBtnContinue); ?>">
                 <input type="hidden" name="dirPage" id="dirPage" value="" />
 </form>
