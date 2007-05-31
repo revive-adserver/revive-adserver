@@ -530,7 +530,7 @@ class OA_Upgrade
                 return false;
             }
             $this->versionInitialApplication = $this->oVersioner->getApplicationVersion();
-            if ($this->versionInitialApplication)
+            if (!$this->versionInitialApplication)
             {
                 $this->existing_installation_status = OA_STATUS_OAD_VERSION_FAILED;
                 return false;
