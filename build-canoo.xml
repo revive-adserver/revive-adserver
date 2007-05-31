@@ -15,7 +15,6 @@
       You have to put it into canoo lib directory
 -->
 <project name="canoo" default="prepare-dir" basedir=".">
-  <property name="ec2.openads.dir" value="/var/www/html/openads"/>
   <property name="canoo.log" value="${basedir}/canoo.log"/>
   <property name="timeout" value="60000"/>
   <property file="${basedir}/tests/canoo/properties/user.properties" prefix="canoo"/>
@@ -57,8 +56,9 @@
 
   <!-- Cleans up the old Openads directory. -->
   <target name="canoo-prepare-dir">
-    <echo message="rm -rf ${ec2.openads.dir}/*"/>
-    <canoo-ssh-root command="rm -rf ${ec2.openads.dir}/*"/>
+    <property name="ec2.openads.dir" value="/var/www/html/${release}"/>
+    <echo message="Preparing directory: ${ec2.openads.dir}"/>
+    <canoo-ssh command="mkdir ${ec2.openads.dir}"/>
   </target>
 
   <target name="canoo-copy-package">
@@ -81,7 +81,7 @@
   </target>
 
   <target name="canoo-create-openads-configuration">
-    <property name="openads.url" value="${canoo.host}/openads/www"/>
+    <property name="openads.url" value="${canoo.host}/${release}/www"/>
     <exec dir="${basedir}/tests" executable="php" failonerror="true">
       <arg value="create-config-file.php" />
       <arg value="${ec2.openads.config}" />

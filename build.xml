@@ -113,6 +113,14 @@
     </chmod>
   </target>
 
+  <target name="package-bzip2-canoo" depends="prepare-package">
+    <property name="canoo.package" value="openads-canoo.tar.bz2"/>
+    <property name="canoo.package.file" value="${dir.test.results}/${canoo.package}"/>
+    <tar destfile="${canoo.package.file}" basedir="." compression="bzip2" longfile="gnu">
+      <patternset refid="dist.included"/>
+    </tar>
+  </target>
+
   <target name="prepare-distribution" depends="prepare-package">
     <property name="release.dir" value="${dir.test.results}/${release}"/>
     <mkdir dir="${release.dir}"/>
@@ -125,15 +133,6 @@
 
   <target name="package-bzip2" depends="prepare-distribution">
     <tar destfile="${dir.test.results}/${release}.tar.bz2" basedir="${dir.test.results}" includes="${release}/**" compression="bzip2" longfile="gnu"/>
-  </target>
-
-  <!-- Used for canoo package -->
-  <target name="package-bzip2-flat" depends="prepare-package">
-    <property name="canoo.package" value="openads-canoo.tar.bz2"/>
-    <property name="canoo.package.file" value="${dir.test.results}/${canoo.package}"/>
-    <tar destfile="${canoo.package.file}" basedir="." compression="bzip2" longfile="gnu">
-      <patternset refid="dist.included"/>
-    </tar>
   </target>
 
   <target name="package-gz" depends="prepare-distribution">
@@ -167,9 +166,9 @@
     <ant antfile="tests.xml"/>
   </target>
 
-  <target name="test-canoo" depends="svn-update, checkconsistency, package-bzip2-flat, revert-after-packaging, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openads-configuration, run-test-canoo"/>
+  <target name="test-canoo" depends="test-canoo-prepare, run-test-canoo"/>
 
-  <target name="test-canoo-prepare" depends="svn-update, checkconsistency, package-bzip2-flat, revert-after-packaging, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openads-configuration"/>
+  <target name="test-canoo-prepare" depends="clean, svn-update, checkconsistency, package-bzip2-canoo, revert-after-packaging, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openads-configuration"/>
 
 
   <target name="simpletest" depends="clean, init, test-all, package" />
