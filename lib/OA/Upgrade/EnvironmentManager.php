@@ -52,6 +52,8 @@ class OA_Environment_Manager
                                                   MAX_PATH.'/var',
                                                   MAX_PATH.'/var/cache',
                                                   MAX_PATH.'/var/plugins',
+                                                  MAX_PATH.'/var/plugins/cache',
+                                                  MAX_PATH.'/var/plugins/config',
                                                   MAX_PATH.'/var/templates_compiled'
                                                  );
         if ($conf) {
