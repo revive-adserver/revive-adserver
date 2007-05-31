@@ -132,7 +132,8 @@ else if (array_key_exists('btn_syscheck', $_POST))
     $_SESSION['updates_cs_data_enabled'] = $_POST['updates_cs_data_enabled'];
 
     $aSysInfo = $oUpgrader->checkEnvironment();
-    $oUpgrader->canUpgrade();
+    $halt = !$oUpgrader->canUpgrade();
+    
     $installStatus = $oUpgrader->existing_installation_status;
     if ($installStatus == OA_STATUS_CAN_UPGRADE)
     {

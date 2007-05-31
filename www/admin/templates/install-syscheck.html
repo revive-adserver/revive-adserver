@@ -30,8 +30,6 @@
         <form name="frmOpenads" method="POST" action="install.php">
         
         <?php
-            $halt = false;
-            
             $errorImage = "<img src='".$imgPath."images/icon-x.gif' width='10' height='9'>";
             $passImage = "<img src='".$imgPath."images/icon-checkmark.gif' width='10' height='9'>";
 
@@ -47,7 +45,7 @@
             
             $sysinfoarray['actual']['safe_mode'] = ($sysinfoarray['actual']['safe_mode']==0 ? 'OFF '.$passImage : 'ON '.$errorImage);
             $sysinfoarray['actual']['magic_quotes_runtime'] = ($sysinfoarray['actual']['magic_quotes_runtime']==0 ? 'OFF '.$passImage : 'ON '.$errorImage);
-            $halt = (($sysinfoarray['error']));
+            $halt = (($halt) || ($sysinfoarray['error']));
             
             $sysinfoheading = (!$sysinfoarray['error']? $passImage . ' PHP - no errors' : $errorImage . ' <span class="red">PHP - errors detected</span>');
             include 'templates/install-sysinfosection.html';
