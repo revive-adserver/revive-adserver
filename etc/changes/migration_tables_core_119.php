@@ -128,7 +128,7 @@ class Migration_119 extends Migration
 	   $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf)
 	{
 	    $upgradeConfig = new OA_Upgrade_Config();
-	    $host = $upgradeConfig->getHost();
+	    $host = getHostName();
 
 	    if (empty($geotracking_type)) {
 	        return $this->writeGeoPluginConfig('"none"', $geotracking_stats, $host);

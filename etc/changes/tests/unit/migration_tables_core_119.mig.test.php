@@ -85,7 +85,7 @@ class Migration_119Test extends MigrationTest
         }
 
         $upgradeConfig = new OA_Upgrade_Config();
-        $host = $upgradeConfig->getHost();
+        $host = getHostName();
 
         $migration = new Migration_119();
         $migration->init($this->oDbh);
