@@ -451,9 +451,10 @@ function MAX_cacheGetMaintenanceInfo($cached = true)
         MAX_Dal_Delivery_Include();
         $output = OA_Dal_Delivery_getMaintenanceInfo();
         // calculate exact expire time
-//        $now = MAX_commonGetTimeNow();
-//        $interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'];
-        $output = OA_Delivery_Cache_store_return($cName, $output);
+        $now = MAX_commonGetTimeNow();
+        $interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
+        $expireAt = $now + $interval + 1;
+        $output = OA_Delivery_Cache_store_return($cName, $output, false, $expireAt);
     }
 
     return $output;
