@@ -2325,33 +2325,149 @@ require_once 'XML/RPC/Server.php';
 if (empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
 $GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
 }
-$xmlRpcView_sig = array(
-array($GLOBALS['XML_RPC_String'],
-$GLOBALS['XML_RPC_String'],
-$GLOBALS['XML_RPC_String'],
-$GLOBALS['XML_RPC_String'],
-$GLOBALS['XML_RPC_Boolean'],
-$GLOBALS['XML_RPC_String'],
-$GLOBALS['XML_RPC_Struct']
-),
-array($GLOBALS['XML_RPC_String'],
-$GLOBALS['XML_RPC_String'],
-$GLOBALS['XML_RPC_String'],
-$GLOBALS['XML_RPC_String'],
-$GLOBALS['XML_RPC_Boolean'],
-$GLOBALS['XML_RPC_String'],
-$GLOBALS['XML_RPC_Struct'],
-$GLOBALS['XML_RPC_Struct']
+$xmlRpcView_OA =
+array(
+'sig' => array(
+array(
+$GLOBALS['XML_RPC_Struct'],  // Return value
+$GLOBALS['XML_RPC_Struct'],  // Environment and cookies
+$GLOBALS['XML_RPC_String'],  // What
+$GLOBALS['XML_RPC_Int'],     // Campaignid
+$GLOBALS['XML_RPC_String'],  // Target
+$GLOBALS['XML_RPC_String'],  // Source
+$GLOBALS['XML_RPC_Boolean'], // WithText
+$GLOBALS['XML_RPC_Array']    // Context
 )
+),
+'doc' => 'When passed the "environment/cookies" struct, "what", "campaignid", "target", "source", ' .
+'"withText", "context" returns the cookies to be set and the HTML code to display the ' .
+'appropriate advertisement.'
 );
-$xmlRpcView_doc = 'When passed the "what", "target", "source", "withText", remote IP address and array ' .
-'of cookies, returns the cookies to be set and the HTML code to display the appropriate ' .
-'advertisement.';
-function xmlRpcView($params)
+$xmlRpcView_Max =
+array(
+'sig' => array(
+array(
+$GLOBALS['XML_RPC_String'],  // Retrun value
+$GLOBALS['XML_RPC_String'],  // What
+$GLOBALS['XML_RPC_String'],  // Target
+$GLOBALS['XML_RPC_String'],  // Source
+$GLOBALS['XML_RPC_Boolean'], // WithText
+$GLOBALS['XML_RPC_String'],  // IP Address
+$GLOBALS['XML_RPC_Struct']   // Cookies
+),
+array(
+$GLOBALS['XML_RPC_String'],  // Retrun value
+$GLOBALS['XML_RPC_String'],  // What
+$GLOBALS['XML_RPC_String'],  // Target
+$GLOBALS['XML_RPC_String'],  // Source
+$GLOBALS['XML_RPC_Boolean'], // WithText
+$GLOBALS['XML_RPC_String'],  // IP Address
+$GLOBALS['XML_RPC_Struct'],  // Cookies
+$GLOBALS['XML_RPC_Array']    // Context - @since late 2.3
+)
+),
+'doc' => '2.3 backwards compatibility method - deprecated'
+);
+$xmlRpcView_PAN =
+array(
+'sig' => array(
+array(
+$GLOBALS['XML_RPC_Struct'],  // Return value
+$GLOBALS['XML_RPC_Struct'],  // Environment
+$GLOBALS['XML_RPC_String'],  // What
+$GLOBALS['XML_RPC_Int'],     // Campaignid
+$GLOBALS['XML_RPC_String'],  // Target
+$GLOBALS['XML_RPC_String'],  // Source
+$GLOBALS['XML_RPC_Boolean']  // WithText
+),
+array(
+$GLOBALS['XML_RPC_Struct'],  // Return value
+$GLOBALS['XML_RPC_Struct'],  // Environment
+$GLOBALS['XML_RPC_String'],  // What
+$GLOBALS['XML_RPC_Int'],     // Campaignid
+$GLOBALS['XML_RPC_String'],  // Target
+$GLOBALS['XML_RPC_String'],  // Source
+$GLOBALS['XML_RPC_Boolean'], // WithText
+$GLOBALS['XML_RPC_Array']    // Context
+)
+),
+'doc' => '2.0 Backwards compatibility method - deprecated'
+);
+function OA_Delivery_XmlRpc_View($params)
 {
-$cookieCache =& $GLOBALS['_MAX']['COOKIE']['CACHE'];
 global $XML_RPC_erruser;
 global $XML_RPC_String, $XML_RPC_Struct, $XML_RPC_Array;
+$cookieCache =& $GLOBALS['_MAX']['COOKIE']['CACHE'];
+$numParams = $params->getNumParams();
+if ($numParams != 7) {
+$errorCode = $XML_RPC_erruser + 21;
+$errorMsg  = 'Incorrect number of parameters';
+return new XML_RPC_Response(0, $errorCode, $errorMsg);
+}
+for ($i = 0; $i < $numParams; $i++)
+{
+$p = $params->getParam($i);
+if ($i) {
+$view_params[] = XML_RPC_decode($p);
+} else {
+$p = XML_RPC_decode($p);
+if (!isset($p['remote_addr'])) {
+$errorCode = $XML_RPC_erruser + 22;
+$errorMsg  = "Missing 'remote_addr' member";
+return new XML_RPC_Response(0, $errorCode, $errorMsg);
+}
+if (!isset($p['cookies']) || !is_array($p['cookies'])) {
+$errorCode = $XML_RPC_erruser + 23;
+$errorMsg  = "Missing 'cookies' member";
+return new XML_RPC_Response(0, $errorCode, $errorMsg);
+}
+$aServerVars = array(
+'remote_addr'       => 'REMOTE_ADDR',
+'remote_host'       => 'REMOTE_HOST',
+'request_uri'       => 'REQUEST_URI',
+'https'             => 'HTTPS',
+'server_name'       => 'SERVER_NAME',
+'http_host'         => 'HTTP_HOST',
+'accept_language'   => 'HTTP_ACCEPT_LANGUAGE',
+'referer'           => 'HTTP_REFERER',
+'user_agent'        => 'HTTP_USER_AGENT',
+'via'               => 'HTTP_VIA',
+'forwarded'         => 'HTTP_FORWARDED',
+'forwarded_for'     => 'HTTP_FORWARDED_FOR',
+'x_forwarded'       => 'HTTP_X_FORWARDED',
+'x_forwarded_for'   => 'HTTP_X_FORWARDED_FOR',
+'client_ip'         => 'HTTP_CLIENT_IP'
+);
+foreach ($aServerVars as $xmlName => $varName) {
+if (isset($p[$xmlName])) {
+$_SERVER[$varName] = $p[$xmlName];
+}
+}
+foreach ($p['cookies'] as $key => $value) {
+$_COOKIE[$key] = addslashes($value);
+}
+}
+}
+$view_params[] = true;
+$view_params[] = '';
+$view_params[] =
+(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
+getHostName().
+$_SERVER['REQUEST_URI'];
+$view_params[] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+$output = call_user_func_array('MAX_adSelect', $view_params);
+if (!is_array($output)) {
+$output = array();
+} elseif (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
+$output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
+}
+$output['cookies'] = $cookieCache;
+return new XML_RPC_Response(XML_RPC_encode($output));
+}
+function OA_Delivery_XmlRpc_View_Max($params)
+{
+global $XML_RPC_erruser;
+global $XML_RPC_String, $XML_RPC_Struct, $XML_RPC_Array, $XML_RPC_Int;
 $numParams = $params->getNumParams();
 if ($numParams < 6) {
 $errorCode = $XML_RPC_erruser + 2;
@@ -2359,68 +2475,90 @@ $errorMsg  = 'Incorrect number of parameters';
 return new XML_RPC_Response(0, $errorCode, $errorMsg);
 }
 $whatXmlRpcValue = $params->getParam(0);
-$what = $whatXmlRpcValue->scalarval();
 $targetXmlRpcValue = $params->getParam(1);
-$target = $targetXmlRpcValue->scalarval();
 $sourceXmlRpcValue = $params->getParam(2);
-$source = $sourceXmlRpcValue->scalarval();
 $withTextXmlRpcValue = $params->getParam(3);
-$withText = $withTextXmlRpcValue->scalarval();
 $remoteAddressXmlRpcValue = $params->getParam(4);
-$_SERVER['REMOTE_ADDR'] = $remoteAddressXmlRpcValue->scalarval();
 $cookiesXmlRpcValue = $params->getParam(5);
-while (list($key, $value) = $cookiesXmlRpcValue->structeach()) {
-$_COOKIE[$key] = $value->scalarval();
-}
 if ($numParams >= 7) {
-$context = XML_RPC_decode($params->getParam(6));
+$contextXmlRpcValue = $params->getParam(6);
 } else {
-$context = array();
+$contextXmlRpcValue = new XML_RPC_Value(array(), $XML_RPC_Array);
 }
-$output = MAX_adSelect($what, '', $target, $source, $withText, $context);
-if ($output['contenttype'] == 'swf') {
-$output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
+$campaignidXmlRpcValue = new XML_RPC_Value(0, $XML_RPC_Int);
+$remoteInfoXmlRpcValue = new XML_RPC_Value(
+array(
+'remote_addr'   => $remoteAddressXmlRpcValue,
+'cookies'       => $cookiesXmlRpcValue
+),
+$XML_RPC_Struct
+);
+$msg = new XML_RPC_Message('openads.view', array(
+$remoteInfoXmlRpcValue,
+$whatXmlRpcValue,
+$campaignidXmlRpcValue,
+$targetXmlRpcValue,
+$sourceXmlRpcValue,
+$withTextXmlRpcValue,
+$contextXmlRpcValue
+));
+$xmlResponse = OA_Delivery_XmlRpc_View($msg);
+if ($xmlResponse->isError()) {
+return $xmlResponse;
 }
-if (count($output) > 0) {
-foreach ($output as $key => $value) {
-if (is_array($value)) {
-$output[$key] = new XML_RPC_Value($value, $XML_RPC_Struct);
+$output  = XML_RPC_decode($xmlResponse->value());
+$cookies = $output['cookies'];
+unset($output['cookies']);
+return new XML_RPC_Response(
+new XML_RPC_Value(array(
+XML_RPC_encode($output),
+XML_RPC_encode($cookies)
+),
+$XML_RPC_Array
+)
+);
+}
+function OA_Delivery_XmlRpc_View_PAN($params)
+{
+$remoteInfoXmlRpcValue = $params->getParam(0);
+$remote_info = XML_RPC_Decode($params->getParam(0));
+$remote_info['cookies'] = array();
+$remoteInfoXmlRpcValue = XML_RPC_encode($remote_info);
+if ($params->getNumParams() > 6) {
+$contextXmlRpcValue = $params->getParam(6);
 } else {
-$output[$key] = new XML_RPC_Value($value, $XML_RPC_String);
+$contextXmlRpcValue = new XML_RPC_Value(array(), $XML_RPC_Array);
 }
-}
-$outputValue = new XML_RPC_Value($output, $XML_RPC_Struct);
-}
-if (count($cookieCache) > 0) {
-$cookies = array();
-foreach ($cookieCache as $key => $value) {
-$cookie = array();
-foreach ($value as $ikey => $ivalue) {
-$cookie[$ikey] = new XML_RPC_Value($ivalue, $XML_RPC_String);
-}
-$cookies[$key] = new XML_RPC_Value($cookie, $XML_RPC_Struct);
-}
-$cookieValue = new XML_RPC_Value($cookies, $XML_RPC_Struct);
-}
-$returnArray = array();
-if (count($output) > 0) {
-$returnArray[] = $outputValue;
-} else {
-$returnArray[] = new XML_RPC_Value();
-}
-if (count($cookieCache) > 0) {
-$returnArray[] = $cookieValue;
-} else {
-$returnArray[] = new XML_RPC_Value();
-}
-$return = new XML_RPC_Value($returnArray, $XML_RPC_Array);
-return new XML_RPC_Response($return);
+$msg = new XML_RPC_Message('phpAds.view', array(
+$remoteInfoXmlRpcValue,
+$params->getParam(1),
+$params->getParam(2),
+$params->getParam(3),
+$params->getParam(4),
+$params->getParam(5),
+$contextXmlRpcValue
+));
+$xmlResponse = OA_Delivery_XmlRpc_View($msg);
+return $xmlResponse;
 }
 $server = new XML_RPC_Server(array(
-'max.view'  => array('function' => 'xmlRpcView'),
-'signature' => $xmlRpcView_sig,
-'docstring' => $xmlRpcView_doc
-));
+'openads.view'  => array(
+'function'  => 'OA_Delivery_XmlRpc_View',
+'signature' => $xmlRpcView_OA['sig'],
+'docstring' => $xmlRpcView_OA['doc']
+),
+'phpAds.view'  => array(
+'function'  => 'OA_Delivery_XmlRpc_View_PAN',
+'signature' => $xmlRpcView_PAN['sig'],
+'docstring' => $xmlRpcView_PAN['doc']
+),
+'max.view'  => array(
+'function'  => 'OA_Delivery_XmlRpc_View_Max',
+'signature' => $xmlRpcView_Max['sig'],
+'docstring' => $xmlRpcView_Max['doc']
+)
+)
+);
 
 
 ?>
