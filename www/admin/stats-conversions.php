@@ -5,8 +5,8 @@
 | Openads v2.3                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2005 Awarez Ltd.                                       |
-| For contact details, see: http://www.awarez.net/                          |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | Copyright (c) 2000-2003 the phpAdsNew developers                          |
 | For contact details, see: http://www.phpadsnew.com/                       |
