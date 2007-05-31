@@ -175,7 +175,7 @@ function phpAds_getKeyLineColor()
  * @param int imgPath: a relative path to Images, CSS files. Used if calling function from anything other than admin folder
  * @param boolean set to false if you do not wish to show the grey sidebar
  * @param boolean set to false if you do not wish to show the main navigation
- */ 
+ */
 function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
@@ -339,7 +339,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
         }
         $i = 0;
         $lastselected = false;
-        
+
         foreach (array_keys($pages) as $key) {
             if (strpos($key, ".") == 0) {
                 list($filename, $title) = each($pages[$key]);
@@ -396,10 +396,16 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
             $searchbar .= "\t\t</form>\n";
             $searchbar .= "\t\t</table>\n";
 
-            if ($pref['ad_clicks_sum'] || $pref['ad_views_sum']) {
+            if (
+               (!empty($pref['updates_enabled']) && $pref['updates_enabled'] != 'f')
+               &&
+               (!empty($pref['updates_cs_data_enabled']) && $pref['updates_cs_data_enabled'] != 'f')
+               &&
+               ($pref['ad_clicks_sum'] || $pref['ad_views_sum'])
+               ) {
 
                 $iSecondsFromLastUpdate = 0;
-                if(!empty($pref['ad_cs_data_last_received']) && '0000-00-00' != $pref['ad_cs_data_last_received']){
+                if (!empty($pref['ad_cs_data_last_received']) && ($pref['ad_cs_data_last_received'] != OA_Dal::noDateValue())) {
                     $iSecondsFromLastUpdate = time() - strtotime($pref['ad_cs_data_last_received']);
                 }
                 $fClicksSum = $pref['ad_clicks_sum']+($iSecondsFromLastUpdate*$pref['ad_clicks_per_second']);
@@ -420,7 +426,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
                     "</div>\n";
 
                 $sCommunityStats .= $s4Tab."<script type='text/javascript'><!--// <![CDATA[\n" .
-                        $s5Tab . "var openads_communityStats={ \n" . 
+                        $s5Tab . "var openads_communityStats={ \n" .
                         $s6Tab . "clicks_sum:".$fClicksSum.", \n".
                         $s6Tab . "views_sum:".$fViewsSum.", \n".
                         $s6Tab . "clicks_per_second:".(float)$pref['ad_clicks_per_second'].", \n".
@@ -435,7 +441,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
                         $s7Tab . "document.getElementById('ad_views_sum').innerHTML=v_sum \n".
                         $s7Tab . "// document.getElementById('ad_clicks_sum').innerHTML=c_sum \n".
                         $s7Tab . "t=this \n".
-                        $s7Tab . "setTimeout(function(){t.refresh();},this.refreshInterval*1000) \n".                   
+                        $s7Tab . "setTimeout(function(){t.refresh();},this.refreshInterval*1000) \n".
                     $s6Tab . "} \n".
                     $s5Tab . "} \n".
                     $s5Tab . "String.prototype.reverse = function(){return this.split('').reverse().join('')} \n".
@@ -450,7 +456,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
                     $sidebar .= $s4Tab."<tr><td colspan='2' width='140' class='nav'> \n";
                     $sidebar .= $sCommunityStats;
                     $sidebar .= $s4Tab."</td></tr> \n";
-                    $sidebar .= $s4Tab."</table><br> \n"; 
+                    $sidebar .= $s4Tab."</table><br> \n";
 
             }
         } else {
@@ -509,7 +515,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/jscalendar/calendar-setup.js'></script>\n";
 
     if ($phpAds_showHelp) echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js-help.js'></script>\n";
-    
+
     if (!defined('phpAds_installing')) {
         // Include the flashObject resource file
         echo MAX_flashGetFlashObjectExternal();
@@ -518,9 +524,9 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     // Show Moz site bar
     echo $mozbar;
     echo "\t</head>\n\n\n";
-    if ($showSidebar == false) { 
+    if ($showSidebar == false) {
         echo "<body bgcolor='#FFFFFF' text='#000000' leftmargin='0' ";
-    } else {    
+    } else {
         echo "<body bgcolor='#FFFFFF' background='".$imgPath."images/".$phpAds_TextDirection."/background.gif' text='#000000' leftmargin='0' ";
     }
     echo "topmargin='0' marginwidth='0' marginheight='0' onLoad='initPage();'".($phpAds_showHelp ? " onResize='resizeHelp();' onScroll='resizeHelp();'" : '').">\n";
@@ -543,7 +549,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     echo "\t<td height='24' width='181' bgcolor='#$headerBackgroundColor'>&nbsp;</td>\n";
     echo "\t<td height='24' bgcolor='#$headerBackgroundColor'>\n";
     echo "\t\t<table border='0' cellspacing='0' cellpadding='0' width='100%'>\n";
-    echo "\t\t<tr>\n";    
+    echo "\t\t<tr>\n";
     if ($showMainNav == true) {
         echo "\t\t\t<td>\n";
         echo "\t\t\t\t<table border='0' cellspacing='0' cellpadding='0'>\n";
@@ -574,7 +580,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
         if (!defined('phpAds_installing')) {
             // display logout button
             echo "\t\t\t\t<a style='color: #$headerTextColor' href='logout.php'><b>$strLogout</b></a> \n";
-            echo "\t\t\t\t<a href='logout.php'><img src='".$imgPath."images/logout.gif' width='16' height='16' align='absmiddle' border='0'></a>";            
+            echo "\t\t\t\t<a href='logout.php'><img src='".$imgPath."images/logout.gif' width='16' height='16' align='absmiddle' border='0'></a>";
             //  bug reporter button
             echo "&nbsp;&nbsp;&nbsp;<a href='bug.php'><img alt='Report a bug' src='".$imgPath."images/bug.png' border='0'></a>";
         }
@@ -582,7 +588,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
         {
             // Openads is being installed, display the 'start over' link
             echo "\t\t\t\t<a style='color: #$headerTextColor' href='index.php'><b>$strStartOver</b></a> \n";
-            echo "\t\t\t\t<a href='logout.php'><img src='".$imgPath."images/logout.gif' width='16' height='16' align='absmiddle' border='0'></a>";  
+            echo "\t\t\t\t<a href='logout.php'><img src='".$imgPath."images/logout.gif' width='16' height='16' align='absmiddle' border='0'></a>";
         }
     }
     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n";
@@ -592,9 +598,9 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     echo "\t</td>\n";
     echo "</tr>\n";
     echo "</table>\n\n";
-    // Sidebar 
+    // Sidebar
     if ($showSidebar == false) {
-    } else { 
+    } else {
         echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>\n";
         echo "<tr>\n";
         echo "\t<td colspan='2' height='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
@@ -673,7 +679,7 @@ function phpAds_PageFooter($imgPath='')
         }
         // Check if the maintenance script is running
         if (phpAds_isUser(phpAds_Admin)) {
-            if (($pref['maintenance_timestamp'] < time() - (60 * 60 * 24)) && 
+            if (($pref['maintenance_timestamp'] < time() - (60 * 60 * 24)) &&
                 (!$conf['maintenance']['autoMaintenance'])) {
                 if ($pref['maintenance_timestamp'] > 0) {
                     // The maintenance script hasn't run in the
@@ -771,10 +777,10 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
             }
             echo "</td>\n";
             echo "\t\t\t\t\t<td background='".$imgPath."images/".$phpAds_TextDirection."/stab-sb.gif' valign='middle' nowrap>";
-            echo "&nbsp;&nbsp;";            
+            echo "&nbsp;&nbsp;";
             if (!empty($sectionUrl)) {
                 echo "<a ";
-            } else {    
+            } else {
                 echo "<span ";
             }
             echo " class='tab-s' href='" . $sectionUrl;
@@ -782,10 +788,10 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
                 echo showParams($params);
             }
             echo "' accesskey='".($i+1)."'>".$sectionStr;
-                     
+
             if (!empty($sectionUrl)) {
                 echo "</a>";
-            } else {    
+            } else {
                 echo "</span>";
             }
             echo "</td>\n";
@@ -802,21 +808,21 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
             }
             echo "</td>\n";
             echo "\t\t\t\t\t<td background='".$imgPath."images/".$phpAds_TextDirection."/stab-ub.gif' valign='middle' nowrap>";
-            
-            echo "&nbsp;&nbsp;";                     
+
+            echo "&nbsp;&nbsp;";
             if (!empty($sectionUrl)) {
                 echo "<a ";
-            } else {    
+            } else {
                 echo "<span ";
             }
             echo " class='tab-g' href='".$sectionUrl;
             if($params) {
                 echo showParams($params);
             }
-            echo "' accesskey='".($i+1)."'>".$sectionStr;                             
+            echo "' accesskey='".($i+1)."'>".$sectionStr;
             if (!empty($sectionUrl)) {
                 echo "</a>";
-            } else {    
+            } else {
                 echo "</span>";
             }
             echo "</td>\n";
