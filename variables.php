@@ -102,4 +102,21 @@ function setTimeZoneLocation($location)
     }
 }
 
+/**
+ * Returns the hostname the script is running under.
+ * 
+ * @return string containing the hostname (with port number stripped).
+ */
+function getHostName()
+{
+    if (!empty($_SERVER['HTTP_HOST'])) {
+            $host = explode(':', $_SERVER['HTTP_HOST']);
+            $host = $host[0];
+    } else {
+            $host = explode(':', $_SERVER['SERVER_NAME']);
+        	$host = $host[0];
+    }
+    return $host;
+}
+
 ?>

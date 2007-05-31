@@ -239,7 +239,7 @@ function phpAds_Login()
             // The user is not in the "admin" folder directly. Are they
             // in the admin folder as a result of a "full" virtual host
             // configuration?
-            if ($GLOBALS['_MAX']['CONF']['webpath']['admin'] != $_SERVER['HTTP_HOST']) {
+            if ($GLOBALS['_MAX']['CONF']['webpath']['admin'] != getHostName()) {
                 // Not a "full" virtual host setup, so re-direct
                 $redirect = true;
             }

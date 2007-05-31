@@ -526,34 +526,6 @@ class TestOfMAX_Plugin extends UnitTestCase {
     }
 
     /**
-     * A method to test the _getHostName() method.
-     */
-    function test_getHostName()
-    {
-        // Set the error handling class' handleErrors() method as
-        // the error handler for PHP for this test.
-        $oTestErrorHandler = new TestErrorHandler();
-        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, array(&$oTestErrorHandler, 'handleErrors'));
-        // Test command line use with host name
-        unset($_SERVER['HTTP_HOST']);
-        $_SERVER['SERVER_NAME'] = 'fake.host.name';
-        $result = MAX_Plugin::_getHostName();
-        $this->assertEqual(count($oTestErrorHandler->aErrors), 0);
-        $this->assertEqual($result, 'fake.host.name');
-        $oTestErrorHandler->reset();
-        $_SERVER['SERVER_NAME'] = $old;
-        // Test web access
-        $_SERVER['HTTP_HOST'] = 'other.host.name';
-        unset($GLOBALS['argv'][1]);
-        $result = MAX_Plugin::_getHostName();
-        $this->assertEqual(count($oTestErrorHandler->aErrors), 0);
-        $this->assertEqual($result, 'other.host.name');
-        $oTestErrorHandler->reset();
-        // Unset the error handler
-        PEAR::popErrorHandling();
-    }
-
-    /**
      * A method to test the getConfigByFileName() method.
      */
     function testGetConfigByFileName()

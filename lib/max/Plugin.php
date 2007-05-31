@@ -494,7 +494,7 @@ class MAX_Plugin
             $startPath  = MAX_PATH . '/plugins/';
         } else {
             if (is_null($host)) {
-                $host = MAX_Plugin::_getHostName();
+                $host = getHostName();
             }
             $startPath  = MAX_PLUGINS_VAR . '/config/';
         }
@@ -508,25 +508,6 @@ class MAX_Plugin
         }
 
         return $startPath . $configPath . $configName;
-    }
-
-    /**
-     * A private method to get the host name via by which the Max
-     * installation is currently being accessed.
-     *
-     * @static
-     * @access private
-     * @return mixed A string containing the host name, if available,
-     *               false otherwise.
-     */
-    function _getHostName()
-    {
-        if (!empty($_SERVER['HTTP_HOST'])) {
-            $host = $_SERVER['HTTP_HOST'];
-        } else {
-            $host = $_SERVER['SERVER_NAME'];
-        }
-        return $host;
     }
 
     /**

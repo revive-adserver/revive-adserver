@@ -51,7 +51,7 @@ function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target 
     }
 
     $loc = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-		(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']).
+        getHostName() .
 		$_SERVER['REQUEST_URI'];
 
 	$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';

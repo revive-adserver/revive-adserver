@@ -20,21 +20,9 @@ class OA_Upgrade_Config
         }
     }
 
-    function getHost()
-    {
-        if (!empty($_SERVER['HTTP_HOST']))
-        {
-            $host = explode(':', $_SERVER['HTTP_HOST']);
-        } else
-        {
-            $host = explode(':', $_SERVER['SERVER_NAME']);
-        }
-        return $host[0];
-    }
-
     function getConfigFileName()
     {
-        $host = $this->getHost();
+        $host = getHostName();
         $this->configPath = MAX_PATH.'/var/';
         if (file_exists($host.'.conf.php'))
         {
@@ -52,7 +40,7 @@ class OA_Upgrade_Config
 
     function isMaxConfigFile()
     {
-        $host = $this->getHost();
+        $host = getHostName();
         $this->configPath = MAX_PATH.'/var/';
         if (file_exists($this->configPath.$host.'.conf.ini'))
         {
@@ -63,7 +51,7 @@ class OA_Upgrade_Config
 
     function replaceMaxConfigFileWithOpenadsConfigFile()
     {
-        $host = $this->getHost();
+        $host = getHostName();
         $this->configPath = MAX_PATH.'/var/';
         if (file_exists($this->configPath.$host.'.conf.ini'))
         {
@@ -104,7 +92,7 @@ class OA_Upgrade_Config
         {
             // User has web root configured as Max's root directory so can guess at all locations
             $subpath = preg_replace('#/www/admin$#', '', $path);
-            $basepath = $_SERVER['HTTP_HOST'] . $subpath. '/www/';
+            $basepath = getHostName() . $subpath. '/www/';
             $this->setValue('webpath', 'admin', $basepath.'admin');
             $this->setValue('webpath', 'delivery', $basepath.'delivery');
             $this->setValue('webpath', 'deliverySSL', $basepath.'delivery');
@@ -115,7 +103,7 @@ class OA_Upgrade_Config
         {
             // User has web root configured as Max's /www directory so can guess at all locations
             $subpath = preg_replace('#/admin$#', '', $path);
-            $basepath = $_SERVER['HTTP_HOST'] . $subpath. '';
+            $basepath = getHostName() . $subpath. '';
             $this->setValue('webpath', 'admin', $basepath.'/admin');
             $this->setValue('webpath', 'delivery', $basepath.'/delivery');
             $this->setValue('webpath', 'deliverySSL', $basepath.'/delivery');
@@ -125,11 +113,11 @@ class OA_Upgrade_Config
         else
         {
             // User has web root configured as Max's www/admin directory so can only guess the admin location
-            $this->setValue('webpath', 'admin'   , $this->getHost());
-            $this->setValue('webpath', 'delivery', $this->getHost());
-            $this->setValue('webpath', 'images', $this->getHost());
-            $this->setValue('webpath', 'deliverySSL', $this->getHost());
-            $this->setValue('webpath', 'imagesSSL', $this->getHost());
+            $this->setValue('webpath', 'admin'   , getHostName());
+            $this->setValue('webpath', 'delivery', getHostName());
+            $this->setValue('webpath', 'images', getHostName());
+            $this->setValue('webpath', 'deliverySSL', getHostName());
+            $this->setValue('webpath', 'imagesSSL', getHostName());
         }
     }
 

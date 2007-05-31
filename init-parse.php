@@ -63,13 +63,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         }
         $host = trim($GLOBALS['argv'][1]);
     } else {
-        if (!empty($_SERVER['HTTP_HOST'])) {
-            $host = explode(':', $_SERVER['HTTP_HOST']);
-            $host = $host[0];
-        } else {
-            $host = explode(':', $_SERVER['SERVER_NAME']);
-        	$host = $host[0];
-        }
+       $host = getHostName();
     }
     // Is the system running the test environment?
     if (is_null($configFile) && defined('TEST_ENVIRONMENT_RUNNING')) {
@@ -114,7 +108,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         if (file_exists($defaultConfig)) {
             return parse_ini_file($defaultConfig, $sections);
         } else {
-            MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin";
+            echo MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin";
             exit(1);
         }
     }

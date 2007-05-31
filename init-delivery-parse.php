@@ -52,11 +52,7 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
     }
     
     // Is the .ini file for the hostname being used directly accessible?
-    if (isset($_SERVER['HTTP_HOST'])) {
-        $host = $_SERVER['HTTP_HOST'];
-    } else {
-        $host = $_SERVER['SERVER_NAME'];
-    }
+    $host = getHostName();
     
     // Check if ini file is cached
     $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';

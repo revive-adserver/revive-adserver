@@ -193,13 +193,7 @@ class TestEnv
         if (isset($_SERVER['SERVER_NAME'])) {
             // If test runs from web-client first check if host test config exists
             // This could be used to have different tests for different configurations
-            if (!empty($_SERVER['HTTP_HOST'])) {
-                $host = explode(':', $_SERVER['HTTP_HOST']);
-                $host = $host[0];
-            } else {
-                $host = explode(':', $_SERVER['SERVER_NAME']);
-            	$host = $host[0];
-            }
+            $host = getHostName();
             $testFilePath = MAX_PATH . '/var/'.$host.'.test.conf.php';
             if (file_exists($testFilePath)) {
                 return @parse_ini_file($testFilePath, true);

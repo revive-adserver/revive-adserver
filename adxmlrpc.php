@@ -110,7 +110,7 @@ function phpAds_xmlrpcView ($msg)
 	// Save current URL for the URL limitation
 	$GLOBALS['phpAds_currentURL'] =
 		(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-		(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']).
+        getHostName() .
 		$_SERVER['REQUEST_URI'];
 
 	// Save referer parameter for the Referrer limitation
