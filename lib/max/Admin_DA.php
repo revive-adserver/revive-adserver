@@ -616,8 +616,10 @@ class Admin_DA
 
         if (isset($aParams['startRecord']) && is_numeric($aParams['startRecord']) && is_numeric($aParams['perPage'])) {
             $limit = ' LIMIT ' .  $oDbh->quote($aParams['startRecord'], 'text', false) . ', ' . $oDbh->quote($aParams['perPage'], 'text', false);
-        } else {
+        } elseif (!empty($aParams['perPage'])) {
             $limit = ' LIMIT 0, ' .  $oDbh->quote($aParams['perPage'], 'integer', false);
+        } else {
+            $limit = '';
         }
 
         $query =
@@ -1086,7 +1088,7 @@ class Admin_DA
     {
         return Admin_DA::_addEntity('agency', $aParams);
     }
-    
+
    /**
     * Method to return the total number of clicks and impressions
     * received by an agencies ads for hours inclusive of a given date range.
@@ -1443,7 +1445,7 @@ class Admin_DA
     {
         return Admin_DA::_getEntitiesChildren('publisher', $aParams, $allFields);
     }
-    
+
     function getPrefix()
     {
         return $GLOBALS['_MAX']['CONF']['table']['prefix'];
