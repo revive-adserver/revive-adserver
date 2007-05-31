@@ -396,7 +396,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $oPlacement = new MAX_Entity_Placement(
             array(
                 'campaignid' => 2,
-                'expire'     => '0000-00-00'
+                'expire'     => OA_Dal::noDateValue()
             )
         );
         $oPlacement->impressionTargetDaily = 24;
@@ -479,7 +479,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $oPlacement = new MAX_Entity_Placement(
             array(
                 'campaignid' => 2,
-                'expire'     => '0000-00-00'
+                'expire'     => OA_Dal::noDateValue()
             )
         );
         $oPlacement->impressionTargetDaily = 24;
