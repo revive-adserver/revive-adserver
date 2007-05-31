@@ -61,7 +61,7 @@ class MAX_BugReporter
         $aServerInfo['phpVersion']     = PHP_VERSION;
         $aServerInfo['serverPort']     = $_SERVER['SERVER_PORT'];
         $aServerInfo['serverSoftware'] = $_SERVER['SERVER_SOFTWARE'];
-        $aServerInfo['maxVersion']     = MAX_VERSION_READABLE;
+        $aServerInfo['maxVersion']     = OA_VERSION;
         return $aServerInfo;
     }
 

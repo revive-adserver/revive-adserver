@@ -51,16 +51,16 @@ if (phpAds_isUser(phpAds_Admin))
     $update_check = false;
 
     // Check accordingly to user preferences
-    if ($pref['updates_enabled'] != 'f' && $pref['updates_enabled']) { 
-        require_once (MAX_PATH . '/lib/max/OpenadsSync.php');
+    if ($pref['updates_enabled'] != 'f' && $pref['updates_enabled']) {
+        require_once MAX_PATH . '/lib/OA/Sync.php';
 
-        $oSync = new MAX_OpenadsSync();
+        $oSync = new OA_Sync();
 
         if ($pref['updates_cache']) {
             $update_check = unserialize($pref['updates_cache']);
         }
 
-        if (!is_array($update_check) || $oSync->getConfigVersion() <= $pref['updates_last_seen']) {
+        if (!is_array($update_check) || $oSync->getConfigVersion(OA_VERSION) <= $pref['updates_last_seen']) {
             $update_check = false;
         } else {
             // Make sure that the alert doesn't display everytime

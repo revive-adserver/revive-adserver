@@ -501,7 +501,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     echo "<html".($phpAds_TextDirection != 'ltr' ? " dir='".$phpAds_TextDirection."'" : '').">\n";
     echo "\t<head>\n";
     echo "\t\t<title>".$pagetitle."</title>\n";
-    echo "\t\t<meta name='generator' content='".MAX_PRODUCT_NAME." ".MAX_VERSION_READABLE." - http://max.m3.net'>\n";
+    echo "\t\t<meta name='generator' content='".MAX_PRODUCT_NAME." v".OA_VERSION." - http://".MAX_PRODUCT_URL."'>\n";
     echo "\t\t<meta name='robots' content='noindex, nofollow'>\n\n";
     echo "\t\t<link rel='stylesheet' href='".$imgPath."images/".$phpAds_TextDirection."/interface.css'>\n";
     echo "\t\t<link rel='stylesheet' type='text/css' media='all' href='js/jscalendar/calendar-openads.css' title='openads'>\n";

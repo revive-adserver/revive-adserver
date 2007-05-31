@@ -34,7 +34,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
-require_once MAX_PATH . '/lib/max/OpenadsSync.php';
+require_once MAX_PATH . '/lib/OA/Sync.php';
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
@@ -58,7 +58,7 @@ phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
 /*-------------------------------------------------------*/
 
 // Determine environment
-$current  = $strCurrentlyUsing.' '.MAX_PRODUCT_NAME.'&nbsp;'.MAX_VERSION_READABLE.' ';
+$current  = $strCurrentlyUsing.' '.MAX_PRODUCT_NAME.'&nbsp;v'.OA_VERSION.' ';
 $current .= $strRunningOn.' '.str_replace('/', '&nbsp;', ereg_replace(" .*$", '', $_SERVER["SERVER_SOFTWARE"])).', ';
 $current .= 'PHP&nbsp;'.phpversion().' '.$strAndPlain.' '.phpAds_dbmsname;
 
@@ -81,11 +81,11 @@ if (!isset($session['maint_update'])) {
         flush();
 
         // Get updates info and store them into a session var
-        $oSync = new MAX_OpenadsSync();
+        $oSync = new OA_Sync();
         $res = $oSync->checkForUpdates();
         phpAds_SessionDataRegister('maint_update', $res);
         phpAds_SessionDataStore();
-        
+
         echo "<script language='JavaScript'>\n";
         echo "<!--\n";
         echo "document.location.replace('maintenance-updates.php');\n";
@@ -103,7 +103,7 @@ if (!isset($session['maint_update'])) {
     $maint_update = $session['maint_update'];
     unset($session['maint_update']);
     phpAds_SessionDataStore();
-    
+
     if ($maint_update[0] > 0 && $maint_update[0] != 800) {
         phpAds_Die ($strErrorOccurred, $strUpdateServerDown);
     }

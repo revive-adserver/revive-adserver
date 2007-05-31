@@ -220,7 +220,7 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
 
         // Set $mi->buffer to the initial comment
         $name = (!empty($GLOBALS['_MAX']['PREF']['name'])) ? $GLOBALS['_MAX']['PREF']['name'] : MAX_PRODUCT_NAME;
-        $buffer = '<!--/* '. $name .' '. $this->getName() . ' ' . MAX_VERSION_READABLE;
+        $buffer = '<!--/* '. $name .' '. $this->getName() . ' v' . OA_VERSION;
         if (!empty($thirdpartyname)) {
             $buffer .= " (".$thirdpartyname.")";
         }

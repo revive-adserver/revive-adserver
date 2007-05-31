@@ -109,9 +109,9 @@ Openads is configured to automatically run some maintenance tasks every hour as 
 <p><strong>Security</strong><br>
 The Openads installation needs the configuration file to be writable by the server. After making your configuration changes, it is highly recommended to enable read-only access to this file, to provide higher security. For more information, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
 
-<p>Please click Continue to go the configuration page, where you can modify more settings.</p>"; 
+<p>Please click Continue to go the configuration page, where you can modify more settings.</p>";
 
-"Congratulations - Welcome to the Openads community! The installation of " . MAX_PRODUCT_NAME . " " . MAX_VERSION_READABLE ." is now nearly complete. There are two last steps that you need to do to get the most out of " . MAX_PRODUCT_NAME . ".
+"Congratulations - Welcome to the Openads community! The installation of " . MAX_PRODUCT_NAME . " " . OA_VERSION ." is now nearly complete. There are two last steps that you need to do to get the most out of " . MAX_PRODUCT_NAME . ".
 <p><strong>Maintenance</strong><br>Openads is configured to automatically run some maintenance tasks every hour as long as ads are being served. To speed up ad delivery, you can set this up by automatically calling a maintenance file every hour (e.g a cron job). This is not required, but is highly recommended. For more information about this, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
 <p><strong>Security</strong><br> The " . MAX_PRODUCT_NAME . " installation needs the configuration file to be writable by the server. After making your configuration changes, it is highly recommended to enable read-only access to this file, to provide higher security. For more information, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.
 

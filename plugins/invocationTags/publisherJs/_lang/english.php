@@ -38,7 +38,7 @@ $words = array(
     'Publisher JS Channel Script Comment 1' => "
 <!-- {$name} Channel Script
 
-   Generated with {$name} " . MAX_VERSION_READABLE . "
+   Generated with {$name} v" . OA_VERSION . "
 
    Include this script directly ABOVE the {$name} Header Script
    (defined below), in the <head> tag.
@@ -60,7 +60,7 @@ $words = array(
     'Publisher JS Header Script Comment' => "
 <!-- {$name} Header Script
 
-   Generated with {$name} " . MAX_VERSION_READABLE . "
+   Generated with {$name} v" . OA_VERSION . "
 
    Include this script below the {$name} Channel Scipt (but still
    in the <head> tag) of every page on your site.
@@ -77,7 +77,7 @@ $words = array(
     'Publisher JS Ad Tag Script(s) Comment' => "
 <!-- {$name} Ad Tag Script(s)
 
-   Generated with {$name} " . MAX_VERSION_READABLE . "
+   Generated with {$name} v" . OA_VERSION . "
 
    The following are the script(s) for each ad tag. There are a couple of items to watch out for:
 

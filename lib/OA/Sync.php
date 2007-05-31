@@ -31,11 +31,10 @@ require_once 'XML/RPC.php';
 /**
  * A class to deal with the services provided by Openads Sync
  *
- * @package    Max
- * @subpackage OpenadsSync
+ * @package    Openads
  * @author     Matteo Beccati <matteo@beccati.com>
  */
-class MAX_OpenadsSync
+class OA_Sync
 {
     var $conf;
     var $pref;
@@ -64,44 +63,74 @@ class MAX_OpenadsSync
      * @param array $conf array, if null reads the global variable
      * @param array $pref array, if null reads the global variable
      */
-    function MAX_OpenadsSync($conf = null, $pref = null)
+    function OA_Sync($conf = null, $pref = null)
     {
         $this->__construct($conf, $pref);
     }
 
     /**
-     * Return phpAdsNew style config version parsing MAX_VERSION_READABLE
+     * Returns phpAdsNew style config version.
      *
-     * the stability tag is converted to an int using the following table:
+     * The Openads version "number" is converted to an int using the following table:
      *
-     * 'alpha'  => 1
-     * 'beta'   => 2
-     * 'rc'     => 3
-     * 'stable' => 4
+     * 'beta-rc' => 1
+     * 'beta'    => 2
+     * 'rc'      => 3
+     * ''        => 4
      *
      * i.e.
-     * v0.3.29-alpha becomes:
-     * 0  *  100 +
-     * 3  *   10 +
-     * 29 /  100 +
-     * 1  / 1000 =
-     * ---------
-     *    30.291
+     * v0.3.29-beta-rc10 becomes:
+     * 0  *  10000 +
+     * 3  *   1000 +
+     * 29 *     10 +    // Cannot exceed 100 patch releases!
+     * 1           +
+     * 10 /    100 =
+     * -------------
+     *        3293.1
      */
-    function getConfigVersion()
+    function getConfigVersion($version)
     {
         $a = array(
-            ''       => 0,
-            'alpha'  => 1,
-            'beta'   => 2,
-            'rc'     => 3,
-            'stable' => 4
+            'beta-rc' => 1,
+            'beta'    => 2,
+            'rc'      => 3,
+            'stable'  => 4
         );
 
-        $v = preg_split('/[.-]/', substr(MAX_VERSION_READABLE, 1));
-        $v = array_pad($v, 4, '');
+        if (preg_match('/^v/', $version)) {
+            $v = preg_split('/[.-]/', substr($version, 1));
+        } else {
+            $v = preg_split('/[.-]/', $version);
+        }
 
-        return $v[0] * 100 + $v[1] * 10 + $v[2] / 100 + $a[$v[3]] / 1000;
+        // Prepare value from the first 3 items
+        $returnValue = $v[0] * 10000 + $v[1] * 1000 + $v[2] * 10;
+
+        // How many items were there?
+        if (count($v) == 5) {
+            // Check that it is a beta-rc release
+            if ((!$v[3] == 'beta') || (!preg_match('/^rc(\d+)/', $v[4], $aMatches))) {
+                return false;
+            }
+            // Add the beta-rc
+            $returnValue += $a['beta-rc'] + $aMatches[1] / 100;
+            return $returnValue;
+        } else if (count($v) == 4) {
+            // Check that it is either a beta or rc release
+            if ($v[3] == 'beta') {
+                // Add the beta
+                $returnValue += $a['beta'];
+                return $returnValue;
+            } else if (preg_match('/^rc(\d+)/', $v[3], $aMatches)) {
+                // Add the rc
+                $returnValue += $a['rc'] + $aMatches[1] / 100;
+                return $returnValue;
+            }
+            return false;
+        }
+        // Stable release
+        $returnValue += $a['stable'];
+        return $returnValue;
     }
 
     /**
@@ -123,7 +152,7 @@ class MAX_OpenadsSync
 
         $params = array(
             new XML_RPC_Value('MMM-0.3', 'string'),
-            new XML_RPC_Value($this->getConfigVersion(), 'string'),
+            new XML_RPC_Value($this->getConfigVersion(OA_VERSION), 'string'),
             new XML_RPC_Value($already_seen, 'string'),
             new XML_RPC_Value('', 'string'),
             new XML_RPC_Value($this->pref['instance_id'], 'string')
