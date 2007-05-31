@@ -32,6 +32,7 @@ $Id$
  *
  */
 
+
 /**
  * This function builds the JavaScript to track variables for a tracker-impression via JavaScript
  *
