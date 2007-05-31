@@ -91,20 +91,11 @@ $_REQUEST['bannerid']    = $bannerid;
 $_REQUEST['campaignid']  = $campaignid;
 $_REQUEST['clientid']    = $clientid;
 
-// Check that the user has access to data he is asking for
-
-// Display stats
-
 // Overwirte file name to load right session data, see MAX_getStoredValue
 $pgName = 'stats.php';
 
 $oStats = &OA_Admin_Statistics_Factory::getController($entity . "-" . $breakdown);
 $oStats->start();
-
-// Create Excel stats report
-if (isset($plugin) && $plugin != '') {
-    include_once MAX_PATH . '\www\admin\stats-report-execute.php';
-}
 
 // Remove comas in values greater than 1000
 foreach($oStats->aStatsData as $dateKey => $dateRecord) {
@@ -118,10 +109,8 @@ $oStats->output(true);
 
 // Erase stats graph file
 if (isset($GraphFile) && $GraphFile != '') {
-
     $dirObject = dir( $conf['store']['webDir'] . '/temp');
     while (false !== ($entry = $dirObject->read())) {
-
         if (filemtime($conf['store']['webDir'] . '/temp/' . $entry) + 60 < time()) {
             unlink($conf['store']['webDir'] . '/temp/' . $entry);
         }
