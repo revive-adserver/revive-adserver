@@ -4,9 +4,9 @@
         <td colspan='2' align='center'>
             <div id='displayDbError' style='display:block'>
         <?php
-            if ($displayError == true) {  
+            if ($displayError == true) {
             	include 'install-messages.html';
-            }        
+            }
         ?>
             </div>
         </td>
@@ -23,7 +23,7 @@
     <br />
     <br />
     <script type='text/javascript'>
-    
+
     function showLoader(f) {
         noerrors = max_formValidate(f);
         if (noerrors == true) {
@@ -32,17 +32,17 @@
             errObj.style.display='none';
             dbLoader.style.display='block';
             dbLoader.style.height='570px';
-        }        
+        }
         return(noerrors);
     }
-    
+
     function switchDbTypes(obj) {
         var portObj = new getObj('aConfig[database][port]');
         var TblTypeObj = new getObj('aConfig[table][type]');
         if (obj.value == 'mysql') {
             portObj.obj.value = 3306;
             TblTypeObj.obj.disabled = false;
-        } else if (obj.value == 'pgsql') {        
+        } else if (obj.value == 'pgsql') {
             portObj.obj.value = 5432;
             TblTypeObj.obj.disabled = 'disabled';
         }
@@ -54,18 +54,18 @@
 
 <form name="frmOpenads" id="frmOpenads" method="POST" action="install.php" onSubmit='return showLoader(this);' style="margin:0; padding:0;">
 
-<?php            
+<?php
 
     // Disable the form items if user is upgrading
     // Change $inputType so that disabled selects are text fields, so that the correct value can be displayed
-    if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL) {
-        $disableForm = false;
-        $inputType   = 'select';
-    } else {
+    if ($_COOKIE['oat'] == OA_UPGRADE_UPGRADE) {
         $disableForm = true;
         $inputType   = 'text';
+    } else {
+        $disableForm = false;
+        $inputType   = 'select';
     }
-    
+
     phpAds_ShowSettings(array (
         array (
             'text'  => $strDatabaseSettings,
@@ -172,5 +172,5 @@
 </form>
 </div>
 <form>
-                
-                
+
+
