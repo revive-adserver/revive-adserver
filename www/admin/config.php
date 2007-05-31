@@ -83,11 +83,7 @@ $pref = MAX_Admin_Preferences::expandColumnPrefs();
 // Load the required language files
 Language_Default::load();
 
-$GLOBALS['aDashboardServer'] = array(
-    'protocol'      => 'http://',
-    'host'          => 'sync.openads.org',
-    'path'          => '/dashboard/dashboard_iframe.php',
-);
+$GLOBALS['aDashboardServer'] = $GLOBALS['_MAX']['CONF']['dashboard'];
 
 // Register variables
 phpAds_registerGlobalUnslashed(

@@ -41,11 +41,7 @@ class MAX_OpenadsSync
     var $pref;
     var $oDbh;
 
-    var $_openadsServer = array(
-        'host'   => 'sync.openads.org',
-        'script' => '/xmlrpc.php',
-        'port'   => 80
-    );
+    var $_openadsServer;
 
     /**
      * PHP5-style constructor
@@ -57,6 +53,7 @@ class MAX_OpenadsSync
     {
         $this->conf = is_null($conf) ? $GLOBALS['_MAX']['CONF'] : $conf;
         $this->pref = is_null($pref) ? $GLOBALS['_MAX']['PREF'] : $pref;
+        $this->_openadsServer = $GLOBALS['_MAX']['CONF']['sync'];
 
         $this->oDbh = &OA_DB::singleton();
     }
