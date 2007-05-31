@@ -937,6 +937,8 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
     } else {
         $log_viewerId = $viewerId;
     }
+    $source = isset($_GET['source']) ? $_GET['source'] : '';
+    $referer = isset($_GET['referer']) ? $_GET['referer'] : '';
     // Log the raw data
     $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
     OA_Dal_Delivery_query("
@@ -982,7 +984,7 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
             '',
             '".$dateFunc('Y-m-d H:i:s')."',
             '$trackerId',
-            '".MAX_commonDecrypt($_GET['source'])."',
+            '".MAX_commonDecrypt($source)."',
             '{$zoneInfo['channel_ids']}',
             '{$_SERVER['HTTP_ACCEPT_LANGUAGE']}',
             '{$_SERVER['REMOTE_ADDR']}',
@@ -992,7 +994,7 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
             '{$zoneInfo['host']}',
             '{$zoneInfo['path']}',
             '{$zoneInfo['query']}',
-            '{$_GET['referer']}',
+            '{$referer}',
             '',
             '{$_SERVER['HTTP_USER_AGENT']}',
             '{$userAgentInfo['os']}',

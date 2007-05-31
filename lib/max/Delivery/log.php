@@ -280,6 +280,9 @@ function _prepareLogInfo()
     $geotargeting = array();
     if (isset($conf['geotargeting']['saveStats']) && $conf['geotargeting']['saveStats'] && !empty($GLOBALS['_MAX']['CLIENT_GEO'])) {
         $geotargeting = $GLOBALS['_MAX']['CLIENT_GEO'];
+    } else {
+        $geotargeting = array_flip(array('country_code', 'region', 'city', 'postal_code', 'latitude', 
+            'longitude','dma_code', 'area_code', 'organisation', 'netspeed', 'continent'));
     }
     // Get the zone location information, if possible
     $zoneInfo = array();
@@ -309,6 +312,15 @@ function _prepareLogInfo()
     if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
         $maxHttps = 1;   // https is true
     }
+    if (!isset($zoneInfo['channel_ids'])) $zoneInfo['channel_ids'] = '';
+    if (!isset($zoneInfo['scheme'])) $zoneInfo['scheme'] = '';
+    if (!isset($zoneInfo['host'])) $zoneInfo['host'] = '';
+    if (!isset($zoneInfo['path'])) $zoneInfo['path'] = '';
+    if (!isset($zoneInfo['query'])) $zoneInfo['query'] = '';
+    
+    if (!isset($userAgentInfo['os'])) $userAgentInfo['os'] = '';
+    if (!isset($userAgentInfo['browser'])) $userAgentInfo['browser'] = '';
+    
     return array($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps);
 }
 
