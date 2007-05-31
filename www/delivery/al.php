@@ -1390,7 +1390,9 @@ $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
 $pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] : '4';
 // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
 $fileName = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
-$altImageAdCode = !empty($aBanner['alt_filename']) ? _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, false) : '';
+$altImageAdCode = !empty($aBanner['alt_filename'])
+? _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, false)
+: _adRenderBuildImageUrlPrefix() . '/1x1.gif';  //  an empty img is required because the javascript is parsed before the DOM tree
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 if (!empty($clickUrl)) {
 $status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
