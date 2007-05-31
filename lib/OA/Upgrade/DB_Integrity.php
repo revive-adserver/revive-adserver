@@ -27,7 +27,6 @@ $Id $
 /**
  * database vs schema integrity methods
  */
-require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
 
 class OA_DB_Integrity
 {
@@ -50,6 +49,7 @@ class OA_DB_Integrity
 
     function init($version)
     {
+        require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
         $this->_clearProperties();
         $this->version                      = $version;
         $this->oUpgrader                    = new OA_Upgrade();
@@ -397,5 +397,3 @@ class OA_DB_Integrity
 
 
 ?>
-
-
