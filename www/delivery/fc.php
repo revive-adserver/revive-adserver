@@ -1174,20 +1174,18 @@ $newPearPath .= PATH_SEPARATOR . $existingPearPath;
 }
 ini_set('include_path', $newPearPath);
 }
-define('MAX_PLUGINS_AD_PLUGIN_NAME', 'MAX_type');
-if(!isset($_GET[MAX_PLUGINS_AD_PLUGIN_NAME])) {
-setupIncludePath();
-include_once MAX_PATH . '/lib/Max.php';
-MAX::raiseError(MAX_PLUGINS_AD_PLUGIN_NAME . ' is not specified', MAX_ERROR_NODATA, PEAR_ERROR_DIE);
+$MAX_PLUGINS_AD_PLUGIN_NAME = 'MAX_type';
+if(!isset($_GET[$MAX_PLUGINS_AD_PLUGIN_NAME])) {
+echo $MAX_PLUGINS_AD_PLUGIN_NAME . ' is not specified';
+exit(1);
 }
-$tagName = $_GET[MAX_PLUGINS_AD_PLUGIN_NAME];
+$tagName = $_GET[$MAX_PLUGINS_AD_PLUGIN_NAME];
 $tagFileName = MAX_PATH . '/plugins/invocationTags/'.$tagName.'/'.$tagName.'.delivery.php';
 if(!file_exists($tagFileName)) {
-setupIncludePath();
-include_once MAX_PATH . '/lib/Max.php';
-MAX::raiseError('Invocation plugin delivery file "' . $tagFileName . '" doesn\'t exists', MAX_ERROR_NOFILE, PEAR_ERROR_DIE);
+echo 'Invocation plugin delivery file "' . $tagFileName . '" doesn\'t exists';
+exit(1);
 }
-include_once $tagFileName;
+include $tagFileName;
 
 
 ?>
