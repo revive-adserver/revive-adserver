@@ -33,7 +33,7 @@
 		<ant antfile="build.xml" dir="${basedir}" output="build.log" target="release" />
 	</target>
 
-	<target name="cruise" depends="init, clean, update, build"/>
+	<target name="cruise" depends="init, update, clean, build"/>
 
   <target name="release" depends="init,clean,update,make-release"/>
 </project>
