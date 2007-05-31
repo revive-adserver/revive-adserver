@@ -100,11 +100,23 @@ $GLOBALS['strPolicyTitle']               = "Privacy and Data Usage Policy";
 $GLOBALS['strPolicyIntro']               = "Please review the Privacy and Data Usage Policy before agreeing to continue the installation.";
 $GLOBALS['strDbSetupTitle']               = "Database Setup";
 $GLOBALS['strDbSetupIntro']               = MAX_PRODUCT_NAME . " uses either a MySQL or a PostgreSQL database to store all of its data.  Please fill in the address of your server, as well as the database name, username and password.  If you do not know which information you should provide here, please contact the administrator of your server.";
-$GLOBALS['strInstallSuccess']               = "Congratulations - Welcome to the Openads community! The installation of " . MAX_PRODUCT_NAME . " " . MAX_VERSION_READABLE ." is now nearly complete. There are two last steps that you need to do to get the most out of " . MAX_PRODUCT_NAME . ".
+$GLOBALS['strInstallSuccess']               = "<strong>Congratulations! You have finished installing Openads</strong>
+<p>Welcome to the Openads community! To get the most out of Openads, there are two last steps you should perform.</p>
+
+<p><strong>Maintenance</strong><br>
+Openads is configured to automatically run some maintenance tasks every hour as long as ads are being served. To speed up ad delivery, you can set this up by automatically calling a maintenance file every hour (e.g a cron job). This is not required, but is highly recommended. For more information about this, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
+
+<p><strong>Security</strong><br>
+The Openads installation needs the configuration file to be writable by the server. After making your configuration changes, it is highly recommended to enable read-only access to this file, to provide higher security. For more information, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
+
+<p>Please click Continue to go the configuration page, where you can modify more settings.</p>"; 
+
+"Congratulations - Welcome to the Openads community! The installation of " . MAX_PRODUCT_NAME . " " . MAX_VERSION_READABLE ." is now nearly complete. There are two last steps that you need to do to get the most out of " . MAX_PRODUCT_NAME . ".
 <p><strong>Maintenance</strong><br>Openads is configured to automatically run some maintenance tasks every hour as long as ads are being served. To speed up ad delivery, you can set this up by automatically calling a maintenance file every hour (e.g a cron job). This is not required, but is highly recommended. For more information about this, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
 <p><strong>Security</strong><br> The " . MAX_PRODUCT_NAME . " installation needs the configuration file to be writable by the server. After making your configuration changes, it is highly recommended to enable read-only access to this file, to provide higher security. For more information, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.
 
 Please click Continue to go the configuration page, where you can modify more settings. ";
+
 $GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PRODUCT_NAME." was not succesful</b><br /><br />Some portions of the install process could not be completed.
                                                 It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
                                                 first step of the install process. If you want to know more on what the error message below means, and how to solve it,
