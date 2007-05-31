@@ -131,12 +131,12 @@ else if (array_key_exists('btn_syscheck', $_POST))
     $_SESSION['updates_enabled']         = $_POST['updates_enabled'];
     $_SESSION['updates_cs_data_enabled'] = $_POST['updates_cs_data_enabled'];
 
-    $canUpgrade = !$oUpgrader->canUpgrade();
-    $installStatus = $oUpgrader->existing_installation_status;
     $aSysInfo = $oUpgrader->checkEnvironment();
-    if (!$canUpgrade)
+    $oUpgrader->canUpgrade();
+    $installStatus = $oUpgrader->existing_installation_status;
+    if ($installStatus == OA_STATUS_CAN_UPGRADE)
     {
-        $canUpgrade = !$oUpgrader->checkUpgradePackage();
+        $oUpgrader->checkUpgradePackage();
     }
     $action   = OA_UPGRADE_SYSCHECK;
 }
@@ -194,7 +194,7 @@ else if (array_key_exists('btn_adminsetup', $_POST))
     session_start();
     $aCommunity['updates_enabled']         = $_SESSION['updates_enabled'];
     $aCommunity['updates_cs_data_enabled'] = $_SESSION['updates_cs_data_enabled'];
-    
+
     if ($oUpgrader->saveConfig($_POST['aConfig']) && $oUpgrader->putCommunityPreferences($aCommunity))
     {
         if (!checkFolderPermissions($_POST['aConfig']['store']['webDir'])) {
