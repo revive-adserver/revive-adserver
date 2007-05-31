@@ -31,7 +31,7 @@
     <attribute name="file"/>
     <sequential>
       <exec dir="${basedir}" executable="svn" failonerror="true">
-        <arg line="revert ${svn.credentials} @{file}"/>
+        <arg line="revert @{file}"/>
       </exec>
     </sequential>
   </macrodef>
