@@ -36,6 +36,7 @@ require_once MAX_PATH . '/tests/testClasses/DbTestCase.php';
  */
 class Test_OA_DB_Sql extends DbTestCase
 {
+
     function testSqlForInsert()
     {
         $prefix = $this->getPrefix();
@@ -46,35 +47,47 @@ class Test_OA_DB_Sql extends DbTestCase
     function testDeleteWhereOne()
     {
         $this->oaTable->createTable('acls');
+
         $dg = new DataGenerator();
         $dg->setData('acls', array('bannerid' => array(1,2,3), 'executionorder' => array(0,0,0,1,1,1,2,2,2)));
         $dg->generate('acls', 5);
-        
+
         OA_DB_Sql::deleteWhereOne('acls', 'bannerid', 1);
-        
+
         $doAcls = OA_Dal::factoryDO('acls');
         $doAcls->bannerid = 1;
         $doAcls->find();
         $this->assertEqual(0, $doAcls->getRowCount());
-        
+
         $doAcls->bannerid = 2;
         $doAcls->find();
         $this->assertEqual(2, $doAcls->getRowCount());
+
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $this->oaTable->dropTable($aConf['table']['prefix'].'acls');
     }
-    
+
     function testSelectWhereOne()
     {
         $this->initTables(array('banners', 'ad_zone_assoc', 'placement_zone_assoc', 'zones'));
+
         $id = DataGenerator::generateOne('banners');
         $rsBanners = OA_DB_Sql::selectWhereOne('banners', 'bannerid', $id);
         $this->assertTrue($rsBanners->fetch());
         $this->assertFalse($rsBanners->fetch());
+
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $this->oaTable->dropTable($aConf['table']['prefix'].'banners');
+        $this->oaTable->dropTable($aConf['table']['prefix'].'ad_zone_assoc');
+        $this->oaTable->dropTable($aConf['table']['prefix'].'placement_zone_assoc');
+        $this->oaTable->dropTable($aConf['table']['prefix'].'zones');
     }
-    
-    
+
+
     function testUpdateWhereOne()
     {
         $this->initTables(array('campaigns', 'trackers'));
+
         $dg = new DataGenerator();
         $dg->setData('campaigns', array(
             'campaignid' => array(1, 2, 3),
@@ -91,6 +104,10 @@ class Test_OA_DB_Sql extends DbTestCase
         $doCampaigns = OA_Dal::staticGetDO('campaigns', 1);
         $this->assertEqual('First', $doCampaigns->campaignname);
         $this->assertEqual('10', $doCampaigns->views);
+
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $this->oaTable->dropTable($aConf['table']['prefix'].'campaigns');
+        $this->oaTable->dropTable($aConf['table']['prefix'].'trackers');
     }
 }
 
