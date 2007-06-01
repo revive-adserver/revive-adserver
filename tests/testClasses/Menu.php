@@ -57,9 +57,6 @@ class Menu
                                 'icon' => "package.png"
                             )
                         );
-        $this->_addLinkedPackageNode($rootNode, "Quick tests", "quick_tests.php");
-        $this->_addLinkedPackageNode($rootNode, "Complete unit tests", "complete_tests.php");
-        $this->_addLinkedPackageNode($rootNode, "Selenium interface tests", "selenium_explanation.php");
         // Create the top-level test groups
         foreach ($GLOBALS['_MAX']['TEST']['groups'] as $type) {
             $nodeName = $type . 'RootNode';
