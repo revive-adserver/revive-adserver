@@ -939,6 +939,9 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
     }
     $source = isset($_GET['source']) ? $_GET['source'] : '';
     $referer = isset($_GET['referer']) ? $_GET['referer'] : '';
+    $httpUserAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+    $httpLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
+    
     // Log the raw data
     $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
     OA_Dal_Delivery_query("
@@ -986,7 +989,7 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
             '$trackerId',
             '".MAX_commonDecrypt($source)."',
             '{$zoneInfo['channel_ids']}',
-            '{$_SERVER['HTTP_ACCEPT_LANGUAGE']}',
+            '{$httpLanguage}',
             '{$_SERVER['REMOTE_ADDR']}',
             '{$_SERVER['REMOTE_HOST']}',
             '{$geotargeting['country_code']}',
@@ -996,7 +999,7 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
             '{$zoneInfo['query']}',
             '{$referer}',
             '',
-            '{$_SERVER['HTTP_USER_AGENT']}',
+            '{$httpUserAgent}',
             '{$userAgentInfo['os']}',
             '{$userAgentInfo['browser']}',
             '$maxHttps',
