@@ -480,19 +480,11 @@ class DB_DataObjectCommon extends DB_DataObject
     function links()
     {
     	$links = parent::links();
-    	// parent::links() will return an empty array if there are no links so
-    	// don't try to add prefixes to non-existent tables.
-    	if (empty($links)) {
-    	    return $links;
-    	}
     	if (empty($this->_prefix)) {
     		return $links;
     	} else {
     	    $prefixedLinks = array();
             $links = $GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database][$this->_tableName];
-            if (empty($links)) {
-                return $links;
-            }
             foreach ($links as $k => $v) {
     	        // add prefix
     	        $prefixedLinks[$k] = $this->_prefix.$v;
