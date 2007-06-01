@@ -275,8 +275,13 @@ class MAX_Plugin
             return false;
         }
         $className = MAX_Plugin::_getPluginClassName($module, $package, $name);
-        $aClassMethods = get_class_methods($className);
-        if (!in_array($staticMethod, $aClassMethods)) {
+        
+        // PHP4/5 compatibility for get_class_methods.
+        $aClassMethods = array_map(strtolower, (get_class_methods($className)));
+        if (!$aClassMethods) {
+            $aClassMethods = array();
+        }
+        if (!in_array(strtolower($staticMethod), $aClassMethods)) {
             MAX::raiseError("Method '$staticMethod()' not defined in class '$className'.", MAX_ERROR_INVALIDARGS);
             return false;
         }
