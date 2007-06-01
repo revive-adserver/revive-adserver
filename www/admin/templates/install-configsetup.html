@@ -34,17 +34,22 @@ if ($errMessage) {
         {
 
             // Setup list of all timezones, calculate selected timezone
-            require_once '../../lib/OA/Admin/Timezones.php';
-            $aTimezones = OA_Admin_Timezones::availableTimezones(true);
+            require_once('../../lib/OA/Admin/Timezones.php');
+            $aTimezones = OA_Admin_Timezones::AvailableTimezones(true);
             if ($_POST['aConfig']['timezone']['location']) {
                 $selTimezone = $_POST['aConfig']['timezone']['location'];
             } else {
-                $selTimezone = OA_Admin_Timezones::getTimezone();
-                $selTimezone = $selTimezone['tz'];
+                $aTimezone = OA_Admin_Timezones::getTimezone();
+                $selTimezone = $aTimezone['tz'];
             }
 
-            $errorImage = "<img src='".$imgPath."images/icon-x.gif' width='10' height='9'>";
-            $timezoneTitle = ($selTimezone['calculated'] ? $strTimezoneEstimated.'<br><small class="red">'.$errorImage.' '.$strTimezoneGuessedValue.'</small>' : $strTimezone);
+            // What display string do we need to show for the timezone?
+            if ($aTimezone['calculated']) {
+                $errorImage = "<img src='".$imgPath."images/icon-x.gif' width='10' height='9' />";
+                $strTimezoneToDisplay = $strTimezoneEstimated . '<br /><small class="red">' . $errorImage . $strTimezoneGuessedValue . '</small>';
+            } else {
+                $strTimezoneToDisplay = $strTimezone;
+            }
             // For language, setup English as first choice
             $langVal = 'english';
 
@@ -66,10 +71,10 @@ if ($errMessage) {
                         array (
                             'type'  => 'select',
                             'name'  => 'aConfig[timezone][location]',
-                            'text'  => $timezoneTitle,
+                            'text'  => $strTimezoneToDisplay,
                             'req'   => true,
                             'value' => $selTimezone,
-                            'items' => $aTimezone
+                            'items' => $aTimezones
                         ),
                         array (
                             'type'  => 'break'
