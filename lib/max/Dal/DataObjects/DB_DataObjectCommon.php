@@ -484,11 +484,13 @@ class DB_DataObjectCommon extends DB_DataObject
     		return $links;
     	} else {
     	    $prefixedLinks = array();
-            $links = $GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database][$this->_tableName];
-            foreach ($links as $k => $v) {
-    	        // add prefix
-    	        $prefixedLinks[$k] = $this->_prefix.$v;
-    	    }
+            if ($GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database][$this->_tableName]) {
+        	    $links = $GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database][$this->_tableName];
+                foreach ($links as $k => $v) {
+        	        // add prefix
+        	        $prefixedLinks[$k] = $this->_prefix.$v;
+        	    }
+            }
     	    return $prefixedLinks;
     	}
     }
