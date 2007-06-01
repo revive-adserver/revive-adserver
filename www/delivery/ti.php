@@ -943,6 +943,37 @@ function MAX_header($value)
 {
 header($value);
 }
+// Set the viewer's remote information used in logging
+MAX_remotehostProxyLookup();
+MAX_remotehostReverseLookup();
+MAX_remotehostSetClientInfo();
+MAX_remotehostSetGeoInfo();
+MAX_commonInitVariables();
+MAX_cookieUnpackCapping();
+function setupDeliveryConfigVariables()
+{
+if (!defined('MAX_PATH')) {
+define('MAX_PATH', dirname(__FILE__).'/../..');
+}
+if ( !(isset($GLOBALS['_MAX']['CONF']))) {
+$GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
+}
+setupConfigVariables();
+}
+function setupIncludePath()
+{
+static $checkIfAlreadySet;
+if (isset($checkIfAlreadySet)) {
+return;
+}
+$checkIfAlreadySet = true;
+$existingPearPath = ini_get('include_path');
+$newPearPath = MAX_PATH . '/lib/pear';
+if (!empty($existingPearPath)) {
+$newPearPath .= PATH_SEPARATOR . $existingPearPath;
+}
+ini_set('include_path', $newPearPath);
+}
 $file = '/lib/max/Delivery/cache.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
@@ -1168,39 +1199,26 @@ $output = OA_Delivery_Cache_store_return($sName, $output);
 }
 return $output;
 }
-// Set the viewer's remote information used in logging
-MAX_remotehostProxyLookup();
-MAX_remotehostReverseLookup();
-MAX_remotehostSetClientInfo();
-MAX_remotehostSetGeoInfo();
-MAX_commonInitVariables();
-MAX_cookieUnpackCapping();
-function setupDeliveryConfigVariables()
+function MAX_javascriptToHTML($string, $varName, $output = true)
 {
-if (!defined('MAX_PATH')) {
-define('MAX_PATH', dirname(__FILE__).'/../..');
+$jsLines = array();
+$search[] = "\r"; $replace[] = '';
+$search[] = '"'; $replace[] = '\"';
+$search[] = "'";  $replace[] = "\\'";
+$search[] = '<';  $replace[] = '<"+"';
+$lines = explode("\n", $string);
+foreach ($lines AS $line) {
+if(trim($line) != '') {
+$jsLines[] = $varName . ' += "' . trim(str_replace($search, $replace, $line)) . '\n";';
 }
-if ( !(isset($GLOBALS['_MAX']['CONF']))) {
-$GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
 }
-setupConfigVariables();
+$buffer = "var {$varName} = '';\n";
+$buffer .= implode("\n", $jsLines);
+if ($output == true) {
+$buffer .= "\ndocument.write({$varName});\n";
 }
-function setupIncludePath()
-{
-static $checkIfAlreadySet;
-if (isset($checkIfAlreadySet)) {
-return;
+return $buffer;
 }
-$checkIfAlreadySet = true;
-$existingPearPath = ini_get('include_path');
-$newPearPath = MAX_PATH . '/lib/pear';
-if (!empty($existingPearPath)) {
-$newPearPath .= PATH_SEPARATOR . $existingPearPath;
-}
-ini_set('include_path', $newPearPath);
-}
-require_once(MAX_PATH . '/lib/max/Delivery/cache.php');
-require_once(MAX_PATH . '/lib/max/Delivery/javascript.php');
 function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $trackerJsCode = null)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
@@ -1294,7 +1312,7 @@ return $buffer;
 }
 MAX_commonSetNoCacheHeaders();
 MAX_commonRegisterGlobalsArray(array('trackerid'));
-if (empty($trackerid))    $trackerid = 0;
+if (empty($trackerid)) $trackerid = 0;
 $userid = MAX_cookieGetUniqueViewerID(false);
 if ($conf['logging']['trackerImpressions']) {
 $conversionInfo = MAX_Delivery_log_logTrackerImpression($userid, $trackerid);
