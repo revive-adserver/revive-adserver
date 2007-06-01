@@ -97,16 +97,16 @@ class Test_OA_Upgrade extends UnitTestCase
         return $aVersions;
     }
 
-    function _readUpgradePackagesArray()
-    {
-        global $readPath, $writeFile;
-
-        $this->assertTrue(file_exists($writeFile),'array file not found');
-        $array = file_get_contents($writeFile);
-        $aVersions = unserialize($array);
-        $this->assertIsA($aVersions,'array','aVersions is not an array');
-        return $aVersions;
-    }
+//    function _readUpgradePackagesArray()
+//    {
+//        global $readPath, $writeFile;
+//
+//        $this->assertTrue(file_exists($writeFile),'array file not found');
+//        $array = file_get_contents($writeFile);
+//        $aVersions = unserialize($array);
+//        $this->assertIsA($aVersions,'array','aVersions is not an array');
+//        return $aVersions;
+//    }
 
     function test_writeUpgradePackagesArray()
     {
@@ -234,6 +234,10 @@ class Test_OA_Upgrade extends UnitTestCase
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),0,$verPrev);
 
+        if (file_exists($writeFile))
+        {
+            unlink($writeFile);
+        }
     }
 
     function test_runScript()
