@@ -122,8 +122,10 @@ class MAX_Admin_Config
             return false;
         }
         $c = new Config();
-        $c->parseConfig($this->conf, 'phpArray');
-        if (!$c->writeConfig($mainConfigFile, 'inifile')) {
+        $cc = &$c->parseConfig($this->conf, 'phpArray');
+        $cc->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
+        $cc->createComment('<'.'?php exit; ?>', 'top');
+        if (!$c->writeConfig($mainConfigFile, 'IniCommented')) {
             return false;
         }
         // Check if a different host name is used for the admin
@@ -135,8 +137,10 @@ class MAX_Admin_Config
             }
             $config = array('realConfig' => $newDeliveryHost);
             $c = new Config();
-            $c->parseConfig($config, 'phpArray');
-            if (!$c->writeConfig($file, 'inifile')) {
+            $cc = &$c->parseConfig($config, 'phpArray');
+            $cc->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
+            $cc->createComment('<'.'?php exit; ?>', 'top');
+            if (!$c->writeConfig($file, 'IniCommented')) {
                 return false;
             }
         }
@@ -149,8 +153,10 @@ class MAX_Admin_Config
             }
             $config = array('realConfig' => $newDeliveryHost);
             $c = new Config();
-            $c->parseConfig($config, 'phpArray');
-            if (!$c->writeConfig($file, 'inifile')) {
+            $cc = &$c->parseConfig($config, 'phpArray');
+            $cc->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
+            $cc->createComment('<'.'?php exit; ?>', 'top');
+            if (!$c->writeConfig($file, 'IniCommented')) {
                 return false;
             }
         }
