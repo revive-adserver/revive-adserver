@@ -248,15 +248,15 @@ $settings = array (
                 'name'    => 'updates_enabled',
                 'text'    => $strAdminCheckUpdates,
             ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'updates_cs_data_enabled',
-                'text'    => $GLOBALS['strAdminShareCommunityData'],
-                'depends' => 'updates_enabled==true',
-            ),
+//            array (
+//                'type'    => 'break'
+//            ),
+//            array (
+//                'type'    => 'checkbox',
+//                'name'    => 'updates_cs_data_enabled',
+//                'text'    => $GLOBALS['strAdminShareCommunityData'],
+//                'depends' => 'updates_enabled==true',
+//            ),
         )
     ),
     array (
