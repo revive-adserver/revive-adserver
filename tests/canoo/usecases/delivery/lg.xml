@@ -3,6 +3,7 @@
   <!ENTITY config SYSTEM            "../../includes/config.xml">
   <!ENTITY checkForErrors SYSTEM    "../../modules/errors.xml">
   <!ENTITY checkForImageGif SYSTEM  "../../modules/gif.xml">
+  <!ENTITY deleteRawData SYSTEM  "../../sql/sql_delete_raw_data.xml">
 ]
 >
 
@@ -16,6 +17,9 @@
   <import file="${webtest.home}/lib/taskdef.xml"/>
 
   <target name="canoo-test">
+    <!-- remove any tracker impressions and tracker variable values before the test -->
+    &deleteRawData;
+    
     <testSpec name="Run Delivery">
     &config;
       <steps>
@@ -24,6 +28,9 @@
         &checkForImageGif;
       </steps>
     </testSpec>
+    
+    <!-- test that ad requests and impressions are logged in database -->
+    <sqlunit testFile="usecases/sqlunit/lg.xml" haltOnFailure="true" debug="${debug}" />
   </target>
 
   <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
