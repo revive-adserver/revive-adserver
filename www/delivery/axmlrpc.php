@@ -2374,7 +2374,7 @@ $xmlRpcView_Max =
 array(
 'sig' => array(
 array(
-$GLOBALS['XML_RPC_String'],  // Retrun value
+$GLOBALS['XML_RPC_String'],  // Return value
 $GLOBALS['XML_RPC_String'],  // What
 $GLOBALS['XML_RPC_String'],  // Target
 $GLOBALS['XML_RPC_String'],  // Source
@@ -2383,7 +2383,7 @@ $GLOBALS['XML_RPC_String'],  // IP Address
 $GLOBALS['XML_RPC_Struct']   // Cookies
 ),
 array(
-$GLOBALS['XML_RPC_String'],  // Retrun value
+$GLOBALS['XML_RPC_String'],  // Return value
 $GLOBALS['XML_RPC_String'],  // What
 $GLOBALS['XML_RPC_String'],  // Target
 $GLOBALS['XML_RPC_String'],  // Source
