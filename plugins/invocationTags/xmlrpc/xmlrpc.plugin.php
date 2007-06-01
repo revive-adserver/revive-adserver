@@ -145,7 +145,7 @@ class Plugins_InvocationTags_xmlrpc_xmlrpc extends Plugins_InvocationTags
                 }
 
                 $buffer .= "<"."?php\n /*";
-                $buffer .= MAX_Plugin_Translation::translate('Comment', $this->module, $this->package) . "\n\n";
+                $buffer .= MAX_Plugin_Translation::translate('PHP Comment', $this->module, $this->package) . "\n\n";
 
                 $buffer .= '    //ini_set(\'include_path\', \'.:/usr/local/lib\');' . "\n";
                 $buffer .= '    require \'XML/RPC.php\';' . "\n";
@@ -163,20 +163,20 @@ class Plugins_InvocationTags_xmlrpc_xmlrpc extends Plugins_InvocationTags
                     $buffer .= ', false';
                 }
                 $buffer .= ', ' . $mi->timeout . ');' . "\n";
-                $buffer .= '    $output = $oaXmlRpc->view(\'' .
+                $buffer .= '    $adArray = $oaXmlRpc->view(\'' .
                     $mi->what . '\', ' .
                     $mi->campaignid . ', \'' .
                     $mi->target . '\', \'' .
                     $mi->source . '\', ' .
                     $mi->withtext . ', $OA_context);' . "\n";
                 if (isset($mi->block) && $mi->block == '1') {
-                    $buffer .= '    $OA_context[] = array('!=' => \'bannerid:\'.$output[\'bannerid\']);' . "\n";
+                    $buffer .= '    $OA_context[] = array(\'!=\' => \'bannerid:\'.$adArray[\'bannerid\']);' . "\n";
                 }
                 if (isset($mi->blockcampaign) && $mi->blockcampaign == '1') {
-                    $buffer .= '    $OA_context[] = array('!=' => \'campaignid:\'.$output[\'campaignid\']);' . "\n";
+                    $buffer .= '    $OA_context[] = array(\'!=\' => \'campaignid:\'.$adArray[\'campaignid\']);' . "\n";
                 }
                 $buffer .= "\n";
-                $buffer .= '    echo $output[\'html\'];' . "\n";
+                $buffer .= '    echo $adArray[\'html\'];' . "\n";
                 $buffer .= "?".">\n";
                 break;
         }

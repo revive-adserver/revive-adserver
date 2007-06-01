@@ -32,8 +32,10 @@ $words = array(
     'Cache Buster Comment' => '',
     'SSL Backup Comment' => '',
     'SSL Delivery Comment' => '',
-    
-    'Comment' => "
+
+    'Comment' => "",
+
+    'PHP Comment' => "
   * As the PHP script below tries to set cookies, it must be called
   * before any output is sent to the user's browser. Once the script
   * has finished running, the HTML code needed to display the ad is
@@ -45,8 +47,9 @@ $words = array(
   * Example code for printing from \$adArray is at the end of the tag -
   * you will need to remove this before using the tag in production.
   * Remember to ensure that the PEAR::XML-RPC package is installed
-  * and available to this script. You may need to alter the
-  * 'include_path' value immediately below.
+  * and available to this script, and to copy over the
+  * lib/xmlrpc/php/openads-xmlrpc.inc.php library file. You may need to
+  * alter the 'include_path' value immediately below.
   */"
 );
 
