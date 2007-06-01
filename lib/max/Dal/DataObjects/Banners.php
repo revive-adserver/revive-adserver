@@ -149,7 +149,9 @@ class DataObjects_Banners extends DB_DataObjectCommon
 
     function _rebuildCache()
     {
-    	$this->htmlcache = phpAds_getBannerCache($this->toArray());
+        if (!is_null($this->htmltemplate)) {
+            $this->htmlcache = phpAds_getBannerCache($this->toArray());
+        }
     }
 
 
