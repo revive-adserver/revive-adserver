@@ -148,7 +148,6 @@ class Plugins_InvocationTags_xmlrpc_xmlrpc extends Plugins_InvocationTags
                 $buffer .= MAX_Plugin_Translation::translate('PHP Comment', $this->module, $this->package) . "\n\n";
 
                 $buffer .= '    //ini_set(\'include_path\', \'.:/usr/local/lib\');' . "\n";
-                $buffer .= '    require \'XML/RPC.php\';' . "\n";
                 $buffer .= '    require \'openads-xmlrpc.inc.php\';' . "\n\n";
                 $buffer .= '    if (!isset($OA_context)) $OA_context = array();' . "\n\n";
                 $buffer .= '    $oaXmlRpc = new OA_XmlRpc(\'' . $mi->params['host'] . '\', \'' . $mi->params['path'] . '\'';

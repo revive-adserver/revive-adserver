@@ -28,6 +28,12 @@
 $Id$
 */
 
+
+if (!@include('XML/RPC.php')) {
+    die("Error: cannot load the PEAR XML_RPC class");
+}
+
+
 class OA_XmlRpc
 {
     var $host;
