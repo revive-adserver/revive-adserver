@@ -135,110 +135,48 @@ class Plugins_InvocationTags_xmlrpc_xmlrpc extends Plugins_InvocationTags
                     // Need to generate the waht variable here
                     if (isset($mi->zoneid) and ($mi->zoneid != "")) {
                         $mi->what = "zone:" . $mi->zoneid;
-                    } elseif (isset($mi->campaignid) and ($mi->campaignid != "")) {
-                        $mi->what = "campaignid:" . $mi->campaignid;
-                    } elseif (isset($mi->bannerid) and ($mi->bannerid != "")) {
+                    }elseif (isset($mi->bannerid) and ($mi->bannerid != "")) {
                         $mi->what = "bannerid:" . $mi->bannerid;
                     }
                 }
+
+                if (!isset($mi->campaignid)) {
+                    $mi->campaignid = 0;
+                }
+
                 $buffer .= "<"."?php\n /*";
                 $buffer .= MAX_Plugin_Translation::translate('Comment', $this->module, $this->package) . "\n\n";
-                $buffer .= '    ini_set(\'include_path\', \'/usr/local/lib/php\');' . "\n";
-                $buffer .= '    require_once \'XML/RPC.php\';' . "\n\n";
-                $buffer .= '    global $XML_RPC_String, $XML_RPC_Boolean;' . "\n";
-                $buffer .= '    global $XML_RPC_Array, $XML_RPC_Struct;' . "\n";
-                $buffer .= '    global $phpAds_context;' . "\n\n";
-                $buffer .= "    if (!isset($"."phpAds_context)) {\n      $"."phpAds_context = array();\n    }\n\n";
-                $buffer .= '    // Create an XML-RPC client to talk to the XML-RPC server' . "\n";
-                $buffer .= '    $client = new XML_RPC_Client(\'' . $mi->params['path'] . '\', \'' . $mi->params['host'] . '\'';
+
+                $buffer .= '    //ini_set(\'include_path\', \'.:/usr/local/lib\');' . "\n";
+                $buffer .= '    require \'XML/RPC.php\';' . "\n";
+                $buffer .= '    require \'openads-xmlrpc.inc.php\';' . "\n\n";
+                $buffer .= '    if (!isset($OA_context)) $OA_context = array();' . "\n\n";
+                $buffer .= '    $oaXmlRpc = new OA_XmlRpc(\'' . $mi->params['host'] . '\', \'' . $mi->params['path'] . '\'';
                 if (isset($mi->params['port'])) {
-                    $buffer .= ', \'' . $mi->params['port'] . '\'';
-                }
-                $buffer .= ');' . "\n\n";
-                $buffer .= '    // A function to serialise cookie data' . "\n";
-                $buffer .= '    function serialiseCookies($cookies = array())' . "\n";
-                $buffer .= '    {' . "\n";
-                $buffer .= '        global $XML_RPC_Struct;' . "\n";
-                $buffer .= '        $array = array();' . "\n";
-                $buffer .= '        foreach ($cookies as $key => $value) {' . "\n";
-                $buffer .= '            if (is_array($value)) {' . "\n";
-                $buffer .= '                $innerArray = serialiseCookies($value);' . "\n";
-                $buffer .= '                $array[$key] = new XML_RPC_Value($innerArray, $XML_RPC_Struct);' . "\n";
-                $buffer .= '            } else {' . "\n";
-                $buffer .= '                $array[$key] = new XML_RPC_Value($value);' . "\n";
-                $buffer .= '            }' . "\n";
-                $buffer .= '        }' . "\n";
-                $buffer .= '        return $array;' . "\n";
-                $buffer .= '    }' . "\n\n";
-                $buffer .= '    // Create the XML-RPC message' . "\n";
-                $buffer .= '    $message = new XML_RPC_Message(\'max.view\', array());' . "\n\n";
-                $buffer .= '    // Package the cookies into an array as XML_RPC_Values' . "\n";
-                $buffer .= '    $cookiesStruct = serialiseCookies($_COOKIE);' . "\n";
-                $buffer .= '    // Add the parameters to the message' . "\n";
-                $buffer .= '    $message->addParam(new XML_RPC_Value(\'' . $mi->what . '\', $XML_RPC_String));' . "\n";
-                $buffer .= '    $message->addParam(new XML_RPC_Value(\'' . $mi->target . '\', $XML_RPC_String));' . "\n";
-                $buffer .= '    $message->addParam(new XML_RPC_Value(\'' . $mi->source . '\', $XML_RPC_String));' . "\n";
-                $buffer .= '    $message->addParam(new XML_RPC_Value(\'' . $mi->withtext . '\', $XML_RPC_Boolean));' . "\n";
-                $buffer .= '    $message->addParam(new XML_RPC_Value($_SERVER[\'REMOTE_ADDR\'], $XML_RPC_String));' . "\n";
-                $buffer .= '    $message->addParam(new XML_RPC_Value($cookiesStruct, $XML_RPC_Struct));' . "\n";
-                $buffer .= '    $message->addParam(XML_RPC_encode($phpAds_context));' . "\n\n";
-                $buffer .= '    // Send the XML-RPC message to the server' . "\n";
-                if ($mi->xmlrpcproto) {
-                    $buffer .= '    $response = $client->send($message, ' . $mi->timeout . ', \'https\');' . "\n\n";
+                    $buffer .= ', ' . $mi->params['port'] . '';
                 } else {
-                    $buffer .= '    $response = $client->send($message, ' . $mi->timeout . ', \'http\');' . "\n\n";
+                    $buffer .= ', 0';
                 }
-                $buffer .= '    // Was a response received?' . "\n";
-                $buffer .= '    if (!$response) {' . "\n";
-                $buffer .= '        echo \'Error: No XML-RPC response\';' . "\n";
-                $buffer .= '    }' . "\n\n";
-                $buffer .= '    // Was a response an error?' . "\n";
-                $buffer .= '    if ($response->faultCode() != 0) {' . "\n";
-                $buffer .= '        echo \'Error: \' . $response->faultString();' . "\n";
-                $buffer .= '    } else {' . "\n";
-                $buffer .= '        // Ensure the response is an array' . "\n";
-                $buffer .= '        $value = $response->value();' . "\n";
-                $buffer .= '        if ($value->kindOf() != $XML_RPC_Array) {' . "\n";
-                $buffer .= '            echo \'Error: Unexpected response value\';' . "\n";
-                $buffer .= '        }' . "\n";
-                $buffer .= '        // Store any cookies sent in the response' . "\n";
-                $buffer .= '        $cookies = $value->arraymem(1);' . "\n";
-                $buffer .= '        if ($cookies->kindOf() == $XML_RPC_Array) {' . "\n";
-                $buffer .= '            $numCookies = $cookies->arraysize();' . "\n";
-                $buffer .= '            // For each cookie...' . "\n";
-                $buffer .= '            for ($counter = 0; $counter < $numCookies; $counter++) {' . "\n";
-                $buffer .= '                $cookie = $cookies->arraymem($counter);' . "\n";
-                $buffer .= '                if (($cookie->kindOf() == $XML_RPC_Array) && ($cookie->arraysize() == 3)) {' . "\n";
-                $buffer .= '                    $cookieName  = $cookie->arraymem(0);' . "\n";
-                $buffer .= '                    $cookieValue = $cookie->arraymem(1);' . "\n";
-                $buffer .= '                    $cookieTime  = $cookie->arraymem(2);' . "\n";
-                $buffer .= '                    setcookie($cookieName->scalarval(), $cookieValue->scalarval(), $cookieTime->scalarval());' . "\n";
-                $buffer .= '                }' . "\n";
-                $buffer .= '            }' . "\n";
-                $buffer .= '        }' . "\n";
-                $buffer .= '        // Store the ad in the ad array' . "\n";
-                $buffer .= '        $advertisement = $value->arraymem(0);' . "\n";
-                $buffer .= '        if ($advertisement->kindOf() == $XML_RPC_Struct) {' . "\n";
-                $buffer .= '            $htmlValue = $advertisement->structmem(\'html\');' . "\n";
-                $buffer .= '            $adArray[] = $htmlValue->scalarval();' . "\n";
+                if ($mi->xmlrpcproto) {
+                    $buffer .= ', true';
+                } else {
+                    $buffer .= ', false';
+                }
+                $buffer .= ', ' . $mi->timeout . ');' . "\n";
+                $buffer .= '    $output = $oaXmlRpc->view(\'' .
+                    $mi->what . '\', ' .
+                    $mi->campaignid . ', \'' .
+                    $mi->target . '\', \'' .
+                    $mi->source . '\', ' .
+                    $mi->withtext . ', $OA_context);' . "\n";
                 if (isset($mi->block) && $mi->block == '1') {
-                    $buffer .= "\n";
-                    $buffer .= '            $bannerId = $advertisement->structmem(\'bannerid\');' . "\n";
-                    $buffer .= "            $"."phpAds_context[] = array('!=' => 'bannerid:'.$"."bannerId->scalarval());\n";
+                    $buffer .= '    $OA_context[] = array('!=' => \'bannerid:\'.$output[\'bannerid\']);' . "\n";
                 }
                 if (isset($mi->blockcampaign) && $mi->blockcampaign == '1') {
-                    $buffer .= "\n";
-                    $buffer .= '            $campaignId = $advertisement->structmem(\'campaignid\');' . "\n";
-                    $buffer .= "            $"."phpAds_context[] = array('!=' => 'campaignid:'.$"."campaignId->scalarval());\n";
+                    $buffer .= '    $OA_context[] = array('!=' => \'campaignid:\'.$output[\'campaignid\']);' . "\n";
                 }
-                $buffer .= '        }' . "\n";
-                $buffer .= '        // Example display code - remove before use' . "\n";
-                $buffer .= '        if (isset($adArray)) {' . "\n";
-                $buffer .= '            foreach ($adArray as $value) {' . "\n";
-                $buffer .= '                echo $value;' . "\n";
-                $buffer .= '            }' . "\n";
-                $buffer .= '        }' . "\n";
-                $buffer .= '    }' . "\n\n";
+                $buffer .= "\n";
+                $buffer .= '    echo $output[\'html\'];' . "\n";
                 $buffer .= "?".">\n";
                 break;
         }
