@@ -76,7 +76,7 @@ $xmlRpcView_Max =
     array(
         'sig' => array(
                     array(
-                        $GLOBALS['XML_RPC_String'],  // Retrun value
+                        $GLOBALS['XML_RPC_String'],  // Return value
                         $GLOBALS['XML_RPC_String'],  // What
                         $GLOBALS['XML_RPC_String'],  // Target
                         $GLOBALS['XML_RPC_String'],  // Source
@@ -85,7 +85,7 @@ $xmlRpcView_Max =
                         $GLOBALS['XML_RPC_Struct']   // Cookies
                     ),
                     array(
-                        $GLOBALS['XML_RPC_String'],  // Retrun value
+                        $GLOBALS['XML_RPC_String'],  // Return value
                         $GLOBALS['XML_RPC_String'],  // What
                         $GLOBALS['XML_RPC_String'],  // Target
                         $GLOBALS['XML_RPC_String'],  // Source
@@ -353,8 +353,6 @@ function OA_Delivery_XmlRpc_View_Max($params)
 
     // Relay call to openads.view
     $xmlResponse = OA_Delivery_XmlRpc_View($msg);
-
-    //return new XML_RPC_Response(XML_RPC_encode(print_r($xmlResponse, true)));
 
     // Check for errors
     if ($xmlResponse->isError()) {
