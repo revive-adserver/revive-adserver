@@ -49,6 +49,193 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->UnitTestCase();
     }
 
+    function test_versionCompare()
+    {
+        $verPrev = '2.3.32-beta';
+        $verCurr = '2.3.32-beta-rc2';
+        $upgrade  = (version_compare($verPrev,$verCurr)<0);
+        $current  = (version_compare($verCurr,$verCurr)==0);
+        $this->assertFalse($upgrade,'');
+        $this->assertTrue($current,'');
+
+        $verPrev = '2.3.32-beta-rc12';
+        $verCurr = '2.3.32-beta';
+        $upgrade  = (version_compare($verPrev,$verCurr)<0);
+        $current  = (version_compare($verCurr,$verCurr)==0);
+        $this->assertTrue($upgrade,'');
+        $this->assertTrue($current,'');
+
+        $verPrev = '2.3.32-beta-rc12';
+        $verCurr = '2.3.32';
+        $upgrade  = (version_compare($verPrev,$verCurr)<0);
+        $current  = (version_compare($verCurr,$verCurr)==0);
+        $this->assertTrue($upgrade,'');
+        $this->assertTrue($current,'');
+
+        $verPrev = '2.3.32-beta-rc1';
+        $verCurr = '2.3.32-beta-rc2';
+        $upgrade  = (version_compare($verPrev,$verCurr)<0);
+        $current  = (version_compare($verCurr,$verCurr)==0);
+        $this->assertTrue($upgrade,'');
+        $this->assertTrue($current,'');
+
+        $verPrev = '2.3.32-beta-rc1';
+        $verCurr = '2.3.32-beta-rc10';
+        $upgrade  = (version_compare($verPrev,$verCurr)<0);
+        $current  = (version_compare($verCurr,$verCurr)==0);
+        $this->assertTrue($upgrade,'');
+        $this->assertTrue($current,'');
+    }
+
+    function _writeUpgradePackagesArray()
+    {
+        global $readPath, $writeFile;
+        $readPath = MAX_PATH.'/lib/OA/Upgrade/tests/data/changes';
+        $writeFile = MAX_PATH.'/var/openads_upgrade_array.txt';
+        include MAX_PATH.'/lib/OA/Upgrade/tests/data/changes/build_upgrade_packages_array.php';
+        $this->assertTrue(file_exists($writeFile),'array file was not written');
+        return $aVersions;
+    }
+
+    function _readUpgradePackagesArray()
+    {
+        global $readPath, $writeFile;
+
+        $this->assertTrue(file_exists($writeFile),'array file not found');
+        $array = file_get_contents($writeFile);
+        $aVersions = unserialize($array);
+        $this->assertIsA($aVersions,'array','aVersions is not an array');
+        return $aVersions;
+    }
+
+    function test_writeUpgradePackagesArray()
+    {
+        $aVersions = $this->_writeUpgradePackagesArray();
+
+        $this->assertEqual(count($aVersions),1,'');
+        $this->assertEqual(count($aVersions[2]),2,'');
+        $this->assertEqual(count($aVersions[2][3]),2,'');
+
+        $this->assertEqual(count($aVersions[2][3][32]),2,'');
+        $this->assertEqual(count($aVersions[2][3][32]['-beta']),1,'');
+        $this->assertEqual($aVersions[2][3][32]['-beta']['file'],'openads_upgrade_2.3.32-beta.xml','');
+        $this->assertEqual(count($aVersions[2][3][32]['-beta-rc']),4,'');
+        $this->assertEqual(count($aVersions[2][3][32]['-beta-rc'][2]),1,'');
+        $this->assertEqual($aVersions[2][3][32]['-beta-rc'][2]['file'],'openads_upgrade_2.3.32-beta-rc2.xml','');
+        $this->assertEqual(count($aVersions[2][3][32]['-beta-rc'][5]),1,'');
+        $this->assertEqual($aVersions[2][3][32]['-beta-rc'][5]['file'],'openads_upgrade_2.3.32-beta-rc5.xml','');
+        $this->assertEqual(count($aVersions[2][3][32]['-beta-rc'][10]),1,'');
+        $this->assertEqual($aVersions[2][3][32]['-beta-rc'][10]['file'],'openads_upgrade_2.3.32-beta-rc10.xml','');
+        $this->assertEqual(count($aVersions[2][3][32]['-beta-rc'][21]),1,'');
+        $this->assertEqual($aVersions[2][3][32]['-beta-rc'][21]['file'],'openads_upgrade_2.3.32-beta-rc21.xml','');
+
+        $this->assertEqual(count($aVersions[2][3][33]),2,'');
+        $this->assertEqual(count($aVersions[2][3][33]['-beta']),1,'');
+        $this->assertEqual($aVersions[2][3][33]['-beta']['file'],'openads_upgrade_2.3.33-beta.xml','');
+        $this->assertEqual(count($aVersions[2][3][33]['-beta-rc']),2,'');
+        $this->assertEqual($aVersions[2][3][33]['-beta-rc'][1]['file'],'openads_upgrade_2.3.33-beta-rc1.xml','');
+        $this->assertEqual($aVersions[2][3][33]['-beta-rc'][2]['file'],'openads_upgrade_2.3.33-beta-rc2.xml','');
+
+        $this->assertEqual(count($aVersions[2][4]),2,'');
+        $this->assertEqual(count($aVersions[2][4][0]),1,'');
+        $this->assertEqual($aVersions[2][4][0]['file'],'openads_upgrade_2.4.0.xml','');
+        $this->assertEqual(count($aVersions[2][4][1]),2,'');
+        $this->assertEqual(count($aVersions[2][4][1]['-rc']),2,'');
+        $this->assertEqual($aVersions[2][4][1]['-rc'][1]['file'],'openads_upgrade_2.4.1-rc1.xml','');
+        $this->assertEqual($aVersions[2][4][1]['-rc'][5]['file'],'openads_upgrade_2.4.1-rc5.xml','');
+        $this->assertEqual($aVersions[2][4][1]['file'],'openads_upgrade_2.4.1.xml','');
+    }
+
+    function test_getUpgradePackagesList()
+    {
+        global $writePath, $writeFile;
+
+        $oUpgrade  = new OA_Upgrade();
+
+        $aVersions = $oUpgrade->_readUpgradePackagesArray($writePath.$writeFile);
+
+        $verPrev = '2.3.32-beta-rc1';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),12,$verPrev);
+
+        $verPrev = '2.3.32-beta-rc2';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),11,$verPrev);
+
+        $verPrev = '2.3.32-beta-rc3';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),11,$verPrev);
+
+        $verPrev = '2.3.32-beta-rc4';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),11,$verPrev);
+
+        $verPrev = '2.3.32-beta-rc5';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),10,$verPrev);
+
+        $verPrev = '2.3.32-beta-rc6';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),10,$verPrev);
+
+        $verPrev = '2.3.32-beta-rc7';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),10,$verPrev);
+
+        $verPrev = '2.3.32-beta-rc8';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),10,$verPrev);
+
+        $verPrev = '2.3.32-beta-rc9';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),10,$verPrev);
+
+        $verPrev = '2.3.32-beta-rc10';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),9,$verPrev);
+
+        $verPrev = '2.3.32-beta-rc20';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),9,$verPrev);
+
+        $verPrev = '2.3.32-beta-rc21';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),8,$verPrev);
+
+        $verPrev = '2.3.32-beta';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),7,$verPrev);
+
+        $verPrev = '2.3.33-beta-rc1';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),6,$verPrev);
+
+        $verPrev = '2.3.33-beta-rc2';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),5,$verPrev);
+
+        $verPrev = '2.3.33-beta';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),4,$verPrev);
+
+        $verPrev = '2.4.0';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),3,$verPrev);
+
+        $verPrev = '2.4.1-rc1';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),2,$verPrev);
+
+        $verPrev = '2.4.1-rc5';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),1,$verPrev);
+
+        $verPrev = '2.4.1';
+        $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
+        $this->assertEqual(count($aFiles),0,$verPrev);
+
+    }
+
     function test_runScript()
     {
         $oUpgrade  = new OA_Upgrade();
@@ -257,8 +444,6 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oParser->tally();
 
     }
-
-
 
 }
 

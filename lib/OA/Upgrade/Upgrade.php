@@ -550,12 +550,12 @@ class OA_Upgrade
                     $this->existing_installation_status = OA_STATUS_OAD_DBINTEG_FAILED;
                     return false;
                 }
-//                    there are no openads upgrade packages yet
-//                    the first will probably be openads_upgrade_2.3.32_to_2.3.33_beta
-//                    by the time the first package is ready
-//                    we will be looking at working out incremental upgrades
+                $this->package_file     = "openads_upgrade_{$this->versionInitialSchema}_to_{OA_VERSION}.xml";
+                if (!$this->checkUpgradePackage())
+                {
+                    return false;
+                }
                 $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
-                $this->package_file     = 'openads_upgrade_2.3.32_to_2.3.33_beta.xml';
                 $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
                 $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
                 return true;
@@ -564,7 +564,7 @@ class OA_Upgrade
             {
                 $this->existing_installation_status = OA_STATUS_CURRENT_VERSION;
                 $this->package_file = '';
-                return true;
+                return false;
             }
             $this->existing_installation_status = OA_STATUS_OAD_VERSION_FAILED;
             return false;
@@ -1438,6 +1438,81 @@ class OA_Upgrade
         return $this->oLogger->logFile;
     }
 
+    function _readUpgradePackagesArray($file)
+    {
+        if (!file_exists($file))
+        {
+            return false;
+        }
+        return unserialize(file_get_contents($file));
+    }
+
+    /**
+     * walk an array of version information to build a list of required upgrades
+     * they must be in the RIGHT order!!!
+     * hence the weird sorting of keys etc..
+     */
+    function getUpgradePackageList($verPrev, $aVersions=null)
+    {
+        $aFiles = array();
+        while (list($release, $aMajor) = each($aVersions))
+        {
+            while (list($major, $aMinor) = each($aMajor))
+            {
+                asort($aMinor, SORT_NUMERIC);
+                while (list($minor, $aStatus) = each($aMinor))
+                {
+                    if (array_key_exists('-beta-rc', $aStatus))
+                    {
+                        $aKeys = array_keys($aStatus['-beta-rc']);
+                        sort($aKeys, SORT_NUMERIC);
+                        foreach ($aKeys AS $k => $v)
+                        {
+                            $version = $release.'.'.$major.'.'.$minor.'-beta-rc'.$v;
+                            if (version_compare($verPrev, $version)<0)
+                            {
+                                $aFiles[] = $aStatus['-beta-rc'][$v]['file'];
+                            }
+                        }
+                    }
+                    if (array_key_exists('-beta', $aStatus))
+                    {
+                        $aBeta = $aStatus['-beta'];
+                        while (list($key, $file) = each($aBeta))
+                        {
+                            $version = $release.'.'.$major.'.'.$minor.'-beta';
+                            if (version_compare($verPrev, $version)<0)
+                            {
+                                $aFiles[] = $file;
+                            }
+                        }
+                    }
+                    if (array_key_exists('-rc', $aStatus))
+                    {
+                        $aKeys = array_keys($aStatus['-rc']);
+                        sort($aKeys, SORT_NUMERIC);
+                        foreach ($aKeys AS $k => $v)
+                        {
+                            $version = $release.'.'.$major.'.'.$minor.'-rc'.$v;
+                            if (version_compare($verPrev, $version)<0)
+                            {
+                                $aFiles[] = $aStatus['-rc'][$v]['file'];
+                            }
+                        }
+                    }
+                    if (array_key_exists('file', $aStatus))
+                    {
+                        $version = $release.'.'.$major.'.'.$minor;
+                        if (version_compare($verPrev, $version)<0)
+                        {
+                            $aFiles[] = $aStatus['file'];
+                        }
+                    }
+                }
+            }
+        }
+        return $aFiles;
+    }
 
     /**
      * compile a list of changesets available in /etc/changes
