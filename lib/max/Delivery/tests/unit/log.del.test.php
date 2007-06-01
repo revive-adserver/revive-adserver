@@ -190,9 +190,15 @@ class Delivery_TestOfLog extends UnitTestCase
         $maxHttps = '';
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $this->assertEqual($_SERVER['REMOTE_HOST'], $_SERVER['REMOTE_ADDR']);
-        $this->assertEqual(count($geotargeting), 0);
-        $this->assertEqual(count($zoneInfo), 0);
-        $this->assertEqual(count($userAgentInfo), 0);
+        foreach($geotargeting as $check) {
+            $this->assertTrue(empty($check));
+        }
+        foreach($zoneInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
+        foreach($userAgentInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
         $this->assertEqual($maxHttps, 0);
         // Enable reverse lookups
         $conf['logging']['reverseLookup'] = true;
@@ -210,9 +216,15 @@ class Delivery_TestOfLog extends UnitTestCase
         $maxHttps = '';
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
         $this->assertEqual($_SERVER['REMOTE_HOST'], gethostbyaddr($_SERVER['REMOTE_ADDR']));
-        $this->assertEqual(count($geotargeting), 0);
-        $this->assertEqual(count($zoneInfo), 0);
-        $this->assertEqual(count($userAgentInfo), 0);
+        foreach($geotargeting as $check) {
+            $this->assertTrue(empty($check));
+        }
+        foreach($zoneInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
+        foreach($userAgentInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
         $this->assertEqual($maxHttps, 0);
         // Enable geotargeting
         $conf['geotargeting']['saveStats'] = 'true';
@@ -248,8 +260,12 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertEqual($geotargeting['organisation'], 'Foo');
         $this->assertEqual($geotargeting['isp'], 'Bar');
         $this->assertEqual($geotargeting['netspeed'], 'Unknown');
-        $this->assertEqual(count($zoneInfo), 0);
-        $this->assertEqual(count($userAgentInfo), 0);
+        foreach($zoneInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
+        foreach($userAgentInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
         $this->assertEqual($maxHttps, 0);
         // Set a passed in referer location
         $_GET['loc'] = 'http://www.example.com/test.html';
@@ -277,7 +293,9 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertEqual($zoneInfo['path'], '/test.html');
         $this->assertNull($zoneInfo['query']);
         $this->assertNull($zoneInfo['channel_ids']);
-        $this->assertEqual(count($userAgentInfo), 0);
+        foreach($userAgentInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
         $this->assertEqual($maxHttps, 0);
         // Set a passed in referer location
         $_GET['loc'] = 'http://www.example.com/test.html';
@@ -307,7 +325,9 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertEqual($zoneInfo['path'], '/test.html');
         $this->assertNull($zoneInfo['query']);
         $this->assertEqual($zoneInfo['channel_ids'], '|1|2|3|');
-        $this->assertEqual(count($userAgentInfo), 0);
+        foreach($userAgentInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
         $this->assertEqual($maxHttps, 0);
         // Test
         unset($geotargeting);
@@ -337,7 +357,9 @@ class Delivery_TestOfLog extends UnitTestCase
         $this->assertEqual($zoneInfo['host'], 'example.com');
         $this->assertEqual($zoneInfo['path'], '/test.php');
         $this->assertEqual($zoneInfo['query'], 'foo=bar');
-        $this->assertEqual(count($userAgentInfo), 0);
+        foreach($userAgentInfo as $check) {
+            $this->assertTrue(empty($check));
+        }
         $this->assertEqual($maxHttps, 0);
         // Enable sniffing
         $conf['logging']['sniff'] = true;
