@@ -52,6 +52,15 @@ class OA_XmlRpc
 
     var $debug = false;
 
+    /**
+     * PHP5 style constructor
+     *
+     * @param string $host    The hostname to connect to
+     * @param string $path    The path to the axmlrpc.php file
+     * @param int    $port    The port number, 0 to use standard ports
+     * @param bool   $ssl     True to connect using an SSL connection
+     * @param int    $timeout The timeout to wait for the response
+     */
     function __construct($host, $path, $port = 0, $ssl = false, $timeout = 15)
     {
         $this->host = $host;
@@ -60,11 +69,28 @@ class OA_XmlRpc
         $this->timeout = $timeout;
     }
 
+    /**
+     * PHP4 style constructor
+     *
+     * @see OA_XmlRpc::__construct
+     */
     function OA_XmlRpc($host, $path, $port = 0, $ssl = false, $timeout = 15)
     {
         OA_XmlRpc::__construct($host, $path, $port, $ssl, $timeout);
     }
 
+    /**
+     * This method retrieves a banner from a remote Openads installation using XML-RPC
+     *
+     * @param string $what       The "what" parameter, see docs for more info
+     * @param int    $campaignid The campaign id to fetch banners from, 0 means any campaign
+     * @param string $target     The HTML <a href> target
+     * @param string $source     The "source" parameter, see docs for more info
+     * @param bool   $withText   Wheter or not to show the text under a banner
+     * @param array  $context    The "context" parameter, see docs for more info
+     *
+     * @return array
+     */
     function view($what = '', $campaignid = 0, $target = '', $source = '', $withText = false, $context = array())
     {
         global $XML_RPC_String, $XML_RPC_Boolean;
