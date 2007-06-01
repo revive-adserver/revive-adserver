@@ -544,16 +544,21 @@ class OA_Upgrade
             $valid   = (version_compare($this->versionInitialApplication,OA_VERSION)<0);
             if ($valid)
             {
-                $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
-                if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
+                $aAllPackages = $this->_readUpgradePackagesArray(MAX_PATH.'/etc/changes/packages.txt');
+                $aRequiredPackages = $this->getUpgradePackageList($this->versionInitialApplication, $aUpgradePackages);
+                if (count($aRequiredPackages)>0)
                 {
-                    $this->existing_installation_status = OA_STATUS_OAD_DBINTEG_FAILED;
-                    return false;
-                }
-                $this->package_file     = "openads_upgrade_{$this->versionInitialSchema}_to_{OA_VERSION}.xml";
-                if (!$this->checkUpgradePackage())
-                {
-                    return false;
+                    $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
+                    if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
+                    {
+                        $this->existing_installation_status = OA_STATUS_OAD_DBINTEG_FAILED;
+                        return false;
+                    }
+                    $this->package_file = $aRequiredPackages[0];
+                    if (!$this->checkUpgradePackage())
+                    {
+                        return false;
+                    }
                 }
                 $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
                 $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
