@@ -109,7 +109,7 @@ class Test_DB_Upgrade extends UnitTestCase
         // new column preference.user_custom_field1
         // missing column preference.updates_enabled
         // changed column zones.cost from dec 10,4 to dec 12,2
-        $this->assertTrue($oDB_Upgrade->checkSchemaIntegrity(),'');
+        $this->assertTrue($oDB_Upgrade->checkSchemaIntegrity(MAX_PATH.'/var/changes_tables_core2'),'');
 
         $aConstructive = $oDB_Upgrade->aChanges['constructive']['tables'];
         $aDestructive = $oDB_Upgrade->aChanges['destructive']['tables'];
@@ -130,6 +130,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(isset($aDestructive['change']),'change tables not found');
         $this->assertTrue(isset($aDestructive['change']['preference']),'preference table not found in change array');
         $this->assertTrue(isset($aDestructive['change']['preference']['remove']['user_custom_field1']),'preference field changes not found in change array');
+        if (file_exists(MAX_PATH.'/var/changes_tables_core'))
+        {
+            unlink(MAX_PATH.'/var/changes_tables_core2');
+        }
     }
 
 
