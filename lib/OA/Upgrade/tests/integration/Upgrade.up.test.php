@@ -240,15 +240,23 @@ class Test_OA_Upgrade extends UnitTestCase
      */
     function test_detectPAN()
     {
-        $oUpgrade  = new OA_Upgrade();
+        Mock::generatePartial(
+            'OA_Upgrade',
+            'OA_Upgrade_for_detectPAN',
+            array('initDatabaseConnection')
+        );
+        $oUpgrade = new OA_Upgrade_for_detectPAN($this);
+        $oUpgrade->setReturnValue('initDatabaseConnection', true);
+        $oUpgrade->expectOnce('initDatabaseConnection');
+        $oUpgrade->OA_Upgrade();
 
         Mock::generatePartial(
             'OA_phpAdsNew',
-            $mockPAN = 'OA_phpAdsNew'.rand(),
+            'OA_phpAdsNew_for_detectPAN',
             array('init', 'getPANversion')
         );
 
-        $oUpgrade->oPAN = new $mockPAN($this);
+        $oUpgrade->oPAN = new OA_phpAdsNew_for_detectPAN($this);
         $oUpgrade->oPAN->setReturnValue('init', true);
         $oUpgrade->oPAN->expectOnce('init');
         $oUpgrade->oPAN->setReturnValueAt(0, 'getPANversion', '200.311');
@@ -261,10 +269,10 @@ class Test_OA_Upgrade extends UnitTestCase
 
         Mock::generatePartial(
             'OA_DB_Integrity',
-            $mockInteg = 'OA_DB_Integrity'.rand(),
+            'OA_DB_Integrity_for_detectPAN',
             array('checkIntegrityQuick')
         );
-        $oUpgrade->oIntegrity = new $mockInteg($this);
+        $oUpgrade->oIntegrity = new OA_DB_Integrity_for_detectPAN($this);
         $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
         $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
 
@@ -299,10 +307,10 @@ class Test_OA_Upgrade extends UnitTestCase
 
         Mock::generatePartial(
             'OA_DB_Integrity',
-            $mockInteg = 'OA_DB_Integrity'.rand(),
+            'OA_DB_Integrity_for_detectMax',
             array('checkIntegrityQuick')
         );
-        $oUpgrade->oIntegrity = new $mockInteg($this);
+        $oUpgrade->oIntegrity = new OA_DB_Integrity_for_detectMax($this);
         $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
         $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
 
