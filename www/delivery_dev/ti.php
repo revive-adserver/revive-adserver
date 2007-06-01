@@ -41,7 +41,7 @@ MAX_commonSetNoCacheHeaders();
 
 //Register any script specific input variables
 MAX_commonRegisterGlobalsArray(array('trackerid'));
-if (empty($trackerid))    $trackerid = 0;
+if (empty($trackerid)) $trackerid = 0;
 
 // Determine the user ID
 $userid = MAX_cookieGetUniqueViewerID(false);
