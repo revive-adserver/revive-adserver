@@ -225,10 +225,15 @@ function MMM_buildNavigation()
                 "5.6.1"                 =>  array("channel-edit.php?agencyid=$agencyid" => $GLOBALS['strAddNewChannel']),
                 "5.6.2"                 =>  array("channel-edit.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelProperties']),
                 "5.6.3"                 =>  array("channel-acl.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelLimitations']),
-            "6"                         =>  array("dashboard.php" => $GLOBALS['strDashboardCommunity']),
-                "6.1"                   =>  array("dashboard.php" => $GLOBALS['strDashboardDashboard']),
-                "6.2"                   =>  array("http://forum.openads.org" => $GLOBALS['strDashboardForum']),
-                "6.3"                   =>  array("http://docs.openads.org" => $GLOBALS['strDashboardDocs'])
+
+//  Dashboard disabled 2007-06-01
+//  By Andrew Hill
+//  Dashboard not ready for production at time of v2.3.32-beta release.
+//            "6"                         =>  array("dashboard.php" => $GLOBALS['strDashboardCommunity']),
+//                "6.1"                   =>  array("dashboard.php" => $GLOBALS['strDashboardDashboard']),
+//                "6.2"                   =>  array("http://forum.openads.org" => $GLOBALS['strDashboardForum']),
+//                "6.3"                   =>  array("http://docs.openads.org" => $GLOBALS['strDashboardDocs'])
+
         ),
 
         "agency"    => array (
