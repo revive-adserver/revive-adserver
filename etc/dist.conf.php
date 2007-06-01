@@ -332,13 +332,13 @@ persistent          = false
 ;------------------------------------------------------------------------------------------;
 
 [sync]
-host                = ec2-72-44-45-128.z-2.compute-1.amazonaws.com
-script              = /dashboard-sync/xmlrpc.php
+host                = sync.openads.org
+script              = /xmlrpc.php
 port                = 80
 
 [dashboard]
 protocol            = http://
-host                = ec2-72-44-46-174.z-2.compute-1.amazonaws.com
+host                = sync.openads.org
 path                = /dashboard-sync/dashboard/dashboard_iframe.php
 
 ;------------------------------------------------------------------------------------------;
