@@ -70,7 +70,7 @@
   </target>
 
   <target name="canoo-unpack-package">
-    <canoo-ssh command="tar xjf ${canoo.package} -C ${ec2.openads.dir}"/>
+    <canoo-ssh command="tar xzf ${canoo.package} -C ${ec2.openads.dir}"/>
     <canoo-ssh command="touch ${ec2.openads.dir}/var/INSTALLED"/>
     <canoo-ssh command="chmod -R a+w ${ec2.openads.dir}/var"/>
     <canoo-scp dir="${ec2.openads.dir}/www">
@@ -112,7 +112,7 @@
     </exec>
     <!-- output="${basedir}/build/test-reports/canoo.log" -->
     <exec executable="webtest.sh" failonerror="true">
-      <arg line="-f ${basedir}/tests/canoo/start.xml -Dcanoo.host=${canoo.host} delivery -Dec2.admin.password=${ec2.admin.password} -Dbasepath=${release}/www"/>
+      <arg line="-f ${basedir}/tests/canoo/start.xml -Dcanoo.host=${canoo.host} delivery -Dec2.admin.password=${ec2.admin.password} -Dbasepath=${release}/www -Dec2.openads.dir=${ec2.openads.dir}"/>
     </exec>
   </target>
 </project>

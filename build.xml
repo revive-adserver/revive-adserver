@@ -114,9 +114,9 @@
   </target>
 
   <target name="package-bzip2-canoo" depends="prepare-package">
-    <property name="canoo.package" value="openads-canoo.tar.bz2"/>
+    <property name="canoo.package" value="openads-canoo.tar.gz"/>
     <property name="canoo.package.file" value="${dir.test.results}/${canoo.package}"/>
-    <tar destfile="${canoo.package.file}" basedir="." compression="bzip2" longfile="gnu">
+    <tar destfile="${canoo.package.file}" basedir="." compression="gzip" longfile="gnu">
       <patternset refid="dist.included"/>
     </tar>
   </target>
@@ -146,8 +146,6 @@
   <target name="revert-after-packaging">
     <svn-revert file="constants.php"/>
   </target>
-
-  <target name="package-canoo" depends="svn-update, checkconsistency, package-bzip2, revert-after-packaging"/>
 
   <target name="package" depends="checkconsistency, package-bzip2, package-gz, package-zip, revert-after-packaging"/>
 
