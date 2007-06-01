@@ -26,21 +26,21 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/core/Task.php';
 
+require_once MAX_PATH . '/lib/OA/Task.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 /**
  * A parent class, defining an interface for Maintenance Priority AdServer Task
- * objects, to be collected and run using the MAX_Core_Task_Runner class.
+ * objects, to be collected and run using the OA_Task_Runner class.
  *
  * @abstract
  * @package    MaxMaintenance
  * @subpackage Priority
  * @author     Demian Turner <demian@m3.net>
  */
-class MAX_Maintenance_Priority_AdServer_Task extends MAX_Core_Task
+class MAX_Maintenance_Priority_AdServer_Task extends OA_Task
 {
 
     /**

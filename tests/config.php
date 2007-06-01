@@ -48,8 +48,7 @@ $GLOBALS['_MAX']['TEST']['directories'] =
         'lib/OA',
         'lib/util',
         'plugins',
-        'tests',
-        //'www/devel'
+        'tests'
     );
 
 // Project path - helpful for testing external projects
@@ -82,7 +81,7 @@ define($type . '_TEST_STORE', 'tests/unit');
 // requirements for the test(s) in that layer
 $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
     array(
-        'core'  => array('Core Classes',                        DB_NO_TABLES),
+        'cor'   => array('Core Classes',                        DB_NO_TABLES),
         'db'    => array('Database Abstraction Layer (DB)',     DB_NO_TABLES),
         'tbl'   => array('Table Creation Layer (DB)',           DB_NO_TABLES),
         'dal'   => array('Data Abstraction Layer (DB)',         DB_WITH_TABLES),

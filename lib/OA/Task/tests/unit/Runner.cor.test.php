@@ -25,25 +25,24 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/Task.php';
-require_once MAX_PATH . '/lib/max/core/Task/Runner.php';
-require_once MAX_PATH . '/lib/simpletest/mock_objects.php';
+require_once MAX_PATH . '/lib/OA/Task.php';
+require_once MAX_PATH . '/lib/OA/Task/Runner.php';
 
 /**
- * A class for testing the MAX_Core_Task_Runner class.
+ * A class for testing the OA_Task_Runner class.
  *
- * @package    Max
+ * @package    Openads
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  * @author     Demian Turner <demian@m3.net>
  */
-class TestOfMAX_Core_Task_Runner extends UnitTestCase
+class Test_OA_Task_Runner extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function TestOfMAX_Core_Task_Runner()
+    function Test_OA_Task_Runner()
     {
         $this->UnitTestCase();
     }
@@ -51,11 +50,11 @@ class TestOfMAX_Core_Task_Runner extends UnitTestCase
     /**
      * A method to test the class constructor.
      */
-    function testMAX_Core_Task_Runner()
+    function testOA_Task_Runner()
     {
-        $oTaskRunner = new MAX_Core_Task_Runner();
+        $oTaskRunner = new OA_Task_Runner();
         $this->assertTrue(is_object($oTaskRunner));
-        $this->assertTrue(is_a($oTaskRunner, 'MAX_Core_Task_Runner'));
+        $this->assertTrue(is_a($oTaskRunner, 'OA_Task_Runner'));
     }
 
     /**
@@ -64,15 +63,15 @@ class TestOfMAX_Core_Task_Runner extends UnitTestCase
     function testAddTask()
     {
         // Generate a partial mock of the task class
-        Mock::generatePartial('MAX_Core_Task', 'MockTask0', array('run'));
+        Mock::generatePartial('OA_Task', 'MockTask0', array('run'));
         $oTask0 = new MockTask0($this);
-        Mock::generatePartial('MAX_Core_Task', 'MockTask1', array('run'));
+        Mock::generatePartial('OA_Task', 'MockTask1', array('run'));
         $oTask1 = new MockTask1($this);
-        Mock::generatePartial('MAX_Core_Task', 'MockTask2', array('run'));
+        Mock::generatePartial('OA_Task', 'MockTask2', array('run'));
         $oTask2 = new MockTask2($this);
 
         // Create a task runner, and test addition of classes
-        $oTaskRunner = new MAX_Core_Task_Runner();
+        $oTaskRunner = new OA_Task_Runner();
         $this->assertEqual(count($oTaskRunner->aTasks), 0);
 
         $return = $oTaskRunner->addTask('foo');

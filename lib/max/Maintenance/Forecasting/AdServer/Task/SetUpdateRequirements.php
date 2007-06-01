@@ -51,7 +51,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequirements extends MA
     }
 
     /**
-     * The implementation of the MAX_Core_Task::run() method that performs
+     * The implementation of the OA_Task::run() method that performs
      * the task of this class.
      *
      * @TODO Is this correct? How often will we run forecasting? Over how many hours?

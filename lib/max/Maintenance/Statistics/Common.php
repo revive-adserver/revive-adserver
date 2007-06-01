@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/Task/Runner.php';
+require_once MAX_PATH . '/lib/OA/Task/Runner.php';
 
 /**
  * An abstract class, defining common features of classes used for running
@@ -106,7 +106,7 @@ class MAX_Maintenance_Statistics_Common
     /**
      * The local instance of the task runner.
      *
-     * @var MAX_Core_Task_Runner
+     * @var OA_Task_Runner
      */
     var $oTaskRunner;
 
@@ -116,7 +116,7 @@ class MAX_Maintenance_Statistics_Common
     function MAX_Maintenance_Statistics_Common()
     {
         // Create the task runner object, for storing/running the tasks
-        $this->oTaskRunner = new MAX_Core_Task_Runner();
+        $this->oTaskRunner = new OA_Task_Runner();
     }
 
     /**

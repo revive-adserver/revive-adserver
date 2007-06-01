@@ -26,15 +26,15 @@ $Id$
 */
 
 /**
- * A parent class, defining an interface for Task objects, to be collected
- * and run using the MAX_Core_Task_Runner calss.
+ * A abstract class, defining an interface for Task objects, to be collected
+ * and run using the OA_Task_Runner calss.
  *
  * @abstract
- * @package    Max
+ * @package    Openads
  * @subpackage Tasks
  * @author     Demian Turner <demian@m3.net>
  */
-class MAX_Core_Task
+class OA_Task
 {
 
     /**

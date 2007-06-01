@@ -26,11 +26,12 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/core/Task/Runner.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Forecasting/AdServer/Task/SetUpdateRequirements.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Forecasting/AdServer/Task/SummariseChannels.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Forecasting/AdServer/Task/ForecastChannels.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Forecasting/AdServer/Task/LogCompletion.php';
+
+require_once MAX_PATH . '/lib/OA/Task/Runner.php';
 
 /**
  * A class for defining and running the maintenance forecasting tasks for the
@@ -67,7 +68,7 @@ class MAX_Maintenance_Forecasting_AdServer
     /**
      * The local instance of the task runner
      *
-     * @var MAX_Core_Task_Runner
+     * @var OA_Task_Runner
      */
     var $oTaskRunner;
 
@@ -80,7 +81,7 @@ class MAX_Maintenance_Forecasting_AdServer
     function MAX_Maintenance_Forecasting_AdServer()
     {
         // Create the task runner object, for running the MPE tasks
-        $this->oTaskRunner = new MAX_Core_Task_Runner();
+        $this->oTaskRunner = new OA_Task_Runner();
         // Register this object as the controlling class for the process
         $oServiceLocator = &ServiceLocator::instance();
         $oServiceLocator->register('Maintenance_Forecasting_Controller', $this);

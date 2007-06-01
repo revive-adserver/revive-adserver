@@ -52,7 +52,7 @@ class MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends MAX_M
     }
 
     /**
-     * The implementation of the MAX_Core_Task::run() method that performs
+     * The implementation of the OA_Task::run() method that performs
      * the task of this class. Intended to be inherited by children of this
      * class.
      */

@@ -49,7 +49,7 @@ class MAX_Maintenance_Statistics_Tracker_Task_SummariseFinal extends MAX_Mainten
     }
 
     /**
-     * The implementation of the MAX_Core_Task::run() method that performs
+     * The implementation of the OA_Task::run() method that performs
      * the task of this class.
      *
      * @TODO Implement, if required.

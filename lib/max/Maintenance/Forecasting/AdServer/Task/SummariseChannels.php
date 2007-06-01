@@ -122,7 +122,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels extends MAX_Ma
     }
 
     /**
-     * The implementation of the MAX_Core_Task::run() method that performs
+     * The implementation of the OA_Task::run() method that performs
      * the task of this class.
      */
     function run()

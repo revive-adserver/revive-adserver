@@ -25,12 +25,13 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/Task/Runner.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsType1.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsType2.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/AllocateZoneImpressions.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/PriorityCompensation.php';
+
+require_once MAX_PATH . '/lib/OA/Task/Runner.php';
 
 /**
  * @package    MaxMaintenance
@@ -43,7 +44,7 @@ class MAX_Maintenance_Priority_AdServer
     /**
      * The local instance of the task runner
      *
-     * @var MAX_Core_Task_Runner
+     * @var OA_Task_Runner
      */
     var $oTaskRunner;
 
@@ -53,7 +54,7 @@ class MAX_Maintenance_Priority_AdServer
     function MAX_Maintenance_Priority_AdServer()
     {
         // Create the task runner object, for running the MPE tasks
-        $this->oTaskRunner = new MAX_Core_Task_Runner();
+        $this->oTaskRunner = new OA_Task_Runner();
         // Add a task to update the zone impression forecasts
         $oForecastZoneImpressions = new ForecastZoneImpressions();
         $this->oTaskRunner->addTask($oForecastZoneImpressions);

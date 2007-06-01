@@ -25,18 +25,18 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/Task.php';
+require_once MAX_PATH . '/lib/OA/Task.php';
 
 /**
  * A class for storing a collection of tasks, and then running those tasks
  * (in order) when requested.
  *
- * @package    Max
+ * @package    Openads
  * @subpackage Tasks
  * @author     Demian Turner <demian@m3.net>
  * @author     James Floyd <james@m3.net>
  */
-class MAX_Core_Task_Runner
+class OA_Task_Runner
 {
 
     /**
@@ -65,10 +65,10 @@ class MAX_Core_Task_Runner
     /**
      * A method to register a new Task object in the collection of tasks.
      *
-     * @param MAX_Core_Task $oTask An object that implements the MAX_Core_Task interface.
-     * @param string $after An optional string, specifying the class name of a task all
-     *                      ready in the collection, which this task is to be inserted
-     *                      to run just after.
+     * @param OA_Task $oTask An object that implements the OA_Task interface.
+     * @param string  $after An optional string, specifying the class name of a task all
+     *                       ready in the collection, which this task is to be inserted
+     *                       to run just after.
      * @return boolean Returns true on add success, false on failure.
      */
     function addTask($oTask, $after = null)
@@ -89,7 +89,7 @@ class MAX_Core_Task_Runner
             // The existing task specified was not found
             return false;
         }
-        if (is_a($oTask, 'MAX_Core_Task')) {
+        if (is_a($oTask, 'OA_Task')) {
             $this->aTasks[] = &$oTask;
             return true;
         }

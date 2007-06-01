@@ -48,7 +48,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_ForecastChannels extends MAX_Mai
     }
 
     /**
-     * The implementation of the MAX_Core_Task::run() method that performs
+     * The implementation of the OA_Task::run() method that performs
      * the task of this class.
      *
      * @TODO Not implemented. This needs to be done before the channel

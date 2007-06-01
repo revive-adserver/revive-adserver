@@ -348,6 +348,8 @@ class Test_OA_DB_Table extends UnitTestCase
 
             }
         }
+
+        TestEnv::restoreConfig();
     }
 
     /**
@@ -389,6 +391,8 @@ class Test_OA_DB_Table extends UnitTestCase
         unlink(MAX_PATH . '/var/test.xml');
         $oTable->dropTable('test_table_' . $oDate->format('%Y%m%d'));
         $oTable->dropTable('the_second_table');
+
+        TestEnv::restoreConfig();
     }
 
     /**
@@ -414,6 +418,8 @@ class Test_OA_DB_Table extends UnitTestCase
         $oTable->dropTable('banners');
         $oTable->dropTable('campaigns');
         $oTable->dropTable('clients');
+
+        TestEnv::restoreConfig();
     }
 
     /**

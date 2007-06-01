@@ -64,7 +64,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Tracker extends UnitTestCase
         $oServiceLocator = &ServiceLocator::instance();
         $oTest = &$oServiceLocator->get('Maintenance_Statistics_Controller');
         $this->assertReference($oMaintenanceStatistics, $oTest);
-        $this->assertTrue(is_a($oMaintenanceStatistics->oTaskRunner, 'MAX_Core_Task_Runner'));
+        $this->assertTrue(is_a($oMaintenanceStatistics->oTaskRunner, 'OA_Task_Runner'));
         $this->assertEqual(count($oMaintenanceStatistics->oTaskRunner->aTasks), 5);
         $this->assertTrue(is_a($oMaintenanceStatistics->oTaskRunner->aTasks[0], 'MAX_Maintenance_Statistics_Tracker_Task_SetUpdateRequirements'));
         $this->assertTrue(is_a($oMaintenanceStatistics->oTaskRunner->aTasks[1], 'MAX_Maintenance_Statistics_Tracker_Task_SummariseIntermediate'));
