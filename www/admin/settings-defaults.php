@@ -172,7 +172,8 @@ if (phpAds_isUser(phpAds_Admin)) {
     phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
 } elseif (phpAds_isUser(phpAds_Agency)) {
     phpAds_PageHeader("5.1");
-    phpAds_ShowSections(array("5.1", "5.3", "5.2"));
+//    phpAds_ShowSections(array("5.1", "5.3", "5.2"));
+    phpAds_ShowSections(array("5.1", "5.2"));
 } elseif (phpAds_isUser(phpAds_Client)) {
     phpAds_PageHeader("4.1");
     phpAds_ShowSections(array("4.1"));

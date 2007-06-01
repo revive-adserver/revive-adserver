@@ -40,7 +40,10 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/Field/DaySpanField.php';
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+//MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+
+// Switched off
+MAX_Permission::checkAccess(0);
 
 
 /*-------------------------------------------------------*/

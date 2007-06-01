@@ -91,7 +91,8 @@ function maintenance_goto_section()
         echo "<option value='appendcodes'".($section == 'appendcodes' ? ' selected' : '').">Append codes</option>";
     }
 
-    echo "<option value='finance'".($section == 'finance' ? ' selected' : '').">Finance</option>";
+    // Switched off
+    // echo "<option value='finance'".($section == 'finance' ? ' selected' : '').">Finance</option>";
 
     echo "</select>&nbsp;<a href='javascript:void(0)' onClick='maintenance_goto_section();'>";
     echo "<img src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";

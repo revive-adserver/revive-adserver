@@ -331,7 +331,8 @@ function MMM_buildNavigation()
               "5.2.1"                   =>  array("channel-edit.php" => $GLOBALS['strAddNewChannel']),
               "5.2.2"                   =>  array("channel-edit.php?channelid=$channelid" => $GLOBALS['strChannelProperties']),
               "5.2.3"                   =>  array("channel-acl.php?channelid=$channelid" => $GLOBALS['strChannelLimitations']),
-              "5.3"                     =>  array("maintenance-index.php" => $GLOBALS['strMaintenance'])
+// Switched off
+//              "5.3"                     =>  array("maintenance-index.php" => $GLOBALS['strMaintenance'])
         ),
 
         "client" => array (
