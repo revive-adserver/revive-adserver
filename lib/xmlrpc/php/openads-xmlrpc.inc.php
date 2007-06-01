@@ -28,12 +28,21 @@
 $Id$
 */
 
-
 if (!@include('XML/RPC.php')) {
     die("Error: cannot load the PEAR XML_RPC class");
 }
 
-
+/**
+ * A library class to provide XML-RPC routines on the client-side - that is, on
+ * a web server that needs to display ads in its pages, but where Openads is NOT
+ * installed on that server -- it's installed on a remote server.
+ *
+ * For use with Openads PHP-based XML-RPC invocation tags.
+ *
+ * @package    Openads
+ * @subpackage ExternalLibrary
+ * @author     Matteo Beccati <matteo.beccati@openads.org>
+ */
 class OA_XmlRpc
 {
     var $host;
