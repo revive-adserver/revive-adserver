@@ -1,8 +1,5 @@
 <?xml version="1.0"?>
 
-  <!-- TODO:
-             * add a check to ensure that returned HTML is a valid XHTML
-  -->
 <project name="delivery" basedir="." default="main">
 
   <import file="includes/init.xml"/>
@@ -57,7 +54,8 @@
     <ant antfile="usecases/delivery/lg.xml" />
   </target>
   
-  <target name="delivery-one" depends="clean, init-delivery-db">
+  <!-- depends="clean, init-delivery-db" -->
+  <target name="test-one">
     <ant antfile="usecases/delivery/${uc}.xml" />
   </target>
   

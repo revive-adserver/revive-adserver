@@ -17,8 +17,6 @@
   <import file="${webtest.home}/lib/taskdef.xml"/>
 
   <target name="canoo-test">
-    <!-- additional preparation - copy alocal.php into www folder -->
-    <copy file="php/${delivery_file}" todir="${openads.path}/www" />
     <testSpec name="Run Delivery">
       &config;
       <steps>
@@ -29,8 +27,6 @@
         &verifyLinks;
       </steps>
     </testSpec>
-    <!-- remove copied file after testing it -->
-    <delete file="${openads.path}/www/${delivery_file}" />
   </target>
   
   <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->

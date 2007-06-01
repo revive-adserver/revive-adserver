@@ -1,0 +1,6 @@
+<connection>
+  <driver>net.sourceforge.sqlunit.test.mock.SQLUnitMockDriver</driver>
+  <url>jdbc:mock:net.sourceforge.sqlunit.test.mock.SQLUnitMockDatabase</url>
+  <user />
+  <password />
+</connection>

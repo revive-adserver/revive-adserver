@@ -182,6 +182,7 @@ CREATE TABLE `oa_campaigns_trackers` (
   KEY `campaigns_trackers_campaignid` (`campaignid`),
   KEY `campaigns_trackers_trackerid` (`trackerid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `oa_campaigns_trackers` VALUES (1,3,1,3,3,4);
 CREATE TABLE `oa_category` (
   `category_id` int(10) unsigned NOT NULL auto_increment,
   `name` varchar(255) default NULL,
@@ -930,7 +931,7 @@ CREATE TABLE `oa_preference` (
   `maintenance_cron_timestamp` int(11) default NULL,
   PRIMARY KEY  (`agencyid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `oa_preference` VALUES (0,'0.000',NULL,NULL,NULL,'english',NULL,'www.openads.org',NULL,0,2,'t','t','f','t','t','t','admin','5f4dcc3b5aa765d61d8327deb882cf99','Andrew Hill','andrew.hill@openads.org','t','t','t',100,NULL,'t',1,1,NULL,NULL,'t',NULL,'t',NULL,'f','t','t','t','t','t','t','t','t','t','t',50,NULL,NULL,NULL,NULL,0,'f','t',NULL,0,NULL,'f','t','t','f','f','t','t','t','t','f',5,'f',5,'t',-1,1180088476,'t','0000-00-00',0,1,1,'f','f',NULL,'','','','','t','t',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1179299106),(1,'0.000',NULL,NULL,NULL,'','Test Agency','www.openads.org',NULL,0,2,'t','t','f','t','t','t','admin','5f4dcc3b5aa765d61d8327deb882cf99','Andrew Hill','andrew.hill@openads.org','t','t','t',100,NULL,'t',1,1,NULL,NULL,'t',NULL,'t',NULL,'f','t','t','t','t','t','t','t','t','t','t',50,NULL,NULL,NULL,NULL,0,'f','t',NULL,0,NULL,'f','t','t','f','f','t','t','t','t','f',5,'f',5,'t',-1,1180088476,'t','0000-00-00',0,1,1,'f','f',NULL,'','','','','t','t',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1179299106);
+INSERT INTO `oa_preference` VALUES (0,'0.000',NULL,NULL,NULL,'english',NULL,'www.openads.org',NULL,0,2,'t','t','f','t','t','t','admin','5f4dcc3b5aa765d61d8327deb882cf99','Andrew Hill','andrew.hill@openads.org','t','t','t',100,NULL,'t',1,1,NULL,NULL,'t',NULL,'t',NULL,'f','t','t','t','t','t','t','t','t','t','t',50,NULL,NULL,NULL,NULL,0,'f','t',NULL,0,NULL,'f','t','t','f','f','t','t','t','t','f',5,'f',5,'t',-1,1180706838,'t','0000-00-00',0,1,1,'f','f',NULL,'','','','','t','t',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1179299106),(1,'0.000',NULL,NULL,NULL,'','Test Agency','www.openads.org',NULL,0,2,'t','t','f','t','t','t','admin','5f4dcc3b5aa765d61d8327deb882cf99','Andrew Hill','andrew.hill@openads.org','t','t','t',100,NULL,'t',1,1,NULL,NULL,'t',NULL,'t',NULL,'f','t','t','t','t','t','t','t','t','t','t',50,NULL,NULL,NULL,NULL,0,'f','t',NULL,0,NULL,'f','t','t','f','f','t','t','t','t','f',5,'f',5,'t',-1,1180706838,'t','0000-00-00',0,1,1,'f','f',NULL,'','','','','t','t',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1179299106);
 CREATE TABLE `oa_preference_advertiser` (
   `advertiser_id` int(11) NOT NULL,
   `preference` varchar(255) NOT NULL default '',
@@ -949,7 +950,7 @@ CREATE TABLE `oa_session` (
   `lastused` datetime default NULL,
   PRIMARY KEY  (`sessionid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT INTO `oa_session` VALUES ('phpads464b36ce6f27f1.40712191','a:5:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:12:\"update_check\";b:0;}','2007-05-24 17:24:15'),('phpads46570a08e6de87.60066277','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:5:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}s:19:\"affiliate-index.php\";a:3:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}s:19:\"affiliate-zones.php\";a:2:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";}s:24:\"advertiser-campaigns.php\";a:1:{i:1;a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}s:20:\"campaign-banners.php\";a:1:{i:2;a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}}s:12:\"update_check\";b:0;}','2007-05-25 17:19:55');
+INSERT INTO `oa_session` VALUES ('phpads465c3580ef7ff1.90755088','a:6:{s:8:\"usertype\";i:1;s:8:\"loggedin\";s:1:\"t\";s:8:\"agencyid\";i:0;s:8:\"username\";s:5:\"admin\";s:5:\"prefs\";a:8:{s:20:\"advertiser-index.php\";a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";a:0:{}}s:7:\"GLOBALS\";a:3:{s:13:\"period_preset\";s:5:\"today\";s:12:\"period_start\";s:10:\"2007-06-01\";s:10:\"period_end\";s:10:\"2007-06-01\";}s:9:\"stats.php\";a:5:{s:9:\"listorder\";s:4:\"name\";s:14:\"orderdirection\";s:2:\"up\";s:10:\"startlevel\";i:0;s:5:\"nodes\";s:0:\"\";s:12:\"hideinactive\";b:1;}s:19:\"affiliate-index.php\";a:3:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}s:24:\"advertiser-campaigns.php\";a:1:{i:1;a:4:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";s:5:\"nodes\";s:0:\"\";}}s:23:\"advertiser-trackers.php\";a:2:{s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";}s:21:\"tracker-campaigns.php\";a:3:{s:12:\"hideinactive\";b:1;s:9:\"listorder\";s:0:\"\";s:14:\"orderdirection\";s:0:\"\";}s:21:\"tracker-variables.php\";a:1:{s:9:\"trackerid\";s:1:\"1\";}}s:12:\"update_check\";b:0;}','2007-06-01 15:09:52');
 CREATE TABLE `oa_targetstats` (
   `day` date NOT NULL default '0000-00-00',
   `campaignid` mediumint(9) NOT NULL default '0',
@@ -984,6 +985,7 @@ CREATE TABLE `oa_trackers` (
   PRIMARY KEY  (`trackerid`),
   KEY `trackers_clientid` (`clientid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `oa_trackers` VALUES (1,'Sample Tracker','',1,3,3,0,4,1,'f','js','','2007-06-01 15:09:47');
 CREATE TABLE `oa_userlog` (
   `userlogid` mediumint(9) NOT NULL auto_increment,
   `timestamp` int(11) NOT NULL default '0',
@@ -1017,6 +1019,7 @@ CREATE TABLE `oa_variables` (
   KEY `variables_is_unique` (`is_unique`),
   KEY `variables_trackerid` (`trackerid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `oa_variables` VALUES (1,1,'boo','Sample number','numeric',NULL,0,0,0,'var boo = \\\'%%BOO_VALUE%%\\\'','f','2007-06-01 15:09:47'),(2,1,'foo','Sample string','string',NULL,0,0,0,'var foo = \\\'%%FOO_VALUE%%\\\'','f','2007-06-01 15:09:47');
 CREATE TABLE `oa_zones` (
   `zoneid` mediumint(9) NOT NULL auto_increment,
   `affiliateid` mediumint(9) default NULL,

@@ -7,6 +7,12 @@
     
   <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
 
+  <taskdef name="sqlunit" classname="net.sourceforge.sqlunit.ant.SqlunitTask">
+      <classpath>
+        <pathelement location="lib/sqlunit-5.0.jar" />
+      </classpath>
+  </taskdef>
+  
   <macrodef name="clean-delivery-cache-local">
     <sequential>
       <delete>
