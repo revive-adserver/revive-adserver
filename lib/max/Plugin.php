@@ -276,7 +276,7 @@ class MAX_Plugin
         }
         $className = MAX_Plugin::_getPluginClassName($module, $package, $name);
         $aClassMethods = get_class_methods($className);
-        if (!in_array(strtolower($staticMethod), $aClassMethods)) {
+        if (!in_array($staticMethod, $aClassMethods)) {
             MAX::raiseError("Method '$staticMethod()' not defined in class '$className'.", MAX_ERROR_INVALIDARGS);
             return false;
         }

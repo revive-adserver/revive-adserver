@@ -346,13 +346,14 @@ class TestOfMAX_Plugin extends UnitTestCase {
         $oTestErrorHandler->reset();
         // Unset the error handler
         PEAR::popErrorHandling();
+        
         // Test with a real method, no parameters
-        $return = MAX_Plugin::callStaticMethod('reports', 'standard', 'advertisingAnalysisReport', 'getDefaults');
-        $this->assertTrue(is_array($return));
-        $this->assertEqual(count($return), 3);
+        $return = MAX_Plugin::callStaticMethod('deliveryLimitations', 'Time', 'Date', 'isAllowed');
+        $this->assertTrue($return);
+        
         // Test with a real method, with parameters
-        $return = MAX_Plugin::callStaticMethod('reports', 'standard', 'advertisingAnalysisReport', 'useReportWriter', array('foo'));
-        $this->assertNull($return);
+        $return = MAX_Plugin::callStaticMethod('deliveryLimitations', 'Time', 'Date', 'isAllowed', array('channel-acl.php'));
+        $this->assertFalse($return);
     }
 
     /**
@@ -466,7 +467,7 @@ class TestOfMAX_Plugin extends UnitTestCase {
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            "Method 'foo()' not defined in class 'plugins_maintenance_fake_fake'."
+            "Method 'foo()' not defined in class 'Plugins_Maintenance_Fake_Fake'."
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
