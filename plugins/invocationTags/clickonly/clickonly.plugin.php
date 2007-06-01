@@ -33,8 +33,7 @@ $Id$
 
 require_once MAX_PATH . '/plugins/invocationTags/InvocationTags.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
-require_once MAX_PATH . '/lib/OA/Dal/Delivery/mysql.php';
-require_once(MAX_PATH . '/lib/max/Delivery/cache.php');
+require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 
 /**
  * Invocation tag plugin.
