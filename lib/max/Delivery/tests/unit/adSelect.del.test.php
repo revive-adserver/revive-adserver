@@ -45,6 +45,13 @@ class test_DeliveryAdSelect extends UnitTestCase
     {
         $this->UnitTestCase();
     }
+    
+    function tearDown()
+    {
+        // Clean up so as not to interfere with the following test classes.
+        global $source;
+		$source = '';
+    }
 
     /**
 	 * @todo calls functions that calls database/cache retrieval methods
