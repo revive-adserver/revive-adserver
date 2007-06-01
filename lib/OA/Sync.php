@@ -345,7 +345,7 @@ class OA_Sync
 
         if(!PEAR::isError($res)){
 
-            $this->oDbh->fetchInto($res, $row);
+            $row = $res->fetchRow();
             $iTimeDiff = $iEndDate-$iStartDate;
 
             $aReturn['ad_clicks_sum']        = $row['ad_clicks_sum'];
