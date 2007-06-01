@@ -267,7 +267,7 @@ function OA_Delivery_Cache_getName($functionName)
     $args = func_get_args();
     $args[0] = strtolower(str_replace('MAX_cacheGet', '', $args[0]));
 
-    return join('�', $args);
+    return join('-', $args);
 }
 
 /**
