@@ -48,8 +48,8 @@ require_once '../../init.php';
 
 if (array_key_exists('btn_openads', $_POST) || $GLOBALS['_MAX']['CONF']['openads']['installed'])
 {
-    header('location: http://'.$GLOBALS['_MAX']['CONF']['webpath']['admin']);
-    exit();
+    require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+    MAX_Admin_Redirect::redirect();
 }
 
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
@@ -133,7 +133,7 @@ else if (array_key_exists('btn_syscheck', $_POST))
 
     $aSysInfo = $oUpgrader->checkEnvironment();
     $halt = !$oUpgrader->canUpgrade();
-    
+
     $installStatus = $oUpgrader->existing_installation_status;
     if ($installStatus == OA_STATUS_CAN_UPGRADE)
     {
