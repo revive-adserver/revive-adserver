@@ -119,7 +119,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
 }
 
-phpAds_PrepareHelp();
 if (isset($message)) {
     phpAds_ShowMessage($message);
 }

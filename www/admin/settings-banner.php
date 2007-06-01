@@ -71,7 +71,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     }
 }
 
-phpAds_PrepareHelp();
 phpAds_PageHeader("5.1");
 if (phpAds_isUser(phpAds_Admin)) {
 	phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
@@ -85,7 +84,7 @@ $settings = array (
         'text'  => $strDefaultBanners,
         'items' => array (
             array (
-                'type'    => 'text', 
+                'type'    => 'text',
                 'name'    => 'default_banner_url',
                 'text'    => $strDefaultBannerUrl,
                 'size'    => 35,
@@ -95,7 +94,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'text', 
+                'type'    => 'text',
                 'name'    => 'default_banner_destination',
                 'text'    => $strDefaultBannerDestination,
                 'size'    => 35,

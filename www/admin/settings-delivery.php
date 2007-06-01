@@ -89,19 +89,19 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
         if ($ftpsock = @ftp_connect($store_ftpHost)) {
             if (@ftp_login($ftpsock, $store_ftpUsername, $store_ftpPassword)) {
-                
+
                 // old library has no support for second param to chec if passive should be enabled
                 if( $store_ftpPassive ) {
                 	ftp_pasv( $ftpsock, true );
                 }
-                
+
                 if (empty($store_ftpPath) || @ftp_chdir($ftpsock, $store_ftpPath)) {
                     // Can login okay
                     $config->setConfigChange('store', 'ftpHost',    $store_ftpHost);
                     $config->setConfigChange('store', 'ftpPath',     $store_ftpPath);
                     $config->setConfigChange('store', 'ftpUsername', $store_ftpUsername);
                     $config->setConfigChange('store', 'ftpPassword', $store_ftpPassword);
-                    $config->setConfigChange('store', 'ftpPassive', $store_ftpPassive); 
+                    $config->setConfigChange('store', 'ftpPassive', $store_ftpPassive);
                 } else {
                     $errormessage[1][] = $strTypeFTPErrorDir;
                 }
@@ -177,7 +177,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     if (isset($p3p_policyLocation)) {
         $config->setConfigChange('p3p', 'policyLocation',    $p3p_policyLocation);
     }
-    
+
     if (isset($origin_type)) {
         $config->setConfigChange('origin', 'type',    $origin_type);
     }
@@ -197,7 +197,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $config->setConfigChange('origin', 'protocol',$origin_protocol);
     }
 
-    
+
     if (!count($errormessage)) {
         if (!$config->writeConfigChange()) {
             // Unable to write the config file out
@@ -208,7 +208,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     }
 }
 
-phpAds_PrepareHelp();
 phpAds_PageHeader("5.1");
 phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
 phpAds_SettingsSelection("delivery");
@@ -218,7 +217,7 @@ $settings = array(
         'text'  => $strWebPath,
         'items' => array (
             array (
-                'type'    => 'url', 
+                'type'    => 'url',
                 'name'    => 'webpath_admin',
                 'text'    => $strAdminUrlPrefix,
                 'size'    => 35
@@ -227,7 +226,7 @@ $settings = array(
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'urln', 
+                'type'    => 'urln',
                 'name'    => 'webpath_delivery',
                 'text'    => $strDeliveryUrlPrefix,
                 'size'    => 35
@@ -236,7 +235,7 @@ $settings = array(
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'urls', 
+                'type'    => 'urls',
                 'name'    => 'webpath_deliverySSL',
                 'text'    => $strDeliveryUrlPrefixSSL,
                 'size'    => 35
@@ -245,7 +244,7 @@ $settings = array(
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'urln', 
+                'type'    => 'urln',
                 'name'    => 'webpath_images',
                 'text'    => $strImagesUrlPrefix,
                 'size'    => 35
@@ -254,7 +253,7 @@ $settings = array(
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'urls', 
+                'type'    => 'urls',
                 'name'    => 'webpath_imagesSSL',
                 'text'    => $strImagesUrlPrefixSSL,
                 'size'    => 35
@@ -265,7 +264,7 @@ $settings = array(
     	'text' 	=> $strTypeWebSettings,
     	'items'	=> array (
     		array (
-    			'type' 	  => 'select', 
+    			'type' 	  => 'select',
     			'name' 	  => 'store_mode',
     			'text' 	  => $strTypeWebMode,
     			'items'   => array('local' => $strTypeWebModeLocal,
@@ -276,7 +275,7 @@ $settings = array(
     			'size'	  => 'full'
     		),
     		array (
-    			'type' 	  => 'text', 
+    			'type' 	  => 'text',
     			'name' 	  => 'store_webDir',
     			'text' 	  => $strTypeWebDir,
     			'size'	  => 35,
@@ -287,7 +286,7 @@ $settings = array(
     			'size'	  => 'full'
     		),
     		array (
-    			'type' 	  => 'text', 
+    			'type' 	  => 'text',
     			'name' 	  => 'store_ftpHost',
     			'text' 	  => $strTypeFTPHost,
     			'size'	  => 35,
@@ -297,7 +296,7 @@ $settings = array(
     			'type'    => 'break'
     		),
     		array (
-    			'type' 	  => 'text', 
+    			'type' 	  => 'text',
     			'name' 	  => 'store_ftpPath',
     			'text' 	  => $strTypeFTPDirectory,
     			'size'	  => 35,
@@ -307,7 +306,7 @@ $settings = array(
     			'type'    => 'break'
     		),
     		array (
-    			'type' 	  => 'text', 
+    			'type' 	  => 'text',
     			'name' 	  => 'store_ftpUsername',
     			'text' 	  => $strTypeFTPUsername,
     			'size'	  => 35,
@@ -317,7 +316,7 @@ $settings = array(
     			'type'    => 'break'
     		),
     		array (
-    			'type' 	  => 'password', 
+    			'type' 	  => 'password',
     			'name' 	  => 'store_ftpPassword',
     			'text' 	  => $strTypeFTPPassword,
     			'size'	  => 35,
@@ -327,7 +326,7 @@ $settings = array(
     			'type'    => 'break'
     		),
     		array (
-    			'type' 	  => 'checkbox', 
+    			'type' 	  => 'checkbox',
     			'name' 	  => 'store_ftpPassive',
     			'text' 	  => $strTypeFTPPassive,
     			'depends' => 'store_mode==1'
@@ -501,7 +500,7 @@ $settings = array(
             ),
             array (
                 'type'    => 'break'
-            ),            
+            ),
             array(
                 'type'    => 'text',
                 'name'    => 'origin_host',
@@ -545,14 +544,14 @@ $settings = array(
                 'items'   => array('http' => 'http', 'https' => 'https'),
                 'depends' => 'origin_type>0',
             ),
-            
+
         ),
-    ),    
+    ),
     array (
         'text'  => $strDeliveryBanner,
         'items' => array (
             array (
-                'type'    => 'checkbox', 
+                'type'    => 'checkbox',
                 'name'    => 'delivery_acls',
                 'text'    => $strDeliveryAcls
             ),
@@ -594,7 +593,7 @@ $settings = array(
     			'type'    => 'break'
     		),
     		array (
-    			'type' 	  => 'text', 
+    			'type' 	  => 'text',
     			'name' 	  => 'p3p_compactPolicy',
     			'text' 	  => $strP3PCompactPolicy,
     			'size'	  => 35,
@@ -604,7 +603,7 @@ $settings = array(
     			'type'    => 'break'
     		),
     		array (
-    			'type' 	  => 'text', 
+    			'type' 	  => 'text',
     			'name' 	  => 'p3p_policyLocation',
     			'text' 	  => $strP3PPolicyLocation,
     			'size'	  => 35,

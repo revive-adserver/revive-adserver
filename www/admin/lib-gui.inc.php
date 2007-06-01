@@ -38,8 +38,6 @@ require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 $phpAds_Message     = '';
 $phpAds_NavID        = '';
 $phpAds_GUIDone     = false;
-$phpAds_showHelp    = false;
-$phpAds_helpDefault = '';
 $phpAds_context        = array();
 $phpAds_shortcuts    = array();
 
@@ -183,7 +181,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     global $phpAds_TextDirection, $phpAds_TextAlignRight, $phpAds_TextAlignLeft;
     global $phpAds_Message, $phpAds_GUIDone, $phpAds_NavID;
     global $phpAds_context, $phpAds_shortcuts;
-    global $phpAds_nav, $pages, $phpAds_showHelp;
+    global $phpAds_nav, $pages;
     global $phpAds_CharSet;
     global $strLogout, $strNavigation, $strShortcuts;
     global $strAuthentification, $strSearch, $strHelp, $strStartOver;
@@ -514,8 +512,6 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/jscalendar/lang/calendar-en.js'></script>\n";
     echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/jscalendar/calendar-setup.js'></script>\n";
 
-    if ($phpAds_showHelp) echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js-help.js'></script>\n";
-
     if (!defined('phpAds_installing')) {
         // Include the flashObject resource file
         echo MAX_flashGetFlashObjectExternal();
@@ -529,7 +525,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     } else {
         echo "<body bgcolor='#FFFFFF' background='".$imgPath."images/".$phpAds_TextDirection."/background.gif' text='#000000' leftmargin='0' ";
     }
-    echo "topmargin='0' marginwidth='0' marginheight='0' onLoad='initPage();'".($phpAds_showHelp ? " onResize='resizeHelp();' onScroll='resizeHelp();'" : '').">\n";
+    echo "topmargin='0' marginwidth='0' marginheight='0' onLoad='initPage();'>\n";
     // Header
     if (isset($pref['my_header']) && $pref['my_header'] != '') {
         include ($pref['my_header']);
@@ -641,7 +637,7 @@ function phpAds_PageFooter($imgPath='')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $pref = $GLOBALS['_MAX']['PREF'];
-    global $session, $phpAds_showHelp, $phpAds_helpDefault, $strMaintenanceNotActive;
+    global $session, $strMaintenanceNotActive;
     global $phpAds_TextDirection, $phpAds_TextAlignLeft, $phpAds_TextAlignRight;
     echo "\t\t\t</td>\n";
     echo "\t\t\t<td width='40'>&nbsp;</td>\n";
@@ -664,13 +660,6 @@ function phpAds_PageFooter($imgPath='')
     echo "\t</td>\n";
     echo "</tr>\n";
     echo "</table>\n";
-    if ($phpAds_showHelp) {
-        echo "<div id='helpLayer' name='helpLayer' style='position:absolute; left:".($phpAds_TextDirection != 'ltr' ? '0' : '181')."; top:-10; width:10px; height:10px; z-index:1; overflow: hidden; visibility: hidden;'>\n";
-        echo "<img id='helpIcon' src='".$imgPath."images/help-book.gif' align='absmiddle'>\n";
-        echo "<span id='helpContents' name='helpContents'>".$phpAds_helpDefault."</span>\n";
-        echo "</div>\n";
-        echo "<br><br><br><br><br><br>\n";
-    }
     echo "\n\n";
     if (!ereg("/(index|maintenance-updates|install|upgrade)\.php$", $_SERVER['PHP_SELF'])) {
         // Add Product Update redirector
@@ -978,16 +967,4 @@ function phpAds_DelConfirm($msg)
     }
     return $str;
 }
-
-/*-------------------------------------------------------*/
-/* Load the function need for the help system            */
-/*-------------------------------------------------------*/
-
-function phpAds_PrepareHelp($default='')
-{
-    global $phpAds_showHelp, $phpAds_helpDefault;
-    $phpAds_helpDefault = $default;
-    $phpAds_showHelp = true;
-}
-
 ?>

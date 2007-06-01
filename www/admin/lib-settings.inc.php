@@ -122,10 +122,7 @@ function phpAds_UsertypeChange(o)
     }
     echo "</select>&nbsp;<a href='javascript:void(0)' onClick='settings_goto_section();'>";
     echo "<img src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";
-    echo "</td></form>";
-    echo "<td height='35' align='right'><b><a href=\"#\" onClick=\"javascript:toggleHelp(); return false;\">";
-    echo "<img src='images/help-book.gif' width='15' height='15' border='0' align='absmiddle'>";
-    echo "&nbsp;".$strHelp."</a></b></td></tr></table>";
+    echo "</td></form></tr></table>";
     phpAds_ShowBreak();
 }
 
@@ -303,8 +300,6 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0, $imgPat
     echo $dependbuffer."}\n\nphpAds_refreshEnabled();\n\n";
     echo $checkbuffer."\n";
     echo $usertypebuffer."\n";
-    echo "var helpArray = new Array();\n\n";
-    echo $helpbuffer."\n";
     echo "//-->\n</script>";
 }
 
@@ -435,7 +430,7 @@ function phpAds_ShowSettings_Break($item, $imgPath='')
 function phpAds_ShowSettings_Checkbox($item, $value)
 {
     global $tabindex;
-    echo "<tr onMouseOver=\"setHelp('".$item['name']."')\"><td>&nbsp;</td>\n";
+    echo "<tr><td>&nbsp;</td>\n";
     echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."' colspan='2' width='100%'>\n";
     if (isset($item['indent']) && $item['indent']) {
         echo "<img src='images/indent.gif'>\n";
@@ -445,7 +440,7 @@ function phpAds_ShowSettings_Checkbox($item, $value)
     $value = !empty($value) && (bool)strcasecmp($value, 'f');
 
     echo "<input type='checkbox' name='".$item['name']."' id='".$item['name']."' value='true'".($value == true ? ' checked' : '').($item['enabled'] ? ' disabled' : '');
-    echo " onClick=\"phpAds_refreshEnabled();\" onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>".$item['text'];
+    echo " onClick=\"phpAds_refreshEnabled();\" tabindex='".($tabindex++)."'>".$item['text'];
     $sDocPath = '';
     $iAnchor = 0;
 
@@ -468,11 +463,11 @@ function phpAds_ShowSettings_Text($item, $value)
     if (!isset($item['size'])) {
         $item['size'] = 25;
     }
-    echo "<tr onMouseOver=\"setHelp('".$item['name']."')\"><td>&nbsp;</td>\n";
+    echo "<tr><td>&nbsp;</td>\n";
     echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."' valign='top'>".$item['text']."</td>\n";
     echo "<td width='100%' valign='top'>";
     echo "<input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='text' name='".$item['name']."' id='".$item['name']."'".($item['enabled'] ? ' disabled' : '')." ";
-    echo "size='".$item['size']."' maxlength='".$item['maxlength']."' value=\"".htmlspecialchars($value)."\" onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>";
+    echo "size='".$item['size']."' maxlength='".$item['maxlength']."' value=\"".htmlspecialchars($value)."\" tabindex='".($tabindex++)."'>";
     echo "</td><td>".phpAds_ShowSettings_PadLock($item)."</td></tr>\n";
 }
 
@@ -482,7 +477,7 @@ function phpAds_ShowSettings_Url($item, $value, $type = '')
     if (!isset($item['size'])) {
         $item['size'] = 25;
     }
-     echo "<tr onMouseOver=\"setHelp('".$item['name']."')\"><td>&nbsp;</td>\n";
+     echo "<tr><td>&nbsp;</td>\n";
     echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."' valign='top'>".$item['text']."</td>\n";
     echo "<td width='100%' valign='top'><table><tr><td width='60' align='right' nowrap>";
     if ($type == 'n') {
@@ -493,7 +488,7 @@ function phpAds_ShowSettings_Url($item, $value, $type = '')
         echo 'http(s)://';
     }
     echo "</td><td><input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='text' name='".$item['name']."' id='".$item['name']."'".($item['enabled'] ? ' disabled' : '')." ";
-    echo "size='".$item['size']."' value=\"".htmlspecialchars($value)."\" onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>";
+    echo "size='".$item['size']."' value=\"".htmlspecialchars($value)."\" tabindex='".($tabindex++)."'>";
     echo "</td></tr></table></td><td>".phpAds_ShowSettings_PadLock($item)."</td></tr>\n";
 }
 
@@ -503,11 +498,11 @@ function phpAds_ShowSettings_Textarea($item, $value)
     if (!isset($item['rows'])) {
         $item['rows'] = 5;
     }
-     echo "<tr onMouseOver=\"setHelp('".$item['name']."')\"><td>&nbsp;</td>\n";
+     echo "<tr><td>&nbsp;</td>\n";
     echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."' valign='top'>".$item['text']."</td>";
     echo "<td width='100%' valign='top'>\n";
     echo "<textarea onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' name='".$item['name']."' id='".$item['name']."' rows='".$item['rows']."'".($item['enabled'] ? ' disabled' : '')." ";
-    echo "style='width: 350px;' onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>".htmlspecialchars($value)."</textarea>";
+    echo "style='width: 350px;' tabindex='".($tabindex++)."'>".htmlspecialchars($value)."</textarea>";
     echo "</td><td>".phpAds_ShowSettings_PadLock($item)."</td></tr>\n";
 }
 
@@ -528,14 +523,14 @@ function phpAds_ShowSettings_Password($item, $value)
 
     // Hide value
     //$value = str_repeat('*', strlen($value));
-    echo "<tr onMouseOver=\"setHelp('".$item['name']."')\"><td>&nbsp;</td>\n";
+    echo "<tr><td>&nbsp;</td>\n";
     echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."' valign='top'>".$item['text']."</td>\n";
     echo "<td width='100%' valign='top'>\n";
     if ($hidePassword) {
         echo "<!-- password is set to password for security reasons -->";
     }
     echo "<input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='password' name='".$item['name']."' id='".$item['name']."'".($item['enabled'] ? ' disabled' : '')." ";
-    echo "value='".$value."' size='".$item['size']."' onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>";
+    echo "value='".$value."' size='".$item['size']."' tabindex='".($tabindex++)."'>";
     echo "</td><td>".phpAds_ShowSettings_PadLock($item)."</td></tr>\n";
 }
 
@@ -543,7 +538,7 @@ function phpAds_ShowSettings_Select($item, $value, $showSubmitButton=0)
 {
     global $tabindex;
     if (isset($item['items'])) {
-        echo "<tr onMouseOver=\"setHelp('".$item['name']."')\"><td>&nbsp;</td>\n";
+        echo "<tr><td>&nbsp;</td>\n";
         echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."'>".$item['text']."</td>\n";
         echo "<td width='100%'>\n";
         echo "<select name='".$item['name']."' id='".$item['name']."'";
@@ -556,7 +551,7 @@ function phpAds_ShowSettings_Select($item, $value, $showSubmitButton=0)
             }
             echo "\"";
         }
-        echo ($item['enabled'] ? ' disabled' : '')." onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'>\n";
+        echo ($item['enabled'] ? ' disabled' : '')." tabindex='".($tabindex++)."'>\n";
         while (list($k, $v) = each($item['items'])) {
             echo "<option value=\"".htmlspecialchars($k)."\"".
                 ($k == $value ? " selected='selected'" : "").">".
@@ -590,7 +585,7 @@ function phpAds_ShowSettings_UsertypeCheckboxes($item, $value)
 
     $value = $value ? (int)$value : 0;
 
-    echo "<tr onMouseOver=\"setHelp('".$item['name']."')\"><td>&nbsp;</td>\n";
+    echo "<tr><td>&nbsp;</td>\n";
     echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."'>".$item['text']."</td>\n";
     echo "<td width='100%'>\n";
     echo "<input type='hidden' name='".$item['name']."' id='".$item['name']."' value='".htmlspecialchars($value)."'>\n";
@@ -600,22 +595,22 @@ function phpAds_ShowSettings_UsertypeCheckboxes($item, $value)
     if (phpAds_isUser(phpAds_Admin)) {
         echo "<td width='100'><input type='checkbox' name='".$item['name']."_".phpAds_Admin."' value='true'";
         echo ($value & phpAds_Admin ? ' checked' : '').($item['enabled'] ? ' disabled' : '');
-        echo " onClick=\"phpAds_UsertypeChange(this)\" onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'></td>";
+        echo " onClick=\"phpAds_UsertypeChange(this)\" tabindex='".($tabindex++)."'></td>";
     }
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
         echo "<td width='100'><input type='checkbox' name='".$item['name']."_".phpAds_Agency."' value='true'";
         echo ($value & phpAds_Agency ? ' checked' : '').($item['enabled'] ? ' disabled' : '');
-        echo " onClick=\"phpAds_UsertypeChange(this)\" onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'></td>";
+        echo " onClick=\"phpAds_UsertypeChange(this)\" tabindex='".($tabindex++)."'></td>";
     }
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isUser(phpAds_Client)) {
         echo "<td width='100'><input type='checkbox' name='".$item['name']."_".phpAds_Client."' value='true'";
         echo ($value & phpAds_Client ? ' checked' : '').($item['enabled'] ? ' disabled' : '');
-        echo " onClick=\"phpAds_UsertypeChange(this)\" onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'></td>";
+        echo " onClick=\"phpAds_UsertypeChange(this)\" tabindex='".($tabindex++)."'></td>";
     }
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isUser(phpAds_Affiliate)) {
         echo "<td width='100'><input type='checkbox' name='".$item['name']."_".phpAds_Affiliate."' value='true'";
         echo ($value & phpAds_Affiliate ? ' checked' : '').($item['enabled'] ? ' disabled' : '');
-        echo " onClick=\"phpAds_UsertypeChange(this)\" onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'></td>";
+        echo " onClick=\"phpAds_UsertypeChange(this)\" tabindex='".($tabindex++)."'></td>";
     }
 
     echo "</tr></table>\n";
@@ -644,7 +639,7 @@ function phpAds_ShowSettings_UsertypeTextboxes($item, $value)
 
     $value = unserialize($value);
 
-    echo "<tr onMouseOver=\"setHelp('".$item['name']."')\"><td>&nbsp;</td>\n";
+    echo "<tr><td>&nbsp;</td>\n";
     echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."'>".$item['text']."</td>\n";
     echo "<td width='100%'>\n";
 
@@ -653,22 +648,22 @@ function phpAds_ShowSettings_UsertypeTextboxes($item, $value)
     if (phpAds_isUser(phpAds_Admin)) {
         echo "<td width='100'><input type='text' size='10' name='".$item['name']."[".phpAds_Admin."]'";
         echo " value='".(isset($value[phpAds_Admin]) ? htmlspecialchars($value[phpAds_Admin]) : '')."'";
-        echo " onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'></td>";
+        echo " tabindex='".($tabindex++)."'></td>";
     }
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
         echo "<td width='100'><input type='text' size='10' name='".$item['name']."[".phpAds_Agency."]'";
         echo " value='".(isset($value[phpAds_Agency]) ? htmlspecialchars($value[phpAds_Agency]) : '')."'";
-        echo " onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'></td>";
+        echo " tabindex='".($tabindex++)."'></td>";
     }
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isUser(phpAds_Client)) {
         echo "<td width='100'><input type='text' size='10' name='".$item['name']."[".phpAds_Client."]'";
         echo " value='".(isset($value[phpAds_Client]) ? htmlspecialchars($value[phpAds_Client]) : '')."'";
-        echo " onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'></td>";
+        echo " tabindex='".($tabindex++)."'></td>";
     }
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isUser(phpAds_Affiliate)) {
         echo "<td width='100'><input type='text' size='10' name='".$item['name']."[".phpAds_Affiliate."]'";
         echo " value='".(isset($value[phpAds_Affiliate]) ? htmlspecialchars($value[phpAds_Affiliate]) : '')."'";
-        echo " onFocus=\"setHelp('".$item['name']."')\" tabindex='".($tabindex++)."'></td>";
+        echo " tabindex='".($tabindex++)."'></td>";
     }
 
     echo "</tr></table>\n";

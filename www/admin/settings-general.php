@@ -54,7 +54,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     }
 }
 
-phpAds_PrepareHelp();
 phpAds_PageHeader("5.1");
 phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
 phpAds_SettingsSelection("general");
@@ -64,13 +63,13 @@ $settings = array (
         'text'  => $generalSettings,
         'items' => array (
             array (
-                'type'    => 'checkbox', 
+                'type'    => 'checkbox',
                 'name'    => 'debug_production',
                 'text'    => $strProduction
             ),
             array (
                 'type'    => 'break'
-            ),    
+            ),
             array (
                 'type'  => 'checkbox',
                 'name'  => 'max_uiEnabled',

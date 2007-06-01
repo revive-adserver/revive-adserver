@@ -79,7 +79,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     }
 }
 
-phpAds_PrepareHelp();
 phpAds_PageHeader("5.1");
 phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
 phpAds_SettingsSelection("db");
@@ -89,7 +88,7 @@ $settings = array (
         'text'  => $strDatabaseServer,
         'items' => array (
             array (
-                'type'       => 'select', 
+                'type'       => 'select',
                 'name'       => 'database_type',
                 'text'       => $strDbType,
                 'items'   => Max_Admin_DB::getServerTypes()
@@ -98,7 +97,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'       => 'text', 
+                'type'       => 'text',
                 'name'       => 'database_host',
                 'text'       => $strDbHost,
                 'req'      => true,
@@ -107,7 +106,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'       => 'text', 
+                'type'       => 'text',
                 'name'       => 'database_port',
                 'text'       => $strDbPort,
                 'req'      => true,
@@ -116,7 +115,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'       => 'text', 
+                'type'       => 'text',
                 'name'       => 'database_username',
                 'text'       => $strDbUser,
                 'req'      => true,
@@ -125,7 +124,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'       => 'password', 
+                'type'       => 'password',
                 'name'       => 'database_password',
                 'text'       => $strDbPassword,
                 'req'      => false,
@@ -134,7 +133,7 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'       => 'text', 
+                'type'       => 'text',
                 'name'       => 'database_name',
                 'text'       => $strDbName,
                 'req'      => true,
