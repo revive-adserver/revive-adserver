@@ -465,9 +465,14 @@ class TestOfMAX_Plugin extends UnitTestCase {
         // Test with a bad method
         $result = MAX_Plugin::callOnPluginsByHook($aPlugins, 'foo', MAINTENANCE_PLUGIN_POST, MSE_PLUGIN_HOOK_summariseIntermediateRequests);
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
+        if (phpversion() < 5) {
+            $error = "Method 'foo()' not defined in class 'plugins_maintenance_fake_fake'.";
+        } else {
+        	$error = "Method 'foo()' not defined in class 'Plugins_Maintenance_Fake_Fake'.";
+        }
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
-            "Method 'foo()' not defined in class 'Plugins_Maintenance_Fake_Fake'."
+            $error
         );
         $this->assertFalse($result);
         $oTestErrorHandler->reset();
