@@ -600,7 +600,7 @@ function MAX_displayNavigationCampaign($pageName, $aOtherAdvertisers, $aOtherCam
 
             // mask campaign name if anonymous campaign
             $campaign_details = Admin_DA::getPlacement($otherCampaignId);
-            $otherCampaignName = MAX_getPlacementName($campaign_details);
+            $otherCampaignName = MAX_buildName($placementId, MAX_getPlacementName($campaign_details));
 
             $campaignName = $otherCampaignName;
 
