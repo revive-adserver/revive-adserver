@@ -19,21 +19,21 @@
                     'text'    => $GLOBALS['strSpecifySyncSettings'],
                     'items'   => array (
                         array (
-                            'type'    => 'checkbox', 
+                            'type'    => 'checkbox',
                             'name'    => 'updates_enabled',
                             'text'    => $strAdminCheckUpdates,
                             'value'   => true,
                         ),
-                        array (
-                            'type'    => 'break'
-                        ),
-                        array (
-                            'type'    => 'checkbox',
-                            'name'    => 'updates_cs_data_enabled',
-                            'text'    => $strAdminShareCommunityData,
-                            'depends' => 'updates_enabled==true',
-                            'value'   => true,
-                        ),
+//                        array (
+//                            'type'    => 'break'
+//                        ),
+//                        array (
+//                            'type'    => 'checkbox',
+//                            'name'    => 'updates_cs_data_enabled',
+//                            'text'    => $strAdminShareCommunityData,
+//                            'depends' => 'updates_enabled==true',
+//                            'value'   => true,
+//                        ),
                     )
                 )
             ), $errormessage, 0, $imgPath);
@@ -42,4 +42,4 @@
 <img src='<?php echo $imgPath; ?>images/break-el.gif' height='1' width='100%' vspace='5'>
 
                     <input type="submit" class="button" name="btn_syscheck" value="<?php echo $strBtnAgree; ?>" />
-                    <input type="submit" class="button floatleft" name="btn_terms" value="<?php echo $strBtnDontAgree; ?>" /> 
+                    <input type="submit" class="button floatleft" name="btn_terms" value="<?php echo $strBtnDontAgree; ?>" />
