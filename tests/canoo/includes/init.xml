@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="Init Openads Web Tests" basedir=".." default="main">
   <property file="properties/user.properties"/>
-  <property name="cache.clean.macro" value="target-cache-local"/>
+  <property name="run.remote" value="false"/>
 
   <import file="${basedir}/../../build-canoo.xml"/>
     
@@ -23,10 +23,10 @@
         <if>
           <istrue value="${run.remote}"/>
           <then>
-            <clean-delivery-cache-local/>
+            <clean-delivery-cache-remote/>
           </then>
           <else>
-            <clean-delivery-cache-remote/>
+            <clean-delivery-cache-local/>
           </else>
         </if>
       </sequential>
