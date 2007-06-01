@@ -410,6 +410,11 @@ class OA_Upgrade
             if ($valid)
             {
                 $this->versionInitialSchema['tables_core'] = '099';
+                if (!$this->initDatabaseConnection())
+                {
+                    $this->existing_installation_status = OA_STATUS_MAX_DBCONNECT_FAILED;
+                    return false;
+                }
                 if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
                 {
                     $this->existing_installation_status = OA_STATUS_PAN_DBINTEG_FAILED;
