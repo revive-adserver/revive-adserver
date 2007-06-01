@@ -100,10 +100,10 @@
   </target>
 
   <target name="prepare-version-info" if="version" depends="init-release">
-    <echo message="Setting MAX_VERSION_READABLE to 'v${version}'."/>
+    <echo message="Setting OA_VERSION to '${version}'."/>
     <replaceregexp file="constants.php"
-      match="^.*MAX_VERSION_READABLE.*$"
-      replace="    define('MAX_VERSION_READABLE', 'v${version}');"
+      match="^.*OA_VERSION.*$"
+      replace="    define('OA_VERSION', '${version}');"
       byline="true"/>
   </target>
 
