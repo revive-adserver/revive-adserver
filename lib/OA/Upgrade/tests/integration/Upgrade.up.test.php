@@ -258,7 +258,7 @@ class Test_OA_Upgrade extends UnitTestCase
 
         $oUpgrade->oPAN = new OA_phpAdsNew_for_detectPAN($this);
         $oUpgrade->oPAN->setReturnValue('init', true);
-        $oUpgrade->oPAN->expectOnce('init');
+        $oUpgrade->oPAN->expectCallCount('init', 2);
         $oUpgrade->oPAN->setReturnValueAt(0, 'getPANversion', '200.311');
         $oUpgrade->oPAN->expectCallCount('getPANversion',2);
         $oUpgrade->oPAN->setReturnValueAt(1, 'getPANversion', '200.313');
@@ -276,9 +276,6 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
         $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
 
-        // save the global database settings as we will lose them soon...
-        $aConf = $GLOBALS['_MAX']['CONF'];
-
         $this->assertFalse($oUpgrade->detectPAN(),'');
         $this->assertEqual($oUpgrade->versionInitialApplication,'200.311','wrong initial application version');
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_PAN_VERSION_FAILED,'wrong upgrade status code');
@@ -291,7 +288,11 @@ class Test_OA_Upgrade extends UnitTestCase
 
         $this->assertEqual($GLOBALS['_MAX']['CONF']['database']['name'], 'pan_test', '');
 
-        $GLOBALS['_MAX']['CONF'] = $aConf;
+        $oUpgrade->tally();
+        $oUpgrade->oPAN->tally();
+        $oUpgrade->oIntegrity->tally();
+
+        TestEnv::restoreConfig();
     }
 
     /**
@@ -303,7 +304,6 @@ class Test_OA_Upgrade extends UnitTestCase
     {
         $oUpgrade  = new OA_Upgrade();
         $oUpgrade->initDatabaseConnection();
-        //$oUpgrade->aDsn['table']['prefix'] = $this->prefix;
 
         Mock::generatePartial(
             'OA_DB_Integrity',
@@ -327,6 +327,8 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code');
         $this->assertEqual($oUpgrade->package_file, 'openads_upgrade_2.3.31_to_2.3.32_beta.xml','wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('max_version');
+
+        $oUpgrade->oIntegrity->tally();
     }
 
     /**
@@ -363,6 +365,8 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CURRENT_VERSION,'wrong upgrade status code');
         $this->assertEqual($oUpgrade->package_file, '', 'wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('oa_version');
+
+        $oUpgrade->oIntegrity->tally();
     }
 
     /**
