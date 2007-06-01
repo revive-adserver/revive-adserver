@@ -42,7 +42,7 @@ class Test_OA_Admin_Timezones extends UnitTestCase
         global $_DATE_TIMEZONE_DATA;
 
         //  get time zones
-        $aTimezone = OA_Admin_Timezones::AvailableTimezones(true);
+        $aTimezone = OA_Admin_Timezones::availableTimezones(true);
 
         //  test that it is an array, not empty and contains 447 items
         $this->assertTrue(is_array($aTimezone));

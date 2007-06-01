@@ -35,6 +35,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
  */
  class OA_Admin_Timezones
  {
+
     /**
      * Returns an array of available timezones.
      *
@@ -44,7 +45,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
      *                          to the beginning of the array.
      * @return array An array containing all the available timezones.
      */
-    function AvailableTimezones($addBlank = false)
+    function availableTimezones($addBlank = false)
     {
         global $_DATE_TIMEZONE_DATA;
 

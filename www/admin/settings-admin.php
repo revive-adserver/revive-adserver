@@ -128,7 +128,7 @@ phpAds_SettingsSelection("admin");
 
 $unique_users   = MAX_Permission::getUniqueUserNames($pref['admin']);
 
-$aTimezones = OA_Admin_Timezones::AvailableTimezones(true);
+$aTimezones = OA_Admin_Timezones::availableTimezones(true);
 $configTimezone = trim($GLOBALS['_MAX']['CONF']['timezone']['location']);
 if (empty($configTimezone)) {
     // There is no value stored in the configuration file, as it

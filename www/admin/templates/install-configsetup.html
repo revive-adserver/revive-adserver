@@ -32,22 +32,22 @@ if ($errMessage) {
 
         if ($aConfig && is_array($aConfig) && (count($aConfig)>0))
         {
-            
+
             // Setup list of all timezones, calculate selected timezone
-            require_once('../../lib/OA/Admin/Timezones.php');
-            $aTimezone     = OA_Admin_Timezones::AvailableTimezones(true);
+            require_once '../../lib/OA/Admin/Timezones.php';
+            $aTimezones = OA_Admin_Timezones::availableTimezones(true);
             if ($_POST['aConfig']['timezone']['location']) {
                 $selTimezone = $_POST['aConfig']['timezone']['location'];
             } else {
-                $selTimezone = OA_Admin_Timezones::getTimezone();      
-                $selTimezone = $selTimezone['tz'];      
+                $selTimezone = OA_Admin_Timezones::getTimezone();
+                $selTimezone = $selTimezone['tz'];
             }
-            
+
             $errorImage = "<img src='".$imgPath."images/icon-x.gif' width='10' height='9'>";
             $timezoneTitle = ($selTimezone['calculated'] ? $strTimezoneEstimated.'<br><small class="red">'.$errorImage.' '.$strTimezoneGuessedValue.'</small>' : $strTimezone);
             // For language, setup English as first choice
             $langVal = 'english';
-            
+
             phpAds_ShowSettings(array (
                 array (
                     'text'  => $strConfigurationSettings,
@@ -59,7 +59,7 @@ if ($errMessage) {
                             'req'   => true,
                             'value' => $langVal,
                             'items' => MAX_Admin_Languages::AvailableLanguages()
-                        ),                        
+                        ),
                         array (
                             'type'  => 'break'
                         ),
@@ -141,7 +141,7 @@ if ($errMessage) {
                 )
             ), $errormessage, 0, $imgPath);
     }
-    else 
+    else
     {
     ?>
         <table border='0' width='100%' cellpadding='0' cellspacing='0'><tr>
@@ -151,7 +151,7 @@ if ($errMessage) {
     <td bgcolor='#888888' width='30'><img src='<?php echo $imgPath; ?>images/break.gif' height='1' width='30'></td>
     <td bgcolor='#888888' width='250'><img src='<?php echo $imgPath; ?>images/break.gif' height='1' width='250'></td>
     <td bgcolor='#888888' width='100%'><img src='<?php echo $imgPath; ?>images/break.gif' height='1' width='1'></td>
-    
+
     <td bgcolor='#888888' width='30'><img src='<?php echo $imgPath; ?>images/break.gif' height='1' width='30'></td>
     </tr><tr><td height='10' colspan='4'><img src='<?php echo $imgPath; ?>images/spacer.gif' width='30' height='1'></td></tr>
     <tr><td>&nbsp;</td>
@@ -178,4 +178,3 @@ if ($errMessage) {
 <?php
 }
 ?>
-    
