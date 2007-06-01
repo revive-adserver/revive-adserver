@@ -39,7 +39,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
 // Register input variables
-phpAds_registerGlobal (
+phpAds_registerGlobalUnslashed (
 	 'errormessage'
 	,'agencyid'
 	,'name'

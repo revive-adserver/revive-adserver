@@ -40,13 +40,13 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
 // Register input variables
-phpAds_registerGlobal ('move', 'name', 'website', 'contact', 'email', 'language', 'publiczones',
-                       'errormessage', 'username', 'password', 'affiliatepermissions', 'submit',
-                       'publiczones_old', 'pwold', 'pw', 'pw2', 'mnemonic', 'comments',
-                       'address', 'city', 'postcode', 'country', 'phone', 'fax', 'account_contact',
-                       'payee_name', 'tax_id_present', 'tax_id', 'mode_of_payment', 'currency',
-                       'unique_users', 'unique_views', 'page_rank', 'category', 'help_file',
-                       'terms_and_conditions', 'account_type');
+phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'publiczones',
+                               'errormessage', 'username', 'password', 'affiliatepermissions', 'submit',
+                               'publiczones_old', 'pwold', 'pw', 'pw2', 'mnemonic', 'comments',
+                               'address', 'city', 'postcode', 'country', 'phone', 'fax', 'account_contact',
+                               'payee_name', 'tax_id_present', 'tax_id', 'mode_of_payment', 'currency',
+                               'unique_users', 'unique_views', 'page_rank', 'category', 'help_file',
+                               'terms_and_conditions', 'account_type');
 
 // Security check
 MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
