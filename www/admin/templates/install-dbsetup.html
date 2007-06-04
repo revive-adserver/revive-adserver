@@ -42,7 +42,9 @@
         var TblTypeObj = new getObj('aConfig[table][type]');
         if (dbType.obj.value == 'mysql') {
             portObj.obj.value = 3306;
-            TblTypeObj.obj.disabled = false;
+            if (!portObj.obj.disabled) {
+                TblTypeObj.obj.disabled = false;
+            }
         } else if (dbType.obj.value == 'pgsql') {
             portObj.obj.value = 5432;
             TblTypeObj.obj.disabled = 'disabled';

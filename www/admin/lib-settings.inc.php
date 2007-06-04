@@ -466,7 +466,7 @@ function phpAds_ShowSettings_Text($item, $value)
     echo "<tr><td>&nbsp;</td>\n";
     echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."' valign='top'>".$item['text']."</td>\n";
     echo "<td width='100%' valign='top'>";
-    echo "<input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='text' name='".$item['name']."' id='".$item['name']."'".($item['enabled'] ? ' disabled' : '')." ";
+    echo "<input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='text' name='".$item['name']."' id='".$item['name']."'".($item['enabled'] ? ' disabled="disabled"' : '')." ";
     echo "size='".$item['size']."' maxlength='".$item['maxlength']."' value=\"".htmlspecialchars($value)."\" tabindex='".($tabindex++)."'>";
     echo "</td><td>".phpAds_ShowSettings_PadLock($item)."</td></tr>\n";
 }
