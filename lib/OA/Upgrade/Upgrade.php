@@ -261,7 +261,7 @@ class OA_Upgrade
                 $this->oLogger->logError($strNoUpgrade);
                 return false;
             case OA_STATUS_PAN_DBINTEG_FAILED:
-                $this->oLogger->log($strProductName.$this->versionInitialApplication.' detected');
+                $this->oLogger->log($strProductName.' '.$this->versionInitialApplication.' detected');
                 $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strNoUpgrade);
                 return false;
