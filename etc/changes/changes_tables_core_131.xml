@@ -3,7 +3,7 @@
 <instructionset>
   <name>openads_2_0_12</name>
   <version>131</version>
-  <comments>Added the index to the agencyid field which is required by the 505 changeset.</comments>
+  <comments>Added the missing indices: affiliates.agencyid, banners.campaignid, clients.agencyid.</comments>
   <constructive>
     <changeset>
       <name>openads_2_0_12</name>
@@ -11,6 +11,32 @@
       <change>
         <table>
           <name>affiliates</name>
+        <index>
+          <add>
+            <name>agencyid</name>
+            <was>agencyid</was>
+            <indexfield>
+              <name>agencyid</name>
+              <sorting>ascending</sorting>
+            </indexfield>
+          </add>
+        </index>
+      </table>
+        <table>
+          <name>banners</name>
+        <index>
+          <add>
+            <name>campaignid</name>
+            <was>campaignid</was>
+            <indexfield>
+              <name>campaignid</name>
+              <sorting>ascending</sorting>
+            </indexfield>
+          </add>
+        </index>
+      </table>
+        <table>
+          <name>clients</name>
         <index>
           <add>
             <name>agencyid</name>

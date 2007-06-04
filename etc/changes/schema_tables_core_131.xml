@@ -1327,6 +1327,14 @@
     </field>
    </index>
 
+   <index>
+    <name>campaignid</name>
+    <field>
+     <name>campaignid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
   </declaration>
 
  </table>
@@ -1934,6 +1942,14 @@
     <primary>true</primary>
     <field>
      <name>clientid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>agencyid</name>
+    <field>
+     <name>agencyid</name>
      <sorting>ascending</sorting>
     </field>
    </index>
