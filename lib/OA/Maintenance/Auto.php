@@ -51,38 +51,26 @@ class OA_Maintenance_Auto
     	MAX_Admin_Preferences::loadPrefs(0);
 
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $aPref = $GLOBALS['_MAX']['PREF'];
+        
+	    if (!defined('OA_VERSION')) {
+	        // If the code is executed inside delivery, the constants
+	        // need to be initialized
+    	    require_once MAX_PATH . '/constants.php';
+    	    setupConstants();
+	    }
 
-    	$iLastRun = isset($aPref['maintenance_timestamp']) ?
-    	   $aPref['maintenance_timestamp'] : 0;
+	    $oLock =& OA_DB_AdvisoryLock::factory();
 
-    	// Make sure that negative values don't break the script
-    	if ($iLastRun > 0) {
-    		$iLastRun = strtotime(date('Y-m-d H:00:05', $iLastRun));
-    	}
+		if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE))
+		{
+			require_once MAX_PATH . '/lib/OA/Maintenance.php';
 
-    	if (time() >= $iLastRun + 3600)
-    	{
-    	    if (!defined('OA_VERSION')) {
-    	        // If the code is executed inside delivery, the constants
-    	        // need to be initialized
-        	    require_once MAX_PATH . '/constants.php';
-        	    setupConstants();
-    	    }
+			$oMaint = new OA_Maintenance();
 
-    	    $oLock =& OA_DB_AdvisoryLock::factory();
+			$oMaint->run();
 
-    		if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE))
-    		{
-    			require_once MAX_PATH . '/lib/OA/Maintenance.php';
-
-    			$oMaint = new OA_Maintenance();
-
-    			$oMaint->run();
-
-    			$oLock->release();
-    		}
-    	}
+			$oLock->release();
+		}
     }
 }
 

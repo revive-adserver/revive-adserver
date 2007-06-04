@@ -666,6 +666,7 @@ function OA_Dal_Delivery_getMaintenanceInfo()
             maintenance_timestamp
         FROM
             {$conf['table']['prefix']}{$conf['table']['preference']}
+        WHERE agencyid = 0
     ");
     if (!is_resource($result)) {
         if (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) {
