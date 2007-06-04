@@ -103,10 +103,10 @@
 
    <field>
     <name>logical</name>
-    <type>text</type>
-    <length>'and'</length>
+    <type>openads_set</type>
+    <length>'and','or'</length>
     <notnull>true</notnull>
-    <default></default>
+    <default>and</default>
    </field>
 
    <field>
