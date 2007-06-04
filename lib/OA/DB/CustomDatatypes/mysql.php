@@ -996,12 +996,14 @@ function datatype_openads_timestamp_callback(&$db, $method, $aParameters)
             if ($aParameters['field']['notnull'] && ($aParameters['field']['default'] == '')) {
                 unset($aParameters['field']['default']);
             }
-            $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
-            $value = $name . ' ' . $datatype;
-            // CURRENT_TIMESTAMP is no good - just set it to NULL, and MySQL does the rest
+            // For DATETIME fields, CURRENT_TIMESTAMP is no good as a default value, as
+            // MySQL 4.0 doesn't allow this - unset the default value, and MySQL will
+            // automatically set the field to the current timestamp when inserting
             if (isset($aParameters['field']['default']) && ($aParameters['field']['default'] == 'CURRENT_TIMESTAMP')) {
                 unset($aParameters['field']['default']);
             }
+            $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
+            $value = $name . ' ' . $datatype;
             if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
