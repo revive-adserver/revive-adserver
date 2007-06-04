@@ -204,7 +204,7 @@ class OA_Maintenance
     {
         OA::debug('  Starting Openads Sync process.', PEAR_LOG_DEBUG);
 
-        if ($pref['updates_enabled'] == 't') {
+        if ($this->pref['updates_enabled'] == 't') {
             require_once MAX_PATH . '/lib/OA/Sync.php';
 
             $oSync = new OA_Sync($this->conf, $this->pref);
