@@ -289,6 +289,9 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                                     $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressions'] +=
                                         $requiredImpressions;
                                     if ($oPlacement->priority > 0) {
+                                        if (empty($this->aOverSubscribedZones[$zone['zone_id']])) {
+                                            $this->aOverSubscribedZones[$zone['zone_id']] = array();
+                                        }
                                         if (empty($this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressionsByCP'])) {
                                             $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressionsByCP'] = array();
                                         }
