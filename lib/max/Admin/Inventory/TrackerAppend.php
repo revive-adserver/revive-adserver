@@ -53,7 +53,7 @@ class MAX_Admin_Inventory_TrackerAppend
     /**
      * PHP5-style constructor
      */
-    function __constructor()
+    function __construct()
     {
         $this->_useDefaultDal();
 
@@ -66,7 +66,7 @@ class MAX_Admin_Inventory_TrackerAppend
      */
     function MAX_Admin_Inventory_TrackerAppend()
     {
-        $this->__constructor();
+        $this->__construct();
     }
 
     function _useDefaultDal()
