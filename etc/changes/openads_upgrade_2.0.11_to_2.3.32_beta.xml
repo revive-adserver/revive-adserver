@@ -99,6 +99,13 @@
             <file>migration_tables_core_130.php</file>
         </package>
         <package>
+            <version>131</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_131.xml</file>
+            <file>changes_tables_core_131.xml</file>
+            <file>migration_tables_core_131.php</file>
+        </package>
+        <package>
             <version>199</version>
             <schema>tables_core</schema>
             <file>schema_tables_core_199.xml</file>
