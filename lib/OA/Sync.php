@@ -43,12 +43,12 @@ class OA_Sync
     var $_openadsServer;
 
     /**
-     * PHP5-style constructor
+     * Constructor
      *
      * @param array $conf array, if null reads the global variable
      * @param array $pref array, if null reads the global variable
      */
-    function __construct($conf = null, $pref = null)
+    function OA_Sync($conf = null, $pref = null)
     {
         $this->conf = is_null($conf) ? $GLOBALS['_MAX']['CONF'] : $conf;
         $this->pref = is_null($pref) ? $GLOBALS['_MAX']['PREF'] : $pref;
@@ -57,16 +57,6 @@ class OA_Sync
         $this->oDbh = &OA_DB::singleton();
     }
 
-    /**
-     * PHP4-style constructor
-     *
-     * @param array $conf array, if null reads the global variable
-     * @param array $pref array, if null reads the global variable
-     */
-    function OA_Sync($conf = null, $pref = null)
-    {
-        $this->__construct($conf, $pref);
-    }
 
     /**
      * Returns phpAdsNew style config version.

@@ -58,22 +58,7 @@ class OA_Admin_DaySpan
     var $oEndDate;
 
     /**
-     * PHP5-style constructor
-     *
-     * @param string An optional preset value based on a 'pre-defined
-     *               'friendly' value.
-     *
-     * See the {@link OA_Admin_DaySpan::setSpanPresetValue()} method
-     * for the pre-defined values.
-     */
-    function __construct($presetValue = 'today')
-    {
-        $this->oNowDate = new Date();
-        $this->setSpanPresetValue($presetValue);
-    }
-
-    /**
-     * PHP4-style constructor
+     * Constructor
      *
      * @param string An optional preset value based on a 'pre-defined
      *               'friendly' value.
@@ -83,8 +68,10 @@ class OA_Admin_DaySpan
      */
     function OA_Admin_DaySpan($presetValue = 'today')
     {
-        $this->__construct($presetValue);
+        $this->oNowDate = new Date();
+        $this->setSpanPresetValue($presetValue);
     }
+
 
     /**
      * A method to set the span according to specific dates.

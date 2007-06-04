@@ -45,12 +45,12 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
     var $_autoSubmit;
 
     /**
-     * PHP5-style constructor
+     * Constructor
      *
      * @param array $aFieldSelectionNames A list of the predefined 'friendly' selections.
      * @param string $fieldSelectionDefault The default selection.
      */
-    function __construct($name = 'DaySpanField',
+    function Admin_UI_DaySpanField($name = 'DaySpanField',
                          $fieldSelectionDefault = 'last_month',
                          $aFieldSelectionNames = null
                         )
@@ -66,19 +66,6 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
         $this->disableAutoSubmit();
     }
 
-    /**
-     * PHP4-style constructor
-     *
-     * @param array $aFieldSelectionNames A list of the predefined 'friendly' selections.
-     * @param string $fieldSelectionDefault The default selection.
-     */
-    function Admin_UI_DaySpanField($name = 'DaySpanField',
-                                     $fieldSelectionDefault = 'last_month',
-                                     $aFieldSelectionNames = null
-                                    )
-    {
-        $this->__construct($name, $fieldSelectionDefault, $aFieldSelectionNames);
-    }
 
     /**
      * Return the default $aFieldSelectionNames array
