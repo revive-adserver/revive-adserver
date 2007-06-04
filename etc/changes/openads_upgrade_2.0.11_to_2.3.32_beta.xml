@@ -15,11 +15,11 @@
     <!-- Database Packages -->
     <database>
         <package>
-            <version>099</version>
+            <version>100</version>
             <schema>tables_core</schema>
-            <file>schema_tables_core_099.xml</file>
-            <file>changes_tables_core_099.xml</file>
-            <file>migration_tables_core_099.php</file>
+            <file>schema_tables_core_100.xml</file>
+            <file>changes_tables_core_100.xml</file>
+            <file>migration_tables_core_100.php</file>
         </package>
         <package>
             <version>108</version>
