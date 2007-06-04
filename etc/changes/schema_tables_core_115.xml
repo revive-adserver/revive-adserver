@@ -24,8 +24,8 @@
 
    <field>
     <name>logical</name>
-    <type>openads_varchar</type>
-    <length>3</length>
+    <type>openads_set</type>
+    <length>'and','or'</length>
     <notnull>true</notnull>
     <default>and</default>
    </field>
