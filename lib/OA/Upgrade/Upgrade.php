@@ -256,7 +256,7 @@ class OA_Upgrade
                 break;
             case OA_STATUS_PAN_VERSION_FAILED:
                 $version = ($this->versionInitialApplication ? $this->versionInitialApplication : ' unknown version');
-                $this->oLogger->log($strProductName.$version.' detected');
+                $this->oLogger->log($strProductName.' '.$version.' detected');
                 $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strNoUpgrade);
                 return false;
@@ -290,7 +290,7 @@ class OA_Upgrade
             case OA_STATUS_MAX_VERSION_FAILED:
                 $database = $GLOBALS['_MAX']['CONF']['database']['name'];
                 $version = ($this->versionInitialApplication ? $this->versionInitialApplication : ' unknown version');
-                $this->oLogger->log($strProductName.$version.' detected');
+                $this->oLogger->log($strProductName.' '.$version.' detected');
                 $this->oLogger->logError($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strNoUpgrade);
                 break;
@@ -322,7 +322,7 @@ class OA_Upgrade
             case OA_STATUS_OAD_VERSION_FAILED:
                 $database = $GLOBALS['_MAX']['CONF']['database']['name'];
                 $version = ($this->versionInitialApplication ? $this->versionInitialApplication : ' unknown version');
-                $this->oLogger->log($strProductName.$version.' detected');
+                $this->oLogger->log($strProductName.' '.$version.' detected');
                 //$this->oLogger->logError('Openads '.$this->versionInitialApplication.' detected');
                 $this->oLogger->logError($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strNoUpgrade);
