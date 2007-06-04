@@ -134,6 +134,23 @@ class Migration
                 break;
         }
     }
+    
+    
+    /**
+     * Puts the $sql query template into the $this->aSQLStatements array
+     * if and only if current database syntax is equal to the $syntax
+     * argument supplied.
+     *
+     * @param string $syntax The database vendor ('mysql', 'pgsql')
+     * @param string $index The index to be used in the $this->aSQLStatements array
+     * @param string $sql The query template.
+     */
+    function _putSqlStatement($syntax, $index, $sql)
+    {
+        if ($this->oDBH->dbsyntax == $syntax) {
+            $this->aSQLStatements[$index] = $sql;
+        }
+    }
 
     function getPrefix()
     {
