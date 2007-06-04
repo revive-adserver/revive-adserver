@@ -2265,20 +2265,23 @@ class OA_DB_Upgrade
         {
             foreach ($aDefinition['tables'] AS $tablename => $aDef)
             {
-                $strippedname = str_replace($this->prefix, '', $tablename);
-                if (isset($aDef['indexes']))
+                if (substr($tablename, 0, strlen($this->prefix))==$this->prefix)
                 {
-                    foreach ($aDef['indexes'] AS $indexname => $aIndex)
+                    $strippedname = substr($tablename, strlen($this->prefix), strlen($tablename));
+                    if (isset($aDef['indexes']))
                     {
-                        if (isset($aIndex['primary']))
+                        foreach ($aDef['indexes'] AS $indexname => $aIndex)
                         {
-                            $strippedidx = str_replace($this->prefix, '', $indexname);
-                            $aDef['indexes'][$strippedidx] = $aIndex;
-                            unset($aDef['indexes'][$indexname]);
+                            if (isset($aIndex['primary']))
+                            {
+                                $strippedidx = str_replace($this->prefix, '', $indexname);
+                                $aDef['indexes'][$strippedidx] = $aIndex;
+                                unset($aDef['indexes'][$indexname]);
+                            }
                         }
                     }
+                    $aTables[$strippedname] = $aDef;
                 }
-                $aTables[$strippedname] = $aDef;
             }
             unset($aDefinition['tables']);
             $aDefinition['tables'] = $aTables;
