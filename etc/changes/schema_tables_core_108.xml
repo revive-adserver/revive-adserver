@@ -6801,7 +6801,7 @@
    </field>
 
    <index>
-    <name>ad_zone_assoc_zone_id</name>
+    <name>zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
