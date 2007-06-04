@@ -231,6 +231,10 @@ class OA_DB_Upgrade
 
     function buildSchemaDefinition()
     {
+        if (!$this->oSchema)
+        {
+            $this->initMDB2Schema();
+        }
         if (!file_exists($this->file_schema))
         {
             $this->_logError('schema file not found: '.$this->file_schema);
