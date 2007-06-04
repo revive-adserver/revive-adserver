@@ -5,9 +5,9 @@
 
   &connection;
   
-  <test name="Looking up new ad impressions" assert="resultset-values-equal">
+  <test name="Looking up new request impressions" assert="resultset-values-equal">
     <sql>
-      <stmt>SELECT COUNT(*) FROM oa_data_raw_ad_impression</stmt>
+      <stmt>SELECT COUNT(*) FROM oa_data_raw_ad_request</stmt>
     </sql>
     <result>
       <resultset id="1">

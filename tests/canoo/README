@@ -12,6 +12,8 @@
  {{{
  # ant test-canoo
  }}}
+ 6. It is possible to run all Canoo tests against a local copy of Openads. In order to run test against a local copy
+    a user.properties file needs to be changed and run.remote should be changed to false
  
  
 For full documentation on how to use and run canoo tests see wiki page:

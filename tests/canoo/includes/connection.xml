@@ -1,6 +1,7 @@
 <connection>
-  <driver>net.sourceforge.sqlunit.test.mock.SQLUnitMockDriver</driver>
-  <url>jdbc:mock:net.sourceforge.sqlunit.test.mock.SQLUnitMockDatabase</url>
-  <user />
-  <password />
+    <driver>${ant.sql.driver}</driver>
+    <url>${ant.sql.url}</url>
+    <user>${ant.sql.user}</user>
+    <password>${ant.sql.password}</password>
+    <jarfile-url>${ant.sql.jarfile}</jarfile-url>
 </connection>

@@ -16,4 +16,7 @@
   <transaction>
     DELETE FROM oa_data_raw_ad_request
   </transaction>
+  <transaction>
+    DELETE FROM oa_data_raw_ad_click
+  </transaction>
 </sql>

@@ -1,5 +1,5 @@
 <!DOCTYPE sqlunit SYSTEM "sqlunit.dtd" [
-  <!ENTITY connection SYSTEM "includes/connection.xml">
+  <!ENTITY connection SYSTEM "tests/canoo/includes/connection.xml">
 ]>
 <sqlunit>
 

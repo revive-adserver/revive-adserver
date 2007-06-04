@@ -11,6 +11,7 @@ host=localhost
 port=80
 protocol=http
 basepath=erasmus/www
+run.remote=true
 
 ;---------------------------------------------
 ; Access to existing testing database
