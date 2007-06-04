@@ -76,7 +76,7 @@ class OA_XmlRpc
      */
     function OA_XmlRpc($host, $path, $port = 0, $ssl = false, $timeout = 15)
     {
-        OA_XmlRpc::__construct($host, $path, $port, $ssl, $timeout);
+        $this->__construct($host, $path, $port, $ssl, $timeout);
     }
 
     /**
