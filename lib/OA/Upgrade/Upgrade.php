@@ -1080,12 +1080,12 @@ class OA_Upgrade
 
         if (in_array($this->aDsn['table']['prefix'].'config', $aExistingTables))
         {
-            $this->oLogger->logError('A phpAdsNew configuration table was found: '.$this->aDsn['table']['prefix'].'config. Please either choose a new Table Prefix, copy your config file to the Var folder and restart as an Upgrade, or clear your database of phpAdsNew data to create a new install.');
+            $this->oLogger->logError('Your database contains a phpAdsNew configuration table: '.$this->aDsn['table']['prefix'].'config. If you are wanting to upgrade this database, please copy your config.inc.php file into the var folder of this install. If you wish to proceed with a fresh installation, please either choose a new Table Prefix or a new Database.');
             return false;
         }
         if (in_array($this->aDsn['table']['prefix'].'preference', $aExistingTables))
         {
-            $this->oLogger->logError('A Max Media Manager configuration table was found: '.$this->aDsn['table']['prefix'].'preference. Please either choose a new Table Prefix, copy your config file to the Var folder and restart as an Upgrade, or clear your database of Max Media Manager data to create a new install.');
+            $this->oLogger->logError('Your database contains a Max Media Manager configuration table: '.$this->aDsn['table']['prefix'].'preference. If you are wanting to upgrade this database, please copy your domain.conf.ini file into the var folder of this install. If you wish to proceed with a fresh installation, please either choose a new Table Prefix or a new Database Name.');
             return false;
         }
         $tablePrefixError = false;
