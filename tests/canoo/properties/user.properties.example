@@ -16,7 +16,7 @@ basepath=erasmus/www
 ; Access to existing testing database
 ;---------------------------------------------
 sql.driver=com.mysql.jdbc.Driver
-sql.jarfile=file:lib/mysql-connector-java-3.1.13-bin.jar
+sql.jarfile=file:${basedir}/lib/mysql-connector-java-3.1.13-bin.jar
 sql.url=jdbc:mysql://localhost/test
 sql.user=username
 sql.password=password

@@ -6,7 +6,13 @@
   <import file="${basedir}/../../build-canoo.xml"/>
     
   <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
-
+  
+  <taskdef name="sshexec" classname="org.apache.tools.ant.taskdefs.optional.ssh.SSHExec">
+      <classpath>
+        <pathelement location="${basedir}/lib/ant-jsch.jar" />
+      </classpath>
+  </taskdef>  
+  
   <taskdef name="sqlunit" classname="net.sourceforge.sqlunit.ant.SqlunitTask">
       <classpath>
         <pathelement location="lib/sqlunit-5.0.jar" />
