@@ -24,8 +24,8 @@
 
    <field>
     <name>logical</name>
-    <type>set</type>
-    <length>'and','or'</length>
+    <type>text</type>
+    <length>3</length>
     <notnull>true</notnull>
     <default>and</default>
    </field>
