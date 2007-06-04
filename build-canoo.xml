@@ -22,14 +22,6 @@
   <property name="ec2.openads.config" value="${canoo.host}.conf.php"/>
   <property name="ec2.openads.database" value="openads"/>
   
-  <!--
-  <taskdef name="scp" classname="org.apache.tools.ant.taskdefs.optional.ssh.Scp">
-      <classpath>
-        <pathelement location="tests/canoo/lib/jsch-0.1.33.jar" />
-      </classpath>
-  </taskdef>
-  -->
-
   <macrodef name="canoo-ssh" description="Executes ssh command on the currently configured ec2 machine.">
     <attribute name="command" description="Command to be executed."/>
     <attribute name="username" default="admin"/>

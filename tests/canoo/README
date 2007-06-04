@@ -5,9 +5,12 @@
  1. Download Canoo (http://webtest.canoo.com/webtest/manual/Downloads.html) and extract it into /usr/local/canoo folder
  2. Follow installation instruction (http://webtest.canoo.com/webtest/manual/install.html)
  3. Copy "properties/user.properties.example" to "properties/user.properties" and modify database access passwords
- 4. Synopsis to run all tests:
+ 4. Copy "properties/ex2.properties.example" to "properties/ex2.properties" and mofidy user access passwords
+ 5. Copy "lib/ant-contrib-1.0b3.jar", "lib/ant-jsch.jar" and "lib/jsch-0.1.33.jar" into both "/usr/local/ant/lib" and "/usr/local/canoo/lib" folders
+    (assuming it is the location where you installed the ant and canoo)
+ 5. Synopsis to run all tests (from within main folder):
  {{{
- # webtest -buildfile start.xml
+ # ant test-canoo
  }}}
  
  
