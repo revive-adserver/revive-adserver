@@ -294,7 +294,7 @@ class OA_Sync
 
             $row = $res->fetchRow();
             if ($row['start_date']){
-                $iStartDate = $row['start_date'];
+                $iStartDate = strtotime($row['start_date']);
             }
             else {
                 return array();
