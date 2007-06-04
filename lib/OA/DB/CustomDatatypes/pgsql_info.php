@@ -51,6 +51,7 @@ $aDatatypes = array(
     'openads_int'        => 'openads_int',
     'openads_mediumint'  => 'openads_mediumint',
     'openads_mediumtext' => 'openads_mediumtext',
+    'openads_set'        => 'openads_set',
     'openads_smallint'   => 'openads_smallint',
     'openads_text'       => 'openads_text',
     'openads_timestamp'  => 'openads_timestamp',

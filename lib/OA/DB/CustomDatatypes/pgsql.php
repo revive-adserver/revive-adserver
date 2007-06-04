@@ -905,6 +905,62 @@ function datatype_openads_mediumtext_callback(&$db, $method, $aParameters)
 }
 
 /**
+ * A callback function to map the MDB2 datatype "openads_set" into
+ * the PostgreSQL nativetype "TEXT".
+ *
+ * @param MDB2   $db         The MDB2 database reource object.
+ * @param string $method     The name of the MDB2_Driver_Datatype_Common method
+ *                           the callback function was called from. One of
+ *                           "getValidTypes", "convertResult", "getDeclaration",
+ *                           "compareDefinition", "quote" and "mapPrepareDatatype".
+ *                           See {@link MDB2_Driver_Datatype_Common} for the
+ *                           details of what each method does.
+ * @param array $aParameters An array of parameters, being the parameters that
+ *                           were passed to the method calling the callback
+ *                           function.
+ * @return mixed Returns the appropriate value depending on the method that
+ *               called the function. See {@link MDB2_Driver_Datatype_Common}
+ *               for details of the expected return values of the five possible
+ *               calling methods.
+ */
+function datatype_openads_set_callback(&$db, $method, $aParameters)
+{
+    // Lowercase method names for PHP4/PHP5 compatibility
+    $method = strtolower($method);
+    switch($method) {
+        case 'getvalidtypes':
+            // Return the default value for this custom datatype
+            return '';
+        case 'convertresult':
+            // Convert the nativetype value to a datatype value using the
+            // built in "text" datatype
+            return $db->datatype->convertResult($aParameters['value'], 'text', $aParameters['rtrim']);
+        case 'getdeclaration':
+            // Prepare and return the PostgreSQL specific code needed to declare
+            // a column of this custom datatype
+            $name = $db->quoteIdentifier($aParameters['name'], true);
+            $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
+            $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
+            $value = $name . ' ' . $datatype;
+            $value .= $declaration_options;
+            return $value;
+        case 'comparedefinition':
+            /**
+             * @TODO Implement the change set array for this custom type!
+             */
+            return array();
+        case 'quote':
+            // Convert the datatype value into a quoted nativetype value
+            // suitable for inserting into PostgreSQL using the built in
+            // "text" datatype
+            return $db->datatype->quote($aParameters['value'], 'text');
+        case 'mappreparedatatype':
+            // Return the PostgreSQL nativetype declaration for this custom datatype
+            return 'TEXT';
+    }
+}
+
+/**
  * A callback function to map the MDB2 datatype "openads_smallint" into
  * the PostgreSQL nativetype "SMALLINT".
  *
