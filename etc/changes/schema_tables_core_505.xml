@@ -1189,30 +1189,6 @@
     <default></default>
    </field>
 
-   <field>
-    <name>block</name>
-    <type>openads_int</type>
-    <length>11</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>capping</name>
-    <type>openads_int</type>
-    <length>11</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>session_capping</name>
-    <type>openads_int</type>
-    <length>11</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
    <index>
     <name>campaigns_clientid</name>
     <field>
@@ -1912,22 +1888,6 @@
    </field>
 
    <field>
-    <name>tracker_channel_ids</name>
-    <type>openads_varchar</type>
-    <length>64</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>connection_channel_ids</name>
-    <type>openads_varchar</type>
-    <length>64</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
     <name>tracker_language</name>
     <type>openads_varchar</type>
     <length>13</length>
@@ -2380,14 +2340,6 @@
    </field>
 
    <field>
-    <name>channel_ids</name>
-    <type>openads_varchar</type>
-    <length>64</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
     <name>language</name>
     <type>openads_varchar</type>
     <length>32</length>
@@ -2675,14 +2627,6 @@
     <name>channel</name>
     <type>openads_varchar</type>
     <length>255</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>channel_ids</name>
-    <type>openads_varchar</type>
-    <length>64</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -2980,14 +2924,6 @@
    </field>
 
    <field>
-    <name>channel_ids</name>
-    <type>openads_varchar</type>
-    <length>64</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
     <name>language</name>
     <type>openads_varchar</type>
     <length>32</length>
@@ -3257,14 +3193,6 @@
     <name>channel</name>
     <type>openads_varchar</type>
     <length>255</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>channel_ids</name>
-    <type>openads_varchar</type>
-    <length>64</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -3540,14 +3468,6 @@
     <name>channel</name>
     <type>openads_varchar</type>
     <length>255</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>channel_ids</name>
-    <type>openads_varchar</type>
-    <length>64</length>
     <notnull>false</notnull>
     <default></default>
    </field>

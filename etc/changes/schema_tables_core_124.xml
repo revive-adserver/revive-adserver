@@ -1515,7 +1515,7 @@
    </field>
 
    <index>
-    <name>campaigns_clientid</name>
+    <name>clientid</name>
     <field>
      <name>clientid</name>
      <sorting>ascending</sorting>
@@ -1592,7 +1592,7 @@
    </field>
 
    <index>
-    <name>campaigns_trackers_campaignid</name>
+    <name>campaignid</name>
     <field>
      <name>campaignid</name>
      <sorting>ascending</sorting>
@@ -1600,7 +1600,7 @@
    </index>
 
    <index>
-    <name>campaigns_trackers_trackerid</name>
+    <name>trackerid</name>
     <field>
      <name>trackerid</name>
      <sorting>ascending</sorting>
@@ -5294,7 +5294,7 @@
    </field>
 
    <index>
-    <name>data_summary_zone_country_daily_day</name>
+    <name>day</name>
     <field>
      <name>day</name>
      <sorting>ascending</sorting>
@@ -5302,7 +5302,7 @@
    </index>
 
    <index>
-    <name>data_summary_zone_country_daily_zone_id</name>
+    <name>zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5372,7 +5372,7 @@
    </field>
 
    <index>
-    <name>data_summary_zone_country_forecast_day_of_week</name>
+    <name>day_of_week</name>
     <field>
      <name>day_of_week</name>
      <sorting>ascending</sorting>
@@ -5380,7 +5380,7 @@
    </index>
 
    <index>
-    <name>data_summary_zone_country_forecast_zone_id</name>
+    <name>zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5459,7 +5459,7 @@
    </field>
 
    <index>
-    <name>data_summary_zone_country_monthly_yearmonth</name>
+    <name>yearmonth</name>
     <field>
      <name>yearmonth</name>
      <sorting>ascending</sorting>
@@ -5467,7 +5467,7 @@
    </index>
 
    <index>
-    <name>data_summary_zone_country_monthly_zone_id</name>
+    <name>zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5553,7 +5553,7 @@
    </field>
 
    <index>
-    <name>data_summary_zone_domain_page_daily_day</name>
+    <name>day</name>
     <field>
      <name>day</name>
      <sorting>ascending</sorting>
@@ -5561,7 +5561,7 @@
    </index>
 
    <index>
-    <name>data_summary_zone_domain_page_daily_zone_id</name>
+    <name>zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5639,7 +5639,7 @@
    </field>
 
    <index>
-    <name>data_summary_zone_domain_page_forecast_day_of_week</name>
+    <name>day_of_week</name>
     <field>
      <name>day_of_week</name>
      <sorting>ascending</sorting>
@@ -5647,7 +5647,7 @@
    </index>
 
    <index>
-    <name>data_summary_zone_domain_page_forecast_zone_id</name>
+    <name>zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5734,7 +5734,7 @@
    </field>
 
    <index>
-    <name>data_summary_zone_domain_page_monthly_yearmonth</name>
+    <name>yearmonth</name>
     <field>
      <name>yearmonth</name>
      <sorting>ascending</sorting>
@@ -5742,7 +5742,7 @@
    </index>
 
    <index>
-    <name>data_summary_zone_domain_page_monthly_zone_id</name>
+    <name>zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -5931,7 +5931,7 @@
    </field>
 
    <index>
-    <name>data_summary_zone_site_keyword_daily_day</name>
+    <name>day</name>
     <field>
      <name>day</name>
      <sorting>ascending</sorting>
@@ -5939,7 +5939,7 @@
    </index>
 
    <index>
-    <name>data_summary_zone_site_keyword_daily_zone_id</name>
+    <name>zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -6017,7 +6017,7 @@
    </field>
 
    <index>
-    <name>data_summary_zone_site_keyword_forecast_day_of_week</name>
+    <name>day_of_week</name>
     <field>
      <name>day_of_week</name>
      <sorting>ascending</sorting>
@@ -6025,7 +6025,7 @@
    </index>
 
    <index>
-    <name>data_summary_zone_site_keyword_forecast_zone_id</name>
+    <name>zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -6112,7 +6112,7 @@
    </field>
 
    <index>
-    <name>data_summary_zone_site_keyword_monthly_yearmonth</name>
+    <name>yearmonth</name>
     <field>
      <name>yearmonth</name>
      <sorting>ascending</sorting>
@@ -6120,7 +6120,7 @@
    </index>
 
    <index>
-    <name>data_summary_zone_site_keyword_monthly_zone_id</name>
+    <name>zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -6198,7 +6198,7 @@
    </field>
 
    <index>
-    <name>data_summary_zone_source_daily_day</name>
+    <name>day</name>
     <field>
      <name>day</name>
      <sorting>ascending</sorting>
@@ -6206,7 +6206,7 @@
    </index>
 
    <index>
-    <name>data_summary_zone_source_daily_zone_id</name>
+    <name>zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -6276,7 +6276,7 @@
    </field>
 
    <index>
-    <name>data_summary_zone_source_forecast_day_of_week</name>
+    <name>day_of_week</name>
     <field>
      <name>day_of_week</name>
      <sorting>ascending</sorting>
@@ -6284,7 +6284,7 @@
    </index>
 
    <index>
-    <name>data_summary_zone_source_forecast_zone_id</name>
+    <name>zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -6363,7 +6363,7 @@
    </field>
 
    <index>
-    <name>data_summary_zone_source_monthly_yearmonth</name>
+    <name>yearmonth</name>
     <field>
      <name>yearmonth</name>
      <sorting>ascending</sorting>
@@ -6371,7 +6371,7 @@
    </index>
 
    <index>
-    <name>data_summary_zone_source_monthly_zone_id</name>
+    <name>zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -6764,7 +6764,7 @@
    </field>
 
    <index>
-    <name>placement_zone_assoc_zone_id</name>
+    <name>zone_id</name>
     <field>
      <name>zone_id</name>
      <sorting>ascending</sorting>
@@ -8279,7 +8279,7 @@
    </field>
 
    <index>
-    <name>trackers_clientid</name>
+    <name>clientid</name>
     <field>
      <name>clientid</name>
      <sorting>ascending</sorting>
@@ -8533,7 +8533,7 @@
    </index>
 
    <index>
-    <name>variables_trackerid</name>
+    <name>trackerid</name>
     <field>
      <name>trackerid</name>
      <sorting>ascending</sorting>
