@@ -130,7 +130,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(isset($aDestructive['change']),'change tables not found');
         $this->assertTrue(isset($aDestructive['change']['preference']),'preference table not found in change array');
         $this->assertTrue(isset($aDestructive['change']['preference']['remove']['user_custom_field1']),'preference field changes not found in change array');
-        if (file_exists(MAX_PATH.'/var/changes_tables_core'))
+        if (file_exists(MAX_PATH.'/var/changes_tables_core2'))
         {
             unlink(MAX_PATH.'/var/changes_tables_core2');
         }
