@@ -998,6 +998,10 @@ function datatype_openads_timestamp_callback(&$db, $method, $aParameters)
             }
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
+            // CURRENT_TIMESTAMP is no good - just set it to NULL, and MySQL does the rest
+            if (isset($aParameters['field']['default']) && ($aParameters['field']['default'] == 'CURRENT_TIMESTAMP')) {
+                unset($aParameters['field']['default']);
+            }
             if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
