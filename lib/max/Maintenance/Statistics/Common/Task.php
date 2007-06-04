@@ -58,6 +58,13 @@ class MAX_Maintenance_Statistics_Common_Task extends OA_Task
     var $oController;
 
     /**
+     * A variable to store report information about MSE runs.
+     *
+     * @var string
+     */
+    var $report;
+
+    /**
      * The abstract class constructor, to be used by classes implementing
      * this class.
      */
