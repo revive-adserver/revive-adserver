@@ -164,7 +164,7 @@
     <ant antfile="tests.xml"/>
   </target>
 
-  <target name="test-canoo" depends="test-canoo-prepare, run-test-canoo" description="Build and uploads package to testing machine and run canoo tests against it"/>
+  <target name="test-canoo" depends="test-canoo-prepare, run-test-canoo, clean-ec2" description="Build and uploads package to testing machine and run canoo tests against it"/>
 
   <target name="test-canoo-prepare" depends="clean, svn-update, checkconsistency, package-bzip2-canoo, revert-after-packaging, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openads-configuration"/>
 

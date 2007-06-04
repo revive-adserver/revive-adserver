@@ -123,5 +123,10 @@
       <arg line="-f ${basedir}/tests/canoo/start.xml -Dcanoo.host=${canoo.host} delivery -Dec2.admin.password=${ec2.admin.password} -Dbasepath=${release}/www -Dec2.openads.dir=${ec2.openads.dir}"/>
     </exec>
   </target>
+
+  <target name="clean-ec2" description="Cleans the ec2 from all the files left.">
+    <canoo-ssh command="rm ${canoo.package}"/>
+    <canoo-ssh-root command="rm -rf ${ec2.openads.dir}"/>
+  </target>
 </project>
 
