@@ -231,11 +231,13 @@ class Test_DB_Upgrade extends UnitTestCase
                 $this->assertTrue(array_key_exists($field, $aTbl_def_rest['indexes'][$index]['fields']), 'index field missing from restored table');
             }
         }
-        $oTable = new OA_DB_Table();
+      $this->assertFalse($this->_tableExists($oDB_Upgrade->aRestoreTables['table1']['bak'],$oDB_Upgrade->aDBTables), 'test table was not restored');
+//        $oTable = new OA_DB_Table();
+        // backup tables should now have been removed
         // drop the backup tables
-        OA_DB::setQuoteIdentifier();
-        $this->assertTrue($oTable->dropTable($this->prefix.$oDB_Upgrade->aRestoreTables['table1']['bak']),'error dropping test backup for table1');
-        OA_DB::disabledQuoteIdentifier();
+//        OA_DB::setQuoteIdentifier();
+//        $this->assertTrue($oTable->dropTable($this->prefix.$oDB_Upgrade->aRestoreTables['table1']['bak']),'error dropping test backup for table1');
+//        OA_DB::disabledQuoteIdentifier();
     }
 
     /**
@@ -280,11 +282,13 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertTrue($this->_tableExists('table1',$oDB_Upgrade->aDBTables), 'table1 was not restored');
 
-        $oTable = new OA_DB_Table();
+      $this->assertFalse($this->_tableExists($oDB_Upgrade->aRestoreTables['table1']['bak'],$oDB_Upgrade->aDBTables), 'test table was not restored');
+//        $oTable = new OA_DB_Table();
+        // backup tables should now have been removed
         // drop the backup tables
-        OA_DB::setQuoteIdentifier();
-        $this->assertTrue($oTable->dropTable($this->prefix.$oDB_Upgrade->aRestoreTables['table1']['bak']),'error dropping test backup for table1');
-        OA_DB::disabledQuoteIdentifier();
+//        OA_DB::setQuoteIdentifier();
+//        $this->assertTrue($oTable->dropTable($this->prefix.$oDB_Upgrade->aRestoreTables['table1']['bak']),'error dropping test backup for table1');
+//        OA_DB::disabledQuoteIdentifier();
 
     }
 
@@ -343,11 +347,13 @@ class Test_DB_Upgrade extends UnitTestCase
         $aDiffs       = $oDB_Upgrade->oSchema->compareDefinitions($aTbl_def_orig, $aTbl_def_rest);
         $this->assertEqual(count($aDiffs)==0,'differences found in restored table');
 
-        $oTable = new OA_DB_Table();
+      $this->assertFalse($this->_tableExists($oDB_Upgrade->aRestoreTables['table1_autoinc']['bak'],$oDB_Upgrade->aDBTables), 'test table was not restored');
+//        $oTable = new OA_DB_Table();
+        // backup tables should now have been removed
         // drop the backup tables
-        OA_DB::setQuoteIdentifier();
-        $this->assertTrue($oTable->dropTable($this->prefix.$oDB_Upgrade->aRestoreTables['table1_autoinc']['bak']),'error dropping test backup for table1_autoinc');
-        OA_DB::disabledQuoteIdentifier();
+//        OA_DB::setQuoteIdentifier();
+//        $this->assertTrue($oTable->dropTable($this->prefix.$oDB_Upgrade->aRestoreTables['table1_autoinc']['bak']),'error dropping test backup for table1_autoinc');
+//        OA_DB::disabledQuoteIdentifier();
 
     }
 
