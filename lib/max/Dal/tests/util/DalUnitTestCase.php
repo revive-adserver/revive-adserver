@@ -25,7 +25,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
-require_once MAX_PATH . '/tests/testClasses/SharedFixture.php';
 
 /**
  * A common DataObjects unit class for testing DataObjects
@@ -33,7 +32,7 @@ require_once MAX_PATH . '/tests/testClasses/SharedFixture.php';
  * @package    MaxDal
  * @subpackage TestSuite
  */
-class DalUnitTestCase extends SharedFixtureTestCase 
+class DalUnitTestCase extends UnitTestCase
 {
     /**
      * Should we compare DataObjects with or without "updated" fields? Default true means
@@ -42,21 +41,7 @@ class DalUnitTestCase extends SharedFixtureTestCase
      * @var boolean
      */
     var $stripUpdated = true;
-    
-    /**
-     * Set up the shared fixture once, before running any test in the test case.
-     */
-    function setUpFixture() {}
-    
-    /**
-     * Tear down the shared fixture once, after all the tests have been run.
-     */
-    function tearDownFixture()
-    {
-        // restore environment after all tests
-        // TestEnv::restoreEnv();
-    }
-    
+
     /**
      *    Will trigger a pass if the two DataObjects have
      *    the same value only (except private fields). Otherwise a fail.
@@ -74,7 +59,7 @@ class DalUnitTestCase extends SharedFixtureTestCase
                     $this->stripUpdated($this->stripPrivateFields($second)),
                     $message);
     }
-    
+
     /**
      *    Will trigger a pass if the two DataObjects have
      *    a different value (after removing private fields from them). Otherwise a fail.
@@ -92,7 +77,7 @@ class DalUnitTestCase extends SharedFixtureTestCase
                     $this->stripUpdated($this->stripPrivateFields($second)),
                     $message);
     }
-    
+
     /**
      *    Will be true if the value is empty.
      *    @param null $value       Supposedly null value.
@@ -107,7 +92,7 @@ class DalUnitTestCase extends SharedFixtureTestCase
                 "[" . $dumper->describeValue($value) . "] should be empty");
         return $this->assertTrue(empty($value), $message);
     }
-    
+
     /**
      *    Will be true if the value is not empty.
      *    @param mixed $value           Supposedly set value.
@@ -122,7 +107,7 @@ class DalUnitTestCase extends SharedFixtureTestCase
                 "[" . $dumper->describeValue($value) . "] should not be null");
         return $this->assertTrue(!empty($value), $message);
     }
-    
+
     /**
      *   Unset (before comparison) any non transent private fields in DataObject
      *   By private fields we mean all fields starting with "_"
@@ -142,7 +127,7 @@ class DalUnitTestCase extends SharedFixtureTestCase
         }
         return $do;
     }
-    
+
     /**
      *   Unset (before comparison) any Primary Keys which DataObject could have
      *
@@ -160,7 +145,7 @@ class DalUnitTestCase extends SharedFixtureTestCase
         }
         return $do;
     }
-    
+
     function stripUpdated($do)
     {
         if ($this->stripUpdated && $do->refreshUpdatedFieldIfExists) {
@@ -168,8 +153,8 @@ class DalUnitTestCase extends SharedFixtureTestCase
         }
         return $do;
     }
-    
-    
+
+
     function getPrefix()
     {
         return OA_Dal::getTablePrefix();
