@@ -54,7 +54,6 @@
     <ant antfile="usecases/delivery/lg.xml" />
   </target>
   
-  <!-- depends="clean, init-delivery-db" -->
   <target name="test-one">
     <ant antfile="usecases/delivery/${uc}.xml" />
   </target>
