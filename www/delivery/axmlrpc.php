@@ -1892,18 +1892,22 @@ $aVariables = OA_Delivery_Cache_store_return($sName, $aVariables);
 }
 return $aVariables;
 }
-function MAX_cacheGetMaintenanceInfo($cached = true)
+function MAX_cacheCheckIfMaintenanceShouldRun($cached = true)
 {
 $cName  = OA_Delivery_Cache_getName(__FUNCTION__);
-if (!$cached || ($output = OA_Delivery_Cache_fetch($cName, false, 3600)) === false) {
+if (!$cached || ($lastRunTime = OA_Delivery_Cache_fetch($cName, false, 3600)) === false) {
 MAX_Dal_Delivery_Include();
-$output = OA_Dal_Delivery_getMaintenanceInfo();
+$lastRunTime = OA_Dal_Delivery_getMaintenanceInfo();
 $now = MAX_commonGetTimeNow();
 $interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
-$expireAt = $now + $interval + 1;
-$output = OA_Delivery_Cache_store_return($cName, $output, false, $expireAt);
+$thisIntervalStartTime = $now - ($now % $interval);
+if ($lastRunTime < $thisIntervalStartTime) {
+return true;
 }
-return $output;
+$expireAt = $thisIntervalStartTime + $interval + 1;
+OA_Delivery_Cache_store($cName, $lastRunTime, false, $expireAt);
+}
+return false;
 }
 function MAX_cacheGetChannelLimitations($channelid, $cached = true)
 {
