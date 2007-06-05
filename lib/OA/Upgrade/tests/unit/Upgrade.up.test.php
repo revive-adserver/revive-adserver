@@ -261,6 +261,7 @@ class Test_OA_Upgrade extends UnitTestCase
     function test_seekRecoveryFile()
     {
         $oUpgrade  = new OA_Upgrade();
+        $this->test_writeRecoveryFile();
         $aResult = $oUpgrade->seekRecoveryFile();
         $this->assertIsA($aResult,'array','failed to find recovery file');
 
@@ -323,6 +324,16 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oDBUpgrader->setReturnValue('init', true);
         $oUpgrade->oDBUpgrader->expectCallCount('init',2);
 
+
+        Mock::generatePartial(
+            'OA_DB_UpgradeAuditor',
+            $mockAuditor = 'OA_DB_UpgradeAuditor'.rand(),
+            array('logDatabaseAction')
+        );
+
+        $oUpgrade->oDBAuditor = new $mockAuditor($this);
+        $oUpgrade->oDBAuditor->setReturnValue('logDatabaseAction', true);
+
         $oUpgrade->aDBPackages = array(0=>array('version'=>'2','schema'=>'test_tables','files'=>''));
 
         $this->assertTrue($oUpgrade->upgradeSchemas(),'schema upgrade method failed');
@@ -369,6 +380,15 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oDBUpgrader->setReturnValue('rollback', true);
         $oUpgrade->oDBUpgrader->expectCallCount('rollback', 2);
 
+        Mock::generatePartial(
+            'OA_DB_UpgradeAuditor',
+            $mockAuditor = 'OA_DB_UpgradeAuditor'.rand(),
+            array('logDatabaseAction')
+        );
+
+        $oUpgrade->oDBAuditor = new $mockAuditor($this);
+        $oUpgrade->oDBAuditor->setReturnValue('logDatabaseAction', true);
+
         $oUpgrade->aDBPackages = array(0=>array('version'=>'2','schema'=>'test_tables','files'=>''));
 
         $this->assertFalse($oUpgrade->upgradeSchemas(),'schema upgrade method failed (testing failure.  it was supposed to fail and it didn\'t)');
@@ -413,6 +433,15 @@ class Test_OA_Upgrade extends UnitTestCase
 
         $oUpgrade->versionInitialSchema = array('test_tables'=>'1');
         $oUpgrade->aDBPackages = array(0=>array('version'=>'2','schema'=>'test_tables','files'=>''));
+
+        Mock::generatePartial(
+            'OA_DB_UpgradeAuditor',
+            $mockAuditor = 'OA_DB_UpgradeAuditor'.rand(),
+            array('logDatabaseAction')
+        );
+
+        $oUpgrade->oDBAuditor = new $mockAuditor($this);
+        $oUpgrade->oDBAuditor->setReturnValue('logDatabaseAction', true);
 
         $this->assertTrue($oUpgrade->rollbackSchemas(),'schema rollback method failed');
 
