@@ -443,21 +443,28 @@ function MAX_cacheGetTrackerVariables($trackerid, $cached = true)
  * @param boolean $cached   Should a cache lookup be performed?
  * @return array            The array of tracker properties
  */
-function MAX_cacheGetMaintenanceInfo($cached = true)
+function MAX_cacheCheckIfMaintenanceShouldRun($cached = true)
 {
     $cName  = OA_Delivery_Cache_getName(__FUNCTION__);
     // maximum cache expire time = 3600 seconds
-    if (!$cached || ($output = OA_Delivery_Cache_fetch($cName, false, 3600)) === false) {
+    if (!$cached || ($lastRunTime = OA_Delivery_Cache_fetch($cName, false, 3600)) === false) {
         MAX_Dal_Delivery_Include();
-        $output = OA_Dal_Delivery_getMaintenanceInfo();
-        // calculate exact expire time
+        $lastRunTime = OA_Dal_Delivery_getMaintenanceInfo();
+
         $now = MAX_commonGetTimeNow();
         $interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
-        $expireAt = $now + $interval + 1;
-        $output = OA_Delivery_Cache_store_return($cName, $output, false, $expireAt);
+        $thisIntervalStartTime = $now - ($now % $interval);
+            
+        // if maintenance should be executed now there is no point in storing last run info in cache
+        if ($lastRunTime < $thisIntervalStartTime) {
+            return true;
+        }
+    
+        $expireAt = $thisIntervalStartTime + $interval + 1;
+        OA_Delivery_Cache_store($cName, $lastRunTime, false, $expireAt);
     }
-
-    return $output;
+    
+    return false;
 }
 
 /**
