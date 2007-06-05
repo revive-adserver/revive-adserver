@@ -289,6 +289,13 @@ if ($GLOBALS['_MAX']['CONF']['p3p']['policies']) {
 MAX_header("P3P: ". _generateP3PHeader());
 }
 }
+function MAX_Delivery_cookie_cappingOnRequest()
+{
+if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xml-rpc') {
+return true;
+}
+return !$GLOBALS['_MAX']['CONF']['logging']['adImpressions'];
+}
 function MAX_Delivery_cookie_setCapping($type, $id, $block = 0, $cap = 0, $sessionCap = 0)
 {
 $conf = $GLOBALS['_MAX']['CONF'];

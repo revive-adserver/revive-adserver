@@ -289,6 +289,13 @@ if ($GLOBALS['_MAX']['CONF']['p3p']['policies']) {
 MAX_header("P3P: ". _generateP3PHeader());
 }
 }
+function MAX_Delivery_cookie_cappingOnRequest()
+{
+if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xml-rpc') {
+return true;
+}
+return !$GLOBALS['_MAX']['CONF']['logging']['adImpressions'];
+}
 function MAX_Delivery_cookie_setCapping($type, $id, $block = 0, $cap = 0, $sessionCap = 0)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
@@ -2019,7 +2026,7 @@ $output = array('html'       => $outputbuffer,
 );
 $output['context'] = (!empty($row['zone_companion']) && (is_array($row['zone_companion']))) ? _adSelectBuildCompanionContext($row, $context) : array();
 // If ad-logging is disabled, the log beacon won't be sent, so set the capping at request
-if (!$conf['logging']['adImpressions']) {
+if (MAX_Delivery_cookie_cappingOnRequest()) {
 if ($row['block_ad'] > 0 || $row['cap_ad'] > 0 || $row['session_cap_ad'] > 0) {
 MAX_Delivery_cookie_setCapping('Ad', $row['bannerid'], $row['block_ad'], $row['cap_ad'], $row['session_cap_ad']);
 }
@@ -2353,6 +2360,7 @@ return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 }
 require_once 'XML/RPC/Server.php';
+$GLOBALS['_OA']['invocationType'] = 'xml-rpc';
 if (empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
 $GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
 }
