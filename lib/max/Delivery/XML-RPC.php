@@ -40,6 +40,11 @@ require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 
 require_once 'XML/RPC/Server.php';
 
+// Set a global variable to let the other functions know
+// they are serving an XML-RPC request. Needed for capping
+// on request
+$GLOBALS['_OA']['invocationType'] = 'xml-rpc';
+
 // Workaround for PHP bug #41293 (PHP-5.2.2)
 if (empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
     $GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');

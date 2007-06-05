@@ -288,6 +288,20 @@ function MAX_cookieSendP3PHeaders() {
 }
 
 /**
+ * A function to check when capping cookies need to be set.
+ *
+ * @return boolean True if cookies need to be set on request
+ */
+function MAX_Delivery_cookie_cappingOnRequest()
+{
+    if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xml-rpc') {
+        return true;
+    }
+
+    return !$GLOBALS['_MAX']['CONF']['logging']['adImpressions'];
+}
+
+/**
  * A function to set any capping cookies (ie. block, cap or sessionCap) that are required
  * for an ad, a campaign or a zone.
  *

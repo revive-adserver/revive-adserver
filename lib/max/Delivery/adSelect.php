@@ -237,7 +237,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
                     );
          $output['context'] = (!empty($row['zone_companion']) && (is_array($row['zone_companion']))) ? _adSelectBuildCompanionContext($row, $context) : array();
          // If ad-logging is disabled, the log beacon won't be sent, so set the capping at request
-         if (!$conf['logging']['adImpressions']) {
+         if (MAX_Delivery_cookie_cappingOnRequest()) {
              if ($row['block_ad'] > 0 || $row['cap_ad'] > 0 || $row['session_cap_ad'] > 0) {
                  MAX_Delivery_cookie_setCapping('Ad', $row['bannerid'], $row['block_ad'], $row['cap_ad'], $row['session_cap_ad']);
              }

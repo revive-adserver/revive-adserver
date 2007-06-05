@@ -149,7 +149,7 @@ class OA_XmlRpc
         ));
 
         // Create an XML-RPC client to talk to the XML-RPC server
-        $client = new XML_RPC_Client($this->path, $this->host, $port);
+        $client = new XML_RPC_Client($this->path, $this->host, $this->port);
 
         // Send the XML-RPC message to the server
         $response = $client->send($message, $this->timeout, $this->ssl ? 'https' : 'http');
