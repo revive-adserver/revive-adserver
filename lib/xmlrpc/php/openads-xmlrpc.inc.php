@@ -159,8 +159,8 @@ class OA_XmlRpc
             $response = XML_RPC_decode($response->value());
 
             if (isset($response['cookies']) && is_array($response['cookies'])) {
-                foreach ($response['cookies'] as $cookie) {
-                    setcookie($cookie[0], $cookie[1], $cookies[2]);
+                foreach ($response['cookies'] as $cookieName => $cookieValue) {
+                    setcookie($cookieName, $cookieValue[0], $cookieValue[1]);
                 }
             }
 
