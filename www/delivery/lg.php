@@ -1372,7 +1372,7 @@ MAX_header("Location: {$_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']]}");
 MAX_commonDisplay1x1();
 }
 if (!empty($GLOBALS['_MAX']['CONF']['maintenance']['autoMaintenance']) && empty($GLOBALS['_MAX']['CONF']['lb']['enabled'])) {
-if (time() >= MAX_cacheGetMaintenanceInfo() + $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60) {
+if (MAX_cacheCheckIfMaintenanceShouldRun()) {
 include MAX_PATH . '/lib/OA/Maintenance/Auto.php';
 OA_Maintenance_Auto::run();
 }
