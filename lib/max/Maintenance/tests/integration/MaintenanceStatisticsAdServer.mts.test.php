@@ -84,6 +84,8 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
         $oTable->createTable('data_summary_ad_hourly');
         $oTable->createTable('data_summary_zone_impression_history');
         $oTable->createTable('log_maintenance_statistics');
+        $oTable->createTable('preference');
+        $oTable->createTable('preference_advertiser');
         $oTable->createTable('trackers');
         $oTable->createTable('userlog');
         $oTable->createTable('variables');
