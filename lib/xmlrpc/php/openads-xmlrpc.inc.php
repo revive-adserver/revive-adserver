@@ -47,6 +47,7 @@ class OA_XmlRpc
 {
     var $host;
     var $path;
+    var $port;
     var $ssl;
     var $timeout;
 
@@ -65,6 +66,7 @@ class OA_XmlRpc
     {
         $this->host = $host;
         $this->path = $path;
+        $this->port = $port;
         $this->ssl  = $ssl;
         $this->timeout = $timeout;
     }
