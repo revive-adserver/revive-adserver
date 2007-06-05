@@ -62,7 +62,10 @@ class Maintenance_TestOfMAX_Plugin_DeliveryLimitations_MatchOverlap extends Unit
             'MockPartialMAX_Plugin_DeliveryLimitations_MatchOverlap_OverlapAndGroup',
             array('_getDal', '_getPlugin')
         );
-        Mock::generate('Plugins_DeliveryLimitations_Time_Hour');
+        Mock::generate(
+            'Plugins_DeliveryLimitations_Time_Hour',
+            'MockPlugins_DeliveryLimitations_Time_Hour_for_MToMPDLMO'
+        );
     }
 
     /**
@@ -1237,7 +1240,7 @@ class Maintenance_TestOfMAX_Plugin_DeliveryLimitations_MatchOverlap extends Unit
                 'data'           => 15
             )
         );
-        $oDeliveryLimitationPlugin1 = new MockPlugins_DeliveryLimitations_Time_Hour($this);
+        $oDeliveryLimitationPlugin1 = new MockPlugins_DeliveryLimitations_Time_Hour_for_MToMPDLMO($this);
         $oDeliveryLimitationPlugin1->setReturnValueAt(0, 'overlap', false);
         $oDeliveryLimitationPlugin1->expectArgumentsAt(0, 'overlap', array($aLimitations[0], $aChannelLimitations[0]));
         $oMaxPluginDeliveryLimitationsMatchOverlap->setReturnValueAt(0, '_getPlugin', $oDeliveryLimitationPlugin1);
@@ -1265,7 +1268,7 @@ class Maintenance_TestOfMAX_Plugin_DeliveryLimitations_MatchOverlap extends Unit
                 'data'           => 14
             )
         );
-        $oDeliveryLimitationPlugin1 = new MockPlugins_DeliveryLimitations_Time_Hour($this);
+        $oDeliveryLimitationPlugin1 = new MockPlugins_DeliveryLimitations_Time_Hour_for_MToMPDLMO($this);
         $oDeliveryLimitationPlugin1->setReturnValueAt(0, 'overlap', true);
         $oDeliveryLimitationPlugin1->expectArgumentsAt(0, 'overlap', array($aLimitations[0], $aChannelLimitations[0]));
         $oMaxPluginDeliveryLimitationsMatchOverlap->setReturnValueAt(0, '_getPlugin', $oDeliveryLimitationPlugin1);
@@ -1305,16 +1308,16 @@ class Maintenance_TestOfMAX_Plugin_DeliveryLimitations_MatchOverlap extends Unit
                 'data'           => 17
             )
         );
-        $oDeliveryLimitationPlugin1 = new MockPlugins_DeliveryLimitations_Time_Hour($this);
+        $oDeliveryLimitationPlugin1 = new MockPlugins_DeliveryLimitations_Time_Hour_for_MToMPDLMO($this);
         $oDeliveryLimitationPlugin1->setReturnValueAt(0, 'overlap', false);
         $oDeliveryLimitationPlugin1->expectArgumentsAt(0, 'overlap', array($aLimitations[0], $aChannelLimitations[0]));
-        $oDeliveryLimitationPlugin2 = new MockPlugins_DeliveryLimitations_Time_Hour($this);
+        $oDeliveryLimitationPlugin2 = new MockPlugins_DeliveryLimitations_Time_Hour_for_MToMPDLMO($this);
         $oDeliveryLimitationPlugin2->setReturnValueAt(0, 'overlap', false);
         $oDeliveryLimitationPlugin2->expectArgumentsAt(0, 'overlap', array($aLimitations[0], $aChannelLimitations[1]));
-        $oDeliveryLimitationPlugin3 = new MockPlugins_DeliveryLimitations_Time_Hour($this);
+        $oDeliveryLimitationPlugin3 = new MockPlugins_DeliveryLimitations_Time_Hour_for_MToMPDLMO($this);
         $oDeliveryLimitationPlugin3->setReturnValueAt(0, 'overlap', false);
         $oDeliveryLimitationPlugin3->expectArgumentsAt(0, 'overlap', array($aLimitations[1], $aChannelLimitations[0]));
-        $oDeliveryLimitationPlugin4 = new MockPlugins_DeliveryLimitations_Time_Hour($this);
+        $oDeliveryLimitationPlugin4 = new MockPlugins_DeliveryLimitations_Time_Hour_for_MToMPDLMO($this);
         $oDeliveryLimitationPlugin4->setReturnValueAt(0, 'overlap', false);
         $oDeliveryLimitationPlugin4->expectArgumentsAt(0, 'overlap', array($aLimitations[1], $aChannelLimitations[1]));
         $oMaxPluginDeliveryLimitationsMatchOverlap->setReturnValueAt(0, '_getPlugin', $oDeliveryLimitationPlugin1);
@@ -1360,10 +1363,10 @@ class Maintenance_TestOfMAX_Plugin_DeliveryLimitations_MatchOverlap extends Unit
                 'data'           => 14
             )
         );
-        $oDeliveryLimitationPlugin1 = new MockPlugins_DeliveryLimitations_Time_Hour($this);
+        $oDeliveryLimitationPlugin1 = new MockPlugins_DeliveryLimitations_Time_Hour_for_MToMPDLMO($this);
         $oDeliveryLimitationPlugin1->setReturnValueAt(0, 'overlap', false);
         $oDeliveryLimitationPlugin1->expectArgumentsAt(0, 'overlap', array($aLimitations[0], $aChannelLimitations[0]));
-        $oDeliveryLimitationPlugin2 = new MockPlugins_DeliveryLimitations_Time_Hour($this);
+        $oDeliveryLimitationPlugin2 = new MockPlugins_DeliveryLimitations_Time_Hour_for_MToMPDLMO($this);
         $oDeliveryLimitationPlugin2->setReturnValueAt(0, 'overlap', true);
         $oDeliveryLimitationPlugin2->expectArgumentsAt(0, 'overlap', array($aLimitations[0], $aChannelLimitations[1]));
         $oMaxPluginDeliveryLimitationsMatchOverlap->setReturnValueAt(0, '_getPlugin', $oDeliveryLimitationPlugin1);
