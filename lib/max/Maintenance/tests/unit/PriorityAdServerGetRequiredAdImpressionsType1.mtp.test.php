@@ -889,6 +889,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         for ($i = 0; $i < (MINUTES_PER_WEEK / 60); $i++) {
             $this->assertEqual($result[$i], 0);
         }
+        $oGetRequiredAdImpressionsType1->oDal->tally();
 
         // Test 3
         $oGetRequiredAdImpressionsType1 = &$this->_getCurrentTask();
@@ -936,6 +937,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
                 $this->assertEqual($result[$i], 0);
             }
         }
+        $oGetRequiredAdImpressionsType1->oDal->tally();
 
         // Test 4
         $oGetRequiredAdImpressionsType1 = &$this->_getCurrentTask();
@@ -1032,6 +1034,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
                 $this->assertEqual($result[$i], 0);
             }
         }
+        $oGetRequiredAdImpressionsType1->oDal->tally();
 
         // Test 5
         $oGetRequiredAdImpressionsType1->oDal->expectOnce(
@@ -1127,6 +1130,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
                 $this->assertEqual($result[$i], 0);
             }
         }
+        $oGetRequiredAdImpressionsType1->oDal->tally();
         TestEnv::restoreConfig();
     }
 
