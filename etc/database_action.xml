@@ -65,7 +65,7 @@
    <field>
     <name>tablename</name>
     <type>openads_varchar</type>
-    <length>32</length>
+    <length>64</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -73,7 +73,7 @@
    <field>
     <name>tablename_backup</name>
     <type>openads_varchar</type>
-    <length>32</length>
+    <length>64</length>
     <notnull>false</notnull>
     <default></default>
    </field>
