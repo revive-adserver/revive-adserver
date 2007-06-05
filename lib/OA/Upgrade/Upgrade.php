@@ -1235,6 +1235,11 @@ class OA_Upgrade
                 krsort($this->aDBPackages);
                 foreach ($this->aDBPackages as $k=>$aPkg)
                 {
+                    $this->oDBUpgrader->oAuditor->logDatabaseAction(array('info1'=>'UPGRADE FAILED',
+                                                                                 'info2'=>'ROLLING BACK',
+                                                                                 'action'=>DB_UPGRADE_ACTION_UPGRADE_FAILED,
+                                                                                )
+                                                                          );
                     if (!$this->oDBUpgrader->init('destructive', $aPkg['schema'], $aPkg['version']))
                     {
                         return false;
@@ -1245,6 +1250,7 @@ class OA_Upgrade
                     }
                     if (!$this->oDBUpgrader->rollback())
                     {
+                        $this->_logError('ROLLBACK FAILED');
                         return false;
                     }
                     if (!$this->oDBUpgrader->init('constructive', $aPkg['schema'], $aPkg['version'], true))
@@ -1257,8 +1263,10 @@ class OA_Upgrade
                     }
                     if (!$this->oDBUpgrader->rollback())
                     {
+                        $this->_logError('ROLLBACK FAILED');
                         return false;
                     }
+                    $this->_logError('ROLLBACK SUCCEEDED');
                     $this->oVersioner->putSchemaVersion($aPkg['schema'], $aPkg['version']);
                 }
                 $this->oVersioner->putSchemaVersion($schema, $version);
