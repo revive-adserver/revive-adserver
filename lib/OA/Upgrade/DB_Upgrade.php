@@ -349,7 +349,7 @@ class OA_DB_Upgrade
         if (!$this->_isPearError($result, 'VERIFICATION FAILED'))
         {
             $this->aDBTables = $this->_listTables();
-            $this->_log(' verified OK');
+            $this->_log('verified OK');
             $result = $this->_verifyTasks();
             if ($result)
             {
@@ -652,7 +652,7 @@ class OA_DB_Upgrade
                                                               );
                             return false;
                         }
-                        $this->_log("backup table restored: {$aTable_bak['bak']} => {$this->prefix}{$table}");
+                        $this->_log("backup table restored: {$this->prefix}{$aTable_bak['bak']} => {$this->prefix}{$table}");
                         $this->oAuditor->logDatabaseAction(array('info1'=>'reverted table',
                                                                  'tablename'=>$table,
                                                                  'tablename_backup'=>$aTable_bak['bak'],
@@ -734,17 +734,17 @@ class OA_DB_Upgrade
             $table_bak = $aAction['tablename_backup'];
             $aBakDef = unserialize($aAction['table_backup_schema']);
             $aResult[$table] = array(
-            'bak'=>$table_bak,
-            'def'=>$aBakDef
-            );
-            $this->_log("Require backup table {$table_bak} to restore table: {$table}");
-            if (in_array($table_bak, $this->aDBTables))
+                                    'bak'=>$table_bak,
+                                    'def'=>$aBakDef
+                                    );
+            $this->_log("Require backup table {$this->prefix}{$table_bak} to restore table: {$this->prefix}{$table}");
+            if (in_array($this->prefix.$table_bak, $this->aDBTables))
             {
-                $this->_log("Backup table {$table_bak} found in database");
+                $this->_log("Backup table {$this->prefix}{$table_bak} found in database");
             }
             else
             {
-                $this->_logError("Backup table {$table_bak} not found in database");
+                $this->_logError("Backup table {$this->prefix}{$table_bak} not found in database");
             }
         }
         return $aResult;
@@ -782,11 +782,6 @@ class OA_DB_Upgrade
                 $this->_logError('dropping '.$this->prefix.$table. ' during rollback');
                 return false;
             }
-            //            $result = $this->oSchema->db->manager->dropTable($table);
-            //            if ($this->_isPearError($result, 'error dropping '.$table. ' during rollback'))
-            //            {
-            //                return false;
-            //            }
         }
         $statement = $this->aSQLStatements['table_copy'];
         $query  = sprintf($statement, $this->prefix.$table, $this->prefix.$table_bak);
