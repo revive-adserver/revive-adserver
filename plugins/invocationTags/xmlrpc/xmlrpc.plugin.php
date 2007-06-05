@@ -143,7 +143,7 @@ class Plugins_InvocationTags_xmlrpc_xmlrpc extends Plugins_InvocationTags
                     $mi->campaignid = 0;
                 }
 
-                $buffer .= "<"."?php\n /* " . str_replace("\n", '', $mi->buffer) . "\n  *";
+                $buffer .= "<"."?php\n /* " . str_replace(array("\n", '/*', '*/'), array('', '', ''), $mi->buffer) . "\n  *";
                 $buffer .= MAX_Plugin_Translation::translate('PHP Comment', $this->module, $this->package) . "\n\n";
 
                 $buffer .= '    //ini_set(\'include_path\', \'.:/usr/local/lib\');' . "\n";
