@@ -250,6 +250,10 @@ class Test_OA_Upgrade extends UnitTestCase
     function test_writeRecoveryFile()
     {
         $oUpgrade  = new OA_Upgrade();
+        if (file_exists(MAX_PATH.'/var/recover.log'))
+        {
+            unlink(MAX_PATH.'/var/recover.log');
+        }
         $oUpgrade->versionInitialSchema['tables_core'] = -1;
         $oUpgrade->versionInitialApplication = '0.3.31';
         $this->assertTrue($oUpgrade->_writeRecoveryFile('tables_core', 0),'failed to write recovery file');
@@ -261,6 +265,10 @@ class Test_OA_Upgrade extends UnitTestCase
     function test_seekRecoveryFile()
     {
         $oUpgrade  = new OA_Upgrade();
+        if (file_exists(MAX_PATH.'/var/recover.log'))
+        {
+            unlink(MAX_PATH.'/var/recover.log');
+        }
         $this->test_writeRecoveryFile();
         $aResult = $oUpgrade->seekRecoveryFile();
         $this->assertIsA($aResult,'array','failed to find recovery file');
@@ -294,6 +302,10 @@ class Test_OA_Upgrade extends UnitTestCase
     {
         $oUpgrade  = new OA_Upgrade();
         $this->assertTrue($oUpgrade->_pickupRecoveryFile(),'failed to remove recovery file');
+        if (file_exists(MAX_PATH.'/var/recover.log'))
+        {
+            unlink(MAX_PATH.'/var/recover.log');
+        }
     }
 
     function test_upgradeSchemasPass()
@@ -341,6 +353,10 @@ class Test_OA_Upgrade extends UnitTestCase
 
         $oUpgrade->oDBUpgrader->tally();
         $oUpgrade->oVersioner->tally();
+        if (file_exists(MAX_PATH.'/var/recover.log'))
+        {
+            unlink(MAX_PATH.'/var/recover.log');
+        }
     }
 
     function test_upgradeSchemasFail()
@@ -399,6 +415,10 @@ class Test_OA_Upgrade extends UnitTestCase
 
         $oUpgrade->oDBUpgrader->tally();
         $oUpgrade->oVersioner->tally();
+        if (file_exists(MAX_PATH.'/var/recover.log'))
+        {
+            unlink(MAX_PATH.'/var/recover.log');
+        }
     }
 
     function test_rollbackSchemas()
@@ -448,6 +468,10 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oDBUpgrader->tally();
         $oUpgrade->oVersioner->tally();
 
+        if (file_exists(MAX_PATH.'/var/recover.log'))
+        {
+            unlink(MAX_PATH.'/var/recover.log');
+        }
     }
 
     function test_parseUpgradePackageFile()
