@@ -28,12 +28,14 @@
             }
             if ($sysinfoarray['error'])
             {
+                echo "<tr>
+                          <td colspan=\"2\" class=\"sysinfoerror\">";
                 foreach ($sysinfoarray['error'] AS $k => $v)
                 {
-                    echo "<tr>
-                              <td colspan=\"2\" class=\"sysinfoerror\">{$v}</td>
-                          </tr>";
+                    echo $v."<br />";
                 }
+                echo "</td>
+                          </tr>";
             }
             echo "
                               </table>

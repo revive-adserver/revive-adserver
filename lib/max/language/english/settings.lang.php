@@ -133,9 +133,9 @@ $GLOBALS['strErrorInstallVersion']          = "The " . MAX_PRODUCT_NAME . " vers
 $GLOBALS['strErrorUpgrade']                 = 'The existing installation\'s database could not be upgraded.';
 $GLOBALS['strErrorInstallDbConnect']        = "It was not possible to open a connection to the database.";
 
-$GLOBALS['strErrorWritePermissions']        = "To fix this error on your Linux system, try typing in:
-<br><i>chmod a+w %s</i>
-<p>For more help, please check the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank' class='errLink'>documentation</a></p>";
+$GLOBALS['strErrorWritePermissions']        = "To fix this error on your Linux system, try typing in the following command(s):";
+$GLOBALS['strErrorFixPermissionsCommand']   = "<i>chmod a+w %s</i>";
+$GLOBALS['strCheckDocumentation']           = "For more help, please check the documentation at http://".MAX_PRODUCT_DOCSURL;
 
 $GLOBALS['strAdminUrlPrefix']               = "Admin Interface URL";
 $GLOBALS['strDeliveryUrlPrefix']            = "Delivery Engine URL";

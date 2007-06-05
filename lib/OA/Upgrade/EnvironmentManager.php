@@ -213,11 +213,17 @@ class OA_Environment_Manager
         foreach ($this->aInfo['PERMS']['actual'] AS $k=>$v)
         {
             if ($v!='OK')
-            {
-                $this->aInfo['PERMS']['error'][] = sprintf($GLOBALS['strErrorWritePermissions'], $k);;
-                return false;
+            {                       
+                if (!is_array($this->aInfo['PERMS']['error'])) {
+                    $this->aInfo['PERMS']['error'][] = $GLOBALS['strErrorWritePermissions'];                
+                }
+                $this->aInfo['PERMS']['error'][] = sprintf($GLOBALS['strErrorFixPermissionsCommand'], $k);;
             }
         }
+        if (is_array($this->aInfo['PERMS']['error'])) {        
+            $this->aInfo['PERMS']['error'][] = $GLOBALS['strCheckDocumentation'];
+            return false;
+        }        
         $this->aInfo['PERMS']['error'] = false;
         return true;
     }

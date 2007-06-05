@@ -67,7 +67,13 @@ td.sysinfoerror, .sysinfoerror {
  color: #FFFFFF;
  font-weight: bold;
  text-align: center;
+ line-height: 17px;
  background-color: #880000;
+}
+
+td.sysinfoerror i {
+ font-weight: normal;
+ font-size: 12px;
 }
 
 .floatleft {
