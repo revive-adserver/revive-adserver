@@ -132,7 +132,13 @@ else if (array_key_exists('btn_syscheck', $_POST))
     $_SESSION['updates_cs_data_enabled'] = $_POST['updates_cs_data_enabled'];
 
     $aSysInfo = $oUpgrader->checkEnvironment();
-    $halt = !$oUpgrader->canUpgrade();
+    
+    // Do not check for an upgrade package if environment errors exist
+    if (!$aSysInfo['PERMS']['error'] && !$aSysInfo['PHP']['error'] && !$aSysInfo['FILES']['error']) {
+        $halt = !$oUpgrader->canUpgrade();
+    } else {
+        $message = $strFixErrorsBeforeContinuing;
+    }
 
     $installStatus = $oUpgrader->existing_installation_status;
     if ($installStatus == OA_STATUS_CAN_UPGRADE)

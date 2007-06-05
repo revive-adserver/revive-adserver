@@ -72,6 +72,7 @@ $GLOBALS['strMayNotFunction']               = "Before you continue, please corre
 $GLOBALS['strFixProblemsBefore']            = "The following item(s) need to be corrected before you can install ".MAX_PRODUCT_NAME.". If you have any questions about this error message, please read the <i>Administrator Guide</i>, which is part of the package you downloaded.";
 $GLOBALS['strFixProblemsAfter']             = "If you are not able to correct the problems listed above, please contact the administrator of the server you are trying to install ".MAX_PRODUCT_NAME." on. The administrator of the server may be able to help you.";
 $GLOBALS['strIgnoreWarnings']               = "Ignore warnings";
+$GLOBALS['strFixErrorsBeforeContinuing']    = "Please fix all errors before continuing.";
 $GLOBALS['strWarningDBavailable']           = "The version of PHP you are using doesn't have support for connecting to a ".phpAds_dbmsname." database server. You need to enable the PHP ".phpAds_dbmsname." extension before you can proceed.";
 $GLOBALS['strWarningPHPversion']            = MAX_PRODUCT_NAME." requires PHP 4.3.6 or higher to function correctly. You are currently using {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']       = "The PHP configuration variable register_globals needs to be turned on.";

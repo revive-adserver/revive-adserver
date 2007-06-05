@@ -107,7 +107,7 @@ div.sysinfoerror li {
 	background-color: #ffffff;
     width: 950px;
     height: 1px;
-	opacity:.80;filter: alpha(opacity=80); -moz-opacity: 0.8;
+	opacity:.85;filter: alpha(opacity=85); -moz-opacity: 0.85;
 }
 .pageLoader div {
 	padding-top: 165px;

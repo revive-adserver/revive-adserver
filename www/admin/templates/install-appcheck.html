@@ -13,8 +13,16 @@
         </tr>
         <tr><td height='10' colspan='4'>&nbsp;</td></tr>
         <tr>
-            <td colspan='4' align='center'>            
-                    <?php include 'templates/install-messages.html';  ?>
+            <td colspan='4' align='center'>      
+            <?php 
+                if ($message) {
+            ?>      
+                    <table class="sysinfotable"><tr><td class="sysinfoerror"><?php echo $message; ?></table>
+            <?php 
+                } else {
+                    include 'templates/install-messages.html';  
+                }        
+            ?>
             </td>
         </tr>
         <tr><td height='10' colspan='4'>&nbsp;</td></tr>
