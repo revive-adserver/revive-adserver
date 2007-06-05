@@ -26,7 +26,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dal/Delivery/'.$GLOBALS['_MAX']['CONF']['database']['type'].'.php';
-require_once MAX_PATH . '/tests/testClasses/SharedFixture.php';
 require_once 'Log.php';
 
 /**
@@ -36,7 +35,7 @@ require_once 'Log.php';
  * @subpackage TestSuite
  * @author     Unknown!
  */
-class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
+class Test_OA_Dal_Delivery_mysql extends UnitTestCase
 {
     /**
      * A private method to test if it is okay to run these tests
@@ -54,7 +53,7 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
         return false;
     }
 
-    function setUpFixture()
+    function before()
     {
         if (!$this->_testOkayToRun()) {
             return;
@@ -62,7 +61,7 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
         $error = TestEnv::loadData('0.3.27_delivery', 'insert');
     }
 
-    function tearDownFixture()
+    function after()
     {
         if (!$this->_testOkayToRun()) {
             return;
@@ -93,7 +92,8 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
         if (!$this->_testOkayToRun()) {
             return;
         }
-        $res = OA_Dal_Delivery_query("SELECT * FROM banners limit 1");
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $res = OA_Dal_Delivery_query("SELECT * FROM {$aConf['table']['prefix']}banners limit 1");
         $this->assertTrue($res);
         $row = @mysql_fetch_array($res);
         $this->assertTrue($row);
@@ -315,8 +315,9 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
         if (!$this->_testOkayToRun()) {
             return;
         }
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $res = OA_Dal_Delivery_logAction(
-            'data_raw_ad_impression',
+            "{$aConf['table']['prefix']}data_raw_ad_impression",
             '',
             1,
             0,
@@ -334,7 +335,7 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
         $this->assertTrue($res);
 
         $res = OA_Dal_Delivery_logAction(
-            'data_raw_ad_click',
+            "{$aConf['table']['prefix']}data_raw_ad_click",
             '',
             1,
             0,
@@ -361,8 +362,9 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
         if (!$this->_testOkayToRun()) {
             return;
         }
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $id = OA_Dal_Delivery_logTracker(
-            'data_raw_tracker_impression',
+            "{$aConf['table']['prefix']}data_raw_tracker_impression",
             '',
             1,
             '127.0.0.1',
@@ -388,9 +390,9 @@ class Test_OA_Dal_Delivery_mysql extends SharedFixtureTestCase
         if (!$this->_testOkayToRun()) {
             return;
         }
-
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $id = OA_Dal_Delivery_logTracker(
-            'data_raw_tracker_impression',
+            "{$aConf['table']['prefix']}data_raw_tracker_impression",
             '',
             1,
             '127.0.0.1',

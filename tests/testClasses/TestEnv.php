@@ -127,6 +127,7 @@ class TestEnv
      */
     function loadData($source, $mode)
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $aDataset = TestEnv::getDataSQL($source, $mode);
         if ($aDataset)
         {
@@ -136,7 +137,12 @@ class TestEnv
                 {
                     case 'insert':
                         $oDbh = &OA_DB::singleton();
-                        $res = $oDbh->query($v);
+                        // Add the table prefix to the INSERT statement, if required
+                        $query = $v;
+                        if (!empty($aConf['table']['prefix'])) {
+                            $query = preg_replace('/INSERT INTO /', "INSERT INTO {$aConf['table']['prefix']}", $query);
+                        }
+                        $res = $oDbh->query($query);
                         if (!$res || PEAR::isError($res))
                         {
                             MAX::raiseError($res);
