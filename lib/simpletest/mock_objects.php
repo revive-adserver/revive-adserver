@@ -410,7 +410,9 @@
             $this->_return_sequence = array();
             $this->_call_counts = array();
             $test = &$this->_getCurrentTestCase();
-            $test->tell($this);
+            if (!is_null($test)) {
+                $test->tell($this);
+            }
             $this->_expected_counts = array();
             $this->_max_counts = array();
             $this->_expected_args = array();
