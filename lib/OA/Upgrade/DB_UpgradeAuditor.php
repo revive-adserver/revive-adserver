@@ -252,9 +252,9 @@ class OA_DB_UpgradeAuditor
         return $aResult;
     }
 
-    function updateAuditBackupDropped($tablename_backup)
+    function updateAuditBackupDropped($tablename_backup, $reason = '')
     {
-        $query = "UPDATE {$this->prefix}{$this->logTable} SET tablename_backup='dropped by user', updated='". OA::getNow() ."' WHERE tablename_backup='{$tablename_backup}'";
+        $query = "UPDATE {$this->prefix}{$this->logTable} SET tablename_backup='dropped {$reason}', updated='". OA::getNow() ."' WHERE tablename_backup='{$tablename_backup}'";
 
         $result = $this->oDbh->exec($query);
 

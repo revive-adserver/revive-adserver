@@ -659,6 +659,10 @@ class OA_DB_Upgrade
                                                                  'action'=>DB_UPGRADE_ACTION_ROLLBACK_TABLE_RESTORED,
                                                                 )
                                                           );
+                        if (!$this->dropBackupTable($aTable_bak['bak']))
+                        {
+                            $this->_log("failed to drop backup table {$this->prefix}{$aTable_bak['bak']} after successfully restoring {$this->prefix}{$table}");
+                        }
                     }
                     else
                     {
@@ -843,81 +847,6 @@ class OA_DB_Upgrade
         }
         return true;
     }
-
-    /**
-     * seek a recovery file
-     * look at the the last upgrade actions performed
-     * recompile the array of tables to restore
-     *
-     *
-     * @return boolean
-     */
-//    function getRecoveryData()
-//    {
-//        //$aRecovery = $this->seekRecoveryFile();
-//        if ($aRecovery)
-//        {
-//            if (!$this->oSchema)
-//            {
-//                $this->initMDB2Schema();
-//            }
-//
-//            $this->aDBTables = $this->_listTables();
-//
-//            $this->_setTiming('', $aRecovery['timingInt']);
-//            $this->versionTo    = $aRecovery['versionTo'];
-//            $this->schema       = $aRecovery['schema_name'];
-//            $this->_log("Detected interruption while upgrading to {$this->schema} version {$this->versionTo} ({$this->timingStr})");
-//            $this->_log('Attempting to compile details and recovery information...');
-//
-//            $query = "SELECT * FROM {$this->prefix}{$this->logTable}
-//                      WHERE schema_name = '{$this->schema}'
-//                      AND version={$this->versionTo}
-//                      AND timing={$this->timingInt}
-//                      AND updated>='{$aRecovery['updated']}'";
-//            $aResult = $this->oSchema->db->queryAll($query);
-//
-//            if ($this->_isPearError($aResult, "error querying recovery info in database audit table"))
-//            {
-//                return false;
-//            }
-//            else
-//            {
-//                if (is_array($aResult))
-//                {
-//                    $this->_log('THE FOLLOWING RECOVERY DATA HAS BEEN FOUND:');
-//                }
-//                else
-//                {
-//                    $this->_log('No recovery data found, this probably means that no recovery is necessary');
-//                }
-//                foreach ($aResult AS $k=>$aAction)
-//                {
-//                    $this->_log("Action found: {$aAction['updated']} : {$aAction['info1']}");
-//                    if ($aAction['action']==DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED)
-//                    {
-//                        $table = $aAction['tablename'];
-//                        $table_bak = $aAction['tablename_backup'];
-//                        $aBakDef = unserialize($aAction['table_backup_schema']);
-//                        $this->aRestoreTables[$table] = array(
-//                        'bak'=>$table_bak,
-//                        'def'=>$aBakDef
-//                        );
-//                        $this->_log("Require backup table {$table_bak} to restore table: {$table}");
-//                        if (in_array($table_bak, $this->aDBTables))
-//                        {
-//                            $this->_log("Backup table {$table_bak} found in database");
-//                        }
-//                        else
-//                        {
-//                            $this->_logError("Backup table {$table_bak} not found in database");
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        return true;
-//    }
 
     function doRecovery()
     {
@@ -1193,6 +1122,8 @@ class OA_DB_Upgrade
                     //$result = $this->oSchema->db->manager->createTable($table, $aTask['cargo'], array());
                     if (($result) && (!$this->_isPearError($result, 'error creating table '.$this->prefix.$table)))
                     {
+                        // old mdb2 method of table creation required subsequent index creation
+                        // openads OA_DB_Table does not require this
                         //                        $this->aAddedTables[] = $table;
                         //                        if (isset($aTask['indexes']))
                         //                        {
@@ -1426,7 +1357,7 @@ class OA_DB_Upgrade
     }
 
     /**
-     * verify and compile tasks
+     * verify and compile tasks of type 'add index'
      *
      * @return boolean
      */
@@ -1482,7 +1413,8 @@ class OA_DB_Upgrade
     }
 
     /**
-     * verify and compile tasks
+     * verify and compile tasks of type 'table alter'
+     * add field, change field, remove field
      *
      * @return boolean
      */
@@ -1559,7 +1491,8 @@ class OA_DB_Upgrade
     }
 
     /**
-     * verify and compile tasks
+     * verify and compile tasks of type 'table remove'
+     *
      *
      * @return boolean
      */
@@ -1645,6 +1578,7 @@ class OA_DB_Upgrade
     }
 
     /**
+     * verify and compile tasks of type 'add table'
      * and that a table with this name does not exist
      *
      * @return boolean
@@ -1905,6 +1839,14 @@ class OA_DB_Upgrade
         return $result;
     }
 
+    /**
+     * because MDB2_schema uses associative arrays to list index fields...
+     * which don't take into account the field order...
+     * the use of an 'order' key and sort method was suggested
+     *
+     * @param array $aIndex_def
+     * @return boolean
+     */
     function _sortIndexFields($aIndex_def)
     {
         if (isset($aIndex_def['fields']))
@@ -2206,11 +2148,11 @@ class OA_DB_Upgrade
      */
     function dropBackupTable($table)
     {
-        if (!$this->dropTable($this->prefix.$table))
+        if (!$this->dropTable($table))
         {
             return false;
         }
-        $this->oAuditor->updateAuditBackupDropped($table);
+        $this->oAuditor->updateAuditBackupDropped($table, ' after successful restore');
         return true;
     }
 
