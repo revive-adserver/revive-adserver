@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
 <instructionset>
-  <name>openads_2_0_11</name>
+  <name>openads</name>
   <version>100</version>
-  <comments>Migration from 2.0.11/2.0.11-pr1 to 2.0.12</comments>
+  <comments></comments>
   <constructive>
     <changeset>
       <name>openads_2_0_11</name>

@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="xsl/mdb2_schema.xsl"?>
 <database>
 
- <name>openads_2_0_12</name>
+ <name>openads</name>
  <create>true</create>
  <overwrite>false</overwrite>
  <version>128</version>

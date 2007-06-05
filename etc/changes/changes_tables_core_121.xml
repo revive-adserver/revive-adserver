@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
 <instructionset>
-  <name>openads_2_0_12</name>
+  <name>openads</name>
   <version>121</version>
   <comments>Changed the length of the column to 32.</comments>
   <constructive>
     <changeset>
-      <name>openads_2_0_12</name>
+      <name>openads</name>
       <version>121</version>
       <change>
         <table>
@@ -23,7 +23,7 @@
 </constructive>
 <destructive>
   <changeset>
-    <name>openads_2_0_12</name>
+    <name>openads</name>
     <version>121</version>
   </changeset>
 </destructive>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
 <instructionset>
-  <name>openads_2_0_12</name>
+  <name>openads</name>
   <version>129</version>
   <comments>Migration of warn_limit_days (preference) and new ad selection fields</comments>
   <constructive>
     <changeset>
-      <name>openads_2_0_12</name>
+      <name>openads</name>
       <version>129</version>
       <change>
         <table>
@@ -60,7 +60,7 @@
         </constructive>
         <destructive>
           <changeset>
-            <name>openads_2_0_12</name>
+            <name>openads</name>
             <version>129</version>
           </changeset>
         </destructive>

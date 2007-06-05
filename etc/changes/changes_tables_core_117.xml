@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
 <instructionset>
-  <name>openads_2_0_12</name>
+  <name>openads</name>
   <version>117</version>
   <comments>Added zone assoc tables to 2.0 schema</comments>
   <constructive>
     <changeset>
-      <name>openads_2_0_12</name>
+      <name>openads</name>
       <version>117</version>
       <add>
         <table>
@@ -22,7 +22,7 @@
 </constructive>
 <destructive>
   <changeset>
-    <name>openads_2_0_12</name>
+    <name>openads</name>
     <version>117</version>
   </changeset>
 </destructive>
