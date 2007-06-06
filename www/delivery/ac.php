@@ -1946,6 +1946,9 @@ $GLOBALS['OA_Delivery_Cache'] = array(
 'prefix' => 'deliverycache_',
 'expiry' => $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire']
 );
+if (!empty($GLOBALS['_MAX']['CONF']['delivery']['cachePath'])) {
+$GLOBALS['OA_Delivery_Cache']['path'] = trim($GLOBALS['_MAX']['CONF']['delivery']['cachePath']).'/';
+}
 function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
 {
 $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
