@@ -51,40 +51,38 @@ class Test_OA_Upgrade extends UnitTestCase
 
     function test_versionCompare()
     {
-        $verPrev = '2.3.32-beta';
-        $verCurr = '2.3.32-beta-rc2';
-        $upgrade  = (version_compare($verPrev,$verCurr)<0);
-        $current  = (version_compare($verCurr,$verCurr)==0);
-        $this->assertFalse($upgrade,'');
-        $this->assertTrue($current,'');
+        $aFiles[0] = '2.3.32-beta-rc2';
+        $aFiles[1] = '2.3.32-beta-rc5';
+        $aFiles[2] = '2.3.32-beta-rc10';
+        $aFiles[3] = '2.3.32-beta-rc21';
+        $aFiles[4] = '2.3.32-beta';
+        $aFiles[5] = '2.3.33-beta-rc1';
+        $aFiles[6] = '2.3.33-beta-rc2';
+        $aFiles[7] = '2.3.33-beta';
+        $aFiles[8] = '2.4.0';
+        $aFiles[9] = '2.4.1-rc1';
+        $aFiles[10] = '2.4.1-rc5';
+        $aFiles[11] = '2.4.1';
 
-        $verPrev = '2.3.32-beta-rc12';
-        $verCurr = '2.3.32-beta';
-        $upgrade  = (version_compare($verPrev,$verCurr)<0);
-        $current  = (version_compare($verCurr,$verCurr)==0);
-        $this->assertTrue($upgrade,'');
-        $this->assertTrue($current,'');
-
-        $verPrev = '2.3.32-beta-rc12';
-        $verCurr = '2.3.32';
-        $upgrade  = (version_compare($verPrev,$verCurr)<0);
-        $current  = (version_compare($verCurr,$verCurr)==0);
-        $this->assertTrue($upgrade,'');
-        $this->assertTrue($current,'');
-
-        $verPrev = '2.3.32-beta-rc1';
-        $verCurr = '2.3.32-beta-rc2';
-        $upgrade  = (version_compare($verPrev,$verCurr)<0);
-        $current  = (version_compare($verCurr,$verCurr)==0);
-        $this->assertTrue($upgrade,'');
-        $this->assertTrue($current,'');
-
-        $verPrev = '2.3.32-beta-rc1';
-        $verCurr = '2.3.32-beta-rc10';
-        $upgrade  = (version_compare($verPrev,$verCurr)<0);
-        $current  = (version_compare($verCurr,$verCurr)==0);
-        $this->assertTrue($upgrade,'');
-        $this->assertTrue($current,'');
+        for ($prevIdx=0;$prevIdx<12;$prevIdx++)
+        {
+            for ($curIdx=0;$curIdx<12;$curIdx++)
+            {
+                $result  = version_compare($aFiles[$prevIdx],$aFiles[$curIdx]);
+                if ($prevIdx < $curIdx)
+                {
+                    $this->assertTrue($result<0,'should upgrade: prev : '.$aFiles[$prevIdx].' / curr: '.$aFiles[$curIdx]);
+                }
+                else if ($prevIdx > $curIdx)
+                {
+                    $this->assertTrue($result>0, 'should not upgrade: prev : '.$aFiles[$prevIdx].' / curr: '.$aFiles[$curIdx]);
+                }
+                else if ($curIdx == $prevIdx)
+                {
+                    $this->assertTrue($result==0,'should be current: prev : '.$aFiles[$prevIdx].' / curr: '.$aFiles[$curIdx]);
+                }
+            }
+        }
     }
 
     function _writeUpgradePackagesArray()
@@ -146,6 +144,12 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($aVersions[2][4][1]['file'],'openads_upgrade_2.4.1.xml','');
     }
 
+    /**
+     * the given version is tested against an array of available upgrade versions
+     * only relevant upgrade versions should be returned
+     * they MUST be returned in order
+     *
+     */
     function test_getUpgradePackagesList()
     {
         global $writePath, $writeFile;
@@ -157,78 +161,229 @@ class Test_OA_Upgrade extends UnitTestCase
         $verPrev = '2.3.32-beta-rc1';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),12,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.3.32-beta-rc2.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.3.32-beta-rc5.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.3.32-beta-rc10.xml');
+        $this->assertEqual($aFiles[3],'openads_upgrade_2.3.32-beta-rc21.xml');
+        $this->assertEqual($aFiles[4],'openads_upgrade_2.3.32-beta.xml');
+        $this->assertEqual($aFiles[5],'openads_upgrade_2.3.33-beta-rc1.xml');
+        $this->assertEqual($aFiles[6],'openads_upgrade_2.3.33-beta-rc2.xml');
+        $this->assertEqual($aFiles[7],'openads_upgrade_2.3.33-beta.xml');
+        $this->assertEqual($aFiles[8],'openads_upgrade_2.4.0.xml');
+        $this->assertEqual($aFiles[9],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[10],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[11],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.3.32-beta-rc2';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),11,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.3.32-beta-rc5.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.3.32-beta-rc10.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.3.32-beta-rc21.xml');
+        $this->assertEqual($aFiles[3],'openads_upgrade_2.3.32-beta.xml');
+        $this->assertEqual($aFiles[4],'openads_upgrade_2.3.33-beta-rc1.xml');
+        $this->assertEqual($aFiles[5],'openads_upgrade_2.3.33-beta-rc2.xml');
+        $this->assertEqual($aFiles[6],'openads_upgrade_2.3.33-beta.xml');
+        $this->assertEqual($aFiles[7],'openads_upgrade_2.4.0.xml');
+        $this->assertEqual($aFiles[8],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[9],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[10],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.3.32-beta-rc3';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),11,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.3.32-beta-rc5.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.3.32-beta-rc10.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.3.32-beta-rc21.xml');
+        $this->assertEqual($aFiles[3],'openads_upgrade_2.3.32-beta.xml');
+        $this->assertEqual($aFiles[4],'openads_upgrade_2.3.33-beta-rc1.xml');
+        $this->assertEqual($aFiles[5],'openads_upgrade_2.3.33-beta-rc2.xml');
+        $this->assertEqual($aFiles[6],'openads_upgrade_2.3.33-beta.xml');
+        $this->assertEqual($aFiles[7],'openads_upgrade_2.4.0.xml');
+        $this->assertEqual($aFiles[8],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[9],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[10],'openads_upgrade_2.4.1.xml');
+
 
         $verPrev = '2.3.32-beta-rc4';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),11,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.3.32-beta-rc5.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.3.32-beta-rc10.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.3.32-beta-rc21.xml');
+        $this->assertEqual($aFiles[3],'openads_upgrade_2.3.32-beta.xml');
+        $this->assertEqual($aFiles[4],'openads_upgrade_2.3.33-beta-rc1.xml');
+        $this->assertEqual($aFiles[5],'openads_upgrade_2.3.33-beta-rc2.xml');
+        $this->assertEqual($aFiles[6],'openads_upgrade_2.3.33-beta.xml');
+        $this->assertEqual($aFiles[7],'openads_upgrade_2.4.0.xml');
+        $this->assertEqual($aFiles[8],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[9],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[10],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.3.32-beta-rc5';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),10,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.3.32-beta-rc10.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.3.32-beta-rc21.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.3.32-beta.xml');
+        $this->assertEqual($aFiles[3],'openads_upgrade_2.3.33-beta-rc1.xml');
+        $this->assertEqual($aFiles[4],'openads_upgrade_2.3.33-beta-rc2.xml');
+        $this->assertEqual($aFiles[5],'openads_upgrade_2.3.33-beta.xml');
+        $this->assertEqual($aFiles[6],'openads_upgrade_2.4.0.xml');
+        $this->assertEqual($aFiles[7],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[8],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[9],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.3.32-beta-rc6';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),10,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.3.32-beta-rc10.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.3.32-beta-rc21.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.3.32-beta.xml');
+        $this->assertEqual($aFiles[3],'openads_upgrade_2.3.33-beta-rc1.xml');
+        $this->assertEqual($aFiles[4],'openads_upgrade_2.3.33-beta-rc2.xml');
+        $this->assertEqual($aFiles[5],'openads_upgrade_2.3.33-beta.xml');
+        $this->assertEqual($aFiles[6],'openads_upgrade_2.4.0.xml');
+        $this->assertEqual($aFiles[7],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[8],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[9],'openads_upgrade_2.4.1.xml');
+
 
         $verPrev = '2.3.32-beta-rc7';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),10,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.3.32-beta-rc10.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.3.32-beta-rc21.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.3.32-beta.xml');
+        $this->assertEqual($aFiles[3],'openads_upgrade_2.3.33-beta-rc1.xml');
+        $this->assertEqual($aFiles[4],'openads_upgrade_2.3.33-beta-rc2.xml');
+        $this->assertEqual($aFiles[5],'openads_upgrade_2.3.33-beta.xml');
+        $this->assertEqual($aFiles[6],'openads_upgrade_2.4.0.xml');
+        $this->assertEqual($aFiles[7],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[8],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[9],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.3.32-beta-rc8';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),10,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.3.32-beta-rc10.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.3.32-beta-rc21.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.3.32-beta.xml');
+        $this->assertEqual($aFiles[3],'openads_upgrade_2.3.33-beta-rc1.xml');
+        $this->assertEqual($aFiles[4],'openads_upgrade_2.3.33-beta-rc2.xml');
+        $this->assertEqual($aFiles[5],'openads_upgrade_2.3.33-beta.xml');
+        $this->assertEqual($aFiles[6],'openads_upgrade_2.4.0.xml');
+        $this->assertEqual($aFiles[7],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[8],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[9],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.3.32-beta-rc9';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),10,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.3.32-beta-rc10.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.3.32-beta-rc21.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.3.32-beta.xml');
+        $this->assertEqual($aFiles[3],'openads_upgrade_2.3.33-beta-rc1.xml');
+        $this->assertEqual($aFiles[4],'openads_upgrade_2.3.33-beta-rc2.xml');
+        $this->assertEqual($aFiles[5],'openads_upgrade_2.3.33-beta.xml');
+        $this->assertEqual($aFiles[6],'openads_upgrade_2.4.0.xml');
+        $this->assertEqual($aFiles[7],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[8],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[9],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.3.32-beta-rc10';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),9,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.3.32-beta-rc21.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.3.32-beta.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.3.33-beta-rc1.xml');
+        $this->assertEqual($aFiles[3],'openads_upgrade_2.3.33-beta-rc2.xml');
+        $this->assertEqual($aFiles[4],'openads_upgrade_2.3.33-beta.xml');
+        $this->assertEqual($aFiles[5],'openads_upgrade_2.4.0.xml');
+        $this->assertEqual($aFiles[6],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[7],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[8],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.3.32-beta-rc20';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),9,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.3.32-beta-rc21.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.3.32-beta.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.3.33-beta-rc1.xml');
+        $this->assertEqual($aFiles[3],'openads_upgrade_2.3.33-beta-rc2.xml');
+        $this->assertEqual($aFiles[4],'openads_upgrade_2.3.33-beta.xml');
+        $this->assertEqual($aFiles[5],'openads_upgrade_2.4.0.xml');
+        $this->assertEqual($aFiles[6],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[7],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[8],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.3.32-beta-rc21';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),8,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.3.32-beta.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.3.33-beta-rc1.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.3.33-beta-rc2.xml');
+        $this->assertEqual($aFiles[3],'openads_upgrade_2.3.33-beta.xml');
+        $this->assertEqual($aFiles[4],'openads_upgrade_2.4.0.xml');
+        $this->assertEqual($aFiles[5],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[6],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[7],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.3.32-beta';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),7,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.3.33-beta-rc1.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.3.33-beta-rc2.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.3.33-beta.xml');
+        $this->assertEqual($aFiles[3],'openads_upgrade_2.4.0.xml');
+        $this->assertEqual($aFiles[4],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[5],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[6],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.3.33-beta-rc1';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),6,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.3.33-beta-rc2.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.3.33-beta.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.4.0.xml');
+        $this->assertEqual($aFiles[3],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[4],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[5],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.3.33-beta-rc2';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),5,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.3.33-beta.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.4.0.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[3],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[4],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.3.33-beta';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),4,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.4.0.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[3],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.4.0';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),3,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.4.1-rc1.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[2],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.4.1-rc1';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),2,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.4.1-rc5.xml');
+        $this->assertEqual($aFiles[1],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.4.1-rc5';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
         $this->assertEqual(count($aFiles),1,$verPrev);
+        $this->assertEqual($aFiles[0],'openads_upgrade_2.4.1.xml');
 
         $verPrev = '2.4.1';
         $aFiles = $oUpgrade->getUpgradePackageList($verPrev, $aVersions);
