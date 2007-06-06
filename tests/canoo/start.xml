@@ -40,6 +40,7 @@
   <target name="init-delivery" depends="init-delivery-db, init-delivery-files" />
   
   <target name="delivery">
+    <echo message="Base URL: ${openads.url}" />
     <ant antfile="usecases/delivery/ac.xml" />
     <ant antfile="usecases/delivery/afr.xml" />
     <ant antfile="usecases/delivery/ag.xml" />
@@ -55,7 +56,8 @@
   </target>
   
   <target name="test-one">
-    <ant antfile="usecases/delivery/${uc}.xml" />
+    <echo message="${run.local}" />
+    <ant antfile="usecases/${uc}.xml" />
   </target>
   
   <target name="clean">

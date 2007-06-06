@@ -30,7 +30,7 @@
     </testSpec>
     
     <!-- test that ad requests and impressions are logged in database -->
-    <sqlunit testFile="${basedir}/usecases/sqlunit/lg.xml" haltOnFailure="true" debug="${debug}" />
+    <sqlunit testFile="${basedir}/usecases/sqlunit/data_raw_ad_impression.xml" haltOnFailure="true" debug="${debug}" />
   </target>
 
   <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->

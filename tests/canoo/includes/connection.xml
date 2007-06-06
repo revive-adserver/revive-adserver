@@ -1,3 +1,4 @@
+<!-- sqlunit connection configuration -->
 <connection>
     <driver>${ant.sql.driver}</driver>
     <url>${ant.sql.url}</url>

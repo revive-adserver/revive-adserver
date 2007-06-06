@@ -1,22 +1,28 @@
 <?xml version="1.0"?>
 <project name="Init Openads Web Tests" basedir=".." default="main">
-  <property file="properties/user.properties"/>
-  <property name="run.remote" value="false"/>
+
+  <condition property="property_file" value="user.local.properties" else="user.remote.properties">
+    <istrue value="${run.local}"/>
+  </condition>
+  <condition property="run.remote" value="false" else="true">
+    <istrue value="${run.local}"/>
+  </condition>
+  <property file="properties/${property_file}"/>
 
   <import file="${basedir}/../../build-canoo.xml"/>
     
   <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
   
   <taskdef name="sshexec" classname="org.apache.tools.ant.taskdefs.optional.ssh.SSHExec">
-      <classpath>
-        <pathelement location="${basedir}/lib/ant-jsch.jar" />
-      </classpath>
+    <classpath>
+      <pathelement location="${basedir}/lib/ant-jsch.jar" />
+    </classpath>
   </taskdef>  
   
   <taskdef name="sqlunit" classname="net.sourceforge.sqlunit.ant.SqlunitTask">
-      <classpath>
-        <pathelement location="lib/sqlunit-5.0.jar" />
-      </classpath>
+    <classpath>
+      <pathelement location="lib/sqlunit-5.0.jar" />
+    </classpath>
   </taskdef>
   
   <macrodef name="clean-delivery-cache-local">

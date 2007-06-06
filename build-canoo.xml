@@ -17,7 +17,14 @@
 <project name="canoo" default="run-test-canoo" basedir=".">
   <property name="canoo.log" value="${basedir}/canoo.log"/>
   <property name="timeout" value="60000"/>
-  <property file="${basedir}/tests/canoo/properties/user.properties" prefix="canoo"/>
+  
+  <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+  
+  <condition property="property_file" value="user.local.properties" else="user.remote.properties">
+    <istrue value="${run.local}"/>
+  </condition>
+  <property file="${basedir}/tests/canoo/properties/${property_file}" prefix="canoo"/>
+  
   <property file="${basedir}/ec2.properties"/>
   <property name="ec2.openads.config" value="${canoo.host}.conf.php"/>
   <property name="ec2.openads.database" value="openads"/>
@@ -106,14 +113,35 @@
     </canoo-scp>
   </target>
 
+  <macrodef name="execute-webtest" description="Executes webtest with provided target and additional properties.">
+    <attribute name="target" description="Target to execute."/>
+    <attribute name="properties" default="" description="Additional properties."/>
+    <sequential>
+      <if>
+        <istrue value="${run.local}"/>
+        <then>
+          <!-- run locally -->
+          <exec executable="webtest.sh" failonerror="true">
+            <arg line="-f ${basedir}/tests/canoo/start.xml -Drun.local=${run.local} @{target} @{properties}"/>
+          </exec>
+        </then>
+        <else>
+          <!-- run remotely -->
+          <exec executable="webtest.sh" failonerror="true">
+            <arg line="-f ${basedir}/tests/canoo/start.xml -Drun.local=${run.local} @{target} -Dbasepath=${release}/www @{properties}"/>
+          </exec>
+        </else>
+      </if>
+    </sequential>
+  </macrodef>
+  
   <target name="run-test-canoo">
-    <exec executable="webtest.sh" failonerror="true">
-      <arg line="-f ${basedir}/tests/canoo/start.xml init-delivery-db -Dbasepath=${release}/www"/>
-    </exec>
-    <!-- output="${basedir}/build/test-reports/canoo.log" -->
-    <exec executable="webtest.sh" failonerror="true">
-      <arg line="-f ${basedir}/tests/canoo/start.xml -Dcanoo.host=${canoo.host} delivery -Dec2.admin.password=${ec2.admin.password} -Dbasepath=${release}/www -Dec2.openads.dir=${ec2.openads.dir}"/>
-    </exec>
+    <execute-webtest target="init-delivery-db" />
+    <execute-webtest target="delivery" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openads.dir=${ec2.openads.dir}" />
+  </target>
+
+  <target name="test-canoo-one">
+    <execute-webtest target="test-one" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openads.dir=${ec2.openads.dir} -Duc=${uc}" />
   </target>
 
   <target name="clean-ec2" description="Cleans the ec2 from all the files left.">

@@ -39,7 +39,7 @@
     </testSpec>
     
     <!-- test that impressions and variables were inserted into database -->
-    <sqlunit testFile="usecases/sqlunit/ti.xml" haltOnFailure="true" debug="${debug}" />
+    <sqlunit testFile="usecases/sqlunit/data_raw_tracker.xml" haltOnFailure="true" debug="${debug}" />
   </target>
   
   <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->

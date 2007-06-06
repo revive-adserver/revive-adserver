@@ -164,7 +164,23 @@
     <ant antfile="tests.xml"/>
   </target>
 
-  <target name="test-canoo" depends="test-canoo-prepare, run-test-canoo, clean-ec2" description="Build and uploads package to testing machine and run canoo tests against it"/>
+  <target name="test-canoo" description="Test canoo remotely or if -Drun.local=true switch exist tests it locally">
+    <if>
+      <istrue value="${run.local}"/>
+      <then>
+        <antcall target="test-canoo-local" />
+      </then>
+      <else>
+        <antcall target="test-canoo-remote" />
+      </else>
+    </if>
+  </target>
+
+  <target name="test-canoo-local" depends="run-test-canoo" description="Test canoo locally">
+    <property name="run.local" value="true" />
+  </target>
+
+  <target name="test-canoo-remote" depends="test-canoo-prepare, run-test-canoo, clean-ec2" description="Build and uploads package to testing machine and run canoo tests against it"/>
 
   <target name="test-canoo-prepare" depends="clean, svn-update, checkconsistency, package-bzip2-canoo, revert-after-packaging, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openads-configuration"/>
 

@@ -1,3 +1,4 @@
+<!-- canoo configuration -->
 <config
   host="${host}"
   port="${port}"
