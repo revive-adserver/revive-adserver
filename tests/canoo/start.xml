@@ -56,7 +56,6 @@
   </target>
   
   <target name="test-one">
-    <echo message="${run.local}" />
     <ant antfile="usecases/${uc}.xml" />
   </target>
   

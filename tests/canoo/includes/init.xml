@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <project name="Init Openads Web Tests" basedir=".." default="main">
-  <import file="taskdef.xml"/>
 
   <condition property="property_file" value="user.local.properties" else="user.remote.properties">
     <istrue value="${run.local}"/>

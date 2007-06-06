@@ -121,13 +121,13 @@
         <istrue value="${run.local}"/>
         <then>
           <!-- run locally -->
-          <exec executable="webtest.sh" failonerror="true">
-            <arg line="-f ${basedir}/tests/canoo/start.xml -Drun.local=${run.local} @{target} @{properties}"/>
+          <exec executable="${canoo.webtest.exec}" failonerror="true">
+            <arg line="-f ${canoo.basedir}/tests/canoo/start.xml -Drun.local=${run.local} @{target} @{properties}"/>
           </exec>
         </then>
         <else>
           <!-- run remotely -->
-          <exec executable="webtest.sh" failonerror="true">
+          <exec executable="${canoo.webtest.exec}" failonerror="true">
             <arg line="-f ${basedir}/tests/canoo/start.xml -Drun.local=${run.local} @{target} -Dbasepath=${release}/www @{properties}"/>
           </exec>
         </else>
