@@ -10,7 +10,7 @@
     <license>LICENSE.txt</license>
     <description>Openads Upgrade 2.0.11 to 2.3.32 BETA</description>
     <versionFrom>2.0.11</versionFrom>
-    <versionTo>2.3.32</versionTo>
+    <versionTo>2.3.32-beta</versionTo>
 
     <!-- Database Packages -->
     <database>
