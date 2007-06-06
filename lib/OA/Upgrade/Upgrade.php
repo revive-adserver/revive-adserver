@@ -1475,12 +1475,14 @@ class OA_Upgrade
     function getUpgradePackageList($verPrev, $aVersions=null)
     {
         $aFiles = array();
-        while (list($release, $aMajor) = each($aVersions))
+        ksort($aVersions, SORT_NUMERIC);
+        foreach ($aVersions as $release => $aMajor)
         {
-            while (list($major, $aMinor) = each($aMajor))
+            ksort($aMajor, SORT_NUMERIC);
+            foreach ($aMajor as $major => $aMinor)
             {
-                asort($aMinor, SORT_NUMERIC);
-                while (list($minor, $aStatus) = each($aMinor))
+                ksort($aMinor, SORT_NUMERIC);
+                foreach ($aMinor as $minor => $aStatus)
                 {
                     if (array_key_exists('-beta-rc', $aStatus))
                     {
@@ -1498,7 +1500,7 @@ class OA_Upgrade
                     if (array_key_exists('-beta', $aStatus))
                     {
                         $aBeta = $aStatus['-beta'];
-                        while (list($key, $file) = each($aBeta))
+                        foreach ($aBeta as $key => $file)
                         {
                             $version = $release.'.'.$major.'.'.$minor.'-beta';
                             if (version_compare($verPrev, $version)<0)
