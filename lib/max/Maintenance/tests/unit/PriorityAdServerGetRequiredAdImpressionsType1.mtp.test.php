@@ -1037,11 +1037,16 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $oGetRequiredAdImpressionsType1->oDal->tally();
 
         // Test 5
-        $oGetRequiredAdImpressionsType1->oDal->expectOnce(
+        $oGetRequiredAdImpressionsType1->oDal->expectArgumentsAt(
+            1,
             'getAdZoneAssociationsByAds',
             array(
                 array(1)
             )
+        );
+        $oGetRequiredAdImpressionsType1->oDal->expectCallCount(
+            'getAdZoneAssociationsByAds',
+            2
         );
         $oGetRequiredAdImpressionsType1->oDal->setReturnValue(
             'getAdZoneAssociationsByAds',
