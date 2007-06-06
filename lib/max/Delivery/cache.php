@@ -59,6 +59,15 @@ $GLOBALS['OA_Delivery_Cache'] = array(
     'expiry' => $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire']
 );
 
+
+/**
+ * Make sure that the custom path is used if set
+ */
+if (!empty($GLOBALS['_MAX']['CONF']['delivery']['cachePath'])) {
+    $GLOBALS['OA_Delivery_Cache']['path'] = trim($GLOBALS['_MAX']['CONF']['delivery']['cachePath']).'/';
+}
+
+
 /**
  * A function to fetch a cache entry.
  *
@@ -454,16 +463,16 @@ function MAX_cacheCheckIfMaintenanceShouldRun($cached = true)
         $now = MAX_commonGetTimeNow();
         $interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
         $thisIntervalStartTime = $now - ($now % $interval);
-            
+
         // if maintenance should be executed now there is no point in storing last run info in cache
         if ($lastRunTime < $thisIntervalStartTime) {
             return true;
         }
-    
+
         $expireAt = $thisIntervalStartTime + $interval + 1;
         OA_Delivery_Cache_store($cName, $lastRunTime, false, $expireAt);
     }
-    
+
     return false;
 }
 

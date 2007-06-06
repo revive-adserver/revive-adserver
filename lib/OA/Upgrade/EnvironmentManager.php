@@ -58,6 +58,10 @@ class OA_Environment_Manager
                                                  );
         if ($conf) {
             $this->aInfo['PERMS']['expected'][] = $conf['store']['webDir'];
+
+            if (!empty($conf['delivery']['cachePath'])) {
+                $this->aInfo['PERMS']['expected'][] = $conf['delivery']['cachePath'];
+            }
         }
 
         $this->aInfo['PHP']['actual']       = array();

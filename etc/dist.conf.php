@@ -91,6 +91,7 @@ protocol                            = http
 
 [delivery]
 cacheExpire                         = 1200
+cachePath                           =
 acls                                = true
 obfuscate                           = false
 execPhp                             = false
