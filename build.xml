@@ -16,6 +16,7 @@
   <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
   <!-- Openads Delivery Generation Plugin -->
   <taskdef name="generatedelivery" classname="org.openads.ant.GenerateDeliveryTask"/>
+  <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
 
   <target name="clean" description="Cleans all the files generated during the build.">
     <delete file="var/test.log" />

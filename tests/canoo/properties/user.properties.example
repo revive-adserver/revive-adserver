@@ -3,6 +3,7 @@
 ; Canoo
 ;---------------------------------------------
 webtest.home=/usr/local/canoo
+webtest.exec=/usr/local/canoo/bin/webtest.sh
 
 ;---------------------------------------------
 ; Where Openads is available for testing
