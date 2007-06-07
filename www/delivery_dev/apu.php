@@ -70,8 +70,8 @@ if (!isset($scrollbars)) $scrollbars = 0;
 // Get the banner
 $row = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 $row['zoneid'] = 0;
-if (isset($zoneid)) { 
-    $row['zoneid'] = $zoneid; 
+if (isset($zoneid)) {
+    $row['zoneid'] = $zoneid;
 }
 
 // Do not pop a window if not banner was found..
@@ -118,8 +118,8 @@ function MAX_{$row['bannerid']}_pop() {
   if (window.MAX_{$row['bannerid']}.document.title == '' || window.MAX_{$row['bannerid']}.location == 'about:blank' || window.MAX_{$row['bannerid']}.location == '') {
     var browser = navigator.userAgent.toLowerCase();
 
-    // Resize window to correct size, determine outer width and height - IE 5.1x on MAC should't resize!
-    if (window.resizeTo && browser.indexOf('msie 5.1') == -1 && browser.indexOf('mac') == -1) {
+    // Resize window to correct size on IE < 6, determine outer width and height - IE 5.1x on MAC should't resize!
+    if (window.resizeTo && browser.match(/msie [345]/) && browser.indexOf('msie 5.1') == -1 && browser.indexOf('mac') == -1) {
       if(MAX_{$row['bannerid']}.innerHeight) {
         var diffY = MAX_{$row['bannerid']}.outerHeight-Y;
         var diffX = MAX_{$row['bannerid']}.outerWidth-X;
