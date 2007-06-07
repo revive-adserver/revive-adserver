@@ -2206,8 +2206,8 @@ Y+=20;
 window.MAX_{$row['bannerid']}=window.open('', 'MAX_{$row['bannerid']}','height='+Y+',width='+X+',toolbar=".($toolbars == 1 ? 'yes' : 'no').",location=".($location == 1 ? 'yes' : 'no').",menubar=".($menubar == 1 ? 'yes' : 'no').",status=".($status == 1 ? 'yes' : 'no').",resizable=".($resizable == 1 ? 'yes' : 'no').",scrollbars=".($scrollbars == 1 ? 'yes' : 'no')."');
 if (window.MAX_{$row['bannerid']}.document.title == '' || window.MAX_{$row['bannerid']}.location == 'about:blank' || window.MAX_{$row['bannerid']}.location == '') {
 var browser = navigator.userAgent.toLowerCase();
-// Resize window to correct size, determine outer width and height - IE 5.1x on MAC should't resize!
-if (window.resizeTo && browser.indexOf('msie 5.1') == -1 && browser.indexOf('mac') == -1) {
+// Resize window to correct size on IE < 6, determine outer width and height - IE 5.1x on MAC should't resize!
+if (window.resizeTo && browser.match(/msie [345]/) && browser.indexOf('msie 5.1') == -1 && browser.indexOf('mac') == -1) {
 if(MAX_{$row['bannerid']}.innerHeight) {
 var diffY = MAX_{$row['bannerid']}.outerHeight-Y;
 var diffX = MAX_{$row['bannerid']}.outerWidth-X;
