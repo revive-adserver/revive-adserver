@@ -41,9 +41,9 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate);
 
 
-// Load and sort statsFields plugins
-$statsFieldsPlugins = &MAX_Plugin::getPlugins('statsFields');
-uasort($statsFieldsPlugins, array('StatsController', '_pluginSort'));
+// Load and sort statisticsFieldsDelivery plugins
+$statisticsFieldsDeliveryPlugins = &MAX_Plugin::getPlugins('statisticsFieldsDelivery');
+uasort($statisticsFieldsDeliveryPlugins, array('StatsController', '_pluginSort'));
 
 // Load inventory plugins
 $invPlugins = &MAX_Plugin::getPlugins('inventoryProperties');
@@ -116,7 +116,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     }
 
     // Advertiser / publisher preferences
-    foreach ($statsFieldsPlugins as $plugin) {
+    foreach ($statisticsFieldsDeliveryPlugins as $plugin) {
         $vars = array_keys($plugin->getVisibilitySettings());
         $vars2 = array();
         foreach ($vars as $var) {
@@ -382,7 +382,7 @@ $settings = array (
 
 // Add column visibility settings from plugins
 $i = 0;
-foreach ($statsFieldsPlugins as $plugin) {
+foreach ($statisticsFieldsDeliveryPlugins as $plugin) {
     foreach ($plugin->getVisibilitySettings() as $k => $v) {
         // Prepare fake serialized preferences for the next blocks
         $GLOBALS['_MAX']['PREF'][$k.'_label'] = array();
@@ -400,7 +400,7 @@ foreach ($statsFieldsPlugins as $plugin) {
         $settings[1]['items'][] = array (
             'type'         => 'usertype_checkboxes',
             'name'         => $k,
-            'text'         => sprintf(MAX_Plugin_Translation::translate('Show %s column', 'statsFields', null), $v),
+            'text'         => sprintf(MAX_Plugin_Translation::translate('Show %s column', 'statisticsFieldsDelivery', null), $v),
             'show_headers' => $show_headers
         );
     }
@@ -410,13 +410,13 @@ $settings[1]['items'][] = array ('type' => 'break');
 
 // Add column labels settings from plugins
 $i = 0;
-foreach ($statsFieldsPlugins as $plugin) {
+foreach ($statisticsFieldsDeliveryPlugins as $plugin) {
     foreach ($plugin->getVisibilitySettings() as $k => $v) {
         $show_headers = ($i++ == 0) ? $admin_settings : 0;
         $settings[1]['items'][] = array (
             'type'         => 'usertype_textboxes',
             'name'         => $k.'_label',
-            'text'         => sprintf(MAX_Plugin_Translation::translate('Label for %s column', 'statsFields', null), $v),
+            'text'         => sprintf(MAX_Plugin_Translation::translate('Custom label for %s column', 'statisticsFieldsDelivery', null), $v),
             'show_headers' => $show_headers
         );
     }
@@ -426,13 +426,13 @@ $settings[1]['items'][] = array ('type' => 'break');
 
 // Add column labels settings from plugins
 $i = 0;
-foreach ($statsFieldsPlugins as $plugin) {
+foreach ($statisticsFieldsDeliveryPlugins as $plugin) {
     foreach ($plugin->getVisibilitySettings() as $k => $v) {
         $show_headers = ($i++ == 0) ? $admin_settings : 0;
         $settings[1]['items'][] = array (
             'type'         => 'usertype_textboxes',
             'name'         => $k.'_rank',
-            'text'         => sprintf(MAX_Plugin_Translation::translate('Rank of %s column', 'statsFields', null), $v),
+            'text'         => sprintf(MAX_Plugin_Translation::translate('Rank of %s column', 'statisticsFieldsDelivery', null), $v),
             'show_headers' => $show_headers
         );
     }
