@@ -71,8 +71,10 @@ else if (array_key_exists('btn_view_backups', $_REQUEST))
 }
 else if (array_key_exists('btn_backup_drop', $_REQUEST))
 {
-    $oUpgrader->oDBUpgrader->dropBackupTable($_POST['btn_backup_drop']);
-    $aBackups = $oUpgrader->oDBUpgrader->_listBackups();
+    $oUpgrader->initDatabaseConnection();
+    $oUpgrader->oDBUpgrader->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+    $oUpgrader->oDBUpgrader->dropBackupTable($_POST['btn_backup_drop'],' dropped by user');
+    $aBackups = $oUpgrader->oDBAuditor->_listBackups();
 }
 else if (array_key_exists('btn_logfile_view', $_REQUEST))
 {

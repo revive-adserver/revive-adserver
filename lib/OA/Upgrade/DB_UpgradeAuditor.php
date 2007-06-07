@@ -290,10 +290,25 @@ class OA_DB_UpgradeAuditor
                 $aResult[$k]['backup_table'] = $name;
                 $aResult[$k]['copied_table'] = $aInfo[0]['tablename'];
                 $aResult[$k]['copied_date']  = $aInfo[0]['updated'];
+                $aStatus = $this->getTableStatus($name);
+                $aResult[$k]['data_length'] = $aStatus[0]['data_length']/1024;
+                $aResult[$k]['rows'] = $aStatus[0]['rows'];
             }
         }
         return $aResult;
     }
+
+    function getTableStatus($table)
+    {
+        $query      = "SHOW TABLE STATUS LIKE '{$this->prefix}{$table}'";
+        $result     = $this->oDbh->queryAll($query);
+        if (PEAR::isError($result))
+        {
+            return array();
+        }
+        return $result;
+    }
+
 
 }
 

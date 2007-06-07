@@ -2146,13 +2146,13 @@ class OA_DB_Upgrade
      * @param unknown_type $table
      * @return unknown
      */
-    function dropBackupTable($table)
+    function dropBackupTable($table, $logmsg = '')
     {
         if (!$this->dropTable($table))
         {
             return false;
         }
-        $this->oAuditor->updateAuditBackupDropped($table, ' after successful restore');
+        $this->oAuditor->updateAuditBackupDropped($table, $logmsg);
         return true;
     }
 
@@ -2167,7 +2167,7 @@ class OA_DB_Upgrade
         else
         {
             $this->_logError('wanted to drop table '.$this->prefix.$table.' but it wasn\'t there');
-            $result = true;
+            $result = false;
         }
         if (!$result)
         {

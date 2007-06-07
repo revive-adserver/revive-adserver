@@ -92,24 +92,36 @@ if (count($aBackups)>0)
     <form name="frmUpgrade" method="POST" action="upgrade.php">
     <table class="tablemain">
     <tr>
-        <th class="tableheader" colspan="4">backup tables in database</th>
+        <th class="tableheader" colspan="6">backup tables in database</th>
     </tr>
     <tr>
         <th class="tableheader">backup table</th>
         <th class="tableheader">copied from</th>
         <th class="tableheader">date</th>
+        <th class="tableheader">rows</th>
+        <th class="tableheader">size (KB)</th>
         <th class="tableheader">remove the backup table</th>
     </tr>
     <?php
+        $total_data_size = 0;
+        $total_tables = 0;
         foreach ($aBackups AS $k => $v)
         {
+            $total_data_size = $total_data_size + $v['data_length'];
+            $total_tables++;
             echo "<tr>
                       <td class=\"tablebody\">{$v['backup_table']}</td>
                       <td class=\"tablebody\">{$v['copied_table']}</td>
                       <td class=\"tablebody\">{$v['copied_date']}</td>
+                      <td class=\"tablebody\">{$v['rows']}</td>
+                      <td class=\"tablebody\">{$v['data_length']}</td>
                       <td class=\"tablebody\"><button name=\"btn_backup_drop\" value=\"{$v['backup_table']}\">drop</button></td>
                   </tr>";
         }
+        echo "<tr>
+                  <th class=\"tableheader\" colspan=\"3\">{$total_tables} tables</th>
+                  <th class=\"tableheader\" colspan=\"3\">{$total_data_size} KB</th>
+              </tr>";
     ?>
     </table>
     </form>
