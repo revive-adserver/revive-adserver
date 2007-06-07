@@ -1250,7 +1250,7 @@ class OA_Upgrade
                     }
                     if (!$this->oDBUpgrader->rollback())
                     {
-                        $this->oLogger->_logError('ROLLBACK FAILED');
+                        $this->oLogger->logError('ROLLBACK FAILED');
                         return false;
                     }
                     if (!$this->oDBUpgrader->init('constructive', $aPkg['schema'], $aPkg['version'], true))
@@ -1263,7 +1263,7 @@ class OA_Upgrade
                     }
                     if (!$this->oDBUpgrader->rollback())
                     {
-                        $this->oLogger->_logError('ROLLBACK FAILED');
+                        $this->oLogger->logError('ROLLBACK FAILED');
                         return false;
                     }
                     $this->oLogger->logError('ROLLBACK SUCCEEDED');
