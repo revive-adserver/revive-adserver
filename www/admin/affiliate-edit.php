@@ -545,14 +545,16 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     echo "<tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
     echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
 
-    echo "<tr><td width='30'>&nbsp;</td><td width='200'>". 'Account type' ."</td>";
-    echo "<td width='370'><select onchange='MMM_accountTypeChange()' name='account_type' tabindex='".($tabindex++)."'>";
-    echo "<option value='publisher'".(MAX_AffiliateIsReallyAffiliate & $affiliate['permissions'] ? ' selected="selected"' : '').">". 'Publisher' ."</option>";
-    echo "<option value='affiliate'".(MAX_AffiliateIsReallyAffiliate & $affiliate['permissions'] ? ' selected="selected"' : '').">". 'Affiliate' ."</option>";
-    echo "</select>";
-    echo "</td></tr>";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-    echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
+//    Hidden - see #542
+//
+//    echo "<tr><td width='30'>&nbsp;</td><td width='200'>". 'Account type' ."</td>";
+//    echo "<td width='370'><select onchange='MMM_accountTypeChange()' name='account_type' tabindex='".($tabindex++)."'>";
+//    echo "<option value='publisher'".(MAX_AffiliateIsReallyAffiliate & $affiliate['permissions'] ? ' selected="selected"' : '').">". 'Publisher' ."</option>";
+//    echo "<option value='affiliate'".(MAX_AffiliateIsReallyAffiliate & $affiliate['permissions'] ? ' selected="selected"' : '').">". 'Affiliate' ."</option>";
+//    echo "</select>";
+//    echo "</td></tr>";
+//    echo "<tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
+//    echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
 
     echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
     echo "<input type='checkbox' name='affiliatepermissions[]' value='".phpAds_ModifyInfo."'".(phpAds_ModifyInfo & $affiliate['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
@@ -832,9 +834,13 @@ $unique_users = MAX_Permission::getUniqueUserNames($affiliate['username']);
 
     function MMM_accountTypeChange()
     {
-        var o = findObj('account_type');
+        var o;
         var e = document.getElementsByTagName('INPUT');
         var i;
+
+        if (!(o = findObj('account_type')) {
+            return;
+        }
 
         for (i = 0; i < e.length; i++) {
             if (e[i].name.match(/^affiliatepermissions/)) {
