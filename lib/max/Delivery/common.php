@@ -160,6 +160,25 @@ function MAX_commonSetNoCacheHeaders()
 }
 
 /**
+ * Recursively add slashes to the values in an array.
+*
+ * @param array Input array.
+ * @return array Output array with values slashed.
+ */
+function MAX_commonSlashArray($a)
+{
+    if (is_array($a)) {
+        while (list($k,$v) = each($a)) {
+            $a[$k] = MAX_commonSlashArray($v);
+        }
+        reset ($a);
+        return ($a);
+    } else {
+        return is_null($a) ? null : addslashes($a);
+    }
+}
+
+/**
  * This function takes an array of variable names
  * and makes them available in the global scope
  *
@@ -357,7 +376,14 @@ function MAX_setcookie($name, $value, $expire, $path, $domain)
     ###START_STRIP_DELIVERY
     if(empty($GLOBALS['is_simulation']) && !defined('TEST_ENVIRONMENT_RUNNING')) {
     ###END_STRIP_DELIVERY
-        setcookie($name, $value, $expire, $path, $domain);
+        if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xml-rpc') {
+            if (!isset($GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'])) {
+                $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = array();
+            }
+            $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = array($value, $expire);
+        } else {
+            setcookie($name, $value, $expire, $path, $domain);
+        }
     ###START_STRIP_DELIVERY
     } else {
        $_COOKIE[$name] = $value;
