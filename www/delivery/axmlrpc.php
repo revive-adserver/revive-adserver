@@ -2458,7 +2458,6 @@ function OA_Delivery_XmlRpc_View($params)
 {
 global $XML_RPC_erruser;
 global $XML_RPC_String, $XML_RPC_Struct, $XML_RPC_Array;
-$cookieCache =& $GLOBALS['_MAX']['COOKIE']['CACHE'];
 $numParams = $params->getNumParams();
 if ($numParams != 7) {
 $errorCode = $XML_RPC_erruser + 21;
@@ -2505,8 +2504,9 @@ $_SERVER[$varName] = $p[$xmlName];
 }
 }
 foreach ($p['cookies'] as $key => $value) {
-$_COOKIE[$key] = addslashes($value);
+$_COOKIE[$key] = MAX_commonSlashArray($value);
 }
+MAX_cookieUnpackCapping();
 }
 }
 $view_params[] = true;
@@ -2522,7 +2522,8 @@ $output = array();
 } elseif (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
 $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
 }
-$output['cookies'] = $cookieCache;
+MAX_cookieFlush();
+$output['cookies'] = $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'];
 return new XML_RPC_Response(XML_RPC_encode($output));
 }
 function OA_Delivery_XmlRpc_View_Max($params)
