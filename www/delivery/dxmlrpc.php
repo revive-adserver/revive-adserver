@@ -805,11 +805,11 @@ MAX_header('Pragma: no-cache');
 MAX_header('Cache-Control: private, max-age=0, no-cache');
 MAX_header('Date: '.gmdate('D, d M Y H:i:s', MAX_commonGetTimeNow()).' GMT');
 }
-function MAX_commonSlashArray($a)
+function MAX_commonAddslashesRecursive($a)
 {
 if (is_array($a)) {
 while (list($k,$v) = each($a)) {
-$a[$k] = MAX_commonSlashArray($v);
+$a[$k] = MAX_commonAddslashesRecursive($v);
 }
 reset ($a);
 return ($a);
@@ -838,7 +838,7 @@ if (!$magic_quotes_gpc) {
 if (!is_array($value)) {
 $value = addslashes($value);
 } else {
-$value = MAX_commonSlashArray($value);
+$value = MAX_commonAddslashesRecursive($value);
 }
 }
 $GLOBALS[$key] = $value;
