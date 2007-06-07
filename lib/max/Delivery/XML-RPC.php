@@ -169,8 +169,6 @@ function OA_Delivery_XmlRpc_View($params)
     global $XML_RPC_erruser;
     global $XML_RPC_String, $XML_RPC_Struct, $XML_RPC_Array;
 
-    $cookieCache =& $GLOBALS['_MAX']['COOKIE']['CACHE'];
-
     // Check the parameters exist
     $numParams = $params->getNumParams();
     if ($numParams != 7) {
@@ -236,8 +234,10 @@ function OA_Delivery_XmlRpc_View($params)
 
             // Extract cookie vars to $_COOKIE
             foreach ($p['cookies'] as $key => $value) {
-                $_COOKIE[$key] = addslashes($value);
+                $_COOKIE[$key] = MAX_commonSlashArray($value);
             }
+
+            MAX_cookieUnpackCapping();
         }
     }
 
@@ -263,8 +263,10 @@ function OA_Delivery_XmlRpc_View($params)
         $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
     }
 
+    MAX_cookieFlush();
+
     // Add cookie information
-    $output['cookies'] = $cookieCache;
+    $output['cookies'] = $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'];
 
     // Return response
     return new XML_RPC_Response(XML_RPC_encode($output));
