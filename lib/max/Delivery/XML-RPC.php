@@ -234,7 +234,7 @@ function OA_Delivery_XmlRpc_View($params)
 
             // Extract cookie vars to $_COOKIE
             foreach ($p['cookies'] as $key => $value) {
-                $_COOKIE[$key] = MAX_commonSlashArray($value);
+                $_COOKIE[$key] = MAX_commonAddslashesRecursive($value);
             }
 
             MAX_cookieUnpackCapping();

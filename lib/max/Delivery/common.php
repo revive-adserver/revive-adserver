@@ -165,11 +165,11 @@ function MAX_commonSetNoCacheHeaders()
  * @param array Input array.
  * @return array Output array with values slashed.
  */
-function MAX_commonSlashArray($a)
+function MAX_commonAddslashesRecursive($a)
 {
     if (is_array($a)) {
         while (list($k,$v) = each($a)) {
-            $a[$k] = MAX_commonSlashArray($v);
+            $a[$k] = MAX_commonAddslashesRecursive($v);
         }
         reset ($a);
         return ($a);
@@ -207,7 +207,7 @@ function MAX_commonRegisterGlobalsArray($args = array())
                 if (!is_array($value)) {
                     $value = addslashes($value);
                 } else {
-                    $value = MAX_commonSlashArray($value);
+                    $value = MAX_commonAddslashesRecursive($value);
                 }
             }
             $GLOBALS[$key] = $value;
