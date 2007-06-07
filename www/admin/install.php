@@ -46,7 +46,28 @@ $installing = true;
 
 require_once '../../init.php';
 
-if (array_key_exists('btn_openads', $_POST) || $GLOBALS['_MAX']['CONF']['openads']['installed'])
+
+if (isset($_POST['btn_openads']) && !empty($_POST['aAdminPost'])) {
+    // Log in as admin if not already logged in
+    $aAdmin = unserialize(stripslashes($_POST['aAdminPost']));
+    if (isset($aAdmin['name']) && isset($aAdmin['pword'])) {
+        require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+        if (!phpAds_IsLoggedIn()) {
+            require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+
+            // Fake a POST and login submission
+            $_POST['username'] = addslashes($aAdmin['name']);
+            $_POST['password'] = addslashes($aAdmin['pword']);
+            $_POST['phpAds_md5'] = md5($aAdmin['pword']);
+            $_POST['phpAds_cookiecheck'] = $_COOKIE['sessionID'];
+            MAX_Admin_Preferences::loadPrefs();
+
+            phpAds_Start();
+        }
+    }
+}
+
+if (isset($_POST['btn_openads']) || $GLOBALS['_MAX']['CONF']['openads']['installed'])
 {
     require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
     MAX_Admin_Redirect::redirect();
@@ -132,7 +153,7 @@ else if (array_key_exists('btn_syscheck', $_POST))
     $_SESSION['updates_cs_data_enabled'] = $_POST['updates_cs_data_enabled'];
 
     $aSysInfo = $oUpgrader->checkEnvironment();
-    
+
     // Do not check for an upgrade package if environment errors exist
     if (!$aSysInfo['PERMS']['error'] && !$aSysInfo['PHP']['error'] && !$aSysInfo['FILES']['error']) {
         $halt = !$oUpgrader->canUpgrade();
@@ -191,7 +212,7 @@ else if (array_key_exists('btn_upgrade', $_POST))
             $aDatabase['database'] = $GLOBALS['_MAX']['CONF']['database'];
             $aDatabase['table']    = $GLOBALS['_MAX']['CONF']['table'];
         }
-        
+
         $displayError = true;
         $action = OA_UPGRADE_DBSETUP;
     }
