@@ -806,6 +806,18 @@ MAX_header('Pragma: no-cache');
 MAX_header('Cache-Control: private, max-age=0, no-cache');
 MAX_header('Date: '.gmdate('D, d M Y H:i:s', MAX_commonGetTimeNow()).' GMT');
 }
+function MAX_commonSlashArray($a)
+{
+if (is_array($a)) {
+while (list($k,$v) = each($a)) {
+$a[$k] = MAX_commonSlashArray($v);
+}
+reset ($a);
+return ($a);
+} else {
+return is_null($a) ? null : addslashes($a);
+}
+}
 function MAX_commonRegisterGlobalsArray($args = array())
 {
 static $magic_quotes_gpc;
@@ -944,7 +956,14 @@ return $now;
 }
 function MAX_setcookie($name, $value, $expire, $path, $domain)
 {
+if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xml-rpc') {
+if (!isset($GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'])) {
+$GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = array();
+}
+$GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = array($value, $expire);
+} else {
 setcookie($name, $value, $expire, $path, $domain);
+}
 }
 function MAX_header($value)
 {
