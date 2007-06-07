@@ -143,7 +143,7 @@ class OA_Upgrade
         }
         if (PEAR::isError($this->oDbh))
         {
-            $this->oLogger->log($this->oDbh->getMessage());
+            $this->oLogger->logError($this->oDbh->getUserInfo());
             $this->oDbh = null;
             return false;
         }
@@ -600,6 +600,11 @@ class OA_Upgrade
         $this->oLogger->log('Installation started '.OA::getNow());
         $this->oLogger->log('Attempting to connect to database '.$this->aDsn['database']['name'].' with user '.$this->aDsn['database']['username']);
 
+        if (!$this->_checkDatabaseConnection())
+        {
+            $this->oLogger->logError('Installation failed to connect to the database');
+            return false;
+        }
         if (!$this->_createDatabase())
         {
             $this->oLogger->logError('Installation failed to create the database '.$this->aDsn['database']['name']);
@@ -695,6 +700,26 @@ class OA_Upgrade
             }
             return true;
         }
+    }
+
+    /**
+     * check for connection errors
+     *
+     * @return boolean
+     */
+    function _checkDatabaseConnection()
+    {
+        $GLOBALS['_MAX']['CONF']['database']          = $this->aDsn['database'];
+        $result = &OA_DB::singleton(OA_DB::getDsn($this->aDsn));
+        if (PEAR::isError($result))
+        {
+            if ($result->getCode() == MDB2_ERROR_CONNECT_FAILED)
+            {
+                $this->oLogger->logError($result->getUserInfo());
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
