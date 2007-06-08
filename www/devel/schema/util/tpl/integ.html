@@ -16,8 +16,9 @@
     <form name="frmInteg" method="POST" action="integ.php">
         <button name="btn_integ_check">run an integrity check on <?php echo $GLOBALS['_MAX']['CONF']['database']['name']; ?> against schema version =></button>
         <select name="version">
-            <option value="500" <?php echo ($version==500 ? 'selected' : '')?>>500</option>
-            <option value="100" <?php echo ($version==100 ? 'selected' : '')?>>100</option>
+            <option value="500" <?php echo ($version==500 ? 'selected' : '')?>>schema 500 (MMMv2.3.31-pr3)</option>
+            <option value="300" <?php echo ($version==300 ? 'selected' : '')?>>schema 300 (MMMv2.1.29-rc)</option>
+            <option value="099" <?php echo ($version==099 ? 'selected' : '')?>>schema 099 (PANv2.0.11-pr1)</option>
         </select>
     </form>
 </div>
