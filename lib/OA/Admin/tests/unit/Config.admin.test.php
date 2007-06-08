@@ -106,6 +106,105 @@ Class Test_OA_Admin_Config extends UnitTestCase
         unlink('/tmp/localhost.' . $filename . '.conf.php');
         
     }
+    
+    function testMergeConfigs()
+    {
+        // Build a test dist.conf.php
+        $oDistConf = new OA_Admin_Config(true);
+        
+        $oDistConf->conf['foo'] = array('one' => 'bar', 'two' => 'baz', 'new' => 'additional_value');
+        $oDistConf->conf['webpath']['admin'] = 'disthost';
+        $oDistConf->conf['webpath']['delivery'] = 'disthost';
+        $oDistConf->conf['webpath']['deliverySSL'] = 'disthost';
+        $oDistConf->conf['new'] = array('new_key' => 'new_value');
+                
+        $distFilename = 'oa_test_dist' . rand();
+        $this->assertTrue($oDistConf->writeConfigChange('/tmp', $distFilename, false), 'Error writing config file');
+                
+        // Build a test user conf
+        $oUserConf = new OA_Admin_Config(true);
+        
+        $oUserConf->conf['foo'] = array('one' => 'bar', 'two' => 'baz', 'old' => 'old_value');
+        $oUserConf->conf['deprecated'] = array('old_key' => 'old_value');
+        $oUserConf->conf['webpath']['admin'] = 'localhost';
+        $oUserConf->conf['webpath']['delivery'] = 'localhost';
+        $oUserConf->conf['webpath']['deliverySSL'] = 'localhost';
+        
+        $userFilename = 'oa_test_user' . rand();
+        $this->assertTrue($oUserConf->writeConfigChange('/tmp', $userFilename), 'Error writing config file');
+        
+        $expected = array('foo' => array('one' => 'bar',
+                                         'two' => 'baz',
+                                         'new' => 'additional_value'),
+                          'webpath' => array('admin' => 'localhost',
+                                             'delivery' => 'localhost',
+                                             'deliverySSL' => 'localhost'),
+                          'new' => array('new_key' => 'new_value'));
+        
+        $this->assertEqual($expected, $oUserConf->_mergeConfArrays('/tmp/disthost.' . $distFilename . '.conf.php'),
+            'Config files don\'t match');
+        
+        // Clean up
+        unlink('/tmp/disthost.' . $distFilename . '.conf.php');
+        unlink('/tmp/localhost.' . $userFilename . '.conf.php');
+    }
+    
+    /**
+     * Tests the config file is backed up.
+     *
+     */
+    function testBackupConfig()
+    {
+        $oConfig = new OA_Admin_Config(true);
+        
+        $originalFilename = 'oa_test_' . rand() . '.conf.php';
+        $directory = '/tmp';
+        touch($directory . '/' . $originalFilename);
+        $now = date("Ymd");
+        $expected = 'old.' . $originalFilename . '-' . $now;
+        $this->assertTrue($oConfig->backupConfig($directory . '/' . $originalFilename));
+        $this->assertTrue(file_exists($directory . '/' . $expected));
+        
+        $this->assertTrue($oConfig->backupConfig($directory . '/' . $originalFilename));
+        $this->assertTrue(file_exists($directory . '/' . $expected . '_0'));
+        
+        $this->assertTrue($oConfig->backupConfig($directory . '/' . $originalFilename));
+        $this->assertTrue(file_exists($directory . '/' . $expected . '_1'));
+            
+        // Clean up
+        unlink('/tmp/' . $originalFilename);
+        unlink('/tmp/' . $expected);
+        unlink('/tmp/' . $expected . '_0');
+        unlink('/tmp/' . $expected . '_1');
+        
+    }
+    
+    /**
+     * Tests the correct backup filename is generated.
+     *
+     */
+    function test_getBackupFilename()
+    {
+        // Test when backup filename doesn't already exist.
+        $originalFilename = 'oa_test_' . rand() . '.conf.php';
+        $directory = '/tmp';
+        $now = date("Ymd");
+        touch($directory . '/' . $originalFilename);
+        $expected = 'old.' . $originalFilename . '-' . $now;
+        $this->assertEqual($expected, OA_Admin_Config::_getBackupFilename($directory . '/' . $originalFilename),
+            'Filenames don\'t match');
+        
+        // Test when backup filename already exists.
+        $existingBackupFile = $expected;
+        touch($directory . '/' . $existingBackupFile);
+        $expected = $existingBackupFile . '_0';
+        $this->assertEqual($expected, OA_Admin_Config::_getBackupFilename($directory . '/' . $originalFilename),
+            'Filenames don\'t match');
+        
+         // Clean up
+        unlink($directory . '/' . $originalFilename);
+        unlink($directory . '/' . $existingBackupFile);
+    }
 }
 
 ?>

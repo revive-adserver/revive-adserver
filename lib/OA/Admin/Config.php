@@ -225,6 +225,89 @@ class OA_Admin_Config
         }
         return true;
     }
+    
+    /**
+     * Merges any changes in dist.conf.php into the user's conf array.
+     * 
+     * @param string $distConfig the full path to the distributed conf.php file.
+     * @return array containing merged config values.
+     *
+     */
+    function _mergeConfArrays($distConfig = null)
+    {
+        if (is_null($distConfig)) {
+            $distConfig = MAX_PATH . '/var/dist.conf.php';
+        }
+        
+        $aDistConf = @parse_ini_file($distConfig, true);
+        $aUserConf = $this->conf;
+        
+        // Check for deprecated keys to remove from existing user conf
+        foreach ($aUserConf as $key => $value) {
+        	if (array_key_exists($key, $aDistConf)) {
+        	    foreach ($aUserConf[$key] as $subKey => $subValue) {
+        	        if (!array_key_exists($subKey, $aDistConf[$key])) {
+                        unset($aUserConf[$key][$subKey]);
+        	        }
+        	    }
+        	} else {
+                unset($aUserConf[$key]);
+        	} 
+        }
+        
+        // Check for new keys in dist to add to existing user conf
+        foreach ($aDistConf as $key => $value) {
+        	if (array_key_exists($key, $aUserConf)) {
+        	    foreach ($aDistConf[$key] as $subKey => $subValue) {
+        	    	if (!array_key_exists($subKey, $aUserConf[$key])) {
+                        $aUserConf[$key][$subKey] = $subValue;
+        	    	}
+        	    }
+        	} else {
+                $aUserConf[$key] = $value;
+        	}
+        }
+        
+        return $aUserConf;
+    }
+    
+    /**
+     * Makes a backup copy of the given file.
+     *
+     * @param string $configFile full path to the file to be backed up.
+     * @return boolean true if the file is successfully backed up. Otherwise, false.
+     */
+    function backupConfig($configFile)
+    {
+        // Backup user's original config file
+        if (file_exists($configFile)) {
+            $backupFilename = $this->_getBackupFilename($configFile);
+            return (copy($configFile, dirname($configFile) . '/' . $backupFilename));
+        }
+        return false;
+    }
+    
+    /**
+     * Generates a unique filename for the backup config file. 
+     *
+     * @param string $filename the full path of the file to generate a backup filename for.
+     * @return string the new filename in format: "old.original.name-YYYYMMDD[_0]"
+     */
+    function _getBackupFilename($filename)
+    {
+        $directory = dirname($filename);
+        $basename = basename($filename);
+        $now = date("Ymd");
+        $newFilename = 'old.' . $basename . '-' . $now;
+        
+        // Make sure we don't overwrite any old backup files.
+        $i=0;
+        while(file_exists($directory . '/' . $newFilename)){
+            $newFilename = substr($newFilename, 0, strpos($newFilename, $now)) . $now . '_' . $i;
+            $i++;
+        }
+        
+        return $newFilename;
+    }
 }
-
 ?>
