@@ -98,7 +98,9 @@ function phpAds_SessionDataRegister($key, $value='')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
 	global $session;
-    if ($conf['openads']['installed']) {
+    //if ($conf['openads']['installed'])
+    if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
+    {
 		phpAds_SessionStart();
 	}
 	if (is_array($key) && $value=='') {
@@ -108,7 +110,9 @@ function phpAds_SessionDataRegister($key, $value='')
 	} else {
 		$session[$key] = $value;
 	}
-    if ($conf['openads']['installed']) {
+    //if ($conf['openads']['installed'])
+    if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
+    {
 	   phpAds_SessionDataStore();
 	}
 }

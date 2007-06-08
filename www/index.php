@@ -40,7 +40,9 @@ require_once '../init.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 
 // Redirect to the admin interface
-if ($conf['openads']['installed']) {
+//if ($conf['openads']['installed'])
+if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
+{
     MAX_Admin_Redirect::redirect();
 }
 

@@ -1,9 +1,9 @@
 <?php
 
-class OA_UpgradePrescript
+class OA_UpgradePostscript
 {
 
-    function OA_UpgradePrescript()
+    function OA_UpgradePostscript()
     {
 
     }

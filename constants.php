@@ -44,6 +44,10 @@ function setupConstants()
     define('MAX_PRODUCT_DOCSURL',   'docs.openads.org');
     define('MAX_PRODUCT_FORUMURL',  'forum.openads.org');
 
+    define('OA_INSTALLATION_STATUS_NOTINSTALLED' ,   -1);
+    define('OA_INSTALLATION_STATUS_UPGRADING'    ,    0);
+    define('OA_INSTALLATION_STATUS_INSTALLED'    ,    1);
+
     // This old PAN constant is used in a couple places but could well conflict with the configured DB
     // TODO: find any uses of this constant and re-think their place.
     define('phpAds_dbmsname', 'MySQL');

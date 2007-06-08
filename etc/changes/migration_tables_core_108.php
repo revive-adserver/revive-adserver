@@ -27,7 +27,12 @@ $Id$
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 require_once MAX_PATH . '/etc/changes/StatMigration.php';
-require_once MAX_PATH . '/etc/changes/migration_tables_core_119.php';
+//require_once MAX_PATH . '/etc/changes/migration_tables_core_119.php';
+require_once(MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php');
+require_once(MAX_PATH.'/lib/OA/DB/Sql.php');
+
+define('GEOCONFIG_PATH', MAX_PATH . '/var/plugins/config/geotargeting');
+
 
 class Migration_108 extends Migration
 {
@@ -600,10 +605,10 @@ class Migration_108 extends Migration
 
 	function afterAddTable__preference()
 	{
-	    $migration = new Migration_119();
-	    $migration->init($this->oDBH);
+//	    $migration = new Migration_119();
+//	    $migration->init($this->oDBH);
 
-		return $migration->migrateData() && $this->afterAddTable('preference');
+		return $this->migrateData() && $this->afterAddTable('preference');
 	}
 
 	function beforeAddTable__preference_advertiser()
@@ -646,6 +651,169 @@ class Migration_108 extends Migration
 		return $this->afterAddTable('password_recovery');
 	}
 
+	function migrateData()
+	{
+	    $prefix = $this->getPrefix();
+	    $tablePreference = $prefix . 'preference';
+	    $aColumns = $this->oDBH->manager->listTableFields($tablePreference);
+
+	    $sql = "
+	       SELECT * from {$prefix}config";
+	    $rsConfig = DBC::NewRecordSet($sql);
+	    if ($rsConfig->find() && $rsConfig->fetch()) {
+	        $aDataConfig = $rsConfig->toArray();
+	        $aValues = array();
+	        foreach($aDataConfig as $column => $value) {
+	            if (in_array($column, $aColumns)) {
+	                $aValues[$column] = $value;
+	            }
+	        }
+
+	        // Migrate PAN config variables
+	        $phpAdsNew = new OA_phpAdsNew();
+            $aPanConfig = $phpAdsNew->_getPANConfig();
+            $aValues['warn_admin']                 = $aPanConfig['warn_admin'] ? 't' : 'f';
+            $aValues['warn_client']                = $aPanConfig['warn_client'] ? 't' : 'f';
+            $aValues['warn_limit']                 = $aPanConfig['warn_limit'] ? $aPanConfig['warn_limit'] : 100;
+            $aValues['default_banner_url']         = $aPanConfig['default_banner_url'];
+            $aValues['default_banner_destination'] = $aPanConfig['default_banner_target'];
+
+            $this->createGeoTargetingConfiguration(
+                $aPanConfig['geotracking_type'],
+                $aPanConfig['geotracking_location'],
+                $aPanConfig['geotracking_stats'],
+                $aPanConfig['geotracking_conf']);
+
+	        $sql = OA_DB_SQL::sqlForInsert('preference', $aValues);
+	        $result = $this->oDBH->exec($sql);
+	        return (!PEAR::isError($result));
+	    }
+	    else {
+	        return false;
+	    }
+	}
+
+
+	function createGeoTargetingConfiguration(
+	   $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf)
+	{
+	    $upgradeConfig = new OA_Upgrade_Config();
+	    $host = getHostName();
+
+	    if (empty($geotracking_type)) {
+	        return $this->writeGeoPluginConfig('"none"', $geotracking_stats, $host);
+	    }
+	    elseif ($geotracking_type == 'mod_geoip') {
+	        return
+	           $this->writeGeoPluginConfig('ModGeoIP', $geotracking_stats, $host)
+	           && $this->writeGeoSpecificConfig('ModGeoIP', '', $host);
+	    }
+	    elseif ($geotracking_type == 'geoip') {
+	        $result = $this->writeGeoPluginConfig('GeoIP', $geotracking_stats, $host);
+	        $databaseSetting = $this->getDatabaseSetting($geotracking_conf, $geotracking_location);
+	        if ($databaseSetting === false) {
+	            return false;
+	        }
+	        return $result && $this->writeGeoSpecificConfig('GeoIP', $databaseSetting, $host);
+	    }
+	    return false;
+	}
+
+	function getDatabaseSetting($geotracking_conf, $geotracking_location)
+	{
+	    $sDatabaseType = $this->getDatabaseType($geotracking_conf);
+	    if ($sDatabaseType === false) {
+	        return false;
+	    }
+	    return "$sDatabaseType=$geotracking_location\n";
+	}
+
+
+	function getDatabaseType($geotracking_conf)
+	{
+	    $aLocationStrings = array(
+	       1 => 'geoipCountryLocation',
+	       7 => 'geoipRegionLocation',
+	       3 => 'geoipRegionLocation',
+	       6 => 'geoipCityLocation',
+	       2 => 'geoipCityLocation',
+	       5 => 'geoipOrgLocation',
+	       4 => 'geoipIspLocation',
+	       10 => 'geoipNetspeedLocation',
+	       // 8 => 'geoipDmaLocation', // GEOIP_PROXY_EDITION // We're unsure
+	       // 9 => 'geoipAreaLocation' // GEOIP_ASNUM_EDITION // of these two
+	                                                          // and will have
+	                                                          // to check with
+	                                                          // MaxMind
+	    );
+	    $aGeotrackingConf = unserialize($geotracking_conf);
+	    if ($aGeotrackingConf === false) {
+	        return false;
+	    }
+	    if (!isset($aGeotrackingConf['databaseType'])) {
+	        return false;
+	    }
+	    $databaseType = $aGeotrackingConf['databaseType'];
+	    if (!isset($aLocationStrings[$databaseType])) {
+	        return false;
+	    }
+	    return $aLocationStrings[$databaseType];
+	}
+
+
+	function writeGeoPluginConfig($type, $geotracking_stats, $host)
+	{
+	    $result = $this->createConfigDirectory(GEOCONFIG_PATH);
+        if ($result === false) {
+            return false;
+        }
+	    $saveStats = $geotracking_stats ? 'true' : 'false';
+	    $pluginConfigPath = MAX_PATH . "/var/plugins/config/geotargeting/$host.plugin.conf.php";
+        $pluginConfigContents = "[geotargeting]\ntype=$type\nsaveStats=$saveStats\nshowUnavailable=false";
+        return $this->writeContents($pluginConfigPath, $pluginConfigContents);
+	}
+
+
+	function writeGeoSpecificConfig($type, $append, $host)
+	{
+	    $pluginConfigDir = MAX_PATH . "/var/plugins/config/geotargeting/$type";
+	    $result = $this->createConfigDirectory($pluginConfigDir);
+	    $pluginConfigPath = "$pluginConfigDir/$host.plugin.conf.php";
+        $pluginConfigContents = "[geotargeting]\ntype=$type\n$append";
+        return $result && $this->writeContents($pluginConfigPath, $pluginConfigContents);
+	}
+
+
+	function createConfigDirectory($dir)
+	{
+	    if (file_exists($dir) && !is_dir($dir)) {
+	        return false;
+	    }
+	    elseif (file_exists($dir)) {
+	        return true;
+	    }
+	    return mkdir($dir, 0700);
+	}
+
+	/**
+	 * Reimplements file_put_contents for PHP4, but works only for text
+	 * content.
+	 *
+	 * @param string $filename
+	 * @param string $contents
+	 */
+	function writeContents($filename, $contents)
+	{
+        $file = fopen($filename, "wt");
+        if ($file === false) {
+            return false;
+        }
+        $result = fwrite($file, $contents);
+        if ($result === false) {
+            return false;
+        }
+        return fclose($file);
+	}
 }
 
 ?>

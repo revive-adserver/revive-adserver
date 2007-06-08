@@ -8,17 +8,17 @@
     <authorEmail>support@openads.org</authorEmail>
     <authorUrl>http://www.openads.org</authorUrl>
     <license>LICENSE.txt</license>
-    <description>Openads Upgrade 2.3.32-beta-rc1 to 2.3.32-beta-rc2</description>
-    <versionFrom>2.3.32-beta-rc1</versionFrom>
-    <versionTo>2.3.32-beta-rc2</versionTo>
+    <description>Openads Upgrade to 2.3.32-beta-rc5</description>
+    <versionFrom></versionFrom>
+    <versionTo>2.3.32-beta-rc5</versionTo>
 
     <!-- Database Packages -->
     <database>
     </database>
 
     <!-- Custom Install Scripts to execute -->
-    <!--prescript></prescript>
-    <postscript></postscript-->
+    <prescript></prescript>
+    <postscript></postscript>
 
 
 </upgrade>

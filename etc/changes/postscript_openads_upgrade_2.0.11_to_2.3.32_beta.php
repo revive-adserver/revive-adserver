@@ -1,19 +1,47 @@
 <?php
 
-//require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Factory.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
 
 class OA_UpgradePostscript
 {
+    var $oUpgrade;
 
     function OA_UpgradePostscript()
     {
 
     }
 
-    function execute()
+    function execute($aParams)
     {
-        return MAX_Maintenance_Priority::run();
+        $this->oUpgrade = & $aParams[0];
+        if (!$this->configPan())
+        {
+            return false;
+        }
+        if (!MAX_Maintenance_Priority::run())
+        {
+            return false;
+        }
+        return true;
+    }
+
+    function configPan()
+    {
+        if (!$this->oUpgrade->oConfiguration->putNewConfigFile())
+        {
+            $this->oUpgrade->oLogger->logError('Installation failed to create the configuration file');
+            return false;
+        }
+        $aConfig = $this->oUpgrade->oPAN->aConfig;
+        $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
+        $this->oUpgrade->oConfiguration->setupConfigPan($aConfig);
+        $this->oUpgrade->oConfiguration->writeConfig();
+        if (!$this->oUpgrade->oPAN->renamePANConfigFile())
+        {
+            $this->oUpgrade->oLogger->logError('Failed to rename PAN configuration file (non-critical, you can delete or rename /var/config.inc.php yourself)');
+            $this->oUpgrade->message = 'Failed to rename PAN configuration file (non-critical, you can delete or rename /var/config.inc.php yourself)';
+        }
+        return true;
     }
 
 }

@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/etc/changes/migration_tables_core_119.php';
+require_once MAX_PATH . '/etc/changes/migration_tables_core_108.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/Configuration.php';
@@ -45,11 +45,11 @@ class Migration_119Test extends MigrationTest
     function testMigrateData()
     {
         $prefix = $this->getPrefix();
-        $this->initDatabase(119, array('config', 'preference'));
+        $this->initDatabase(108, array('config', 'preference'));
 
         $this->setupPanConfig();
 
-        $migration = new Migration_119();
+        $migration = new Migration_108();
         $migration->init($this->oDbh);
 
         $aValues = array(
@@ -73,7 +73,7 @@ class Migration_119Test extends MigrationTest
         foreach($aValues as $column => $value) {
             $this->assertEqual($value, $aDataPreference[$column]);
         }
-        
+
         $this->restorePanConfig();
     }
 
@@ -87,7 +87,7 @@ class Migration_119Test extends MigrationTest
         $upgradeConfig = new OA_Upgrade_Config();
         $host = getHostName();
 
-        $migration = new Migration_119();
+        $migration = new Migration_108();
         $migration->init($this->oDbh);
 
         $this->checkNoGeoTargeting($migration, $host);
@@ -102,7 +102,7 @@ class Migration_119Test extends MigrationTest
     }
 
     /**
-     * @param Migration_119 $migration
+     * @param Migration_108 $migration
      * @param string $host
      */
     function checkNoGeoTargeting(&$migration, $host)

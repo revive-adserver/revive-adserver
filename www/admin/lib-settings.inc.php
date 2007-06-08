@@ -36,7 +36,9 @@ require_once MAX_PATH . '/lib/max/Admin/Config.php';
 require_once MAX_PATH . '/lib/max/language/Default.php';
 require_once MAX_PATH . '/lib/max/language/Settings.php';
 require_once MAX_PATH . '/lib/max/language/SettingsHelp.php';
-if ($conf['openads']['installed']) {
+//if ($conf['openads']['installed'])
+if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
+{
     include_once MAX_PATH . '/www/admin/config.php';
 }
 
@@ -159,7 +161,9 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0, $imgPat
     // Determine if config file is writable
     $configLocked = !MAX_Admin_Config::isConfigWritable();
     // Show header
-    if ($conf['openads']['installed']) {
+    //if ($conf['openads']['installed'])
+    if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
+    {
        echo "<form id='settingsform' name='settingsform' ENCTYPE='multipart/form-data' method='post' action='".$_SERVER['PHP_SELF']."' onSubmit='return max_formValidate(this);'>\n";
         // Show config locked alert
         if (phpAds_isUser(phpAds_Admin)) {
@@ -264,7 +268,9 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0, $imgPat
         }
         $i++;
     }
-    if ($conf['openads']['installed']) {
+    //if ($conf['openads']['installed'])
+    if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
+    {
         if ($disableSubmit == 0)
             echo '<br /><br /><input type="submit" name="submitsettings" value="'.$GLOBALS['strSaveChanges'].'"></form>';
         else {
@@ -355,7 +361,9 @@ function phpAds_ShowSettings_GetType ($data, $name)
 function phpAds_ShowSettings_StartSection($name, $error = array(), $disableSubmit=0, $imgPath="")
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    $icon = (!$conf['openads']['installed']) ? 'setup' : 'settings';
+    //$icon = (!$conf['openads']['installed']) ? 'setup' : 'settings';
+    $icon = (OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED) ? 'setup' : 'settings';
+
     echo "\t<br /><br />\n\n";
     echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'><tr>\n";
     if($disableSubmit == 0)
@@ -684,7 +692,9 @@ function phpAds_ShowSettings_PadLock($item)
 function showSettingsLocked($item)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    if ($conf['openads']['installed'] && isset($item['name'])) {
+    //if ($conf['openads']['installed'] && isset($item['name']))
+    if ((OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) && isset($item['name']))
+    {
         // Split into config sections
         $confixExploded = explode('_', $item['name']);
         $configLevel = isset($confixExploded[0]) ? $confixExploded[0] : null;

@@ -46,27 +46,8 @@ $installing = true;
 
 require_once '../../init.php';
 
-
-if (isset($_POST['btn_openads']) && !empty($_POST['aAdminPost'])) {
-    // Log in as admin if not already logged in
-    $aAdmin = unserialize(stripslashes($_POST['aAdminPost']));
-    if (isset($aAdmin['name']) && isset($aAdmin['pword'])) {
-        require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
-        if (!phpAds_IsLoggedIn()) {
-            require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-
-            // Fake a POST and login submission
-            $_POST['username'] = addslashes($aAdmin['name']);
-            $_POST['password'] = addslashes($aAdmin['pword']);
-            $_POST['phpAds_cookiecheck'] = $_COOKIE['sessionID'];
-            MAX_Admin_Preferences::loadPrefs();
-
-            phpAds_Start();
-        }
-    }
-}
-
-if (isset($_POST['btn_openads']) || $GLOBALS['_MAX']['CONF']['openads']['installed'])
+//if (array_key_exists('btn_openads', $_POST) || $GLOBALS['_MAX']['CONF']['openads']['installed'])
+if (array_key_exists('btn_openads', $_POST) || (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED))
 {
     require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
     MAX_Admin_Redirect::redirect();
@@ -161,10 +142,6 @@ else if (array_key_exists('btn_syscheck', $_POST))
     }
 
     $installStatus = $oUpgrader->existing_installation_status;
-    if ($installStatus == OA_STATUS_CAN_UPGRADE)
-    {
-        $oUpgrader->checkUpgradePackage();
-    }
     $action   = OA_UPGRADE_SYSCHECK;
 }
 else if (array_key_exists('btn_appcheck', $_POST))
@@ -323,25 +300,35 @@ else
     $action = OA_UPGRADE_WELCOME;
 }
 
+if ($action == OA_UPGRADE_FINISH)
+{
+    if (!$oUpgrader->removeUpgradeTriggerFile())
+    {
+        $message.= ' You must remove the UPGRADE file from the var folder.';
+    }
+}
+
 if ($installStatus == OA_STATUS_OAD_NOT_INSTALLED)
 {
     setcookie('oat', OA_UPGRADE_INSTALL);
-} elseif ($installStatus != 'unknown') {
+}
+elseif ($installStatus != 'unknown')
+{
     setcookie('oat', OA_UPGRADE_UPGRADE);
 }
 
 // Used to detmine which page is active in nav
 $activeNav = array (
-    OA_UPGRADE_WELCOME        =>      '10',
-    OA_UPGRADE_TERMS          =>      '20',
-    OA_UPGRADE_POLICY         =>      '25',
-    OA_UPGRADE_SYSCHECK       =>      '30',
-    OA_UPGRADE_APPCHECK       =>      '30',
-    OA_UPGRADE_DBSETUP        =>      '50',
-    OA_UPGRADE_UPGRADE        =>      '50',
-    OA_UPGRADE_INSTALL        =>      '50',
-    OA_UPGRADE_CONFIGSETUP    =>      '60'
-);
+                    OA_UPGRADE_WELCOME        =>      '10',
+                    OA_UPGRADE_TERMS          =>      '20',
+                    OA_UPGRADE_POLICY         =>      '25',
+                    OA_UPGRADE_SYSCHECK       =>      '30',
+                    OA_UPGRADE_APPCHECK       =>      '30',
+                    OA_UPGRADE_DBSETUP        =>      '50',
+                    OA_UPGRADE_UPGRADE        =>      '50',
+                    OA_UPGRADE_INSTALL        =>      '50',
+                    OA_UPGRADE_CONFIGSETUP    =>      '60'
+                  );
 if ($_COOKIE['oat'] != OA_UPGRADE_UPGRADE) {
     $activeNav[OA_UPGRADE_ADMINSETUP]     =      '70';
     $activeNav[OA_UPGRADE_IDSETUP]        =      '70';

@@ -33,7 +33,9 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 
 // Redirect to the maintenance settings page
-if ($conf['openads']['installed']) {
+//if ($conf['openads']['installed'])
+if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
+{
     if (phpAds_isUser(phpAds_Agency)) {
         MAX_Admin_Redirect::redirect('maintenance-finance.php');
     }

@@ -81,9 +81,10 @@ class OA_Upgrade
     var $oConfiguration;
     var $oIntegrity;
 
-    var $aPackage    = array();
-    var $aDBPackages = array();
-    var $aDsn = array();
+    var $aPackageList = array();
+    var $aPackage     = array();
+    var $aDBPackages  = array();
+    var $aDsn         = array();
 
     var $versionInitialApplication;
     var $versionInitialSchema = array();
@@ -143,7 +144,7 @@ class OA_Upgrade
         }
         if (PEAR::isError($this->oDbh))
         {
-            $this->oLogger->logError($this->oDbh->getUserInfo());
+            $this->oLogger->log($this->oDbh->getMessage());
             $this->oDbh = null;
             return false;
         }
@@ -394,22 +395,6 @@ class OA_Upgrade
                 $this->existing_installation_status = OA_STATUS_PAN_VERSION_FAILED;
                 return false;
             }
-            $valid = (version_compare($this->versionInitialApplication,'200.500')>=0);
-            if ($valid)
-            {
-                $this->versionInitialSchema['tables_core'] = '100';
-
-                if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
-                {
-                    $this->existing_installation_status = OA_STATUS_PAN_DBINTEG_FAILED;
-                    return false;
-                }
-                $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
-                $this->package_file = 'openads_upgrade_2.0.12_to_2.3.32_beta.xml';
-                $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
-                $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
-                return true;
-            }
             $valid = ( (version_compare($this->versionInitialApplication,'200.313')>=0)
                       ||
                        (version_compare($this->versionInitialApplication,'200.314')>=0)
@@ -428,7 +413,7 @@ class OA_Upgrade
                     return false;
                 }
                 $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
-                $this->package_file = 'openads_upgrade_2.0.11_to_2.3.32_beta.xml';
+                $this->aPackageList[0] = 'openads_upgrade_2.0.11_to_2.3.32_beta.xml';
                 $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
                 $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
                 return true;
@@ -472,8 +457,8 @@ class OA_Upgrade
                     return false;
                 }
                 $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
-                $this->remove_max_version = true;
-                $this->package_file     = 'openads_upgrade_2.3.31_to_2.3.32_beta.xml';
+                //$this->remove_max_version = true;
+                $this->aPackageList[0]  = 'openads_upgrade_2.3.31_to_2.3.32_beta.xml';
                 $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
                 $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
                 return true;
@@ -551,19 +536,13 @@ class OA_Upgrade
             $valid   = (version_compare($this->versionInitialApplication,OA_VERSION)<0);
             if ($valid)
             {
-                $aAllPackages = $this->_readUpgradePackagesArray(MAX_PATH.'/etc/changes/packages.txt');
-                $aRequiredPackages = $this->getUpgradePackageList($this->versionInitialApplication, $aUpgradePackages);
-                if (count($aRequiredPackages)>0)
+                $this->aPackageList = $this->getUpgradePackageList($this->versionInitialApplication, $this->_readUpgradePackagesArray());
+                if (count($this->aPackageList)>0)
                 {
                     $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
                     if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
                     {
                         $this->existing_installation_status = OA_STATUS_OAD_DBINTEG_FAILED;
-                        return false;
-                    }
-                    $this->package_file = $aRequiredPackages[0];
-                    if (!$this->checkUpgradePackage())
-                    {
                         return false;
                     }
                 }
@@ -575,7 +554,7 @@ class OA_Upgrade
             else if ($current)
             {
                 $this->existing_installation_status = OA_STATUS_CURRENT_VERSION;
-                $this->package_file = '';
+                $this->aPackageList = array();
                 return false;
             }
             $this->existing_installation_status = OA_STATUS_OAD_VERSION_FAILED;
@@ -600,11 +579,6 @@ class OA_Upgrade
         $this->oLogger->log('Installation started '.OA::getNow());
         $this->oLogger->log('Attempting to connect to database '.$this->aDsn['database']['name'].' with user '.$this->aDsn['database']['username']);
 
-        if (!$this->_checkDatabaseConnection())
-        {
-            $this->oLogger->logError('Installation failed to connect to the database');
-            return false;
-        }
         if (!$this->_createDatabase())
         {
             $this->oLogger->logError('Installation failed to create the database '.$this->aDsn['database']['name']);
@@ -700,26 +674,6 @@ class OA_Upgrade
             }
             return true;
         }
-    }
-
-    /**
-     * check for connection errors
-     *
-     * @return boolean
-     */
-    function _checkDatabaseConnection()
-    {
-        $GLOBALS['_MAX']['CONF']['database']          = $this->aDsn['database'];
-        $result = &OA_DB::singleton(OA_DB::getDsn($this->aDsn));
-        if (PEAR::isError($result))
-        {
-            if ($result->getCode() == MDB2_ERROR_CONNECT_FAILED)
-            {
-                $this->oLogger->logError($result->getUserInfo());
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
@@ -833,27 +787,72 @@ class OA_Upgrade
     }
 
     /**
-     * execute the upgrade steps
+     * prepare to execute the upgrade steps
      *
      * @return boolean
      */
-    function upgrade($input_file, $timing='constructive')
+    function upgrade($input_file='', $timing='constructive')
     {
-        $this->oLogger->setLogFile($this->_getUpgradeLogFileName($input_file, $timing));
+        $this->oLogger->setLogFile($this->_getUpgradeLogFileName($timing));
         $this->oDBUpgrader->logFile = $this->oLogger->logFile;
 
-        if (!$this->_parseUpgradePackageFile($this->upgradePath.$input_file))
-        {
-            return false;
-        }
-
+        // initialise database connection if necessary
         if (is_null($this->oDbh))
         {
             $this->initDatabaseConnection();
         }
+        // ensure db user has db permissions
         if (!$this->checkPermissionToCreateTable())
         {
             $this->oLogger->logError('Insufficient database permissions');
+            return false;
+        }
+        if (count($this->aPackageList)>0)
+        {
+            foreach ($this->aPackageList AS $k => $this->package_file)
+            {
+                if (!$this->upgradeExecute($this->package_file))
+                {
+                    $this->oLogger->logError('Failure during upgrade package '.$this->package_file);
+                    return false;
+                }
+                if (!$this->oVersioner->putApplicationVersion($this->aPackage['versionTo']))
+                {
+                    $this->oLogger->log('Failed to update application version to '.$this->aPackage['versionTo']);
+                    $this->message = 'Failed to update application version to '.$this->aPackage['versionTo'];
+                    return false;
+                }
+                $this->versionInitialApplication = $this->aPackage['versionTo'];
+            }
+        }
+        $aConfig['database'] = $GLOBALS['_MAX']['CONF']['database'];
+        $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
+        $aConfig = $this->initDatabaseParameters($aConfig);
+        $this->saveConfigDB($aConfig);
+
+        if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
+        {
+            $this->oLogger->log('Failed to update application version to '.OA_VERSION);
+            $this->message = 'Failed to update application version to '.OA_VERSION;
+            return false;
+        }
+        $this->oLogger->log('Application version updated to '. OA_VERSION);
+        return true;
+    }
+
+    /**
+     * execute the upgrade steps
+     *
+     * @return boolean
+     */
+    function upgradeExecute($input_file='')
+    {
+        if ($input_file)
+        {
+            $input_file = $this->upgradePath.$input_file;
+        }
+        if (!$this->_parseUpgradePackageFile($input_file))
+        {
             return false;
         }
         if (!$this->runScript($this->aPackage['prescript']))
@@ -865,66 +864,6 @@ class OA_Upgrade
         {
             return false;
         }
-        if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
-        {
-            $this->oLogger->log('Failed to update application version to '.OA_VERSION);
-            $this->message = 'Failed to update application version to '.OA_VERSION;
-            return false;
-         }
-        $this->oLogger->log('Application version updated to '. OA_VERSION);
-
-        // clean up old version artefacts
-        if ($this->remove_max_version)
-        {
-            if ($this->oConfiguration->isMaxConfigFile())
-            {
-                if (!$this->oConfiguration->replaceMaxConfigFileWithOpenadsConfigFile())
-                {
-                    $this->oLogger->logError('Failed to replace MAX configuration file with Openads configuration file');
-                    $this->message = 'Failed to replace MAX configuration file with Openads configuration file';
-                    return false;
-                }
-                $this->oLogger->log('Replaced MAX configuration file with Openads configuration file');
-                $this->oConfiguration->setMaxInstalledOff();
-                $this->oConfiguration->writeConfig();
-            }
-            if (!$this->oVersioner->removeMaxVersion())
-            {
-                $this->oLogger->logError('Failed to remove MAX application version');
-                $this->message = 'Failed to remove MAX application version';
-                return false;
-            }
-            $this->oLogger->log('Removed MAX application version');
-            $this->oConfiguration->setupConfigPriority('');
-            if (!$this->oConfiguration->writeConfig())
-            {
-                $this->oLogger->logError('Failed to set the randmax priority value');
-                $this->message = 'Failed to set the randmax priority value';
-                return false;
-            }
-        }
-        if ($this->oPAN->detected)
-        {
-            if (!$this->oConfiguration->putNewConfigFile())
-            {
-                $this->oLogger->logError('Installation failed to create the configuration file');
-                return false;
-            }
-            $aConfig = $this->oPAN->aConfig;
-            $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
-            $this->oConfiguration->setupConfigPan($aConfig);
-            $this->oConfiguration->writeConfig();
-            if (!$this->oPAN->renamePANConfigFile())
-            {
-                $this->oLogger->logError('Failed to rename PAN configuration file (non-critical, you can delete or rename /var/config.inc.php yourself)');
-                $this->message = 'Failed to rename PAN configuration file (non-critical, you can delete or rename /var/config.inc.php yourself)';
-                return true;
-            }
-        }
-        $aConfig['database'] = $GLOBALS['_MAX']['CONF']['database'];
-        $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
-        $aConfig = $this->initDatabaseParameters($aConfig);
-        $this->saveConfigDB($aConfig);
         if (!$this->runScript($this->aPackage['postscript']))
         {
             $this->oLogger->log('Failure from upgrade postscript '.$this->aPackage['postscript']);
@@ -1028,7 +967,6 @@ class OA_Upgrade
      */
     function runScript($file)
     {
-        $class = str_replace('.php', '', basename($file));
         if (!$file)
         {
             return true;
@@ -1037,7 +975,8 @@ class OA_Upgrade
         {
             $this->oLogger->log('acquiring script '.$file);
             require_once $this->upgradePath.$file;
-            $class = 'OA_UpgradePostscript';
+            $type = substr(basename($file), 0, strpos(basename($file), '_'));
+            $class = 'OA_Upgrade'.ucfirst($type);
             if (class_exists($class))
             {
                 $this->oLogger->log('instantiating class '.$class);
@@ -1046,7 +985,8 @@ class OA_Upgrade
                 if (is_callable(array($oScript, $method)))
                 {
                     $this->oLogger->log('method is callable '.$method);
-                    if (!call_user_func(array($oScript, $method), ''))
+                    $aParams = array($this);
+                    if (!call_user_func(array($oScript, $method), $aParams))
                     {
                         $this->oLogger->logError('script returned false '.$class);
                         return false;
@@ -1275,7 +1215,7 @@ class OA_Upgrade
                     }
                     if (!$this->oDBUpgrader->rollback())
                     {
-                        $this->oLogger->logError('ROLLBACK FAILED');
+                        $this->oLogger->_logError('ROLLBACK FAILED');
                         return false;
                     }
                     if (!$this->oDBUpgrader->init('constructive', $aPkg['schema'], $aPkg['version'], true))
@@ -1288,7 +1228,7 @@ class OA_Upgrade
                     }
                     if (!$this->oDBUpgrader->rollback())
                     {
-                        $this->oLogger->logError('ROLLBACK FAILED');
+                        $this->oLogger->_logError('ROLLBACK FAILED');
                         return false;
                     }
                     $this->oLogger->logError('ROLLBACK SUCCEEDED');
@@ -1309,25 +1249,36 @@ class OA_Upgrade
      */
     function _parseUpgradePackageFile($input_file)
     {
-        $result = $this->oParser->setInputFile($input_file);
-        if (PEAR::isError($result)) {
-            return $result;
-        }
-
-        $result = $this->oParser->parse();
-        if (PEAR::isError($result))
+        if ($input_file!='')
         {
-            $this->oLogger->logError('problem parsing the package file: '.$result->getMessage());
-            return false;
-        }
-        if (PEAR::isError($this->oParser->error))
-        {
-            $this->oLogger->logError('problem parsing the package file: '.$this->oParser->error);
-            return false;
-        }
-        $this->aPackage     = $this->oParser->aPackage;
-        $this->aDBPackages  = $this->aPackage['db_pkgs'];
+            $result = $this->oParser->setInputFile($input_file);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
 
+            $result = $this->oParser->parse();
+            if (PEAR::isError($result))
+            {
+                $this->oLogger->logError('problem parsing the package file: '.$result->getMessage());
+                return false;
+            }
+            if (PEAR::isError($this->oParser->error))
+            {
+                $this->oLogger->logError('problem parsing the package file: '.$this->oParser->error);
+                return false;
+            }
+            $this->aPackage     = $this->oParser->aPackage;
+            $this->aDBPackages  = $this->aPackage['db_pkgs'];
+        }
+        else
+        {
+            // an actual package for this version does not exist so fake it
+            $this->aPackage['versionTo']   = OA_VERSION;
+            $this->aPackage['versionFrom'] = $this->versionInitialApplication;
+            $this->aPackage['prescript']   = '';
+            $this->aPackage['postscript']  = '';
+            $this->aDBPackages             = array();
+        }
         return true;
     }
 
@@ -1357,6 +1308,7 @@ class OA_Upgrade
 
     /**
      * Open each changeset and determine the version and timings
+     * THIS IS NOT USED BY THE UPGRADER
      *
      * @return boolean
      */
@@ -1385,7 +1337,7 @@ class OA_Upgrade
     }
 
     /**
-     * Open each changeset and determine the version and timings
+     * THIS IS NOT USED BY THE UPGRADER
      *
      * @return boolean
      */
@@ -1473,9 +1425,17 @@ class OA_Upgrade
         return false;
     }
 
-    function _getUpgradeLogFileName($input_file, $timing)
+    function _getUpgradeLogFileName($timing='constructive')
     {
-        return str_replace('.xml', '', $input_file).'_'.$timing.'_'.OA::getNow('Y_m_d_h_i_s').'.log';
+        if ($this->package_file=='')
+        {
+            $package = 'openads_upgrade_'.OA_VERSION;
+        }
+        else
+        {
+            $package = str_replace('.xml', '', $this->package_file);
+        }
+        return $package.'_'.$timing.'_'.OA::getNow('Y_m_d_h_i_s').'.log';
     }
 
     function getLogFileName()
@@ -1483,8 +1443,21 @@ class OA_Upgrade
         return $this->oLogger->logFile;
     }
 
-    function _readUpgradePackagesArray($file)
+    function removeUpgradeTriggerFile()
     {
+        if (file_exists(MAX_PATH.'/var/UPGRADE'))
+        {
+            return unlink(MAX_PATH.'/var/UPGRADE');
+        }
+        return true;
+    }
+
+    function _readUpgradePackagesArray($file='')
+    {
+        if (!$file)
+        {
+            $file = $this->upgradePath.'openads_upgrade_array.txt';
+        }
         if (!file_exists($file))
         {
             return false;
@@ -1500,59 +1473,62 @@ class OA_Upgrade
     function getUpgradePackageList($verPrev, $aVersions=null)
     {
         $aFiles = array();
-        ksort($aVersions, SORT_NUMERIC);
-        foreach ($aVersions as $release => $aMajor)
+        if (is_array($aVersions))
         {
-            ksort($aMajor, SORT_NUMERIC);
-            foreach ($aMajor as $major => $aMinor)
+            ksort($aVersions, SORT_NUMERIC);
+            foreach ($aVersions as $release => $aMajor)
             {
-                ksort($aMinor, SORT_NUMERIC);
-                foreach ($aMinor as $minor => $aStatus)
+                ksort($aMajor, SORT_NUMERIC);
+                foreach ($aMajor as $major => $aMinor)
                 {
-                    if (array_key_exists('-beta-rc', $aStatus))
+                    ksort($aMinor, SORT_NUMERIC);
+                    foreach ($aMinor as $minor => $aStatus)
                     {
-                        $aKeys = array_keys($aStatus['-beta-rc']);
-                        sort($aKeys, SORT_NUMERIC);
-                        foreach ($aKeys AS $k => $v)
+                        if (array_key_exists('-beta-rc', $aStatus))
                         {
-                            $version = $release.'.'.$major.'.'.$minor.'-beta-rc'.$v;
-                            if (version_compare($verPrev, $version)<0)
+                            $aKeys = array_keys($aStatus['-beta-rc']);
+                            sort($aKeys, SORT_NUMERIC);
+                            foreach ($aKeys AS $k => $v)
                             {
-                                $aFiles[] = $aStatus['-beta-rc'][$v]['file'];
+                                $version = $release.'.'.$major.'.'.$minor.'-beta-rc'.$v;
+                                if (version_compare($verPrev, $version)<0)
+                                {
+                                    $aFiles[] = $aStatus['-beta-rc'][$v]['file'];
+                                }
                             }
                         }
-                    }
-                    if (array_key_exists('-beta', $aStatus))
-                    {
-                        $aBeta = $aStatus['-beta'];
-                        foreach ($aBeta as $key => $file)
+                        if (array_key_exists('-beta', $aStatus))
                         {
-                            $version = $release.'.'.$major.'.'.$minor.'-beta';
-                            if (version_compare($verPrev, $version)<0)
+                            $aBeta = $aStatus['-beta'];
+                            foreach ($aBeta as $key => $file)
                             {
-                                $aFiles[] = $file;
+                                $version = $release.'.'.$major.'.'.$minor.'-beta';
+                                if (version_compare($verPrev, $version)<0)
+                                {
+                                    $aFiles[] = $file;
+                                }
                             }
                         }
-                    }
-                    if (array_key_exists('-rc', $aStatus))
-                    {
-                        $aKeys = array_keys($aStatus['-rc']);
-                        sort($aKeys, SORT_NUMERIC);
-                        foreach ($aKeys AS $k => $v)
+                        if (array_key_exists('-rc', $aStatus))
                         {
-                            $version = $release.'.'.$major.'.'.$minor.'-rc'.$v;
-                            if (version_compare($verPrev, $version)<0)
+                            $aKeys = array_keys($aStatus['-rc']);
+                            sort($aKeys, SORT_NUMERIC);
+                            foreach ($aKeys AS $k => $v)
                             {
-                                $aFiles[] = $aStatus['-rc'][$v]['file'];
+                                $version = $release.'.'.$major.'.'.$minor.'-rc'.$v;
+                                if (version_compare($verPrev, $version)<0)
+                                {
+                                    $aFiles[] = $aStatus['-rc'][$v]['file'];
+                                }
                             }
                         }
-                    }
-                    if (array_key_exists('file', $aStatus))
-                    {
-                        $version = $release.'.'.$major.'.'.$minor;
-                        if (version_compare($verPrev, $version)<0)
+                        if (array_key_exists('file', $aStatus))
                         {
-                            $aFiles[] = $aStatus['file'];
+                            $version = $release.'.'.$major.'.'.$minor;
+                            if (version_compare($verPrev, $version)<0)
+                            {
+                                $aFiles[] = $aStatus['file'];
+                            }
                         }
                     }
                 }

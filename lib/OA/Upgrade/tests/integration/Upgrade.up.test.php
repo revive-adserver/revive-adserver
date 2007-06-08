@@ -91,13 +91,50 @@ class Test_OA_Upgrade extends UnitTestCase
 //        $GLOBALS['_MAX']['CONF']['table']    = $aTblOld;
     }
 
+    /**
+     * tests an openads upgrade where a series of upgrade packages may be required
+     * the upgrade method will detectOpenads and cycle through the list of upgrade packages
+     * executing the upgrade packages in the right order
+     * until it runs out of upgrade packages
+     * when no more upgrade packages are found
+     * the application is stamped with the latest version
+     *
+     */
+    function test_upgradeOpenads()
+    {
+        $oUpgrade  = new OA_Upgrade();
+
+        // divert objects to test data
+        $oUpgrade->upgradePath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/changes/';
+        $GLOBALS['_MAX']['CONF']['openads']['installed'] = true;
+        // just in case of error, lose this so we can continue afresh
+        $oUpgrade->_pickupRecoveryFile();
+        // fake the versions we are starting with
+        $this->_createTestAppVarRecord('oa_version', '2.3.32-beta-rc1');
+        // mock the integrity checker
+        Mock::generatePartial(
+            'OA_DB_Integrity',
+            $mockInteg = 'OA_DB_Integrity'.rand(),
+            array('checkIntegrityQuick')
+        );
+        $oUpgrade->oIntegrity = new $mockInteg($this);
+        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
+        // do the initial detection
+        $this->assertTrue($oUpgrade->detectOpenads());
+        // perform the upgrade
+        $this->assertTrue($oUpgrade->upgrade(),'upgrade');
+
+        $this->assertEqual($oUpgrade->versionInitialApplication,'2.4.1','wrong initial application version: '.$oUpgrade->versionInitialApplication);
+        $this->_deleteTestAppVarRecordAllNames('oa_version');
+    }
+
     function test_getUpgradeLogFileName()
     {
         $oUpgrade = new OA_Upgrade();
+        $oUpgrade->package_file = 'openads_upgrade_1_to_2.xml';
         $pattern = '/openads_upgrade_1_to_2_constructive_[\d]{4}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}\.log/';
-        $logfile = $oUpgrade->_getUpgradeLogFileName('openads_upgrade_1_to_2','constructive');
-        $this->assertWantedPattern($pattern, $logfile, 'wrong logfile pattern');
-
+        $logfile = $oUpgrade->_getUpgradeLogFileName();
+        $this->assertWantedPattern($pattern, $logfile, 'wrong logfile pattern: '.$logfile);
     }
 
     function testcheckPermissionToCreateTable()
@@ -114,11 +151,11 @@ class Test_OA_Upgrade extends UnitTestCase
         $testid    = 'openads_upgrade_1_to_2';
         $testfile  = $testid.'.xml';
         $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
-        if (file_exists($testpath.$testfile))
-        {
-            $this->assertTrue(copy($testpath.$testfile, $oUpgrade->upgradePath.$testfile));
-        }
-        $this->assertTrue(file_exists($oUpgrade->upgradePath.$testfile));
+//        if (file_exists($testpath.$testfile))
+//        {
+//            $this->assertTrue(copy($testpath.$testfile, $oUpgrade->upgradePath.$testfile));
+//        }
+//        $this->assertTrue(file_exists($oUpgrade->upgradePath.$testfile));
 
         $oUpgrade->_parseUpgradePackageFile($testpath.$testfile);
         $this->assertIsA($oUpgrade->aPackage,'array','problem with package array');
@@ -279,12 +316,12 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertFalse($oUpgrade->detectPAN(),'');
         $this->assertEqual($oUpgrade->versionInitialApplication,'200.311','wrong initial application version');
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_PAN_VERSION_FAILED,'wrong upgrade status code');
-        $this->assertEqual($oUpgrade->package_file, '', 'wrong package file assigned');
+        $this->assertEqual($oUpgrade->aPackageList[0], '', 'wrong package file assigned');
 
         $this->assertTrue($oUpgrade->detectPAN(),'');
         $this->assertEqual($oUpgrade->versionInitialApplication,'200.313','wrong initial application version');
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code');
-        $this->assertEqual($oUpgrade->package_file, 'openads_upgrade_2.0.11_to_2.3.32_beta.xml','wrong package file assigned');
+        $this->assertEqual($oUpgrade->aPackageList[0], 'openads_upgrade_2.0.11_to_2.3.32_beta.xml','wrong package file assigned');
 
         $this->assertEqual($GLOBALS['_MAX']['CONF']['database']['name'], 'pan_test', '');
 
@@ -318,14 +355,14 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertFalse($oUpgrade->detectMAX(),'');
         $this->assertEqual($oUpgrade->versionInitialApplication,'v0.3.30-alpha','wrong initial application version');
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_MAX_VERSION_FAILED,'wrong upgrade status code');
-        $this->assertEqual($oUpgrade->package_file, '', 'wrong package file assigned');
+        $this->assertEqual($oUpgrade->aPackageList[0], '', 'wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('max_version');
 
         $this->_createTestAppVarRecord('max_version','v0.3.31-alpha');
         $this->assertTrue($oUpgrade->detectMAX(),'');
         $this->assertEqual($oUpgrade->versionInitialApplication,'v0.3.31-alpha','wrong initial application version');
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code');
-        $this->assertEqual($oUpgrade->package_file, 'openads_upgrade_2.3.31_to_2.3.32_beta.xml','wrong package file assigned');
+        $this->assertEqual($oUpgrade->aPackageList[0], 'openads_upgrade_2.3.31_to_2.3.32_beta.xml','wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('max_version');
 
         $oUpgrade->oIntegrity->tally();
@@ -339,6 +376,7 @@ class Test_OA_Upgrade extends UnitTestCase
     function test_detectOpenads()
     {
         $oUpgrade  = new OA_Upgrade();
+        $oUpgrade->upgradePath = MAX_PATH.'/lib/OA/Upgrade/tests/data/changes/';
 
         $GLOBALS['_MAX']['CONF']['openads']['installed'] = true;
 
@@ -349,24 +387,28 @@ class Test_OA_Upgrade extends UnitTestCase
         );
         $oUpgrade->oIntegrity = new $mockInteg($this);
         $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
-
-/*  THIS PORTION OF TESTS REQURIES REFACTORING INLINE WITH METHOD REFACTORING
-
-        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
+        $oUpgrade->oIntegrity->expectCallCount('checkIntegrityQuick',2);
 
         $this->_createTestAppVarRecord('oa_version','2.3.31-beta');
         $this->assertTrue($oUpgrade->detectOpenads(),'');
         $this->assertEqual($oUpgrade->versionInitialApplication,'2.3.31-beta','wrong initial application version');
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code');
-        $this->assertEqual($oUpgrade->package_file, 'openads_upgrade_2.3.32_to_2.3.33_beta.xml','wrong package file assigned');
+        $this->assertEqual($oUpgrade->aPackageList[0], 'openads_upgrade_2.3.32-beta-rc2.xml','wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('oa_version');
-*/
+
+        $this->_createTestAppVarRecord('oa_version','2.3.32-beta-rc5');
+        $this->assertTrue($oUpgrade->detectOpenads(),'');
+        $this->assertEqual($oUpgrade->versionInitialApplication,'2.3.32-beta-rc5','wrong initial application version');
+        $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code');
+        $this->assertEqual($oUpgrade->aPackageList[0], 'openads_upgrade_2.3.32-beta-rc10.xml','wrong package file assigned');
+        $this->_deleteTestAppVarRecordAllNames('oa_version');
+
         // testing installation is up to date, no upgrade required
         $this->_createTestAppVarRecord('oa_version',OA_VERSION);
         $this->assertFalse($oUpgrade->detectOpenads(),'');
         $this->assertEqual($oUpgrade->versionInitialApplication,OA_VERSION,'wrong initial application version');
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CURRENT_VERSION,'wrong upgrade status code');
-        $this->assertEqual($oUpgrade->package_file, '', 'wrong package file assigned');
+        $this->assertEqual($oUpgrade->aPackageList[0], '', 'wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('oa_version');
 
         $oUpgrade->oIntegrity->tally();
@@ -434,7 +476,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->upgradePath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
         $oUpgrade->oDBUpgrader->path_changes = $oUpgrade->upgradePath;
         $oUpgrade->oDBUpgrader->path_schema = $oUpgrade->upgradePath;
-        $oUpgrade->package_file = 'openads_upgrade_2.3.97_to_2.3.99_beta.xml';
+        $oUpgrade->aPackageList[0] = 'openads_upgrade_2.3.97_to_2.3.99_beta.xml';
         $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.dev.test.log";
 
         // just in case of error, lose this so we can continue afresh
@@ -446,7 +488,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->versionInitialApplication = '0.3.31';
 
         // perform a good upgrade
-        $this->assertTrue($oUpgrade->upgrade($oUpgrade->package_file),'upgrade');
+        $this->assertTrue($oUpgrade->upgrade(),'upgrade');
 
         // check the upgraded tables
         $this->_checkTablesUpgraded($oUpgrade);

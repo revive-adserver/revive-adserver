@@ -39,31 +39,31 @@ require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 class StatMigrationTest extends MigrationTest
 {
     var $configPath;
-    
+
     function setUp()
     {
         parent::setUp();
-        $this->initDatabase(119, array('adstats', 'adviews', 'adclicks', 'data_summary_ad_hourly', 'data_intermediate_ad'));
+        $this->initDatabase(108, array('adstats', 'adviews', 'adclicks', 'data_summary_ad_hourly', 'data_intermediate_ad'));
         $this->configPath = MAX_PATH . '/var/config.inc.php';
     }
-    
-    
+
+
     function testMigrateCompactStats()
     {
         $oDbh = &$this->oDbh;
 
         $migration = new StatMigration();
         $migration->init($this->oDbh);
-        
+
         $cEntries = $this->prepareTestData($mapCImpressions, $mapCClicks, '_insertCompactStatsTestData');
-        
+
         $this->assertTrue($migration->migrateCompactStats());
 
         $this->_checkDataTable('data_summary_ad_hourly', $cEntries, $mapCImpressions, $mapCClicks);
         $this->_checkDataTable('data_intermediate_ad', $cEntries, $mapCImpressions, $mapCClicks);
     }
-    
-    
+
+
     function prepareTestData(&$mapCImpressions, &$mapCClicks, $functionInsertTestData)
     {
         $aBannerIds = array(1,2,3);
@@ -72,7 +72,7 @@ class StatMigrationTest extends MigrationTest
         $aCImpressions = array(5, 7, 12, 32, 4);
         $aCClicks = array(8, 4, 15, 9, 2);
 
-        
+
         foreach ($aBannerIds as $bannerId) {
             foreach ($aZoneIds as $zoneId) {
                 foreach($aDays as $day) {
@@ -88,11 +88,11 @@ class StatMigrationTest extends MigrationTest
         }
         return count($aBannerIds) * count($aZoneIds) * count($aDays) * 24;
     }
-    
-    
+
+
     function _insertCompactStatsTestData($bannerId, $zoneId, $day, $hour, $mapCImpressions, $mapCClicks)
     {
-        
+
         $aValues = array(
             'bannerid' => $bannerId,
             'zoneid' => $zoneId,
@@ -103,8 +103,8 @@ class StatMigrationTest extends MigrationTest
         $sql = OA_DB_Sql::sqlForInsert('adstats', $aValues);
         $this->oDbh->exec($sql);
     }
-    
-    
+
+
     function _checkDataTable($table, $cEntries, $mapCImpressions, $mapCClicks)
     {
         $table = $this->getPrefix() . $table;
@@ -121,15 +121,15 @@ class StatMigrationTest extends MigrationTest
         }
 
     }
-    
-    
+
+
     function _insertRawStatsTestData($bannerId, $zoneId, $day, $hour, $mapCImpressions, $mapCClicks)
     {
         $this->_insertRawStatsRows($bannerId, $zoneId, $day, $hour, 'adviews', $mapCImpressions);
         $this->_insertRawStatsRows($bannerId, $zoneId, $day, $hour, 'adclicks', $mapCClicks);
     }
-    
-    
+
+
     function _insertRawStatsRows($bannerId, $zoneId, $day, $hour, $table, $mapCRows)
     {
         for ($idxRow = 0; $idxRow < $mapCRows[$bannerId][$zoneId][$day][$hour]; $idxRow++) {
@@ -145,7 +145,7 @@ class StatMigrationTest extends MigrationTest
         }
     }
 
-    
+
     function testMigrateRawStats()
     {
         $oDbh = &$this->oDbh;
@@ -153,13 +153,13 @@ class StatMigrationTest extends MigrationTest
         $migration->init($oDbh);
 
         $cEntries = $this->prepareTestData($mapCImpressions, $mapCClicks, '_insertRawStatsTestData');
-        
+
         $this->assertTrue($migration->migrateRawStats());
 
         $this->_checkDataTable('data_summary_ad_hourly', $cEntries, $mapCImpressions, $mapCClicks);
         $this->_checkDataTable('data_intermediate_ad', $cEntries, $mapCImpressions, $mapCClicks);
     }
-    
+
     function testStatsCompacted()
     {
         $migration = new StatMigration();
@@ -169,8 +169,8 @@ class StatMigrationTest extends MigrationTest
         $this->assertFalse($migration->statsCompacted());
         unlink($this->configPath);
     }
-    
-    
+
+
     function _initPanConfigStatsCompacted($value)
     {
         $fPanConfig = fopen($this->configPath, "wt");
