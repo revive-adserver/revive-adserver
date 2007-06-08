@@ -25,9 +25,16 @@
 $Id$
 */
 
+require_once 'Config.php';
+
+/**
+ * A configuration management class for the Openads administration interface.
+ *
+ * @author     Andrew Hill <andrew.hill@openads.org>
+ */
 class OA_Admin_Config
 {
-    var $config;
+    var $conf;
     
      /**
      * The constructor method. Stores the current parse result of the
@@ -73,6 +80,151 @@ class OA_Admin_Config
         }
     }
     
+    /**
+     * A method for defining bulk required changes to the Openads configuration
+     * .ini file.
+     *
+     * @param string $levelKey The top level of the item in the .ini file.
+     * @param array $value The new values for the item.
+     */
+    function setBulkConfigChange($levelKey, $value)
+    {
+        $this->conf[$levelKey] = $value;
+    }
+    
+    /**
+     * A method for defining required changes to the Openads configuration .ini
+     * file.
+     *
+     * @param string $levelKey The top level of the item in the .ini file.
+     * @param string $itemKey The item level of the item in the .ini file
+     *                        (under the top level).
+     * @param string $value The new value for the item.
+     */
+    function setConfigChange($levelKey, $itemKey, $value)
+    {
+        $this->conf[$levelKey][$itemKey] = $value;
+    }
+    
+    /**
+     * A method for writing out required changes to Openads configuration .ini
+     * files. Configuration files are prefixed with the host name being
+     * used to access Openads, so that multiple Openads installations can be run
+     * from a single code base, if the correct virtual hosts are configured.
+     *
+     * @param string $configPath The directory to save the config file(s) in.
+     *                           Default is Max's /var directory.
+     * @param string $configFile The configuration file name (eg. "geotargeting").
+     *                           Default is no name (ie. the main Max
+     *                           configuration file).
+     * @param boolean $reParse   If the config file should be parsed again
+     *                           after writing (default is true).
+     *
+     * @return boolean True when the configuration file(s) was (were)
+     *                 correctly written out, false otherwise.
+     */
+    function writeConfigChange($configPath = null, $configFile = null, $reParse = true)
+    {
+        if (is_null($configPath)) {
+            $configPath = MAX_PATH . '/var';
+        }
+        if (!is_null($configFile)) {
+            $configFile = '.' . $configFile;
+        }
+        // What were the old host names used for the installation?
+        $conf = $GLOBALS['_MAX']['CONF'];
+        $url = @parse_url('http://' . $conf['webpath']['admin']);
+        $oldAdminHost = $url['host'];
+        $url = @parse_url('http://' . $conf['webpath']['delivery']);
+        $oldDeliveryHost = $url['host'];
+        $url = @parse_url('http://' . $conf['webpath']['deliverySSL']);
+        $oldDeliverySslHost = $url['host'];
+        // What are the new host names used for the installation?
+        $url = @parse_url('http://' . $this->conf['webpath']['admin']);
+        $newAdminHost = $url['host'];
+        $url = @parse_url('http://' . $this->conf['webpath']['delivery']);
+        $newDeliveryHost = $url['host'];
+        $url = @parse_url('http://' . $this->conf['webpath']['deliverySSL']);
+        $newDeliverySslHost = $url['host'];
+        // Write out the new main configuration file
+        $mainConfigFile = $configPath . '/' . $newDeliveryHost . $configFile . '.conf.php';
+        if (!OA_Admin_Config::isConfigWritable($mainConfigFile)) {
+            return false;
+        }
+        $c = new Config();
+        $cc = &$c->parseConfig($this->conf, 'phpArray');
+        $cc->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
+        $cc->createComment('<'.'?php exit; ?>', 'top');
+        if (!$c->writeConfig($mainConfigFile, 'IniCommented')) {
+            return false;
+        }
+        // Check if a different host name is used for the admin
+        if ($newAdminHost != $newDeliveryHost) {
+            // Write out the new "fake" configuration file
+            $file = $configPath . '/' . $newAdminHost . $configFile . '.conf.php';
+            if (!OA_Admin_Config::isConfigWritable($file)) {
+                return false;
+            }
+            $config = array('realConfig' => $newDeliveryHost);
+            $c = new Config();
+            $cc = &$c->parseConfig($config, 'phpArray');
+            $cc->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
+            $cc->createComment('<'.'?php exit; ?>', 'top');
+            if (!$c->writeConfig($file, 'IniCommented')) {
+                return false;
+            }
+        }
+        // Check if a different host name is used for the delivery SSL
+        if ($newDeliverySslHost != $newDeliveryHost) {
+            // Write out the new "fake" configuration file
+            $file = $configPath . '/' . $newDeliverySslHost . $configFile . '.conf.php';
+            if (!OA_Admin_Config::isConfigWritable($file)) {
+                return false;
+            }
+            $config = array('realConfig' => $newDeliveryHost);
+            $c = new Config();
+            $cc = &$c->parseConfig($config, 'phpArray');
+            $cc->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
+            $cc->createComment('<'.'?php exit; ?>', 'top');
+            if (!$c->writeConfig($file, 'IniCommented')) {
+                return false;
+            }
+        }
+        // Always touch the INSTALLED file
+        if (!touch(MAX_PATH . '/var/INSTALLED')) {
+            return false;
+        }
+        // Do any old configuration files need to be deleted?
+        if ($newAdminHost != $oldAdminHost) {
+            $file = $configPath . '/' . $oldAdminHost . $configFile . '.conf.php';
+            if($file != $mainConfigFile) {
+                @unlink($file);
+            }
+        }
+        if ($newDeliveryHost != $oldDeliveryHost) {
+            $file = $configPath . '/' . $oldDeliveryHost . $configFile . '.conf.php';
+            if($file != $mainConfigFile) {
+                @unlink($file);
+            }
+        }
+        if ($newDeliverySslHost != $oldDeliverySslHost) {
+            $file = $configPath . '/' . $oldDeliverySslHost . $configFile . '.conf.php';
+            if($file != $mainConfigFile) {
+                @unlink($file);
+            }
+        }
+        // Re-parse the config file?
+        if ($reParse) {
+            $file = $configPath . '/' . $newDeliveryHost . $configFile . '.conf.php';
+            $GLOBALS['_MAX']['CONF'] = @parse_ini_file($file, true);
+            $this->conf = $GLOBALS['_MAX']['CONF'];
+            // Set the global $conf value -- normally set by the init
+            // script -- to be the same as $GLOBALS['_MAX']['CONF']
+            global $conf;
+            $conf = $GLOBALS['_MAX']['CONF'];
+        }
+        return true;
+    }
 }
 
 ?>

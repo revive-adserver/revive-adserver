@@ -31,23 +31,21 @@ Class Test_OA_Admin_Config extends UnitTestCase
 {
     function testIsConfigWritable()
     {
-        // 1) Test an existing file.
-        $oConf = new OA_Admin_Config();
+        $oConf = new OA_Admin_Config(true);
         
+        // 1) Test we can write to an existing file.
         $path = '/tmp';
         $filename = 'oa_test_' . rand() . '.conf.php';
         $fp = fopen($path . '/' . $filename, 'w');
         fwrite($fp, 'foo');
         fclose($fp);
-        
-        // Check it is writable
         $this->assertTrue($oConf->isConfigWritable($path . '/' . $filename));
         unlink($path . '/' . $filename);
         
-        // 2) Test a non-existing file in an unwriteable location
+        // 2) A non-existing file in an unwriteable location.
         $this->assertFalse($oConf->isConfigWritable('/non_existent_dir/non_existent_file'));
         
-        // 3) Test an existing file we don't have permissions for
+        // 3) An existing file we don't have write permission for.
         $path = '/tmp';
         $filename = 'oa_test_' . rand() . '.conf.php';
         $fp = fopen($path . '/' . $filename, 'w');
@@ -57,14 +55,56 @@ Class Test_OA_Admin_Config extends UnitTestCase
         $this->assertFalse($oConf->isConfigWritable('/non_existent_dir/non_existent_file'));
         unlink($path . '/' . $filename);
         
-        // 4) Test an empty directory we can write to
+        // 4) An empty directory we can write to.
         $this->assertTrue($oConf->isConfigWritable('/tmp/non_existent_file'));
         
-        // 5) Test an empty directory we cannot write to
+        // 5) An empty directory we cannot write to.
         $dirname = 'oa_test_' . rand();
         mkdir('/tmp/' . $dirname, 0500);
         $this->assertFalse($oConf->isConfigWritable('/tmp/' . $dirname . '/non_existent_file'));
         rmdir('/tmp/' . $dirname);
+    }
+    
+    function testSetBulkConfigChange()
+    {
+        $oConf = new OA_Admin_Config(true);
+        $oConf->setBulkConfigChange('foo', array('one' => 'bar', 'two' => 'baz'));
+        $expected = array('foo' => array('one' => 'bar', 'two' => 'baz'));
+        $this->assertEqual($expected, $oConf->conf);
+    }
+    
+    function testSetConfigChange()
+    {
+        $oConf = new OA_Admin_Config(true);
+        $oConf->setConfigChange('group', 'item', 'value');
+        $expected = array('group' => array('item' => 'value'));
+        $this->assertEqual($expected, $oConf->conf);
+    }
+    
+    /**
+     * Tests a dummy config file is written out correctly.
+     *
+     */
+    function testWriteConfigChange()
+    {
+        $oConf = new OA_Admin_Config(true);
+        
+        // Build the local conf array manually.
+        $oConf->conf['foo'] = array('one' => 'bar', 'two' => 'baz');
+        $oConf->conf['webpath']['admin'] = 'localhost';
+        $oConf->conf['webpath']['delivery'] = 'localhost';
+        $oConf->conf['webpath']['deliverySSL'] = 'localhost';
+                
+        $filename = 'oa_test_' . rand();
+        $this->assertTrue($oConf->writeConfigChange('/tmp', $filename), 'Error writing config file');
+        
+        // The new config file will have been reparsed so global conf should have correct values.
+        $oNewConf = new OA_Admin_Config();
+        $this->assertEqual($oConf->conf, $oNewConf->conf);
+        
+        // Clean up
+        unlink('/tmp/localhost.' . $filename . '.conf.php');
+        
     }
 }
 
