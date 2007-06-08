@@ -253,9 +253,8 @@ function phpAds_Login()
     if (phpAds_SuppliedCredentials()) {
         $username  = MAX_commonGetPostValueUnslashed('username');
         $password  = MAX_commonGetPostValueUnslashed('password');
-        $md5digest = MAX_commonGetPostValueUnslashed('phpAds_md5');
 
-        $md5digest = MAX_Permission_Session::getMd5FromPassword($md5digest, $password);
+        $md5digest = md5($password);
 
         MAX_Permission_Session::restartIfUsernameOrPasswordEmpty($md5digest, $username);
 
@@ -289,8 +288,7 @@ function phpAds_IsLoggedIn()
 function phpAds_SuppliedCredentials()
 {
     return (isset($_POST['username']) &&
-            isset($_POST['password']) &&
-            isset($_POST['phpAds_md5']));
+            isset($_POST['password']));
 }
 
 function phpAds_isAdmin($username, $md5)
@@ -338,7 +336,6 @@ function phpAds_LoginScreen($message='', $sessionID=0, $inLineLogin = false)
         echo "<form name='login' method='post' action='".basename($_SERVER['PHP_SELF']);
         echo (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != '' ? '?'.htmlentities($_SERVER['QUERY_STRING']) : '')."'>";
         echo "<input type='hidden' name='phpAds_cookiecheck' value='".$_COOKIE['sessionID']."'>";
-        echo "<input type='hidden' name='phpAds_md5' value=''>";
         echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>";
         echo "<td width='80' valign='bottom'><img src='images/login-welcome.gif'>&nbsp;&nbsp;</td>";
         echo "<td width='100%' valign='bottom'>";

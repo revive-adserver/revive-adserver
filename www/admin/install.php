@@ -58,7 +58,6 @@ if (isset($_POST['btn_openads']) && !empty($_POST['aAdminPost'])) {
             // Fake a POST and login submission
             $_POST['username'] = addslashes($aAdmin['name']);
             $_POST['password'] = addslashes($aAdmin['pword']);
-            $_POST['phpAds_md5'] = md5($aAdmin['pword']);
             $_POST['phpAds_cookiecheck'] = $_COOKIE['sessionID'];
             MAX_Admin_Preferences::loadPrefs();
 

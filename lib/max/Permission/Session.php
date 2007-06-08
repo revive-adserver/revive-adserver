@@ -31,23 +31,6 @@ $Id$
 class MAX_Permission_Session
 {
     /**
-     * If the $md5digest is empty, converts $sPassword to md5
-     * and returns it. Otherwise, returns $md5digest.
-     *
-     * @param string $md5digest
-     * @param string $sPassword
-     * @return string
-     */
-    function getMd5FromPassword($md5digest, $sPassword)
-    {
-        if ($md5digest == '' && $sPassword != '') {
-            return md5($sPassword);
-        }
-        return $md5digest;
-    }
-    
-    
-    /**
      * Starts new user session and redirects user to the login screen.
      * The $sMessage error message is displayed to the user.
      *
@@ -58,8 +41,8 @@ class MAX_Permission_Session
         $_COOKIE['sessionID'] = phpAds_SessionStart();
         phpAds_LoginScreen($sMessage, $_COOKIE['sessionID']);
     }
-    
-    
+
+
     /**
      * Starts new user session and redirects to login screen with
      * a proper message if either the password or username is empty.
@@ -74,8 +57,8 @@ class MAX_Permission_Session
             MAX_Permission_Session::restartToLoginScreen($strEnterBoth);
         }
     }
-    
-    
+
+
     /**
      * Restarts user session and redirects to login screen with a proper message
      * if the user has cookies disabled.
