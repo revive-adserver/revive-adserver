@@ -1,0 +1,2778 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="/devel/schema/util/xsl/mdb2_schema.xsl"?>
+<database>
+
+ <name>Max v0.1.29-rc</name>
+ <create>true</create>
+ <overwrite>false</overwrite>
+ <version>300</version>
+ <status>final</status>
+
+ <table>
+
+  <name>acls</name>
+
+  <declaration>
+
+   <field>
+    <name>bannerid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>logical</name>
+    <type>text</type>
+    <length>'and'</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>type</name>
+    <type>text</type>
+    <length>16</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>comparison</name>
+    <type>text</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <fixed>true</fixed>
+    <default>==</default>
+   </field>
+
+   <field>
+    <name>data</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>executionorder</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>bannerid</name>
+    <field>
+     <name>bannerid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>bannerid_executionorder</name>
+    <unique>true</unique>
+    <field>
+     <name>bannerid</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>executionorder</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>adclicks</name>
+
+  <declaration>
+
+   <field>
+    <name>userid</name>
+    <type>text</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>bannerid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>zoneid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>t_stamp</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default>CURRENT_TIMESTAMP</default>
+   </field>
+
+   <field>
+    <name>host</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>source</name>
+    <type>text</type>
+    <length>50</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>country</name>
+    <type>text</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <fixed>true</fixed>
+    <default></default>
+   </field>
+
+   <index>
+    <name>date</name>
+    <field>
+     <name>t_stamp</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>userid</name>
+    <field>
+     <name>userid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>bannerid</name>
+    <field>
+     <name>bannerid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>adconversions</name>
+
+  <declaration>
+
+   <field>
+    <name>conversionid</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>8</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>local_conversionid</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>8</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>dbserver_ip</name>
+    <type>text</type>
+    <length>16</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>userid</name>
+    <type>text</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>trackerid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>t_stamp</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default>CURRENT_TIMESTAMP</default>
+   </field>
+
+   <field>
+    <name>host</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>country</name>
+    <type>text</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <fixed>true</fixed>
+    <default></default>
+   </field>
+
+   <field>
+    <name>conversionlogid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>userid</name>
+    <field>
+     <name>userid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>date</name>
+    <field>
+     <name>t_stamp</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>trackerid</name>
+    <field>
+     <name>trackerid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>local_conversionid</name>
+    <field>
+     <name>local_conversionid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>adconversions_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>conversionid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>adstats</name>
+
+  <declaration>
+
+   <field>
+    <name>views</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>clicks</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>conversions</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>day</name>
+    <type>date</type>
+    <notnull>true</notnull>
+    <default>0000-00-00</default>
+   </field>
+
+   <field>
+    <name>hour</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>bannerid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>zoneid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>day</name>
+    <field>
+     <name>day</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>bannerid</name>
+    <field>
+     <name>bannerid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>zoneid</name>
+    <field>
+     <name>zoneid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>adviews</name>
+
+  <declaration>
+
+   <field>
+    <name>userid</name>
+    <type>text</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>bannerid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>zoneid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>t_stamp</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default>CURRENT_TIMESTAMP</default>
+   </field>
+
+   <field>
+    <name>host</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>source</name>
+    <type>text</type>
+    <length>50</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>country</name>
+    <type>text</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <fixed>true</fixed>
+    <default></default>
+   </field>
+
+   <index>
+    <name>date</name>
+    <field>
+     <name>t_stamp</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>userid</name>
+    <field>
+     <name>userid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>bannerid</name>
+    <field>
+     <name>bannerid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>affiliates</name>
+
+  <declaration>
+
+   <field>
+    <name>affiliateid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>agencyid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>mnemonic</name>
+    <type>text</type>
+    <length>5</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>contact</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>email</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>website</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>username</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>password</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>permissions</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>language</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>publiczones</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <index>
+    <name>affiliates_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>affiliateid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>agency</name>
+
+  <declaration>
+
+   <field>
+    <name>agencyid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>contact</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>email</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>username</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>password</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>permissions</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>language</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>agency_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>agencyid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>application_variable</name>
+
+  <declaration>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>value</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>banners</name>
+
+  <declaration>
+
+   <field>
+    <name>bannerid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>campaignid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>active</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>priority</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>contenttype</name>
+    <type>text</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>gif</default>
+   </field>
+
+   <field>
+    <name>pluginversion</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>storagetype</name>
+    <type>text</type>
+    <length>7</length>
+    <notnull>true</notnull>
+    <default>sql</default>
+   </field>
+
+   <field>
+    <name>filename</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>imageurl</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>htmltemplate</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>htmlcache</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>width</name>
+    <type>integer</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>height</name>
+    <type>integer</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>weight</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>1</default>
+   </field>
+
+   <field>
+    <name>seq</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>target</name>
+    <type>text</type>
+    <length>16</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>url</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>alt</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>status</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>keyword</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>bannertext</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>autohtml</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>adserver</name>
+    <type>text</type>
+    <length>50</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>block</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>capping</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>session_capping</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>compiledlimitation</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>append</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>appendtype</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>bannertype</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>alt_filename</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>alt_imageurl</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>alt_contenttype</name>
+    <type>text</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>gif</default>
+   </field>
+
+   <index>
+    <name>campaignid</name>
+    <field>
+     <name>campaignid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>banners_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>bannerid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>cache</name>
+
+  <declaration>
+
+   <field>
+    <name>cacheid</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>content</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <index>
+    <name>cache_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>cacheid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>campaigns</name>
+
+  <declaration>
+
+   <field>
+    <name>campaignid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>campaignname</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>clientid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>views</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default>-1</default>
+   </field>
+
+   <field>
+    <name>clicks</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default>-1</default>
+   </field>
+
+   <field>
+    <name>conversions</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default>-1</default>
+   </field>
+
+   <field>
+    <name>expire</name>
+    <type>date</type>
+    <notnull>false</notnull>
+    <default>0000-00-00</default>
+   </field>
+
+   <field>
+    <name>activate</name>
+    <type>date</type>
+    <notnull>false</notnull>
+    <default>0000-00-00</default>
+   </field>
+
+   <field>
+    <name>active</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>priority</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>l</default>
+   </field>
+
+   <field>
+    <name>weight</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>1</default>
+   </field>
+
+   <field>
+    <name>target</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>optimise</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>anonymous</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>f</default>
+   </field>
+
+   <index>
+    <name>campaigns_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>campaignid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>campaigns_trackers</name>
+
+  <declaration>
+
+   <field>
+    <name>campaign_trackerid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>campaignid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>trackerid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>logstats</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>y</default>
+   </field>
+
+   <field>
+    <name>viewwindow</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>clickwindow</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>campaignid</name>
+    <field>
+     <name>campaignid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>trackerid</name>
+    <field>
+     <name>trackerid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>campaigns_trackers_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>campaign_trackerid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>clients</name>
+
+  <declaration>
+
+   <field>
+    <name>clientid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>agencyid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>clientname</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>contact</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>email</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>clientusername</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>clientpassword</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>permissions</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>language</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>report</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>reportinterval</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>7</default>
+   </field>
+
+   <field>
+    <name>reportlastdate</name>
+    <type>date</type>
+    <notnull>true</notnull>
+    <default>0000-00-00</default>
+   </field>
+
+   <field>
+    <name>reportdeactivate</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <index>
+    <name>clients_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>clientid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>config</name>
+
+  <declaration>
+
+   <field>
+    <name>agencyid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>config_version</name>
+    <type>decimal</type>
+    <length>7</length>
+    <notnull>true</notnull>
+    <default>0.000</default>
+   </field>
+
+   <field>
+    <name>table_border_color</name>
+    <type>text</type>
+    <length>7</length>
+    <notnull>false</notnull>
+    <default>#000099</default>
+   </field>
+
+   <field>
+    <name>table_back_color</name>
+    <type>text</type>
+    <length>7</length>
+    <notnull>false</notnull>
+    <default>#CCCCCC</default>
+   </field>
+
+   <field>
+    <name>table_back_color_alternative</name>
+    <type>text</type>
+    <length>7</length>
+    <notnull>false</notnull>
+    <default>#F7F7F7</default>
+   </field>
+
+   <field>
+    <name>main_back_color</name>
+    <type>text</type>
+    <length>7</length>
+    <notnull>false</notnull>
+    <default>#FFFFFF</default>
+   </field>
+
+   <field>
+    <name>my_header</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>my_footer</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>language</name>
+    <type>text</type>
+    <length>32</length>
+    <notnull>false</notnull>
+    <default>english</default>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>32</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>company_name</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default>mysite.com</default>
+   </field>
+
+   <field>
+    <name>override_gd_imageformat</name>
+    <type>text</type>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>begin_of_week</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>1</default>
+   </field>
+
+   <field>
+    <name>percentage_decimals</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>2</default>
+   </field>
+
+   <field>
+    <name>type_sql_allow</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>type_url_allow</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>type_web_allow</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>type_html_allow</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>type_txt_allow</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>type_web_mode</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>type_web_dir</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>type_web_ftp</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>type_web_url</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>admin</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default>phpadsuser</default>
+   </field>
+
+   <field>
+    <name>admin_pw</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default>phpadspass</default>
+   </field>
+
+   <field>
+    <name>admin_fullname</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default>Your Name</default>
+   </field>
+
+   <field>
+    <name>admin_email</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default>your@email.com</default>
+   </field>
+
+   <field>
+    <name>warn_admin</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>warn_agency</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>warn_client</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>warn_limit</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>admin_email_headers</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>admin_novice</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>default_banner_weight</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>1</default>
+   </field>
+
+   <field>
+    <name>default_campaign_weight</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>1</default>
+   </field>
+
+   <field>
+    <name>client_welcome</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>client_welcome_msg</name>
+    <type>text</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>content_gzip_compression</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>userlog_email</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>userlog_priority</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>userlog_autoclean</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>gui_show_campaign_info</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>gui_show_campaign_preview</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>gui_show_banner_info</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>gui_show_banner_preview</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>gui_show_banner_html</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>gui_show_matching</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>gui_show_parents</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>gui_hide_inactive</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>gui_link_compact_limit</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default>50</default>
+   </field>
+
+   <field>
+    <name>qmail_patch</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>updates_frequency</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>7</default>
+   </field>
+
+   <field>
+    <name>updates_timestamp</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>updates_last_seen</name>
+    <type>decimal</type>
+    <length>7</length>
+    <notnull>false</notnull>
+    <default>0.000</default>
+   </field>
+
+   <field>
+    <name>allow_invocation_plain</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>allow_invocation_plain_nocookies</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>allow_invocation_js</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>allow_invocation_frame</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>allow_invocation_xmlrpc</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>allow_invocation_local</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>allow_invocation_interstitial</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>allow_invocation_popup</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>auto_clean_tables</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>auto_clean_tables_interval</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>5</default>
+   </field>
+
+   <field>
+    <name>auto_clean_userlog</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>f</default>
+   </field>
+
+   <field>
+    <name>auto_clean_userlog_interval</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>5</default>
+   </field>
+
+   <field>
+    <name>auto_clean_tables_vacuum</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>autotarget_factor</name>
+    <type>float</type>
+    <notnull>false</notnull>
+    <default>-1</default>
+   </field>
+
+   <field>
+    <name>maintenance_timestamp</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>compact_stats</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
+    <name>statslastday</name>
+    <type>date</type>
+    <notnull>true</notnull>
+    <default>0000-00-00</default>
+   </field>
+
+   <field>
+    <name>statslasthour</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>config_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>agencyid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>conversionlog</name>
+
+  <declaration>
+
+   <field>
+    <name>conversionlogid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>conversionid</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>8</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>campaignid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>trackerid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>userid</name>
+    <type>text</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>t_stamp</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default>CURRENT_TIMESTAMP</default>
+   </field>
+
+   <field>
+    <name>host</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>country</name>
+    <type>text</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <fixed>true</fixed>
+    <default></default>
+   </field>
+
+   <field>
+    <name>cnv_logstats</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>n</default>
+   </field>
+
+   <field>
+    <name>cnv_clickwindow</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>cnv_viewwindow</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>cnv_latest</name>
+    <type>integer</type>
+    <length>2</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>action</name>
+    <type>text</type>
+    <length>5</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>action_bannerid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>action_zoneid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>action_t_stamp</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>action_host</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>action_source</name>
+    <type>text</type>
+    <length>50</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>action_country</name>
+    <type>text</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <fixed>true</fixed>
+    <default></default>
+   </field>
+
+   <index>
+    <name>t_stamp</name>
+    <field>
+     <name>t_stamp</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>conversionlog_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>conversionlogid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>images</name>
+
+  <declaration>
+
+   <field>
+    <name>filename</name>
+    <type>text</type>
+    <length>128</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>contents</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>t_stamp</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default>CURRENT_TIMESTAMP</default>
+   </field>
+
+   <index>
+    <name>images_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>filename</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>log_maintenance</name>
+
+  <declaration>
+
+   <field>
+    <name>log_maintenance_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>start_run</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>end_run</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>duration</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>log_maintenance_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>log_maintenance_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>session</name>
+
+  <declaration>
+
+   <field>
+    <name>sessionid</name>
+    <type>text</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>sessiondata</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>lastused</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default>CURRENT_TIMESTAMP</default>
+   </field>
+
+   <index>
+    <name>session_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>sessionid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>targetstats</name>
+
+  <declaration>
+
+   <field>
+    <name>day</name>
+    <type>date</type>
+    <notnull>true</notnull>
+    <default>0000-00-00</default>
+   </field>
+
+   <field>
+    <name>campaignid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>target</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>views</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>modified</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>trackers</name>
+
+  <declaration>
+
+   <field>
+    <name>trackerid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>trackername</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>clientid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>viewwindow</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>clickwindow</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>blockwindow</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>trackers_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>trackerid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>userlog</name>
+
+  <declaration>
+
+   <field>
+    <name>userlogid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>timestamp</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>usertype</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>userid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>action</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>object</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>details</name>
+    <type>text</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>userlog_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>userlogid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>variables</name>
+
+  <declaration>
+
+   <field>
+    <name>variableid</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>trackerid</name>
+    <type>text</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>250</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>text</type>
+    <length>250</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>variabletype</name>
+    <type>text</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default>js</default>
+   </field>
+
+   <field>
+    <name>datatype</name>
+    <type>text</type>
+    <length>6</length>
+    <notnull>true</notnull>
+    <default>int</default>
+   </field>
+
+   <index>
+    <name>variables_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>variableid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>variablevalues</name>
+
+  <declaration>
+
+   <field>
+    <name>valueid</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>8</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>t_stamp</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default>CURRENT_TIMESTAMP</default>
+   </field>
+
+   <field>
+    <name>variableid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>value</name>
+    <type>text</type>
+    <length>50</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>local_conversionid</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>8</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>dbserver_ip</name>
+    <type>text</type>
+    <length>16</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>conversionid</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>8</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>local_conversionid</name>
+    <field>
+     <name>local_conversionid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>conversionid</name>
+    <field>
+     <name>conversionid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>variablevalues_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>valueid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>zones</name>
+
+  <declaration>
+
+   <field>
+    <name>zoneid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>affiliateid</name>
+    <type>integer</type>
+    <length>3</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>zonename</name>
+    <type>text</type>
+    <length>245</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>delivery</name>
+    <type>integer</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>zonetype</name>
+    <type>integer</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>what</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>width</name>
+    <type>integer</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>height</name>
+    <type>integer</type>
+    <length>2</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>chain</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>prepend</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>append</name>
+    <type>blob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>appendtype</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>forceappend</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>f</default>
+   </field>
+
+   <index>
+    <name>zonenameid</name>
+    <field>
+     <name>zonename</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>zoneid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>zones_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>zoneid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+</database>
