@@ -37,6 +37,7 @@
     <include name="var/plugins/config"/>
     <include name="var/templates_compiled"/>
     <include name="var/.htaccess"/>
+    <include name="var/UPGRADE"/>
     <include name="www/**"/>
 
     <exclude name="www/devel**"/>
