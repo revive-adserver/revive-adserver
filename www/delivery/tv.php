@@ -120,6 +120,15 @@ $host = $host[0];
 }
 return $host;
 }
+function getHostNameWithPort()
+{
+if (!empty($_SERVER['HTTP_HOST'])) {
+$host = $_SERVER['HTTP_HOST'];
+} else {
+$host = $_SERVER['SERVER_NAME'];
+}
+return $host;
+}
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
 if ($conf['debug']['logfile']) {
