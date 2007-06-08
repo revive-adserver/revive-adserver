@@ -29,27 +29,27 @@
             <file>migration_tables_core_121.php</file>
         </package>
         <package>
-            <version>122</version>
+            <version>322</version>
             <schema>tables_core</schema>
-            <file>schema_tables_core_122.xml</file>
-            <file>changes_tables_core_122.xml</file>
-            <file>migration_tables_core_122.php</file>
+            <file>schema_tables_core_322.xml</file>
+            <file>changes_tables_core_322.xml</file>
+            <file>migration_tables_core_322.php</file>
         </package>
         <package>
-            <version>123</version>
+            <version>323</version>
             <schema>tables_core</schema>
-            <file>schema_tables_core_123.xml</file>
-            <file>changes_tables_core_123.xml</file>
-            <file>migration_tables_core_123.php</file>
+            <file>schema_tables_core_323.xml</file>
+            <file>changes_tables_core_323.xml</file>
+            <file>migration_tables_core_323.php</file>
         </package>
         <package>
-            <version>124</version>
+            <version>324</version>
             <schema>tables_core</schema>
-            <file>schema_tables_core_124.xml</file>
-            <file>changes_tables_core_124.xml</file>
-            <file>migration_tables_core_124.php</file>
+            <file>schema_tables_core_324.xml</file>
+            <file>changes_tables_core_324.xml</file>
+            <file>migration_tables_core_324.php</file>
         </package>
-        <package>
+        <!--package>
             <version>125</version>
             <schema>tables_core</schema>
             <file>schema_tables_core_125.xml</file>
@@ -62,28 +62,28 @@
             <file>schema_tables_core_126.xml</file>
             <file>changes_tables_core_126.xml</file>
             <file>migration_tables_core_126.php</file>
-        </package>
+        </package-->
         <package>
-            <version>127</version>
+            <version>327</version>
             <schema>tables_core</schema>
-            <file>schema_tables_core_127.xml</file>
-            <file>changes_tables_core_127.xml</file>
-            <file>migration_tables_core_127.php</file>
+            <file>schema_tables_core_327.xml</file>
+            <file>changes_tables_core_327.xml</file>
+            <file>migration_tables_core_327.php</file>
         </package>
         <package>
-            <version>128</version>
+            <version>328</version>
             <schema>tables_core</schema>
-            <file>schema_tables_core_128.xml</file>
-            <file>changes_tables_core_128.xml</file>
-            <file>migration_tables_core_128.php</file>
+            <file>schema_tables_core_328.xml</file>
+            <file>changes_tables_core_328.xml</file>
+            <file>migration_tables_core_328.php</file>
         </package>
-        <package>
+        <!--package>
             <version>129</version>
             <schema>tables_core</schema>
             <file>schema_tables_core_129.xml</file>
             <file>changes_tables_core_129.xml</file>
             <file>migration_tables_core_129.php</file>
-        </package>
+        </package-->
         <package>
             <version>130</version>
             <schema>tables_core</schema>
@@ -92,11 +92,11 @@
             <file>migration_tables_core_130.php</file>
         </package>
         <package>
-            <version>131</version>
+            <version>331</version>
             <schema>tables_core</schema>
-            <file>schema_tables_core_131.xml</file>
-            <file>changes_tables_core_131.xml</file>
-            <file>migration_tables_core_131.php</file>
+            <file>schema_tables_core_331.xml</file>
+            <file>changes_tables_core_331.xml</file>
+            <file>migration_tables_core_331.php</file>
         </package>
         <package>
             <version>199</version>
