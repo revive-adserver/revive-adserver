@@ -69,19 +69,19 @@ function init()
                 {
                     // The root index.php page was called to get here
                     $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
-                           getHostName() . $path . '/www/admin/install.php';
+                           getHostNameWithPort() . $path . '/www/admin/install.php';
                     header($location);
                 } elseif ($GLOBALS['_MAX']['WWW_INDEX'])
                 {
                     // The index.php page in /www was called to get here
                     $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
-                           getHostName() . $path . '/admin/install.php';
+                           getHostNameWithPort() . $path . '/admin/install.php';
                     header($location);
                 } else
                 {
                     // The index.php page in /www/admin was called to get here
                     $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
-                           getHostName() . $path . '/install.php';
+                           getHostNameWithPort() . $path . '/install.php';
                     header($location);
                 }
                 exit();

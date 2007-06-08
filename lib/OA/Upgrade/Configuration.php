@@ -92,7 +92,7 @@ class OA_Upgrade_Config
         {
             // User has web root configured as Max's root directory so can guess at all locations
             $subpath = preg_replace('#/www/admin$#', '', $path);
-            $basepath = getHostName() . $subpath. '/www/';
+            $basepath = getHostNameWithPort() . $subpath. '/www/';
             $this->setValue('webpath', 'admin', $basepath.'admin');
             $this->setValue('webpath', 'delivery', $basepath.'delivery');
             $this->setValue('webpath', 'deliverySSL', $basepath.'delivery');

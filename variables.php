@@ -119,4 +119,19 @@ function getHostName()
     return $host;
 }
 
+/**
+ * Returns the hostname (with port) the script is running under.
+ * 
+ * @return string containing the hostname with port
+ */
+function getHostNameWithPort()
+{
+    if (!empty($_SERVER['HTTP_HOST'])) {
+            $host = $_SERVER['HTTP_HOST'];
+    } else {
+        	$host = $_SERVER['SERVER_NAME'];
+    }
+    return $host;
+}
+
 ?>
