@@ -1385,8 +1385,8 @@
 
    <field>
     <name>config_version</name>
-    <type>decimal</type>
-    <length>7</length>
+    <type>openads_decimal</type>
+    <length>7,3</length>
     <notnull>true</notnull>
     <default>0.000</default>
    </field>
@@ -1489,50 +1489,50 @@
 
    <field>
     <name>type_sql_allow</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
 
    <field>
     <name>type_url_allow</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
 
    <field>
     <name>type_web_allow</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>f</default>
    </field>
 
    <field>
     <name>type_html_allow</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
 
    <field>
     <name>type_txt_allow</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
 
    <field>
     <name>type_web_mode</name>
-    <type>openads_mediumint</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
-    <default>0</default>
+    <default>t</default>
    </field>
 
    <field>
@@ -1593,24 +1593,24 @@
 
    <field>
     <name>warn_admin</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
 
    <field>
     <name>warn_agency</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
 
    <field>
     <name>warn_client</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
@@ -1633,8 +1633,8 @@
 
    <field>
     <name>admin_novice</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
@@ -1657,8 +1657,8 @@
 
    <field>
     <name>client_welcome</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
@@ -1672,97 +1672,97 @@
 
    <field>
     <name>content_gzip_compression</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>f</default>
    </field>
 
    <field>
     <name>userlog_email</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
 
    <field>
     <name>userlog_priority</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
 
    <field>
     <name>userlog_autoclean</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
 
    <field>
     <name>gui_show_campaign_info</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
 
    <field>
     <name>gui_show_campaign_preview</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>f</default>
    </field>
 
    <field>
     <name>gui_show_banner_info</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
 
    <field>
     <name>gui_show_banner_preview</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
 
    <field>
     <name>gui_show_banner_html</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
-    <default>f</default>
+    <default>t</default>
    </field>
 
    <field>
     <name>gui_show_matching</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
 
    <field>
     <name>gui_show_parents</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
-    <default>f</default>
+    <default>t</default>
    </field>
 
    <field>
     <name>gui_hide_inactive</name>
     <type>openads_enum</type>
     <length>'t','f'</length>
-    <notnull>true</notnull>
+    <notnull>false</notnull>
     <default>t</default>
    </field>
 
@@ -1776,8 +1776,8 @@
 
    <field>
     <name>qmail_patch</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>f</default>
    </field>
@@ -1791,7 +1791,7 @@
    </field>
 
    <field>
-    <name>updates_openads_timestamp</name>
+    <name>updates_timestamp</name>
     <type>openads_mediumint</type>
     <length>4</length>
     <notnull>false</notnull>
@@ -1800,80 +1800,80 @@
 
    <field>
     <name>updates_last_seen</name>
-    <type>decimal</type>
-    <length>7</length>
+    <type>openads_decimal</type>
+    <length>7,3</length>
     <notnull>false</notnull>
-    <default>0.000</default>
+    <default></default>
    </field>
 
    <field>
     <name>allow_invocation_plain</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>f</default>
    </field>
 
    <field>
     <name>allow_invocation_plain_nocookies</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
-    <default>t</default>
+    <default>f</default>
    </field>
 
    <field>
     <name>allow_invocation_js</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
-    <default>t</default>
+    <default>f</default>
    </field>
 
    <field>
     <name>allow_invocation_frame</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>f</default>
    </field>
 
    <field>
     <name>allow_invocation_xmlrpc</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>f</default>
    </field>
 
    <field>
     <name>allow_invocation_local</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
 
    <field>
     <name>allow_invocation_interstitial</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
 
    <field>
     <name>allow_invocation_popup</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
 
    <field>
     <name>auto_clean_tables</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>f</default>
    </field>
@@ -1888,8 +1888,8 @@
 
    <field>
     <name>auto_clean_userlog</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>f</default>
    </field>
@@ -1904,21 +1904,21 @@
 
    <field>
     <name>auto_clean_tables_vacuum</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
-    <default>t</default>
+    <default>f</default>
    </field>
 
    <field>
     <name>autotarget_factor</name>
-    <type>float</type>
+    <type>openads_float</type>
     <notnull>false</notnull>
     <default>-1</default>
    </field>
 
    <field>
-    <name>maintenance_openads_timestamp</name>
+    <name>maintenance_timestamp</name>
     <type>openads_mediumint</type>
     <length>4</length>
     <notnull>false</notnull>
@@ -1927,8 +1927,8 @@
 
    <field>
     <name>compact_stats</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>t</default>
    </field>
@@ -2034,8 +2034,8 @@
 
    <field>
     <name>cnv_logstats</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'y','n'</length>
     <notnull>false</notnull>
     <default>n</default>
    </field>
@@ -2066,9 +2066,9 @@
 
    <field>
     <name>action</name>
-    <type>openads_text</type>
-    <length>5</length>
-    <notnull>false</notnull>
+    <type>openads_enum</type>
+    <length>'view','click'</length>
+    <notnull>true</notnull>
     <default></default>
    </field>
 
@@ -2411,7 +2411,7 @@
    </field>
 
    <field>
-    <name>openads_timestamp</name>
+    <name>timestamp</name>
     <type>openads_mediumint</type>
     <length>4</length>
     <notnull>true</notnull>
@@ -2512,16 +2512,16 @@
 
    <field>
     <name>variabletype</name>
-    <type>openads_text</type>
-    <length>2</length>
+    <type>openads_enum</type>
+    <length>'js','qs'</length>
     <notnull>true</notnull>
     <default>js</default>
    </field>
 
    <field>
     <name>datatype</name>
-    <type>openads_text</type>
-    <length>6</length>
+    <type>openads_enum</type>
+    <length>'int','string'</length>
     <notnull>true</notnull>
     <default>int</default>
    </field>
@@ -2738,8 +2738,8 @@
 
    <field>
     <name>forceappend</name>
-    <type>openads_text</type>
-    <length>1</length>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
     <notnull>false</notnull>
     <default>f</default>
    </field>
