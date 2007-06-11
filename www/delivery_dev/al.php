@@ -56,7 +56,7 @@ if ($limitations['compatible']) {
 
 	MAX_cookieFlush();
 	// Exit if no matching banner was found
-	if (!$output) {
+	if (empty($output['html'])) {
 	    exit;
 	}
 	$uniqid = substr(md5(uniqid('', 1)), 0, 8);
