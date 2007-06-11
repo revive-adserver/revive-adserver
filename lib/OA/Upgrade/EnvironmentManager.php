@@ -56,12 +56,16 @@ class OA_Environment_Manager
                                                   MAX_PATH.'/var/plugins/config',
                                                   MAX_PATH.'/var/templates_compiled'
                                                  );
-        if ($conf) {
+                       
+        // if CONF file hasn't been created yet, use the default images folder                          
+        if (!empty($conf['store']['webDir'])) {
             $this->aInfo['PERMS']['expected'][] = $conf['store']['webDir'];
-
-            if (!empty($conf['delivery']['cachePath'])) {
-                $this->aInfo['PERMS']['expected'][] = $conf['delivery']['cachePath'];
-            }
+        } else {
+            $this->aInfo['PERMS']['expected'][] = MAX_PATH.'/www/images';        
+        }
+        
+        if (!empty($conf['delivery']['cachePath'])) {
+            $this->aInfo['PERMS']['expected'][] = $conf['delivery']['cachePath'];
         }
 
         $this->aInfo['PHP']['actual']       = array();
