@@ -2229,7 +2229,7 @@ header("Content-type: application/x-javascript");
 if ($limitations['compatible']) {
 $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, $limitations['richmedia'], $GLOBALS['ct0'], $GLOBALS['loc'], $GLOBALS['referer']);
 MAX_cookieFlush();
-if (!$output) {
+if (empty($output['html'])) {
 exit;
 }
 $uniqid = substr(md5(uniqid('', 1)), 0, 8);
