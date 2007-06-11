@@ -40,13 +40,11 @@ define('OA_UPGRADE_IDSETUP',                   50);
 define('OA_UPGRADE_DATASETUP',                 60);
 define('OA_UPGRADE_FINISH',                    70);
 
-global $installing;
+global $installing, $tabindex;
 $installing = true;
-
 
 require_once '../../init.php';
 
-//if (array_key_exists('btn_openads', $_POST) || $GLOBALS['_MAX']['CONF']['openads']['installed'])
 if (array_key_exists('btn_openads', $_POST) || (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED))
 {
     require_once MAX_PATH . '/lib/max/Admin/Redirect.php';

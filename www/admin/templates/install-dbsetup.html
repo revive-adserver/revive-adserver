@@ -53,7 +53,7 @@
     </script>
 <div id="dbLoader" class="pageLoader tab-s" style="display: none;"><div>Processing...</div></div>
 
-<form name="frmOpenads" id="frmOpenads" method="POST" action="install.php" onSubmit='return showLoader(this);' style="margin:0; padding:0;" autocomplete="off">
+<form name="frmOpenads" id="frmOpenads" method="POST" action="install.php" onSubmit='return showLoader(this);' style="margin:0; padding:0;">
 
 <?php
 
@@ -111,6 +111,7 @@
                     'text'    => $strDbUser,
                     'enabled' => $disableForm,
                     'req'     => true,
+                    'autooff' => true,
                     'value'   => $aDatabase['database']['username']
                 ),
                 array (
@@ -122,6 +123,7 @@
                     'text'    => $strDbPassword,
                     'enabled' => $disableForm,
                     'req'     => false,
+                    'autooff' => true,
                     'value'   => $aDatabase['database']['password']
                 ),
                 array (
