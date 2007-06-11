@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+<name>openads</name>
+<version>399</version>
+<comments>Remove tables no longer used in 2.3</comments>
+<constructive>
+  <changeset>
+    <name>openads</name>
+    <version>399</version>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>399</version>
+    <remove>
+     <table>adclicks</table>
+     <table>adconversions</table>
+     <table>adstats</table>
+     <table>adviews</table>
+     <table>cache</table>
+     <table>config</table>
+     <table>conversionlog</table>
+     <table>log_maintenance</table>
+     <table>variablevalues</table>
+    </remove>
+  </changeset>
+</destructive>
+</instructionset>

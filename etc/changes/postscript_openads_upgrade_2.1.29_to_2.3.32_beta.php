@@ -1,5 +1,7 @@
 <?php
 
+require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
+
 class OA_UpgradePostscript
 {
 
@@ -8,11 +10,38 @@ class OA_UpgradePostscript
 
     }
 
-    function execute()
+    function execute($aParams)
     {
+        $this->oUpgrade = & $aParams[0];
+        if (!$this->configPan())
+        {
+            return false;
+        }
+//        if (!MAX_Maintenance_Priority::run())
+//        {
+//            return false;
+//        }
         return true;
     }
 
+    function configPan()
+    {
+        if (!$this->oUpgrade->oConfiguration->putNewConfigFile())
+        {
+            $this->oUpgrade->oLogger->logError('Installation failed to create the configuration file');
+            return false;
+        }
+        $aConfig = $this->oUpgrade->oPAN->aConfig;
+        $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
+        $this->oUpgrade->oConfiguration->setupConfigPan($aConfig);
+        $this->oUpgrade->oConfiguration->writeConfig();
+        if (!$this->oUpgrade->oPAN->renamePANConfigFile())
+        {
+            $this->oUpgrade->oLogger->logError('Failed to rename MMM v0.1 configuration file (non-critical, you can delete or rename /var/config.inc.php yourself)');
+            $this->oUpgrade->message = 'Failed to rename MMM v0.1 configuration file (non-critical, you can delete or rename /var/config.inc.php yourself)';
+        }
+        return true;
+    }
 }
 
 ?>

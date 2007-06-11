@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>322</version>
+  <comments>Add columns required by clients table</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>322</version>
+      <change>
+          <table>
+            <name>clients</name>
+            <add>
+              <field>
+                <name>comments</name>
+                <type>openads_text</type>
+                <notnull></notnull>
+                <default></default>
+                <was>comments</was>
+              </field>
+                <field>
+                  <name>updated</name>
+                  <type>openads_datetime</type>
+                  <notnull>1</notnull>
+                  <default></default>
+                  <was>updated</was>
+                </field>
+              </add>
+            </table>
+          </change>
+        </changeset>
+      </constructive>
+      <destructive>
+        <changeset>
+          <name>openads</name>
+          <version>322</version>
+        </changeset>
+      </destructive>
+    </instructionset>

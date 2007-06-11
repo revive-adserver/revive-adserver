@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>324</version>
+  <comments>Add fields required by banners table</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>324</version>
+      <change>
+        <table>
+          <name>banners</name>
+          <add>
+            <field>
+              <name>acl_plugins</name>
+              <type>openads_text</type>
+              <notnull></notnull>
+              <default></default>
+              <was>acl_plugins</was>
+            </field>
+              <field>
+                <name>comments</name>
+                <type>openads_text</type>
+                <notnull></notnull>
+                <default></default>
+                <was>comments</was>
+              </field>
+                <field>
+                  <name>updated</name>
+                  <type>openads_datetime</type>
+                  <notnull>1</notnull>
+                  <default></default>
+                  <was>updated</was>
+                </field>
+                  <field>
+                    <name>acls_updated</name>
+                    <type>openads_datetime</type>
+                    <notnull>1</notnull>
+                    <default>0000-00-00 00:00:00</default>
+                    <was>acls_updated</was>
+                  </field>
+                </add>
+            </table>
+          </change>
+        </changeset>
+      </constructive>
+      <destructive>
+        <changeset>
+          <name>openads</name>
+          <version>324</version>
+        </changeset>
+      </destructive>
+    </instructionset>
