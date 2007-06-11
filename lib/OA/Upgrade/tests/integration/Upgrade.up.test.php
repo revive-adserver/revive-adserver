@@ -427,15 +427,15 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->_createTestAppVarRecord('tables_core', '997');
         $this->assertEqual($this->_getTestAppVarValue('tables_core', '997'), '997', '');
 
-        $this->_createTestAppVarRecord('oa_version','2.3.97');
+        $this->_createTestAppVarRecord('oa_version','2.3.00');
         $oUpgrade->versionInitialSchema['tables_core'] = 997;
-        $oUpgrade->versionInitialApplication = '2.3.97';
+        $oUpgrade->versionInitialApplication = '2.3.00';
 
         $oUpgrade  = new OA_Upgrade();
         $oUpgrade->upgradePath = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
         $oUpgrade->oDBUpgrader->path_changes = $oUpgrade->upgradePath;
         $oUpgrade->oDBUpgrader->path_schema = $oUpgrade->upgradePath;
-        $input_file = 'openads_upgrade_2.3.97_to_2.3.99_beta.xml';
+        $input_file = 'openads_upgrade_2.3.00_to_2.3.02_beta.xml';
         $oUpgrade->initDatabaseConnection();
         $oUpgrade->_parseUpgradePackageFile($oUpgrade->upgradePath.$input_file);
 
@@ -476,14 +476,14 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->upgradePath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
         $oUpgrade->oDBUpgrader->path_changes = $oUpgrade->upgradePath;
         $oUpgrade->oDBUpgrader->path_schema = $oUpgrade->upgradePath;
-        $oUpgrade->aPackageList[0] = 'openads_upgrade_2.3.97_to_2.3.99_beta.xml';
+        $oUpgrade->aPackageList[0] = 'openads_upgrade_2.3.00_to_2.3.02_beta.xml';
         $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.dev.test.log";
 
         // just in case of error, lose this so we can continue afresh
         $oUpgrade->_pickupRecoveryFile();
 
         // fake the versions we are starting with
-        $this->_createTestAppVarRecord('oa_version', '2.3.97');
+        $this->_createTestAppVarRecord('oa_version', '2.3.00');
         $oUpgrade->versionInitialSchema[$schema] = 997;
         $oUpgrade->versionInitialApplication = '0.3.31';
 
@@ -575,7 +575,7 @@ class Test_OA_Upgrade extends UnitTestCase
     {
         $doApplicationVariable          = OA_Dal::factoryDO('application_variable');
         $doApplicationVariable->name    = $name;
-        $doApplicationVariable->value   = $value;
+        //$doApplicationVariable->value   = $value;
         $doApplicationVariable->delete();
     }
 

@@ -395,29 +395,6 @@ class OA_Upgrade
                 $this->existing_installation_status = OA_STATUS_PAN_VERSION_FAILED;
                 return false;
             }
-
-            $valid = (version_compare($this->versionInitialApplication,'0.100')>=0);
-            if ($valid)
-            {
-                $this->versionInitialSchema['tables_core'] = '300';
-                if (!$this->initDatabaseConnection())
-                {
-                    $this->existing_installation_status = OA_STATUS_PAN_DBCONNECT_FAILED;
-                    return false;
-                }
-                if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
-                {
-                    $this->existing_installation_status = OA_STATUS_PAN_DBINTEG_FAILED;
-                    return false;
-                }
-                $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
-                $this->aPackageList[0] = 'openads_upgrade_2.1.29_to_2.3.32_beta.xml';
-                $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
-                $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
-                return true;
-            }
-
-
             $valid = ( (version_compare($this->versionInitialApplication,'200.313')>=0)
                       ||
                        (version_compare($this->versionInitialApplication,'200.314')>=0)
@@ -437,6 +414,65 @@ class OA_Upgrade
                 }
                 $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
                 $this->aPackageList[0] = 'openads_upgrade_2.0.11_to_2.3.32_beta.xml';
+                $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
+                $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
+                return true;
+            }
+            $this->existing_installation_status = OA_STATUS_PAN_VERSION_FAILED;
+            return false;
+        }
+        $this->existing_installation_status = OA_STATUS_PAN_NOT_INSTALLED;
+        return false;
+    }
+
+    /**
+     * search for an existing phpAdsNew installation
+     *
+     * @param string $database (used for error display message)
+     * @return boolean
+     */
+    function detectMAX01()
+    {
+        $this->oPAN->init();
+        if ($this->oPAN->detected)
+        {
+            $GLOBALS['_MAX']['CONF']['database'] = $this->oPAN->aDsn['database'];
+            $GLOBALS['_MAX']['CONF']['table']    = $this->oPAN->aDsn['table'];
+            $this->existing_installation_status = OA_STATUS_PAN_CONFIG_DETECTED;
+            if (PEAR::isError($this->oPAN->oDbh))
+            {
+                $this->existing_installation_status = OA_STATUS_PAN_DBCONNECT_FAILED;
+                return false;
+            }
+            $this->oDbh = & $this->oPAN->oDbh;
+            if (!$this->initDatabaseConnection())
+            {
+                $this->existing_installation_status = OA_STATUS_PAN_DBCONNECT_FAILED;
+                return false;
+            }
+            $this->versionInitialApplication = $this->oPAN->getPANversion();
+            if (!$this->versionInitialApplication)
+            {
+                $this->existing_installation_status = OA_STATUS_PAN_VERSION_FAILED;
+                return false;
+            }
+
+            $valid = (version_compare($this->versionInitialApplication,'0.100')>=0);
+            if ($valid)
+            {
+                $this->versionInitialSchema['tables_core'] = '300';
+                if (!$this->initDatabaseConnection())
+                {
+                    $this->existing_installation_status = OA_STATUS_PAN_DBCONNECT_FAILED;
+                    return false;
+                }
+                if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
+                {
+                    $this->existing_installation_status = OA_STATUS_PAN_DBINTEG_FAILED;
+                    return false;
+                }
+                $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
+                $this->aPackageList[0] = 'openads_upgrade_2.1.29_to_2.3.32_beta.xml';
                 $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
                 $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
                 return true;
