@@ -61,7 +61,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $errormessage[0][] = $strCantConnectToDb;
         } else {
             // Set up the configuration .ini file
-            $config = new MAX_Admin_Config();
+            $config = new OA_Admin_Config();
             $config->setConfigChange('database', 'type',       $database_type);
             $config->setConfigChange('database', 'host',       $database_host);
             $config->setConfigChange('database', 'port',       $database_port);

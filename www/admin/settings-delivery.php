@@ -52,7 +52,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                           'delivery_ctDelimiter',
                           'p3p_policies', 'p3p_compactPolicy', 'p3p_policyLocation');
     // Set up the configuration .ini file
-    $config = new MAX_Admin_Config();
+    $config = new OA_Admin_Config();
     if (isset($webpath_admin)) {
         $config->setConfigChange('webpath', 'admin',         preg_replace('#/$#', '', $webpath_admin));
     }

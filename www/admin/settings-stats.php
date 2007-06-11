@@ -29,7 +29,6 @@ $Id$
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Config.php';
 require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
@@ -58,7 +57,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                           'admin_email_headers', 'qmail_patch', 'warn_limit_days'
                           );
     // Set up the configuration .ini file
-    $config = new MAX_Admin_Config();
+    $config = new OA_Admin_Config();
     $config->setConfigChange('logging', 'csvImport',          isset($logging_csvImport));
     $config->setConfigChange('logging', 'adRequests',         isset($logging_adRequests));
     $config->setConfigChange('logging', 'adImpressions',      isset($logging_adImpressions));

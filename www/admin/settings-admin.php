@@ -59,7 +59,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     //  Update config with timezone changes
     if (isset($timezone_location)) {
         $timezone_location = OA_Admin_Timezones::getConfigTimezoneValue($timezone_location, $aTimezone);
-        $config = new MAX_Admin_Config();
+        $config = new OA_Admin_Config();
         $config->setConfigChange('timezone', 'location', $timezone_location);
         if (!$config->writeConfigChange()) {
             // Unable to write the config file out

@@ -40,7 +40,7 @@ $errormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     phpAds_registerGlobal('max_uiEnabled', 'max_language', 'max_requireSSL', 'max_sslPort', 'debug_production');
     // Set up the configuration .ini file
-    $config = new MAX_Admin_Config();
+    $config = new OA_Admin_Config();
     $config->setConfigChange('max', 'uiEnabled',    $max_uiEnabled);
     $config->setConfigChange('max', 'language',     $max_language);
     $config->setConfigChange('max', 'requireSSL',   $max_requireSSL);

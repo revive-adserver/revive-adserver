@@ -107,7 +107,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
         
     }
     
-    function testMergeConfigs()
+    function testMergeConfigChanges()
     {
         // Build a test dist.conf.php
         $oDistConf = new OA_Admin_Config(true);
@@ -141,7 +141,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
                                              'deliverySSL' => 'localhost'),
                           'new' => array('new_key' => 'new_value'));
         
-        $this->assertEqual($expected, $oUserConf->_mergeConfArrays('/tmp/disthost.' . $distFilename . '.conf.php'),
+        $this->assertEqual($expected, $oUserConf->mergeConfigChanges('/tmp/disthost.' . $distFilename . '.conf.php'),
             'Config files don\'t match');
         
         // Clean up

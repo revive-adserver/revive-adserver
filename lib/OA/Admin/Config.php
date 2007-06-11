@@ -227,52 +227,55 @@ class OA_Admin_Config
     }
     
     /**
-     * Merges any changes in dist.conf.php into the user's conf array.
+     * Merges any changes in dist.conf.php into $this->conf.
      * 
-     * @param string $distConfig the full path to the distributed conf.php file.
-     * @return array containing merged config values.
+     * @param string $distConfig the full path to the distributed conf file.
+     * @return true if changes successfully merged. Otherwise, false.
      *
      */
-    function _mergeConfArrays($distConfig = null)
+    function mergeConfigChanges($distConfig = null)
     {
         if (is_null($distConfig)) {
-            $distConfig = MAX_PATH . '/var/dist.conf.php';
+            $distConfig = MAX_PATH . '/etc/dist.conf.php';
+        }
+        
+        if (!is_readable($distConfig)) {
+            return false;
         }
         
         $aDistConf = @parse_ini_file($distConfig, true);
-        $aUserConf = $this->conf;
         
         // Check for deprecated keys to remove from existing user conf
-        foreach ($aUserConf as $key => $value) {
+        foreach ($this->conf as $key => $value) {
         	if (array_key_exists($key, $aDistConf)) {
-        	    foreach ($aUserConf[$key] as $subKey => $subValue) {
+        	    foreach ($this->conf[$key] as $subKey => $subValue) {
         	        if (!array_key_exists($subKey, $aDistConf[$key])) {
-                        unset($aUserConf[$key][$subKey]);
+                        unset($this->conf[$key][$subKey]);
         	        }
         	    }
         	} else {
-                unset($aUserConf[$key]);
+                unset($this->conf[$key]);
         	} 
         }
         
         // Check for new keys in dist to add to existing user conf
         foreach ($aDistConf as $key => $value) {
-        	if (array_key_exists($key, $aUserConf)) {
+        	if (array_key_exists($key, $this->conf)) {
         	    foreach ($aDistConf[$key] as $subKey => $subValue) {
-        	    	if (!array_key_exists($subKey, $aUserConf[$key])) {
-                        $aUserConf[$key][$subKey] = $subValue;
+        	    	if (!array_key_exists($subKey, $this->conf[$key])) {
+                        $this->conf[$key][$subKey] = $subValue;
         	    	}
         	    }
         	} else {
-                $aUserConf[$key] = $value;
+                $this->conf[$key] = $value;
         	}
         }
-        
-        return $aUserConf;
+
+        return true;
     }
     
     /**
-     * Makes a backup copy of the given file.
+     * Makes a backup copy of the given file if it exists.
      *
      * @param string $configFile full path to the file to be backed up.
      * @return boolean true if the file is successfully backed up. Otherwise, false.
@@ -284,6 +287,7 @@ class OA_Admin_Config
             $backupFilename = $this->_getBackupFilename($configFile);
             return (copy($configFile, dirname($configFile) . '/' . $backupFilename));
         }
+        
         return false;
     }
     

@@ -42,7 +42,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                           'log_name', 'log_priority', 'log_ident', 'log_paramsUsername',
                           'log_paramsPassword');
     // Set up the configuration .ini file
-    $config = new MAX_Admin_Config();
+    $config = new OA_Admin_Config();
     $config->setConfigChange('log', 'enabled',          $log_enabled);
     $config->setConfigChange('log', 'methodNames',      $log_methodNames);
     $config->setConfigChange('log', 'lineNumbers',      $log_lineNumbers);

@@ -32,7 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Config.php';
+require_once MAX_PATH . '/lib/OA/Admin/Config.php';
 require_once MAX_PATH . '/lib/max/language/Default.php';
 require_once MAX_PATH . '/lib/max/language/Settings.php';
 require_once MAX_PATH . '/lib/max/language/SettingsHelp.php';
@@ -48,7 +48,7 @@ Language_Settings::load();
 Language_SettingsHelp::load();
 
 // Determine wether the config file is locked
-$phpAds_config_locked = !MAX_Admin_Config::isConfigWritable();
+$phpAds_config_locked = !OA_Admin_Config::isConfigWritable();
 
 /*-------------------------------------------------------*/
 /* Build a menu with all settings                        */
@@ -159,7 +159,7 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0, $imgPat
         $tabindex = 1;
     }
     // Determine if config file is writable
-    $configLocked = !MAX_Admin_Config::isConfigWritable();
+    $configLocked = !OA_Admin_Config::isConfigWritable();
     // Show header
     //if ($conf['openads']['installed'])
     if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
@@ -523,7 +523,7 @@ function phpAds_ShowSettings_Password($item, $value)
 
     //  if config file is not writeable do not display password
     $hidePassword = false;
-    $writeable = MAX_Admin_Config::isConfigWritable();
+    $writeable = OA_Admin_Config::isConfigWritable();
     if ($item['name'] == 'database_password' && !$writeable) {
         $value = 'password';
         $hidePassword = true;
@@ -700,7 +700,7 @@ function showSettingsLocked($item)
         $configLevel = isset($confixExploded[0]) ? $confixExploded[0] : null;
         $configItem = isset($confixExploded[1]) ? $confixExploded[1] : null;
         //list($configLevel, $configItem) = explode('_', $item['name']);
-        if (isset($conf[$configLevel][$configItem]) && (!MAX_Admin_Config::isConfigWritable())) {
+        if (isset($conf[$configLevel][$configItem]) && (!OA_Admin_Config::isConfigWritable())) {
             return true;
         }
     }

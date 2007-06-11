@@ -53,7 +53,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                           'geotargeting_saveStats',
                           'geotargeting_showUnavailable');
     // Set up the main configuration .ini file
-    $config = new MAX_Admin_Config($newConfig = true);
+    $config = new OA_Admin_Config($newConfig = true);
     $config->setConfigChange('geotargeting', 'type', $geotargeting_type);
     $config->setConfigChange('geotargeting', 'saveStats', $geotargeting_saveStats);
     $config->setConfigChange('geotargeting', 'showUnavailable', $geotargeting_showUnavailable);
@@ -66,7 +66,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $errormessage[0][] = $strUnableToWriteConfig;
     }
     // Set up the configuration .ini file
-    $config = new MAX_Admin_Config($newConfig = true);
+    $config = new OA_Admin_Config($newConfig = true);
     $config->setConfigChange('geotargeting', 'type', $geotargeting_type);
     if ($geotargeting_type != 'none') {
         // Test the supplied files

@@ -1,6 +1,6 @@
 <?php
 
-require_once MAX_PATH . '/lib/max/Admin/Config.php';
+require_once MAX_PATH . '/lib/OA/Admin/Config.php';
 
 class OA_Upgrade_Config
 {
@@ -12,9 +12,9 @@ class OA_Upgrade_Config
 
     function OA_Upgrade_Config()
     {
-        $this->oConfig = new MAX_Admin_Config();
+        $this->oConfig = new OA_Admin_Config();
         $this->aConfig = &$this->oConfig->conf;
-        if (!MAX_Admin_Config::isConfigWritable())
+        if (!OA_Admin_Config::isConfigWritable())
         {
             return false;
         }
@@ -124,6 +124,20 @@ class OA_Upgrade_Config
     function writeConfig()
     {
         return $this->oConfig->writeConfigChange();
+    }
+    
+    /**
+     * Backs up the existing config file and merges any changes from dist.conf.php.
+     *
+     * @return boolean true if config is successfully backed up and merged. Otherwise, false.
+     */
+    function mergeConfig()
+    {
+        $this->getConfigFileName();
+        if (!$this->oConfig->backupConfig($this->configPath . $this->configFile)) {
+            return false;
+        }
+        return $this->oConfig->mergeConfigChanges();
     }
 
     function setOpenadsInstalledOn()
