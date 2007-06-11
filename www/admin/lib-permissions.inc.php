@@ -355,7 +355,7 @@ function phpAds_LoginScreen($message='', $sessionID=0, $inLineLogin = false)
         echo "<table cellpadding='0' cellspacing='0' border='0'>";
         echo "<tr height='24'><td>".$strUsername.":&nbsp;</td><td><input class='flat' type='text' name='username' id='username' tabindex=1></td></tr>";
         echo "<tr height='24'><td>".$strPassword.":&nbsp;</td><td><input class='flat' type='password' name='password' id='password' tabindex=2></td></tr>";
-        echo "<tr height='24'><td>&nbsp;</td><td><input type='submit' name='login' id='login' value='".$strLogin."'></td></tr>";
+        echo "<tr height='24'><td>&nbsp;</td><td><input type='submit' name='login' id='login' value='".$strLogin."' tabindex=3></td></tr>";
         echo "</table>";
         echo "<img src='images/break-el.gif' width='400' height='1' vspace='8'><br>";
         echo "<a href='password-recovery.php'>".$strForgotPassword."</a>";
