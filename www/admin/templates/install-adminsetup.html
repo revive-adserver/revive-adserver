@@ -56,6 +56,7 @@
                             'name'  => 'aAdmin[email]',
                             'text'  => $strAdministratorEmail,
                             'req'   => true,
+                            'check' => 'email',
                             'value' => $aAdmin['email']
                         )
                     )
@@ -63,9 +64,9 @@
             ), $errormessage, 0, $imgPath);
 ?>
 
-                <input type="submit"  class="button" name="btn_datasetup" value="<?php echo $strBtnContinue; ?>" />
+                <input type="submit"  class="button" name="btn_datasetup" value="<?php echo $strBtnContinue; ?>" tabindex="<?php echo ($tabindex++); ?>" />
                 <input type="hidden" name="dirPage" id="dirPage" value="" />
 </form>
 
 <form name="frmOpenads2" id="frmOpenads2" method="POST" action="install.php" style="margin:0; padding:0;">
-                <input type="submit"  class="button floatleft" name="btn_configsetup" value="<?php echo $strBtnGoBack; ?>" />
+                <input type="submit"  class="button floatleft" name="btn_configsetup" value="<?php echo $strBtnGoBack; ?>" tabindex="<?php echo ($tabindex++); ?>" />

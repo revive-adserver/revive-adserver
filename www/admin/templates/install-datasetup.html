@@ -12,8 +12,8 @@
     <td height='25' colspan='4'>
     <form name="frmOpenads" method="POST" action="install.php">
     <img src='<?php echo $imgPath; ?>images/icon-setup.gif' width='16' height='16' align='absmiddle'>&nbsp;<b>Install Default Setup Data?</b> &nbsp; 
-    <input type="radio" name="chk_dummydata" value="1" checked="checked"><?php echo $strYes; ?> &nbsp;
-    <input type="radio" name="chk_dummydata" value="0"><?php echo $strNo; ?>
+    <input type="radio" name="chk_dummydata" value="1" checked="checked" tabindex="<?php $tabindex=1;echo ($tabindex++); ?>"><?php echo $strYes; ?> &nbsp;
+    <input type="radio" name="chk_dummydata" value="0" tabindex="<?php echo ($tabindex++); ?>"><?php echo $strNo; ?>
     <br><br>
     </td>
 </tr>
@@ -28,7 +28,7 @@
 </tr>
 </table>                    
                     
-<input type="submit" class="button" name="btn_finish" value="<?php echo $strBtnContinue; ?>" />
+<input type="submit" class="button" name="btn_finish" value="<?php echo $strBtnContinue; ?>" tabindex="<?php echo ($tabindex++); ?>" />
 
 <input type="hidden" name="aAdminPost" id="aAdminPost" value='<?php echo serialize($_POST['aAdmin']); ?>'>
-<input type="submit" class="button floatleft" name="btn_adminsetup_back" value="<?php echo $strBtnGoBack; ?>" />
+<input type="submit" class="button floatleft" name="btn_adminsetup_back" value="<?php echo $strBtnGoBack; ?>" tabindex="<?php echo ($tabindex++); ?>" />

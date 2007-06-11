@@ -175,11 +175,11 @@ if ($errMessage) {
 
 if ($errMessage) {
 ?>
-                <input type="submit" class="button" name="btn_adminsetup" value="<?php echo $strBtnRetry; ?>" />
+                <input type="submit" class="button" name="btn_adminsetup" value="<?php echo $strBtnRetry; ?>" tabindex="<?php echo ($tabindex++); ?>" />
 <?php
 } else {
 ?>
-                <input type="submit" class="button" name="btn_adminsetup" value="<?php echo $strBtnContinue; ?>" />
+                <input type="submit" class="button" name="btn_adminsetup" value="<?php echo $strBtnContinue; ?>" tabindex="<?php echo ($tabindex++); ?>" />
 <?php
 }
 ?>

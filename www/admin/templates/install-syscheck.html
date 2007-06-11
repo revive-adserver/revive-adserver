@@ -62,14 +62,6 @@
             $halt = (($halt) || ($sysinfoarray['error']));
             $sysinfoheading = (!$sysinfoarray['error']? $passImage . ' File Permissions - no errors' : $errorImage . ' <span class="red">File Permissions - errors detected</span>');
             include 'templates/install-sysinfosection.html';
-
-            /* 
-            ******* REMOVE FILECHECK SECTION ************
-            $sysinfoarray = $aSysInfo['FILES'];
-            $halt = (($halt) && (!$sysinfoarray['error']));
-            $sysinfoheading = 'File Integrity - '.(!$sysinfoarray['error']? 'no errors' : 'errors detected');
-            include 'templates/install-sysinfosection.html';
-            */
         ?>
         </tr>    
         </table>
