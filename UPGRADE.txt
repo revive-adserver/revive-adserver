@@ -20,184 +20,23 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 
+Upgrading
+=========
 
+Complete details of how to upgrade your existing Openads installation can be
+found at http://docs.openads.org/. You should check this site for the latest
+available details on how to upgrade. However, for convenience, the upgrade
+process is essentially:
 
-NOTE: THE UPGRADE PROCESS IN Openads v2.3 IS KNOWN TO BE FAULTY. ONLY ATTEMPT
-TO UPGRADE TO Openads v2.3 IF YOU ARE AN EXPERIENCED USER, AND YOU ARE HAPPY
-WITH HAVING TO SOLVE YOUR OWN UPGRADE ISSUES. Openads v2.3 IS NOT RECOMMENDED
-FOR REGULAR USERS OF phpAdsNew OR Max v0.1. THE UPGRADE PROCESS WILL BE
-FIXED BEFORE Openads v2.3 IS RELEASED AS A BETA-LEVEL PRODUCT.
+1) Copy your existing installation directory to a backup location.
 
+2) Remove your existing installation directory.
 
+3) Unpack the new version of Openads into the same directory name as
+   your previous installation.
 
-Upgrading from Max or phpAdsNew
-===============================
+4) Copy your config file from the backup location to the var/ directory
+   of the newly unpacked installation.
 
-The process of upgrading from an earlier version of Max or phpAdsNew should be relatively
-straight forward, however, there is a chance that something will go wrong. So, it is
-vital that you backup your Max or phpAdsNew database, and make sure that you able to use
-this backup to recover your installation if something goes wrong.
-
-If you don't backup your data before upgrading, and something does go wrong, there's
-probably nothing we can do to help! However, please contact us via the forums
-(http://www.openads.org/) and we'll do our best to help.
-
-Please Note: While you can upgrade from ANY version of Openads, you can only upgrade from
-phpAdsNew 2.0 or greater. If you are running a version of phpAdsNew earlier than 2.0,
-please download phpAdsNew 2.0, and follow the instructions included in phpAdsNew to
-upgrade your installation. Once done, you can then upgrade from phpAdsNew 2.0 to Max.
-(Please also note that you cannot at this stage upgrade from phpPgAds.)
-
-
-
-Upgrade Process
-===============
-
-1)  BACKUP YOUR DATA!
-
-2)  Log into your existing Max installation, and go to the Settings, User Log tab.
-
-3)  Go to the bottom of the page, and select "Delete log". Once done, log out of Max.
-
-4)  If you are upgrading from Openads, disable your maintenance script cronjob/schtask.
-
-5)  Shut down your webserver.
-
-6)  Move your old Max or phpAdsNew installation folder to a backup location. (For
-    example, if Max was installed in "/var/www/html/max", move that folder to
-    something like "/var/www/html/max-backup".)
-
-7)  Download the Openads archive file from http://www.openads.org/.
-
-8)  Extract the Max archive into the same location that your old Max or phpAdsNew
-    installation used to be. (For example, if Max used to be installed in
-    "/var/www/html/max" before you moved it in Step 6, then extract the new version
-    of Max into the same location, "/var/www/html/max".)
-
-9)  If you are running Max on a unix-like operating system (not Windows) you may
-    need to give the web server write access to the "/var", "/var/cache" and
-    "/www/images" directories in the Max installation root. Change to the
-    directory you extracted the Max archive into, and set write access with the
-    commands (as root):
-
-      chmod a+w var; chmod a+w var/cache; chmod a+w var/plugins;
-      chmod a+w www/images; chmod a+w var/templates_compiled
-
-10) Restart your web server.
-
-11) Using your web browser, go to the web page that you normally use to manage Max or
-    phpAdsNew. (See the INSTALL.txt file for a discussion on the different ways you
-    can configure access URLs for Max. If you don't know anything about this, you
-    are almost certainly using a Single Host installation.)
-
-    You should be presented with the Max automated install program. Use the program to
-    "install" Openads, and the process will take care of upgrading your existing installation.
-
-    /************************************************************************************/
-    IMPORTANT: When specifying you database connection, you must enter the database
-    hostname, port number, username, password, and database name of your EXISTING
-    Max or phpAdsNew installation. You must ALSO specify the SAME table name prefix
-    and table type as you specified when you installed Max or phpAdsNew.
-
-    NOTE: The default table type for phpAdsNew is MyISAM, while Max has a default table
-    type of InnoDB. Max is able to run using MyISAM tables, so if you are upgrading from
-    phpAdsNew, please select your original table type. However, if you want to obtain
-    the speed benefits of using InnoDB tables, please read the information at:
-      http://dev.mysql.com/doc/mysql/en/Converting_tables_to_InnoDB.html
-    Don't forget to change your www.example.com.conf.php file's table type to "INNODB"
-    afterwards!
-
-    NOTE: Depending on the version of Max or phpAdsNew you are upgrading from, the
-    process may take a while. Please be patient!
-
-    VERY IMPORTANT: When upgrading from phpAdsNew or Max v0.1.x to Openads v2.3.x, the
-    database structure is significantly different. As a result, the changes take far too
-    long for even a moderate-sized database to convert. As a result, you will not have
-    any past data after upgrading to Openads v2.3. If you would like to import your past data
-    into your Openads v2.3 installation, please consult the UPGRADE_PAST_DATA.txt file in
-    the docs directory. (Note that if you are upgrading from Max v0.2, you don't need
-    to upgrade your data - this is done automatically.)
-    /************************************************************************************/
-
-12) Once the automated install program has finished, your installation will now be
-    upgraded.
-
-13) After the installation is complete, you will be asked to log in using the admin
-    username and password you set up during the installation. You will then be taken
-    to the Max "Settings" screen.
-
-    If your old Max or phpAdsNew installation used banners of "Local Banner (Webserver)"
-    type, these banners will have been stored on your server somewhere (often in your
-    old installation's images or www/images directory). Either copy these images to the
-    new local storage location (see the "Delivery Settings"), or configure the local
-    storage directory to the appropriate location.
-
-    Once you have made any changes you want, please "lock" the www.example.com.conf.php
-    file, so that configuration changes cannot be accidentally or maliciously made. If
-    you are running a unix-like operating system, change to the directory you extracted
-    the Max archive into, and remove write access with the command (as root):
-
-      chmod a-w var/www.example.com.conf.php
-
-    If you are running Max on Windows, right click on the www.example.com.conf.php file
-    in Windows Explorer, select "Properties" and ensure that the file IS marked as
-    "Read-only". You can find the www.example.com.conf.php file in the "var" directory
-    of your Max installation directory.
-
-14) If you are upgrading from Openads, re-enable your maintenance script cronjob/schtask.
-
-    Please note that it is no longer necessary to move the maintenance scripts out
-    of the Max installation, so as a result, the location of the maintenance.php file
-    may have moved since your previous version of Max -- please consult the
-    "Maintenance" section in the INSTALL.txt file for details.
-
-    Please also note that you must now pass in the name of the host that you use to
-    access the Max administration interface as a parameter to the maintenance script,
-    which may be different to the way you used to run the maintenance script, if you
-    are upgrading from a previous version of Max -- please consult the "Maintenance"
-    section of the INSTALL.txt file for details.
-
-    If you are upgrading from phpAdsNew, please consult the "Maintenance" section in the
-    INSTALL.txt file for details on how to set up maintenance scripts in Max.
-
-15) Symlink/Shortcut your delivery files. The delivery filenames in Max's /www/delivery
-    directory have changed from earlier versions of Max. If you want to use older
-    invocation tags, you will need to ensure that the new files are available via the
-    old URLs. The file name changes are:
-
-        adclick.php         => ck.php
-        adcnvvars.php       => tv.php
-        adcontent.php       => ac.php
-        adconversionjs.php  => tjs.php
-        adconversion.php    => ti.php
-        adframe.php         => afr.php
-        adimage.php         => ai.php
-        adjs.php            => ajs.php
-        adlayer.php         => al.php
-        adlog.php           => lg.php
-        adpopup.php         => apu.php
-        adview.php          => avw.php
-        adxmlrpc.php        => axmlrpc.php
-        phpadsnew.inc.php   => alocal.php
-
-    For example, on a unix-like operating system, you could do the following:
-        ln -s www/delivery/avw.php www/delivery/adview.php
-    to create a symbolic link called "adview.php" to point to "avw.php".
-
-16) Enjoy!
-
-
-
-Multi-Installations
-===================
-
-If you are using a multi-installation setup (see the INSTALL.txt file for details), you
-will need to run the upgrade process for each and every instance of Max that you have
-installed. Obviously, though, you only need to replace the Max code ONCE, and then you
-can run the upgrade process for each installation by using the different host names you
-have set up for your administration interfaces.
-
-Please note, however, that you will need to removed the INSTALLED file from Max's /var
-directory in between each upgrade. After the last installation is upgraded, leave the
-"INSTALLED" file in place. This will prevent users from trying to install Max should
-they manage to fake the hostname when accessing your server.
+5) Use a web browser to vist your Openads site, and follow the instructions
+   in the upgrade wizard to complete the upgrade.

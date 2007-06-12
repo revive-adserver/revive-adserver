@@ -20,245 +20,47 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 
+Installing
+==========
 
+Complete details of how to install Openads can be found at
+http://docs.openads.org/. You should check this site for the latest
+available details on how to install. However, for convenience, the install
+process is essentially:
 
-Requirements
-============
+1) Make sure your database (MySQL or PostgreSQL) is correctly installed and
+   running, and that your web server is setup with PHP and the appropriate
+   database driver for PHP is installed.
 
-Any operating system/web server that supports MySQL and PHP
-MySQL (version 4.0.12 or later)
-PHP (version 4.3.6 or later, including PHP5)
-  The following extensions to PHP are optional, but will provide additional
-  features:
-    --with-gd and --with-freetype-dir:
-        Fancy graphs with fancy fonts (in the test suite only at this stage)
-    --with-curl:
-        Support for posting bug reports directly to m3's Bug Tracker
+   Openads supports:
+     - PHP        >= 4.3.11
+     - MySQL      >= 4.0.12
+     - PostgreSQL >=
 
+   If you would like to have support for displaying graphs in the Openads
+   statistics pages, you will also need to make sure that PHP is installed
+   with support for GD.
 
+2) Optional: Create a new database for your Openads installation to use.
 
-Installation - Single Host
-==========================
+   While the Openads installation wizard can create a database for you, this
+   requires that the database user Openads uses will require the ability to
+   create databases.
 
-Openads can be set up in one of two different ways. If you have a single
-web site (e.g. http://www.example.com/) and want to run the Openads User Interface and
-deliver advertisements from this address (or from a sub-solder,
-e.g. http://www.example.com/max/), then a "Single Host" installation is for you.
+   If you would prefer Openads to use a database user with more restricted
+   permission levels, create the database by hand, and set up a database user
+   with permissions restricted to this database. See the complete installation
+   documentation at http://docs.openads.org/ for details on the required
+   database permissions needed by Openads.
 
-1)  Using the MySQL client, create a new database for Openads (e.g. "CREATE DATABASE openads;").
+3) Unpack the Openads download into the directory on your web server where
+   you would like to install openads.
 
-2)  Create a new MySQL user with access to the database you created above, for Openads to
-    use to access the database. Consult the MySQL documentation on how to do this.
+4) Use a web browser to vist this directory, and follow the instructions
+   in the installation wizard to complete the installation.
 
-3)  If necessary, configure your web server to answer requests for your domain name,
-    for example, "http://www.example.com/". Your web server documentation will tell
-    you how to do this.
+5) Use cron (or equivalent) to run the scripts/maintenance/maintenance.php
+   script, with the domain of your site as a parameter, every hour, eg:
 
-    If you are running the Apache web server (recommended), please ensure that your
-    document root has the "AllowOverride Limit" option set. (See
-    http://httpd.apache.org/docs/mod/core.html#allowoverride for more information.)
-
-4)  Download the Openads archive file from http://www.openads.org/.
-
-5)  Extract the Openads archive file into the appropriate directory in your web server
-    root. For example, if your web server's root is "/var/www/html/" you may choose
-    to put the Openads files in "/var/www/html/openads/". In this way, you will be able to
-    access the Openads User Interface by using a web browser to access
-    "http://www.example.com/max/".
-
-6)  If you are running Openads on a unix-like operating system (not Windows) you may
-    need to give the web server write access to the "/var", "/var/cache",
-    "/var/plugins", "var/templates_compiled" and "/www/images" directories in the
-    Openads installation root. Change to the directory you extracted the Openads archive
-    into, and set write access with the commands (as root):
-
-      chmod a+w var; chmod a+w var/cache; chmod a+w var/plugins;
-      chmod a+w var/templates_compiled; chmod a+w www/images
-
-7)  For file uploads to work correctly, the Web server will need permission to
-    create files in certain folders. For most systems, no special configuration
-    is necessary. If you have taken additional security measures to 'harden'
-    your system, see Permissions section.
-
-8)  Using your web browser, go to "http://www.example.com/max/" (using the host name
-    and installation directory you selected) and you will be guided through an
-    automated installation process.
-
-9)  After the installation is complete, you will be asked to log in using the admin
-    username and password you set up during the installation. You will then be taken
-    to the Openads "Settings" screen. Once you have made any changes you want, please
-    "lock" the www.example.com.conf.php file, so that configuration changes cannot
-    be accidentally or maliciously made. If you are running a unix-like operating
-    system, change to the directory you extracted the Openads archive into, and remove
-    write access with the command (as root):
-
-      chmod a-w var/www.example.com.conf.php
-
-    If you are running Openads on Windows, right click on the www.example.com.conf.php
-    file in Windows Explorer, select "Properties" and ensure that the file IS marked
-    as "Read-only". You can find the www.example.com.conf.php file in the "var"
-    directory of your Openads installation directory.
-
-10)  Enjoy!
-
-
-
-Installation - Multiple Hosts
-=============================
-
-Openads can be set up in one of two different ways. If you have a multiple
-web sites (e.g. http://admin.example.com/, http://delivery.example.com/ and
-http://images.example.com/) and want to run the Openads User Interface using one host,
-deliver advertisements from another, and deliver advertisement images from the final
-host, then a "Multiple Hosts" installation is for you.
-
-1)  Using the MySQL client, create a new database for Openads (e.g. "CREATE DATABASE max;").
-
-2)  Create a new MySQL user with access to the database you created above, for Openads to
-    use to access the database. Consult the MySQL documentation on how to do this.
-
-3)  Download the Openads archive file from http://www.openads.org/.
-
-4)  Extract the Openads archive into your desired installation directory, for example,
-    "/var/www/html/max".
-
-5)  If necessary, configure your web server to answer requests for your domain names,
-    for example, "http://admin.example.com/", "http://delivery.example.com/" and
-    "http://images.example.com/". Each host must be configured to point to the
-    "/www/admin", "/www/delivery" and "/www/images" directories, respectively. For
-    example, if you extracted the Openads archive into "/var/www/html/max/", then the
-    host "http://admin.example.com/" should have a document root of
-    "/var/www/html/max/www/admin", "http://delivery.example.com/" should have a
-    document root of "/var/www/html/max/www/delivery", and
-    "http://images.example.com/" should have a document root of
-    "/var/www/html/max/www/images". Your web server documentation will tell you how
-    to do this.
-
-6)  If you are running Openads on a unix-like operating system (not Windows) you may
-    need to give the web server write access to the "/var", "/var/cache",
-    "/var/plugins", "var/templates_compiled" and "/www/images" directories in the
-    Openads installation root. Change to the directory you extracted the Openads archive
-    into, and set write access with the commands (as root):
-
-      chmod a+w var; chmod a+w var/cache; chmod a+w var/plugins;
-      chmod a+w www/images; chmod a+w var/templates_compiled
-
-7)  Using your web browser, go to "http://admin.example.com/max/" (using the host
-    name you selected) and you will be guided through an automated installation
-    process.
-
-8)  After the installation is complete, you will be asked to log in using the admin
-    username and password you set up during the installation. You will then be taken
-    to the Openads "Settings" screen. Once you have made any changes you want, please
-    "lock" the www.example.com.conf.php file, so that configuration changes cannot
-    be accidentally or maliciously made. If you are running a unix-like operating
-    system, change to the directory you extracted the Openads archive into, and remove
-    write access with the command (as root):
-
-      chmod a-w var/www.example.com.conf.php
-
-    If you are running Openads on Windows, right click on the www.example.com.conf.php
-    file in Windows Explorer, select "Properties" and ensure that the file IS marked
-    as "Read-only". You can find the www.example.com.conf.php file in the "var"
-    directory of your Openads installation directory.
-
-9)  Enjoy!
-
-
-
-Maintenance
-===========
-
-With Openads it is necessary to set up a cronjob on the webserver
-to run the maintenance scripts.
-
- -  Under unix-like systems, create a cronjob similar to the following (you may
-    need to change the location of php from "/usr/local/bin/php" to match your
-    setup, and/or change the path to the maintenance.php file, depending on where
-    you extracted the Openads archive) which will run the maintenance scripts once
-    an hour, every hour, on the hour:
-
-    0 * * * * /usr/local/bin/php -q
-        /var/www/html/max/scripts/maintenance/maintenance.php www.example.com
-
-    Note: The above command needs to be on one line.
-
-    Note: Use the hostname that you use to access the administration interface
-          as the parameter to the script. You will need to run a cronjob for
-          each installation of Openads - see Multi-Installations below.
-
- -  Under Windows systems, schedule the maintenance script using "schtasks"
-    by running a command similar to the following at the Command Prompt (you
-    may need to change the location of php from "c:\php\php-win.exe" to match
-    your setup, and/or change the path to the maintenance.php file, depending
-    on where you extracted the Openads archive) which will run the maintenance
-    scripts once an hour, every hour, on the hour:
-
-    schtasks /create /sc hourly /st 00:00:00 /tn "Openads Maintenance"
-        /tr "c:\php\php-win.exe \"c:\max\scripts\maintenance\maintenance.php\" www.example.com"
-
-    Note: The above command needs to be on one line.
-
-    Note: Use the hostname that you use to access the administration interface
-          as the parameter to the script. You will need to run a cronjob for
-          each installation of Openads - see Multi-Installations below.
-
-    Note: You may need to re-install PHP with the CLI option if the php-win.exe
-          file does not exist.
-
-    Note: More information on setting up scheduled tasks in Windows can be
-    found at:
-    http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/schtasks.mspx
-
-
-
-Multi-Installations
-===================
-
-Tired of having to upgrade 6 different installations of your adserver every time
-Openads is released? Problem solved! Openads supports running multiple
-installations from one web directory.
-
- - Install Openads just as you would for a single installation as described above,
-   using either the single host or multiple hosts instructions.
-
- - Edit your web server configuration, and create a new virtual host (or hosts),
-   and set the document root to the *same* location as your first installation.
-   Make sure you don't duplicate host names, or the configuration files will end
-   up overwriting each other!
-
- - Remove the "INSTALLED" file from the /var directory located in your Max
-   installation path.
-
- - Using the *new* installation's host name (or administration host name, if
-   using multiple hosts for the new instllation), proceed through the installation
-   process for the second installation. Remember, you'll need to use a different
-   database (or table prefix, if you only have access to one database) for the
-   additional installation.
-
- - Rinse, and repeat as required!
-
-After the last installation is done, leave the "INSTALLED" file in the Openads /var
-directory in place. This will prevent users from trying to install Openads should
-they manage to fake the hostname when accessing your server.
-
-
-
-Permissions
-===========
-
-Many systems come configured in a relatively permissive way.
-
-The web server must have write access to the PHP upload folder. You can configure
-where PHP temporarily stores uploaded files by editing 'php.ini' and changing the
-'upload_tmp_dir' setting. If 'upload_tmp_dir' is not set, PHP uses the
-'system default', which varies from platform to platform.
-
-On Linux systems with SELinux enabled, file-system permissions are not
-sufficient to allow the Web server to write to a folder.
-Please be aware that there are several SELinux settings that
-can affect write permissions.
-
-
-
-For more info please see the Openads site: http://www.openads.org/.
+   0 * * * * /usr/local/bin/php -q
+       /var/www/html/openads/scripts/maintenance/maintenance.php www.example.com
