@@ -1266,7 +1266,7 @@ $rnd = md5(microtime());
 $code = "
 <div id='m3_$rnd' style='display: inline;'>$altImageAdCode</div>
 <script type='text/javascript'>
-<!--
+<!--/"."/ <![CDATA[
 var fo = new FlashObject('$fileUrl', 'mymovie', '$width', '$height', '$pluginVersion');";
 if (!empty($aBanner['transparent'])) {
 $code .= "
@@ -1274,6 +1274,7 @@ fo.addParam('wmode','transparent');";
 }
 $code .= "
 fo.write('m3_$rnd');
+/"."/ ]]> -->
 </script>";
 $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$clickTag}{$aBanner['bannertext']}{$clickTagEnd}" : '';
 $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
