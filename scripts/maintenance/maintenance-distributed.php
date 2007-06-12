@@ -37,7 +37,7 @@ require_once $path . '/../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/Max.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Distributed.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Distributed.php';
 
 if (!empty($GLOBALS['_MAX']['CONF']['lb']['enabled'])) {
     MAX_Maintenance_Distributed::run();
